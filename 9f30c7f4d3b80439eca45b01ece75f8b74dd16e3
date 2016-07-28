@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f67cda0_87712615",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 6050
+      },
+      "writtenOn": "2016-07-28T19:09:15Z",
+      "side": 1,
+      "message": "It sounds like you\u0027re trying to solve two problems:\n\n1) The select{} should give \"\u003c-done\" higher priority than \"\u003c-ctx.Done()\", if they happen to occur \"simultaneously\".  This is always going to be race-prone to some extent.\n\n2) Before returning success, connect() must verify that cancelation has been aborted.  If cancelation won the race, it should close the connection and return a failure instead.",
+      "range": {
+        "startLine": 113,
+        "startChar": 8,
+        "endLine": 113,
+        "endChar": 14
+      },
+      "revId": "9f30c7f4d3b80439eca45b01ece75f8b74dd16e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
