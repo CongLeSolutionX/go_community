@@ -211,7 +211,10 @@ func newdefer(siz int32) *_defer {
 	gp := mp.curg
 	d.link = gp._defer
 	if debug.gcroc >= 1 {
-		publish(uintptr(unsafe.Pointer(d)))
+		if !isPublic(uintptr(unsafe.Pointer(d))) {
+			makePublic(uintptr(unsafe.Pointer(d)), spanOf(uintptr(unsafe.Pointer(d))))
+			publish(uintptr(unsafe.Pointer(d)))
+		}
 	}
 	gp._defer = d
 	releasem(mp)
