@@ -2825,6 +2825,12 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 		traceGoCreate(newg, newg.startpc)
 	}
 
+	if debug.gcroc >= 1 {
+		if gcphase == _GCoff {
+			publishStack(newg)
+		}
+	}
+
 	runqput(_p_, newg, true)
 
 	if atomic.Load(&sched.npidle) != 0 && atomic.Load(&sched.nmspinning) == 0 && unsafe.Pointer(fn.fn) != unsafe.Pointer(funcPC(main)) { // TODO: fast atomic
