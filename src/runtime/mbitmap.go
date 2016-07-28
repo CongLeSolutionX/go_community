@@ -295,6 +295,7 @@ func makePublic(obj uintptr, s *mspan) {
 	abits.setMarked()
 }
 
+// Eventually this goes to mgcroc.go
 func dumpMakePublicState(s *mspan, abits markBits, obj uintptr) {
 	if debug.gcroc < 2 {
 		return // short circuit unless gcroc > 1
