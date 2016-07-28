@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f84c924_d037144a",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-07-28T21:08:32Z",
+      "side": 1,
+      "message": "whoops, AMOVWZU (why did this even compile?)",
+      "revId": "5fc3386d7052bbde8b84182d13ba230db4ade194",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
