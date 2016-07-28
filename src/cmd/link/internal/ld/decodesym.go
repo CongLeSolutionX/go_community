@@ -65,6 +65,9 @@ func uncommonSize() int    { return 4 + 2 + 2 + 4 + 4 }         // runtime.uncom
 
 // Type.commonType.kind
 func decodetype_kind(s *LSym) uint8 {
+	if len(s.P) == 0 {
+		fmt.Println(s.Name)
+	}
 	return s.P[2*SysArch.PtrSize+7] & obj.KindMask //  0x13 / 0x1f
 }
 
