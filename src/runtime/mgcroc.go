@@ -23,6 +23,7 @@ package runtime
 
 import (
 	"runtime/internal/atomic"
+	"runtime/internal/sys"
 	"unsafe"
 )
 
@@ -306,6 +307,167 @@ func (s *mspan) smashDebugHelper() {
 					*ptr = uintptr(0xdeada11c)
 				}
 			}
+		}
+	}
+}
+
+// publishStack scans a freshly create G's stack, publishing all pointers
+// found on the stack. While the G is fresh, the initial routine's arguements,
+// potentially including pointers, are already on the stack.
+// Since all of these pointers originated on the parent G
+// and are being used by the offspring G they need to be published.
+// Since this is newly created G there is only a single
+// frame that needs to have its pointers published.
+//
+// The implementation of publishStack follows closely the implementation of
+// scanstack so any change to scanstack is likely to require a change to publish
+// stack.
+//
+// publishStack is marked go:systemstack because it must not be preempted
+// while using a workbuf.
+//
+//go:nowritebarrier
+//go:systemstack
+func publishStack(gp *g) {
+	if gp == getg() {
+		throw("can't publish our own stack")
+	}
+
+	if gcphase != _GCoff {
+		println("runtime: gcphase=", gcphase)
+		throw("publishStack called during a GC")
+	}
+
+	// Scan the stack.
+	var cache pcvalueCache
+	n := 0
+
+	// When creating a new goroutine only a single frame needs to be published.
+	// When a stack is being preempted, say when it becomes dormant waiting
+	// for new request, the entire stack is traced so ROC can
+	// recycle the unreachable local objects.
+	publishframe := func(frame *stkframe, unused unsafe.Pointer) bool {
+		publishFrameWorker(frame, &cache)
+		n++
+		return true
+	}
+	gentraceback(^uintptr(0), ^uintptr(0), 0, gp, 0, nil, 0x7fffffff, publishframe, nil, 0)
+}
+
+// Scan a stack frame: local variables and function arguments/results.
+//
+// publishFrameWorker is marked go:systemstack because it must not be preempted
+// while using a workbuf.
+//
+//go:systemstack
+//go:nowritebarrier
+func publishFrameWorker(frame *stkframe, cache *pcvalueCache) {
+	f := frame.fn
+	targetpc := frame.continpc
+	if targetpc == 0 {
+		// Frame is dead.
+		throw("publishFrameWorker encounters dead frame")
+	}
+	if _DebugGC > 1 {
+		print("publishFrameWorker ", funcname(f), "\n")
+	}
+	if targetpc != f.entry {
+		targetpc--
+	}
+	pcdata := pcdatavalue(f, _PCDATA_StackMapIndex, targetpc, cache)
+	if pcdata == -1 {
+		// We do not have a valid pcdata value but there might be a
+		// stackmap for this function. It is likely that we are looking
+		// at the function prologue, assume so and hope for the best.
+		pcdata = 0
+	}
+
+	// Scan local variables if stack frame has been allocated.
+	size := frame.varp - frame.sp
+	var minsize uintptr
+	switch sys.ArchFamily {
+	case sys.ARM64:
+		minsize = sys.SpAlign
+	default:
+		minsize = sys.MinFrameSize
+	}
+	if size > minsize {
+		stkmap := (*stackmap)(funcdata(f, _FUNCDATA_LocalsPointerMaps))
+		if stkmap == nil || stkmap.n <= 0 {
+			print("runtime: frame ", funcname(f), " untyped locals ", hex(frame.varp-size), "+", hex(size), "\n")
+			throw("missing stackmap")
+		}
+
+		// Locals bitmap information, scan just the pointers in locals.
+		if pcdata < 0 || pcdata >= stkmap.n {
+			// don't know where we are
+			print("runtime: pcdata is ", pcdata, " and ", stkmap.n, " locals stack map entries for ", funcname(f), " (targetpc=", targetpc, ")\n")
+			throw("publishframe: bad symbol table")
+		}
+		bv := stackmapdata(stkmap, pcdata)
+		size = uintptr(bv.n) * sys.PtrSize
+		publishStackBlock(frame.varp-size, size, bv.bytedata)
+	}
+
+	// Scan arguments.
+	if frame.arglen > 0 {
+		var bv bitvector
+		if frame.argmap != nil {
+			bv = *frame.argmap
+		} else {
+			stkmap := (*stackmap)(funcdata(f, _FUNCDATA_ArgsPointerMaps))
+			if stkmap == nil || stkmap.n <= 0 {
+				print("runtime: frame ", funcname(f), " untyped args ", hex(frame.argp), "+", hex(frame.arglen), "\n")
+				throw("missing stackmap")
+			}
+			if pcdata < 0 || pcdata >= stkmap.n {
+				// don't know where we are
+				print("runtime: pcdata is ", pcdata, " and ", stkmap.n, " args stack map entries for ", funcname(f), " (targetpc=", targetpc, ")\n")
+				throw("scanframe: bad symbol table")
+			}
+			bv = stackmapdata(stkmap, pcdata)
+		}
+		publishStackBlock(frame.argp, uintptr(bv.n)*sys.PtrSize, bv.bytedata)
+	}
+}
+
+// publishStackBlock scans b as scanobject would, but using an explicit
+// pointer bitmap instead of the heap bitmap.
+//
+//go:nowritebarrier
+func publishStackBlock(b0, n0 uintptr, ptrmask *uint8) {
+	// Use local copies of original parameters, so that a stack trace
+	// due to one of the throws below shows the original block
+	// base and extent.
+	b := b0
+	n := n0
+
+	arena_start := mheap_.arena_start
+	arena_used := mheap_.arena_used
+
+	for i := uintptr(0); i < n; {
+		// Find bits for the next word.
+		bits := uint32(*addb(ptrmask, i/(sys.PtrSize*8)))
+		if bits == 0 {
+			i += sys.PtrSize * 8
+			continue
+		}
+		for j := 0; j < 8 && i < n; j++ {
+			if bits&1 != 0 {
+				// Same work as in publishobject; see comments there.
+				ptr := *(*uintptr)(unsafe.Pointer(b + i))
+				if ptr != 0 && arena_start <= ptr && ptr < arena_used {
+					// Get base of object ptr points to as well as the span.
+					if obj, _, span, _ := heapBitsForObject(ptr, b, i); obj != 0 {
+						if !isPublic(obj) {
+							makePublic(obj, span)
+							publish(obj)
+						}
+					}
+				}
+			}
+			bits >>= 1
+			i += sys.PtrSize
 		}
 	}
 }
