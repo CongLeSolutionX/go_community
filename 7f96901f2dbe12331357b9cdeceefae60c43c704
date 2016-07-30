@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f50e5ef_d18c0486",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-07-30T08:32:07Z",
+      "side": 1,
+      "message": "It looks you are trying to test your mklink implementation.\nBut is it really matter? All our issues are Readlink bugs.\nWhy not test Readlink directly?",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f50e5ef_f191089f",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-07-30T08:32:07Z",
+      "side": 1,
+      "message": "I want to see errors instead. How can I use this?",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f50e5ef_51a1f4eb",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-07-30T08:32:07Z",
+      "side": 1,
+      "message": "use syscall.MAXIMUM_REPARSE_DATA_BUFFER_SIZE. So the comment is unneeded.",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f50e5ef_11a76c04",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-07-30T08:32:07Z",
+      "side": 1,
+      "message": "use filepath.Abs for normalization.\nSee https://github.com/golang/go/issues/15978.",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f50e5ef_31a470fd",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-07-30T08:32:07Z",
+      "side": 1,
+      "message": "Same as above",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f50e5ef_719ef8aa",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-07-30T08:32:07Z",
+      "side": 1,
+      "message": "testDirLinks doesn\u0027t test the target path as absolute-path.\nYour reparse data looks invalid. See https://github.com/golang/go/issues/15978",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
