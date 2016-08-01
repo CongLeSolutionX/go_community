@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf8db5b7_37d52841",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_b184e86f",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf8db5b7_f17e7079",
         "filename": "src/cmd/compile/internal/ppc64/ssa.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-01T16:15:23Z",
       "side": 1,
       "message": "Remove this line. R0 is used for constant 0.",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_57d2b459",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_f17e7079",
       "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "cf8db5b7_77cfb0ac",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_3179b890",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf8db5b7_9170cca3",
         "filename": "src/cmd/compile/internal/ssa/config.go",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-01T16:15:23Z",
       "side": 1,
       "message": "Based on runtime/mkduff.go, it has DUFFZERO but no DUFFCOPY. It\u0027s fine to not use it for now.",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_b745b81c",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_9170cca3",
       "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -93,6 +165,24 @@
     },
     {
       "key": {
+        "uuid": "cf8db5b7_37f608ca",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_31be1819",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf8db5b7_b19228a4",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 3
@@ -116,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "cf8db5b7_57f394d8",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_b19228a4",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf8db5b7_91c52ca6",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 3
@@ -133,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "cf8db5b7_7700909d",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_91c52ca6",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf8db5b7_919e0ca8",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 3
@@ -144,6 +270,24 @@
       "writtenOn": "2016-08-01T16:15:23Z",
       "side": 1,
       "message": "add the ADD instructions to comment",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_b7ca1871",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_919e0ca8",
       "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -173,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "cf8db5b7_97d6fc18",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_71f6e0f8",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf8db5b7_b1e06828",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 3
@@ -184,6 +346,24 @@
       "writtenOn": "2016-08-01T16:15:23Z",
       "side": 1,
       "message": "add the ADD instructions to comment",
+      "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_b7af7895",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-01T18:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_b1e06828",
       "revId": "d3dcacd9207d56c8c00cc1f8b97feeca1101fa31",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
