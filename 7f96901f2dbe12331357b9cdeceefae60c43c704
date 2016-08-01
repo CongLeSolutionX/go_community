@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "4f50e5ef_913c3c7d",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-01T03:01:37Z",
+      "side": 1,
+      "message": "\u003esome tests add terminating 0 at the end of both strings, and some don\u0027t;\n\nYou can allocate new buffer per test, and you can set arbitrary offsets. So this test are more flexible than yours. (terminating 0 is just padding 1)\n\n\u003ethe order 2 strings are written into the buffer is different in different tests;\n\nAbove tests already addressed that. Note that you can set PrintNameOffset and SubstituteNameOffset to arbitrary value.\n\n\u003esome test use mklink Windows command to build the links, others use os.Symlink and other use DeviceIoControl;\nsome test requires SeCreateSymbolicLinkPrivilege to be held, but other tests do not;\n... probably others ...\nHow do you propose we accommodate all these differences in your readlinkFromSymlinkTestCases?\n\nIt looks we have different point of view.\nLet me explain my point of view.\n\nTo me, it\u0027s just a decoding issue.\nFor example:\n\n// decodeReadlink extracts symlink\u0027s target path from encoded reparse data buffer.\nfunc decodeReadlink(data []byte) (string, error)\n\nIf you split above function from `syscall.Readlink`,\nWe can test without `CreateSymbolicLink` nor `DeviceIoControl`. It\u0027s good enough test for me.\n\nI don\u0027t think there is a big difference between `CreateSymbolicLink`, `DeviceIoControl`, `mklink`, ...etc.\nIt\u0027s just ways of building reparse data buffer.\nThe simplest way is just using `DeviceIoControl`.\nBecause it is easy to use for table driven tests like above.\n\nI don\u0027t see rest of comments until we\u0027ll somehow agree. Thanks.",
+      "parentUuid": "4f50e5ef_71f35807",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f50e5ef_f191089f",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 3
