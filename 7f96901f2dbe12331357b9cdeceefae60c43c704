@@ -37,6 +37,42 @@
     },
     {
       "key": {
+        "uuid": "4f50e5ef_71f35807",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-01T00:34:14Z",
+      "side": 1,
+      "message": "See my answer above.",
+      "parentUuid": "4f50e5ef_11eccc24",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f50e5ef_51f654f8",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-01T00:34:14Z",
+      "side": 1,
+      "message": "I take it you suggest I use your suggestion below:\n```\nvar readlinkFromSymlinkTestCases \u003d []struct {\n...\n```\n?\nBut your structure will not be able to describe all different situations I test. For example:\n- some tests add terminating 0 at the end of both strings, and some don\u0027t;\n- the order 2 strings are written into the buffer is different in different tests;\n- some test use mklink Windows command to build the links, others use os.Symlink and other use DeviceIoControl;\n- some test requires SeCreateSymbolicLinkPrivilege to be held, but other tests do not;\n- ... probably others ...\nHow do you propose we accommodate all these differences in your readlinkFromSymlinkTestCases?",
+      "parentUuid": "4f50e5ef_d18c0486",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f50e5ef_f191089f",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 3
@@ -48,6 +84,24 @@
       "writtenOn": "2016-07-30T08:32:07Z",
       "side": 1,
       "message": "I want to see errors instead. How can I use this?",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f50e5ef_91e0bc28",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-01T00:34:14Z",
+      "side": 1,
+      "message": "I don\u0027t understand your question. If you want to see these errors, just remove \"continue\" 2 lines below, or remove whole \"if test.issueNo \u003e 0 { ... }\".",
+      "parentUuid": "4f50e5ef_f191089f",
       "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -71,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "4f50e5ef_716198ab",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-01T00:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f50e5ef_51a1f4eb",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f50e5ef_11a76c04",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 3
@@ -82,6 +154,24 @@
       "writtenOn": "2016-07-30T08:32:07Z",
       "side": 1,
       "message": "use filepath.Abs for normalization.\nSee https://github.com/golang/go/issues/15978.",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f50e5ef_b1e5c037",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-01T00:34:14Z",
+      "side": 1,
+      "message": "The target is\n```\nlink :\u003d filepath.Join(tmpdir, test.name+\"_link\")\n```\nand tmpdir is already absolute. What would filepath.Abs help here?",
+      "parentUuid": "4f50e5ef_11a76c04",
       "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "4f50e5ef_d1da4472",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-01T00:34:14Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "4f50e5ef_31a470fd",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f50e5ef_719ef8aa",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 3
@@ -116,6 +224,24 @@
       "writtenOn": "2016-07-30T08:32:07Z",
       "side": 1,
       "message": "testDirLinks doesn\u0027t test the target path as absolute-path.\nYour reparse data looks invalid. See https://github.com/golang/go/issues/15978",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f50e5ef_f1df485f",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-01T00:34:14Z",
+      "side": 1,
+      "message": "\u003e testDirLinks doesn\u0027t test the target path as absolute-path.\n\nI don\u0027t understand your comment. Most tests here have absolute path as target.\n\n \u003e Your reparse data looks invalid. See https://github.com/golang/go/issues/15978\n\nWhich reparse data looks invalid? And why? And where in https://github.com/golang/go/issues/15978 I need to look for answers to my questions. Just point at the line in my test that you think is wrong, and explain why.",
+      "parentUuid": "4f50e5ef_719ef8aa",
       "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
