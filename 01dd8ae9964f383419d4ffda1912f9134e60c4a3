@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf8db5b7_f5565337",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-01T22:47:47Z",
+      "side": 1,
+      "message": "response channel\n\nBut I can rename it.",
+      "parentUuid": "cf8db5b7_5a5ad4f9",
+      "range": {
+        "startLine": 113,
+        "startChar": 11,
+        "endLine": 113,
+        "endChar": 15
+      },
+      "revId": "01dd8ae9964f383419d4ffda1912f9134e60c4a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf8db5b7_1a93ec58",
         "filename": "src/net/fd_unix.go",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-08-01T22:39:42Z",
       "side": 1,
       "message": "I think \"close(done)\" should be the first line of this function, to avoid multiple defers.",
+      "range": {
+        "startLine": 114,
+        "startChar": 15,
+        "endLine": 114,
+        "endChar": 16
+      },
+      "revId": "01dd8ae9964f383419d4ffda1912f9134e60c4a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_55a1c73d",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-01T22:47:47Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "cf8db5b7_1a93ec58",
       "range": {
         "startLine": 114,
         "startChar": 15,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "cf8db5b7_7575e3da",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-01T22:47:47Z",
+      "side": 1,
+      "message": "This is the only path which started with a valid connected socket, but then decided not to use it, so we\u0027re responsible for cleaning it up, since the caller won\u0027t.",
+      "parentUuid": "cf8db5b7_3ca428b6",
+      "revId": "01dd8ae9964f383419d4ffda1912f9134e60c4a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf8db5b7_7a2eb03e",
         "filename": "src/net/fd_unix.go",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2016-08-01T22:39:42Z",
       "side": 1,
       "message": "Is this guaranteed to be non-nil?",
+      "range": {
+        "startLine": 137,
+        "startChar": 25,
+        "endLine": 137,
+        "endChar": 30
+      },
+      "revId": "01dd8ae9964f383419d4ffda1912f9134e60c4a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_55f38771",
+        "filename": "src/net/fd_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-01T22:47:47Z",
+      "side": 1,
+      "message": "Yes:\n\n    // Err returns a non-nil error value after Done is closed. Err returns\n    // Canceled if the context was canceled or DeadlineExceeded if the\n    // context\u0027s deadline passed. No other values for Err are defined.\n    // After Done is closed, successive calls to Err return the same value.\n    Err() error",
+      "parentUuid": "cf8db5b7_7a2eb03e",
       "range": {
         "startLine": 137,
         "startChar": 25,
