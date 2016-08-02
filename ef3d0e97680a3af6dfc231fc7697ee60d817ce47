@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf8db5b7_90d99d4c",
+        "filename": "src/net/dial_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-08-02T00:08:44Z",
+      "side": 1,
+      "message": "s/2015/2016/",
+      "revId": "ef3d0e97680a3af6dfc231fc7697ee60d817ce47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_d0988576",
+        "filename": "src/net/dial_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-08-02T00:08:44Z",
+      "side": 1,
+      "message": "I don\u0027t quite follow the logic around listenerDone.\n\nFor all intents and purposes, the goroutine closes listenerDone pretty much immediately, so what purpose does receiving from an already closed channel accomplish?",
+      "revId": "ef3d0e97680a3af6dfc231fc7697ee60d817ce47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
