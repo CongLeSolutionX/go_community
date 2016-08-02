@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf8db5b7_4ea691a9",
+        "filename": "src/runtime/sys_darwin_386.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-08-02T19:41:39Z",
+      "side": 1,
+      "message": "It would be a good idea to change this to 16(SP) and ...",
+      "revId": "42a388f72466a35967e28d8bd2287db981459177",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_6ebb4dc1",
+        "filename": "src/runtime/sys_darwin_386.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-08-02T19:41:39Z",
+      "side": 1,
+      "message": "... change these to 16(SP) and 20(SP)\n\nJust to make sure the syscall doesn\u0027t step on itself.",
+      "revId": "42a388f72466a35967e28d8bd2287db981459177",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
