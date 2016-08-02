@@ -370,23 +370,6 @@ func parsePrintableString(bytes []byte) (ret string, err error) {
 	return
 }
 
-// isPrintable reports whether the given b is in the ASN.1 PrintableString set.
-func isPrintable(b byte) bool {
-	return 'a' <= b && b <= 'z' ||
-		'A' <= b && b <= 'Z' ||
-		'0' <= b && b <= '9' ||
-		'\'' <= b && b <= ')' ||
-		'+' <= b && b <= '/' ||
-		b == ' ' ||
-		b == ':' ||
-		b == '=' ||
-		b == '?' ||
-		// This is technically not allowed in a PrintableString.
-		// However, x509 certificates with wildcard strings don't
-		// always use the correct string type so we permit it.
-		b == '*'
-}
-
 // IA5String
 
 // parseIA5String parses a ASN.1 IA5String (ASCII string) from the given
