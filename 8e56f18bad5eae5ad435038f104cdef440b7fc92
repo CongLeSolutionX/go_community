@@ -16,6 +16,24 @@
       "revId": "8e56f18bad5eae5ad435038f104cdef440b7fc92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_cbab7382",
+        "filename": "src/runtime/sys_darwin_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-08-02T19:30:54Z",
+      "side": 1,
+      "message": "Yes, I\u0027m pretty sure this should be 12(SP). I\u0027m not too familiar with darwin/386\u0027s syscall interface, but it looks like it uses stack passing, not register passing.",
+      "parentUuid": "9474b6be_53b5a494",
+      "revId": "8e56f18bad5eae5ad435038f104cdef440b7fc92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
