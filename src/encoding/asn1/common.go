@@ -89,45 +89,48 @@ type fieldParameters struct {
 // ignoring unknown parts of the string.
 func parseFieldParameters(str string) (ret fieldParameters) {
 	for _, part := range strings.Split(str, ",") {
-		switch {
-		case part == "optional":
+		switch part {
+		case "optional":
 			ret.optional = true
-		case part == "explicit":
+		case "explicit":
 			ret.explicit = true
 			if ret.tag == nil {
 				ret.tag = new(int)
 			}
-		case part == "generalized":
+		case "generalized":
 			ret.timeType = TagGeneralizedTime
-		case part == "utc":
+		case "utc":
 			ret.timeType = TagUTCTime
-		case part == "ia5":
+		case "ia5":
 			ret.stringType = TagIA5String
-		case part == "printable":
+		case "printable":
 			ret.stringType = TagPrintableString
-		case part == "utf8":
+		case "utf8":
 			ret.stringType = TagUTF8String
-		case strings.HasPrefix(part, "default:"):
-			i, err := strconv.ParseInt(part[8:], 10, 64)
-			if err == nil {
-				ret.defaultValue = new(int64)
-				*ret.defaultValue = i
-			}
-		case strings.HasPrefix(part, "tag:"):
-			i, err := strconv.Atoi(part[4:])
-			if err == nil {
-				ret.tag = new(int)
-				*ret.tag = i
-			}
-		case part == "set":
+		case "set":
 			ret.set = true
-		case part == "application":
+		case "application":
 			ret.application = true
 			if ret.tag == nil {
 				ret.tag = new(int)
 			}
-		case part == "omitempty":
+		case "omitempty":
 			ret.omitEmpty = true
+		default:
+			switch {
+			case strings.HasPrefix(part, "default:"):
+				i, err := strconv.ParseInt(part[8:], 10, 64)
+				if err == nil {
+					ret.defaultValue = new(int64)
+					*ret.defaultValue = i
+				}
+			case strings.HasPrefix(part, "tag:"):
+				i, err := strconv.Atoi(part[4:])
+				if err == nil {
+					ret.tag = new(int)
+					*ret.tag = i
+				}
+			}
 		}
 	}
 	return
@@ -167,4 +170,21 @@ func getUniversalType(t reflect.Type) (tagNumber int, isCompound, ok bool) {
 		return TagPrintableString, false, true
 	}
 	return 0, false, false
+}
+
+// isPrintable reports whether the given b is in the ASN.1 PrintableString set.
+func isPrintable(b byte) bool {
+	return 'a' <= b && b <= 'z' ||
+		'A' <= b && b <= 'Z' ||
+		'0' <= b && b <= '9' ||
+		'\'' <= b && b <= ')' ||
+		'+' <= b && b <= '/' ||
+		b == ' ' ||
+		b == ':' ||
+		b == '=' ||
+		b == '?' ||
+		// This is technically not allowed in a PrintableString.
+		// However, x509 certificates with wildcard strings don't
+		// always use the correct string type so we permit it.
+		b == '*'
 }
