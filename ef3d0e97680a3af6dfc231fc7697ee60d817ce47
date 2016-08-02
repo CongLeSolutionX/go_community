@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cf8db5b7_ab98e80d",
+        "filename": "src/net/dial_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-02T00:32:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf8db5b7_90d99d4c",
+      "revId": "ef3d0e97680a3af6dfc231fc7697ee60d817ce47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf8db5b7_d0988576",
         "filename": "src/net/dial_unix_test.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-02T00:08:44Z",
       "side": 1,
       "message": "I don\u0027t quite follow the logic around listenerDone.\n\nFor all intents and purposes, the goroutine closes listenerDone pretty much immediately, so what purpose does receiving from an already closed channel accomplish?",
+      "revId": "ef3d0e97680a3af6dfc231fc7697ee60d817ce47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8db5b7_6b634017",
+        "filename": "src/net/dial_unix_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-02T00:32:36Z",
+      "side": 1,
+      "message": "Whoops. Missed the defer on line 33. The point is the net package tests make a lot of noise if you leave goroutines running around the test completes.\n\nI saw the noise once and tried to fix it and thought I did, but I just got lucky. This goroutine is very short-lived usually.",
+      "parentUuid": "cf8db5b7_d0988576",
       "revId": "ef3d0e97680a3af6dfc231fc7697ee60d817ce47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
