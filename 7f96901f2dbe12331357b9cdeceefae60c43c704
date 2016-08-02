@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "4f50e5ef_f43576de",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-02T07:05:55Z",
+      "side": 1,
+      "message": "\u003e You can allocate new buffer per test, and you can set arbitrary\n \u003e offsets. So this test are more flexible than yours. ...\n\nFeel free to do create alternative CL. I have done as good as I could.\n\n \u003e It looks we have different point of view.\n \u003e Let me explain my point of view.\n \u003e \n \u003e To me, it\u0027s just a decoding issue.\n\nYes, the bug is in our decoding code. But the whole point of tests is to create as real environment as possible to test our code. That is why I employ all mklink and os.CreateSymbolicLink and ioutil.ReadFile and os.Stat here. Even if these tests PASS on my computer, it is possible, they will FAIL somewhere else. I would like to know about it. I would use something else instead of DeviceIoControl to create broken links too, but I don\u0027t see how it is possible.\n\n \u003e For example:\n \u003e \n \u003e // decodeReadlink extracts symlink\u0027s target path from encoded\n \u003e reparse data buffer.\n \u003e func decodeReadlink(data []byte) (string, error)\n \u003e \n \u003e If you split above function from `syscall.Readlink`,\n \u003e We can test without `CreateSymbolicLink` nor `DeviceIoControl`.\n \u003e It\u0027s good enough test for me.\n\nNot good enough for me. I have explained above.\n\n \u003e I don\u0027t think there is a big difference between `CreateSymbolicLink`,\n \u003e `DeviceIoControl`, `mklink`, ...etc.\n \u003e It\u0027s just ways of building reparse data buffer.\n \u003e The simplest way is just using `DeviceIoControl`.\n \u003e Because it is easy to use for table driven tests like above.\n\nIf you think you can make my CL smaller, feel free to do it. Just do not remove any functionality I have in there.\n\n \u003e I don\u0027t see rest of comments until we\u0027ll somehow agree.\n\nNo problem.",
+      "parentUuid": "4f50e5ef_913c3c7d",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f50e5ef_f191089f",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 3
