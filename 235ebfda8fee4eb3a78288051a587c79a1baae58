@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4cc5a54_ec5bab88",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "It seems when y is too big it shifts by uint(-1). The comment on PPC64Ops.go says only about shift 0-127. Is this value also guaranteed to produce correct result?",
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4cc5a54_4c00bf5b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "Given that CMP and CMPU are distinct instructions, I guess we don\u0027t need Uxx Ops?",
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4cc5a54_0cfab765",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "Potentially y still could be 64-bit constant? Then this could go wrong.\nMaybe we should only use CMP with MOVDconst, and CMPW with MOVWconst.",
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4cc5a54_2cde930d",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4cc5a54_ecbf2ba1",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "I would write it in one line.",
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4cc5a54_ccc26f30",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "aux. same for the next 5 lines.",
+      "range": {
+        "startLine": 176,
+        "startChar": 119,
+        "endLine": 176,
+        "endChar": 123
+      },
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4cc5a54_cc2caf03",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "-arg0 ???",
+      "range": {
+        "startLine": 194,
+        "startChar": 76,
+        "endLine": 194,
+        "endChar": 81
+      },
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4cc5a54_ec296bf0",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "Int32? Also the next line.",
+      "range": {
+        "startLine": 238,
+        "startChar": 67,
+        "endLine": 238,
+        "endChar": 72
+      },
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9474b6be_39c24752",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "This comment is for AMD64.",
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9474b6be_3c8c752d",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T15:05:34Z",
+      "side": 1,
+      "message": "either",
+      "range": {
+        "startLine": 317,
+        "startChar": 15,
+        "endLine": 317,
+        "endChar": 22
+      },
+      "revId": "235ebfda8fee4eb3a78288051a587c79a1baae58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
