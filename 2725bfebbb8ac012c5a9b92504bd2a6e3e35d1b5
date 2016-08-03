@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "d4c62e69_758f287b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-03T20:57:05Z",
+      "side": 1,
+      "message": "I don\u0027t entirely understand the role of these specific integer types here, but I went ahead and did it.",
+      "parentUuid": "d4c62e69_75ad6835",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4c62e69_1551943d",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
       "writtenOn": "2016-08-03T19:07:18Z",
       "side": 1,
       "message": "add a comment about the magic bit 57.",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4c62e69_b5a0e0eb",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-03T20:57:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4c62e69_1551943d",
       "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "d4c62e69_d59d5cae",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-03T20:57:05Z",
+      "side": 1,
+      "message": "I\u0027d like to do this in the next CL (which includes all the other shifts, and would conflict with this change if I did it now).",
+      "parentUuid": "d4c62e69_f598980d",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4c62e69_35569036",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 3
@@ -70,6 +124,24 @@
       "writtenOn": "2016-08-03T19:07:18Z",
       "side": 1,
       "message": "aux \u0026 64 looks odd to me (what if aux\u003d256?). Since we don\u0027t generate bad const shifts, it may be ok not to mention that.",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4c62e69_f59a58b3",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-03T20:57:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4c62e69_35569036",
       "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
