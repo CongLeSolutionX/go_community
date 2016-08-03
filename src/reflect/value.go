@@ -2089,7 +2089,7 @@ func ValueOf(i interface{}) Value {
 	// For now we make the contents always escape to the heap. It
 	// makes life easier in a few places (see chanrecv/mapassign
 	// comment below).
-	escapes(i)
+	//escapes(i)
 
 	return unpackEface(i)
 }
