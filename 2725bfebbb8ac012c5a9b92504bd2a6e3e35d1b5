@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4c62e69_75ad6835",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T19:07:18Z",
+      "side": 1,
+      "message": "Given that bit 57 of the shift is important, I think it should be Int64.",
+      "range": {
+        "startLine": 46,
+        "startChar": 34,
+        "endLine": 46,
+        "endChar": 57
+      },
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4c62e69_1551943d",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T19:07:18Z",
+      "side": 1,
+      "message": "add a comment about the magic bit 57.",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4c62e69_f598980d",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T19:07:18Z",
+      "side": 1,
+      "message": "Other ops that takes a constant are named *const. Maybe ADDconstForCarry if it doesn\u0027t sound too long for you. (Sorry I forgot this at the first round.)",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4c62e69_35569036",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-03T19:07:18Z",
+      "side": 1,
+      "message": "aux \u0026 64 looks odd to me (what if aux\u003d256?). Since we don\u0027t generate bad const shifts, it may be ok not to mention that.",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
