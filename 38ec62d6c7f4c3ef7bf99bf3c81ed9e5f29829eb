@@ -16,6 +16,24 @@
       "revId": "38ec62d6c7f4c3ef7bf99bf3c81ed9e5f29829eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4c62e69_554f8c3b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-03T21:49:45Z",
+      "side": 1,
+      "message": "Carry is intended, so I can add it to R0 and -1 (addme R0,Rdest), then to be or\u0027d with a shift distance.",
+      "parentUuid": "d4c62e69_d5f8fce2",
+      "revId": "38ec62d6c7f4c3ef7bf99bf3c81ed9e5f29829eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
