@@ -79,6 +79,24 @@
     },
     {
       "key": {
+        "uuid": "34b5ca44_903894d7",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-04T16:10:52Z",
+      "side": 1,
+      "message": "Yes. SGTM.",
+      "parentUuid": "34b5ca44_3065681c",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4c62e69_1551943d",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 3
