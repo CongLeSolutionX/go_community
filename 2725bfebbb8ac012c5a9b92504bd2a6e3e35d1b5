@@ -43,6 +43,24 @@
     },
     {
       "key": {
+        "uuid": "34b5ca44_f0d5a0b0",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-04T12:16:54Z",
+      "side": 1,
+      "message": "Ah, \"bit 57\" is the 1\u003c\u003c6 bit. I thought it was 1\u003c\u003c57 bit... Then Int32 is fine. The type mostly affects what load/store instruction to use when the value is spilled.",
+      "parentUuid": "d4c62e69_758f287b",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4c62e69_1551943d",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 3
@@ -125,6 +143,24 @@
       "side": 1,
       "message": "I agree, it would be good to have the word Carry in the name.",
       "parentUuid": "d4c62e69_f598980d",
+      "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34b5ca44_90b9b494",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-04T12:16:54Z",
+      "side": 1,
+      "message": "\u003e I\u0027d like to do this in the next CL (which includes all the other shifts, and would conflict with this change if I did it now).\n\nNo problem.",
+      "parentUuid": "d4c62e69_d59d5cae",
       "revId": "2725bfebbb8ac012c5a9b92504bd2a6e3e35d1b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
