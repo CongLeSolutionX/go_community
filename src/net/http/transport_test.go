@@ -3287,8 +3287,9 @@ func testTransportEventTrace(t *testing.T, h2 bool, noHooks bool) {
 			}
 			logf("ConnectDone: connected to %s %s = %v", network, addr, err)
 		},
-		Wait100Continue: func() { logf("Wait100Continue") },
-		Got100Continue:  func() { logf("Got100Continue") },
+		Wait100Continue:  func() { logf("Wait100Continue") },
+		Got100Continue:   func() { logf("Got100Continue") },
+		RequestCompleted: func(e error) { logf("RequestCompleted: %v", e) },
 		WroteRequest: func(e httptrace.WroteRequestInfo) {
 			close(gotWroteReqEvent)
 			logf("WroteRequest: %+v", e)
@@ -3347,6 +3348,7 @@ func testTransportEventTrace(t *testing.T, h2 bool, noHooks bool) {
 	}
 	wantOnce("Wait100Continue")
 	wantOnce("Got100Continue")
+	wantOnce("RequestCompleted: <nil>")
 	wantOnce("WroteRequest: {Err:<nil>}")
 	if strings.Contains(got, " to udp ") {
 		t.Errorf("should not see UDP (DNS) connections")

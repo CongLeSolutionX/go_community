@@ -101,6 +101,9 @@ type ClientTrace struct {
 	// Continue" response.
 	Got100Continue func()
 
+	// RequestCompleted is called at the end of the request life cycle.
+	RequestCompleted func(error)
+
 	// DNSStart is called when a DNS lookup begins.
 	DNSStart func(DNSStartInfo)
 
