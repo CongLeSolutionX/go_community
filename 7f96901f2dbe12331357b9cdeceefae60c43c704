@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "b4fa9af0_7c40598e",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-04T06:40:35Z",
+      "side": 1,
+      "message": "\u003e I believe `DeviceIoControl` can completely emulate\n \u003e `CreateSymbolicLink`.\n\nYou are free to believe what you like. Does not make it true.\n\n \u003e We can create exactly same reparse data\n \u003e buffer by both `DeviceIoControl` and `CreateSymbolicLink`, can\u0027t\n \u003e we?\n\nI don\u0027t know that. I have never seen the source of these functions.\n\n \u003e If you don\u0027t think so, please prove it.\n\nWhy should I prove that?\n\n \u003e I think your\n \u003e suggestions are hypothesis.\n\nI agree with that.\n\n \u003e And even if your hypothesis is true, is it really affect for us?\n\nI think it does. I think I have explained my reasoning in my earlier comment.\n\n \u003e As\n \u003e you know Readlink uses `DeviceIoControl` for reading data.\n\nI don\u0027t know that. Why do you say I do?\n\n \u003e So your\n \u003e tests are only meaningful when\n \u003e \n \u003e * `CreateSymbolicLink` can set some attributes that cannot set by\n \u003e `DeviceIoControl`.\n \u003e * `DeviceIoControl` still can read such attributes.\n \u003e \n \u003e Please prove it if you know that.\n\nWhy should I prove that?",
+      "parentUuid": "4f50e5ef_d47eb279",
+      "revId": "7f96901f2dbe12331357b9cdeceefae60c43c704",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f50e5ef_f191089f",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 3
