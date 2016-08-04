@@ -17,6 +17,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net/http/httptrace"
 	"net/url"
 	"strings"
 	"sync"
@@ -178,15 +179,23 @@ func (c *Client) send(req *Request, deadline time.Time) (*Response, error) {
 // the returned Response.Body is already closed.
 //
 // Generally Get, Post, or PostForm will be used instead of Do.
-func (c *Client) Do(req *Request) (*Response, error) {
+func (c *Client) Do(req *Request) (resp *Response, err error) {
+	defer func() {
+		if trace := httptrace.ContextClientTrace(req.Context()); trace != nil && trace.RequestCompleted != nil {
+			trace.RequestCompleted(err)
+		}
+	}()
 	method := valueOrDefault(req.Method, "GET")
 	if method == "GET" || method == "HEAD" {
-		return c.doFollowingRedirects(req, shouldRedirectGet)
+		resp, err = c.doFollowingRedirects(req, shouldRedirectGet)
+		return resp, err
 	}
 	if method == "POST" || method == "PUT" {
-		return c.doFollowingRedirects(req, shouldRedirectPost)
+		resp, err = c.doFollowingRedirects(req, shouldRedirectPost)
+		return resp, err
 	}
-	return c.send(req, c.deadline())
+	resp, err = c.send(req, c.deadline())
+	return resp, err
 }
 
 func (c *Client) deadline() time.Time {
@@ -412,10 +421,16 @@ func Get(url string) (resp *Response, err error) {
 // To make a request with custom headers, use NewRequest and Client.Do.
 func (c *Client) Get(url string) (resp *Response, err error) {
 	req, err := NewRequest("GET", url, nil)
+	defer func() {
+		if trace := httptrace.ContextClientTrace(req.Context()); trace != nil && trace.RequestCompleted != nil {
+			trace.RequestCompleted(err)
+		}
+	}()
 	if err != nil {
 		return nil, err
 	}
-	return c.doFollowingRedirects(req, shouldRedirectGet)
+	resp, err = c.doFollowingRedirects(req, shouldRedirectGet)
+	return resp, err
 }
 
 func alwaysFalse() bool { return false }
@@ -572,11 +587,17 @@ func Post(url string, bodyType string, body io.Reader) (resp *Response, err erro
 // To set custom headers, use NewRequest and Client.Do.
 func (c *Client) Post(url string, bodyType string, body io.Reader) (resp *Response, err error) {
 	req, err := NewRequest("POST", url, body)
+	defer func() {
+		if trace := httptrace.ContextClientTrace(req.Context()); trace != nil && trace.RequestCompleted != nil {
+			trace.RequestCompleted(err)
+		}
+	}()
 	if err != nil {
 		return nil, err
 	}
 	req.Header.Set("Content-Type", bodyType)
-	return c.doFollowingRedirects(req, shouldRedirectPost)
+	resp, err = c.doFollowingRedirects(req, shouldRedirectPost)
+	return resp, err
 }
 
 // PostForm issues a POST to the specified URL, with data's keys and
@@ -629,10 +650,19 @@ func Head(url string) (resp *Response, err error) {
 //    307 (Temporary Redirect)
 func (c *Client) Head(url string) (resp *Response, err error) {
 	req, err := NewRequest("HEAD", url, nil)
+	defer func() {
+		if trace := httptrace.ContextClientTrace(req.Context()); trace != nil && trace.RequestCompleted != nil {
+			trace.RequestCompleted(err)
+		}
+	}()
 	if err != nil {
+		if trace := httptrace.ContextClientTrace(req.Context()); trace != nil && trace.RequestCompleted != nil {
+			trace.RequestCompleted(err)
+		}
 		return nil, err
 	}
-	return c.doFollowingRedirects(req, shouldRedirectGet)
+	resp, err = c.doFollowingRedirects(req, shouldRedirectGet)
+	return resp, err
 }
 
 // cancelTimerBody is an io.ReadCloser that wraps rc with two features:
