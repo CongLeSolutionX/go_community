@@ -17413,9 +17413,15 @@ func rewriteValueAMD64_OpZero(v *Value, config *Config) bool {
 		v.AddArg(v1)
 		return true
 	}
+<<<<<<< HEAD   (6a1153 [dev.ssa] cmd/compile: refactor out rulegen value parsing)
 	// match: (Zero [s] destptr mem)
 	// cond: SizeAndAlign(s).Size() <= 1024 && SizeAndAlign(s).Size()%16 == 0 && !config.noDuffDevice
 	// result: (DUFFZERO [duffStartAMD64(SizeAndAlign(s).Size())] 		(ADDQconst [duffAdjAMD64(SizeAndAlign(s).Size())] destptr) (MOVOconst [0]) 		mem)
+=======
+	// match: (Zero [size] destptr mem)
+	// cond: size <= 1024 && size%16 == 0 && !config.noDuffDevice
+	// result: (DUFFZERO [size] destptr (MOVOconst [0]) mem)
+>>>>>>> BRANCH (50eddd VERSION: remove erroneously committed VERSION file)
 	for {
 		s := v.AuxInt
 		destptr := v.Args[0]
@@ -17424,14 +17430,18 @@ func rewriteValueAMD64_OpZero(v *Value, config *Config) bool {
 			break
 		}
 		v.reset(OpAMD64DUFFZERO)
+<<<<<<< HEAD   (6a1153 [dev.ssa] cmd/compile: refactor out rulegen value parsing)
 		v.AuxInt = duffStartAMD64(SizeAndAlign(s).Size())
 		v0 := b.NewValue0(v.Line, OpAMD64ADDQconst, config.fe.TypeUInt64())
 		v0.AuxInt = duffAdjAMD64(SizeAndAlign(s).Size())
 		v0.AddArg(destptr)
+=======
+		v.AuxInt = size
+		v.AddArg(destptr)
+		v0 := b.NewValue0(v.Line, OpAMD64MOVOconst, TypeInt128)
+		v0.AuxInt = 0
+>>>>>>> BRANCH (50eddd VERSION: remove erroneously committed VERSION file)
 		v.AddArg(v0)
-		v1 := b.NewValue0(v.Line, OpAMD64MOVOconst, TypeInt128)
-		v1.AuxInt = 0
-		v.AddArg(v1)
 		v.AddArg(mem)
 		return true
 	}

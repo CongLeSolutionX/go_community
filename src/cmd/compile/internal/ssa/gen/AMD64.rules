@@ -394,6 +394,7 @@
 				(MOVQstoreconst [0] destptr mem))))
 
 // Medium zeroing uses a duff device.
+<<<<<<< HEAD   (6a1153 [dev.ssa] cmd/compile: refactor out rulegen value parsing)
 (Zero [s] destptr mem)
 	&& SizeAndAlign(s).Size() <= 1024 && SizeAndAlign(s).Size()%8 == 0 && SizeAndAlign(s).Size()%16 != 0
 	&& !config.noDuffDevice ->
@@ -403,6 +404,12 @@
 	(DUFFZERO [duffStartAMD64(SizeAndAlign(s).Size())]
 		(ADDQconst [duffAdjAMD64(SizeAndAlign(s).Size())] destptr) (MOVOconst [0])
 		mem)
+=======
+(Zero [size] destptr mem) && size <= 1024 && size%8 == 0 && size%16 != 0 && !config.noDuffDevice ->
+	(Zero [size-8] (ADDQconst [8] destptr) (MOVQstore destptr (MOVQconst [0]) mem))
+(Zero [size] destptr mem) && size <= 1024 && size%16 == 0 && !config.noDuffDevice ->
+	(DUFFZERO [size] destptr (MOVOconst [0]) mem)
+>>>>>>> BRANCH (50eddd VERSION: remove erroneously committed VERSION file)
 
 // Large zeroing uses REP STOSQ.
 (Zero [s] destptr mem)

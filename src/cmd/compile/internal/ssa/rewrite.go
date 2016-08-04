@@ -259,6 +259,7 @@ func isSamePtr(p1, p2 *Value) bool {
 	return false
 }
 
+<<<<<<< HEAD   (6a1153 [dev.ssa] cmd/compile: refactor out rulegen value parsing)
 func duffStartAMD64(size int64) int64 {
 	x, _ := duffAMD64(size)
 	return x
@@ -317,6 +318,8 @@ func moveSize(align int64, c *Config) int64 {
 	return 1
 }
 
+=======
+>>>>>>> BRANCH (50eddd VERSION: remove erroneously committed VERSION file)
 // mergePoint finds a block among a's blocks which dominates b and is itself
 // dominated by all of a's blocks. Returns nil if it can't find one.
 // Might return nil even if one does exist.
