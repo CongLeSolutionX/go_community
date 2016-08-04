@@ -88,6 +88,24 @@
       "revId": "38ec62d6c7f4c3ef7bf99bf3c81ed9e5f29829eb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34b5ca44_f06800c9",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-04T16:10:52Z",
+      "side": 1,
+      "message": "Ah, there are many!\nI send a CL golang.org/cl/25480 that removes flags from regMask. Flag allocator still assumes only one flags value is live at a time. Is there benefit to have more than one flags values live at same time on PPC? If not, we can simply assume a pseudo FLAGS register containing all the flag bits.",
+      "parentUuid": "34b5ca44_f0312011",
+      "revId": "38ec62d6c7f4c3ef7bf99bf3c81ed9e5f29829eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
