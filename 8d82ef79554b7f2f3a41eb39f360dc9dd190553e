@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1969dfe4_0aeefe20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-09T01:12:39Z",
+      "side": 1,
+      "message": "The topic should say what you are changing.  In this case something like\n\ncmd/asm, cmd/internal/obj: add ppc64 vector registers and instructions",
+      "revId": "8d82ef79554b7f2f3a41eb39f360dc9dd190553e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
