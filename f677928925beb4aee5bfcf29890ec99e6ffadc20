@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "197f1fe8_2dff39cf",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-09T20:52:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "197f1fe8_2ae8ff0d",
+      "revId": "f677928925beb4aee5bfcf29890ec99e6ffadc20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "197f1fe8_6a259765",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
@@ -53,6 +71,24 @@
       "writtenOn": "2016-08-09T18:13:04Z",
       "side": 1,
       "message": "Again, ought to be someplace other compiler parts could use it.\nI note this returns zero for a zero input.\n\"git grep \u0027func log2\u0027\" reveals:\n\n~/work/go-ssa/src/cmd/compile$ git grep \"func log2\"\ninternal/big/arith.go:func log2(x Word) int {\ninternal/gc/cgen.go:func log2(n uint64) int {\ninternal/ssa/rewrite.go:func log2(n int64) (l int64) {\n\nI\u0027m not sure which one is lowest in the import hierarchy.",
+      "revId": "f677928925beb4aee5bfcf29890ec99e6ffadc20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "197f1fe8_cdf77df0",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-09T20:52:38Z",
+      "side": 1,
+      "message": "It is (at least for now) called only with nonzero input (0 is not a bitcon). I added a sanity check anyway.\n\nThis function probably should stay internal inside the assembler. gc.log2 and ssa.log2 may be unified (gc imports ssa), or gc.log2 could be gone when old backends all gone.\n\nThinking further, maybe we can have a (non-internal) package that includes all the bit tricks, and possibly teach the compiler to use intrinsics for that package on appropriate architectures.",
+      "parentUuid": "197f1fe8_6a3e7771",
       "revId": "f677928925beb4aee5bfcf29890ec99e6ffadc20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
