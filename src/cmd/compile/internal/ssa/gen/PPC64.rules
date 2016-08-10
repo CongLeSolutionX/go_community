@@ -57,6 +57,20 @@
 (Div32F x y) -> (FDIVS x y)
 (Div64F x y) -> (FDIV x y)
 
+// Lowering float <-> int
+(Cvt32to32F x) -> (FCFID (Xi2f64 (SignExt32to64 x)))
+(Cvt32to64F x) -> (FCFID (Xi2f64 (SignExt32to64 x)))
+(Cvt64to32F x) -> (FCFID (Xi2f64 x))
+(Cvt64to64F x) -> (FCFID (Xi2f64 x))
+
+(Cvt32Fto32 x) -> (Xf2i64 (FCTIWZ x))
+(Cvt32Fto64 x) -> (Xf2i64 (FCTIDZ x))
+(Cvt64Fto32 x) -> (Xf2i64 (FCTIWZ x))
+(Cvt64Fto64 x) -> (Xf2i64 (FCTIDZ x))
+
+(Cvt32Fto64F x) -> x
+(Cvt64Fto32F x) -> (FRSP x)
+
 (Rsh64x64 x y)  -> (SRAD x (ORN y <config.fe.TypeInt64()> (MaskIfNotCarry (ADDconstForCarry [-64] y))))
 (Rsh64Ux64 x y) -> (SRD  x (ORN y <config.fe.TypeInt64()> (MaskIfNotCarry (ADDconstForCarry [-64] y))))
 (Lsh64x64 x y)  -> (SLD  x (ORN y <config.fe.TypeInt64()> (MaskIfNotCarry (ADDconstForCarry [-64] y))))
@@ -364,6 +378,7 @@
 (Load <t> ptr mem) && is64BitFloat(t) -> (FMOVDload ptr mem)
 
 (Store [8] ptr val mem) && is64BitFloat(val.Type) -> (FMOVDstore ptr val mem)
+(Store [8] ptr val mem) && is32BitFloat(val.Type) -> (FMOVSstore ptr val mem)
 (Store [4] ptr val mem) && is32BitFloat(val.Type) -> (FMOVSstore ptr val mem)
 (Store [8] ptr val mem) && (is64BitInt(val.Type) || isPtr(val.Type)) -> (MOVDstore ptr val mem)
 (Store [4] ptr val mem) && is32BitInt(val.Type) -> (MOVWstore ptr val mem)
