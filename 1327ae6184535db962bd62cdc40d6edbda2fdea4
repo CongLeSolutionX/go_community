@@ -22,6 +22,30 @@
       "revId": "1327ae6184535db962bd62cdc40d6edbda2fdea4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d92e6726_84613012",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-10T17:09:33Z",
+      "side": 1,
+      "message": "I think we need it for now.  For instance, DUFFCOPY and DUFFZERO use it.  I also worry about assembly instructions, e.g.\nADDL global(SB), AX, which need to be rewritten to use GOT, and that will use CX (we can\u0027t use AX here as it is also an input).  It means assembly writers need to know that CX might get clobbered in shared-library mode, but that\u0027s already the case - making it error would break people\u0027s assembly.",
+      "parentUuid": "59e6f75a_019f2a49",
+      "range": {
+        "startLine": 336,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 14
+      },
+      "revId": "1327ae6184535db962bd62cdc40d6edbda2fdea4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
