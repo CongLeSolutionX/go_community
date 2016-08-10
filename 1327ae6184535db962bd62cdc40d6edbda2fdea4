@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59e6f75a_019f2a49",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-08-10T01:02:51Z",
+      "side": 1,
+      "message": "Is there any good reason to leave this here? Shouldn\u0027t we error if reg doesn\u0027t get chosen by the block below? (We never do anything with a GOT slot other than copy it\u0027s value into a register I think?)",
+      "range": {
+        "startLine": 336,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 14
+      },
+      "revId": "1327ae6184535db962bd62cdc40d6edbda2fdea4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
