@@ -205,6 +205,17 @@ func storeByType(t ssa.Type) obj.As {
 	panic("bad store type")
 }
 
+// scratchFpMem initializes an Addr (field of a Prog)
+// to reference the scratchpad memory for movement between
+// F and G registers for FP conversions.
+func scratchFpMem(s *gc.SSAGenState, a *obj.Addr) {
+	a.Type = obj.TYPE_MEM
+	a.Name = obj.NAME_AUTO
+	a.Node = s.ScratchFpMem
+	a.Sym = gc.Linksym(s.ScratchFpMem.Sym)
+	a.Reg = ppc64.REGSP
+}
+
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 	s.SetLineno(v.Line)
 	switch v.Op {
@@ -216,18 +227,51 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		// nothing to do
 
 	case ssa.OpCopy, ssa.OpPPC64MOVDconvert:
-		// TODO: copy of floats
-		if v.Type.IsMemory() {
+		t := v.Type
+		if t.IsMemory() {
 			return
 		}
 		x := gc.SSARegNum(v.Args[0])
 		y := gc.SSARegNum(v)
 		if x != y {
+			rt := obj.TYPE_REG
+			op := ppc64.AMOVD
+
+			if t.IsFloat() {
+				op = ppc64.AFMOVD
+			}
+			p := gc.Prog(op)
+			p.From.Type = rt
+			p.From.Reg = x
+			p.To.Type = rt
+			p.To.Reg = y
+		}
+
+	case ssa.OpPPC64Xf2i64:
+		{
+			x := gc.SSARegNum(v.Args[0])
+			y := gc.SSARegNum(v)
+			p := gc.Prog(ppc64.AFMOVD)
+			p.From.Type = obj.TYPE_REG
+			p.From.Reg = x
+			scratchFpMem(s, &p.To)
+			p = gc.Prog(ppc64.AMOVD)
+			p.To.Type = obj.TYPE_REG
+			p.To.Reg = y
+			scratchFpMem(s, &p.From)
+		}
+	case ssa.OpPPC64Xi2f64:
+		{
+			x := gc.SSARegNum(v.Args[0])
+			y := gc.SSARegNum(v)
 			p := gc.Prog(ppc64.AMOVD)
 			p.From.Type = obj.TYPE_REG
 			p.From.Reg = x
-			p.To.Reg = y
+			scratchFpMem(s, &p.To)
+			p = gc.Prog(ppc64.AFMOVD)
 			p.To.Type = obj.TYPE_REG
+			p.To.Reg = y
+			scratchFpMem(s, &p.From)
 		}
 
 	case ssa.OpPPC64LoweredGetClosurePtr:
@@ -235,8 +279,9 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		gc.CheckLoweredGetClosurePtr(v)
 
 	case ssa.OpLoadReg:
-		p := gc.Prog(loadByType(v.Type))
+		loadOp := loadByType(v.Type)
 		n, off := gc.AutoVar(v.Args[0])
+		p := gc.Prog(loadOp)
 		p.From.Type = obj.TYPE_MEM
 		p.From.Node = n
 		p.From.Sym = gc.Linksym(n.Sym)
@@ -251,10 +296,11 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Reg = gc.SSARegNum(v)
 
 	case ssa.OpStoreReg:
-		p := gc.Prog(storeByType(v.Type))
+		storeOp := storeByType(v.Type)
+		n, off := gc.AutoVar(v)
+		p := gc.Prog(storeOp)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = gc.SSARegNum(v.Args[0])
-		n, off := gc.AutoVar(v)
 		p.To.Type = obj.TYPE_MEM
 		p.To.Node = n
 		p.To.Sym = gc.Linksym(n.Sym)
@@ -376,7 +422,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = ppc64.REGTMP // Ignored; this is for the carry effect.
 
-	case ssa.OpPPC64NEG, ssa.OpPPC64FNEG:
+	case ssa.OpPPC64NEG, ssa.OpPPC64FNEG, ssa.OpPPC64FCTIDZ, ssa.OpPPC64FCTIWZ, ssa.OpPPC64FCFID, ssa.OpPPC64FRSP:
 		r := gc.SSARegNum(v)
 		p := gc.Prog(v.Op.Asm())
 		p.To.Type = obj.TYPE_REG

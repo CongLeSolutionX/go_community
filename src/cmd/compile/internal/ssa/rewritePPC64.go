@@ -62,6 +62,26 @@ func rewriteValuePPC64(v *Value, config *Config) bool {
 		return rewriteValuePPC64_OpConstNil(v, config)
 	case OpConvert:
 		return rewriteValuePPC64_OpConvert(v, config)
+	case OpCvt32Fto32:
+		return rewriteValuePPC64_OpCvt32Fto32(v, config)
+	case OpCvt32Fto64:
+		return rewriteValuePPC64_OpCvt32Fto64(v, config)
+	case OpCvt32Fto64F:
+		return rewriteValuePPC64_OpCvt32Fto64F(v, config)
+	case OpCvt32to32F:
+		return rewriteValuePPC64_OpCvt32to32F(v, config)
+	case OpCvt32to64F:
+		return rewriteValuePPC64_OpCvt32to64F(v, config)
+	case OpCvt64Fto32:
+		return rewriteValuePPC64_OpCvt64Fto32(v, config)
+	case OpCvt64Fto32F:
+		return rewriteValuePPC64_OpCvt64Fto32F(v, config)
+	case OpCvt64Fto64:
+		return rewriteValuePPC64_OpCvt64Fto64(v, config)
+	case OpCvt64to32F:
+		return rewriteValuePPC64_OpCvt64to32F(v, config)
+	case OpCvt64to64F:
+		return rewriteValuePPC64_OpCvt64to64F(v, config)
 	case OpDeferCall:
 		return rewriteValuePPC64_OpDeferCall(v, config)
 	case OpDiv16:
@@ -872,6 +892,157 @@ func rewriteValuePPC64_OpConvert(v *Value, config *Config) bool {
 		v.Type = t
 		v.AddArg(x)
 		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt32Fto32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt32Fto32 x)
+	// cond:
+	// result: (Xf2i64 (FCTIWZ x))
+	for {
+		x := v.Args[0]
+		v.reset(OpPPC64Xf2i64)
+		v0 := b.NewValue0(v.Line, OpPPC64FCTIWZ, config.fe.TypeFloat64())
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt32Fto64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt32Fto64 x)
+	// cond:
+	// result: (Xf2i64 (FCTIDZ x))
+	for {
+		x := v.Args[0]
+		v.reset(OpPPC64Xf2i64)
+		v0 := b.NewValue0(v.Line, OpPPC64FCTIDZ, config.fe.TypeFloat64())
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt32Fto64F(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt32Fto64F x)
+	// cond:
+	// result: x
+	for {
+		x := v.Args[0]
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt32to32F(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt32to32F x)
+	// cond:
+	// result: (FCFID (Xi2f64 (SignExt32to64 x)))
+	for {
+		x := v.Args[0]
+		v.reset(OpPPC64FCFID)
+		v0 := b.NewValue0(v.Line, OpPPC64Xi2f64, config.fe.TypeFloat64())
+		v1 := b.NewValue0(v.Line, OpSignExt32to64, config.fe.TypeInt64())
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt32to64F(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt32to64F x)
+	// cond:
+	// result: (FCFID (Xi2f64 (SignExt32to64 x)))
+	for {
+		x := v.Args[0]
+		v.reset(OpPPC64FCFID)
+		v0 := b.NewValue0(v.Line, OpPPC64Xi2f64, config.fe.TypeFloat64())
+		v1 := b.NewValue0(v.Line, OpSignExt32to64, config.fe.TypeInt64())
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt64Fto32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt64Fto32 x)
+	// cond:
+	// result: (Xf2i64 (FCTIWZ x))
+	for {
+		x := v.Args[0]
+		v.reset(OpPPC64Xf2i64)
+		v0 := b.NewValue0(v.Line, OpPPC64FCTIWZ, config.fe.TypeFloat64())
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt64Fto32F(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt64Fto32F x)
+	// cond:
+	// result: (FRSP x)
+	for {
+		x := v.Args[0]
+		v.reset(OpPPC64FRSP)
+		v.AddArg(x)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt64Fto64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt64Fto64 x)
+	// cond:
+	// result: (Xf2i64 (FCTIDZ x))
+	for {
+		x := v.Args[0]
+		v.reset(OpPPC64Xf2i64)
+		v0 := b.NewValue0(v.Line, OpPPC64FCTIDZ, config.fe.TypeFloat64())
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt64to32F(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt64to32F x)
+	// cond:
+	// result: (FCFID (Xi2f64 x))
+	for {
+		x := v.Args[0]
+		v.reset(OpPPC64FCFID)
+		v0 := b.NewValue0(v.Line, OpPPC64Xi2f64, config.fe.TypeFloat64())
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValuePPC64_OpCvt64to64F(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Cvt64to64F x)
+	// cond:
+	// result: (FCFID (Xi2f64 x))
+	for {
+		x := v.Args[0]
+		v.reset(OpPPC64FCFID)
+		v0 := b.NewValue0(v.Line, OpPPC64Xi2f64, config.fe.TypeFloat64())
+		v0.AddArg(x)
+		v.AddArg(v0)
 		return true
 	}
 }
@@ -5475,6 +5646,25 @@ func rewriteValuePPC64_OpStore(v *Value, config *Config) bool {
 		val := v.Args[1]
 		mem := v.Args[2]
 		if !(is64BitFloat(val.Type)) {
+			break
+		}
+		v.reset(OpPPC64FMOVDstore)
+		v.AddArg(ptr)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (Store [8] ptr val mem)
+	// cond: is32BitFloat(val.Type)
+	// result: (FMOVDstore ptr val mem)
+	for {
+		if v.AuxInt != 8 {
+			break
+		}
+		ptr := v.Args[0]
+		val := v.Args[1]
+		mem := v.Args[2]
+		if !(is32BitFloat(val.Type)) {
 			break
 		}
 		v.reset(OpPPC64FMOVDstore)

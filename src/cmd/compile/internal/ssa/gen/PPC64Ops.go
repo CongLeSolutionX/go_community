@@ -142,6 +142,8 @@ func init() {
 		gpstorezero = regInfo{inputs: []regMask{gp | sp | sb}} // ppc64.REGZERO is reserved zero value
 		fp01        = regInfo{inputs: nil, outputs: []regMask{fp}}
 		fp11        = regInfo{inputs: []regMask{fp}, outputs: []regMask{fp}}
+		fpgp        = regInfo{inputs: []regMask{fp}, outputs: []regMask{gp}}
+		gpfp        = regInfo{inputs: []regMask{gp}, outputs: []regMask{fp}}
 		fp21        = regInfo{inputs: []regMask{fp, fp}, outputs: []regMask{fp}}
 		fp2cr       = regInfo{inputs: []regMask{fp, fp}}
 		fpload      = regInfo{inputs: []regMask{gp | sp | sb}, outputs: []regMask{fp}}
@@ -194,6 +196,21 @@ func init() {
 		{name: "DIVWU", argLength: 2, reg: gp21, asm: "DIVWU", typ: "Int32"}, // arg0/arg1 (unsigned 32-bit)
 
 		// MOD is implemented as rem := arg0 - (arg0/arg1) * arg1
+
+		// Conversions are all float-to-float register operations.  "Integer" refers to encoding in the FP register.
+		{name: "FCTIDZ", argLength: 1, reg: fp11, asm: "FCTIDZ", typ: "Float64"}, // convert float to 64-bit int round towards zero
+		{name: "FCTIWZ", argLength: 1, reg: fp11, asm: "FCTIWZ", typ: "Float64"}, // convert float to 32-bit int round towards zero
+		{name: "FCFID", argLength: 1, reg: fp11, asm: "FCFID", typ: "Float64"},   // convert 64-bit integer to float
+		{name: "FRSP", argLength: 1, reg: fp11, asm: "FRSP", typ: "Float64"},     // round float to 32-bit value
+
+		// Movement between float and integer registers with no change in bits; accomplished with stores+loads on PPC.
+		// Because the 32-bit load-literal-bits instructions have impoverished addressability, always widen the
+		// data instead and use FMOVDload and FMOVDstore instead (this will also dodge endianess issues).
+		// There are optimizations that should apply -- (Xi2f64 (MOVWload (not-ADD-ptr+offset) ) ) could use
+		// the word-load instructions.  (Xi2f64 (MOVDload ptr )) can be (FMOVDload ptr)
+
+		{name: "Xf2i64", argLength: 1, reg: fpgp, typ: "Int64"},   // move 64 bits of F register into G register
+		{name: "Xi2f64", argLength: 1, reg: gpfp, typ: "Float64"}, // move 64 bits of G register into F register
 
 		{name: "AND", argLength: 2, reg: gp21, asm: "AND", commutative: true},               // arg0&arg1
 		{name: "ANDN", argLength: 2, reg: gp21, asm: "ANDN"},                                // arg0&^arg1
