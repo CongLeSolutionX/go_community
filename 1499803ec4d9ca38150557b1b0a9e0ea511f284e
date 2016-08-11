@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "991a2f56_92e28230",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3998,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "Can we name this new field something like \"NeedsFpScratch\"?\nSet it in NewConfig, and also set it in Set387.  Then you can remove the first half of this conditional.",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991a2f56_32d46e41",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "You added r but never use it?",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991a2f56_52d1ea4f",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "... for FP operations.",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991a2f56_b2485e34",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "Put type assignment first.",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991a2f56_725fc6e3",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "Second arg is unused, here and below.",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991a2f56_d266bac2",
+        "filename": "src/cmd/compile/internal/ssa/config.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "Just NeedFPScratch",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991a2f56_327e2e46",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "Add a comment here.  This is needed because of the (Cvt32Fto64F x) -\u003e x rule, right?",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991a2f56_721186ff",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "Period at end of sentence.",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991a2f56_32f1cece",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "This should still be Float32.  The type of the data doesn\u0027t change just because it is held in a wider register.",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "991a2f56_d2c23a5b",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-11T20:22:46Z",
+      "side": 1,
+      "message": "I don\u0027t see why we need both of these error logging statements.  They both do %v of obj.Aconv(r).  Can you just use one?",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
