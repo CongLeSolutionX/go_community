@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e8be9e1_208beaca",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-11T15:52:49Z",
+      "side": 1,
+      "message": "I\u0027m trying to figure out why signedness matters.\nThe byte is the same, right?",
+      "range": {
+        "startLine": 560,
+        "startChar": 0,
+        "endLine": 561,
+        "endChar": 140
+      },
+      "revId": "0537903ffc8f5c43cdb9b60e798820229a225464",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
