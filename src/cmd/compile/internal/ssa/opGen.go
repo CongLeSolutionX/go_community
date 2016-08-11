@@ -1497,24 +1497,24 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
-		name:              "MOVSSconst",
-		auxType:           auxFloat32,
-		argLen:            0,
-		rematerializeable: true,
-		asm:               x86.AMOVSS,
+		name:    "MOVSSconst",
+		auxType: auxFloat32,
+		argLen:  0,
+		asm:     x86.AMOVSS,
 		reg: regInfo{
+			clobbers: 2, // CX
 			outputs: []outputInfo{
 				{0, 65280}, // X0 X1 X2 X3 X4 X5 X6 X7
 			},
 		},
 	},
 	{
-		name:              "MOVSDconst",
-		auxType:           auxFloat64,
-		argLen:            0,
-		rematerializeable: true,
-		asm:               x86.AMOVSD,
+		name:    "MOVSDconst",
+		auxType: auxFloat64,
+		argLen:  0,
+		asm:     x86.AMOVSD,
 		reg: regInfo{
+			clobbers: 2, // CX
 			outputs: []outputInfo{
 				{0, 65280}, // X0 X1 X2 X3 X4 X5 X6 X7
 			},

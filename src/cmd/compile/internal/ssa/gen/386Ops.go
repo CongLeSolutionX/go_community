@@ -133,7 +133,7 @@ func init() {
 		gpstoreidx      = regInfo{inputs: []regMask{gpspsb, gpsp, gpsp, 0}}
 		gpstoreconstidx = regInfo{inputs: []regMask{gpspsb, gpsp, 0}}
 
-		fp01   = regInfo{inputs: nil, outputs: fponly}
+		fp01   = regInfo{inputs: nil, outputs: fponly, clobbers: cx} // load of FP constants.  cx is only clobbered in PIC.
 		fp21   = regInfo{inputs: []regMask{fp, fp}, outputs: fponly}
 		fp21x7 = regInfo{inputs: []regMask{fp &^ x7, fp &^ x7},
 			clobbers: x7, outputs: []regMask{fp &^ x7}}
@@ -160,14 +160,14 @@ func init() {
 		{name: "DIVSS", argLength: 2, reg: fp21x7, asm: "DIVSS", resultInArg0: true},                  // fp32 div
 		{name: "DIVSD", argLength: 2, reg: fp21x7, asm: "DIVSD", resultInArg0: true},                  // fp64 div
 
-		{name: "MOVSSload", argLength: 2, reg: fpload, asm: "MOVSS", aux: "SymOff"},            // fp32 load
-		{name: "MOVSDload", argLength: 2, reg: fpload, asm: "MOVSD", aux: "SymOff"},            // fp64 load
-		{name: "MOVSSconst", reg: fp01, asm: "MOVSS", aux: "Float32", rematerializeable: true}, // fp32 constant
-		{name: "MOVSDconst", reg: fp01, asm: "MOVSD", aux: "Float64", rematerializeable: true}, // fp64 constant
-		{name: "MOVSSloadidx1", argLength: 3, reg: fploadidx, asm: "MOVSS", aux: "SymOff"},     // fp32 load indexed by i
-		{name: "MOVSSloadidx4", argLength: 3, reg: fploadidx, asm: "MOVSS", aux: "SymOff"},     // fp32 load indexed by 4*i
-		{name: "MOVSDloadidx1", argLength: 3, reg: fploadidx, asm: "MOVSD", aux: "SymOff"},     // fp64 load indexed by i
-		{name: "MOVSDloadidx8", argLength: 3, reg: fploadidx, asm: "MOVSD", aux: "SymOff"},     // fp64 load indexed by 8*i
+		{name: "MOVSSload", argLength: 2, reg: fpload, asm: "MOVSS", aux: "SymOff"},        // fp32 load
+		{name: "MOVSDload", argLength: 2, reg: fpload, asm: "MOVSD", aux: "SymOff"},        // fp64 load
+		{name: "MOVSSconst", reg: fp01, asm: "MOVSS", aux: "Float32"},                      // fp32 constant
+		{name: "MOVSDconst", reg: fp01, asm: "MOVSD", aux: "Float64"},                      // fp64 constant
+		{name: "MOVSSloadidx1", argLength: 3, reg: fploadidx, asm: "MOVSS", aux: "SymOff"}, // fp32 load indexed by i
+		{name: "MOVSSloadidx4", argLength: 3, reg: fploadidx, asm: "MOVSS", aux: "SymOff"}, // fp32 load indexed by 4*i
+		{name: "MOVSDloadidx1", argLength: 3, reg: fploadidx, asm: "MOVSD", aux: "SymOff"}, // fp64 load indexed by i
+		{name: "MOVSDloadidx8", argLength: 3, reg: fploadidx, asm: "MOVSD", aux: "SymOff"}, // fp64 load indexed by 8*i
 
 		{name: "MOVSSstore", argLength: 3, reg: fpstore, asm: "MOVSS", aux: "SymOff"},        // fp32 store
 		{name: "MOVSDstore", argLength: 3, reg: fpstore, asm: "MOVSD", aux: "SymOff"},        // fp64 store
