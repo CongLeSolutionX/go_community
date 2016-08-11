@@ -22,6 +22,24 @@
       "revId": "0537903ffc8f5c43cdb9b60e798820229a225464",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e8be9e1_c0255eac",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-11T17:38:34Z",
+      "side": 1,
+      "message": "I wanted to make sure the type of the value does not change. It probably does not matter. all.bash still passes with sign check removed. Updated the CL.",
+      "parentUuid": "3e8be9e1_208beaca",
+      "revId": "0537903ffc8f5c43cdb9b60e798820229a225464",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
