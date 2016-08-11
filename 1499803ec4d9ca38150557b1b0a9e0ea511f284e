@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e8be9e1_c0223e4b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3998,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-11T20:43:38Z",
+      "side": 1,
+      "message": "That\u0027s a better name, will do.",
+      "parentUuid": "991a2f56_92e28230",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "991a2f56_32d46e41",
         "filename": "src/cmd/compile/internal/ppc64/ssa.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-11T20:22:46Z",
       "side": 1,
       "message": "You added r but never use it?",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e8be9e1_a025ba55",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-11T20:43:38Z",
+      "side": 1,
+      "message": "Artifact of earlier change that didn\u0027t get fully reverted.\nWill fix.",
+      "parentUuid": "991a2f56_32d46e41",
       "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +157,24 @@
     },
     {
       "key": {
+        "uuid": "3e8be9e1_80ec36f7",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-11T20:43:38Z",
+      "side": 1,
+      "message": "I am not sure; I\u0027ll back it out and see what breaks.  This might be an artifact of the earlier attempt at FP conversions that didn\u0027t use explicit movement between register sets.",
+      "parentUuid": "991a2f56_327e2e46",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "991a2f56_721186ff",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 1
@@ -166,6 +220,24 @@
       "writtenOn": "2016-08-11T20:22:46Z",
       "side": 1,
       "message": "I don\u0027t see why we need both of these error logging statements.  They both do %v of obj.Aconv(r).  Can you just use one?",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e8be9e1_00290631",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-11T20:43:38Z",
+      "side": 1,
+      "message": "As near as I can tell, the first logging instruction is a no-op; I do not know where it goes, but it doesn\u0027t end up in the output I saw.\nBut I could be wrong about its uselessness, so I left it in.\nThe second statement, which does produce visible output, needed to be better, so I improved it.",
+      "parentUuid": "991a2f56_d2c23a5b",
       "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
