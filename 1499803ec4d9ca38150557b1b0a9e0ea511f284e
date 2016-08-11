@@ -348,6 +348,24 @@
       "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e8be9e1_438ab815",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-11T21:27:18Z",
+      "side": 1,
+      "message": "I\u0027ll get those in the next patch, thanks, especially for the architecture-when-supported info.\nI don\u0027t think I\u0027m using them after all, yet, but I can see how they\u0027d show up for some optimizations.",
+      "parentUuid": "3e8be9e1_80167602",
+      "revId": "1499803ec4d9ca38150557b1b0a9e0ea511f284e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
