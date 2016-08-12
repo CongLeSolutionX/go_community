@@ -31,3 +31,25 @@ func ExampleWithTimeout() {
 	// Output:
 	// context deadline exceeded
 }
+
+func ExampleWithValue() {
+	type key int
+
+	f := func(ctx context.Context, k key) {
+		if v := ctx.Value(k); v != nil {
+			fmt.Println("found value:", v)
+		} else {
+			fmt.Println("key not found:", k)
+		}
+	}
+
+	k := key(5)
+	ctx := context.WithValue(context.Background(), k, "Go")
+
+	f(ctx, k)
+	f(ctx, key(0))
+
+	// Output:
+	// found value: Go
+	// key not found: 0
+}
