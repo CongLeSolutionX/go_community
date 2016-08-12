@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "3eacc99a_18fd45d5",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-12T19:01:32Z",
+      "side": 1,
+      "message": "If it is spilled (for whatever reason) storeByType has to work, so it has to be Float64.",
+      "parentUuid": "3eacc99a_58a25d41",
+      "revId": "b1254a8a396ca1cffa045e7bd80e70d1ff633a86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3eacc99a_d84bcd83",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 2
@@ -71,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3eacc99a_380209de",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-12T19:01:32Z",
+      "side": 1,
+      "message": "It\u0027s a 64-bit representation of a 32-bit float value.\nThere is no change in representation, only value.\n\"32-bit float\" is only a memory format on PPC.",
+      "parentUuid": "3eacc99a_d84bcd83",
+      "revId": "b1254a8a396ca1cffa045e7bd80e70d1ff633a86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3eacc99a_f87b31c8",
         "filename": "src/cmd/compile/internal/ssa/lower.go",
         "patchSetId": 2
@@ -88,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "3eacc99a_780c8110",
+        "filename": "src/cmd/compile/internal/ssa/lower.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-12T19:01:32Z",
+      "side": 1,
+      "message": "It was helpful to me to include the variable name; I could track it back to the root cause more quickly.\nI don\u0027t see how this costs us anything, since it is only a compiler-developer\u0027s diagnostic.",
+      "parentUuid": "3eacc99a_f87b31c8",
+      "revId": "b1254a8a396ca1cffa045e7bd80e70d1ff633a86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3eacc99a_d87e6dbb",
         "filename": "src/cmd/internal/obj/ppc64/a.out.go",
         "patchSetId": 2
@@ -99,6 +153,24 @@
       "writtenOn": "2016-08-12T18:23:07Z",
       "side": 1,
       "message": "I think conjecture (1) is correct",
+      "revId": "b1254a8a396ca1cffa045e7bd80e70d1ff633a86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3eacc99a_b8ed3920",
+        "filename": "src/cmd/internal/obj/ppc64/a.out.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-12T19:01:32Z",
+      "side": 1,
+      "message": "I could not reconcile either conjecture with the uses that I observed.\nZOREG was used for instructions that take exclusively (RA+RB) for effective address (so not conjecture (1)),\nand those same instructions also appeared with both (RA) and (RA+RB) forms, thus making conjecture (2) redundant.",
+      "parentUuid": "3eacc99a_d87e6dbb",
       "revId": "b1254a8a396ca1cffa045e7bd80e70d1ff633a86",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
