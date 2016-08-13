@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fef4f103_1ebaedb0",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2016-08-13T22:54:28Z",
+      "side": 1,
+      "message": "Isn\u0027t this the same as before?",
+      "range": {
+        "startLine": 462,
+        "startChar": 9,
+        "endLine": 462,
+        "endChar": 20
+      },
+      "revId": "9013a65e7922a64b85e4f0afab2391ff61028451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
