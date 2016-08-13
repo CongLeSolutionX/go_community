@@ -476,3 +476,15 @@ func TestDecoderRaw(t *testing.T) {
 		t.Errorf("reading NewDecoder(URLEncoding, %q) = %x, %v, want %x, nil", source+"==", dec3, err, want)
 	}
 }
+
+// Issue 16687
+func TestEncodeDecodeLenRoundTrip(t *testing.T) {
+	for i, rawenc := range [...]*Encoding{RawStdEncoding, RawURLEncoding} {
+		for n := 0; n < 32; n++ {
+			got := rawenc.DecodedLen(rawenc.EncodedLen(n))
+			if got != n {
+				t.Errorf("Raw encoding %d: DecodedLen(EncodedLen(%d)) = %d, want %d", i, n, got, n)
+			}
+		}
+	}
+}
