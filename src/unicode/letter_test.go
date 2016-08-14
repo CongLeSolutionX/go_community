@@ -422,6 +422,10 @@ var simpleFoldTests = []string{
 }
 
 func TestSimpleFold(t *testing.T) {
+	if r := SimpleFold(-1); r != -1 {
+		t.Errorf("SimpleFold(%#U) = %#U, want %#U", r, r, -1)
+	}
+
 	for _, tt := range simpleFoldTests {
 		cycle := []rune(tt)
 		r := cycle[len(cycle)-1]
