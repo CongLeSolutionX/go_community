@@ -250,7 +250,7 @@ func To(_case int, r rune) rune {
 // ToUpper maps the rune to upper case.
 func ToUpper(r rune) rune {
 	if r <= MaxASCII {
-		if 'a' <= r && r <= 'z' {
+		if uint32(r)-'a' <= 'z'-'a' {
 			r -= 'a' - 'A'
 		}
 		return r
@@ -261,7 +261,7 @@ func ToUpper(r rune) rune {
 // ToLower maps the rune to lower case.
 func ToLower(r rune) rune {
 	if r <= MaxASCII {
-		if 'A' <= r && r <= 'Z' {
+		if uint32(r)-'A' <= 'Z'-'A' {
 			r += 'a' - 'A'
 		}
 		return r
@@ -272,7 +272,7 @@ func ToLower(r rune) rune {
 // ToTitle maps the rune to title case.
 func ToTitle(r rune) rune {
 	if r <= MaxASCII {
-		if 'a' <= r && r <= 'z' { // title case is upper case for ASCII
+		if uint32(r)-'a' <= 'z'-'a' { // title case is upper case for ASCII
 			r -= 'a' - 'A'
 		}
 		return r

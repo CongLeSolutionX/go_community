@@ -547,3 +547,19 @@ func TestLatinOffset(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkToUpperASCII(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		for r := rune(0); r <= MaxASCII; r++ {
+			ToUpper(r)
+		}
+	}
+}
+
+func BenchmarkToLowerASCII(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		for r := rune(0); r <= MaxASCII; r++ {
+			ToLower(r)
+		}
+	}
+}
