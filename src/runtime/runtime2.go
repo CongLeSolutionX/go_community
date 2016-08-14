@@ -545,6 +545,14 @@ type m struct {
 
 	dlogPerM
 
+	// Locks held by this M.
+	lockSet [16]struct {
+		mutex uintptr
+		pc    uintptr
+		g     guintptr
+	}
+	lockSetLen int // Used slots in lockSet; or -1 to disable tracking
+
 	mOS
 }
 
