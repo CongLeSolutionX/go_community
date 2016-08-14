@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e3be95b_ef37ad92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-08-14T20:05:15Z",
+      "side": 1,
+      "message": "Fixes a regression from CL https://go-review.googlesource.com/#/c/16943\nwhere precomputed SimpleFold lookups were done\nwith negative indices thus causing a runtime panic.",
+      "revId": "66cc50e8a55ca7b674b7df46f2fa6de732f6b948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3be95b_2f0fd5e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-08-14T20:05:15Z",
+      "side": 1,
+      "message": "Fixes #16690.\nPlease move it to the top as the first line after the newline in the subject.",
+      "revId": "66cc50e8a55ca7b674b7df46f2fa6de732f6b948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3be95b_ef69ed8f",
+        "filename": "src/unicode/letter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-08-14T20:05:15Z",
+      "side": 1,
+      "message": "Could we also include an example here to make a breaking case glaring e.g\n// SimpleFold(-2) \u003d -2",
+      "revId": "66cc50e8a55ca7b674b7df46f2fa6de732f6b948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3be95b_2f783556",
+        "filename": "src/unicode/letter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-08-14T20:05:15Z",
+      "side": 1,
+      "message": "Perhaps for a less invasive fix to ensure that we still operate as we did preGo1.7 and that the rest of the runes whose folds weren\u0027t precomputed in the asciiFold table, take the same code path as before, let\u0027s instead do\n```\nif r \u003e\u003d 0 \u0026\u0026 int(r) \u003c len(asciiFold) {\n```\ninstead of first checking `if r \u003c 0 {` then return r.\nReason being that there could be some corner cases that relied on operations that were previously done.",
+      "revId": "66cc50e8a55ca7b674b7df46f2fa6de732f6b948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3be95b_4f75795b",
+        "filename": "src/unicode/letter_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-08-14T20:05:15Z",
+      "side": 1,
+      "message": "This test looks out of place since we\u0027ve got a simpleFoldTests table already defined above, let\u0027s move them there. Once we\u0027ve included the new tests in the table, we won\u0027t need to change this test here.\n\nTo include the awkward negative runes in the table as strings, let\u0027s make a small helper to convert many runes into a single string ie\nfunc runesToString(rs ...rune) string {\n\ts :\u003d \"\"\n\tfor _, r :\u003d range rs {\n\t\ts \u003d fmt.Sprintf(\"%s%c\", s, r)\n\t}\n\treturn s\n}\n\nand then inside simpleFoldTests, we\u0027ll add our test cases to ensure things don\u0027t break in the future, like this:\n\n\n  // See Issue 16690\n  runesToString(-1, -1),\n  runesToString(-10, -10),",
+      "revId": "66cc50e8a55ca7b674b7df46f2fa6de732f6b948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
