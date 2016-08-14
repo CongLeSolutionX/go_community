@@ -517,6 +517,13 @@ type m struct {
 
 	dlogPerM
 
+	// Locks held by this M.
+	lockSet [16]struct {
+		mutex uintptr
+		pc    uintptr
+		g     guintptr
+	}
+
 	mOS
 }
 
