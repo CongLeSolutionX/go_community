@@ -51,6 +51,22 @@ func lock(l *mutex) {
 	}
 	gp.m.locks++
 
+	// Record this lock.
+	recorded := false
+	for i := range gp.m.lockSet {
+		ent := &gp.m.lockSet[i]
+		if ent.mutex == 0 {
+			ent.mutex = uintptr(unsafe.Pointer(l))
+			ent.pc = getcallerpc()
+			ent.g.set(gp)
+			recorded = true
+			break
+		}
+	}
+	if !recorded {
+		throw("too many locks held by M")
+	}
+
 	// Speculative grab for lock.
 	v := atomic.Xchg(key32(&l.key), mutex_locked)
 	if v == mutex_unlocked {
@@ -113,6 +129,20 @@ func unlock(l *mutex) {
 	}
 
 	gp := getg()
+
+	found := false
+	for i := range gp.m.lockSet {
+		ent := &gp.m.lockSet[i]
+		if ent.mutex == uintptr(unsafe.Pointer(l)) {
+			ent.mutex = 0
+			found = true
+			break
+		}
+	}
+	if !found {
+		throw("unlock of lock not in M's lock set")
+	}
+
 	gp.m.locks--
 	if gp.m.locks < 0 {
 		throw("runtime·unlock: lock count")
