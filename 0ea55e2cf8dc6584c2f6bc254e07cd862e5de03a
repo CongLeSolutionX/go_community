@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e3be95b_ba4c8149",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 971,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-15T13:37:45Z",
+      "side": 1,
+      "message": "This case seems not to work with NaN?\nIt is fine for now as the rewriting rules are disabled.",
+      "revId": "0ea55e2cf8dc6584c2f6bc254e07cd862e5de03a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e3be95b_da04e570",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-15T13:37:45Z",
+      "side": 1,
+      "message": "These do not work, because of NaN?",
+      "revId": "0ea55e2cf8dc6584c2f6bc254e07cd862e5de03a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
