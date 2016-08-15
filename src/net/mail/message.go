@@ -41,6 +41,8 @@ func (d debugT) Printf(format string, args ...interface{}) {
 	}
 }
 
+const eol = -1
+
 // A Message represents a parsed mail message.
 type Message struct {
 	Header Header
@@ -141,12 +143,12 @@ type Address struct {
 
 // Parses a single RFC 5322 address, e.g. "Barry Gibbs <bg@example.com>"
 func ParseAddress(address string) (*Address, error) {
-	return (&addrParser{s: address}).parseSingleAddress()
+	return newAddrParser(address, nil).parseSingleAddress()
 }
 
 // ParseAddressList parses the given string as a list of addresses.
 func ParseAddressList(list string) ([]*Address, error) {
-	return (&addrParser{s: list}).parseAddressList()
+	return newAddrParser(list, nil).parseAddressList()
 }
 
 // An AddressParser is an RFC 5322 address parser.
@@ -158,13 +160,13 @@ type AddressParser struct {
 // Parse parses a single RFC 5322 address of the
 // form "Gogh Fir <gf@example.com>" or "foo@example.com".
 func (p *AddressParser) Parse(address string) (*Address, error) {
-	return (&addrParser{s: address, dec: p.WordDecoder}).parseSingleAddress()
+	return newAddrParser(address, p.WordDecoder).parseSingleAddress()
 }
 
 // ParseList parses the given string as a list of comma-separated addresses
 // of the form "Gogh Fir <gf@example.com>" or "foo@example.com".
 func (p *AddressParser) ParseList(list string) ([]*Address, error) {
-	return (&addrParser{s: list, dec: p.WordDecoder}).parseAddressList()
+	return newAddrParser(list, p.WordDecoder).parseAddressList()
 }
 
 // String formats the address as a valid RFC 5322 address.
@@ -201,7 +203,6 @@ func (a *Address) String() string {
 	}
 	if quoteLocal {
 		local = quoteString(local)
-
 	}
 
 	s := "<" + local + "@" + domain + ">"
@@ -234,8 +235,19 @@ func (a *Address) String() string {
 }
 
 type addrParser struct {
-	s   string
-	dec *mime.WordDecoder // may be nil
+	s     string
+	off   int
+	r     rune
+	rsize int
+	dec   *mime.WordDecoder // may be nil
+}
+
+func newAddrParser(s string, dec *mime.WordDecoder) *addrParser {
+	p := &addrParser{s: s, dec: dec}
+
+	p.next() // initialize p.r and p.rsize
+
+	return p
 }
 
 func (p *addrParser) parseAddressList() ([]*Address, error) {
@@ -266,14 +278,14 @@ func (p *addrParser) parseSingleAddress() (*Address, error) {
 	}
 	p.skipSpace()
 	if !p.empty() {
-		return nil, fmt.Errorf("mail: expected single address, got %q", p.s)
+		return nil, fmt.Errorf("mail: expected single address, got %q", p.rest())
 	}
 	return addr, nil
 }
 
 // parseAddress parses a single RFC 5322 address at the start of p.
 func (p *addrParser) parseAddress() (addr *Address, err error) {
-	debug.Printf("parseAddress: %q", p.s)
+	debug.Printf("parseAddress: %q", p.rest())
 	p.skipSpace()
 	if p.empty() {
 		return nil, errors.New("mail: no address")
@@ -292,7 +304,7 @@ func (p *addrParser) parseAddress() (addr *Address, err error) {
 		}, err
 	}
 	debug.Printf("parseAddress: not an addr-spec: %v", err)
-	debug.Printf("parseAddress: state is now %q", p.s)
+	debug.Printf("parseAddress: state is now %q", p.rest())
 
 	// display-name
 	var displayName string
@@ -326,7 +338,7 @@ func (p *addrParser) parseAddress() (addr *Address, err error) {
 
 // consumeAddrSpec parses a single RFC 5322 addr-spec at the start of p.
 func (p *addrParser) consumeAddrSpec() (spec string, err error) {
-	debug.Printf("consumeAddrSpec: %q", p.s)
+	debug.Printf("consumeAddrSpec: %q", p.rest())
 
 	orig := *p
 	defer func() {
@@ -376,7 +388,7 @@ func (p *addrParser) consumeAddrSpec() (spec string, err error) {
 
 // consumePhrase parses the RFC 5322 phrase at the start of p.
 func (p *addrParser) consumePhrase() (phrase string, err error) {
-	debug.Printf("consumePhrase: [%s]", p.s)
+	debug.Printf("consumePhrase: [%s]", p.rest())
 	// phrase = 1*word
 	var words []string
 	for {
@@ -416,52 +428,53 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 
 // consumeQuotedString parses the quoted string at the start of p.
 func (p *addrParser) consumeQuotedString() (qs string, err error) {
-	// Assume first byte is '"'.
-	i := 1
-	qsb := make([]rune, 0, 10)
+	rest := p.rest()
 
-	escaped := false
+	// Assume first byte is '"'.
+	p.next()
+
+	qsb := make([]rune, 0, 10)
 
 Loop:
 	for {
-		r, size := utf8.DecodeRuneInString(p.s[i:])
+		r := p.peek()
 
 		switch {
-		case size == 0:
+		case r == eol:
 			return "", errors.New("mail: unclosed quoted-string")
-
-		case size == 1 && r == utf8.RuneError:
-			return "", fmt.Errorf("mail: invalid utf-8 in quoted-string: %q", p.s)
-
-		case escaped:
-			//  quoted-pair = ("\" (VCHAR / WSP))
-
-			if !isVchar(r) && !isWSP(r) {
-				return "", fmt.Errorf("mail: bad character in quoted-string: %q", r)
-			}
-
-			qsb = append(qsb, r)
-			escaped = false
-
+		case r == utf8.RuneError:
+			return "", fmt.Errorf("mail: invalid utf-8 in quoted-string: %q", rest)
 		case isQtext(r) || isWSP(r):
 			// qtext (printable US-ASCII excluding " and \), or
 			// FWS (almost; we're ignoring CRLF)
 			qsb = append(qsb, r)
-
 		case r == '"':
+			p.next()
+
 			break Loop
-
 		case r == '\\':
-			escaped = true
+			p.next()
 
+			r = p.peek()
+
+			//  quoted-pair = ("\" (VCHAR / WSP))
+
+			switch {
+			case r == eol:
+				return "", errors.New("mail: unclosed quoted-string")
+			case r == utf8.RuneError:
+				return "", fmt.Errorf("mail: invalid utf-8 in quoted-string: %q", rest)
+			case !isVchar(r) && !isWSP(r):
+				return "", fmt.Errorf("mail: bad character in quoted-string: %q", r)
+			}
+
+			qsb = append(qsb, r)
 		default:
 			return "", fmt.Errorf("mail: bad character in quoted-string: %q", r)
-
 		}
 
-		i += size
+		p.next()
 	}
-	p.s = p.s[i+1:]
 	if len(qsb) == 0 {
 		return "", errors.New("mail: empty quoted-string")
 	}
@@ -473,29 +486,32 @@ Loop:
 // If permissive is true, consumeAtom will not fail on
 // leading/trailing/double dots in the atom (see golang.org/issue/4938).
 func (p *addrParser) consumeAtom(dot bool, permissive bool) (atom string, err error) {
-	i := 0
+	rest := p.rest()
 
-Loop:
+	begin := p.off
+
 	for {
-		r, size := utf8.DecodeRuneInString(p.s[i:])
+		r := p.peek()
 
-		switch {
-		case size == 1 && r == utf8.RuneError:
-			return "", fmt.Errorf("mail: invalid utf-8 in address: %q", p.s)
-
-		case size == 0 || !isAtext(r, dot):
-			break Loop
-
-		default:
-			i += size
-
+		if r == utf8.RuneError {
+			return "", fmt.Errorf("mail: invalid utf-8 in address: %q", rest)
 		}
+
+		if r == eol || !isAtext(r, dot) {
+			break
+		}
+
+		p.next()
 	}
 
-	if i == 0 {
+	end := p.off
+
+	if begin == end {
 		return "", errors.New("mail: invalid string")
 	}
-	atom, p.s = p.s[:i], p.s[i:]
+
+	atom = p.s[begin:end]
+
 	if !permissive {
 		if strings.HasPrefix(atom, ".") {
 			return "", errors.New("mail: leading dot in atom")
@@ -507,32 +523,48 @@ Loop:
 			return "", errors.New("mail: trailing dot in atom")
 		}
 	}
+
 	return atom, nil
 }
 
-func (p *addrParser) consume(c byte) bool {
-	if p.empty() || p.peek() != c {
+func (p *addrParser) consume(r rune) bool {
+	if p.peek() != r {
 		return false
 	}
-	p.s = p.s[1:]
+
+	p.next()
+
 	return true
 }
 
 // skipSpace skips the leading space and tab characters.
 func (p *addrParser) skipSpace() {
-	p.s = strings.TrimLeft(p.s, " \t")
+	for p.consume(' ') || p.consume('\t') {
+	}
 }
 
-func (p *addrParser) peek() byte {
-	return p.s[0]
+func (p *addrParser) next() {
+	p.off += p.rsize
+	if p.empty() {
+		p.r, p.rsize = eol, 0
+	} else {
+		p.r, p.rsize = utf8.DecodeRuneInString(p.s[p.off:])
+	}
+}
+
+func (p *addrParser) peek() rune {
+	return p.r
 }
 
 func (p *addrParser) empty() bool {
-	return p.len() == 0
+	return len(p.s) == p.off
 }
 
-func (p *addrParser) len() int {
-	return len(p.s)
+func (p *addrParser) rest() string {
+	if p.empty() {
+		return ""
+	}
+	return p.s[p.off:]
 }
 
 func (p *addrParser) decodeRFC2047Word(s string) (string, error) {

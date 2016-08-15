@@ -702,3 +702,40 @@ func TestAddressFormattingAndParsing(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkParseAddress(b *testing.B) {
+	tests := []string{
+		`<Bob@example.com>`,
+		`<bob.bob@example.com>`,
+		`<".bob"@example.com>`,
+		`<" "@example.com>`,
+		`<some.mail-with-dash@example.com>`,
+		`<"dot.and space"@example.com>`,
+		`<"very.unusual.@.unusual.com"@example.com>`,
+		`<admin@mailserver1>`,
+		`<postmaster@localhost>`,
+		"<#!$%&'*+-/=?^_`{}|~@example.org>",
+		`<"very.(),:;<>[]\".VERY.\"very@\\ \"very\".unusual"@strange.example.com>`, // escaped quotes
+		`<"()<>[]:,;@\\\"!#$%&'*+-/=?^_{}| ~.a"@example.org>`,                      // escaped backslashes
+		`<"Abc\\@def"@example.com>`,
+		`<"Joe\\Blow"@example.com>`,
+		`<test1/test2=test3@example.com>`,
+		`<def!xyz%abc@example.com>`,
+		`<_somename@example.com>`,
+		`<joe@uk>`,
+		`<~@example.com>`,
+		`<"..."@test.com>`,
+		`<"john..doe"@example.com>`,
+		`<"john.doe."@example.com>`,
+		`<".john.doe"@example.com>`,
+		`<"."@example.com>`,
+		`<".."@example.com>`,
+		`<"0:"@0>`,
+	}
+
+	for i := 0; i < b.N; i++ {
+		for _, test := range tests {
+			ParseAddress(test)
+		}
+	}
+}
