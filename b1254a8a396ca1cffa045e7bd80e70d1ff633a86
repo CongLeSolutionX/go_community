@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "3e3be95b_7a1a79cf",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-15T13:37:45Z",
+      "side": 1,
+      "message": "Ok, I eventually understand how this instruction works. Maybe add some comment emphasizing that FP register always hold 64-bit?",
+      "parentUuid": "3eacc99a_380209de",
+      "revId": "b1254a8a396ca1cffa045e7bd80e70d1ff633a86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3eacc99a_f87b31c8",
         "filename": "src/cmd/compile/internal/ssa/lower.go",
         "patchSetId": 2
