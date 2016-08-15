@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fecb11e0_0643da4e",
+        "filename": "src/net/mail/date_layouts.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-15T16:13:07Z",
+      "side": 1,
+      "message": "Say which command generated them. I\u0027d also make this file be named starting with \"z\" since it\u0027s auto-generated. We do that in some other places at least.",
+      "revId": "941b95735ea075994c4b86c7c08676bd0504a498",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
