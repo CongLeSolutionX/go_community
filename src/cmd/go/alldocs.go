@@ -496,6 +496,9 @@
 // and their dependencies.  By default, get uses the network to check out
 // missing packages but does not use it to look for updates to existing packages.
 //
+// The -v flag instructs get to print the package name and debugging messages
+// about its progress as it downloads.
+//
 // Get also accepts build flags to control the installation. See 'go help build'.
 //
 // When checking out a new package, get creates the target directory
