@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bbc9397_8d7d45c0",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T00:50:59Z",
+      "side": 1,
+      "message": "How do you know it\u0027s a write?\n\nThe read half of the io.Copy could\u0027ve failed too. (or the sendfile).\n\nOpError.Op isn\u0027t too specific about valid strings. Oh well. I don\u0027t care much here. It\u0027s semantically a write I guess.",
+      "revId": "279eeb2f7f5dd27226b5685f6f1e8345af1a6519",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
