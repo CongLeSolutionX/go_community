@@ -248,8 +248,10 @@ func LookupN(prefix string, n int) *Sym {
 
 // autolabel generates a new Name node for use with
 // an automatically generated label.
-// prefix is a short mnemonic (e.g. "s" for switch)
+// prefix is a short mnemonic (e.g. ".s" for switch)
 // to help with debugging.
+// It should begin with "." to avoid conflicts with
+// user labels.
 func autolabel(prefix string) *Node {
 	fn := Curfn
 	if Curfn == nil {
@@ -257,7 +259,7 @@ func autolabel(prefix string) *Node {
 	}
 	n := fn.Func.Label
 	fn.Func.Label++
-	return newname(LookupN("."+prefix, int(n)))
+	return newname(LookupN(prefix, int(n)))
 }
 
 var initSyms []*Sym
