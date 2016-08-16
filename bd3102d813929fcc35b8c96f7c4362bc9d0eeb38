@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3b64db09_1862e5e1",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 7250
+      },
+      "writtenOn": "2016-08-16T20:11:20Z",
+      "side": 1,
+      "message": "I am going to use the same pattern you suggested for \"WithValue\" then.",
+      "parentUuid": "7bbc9397_9e032dad",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db6adffa_75d588b6",
         "filename": "src/context/example_test.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-16T17:31:25Z",
       "side": 1,
       "message": "defer this instead, right after the line which creates it",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b555739_17cd3465",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 7250
+      },
+      "writtenOn": "2016-08-16T20:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db6adffa_75d588b6",
       "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "db7e5f9c_950324ad",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 7250
+      },
+      "writtenOn": "2016-08-16T20:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bbc9397_dee205f7",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbef3fc1_ed97053a",
         "filename": "src/context/example_test.go",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-16T17:31:25Z",
       "side": 1,
       "message": "type favorite string",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b9b0733_fbeccf22",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 7250
+      },
+      "writtenOn": "2016-08-16T20:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbef3fc1_ed97053a",
       "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -115,6 +187,24 @@
       "writtenOn": "2016-08-16T17:31:25Z",
       "side": 1,
       "message": "favorite(\"color\")",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b8573c7_c21ec275",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 7250
+      },
+      "writtenOn": "2016-08-16T20:11:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db6adffa_35a95026",
       "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
