@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bbc9397_b093c0f5",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T04:12:17Z",
+      "side": 1,
+      "message": "you can enforce it if you want too.\n\n   if prefix[0] !\u003d \u0027.\u0027 { panic(\"nope\") }",
+      "revId": "62312b1de4623379340b47fc94980f6ee7f0212f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
