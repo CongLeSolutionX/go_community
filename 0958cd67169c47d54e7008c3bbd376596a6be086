@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bbc9397_3396fa9b",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T14:53:46Z",
+      "side": 1,
+      "message": "missing here.",
+      "revId": "0958cd67169c47d54e7008c3bbd376596a6be086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bbc9397_d3aafec5",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T14:53:46Z",
+      "side": 1,
+      "message": "you need to update alldocs.go too",
+      "revId": "0958cd67169c47d54e7008c3bbd376596a6be086",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
