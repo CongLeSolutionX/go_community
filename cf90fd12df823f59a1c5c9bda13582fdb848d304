@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b2813c6_8ab3cbe3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:39:54Z",
+      "side": 1,
+      "message": "this subject is misleading.\n\nThis is a performance optimization CL and you\u0027re actually adding code and adding fields. Only a small part of the CL is arguably about simplifying.\n\nMaybe you want to do two CLs instead, or retitle this one?",
+      "revId": "cf90fd12df823f59a1c5c9bda13582fdb848d304",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b2813c6_4a89d31d",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:39:54Z",
+      "side": 1,
+      "message": "you don\u0027t say what these are",
+      "revId": "cf90fd12df823f59a1c5c9bda13582fdb848d304",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
