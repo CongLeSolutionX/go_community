@@ -348,24 +348,83 @@ func appendInt(b []byte, x int, width int) []byte {
 		u = uint(-x)
 	}
 
-	// Assemble decimal in reverse order.
-	var buf [20]byte
-	i := len(buf)
-	for u >= 10 {
-		i--
+	switch {
+	case u < 10:
+		for w := 1; w < width; w++ {
+			b = append(b, '0')
+		}
+
+		b = append(b, byte('0'+u))
+	case u < 100:
+		for w := 2; w < width; w++ {
+			b = append(b, '0')
+		}
+
 		q := u / 10
-		buf[i] = byte('0' + u - q*10)
+		b1 := byte('0' + u - q*10)
 		u = q
-	}
-	i--
-	buf[i] = byte('0' + u)
 
-	// Add 0-padding.
-	for w := len(buf) - i; w < width; w++ {
-		b = append(b, '0')
+		b2 := byte('0' + u)
+
+		b = append(b, b2, b1)
+	case u < 1000:
+		for w := 3; w < width; w++ {
+			b = append(b, '0')
+		}
+
+		q := u / 10
+		b1 := byte('0' + u - q*10)
+		u = q
+
+		q = u / 10
+		b2 := byte('0' + u - q*10)
+		u = q
+
+		b3 := byte('0' + u)
+
+		b = append(b, b3, b2, b1)
+	case u < 10000:
+		for w := 4; w < width; w++ {
+			b = append(b, '0')
+		}
+
+		q := u / 10
+		b1 := byte('0' + u - q*10)
+		u = q
+
+		q = u / 10
+		b2 := byte('0' + u - q*10)
+		u = q
+
+		q = u / 10
+		b3 := byte('0' + u - q*10)
+		u = q
+
+		b4 := byte('0' + u)
+
+		b = append(b, b4, b3, b2, b1)
+	default:
+		// Assemble decimal in reverse order.
+		var buf [20]byte
+		i := len(buf)
+		for u >= 10 {
+			i--
+			q := u / 10
+			buf[i] = byte('0' + u - q*10)
+			u = q
+		}
+		i--
+		buf[i] = byte('0' + u)
+
+		// Add 0-padding.
+		for w := len(buf) - i; w < width; w++ {
+			b = append(b, '0')
+		}
+
+		b = append(b, buf[i:]...)
 	}
 
-	return append(b, buf[i:]...)
+	return b
 }
 
 // Never printed, just needs to be non-nil for return by atoi.
