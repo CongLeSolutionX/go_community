@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7bbc9397_50584437",
+        "filename": "src/container/list/list_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-16T04:36:43Z",
+      "side": 1,
+      "message": "I\u0027ll eliminate the _ assignments before submitting.",
+      "parentUuid": "7bbc9397_f0fdb807",
+      "revId": "a5b1d465561c45882a814958ef53807ad7d482af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bbc9397_90fa3c0d",
         "filename": "src/container/list/list_test.go",
         "patchSetId": 1
