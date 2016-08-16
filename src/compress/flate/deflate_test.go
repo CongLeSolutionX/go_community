@@ -6,6 +6,7 @@ package flate
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"internal/testenv"
 	"io"
@@ -628,6 +629,50 @@ func TestBestSpeed(t *testing.T) {
 					continue
 				}
 			}
+		}
+	}
+}
+
+var errIO = errors.New("IO error")
+
+// failWriter fails with errIO exactly at the nth call to Write.
+type failWriter struct{ n int }
+
+func (w *failWriter) Write(b []byte) (int, error) {
+	w.n--
+	if w.n == -1 {
+		return 0, errIO
+	}
+	return ioutil.Discard.Write(b)
+}
+
+func TestWriterPersistentError(t *testing.T) {
+	writes, _ := ioutil.ReadFile("/usr/local/go/src/compress/testdata/Mark.Twain-Tom.Sawyer.txt")
+	writes = writes[:10000]
+
+	zw, err := NewWriter(nil, DefaultCompression)
+	if err != nil {
+		t.Fatalf("NewWriter: %v", err)
+	}
+
+	// Sweep over the threshold at which an error is returned.
+	// The variable i makes it such that the ith call to failWriter.Write will
+	// return errIO. Since failWriter errors are not persistent, we must ensure
+	// that flate.Writer errors are persistent.
+	for i := 0; i < 1000; i++ {
+		fw := &failWriter{i}
+		zw.Reset(fw)
+
+		_, werr := zw.Write(writes)
+		cerr := zw.Close()
+		if werr != errIO && werr != nil {
+			t.Errorf("test %d, mismatching Write error: got %v, want %v", i, werr, errIO)
+		}
+		if cerr != errIO && fw.n < 0 {
+			t.Errorf("test %d, mismatching Close error: got %v, want %v", i, cerr, errIO)
+		}
+		if werr == nil && cerr == nil && fw.n >= 0 {
+			return
 		}
 	}
 }

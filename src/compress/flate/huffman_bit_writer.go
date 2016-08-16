@@ -129,11 +129,16 @@ func (w *huffmanBitWriter) flush() {
 		n++
 	}
 	w.bits = 0
-	_, w.err = w.w.Write(w.bytes[:n])
+	if w.err == nil {
+		_, w.err = w.w.Write(w.bytes[:n])
+	}
 	w.nbytes = 0
 }
 
 func (w *huffmanBitWriter) writeBits(b int32, nb uint) {
+	if w.err != nil {
+		return
+	}
 	w.bits |= uint64(b) << w.nbits
 	w.nbits += nb
 	if w.nbits >= 48 {
@@ -150,7 +155,9 @@ func (w *huffmanBitWriter) writeBits(b int32, nb uint) {
 		bytes[5] = byte(bits >> 40)
 		n += 6
 		if n >= bufferFlushSize {
-			_, w.err = w.w.Write(w.bytes[:n])
+			if w.err == nil {
+				_, w.err = w.w.Write(w.bytes[:n])
+			}
 			n = 0
 		}
 		w.nbytes = n
@@ -173,13 +180,14 @@ func (w *huffmanBitWriter) writeBytes(bytes []byte) {
 		n++
 	}
 	if n != 0 {
-		_, w.err = w.w.Write(w.bytes[:n])
-		if w.err != nil {
-			return
+		if w.err == nil {
+			_, w.err = w.w.Write(w.bytes[:n])
 		}
 	}
 	w.nbytes = 0
-	_, w.err = w.w.Write(bytes)
+	if w.err == nil {
+		_, w.err = w.w.Write(bytes)
+	}
 }
 
 // RFC 1951 3.2.7 specifies a special run-length encoding for specifying
@@ -341,7 +349,9 @@ func (w *huffmanBitWriter) writeCode(c hcode) {
 		bytes[5] = byte(bits >> 40)
 		n += 6
 		if n >= bufferFlushSize {
-			_, w.err = w.w.Write(w.bytes[:n])
+			if w.err == nil {
+				_, w.err = w.w.Write(w.bytes[:n])
+			}
 			n = 0
 		}
 		w.nbytes = n
@@ -572,6 +582,9 @@ func (w *huffmanBitWriter) indexTokens(tokens []token) (numLiterals, numOffsets 
 // writeTokens writes a slice of tokens to the output.
 // codes for literal and offset encoding must be supplied.
 func (w *huffmanBitWriter) writeTokens(tokens []token, leCodes, oeCodes []hcode) {
+	if w.err != nil {
+		return
+	}
 	for _, t := range tokens {
 		if t < matchType {
 			w.writeCode(leCodes[t.literal()])
@@ -676,9 +689,8 @@ func (w *huffmanBitWriter) writeBlockHuff(eof bool, input []byte) {
 		if n < bufferFlushSize {
 			continue
 		}
-		_, w.err = w.w.Write(w.bytes[:n])
-		if w.err != nil {
-			return
+		if w.err == nil {
+			_, w.err = w.w.Write(w.bytes[:n])
 		}
 		n = 0
 	}
