@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bbc9397_9e032dad",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:31:25Z",
+      "side": 1,
+      "message": "I don\u0027t think this is a great example, *especially* with a context key of type \"string\". Context keys should always be custom private types.",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db6adffa_75d588b6",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:31:25Z",
+      "side": 1,
+      "message": "defer this instead, right after the line which creates it",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bbc9397_dee205f7",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:31:25Z",
+      "side": 1,
+      "message": "you never wg.Done() in this case.\n\nI\u0027d move wg.Done to the very top with a defer.",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbef3fc1_ed97053a",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:31:25Z",
+      "side": 1,
+      "message": "type favorite string",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db6adffa_957024e9",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:31:25Z",
+      "side": 1,
+      "message": "key :\u003d favorite(\"language\")",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbef3fc1_6d9dd555",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:31:25Z",
+      "side": 1,
+      "message": "favorite(\"language\")",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db6adffa_35a95026",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:31:25Z",
+      "side": 1,
+      "message": "favorite(\"color\")",
+      "revId": "bd3102d813929fcc35b8c96f7c4362bc9d0eeb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
