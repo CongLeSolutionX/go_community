@@ -16,7 +16,7 @@ import (
 )
 
 var cmdGet = &Command{
-	UsageLine: "get [-d] [-f] [-fix] [-insecure] [-t] [-u] [build flags] [packages]",
+	UsageLine: "get [-d] [-f] [-fix] [-insecure] [-t] [-u] [-v] [build flags] [packages]",
 	Short:     "download and install packages and dependencies",
 	Long: `
 Get downloads the packages named by the import paths, along with their
@@ -42,6 +42,9 @@ the tests for the specified packages.
 The -u flag instructs get to use the network to update the named packages
 and their dependencies.  By default, get uses the network to check out
 missing packages but does not use it to look for updates to existing packages.
+
+The -v flag instructs get to print the package name and debugging messages
+about its progress as it downloads.
 
 Get also accepts build flags to control the installation. See 'go help build'.
 

@@ -470,7 +470,7 @@
 //
 // Usage:
 //
-// 	go get [-d] [-f] [-fix] [-insecure] [-t] [-u] [build flags] [packages]
+// 	go get [-d] [-f] [-fix] [-insecure] [-t] [-u] [-v] [build flags] [packages]
 //
 // Get downloads the packages named by the import paths, along with their
 // dependencies. It then installs the named packages, like 'go install'.
@@ -495,6 +495,9 @@
 // The -u flag instructs get to use the network to update the named packages
 // and their dependencies.  By default, get uses the network to check out
 // missing packages but does not use it to look for updates to existing packages.
+//
+// The -v flag instructs get to print the package name and debugging messages
+// about its progress as it downloads.
 //
 // Get also accepts build flags to control the installation. See 'go help build'.
 //
