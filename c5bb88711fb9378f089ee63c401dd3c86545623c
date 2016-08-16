@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db6adffa_353f90de",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:34:58Z",
+      "side": 1,
+      "message": "you can drop [-v] if it\u0027s already in \"go help build\" I guess. I didn\u0027t know that\u0027s why it was omitted before.",
+      "revId": "c5bb88711fb9378f089ee63c401dd3c86545623c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bf5c793_2b7a991c",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:34:58Z",
+      "side": 1,
+      "message": "package names plural.",
+      "revId": "c5bb88711fb9378f089ee63c401dd3c86545623c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b042f4d_51d7d4f6",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T17:34:58Z",
+      "side": 1,
+      "message": "It\u0027s not just downloading. It also is about installing.\n\nWhy don\u0027t we just say:\n\n   The -v flag enables verbose output.\n\nOr:\n\n   The -v flag enables verbose progress and debug output.",
+      "revId": "c5bb88711fb9378f089ee63c401dd3c86545623c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
