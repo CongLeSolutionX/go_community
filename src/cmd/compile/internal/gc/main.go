@@ -184,7 +184,7 @@ func Main() {
 	obj.Flagcount("live", "debug liveness analysis", &debuglive)
 	obj.Flagcount("m", "print optimization decisions", &Debug['m'])
 	flag.BoolVar(&flag_msan, "msan", false, "build code compatible with C/C++ memory sanitizer")
-	flag.BoolVar(&flag_newparser, "newparser", false, "use new parser")
+	flag.BoolVar(&flag_newparser, "newparser", true, "use new parser")
 	flag.BoolVar(&newexport, "newexport", true, "use new export format") // TODO(gri) remove eventually (issue 15323)
 	flag.BoolVar(&nolocalimports, "nolocalimports", false, "reject local (relative) imports")
 	flag.StringVar(&outfile, "o", "", "write output to `file`")
