@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b2813c6_4a19d37f",
+        "filename": "src/encoding/asn1/common.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T18:12:50Z",
+      "side": 1,
+      "message": "revert this back to how it was. Let\u0027s try to minimize the size of the diffs. I\u0027d prefer cleanup CLs separate from performance CLs.\n\nAnd changing the switch like this doesn\u0027t improve performance, at least not with today\u0027s compiler.",
+      "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b2813c6_caf78325",
+        "filename": "src/encoding/asn1/common.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T18:12:50Z",
+      "side": 1,
+      "message": "can you move this back where it was? It\u0027s hard to see if there are differences if code is moving around.",
+      "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b2813c6_2a33bffa",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T18:12:50Z",
+      "side": 1,
+      "message": "few little docs would be nice.\n\nlike, dst []byte must be exactly the size of Len().",
+      "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b2813c6_ca24a3b2",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-16T18:12:50Z",
+      "side": 1,
+      "message": "Any benefit of a panic if len(b) !\u003d len(dst)?",
+      "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
