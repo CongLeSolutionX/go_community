@@ -118,6 +118,16 @@ func (e *UnmarshalTypeError) Error() string {
 	return "json: cannot unmarshal " + e.Value + " into Go value of type " + e.Type.String()
 }
 
+// An UnmarshalExtraKeysError describes a JSON object that
+// has extra keys and UseAllKeys() is enabled.
+type UnmarshalExtraKeysError struct {
+	Keys []string // array of JSON keys that could not be mapped to fields
+}
+
+func (e *UnmarshalExtraKeysError) Error() string {
+	return fmt.Sprintf("json: object has unused keys %v", e.Keys)
+}
+
 // An UnmarshalFieldError describes a JSON object key that
 // led to an unexported (and therefore unwritable) struct field.
 // (No longer used; kept for compatibility.)
@@ -167,6 +177,9 @@ func (d *decodeState) unmarshal(v interface{}) (err error) {
 	// We decode rv not rv.Elem because the Unmarshaler interface
 	// test must be applied at the top level of the value.
 	d.value(rv)
+	if d.useAllKeys && len(d.extraKeys) > 0 {
+		d.saveError(&UnmarshalExtraKeysError{Keys: d.extraKeys})
+	}
 	return d.savedError
 }
 
@@ -254,6 +267,8 @@ type decodeState struct {
 	nextscan   scanner // for calls to nextValue
 	savedError error
 	useNumber  bool
+	useAllKeys bool
+	extraKeys  []string // unused if useAllKeys is false
 }
 
 // errPhase is used for errors that should not happen unless
@@ -671,6 +686,8 @@ func (d *decodeState) object(v reflect.Value) {
 					}
 					subv = subv.Field(i)
 				}
+			} else if d.useAllKeys {
+				d.extraKeys = append(d.extraKeys, string(key))
 			}
 		}
 

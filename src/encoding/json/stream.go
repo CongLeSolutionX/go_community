@@ -35,6 +35,10 @@ func NewDecoder(r io.Reader) *Decoder {
 // Number instead of as a float64.
 func (dec *Decoder) UseNumber() { dec.d.useNumber = true }
 
+// UseAllKeys causes the Decoder's unmarshal to return an error when
+// the input JSON has keys that do not match to struct fields
+func (dec *Decoder) UseAllKeys() { dec.d.useAllKeys = true }
+
 // Decode reads the next JSON-encoded value from its
 // input and stores it in the value pointed to by v.
 //
