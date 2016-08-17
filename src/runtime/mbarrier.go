@@ -188,6 +188,22 @@ func reflect_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	typedmemmove(typ, dst, src)
 }
 
+// typedmemmove_pointers is like typedmemmove, but optimized for the
+// needs of reflect.Value.Swapper. In particular, dst and src must
+// still contain the same types, but in addition, the type MUST
+// contain pointers (that is, typ.kind&kindNoPointers == 0).  Further,
+// the size is passed directly to avoid deferencing typ again, which
+// matters for performance. Due to lack of of *_type, and for
+// performance, the cgo memory copying checks are also disabled. The
+// assumption is this is only used by Value.Swapper, and only ever
+// swapping memory within a particular object, not crossing cgo
+// boundaries.
+//go:linkname reflect_typedmemmove_pointers reflect.typedmemmove_pointers
+func reflect_typedmemmove_pointers(dst, src unsafe.Pointer, size uintptr) {
+	memmove(dst, src, size)
+	heapBitsBulkBarrier(uintptr(dst), size)
+}
+
 // typedmemmovepartial is like typedmemmove but assumes that
 // dst and src point off bytes into the value and only copies size bytes.
 //go:linkname reflect_typedmemmovepartial reflect.typedmemmovepartial
