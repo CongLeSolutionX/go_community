@@ -162,7 +162,7 @@ type Embed0 struct {
 	Level1b int // used because Embed0a's Level1b is renamed
 	Level1c int // used because Embed0a's Level1c is ignored
 	Level1d int // annihilated by Embed0a's Level1d
-	Level1e int `json:"x"` // annihilated by Embed0a.Level1e
+	Level1e int `json:"x"` // annihilated by Embed0a.Level1f
 }
 
 type Embed0a struct {
@@ -365,12 +365,21 @@ func (b *intWithPtrMarshalText) UnmarshalText(data []byte) error {
 	return (*intWithMarshalText)(b).UnmarshalText(data)
 }
 
+type allfield int
+
+const (
+	ignore allfield = iota
+	enable
+	disable
+)
+
 type unmarshalTest struct {
 	in        string
 	ptr       interface{}
 	out       interface{}
 	err       error
 	useNumber bool
+	allFields allfield
 	golden    bool
 }
 
@@ -390,7 +399,8 @@ var unmarshalTests = []unmarshalTest{
 	{in: `"invalid: \uD834x\uDD1E"`, ptr: new(string), out: "invalid: \uFFFDx\uFFFD"},
 	{in: "null", ptr: new(interface{}), out: nil},
 	{in: `{"X": [1,2,3], "Y": 4}`, ptr: new(T), out: T{Y: 4}, err: &UnmarshalTypeError{"array", reflect.TypeOf(""), 7}},
-	{in: `{"x": 1}`, ptr: new(tx), out: tx{}},
+	{in: `{"x": 1}`, ptr: new(tx), out: tx{}, allFields: disable},
+	{in: `{"x": 1}`, ptr: new(tx), err: &UnmarshalUnknownFieldsError{Keys: []string{"x"}}, allFields: enable},
 	{in: `{"F1":1,"F2":2,"F3":3}`, ptr: new(V), out: V{F1: float64(1), F2: int32(2), F3: Number("3")}},
 	{in: `{"F1":1,"F2":2,"F3":3}`, ptr: new(V), out: V{F1: Number("1"), F2: int32(2), F3: Number("3")}, useNumber: true},
 	{in: `{"k1":1,"k2":"s","k3":[1,2.0,3e-3],"k4":{"kk1":"s","kk2":2}}`, ptr: new(interface{}), out: ifaceNumAsFloat64},
@@ -404,17 +414,24 @@ var unmarshalTests = []unmarshalTest{
 	{in: "\t \"a\\u1234\" \n", ptr: new(string), out: "a\u1234"},
 
 	// Z has a "-" tag.
-	{in: `{"Y": 1, "Z": 2}`, ptr: new(T), out: T{Y: 1}},
+	{in: `{"Y": 1, "Z": 2}`, ptr: new(T), out: T{Y: 1}, allFields: disable},
+	{in: `{"Y": 1, "Z": 2}`, ptr: new(T), err: &UnmarshalUnknownFieldsError{Keys: []string{"Z"}}, allFields: enable},
 
-	{in: `{"alpha": "abc", "alphabet": "xyz"}`, ptr: new(U), out: U{Alphabet: "abc"}},
-	{in: `{"alpha": "abc"}`, ptr: new(U), out: U{Alphabet: "abc"}},
-	{in: `{"alphabet": "xyz"}`, ptr: new(U), out: U{}},
+	{in: `{"alpha": "abc", "alphabet": "xyz"}`, ptr: new(U), out: U{Alphabet: "abc"}, allFields: disable},
+	{in: `{"alpha": "abc"}`, ptr: new(U), out: U{Alphabet: "abc"}, allFields: disable},
+	{in: `{"alphabet": "xyz"}`, ptr: new(U), out: U{}, allFields: disable},
+	{in: `{"alpha": "abc", "alphabet": "xyz"}`, ptr: new(U), err: &UnmarshalUnknownFieldsError{Keys: []string{"alphabet"}}, allFields: enable},
+	{in: `{"alpha": "abc"}`, ptr: new(U), out: U{Alphabet: "abc"}, allFields: enable},
+	{in: `{"alphabet": "xyz"}`, ptr: new(U), err: &UnmarshalUnknownFieldsError{Keys: []string{"alphabet"}}, allFields: enable},
+
+	// duplicate key names
+	{in: `{"alpha": "abc", "ALPHA": "ijk", "ALPHA": "xyz"}`, ptr: new(U), out: U{Alphabet: "xyz"}, allFields: disable},
+	{in: `{"alpha": "abc", "ALPHA": "ijk", "ALPHA": "xyz"}`, ptr: new(U), out: U{Alphabet: "xyz"}, err: &UnmarshalUnknownFieldsError{Keys: []string{"alpha", "ALPHA"}}, allFields: enable},
 
 	// syntax errors
 	{in: `{"X": "foo", "Y"}`, err: &SyntaxError{"invalid character '}' after object key", 17}},
 	{in: `[1, 2, 3+]`, err: &SyntaxError{"invalid character '+' after array element", 9}},
 	{in: `{"X":12x}`, err: &SyntaxError{"invalid character 'x' after object key:value pair", 8}, useNumber: true},
-
 	// raw value errors
 	{in: "\x01 42", err: &SyntaxError{"invalid character '\\x01' looking for beginning of value", 1}},
 	{in: " 42 \x01", err: &SyntaxError{"invalid character '\\x01' after top-level value", 5}},
@@ -555,7 +572,8 @@ var unmarshalTests = []unmarshalTest{
 			"Z": 17,
 			"Q": 18
 		}`,
-		ptr: new(Top),
+		ptr:       new(Top),
+		allFields: disable,
 		out: Top{
 			Level0: 1,
 			Embed0: Embed0{
@@ -589,20 +607,60 @@ var unmarshalTests = []unmarshalTest{
 		},
 	},
 	{
+		in: `{
+			"Level0": 1,
+			"Level1b": 2,
+			"Level1c": 3,
+			"x": 4,
+			"Level1a": 5,
+			"LEVEL1B": 6,
+			"e": {
+				"Level1a": 8,
+				"Level1b": 9,
+				"Level1c": 10,
+				"Level1d": 11,
+				"x": 12
+			},
+			"Loop1": 13,
+			"Loop2": 14,
+			"X": 15,
+			"Y": 16,
+			"Z": 17,
+			"Q": 18
+		}`,
+		ptr:       new(Top),
+		allFields: enable,
+		err:       &UnmarshalUnknownFieldsError{Keys: []string{"x"}},
+	},
+	{
 		in:  `{"hello": 1}`,
 		ptr: new(Ambig),
 		out: Ambig{First: 1},
 	},
 
 	{
-		in:  `{"X": 1,"Y":2}`,
-		ptr: new(S5),
-		out: S5{S8: S8{S9: S9{Y: 2}}},
+		in:        `{"X": 1,"Y":2}`,
+		ptr:       new(S5),
+		out:       S5{S8: S8{S9: S9{Y: 2}}},
+		allFields: disable,
 	},
 	{
-		in:  `{"X": 1,"Y":2}`,
-		ptr: new(S10),
-		out: S10{S13: S13{S8: S8{S9: S9{Y: 2}}}},
+		in:        `{"X": 1,"Y":2}`,
+		ptr:       new(S5),
+		err:       &UnmarshalUnknownFieldsError{Keys: []string{"X"}},
+		allFields: enable,
+	},
+	{
+		in:        `{"X": 1,"Y":2}`,
+		ptr:       new(S10),
+		out:       S10{S13: S13{S8: S8{S9: S9{Y: 2}}}},
+		allFields: disable,
+	},
+	{
+		in:        `{"X": 1,"Y":2}`,
+		ptr:       new(S10),
+		err:       &UnmarshalUnknownFieldsError{Keys: []string{"X"}},
+		allFields: enable,
 	},
 
 	// invalid UTF-8 is coerced to valid UTF-8.
@@ -836,9 +894,12 @@ func TestMarshalEmbeds(t *testing.T) {
 	}
 }
 
-func TestUnmarshal(t *testing.T) {
+func testUnmarshalDisallowUnknownFields(t *testing.T, af allfield) {
 	for i, tt := range unmarshalTests {
 		var scan scanner
+		if tt.allFields != ignore && tt.allFields != af {
+			continue
+		}
 		in := []byte(tt.in)
 		if err := checkValid(in, &scan); err != nil {
 			if !reflect.DeepEqual(err, tt.err) {
@@ -856,8 +917,17 @@ func TestUnmarshal(t *testing.T) {
 		if tt.useNumber {
 			dec.UseNumber()
 		}
+		if af == enable {
+			dec.DisallowUnknownFields()
+		}
 		if err := dec.Decode(v.Interface()); !reflect.DeepEqual(err, tt.err) {
-			t.Errorf("#%d: %v, want %v", i, err, tt.err)
+			var s string
+			if af == enable {
+				s = "enabled"
+			} else {
+				s = "disabled"
+			}
+			t.Errorf("#%d DisallowUnknownFields() %s: %v, want %v", i, s, err, tt.err)
 			continue
 		} else if err != nil {
 			continue
@@ -886,6 +956,9 @@ func TestUnmarshal(t *testing.T) {
 			if tt.useNumber {
 				dec.UseNumber()
 			}
+			if af == enable {
+				dec.DisallowUnknownFields()
+			}
 			if err := dec.Decode(vv.Interface()); err != nil {
 				t.Errorf("#%d: error re-unmarshaling %#q: %v", i, enc, err)
 				continue
@@ -898,6 +971,11 @@ func TestUnmarshal(t *testing.T) {
 			}
 		}
 	}
+}
+
+func TestUnmarshal(t *testing.T) {
+	testUnmarshalDisallowUnknownFields(t, disable)
+	testUnmarshalDisallowUnknownFields(t, enable)
 }
 
 func TestUnmarshalMarshal(t *testing.T) {
@@ -1645,6 +1723,19 @@ func TestUnmarshalUnexported(t *testing.T) {
 	}
 	if !reflect.DeepEqual(out, want) {
 		t.Errorf("got %q, want %q", out, want)
+	}
+}
+
+func TestUnexportedDisallowUnknownFields(t *testing.T) {
+	input := `{"Name": "Bob", "m": {"x": 123}, "m2": {"y": 456}, "abcd": {"z": 789}}`
+	want := &UnmarshalUnknownFieldsError{Keys: []string{"m", "m2", "abcd"}}
+
+	out := &unexportedFields{}
+	dec := NewDecoder(strings.NewReader(input))
+	dec.DisallowUnknownFields()
+	err := dec.Decode(out)
+	if !reflect.DeepEqual(err, want) {
+		t.Errorf("expected error %v, got %v", want, err)
 	}
 }
 
