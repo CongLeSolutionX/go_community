@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"reflect"
 	. "sort"
 	"strconv"
 	"testing"
@@ -69,6 +70,17 @@ func TestStrings(t *testing.T) {
 	data := strings
 	Strings(data[0:])
 	if !StringsAreSorted(data[0:]) {
+		t.Errorf("sorted %v", strings)
+		t.Errorf("   got %v", data)
+	}
+}
+
+func TestStringsWithSwapper(t *testing.T) {
+	data := strings
+	Sort(With(len(data), reflect.Swapper(data[:]), func(i, j int) bool {
+		return data[i] < data[j]
+	}))
+	if !StringsAreSorted(data[:]) {
 		t.Errorf("sorted %v", strings)
 		t.Errorf("   got %v", data)
 	}
@@ -155,6 +167,21 @@ func BenchmarkSortString1K(b *testing.B) {
 		}
 		b.StartTimer()
 		Strings(data)
+		b.StopTimer()
+	}
+}
+
+func BenchmarkSortString1K_WithSwapper(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < b.N; i++ {
+		data := make([]string, 1<<10)
+		for i := 0; i < len(data); i++ {
+			data[i] = strconv.Itoa(i ^ 0x2cc)
+		}
+		b.StartTimer()
+		Sort(With(len(data), reflect.Swapper(data), func(i, j int) bool {
+			return data[i] < data[j]
+		}))
 		b.StopTimer()
 	}
 }

@@ -5752,3 +5752,48 @@ func BenchmarkNew(b *testing.B) {
 		New(v)
 	}
 }
+
+func TestSwapper(t *testing.T) {
+	tests := []struct {
+		in   interface{}
+		i, j int
+		want interface{}
+	}{
+		{
+			in:   []int{1, 20, 300},
+			i:    0,
+			j:    2,
+			want: []int{300, 20, 1},
+		},
+		{
+			in:   []string{"eric", "sergey", "larry"},
+			i:    0,
+			j:    2,
+			want: []string{"larry", "sergey", "eric"},
+		},
+	}
+	for i, tt := range tests {
+		inStr := fmt.Sprint(tt.in)
+		Swapper(tt.in)(tt.i, tt.j)
+		if !DeepEqual(tt.in, tt.want) {
+			t.Errorf("%d. swapping %v and %v of %v = %v; want %v", i, tt.i, tt.j, inStr, tt.in, tt.want)
+		}
+	}
+}
+
+func BenchmarkSwap(b *testing.B) {
+	const N = 1024
+	strs := make([]string, N)
+	for i := range strs {
+		strs[i] = strconv.Itoa(i)
+	}
+	swap := Swapper(strs)
+
+	b.ResetTimer()
+	i, j := 0, 1
+	for n := 0; n < b.N; n++ {
+		i = (i + 1) % N
+		j = (j + 2) % N
+		swap(i, j)
+	}
+}
