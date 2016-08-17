@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "7bc2d372_5a18b5d2",
+        "filename": "src/os/exec_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-17T05:51:46Z",
+      "side": 1,
+      "message": "Also, please, add reference to https://blogs.msdn.microsoft.com/oldnewthing/20100917-00/?p\u003d12833",
+      "revId": "4007a60e3630c3572f139c27b8b37f702e3db2a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9285985b_91a07c57",
         "filename": "src/os/exec_windows.go",
         "patchSetId": 2
