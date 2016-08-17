@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fb44038a_3e0da946",
+        "filename": "src/encoding/asn1/common.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-17T00:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b2813c6_4a19d37f",
+      "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b2813c6_caf78325",
         "filename": "src/encoding/asn1/common.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-16T18:12:50Z",
       "side": 1,
       "message": "can you move this back where it was? It\u0027s hard to see if there are differences if code is moving around.",
+      "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb44038a_7e073126",
+        "filename": "src/encoding/asn1/common.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-17T00:53:16Z",
+      "side": 1,
+      "message": "I should separate CL for code moving. Done.",
+      "parentUuid": "7b2813c6_caf78325",
       "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "fb44038a_fefa210d",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-17T00:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b2813c6_2a33bffa",
+      "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b2813c6_ca24a3b2",
         "filename": "src/encoding/asn1/marshal.go",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-16T18:12:50Z",
       "side": 1,
       "message": "Any benefit of a panic if len(b) !\u003d len(dst)?",
+      "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb44038a_def76525",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-17T00:53:16Z",
+      "side": 1,
+      "message": "I cannot understand what you mean. Sorry.\nYou mean adding\n if len(b) !\u003d len(dst) {\n  panic(\"bug is here\")\n }\nis beneficial for finding bug?",
+      "parentUuid": "7b2813c6_ca24a3b2",
       "revId": "66082cdf8c68132f9f71d535249bff9164946f44",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
