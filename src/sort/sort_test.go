@@ -74,6 +74,17 @@ func TestStrings(t *testing.T) {
 	}
 }
 
+func TestSliceStrings(t *testing.T) {
+	data := strings
+	Slice(data[0:], func(i, j int) bool {
+		return data[i] < data[j]
+	})
+	if !StringsAreSorted(data[0:]) {
+		t.Errorf("sorted %v", strings)
+		t.Errorf("   got %v", data)
+	}
+}
+
 func TestSortLarge_Random(t *testing.T) {
 	n := 1000000
 	if testing.Short() {
@@ -155,6 +166,21 @@ func BenchmarkSortString1K(b *testing.B) {
 		}
 		b.StartTimer()
 		Strings(data)
+		b.StopTimer()
+	}
+}
+
+func BenchmarkSortString1K_Reflect(b *testing.B) {
+	b.StopTimer()
+	for i := 0; i < b.N; i++ {
+		data := make([]string, 1<<10)
+		for i := 0; i < len(data); i++ {
+			data[i] = strconv.Itoa(i ^ 0x2cc)
+		}
+		b.StartTimer()
+		Slice(data, func(i, j int) bool {
+			return data[i] < data[j]
+		})
 		b.StopTimer()
 	}
 }

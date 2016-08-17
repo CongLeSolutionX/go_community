@@ -59,7 +59,7 @@ var pkgDeps = map[string][]string{
 	"math":          {"unsafe"},
 	"math/cmplx":    {"math"},
 	"math/rand":     {"L0", "math"},
-	"sort":          {},
+	"sort":          {"reflect"}, // <-- there will likely be pushback about this; here for now for trybots
 	"strconv":       {"L0", "unicode/utf8", "math"},
 	"unicode/utf16": {},
 	"unicode/utf8":  {},

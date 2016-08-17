@@ -5,5 +5,5 @@
 package sort
 
 func Heapsort(data Interface) {
-	heapSort(data, 0, data.Len())
+	heapSort(lessSwap{data.Less, data.Swap}, 0, data.Len())
 }
