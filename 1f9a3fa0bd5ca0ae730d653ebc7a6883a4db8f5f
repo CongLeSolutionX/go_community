@@ -69,6 +69,24 @@
       "revId": "1f9a3fa0bd5ca0ae730d653ebc7a6883a4db8f5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bc2d372_5a2f95ed",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-17T05:17:55Z",
+      "side": 1,
+      "message": "CFWS            \u003d       *([FWS] comment) (([FWS] comment) / FWS)",
+      "parentUuid": "7bc2d372_da22850a",
+      "revId": "1f9a3fa0bd5ca0ae730d653ebc7a6883a4db8f5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
