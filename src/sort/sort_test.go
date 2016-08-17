@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"reflect"
 	. "sort"
 	"strconv"
 	"testing"
@@ -69,6 +70,17 @@ func TestStrings(t *testing.T) {
 	data := strings
 	Strings(data[0:])
 	if !StringsAreSorted(data[0:]) {
+		t.Errorf("sorted %v", strings)
+		t.Errorf("   got %v", data)
+	}
+}
+
+func TestStringsWithSwapper(t *testing.T) {
+	data := strings
+	With(len(data), reflect.Swapper(data[:]), func(i, j int) bool {
+		return data[i] < data[j]
+	})
+	if !StringsAreSorted(data[:]) {
 		t.Errorf("sorted %v", strings)
 		t.Errorf("   got %v", data)
 	}
@@ -148,24 +160,68 @@ func TestNonDeterministicComparison(t *testing.T) {
 
 func BenchmarkSortString1K(b *testing.B) {
 	b.StopTimer()
+	unsorted := make([]string, 1<<10)
+	for i := range unsorted {
+		unsorted[i] = strconv.Itoa(i ^ 0x2cc)
+	}
+	data := make([]string, len(unsorted))
+
 	for i := 0; i < b.N; i++ {
-		data := make([]string, 1<<10)
-		for i := 0; i < len(data); i++ {
-			data[i] = strconv.Itoa(i ^ 0x2cc)
-		}
+		copy(data, unsorted)
 		b.StartTimer()
 		Strings(data)
 		b.StopTimer()
 	}
 }
 
+func BenchmarkSortString1K_With(b *testing.B) {
+	b.StopTimer()
+	unsorted := make([]string, 1<<10)
+	for i := range unsorted {
+		unsorted[i] = strconv.Itoa(i ^ 0x2cc)
+	}
+	data := make([]string, len(unsorted))
+
+	for i := 0; i < b.N; i++ {
+		copy(data, unsorted)
+		b.StartTimer()
+		With(len(data),
+			func(i, j int) { data[i], data[j] = data[j], data[i] },
+			func(i, j int) bool {
+				return data[i] < data[j]
+			})
+		b.StopTimer()
+	}
+}
+
+func BenchmarkSortString1K_WithSwapper(b *testing.B) {
+	b.StopTimer()
+	unsorted := make([]string, 1<<10)
+	for i := range unsorted {
+		unsorted[i] = strconv.Itoa(i ^ 0x2cc)
+	}
+	data := make([]string, len(unsorted))
+
+	for i := 0; i < b.N; i++ {
+		copy(data, unsorted)
+		b.StartTimer()
+		With(len(data), reflect.Swapper(data), func(i, j int) bool {
+			return data[i] < data[j]
+		})
+		b.StopTimer()
+	}
+}
+
 func BenchmarkStableString1K(b *testing.B) {
 	b.StopTimer()
+	unsorted := make([]string, 1<<10)
+	for i := 0; i < len(data); i++ {
+		unsorted[i] = strconv.Itoa(i ^ 0x2cc)
+	}
+	data := make([]string, len(unsorted))
+
 	for i := 0; i < b.N; i++ {
-		data := make([]string, 1<<10)
-		for i := 0; i < len(data); i++ {
-			data[i] = strconv.Itoa(i ^ 0x2cc)
-		}
+		copy(data, unsorted)
 		b.StartTimer()
 		Stable(StringSlice(data))
 		b.StopTimer()
@@ -187,13 +243,51 @@ func BenchmarkSortInt1K(b *testing.B) {
 
 func BenchmarkStableInt1K(b *testing.B) {
 	b.StopTimer()
+	unsorted := make([]int, 1<<10)
+	for i := range unsorted {
+		unsorted[i] = i ^ 0x2cc
+	}
+	data := make([]int, len(unsorted))
 	for i := 0; i < b.N; i++ {
-		data := make([]int, 1<<10)
-		for i := 0; i < len(data); i++ {
-			data[i] = i ^ 0x2cc
-		}
+		copy(data, unsorted)
 		b.StartTimer()
 		Stable(IntSlice(data))
+		b.StopTimer()
+	}
+}
+
+func BenchmarkStableInt1K_With(b *testing.B) {
+	b.StopTimer()
+	unsorted := make([]int, 1<<10)
+	for i := range unsorted {
+		unsorted[i] = i ^ 0x2cc
+	}
+	data := make([]int, len(unsorted))
+	for i := 0; i < b.N; i++ {
+		copy(data, unsorted)
+		b.StartTimer()
+		Stable(MakeInterface(
+			len(data),
+			func(i, j int) { data[i], data[j] = data[j], data[i] },
+			func(i, j int) bool { return data[i] < data[j] },
+		))
+		b.StopTimer()
+	}
+}
+
+func BenchmarkStableInt1K_WithSwapper(b *testing.B) {
+	b.StopTimer()
+	unsorted := make([]int, 1<<10)
+	for i := range unsorted {
+		unsorted[i] = i ^ 0x2cc
+	}
+	data := make([]int, len(unsorted))
+	for i := 0; i < b.N; i++ {
+		copy(data, unsorted)
+		b.StartTimer()
+		Stable(MakeInterface(len(data), reflect.Swapper(data), func(i, j int) bool {
+			return data[i] < data[j]
+		}))
 		b.StopTimer()
 	}
 }
