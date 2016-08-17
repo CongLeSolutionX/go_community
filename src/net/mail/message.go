@@ -520,7 +520,13 @@ func (p *addrParser) consume(c byte) bool {
 
 // skipSpace skips the leading space and tab characters.
 func (p *addrParser) skipSpace() {
-	p.s = strings.TrimLeft(p.s, " \t")
+	for i := 0; i < len(p.s); i++ {
+		if p.s[i] == ' ' || p.s[i] == '\t' {
+			continue
+		}
+		p.s = p.s[i:]
+		return
+	}
 }
 
 func (p *addrParser) peek() byte {
