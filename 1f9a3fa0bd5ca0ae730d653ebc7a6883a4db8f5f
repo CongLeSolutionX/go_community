@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbe083e2_a752683b",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-17T04:20:03Z",
+      "side": 1,
+      "message": "this is a little hard to read.\n\nI\u0027d invert a bit:\n\n   if p.s[i] \u003d\u003d \u0027 \u0027 || p.s[i] \u003d\u003d \u0027\\t\u0027 {\n        // skip\n        continue\n   }\n   p.s \u003d p.s[i:]\n   return\n\nOr: do you care about space at the end? Does https://golang.org/pkg/net/textproto/#TrimString work? It also removes the space at the end, though.",
+      "revId": "1f9a3fa0bd5ca0ae730d653ebc7a6883a4db8f5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
