@@ -1253,6 +1253,11 @@ func cachedTypeFields(t reflect.Type) []field {
 
 	fieldCache.mu.Lock()
 	m, _ = fieldCache.value.Load().(map[reflect.Type][]field)
+	g := m[t] // retry read while holding lock
+	if g != nil {
+		fieldCache.mu.Unlock()
+		return g
+	}
 	newM := make(map[reflect.Type][]field, len(m)+1)
 	for k, v := range m {
 		newM[k] = v
