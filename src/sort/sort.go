@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+//go:generate go run genzfunc.go
+
 // Package sort provides primitives for sorting slices and user-defined
 // collections.
 package sort
@@ -18,6 +20,32 @@ type Interface interface {
 	// Swap swaps the elements with indexes i and j.
 	Swap(i, j int)
 }
+
+// lessSwap is a pair of Less and Swap function for use with the
+// auto-generated func-optimized variant of sort.go in
+// zfuncversion.go.
+type lessSwap struct {
+	Less func(i, j int) bool
+	Swap func(i, j int)
+}
+
+// With returns a sort Interface using the provided length and
+// pair of swap and less functions.
+func With(length int, swap func(i, j int), less func(i, j int) bool) Interface {
+	return &funcs{length, lessSwap{less, swap}}
+}
+
+// funcs implements Interface, but is recognized by Sort and Stable
+// which use its lessSwap field with the non-interface sorting
+// routines in zfuncversion.go.
+type funcs struct {
+	length int
+	lessSwap
+}
+
+func (f *funcs) Len() int           { return f.length }
+func (f *funcs) Swap(i, j int)      { f.lessSwap.Swap(i, j) }
+func (f *funcs) Less(i, j int) bool { return f.lessSwap.Less(i, j) }
 
 // Insertion sort
 func insertionSort(data Interface, a, b int) {
@@ -219,7 +247,11 @@ func Sort(data Interface) {
 		maxDepth++
 	}
 	maxDepth *= 2
-	quickSort(data, 0, n, maxDepth)
+	if fs, ok := data.(*funcs); ok {
+		quickSort_func(fs.lessSwap, 0, n, maxDepth)
+	} else {
+		quickSort(data, 0, n, maxDepth)
+	}
 }
 
 type reverse struct {
@@ -337,7 +369,14 @@ func StringsAreSorted(a []string) bool { return IsSorted(StringSlice(a)) }
 // It makes one call to data.Len to determine n, O(n*log(n)) calls to
 // data.Less and O(n*log(n)*log(n)) calls to data.Swap.
 func Stable(data Interface) {
-	n := data.Len()
+	if fs, ok := data.(*funcs); ok {
+		stable_func(fs.lessSwap, fs.length)
+	} else {
+		stable(data, data.Len())
+	}
+}
+
+func stable(data Interface, n int) {
 	blockSize := 20 // must be > 0
 	a, b := 0, blockSize
 	for b <= n {
