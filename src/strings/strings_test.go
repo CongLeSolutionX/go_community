@@ -655,6 +655,26 @@ func TestTrim(t *testing.T) {
 	}
 }
 
+func BenchmarkTrimLeft(b *testing.B) {
+	b.ReportAllocs()
+
+	for i := 0; i < b.N; i++ {
+		for _, tc := range trimTests {
+			name := tc.f
+			var f func(string, string) string
+			switch name {
+			case "TrimLeft":
+				f = TrimLeft
+
+				actual := f(tc.in, tc.arg)
+				if actual != tc.out {
+					b.Errorf("%s(%q, %q) = %q; want %q", name, tc.in, tc.arg, actual, tc.out)
+				}
+			}
+		}
+	}
+}
+
 func BenchmarkTrim(b *testing.B) {
 	b.ReportAllocs()
 

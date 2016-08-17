@@ -600,7 +600,19 @@ func TrimLeft(s string, cutset string) string {
 	if s == "" || cutset == "" {
 		return s
 	}
-	return TrimLeftFunc(s, makeCutsetFunc(cutset))
+	start := 0
+	for start < len(s) {
+		wid := 1
+		r := rune(s[start])
+		if r >= utf8.RuneSelf {
+			r, wid = utf8.DecodeRuneInString(s[start:])
+		}
+		if IndexRune(cutset, r) == -1 {
+			break
+		}
+		start += wid
+	}
+	return s[start:]
 }
 
 // TrimRight returns a slice of the string s, with all trailing
