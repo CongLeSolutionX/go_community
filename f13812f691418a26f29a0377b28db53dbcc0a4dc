@@ -16,6 +16,24 @@
       "revId": "f13812f691418a26f29a0377b28db53dbcc0a4dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bc2d372_1a391d39",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-17T05:26:55Z",
+      "side": 1,
+      "message": "\u003eThis function doesn\u0027t work if the whole string is spaces \u003eand tabs. It will always call \"continue\" and never update \u003ep.s.\n\nRight. I\u0027m stupid.\n\n\u003eLet\u0027s just use strings.TrimLeftFunc if we\u0027re going to do \u003eanything. I\u0027d rather fix the strings package and/or the \u003ecompiler, though.\n\nFix in higher level is always make sense to me.\nWe don\u0027t have to use strings.TrimLeftFunc, strings.TrimLeft is enough.\n\n\u003eThis doesn\u0027t seem worth it.\n\nSure, I\u0027ll abandon it.",
+      "parentUuid": "fbe083e2_a74b485d",
+      "revId": "f13812f691418a26f29a0377b28db53dbcc0a4dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
