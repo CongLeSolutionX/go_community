@@ -16,6 +16,24 @@
       "revId": "507144c011c64fd6f18cee6592e79461817e3791",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbd73f3a_8dcde18c",
+        "filename": "src/math/rand/gen_cooked.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13410
+      },
+      "writtenOn": "2016-08-17T22:05:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure what to say: A comment above the vector hinted at the number of iterations. The initial conditions and exact implementation are my guesses, which I arrived at by digging through the very early versions of the rng. Took some time (this program alone takes hours), but in the end it worked. Ken told me in an email that he picked the number of iterations based on some randomness check he likes to run. Some of the parameters are literature values, but the cooked vector doesn\u0027t mean anything. If you want you can use a truly random vector instead.\n\nRegarding replacing the rng: I saw that suggestion in a couple of places, but see no reason why. This is a pretty decent and amazingly fast rng.\nIt looks a bit shady because there is no reference to literature describing the algo, or even a name for the RNG, but I\u0027ll add that in time for 1.8. I\u0027m sitting on a couple of changes, which I\u0027ll contribute one by one.\n\nWe should add a couple more choices for Sources though. I actually have patches for that as well.",
+      "parentUuid": "7bc2d372_da46052a",
+      "revId": "507144c011c64fd6f18cee6592e79461817e3791",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
