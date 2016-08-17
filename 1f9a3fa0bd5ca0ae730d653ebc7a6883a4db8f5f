@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7bc2d372_ba27d118",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-17T05:13:53Z",
+      "side": 1,
+      "message": "Here is a result:\n\nname            old time/op  new time/op  delta\nParseAddress-4  37.3µs ± 2%  38.9µs ± 3%  +4.14%  (p\u003d0.000 n\u003d10+9)\n\nThat approach is 4% slower.",
+      "parentUuid": "fbe083e2_6714e04b",
+      "revId": "1f9a3fa0bd5ca0ae730d653ebc7a6883a4db8f5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbe083e2_a752683b",
         "filename": "src/net/mail/message.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-17T04:20:03Z",
       "side": 1,
       "message": "this is a little hard to read.\n\nI\u0027d invert a bit:\n\n   if p.s[i] \u003d\u003d \u0027 \u0027 || p.s[i] \u003d\u003d \u0027\\t\u0027 {\n        // skip\n        continue\n   }\n   p.s \u003d p.s[i:]\n   return\n\nOr: do you care about space at the end? Does https://golang.org/pkg/net/textproto/#TrimString work? It also removes the space at the end, though.",
+      "revId": "1f9a3fa0bd5ca0ae730d653ebc7a6883a4db8f5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7bc2d372_da22850a",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-17T05:13:53Z",
+      "side": 1,
+      "message": "I don\u0027t care about trailing spaces, but trim right spaces here is bit confusing to me.\nAnd textproto.TrimString has different white spaces, so it\u0027s not appropriate usage here.\n\nnet/mail doc says:\n\n* The full range of spacing (the CFWS syntax element) is not supported,\n  such as breaking addresses across lines.\n\nand, RFC2822 says:\n\nFWS             \u003d       ([*WSP CRLF] 1*WSP) /   ; Folding white space\n                        obs-FWS\n\n...as well as the space (SP,\n   ASCII value 32) and horizontal tab (HTAB, ASCII value 9) characters\n   (together known as the white space characters, WSP), and those WSP\n   characters are subject to header \"folding\" and \"unfolding\" as...\n\nI\u0027ve only addressed your initial comment.",
+      "parentUuid": "fbe083e2_a752683b",
       "revId": "1f9a3fa0bd5ca0ae730d653ebc7a6883a4db8f5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
