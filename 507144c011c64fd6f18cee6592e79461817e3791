@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bc2d372_da46052a",
+        "filename": "src/math/rand/gen_cooked.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-08-17T20:45:28Z",
+      "side": 1,
+      "message": "it would be nice to record where this information came from\n\nit would be even nicer to replace this RNG, although i realize that can\u0027t happen unless there\u0027s a Go 2 or a new package.",
+      "revId": "507144c011c64fd6f18cee6592e79461817e3791",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
