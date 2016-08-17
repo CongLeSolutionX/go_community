@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb944b51_2ca81370",
+        "filename": "src/cmd/compile/internal/ssa/cse.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-17T01:32:33Z",
+      "side": 1,
+      "message": "I have a fix using map. This may be fine since it happens rarely. If it turns out there is some practical code that compiles too slowly, we can switch to map.",
+      "revId": "a361a7c8d0ac24750b4790b2c3027a7aad30634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
