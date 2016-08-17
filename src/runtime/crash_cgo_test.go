@@ -42,8 +42,11 @@ func TestCgoTraceback(t *testing.T) {
 }
 
 func TestCgoCallbackGC(t *testing.T) {
-	if runtime.GOOS == "plan9" || runtime.GOOS == "windows" {
+	switch runtime.GOOS {
+	case "plan9", "windows":
 		t.Skipf("no pthreads on %s", runtime.GOOS)
+	case "freebsd":
+		t.Skip("flaky: golang.org/issue/16396")
 	}
 	if testing.Short() {
 		switch {
