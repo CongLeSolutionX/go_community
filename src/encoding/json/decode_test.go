@@ -162,7 +162,7 @@ type Embed0 struct {
 	Level1b int // used because Embed0a's Level1b is renamed
 	Level1c int // used because Embed0a's Level1c is ignored
 	Level1d int // annihilated by Embed0a's Level1d
-	Level1e int `json:"x"` // annihilated by Embed0a.Level1e
+	Level1e int `json:"x"` // annihilated by Embed0a.Level1f
 }
 
 type Embed0a struct {
@@ -365,12 +365,17 @@ func (b *intWithPtrMarshalText) UnmarshalText(data []byte) error {
 	return (*intWithMarshalText)(b).UnmarshalText(data)
 }
 
+func boolPtr(b bool) *bool {
+	return &b
+}
+
 type unmarshalTest struct {
 	in        string
 	ptr       interface{}
 	out       interface{}
 	err       error
 	useNumber bool
+	allKeys   *bool
 	golden    bool
 }
 
@@ -390,7 +395,8 @@ var unmarshalTests = []unmarshalTest{
 	{in: `"invalid: \uD834x\uDD1E"`, ptr: new(string), out: "invalid: \uFFFDx\uFFFD"},
 	{in: "null", ptr: new(interface{}), out: nil},
 	{in: `{"X": [1,2,3], "Y": 4}`, ptr: new(T), out: T{Y: 4}, err: &UnmarshalTypeError{"array", reflect.TypeOf(""), 7}},
-	{in: `{"x": 1}`, ptr: new(tx), out: tx{}},
+	{in: `{"x": 1}`, ptr: new(tx), out: tx{}, allKeys: boolPtr(false)},
+	{in: `{"x": 1}`, ptr: new(tx), err: &UnmarshalExtraKeysError{Keys: []string{"x"}}, allKeys: boolPtr(true)},
 	{in: `{"F1":1,"F2":2,"F3":3}`, ptr: new(V), out: V{F1: float64(1), F2: int32(2), F3: Number("3")}},
 	{in: `{"F1":1,"F2":2,"F3":3}`, ptr: new(V), out: V{F1: Number("1"), F2: int32(2), F3: Number("3")}, useNumber: true},
 	{in: `{"k1":1,"k2":"s","k3":[1,2.0,3e-3],"k4":{"kk1":"s","kk2":2}}`, ptr: new(interface{}), out: ifaceNumAsFloat64},
@@ -404,17 +410,20 @@ var unmarshalTests = []unmarshalTest{
 	{in: "\t \"a\\u1234\" \n", ptr: new(string), out: "a\u1234"},
 
 	// Z has a "-" tag.
-	{in: `{"Y": 1, "Z": 2}`, ptr: new(T), out: T{Y: 1}},
+	{in: `{"Y": 1, "Z": 2}`, ptr: new(T), out: T{Y: 1}, allKeys: boolPtr(false)},
+	{in: `{"Y": 1, "Z": 2}`, ptr: new(T), err: &UnmarshalExtraKeysError{Keys: []string{"Z"}}, allKeys: boolPtr(true)},
 
-	{in: `{"alpha": "abc", "alphabet": "xyz"}`, ptr: new(U), out: U{Alphabet: "abc"}},
-	{in: `{"alpha": "abc"}`, ptr: new(U), out: U{Alphabet: "abc"}},
-	{in: `{"alphabet": "xyz"}`, ptr: new(U), out: U{}},
+	{in: `{"alpha": "abc", "alphabet": "xyz"}`, ptr: new(U), out: U{Alphabet: "abc"}, allKeys: boolPtr(false)},
+	{in: `{"alpha": "abc"}`, ptr: new(U), out: U{Alphabet: "abc"}, allKeys: boolPtr(false)},
+	{in: `{"alphabet": "xyz"}`, ptr: new(U), out: U{}, allKeys: boolPtr(false)},
+	{in: `{"alpha": "abc", "alphabet": "xyz"}`, ptr: new(U), err: &UnmarshalExtraKeysError{Keys: []string{"alphabet"}}, allKeys: boolPtr(true)},
+	{in: `{"alpha": "abc"}`, ptr: new(U), out: U{Alphabet: "abc"}, allKeys: boolPtr(true)},
+	{in: `{"alphabet": "xyz"}`, ptr: new(U), err: &UnmarshalExtraKeysError{Keys: []string{"alphabet"}}, allKeys: boolPtr(true)},
 
 	// syntax errors
 	{in: `{"X": "foo", "Y"}`, err: &SyntaxError{"invalid character '}' after object key", 17}},
 	{in: `[1, 2, 3+]`, err: &SyntaxError{"invalid character '+' after array element", 9}},
 	{in: `{"X":12x}`, err: &SyntaxError{"invalid character 'x' after object key:value pair", 8}, useNumber: true},
-
 	// raw value errors
 	{in: "\x01 42", err: &SyntaxError{"invalid character '\\x01' looking for beginning of value", 1}},
 	{in: " 42 \x01", err: &SyntaxError{"invalid character '\\x01' after top-level value", 5}},
@@ -555,7 +564,8 @@ var unmarshalTests = []unmarshalTest{
 			"Z": 17,
 			"Q": 18
 		}`,
-		ptr: new(Top),
+		ptr:     new(Top),
+		allKeys: boolPtr(false),
 		out: Top{
 			Level0: 1,
 			Embed0: Embed0{
@@ -589,20 +599,60 @@ var unmarshalTests = []unmarshalTest{
 		},
 	},
 	{
+		in: `{
+			"Level0": 1,
+			"Level1b": 2,
+			"Level1c": 3,
+			"x": 4,
+			"Level1a": 5,
+			"LEVEL1B": 6,
+			"e": {
+				"Level1a": 8,
+				"Level1b": 9,
+				"Level1c": 10,
+				"Level1d": 11,
+				"x": 12
+			},
+			"Loop1": 13,
+			"Loop2": 14,
+			"X": 15,
+			"Y": 16,
+			"Z": 17,
+			"Q": 18
+		}`,
+		ptr:     new(Top),
+		allKeys: boolPtr(true),
+		err:     &UnmarshalExtraKeysError{Keys: []string{"x"}},
+	},
+	{
 		in:  `{"hello": 1}`,
 		ptr: new(Ambig),
 		out: Ambig{First: 1},
 	},
 
 	{
-		in:  `{"X": 1,"Y":2}`,
-		ptr: new(S5),
-		out: S5{S8: S8{S9: S9{Y: 2}}},
+		in:      `{"X": 1,"Y":2}`,
+		ptr:     new(S5),
+		out:     S5{S8: S8{S9: S9{Y: 2}}},
+		allKeys: boolPtr(false),
 	},
 	{
-		in:  `{"X": 1,"Y":2}`,
-		ptr: new(S10),
-		out: S10{S13: S13{S8: S8{S9: S9{Y: 2}}}},
+		in:      `{"X": 1,"Y":2}`,
+		ptr:     new(S5),
+		err:     &UnmarshalExtraKeysError{Keys: []string{"X"}},
+		allKeys: boolPtr(true),
+	},
+	{
+		in:      `{"X": 1,"Y":2}`,
+		ptr:     new(S10),
+		out:     S10{S13: S13{S8: S8{S9: S9{Y: 2}}}},
+		allKeys: boolPtr(false),
+	},
+	{
+		in:      `{"X": 1,"Y":2}`,
+		ptr:     new(S10),
+		err:     &UnmarshalExtraKeysError{Keys: []string{"X"}},
+		allKeys: boolPtr(true),
 	},
 
 	// invalid UTF-8 is coerced to valid UTF-8.
@@ -836,9 +886,12 @@ func TestMarshalEmbeds(t *testing.T) {
 	}
 }
 
-func TestUnmarshal(t *testing.T) {
+func testUnmarshalWithAllKeys(t *testing.T, allKeys bool) {
 	for i, tt := range unmarshalTests {
 		var scan scanner
+		if tt.allKeys != nil && *tt.allKeys != allKeys {
+			continue
+		}
 		in := []byte(tt.in)
 		if err := checkValid(in, &scan); err != nil {
 			if !reflect.DeepEqual(err, tt.err) {
@@ -856,8 +909,11 @@ func TestUnmarshal(t *testing.T) {
 		if tt.useNumber {
 			dec.UseNumber()
 		}
+		if allKeys {
+			dec.UseAllKeys()
+		}
 		if err := dec.Decode(v.Interface()); !reflect.DeepEqual(err, tt.err) {
-			t.Errorf("#%d: %v, want %v", i, err, tt.err)
+			t.Errorf("#%d: %v, want %v with allkeys %t", i, err, tt.err, allKeys)
 			continue
 		} else if err != nil {
 			continue
@@ -886,6 +942,9 @@ func TestUnmarshal(t *testing.T) {
 			if tt.useNumber {
 				dec.UseNumber()
 			}
+			if allKeys {
+				dec.UseAllKeys()
+			}
 			if err := dec.Decode(vv.Interface()); err != nil {
 				t.Errorf("#%d: error re-unmarshaling %#q: %v", i, enc, err)
 				continue
@@ -898,6 +957,11 @@ func TestUnmarshal(t *testing.T) {
 			}
 		}
 	}
+}
+
+func TestUnmarshal(t *testing.T) {
+	testUnmarshalWithAllKeys(t, true)
+	testUnmarshalWithAllKeys(t, false)
 }
 
 func TestUnmarshalMarshal(t *testing.T) {
@@ -1645,6 +1709,19 @@ func TestUnmarshalUnexported(t *testing.T) {
 	}
 	if !reflect.DeepEqual(out, want) {
 		t.Errorf("got %q, want %q", out, want)
+	}
+}
+
+func TestUnexportedDisallowExtraKeys(t *testing.T) {
+	input := `{"Name": "Bob", "m": {"x": 123}, "m2": {"y": 456}, "abcd": {"z": 789}}`
+	want := &UnmarshalExtraKeysError{Keys: []string{"m", "m2", "abcd"}}
+
+	out := &unexportedFields{}
+	dec := NewDecoder(strings.NewReader(input))
+	dec.UseAllKeys()
+	err := dec.Decode(out)
+	if !reflect.DeepEqual(err, want) {
+		t.Errorf("expected error %v, got %v", want, err)
 	}
 }
 
