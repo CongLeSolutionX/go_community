@@ -19,6 +19,22 @@ type Interface interface {
 	Swap(i, j int)
 }
 
+// With returns a sort Interface using the provided length and
+// pair of swap and less functions.
+func With(length int, swap func(i, j int), less func(i, j int) bool) Interface {
+	return funcs{length, swap, less}
+}
+
+type funcs struct {
+	length int
+	swap   func(i, j int)
+	less   func(i, j int) bool
+}
+
+func (f funcs) Len() int           { return f.length }
+func (f funcs) Swap(i, j int)      { f.swap(i, j) }
+func (f funcs) Less(i, j int) bool { return f.less(i, j) }
+
 // Insertion sort
 func insertionSort(data Interface, a, b int) {
 	for i := a + 1; i < b; i++ {
