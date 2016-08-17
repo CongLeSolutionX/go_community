@@ -1033,6 +1033,15 @@ func f() {
 	print(z)
 	/*f=func:5*/ /*lib=pkgname:3*/
 	type /*T=undef*/ T /*T=typename:10*/ *T
+	var a []int
+	for i, x := range /*x=undef*/ a /*i=var:12*/ /*x=var:12*/ {}
+	switch t := a[0] /*t=var:13*/; t {}
+	var i interface{}
+	switch x := i.(type) { /*x=undef*/
+	case /*x=var:15*/ int:
+	case /*x=var:15*/ float32:
+	default /*x=var:15*/:
+	}
 }
 `
 	info.Uses = make(map[*ast.Ident]Object)
