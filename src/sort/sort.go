@@ -19,6 +19,28 @@ type Interface interface {
 	Swap(i, j int)
 }
 
+type lessSwap struct {
+	less func(i, j int) bool
+	swap func(i, j int)
+}
+
+// With returns a sort Interface using the provided length and
+// pair of swap and less functions.
+func With(length int, swap func(i, j int), less func(i, j int) bool) Interface {
+	return &funcs{length, swap, less}
+}
+
+type funcs struct {
+	length int
+	swap   func(i, j int)
+	less   func(i, j int) bool
+}
+
+func (f *funcs) Len() int           { return f.length }
+func (f *funcs) Swap(i, j int)      { f.swap(i, j) }
+func (f *funcs) Less(i, j int) bool { return f.less(i, j) }
+func (f *funcs) lessSwap() lessSwap { return lessSwap{f.less, f.swap} }
+
 // Insertion sort
 func insertionSort(data Interface, a, b int) {
 	for i := a + 1; i < b; i++ {
@@ -219,7 +241,11 @@ func Sort(data Interface) {
 		maxDepth++
 	}
 	maxDepth *= 2
-	quickSort(data, 0, n, maxDepth)
+	if fs, ok := data.(*funcs); ok {
+		quickSort_func(fs.lessSwap(), 0, n, maxDepth)
+	} else {
+		quickSort(data, 0, n, maxDepth)
+	}
 }
 
 type reverse struct {
@@ -337,7 +363,14 @@ func StringsAreSorted(a []string) bool { return IsSorted(StringSlice(a)) }
 // It makes one call to data.Len to determine n, O(n*log(n)) calls to
 // data.Less and O(n*log(n)*log(n)) calls to data.Swap.
 func Stable(data Interface) {
-	n := data.Len()
+	if fs, ok := data.(*funcs); ok {
+		stable_func(fs.lessSwap(), fs.length)
+	} else {
+		stable(data, data.Len())
+	}
+}
+
+func stable(data Interface, n int) {
 	blockSize := 20 // must be > 0
 	a, b := 0, blockSize
 	for b <= n {
