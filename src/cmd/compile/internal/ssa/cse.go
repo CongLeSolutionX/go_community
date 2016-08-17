@@ -166,6 +166,7 @@ func cse(f *Func) {
 	// if we rewrite a tuple generator to a new one in a different block,
 	// copy its selectors to the new generator's block, so tuple generator
 	// and selectors stay together.
+	// Be careful not to generate duplicate selectors, see issue 16741.
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			if rewrite[v.ID] != nil {
@@ -180,7 +181,18 @@ func cse(f *Func) {
 			t := rewrite[v.Args[0].ID]
 			if t != nil && t.Block != b {
 				// v.Args[0] is tuple generator, CSE'd into a different block as t, v is left behind
-				c := v.copyInto(t.Block)
+				var c *Value
+				for _, w := range t.Block.Values {
+					// TODO: this loop is potentially slow, although it
+					// probably never happens in practice.
+					if w.Op == v.Op && w.Args[0] == t {
+						c = w
+						break
+					}
+				}
+				if c == nil {
+					c = t.Block.NewValue1(v.Line, v.Op, v.Type, t)
+				}
 				rewrite[v.ID] = c
 			}
 		}
