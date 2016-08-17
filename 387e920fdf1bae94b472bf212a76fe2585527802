@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbe083e2_672dc08f",
+        "filename": "src/encoding/json/stream.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-17T05:07:44Z",
+      "side": 1,
+      "message": "// ... causes the Decoder to return an error ...",
+      "revId": "387e920fdf1bae94b472bf212a76fe2585527802",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbe083e2_8732ccf0",
+        "filename": "src/encoding/json/stream.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-17T05:07:44Z",
+      "side": 1,
+      "message": "end in a period.\n\nbut I\u0027d also say \"the input contains unrecognized JSON object keys.\"",
+      "range": {
+        "startLine": 39,
+        "startChar": 17,
+        "endLine": 39,
+        "endChar": 24
+      },
+      "revId": "387e920fdf1bae94b472bf212a76fe2585527802",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fbe083e2_4738c4d2",
+        "filename": "src/encoding/json/stream.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-17T05:07:44Z",
+      "side": 1,
+      "message": "Two things:\n\n1) I don\u0027t like the name UseAllKeys. We don\u0027t have to start with \"Use\" like UseNumber. The name on the bug tracker everybody liked was DisallowUnknownFields.\n\n2) I don\u0027t like using a non-nil slice vs a nil slice for the boolean. Just use a boolean. It\u0027s more readable.",
+      "revId": "387e920fdf1bae94b472bf212a76fe2585527802",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
