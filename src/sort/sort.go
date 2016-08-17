@@ -6,6 +6,8 @@
 // collections.
 package sort
 
+import "reflect"
+
 // A type, typically a collection, that satisfies sort.Interface can be
 // sorted by the routines in this package. The methods require that the
 // elements of the collection be enumerated by an integer index.
@@ -19,8 +21,18 @@ type Interface interface {
 	Swap(i, j int)
 }
 
+// lessSwap is an internal subset of Interface, with just the Less and
+// Swap function.
+// This struct is as big (as small) as an interface value, and is used
+// instead of an interface so callers can provide direct Less
+// functions (via Slice) without interface indirection overhead.
+type lessSwap struct {
+	Less func(i, j int) bool
+	Swap func(i, j int)
+}
+
 // Insertion sort
-func insertionSort(data Interface, a, b int) {
+func insertionSort(data lessSwap, a, b int) {
 	for i := a + 1; i < b; i++ {
 		for j := i; j > a && data.Less(j, j-1); j-- {
 			data.Swap(j, j-1)
@@ -30,7 +42,7 @@ func insertionSort(data Interface, a, b int) {
 
 // siftDown implements the heap property on data[lo, hi).
 // first is an offset into the array where the root of the heap lies.
-func siftDown(data Interface, lo, hi, first int) {
+func siftDown(data lessSwap, lo, hi, first int) {
 	root := lo
 	for {
 		child := 2*root + 1
@@ -48,7 +60,7 @@ func siftDown(data Interface, lo, hi, first int) {
 	}
 }
 
-func heapSort(data Interface, a, b int) {
+func heapSort(data lessSwap, a, b int) {
 	first := a
 	lo := 0
 	hi := b - a
@@ -69,7 +81,7 @@ func heapSort(data Interface, a, b int) {
 // ``Engineering a Sort Function,'' SP&E November 1993.
 
 // medianOfThree moves the median of the three values data[m0], data[m1], data[m2] into data[m1].
-func medianOfThree(data Interface, m1, m0, m2 int) {
+func medianOfThree(data lessSwap, m1, m0, m2 int) {
 	// sort 3 elements
 	if data.Less(m1, m0) {
 		data.Swap(m1, m0)
@@ -85,13 +97,13 @@ func medianOfThree(data Interface, m1, m0, m2 int) {
 	// now data[m0] <= data[m1] <= data[m2]
 }
 
-func swapRange(data Interface, a, b, n int) {
+func swapRange(data lessSwap, a, b, n int) {
 	for i := 0; i < n; i++ {
 		data.Swap(a+i, b+i)
 	}
 }
 
-func doPivot(data Interface, lo, hi int) (midlo, midhi int) {
+func doPivot(data lessSwap, lo, hi int) (midlo, midhi int) {
 	m := lo + (hi-lo)/2 // Written like this to avoid integer overflow.
 	if hi-lo > 40 {
 		// Tukey's ``Ninther,'' median of three medians of three.
@@ -178,7 +190,7 @@ func doPivot(data Interface, lo, hi int) (midlo, midhi int) {
 	return b - 1, c
 }
 
-func quickSort(data Interface, a, b, maxDepth int) {
+func quickSort(data lessSwap, a, b, maxDepth int) {
 	for b-a > 12 { // Use ShellSort for slices <= 12 elements
 		if maxDepth == 0 {
 			heapSort(data, a, b)
@@ -212,8 +224,20 @@ func quickSort(data Interface, a, b, maxDepth int) {
 // It makes one call to data.Len to determine n, and O(n*log(n)) calls to
 // data.Less and data.Swap. The sort is not guaranteed to be stable.
 func Sort(data Interface) {
+	sort(data.Len(), lessSwap{data.Less, data.Swap})
+}
+
+// Slice sorts the provided slice using the function less.
+// The sort calls Sort. It is not stable.
+// If the provided slice argument is not a slice, Slice panics.
+func Slice(slice interface{}, less func(i, j int) bool) {
+	rv := reflect.ValueOf(slice)
+	sort(rv.Len(), lessSwap{less, rv.Swapper()})
+}
+
+func sort(dataLen int, data lessSwap) {
 	// Switch to heapsort if depth of 2*ceil(lg(n+1)) is reached.
-	n := data.Len()
+	n := dataLen
 	maxDepth := 0
 	for i := n; i > 0; i >>= 1 {
 		maxDepth++
@@ -338,24 +362,26 @@ func StringsAreSorted(a []string) bool { return IsSorted(StringSlice(a)) }
 // data.Less and O(n*log(n)*log(n)) calls to data.Swap.
 func Stable(data Interface) {
 	n := data.Len()
+	ls := lessSwap{data.Less, data.Swap}
+
 	blockSize := 20 // must be > 0
 	a, b := 0, blockSize
 	for b <= n {
-		insertionSort(data, a, b)
+		insertionSort(ls, a, b)
 		a = b
 		b += blockSize
 	}
-	insertionSort(data, a, n)
+	insertionSort(ls, a, n)
 
 	for blockSize < n {
 		a, b = 0, 2*blockSize
 		for b <= n {
-			symMerge(data, a, a+blockSize, b)
+			symMerge(ls, a, a+blockSize, b)
 			a = b
 			b += 2 * blockSize
 		}
 		if m := a + blockSize; m < n {
-			symMerge(data, a, m, n)
+			symMerge(ls, a, m, n)
 		}
 		blockSize *= 2
 	}
@@ -380,7 +406,7 @@ func Stable(data Interface) {
 // symMerge assumes non-degenerate arguments: a < m && m < b.
 // Having the caller check this condition eliminates many leaf recursion calls,
 // which improves performance.
-func symMerge(data Interface, a, m, b int) {
+func symMerge(data lessSwap, a, m, b int) {
 	// Avoid unnecessary recursions of symMerge
 	// by direct insertion of data[a] into data[m:b]
 	// if data[a:m] only contains one element.
@@ -466,7 +492,7 @@ func symMerge(data Interface, a, m, b int) {
 // Data of the form 'x u v y' is changed to 'x v u y'.
 // Rotate performs at most b-a many calls to data.Swap.
 // Rotate assumes non-degenerate arguments: a < m && m < b.
-func rotate(data Interface, a, m, b int) {
+func rotate(data lessSwap, a, m, b int) {
 	i := m - a
 	j := b - m
 

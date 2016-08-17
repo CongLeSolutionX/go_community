@@ -824,6 +824,49 @@ func (v Value) Float() float64 {
 
 var uint8Type = TypeOf(uint8(0)).(*rtype)
 
+// Swapper returns a function which swaps the slice elements in v.
+func (v Value) Swapper() func(i, j int) {
+	if v.kind() != Slice {
+		panic(&ValueError{"reflect.Value.Swap", v.kind()})
+	}
+	s := (*sliceHeader)(v.ptr)
+	maxLen := uint(s.Len)
+
+	tt := (*sliceType)(unsafe.Pointer(v.typ))
+	typ := tt.elem
+
+	tmpVal := New(typ)
+	if tmpVal.flag&flagIndir != 0 {
+		panic("unsupported scratch value")
+	}
+	tmp := tmpVal.ptr
+	size := typ.size
+
+	if typ.kind&kindNoPointers != 0 {
+		return func(i, j int) {
+			if uint(i) >= maxLen || uint(j) >= maxLen {
+				panic("reflect: slice index out of range")
+			}
+			val1 := arrayAt(s.Data, i, size)
+			val2 := arrayAt(s.Data, j, size)
+			memmove(tmp, val1, size)
+			memmove(val1, val2, size)
+			memmove(val2, tmp, size)
+		}
+	}
+
+	return func(i, j int) {
+		if uint(i) >= maxLen || uint(j) >= maxLen {
+			panic("reflect: slice index out of range")
+		}
+		val1 := arrayAt(s.Data, i, size)
+		val2 := arrayAt(s.Data, j, size)
+		typedmemmove_pointers(tmp, val1, size)
+		typedmemmove_pointers(val1, val2, size)
+		typedmemmove_pointers(val2, tmp, size)
+	}
+}
+
 // Index returns v's i'th element.
 // It panics if v's Kind is not Array, Slice, or String or i is out of range.
 func (v Value) Index(i int) Value {
@@ -2493,9 +2536,26 @@ func call(argtype *rtype, fn, arg unsafe.Pointer, n uint32, retoffset uint32)
 
 func ifaceE2I(t *rtype, src interface{}, dst unsafe.Pointer)
 
+// memmove copies size bytes from src to dst.
+// The memory must not contain any pointers.
+//go:noescape
+func memmove(dst, src unsafe.Pointer, size uintptr)
+
 // typedmemmove copies a value of type t to dst from src.
 //go:noescape
 func typedmemmove(t *rtype, dst, src unsafe.Pointer)
+
+// typedmemmove_pointers is like typedmemmove, but optimized for the
+// needs of Value.Swapper. In particular, dst and src must still contain
+// the same types, but in addition, the type MUST contain pointers
+// (that is, typ.kind&kindNoPointers == 0).
+// Further, the size is passed directly to avoid deferencing typ again,
+// which matters for performance. As a result, the cgo memory copying
+// checks are also disabled. The assumption is this is only used
+// by Value.Swapper, and only ever swapping memory within a particular
+// object, not crossing cgo boundaries.
+//go:noescape
+func typedmemmove_pointers(dst, src unsafe.Pointer, size uintptr)
 
 // typedmemmovepartial is like typedmemmove but assumes that
 // dst and src point off bytes into the value and only copies size bytes.
