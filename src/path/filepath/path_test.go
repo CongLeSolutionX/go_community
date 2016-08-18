@@ -424,6 +424,26 @@ func chtmpdir(t *testing.T) (restore func()) {
 	}
 }
 
+func chtmpdirB(b *testing.B) (restore func()) {
+	oldwd, err := os.Getwd()
+	if err != nil {
+		b.Fatalf("chtmpdir: %v", err)
+	}
+	d, err := ioutil.TempDir("", "test")
+	if err != nil {
+		b.Fatalf("chtmpdir: %v", err)
+	}
+	if err := os.Chdir(d); err != nil {
+		b.Fatalf("chtmpdir: %v", err)
+	}
+	return func() {
+		if err := os.Chdir(oldwd); err != nil {
+			b.Fatalf("chtmpdir: %v", err)
+		}
+		os.RemoveAll(d)
+	}
+}
+
 func TestWalk(t *testing.T) {
 	if runtime.GOOS == "darwin" {
 		switch runtime.GOARCH {
@@ -895,6 +915,33 @@ func TestEvalSymlinks(t *testing.T) {
 	}
 }
 
+func TestEvalSymlinksIsNotExist(t *testing.T) {
+	switch runtime.GOOS {
+	case "android", "nacl", "plan9":
+		t.Skipf("skipping on %s", runtime.GOOS)
+	}
+	if !supportsSymlinks {
+		t.Skip("skipping because symlinks are not supported")
+	}
+
+	defer chtmpdir(t)()
+
+	_, err := filepath.EvalSymlinks("notexist")
+	if !os.IsNotExist(err) {
+		t.Errorf("expected the file is not found, got %v\n", err)
+	}
+
+	err = os.Symlink("notexist", "link")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	_, err = filepath.EvalSymlinks("link")
+	if !os.IsNotExist(err) {
+		t.Errorf("expected the file is not found, got %v\n", err)
+	}
+}
+
 func TestIssue13582(t *testing.T) {
 	switch runtime.GOOS {
 	case "android", "nacl", "plan9":
@@ -1235,5 +1282,103 @@ func TestBug3486(t *testing.T) { // https://golang.org/issue/3486
 	})
 	if !seenKen {
 		t.Fatalf("%q not seen", ken)
+	}
+}
+
+func BenchmarkEvalSymlinksDepth0(b *testing.B) {
+	defer chtmpdirB(b)()
+
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	f, err := os.Create("link")
+	if err != nil {
+		b.Fatal(err)
+	}
+	f.Close()
+
+	for i := 0; i < b.N; i++ {
+		filepath.EvalSymlinks("link")
+	}
+}
+
+func BenchmarkEvalSymlinksDepth1(b *testing.B) {
+	defer chtmpdirB(b)()
+
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	f, err := os.Create("target")
+	if err != nil {
+		b.Fatal(err)
+	}
+	f.Close()
+
+	err = os.Symlink("target", "link")
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	for i := 0; i < b.N; i++ {
+		filepath.EvalSymlinks("link")
+	}
+}
+
+func BenchmarkEvalSymlinksDepth2(b *testing.B) {
+	defer chtmpdirB(b)()
+
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	f, err := os.Create("target")
+	if err != nil {
+		b.Fatal(err)
+	}
+	f.Close()
+
+	err = os.Symlink("target", "link2")
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	err = os.Symlink("link2", "link")
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	for i := 0; i < b.N; i++ {
+		filepath.EvalSymlinks("link")
+	}
+}
+
+func BenchmarkEvalSymlinksDepth3(b *testing.B) {
+	defer chtmpdirB(b)()
+
+	b.ResetTimer()
+	b.ReportAllocs()
+
+	f, err := os.Create("target")
+	if err != nil {
+		b.Fatal(err)
+	}
+	f.Close()
+
+	err = os.Symlink("target", "link3")
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	err = os.Symlink("link3", "link2")
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	err = os.Symlink("link2", "link")
+	if err != nil {
+		b.Fatal(err)
+	}
+
+	for i := 0; i < b.N; i++ {
+		filepath.EvalSymlinks("link")
 	}
 }
