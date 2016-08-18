@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db2e5f26_9b9c335b",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-18T00:22:38Z",
+      "side": 1,
+      "message": "This looks like it was already the case. Comment is new, but does order of disabled ciphers affect anything?",
+      "revId": "46ce9bc8971a37ce906bc15657e915afcd3e88f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
