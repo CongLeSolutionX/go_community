@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db2e5f26_e4c7c445",
+        "filename": "src/internal/testenv/testenv_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-18T13:56:16Z",
+      "side": 1,
+      "message": "Can you make this lazily-computed with a sync.Once instead of always doing this work in init?",
+      "revId": "d21201a4f1ebf073e2251d7c1dfe2c20bc3bfd7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
