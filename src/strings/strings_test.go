@@ -1358,6 +1358,51 @@ func BenchmarkFieldsFunc(b *testing.B) {
 	}
 }
 
+var joinSink1, joinSink2, joinSink3, joinSinkMany string
+
+func BenchmarkJoin1(b *testing.B) {
+	b.ReportAllocs()
+	tojoin := []string{"a string to join with others"}
+	for i := 0; i < b.N; i++ {
+		joinSink1 = Join(tojoin, ",")
+	}
+}
+
+func BenchmarkJoin2(b *testing.B) {
+	b.ReportAllocs()
+	tojoin := []string{"a string to join with others", "a second string"}
+	for i := 0; i < b.N; i++ {
+		joinSink2 = Join(tojoin, ",")
+	}
+}
+
+func BenchmarkJoin3(b *testing.B) {
+	b.ReportAllocs()
+	tojoin := []string{"a string to join with others", "a second string", "a third string"}
+	for i := 0; i < b.N; i++ {
+		joinSink3 = Join(tojoin, ",")
+	}
+}
+
+func BenchmarkJoinMany(b *testing.B) {
+	b.ReportAllocs()
+	tojoin := []string{
+		"a string to join with others",
+		"a second string",
+		"a third string",
+		"a fourth string that is quite a bit longer than the others",
+		"a fifth string",
+		"6",
+		"number seven",
+		"8",
+		"nine",
+		"the final string which is number ten",
+	}
+	for i := 0; i < b.N; i++ {
+		joinSinkMany = Join(tojoin, ",")
+	}
+}
+
 func BenchmarkSplit1(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Split(benchInputHard, "")
