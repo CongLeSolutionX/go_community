@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "db2e5f26_0f5d3926",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-08-18T17:55:52Z",
+      "side": 1,
+      "message": "Ugh! Duh. That was stupid of me.",
+      "parentUuid": "db2e5f26_6f014d0e",
+      "revId": "99ad871800dad958fc86b5c7e664884b9295aff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db2e5f26_cf2c21fd",
         "filename": "src/compress/flate/deflate_test.go",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "writtenOn": "2016-08-18T16:40:03Z",
       "side": 1,
       "message": "Could just be \"if fw.n \u003e\u003d 0\"?  Once we reach that, we\u0027re done with this test.  Even if werr !\u003d nil || cerr !\u003d nil, then it can\u0027t be related to failWriter.",
+      "revId": "99ad871800dad958fc86b5c7e664884b9295aff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db2e5f26_6f4ced75",
+        "filename": "src/compress/flate/deflate_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-08-18T17:55:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2e5f26_cf2c21fd",
       "revId": "99ad871800dad958fc86b5c7e664884b9295aff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -83,6 +119,24 @@
       "side": 1,
       "message": "Agreed it appears to always be true.  I\u0027m okay with keeping it just to be consistent with all the other w.w.Write calls though.  (Same for in writeBytes below.)\n\nAlternatively, if we do omit the w.err check, we should include a comment to explain that.",
       "parentUuid": "db2e5f26_0f0f7936",
+      "revId": "99ad871800dad958fc86b5c7e664884b9295aff0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db2e5f26_6ffaadaa",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-08-18T17:55:52Z",
+      "side": 1,
+      "message": "I\u0027m doing it in all cases to be consistent even if it is redundant in some cases. I\u0027m not fond having the check in some places and not in other. I believe this is what led to the bug in the first place when a piece of code was copied and pasted from one place to another without realizing that this check is highly dependent on what precedes it.\n\nIn the new patch, I just abstracted the check into a write method that ensures stickiness of the error. Now, all of the writeX methods consistently have the \"if w.err !\u003d nil\" at the start.\n\nThere\u0027s a 1% performance drop having an extra function call every ~240 bytes since that method cant be inlined, but I suspect I can even more performance back in future CLs.",
+      "parentUuid": "db2e5f26_0f86997a",
       "revId": "99ad871800dad958fc86b5c7e664884b9295aff0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
