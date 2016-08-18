@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db2e5f26_4fe6d1a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-18T16:42:53Z",
+      "side": 1,
+      "message": "For #6714\n\n(for Github/Gerrit\u0027s auto-linking syntax)",
+      "revId": "fdb24225ad0a76772f5b18288d4469c6301abe32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db2e5f26_ef7f9dba",
+        "filename": "src/strings/strings_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1367,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-18T16:42:53Z",
+      "side": 1,
+      "message": "the problem with benchmarks like these is that they\u0027re really allocation+GC benchmarks more than anything.\n\nhow much do you see GC show up when you profile these?",
+      "revId": "fdb24225ad0a76772f5b18288d4469c6301abe32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
