@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db2e5f26_c9c0a1fe",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-18T05:25:08Z",
+      "side": 1,
+      "message": "this part of the CL (like the whole CL, actually) was an experiment. It definitely made the reflect case faster and was driven by pprof, but I didn\u0027t compare the numbers for the interface case. Off hand I remember them looking about the same before \u0026 after, but I haven\u0027t done proper benchmarking of the impact of this on sort.Sort yet. If it makes it slower, this would be removed.\n\nAnd if this stayed, there should be a way to make it publicly accessible to keep people happy about the sort package retaining no private tricks. Something like an http.HandlerFunc for sort, for instance:\n\n   sort.Sort(sort.Funcs{len(s), lessFunc, swapFrunc})\n\n.. which would be an interface, but get turned into a lessSwap at runtime with a type assertion on Funcs which removed the interface indirection.",
+      "revId": "9132720270665c581b01fa084c8bb6e452ca5d32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
