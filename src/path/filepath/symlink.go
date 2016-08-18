@@ -37,19 +37,15 @@ func walkLink(path string, linksWalked *int) (newpath string, islink bool, err e
 	if *linksWalked > 255 {
 		return "", false, errors.New("EvalSymlinks: too many links")
 	}
-	fi, err := os.Lstat(path)
-	if err != nil {
-		return "", false, err
+	newpath, err = os.Readlink(path)
+	if err == nil {
+		*linksWalked++
+		return newpath, true, nil
 	}
-	if fi.Mode()&os.ModeSymlink == 0 {
+	if isNotSymlink(err) {
 		return path, false, nil
 	}
-	newpath, err = os.Readlink(path)
-	if err != nil {
-		return "", false, err
-	}
-	*linksWalked++
-	return newpath, true, nil
+	return path, false, err
 }
 
 func walkLinks(path string, linksWalked *int) (string, error) {

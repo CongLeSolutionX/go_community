@@ -5,9 +5,20 @@
 package filepath
 
 import (
+	"os"
 	"strings"
 	"syscall"
 )
+
+const _ERROR_NOT_A_REPARSE_POINT = syscall.Errno(0x00001126)
+
+// return true if the error indicates that a file is exist and it's not a symlink.
+func isNotSymlink(err error) bool {
+	if err, ok := err.(*os.PathError); ok && err.Err == _ERROR_NOT_A_REPARSE_POINT {
+		return true
+	}
+	return false
+}
 
 // normVolumeName is like VolumeName, but makes drive letter upper case.
 // result of EvalSymlinks must be unique, so we have

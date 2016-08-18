@@ -6,6 +6,7 @@ package filepath_test
 
 import (
 	"errors"
+	"fmt"
 	"internal/testenv"
 	"io/ioutil"
 	"os"
@@ -1299,5 +1300,64 @@ func TestBug3486(t *testing.T) { // https://golang.org/issue/3486
 	}
 	if !seenKen {
 		t.Fatalf("%q not seen", ken)
+	}
+}
+
+var symlinkDepths = []int{0, 2, 4, 8, 16} // last member should be max depath
+
+func BenchmarkEvalSymlinks(b *testing.B) {
+	if testenv.HasSymlink() {
+		cwd, err := os.Getwd()
+		if err != nil {
+			b.Fatal(err)
+		}
+
+		tmp, err := ioutil.TempDir("", "benchmarkEvalSymlinks")
+		if err != nil {
+			b.Fatal(err)
+		}
+		defer os.RemoveAll(tmp)
+
+		// ioutil.TempDir might return "non-canonical" name.
+		tmp, err = filepath.EvalSymlinks(tmp)
+		if err != nil {
+			b.Fatal(err)
+		}
+
+		err = os.Chdir(tmp)
+		if err != nil {
+			b.Fatal(err)
+		}
+		defer func() {
+			err := os.Chdir(cwd)
+			if err != nil {
+				b.Fatal(err)
+			}
+		}()
+
+		f, err := os.Create("link0")
+		if err != nil {
+			b.Fatal(err)
+		}
+		f.Close()
+
+		for i := 1; i <= symlinkDepths[len(symlinkDepths)-1]; i++ {
+			err = os.Symlink(fmt.Sprintf("link%d", i-1), fmt.Sprintf("link%d", i))
+			if err != nil {
+				b.Fatal(err)
+			}
+		}
+
+		for _, depth := range symlinkDepths {
+			b.Run(fmt.Sprintf("Depth%d", depth), func(b *testing.B) {
+				b.ReportAllocs()
+
+				link := fmt.Sprintf("link%d", depth)
+
+				for i := 0; i < b.N; i++ {
+					filepath.EvalSymlinks(link)
+				}
+			})
+		}
 	}
 }
