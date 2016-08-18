@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "db2e5f26_cf374191",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-08-18T17:21:22Z",
+      "side": 1,
+      "message": "Nit: \"counter\" makes me think it counts something, but Walkdef is used more as a state value.  0 means unvisited, 1 means partially visited, and 2 means fully visited.\n\n\"partially\" and \"fully\" visited are poor descriptions though.  Quickly looking at typecheckdef, I can\u0027t really tell what Walkdef\u003d\u003d1 vs Walkdef\u003d\u003d2 specifically guarantees.",
+      "parentUuid": "db2e5f26_2f2275b6",
+      "revId": "e692320271350f5621321315e3f11484de8d2e1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db2e5f26_8f1b8977",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 1
