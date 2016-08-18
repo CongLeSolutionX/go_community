@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db2e5f26_4988111f",
+        "filename": "src/cmd/compile/internal/ssa/deadstore.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-18T13:43:28Z",
+      "side": 1,
+      "message": "space after //",
+      "revId": "a09e0acfc53cedfc0d5e35585fb78b61723b08eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
