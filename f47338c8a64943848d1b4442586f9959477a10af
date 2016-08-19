@@ -22,6 +22,24 @@
       "revId": "f47338c8a64943848d1b4442586f9959477a10af",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db249f97_e8bcab1e",
+        "filename": "src/log/syslog/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-19T01:01:39Z",
+      "side": 1,
+      "message": "Wrapping isn\u0027t terrible. Let\u0027s try it and see if we hate it.",
+      "parentUuid": "db249f97_a85ab35d",
+      "revId": "f47338c8a64943848d1b4442586f9959477a10af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
