@@ -6,8 +6,35 @@ package httptrace
 
 import (
 	"bytes"
+	"context"
 	"testing"
 )
+
+func TestWithClientTrace(t *testing.T) {
+	var buf bytes.Buffer
+	connectStart := func(b byte) func(network, addr string) {
+		return func(network, addr string) {
+			buf.WriteByte(b)
+		}
+	}
+
+	ctx := context.Background()
+	oldtrace := &ClientTrace{
+		ConnectStart: connectStart('T'),
+	}
+	ctx = WithClientTrace(ctx, oldtrace)
+	newtrace := &ClientTrace{
+		ConnectStart: connectStart('B'),
+	}
+	ctx = WithClientTrace(ctx, newtrace)
+	trace := ContextClientTrace(ctx)
+
+	buf.Reset()
+	trace.ConnectStart("net", "addr")
+	if got, want := buf.String(), "BT"; got != want {
+		t.Errorf("got %q; want %q", got, want)
+	}
+}
 
 func TestCompose(t *testing.T) {
 	var buf bytes.Buffer
