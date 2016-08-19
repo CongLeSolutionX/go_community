@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c83053eb_6f0ead47",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-19T23:24:17Z",
+      "side": 1,
+      "message": "// writer is the underlying writer.\n// Do not use it directly; use the write method, which ensures...",
+      "revId": "44200ef636d844d26d4ba870f79121b84a45a5cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
