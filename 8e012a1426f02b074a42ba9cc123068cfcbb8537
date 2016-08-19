@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db249f97_e7de9169",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-19T20:56:10Z",
+      "side": 1,
+      "message": "best practice is to defer cancel() after using WithCancel. \n\nElse you should show calling cancel() in the \"overslept\" case too, to not leak goroutines",
+      "revId": "8e012a1426f02b074a42ba9cc123068cfcbb8537",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db249f97_87f79ded",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-19T20:56:10Z",
+      "side": 1,
+      "message": "I really dislike sleeps in tests.\n\nCan you find some non-sleepy plausible example?",
+      "revId": "8e012a1426f02b074a42ba9cc123068cfcbb8537",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
