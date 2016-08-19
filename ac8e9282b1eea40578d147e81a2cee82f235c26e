@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88601be6_aaadaf80",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-19T01:16:53Z",
+      "side": 1,
+      "message": "Please add new test that proves that issue 16793 is fixed. Just do what the issue does.",
+      "revId": "ac8e9282b1eea40578d147e81a2cee82f235c26e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88601be6_8aaaeb64",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-19T01:16:53Z",
+      "side": 1,
+      "message": "Please document what toNorm function does.",
+      "revId": "ac8e9282b1eea40578d147e81a2cee82f235c26e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
