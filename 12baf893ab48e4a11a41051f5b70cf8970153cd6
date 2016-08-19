@@ -16,6 +16,24 @@
       "revId": "12baf893ab48e4a11a41051f5b70cf8970153cd6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_af6ff5be",
+        "filename": "src/net/http/httptrace/trace_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2016-08-19T23:31:54Z",
+      "side": 1,
+      "message": "T and B were random.\n\nFixed them to be O and N.",
+      "parentUuid": "c83053eb_affb7510",
+      "revId": "12baf893ab48e4a11a41051f5b70cf8970153cd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
