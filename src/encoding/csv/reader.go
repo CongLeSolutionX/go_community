@@ -53,11 +53,11 @@ package csv
 
 import (
 	"bufio"
-	"bytes"
 	"errors"
 	"fmt"
 	"io"
 	"unicode"
+	"unicode/utf8"
 )
 
 // A ParseError is returned for parsing errors.
@@ -114,7 +114,29 @@ type Reader struct {
 	line   int
 	column int
 	r      *bufio.Reader
-	field  bytes.Buffer
+	field  buffer
+}
+
+// Use simple []byte instead of bytes.Buffer to increase performance.
+type buffer []byte
+
+func (b *buffer) WriteByte(c byte) {
+	*b = append(*b, c)
+}
+
+func (b *buffer) WriteRune(r rune) {
+	if r < utf8.RuneSelf {
+		*b = append(*b, byte(r))
+		return
+	}
+
+	buf := *b
+	n := len(buf)
+	for n+utf8.UTFMax > cap(buf) {
+		buf = append(buf, 0)
+	}
+	w := utf8.EncodeRune(buf[n:n+utf8.UTFMax], r)
+	*b = buf[:n+w]
 }
 
 // NewReader returns a new Reader that reads from r.
@@ -122,6 +144,7 @@ func NewReader(r io.Reader) *Reader {
 	return &Reader{
 		Comma: ',',
 		r:     bufio.NewReader(r),
+		field: make(buffer, 0, 64),
 	}
 }
 
@@ -242,7 +265,7 @@ func (r *Reader) parseRecord() (fields []string, err error) {
 			if r.FieldsPerRecord > 0 && fields == nil {
 				fields = make([]string, 0, r.FieldsPerRecord)
 			}
-			fields = append(fields, r.field.String())
+			fields = append(fields, string(r.field))
 		}
 		if delim == '\n' || err == io.EOF {
 			return fields, err
@@ -256,7 +279,7 @@ func (r *Reader) parseRecord() (fields []string, err error) {
 // located in r.field. Delim is the first character not part of the field
 // (r.Comma or '\n').
 func (r *Reader) parseField() (haveField bool, delim rune, err error) {
-	r.field.Reset()
+	r.field = r.field[:0]
 
 	r1, err := r.readRune()
 	for err == nil && r.TrimLeadingSpace && r1 != '\n' && unicode.IsSpace(r1) {
@@ -310,7 +333,7 @@ func (r *Reader) parseField() (haveField bool, delim rune, err error) {
 						return false, 0, r.error(ErrQuote)
 					}
 					// accept the bare quote
-					r.field.WriteRune('"')
+					r.field.WriteByte('"')
 				}
 			case '\n':
 				r.line++
