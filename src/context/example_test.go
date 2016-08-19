@@ -6,9 +6,37 @@ package context_test
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 )
+
+func startStreaming(ctx context.Context, cancel context.CancelFunc) error {
+	// This is a fake implementation of startStreaming.
+	// Actual implementation will start reading from a remote resource
+	// and will only cancel if connection is broken, etc.
+	cancel()
+	return errors.New("cannot fetch the resource")
+}
+
+func ExampleWithCancel() {
+	// Create a context that can later be cancelable.
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// In this example, we will start streaming results from a remote service.
+	// If any errors occur, startStreaming will also cancel the context.
+	go startStreaming(ctx, cancel)
+
+	select {
+	case <-time.After(5 * time.Second):
+		fmt.Println("overslept")
+	case <-ctx.Done():
+		fmt.Println(ctx.Err()) // prints "context canceled"
+	}
+	// Output:
+	// context canceled
+}
 
 func ExampleWithTimeout() {
 	// Pass a context with a timeout to tell a blocking function that it
