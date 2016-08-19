@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c83053eb_affb7510",
+        "filename": "src/net/http/httptrace/trace_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-19T23:26:25Z",
+      "side": 1,
+      "message": "what are \u0027T\u0027 and \u0027B\u0027?\n\nTop and Bottom?\n\n\nName them to match their variables. \"O\" and \"N\"?  Or \"1\" and \"2\" if the vars are trace1 and trace2?",
+      "revId": "12baf893ab48e4a11a41051f5b70cf8970153cd6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
