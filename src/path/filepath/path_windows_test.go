@@ -324,6 +324,7 @@ func TestToNorm(t *testing.T) {
 		{`C:\foo\bar`, `C:\FOO\BAR`},
 		{`C:\foo/bar\`, `C:\FOO\BAR`},
 		{"C:/ふー/バー", `C:\ふー\バー`},
+		{"../../foo/bar/baz", `..\..\FOO\BAR\BAZ`},
 	}
 
 	for _, test := range tests {
