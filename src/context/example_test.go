@@ -10,6 +10,26 @@ import (
 	"time"
 )
 
+func ExampleWithCancel() {
+	// Create a context that can later be cancelable.
+	ctx, cancel := context.WithCancel(context.Background())
+
+	go func() {
+		// Cancel the context after 10 milliseconds.
+		time.Sleep(10 * time.Millisecond)
+		cancel()
+	}()
+
+	select {
+	case <-time.After(5 * time.Second):
+		fmt.Println("overslept")
+	case <-ctx.Done():
+		fmt.Println(ctx.Err()) // prints "context canceled"
+	}
+	// Output:
+	// context canceled
+}
+
 func ExampleWithTimeout() {
 	// Pass a context with a timeout to tell a blocking function that it
 	// should abandon its work after the timeout elapses.
