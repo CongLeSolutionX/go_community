@@ -584,6 +584,21 @@ func TestCancelRemoves(t *testing.T) {
 	checkChildren("after cancelling WithTimeout child", ctx, 0)
 }
 
+func TestWithCancelCanceledParent(t *testing.T) {
+	parent, pcancel := WithCancel(Background())
+	pcancel()
+
+	c, _ := WithCancel(parent)
+	select {
+	case <-c.Done():
+	default:
+		t.Errorf("<-c.Done() shouldn't block")
+	}
+	if got, want := c.Err(), Canceled; got != want {
+		t.Errorf("child not cancelled; got = %v, want = %v", got, want)
+	}
+}
+
 func TestWithValueChecksKey(t *testing.T) {
 	panicVal := recoveredValue(func() { WithValue(Background(), []byte("foo"), "bar") })
 	if panicVal == nil {
