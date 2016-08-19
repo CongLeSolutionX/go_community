@@ -22,7 +22,7 @@ func normVolumeName(path string) string {
 	return strings.ToUpper(volume)
 }
 
-// normBase retruns the last element of path.
+// normBase returns the last element of path with correct case.
 func normBase(path string) (string, error) {
 	p, err := syscall.UTF16PtrFromString(path)
 	if err != nil {
@@ -40,7 +40,16 @@ func normBase(path string) (string, error) {
 	return syscall.UTF16ToString(data.FileName[:]), nil
 }
 
-func toNorm(path string, base func(string) (string, error)) (string, error) {
+// toNorm returns the normalized path that is guranteed to be unique.
+// It should accepts following formats:
+//   * UNC paths                              (e.g \\server\share\foo\bar)
+//   * absolute paths                         (e.g C:\foo\bar)
+//   * relative paths begin with drive letter (e.g C:foo\bar, C:..\foo\bar, C:.., C:.)
+//   * relative paths begin with '\'          (e.g \foo\bar)
+//   * relative paths begin without '\'       (e.g foo\bar, ..\foo\bar, .., .)
+// The normalization should be done without breaking the given format.
+// If two paths A and B are indicating same file with same format, toNorm(A) should be equal to toNorm(B).
+func toNorm(path string, normBase func(string) (string, error)) (string, error) {
 	if path == "" {
 		return path, nil
 	}
@@ -58,14 +67,20 @@ func toNorm(path string, base func(string) (string, error)) (string, error) {
 	var normPath string
 
 	for {
-		name, err := base(volume + path)
+		i := strings.LastIndexByte(path, Separator)
+		if path[i+1:] == ".." {
+			normPath = path + `\` + normPath
+
+			break
+		}
+
+		name, err := normBase(volume + path)
 		if err != nil {
 			return "", err
 		}
 
 		normPath = name + `\` + normPath
 
-		i := strings.LastIndexByte(path, Separator)
 		if i == -1 {
 			break
 		}
