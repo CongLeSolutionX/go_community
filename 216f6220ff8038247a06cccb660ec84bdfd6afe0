@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88601be6_8a930b4b",
+        "filename": "src/cmd/link/internal/ld/ldpe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-19T00:55:24Z",
+      "side": 1,
+      "message": "I am looking for input on how this pe.Load should look like. For example, should it input io.ReaderAt or io.ReadSeeker or maybe even io.Reader? What other parameters it should have? Maybe we could call it pe.LoadWithoutSymbols (or similar name) and not have any parameters but reader? Maybe Load could be a method on pe.File instead?",
+      "revId": "216f6220ff8038247a06cccb660ec84bdfd6afe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
