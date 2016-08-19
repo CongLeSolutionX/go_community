@@ -314,4 +314,91 @@ func TestToNorm(t *testing.T) {
 			t.Errorf("toNorm error, arg: %s, want: %s, got: %s\n", test.arg, test.want, got)
 		}
 	}
+
+	testsDir := []struct {
+		wd   string
+		arg  string
+		want string
+	}{
+		// test absolute paths
+		{".", `{{tmp}}\test\foo\bar`, `{{tmp}}\test\foo\bar`},
+		{".", `{{tmp}}\.\test/foo\bar`, `{{tmp}}\test\foo\bar`},
+		{".", `{{tmp}}\test\..\test\foo\bar`, `{{tmp}}\test\foo\bar`},
+		{".", `{{tmp}}\TEST\FOO\BAR`, `{{tmp}}\test\foo\bar`},
+
+		// test relative paths begin with drive letter
+		{`{{tmp}}\test`, `{{tmpvol}}.`, `{{tmpvol}}.`},
+		{`{{tmp}}\test`, `{{tmpvol}}..`, `{{tmpvol}}..`},
+		{`{{tmp}}\test`, `{{tmpvol}}foo\bar`, `{{tmpvol}}foo\bar`},
+		{`{{tmp}}\test`, `{{tmpvol}}.\foo\bar`, `{{tmpvol}}foo\bar`},
+		{`{{tmp}}\test`, `{{tmpvol}}foo\..\foo\bar`, `{{tmpvol}}foo\bar`},
+		{`{{tmp}}\test`, `{{tmpvol}}FOO\BAR`, `{{tmpvol}}foo\bar`},
+
+		// test relative paths begin with '\'
+		{".", `{{tmpnovol}}\test\foo\bar`, `{{tmpnovol}}\test\foo\bar`},
+		{".", `{{tmpnovol}}\.\test\foo\bar`, `{{tmpnovol}}\test\foo\bar`},
+		{".", `{{tmpnovol}}\test\..\test\foo\bar`, `{{tmpnovol}}\test\foo\bar`},
+		{".", `{{tmpnovol}}\TEST\FOO\BAR`, `{{tmpnovol}}\test\foo\bar`},
+
+		// test relative paths begin without '\'
+		{`{{tmp}}\test`, ".", `.`},
+		{`{{tmp}}\test`, "..", `..`},
+		{`{{tmp}}\test`, `foo\bar`, `foo\bar`},
+		{`{{tmp}}\test`, `.\foo\bar`, `foo\bar`},
+		{`{{tmp}}\test`, `foo\..\foo\bar`, `foo\bar`},
+		{`{{tmp}}\test`, `FOO\BAR`, `foo\bar`},
+	}
+
+	tmp, err := ioutil.TempDir("", "testToNorm")
+	if err != nil {
+		t.Fatalf("TempDir failed: %v", err)
+	}
+	defer os.RemoveAll(tmp)
+
+	tmp, err = filepath.EvalSymlinks(tmp)
+	if err != nil {
+		t.Errorf("EvalSymlinks(%q) error: %v", tmp, err)
+	}
+
+	cwd, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("Getwd failed: %v", err)
+	}
+
+	testPath := strings.Replace(`{{tmp}}\test\foo\bar`, "{{tmp}}", tmp, -1)
+
+	err = os.MkdirAll(testPath, 0777)
+	if err != nil {
+		t.Fatalf("MkdirAll failed: %v", err)
+	}
+
+	for _, test := range testsDir {
+		tmpVol := filepath.VolumeName(tmp)
+		tmpNoVol := tmp[len(tmpVol):]
+		wd := strings.Replace(strings.Replace(strings.Replace(test.wd, "{{tmp}}", tmp, -1), "{{tmpvol}}", tmpVol, -1), "{{tmpnovol}}", tmpNoVol, -1)
+		arg := strings.Replace(strings.Replace(strings.Replace(test.arg, "{{tmp}}", tmp, -1), "{{tmpvol}}", tmpVol, -1), "{{tmpnovol}}", tmpNoVol, -1)
+		want := strings.Replace(strings.Replace(strings.Replace(test.want, "{{tmp}}", tmp, -1), "{{tmpvol}}", tmpVol, -1), "{{tmpnovol}}", tmpNoVol, -1)
+
+		if test.wd != "." {
+			defer func() {
+				err := os.Chdir(cwd)
+				if err != nil {
+					t.Fatal(err)
+				}
+			}()
+
+			err := os.Chdir(wd)
+			if err != nil {
+				t.Error(err)
+				return
+			}
+		}
+
+		got, err := filepath.ToNorm(arg, filepath.NormBase)
+		if err != nil {
+			t.Errorf("unexpected toNorm error, arg: %s, wd: %s, err: %v\n", arg, wd, err)
+		} else if got != want {
+			t.Errorf("toNorm error, arg: %s, wd: %s, want: %s, got: %s\n", arg, wd, want, got)
+		}
+	}
 }
