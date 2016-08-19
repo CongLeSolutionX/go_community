@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db249f97_a85ab35d",
+        "filename": "src/log/syslog/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2016-08-19T00:41:24Z",
+      "side": 1,
+      "message": "Seems quite long, it might not render very nicely in godoc.\n\nBut I can\u0027t think of any good parameter to extract, and I don\u0027t much like wrapping, either.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 101
+      },
+      "revId": "f47338c8a64943848d1b4442586f9959477a10af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
