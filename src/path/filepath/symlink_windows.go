@@ -47,6 +47,9 @@ func toNorm(path string, base func(string) (string, error)) (string, error) {
 
 	path = Clean(path)
 
+	// Clean doesn't eliminate leading "..", we have to handle it manually.
+	dotdot := strings.LastIndex(path, "..")
+
 	volume := normVolumeName(path)
 	path = path[len(volume):]
 
@@ -58,6 +61,12 @@ func toNorm(path string, base func(string) (string, error)) (string, error) {
 	var normPath string
 
 	for {
+		if dotdot != -1 && len(path) == dotdot+len("..") {
+			normPath = path + `\` + normPath
+
+			break
+		}
+
 		name, err := base(volume + path)
 		if err != nil {
 			return "", err
