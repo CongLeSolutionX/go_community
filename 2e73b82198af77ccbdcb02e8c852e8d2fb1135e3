@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db249f97_c728b59b",
+        "filename": "src/cmd/compile/internal/mips64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-19T21:06:54Z",
+      "side": 1,
+      "message": "what are these?",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 12
+      },
+      "revId": "2e73b82198af77ccbdcb02e8c852e8d2fb1135e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db249f97_a7573908",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-19T21:06:54Z",
+      "side": 1,
+      "message": "is it worth mentioning that DP \"registers\" overlap a pair of float registers?",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 92,
+        "endChar": 5
+      },
+      "revId": "2e73b82198af77ccbdcb02e8c852e8d2fb1135e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db249f97_e7ef71e6",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-19T21:06:54Z",
+      "side": 1,
+      "message": "IS this going to be similar to PPC, where you also need an memory-using pseudoinstruction for explicitly moving integer bits into FP registers?  Relevant ops:\n\n{name: \"Xf2i64\", argLength: 1, reg: fpgp, typ: \"Int64\"},   // move 64 bits of F register into G register\n{name: \"Xi2f64\", argLength: 1, reg: gpfp, typ: \"Float64\"}, // move 64 bits of G register into F register\n\nand also, \"needsFpScratch\" in config.",
+      "range": {
+        "startLine": 255,
+        "startChar": 37,
+        "endLine": 255,
+        "endChar": 41
+      },
+      "revId": "2e73b82198af77ccbdcb02e8c852e8d2fb1135e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
