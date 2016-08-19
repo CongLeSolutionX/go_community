@@ -22,7 +22,7 @@ func normVolumeName(path string) string {
 	return strings.ToUpper(volume)
 }
 
-// normBase retruns the last element of path.
+// normBase returns the last element of path with correct case.
 func normBase(path string) (string, error) {
 	p, err := syscall.UTF16PtrFromString(path)
 	if err != nil {
@@ -40,6 +40,7 @@ func normBase(path string) (string, error) {
 	return syscall.UTF16ToString(data.FileName[:]), nil
 }
 
+// toNorm returns the normalized path that is guranteed to be unique.
 func toNorm(path string, base func(string) (string, error)) (string, error) {
 	if path == "" {
 		return path, nil
@@ -55,9 +56,18 @@ func toNorm(path string, base func(string) (string, error)) (string, error) {
 		return volume + path, nil
 	}
 
+	// Clean doesn't eliminate leading "..", we have to handle it manually.
+	dotdot := strings.LastIndex(path, "..")
+
 	var normPath string
 
 	for {
+		if dotdot != -1 && len(path) == dotdot+len("..") {
+			normPath = path + `\` + normPath
+
+			break
+		}
+
 		name, err := base(volume + path)
 		if err != nil {
 			return "", err
