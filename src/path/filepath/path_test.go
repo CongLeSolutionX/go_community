@@ -730,12 +730,12 @@ func TestIsAbs(t *testing.T) {
 	}
 }
 
-type EvalSymlinksTest struct {
+type EvalSymlinksTestDir struct {
 	// If dest is empty, the path is created; otherwise the dest is symlinked to the path.
 	path, dest string
 }
 
-var EvalSymlinksTestDirs = []EvalSymlinksTest{
+var EvalSymlinksTestDirs = []EvalSymlinksTestDir{
 	{"test", ""},
 	{"test/dir", ""},
 	{"test/dir/link3", "../../"},
@@ -744,29 +744,58 @@ var EvalSymlinksTestDirs = []EvalSymlinksTest{
 	{"test/linkabs", "/"},
 }
 
-var EvalSymlinksTests = []EvalSymlinksTest{
-	{"test", "test"},
-	{"test/dir", "test/dir"},
-	{"test/dir/../..", "."},
-	{"test/link1", "test"},
-	{"test/link2", "test/dir"},
-	{"test/link1/dir", "test/dir"},
-	{"test/link2/..", "test"},
-	{"test/dir/link3", "."},
-	{"test/link2/link3/test", "test"},
-	{"test/linkabs", "/"},
+type EvalSymlinksTest struct {
+	wd, path, dest string // {{tmp}} is replaced by tmp dir
 }
 
-// findEvalSymlinksTestDirsDest searches testDirs
-// for matching path and returns correspondent dest.
-func findEvalSymlinksTestDirsDest(t *testing.T, testDirs []EvalSymlinksTest, path string) string {
-	for _, d := range testDirs {
-		if d.path == path {
-			return d.dest
-		}
-	}
-	t.Fatalf("did not find %q in testDirs slice", path)
-	return ""
+var EvalSymlinksTests = []EvalSymlinksTest{
+	// absolute path
+	{"", "{{tmp}}/test", "{{tmp}}/test"},
+	{"", "{{tmp}}/test/dir", "{{tmp}}/test/dir"},
+	{"", "{{tmp}}/test/dir/../..", "{{tmp}}/."},
+	{"", "{{tmp}}/test/link1", "{{tmp}}/test"},
+	{"", "{{tmp}}/test/link2", "{{tmp}}/test/dir"},
+	{"", "{{tmp}}/test/link1/dir", "{{tmp}}/test/dir"},
+	{"", "{{tmp}}/test/link2/..", "{{tmp}}/test"},
+	{"", "{{tmp}}/test/dir/link3", "{{tmp}}/."},
+	{"", "{{tmp}}/test/link2/link3/test", "{{tmp}}/test"},
+	{"", "{{tmp}}/test/linkabs", "/"},
+
+	// relative path
+	{"{{tmp}}", "test", "test"},
+	{"{{tmp}}", "test/dir", "test/dir"},
+	{"{{tmp}}", "test/dir/../..", "."},
+	{"{{tmp}}", "test/link1", "test"},
+	{"{{tmp}}", "test/link2", "test/dir"},
+	{"{{tmp}}", "test/link1/dir", "test/dir"},
+	{"{{tmp}}", "test/link2/..", "test"},
+	{"{{tmp}}", "test/dir/link3", "."},
+	{"{{tmp}}", "test/link2/link3/test", "test"},
+	{"{{tmp}}", "test/linkabs", "/"},
+
+	// current path
+	{"{{tmp}}/test", ".", "."},
+	{"{{tmp}}/test/dir", ".", "."},
+	{"{{tmp}}/test/dir/../..", ".", "."},
+	{"{{tmp}}/test/link1", ".", "."},
+	{"{{tmp}}/test/link2", ".", "."},
+	{"{{tmp}}/test/link1/dir", ".", "."},
+	{"{{tmp}}/test/link2/..", ".", "."},
+	{"{{tmp}}/test/dir/link3", ".", "."},
+	{"{{tmp}}/test/link2/link3/test", ".", "."},
+	{"{{tmp}}/test/linkabs", ".", "."},
+
+	// parent path
+	{"{{tmp}}/test", "../test", "../test"},
+	{"{{tmp}}/test", "../test/dir", "../test/dir"},
+	{"{{tmp}}/test", "../test/dir/../..", ".."},
+	{"{{tmp}}/test", "../test/link1", "../test"},
+	{"{{tmp}}/test", "../test/link2", "../test/dir"},
+	{"{{tmp}}/test", "../test/link1/dir", "../test/dir"},
+	{"{{tmp}}/test", "../test/link2/..", "../test"},
+	{"{{tmp}}/test", "../test/dir/link3", ".."},
+	{"{{tmp}}/test", "../test/link2/link3/test", "../test"},
+	{"{{tmp}}/test", "../test/linkabs", "/"},
 }
 
 // simpleJoin builds a file name from the directory and path.
@@ -806,15 +835,18 @@ func TestEvalSymlinks(t *testing.T) {
 		if tmpDir[1] != ':' {
 			t.Fatalf("tmpDir path %q must have drive letter in it", tmpDir)
 		}
-		newtest := EvalSymlinksTest{"test/linkabswin", tmpDir[:3]}
-		tests = append(tests, newtest)
-		testdirs = append(testdirs, newtest)
+		testdirs = append(testdirs, EvalSymlinksTestDir{"test/linkabswin", tmpDir[:3]})
+
+		tests = append(tests, EvalSymlinksTest{"", "{{tmp}}/test/linkabswin", tmpDir[:3]})
+		tests = append(tests, EvalSymlinksTest{"{{tmp}}", "test/linkabswin", tmpDir[:3]})
+		tests = append(tests, EvalSymlinksTest{"{{tmp}}/test/linkabswin", ".", "."})
 	}
 
 	// Create the symlink farm using relative paths.
 	for _, d := range testdirs {
-		var err error
 		path := simpleJoin(tmpDir, d.path)
+
+		var err error
 		if d.dest == "" {
 			err = os.Mkdir(path, 0755)
 		} else {
@@ -825,73 +857,37 @@ func TestEvalSymlinks(t *testing.T) {
 		}
 	}
 
-	wd, err := os.Getwd()
+	cwd, err := os.Getwd()
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	// Evaluate the symlink farm.
 	for _, d := range tests {
-		path := simpleJoin(tmpDir, d.path)
-		dest := simpleJoin(tmpDir, d.dest)
-		if filepath.IsAbs(d.dest) || os.IsPathSeparator(d.dest[0]) {
-			dest = d.dest
+		wd := strings.Replace(d.wd, "{{tmp}}", tmpDir, 1)
+		path := strings.Replace(d.path, "{{tmp}}", tmpDir, 1)
+		dest := strings.Replace(d.dest, "{{tmp}}", tmpDir, 1)
+
+		if wd != "" {
+			defer func() {
+				err := os.Chdir(cwd)
+				if err != nil {
+					t.Fatal(err)
+				}
+			}()
+
+			err := os.Chdir(wd)
+			if err != nil {
+				t.Error(err)
+				return
+			}
 		}
+
 		if p, err := filepath.EvalSymlinks(path); err != nil {
 			t.Errorf("EvalSymlinks(%q) error: %v", d.path, err)
 		} else if filepath.Clean(p) != filepath.Clean(dest) {
 			t.Errorf("Clean(%q)=%q, want %q", path, p, dest)
 		}
-
-		// test EvalSymlinks(".")
-		func() {
-			defer func() {
-				err := os.Chdir(wd)
-				if err != nil {
-					t.Fatal(err)
-				}
-			}()
-
-			err := os.Chdir(path)
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			p, err := filepath.EvalSymlinks(".")
-			if err != nil {
-				t.Errorf(`EvalSymlinks(".") in %q directory error: %v`, d.path, err)
-				return
-			}
-			if p == "." {
-				return
-			}
-			want := filepath.Clean(findEvalSymlinksTestDirsDest(t, testdirs, d.path))
-			if p == want {
-				return
-			}
-			t.Errorf(`EvalSymlinks(".") in %q directory returns %q, want "." or %q`, d.path, p, want)
-		}()
-
-		// test EvalSymlinks where parameter is relative path
-		func() {
-			defer func() {
-				err := os.Chdir(wd)
-				if err != nil {
-					t.Fatal(err)
-				}
-			}()
-
-			err := os.Chdir(tmpDir)
-			if err != nil {
-				t.Error(err)
-				return
-			}
-			if p, err := filepath.EvalSymlinks(d.path); err != nil {
-				t.Errorf("EvalSymlinks(%q) error: %v", d.path, err)
-			} else if filepath.Clean(p) != filepath.Clean(d.dest) {
-				t.Errorf("Clean(%q)=%q, want %q", d.path, p, d.dest)
-			}
-		}()
 	}
 }
 
