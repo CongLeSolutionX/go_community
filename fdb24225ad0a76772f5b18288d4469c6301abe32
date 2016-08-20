@@ -51,6 +51,24 @@
       "revId": "fdb24225ad0a76772f5b18288d4469c6301abe32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_35135262",
+        "filename": "src/strings/strings_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1367,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-20T04:16:04Z",
+      "side": 1,
+      "message": "In that case, instead of a Benchmark, write a Test and use https://golang.org/pkg/testing/#AllocsPerRun",
+      "parentUuid": "c83053eb_d573eeef",
+      "revId": "fdb24225ad0a76772f5b18288d4469c6301abe32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
