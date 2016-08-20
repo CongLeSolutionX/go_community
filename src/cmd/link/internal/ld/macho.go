@@ -300,32 +300,32 @@ func domacho() {
 	}
 
 	// empirically, string table must begin with " \x00".
-	s := Linklookup(Ctxt, ".machosymstr", 0)
+	s := Linklookup(ctxt, ".machosymstr", 0)
 
 	s.Type = obj.SMACHOSYMSTR
 	s.Attr |= AttrReachable
-	Adduint8(Ctxt, s, ' ')
-	Adduint8(Ctxt, s, '\x00')
+	Adduint8(ctxt, s, ' ')
+	Adduint8(ctxt, s, '\x00')
 
-	s = Linklookup(Ctxt, ".machosymtab", 0)
+	s = Linklookup(ctxt, ".machosymtab", 0)
 	s.Type = obj.SMACHOSYMTAB
 	s.Attr |= AttrReachable
 
 	if Linkmode != LinkExternal {
-		s := Linklookup(Ctxt, ".plt", 0) // will be __symbol_stub
+		s := Linklookup(ctxt, ".plt", 0) // will be __symbol_stub
 		s.Type = obj.SMACHOPLT
 		s.Attr |= AttrReachable
 
-		s = Linklookup(Ctxt, ".got", 0) // will be __nl_symbol_ptr
+		s = Linklookup(ctxt, ".got", 0) // will be __nl_symbol_ptr
 		s.Type = obj.SMACHOGOT
 		s.Attr |= AttrReachable
 		s.Align = 4
 
-		s = Linklookup(Ctxt, ".linkedit.plt", 0) // indirect table for .plt
+		s = Linklookup(ctxt, ".linkedit.plt", 0) // indirect table for .plt
 		s.Type = obj.SMACHOINDIRECTPLT
 		s.Attr |= AttrReachable
 
-		s = Linklookup(Ctxt, ".linkedit.got", 0) // indirect table for .got
+		s = Linklookup(ctxt, ".linkedit.got", 0) // indirect table for .got
 		s.Type = obj.SMACHOINDIRECTGOT
 		s.Attr |= AttrReachable
 	}
@@ -376,7 +376,7 @@ func machoshbits(mseg *MachoSeg, sect *Section, segname string) {
 	if sect.Vaddr < sect.Seg.Vaddr+sect.Seg.Filelen {
 		// data in file
 		if sect.Length > sect.Seg.Vaddr+sect.Seg.Filelen-sect.Vaddr {
-			Diag("macho cannot represent section %s crossing data and bss", sect.Name)
+			ctxt.Diag("macho cannot represent section %s crossing data and bss", sect.Name)
 		}
 		msect.off = uint32(sect.Seg.Fileoff + sect.Vaddr - sect.Seg.Vaddr)
 	} else {
@@ -400,7 +400,7 @@ func machoshbits(mseg *MachoSeg, sect *Section, segname string) {
 	if sect.Name == ".got" {
 		msect.name = "__nl_symbol_ptr"
 		msect.flag = 6                                                     /* section with nonlazy symbol pointers */
-		msect.res1 = uint32(Linklookup(Ctxt, ".linkedit.plt", 0).Size / 4) /* offset into indirect symbol table */
+		msect.res1 = uint32(Linklookup(ctxt, ".linkedit.plt", 0).Size / 4) /* offset into indirect symbol table */
 	}
 
 	if sect.Name == ".init_array" {
@@ -512,39 +512,39 @@ func Asmbmacho() {
 			Exitf("unknown macho architecture: %v", SysArch.Family)
 
 		case sys.ARM:
-			ml := newMachoLoad(5, 17+2)          /* unix thread */
-			ml.data[0] = 1                       /* thread type */
-			ml.data[1] = 17                      /* word count */
-			ml.data[2+15] = uint32(Entryvalue()) /* start pc */
+			ml := newMachoLoad(5, 17+2)              /* unix thread */
+			ml.data[0] = 1                           /* thread type */
+			ml.data[1] = 17                          /* word count */
+			ml.data[2+15] = uint32(Entryvalue(ctxt)) /* start pc */
 
 		case sys.AMD64:
-			ml := newMachoLoad(5, 42+2)          /* unix thread */
-			ml.data[0] = 4                       /* thread type */
-			ml.data[1] = 42                      /* word count */
-			ml.data[2+32] = uint32(Entryvalue()) /* start pc */
-			ml.data[2+32+1] = uint32(Entryvalue() >> 32)
+			ml := newMachoLoad(5, 42+2)              /* unix thread */
+			ml.data[0] = 4                           /* thread type */
+			ml.data[1] = 42                          /* word count */
+			ml.data[2+32] = uint32(Entryvalue(ctxt)) /* start pc */
+			ml.data[2+32+1] = uint32(Entryvalue(ctxt) >> 32)
 
 		case sys.ARM64:
-			ml := newMachoLoad(5, 68+2)          /* unix thread */
-			ml.data[0] = 6                       /* thread type */
-			ml.data[1] = 68                      /* word count */
-			ml.data[2+64] = uint32(Entryvalue()) /* start pc */
-			ml.data[2+64+1] = uint32(Entryvalue() >> 32)
+			ml := newMachoLoad(5, 68+2)              /* unix thread */
+			ml.data[0] = 6                           /* thread type */
+			ml.data[1] = 68                          /* word count */
+			ml.data[2+64] = uint32(Entryvalue(ctxt)) /* start pc */
+			ml.data[2+64+1] = uint32(Entryvalue(ctxt) >> 32)
 
 		case sys.I386:
-			ml := newMachoLoad(5, 16+2)          /* unix thread */
-			ml.data[0] = 1                       /* thread type */
-			ml.data[1] = 16                      /* word count */
-			ml.data[2+10] = uint32(Entryvalue()) /* start pc */
+			ml := newMachoLoad(5, 16+2)              /* unix thread */
+			ml.data[0] = 1                           /* thread type */
+			ml.data[1] = 16                          /* word count */
+			ml.data[2+10] = uint32(Entryvalue(ctxt)) /* start pc */
 		}
 	}
 
 	if Debug['d'] == 0 {
 		// must match domacholink below
-		s1 := Linklookup(Ctxt, ".machosymtab", 0)
-		s2 := Linklookup(Ctxt, ".linkedit.plt", 0)
-		s3 := Linklookup(Ctxt, ".linkedit.got", 0)
-		s4 := Linklookup(Ctxt, ".machosymstr", 0)
+		s1 := Linklookup(ctxt, ".machosymtab", 0)
+		s2 := Linklookup(ctxt, ".linkedit.plt", 0)
+		s3 := Linklookup(ctxt, ".linkedit.got", 0)
+		s4 := Linklookup(ctxt, ".machosymstr", 0)
 
 		if Linkmode != LinkExternal {
 			ms := newMachoSeg("__LINKEDIT", 0)
@@ -658,7 +658,7 @@ func (x machoscmp) Less(i, j int) bool {
 
 func machogenasmsym(put func(*Symbol, string, int, int64, int64, int, *Symbol)) {
 	genasmsym(put)
-	for _, s := range Ctxt.Allsym {
+	for _, s := range ctxt.Allsym {
 		if s.Type == obj.SDYNIMPORT || s.Type == obj.SHOSTOBJ {
 			if s.Attr.Reachable() {
 				put(s, "", 'D', 0, 0, 0, nil)
@@ -685,44 +685,44 @@ func machosymorder() {
 }
 
 func machosymtab() {
-	symtab := Linklookup(Ctxt, ".machosymtab", 0)
-	symstr := Linklookup(Ctxt, ".machosymstr", 0)
+	symtab := Linklookup(ctxt, ".machosymtab", 0)
+	symstr := Linklookup(ctxt, ".machosymstr", 0)
 
 	for i := 0; i < nsortsym; i++ {
 		s := sortsym[i]
-		Adduint32(Ctxt, symtab, uint32(symstr.Size))
+		Adduint32(ctxt, symtab, uint32(symstr.Size))
 
 		// Only add _ to C symbols. Go symbols have dot in the name.
 		if !strings.Contains(s.Extname, ".") {
-			Adduint8(Ctxt, symstr, '_')
+			Adduint8(ctxt, symstr, '_')
 		}
 
 		// replace "·" as ".", because DTrace cannot handle it.
 		Addstring(symstr, strings.Replace(s.Extname, "·", ".", -1))
 
 		if s.Type == obj.SDYNIMPORT || s.Type == obj.SHOSTOBJ {
-			Adduint8(Ctxt, symtab, 0x01)                // type N_EXT, external symbol
-			Adduint8(Ctxt, symtab, 0)                   // no section
-			Adduint16(Ctxt, symtab, 0)                  // desc
-			adduintxx(Ctxt, symtab, 0, SysArch.PtrSize) // no value
+			Adduint8(ctxt, symtab, 0x01)                // type N_EXT, external symbol
+			Adduint8(ctxt, symtab, 0)                   // no section
+			Adduint16(ctxt, symtab, 0)                  // desc
+			adduintxx(ctxt, symtab, 0, SysArch.PtrSize) // no value
 		} else {
 			if s.Attr.CgoExport() {
-				Adduint8(Ctxt, symtab, 0x0f)
+				Adduint8(ctxt, symtab, 0x0f)
 			} else {
-				Adduint8(Ctxt, symtab, 0x0e)
+				Adduint8(ctxt, symtab, 0x0e)
 			}
 			o := s
 			for o.Outer != nil {
 				o = o.Outer
 			}
 			if o.Sect == nil {
-				Diag("missing section for %s", s.Name)
-				Adduint8(Ctxt, symtab, 0)
+				ctxt.Diag("missing section for %s", s.Name)
+				Adduint8(ctxt, symtab, 0)
 			} else {
-				Adduint8(Ctxt, symtab, uint8(o.Sect.Extnum))
+				Adduint8(ctxt, symtab, uint8(o.Sect.Extnum))
 			}
-			Adduint16(Ctxt, symtab, 0) // desc
-			adduintxx(Ctxt, symtab, uint64(Symaddr(s)), SysArch.PtrSize)
+			Adduint16(ctxt, symtab, 0) // desc
+			adduintxx(ctxt, symtab, uint64(Symaddr(s)), SysArch.PtrSize)
 		}
 	}
 }
@@ -750,10 +750,10 @@ func machodysymtab() {
 	ml.data[11] = 0 /* nextrefsyms */
 
 	// must match domacholink below
-	s1 := Linklookup(Ctxt, ".machosymtab", 0)
+	s1 := Linklookup(ctxt, ".machosymtab", 0)
 
-	s2 := Linklookup(Ctxt, ".linkedit.plt", 0)
-	s3 := Linklookup(Ctxt, ".linkedit.got", 0)
+	s2 := Linklookup(ctxt, ".linkedit.plt", 0)
+	s3 := Linklookup(ctxt, ".linkedit.got", 0)
 	ml.data[12] = uint32(linkoff + s1.Size)       /* indirectsymoff */
 	ml.data[13] = uint32((s2.Size + s3.Size) / 4) /* nindirectsyms */
 
@@ -767,11 +767,11 @@ func Domacholink() int64 {
 	machosymtab()
 
 	// write data that will be linkedit section
-	s1 := Linklookup(Ctxt, ".machosymtab", 0)
+	s1 := Linklookup(ctxt, ".machosymtab", 0)
 
-	s2 := Linklookup(Ctxt, ".linkedit.plt", 0)
-	s3 := Linklookup(Ctxt, ".linkedit.got", 0)
-	s4 := Linklookup(Ctxt, ".machosymstr", 0)
+	s2 := Linklookup(ctxt, ".linkedit.plt", 0)
+	s3 := Linklookup(ctxt, ".linkedit.got", 0)
+	s4 := Linklookup(ctxt, ".machosymstr", 0)
 
 	// Force the linkedit section to end on a 16-byte
 	// boundary. This allows pure (non-cgo) Go binaries
@@ -791,7 +791,7 @@ func Domacholink() int64 {
 	// any alignment padding itself, working around the
 	// issue.
 	for s4.Size%16 != 0 {
-		Adduint8(Ctxt, s4, 0)
+		Adduint8(ctxt, s4, 0)
 	}
 
 	size := int(s1.Size + s2.Size + s3.Size + s4.Size)
@@ -834,7 +834,7 @@ func machorelocsect(sect *Section, syms []*Symbol) {
 		if sym.Value >= int64(eaddr) {
 			break
 		}
-		Ctxt.Cursym = sym
+		ctxt.Cursym = sym
 
 		for ri := 0; ri < len(sym.R); ri++ {
 			r := &sym.R[ri]
@@ -842,7 +842,7 @@ func machorelocsect(sect *Section, syms []*Symbol) {
 				continue
 			}
 			if Thearch.Machoreloc1(r, int64(uint64(sym.Value+int64(r.Off))-sect.Vaddr)) < 0 {
-				Diag("unsupported obj reloc %d/%d to %s", r.Type, r.Siz, r.Sym.Name)
+				ctxt.Diag("unsupported obj reloc %d/%d to %s", r.Type, r.Siz, r.Sym.Name)
 			}
 		}
 	}
@@ -855,7 +855,7 @@ func Machoemitreloc() {
 		Cput(0)
 	}
 
-	machorelocsect(Segtext.Sect, Ctxt.Textp)
+	machorelocsect(Segtext.Sect, ctxt.Textp)
 	for sect := Segtext.Sect.Next; sect != nil; sect = sect.Next {
 		machorelocsect(sect, datap)
 	}

@@ -247,7 +247,7 @@ func adddynrel(s *ld.Symbol, r *ld.Reloc) {
 	switch r.Type {
 	default:
 		if r.Type >= 256 {
-			ld.Diag("unexpected relocation type %d", r.Type)
+			ld.Ctxt.Diag("unexpected relocation type %d", r.Type)
 			return
 		}
 
@@ -264,7 +264,7 @@ func adddynrel(s *ld.Symbol, r *ld.Reloc) {
 
 		if targ.Type == obj.SDYNIMPORT {
 			// Should have been handled in elfsetupplt
-			ld.Diag("unexpected R_PPC64_REL24 for dyn import")
+			ld.Ctxt.Diag("unexpected R_PPC64_REL24 for dyn import")
 		}
 
 		return
@@ -274,7 +274,7 @@ func adddynrel(s *ld.Symbol, r *ld.Reloc) {
 		r.Add += 4
 
 		if targ.Type == obj.SDYNIMPORT {
-			ld.Diag("unexpected R_PPC_REL32 for dyn import")
+			ld.Ctxt.Diag("unexpected R_PPC_REL32 for dyn import")
 		}
 
 		return
@@ -350,7 +350,7 @@ func adddynrel(s *ld.Symbol, r *ld.Reloc) {
 
 	// TODO(austin): Translate our relocations to ELF
 
-	ld.Diag("unsupported relocation for dynamic symbol %s (type=%d stype=%d)", targ.Name, r.Type, targ.Type)
+	ld.Ctxt.Diag("unsupported relocation for dynamic symbol %s (type=%d stype=%d)", targ.Name, r.Type, targ.Type)
 }
 
 func elfreloc1(r *ld.Reloc, sectoff int64) int {
@@ -458,7 +458,7 @@ func symtoc(s *ld.Symbol) int64 {
 	}
 
 	if toc == nil {
-		ld.Diag("TOC-relative relocation in object without .TOC.")
+		ld.Ctxt.Diag("TOC-relative relocation in object without .TOC.")
 		return 0
 	}
 
@@ -544,7 +544,7 @@ func archreloc(r *ld.Reloc, s *ld.Symbol, val *int64) int {
 			}
 
 			if rs.Type != obj.SHOSTOBJ && rs.Type != obj.SDYNIMPORT && rs.Sect == nil {
-				ld.Diag("missing section for %s", rs.Name)
+				ld.Ctxt.Diag("missing section for %s", rs.Name)
 			}
 			r.Xsym = rs
 
@@ -598,7 +598,7 @@ func archreloc(r *ld.Reloc, s *ld.Symbol, val *int64) int {
 		// Specification".
 		v := r.Sym.Value - 0x7000
 		if int64(int16(v)) != v {
-			ld.Diag("TLS offset out of range %d", v)
+			ld.Ctxt.Diag("TLS offset out of range %d", v)
 		}
 		*val = (*val &^ 0xffff) | (v & 0xffff)
 		return 0
@@ -610,7 +610,7 @@ func archreloc(r *ld.Reloc, s *ld.Symbol, val *int64) int {
 func archrelocvariant(r *ld.Reloc, s *ld.Symbol, t int64) int64 {
 	switch r.Variant & ld.RV_TYPE_MASK {
 	default:
-		ld.Diag("unexpected relocation variant %d", r.Variant)
+		ld.Ctxt.Diag("unexpected relocation variant %d", r.Variant)
 		fallthrough
 
 	case ld.RV_NONE:
@@ -685,7 +685,7 @@ func archrelocvariant(r *ld.Reloc, s *ld.Symbol, t int64) int64 {
 			o1 = uint32(ld.Le16(s.P[r.Off:]))
 		}
 		if t&3 != 0 {
-			ld.Diag("relocation for %s+%d is not aligned: %d", r.Sym.Name, r.Off, t)
+			ld.Ctxt.Diag("relocation for %s+%d is not aligned: %d", r.Sym.Name, r.Off, t)
 		}
 		if (r.Variant&ld.RV_CHECK_OVERFLOW != 0) && int64(int16(t)) != t {
 			goto overflow
@@ -694,7 +694,7 @@ func archrelocvariant(r *ld.Reloc, s *ld.Symbol, t int64) int64 {
 	}
 
 overflow:
-	ld.Diag("relocation for %s+%d is too big: %d", r.Sym.Name, r.Off, t)
+	ld.Ctxt.Diag("relocation for %s+%d is too big: %d", r.Sym.Name, r.Off, t)
 	return t
 }
 
@@ -739,7 +739,7 @@ func addpltsym(ctxt *ld.Link, s *ld.Symbol) {
 		ld.Adduint64(ctxt, rela, ld.ELF64_R_INFO(uint32(s.Dynid), ld.R_PPC64_JMP_SLOT))
 		ld.Adduint64(ctxt, rela, 0)
 	} else {
-		ld.Diag("addpltsym: unsupported binary format")
+		ld.Ctxt.Diag("addpltsym: unsupported binary format")
 	}
 }
 
@@ -798,12 +798,12 @@ func ensureglinkresolver() *ld.Symbol {
 	// before the first symbol resolver stub.
 	s := ld.Linklookup(ld.Ctxt, ".dynamic", 0)
 
-	ld.Elfwritedynentsymplus(s, ld.DT_PPC64_GLINK, glink, glink.Size-32)
+	ld.Elfwritedynentsymplus(ld.Ctxt, s, ld.DT_PPC64_GLINK, glink, glink.Size-32)
 
 	return glink
 }
 
-func asmb() {
+func asmb(ctxt *ld.Link) {
 	if ld.Debug['v'] != 0 {
 		fmt.Fprintf(ld.Bso, "%5.2f asmb\n", obj.Cputime())
 	}
@@ -815,10 +815,10 @@ func asmb() {
 
 	sect := ld.Segtext.Sect
 	ld.Cseek(int64(sect.Vaddr - ld.Segtext.Vaddr + ld.Segtext.Fileoff))
-	ld.Codeblk(int64(sect.Vaddr), int64(sect.Length))
+	ld.Codeblk(ctxt, int64(sect.Vaddr), int64(sect.Length))
 	for sect = sect.Next; sect != nil; sect = sect.Next {
 		ld.Cseek(int64(sect.Vaddr - ld.Segtext.Vaddr + ld.Segtext.Fileoff))
-		ld.Datblk(int64(sect.Vaddr), int64(sect.Length))
+		ld.Datblk(ctxt, int64(sect.Vaddr), int64(sect.Length))
 	}
 
 	if ld.Segrodata.Filelen > 0 {
@@ -828,7 +828,7 @@ func asmb() {
 		ld.Bso.Flush()
 
 		ld.Cseek(int64(ld.Segrodata.Fileoff))
-		ld.Datblk(int64(ld.Segrodata.Vaddr), int64(ld.Segrodata.Filelen))
+		ld.Datblk(ctxt, int64(ld.Segrodata.Vaddr), int64(ld.Segrodata.Filelen))
 	}
 
 	if ld.Debug['v'] != 0 {
@@ -837,10 +837,10 @@ func asmb() {
 	ld.Bso.Flush()
 
 	ld.Cseek(int64(ld.Segdata.Fileoff))
-	ld.Datblk(int64(ld.Segdata.Vaddr), int64(ld.Segdata.Filelen))
+	ld.Datblk(ctxt, int64(ld.Segdata.Vaddr), int64(ld.Segdata.Filelen))
 
 	ld.Cseek(int64(ld.Segdwarf.Fileoff))
-	ld.Dwarfblk(int64(ld.Segdwarf.Vaddr), int64(ld.Segdwarf.Filelen))
+	ld.Dwarfblk(ctxt, int64(ld.Segdwarf.Vaddr), int64(ld.Segdwarf.Filelen))
 
 	/* output symbol table */
 	ld.Symsize = 0
@@ -876,7 +876,7 @@ func asmb() {
 				ld.Cwrite(ld.Elfstrdat)
 
 				if ld.Linkmode == ld.LinkExternal {
-					ld.Elfemitreloc()
+					ld.Elfemitreloc(ctxt)
 				}
 			}
 
@@ -909,8 +909,8 @@ func asmb() {
 		ld.Thearch.Lput(uint32(ld.Segtext.Filelen)) /* sizes */
 		ld.Thearch.Lput(uint32(ld.Segdata.Filelen))
 		ld.Thearch.Lput(uint32(ld.Segdata.Length - ld.Segdata.Filelen))
-		ld.Thearch.Lput(uint32(ld.Symsize))      /* nsyms */
-		ld.Thearch.Lput(uint32(ld.Entryvalue())) /* va of entry */
+		ld.Thearch.Lput(uint32(ld.Symsize))          /* nsyms */
+		ld.Thearch.Lput(uint32(ld.Entryvalue(ctxt))) /* va of entry */
 		ld.Thearch.Lput(0)
 		ld.Thearch.Lput(uint32(ld.Lcsize))
 
@@ -919,7 +919,7 @@ func asmb() {
 		obj.Hnetbsd,
 		obj.Hopenbsd,
 		obj.Hnacl:
-		ld.Asmbelf(int64(symo))
+		ld.Asmbelf(ctxt, int64(symo))
 	}
 
 	ld.Cflush()

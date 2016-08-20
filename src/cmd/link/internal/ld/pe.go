@@ -379,7 +379,7 @@ var nexport int
 
 func addpesection(name string, sectsize int, filesize int) *IMAGE_SECTION_HEADER {
 	if pensect == 16 {
-		Diag("too many sections")
+		ctxt.Diag("too many sections")
 		errorexit()
 	}
 
@@ -400,19 +400,19 @@ func addpesection(name string, sectsize int, filesize int) *IMAGE_SECTION_HEADER
 
 func chksectoff(h *IMAGE_SECTION_HEADER, off int64) {
 	if off != int64(h.PointerToRawData) {
-		Diag("%s.PointerToRawData = %#x, want %#x", cstring(h.Name[:]), uint64(int64(h.PointerToRawData)), uint64(off))
+		ctxt.Diag("%s.PointerToRawData = %#x, want %#x", cstring(h.Name[:]), uint64(int64(h.PointerToRawData)), uint64(off))
 		errorexit()
 	}
 }
 
 func chksectseg(h *IMAGE_SECTION_HEADER, s *Segment) {
 	if s.Vaddr-PEBASE != uint64(h.VirtualAddress) {
-		Diag("%s.VirtualAddress = %#x, want %#x", cstring(h.Name[:]), uint64(int64(h.VirtualAddress)), uint64(int64(s.Vaddr-PEBASE)))
+		ctxt.Diag("%s.VirtualAddress = %#x, want %#x", cstring(h.Name[:]), uint64(int64(h.VirtualAddress)), uint64(int64(s.Vaddr-PEBASE)))
 		errorexit()
 	}
 
 	if s.Fileoff != uint64(h.PointerToRawData) {
-		Diag("%s.PointerToRawData = %#x, want %#x", cstring(h.Name[:]), uint64(int64(h.PointerToRawData)), uint64(int64(s.Fileoff)))
+		ctxt.Diag("%s.PointerToRawData = %#x, want %#x", cstring(h.Name[:]), uint64(int64(h.PointerToRawData)), uint64(int64(s.Fileoff)))
 		errorexit()
 	}
 }
@@ -441,9 +441,9 @@ func Peinit() {
 	nextfileoff = int(PEFILEHEADR)
 
 	// some mingw libs depend on this symbol, for example, FindPESectionByName
-	xdefine("__image_base__", obj.SDATA, PEBASE)
+	ctxt.xdefine("__image_base__", obj.SDATA, PEBASE)
 
-	xdefine("_image_base__", obj.SDATA, PEBASE)
+	ctxt.xdefine("_image_base__", obj.SDATA, PEBASE)
 }
 
 func pewrite() {
@@ -477,7 +477,7 @@ func initdynimport() *Dll {
 
 	dr = nil
 	var m *Imp
-	for _, s := range Ctxt.Allsym {
+	for _, s := range ctxt.Allsym {
 		if !s.Attr.Reachable() || s.Type != obj.SDYNIMPORT {
 			continue
 		}
@@ -505,7 +505,7 @@ func initdynimport() *Dll {
 			var err error
 			m.argsize, err = strconv.Atoi(s.Extname[i+1:])
 			if err != nil {
-				Diag("failed to parse stdcall decoration: %v", err)
+				ctxt.Diag("failed to parse stdcall decoration: %v", err)
 			}
 			m.argsize *= SysArch.PtrSize
 			s.Extname = s.Extname[:i]
@@ -521,13 +521,13 @@ func initdynimport() *Dll {
 		for d := dr; d != nil; d = d.next {
 			for m = d.ms; m != nil; m = m.next {
 				m.s.Type = obj.SDATA
-				Symgrow(Ctxt, m.s, int64(SysArch.PtrSize))
+				Symgrow(ctxt, m.s, int64(SysArch.PtrSize))
 				dynName := m.s.Extname
 				// only windows/386 requires stdcall decoration
 				if SysArch.Family == sys.I386 && m.argsize >= 0 {
 					dynName += fmt.Sprintf("@%d", m.argsize)
 				}
-				dynSym := Linklookup(Ctxt, dynName, 0)
+				dynSym := Linklookup(ctxt, dynName, 0)
 				dynSym.Attr |= AttrReachable
 				dynSym.Type = obj.SHOSTOBJ
 				r := Addrel(m.s)
@@ -538,7 +538,7 @@ func initdynimport() *Dll {
 			}
 		}
 	} else {
-		dynamic := Linklookup(Ctxt, ".windynamic", 0)
+		dynamic := Linklookup(ctxt, ".windynamic", 0)
 		dynamic.Attr |= AttrReachable
 		dynamic.Type = obj.SWINDOWS
 		for d := dr; d != nil; d = d.next {
@@ -571,7 +571,7 @@ func peimporteddlls() []string {
 
 func addimports(datsect *IMAGE_SECTION_HEADER) {
 	startoff := Cpos()
-	dynamic := Linklookup(Ctxt, ".windynamic", 0)
+	dynamic := Linklookup(ctxt, ".windynamic", 0)
 
 	// skip import descriptor table (will write it later)
 	n := uint64(0)
@@ -682,12 +682,12 @@ func (s byExtname) Less(i, j int) bool { return s[i].Extname < s[j].Extname }
 
 func initdynexport() {
 	nexport = 0
-	for _, s := range Ctxt.Allsym {
+	for _, s := range ctxt.Allsym {
 		if !s.Attr.Reachable() || !s.Attr.CgoExportDynamic() {
 			continue
 		}
 		if nexport+1 > len(dexport) {
-			Diag("pe dynexport table is full")
+			ctxt.Diag("pe dynexport table is full")
 			errorexit()
 		}
 
@@ -791,7 +791,7 @@ func perelocsect(sect *Section, syms []*Symbol) int {
 		if sym.Value >= int64(eaddr) {
 			break
 		}
-		Ctxt.Cursym = sym
+		ctxt.Cursym = sym
 
 		for ri := 0; ri < len(sym.R); ri++ {
 			r := &sym.R[ri]
@@ -799,15 +799,15 @@ func perelocsect(sect *Section, syms []*Symbol) int {
 				continue
 			}
 			if r.Xsym == nil {
-				Diag("missing xsym in relocation")
+				ctxt.Diag("missing xsym in relocation")
 				continue
 			}
 
 			if r.Xsym.Dynid < 0 {
-				Diag("reloc %d to non-coff symbol %s (outer=%s) %d", r.Type, r.Sym.Name, r.Xsym.Name, r.Sym.Type)
+				ctxt.Diag("reloc %d to non-coff symbol %s (outer=%s) %d", r.Type, r.Sym.Name, r.Xsym.Name, r.Sym.Type)
 			}
 			if !Thearch.PEreloc1(r, int64(uint64(sym.Value+int64(r.Off))-PEBASE)) {
-				Diag("unsupported obj reloc %d/%d to %s", r.Type, r.Siz, r.Sym.Name)
+				ctxt.Diag("unsupported obj reloc %d/%d to %s", r.Type, r.Siz, r.Sym.Name)
 			}
 
 			relocs++
@@ -831,7 +831,7 @@ func peemitreloc(text, data, ctors *IMAGE_SECTION_HEADER) {
 	Lputl(0)
 	Wputl(0)
 
-	n := perelocsect(Segtext.Sect, Ctxt.Textp) + 1
+	n := perelocsect(Segtext.Sect, ctxt.Textp) + 1
 	for sect := Segtext.Sect.Next; sect != nil; sect = sect.Next {
 		n += perelocsect(sect, datap)
 	}
@@ -871,7 +871,7 @@ func peemitreloc(text, data, ctors *IMAGE_SECTION_HEADER) {
 	}
 	data.NumberOfRelocations = uint16(n - 1)
 
-	dottext := Linklookup(Ctxt, ".text", 0)
+	dottext := Linklookup(ctxt, ".text", 0)
 	ctors.NumberOfRelocations = 1
 	ctors.PointerToRelocations = uint32(Cpos())
 	sectoff := ctors.VirtualAddress
@@ -890,7 +890,7 @@ func peemitreloc(text, data, ctors *IMAGE_SECTION_HEADER) {
 
 func dope() {
 	/* relocation table */
-	rel := Linklookup(Ctxt, ".rel", 0)
+	rel := Linklookup(ctxt, ".rel", 0)
 
 	rel.Attr |= AttrReachable
 	rel.Type = obj.SELFROSECT
@@ -970,7 +970,7 @@ func writePESymTableRecords() int {
 		} else if type_ == 'U' {
 			typ = IMAGE_SYM_DTYPE_FUNCTION
 		} else {
-			Diag("addpesym %#x", addr)
+			ctxt.Diag("addpesym %#x", addr)
 		}
 
 		// write COFF symbol table record
@@ -1005,7 +1005,7 @@ func writePESymTableRecords() int {
 			}
 		}
 
-		s := Linklookup(Ctxt, ".text", 0)
+		s := Linklookup(ctxt, ".text", 0)
 		if s.Type == obj.STEXT {
 			put(s, s.Name, 'T', s.Value, s.Size, int(s.Version), nil)
 		}
@@ -1050,7 +1050,7 @@ func addpesymtable() {
 
 func setpersrc(sym *Symbol) {
 	if rsrcsym != nil {
-		Diag("too many .rsrc sections")
+		ctxt.Diag("too many .rsrc sections")
 	}
 
 	rsrcsym = sym
@@ -1114,7 +1114,7 @@ func addinitarray() (c *IMAGE_SECTION_HEADER) {
 
 	Cseek(int64(c.PointerToRawData))
 	chksectoff(c, Cpos())
-	init_entry := Linklookup(Ctxt, INITENTRY, 0)
+	init_entry := Linklookup(ctxt, INITENTRY, 0)
 	addr := uint64(init_entry.Value) - init_entry.Sect.Vaddr
 
 	switch obj.Getgoarch() {
@@ -1218,8 +1218,8 @@ func Asmbpe() {
 	oh64.SizeOfUninitializedData = 0
 	oh.SizeOfUninitializedData = 0
 	if Linkmode != LinkExternal {
-		oh64.AddressOfEntryPoint = uint32(Entryvalue() - PEBASE)
-		oh.AddressOfEntryPoint = uint32(Entryvalue() - PEBASE)
+		oh64.AddressOfEntryPoint = uint32(Entryvalue(ctxt) - PEBASE)
+		oh.AddressOfEntryPoint = uint32(Entryvalue(ctxt) - PEBASE)
 	}
 	oh64.BaseOfCode = t.VirtualAddress
 	oh.BaseOfCode = t.VirtualAddress
