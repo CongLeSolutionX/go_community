@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c83053eb_20555253",
+        "filename": "src/cmd/link/internal/ld/go.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-20T20:38:10Z",
+      "side": 1,
+      "message": "I assume these will all become methods?",
+      "revId": "c679fc46bd6659081f2a4589f2189e42d2543eef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_e0462aaf",
+        "filename": "src/cmd/link/internal/ld/go.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-20T20:38:10Z",
+      "side": 1,
+      "message": "etc?",
+      "revId": "c679fc46bd6659081f2a4589f2189e42d2543eef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_c0432e9d",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-20T20:38:10Z",
+      "side": 1,
+      "message": "I suppose all of these could become:\n\n    ctx.Addaddr(\"runtime.text\")\n\nor something.",
+      "revId": "c679fc46bd6659081f2a4589f2189e42d2543eef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
