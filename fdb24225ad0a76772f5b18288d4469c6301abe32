@@ -33,6 +33,24 @@
       "revId": "fdb24225ad0a76772f5b18288d4469c6301abe32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_d573eeef",
+        "filename": "src/strings/strings_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1367,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2016-08-20T03:49:05Z",
+      "side": 1,
+      "message": "\u003e how much do you see GC show up when you profile these?\n\nI\u0027m not sure how to measure that :( To be honest, I was just hoping to show a decrease from 2 allocs to 1 alloc when we eventually fix this, and to have an easy thing to benchmark.",
+      "parentUuid": "db2e5f26_ef7f9dba",
+      "revId": "fdb24225ad0a76772f5b18288d4469c6301abe32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
