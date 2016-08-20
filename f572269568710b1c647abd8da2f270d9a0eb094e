@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c83053eb_e0e86a79",
+        "filename": "src/sort/zfuncversion.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6255
+      },
+      "writtenOn": "2016-08-20T21:29:07Z",
+      "side": 1,
+      "message": "Add genzfunc.go? I don\u0027t see it in the CL.",
+      "revId": "f572269568710b1c647abd8da2f270d9a0eb094e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
