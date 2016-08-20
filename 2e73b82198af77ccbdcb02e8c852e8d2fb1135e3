@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "db249f97_18c14c00",
+        "filename": "src/cmd/compile/internal/mips64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-20T17:12:07Z",
+      "side": 1,
+      "message": "They were documented in MIPS64Ops.go. Comment added here also.",
+      "parentUuid": "db249f97_c728b59b",
+      "revId": "2e73b82198af77ccbdcb02e8c852e8d2fb1135e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db249f97_a7573908",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS64Ops.go",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "db249f97_f8bb9084",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-20T17:12:07Z",
+      "side": 1,
+      "message": "No, MIPS64 has 32 full DP registers. The even numbers were used for compatibility with MIPS32.",
+      "parentUuid": "db249f97_a7573908",
+      "revId": "2e73b82198af77ccbdcb02e8c852e8d2fb1135e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db249f97_e7ef71e6",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPS64Ops.go",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 255,
         "endChar": 41
       },
+      "revId": "2e73b82198af77ccbdcb02e8c852e8d2fb1135e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db249f97_38c60818",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-20T17:12:07Z",
+      "side": 1,
+      "message": "The conversion takes two FP registers but a MOV instruction can move between FP and integer registers. Reg allocator will insert a OpCopy for doing that when necessary.\nThat said, when an integer-in-FP-register is spilled, we need to use proper load/store instructions. Fixed in the new patch set, mips64/ssa.go, loadByType and storeByType.",
+      "parentUuid": "db249f97_e7ef71e6",
       "revId": "2e73b82198af77ccbdcb02e8c852e8d2fb1135e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
