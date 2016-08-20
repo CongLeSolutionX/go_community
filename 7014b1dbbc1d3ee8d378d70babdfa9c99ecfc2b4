@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8c95f46_2b2f598c",
+        "filename": "src/index/suffixarray/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8065
+      },
+      "writtenOn": "2016-08-20T17:47:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28b72fb7_c7df9e32",
+      "revId": "7014b1dbbc1d3ee8d378d70babdfa9c99ecfc2b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a846bf69_e375128f",
         "filename": "src/index/suffixarray/example_test.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2016-08-20T15:58:01Z",
       "side": 1,
       "message": "Because suffixarray.Lookup is deterministic, I would suggest:\n \n    // Output:\n    // 3\n    // 1",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "7014b1dbbc1d3ee8d378d70babdfa9c99ecfc2b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8c95f46_0b2a9d7b",
+        "filename": "src/index/suffixarray/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 8065
+      },
+      "writtenOn": "2016-08-20T17:47:36Z",
+      "side": 1,
+      "message": "The result is deterministic but the order is not guaranteed (according to https://golang.org/pkg/index/suffixarray/#Index.Lookup: \"Lookup returns an unsorted list of ...\"). I wanted to highlight this by using \"Unordered output\".",
+      "parentUuid": "a846bf69_e375128f",
       "range": {
         "startLine": 15,
         "startChar": 1,
