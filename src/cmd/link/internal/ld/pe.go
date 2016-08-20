@@ -441,9 +441,9 @@ func Peinit() {
 	nextfileoff = int(PEFILEHEADR)
 
 	// some mingw libs depend on this symbol, for example, FindPESectionByName
-	xdefine("__image_base__", obj.SDATA, PEBASE)
+	Ctxt.xdefine("__image_base__", obj.SDATA, PEBASE)
 
-	xdefine("_image_base__", obj.SDATA, PEBASE)
+	Ctxt.xdefine("_image_base__", obj.SDATA, PEBASE)
 }
 
 func pewrite() {

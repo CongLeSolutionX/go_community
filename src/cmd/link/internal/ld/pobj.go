@@ -84,7 +84,7 @@ func Ldmain() {
 	obj.Flagint32("R", "set address rounding `quantum`", &INITRND)
 	obj.Flagint64("T", "set text segment `address`", &INITTEXT)
 	obj.Flagfn0("V", "print version and exit", doversion)
-	obj.Flagfn1("X", "add string value `definition` of the form importpath.name=value", addstrdata1)
+	obj.Flagfn1("X", "add string value `definition` of the form importpath.name=value", func(s string) { addstrdata1(Ctxt, s) })
 	obj.Flagcount("a", "disassemble output", &Debug['a'])
 	obj.Flagstr("buildid", "record `id` as Go toolchain build id", &buildid)
 	flag.Var(&Buildmode, "buildmode", "set build `mode`")
@@ -186,7 +186,7 @@ func Ldmain() {
 	} else {
 		addlibpath(Ctxt, "command line", "command line", flag.Arg(0), "main", "")
 	}
-	loadlib()
+	Ctxt.loadlib()
 
 	checkstrdata()
 	deadcode(Ctxt)
@@ -203,15 +203,15 @@ func Ldmain() {
 	}
 	addexport()
 	Thearch.Gentext() // trampolines, call stubs, etc.
-	textbuildid()
-	textaddress()
+	Ctxt.textbuildid()
+	Ctxt.textaddress()
 	pclntab()
 	findfunctab()
-	symtab()
-	dodata()
-	address()
-	reloc()
-	Thearch.Asmb()
+	Ctxt.symtab()
+	Ctxt.dodata()
+	Ctxt.address()
+	Ctxt.reloc()
+	Thearch.Asmb(Ctxt)
 	undef()
 	hostlink()
 	archive()

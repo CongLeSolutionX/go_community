@@ -359,7 +359,7 @@ func fieldtrack(ctxt *Link) {
 	if !s.Attr.Reachable() {
 		return
 	}
-	addstrdata(tracksym, buf.String())
+	addstrdata(Ctxt, tracksym, buf.String())
 }
 
 func addexport() {
