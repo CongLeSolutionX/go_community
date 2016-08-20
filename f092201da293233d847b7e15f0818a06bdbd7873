@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c83053eb_d2a784b6",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2016-08-20T01:39:58Z",
+      "side": 1,
+      "message": "Create a context that is canceled when the cancel function is called.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 50
+      },
+      "revId": "f092201da293233d847b7e15f0818a06bdbd7873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_b2b4f8e0",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2016-08-20T01:39:58Z",
+      "side": 1,
+      "message": "Drop the first part of this.\n\n// Start streaming results ...\n\nAlso, where are the results going?",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "f092201da293233d847b7e15f0818a06bdbd7873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_729e9065",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2016-08-20T01:39:58Z",
+      "side": 1,
+      "message": "Maybe this should become a defer, too.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "f092201da293233d847b7e15f0818a06bdbd7873",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
