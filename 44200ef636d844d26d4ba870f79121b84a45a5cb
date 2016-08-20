@@ -16,6 +16,24 @@
       "revId": "44200ef636d844d26d4ba870f79121b84a45a5cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_325fe84f",
+        "filename": "src/compress/flate/huffman_bit_writer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-08-20T00:36:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83053eb_6f0ead47",
+      "revId": "44200ef636d844d26d4ba870f79121b84a45a5cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
