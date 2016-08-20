@@ -37,6 +37,42 @@
     },
     {
       "key": {
+        "uuid": "c83053eb_1564d61b",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2016-08-20T03:38:40Z",
+      "side": 1,
+      "message": "any value in converting 0, 1, 2 to Wunused, Wvisited, Wvisitedtoomany constants? also how about\n\n// tracks state during typecheckdef; 2 \u003d\u003d loop detected\n\nfor the comment?",
+      "parentUuid": "db2e5f26_cf374191",
+      "revId": "e692320271350f5621321315e3f11484de8d2e1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_b572a2da",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2016-08-20T03:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2e5f26_2f2275b6",
+      "revId": "e692320271350f5621321315e3f11484de8d2e1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db2e5f26_8f1b8977",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 1
@@ -54,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "c83053eb_956fa6f6",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2016-08-20T03:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2e5f26_8f1b8977",
+      "revId": "e692320271350f5621321315e3f11484de8d2e1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db2e5f26_6f470d5c",
         "filename": "src/cmd/compile/internal/gc/syntax.go",
         "patchSetId": 1
@@ -65,6 +119,24 @@
       "writtenOn": "2016-08-18T17:04:24Z",
       "side": 1,
       "message": "This is used to *detect* whether the variable is declared and not used. The field itself just tracks whether the variable is used (not \"not used\").\n\nI plan to shortly overload this for labels. :)",
+      "revId": "e692320271350f5621321315e3f11484de8d2e1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_753c3ae7",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2016-08-20T03:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2e5f26_6f470d5c",
       "revId": "e692320271350f5621321315e3f11484de8d2e1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
