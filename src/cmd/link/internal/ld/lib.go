@@ -99,7 +99,7 @@ type Arch struct {
 	Archinit         func()
 	Archreloc        func(*Reloc, *Symbol, *int64) int
 	Archrelocvariant func(*Reloc, *Symbol, int64) int64
-	Asmb             func()
+	Asmb             func(*Link)
 	Elfreloc1        func(*Reloc, int64) int
 	Elfsetupplt      func()
 	Gentext          func()
@@ -493,7 +493,7 @@ func loadinternal(name string) {
 	}
 }
 
-func loadlib() {
+func (Ctxt *Link) loadlib() {
 	switch Buildmode {
 	case BuildmodeCShared:
 		s := Linklookup(Ctxt, "runtime.islibrary", 0)
@@ -715,7 +715,7 @@ func loadlib() {
 			}
 
 			if libgccfile != "none" {
-				hostArchive(libgccfile)
+				hostArchive(Ctxt, libgccfile)
 			}
 		}
 	} else {
@@ -2086,7 +2086,7 @@ func Symaddr(s *Symbol) int64 {
 	return s.Value
 }
 
-func xdefine(p string, t int, v int64) {
+func (Ctxt *Link) xdefine(p string, t int, v int64) {
 	s := Linklookup(Ctxt, p, 0)
 	s.Type = int16(t)
 	s.Value = v
