@@ -157,7 +157,7 @@ func machoreloc1(r *ld.Reloc, sectoff int64) int {
 	// UNSIGNED relocation at all.
 	if rs.Type == obj.SHOSTOBJ || r.Type == obj.R_CALLARM64 || r.Type == obj.R_ADDRARM64 || r.Type == obj.R_ADDR {
 		if rs.Dynid < 0 {
-			ld.Diag("reloc %d to non-macho symbol %s type=%d", r.Type, rs.Name, rs.Type)
+			ld.Ctxt.Diag("reloc %d to non-macho symbol %s type=%d", r.Type, rs.Name, rs.Type)
 			return -1
 		}
 
@@ -166,7 +166,7 @@ func machoreloc1(r *ld.Reloc, sectoff int64) int {
 	} else {
 		v = uint32(rs.Sect.Extnum)
 		if v == 0 {
-			ld.Diag("reloc %d to symbol %s in non-macho section %s type=%d", r.Type, rs.Name, rs.Sect.Name, rs.Type)
+			ld.Ctxt.Diag("reloc %d to symbol %s in non-macho section %s type=%d", r.Type, rs.Name, rs.Sect.Name, rs.Type)
 			return -1
 		}
 	}
@@ -180,7 +180,7 @@ func machoreloc1(r *ld.Reloc, sectoff int64) int {
 
 	case obj.R_CALLARM64:
 		if r.Xadd != 0 {
-			ld.Diag("ld64 doesn't allow BR26 reloc with non-zero addend: %s+%d", rs.Name, r.Xadd)
+			ld.Ctxt.Diag("ld64 doesn't allow BR26 reloc with non-zero addend: %s+%d", rs.Name, r.Xadd)
 		}
 
 		v |= 1 << 24 // pc-relative bit
@@ -275,7 +275,7 @@ func archreloc(r *ld.Reloc, s *ld.Symbol, val *int64) int {
 			}
 
 			if rs.Type != obj.SHOSTOBJ && rs.Type != obj.SDYNIMPORT && rs.Sect == nil {
-				ld.Diag("missing section for %s", rs.Name)
+				ld.Ctxt.Diag("missing section for %s", rs.Name)
 			}
 			r.Xsym = rs
 
@@ -335,7 +335,7 @@ func archreloc(r *ld.Reloc, s *ld.Symbol, val *int64) int {
 	case obj.R_ADDRARM64:
 		t := ld.Symaddr(r.Sym) + r.Add - ((s.Value + int64(r.Off)) &^ 0xfff)
 		if t >= 1<<32 || t < -1<<32 {
-			ld.Diag("program too large, address relocation distance = %d", t)
+			ld.Ctxt.Diag("program too large, address relocation distance = %d", t)
 		}
 
 		var o0, o1 uint32
@@ -362,13 +362,13 @@ func archreloc(r *ld.Reloc, s *ld.Symbol, val *int64) int {
 	case obj.R_ARM64_TLS_LE:
 		r.Done = 0
 		if ld.HEADTYPE != obj.Hlinux {
-			ld.Diag("TLS reloc on unsupported OS %s", ld.Headstr(int(ld.HEADTYPE)))
+			ld.Ctxt.Diag("TLS reloc on unsupported OS %s", ld.Headstr(int(ld.HEADTYPE)))
 		}
 		// The TCB is two pointers. This is not documented anywhere, but is
 		// de facto part of the ABI.
 		v := r.Sym.Value + int64(2*ld.SysArch.PtrSize)
 		if v < 0 || v >= 32678 {
-			ld.Diag("TLS offset out of range %d", v)
+			ld.Ctxt.Diag("TLS offset out of range %d", v)
 		}
 		*val |= v << 5
 		return 0
@@ -376,7 +376,7 @@ func archreloc(r *ld.Reloc, s *ld.Symbol, val *int64) int {
 	case obj.R_CALLARM64:
 		t := (ld.Symaddr(r.Sym) + r.Add) - (s.Value + int64(r.Off))
 		if t >= 1<<27 || t < -1<<27 {
-			ld.Diag("program too large, call relocation distance = %d", t)
+			ld.Ctxt.Diag("program too large, call relocation distance = %d", t)
 		}
 		*val |= (t >> 2) & 0x03ffffff
 		return 0
@@ -390,7 +390,7 @@ func archrelocvariant(r *ld.Reloc, s *ld.Symbol, t int64) int64 {
 	return -1
 }
 
-func asmb() {
+func asmb(ctxt *ld.Link) {
 	if ld.Debug['v'] != 0 {
 		fmt.Fprintf(ld.Bso, "%5.2f asmb\n", obj.Cputime())
 	}
@@ -402,10 +402,10 @@ func asmb() {
 
 	sect := ld.Segtext.Sect
 	ld.Cseek(int64(sect.Vaddr - ld.Segtext.Vaddr + ld.Segtext.Fileoff))
-	ld.Codeblk(int64(sect.Vaddr), int64(sect.Length))
+	ld.Codeblk(ctxt, int64(sect.Vaddr), int64(sect.Length))
 	for sect = sect.Next; sect != nil; sect = sect.Next {
 		ld.Cseek(int64(sect.Vaddr - ld.Segtext.Vaddr + ld.Segtext.Fileoff))
-		ld.Datblk(int64(sect.Vaddr), int64(sect.Length))
+		ld.Datblk(ctxt, int64(sect.Vaddr), int64(sect.Length))
 	}
 
 	if ld.Segrodata.Filelen > 0 {
@@ -415,7 +415,7 @@ func asmb() {
 		ld.Bso.Flush()
 
 		ld.Cseek(int64(ld.Segrodata.Fileoff))
-		ld.Datblk(int64(ld.Segrodata.Vaddr), int64(ld.Segrodata.Filelen))
+		ld.Datblk(ctxt, int64(ld.Segrodata.Vaddr), int64(ld.Segrodata.Filelen))
 	}
 
 	if ld.Debug['v'] != 0 {
@@ -424,10 +424,10 @@ func asmb() {
 	ld.Bso.Flush()
 
 	ld.Cseek(int64(ld.Segdata.Fileoff))
-	ld.Datblk(int64(ld.Segdata.Vaddr), int64(ld.Segdata.Filelen))
+	ld.Datblk(ctxt, int64(ld.Segdata.Vaddr), int64(ld.Segdata.Filelen))
 
 	ld.Cseek(int64(ld.Segdwarf.Fileoff))
-	ld.Dwarfblk(int64(ld.Segdwarf.Vaddr), int64(ld.Segdwarf.Filelen))
+	ld.Dwarfblk(ctxt, int64(ld.Segdwarf.Vaddr), int64(ld.Segdwarf.Filelen))
 
 	machlink := uint32(0)
 	if ld.HEADTYPE == obj.Hdarwin {
@@ -471,7 +471,7 @@ func asmb() {
 				ld.Cwrite(ld.Elfstrdat)
 
 				if ld.Linkmode == ld.LinkExternal {
-					ld.Elfemitreloc()
+					ld.Elfemitreloc(ctxt)
 				}
 			}
 
@@ -509,8 +509,8 @@ func asmb() {
 		ld.Thearch.Lput(uint32(ld.Segtext.Filelen)) /* sizes */
 		ld.Thearch.Lput(uint32(ld.Segdata.Filelen))
 		ld.Thearch.Lput(uint32(ld.Segdata.Length - ld.Segdata.Filelen))
-		ld.Thearch.Lput(uint32(ld.Symsize))      /* nsyms */
-		ld.Thearch.Lput(uint32(ld.Entryvalue())) /* va of entry */
+		ld.Thearch.Lput(uint32(ld.Symsize))          /* nsyms */
+		ld.Thearch.Lput(uint32(ld.Entryvalue(ctxt))) /* va of entry */
 		ld.Thearch.Lput(0)
 		ld.Thearch.Lput(uint32(ld.Lcsize))
 
@@ -519,7 +519,7 @@ func asmb() {
 		obj.Hnetbsd,
 		obj.Hopenbsd,
 		obj.Hnacl:
-		ld.Asmbelf(int64(symo))
+		ld.Asmbelf(ctxt, int64(symo))
 
 	case obj.Hdarwin:
 		ld.Asmbmacho()
