@@ -81,6 +81,30 @@
       "revId": "7014b1dbbc1d3ee8d378d70babdfa9c99ecfc2b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08b0abbd_06effaec",
+        "filename": "src/index/suffixarray/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7250
+      },
+      "writtenOn": "2016-08-20T19:36:47Z",
+      "side": 1,
+      "message": "Makes sense to me.",
+      "parentUuid": "a8c95f46_0b2a9d7b",
+      "range": {
+        "startLine": 15,
+        "startChar": 1,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "7014b1dbbc1d3ee8d378d70babdfa9c99ecfc2b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
