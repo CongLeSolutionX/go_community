@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "db249f97_787400cb",
+        "filename": "src/cmd/link/internal/arm/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-08-20T20:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83053eb_202c32fd",
+      "revId": "af1e756c9fc402d55f5965b86a8218340a4d0a18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c83053eb_00313651",
         "filename": "src/cmd/link/internal/arm64/asm.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-20T20:03:02Z",
       "side": 1,
       "message": "lower",
+      "revId": "af1e756c9fc402d55f5965b86a8218340a4d0a18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db249f97_9871bcdc",
+        "filename": "src/cmd/link/internal/arm64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-08-20T20:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83053eb_00313651",
       "revId": "af1e756c9fc402d55f5965b86a8218340a4d0a18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "db249f97_b83e78de",
+        "filename": "src/cmd/link/internal/ld/ar.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-08-20T20:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83053eb_e02d0af9",
+      "revId": "af1e756c9fc402d55f5965b86a8218340a4d0a18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c83053eb_a0370243",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-20T20:03:02Z",
       "side": 1,
       "message": "lower",
+      "revId": "af1e756c9fc402d55f5965b86a8218340a4d0a18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db249f97_d8433471",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-08-20T20:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83053eb_a0370243",
       "revId": "af1e756c9fc402d55f5965b86a8218340a4d0a18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "db249f97_f838f0f3",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-08-20T20:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83053eb_c03a0e2d",
+      "revId": "af1e756c9fc402d55f5965b86a8218340a4d0a18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c83053eb_80040675",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2016-08-20T20:03:02Z",
       "side": 1,
       "message": "etc",
+      "revId": "af1e756c9fc402d55f5965b86a8218340a4d0a18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db249f97_183eacdd",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-08-20T20:34:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83053eb_80040675",
       "revId": "af1e756c9fc402d55f5965b86a8218340a4d0a18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
