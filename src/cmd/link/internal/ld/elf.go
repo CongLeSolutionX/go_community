@@ -913,7 +913,7 @@ var buildinfo []byte
  Initialize the global variable that describes the ELF header. It will be updated as
  we write section and prog headers.
 */
-func Elfinit() {
+func Elfinit(Ctxt *Link) {
 	Iself = true
 
 	if SysArch.InFamily(sys.AMD64, sys.ARM64, sys.MIPS64, sys.PPC64, sys.S390X) {
@@ -1184,10 +1184,10 @@ func Elfwritedynent(s *Symbol, tag int, val uint64) {
 }
 
 func elfwritedynentsym(s *Symbol, tag int, t *Symbol) {
-	Elfwritedynentsymplus(s, tag, t, 0)
+	Elfwritedynentsymplus(Ctxt, s, tag, t, 0)
 }
 
-func Elfwritedynentsymplus(s *Symbol, tag int, t *Symbol, add int64) {
+func Elfwritedynentsymplus(Ctxt *Link, s *Symbol, tag int, t *Symbol, add int64) {
 	if elf64 {
 		Adduint64(Ctxt, s, uint64(tag))
 	} else {
@@ -1196,7 +1196,7 @@ func Elfwritedynentsymplus(s *Symbol, tag int, t *Symbol, add int64) {
 	Addaddrplus(Ctxt, s, t, add)
 }
 
-func elfwritedynentsymsize(s *Symbol, tag int, t *Symbol) {
+func elfwritedynentsymsize(Ctxt *Link, s *Symbol, tag int, t *Symbol) {
 	if elf64 {
 		Adduint64(Ctxt, s, uint64(tag))
 	} else {
@@ -1570,7 +1570,7 @@ func elfdynhash() {
 		} else {
 			Elfwritedynent(s, DT_PLTREL, DT_REL)
 		}
-		elfwritedynentsymsize(s, DT_PLTRELSZ, sy)
+		elfwritedynentsymsize(Ctxt, s, DT_PLTRELSZ, sy)
 		elfwritedynentsym(s, DT_JMPREL, sy)
 	}
 
@@ -2022,14 +2022,14 @@ func doelf() {
 			Elfwritedynent(s, DT_SYMENT, ELF32SYMSIZE)
 		}
 		elfwritedynentsym(s, DT_STRTAB, Linklookup(Ctxt, ".dynstr", 0))
-		elfwritedynentsymsize(s, DT_STRSZ, Linklookup(Ctxt, ".dynstr", 0))
+		elfwritedynentsymsize(Ctxt, s, DT_STRSZ, Linklookup(Ctxt, ".dynstr", 0))
 		if elfRelType == ".rela" {
 			elfwritedynentsym(s, DT_RELA, Linklookup(Ctxt, ".rela", 0))
-			elfwritedynentsymsize(s, DT_RELASZ, Linklookup(Ctxt, ".rela", 0))
+			elfwritedynentsymsize(Ctxt, s, DT_RELASZ, Linklookup(Ctxt, ".rela", 0))
 			Elfwritedynent(s, DT_RELAENT, ELF64RELASIZE)
 		} else {
 			elfwritedynentsym(s, DT_REL, Linklookup(Ctxt, ".rel", 0))
-			elfwritedynentsymsize(s, DT_RELSZ, Linklookup(Ctxt, ".rel", 0))
+			elfwritedynentsymsize(Ctxt, s, DT_RELSZ, Linklookup(Ctxt, ".rel", 0))
 			Elfwritedynent(s, DT_RELENT, ELF32RELSIZE)
 		}
 

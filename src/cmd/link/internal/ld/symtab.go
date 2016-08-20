@@ -194,7 +194,7 @@ func Asmelfsym() {
 	// the first symbol entry is reserved
 	putelfsyment(0, 0, 0, STB_LOCAL<<4|STT_NOTYPE, 0, 0)
 
-	dwarfaddelfsectionsyms()
+	dwarfaddelfsectionsyms(Ctxt)
 
 	// Some linkers will add a FILE sym if one is not present.
 	// Avoid having the working directory inserted into the symbol table.
@@ -317,33 +317,33 @@ func (libs byPkg) Swap(a, b int) {
 	libs[a], libs[b] = libs[b], libs[a]
 }
 
-func symtab() {
-	dosymtype()
+func (Ctxt *Link) symtab() {
+	dosymtype(Ctxt)
 
 	// Define these so that they'll get put into the symbol table.
 	// data.c:/^address will provide the actual values.
-	xdefine("runtime.text", obj.STEXT, 0)
+	Ctxt.xdefine("runtime.text", obj.STEXT, 0)
 
-	xdefine("runtime.etext", obj.STEXT, 0)
-	xdefine("runtime.typelink", obj.SRODATA, 0)
-	xdefine("runtime.etypelink", obj.SRODATA, 0)
-	xdefine("runtime.itablink", obj.SRODATA, 0)
-	xdefine("runtime.eitablink", obj.SRODATA, 0)
-	xdefine("runtime.rodata", obj.SRODATA, 0)
-	xdefine("runtime.erodata", obj.SRODATA, 0)
-	xdefine("runtime.types", obj.SRODATA, 0)
-	xdefine("runtime.etypes", obj.SRODATA, 0)
-	xdefine("runtime.noptrdata", obj.SNOPTRDATA, 0)
-	xdefine("runtime.enoptrdata", obj.SNOPTRDATA, 0)
-	xdefine("runtime.data", obj.SDATA, 0)
-	xdefine("runtime.edata", obj.SDATA, 0)
-	xdefine("runtime.bss", obj.SBSS, 0)
-	xdefine("runtime.ebss", obj.SBSS, 0)
-	xdefine("runtime.noptrbss", obj.SNOPTRBSS, 0)
-	xdefine("runtime.enoptrbss", obj.SNOPTRBSS, 0)
-	xdefine("runtime.end", obj.SBSS, 0)
-	xdefine("runtime.epclntab", obj.SRODATA, 0)
-	xdefine("runtime.esymtab", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.etext", obj.STEXT, 0)
+	Ctxt.xdefine("runtime.typelink", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.etypelink", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.itablink", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.eitablink", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.rodata", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.erodata", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.types", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.etypes", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.noptrdata", obj.SNOPTRDATA, 0)
+	Ctxt.xdefine("runtime.enoptrdata", obj.SNOPTRDATA, 0)
+	Ctxt.xdefine("runtime.data", obj.SDATA, 0)
+	Ctxt.xdefine("runtime.edata", obj.SDATA, 0)
+	Ctxt.xdefine("runtime.bss", obj.SBSS, 0)
+	Ctxt.xdefine("runtime.ebss", obj.SBSS, 0)
+	Ctxt.xdefine("runtime.noptrbss", obj.SNOPTRBSS, 0)
+	Ctxt.xdefine("runtime.enoptrbss", obj.SNOPTRBSS, 0)
+	Ctxt.xdefine("runtime.end", obj.SBSS, 0)
+	Ctxt.xdefine("runtime.epclntab", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.esymtab", obj.SRODATA, 0)
 
 	// garbage collection symbols
 	s := Linklookup(Ctxt, "runtime.gcdata", 0)
@@ -351,13 +351,13 @@ func symtab() {
 	s.Type = obj.SRODATA
 	s.Size = 0
 	s.Attr |= AttrReachable
-	xdefine("runtime.egcdata", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.egcdata", obj.SRODATA, 0)
 
 	s = Linklookup(Ctxt, "runtime.gcbss", 0)
 	s.Type = obj.SRODATA
 	s.Size = 0
 	s.Attr |= AttrReachable
-	xdefine("runtime.egcbss", obj.SRODATA, 0)
+	Ctxt.xdefine("runtime.egcbss", obj.SRODATA, 0)
 
 	// pseudo-symbols to mark locations of type, string, and go string data.
 	var symtype *Symbol
@@ -545,7 +545,7 @@ func symtab() {
 			// it something slightly more comprehensible.
 			thismodulename = "the executable"
 		}
-		addgostring(moduledata, "go.link.thismodulename", thismodulename)
+		addgostring(Ctxt, moduledata, "go.link.thismodulename", thismodulename)
 
 		modulehashes := Linklookup(Ctxt, "go.link.abihashes", 0)
 		modulehashes.Attr |= AttrReachable
@@ -555,10 +555,10 @@ func symtab() {
 		for i, shlib := range Ctxt.Shlibs {
 			// modulehashes[i].modulename
 			modulename := filepath.Base(shlib.Path)
-			addgostring(modulehashes, fmt.Sprintf("go.link.libname.%d", i), modulename)
+			addgostring(Ctxt, modulehashes, fmt.Sprintf("go.link.libname.%d", i), modulename)
 
 			// modulehashes[i].linktimehash
-			addgostring(modulehashes, fmt.Sprintf("go.link.linkhash.%d", i), string(shlib.Hash))
+			addgostring(Ctxt, modulehashes, fmt.Sprintf("go.link.linkhash.%d", i), string(shlib.Hash))
 
 			// modulehashes[i].runtimehash
 			abihash := Linklookup(Ctxt, "go.link.abihash."+modulename, 0)
@@ -576,7 +576,7 @@ func symtab() {
 	// creating the moduledata from scratch and it does not have a
 	// compiler-provided size, so read it from the type data.
 	moduledatatype := Linkrlookup(Ctxt, "type.runtime.moduledata", 0)
-	moduledata.Size = decodetype_size(moduledatatype)
+	moduledata.Size = decodetype_size(Ctxt.Arch, moduledatatype)
 	Symgrow(Ctxt, moduledata, moduledata.Size)
 
 	lastmoduledatap := Linklookup(Ctxt, "runtime.lastmoduledatap", 0)
