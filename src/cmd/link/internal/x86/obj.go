@@ -145,7 +145,7 @@ func archinit() {
 		obj.Hfreebsd,
 		obj.Hnetbsd,
 		obj.Hopenbsd:
-		ld.Elfinit()
+		ld.Elfinit(ld.Ctxt)
 
 		ld.HEADR = ld.ELFRESERVE
 		if ld.INITTEXT == -1 {
@@ -159,7 +159,7 @@ func archinit() {
 		}
 
 	case obj.Hnacl:
-		ld.Elfinit()
+		ld.Elfinit(ld.Ctxt)
 		ld.HEADR = 0x10000
 		ld.Funcalign = 32
 		if ld.INITTEXT == -1 {

@@ -151,7 +151,7 @@ func archinit() {
 		obj.Hopenbsd,   /* openbsd */
 		obj.Hdragonfly, /* dragonfly */
 		obj.Hsolaris:   /* solaris */
-		ld.Elfinit()
+		ld.Elfinit(ld.Ctxt)
 
 		ld.HEADR = ld.ELFRESERVE
 		if ld.INITTEXT == -1 {
@@ -165,7 +165,7 @@ func archinit() {
 		}
 
 	case obj.Hnacl:
-		ld.Elfinit()
+		ld.Elfinit(ld.Ctxt)
 		ld.Debug['w']++ // disable dwarf, which gets confused and is useless anyway
 		ld.HEADR = 0x10000
 		ld.Funcalign = 32
