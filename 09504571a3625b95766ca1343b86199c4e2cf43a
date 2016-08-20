@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c83053eb_00637645",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-20T20:31:51Z",
+      "side": 1,
+      "message": "// KeyLogWriter optionally specifies a destination to write ...",
+      "revId": "09504571a3625b95766ca1343b86199c4e2cf43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_e05f4a79",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-20T20:31:51Z",
+      "side": 1,
+      "message": "I\u0027d just delete this line so we have flexibility in the future.",
+      "revId": "09504571a3625b95766ca1343b86199c4e2cf43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_a0694223",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-20T20:31:51Z",
+      "side": 1,
+      "message": "Or just\n\n// Use of KeyLogWriter compromises security and should only be\n// used for debugging.",
+      "revId": "09504571a3625b95766ca1343b86199c4e2cf43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
