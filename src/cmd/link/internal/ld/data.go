@@ -319,7 +319,7 @@ func listsort(l *Symbol, cmp func(*Symbol, *Symbol) int, nextp func(*Symbol) **S
 	return l
 }
 
-func relocsym(s *Symbol) {
+func relocsym(Ctxt *Link, s *Symbol) {
 	var r *Reloc
 	var rs *Symbol
 	var i16 int16
@@ -651,24 +651,24 @@ func relocsym(s *Symbol) {
 	}
 }
 
-func reloc() {
+func (Ctxt *Link) reloc() {
 	if Debug['v'] != 0 {
 		fmt.Fprintf(Bso, "%5.2f reloc\n", obj.Cputime())
 	}
 	Bso.Flush()
 
 	for _, s := range Ctxt.Textp {
-		relocsym(s)
+		relocsym(Ctxt, s)
 	}
 	for _, sym := range datap {
-		relocsym(sym)
+		relocsym(Ctxt, sym)
 	}
 	for s := dwarfp; s != nil; s = s.Next {
-		relocsym(s)
+		relocsym(Ctxt, s)
 	}
 }
 
-func dynrelocsym(s *Symbol) {
+func dynrelocsym(Ctxt *Link, s *Symbol) {
 	if HEADTYPE == obj.Hwindows && Linkmode != LinkExternal {
 		rel := Linklookup(Ctxt, ".rel", 0)
 		if s == rel {
@@ -722,7 +722,7 @@ func dynrelocsym(s *Symbol) {
 	}
 }
 
-func dynreloc(data *[obj.SXREF][]*Symbol) {
+func dynreloc(Ctxt *Link, data *[obj.SXREF][]*Symbol) {
 	// -d suppresses dynamic loader format, so we may as well not
 	// compute these sections or mark their symbols as reachable.
 	if Debug['d'] != 0 && HEADTYPE != obj.Hwindows {
@@ -734,19 +734,19 @@ func dynreloc(data *[obj.SXREF][]*Symbol) {
 	Bso.Flush()
 
 	for _, s := range Ctxt.Textp {
-		dynrelocsym(s)
+		dynrelocsym(Ctxt, s)
 	}
 	for _, syms := range data {
 		for _, sym := range syms {
-			dynrelocsym(sym)
+			dynrelocsym(Ctxt, sym)
 		}
 	}
 	if Iself {
-		elfdynhash()
+		elfdynhash(Ctxt)
 	}
 }
 
-func blk(start *Symbol, addr int64, size int64) {
+func blk(Ctxt *Link, start *Symbol, addr int64, size int64) {
 	var sym *Symbol
 
 	for sym = start; sym != nil; sym = sym.Next {
@@ -795,15 +795,15 @@ func blk(start *Symbol, addr int64, size int64) {
 	Cflush()
 }
 
-func Codeblk(addr int64, size int64) {
-	CodeblkPad(addr, size, zeros[:])
+func Codeblk(Ctxt *Link, addr int64, size int64) {
+	CodeblkPad(Ctxt, addr, size, zeros[:])
 }
-func CodeblkPad(addr int64, size int64, pad []byte) {
+func CodeblkPad(Ctxt *Link, addr int64, size int64, pad []byte) {
 	if Debug['a'] != 0 {
 		fmt.Fprintf(Bso, "codeblk [%#x,%#x) at offset %#x\n", addr, addr+size, Cpos())
 	}
 
-	blkSlice(Ctxt.Textp, addr, size, pad)
+	blkSlice(Ctxt, Ctxt.Textp, addr, size, pad)
 
 	/* again for printing */
 	if Debug['a'] == 0 {
@@ -867,7 +867,7 @@ func CodeblkPad(addr int64, size int64, pad []byte) {
 // blkSlice is a variant of blk that processes slices.
 // After text symbols are converted from a linked list to a slice,
 // delete blk and give this function its name.
-func blkSlice(syms []*Symbol, addr, size int64, pad []byte) {
+func blkSlice(Ctxt *Link, syms []*Symbol, addr, size int64, pad []byte) {
 	for i, s := range syms {
 		if s.Type&obj.SSUB == 0 && s.Value >= addr {
 			syms = syms[i:]
@@ -913,12 +913,12 @@ func blkSlice(syms []*Symbol, addr, size int64, pad []byte) {
 	Cflush()
 }
 
-func Datblk(addr int64, size int64) {
+func Datblk(Ctxt *Link, addr int64, size int64) {
 	if Debug['a'] != 0 {
 		fmt.Fprintf(Bso, "datblk [%#x,%#x) at offset %#x\n", addr, addr+size, Cpos())
 	}
 
-	blkSlice(datap, addr, size, zeros[:])
+	blkSlice(Ctxt, datap, addr, size, zeros[:])
 
 	/* again for printing */
 	if Debug['a'] == 0 {
@@ -984,12 +984,12 @@ func Datblk(addr int64, size int64) {
 	fmt.Fprintf(Bso, "\t%.8x|\n", uint(eaddr))
 }
 
-func Dwarfblk(addr int64, size int64) {
+func Dwarfblk(Ctxt *Link, addr int64, size int64) {
 	if Debug['a'] != 0 {
 		fmt.Fprintf(Bso, "dwarfblk [%#x,%#x) at offset %#x\n", addr, addr+size, Cpos())
 	}
 
-	blk(dwarfp, addr, size)
+	blk(Ctxt, dwarfp, addr, size)
 }
 
 var zeros [512]byte
@@ -1021,15 +1021,15 @@ func strnputPad(s string, n int, pad []byte) {
 
 var strdata []*Symbol
 
-func addstrdata1(arg string) {
+func addstrdata1(Ctxt *Link, arg string) {
 	i := strings.Index(arg, "=")
 	if i < 0 {
 		Exitf("-X flag requires argument of the form importpath.name=value")
 	}
-	addstrdata(arg[:i], arg[i+1:])
+	addstrdata(Ctxt, arg[:i], arg[i+1:])
 }
 
-func addstrdata(name string, value string) {
+func addstrdata(Ctxt *Link, name string, value string) {
 	p := fmt.Sprintf("%s.str", name)
 	sp := Linklookup(Ctxt, p, 0)
 
@@ -1080,7 +1080,7 @@ func Addstring(s *Symbol, str string) int64 {
 
 // addgostring adds str, as a Go string value, to s. symname is the name of the
 // symbol used to define the string data and must be unique per linked object.
-func addgostring(s *Symbol, symname, str string) {
+func addgostring(Ctxt *Link, s *Symbol, symname, str string) {
 	sym := Linklookup(Ctxt, symname, 0)
 	if sym.Type != obj.Sxxx {
 		Diag("duplicate symname in addgostring: %s", symname)
@@ -1094,7 +1094,7 @@ func addgostring(s *Symbol, symname, str string) {
 	adduint(Ctxt, s, uint64(len(str)))
 }
 
-func addinitarrdata(s *Symbol) {
+func addinitarrdata(Ctxt *Link, s *Symbol) {
 	p := s.Name + ".ptr"
 	sp := Linklookup(Ctxt, p, 0)
 	sp.Type = obj.SINITARR
@@ -1103,7 +1103,7 @@ func addinitarrdata(s *Symbol) {
 	Addaddr(Ctxt, sp, s)
 }
 
-func dosymtype() {
+func dosymtype(Ctxt *Link) {
 	for _, s := range Ctxt.Allsym {
 		if len(s.P) > 0 {
 			if s.Type == obj.SBSS {
@@ -1118,7 +1118,7 @@ func dosymtype() {
 		switch Buildmode {
 		case BuildmodeCArchive, BuildmodeCShared:
 			if s.Name == INITENTRY {
-				addinitarrdata(s)
+				addinitarrdata(Ctxt, s)
 			}
 		}
 	}
@@ -1151,21 +1151,25 @@ func aligndatsize(datsize int64, s *Symbol) int64 {
 const debugGCProg = false
 
 type GCProg struct {
-	sym *Symbol
-	w   gcprog.Writer
+	ctxt *Link
+	sym  *Symbol
+	w    gcprog.Writer
 }
 
-func (p *GCProg) Init(name string) {
+func (p *GCProg) Init(Ctxt *Link, name string) {
+	p.ctxt = Ctxt
 	p.sym = Linklookup(Ctxt, name, 0)
-	p.w.Init(p.writeByte)
+	p.w.Init(p.writeByte(Ctxt))
 	if debugGCProg {
 		fmt.Fprintf(os.Stderr, "ld: start GCProg %s\n", name)
 		p.w.Debug(os.Stderr)
 	}
 }
 
-func (p *GCProg) writeByte(x byte) {
-	Adduint8(Ctxt, p.sym, x)
+func (p *GCProg) writeByte(Ctxt *Link) func(x byte) {
+	return func(x byte) {
+		Adduint8(Ctxt, p.sym, x)
+	}
 }
 
 func (p *GCProg) End(size int64) {
@@ -1186,7 +1190,7 @@ func (p *GCProg) AddSym(s *Symbol) {
 	}
 
 	ptrsize := int64(SysArch.PtrSize)
-	nptr := decodetype_ptrdata(typ) / ptrsize
+	nptr := decodetype_ptrdata(p.ctxt.Arch, typ) / ptrsize
 
 	if debugGCProg {
 		fmt.Fprintf(os.Stderr, "gcprog sym: %s at %d (ptr=%d+%d)\n", s.Name, s.Value, s.Value/ptrsize, nptr)
@@ -1194,7 +1198,7 @@ func (p *GCProg) AddSym(s *Symbol) {
 
 	if decodetype_usegcprog(typ) == 0 {
 		// Copy pointers from mask into program.
-		mask := decodetype_gcmask(typ)
+		mask := decodetype_gcmask(p.ctxt, typ)
 		for i := int64(0); i < nptr; i++ {
 			if (mask[i/8]>>uint(i%8))&1 != 0 {
 				p.w.Ptr(s.Value/ptrsize + i)
@@ -1204,7 +1208,7 @@ func (p *GCProg) AddSym(s *Symbol) {
 	}
 
 	// Copy program.
-	prog := decodetype_gcprog(typ)
+	prog := decodetype_gcprog(p.ctxt, typ)
 	p.w.ZeroUntil(s.Value / ptrsize)
 	p.w.Append(prog[4:], nptr)
 }
@@ -1249,7 +1253,7 @@ func list2slice(s *Symbol) []*Symbol {
 // Generated by dodata.
 var datap []*Symbol
 
-func dodata() {
+func (Ctxt *Link) dodata() {
 	if Debug['v'] != 0 {
 		fmt.Fprintf(Bso, "%5.2f dodata\n", obj.Cputime())
 	}
@@ -1276,7 +1280,7 @@ func dodata() {
 	if HEADTYPE == obj.Hdarwin {
 		machosymorder()
 	}
-	dynreloc(&data)
+	dynreloc(Ctxt, &data)
 
 	if UseRelro() {
 		// "read only" data with relocations needs to go in its own section
@@ -1442,7 +1446,7 @@ func dodata() {
 	Linklookup(Ctxt, "runtime.data", 0).Sect = sect
 	Linklookup(Ctxt, "runtime.edata", 0).Sect = sect
 	var gc GCProg
-	gc.Init("runtime.gcdata")
+	gc.Init(Ctxt, "runtime.gcdata")
 	for _, s := range data[obj.SDATA] {
 		s.Sect = sect
 		s.Type = obj.SDATA
@@ -1463,7 +1467,7 @@ func dodata() {
 	Linklookup(Ctxt, "runtime.bss", 0).Sect = sect
 	Linklookup(Ctxt, "runtime.ebss", 0).Sect = sect
 	gc = GCProg{}
-	gc.Init("runtime.gcbss")
+	gc.Init(Ctxt, "runtime.gcbss")
 	for _, s := range data[obj.SBSS] {
 		s.Sect = sect
 		datsize = aligndatsize(datsize, s)
@@ -1751,7 +1755,7 @@ func dodata() {
 		datap = append(datap, data[symn]...)
 	}
 
-	dwarfgeneratedebugsyms()
+	dwarfgeneratedebugsyms(Ctxt)
 
 	var s *Symbol
 	for s = dwarfp; s != nil && s.Type == obj.SDWARFSECT; s = s.Next {
@@ -1896,7 +1900,7 @@ func dodataSect(symn int, syms []*Symbol) (result []*Symbol, maxAlign int32) {
 // give us a place to put the Go build ID. On those systems, we put it
 // at the very beginning of the text segment.
 // This ``header'' is read by cmd/go.
-func textbuildid() {
+func (Ctxt *Link) textbuildid() {
 	if Iself || buildid == "" {
 		return
 	}
@@ -1916,7 +1920,7 @@ func textbuildid() {
 }
 
 // assign addresses to text
-func textaddress() {
+func (Ctxt *Link) textaddress() {
 	addsection(&Segtext, ".text", 05)
 
 	// Assign PCs in text segment.
@@ -1960,7 +1964,7 @@ func textaddress() {
 }
 
 // assign addresses
-func address() {
+func (Ctxt *Link) address() {
 	va := uint64(INITTEXT)
 	Segtext.Rwx = 05
 	Segtext.Vaddr = va
@@ -2113,41 +2117,41 @@ func address() {
 		types = rodata
 	}
 
-	xdefine("runtime.text", obj.STEXT, int64(text.Vaddr))
-	xdefine("runtime.etext", obj.STEXT, int64(text.Vaddr+text.Length))
+	Ctxt.xdefine("runtime.text", obj.STEXT, int64(text.Vaddr))
+	Ctxt.xdefine("runtime.etext", obj.STEXT, int64(text.Vaddr+text.Length))
 	if HEADTYPE == obj.Hwindows {
-		xdefine(".text", obj.STEXT, int64(text.Vaddr))
+		Ctxt.xdefine(".text", obj.STEXT, int64(text.Vaddr))
 	}
-	xdefine("runtime.rodata", obj.SRODATA, int64(rodata.Vaddr))
-	xdefine("runtime.erodata", obj.SRODATA, int64(rodata.Vaddr+rodata.Length))
-	xdefine("runtime.types", obj.SRODATA, int64(types.Vaddr))
-	xdefine("runtime.etypes", obj.SRODATA, int64(types.Vaddr+types.Length))
-	xdefine("runtime.typelink", obj.SRODATA, int64(typelink.Vaddr))
-	xdefine("runtime.etypelink", obj.SRODATA, int64(typelink.Vaddr+typelink.Length))
-	xdefine("runtime.itablink", obj.SRODATA, int64(itablink.Vaddr))
-	xdefine("runtime.eitablink", obj.SRODATA, int64(itablink.Vaddr+itablink.Length))
+	Ctxt.xdefine("runtime.rodata", obj.SRODATA, int64(rodata.Vaddr))
+	Ctxt.xdefine("runtime.erodata", obj.SRODATA, int64(rodata.Vaddr+rodata.Length))
+	Ctxt.xdefine("runtime.types", obj.SRODATA, int64(types.Vaddr))
+	Ctxt.xdefine("runtime.etypes", obj.SRODATA, int64(types.Vaddr+types.Length))
+	Ctxt.xdefine("runtime.typelink", obj.SRODATA, int64(typelink.Vaddr))
+	Ctxt.xdefine("runtime.etypelink", obj.SRODATA, int64(typelink.Vaddr+typelink.Length))
+	Ctxt.xdefine("runtime.itablink", obj.SRODATA, int64(itablink.Vaddr))
+	Ctxt.xdefine("runtime.eitablink", obj.SRODATA, int64(itablink.Vaddr+itablink.Length))
 
 	sym := Linklookup(Ctxt, "runtime.gcdata", 0)
 	sym.Attr |= AttrLocal
-	xdefine("runtime.egcdata", obj.SRODATA, Symaddr(sym)+sym.Size)
+	Ctxt.xdefine("runtime.egcdata", obj.SRODATA, Symaddr(sym)+sym.Size)
 	Linklookup(Ctxt, "runtime.egcdata", 0).Sect = sym.Sect
 
 	sym = Linklookup(Ctxt, "runtime.gcbss", 0)
 	sym.Attr |= AttrLocal
-	xdefine("runtime.egcbss", obj.SRODATA, Symaddr(sym)+sym.Size)
+	Ctxt.xdefine("runtime.egcbss", obj.SRODATA, Symaddr(sym)+sym.Size)
 	Linklookup(Ctxt, "runtime.egcbss", 0).Sect = sym.Sect
 
-	xdefine("runtime.symtab", obj.SRODATA, int64(symtab.Vaddr))
-	xdefine("runtime.esymtab", obj.SRODATA, int64(symtab.Vaddr+symtab.Length))
-	xdefine("runtime.pclntab", obj.SRODATA, int64(pclntab.Vaddr))
-	xdefine("runtime.epclntab", obj.SRODATA, int64(pclntab.Vaddr+pclntab.Length))
-	xdefine("runtime.noptrdata", obj.SNOPTRDATA, int64(noptr.Vaddr))
-	xdefine("runtime.enoptrdata", obj.SNOPTRDATA, int64(noptr.Vaddr+noptr.Length))
-	xdefine("runtime.bss", obj.SBSS, int64(bss.Vaddr))
-	xdefine("runtime.ebss", obj.SBSS, int64(bss.Vaddr+bss.Length))
-	xdefine("runtime.data", obj.SDATA, int64(data.Vaddr))
-	xdefine("runtime.edata", obj.SDATA, int64(data.Vaddr+data.Length))
-	xdefine("runtime.noptrbss", obj.SNOPTRBSS, int64(noptrbss.Vaddr))
-	xdefine("runtime.enoptrbss", obj.SNOPTRBSS, int64(noptrbss.Vaddr+noptrbss.Length))
-	xdefine("runtime.end", obj.SBSS, int64(Segdata.Vaddr+Segdata.Length))
+	Ctxt.xdefine("runtime.symtab", obj.SRODATA, int64(symtab.Vaddr))
+	Ctxt.xdefine("runtime.esymtab", obj.SRODATA, int64(symtab.Vaddr+symtab.Length))
+	Ctxt.xdefine("runtime.pclntab", obj.SRODATA, int64(pclntab.Vaddr))
+	Ctxt.xdefine("runtime.epclntab", obj.SRODATA, int64(pclntab.Vaddr+pclntab.Length))
+	Ctxt.xdefine("runtime.noptrdata", obj.SNOPTRDATA, int64(noptr.Vaddr))
+	Ctxt.xdefine("runtime.enoptrdata", obj.SNOPTRDATA, int64(noptr.Vaddr+noptr.Length))
+	Ctxt.xdefine("runtime.bss", obj.SBSS, int64(bss.Vaddr))
+	Ctxt.xdefine("runtime.ebss", obj.SBSS, int64(bss.Vaddr+bss.Length))
+	Ctxt.xdefine("runtime.data", obj.SDATA, int64(data.Vaddr))
+	Ctxt.xdefine("runtime.edata", obj.SDATA, int64(data.Vaddr+data.Length))
+	Ctxt.xdefine("runtime.noptrbss", obj.SNOPTRBSS, int64(noptrbss.Vaddr))
+	Ctxt.xdefine("runtime.enoptrbss", obj.SNOPTRBSS, int64(noptrbss.Vaddr+noptrbss.Length))
+	Ctxt.xdefine("runtime.end", obj.SBSS, int64(Segdata.Vaddr+Segdata.Length))
 }

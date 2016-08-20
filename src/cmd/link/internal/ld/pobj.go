@@ -79,12 +79,12 @@ func Ldmain() {
 	obj.Flagint64("D", "set data segment `address`", &INITDAT)
 	obj.Flagstr("E", "set `entry` symbol name", &INITENTRY)
 	obj.Flagfn1("I", "use `linker` as ELF dynamic linker", setinterp)
-	obj.Flagfn1("L", "add specified `directory` to library path", Lflag)
+	obj.Flagfn1("L", "add specified `directory` to library path", func(a string) { Lflag(Ctxt, a) })
 	obj.Flagfn1("H", "set header `type`", setheadtype)
 	obj.Flagint32("R", "set address rounding `quantum`", &INITRND)
 	obj.Flagint64("T", "set text segment `address`", &INITTEXT)
 	obj.Flagfn0("V", "print version and exit", doversion)
-	obj.Flagfn1("X", "add string value `definition` of the form importpath.name=value", addstrdata1)
+	obj.Flagfn1("X", "add string value `definition` of the form importpath.name=value", func(s string) { addstrdata1(Ctxt, s) })
 	obj.Flagcount("a", "disassemble output", &Debug['a'])
 	obj.Flagstr("buildid", "record `id` as Go toolchain build id", &buildid)
 	flag.Var(&Buildmode, "buildmode", "set build `mode`")
@@ -148,7 +148,7 @@ func Ldmain() {
 		}
 	}
 
-	libinit() // creates outfile
+	libinit(Ctxt) // creates outfile
 
 	if HEADTYPE == -1 {
 		HEADTYPE = int32(headtype(goos))
@@ -186,34 +186,34 @@ func Ldmain() {
 	} else {
 		addlibpath(Ctxt, "command line", "command line", flag.Arg(0), "main", "")
 	}
-	loadlib()
+	Ctxt.loadlib()
 
 	checkstrdata()
 	deadcode(Ctxt)
 	fieldtrack(Ctxt)
 	callgraph()
 
-	doelf()
+	Ctxt.doelf()
 	if HEADTYPE == obj.Hdarwin {
 		domacho()
 	}
-	dostkcheck()
+	Ctxt.dostkcheck()
 	if HEADTYPE == obj.Hwindows {
 		dope()
 	}
-	addexport()
+	Ctxt.addexport()
 	Thearch.Gentext() // trampolines, call stubs, etc.
-	textbuildid()
-	textaddress()
+	Ctxt.textbuildid()
+	Ctxt.textaddress()
 	pclntab()
 	findfunctab()
-	symtab()
-	dodata()
-	address()
-	reloc()
-	Thearch.Asmb()
+	Ctxt.symtab()
+	Ctxt.dodata()
+	Ctxt.address()
+	Ctxt.reloc()
+	Thearch.Asmb(Ctxt)
 	undef()
-	hostlink()
+	Ctxt.hostlink()
 	archive()
 	if Debug['v'] != 0 {
 		fmt.Fprintf(Bso, "%5.2f cpu time\n", obj.Cputime())

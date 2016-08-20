@@ -415,7 +415,7 @@ func macholoadsym(m *LdMachoObj, symtab *LdMachoSymtab) int {
 	return 0
 }
 
-func ldmacho(f *bio.Reader, pkg string, length int64, pn string) {
+func ldmacho(Ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
 	var err error
 	var j int
 	var is64 bool

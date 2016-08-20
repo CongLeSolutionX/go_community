@@ -130,7 +130,7 @@ type PeObj struct {
 	snames []byte
 }
 
-func ldpe(f *bio.Reader, pkg string, length int64, pn string) {
+func ldpe(Ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
 	if Debug['v'] != 0 {
 		fmt.Fprintf(Bso, "%5.2f ldpe %s\n", obj.Cputime(), pn)
 	}
@@ -300,7 +300,7 @@ func ldpe(f *bio.Reader, pkg string, length int64, pn string) {
 			rva := Le32(symbuf[0:])
 			symindex := Le32(symbuf[4:])
 			type_ := Le16(symbuf[8:])
-			if err = readpesym(peobj, int(symindex), &sym); err != nil {
+			if err = readpesym(Ctxt, peobj, int(symindex), &sym); err != nil {
 				goto bad
 			}
 			if sym.sym == nil {
@@ -371,7 +371,7 @@ func ldpe(f *bio.Reader, pkg string, length int64, pn string) {
 			}
 		}
 
-		if err = readpesym(peobj, i, &sym); err != nil {
+		if err = readpesym(Ctxt, peobj, i, &sym); err != nil {
 			goto bad
 		}
 
@@ -475,7 +475,7 @@ func issect(s *PeSym) bool {
 	return s.sclass == IMAGE_SYM_CLASS_STATIC && s.type_ == 0 && s.name[0] == '.'
 }
 
-func readpesym(peobj *PeObj, i int, y **PeSym) (err error) {
+func readpesym(Ctxt *Link, peobj *PeObj, i int, y **PeSym) (err error) {
 	if uint(i) >= peobj.npesym || i < 0 {
 		err = fmt.Errorf("invalid pe symbol index")
 		return err

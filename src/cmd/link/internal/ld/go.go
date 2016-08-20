@@ -28,7 +28,7 @@ func expandpkg(t0 string, pkg string) string {
 //	once the dust settles, try to move some code to
 //		libmach, so that other linkers and ar can share.
 
-func ldpkg(f *bio.Reader, pkg string, length int64, filename string, whence int) {
+func ldpkg(Ctxt *Link, f *bio.Reader, pkg string, length int64, filename string, whence int) {
 	var p0, p1 int
 
 	if Debug['g'] != 0 {
@@ -121,11 +121,11 @@ func ldpkg(f *bio.Reader, pkg string, length int64, filename string, whence int)
 		}
 		p1 += p0
 
-		loadcgo(filename, pkg, data[p0:p1])
+		loadcgo(Ctxt, filename, pkg, data[p0:p1])
 	}
 }
 
-func loadcgo(file string, pkg string, p string) {
+func loadcgo(Ctxt *Link, file string, pkg string, p string) {
 	var next string
 	var q string
 	var f []string
@@ -298,7 +298,7 @@ err:
 
 var seenlib = make(map[string]bool)
 
-func adddynlib(lib string) {
+func adddynlib(Ctxt *Link, lib string) {
 	if seenlib[lib] || Linkmode == LinkExternal {
 		return
 	}
@@ -309,7 +309,7 @@ func adddynlib(lib string) {
 		if s.Size == 0 {
 			Addstring(s, "")
 		}
-		Elfwritedynent(Linklookup(Ctxt, ".dynamic", 0), DT_NEEDED, uint64(Addstring(s, lib)))
+		Elfwritedynent(Ctxt, Linklookup(Ctxt, ".dynamic", 0), DT_NEEDED, uint64(Addstring(s, lib)))
 	} else {
 		Diag("adddynlib: unsupported binary format")
 	}
@@ -359,19 +359,19 @@ func fieldtrack(ctxt *Link) {
 	if !s.Attr.Reachable() {
 		return
 	}
-	addstrdata(tracksym, buf.String())
+	addstrdata(ctxt, tracksym, buf.String())
 }
 
-func addexport() {
+func (ctxt *Link) addexport() {
 	if HEADTYPE == obj.Hdarwin {
 		return
 	}
 
 	for _, exp := range dynexp {
-		Adddynsym(Ctxt, exp)
+		Adddynsym(ctxt, exp)
 	}
 	for _, lib := range dynlib {
-		adddynlib(lib)
+		adddynlib(ctxt, lib)
 	}
 }
 

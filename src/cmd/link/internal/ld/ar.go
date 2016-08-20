@@ -63,7 +63,7 @@ type ArHdr struct {
 // file, but it has an armap listing symbols and the objects that
 // define them. This is used for the compiler support library
 // libgcc.a.
-func hostArchive(name string) {
+func hostArchive(Ctxt *Link, name string) {
 	f, err := bio.Open(name)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -118,9 +118,9 @@ func hostArchive(name string) {
 			pname := fmt.Sprintf("%s(%s)", name, arhdr.name)
 			l = atolwhex(arhdr.size)
 
-			h := ldobj(f, "libgcc", l, pname, name, ArchiveObj)
+			h := ldobj(Ctxt, f, "libgcc", l, pname, name, ArchiveObj)
 			f.Seek(h.off, 0)
-			h.ld(f, h.pkg, h.length, h.pn)
+			h.ld(Ctxt, f, h.pkg, h.length, h.pn)
 		}
 
 		any = len(load) > 0

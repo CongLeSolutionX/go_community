@@ -447,7 +447,7 @@ func parseArmAttributes(e binary.ByteOrder, data []byte) {
 	}
 }
 
-func ldelf(f *bio.Reader, pkg string, length int64, pn string) {
+func ldelf(Ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
 	if Debug['v'] != 0 {
 		fmt.Fprintf(Bso, "%5.2f ldelf %s\n", obj.Cputime(), pn)
 	}
@@ -748,7 +748,7 @@ func ldelf(f *bio.Reader, pkg string, length int64, pn string) {
 	symbols = make([]*Symbol, elfobj.nsymtab)
 
 	for i := 1; i < elfobj.nsymtab; i++ {
-		if err = readelfsym(elfobj, i, &sym, 1); err != nil {
+		if err = readelfsym(Ctxt, elfobj, i, &sym, 1); err != nil {
 			goto bad
 		}
 		symbols[i] = sym.sym
@@ -910,7 +910,7 @@ func ldelf(f *bio.Reader, pkg string, length int64, pn string) {
 			if info>>32 == 0 { // absolute relocation, don't bother reading the null symbol
 				rp.Sym = nil
 			} else {
-				if err = readelfsym(elfobj, int(info>>32), &sym, 0); err != nil {
+				if err = readelfsym(Ctxt, elfobj, int(info>>32), &sym, 0); err != nil {
 					goto bad
 				}
 				sym.sym = symbols[info>>32]
@@ -990,7 +990,7 @@ func elfmap(elfobj *ElfObj, sect *ElfSect) (err error) {
 	return nil
 }
 
-func readelfsym(elfobj *ElfObj, i int, sym *ElfSym, needSym int) (err error) {
+func readelfsym(Ctxt *Link, elfobj *ElfObj, i int, sym *ElfSym, needSym int) (err error) {
 	if i >= elfobj.nsymtab || i < 0 {
 		err = fmt.Errorf("invalid elf symbol index")
 		return err

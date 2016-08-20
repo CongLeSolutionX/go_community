@@ -99,7 +99,7 @@ type Arch struct {
 	Archinit         func()
 	Archreloc        func(*Reloc, *Symbol, *int64) int
 	Archrelocvariant func(*Reloc, *Symbol, int64) int64
-	Asmb             func()
+	Asmb             func(*Link)
 	Elfreloc1        func(*Reloc, int64) int
 	Elfsetupplt      func()
 	Gentext          func()
@@ -277,7 +277,7 @@ var (
 	theline     string
 )
 
-func Lflag(arg string) {
+func Lflag(Ctxt *Link, arg string) {
 	Ctxt.Libdir = append(Ctxt.Libdir, arg)
 }
 
@@ -385,7 +385,7 @@ func mayberemoveoutfile() {
 	os.Remove(outfile)
 }
 
-func libinit() {
+func libinit(Ctxt *Link) {
 	Funcalign = Thearch.Funcalign
 	mywhatsys() // get goroot, goarch, goos
 
@@ -404,7 +404,7 @@ func libinit() {
 		suffix = "msan"
 	}
 
-	Lflag(filepath.Join(goroot, "pkg", fmt.Sprintf("%s_%s%s%s", goos, goarch, suffixsep, suffix)))
+	Lflag(Ctxt, filepath.Join(goroot, "pkg", fmt.Sprintf("%s_%s%s%s", goos, goarch, suffixsep, suffix)))
 
 	mayberemoveoutfile()
 	f, err := os.OpenFile(outfile, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0775)
@@ -463,7 +463,7 @@ func errorexit() {
 	Exit(0)
 }
 
-func loadinternal(name string) {
+func loadinternal(Ctxt *Link, name string) {
 	found := 0
 	for i := 0; i < len(Ctxt.Libdir); i++ {
 		if Linkshared {
@@ -493,7 +493,7 @@ func loadinternal(name string) {
 	}
 }
 
-func loadlib() {
+func (Ctxt *Link) loadlib() {
 	switch Buildmode {
 	case BuildmodeCShared:
 		s := Linklookup(Ctxt, "runtime.islibrary", 0)
@@ -505,15 +505,15 @@ func loadlib() {
 		Adduint8(Ctxt, s, 1)
 	}
 
-	loadinternal("runtime")
+	loadinternal(Ctxt, "runtime")
 	if SysArch.Family == sys.ARM {
-		loadinternal("math")
+		loadinternal(Ctxt, "math")
 	}
 	if flag_race != 0 {
-		loadinternal("runtime/race")
+		loadinternal(Ctxt, "runtime/race")
 	}
 	if flag_msan != 0 {
-		loadinternal("runtime/msan")
+		loadinternal(Ctxt, "runtime/msan")
 	}
 
 	var i int
@@ -523,7 +523,7 @@ func loadlib() {
 			if Debug['v'] > 1 {
 				fmt.Fprintf(Bso, "%5.2f autolib: %s (from %s)\n", obj.Cputime(), Ctxt.Library[i].File, Ctxt.Library[i].Objref)
 			}
-			objfile(Ctxt.Library[i])
+			objfile(Ctxt, Ctxt.Library[i])
 		}
 	}
 
@@ -532,7 +532,7 @@ func loadlib() {
 			if Debug['v'] > 1 {
 				fmt.Fprintf(Bso, "%5.2f autolib: %s (from %s)\n", obj.Cputime(), Ctxt.Library[i].Shlib, Ctxt.Library[i].Objref)
 			}
-			ldshlibsyms(Ctxt.Library[i].Shlib)
+			ldshlibsyms(Ctxt, Ctxt.Library[i].Shlib)
 		}
 	}
 
@@ -581,16 +581,16 @@ func loadlib() {
 		// The startup code uses an import of runtime/cgo to decide
 		// whether to initialize the TLS.  So give it one. This could
 		// be handled differently but it's an unusual case.
-		loadinternal("runtime/cgo")
+		loadinternal(Ctxt, "runtime/cgo")
 
 		if i < len(Ctxt.Library) {
 			if Ctxt.Library[i].Shlib != "" {
-				ldshlibsyms(Ctxt.Library[i].Shlib)
+				ldshlibsyms(Ctxt, Ctxt.Library[i].Shlib)
 			} else {
 				if DynlinkingGo() {
 					Exitf("cannot implicitly include runtime/cgo in a shared library")
 				}
-				objfile(Ctxt.Library[i])
+				objfile(Ctxt, Ctxt.Library[i])
 			}
 		}
 	}
@@ -679,7 +679,7 @@ func loadlib() {
 
 	// In internal link mode, read the host object files.
 	if Linkmode == LinkInternal {
-		hostobjs()
+		hostobjs(Ctxt)
 
 		// If we have any undefined symbols in external
 		// objects, try to read them from the libgcc file.
@@ -715,7 +715,7 @@ func loadlib() {
 			}
 
 			if libgccfile != "none" {
-				hostArchive(libgccfile)
+				hostArchive(Ctxt, libgccfile)
 			}
 		}
 	} else {
@@ -775,7 +775,7 @@ func nextar(bp *bio.Reader, off int64, a *ArHdr) int64 {
 	return arsize + SAR_HDR
 }
 
-func objfile(lib *Library) {
+func objfile(Ctxt *Link, lib *Library) {
 	pkg := pathtoprefix(lib.Pkg)
 
 	if Debug['v'] > 1 {
@@ -796,7 +796,7 @@ func objfile(lib *Library) {
 		l := f.Seek(0, 2)
 
 		f.Seek(0, 0)
-		ldobj(f, pkg, l, lib.File, lib.File, FileObj)
+		ldobj(Ctxt, f, pkg, l, lib.File, lib.File, FileObj)
 		f.Close()
 
 		return
@@ -831,7 +831,7 @@ func objfile(lib *Library) {
 
 	off += l
 
-	ldpkg(f, pkg, atolwhex(arhdr.size), lib.File, Pkgdef)
+	ldpkg(Ctxt, f, pkg, atolwhex(arhdr.size), lib.File, Pkgdef)
 
 	/*
 	 * load all the object files from the archive now.
@@ -858,7 +858,7 @@ func objfile(lib *Library) {
 
 		pname = fmt.Sprintf("%s(%s)", lib.File, arhdr.name)
 		l = atolwhex(arhdr.size)
-		ldobj(f, pkg, l, pname, lib.File, ArchiveObj)
+		ldobj(Ctxt, f, pkg, l, pname, lib.File, ArchiveObj)
 	}
 
 out:
@@ -866,7 +866,7 @@ out:
 }
 
 type Hostobj struct {
-	ld     func(*bio.Reader, string, int64, string)
+	ld     func(*Link, *bio.Reader, string, int64, string)
 	pkg    string
 	pn     string
 	file   string
@@ -887,7 +887,7 @@ var internalpkg = []string{
 	"runtime/msan",
 }
 
-func ldhostobj(ld func(*bio.Reader, string, int64, string), f *bio.Reader, pkg string, length int64, pn string, file string) *Hostobj {
+func ldhostobj(ld func(*Link, *bio.Reader, string, int64, string), f *bio.Reader, pkg string, length int64, pn string, file string) *Hostobj {
 	isinternal := false
 	for i := 0; i < len(internalpkg); i++ {
 		if pkg == internalpkg[i] {
@@ -923,7 +923,7 @@ func ldhostobj(ld func(*bio.Reader, string, int64, string), f *bio.Reader, pkg s
 	return h
 }
 
-func hostobjs() {
+func hostobjs(Ctxt *Link) {
 	var h *Hostobj
 
 	for i := 0; i < len(hostobj); i++ {
@@ -934,7 +934,7 @@ func hostobjs() {
 		}
 
 		f.Seek(h.off, 0)
-		h.ld(f, h.pkg, h.length, h.pn)
+		h.ld(Ctxt, f, h.pkg, h.length, h.pn)
 		f.Close()
 	}
 }
@@ -1056,7 +1056,7 @@ func archive() {
 	}
 }
 
-func hostlink() {
+func (l *Link) hostlink() {
 	if Linkmode != LinkExternal || nerrors > 0 {
 		return
 	}
@@ -1208,13 +1208,13 @@ func hostlink() {
 				seenLibs[base] = true
 			}
 		}
-		for _, shlib := range Ctxt.Shlibs {
+		for _, shlib := range l.Shlibs {
 			addshlib(shlib.Path)
 			for _, dep := range shlib.Deps {
 				if dep == "" {
 					continue
 				}
-				libpath := findshlib(dep)
+				libpath := findshlib(l, dep)
 				if libpath != "" {
 					addshlib(libpath)
 				}
@@ -1239,7 +1239,7 @@ func hostlink() {
 		// new and we test for its support first.
 		src := filepath.Join(tmpdir, "trivial.c")
 		if err := ioutil.WriteFile(src, []byte{}, 0666); err != nil {
-			Ctxt.Diag("WriteFile trivial.c failed: %v", err)
+			l.Diag("WriteFile trivial.c failed: %v", err)
 		}
 		cmd := exec.Command(argv[0], "-c", "-no-pie", "trivial.c")
 		cmd.Dir = tmpdir
@@ -1293,7 +1293,7 @@ func hostlink() {
 		if !SysArch.InFamily(sys.ARM, sys.ARM64) {
 			dsym := filepath.Join(tmpdir, "go.dwarf")
 			if out, err := exec.Command("dsymutil", "-f", outfile, "-o", dsym).CombinedOutput(); err != nil {
-				Ctxt.Cursym = nil
+				l.Cursym = nil
 				Exitf("%s: running dsymutil failed: %v\n%s", os.Args[0], err, out)
 			}
 			// Skip combining if `dsymutil` didn't generate a file. See #11994.
@@ -1303,12 +1303,12 @@ func hostlink() {
 			// For os.Rename to work reliably, must be in same directory as outfile.
 			combinedOutput := outfile + "~"
 			if err := machoCombineDwarf(outfile, dsym, combinedOutput); err != nil {
-				Ctxt.Cursym = nil
+				l.Cursym = nil
 				Exitf("%s: combining dwarf failed: %v", os.Args[0], err)
 			}
 			os.Remove(outfile)
 			if err := os.Rename(combinedOutput, outfile); err != nil {
-				Ctxt.Cursym = nil
+				l.Cursym = nil
 				Exitf("%s: %v", os.Args[0], err)
 			}
 		}
@@ -1336,7 +1336,7 @@ func hostlinkArchArgs() []string {
 // ldobj loads an input object. If it is a host object (an object
 // compiled by a non-Go compiler) it returns the Hostobj pointer. If
 // it is a Go object, it returns nil.
-func ldobj(f *bio.Reader, pkg string, length int64, pn string, file string, whence int) *Hostobj {
+func ldobj(Ctxt *Link, f *bio.Reader, pkg string, length int64, pn string, file string, whence int) *Hostobj {
 	eof := f.Offset() + length
 
 	start := f.Offset()
@@ -1422,7 +1422,7 @@ func ldobj(f *bio.Reader, pkg string, length int64, pn string, file string, when
 	import1 := f.Offset()
 
 	f.Seek(import0, 0)
-	ldpkg(f, pkg, import1-import0-2, pn, whence) // -2 for !\n
+	ldpkg(Ctxt, f, pkg, import1-import0-2, pn, whence) // -2 for !\n
 	f.Seek(import1, 0)
 
 	LoadObjFile(Ctxt, f, pkg, eof-f.Offset(), pn)
@@ -1491,7 +1491,7 @@ func readnote(f *elf.File, name []byte, typ int32) ([]byte, error) {
 	return nil, nil
 }
 
-func findshlib(shlib string) string {
+func findshlib(Ctxt *Link, shlib string) string {
 	for _, libdir := range Ctxt.Libdir {
 		libpath := filepath.Join(libdir, shlib)
 		if _, err := os.Stat(libpath); err == nil {
@@ -1502,8 +1502,8 @@ func findshlib(shlib string) string {
 	return ""
 }
 
-func ldshlibsyms(shlib string) {
-	libpath := findshlib(shlib)
+func ldshlibsyms(Ctxt *Link, shlib string) {
+	libpath := findshlib(Ctxt, shlib)
 	if libpath == "" {
 		return
 	}
@@ -1688,18 +1688,18 @@ var morestack *Symbol
 // TODO: Record enough information in new object files to
 // allow stack checks here.
 
-func haslinkregister() bool {
+func haslinkregister(Ctxt *Link) bool {
 	return Ctxt.FixedFrameSize() != 0
 }
 
-func callsize() int {
-	if haslinkregister() {
+func callsize(Ctxt *Link) int {
+	if haslinkregister(Ctxt) {
 		return 0
 	}
 	return SysArch.RegSize
 }
 
-func dostkcheck() {
+func (Ctxt *Link) dostkcheck() {
 	var ch Chain
 
 	morestack = Linklookup(Ctxt, "runtime.morestack", 0)
@@ -1713,7 +1713,7 @@ func dostkcheck() {
 	// of non-splitting functions.
 	ch.up = nil
 
-	ch.limit = obj.StackLimit - callsize()
+	ch.limit = obj.StackLimit - callsize(Ctxt)
 
 	// Check every function, but do the nosplit functions in a first pass,
 	// to make the printed failure chains as short as possible.
@@ -1728,7 +1728,7 @@ func dostkcheck() {
 		if s.Attr.NoSplit() {
 			Ctxt.Cursym = s
 			ch.sym = s
-			stkcheck(&ch, 0)
+			stkcheck(Ctxt, &ch, 0)
 		}
 	}
 
@@ -1736,18 +1736,18 @@ func dostkcheck() {
 		if !s.Attr.NoSplit() {
 			Ctxt.Cursym = s
 			ch.sym = s
-			stkcheck(&ch, 0)
+			stkcheck(Ctxt, &ch, 0)
 		}
 	}
 }
 
-func stkcheck(up *Chain, depth int) int {
+func stkcheck(Ctxt *Link, up *Chain, depth int) int {
 	limit := up.limit
 	s := up.sym
 
 	// Don't duplicate work: only need to consider each
 	// function at top of safe zone once.
-	top := limit == obj.StackLimit-callsize()
+	top := limit == obj.StackLimit-callsize(Ctxt)
 	if top {
 		if s.Attr.StackCheck() {
 			return 0
@@ -1789,9 +1789,9 @@ func stkcheck(up *Chain, depth int) int {
 
 	if !s.Attr.NoSplit() {
 		// Ensure we have enough stack to call morestack.
-		ch.limit = limit - callsize()
+		ch.limit = limit - callsize(Ctxt)
 		ch.sym = morestack
-		if stkcheck(&ch, depth+1) < 0 {
+		if stkcheck(Ctxt, &ch, depth+1) < 0 {
 			return -1
 		}
 		if !top {
@@ -1827,9 +1827,9 @@ func stkcheck(up *Chain, depth int) int {
 			switch r.Type {
 			// Direct call.
 			case obj.R_CALL, obj.R_CALLARM, obj.R_CALLARM64, obj.R_CALLPOWER, obj.R_CALLMIPS:
-				ch.limit = int(int32(limit) - pcsp.value - int32(callsize()))
+				ch.limit = int(int32(limit) - pcsp.value - int32(callsize(Ctxt)))
 				ch.sym = r.Sym
-				if stkcheck(&ch, depth+1) < 0 {
+				if stkcheck(Ctxt, &ch, depth+1) < 0 {
 					return -1
 				}
 
@@ -1838,13 +1838,13 @@ func stkcheck(up *Chain, depth int) int {
 			// Arrange the data structures to report both calls, so that
 			// if there is an error, stkprint shows all the steps involved.
 			case obj.R_CALLIND:
-				ch.limit = int(int32(limit) - pcsp.value - int32(callsize()))
+				ch.limit = int(int32(limit) - pcsp.value - int32(callsize(Ctxt)))
 
 				ch.sym = nil
-				ch1.limit = ch.limit - callsize() // for morestack in called prologue
+				ch1.limit = ch.limit - callsize(Ctxt) // for morestack in called prologue
 				ch1.up = &ch
 				ch1.sym = morestack
-				if stkcheck(&ch1, depth+2) < 0 {
+				if stkcheck(Ctxt, &ch1, depth+2) < 0 {
 					return -1
 				}
 			}
@@ -1879,8 +1879,8 @@ func stkprint(ch *Chain, limit int) {
 			fmt.Printf("\t%d\tguaranteed after split check in %s\n", ch.limit, name)
 		}
 	} else {
-		stkprint(ch.up, ch.limit+callsize())
-		if !haslinkregister() {
+		stkprint(ch.up, ch.limit+callsize(Ctxt))
+		if !haslinkregister(Ctxt) {
 			fmt.Printf("\t%d\ton entry to %s\n", ch.limit, name)
 		}
 	}
@@ -2086,7 +2086,7 @@ func Symaddr(s *Symbol) int64 {
 	return s.Value
 }
 
-func xdefine(p string, t int, v int64) {
+func (Ctxt *Link) xdefine(p string, t int, v int64) {
 	s := Linklookup(Ctxt, p, 0)
 	s.Type = int16(t)
 	s.Value = v
