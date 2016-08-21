@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28b72fb7_87b446e1",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2016-08-21T05:50:57Z",
+      "side": 1,
+      "message": "What I\u0027m wondering whether the client and server handshakes are the right place to trigger the key log; should it be from a common place? Also if rekeying or something like that should be also logged after handshake. I don\u0027t know TLS in that much detail.\n\nThis is simple enough so I thought this is fine, and at least it\u0027s easy to see that we return the internal error alert if writing fails (which normally it can\u0027t since the logger is nil).",
+      "revId": "df54b2a266e35e44cfb31666b775274681359795",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
