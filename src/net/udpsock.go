@@ -9,6 +9,15 @@ import (
 	"syscall"
 )
 
+// BUG(mikio): On NaCl, Plan 9 and Windows, ReadMsgUDP and WriteMsgUDP
+// methods of UDPConn are not implemented yet.
+
+// BUG(mikio): On Windows, File method of UDPConn is not implemented
+// yet.
+
+// BUG(mikio): On NaCl and Plan 9, ListenMulticastUDP function is not
+// implemented yet.
+
 // UDPAddr represents the address of a UDP end point.
 type UDPAddr struct {
 	IP   IP
