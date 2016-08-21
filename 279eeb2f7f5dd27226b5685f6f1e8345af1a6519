@@ -16,6 +16,24 @@
       "revId": "279eeb2f7f5dd27226b5685f6f1e8345af1a6519",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88601be6_0d93b5a8",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-08-21T01:34:25Z",
+      "side": 1,
+      "message": "i\u0027m also fine with \"readfrom\" if you think of it\u0027s better. a few complaints i received from ppl who have to dissect logs on l4-7 intermediaries are mostly \"isn\u0027t it the line for write operation?\"",
+      "parentUuid": "7bbc9397_8d7d45c0",
+      "revId": "279eeb2f7f5dd27226b5685f6f1e8345af1a6519",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
