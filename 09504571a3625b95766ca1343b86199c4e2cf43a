@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a8c95f46_eb407144",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2016-08-21T05:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83053eb_00637645",
+      "revId": "09504571a3625b95766ca1343b86199c4e2cf43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c83053eb_e05f4a79",
         "filename": "src/crypto/tls/common.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "08b0abbd_c6f802b1",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2016-08-21T05:39:52Z",
+      "side": 1,
+      "message": "This is a good question to consider. I wrote it here to allow easier parsing as I recall you suggested in the issue the log could be parsed back.\n\nThe current NSS key log format only specifies two formats, RSA and CLIENT_RANDOM; the difference is how the session is identified. The latter can be used for all current.\n\nBut true, if TLS were to get a different size master secret in a later version, this could lead to unexpected behavior. So I suppose you\u0027re right and it\u0027s better to not give a promise.",
+      "parentUuid": "c83053eb_e05f4a79",
+      "revId": "09504571a3625b95766ca1343b86199c4e2cf43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c83053eb_a0694223",
         "filename": "src/crypto/tls/common.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-08-20T20:31:51Z",
       "side": 1,
       "message": "Or just\n\n// Use of KeyLogWriter compromises security and should only be\n// used for debugging.",
+      "revId": "09504571a3625b95766ca1343b86199c4e2cf43a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28b72fb7_e7a742b6",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2016-08-21T05:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c83053eb_a0694223",
       "revId": "09504571a3625b95766ca1343b86199c4e2cf43a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
