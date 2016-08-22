@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e88b5731_0d799126",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-08-22T22:12:00Z",
+      "side": 1,
+      "message": "can you say \"on ppc64\" in here or something? As read it sounds extremely scary :-)",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "5569cbea9972abdbcd31d796c0ee620f82389dae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8e31fef_5b9a635e",
         "filename": "src/cmd/link/internal/ppc64/obj.go",
         "patchSetId": 1
