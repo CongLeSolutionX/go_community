@@ -74,6 +74,7 @@ func linkarchinit() {
 		ld.Thearch.Append16 = ld.Append16l
 		ld.Thearch.Append32 = ld.Append32l
 		ld.Thearch.Append64 = ld.Append64l
+		ld.Thearch.Linuxdynld = "/lib64/ld64.so.2" // LE uses .2 version
 	} else {
 		ld.Thearch.Lput = ld.Lputb
 		ld.Thearch.Wput = ld.Wputb
@@ -81,10 +82,8 @@ func linkarchinit() {
 		ld.Thearch.Append16 = ld.Append16b
 		ld.Thearch.Append32 = ld.Append32b
 		ld.Thearch.Append64 = ld.Append64b
+		ld.Thearch.Linuxdynld = "/lib64/ld64.so.1" // BE uses .1 version
 	}
-
-	// TODO(austin): ABI v1 uses /usr/lib/ld.so.1
-	ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
 
 	ld.Thearch.Freebsddynld = "XXX"
 	ld.Thearch.Openbsddynld = "XXX"
