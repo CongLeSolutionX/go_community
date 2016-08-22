@@ -50,6 +50,24 @@
       "revId": "977621f1424cb12edad9566f987738bd57c8a254",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6804c74d_717938f4",
+        "filename": "src/net/http/range_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 14140
+      },
+      "writtenOn": "2016-08-22T21:14:56Z",
+      "side": 1,
+      "message": "My understanding of the RFC (quoted in the commit message) is that failing to overlap is when none of the requested ranges overlap. In this case one of the ranges (i.e., 0-5) does overlap because the content length is 10.",
+      "parentUuid": "086eeb0d_795f434e",
+      "revId": "977621f1424cb12edad9566f987738bd57c8a254",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
