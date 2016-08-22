@@ -22,6 +22,9 @@ type mcentral struct {
 	spanclass spanClass
 	nonempty  mSpanList // list of spans with a free object, ie a nonempty free list
 	empty     mSpanList // list of spans with no free objects (or cached in an mcache)
+	// spans in a ROC spanList list will appear on the empty mSpanList
+	// when the recycleG happens, if the span has an empty free list it will be
+	// remain on empty, otherwise the span is placed on nonempty.
 }
 
 // Initialize a single central free list.
@@ -42,25 +45,41 @@ func (c *mcentral) cacheSpan() *mspan {
 retry:
 	var s *mspan
 	for s = c.nonempty.first; s != nil; s = s.next {
+		if s.nextUsedSpan != nil {
+			throw("s.nextUsedSpan != nil and we just removed it from the nonempty free list and swept in cacheSpan:55.")
+		}
 		if s.sweepgen == sg-2 && atomic.Cas(&s.sweepgen, sg-2, sg-1) {
 			c.nonempty.remove(s)
 			c.empty.insertBack(s)
 			unlock(&c.lock)
 			s.sweep(true)
+			if s.allocCount == s.nelems {
+				// No free objects in the span, find another.
+				lock(&c.lock)
+				continue
+			}
 			goto havespan
 		}
 		if s.sweepgen == sg-1 {
 			// the span is being swept by background sweeper, skip
 			continue
 		}
+
 		// we have a nonempty span that does not require sweeping, allocate from it
 		c.nonempty.remove(s)
 		c.empty.insertBack(s)
+		if s.allocCount == s.nelems {
+			// No free objects in the span, find another.
+			continue
+		}
 		unlock(&c.lock)
 		goto havespan
 	}
 
 	for s = c.empty.first; s != nil; s = s.next {
+		if s.nextUsedSpan != nil {
+			throw("s.nextUsedSpan != nil and we just removed it from the nonempty free list and swept in cacheSpan:55.")
+		}
 		if s.sweepgen == sg-2 && atomic.Cas(&s.sweepgen, sg-2, sg-1) {
 			// we have an empty span that requires sweeping,
 			// sweep it and see if we can free some space in it
@@ -70,7 +89,7 @@ retry:
 			unlock(&c.lock)
 			s.sweep(true)
 			freeIndex := s.nextFreeIndex()
-			if freeIndex != s.nelems {
+			if freeIndex != s.nelems && s.allocCount != s.nelems {
 				s.freeindex = freeIndex
 				goto havespan
 			}
@@ -97,13 +116,16 @@ retry:
 	lock(&c.lock)
 	c.empty.insertBack(s)
 	unlock(&c.lock)
-
+	if s.nextUsedSpan != nil {
+		throw("s.nextUsedSpan is not, we just grew the heap, and we are about to return it from cacheSpan:111")
+	}
 	// At this point s is a non-empty span, queued at the end of the empty list,
 	// c is unlocked.
 havespan:
 	cap := int32((s.npages << _PageShift) / s.elemsize)
 	n := cap - int32(s.allocCount)
 	if n == 0 || s.freeindex == s.nelems || uintptr(s.allocCount) == s.nelems {
+		println("runtime: n=", n, "s.freeindex=", s.freeindex, "s.nelems=", s.nelems, "s.allocCOunt=", s.allocCount)
 		throw("span has no free objects")
 	}
 	usedBytes := uintptr(s.allocCount) * s.elemsize
@@ -164,29 +186,36 @@ func (c *mcentral) releaseROCSpan(s *mspan) {
 	unlock(&c.lock)
 }
 
-// Return span from an MCache.
+// uncacheSpan returns a span from an MCache.
 func (c *mcentral) uncacheSpan(s *mspan) {
 	lock(&c.lock)
+	if s.nextUsedSpan != nil {
+		throw("uncacheSpan see non-nil s.nextUsedSpan")
+	}
 
 	s.incache = false
-
 	if s.allocCount == 0 {
-		throw("uncaching span but s.allocCount == 0")
+		throw("uncaching span with no allocations")
 	}
-
-	cap := int32((s.npages << _PageShift) / s.elemsize)
-	n := cap - int32(s.allocCount)
-	if n > 0 {
+	nfree := s.nelems - s.allocCount
+	if nfree > 0 {
 		c.empty.remove(s)
-		c.nonempty.insert(s)
-		// mCentral_CacheSpan conservatively counted
-		// unallocated slots in heap_live. Undo this.
-		atomic.Xadd64(&memstats.heap_live, -int64(n)*int64(s.elemsize))
+		c.nonempty.insert(s) // span has room for allocation.
+		// mCentral_CacheSpan conservatively counted all
+		// unallocated slots in heap_live when span was moved to
+		// mcache. Adjust this to account for the free objects
+		// in the span.
+		atomic.Xadd64(&memstats.heap_live, -int64(nfree)*int64(s.elemsize))
+	} else if s.allocCount == s.nelems {
+		// The free list is empty so leave on empty list
+	} else {
+		throw("s.allocCount > s.nelems")
 	}
+	s.trace("uncacheSpan ends")
 	unlock(&c.lock)
 }
 
-// uncacheNoAllocsSpaan return a span from MCache that does not contain any allocated
+// uncacheNoAllocsSpan return a span from MCache that does not contain any allocated
 // objects. This can happen when ROC recycles a span.
 func (c *mcentral) uncacheNoAllocsSpan(s *mspan) {
 	if !writeBarrier.roc {
