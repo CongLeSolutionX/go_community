@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c83053eb_01bff8a0",
+        "filename": "src/net/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-22T15:26:27Z",
+      "side": 1,
+      "message": "I\u0027d drop \"yet\". It sounds too promising.",
+      "revId": "3569f6cc5c87f508930c15723bd319bc05f022bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_a1c5c43a",
+        "filename": "src/net/interface.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-22T15:26:27Z",
+      "side": 1,
+      "message": "drop \"any of\"",
+      "revId": "3569f6cc5c87f508930c15723bd319bc05f022bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_61f7dc8a",
+        "filename": "src/net/interface.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-22T15:26:27Z",
+      "side": 1,
+      "message": "change \"is\" to \"are\"",
+      "revId": "3569f6cc5c87f508930c15723bd319bc05f022bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c83053eb_01e6d8dc",
+        "filename": "src/net/interface.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-22T15:26:27Z",
+      "side": 1,
+      "message": "put \"the\" before \"MulticastAddrs\"",
+      "revId": "3569f6cc5c87f508930c15723bd319bc05f022bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
