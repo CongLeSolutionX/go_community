@@ -84,7 +84,7 @@ func linkarchinit() {
 	}
 
 	// TODO(austin): ABI v1 uses /usr/lib/ld.so.1
-	ld.Thearch.Linuxdynld = "/lib64/ld64.so.1"
+	ld.Thearch.Linuxdynld = "/lib64/ld64.so.2"
 
 	ld.Thearch.Freebsddynld = "XXX"
 	ld.Thearch.Openbsddynld = "XXX"
