@@ -721,8 +721,10 @@ func casgstatus(gp *g, oldval, newval uint32) {
 		// _Grunning or _Grunning|_Gscan; either way,
 		// we own gp.gcscanvalid, so it's safe to read.
 		// gp.gcscanvalid must not be true when we are running.
-		print("runtime: casgstatus ", hex(oldval), "->", hex(newval), " gp.status=", hex(gp.atomicstatus), " gp.gcscanvalid=true\n")
-		throw("casgstatus")
+		systemstack(func() {
+			print("runtime: casgstatus ", hex(oldval), "->", hex(newval), " gp.status=", hex(gp.atomicstatus), " gp.gcscanvalid=true\n")
+			throw("casgstatus")
+		})
 	}
 
 	// See http://golang.org/cl/21503 for justification of the yield delay.
@@ -2559,7 +2561,7 @@ func exitsyscallfast() bool {
 				// but here we effectively retake the p from the new syscall running on the same p.
 				systemstack(func() {
 					// Denote blocking of the new syscall.
-					traceGoSysBlock(_g_.m.p.ptr())
+					traceGoSysBlock(getg().m.p.ptr())
 					// Denote completion of the current syscall.
 					traceGoSysExit(0)
 				})
@@ -2581,7 +2583,7 @@ func exitsyscallfast() bool {
 				if oldp != nil {
 					// Wait till traceGoSysBlock event is emitted.
 					// This ensures consistency of the trace (the goroutine is started after it is blocked).
-					for oldp.syscalltick == _g_.m.syscalltick {
+					for oldp.syscalltick == getg().m.syscalltick {
 						osyield()
 					}
 				}
