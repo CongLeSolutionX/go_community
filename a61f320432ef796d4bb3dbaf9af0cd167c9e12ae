@@ -16,6 +16,24 @@
       "revId": "a61f320432ef796d4bb3dbaf9af0cd167c9e12ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_86ca6c75",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-23T20:03:28Z",
+      "side": 1,
+      "message": "The CL that also uses this for labels has gone in, so this might want updating.",
+      "parentUuid": "c83053eb_60a35aa8",
+      "revId": "a61f320432ef796d4bb3dbaf9af0cd167c9e12ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
