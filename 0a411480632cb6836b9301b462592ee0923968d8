@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8dd172d_664b0434",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T00:47:26Z",
+      "side": 1,
+      "message": "This topic sentence doesn\u0027t quite make sense.",
+      "revId": "0a411480632cb6836b9301b462592ee0923968d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8dd172d_865010dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T00:47:26Z",
+      "side": 1,
+      "message": "This could also use a bit of expansion.  There is no such thing as \"no exit code\"--I think you mean \"exit code 0\".",
+      "revId": "0a411480632cb6836b9301b462592ee0923968d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8dd172d_a6dfcc32",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T00:47:26Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this field.  The only place you test it, you can instead test\n    len(a.p.TestGoFiles) \u003e 0",
+      "revId": "0a411480632cb6836b9301b462592ee0923968d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8dd172d_661dc41c",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1276,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T00:47:26Z",
+      "side": 1,
+      "message": "I would write this differently by pulling the if up, which also permits a condition that is easier to understand.\n    if err \u003d\u003d errPrintedOutput {\n        setExitStatus(2)\n    } else if _, ok :\u003d err.(*build.NoGoError); ok \u0026\u0026 a.testFilesOnly {\n        // Ignore the \"no buildable Go source files\" error for a package with only test files.\n    } else {\n        errorf(\"%s\", err)\n    }",
+      "revId": "0a411480632cb6836b9301b462592ee0923968d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
