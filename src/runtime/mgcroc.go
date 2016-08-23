@@ -320,7 +320,7 @@ func (s *mspan) smashDebugHelper() {
 }
 
 // publishStack scans a freshly create gp's stack, publishing all pointers
-// found on the stack. While the g is fresh, the initial routine's arguements,
+// found on the stack. While the g is fresh, the initial routine's arguments,
 // potentially including pointers, are already on the stack.
 // Since all of these pointers originated on the parent G
 // and are being used by the offspring G they need to be published.
