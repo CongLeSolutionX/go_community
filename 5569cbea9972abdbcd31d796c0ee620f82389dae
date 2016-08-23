@@ -57,6 +57,24 @@
       "revId": "5569cbea9972abdbcd31d796c0ee620f82389dae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e88b5731_4d79d9f3",
+        "filename": "src/cmd/link/internal/ppc64/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-08-23T03:09:00Z",
+      "side": 1,
+      "message": "\u003e I see zero PPC64-big-endian failures in the Trybots.\n \u003e Can we do something about that that?\n \u003e (I\u0027ll fix the library choice).\n \u003e \n \u003e By-the-way, it wasn\u0027t 100% clear that LE is version two of the ABI:\n\nThis is one of those true-in-practice things. There are big and little endian versions of the ELFv2 spec, but in practice I think all installations of ELFv2 are LE.\n\n \u003e /bin/ls: ELF 64-bit LSB executable, 64-bit PowerPC or cisco 7500,\n \u003e version 1 (SYSV), dynamically linked (uses shared libs), for\n \u003e GNU/Linux 2.6.32, BuildID[sha1]\u003d9954a13ec76e994b787bfabef81564e6f435b4a3,\n \u003e stripped\n \u003e \n \u003e Note that it claims \"version 1\" of something.\n\nThis must be something else, but I don\u0027t know what.\n\n \u003e Notice that I didn\u0027t claim to have changed the ABI version -- all I\n \u003e know, is that ld.so.1 wasn\u0027t there, and /bin/ls used ld.so.2, and\n \u003e it started working after I tried that change.  This was totally\n \u003e unprincipled, except that it works 100% better than not doing it.\n\nI\u0027d like to understand what changed here, because I\u0027m seeing something similar building tip on armf: https://launchpadlibrarian.net/280443532/buildlog_ubuntu-yakkety-armhf.golang-tip_201608222004.a1dc946~ppa1~ubuntu16.10.1_BUILDING.txt.gz (although I failed to reproduce this by hand so I\u0027m a bit confused).",
+      "parentUuid": "a8e31fef_3b0e773d",
+      "revId": "5569cbea9972abdbcd31d796c0ee620f82389dae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
