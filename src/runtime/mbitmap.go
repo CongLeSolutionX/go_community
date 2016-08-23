@@ -410,6 +410,12 @@ func (s *mspan) nextFreeIndex() uintptr {
 		whichByte := sfreeindex / 8
 		s.refillAllocCache(whichByte)
 	}
+
+	// Make sure allocCount is OK before we reset s.freeindex and inc allocCount in caller.
+	if !s.checkAllocCount(s.freeindex) {
+		throw("bad checkAllocCount")
+	}
+
 	s.freeindex = sfreeindex
 	return result
 }
@@ -1101,6 +1107,9 @@ func (h heapBits) initSpan(s *mspan) {
 			bitp = add1(bitp)
 		}
 		return
+	}
+	if !s.checkAllocCount(s.freeindex) {
+		throw("bad checkAllocCount")
 	}
 	memclr(unsafe.Pointer(subtractb(h.bitp, nbyte-1)), nbyte)
 }

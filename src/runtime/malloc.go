@@ -85,8 +85,6 @@ import (
 )
 
 const (
-	debugMalloc = false
-
 	maxTinySize   = _TinySize
 	tinySizeClass = _TinySizeClass
 	maxSmallSize  = _MaxSmallSize

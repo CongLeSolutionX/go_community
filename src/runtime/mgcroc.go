@@ -118,6 +118,9 @@ func (c *mcache) publishG() {
 			} else {
 				// This is the active span in the mcache.
 				s.startindex = s.freeindex
+				if !s.checkAllocCount(s.freeindex) {
+					throw("checkAllocCount failed")
+				}
 			}
 			s.abortRollbackCount++ // Save some statistics
 		}
@@ -131,7 +134,9 @@ func (c *mcache) publishG() {
 		s.startindex = s.freeindex
 		s.allocCount = s.nelems
 		s.abortRollbackCount++ // Save some statistics
-		s.checkAllocCount(s.freeindex)
+		if !s.checkAllocCount(s.freeindex) {
+			throw("checkAllocCount failed")
+		}
 	}
 	c.largeAllocSpans = nil
 	if _g_ != nil {
@@ -293,7 +298,9 @@ func (c *mcache) recycleNormal() {
 		} else {
 			s.startindex = s.freeindex
 			s.allocCount = s.nelems
-			s.checkAllocCount(s.freeindex)
+			if !s.checkAllocCount(s.freeindex) {
+				throw("checkAllocCount failed")
+			}
 		}
 	}
 
@@ -328,7 +335,7 @@ func (s *mspan) smashDebugHelper() {
 }
 
 // publishStack scans a freshly create gp's stack, publishing all pointers
-// found on the stack. While the g is fresh, the initial routine's arguements,
+// found on the stack. While the g is fresh, the initial routine's arguments,
 // potentially including pointers, are already on the stack.
 // Since all of these pointers originated on the parent G
 // and are being used by the offspring G they need to be published.
