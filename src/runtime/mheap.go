@@ -927,7 +927,8 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		}
 	case _MSpanInUse:
 		if s.allocCount != 0 || s.sweepgen != h.sweepgen {
-			print("MHeap_FreeSpanLocked - span ", s, " ptr ", hex(s.base()), " allocCount ", s.allocCount, " sweepgen ", s.sweepgen, "/", h.sweepgen, "\n")
+			print("runtime: MHeap_FreeSpanLocked - span ", s, " ptr ", hex(s.base()),
+				" s.allocCount ", s.allocCount, " s.sweepgen ", s.sweepgen, " / ", h.sweepgen, "\n")
 			throw("MHeap_FreeSpanLocked - invalid free")
 		}
 		h.pagesInUse -= uint64(s.npages)
