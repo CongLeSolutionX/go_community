@@ -2130,9 +2130,10 @@ func needwritebarrier(l *Node, r *Node) bool {
 		return false
 	}
 
-	// No write barrier for storing address of global, which
-	// is live no matter what.
-	if r.Op == OADDR && isglobal(r.Left) {
+	// GC ROC algorithm needs write barriers for writes of locals
+	// to globals (r.Op == OADDR && isglobal(r.Left)).
+	// GC ROC does not need to monitor global to global writes.
+	if r.Op == OADDR && isglobal(r.Left) && isglobal(l) {
 		return false
 	}
 
