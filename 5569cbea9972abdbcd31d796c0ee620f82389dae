@@ -39,6 +39,24 @@
       "revId": "5569cbea9972abdbcd31d796c0ee620f82389dae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8e31fef_3b0e773d",
+        "filename": "src/cmd/link/internal/ppc64/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-23T03:02:57Z",
+      "side": 1,
+      "message": "I see zero PPC64-big-endian failures in the Trybots.\nCan we do something about that that?\n(I\u0027ll fix the library choice).\n\nBy-the-way, it wasn\u0027t 100% clear that LE is version two of the ABI:\n\n/bin/ls: ELF 64-bit LSB executable, 64-bit PowerPC or cisco 7500, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.32, BuildID[sha1]\u003d9954a13ec76e994b787bfabef81564e6f435b4a3, stripped\n\nNote that it claims \"version 1\" of something.\nNotice that I didn\u0027t claim to have changed the ABI version -- all I know, is that ld.so.1 wasn\u0027t there, and /bin/ls used ld.so.2, and it started working after I tried that change.  This was totally unprincipled, except that it works 100% better than not doing it.",
+      "parentUuid": "a8e31fef_5b9a635e",
+      "revId": "5569cbea9972abdbcd31d796c0ee620f82389dae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
