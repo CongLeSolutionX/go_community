@@ -453,6 +453,8 @@ type publishWork struct {
 // push enqueues a pointer for the garbage collector to trace.
 // obj must point to the beginning of a heap object.
 //go:nowritebarrier
+//go:nowritebarrierrec
+//go:systemstack
 func (pw *publishWork) push(obj uintptr) {
 	w := (*publishWork)(noescape(unsafe.Pointer(pw))) // TODO: remove when escape analysis is fixed
 
@@ -478,6 +480,8 @@ func (pw *publishWork) push(obj uintptr) {
 // pop dequeues a pointer that needs to be published.
 // If there are no pointers remaining pop returns 0.
 //go:nowritebarrier
+//go:nowritebarrierrec
+//go:systemstack
 func (pw *publishWork) pop() uintptr {
 	w := (*publishWork)(noescape(unsafe.Pointer(pw))) // TODO: remove when escape analysis is fixed
 	wbuf := w.wbuf1.ptr()
