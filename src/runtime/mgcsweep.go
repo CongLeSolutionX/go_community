@@ -164,6 +164,13 @@ func (s *mspan) ensureSwept() {
 // caller takes care of it.
 //TODO go:nowritebarrier
 func (s *mspan) sweep(preserve bool) bool {
+	var mp *m
+	if debug.gcroc >= 1 {
+		mp = acquirem()
+		if debug.gcroc >= 2 && !s.checkAllocCount(s.freeindex) {
+			throw("sweep has wrong allocCount.")
+		}
+	}
 	// It's critical that we enter this function with preemption disabled,
 	// GC must not start while we are in the middle of this function.
 	_g_ := getg()
@@ -275,27 +282,44 @@ func (s *mspan) sweep(preserve bool) bool {
 	}
 
 	// Count the number of free objects in this span.
-	nfree = s.countFree()
+	nfree = s.countFree() // Count based on gcmarkbits
 	if spc.sizeclass() == 0 && nfree != 0 {
 		s.needzero = 1
 		freeToHeap = true
 	}
-	nalloc := s.nelems - nfree
-	nfreed := s.allocCount - nalloc
-	if nalloc > s.allocCount {
-		print("runtime: nelems=", s.nelems, " nfree=", nfree, " nalloc=", nalloc, " previous allocCount=", s.allocCount, " nfreed=", nfreed, "\n")
-		throw("sweep increased allocation count")
+	if nfree > s.nelems {
+		throw("nfree>s.nelems")
 	}
 
-	s.allocCount = nalloc
-	wasempty := s.nextFreeIndex() == s.nelems
-	s.freeindex = 0 // reset allocation index to start of span.
+	nalloc := s.nelems - nfree // number marked as allocated by recent GC, based on s.gcmarkbits.
 
+	if nalloc > s.allocCount {
+		println("runtime:mgcsweep.go:310 nelems=", s.nelems, " nfree=", nfree, " nalloc=", nalloc, " should not be > allocCount=", s.allocCount,
+			"\n     gcphase=", atomic.Load(&gcphase), "s.sweepgen=", s.sweepgen, "s.freeindex=", s.freeindex,
+			"\n     s.allocCount=", s.allocCount, "s.startindex=", s.startindex, "gcphase=", atomic.Load(&gcphase),
+			"\n     s.base()=", hex(s.base()), "nalloc == s.nelems", nalloc == s.nelems, "s.incache=", s.incache,
+			"\n     s.abortRollbackCount=", s.abortRollbackCount, "s.rollbackCount=", s.rollbackCount)
+		for i := uintptr(0); i < s.nelems; i++ {
+			if s.isFree(i) == s.markBitsForIndex(i).isMarked() { // one is free and the other is marked.
+				println("runtime:mgcsweep.go:317 s.isFree(i) using allocBits differs from isMarked using gcmarkbits i= ", i, " s.isFree(i)=", s.isFree(i),
+					"s.markBitsForIndex(i).isMarked()=", s.markBitsForIndex(i).isMarked())
+			}
+		}
+		throw("sweep increased allocation count, perhaps unsafe code created a bad pointer")
+	}
+	// adjust allocCount to correspond to the new allocBits (the s.gcmarkbits)
+	s.allocCount = nalloc
 	// gcmarkBits becomes the allocBits.
 	// get a fresh cleared gcmarkBits in preparation for next GC
 	s.allocBits = s.gcmarkBits
 	s.gcmarkBits = newMarkBits(s.nelems)
 
+	s.freeindex = 0  // reset allocation index to start of span.
+	s.startindex = 0 // reset start index
+
+	if debug.gcroc >= 2 && !s.checkAllocCount(s.freeindex) {
+		throw("bad checkAllocCount")
+	}
 	// Initialize alloc bits cache.
 	s.refillAllocCache(0)
 
@@ -304,7 +328,7 @@ func (s *mspan) sweep(preserve bool) bool {
 	// But we need to set it before we make the span available for allocation
 	// (return it to heap or mcentral), because allocation code assumes that a
 	// span is already swept if available for allocation.
-	if freeToHeap || nfreed == 0 {
+	if freeToHeap || nfree == 0 {
 		// The span must be in our exclusive ownership until we update sweepgen,
 		// check for potential races.
 		if s.state != mSpanInUse || s.sweepgen != sweepgen-1 {
@@ -317,9 +341,9 @@ func (s *mspan) sweep(preserve bool) bool {
 		atomic.Store(&s.sweepgen, sweepgen)
 	}
 
-	if nfreed > 0 && spc.sizeclass() != 0 {
-		c.local_nsmallfree[spc.sizeclass()] += uintptr(nfreed)
-		res = mheap_.central[spc].mcentral.freeSpan(s, preserve, wasempty)
+	if nfree > 0 && spc.sizeclass() != 0 {
+		c.local_nsmallfree[spc.sizeclass()] += uintptr(nfree)
+		res = mheap_.central[spc].mcentral.freeSpan(s, preserve)
 		// MCentral_FreeSpan updates sweepgen
 	} else if freeToHeap {
 		// Free large span to heap
@@ -350,6 +374,9 @@ func (s *mspan) sweep(preserve bool) bool {
 	}
 	if trace.enabled {
 		traceGCSweepDone()
+	}
+	if debug.gcroc >= 1 {
+		releasem(mp)
 	}
 	return res
 }
