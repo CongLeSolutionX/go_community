@@ -214,9 +214,13 @@ func (c *mcentral) uncacheNoAllocsSpan(s *mspan) {
 // freeSpan returns true if s was returned to the heap.
 // If preserve=true, it does not move s (the caller
 // must take care of it).
-func (c *mcentral) freeSpan(s *mspan, preserve bool, wasempty bool) bool {
+func (c *mcentral) freeSpan(s *mspan, preserve bool) bool {
+
 	if s.incache {
 		throw("freeSpan given cached span")
+	}
+	if s.nextUsedSpan != nil {
+		throw("freeSpan see non-nil s.nextUsedSpan")
 	}
 	s.needzero = 1
 
@@ -231,13 +235,10 @@ func (c *mcentral) freeSpan(s *mspan, preserve bool, wasempty bool) bool {
 	}
 
 	lock(&c.lock)
-
-	// Move to nonempty if necessary.
-	if wasempty {
+	if s.list == &c.empty {
 		c.empty.remove(s)
 		c.nonempty.insert(s)
 	}
-
 	// delay updating sweepgen until here. This is the signal that
 	// the span may be used in an MCache, so it must come after the
 	// linked list operations above (actually, just after the
@@ -248,8 +249,7 @@ func (c *mcentral) freeSpan(s *mspan, preserve bool, wasempty bool) bool {
 		unlock(&c.lock)
 		return false
 	}
-
-	c.nonempty.remove(s)
+	c.nonempty.remove(s) // nonempty free list
 	unlock(&c.lock)
 	mheap_.freeSpan(s, 0)
 	return true
