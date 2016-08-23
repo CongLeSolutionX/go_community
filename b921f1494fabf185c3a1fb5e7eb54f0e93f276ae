@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8f6bfe3_f7e42811",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T22:34:02Z",
+      "side": 1,
+      "message": "I would rather pass an argument.  I suggest that you change runInstall to\n\nfunc runInstall(cmd *Command, args []string) {\n    installPackages(args, false)\n}\n\nfunc installPackages(args []string, forGet bool) {\n    ...\n}\n\nand change the call in get.go to call installPackages and check forGet rather than cmd.Name.",
+      "revId": "b921f1494fabf185c3a1fb5e7eb54f0e93f276ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_b7c59067",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T22:34:02Z",
+      "side": 1,
+      "message": "Why is this right?  Don\u0027t you need to check len(a.p.TestGoFiles) \u0026 b.testFilesOnlyOK?",
+      "revId": "b921f1494fabf185c3a1fb5e7eb54f0e93f276ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
