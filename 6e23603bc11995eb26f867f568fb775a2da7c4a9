@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8f6bfe3_acb6673a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-23T21:32:41Z",
+      "side": 1,
+      "message": "nit: just cmd/compile:",
+      "revId": "6e23603bc11995eb26f867f568fb775a2da7c4a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_ecac5ff2",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-23T21:32:41Z",
+      "side": 1,
+      "message": "This is also used to indicate that a label should be treated as used. See https://go-review.googlesource.com/#/c/27461/2/src/cmd/compile/internal/gc/inl.go",
+      "revId": "6e23603bc11995eb26f867f568fb775a2da7c4a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
