@@ -931,6 +931,7 @@ func (s *mspan) nextFreeIndex() uintptr {
 		whichByte := sfreeindex / 8
 		s.refillAllocCache(whichByte)
 	}
+
 	s.freeindex = sfreeindex
 	return result
 }
