@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a8f6bfe3_bd8c4fe3",
+        "filename": "src/cmd/asm/internal/flags/flags.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-23T23:58:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a8f6bfe3_32e64eab",
+      "range": {
+        "startLine": 18,
+        "startChar": 80,
+        "endLine": 18,
+        "endChar": 88
+      },
+      "revId": "7cf64008f0708a3e6b97d43b87331a824ff57b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8f6bfe3_b28c7ee3",
         "filename": "src/cmd/asm/main.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-08-23T22:58:46Z",
       "side": 1,
       "message": "This error should be updated.",
+      "revId": "7cf64008f0708a3e6b97d43b87331a824ff57b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_bda32f46",
+        "filename": "src/cmd/asm/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-23T23:58:58Z",
+      "side": 1,
+      "message": "Indeed. Done.",
+      "parentUuid": "a8f6bfe3_b28c7ee3",
       "revId": "7cf64008f0708a3e6b97d43b87331a824ff57b64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
