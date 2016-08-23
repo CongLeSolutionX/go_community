@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8f6bfe3_c93e356e",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-23T20:43:12Z",
+      "side": 1,
+      "message": "drop the ()",
+      "revId": "641aa1ffa31492e7338aa952f4d64f637fdb6bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_692e213f",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-23T20:43:12Z",
+      "side": 1,
+      "message": "drop \"array of\". It\u0027s not an array.",
+      "revId": "641aa1ffa31492e7338aa952f4d64f637fdb6bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_89f39dd3",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-23T20:43:12Z",
+      "side": 1,
+      "message": "what is this mapping from and to? add a comment?\n\nbut if it\u0027s just indexes, why not a slice instead of a map?",
+      "revId": "641aa1ffa31492e7338aa952f4d64f637fdb6bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
