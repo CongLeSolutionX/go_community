@@ -33,6 +33,24 @@
       "revId": "b921f1494fabf185c3a1fb5e7eb54f0e93f276ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_522e6af5",
+        "filename": "src/cmd/go/build.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 6071
+      },
+      "writtenOn": "2016-08-23T22:44:41Z",
+      "side": 1,
+      "message": "Do you think this patch is still worth it? The original issue stated only if it was trivial to fix, and it\u0027s kind of becoming a gross amount of parameter checking. I just want to be sure you all really want this?",
+      "parentUuid": "a8f6bfe3_b7c59067",
+      "revId": "b921f1494fabf185c3a1fb5e7eb54f0e93f276ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
