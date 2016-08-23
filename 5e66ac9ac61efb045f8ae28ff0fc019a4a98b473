@@ -16,6 +16,24 @@
       "revId": "5e66ac9ac61efb045f8ae28ff0fc019a4a98b473",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_0cc69b45",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T20:54:52Z",
+      "side": 1,
+      "message": "https://golang.org/cl/27634",
+      "parentUuid": "e88b5731_adbddd17",
+      "revId": "5e66ac9ac61efb045f8ae28ff0fc019a4a98b473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
