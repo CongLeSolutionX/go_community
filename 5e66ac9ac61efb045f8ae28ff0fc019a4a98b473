@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e88b5731_adbddd17",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-08-23T20:33:40Z",
+      "side": 1,
+      "message": "This is pretty jargony, plus what does \"work on\" mean and what dynamic type do you mean? I would instead say something like,\n\nIn operation, the String method may be called with a zero-valued receiver, such as a nil pointer .",
+      "revId": "5e66ac9ac61efb045f8ae28ff0fc019a4a98b473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
