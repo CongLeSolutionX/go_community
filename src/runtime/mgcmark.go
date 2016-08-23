@@ -1348,6 +1348,19 @@ func shade(b uintptr) {
 	}
 }
 
+func validateGreyobject(obj, objIndex uintptr, span *mspan) {
+	if objIndex >= span.freeindex && span.isFree(objIndex) {
+		println("runtime: Bad in validateGreyobject:1200----------------***********BAD TOP********-------",
+			"\n objIndex >= span.freeindex && span.isFree(objIndex)", "objIndex=", objIndex,
+			"\n span.freeindex=", span.freeindex, "span.isFree(objIndex)=", span.isFree(objIndex),
+			"\n span.startindex=", span.startindex, "span.base()=", hex(span.base()),
+			"is *obj a deada1oc *obj=", hex(*((*uintptr)(unsafe.Pointer(obj)))),
+			"\n span.rollbackCount=", span.rollbackCount, "span.abortRollbackCount=", span.abortRollbackCount,
+			"\n----------------------*******BAD BOTTOM************-----------------")
+		throw("greyobject marking unallocated object.")
+	}
+}
+
 // obj is the start of an object with mark mbits.
 // If it isn't already marked, mark it and enqueue into gcw.
 // base and off are for debugging only and could be removed.
@@ -1356,6 +1369,9 @@ func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork
 	// obj should be start of allocation, and so must be at least pointer-aligned.
 	if obj&(sys.PtrSize-1) != 0 {
 		throw("greyobject: obj not pointer-aligned")
+	}
+	if debug.gcroc >= 2 {
+		validateGreyobject(obj, objIndex, span)
 	}
 	mbits := span.markBitsForIndex(objIndex)
 
