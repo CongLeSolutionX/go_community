@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8dd172d_c9b304e1",
+        "filename": "src/cmd/internal/goobj/read.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T18:22:45Z",
+      "side": 1,
+      "message": "This comment (\"The interpretation of Type is not exposed...\") now seems out of date.",
+      "revId": "54804a6797211f47fd037fc38445b4971e88a054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8dd172d_49cb7455",
+        "filename": "src/cmd/internal/objfile/disasm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T18:22:45Z",
+      "side": 1,
+      "message": "Seems like this will add a trailing tab in the normal case of no relocs.  Would be nicer not to do that.",
+      "revId": "54804a6797211f47fd037fc38445b4971e88a054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8dd172d_e9bb60b0",
+        "filename": "src/cmd/internal/objfile/goobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T18:22:45Z",
+      "side": 1,
+      "message": "Why not return an error here as the old code does?",
+      "revId": "54804a6797211f47fd037fc38445b4971e88a054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8dd172d_e914409f",
+        "filename": "src/cmd/internal/objfile/goobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T18:22:45Z",
+      "side": 1,
+      "message": "My experience is that the best approach is to build a map of PC ranges to symbols the first time you look up a PC value, and to cache the file/line information for the symbols as you need them.  Not that you have to do anything now, of course.",
+      "revId": "54804a6797211f47fd037fc38445b4971e88a054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8dd172d_c9306450",
+        "filename": "src/cmd/internal/objfile/goobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T18:22:45Z",
+      "side": 1,
+      "message": "Sort of makes me wonder why this method doesn\u0027t have an error return.",
+      "revId": "54804a6797211f47fd037fc38445b4971e88a054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8dd172d_e9e280c6",
+        "filename": "src/cmd/internal/objfile/goobj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T18:22:45Z",
+      "side": 1,
+      "message": "fileID",
+      "revId": "54804a6797211f47fd037fc38445b4971e88a054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_434c6677",
+        "filename": "src/cmd/internal/objfile/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T18:22:45Z",
+      "side": 1,
+      "message": "I don\u0027t get why this field is called Text.  Perhaps Stringer?",
+      "revId": "54804a6797211f47fd037fc38445b4971e88a054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8f6bfe3_03566e03",
+        "filename": "src/cmd/internal/objfile/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-23T18:22:45Z",
+      "side": 1,
+      "message": "Referring to .o and .a files seems confusing--all the other formats here are also stored in .o and .a files.  Perhaps \"Currently only Go intermediate objects and archives use this path.\"",
+      "revId": "54804a6797211f47fd037fc38445b4971e88a054",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
