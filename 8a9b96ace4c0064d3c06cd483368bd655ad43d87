@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e88b5731_6d0e950c",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-24T00:27:26Z",
+      "side": 1,
+      "message": "I have 2 different Windows 7 computers. One of them returns syscall.ERROR_PRIVILEGE_NOT_HELD at internal/testenv/testenv_windows.go:25, and the other one returns nil.\n\nI think the message above will be confusing and misleading. It will say\n\nskipping test: cannot make symlinks on windows/amd64\n\non my first Windows 7 compumer, but it will run all symlink tests on the other. And we will be chasing our tails.\n\nI think this skip message should be different for PCs that return syscall.ERROR_PRIVILEGE_NOT_HELD - something like \"you system does not allow you to create symlinks\" (or similar).",
+      "revId": "8a9b96ace4c0064d3c06cd483368bd655ad43d87",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
