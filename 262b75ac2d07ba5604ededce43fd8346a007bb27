@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f19714_a340fe67",
+        "filename": "src/net/http/httptest/pipelistener.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5673
+      },
+      "writtenOn": "2016-08-24T19:37:19Z",
+      "side": 1,
+      "message": "switching this to a sync.Once would cleanup the Close method.",
+      "revId": "262b75ac2d07ba5604ededce43fd8346a007bb27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
