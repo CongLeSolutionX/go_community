@@ -33,6 +33,24 @@
       "revId": "df5c6a49e294f4c2b579efb1f7130a25a4c5072d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e88b5731_909d9a05",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-24T05:21:58Z",
+      "side": 1,
+      "message": "Hmm, I don\u0027t know why. On my env, it fails as expected.",
+      "parentUuid": "e88b5731_f07dfebc",
+      "revId": "df5c6a49e294f4c2b579efb1f7130a25a4c5072d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
