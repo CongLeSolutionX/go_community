@@ -11,7 +11,7 @@ const (
 	STACKSYSTEM = 0
 	StackSystem = STACKSYSTEM
 	StackBig    = 4096
-	StackGuard  = 688*stackGuardMultiplier + StackSystem
+	StackGuard  = 672*stackGuardMultiplier + StackSystem
 	StackSmall  = 128
 	StackLimit  = StackGuard - StackSystem - StackSmall
 )

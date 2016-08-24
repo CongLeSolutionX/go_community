@@ -305,7 +305,7 @@ TestCases:
 				// Instead of rewriting the test cases above, adjust
 				// the first stack frame to use up the extra bytes.
 				if i == 0 {
-					guard := 688
+					guard := 672
 					size += (guard - 128) - 128
 					// Noopt builds have a larger stackguard.
 					// See ../src/cmd/dist/buildruntime.go:stackGuardMultiplier
