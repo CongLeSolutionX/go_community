@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f19714_3d4a4fb6",
+        "filename": "src/reflect/swapper.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-24T17:21:13Z",
+      "side": 1,
+      "message": "s/which/that/",
+      "revId": "c071569b47d528dba8d004856d3a5f45f40ea0af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f19714_fd8c67e4",
+        "filename": "src/reflect/swapper.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-24T17:21:13Z",
+      "side": 1,
+      "message": "Probably the comment should mention sort.Sort, as otherwise this function makes no sense.\n\nI wonder if the comment should say anything about not modifying the slice or about holding a reference to the original slice.  What I\u0027m thinking is that writing\n    fn :\u003d reflect.Swapper(s)\n    s \u003d append(s, 0)\n    fn(0, 1)\nis going to have somewhat unpredictable results, depending on whether the append reallocates the slice\u0027s backing array or not.",
+      "revId": "c071569b47d528dba8d004856d3a5f45f40ea0af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f19714_7d8177a5",
+        "filename": "src/reflect/swapper.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-24T17:21:13Z",
+      "side": 1,
+      "message": "Instead of checking flagIndir and referring directly to the ptr field, just call tmpVal.pointer().",
+      "revId": "c071569b47d528dba8d004856d3a5f45f40ea0af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
