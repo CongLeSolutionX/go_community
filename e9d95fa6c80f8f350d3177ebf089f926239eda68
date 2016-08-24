@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e88b5731_b089b621",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-24T03:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e88b5731_6de5b530",
+      "revId": "e9d95fa6c80f8f350d3177ebf089f926239eda68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e88b5731_cd75c95d",
         "filename": "src/path/filepath/symlink_windows.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-24T01:51:49Z",
       "side": 1,
       "message": "I\u0027m not sure, but should be `\\..` to avoid triple dot?",
+      "revId": "e9d95fa6c80f8f350d3177ebf089f926239eda68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e88b5731_90be7aa2",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-24T03:25:12Z",
+      "side": 1,
+      "message": "Thank you. I didn\u0027t notice that. \"...\" should be rejected, while \"..\" should be accepted. So I use bit different approach. Done.",
+      "parentUuid": "e88b5731_cd75c95d",
       "revId": "e9d95fa6c80f8f350d3177ebf089f926239eda68",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
