@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "45d9ae0c_9376be68",
+        "filename": "src/runtime/sys_linux_arm.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-25T18:32:11Z",
+      "side": 1,
+      "message": "Oh fail. Thanks! :)",
+      "parentUuid": "4508ce1b_7bb09ba2",
+      "revId": "e90cd95c4af7c3e582b5c8c8b11eabab555ecb9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4508ce1b_3bba2381",
         "filename": "src/syscall/asm_plan9_386.s",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-25T18:25:37Z",
       "side": 1,
       "message": "remove the second tab here as well?",
+      "revId": "e90cd95c4af7c3e582b5c8c8b11eabab555ecb9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d9ae0c_73179aff",
+        "filename": "src/syscall/asm_plan9_386.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-25T18:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4508ce1b_3bba2381",
       "revId": "e90cd95c4af7c3e582b5c8c8b11eabab555ecb9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
