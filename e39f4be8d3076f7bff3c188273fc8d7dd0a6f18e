@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0545f683_445a622f",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-25T22:14:44Z",
+      "side": 1,
+      "message": "s/accepts/accept the/",
+      "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0545f683_04a33af4",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-25T22:14:44Z",
+      "side": 1,
+      "message": "I\u0027m not exactly sure what this means, but I think it\u0027s saying:\n\n   // The returned normalized path will be in the same form (of\n   // 5 listed above) as the input path.",
+      "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0545f683_2403d6e5",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-25T22:14:44Z",
+      "side": 1,
+      "message": "the same file with the same format.\n\nAlso, you might want to mention normBase:\n\n// The normBase parameter should be equal to the normBase func, except\n// for in tests. See docs on the normBase func.",
+      "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0545f683_c405d2c6",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-25T22:14:44Z",
+      "side": 1,
+      "message": "what if the string ends in Separator? won\u0027t this crash then, since i+1 is out of bounds? Or is it always guaranteed to not end in Separator? That\u0027s at least not obvious.\n\nYou could end pull this out into a little func if you\u0027d like for readability,\n\n    if finalPathComponentIsDotDot(path) {\n        normPath \u003d path + `\\` + normPath \n        break\n    }",
+      "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
