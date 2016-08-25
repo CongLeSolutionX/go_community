@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e876f782_f59e584f",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-08-25T00:46:51Z",
+      "side": 1,
+      "message": "How about\n\n\"If the range begins after the size of the content,\nthen it does not overlap.\"",
+      "revId": "10a6b6e2067e5998fd9dee73883a21ac4db3c7eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e876f782_15b4b4c8",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-08-25T00:46:51Z",
+      "side": 1,
+      "message": "// The specified ranges did not overlap with the content.",
+      "revId": "10a6b6e2067e5998fd9dee73883a21ac4db3c7eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
