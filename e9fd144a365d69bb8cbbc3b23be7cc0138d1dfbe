@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "45d9ae0c_735f9a1e",
+        "filename": "src/runtime/asm_arm.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-25T18:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45d9ae0c_f0ee201b",
+      "revId": "e9fd144a365d69bb8cbbc3b23be7cc0138d1dfbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d9ae0c_d0dafc71",
         "filename": "src/runtime/stubs_asm.go",
         "patchSetId": 6
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "45d9ae0c_13640eee",
+        "filename": "src/runtime/stubs_asm.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-25T18:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45d9ae0c_d0dafc71",
+      "revId": "e9fd144a365d69bb8cbbc3b23be7cc0138d1dfbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45d9ae0c_7045501f",
         "filename": "src/syscall/syscall_netbsd.go",
         "patchSetId": 6
@@ -47,6 +83,24 @@
       "writtenOn": "2016-08-25T16:46:56Z",
       "side": 1,
       "message": "why\u0027d this change from trap to num? You\u0027re using \"trap\" for this on other operating systems. Let\u0027s be consistent either way.",
+      "revId": "e9fd144a365d69bb8cbbc3b23be7cc0138d1dfbe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d9ae0c_b36d02c7",
+        "filename": "src/syscall/syscall_netbsd.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-25T18:15:04Z",
+      "side": 1,
+      "message": "grep here says the first arg of Syscall9 is called trap on windows and darwin/amd64 and num on darwin/{386,arm}, dragonfly, freebsd, and openbsd.",
+      "parentUuid": "45d9ae0c_7045501f",
       "revId": "e9fd144a365d69bb8cbbc3b23be7cc0138d1dfbe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false

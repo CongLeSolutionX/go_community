@@ -16,6 +16,24 @@
       "revId": "e71e1fe87e144ec10287a10b6a41a543762dabff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45d9ae0c_d34d2675",
+        "filename": "src/syscall/asm_unix_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-25T18:15:04Z",
+      "side": 0,
+      "message": "yeah. there are actually still a few SP references, but they\u0027re in an awkward state, and I think they\u0027re clearer as SP refs than FP refs. See upcoming vet whitelist CL.",
+      "parentUuid": "45d9ae0c_b0d17855",
+      "revId": "e71e1fe87e144ec10287a10b6a41a543762dabff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
