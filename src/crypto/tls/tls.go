@@ -16,7 +16,6 @@ import (
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -73,7 +72,7 @@ func NewListener(inner net.Listener, config *Config) net.Listener {
 // at least one certificate or else set GetCertificate.
 func Listen(network, laddr string, config *Config) (net.Listener, error) {
 	if config == nil || (len(config.Certificates) == 0 && config.GetCertificate == nil) {
-		return nil, errors.New("tls: neither Certificates nor GetCertificate set in Config")
+		return nil, ErrConfigCannotGetCertificate
 	}
 	l, err := net.Listen(network, laddr)
 	if err != nil {
@@ -210,10 +209,10 @@ func X509KeyPair(certPEMBlock, keyPEMBlock []byte) (Certificate, error) {
 
 	if len(cert.Certificate) == 0 {
 		if len(skippedBlockTypes) == 0 {
-			return fail(errors.New("tls: failed to find any PEM data in certificate input"))
+			return fail(ErrInvalidPEMDataInCertificateInput)
 		}
 		if len(skippedBlockTypes) == 1 && strings.HasSuffix(skippedBlockTypes[0], "PRIVATE KEY") {
-			return fail(errors.New("tls: failed to find certificate PEM data in certificate input, but did find a private key; PEM inputs may have been switched"))
+			return fail(ErrPEMCertificateFoundInMissingPrivatePlace)
 		}
 		return fail(fmt.Errorf("tls: failed to find \"CERTIFICATE\" PEM block in certificate input after skipping PEM blocks of the following types: %v", skippedBlockTypes))
 	}
@@ -224,10 +223,10 @@ func X509KeyPair(certPEMBlock, keyPEMBlock []byte) (Certificate, error) {
 		keyDERBlock, keyPEMBlock = pem.Decode(keyPEMBlock)
 		if keyDERBlock == nil {
 			if len(skippedBlockTypes) == 0 {
-				return fail(errors.New("tls: failed to find any PEM data in key input"))
+				return fail(ErrPEMMissingDataInKeyInput)
 			}
 			if len(skippedBlockTypes) == 1 && skippedBlockTypes[0] == "CERTIFICATE" {
-				return fail(errors.New("tls: found a certificate rather than a key in the PEM for the private key"))
+				return fail(ErrPEMCertificateFoundInMissingPrivatePlace)
 			}
 			return fail(fmt.Errorf("tls: failed to find PEM block with type ending in \"PRIVATE KEY\" in key input after skipping PEM blocks of the following types: %v", skippedBlockTypes))
 		}
@@ -254,21 +253,21 @@ func X509KeyPair(certPEMBlock, keyPEMBlock []byte) (Certificate, error) {
 	case *rsa.PublicKey:
 		priv, ok := cert.PrivateKey.(*rsa.PrivateKey)
 		if !ok {
-			return fail(errors.New("tls: private key type does not match public key type"))
+			return fail(ErrPrivatePublicKeyTypesDiffer)
 		}
 		if pub.N.Cmp(priv.N) != 0 {
-			return fail(errors.New("tls: private key does not match public key"))
+			return fail(ErrPrivatePublicKeysDiffer)
 		}
 	case *ecdsa.PublicKey:
 		priv, ok := cert.PrivateKey.(*ecdsa.PrivateKey)
 		if !ok {
-			return fail(errors.New("tls: private key type does not match public key type"))
+			return fail(ErrPrivatePublicKeyTypesDiffer)
 		}
 		if pub.X.Cmp(priv.X) != 0 || pub.Y.Cmp(priv.Y) != 0 {
-			return fail(errors.New("tls: private key does not match public key"))
+			return fail(ErrPrivatePublicKeysDiffer)
 		}
 	default:
-		return fail(errors.New("tls: unknown public key algorithm"))
+		return fail(ErrUnknownPublicKeyAlgorithm)
 	}
 
 	return cert, nil
@@ -286,12 +285,12 @@ func parsePrivateKey(der []byte) (crypto.PrivateKey, error) {
 		case *rsa.PrivateKey, *ecdsa.PrivateKey:
 			return key, nil
 		default:
-			return nil, errors.New("tls: found unknown private key type in PKCS#8 wrapping")
+			return nil, ErrUnknownPrivateKeyInPKCS8Wrapping
 		}
 	}
 	if key, err := x509.ParseECPrivateKey(der); err == nil {
 		return key, nil
 	}
 
-	return nil, errors.New("tls: failed to parse private key")
+	return nil, ErrFailedToParsePrivateKey
 }

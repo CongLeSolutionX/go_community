@@ -16,6 +16,20 @@ import (
 	"io"
 )
 
+var (
+	ErrBadSignatureForClientECDSACertificate = errors.New("tls: bad signature type for client's ECDSA certificate")
+	ErrBadSignatureForClientRSACertificate   = errors.New("tls: bad signature type for client's RSA certificate")
+
+	ErrClientDidnotProvideCertificate              = errors.New("tls: client didn't provide a certificate")
+	ErrClientDoesnotSupportUncompressedConnections = errors.New("tls: client does not support uncompressed connections")
+	ErrClientIncorrectFinishedMessage              = errors.New("tls: client's Finished message is incorrect")
+	ErrClientUsingInappropriateProtocolFallback    = errors.New("tls: client using inappropriate protocol fallback")
+
+	ErrNoCipherSupportedByClientAndServer = errors.New("tls: no cipher suite supported by both client and server")
+
+	ErrUnsupportedClientCertificateHashFunction = errors.New("tls: unsupported hash function for client certificate")
+)
+
 // serverHandshakeState contains details of a server handshake in progress.
 // It's discarded once the handshake has completed.
 type serverHandshakeState struct {
@@ -166,7 +180,7 @@ Curves:
 
 	if !foundCompression {
 		c.sendAlert(alertHandshakeFailure)
-		return false, errors.New("tls: client does not support uncompressed connections")
+		return false, ErrClientDoesnotSupportUncompressedConnections
 	}
 
 	hs.hello.vers = c.vers
@@ -179,7 +193,7 @@ Curves:
 
 	if len(hs.clientHello.secureRenegotiation) != 0 {
 		c.sendAlert(alertHandshakeFailure)
-		return false, errors.New("tls: initial handshake had non-empty renegotiation extension")
+		return false, ErrInitialHandshakeNonEmptyRenegotiationExtension
 	}
 
 	hs.hello.secureRenegotiationSupported = hs.clientHello.secureRenegotiationSupported
@@ -260,7 +274,7 @@ Curves:
 
 	if hs.suite == nil {
 		c.sendAlert(alertHandshakeFailure)
-		return false, errors.New("tls: no cipher suite supported by both client and server")
+		return false, ErrNoCipherSupportedByClientAndServer
 	}
 
 	// See https://tools.ietf.org/html/rfc7507.
@@ -269,7 +283,7 @@ Curves:
 			// The client is doing a fallback connection.
 			if hs.clientHello.vers < c.config.maxVersion() {
 				c.sendAlert(alertInappropriateFallback)
-				return false, errors.New("tls: client using inappropriate protocol fallback")
+				return false, ErrClientUsingInappropriateProtocolFallback
 			}
 			break
 		}
@@ -464,7 +478,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 			switch config.ClientAuth {
 			case RequireAnyClientCert, RequireAndVerifyClientCert:
 				c.sendAlert(alertBadCertificate)
-				return errors.New("tls: client didn't provide a certificate")
+				return ErrClientDidnotProvideCertificate
 			}
 		}
 
@@ -516,7 +530,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 		if certVerify.hasSignatureAndHash {
 			signatureAndHash = certVerify.signatureAndHash
 			if !isSupportedSignatureAndHash(signatureAndHash, supportedSignatureAlgorithms) {
-				return errors.New("tls: unsupported hash function for client certificate")
+				return ErrUnsupportedClientCertificateHashFunction
 			}
 		} else {
 			// Before TLS 1.2 the signature algorithm was implicit
@@ -533,7 +547,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 		switch key := pub.(type) {
 		case *ecdsa.PublicKey:
 			if signatureAndHash.signature != signatureECDSA {
-				err = errors.New("tls: bad signature type for client's ECDSA certificate")
+				err = ErrBadSignatureForClientECDSACertificate
 				break
 			}
 			ecdsaSig := new(ecdsaSignature)
@@ -541,7 +555,7 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 				break
 			}
 			if ecdsaSig.R.Sign() <= 0 || ecdsaSig.S.Sign() <= 0 {
-				err = errors.New("tls: ECDSA signature contained zero or negative values")
+				err = ErrECDSASignatureHasZeroOrNegativeValues
 				break
 			}
 			var digest []byte
@@ -549,11 +563,11 @@ func (hs *serverHandshakeState) doFullHandshake() error {
 				break
 			}
 			if !ecdsa.Verify(key, digest, ecdsaSig.R, ecdsaSig.S) {
-				err = errors.New("tls: ECDSA verification failure")
+				err = ErrECDSAVerificationFailure
 			}
 		case *rsa.PublicKey:
 			if signatureAndHash.signature != signatureRSA {
-				err = errors.New("tls: bad signature type for client's RSA certificate")
+				err = ErrBadSignatureForClientRSACertificate
 				break
 			}
 			var digest []byte
@@ -637,7 +651,7 @@ func (hs *serverHandshakeState) readFinished(out []byte) error {
 	if len(verify) != len(clientFinished.verifyData) ||
 		subtle.ConstantTimeCompare(verify, clientFinished.verifyData) != 1 {
 		c.sendAlert(alertHandshakeFailure)
-		return errors.New("tls: client's Finished message is incorrect")
+		return ErrClientIncorrectFinishedMessage
 	}
 
 	hs.finishedHash.Write(clientFinished.marshal())

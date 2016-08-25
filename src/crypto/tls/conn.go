@@ -551,16 +551,16 @@ func (c *Conn) readRecord(want recordType) error {
 	switch want {
 	default:
 		c.sendAlert(alertInternalError)
-		return c.in.setErrorLocked(errors.New("tls: unknown record type requested"))
+		return c.in.setErrorLocked(ErrUnknownRecordTypeRequested)
 	case recordTypeHandshake, recordTypeChangeCipherSpec:
 		if c.handshakeComplete {
 			c.sendAlert(alertInternalError)
-			return c.in.setErrorLocked(errors.New("tls: handshake or ChangeCipherSpec requested while not in handshake"))
+			return c.in.setErrorLocked(ErrHandshakeOrChangeCipherSpecRequestedNotInHandshake)
 		}
 	case recordTypeApplicationData:
 		if !c.handshakeComplete {
 			c.sendAlert(alertInternalError)
-			return c.in.setErrorLocked(errors.New("tls: application data record requested while in handshake"))
+			return c.in.setErrorLocked(ErrApplicationDataRecordRequestedInHandshake)
 		}
 	}
 
@@ -1073,7 +1073,7 @@ func (c *Conn) handleRenegotiation() error {
 		// Ok.
 	default:
 		c.sendAlert(alertInternalError)
-		return errors.New("tls: unknown Renegotiation value")
+		return ErrUnknownRenegotiationValue
 	}
 
 	c.handshakeMutex.Lock()
@@ -1286,13 +1286,13 @@ func (c *Conn) VerifyHostname(host string) error {
 	c.handshakeMutex.Lock()
 	defer c.handshakeMutex.Unlock()
 	if !c.isClient {
-		return errors.New("tls: VerifyHostname called on TLS server connection")
+		return ErrVerifyHostNameCalledOnTLSServerConn
 	}
 	if !c.handshakeComplete {
-		return errors.New("tls: handshake has not yet been performed")
+		return ErrVerifyHostNameHandshakeNotYetPerformed
 	}
 	if len(c.verifiedChains) == 0 {
-		return errors.New("tls: handshake did not verify certificate chain")
+		return ErrVerifyHostNameHandshakeDidnotVerifyCertificateChain
 	}
 	return c.peerCertificates[0].VerifyHostname(host)
 }

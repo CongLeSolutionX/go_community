@@ -11,7 +11,6 @@ import (
 	"crypto/sha1"
 	"crypto/sha256"
 	"crypto/sha512"
-	"errors"
 	"hash"
 )
 
@@ -190,7 +189,7 @@ func lookupTLSHash(hash uint8) (crypto.Hash, error) {
 	case hashSHA384:
 		return crypto.SHA384, nil
 	default:
-		return 0, errors.New("tls: unsupported hash algorithm")
+		return 0, ErrUnsupportedHashAlgorithm
 	}
 }
 
@@ -323,7 +322,7 @@ func (h finishedHash) selectClientCertSignatureAlgorithm(serverList []signatureA
 			return v, nil
 		}
 	}
-	return signatureAndHash{}, errors.New("tls: no supported signature algorithm found for signing client certificate")
+	return signatureAndHash{}, ErrNoSupportedSignatureAlgorithmForClientCertificateSigning
 }
 
 // hashForClientCertificate returns a digest, hash function, and TLS 1.2 hash
@@ -335,7 +334,7 @@ func (h finishedHash) hashForClientCertificate(signatureAndHash signatureAndHash
 
 	if h.version == VersionSSL30 {
 		if signatureAndHash.signature != signatureRSA {
-			return nil, 0, errors.New("tls: unsupported signature type for client certificate")
+			return nil, 0, ErrUnsupportedSignatureTypeForClientCertificate
 		}
 
 		md5Hash := md5.New()

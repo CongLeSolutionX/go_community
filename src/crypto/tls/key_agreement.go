@@ -21,6 +21,64 @@ import (
 var errClientKeyExchange = errors.New("tls: invalid ClientKeyExchange message")
 var errServerKeyExchange = errors.New("tls: invalid ServerKeyExchange message")
 
+var (
+	ErrServerUnsupportedCurve = errors.New("tls: ECDHE ECDSA requires a ECDSA server public key")
+
+	ErrNoSupportedEllipticCurversOffered = errors.New("tls: no supported elliptic curves offered")
+
+	ErrNoSupportedSignatureAlgorithmForClientCertificateSigning = errors.New("tls: no supported signature algorithm found for signing client certificate")
+
+	ErrPrivatePublicKeyTypesDiffer = errors.New("tls: private key type does not match public key type")
+	ErrPrivatePublicKeysDiffer     = errors.New("tls: private key does not match public key")
+
+	ErrVerifyHostNameCalledOnTLSServerConn    = errors.New("tls: VerifyHostname called on TLS server connection")
+	ErrVerifyHostNameHandshakeNotYetPerformed = errors.New("tls: handshake has not yet been performed")
+
+	ErrVerifyHostNameHandshakeDidnotVerifyCertificateChain = errors.New("tls: handshake did not verify certificate chain")
+
+	ErrUnknownRenegotiationValue  = errors.New("tls: unknown Renegotiation value")
+	ErrUnknownPublicKeyAlgorithm  = errors.New("tls: unknown public key algorithm")
+	ErrUnknownRecordTypeRequested = errors.New("tls: unknown record type requested")
+
+	ErrUnknownPrivateKeyInPKCS8Wrapping = errors.New("tls: found unknown private key type in PKCS#8 wrapping")
+
+	ErrUnimplementedSignerCertificatePrivateKey = errors.New("tls: certificate private key does not implement crypto.Signer")
+
+	ErrClientUnsupportedCommonHashFunctions = errors.New("tls: client doesn't support any common hash functions")
+
+	ErrNoCertificatesConfigured = errors.New("tls: no certificates configured")
+
+	ErrUnsupportedCurveIncluded = errors.New("tls: preferredCurves includes unsupported curve")
+	ErrUnsupportedHashAlgorithm = errors.New("tls: unsupported hash algorithm")
+
+	ErrUnsupportedHashFunctionUsedByPeer            = errors.New("tls: unsupported hash function used by peer")
+	ErrUnsupportedSignatureTypeForClientCertificate = errors.New("tls: unsupported signature type for client certificate")
+
+	ErrUnexpectedServerKeyExchange = errors.New("tls: unexpected ServerKeyExchange")
+
+	ErrApplicationDataRecordRequestedInHandshake = errors.New("tls: application data record requested while in handshake")
+
+	ErrHandshakeOrChangeCipherSpecRequestedNotInHandshake = errors.New("tls: handshake or ChangeCipherSpec requested while not in handshake")
+	ErrECDSAVerificationFailure                           = errors.New("tls: ECDSA verification failure")
+	ErrECDSASignatureHasZeroOrNegativeValues              = errors.New("tls: ECDSA signature contained zero or negative values")
+
+	ErrECDHEMissingServerKeyExchangeMessage   = errors.New("tls: missing ServerKeyExchange message")
+	ErrECDHEECDSARequiresECDSAServerPublicKey = errors.New("tls: ECDHE ECDSA requires a ECDSA server public key")
+	ErrECDHEECDSARequiresECDSAServerKey       = errors.New("tls: ECDHE ECDSA requires an ECDSA server key")
+	ErrECDHERSARequiresRSAPublicKey           = errors.New("tls: ECDHE RSA requires a RSA server public key")
+	ErrECDHEUnknownSignatureAlgorithm         = errors.New("tls: unknown ECDHE signature algorithm")
+
+	ErrFailedToParsePrivateKey          = errors.New("tls: failed to parse private key")
+	ErrConfigCannotGetCertificate       = errors.New("tls: neither Certificates nor GetCertificate set in Config")
+	ErrInvalidPEMDataInCertificateInput = errors.New("tls: failed to find any PEM data in certificate input")
+
+	ErrPEMMissingDataPrivateKeyPresent          = errors.New("tls: failed to find certificate PEM data in certificate input, but did find a private key; PEM inputs may have been switched")
+	ErrPEMMissingDataInKeyInput                 = errors.New("tls: failed to find any PEM data in key input")
+	ErrPEMCertificateFoundInMissingPrivatePlace = errors.New("tls: found a certificate rather than a key in the PEM for the private key")
+
+	ErrServerSelectedUnsupportedCurve = errors.New("tls: server selected unsupported curve")
+)
+
 // rsaKeyAgreement implements the standard TLS key agreement where the client
 // encrypts the pre-master secret to the server's public key.
 type rsaKeyAgreement struct{}
@@ -44,7 +102,7 @@ func (ka rsaKeyAgreement) processClientKeyExchange(config *Config, cert *Certifi
 	}
 	priv, ok := cert.PrivateKey.(crypto.Decrypter)
 	if !ok {
-		return nil, errors.New("tls: certificate private key does not implement crypto.Decrypter")
+		return nil, ErrUnimplementedSignerCertificatePrivateKey
 	}
 	// Perform constant time RSA PKCS#1 v1.5 decryption
 	preMasterSecret, err := priv.Decrypt(config.rand(), ciphertext, &rsa.PKCS1v15DecryptOptions{SessionKeyLen: 48})
@@ -61,7 +119,7 @@ func (ka rsaKeyAgreement) processClientKeyExchange(config *Config, cert *Certifi
 }
 
 func (ka rsaKeyAgreement) processServerKeyExchange(config *Config, clientHello *clientHelloMsg, serverHello *serverHelloMsg, cert *x509.Certificate, skx *serverKeyExchangeMsg) error {
-	return errors.New("tls: unexpected ServerKeyExchange")
+	return ErrUnexpectedServerKeyExchange
 }
 
 func (ka rsaKeyAgreement) generateClientKeyExchange(config *Config, clientHello *clientHelloMsg, cert *x509.Certificate) ([]byte, *clientKeyExchangeMsg, error) {
@@ -113,7 +171,7 @@ func md5SHA1Hash(slices [][]byte) []byte {
 func hashForServerKeyExchange(sigAndHash signatureAndHash, version uint16, slices ...[]byte) ([]byte, crypto.Hash, error) {
 	if version >= VersionTLS12 {
 		if !isSupportedSignatureAndHash(sigAndHash, supportedSignatureAlgorithms) {
-			return nil, crypto.Hash(0), errors.New("tls: unsupported hash function used by peer")
+			return nil, crypto.Hash(0), ErrUnsupportedHashFunctionUsedByPeer
 		}
 		hashFunc, err := lookupTLSHash(sigAndHash.hash)
 		if err != nil {
@@ -152,7 +210,7 @@ func pickTLS12HashForSignature(sigType uint8, clientList []signatureAndHash) (ui
 		}
 	}
 
-	return 0, errors.New("tls: client doesn't support any common hash functions")
+	return 0, ErrClientUnsupportedCommonHashFunctions
 }
 
 func curveForCurveID(id CurveID) (elliptic.Curve, bool) {
@@ -196,12 +254,12 @@ NextCandidate:
 	}
 
 	if curveid == 0 {
-		return nil, errors.New("tls: no supported elliptic curves offered")
+		return nil, ErrNoSupportedEllipticCurversOffered
 	}
 
 	var ok bool
 	if ka.curve, ok = curveForCurveID(curveid); !ok {
-		return nil, errors.New("tls: preferredCurves includes unsupported curve")
+		return nil, ErrUnsupportedCurveIncluded
 	}
 
 	var x, y *big.Int
@@ -235,22 +293,22 @@ NextCandidate:
 
 	priv, ok := cert.PrivateKey.(crypto.Signer)
 	if !ok {
-		return nil, errors.New("tls: certificate private key does not implement crypto.Signer")
+		return nil, ErrUnimplementedSignerCertificatePrivateKey
 	}
 	var sig []byte
 	switch ka.sigType {
 	case signatureECDSA:
 		_, ok := priv.Public().(*ecdsa.PublicKey)
 		if !ok {
-			return nil, errors.New("tls: ECDHE ECDSA requires an ECDSA server key")
+			return nil, ErrECDHEECDSARequiresECDSAServerKey
 		}
 	case signatureRSA:
 		_, ok := priv.Public().(*rsa.PublicKey)
 		if !ok {
-			return nil, errors.New("tls: ECDHE RSA requires a RSA server key")
+			return nil, ErrECDHERSARequiresRSAPublicKey
 		}
 	default:
-		return nil, errors.New("tls: unknown ECDHE signature algorithm")
+		return nil, ErrECDHEUnknownSignatureAlgorithm
 	}
 	sig, err = priv.Sign(config.rand(), digest, hashFunc)
 	if err != nil {
@@ -301,13 +359,13 @@ func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHell
 		return errServerKeyExchange
 	}
 	if skx.key[0] != 3 { // named curve
-		return errors.New("tls: server selected unsupported curve")
+		return ErrServerSelectedUnsupportedCurve
 	}
 	curveid := CurveID(skx.key[1])<<8 | CurveID(skx.key[2])
 
 	var ok bool
 	if ka.curve, ok = curveForCurveID(curveid); !ok {
-		return errors.New("tls: server selected unsupported curve")
+		return ErrServerSelectedUnsupportedCurve
 	}
 
 	publicLen := int(skx.key[3])
@@ -354,28 +412,28 @@ func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHell
 	case signatureECDSA:
 		pubKey, ok := cert.PublicKey.(*ecdsa.PublicKey)
 		if !ok {
-			return errors.New("tls: ECDHE ECDSA requires a ECDSA server public key")
+			return ErrECDHEECDSARequiresECDSAServerPublicKey
 		}
 		ecdsaSig := new(ecdsaSignature)
 		if _, err := asn1.Unmarshal(sig, ecdsaSig); err != nil {
 			return err
 		}
 		if ecdsaSig.R.Sign() <= 0 || ecdsaSig.S.Sign() <= 0 {
-			return errors.New("tls: ECDSA signature contained zero or negative values")
+			return ErrECDSASignatureHasZeroOrNegativeValues
 		}
 		if !ecdsa.Verify(pubKey, digest, ecdsaSig.R, ecdsaSig.S) {
-			return errors.New("tls: ECDSA verification failure")
+			return ErrECDSAVerificationFailure
 		}
 	case signatureRSA:
 		pubKey, ok := cert.PublicKey.(*rsa.PublicKey)
 		if !ok {
-			return errors.New("tls: ECDHE RSA requires a RSA server public key")
+			return ErrECDHERSARequiresRSAPublicKey
 		}
 		if err := rsa.VerifyPKCS1v15(pubKey, hashFunc, digest, sig); err != nil {
 			return err
 		}
 	default:
-		return errors.New("tls: unknown ECDHE signature algorithm")
+		return ErrECDHEUnknownSignatureAlgorithm
 	}
 
 	return nil
@@ -383,7 +441,7 @@ func (ka *ecdheKeyAgreement) processServerKeyExchange(config *Config, clientHell
 
 func (ka *ecdheKeyAgreement) generateClientKeyExchange(config *Config, clientHello *clientHelloMsg, cert *x509.Certificate) ([]byte, *clientKeyExchangeMsg, error) {
 	if ka.curve == nil {
-		return nil, nil, errors.New("tls: missing ServerKeyExchange message")
+		return nil, nil, ErrECDHEMissingServerKeyExchangeMessage
 	}
 	priv, mx, my, err := elliptic.GenerateKey(ka.curve, config.rand())
 	if err != nil {

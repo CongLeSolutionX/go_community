@@ -19,6 +19,27 @@ import (
 	"strings"
 )
 
+var (
+	ErrIncorrectRenegotiationExtensionContents        = errors.New("tls: incorrect renegotiation extension contents")
+	ErrInitialHandshakeNonEmptyRenegotiationExtension = errors.New("tls: initial handshake had non-empty renegotiation extension")
+
+	ErrNextProtosValueInvalid   = errors.New("tls: invalid NextProtos value")
+	ErrNextProtosValuesTooLarge = errors.New("tls: NextProtos values too large")
+
+	ErrTLSConfigServerNameOrInsecureSkipVerifyExpected = errors.New("tls: either ServerName or InsecureSkipVerify must be specified in the tls.Config")
+
+	ErrServerAdvertisedUnrequestedNPNExtension  = errors.New("tls: server advertised unrequested NPN extension")
+	ErrServerAdvertisedUnrequestedNPLNExtension = errors.New("tls: server advertised unrequested ALPN extension")
+	ErrServerAdvertisedBothNPNAndALPNExtensions = errors.New("tls: server advertised both NPN and ALPN extensions")
+
+	ErrServerChoseUnconfiguredCipherSuite           = errors.New("tls: server chose an unconfigured cipher suite")
+	ErrServerIdentityChangeDuringRenegotiation      = errors.New("tls: server's identity changed during renegotiation")
+	ErrServerIncorrectFinishedMessage               = errors.New("tls: server's Finished message was incorrect")
+	ErrServerSelectedUnsupportedCompressionFormat   = errors.New("tls: server selected unsupported compression format")
+	ErrServerResumedSessionWithDifferentCipherSuite = errors.New("tls: server resumed a session with a different cipher suite")
+	ErrServerResumedSessionWithDifferentVersion     = errors.New("tls: server resumed a session with a different version")
+)
+
 type clientHandshakeState struct {
 	c            *Conn
 	serverHello  *serverHelloMsg
@@ -40,19 +61,19 @@ func (c *Conn) clientHandshake() error {
 	c.didResume = false
 
 	if len(c.config.ServerName) == 0 && !c.config.InsecureSkipVerify {
-		return errors.New("tls: either ServerName or InsecureSkipVerify must be specified in the tls.Config")
+		return ErrTLSConfigServerNameOrInsecureSkipVerifyExpected
 	}
 
 	nextProtosLength := 0
 	for _, proto := range c.config.NextProtos {
 		if l := len(proto); l == 0 || l > 255 {
-			return errors.New("tls: invalid NextProtos value")
+			return ErrNextProtosValueInvalid
 		} else {
 			nextProtosLength += 1 + l
 		}
 	}
 	if nextProtosLength > 0xffff {
-		return errors.New("tls: NextProtos values too large")
+		return ErrNextProtosValuesTooLarge
 	}
 
 	hello := &clientHelloMsg{
@@ -178,7 +199,7 @@ NextCipherSuite:
 	suite := mutualCipherSuite(hello.cipherSuites, serverHello.cipherSuite)
 	if suite == nil {
 		c.sendAlert(alertHandshakeFailure)
-		return errors.New("tls: server chose an unconfigured cipher suite")
+		return ErrServerChoseUnconfiguredCipherSuite
 	}
 
 	hs := &clientHandshakeState{
@@ -322,7 +343,7 @@ func (hs *clientHandshakeState) doFullHandshake() error {
 		// motivation behind this requirement.
 		if !bytes.Equal(c.peerCertificates[0].Raw, certMsg.certificates[0]) {
 			c.sendAlert(alertBadCertificate)
-			return errors.New("tls: server's identity changed during renegotiation")
+			return ErrServerIdentityChangeDuringRenegotiation
 		}
 	}
 
@@ -561,14 +582,14 @@ func (hs *clientHandshakeState) processServerHello() (bool, error) {
 
 	if hs.serverHello.compressionMethod != compressionNone {
 		c.sendAlert(alertUnexpectedMessage)
-		return false, errors.New("tls: server selected unsupported compression format")
+		return false, ErrServerSelectedUnsupportedCompressionFormat
 	}
 
 	if c.handshakes == 0 && hs.serverHello.secureRenegotiationSupported {
 		c.secureRenegotiation = true
 		if len(hs.serverHello.secureRenegotiation) != 0 {
 			c.sendAlert(alertHandshakeFailure)
-			return false, errors.New("tls: initial handshake had non-empty renegotiation extension")
+			return false, ErrInitialHandshakeNonEmptyRenegotiationExtension
 		}
 	}
 
@@ -578,7 +599,7 @@ func (hs *clientHandshakeState) processServerHello() (bool, error) {
 		copy(expectedSecureRenegotiation[12:], c.serverFinished[:])
 		if !bytes.Equal(hs.serverHello.secureRenegotiation, expectedSecureRenegotiation[:]) {
 			c.sendAlert(alertHandshakeFailure)
-			return false, errors.New("tls: incorrect renegotiation extension contents")
+			return false, ErrIncorrectRenegotiationExtensionContents
 		}
 	}
 
@@ -589,17 +610,17 @@ func (hs *clientHandshakeState) processServerHello() (bool, error) {
 
 	if !clientDidNPN && serverHasNPN {
 		c.sendAlert(alertHandshakeFailure)
-		return false, errors.New("tls: server advertised unrequested NPN extension")
+		return false, ErrServerAdvertisedUnrequestedNPNExtension
 	}
 
 	if !clientDidALPN && serverHasALPN {
 		c.sendAlert(alertHandshakeFailure)
-		return false, errors.New("tls: server advertised unrequested ALPN extension")
+		return false, ErrServerAdvertisedUnrequestedNPLNExtension
 	}
 
 	if serverHasNPN && serverHasALPN {
 		c.sendAlert(alertHandshakeFailure)
-		return false, errors.New("tls: server advertised both NPN and ALPN extensions")
+		return false, ErrServerAdvertisedBothNPNAndALPNExtensions
 	}
 
 	if serverHasALPN {
@@ -614,12 +635,12 @@ func (hs *clientHandshakeState) processServerHello() (bool, error) {
 
 	if hs.session.vers != c.vers {
 		c.sendAlert(alertHandshakeFailure)
-		return false, errors.New("tls: server resumed a session with a different version")
+		return false, ErrServerResumedSessionWithDifferentVersion
 	}
 
 	if hs.session.cipherSuite != hs.suite.id {
 		c.sendAlert(alertHandshakeFailure)
-		return false, errors.New("tls: server resumed a session with a different cipher suite")
+		return false, ErrServerResumedSessionWithDifferentCipherSuite
 	}
 
 	// Restore masterSecret and peerCerts from previous state
@@ -651,7 +672,7 @@ func (hs *clientHandshakeState) readFinished(out []byte) error {
 	if len(verify) != len(serverFinished.verifyData) ||
 		subtle.ConstantTimeCompare(verify, serverFinished.verifyData) != 1 {
 		c.sendAlert(alertHandshakeFailure)
-		return errors.New("tls: server's Finished message was incorrect")
+		return ErrServerIncorrectFinishedMessage
 	}
 	hs.finishedHash.Write(serverFinished.marshal())
 	copy(out, verify)
