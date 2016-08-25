@@ -344,7 +344,7 @@ func loadinternal(ctxt *Link, name string) {
 		if *FlagLinkshared {
 			shlibname := filepath.Join(ctxt.Libdir[i], name+".shlibname")
 			if ctxt.Debugvlog != 0 {
-				fmt.Fprintf(ctxt.Bso, "searching for %s.a in %s\n", name, shlibname)
+				ctxt.Logf("searching for %s.a in %s\n", name, shlibname)
 			}
 			if _, err := os.Stat(shlibname); err == nil {
 				addlibpath(ctxt, "internal", "internal", "", name, shlibname)
@@ -354,7 +354,7 @@ func loadinternal(ctxt *Link, name string) {
 		}
 		pname := filepath.Join(ctxt.Libdir[i], name+".a")
 		if ctxt.Debugvlog != 0 {
-			fmt.Fprintf(ctxt.Bso, "searching for %s.a in %s\n", name, pname)
+			ctxt.Logf("searching for %s.a in %s\n", name, pname)
 		}
 		if _, err := os.Stat(pname); err == nil {
 			addlibpath(ctxt, "internal", "internal", pname, name, "")
@@ -364,7 +364,7 @@ func loadinternal(ctxt *Link, name string) {
 	}
 
 	if found == 0 {
-		fmt.Fprintf(ctxt.Bso, "warning: unable to find %s.a\n", name)
+		ctxt.Logf("warning: unable to find %s.a\n", name)
 	}
 }
 
@@ -396,7 +396,7 @@ func (ctxt *Link) loadlib() {
 		iscgo = iscgo || ctxt.Library[i].Pkg == "runtime/cgo"
 		if ctxt.Library[i].Shlib == "" {
 			if ctxt.Debugvlog > 1 {
-				fmt.Fprintf(ctxt.Bso, "%5.2f autolib: %s (from %s)\n", obj.Cputime(), ctxt.Library[i].File, ctxt.Library[i].Objref)
+				ctxt.Logf("%5.2f autolib: %s (from %s)\n", obj.Cputime(), ctxt.Library[i].File, ctxt.Library[i].Objref)
 			}
 			objfile(ctxt, ctxt.Library[i])
 		}
@@ -405,7 +405,7 @@ func (ctxt *Link) loadlib() {
 	for i = 0; i < len(ctxt.Library); i++ {
 		if ctxt.Library[i].Shlib != "" {
 			if ctxt.Debugvlog > 1 {
-				fmt.Fprintf(ctxt.Bso, "%5.2f autolib: %s (from %s)\n", obj.Cputime(), ctxt.Library[i].Shlib, ctxt.Library[i].Objref)
+				ctxt.Logf("%5.2f autolib: %s (from %s)\n", obj.Cputime(), ctxt.Library[i].Shlib, ctxt.Library[i].Objref)
 			}
 			ldshlibsyms(ctxt, ctxt.Library[i].Shlib)
 		}
@@ -575,13 +575,12 @@ func (ctxt *Link) loadlib() {
 				args := hostlinkArchArgs()
 				args = append(args, "--print-libgcc-file-name")
 				if ctxt.Debugvlog != 0 {
-					fmt.Fprintf(ctxt.Bso, "%s %v\n", *flagExtld, args)
+					ctxt.Logf("%s %v\n", *flagExtld, args)
 				}
 				out, err := exec.Command(*flagExtld, args...).Output()
 				if err != nil {
 					if ctxt.Debugvlog != 0 {
-						fmt.Fprintln(ctxt.Bso, "not using a libgcc file because compiler failed")
-						fmt.Fprintf(ctxt.Bso, "%v\n%s\n", err, out)
+						ctxt.Logf("not using a libgcc file because compiler failed\n%v\n%s\n", err, out)
 					}
 					*flagLibGCC = "none"
 				} else {
@@ -654,8 +653,7 @@ func objfile(ctxt *Link, lib *Library) {
 	pkg := pathtoprefix(lib.Pkg)
 
 	if ctxt.Debugvlog > 1 {
-		fmt.Fprintf(ctxt.Bso, "%5.2f ldobj: %s (%s)\n", obj.Cputime(), lib.File, pkg)
-		ctxt.Bso.Flush()
+		ctxt.Logf("%5.2f ldobj: %s (%s)\n", obj.Cputime(), lib.File, pkg)
 	}
 	f, err := bio.Open(lib.File)
 	if err != nil {
@@ -922,8 +920,7 @@ func (ctxt *Link) archive() {
 	argv = append(argv, hostobjCopy()...)
 
 	if ctxt.Debugvlog != 0 {
-		fmt.Fprintf(ctxt.Bso, "archive: %s\n", strings.Join(argv, " "))
-		ctxt.Bso.Flush()
+		ctxt.Logf("archive: %s\n", strings.Join(argv, " "))
 	}
 
 	if out, err := exec.Command(argv[0], argv[1:]...).CombinedOutput(); err != nil {
@@ -1148,19 +1145,17 @@ func (l *Link) hostlink() {
 	}
 
 	if l.Debugvlog != 0 {
-		fmt.Fprintf(l.Bso, "host link:")
+		l.Logf("host link:")
 		for _, v := range argv {
-			fmt.Fprintf(l.Bso, " %q", v)
+			l.Logf(" %q", v)
 		}
-		fmt.Fprintf(l.Bso, "\n")
-		l.Bso.Flush()
+		l.Logf("\n")
 	}
 
 	if out, err := exec.Command(argv[0], argv[1:]...).CombinedOutput(); err != nil {
 		Exitf("running %s failed: %v\n%s", argv[0], err, out)
 	} else if l.Debugvlog != 0 && len(out) > 0 {
-		fmt.Fprintf(l.Bso, "%s", out)
-		l.Bso.Flush()
+		l.Logf("%s", out)
 	}
 
 	if !*FlagS && !debug_s && HEADTYPE == obj.Hdarwin {
@@ -1387,9 +1382,8 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			return
 		}
 	}
-	if ctxt.Debugvlog > 1 && ctxt.Bso != nil {
-		fmt.Fprintf(ctxt.Bso, "%5.2f ldshlibsyms: found library with name %s at %s\n", obj.Cputime(), shlib, libpath)
-		ctxt.Bso.Flush()
+	if ctxt.Debugvlog > 1 {
+		ctxt.Logf("%5.2f ldshlibsyms: found library with name %s at %s\n", obj.Cputime(), shlib, libpath)
 	}
 
 	f, err := elf.Open(libpath)
@@ -1944,8 +1938,7 @@ func genasmsym(ctxt *Link, put func(*Link, *Symbol, string, int, int64, int64, i
 	// Otherwise, off is addressing the saved program counter.
 	// Something underhanded is going on. Say nothing.
 	if ctxt.Debugvlog != 0 || *flagN {
-		fmt.Fprintf(ctxt.Bso, "%5.2f symsize = %d\n", obj.Cputime(), uint32(Symsize))
-		ctxt.Bso.Flush()
+		ctxt.Logf("%5.2f symsize = %d\n", obj.Cputime(), uint32(Symsize))
 	}
 }
 
@@ -2035,7 +2028,7 @@ func (ctxt *Link) callgraph() {
 				continue
 			}
 			if (r.Type == obj.R_CALL || r.Type == obj.R_CALLARM || r.Type == obj.R_CALLPOWER || r.Type == obj.R_CALLMIPS) && r.Sym.Type == obj.STEXT {
-				fmt.Fprintf(ctxt.Bso, "%s calls %s\n", s.Name, r.Sym.Name)
+				ctxt.Logf("%s calls %s\n", s.Name, r.Sym.Name)
 			}
 		}
 	}
