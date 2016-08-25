@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0545f683_240ab67f",
+        "filename": "src/syscall/asm_plan9_386.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-25T21:48:49Z",
+      "side": 1,
+      "message": "plan9/386 build is broken. This should be FP. (Sorry)",
+      "revId": "71ab9fa312f8266379dbb358b9ee9303cde7bd6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
