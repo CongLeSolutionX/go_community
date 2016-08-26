@@ -841,8 +841,13 @@ opswitch:
 		}
 		n1.Etype = 1 // addr does not escape
 		fn := chanfn("chanrecv2", 2, r.Left.Type)
-		r = mkcall1(fn, n.List.Second().Type, init, typename(r.Left.Type), r.Left, n1)
-		n = Nod(OAS, n.List.Second(), r)
+		ok := n.List.Second()
+		oktype := Types[TBOOL]
+		if !isblank(ok) && !ok.Type.IsInterface() {
+			oktype = ok.Type
+		}
+		r = mkcall1(fn, oktype, init, typename(r.Left.Type), r.Left, n1)
+		n = Nod(OAS, ok, r)
 		n = typecheck(n, Etop)
 
 		// a,b = m[i];
@@ -897,8 +902,8 @@ opswitch:
 		// mapaccess2* returns a typed bool, but due to spec changes,
 		// the boolean result of i.(T) is now untyped so we make it the
 		// same type as the variable on the lhs.
-		if !isblank(n.List.Second()) {
-			r.Type.Field(1).Type = n.List.Second().Type
+		if ok := n.List.Second(); !isblank(ok) && !ok.Type.IsInterface() {
+			r.Type.Field(1).Type = ok.Type
 		}
 		n.Rlist.Set1(r)
 		n.Op = OAS2FUNC
@@ -951,11 +956,7 @@ opswitch:
 		t := e.Type    // T
 		from := e.Left // i
 
-		oktype := Types[TBOOL]
 		ok := n.List.Second()
-		if !isblank(ok) {
-			oktype = ok.Type
-		}
 
 		fromKind := from.Type.iet()
 		toKind := t.iet()
@@ -997,15 +998,14 @@ opswitch:
 					if Debug_typeassert > 0 {
 						Warn("type assertion (scalar result) inlined")
 					}
-					n = Nod(OIF, ok, nil)
+					n = Nod(OIF, fast, nil)
 					n.Likely = 1
-					if isblank(ok) {
-						n.Left = fast
-					} else {
-						n.Ninit.Set1(Nod(OAS, ok, fast))
-					}
 					n.Nbody.Set1(Nod(OAS, res, ifaceData(from, res.Type)))
 					n.Rlist.Set1(Nod(OAS, res, nil))
+					if !isblank(ok) {
+						n.Nbody.Append(Nod(OAS, ok, Nodbool(true)))
+						n.Rlist.Append(Nod(OAS, ok, Nodbool(false)))
+					}
 					n = typecheck(n, Etop)
 				}
 				break
@@ -1025,6 +1025,10 @@ opswitch:
 		}
 		fn := syslook(assertFuncName(from.Type, t, true))
 		fn = substArgTypes(fn, from.Type, t)
+		oktype := Types[TBOOL]
+		if !isblank(ok) && !ok.Type.IsInterface() {
+			oktype = ok.Type
+		}
 		call := mkcall1(fn, oktype, init, typename(t), from, resptr)
 		n = Nod(OAS, ok, call)
 		n = typecheck(n, Etop)
