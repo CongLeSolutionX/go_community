@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_38998914",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:23:48Z",
+      "side": 1,
+      "message": "Why do we do this all the time?  Why not only for -buildmode\u003dplugin?",
+      "revId": "d15d60f983467c64a9fc80a3488e4f5076e614f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
