@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05e176e4_de44a5a9",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-26T03:41:37Z",
+      "side": 1,
+      "message": "If you change this for:\nt.Fatal(err)\nI don\u0027t think you will loose anything important.\nSame in similar situations below.",
+      "revId": "3f28a63db5931f2099f572a50fa0e96af4670461",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e176e4_5e517567",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-26T03:41:37Z",
+      "side": 1,
+      "message": "Why you doing this? Need a comment to explain.",
+      "revId": "3f28a63db5931f2099f572a50fa0e96af4670461",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e176e4_be47d9ab",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-26T03:41:37Z",
+      "side": 1,
+      "message": "You could just do:\ntestPath :\u003d filepath.Join(tmp, \"test/foo/bar\")\nIt will be less confusing.\nProbably to do not even need testPath variable.",
+      "revId": "3f28a63db5931f2099f572a50fa0e96af4670461",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e176e4_3eb58992",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-26T03:41:37Z",
+      "side": 1,
+      "message": "This deferred function will execute at the end of TestToNorm.\nAre you sure, that is what you want?\nAre you sure you want len(testsDir) of these deferred functions to be executed?",
+      "revId": "3f28a63db5931f2099f572a50fa0e96af4670461",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e176e4_5eba5581",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-26T03:41:37Z",
+      "side": 1,
+      "message": "Are you sure you want to exit from TestToNorm function here? Why not to continue with next test on the list?",
+      "revId": "3f28a63db5931f2099f572a50fa0e96af4670461",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e176e4_feca4118",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-26T03:41:37Z",
+      "side": 1,
+      "message": "Maybe do\nt.Errorf(\"toNorm(%s) failed: %v (wd\u003d%s)\\n\", arg, err, wd)\ninstead?",
+      "revId": "3f28a63db5931f2099f572a50fa0e96af4670461",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e176e4_1ed9adf1",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-08-26T03:41:37Z",
+      "side": 1,
+      "message": "Maybe do\nt.Errorf(\"toNorm(%s) returns %s, but %s expected (wd\u003d%s)\\n\", arg, got, want, wd)\ninstead?",
+      "revId": "3f28a63db5931f2099f572a50fa0e96af4670461",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
