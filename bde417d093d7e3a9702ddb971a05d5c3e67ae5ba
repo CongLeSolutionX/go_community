@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "45b8cef5_81c0209e",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-08-26T23:01:40Z",
+      "side": 1,
+      "message": "I suspect not.  Just wanted to make sure not to conflict with the builtin.",
+      "parentUuid": "855ac666_5ac5155d",
+      "range": {
+        "startLine": 491,
+        "startChar": 67,
+        "endLine": 491,
+        "endChar": 71
+      },
+      "revId": "bde417d093d7e3a9702ddb971a05d5c3e67ae5ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0545f683_539fc65e",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
         "patchSetId": 3
