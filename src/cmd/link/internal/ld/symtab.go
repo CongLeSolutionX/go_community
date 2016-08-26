@@ -267,8 +267,6 @@ func Asmplan9sym(ctxt *Link) {
 	genasmsym(ctxt, putplan9sym)
 }
 
-var symt *Symbol
-
 var encbuf [10]byte
 
 func Wputb(w uint16) { Cwrite(Append16b(encbuf[:0], w)) }
@@ -414,12 +412,6 @@ func (ctxt *Link) symtab() {
 
 	symitablink := Linklookup(ctxt, "runtime.itablink", 0)
 	symitablink.Type = obj.SITABLINK
-
-	symt = Linklookup(ctxt, "runtime.symtab", 0)
-	symt.Attr |= AttrLocal
-	symt.Type = obj.SSYMTAB
-	symt.Size = 0
-	symt.Attr |= AttrReachable
 
 	ntypelinks := 0
 	nitablinks := 0
