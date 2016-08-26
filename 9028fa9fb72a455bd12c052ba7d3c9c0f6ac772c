@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_5e7ae54e",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T22:04:29Z",
+      "side": 1,
+      "message": "Perhaps a TODO to add an option specifically for this.  We can easily pass that option from cmd/go when using -buildmode\u003dplugin.",
+      "revId": "9028fa9fb72a455bd12c052ba7d3c9c0f6ac772c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
