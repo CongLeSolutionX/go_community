@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_f80e7143",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1341,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:34:04Z",
+      "side": 1,
+      "message": "Referring to \".plt\" looks ELF specific.  And I\u0027m not clear on why you are doing it.",
+      "revId": "da217fdd5a68ce16ae972b9d3e9735c80f762888",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_38fd0904",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:34:04Z",
+      "side": 1,
+      "message": "Can we add some sort of check that we have seen all the symbols at this point?  Accidentally calling DynlinkingGo too early could give the wrong answer.",
+      "revId": "da217fdd5a68ce16ae972b9d3e9735c80f762888",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_b811195b",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:34:04Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "da217fdd5a68ce16ae972b9d3e9735c80f762888",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
