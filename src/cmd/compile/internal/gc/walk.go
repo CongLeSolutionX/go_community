@@ -841,9 +841,11 @@ opswitch:
 		}
 		n1.Etype = 1 // addr does not escape
 		fn := chanfn("chanrecv2", 2, r.Left.Type)
-		r = mkcall1(fn, n.List.Second().Type, init, typename(r.Left.Type), r.Left, n1)
-		n = Nod(OAS, n.List.Second(), r)
+		ok := n.List.Second()
+		call := mkcall1(fn, Types[TBOOL], init, typename(r.Left.Type), r.Left, n1)
+		n = okas(ok, call)
 		n = typecheck(n, Etop)
+		n = walkexpr(n, init)
 
 		// a,b = m[i];
 	case OAS2MAPR:
@@ -897,8 +899,8 @@ opswitch:
 		// mapaccess2* returns a typed bool, but due to spec changes,
 		// the boolean result of i.(T) is now untyped so we make it the
 		// same type as the variable on the lhs.
-		if !isblank(n.List.Second()) {
-			r.Type.Field(1).Type = n.List.Second().Type
+		if ok := n.List.Second(); !isblank(ok) && !ok.Type.IsInterface() {
+			r.Type.Field(1).Type = ok.Type
 		}
 		n.Rlist.Set1(r)
 		n.Op = OAS2FUNC
@@ -931,7 +933,9 @@ opswitch:
 		n = mkcall1(mapfndel("mapdelete", t), nil, init, typename(t), map_, key)
 
 	case OAS2DOTTYPE:
+		ok := n.List.Second()
 		e := n.Rlist.First() // i.(T)
+
 		// TODO(rsc): The Isfat is for consistency with componentgen and orderexpr.
 		// It needs to be removed in all three places.
 		// That would allow inlining x.(struct{*int}) the same as x.(*int).
@@ -950,12 +954,6 @@ opswitch:
 		e.Left = walkexpr(e.Left, init)
 		t := e.Type    // T
 		from := e.Left // i
-
-		oktype := Types[TBOOL]
-		ok := n.List.Second()
-		if !isblank(ok) {
-			oktype = ok.Type
-		}
 
 		fromKind := from.Type.iet()
 		toKind := t.iet()
@@ -1025,8 +1023,8 @@ opswitch:
 		}
 		fn := syslook(assertFuncName(from.Type, t, true))
 		fn = substArgTypes(fn, from.Type, t)
-		call := mkcall1(fn, oktype, init, typename(t), from, resptr)
-		n = Nod(OAS, ok, call)
+		call := mkcall1(fn, Types[TBOOL], init, typename(t), from, resptr)
+		n = okas(ok, call)
 		n = typecheck(n, Etop)
 
 	case ODOTTYPE, ODOTTYPE2:
@@ -2728,6 +2726,15 @@ func conv(n *Node, t *Type) *Node {
 	n.Type = t
 	n = typecheck(n, Erv)
 	return n
+}
+
+// okas creates and returns an assignment of val to ok,
+// including an explicit conversion if necessary.
+func okas(ok, val *Node) *Node {
+	if !isblank(ok) {
+		val = conv(val, ok.Type)
+	}
+	return Nod(OAS, ok, val)
 }
 
 func chanfn(name string, n int, t *Type) *Node {
