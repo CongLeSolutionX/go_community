@@ -88,7 +88,7 @@ func Import(packages map[string]*types.Package, path, srcDir string) (pkg *types
 		if path == "unsafe" {
 			return types.Unsafe, nil
 		}
-		err = fmt.Errorf("can't find import: %s", id)
+		err = fmt.Errorf("can't find import")
 		return
 	}
 
@@ -118,7 +118,7 @@ func Import(packages map[string]*types.Package, path, srcDir string) (pkg *types
 
 	switch hdr {
 	case "$$\n":
-		err = fmt.Errorf("cannot import %s: old export format no longer supported (recompile library)", path)
+		err = fmt.Errorf("cannot import %q: old export format no longer supported (recompile library)", path)
 	case "$$B\n":
 		var data []byte
 		data, err = ioutil.ReadAll(buf)
