@@ -168,6 +168,8 @@ type Link struct {
 	Windows   int32
 	Goroot    string
 
+	Loaded bool // set after all inputs have been loaded as symbols
+
 	// Symbol lookup based on name and indexed by version.
 	Hash []map[string]*Symbol
 
