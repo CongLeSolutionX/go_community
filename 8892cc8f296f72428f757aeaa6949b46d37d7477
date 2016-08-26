@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_98bad51e",
+        "filename": "misc/cgo/testplugin/src/host/host.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:45:28Z",
+      "side": 1,
+      "message": "I put this non-standard import into a separate import group.",
+      "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_f8943194",
+        "filename": "misc/cgo/testplugin/src/plugin1/plugin1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:45:28Z",
+      "side": 1,
+      "message": "Personally I think it\u0027s always best to say at least\n// // No C code required.\nimport \"C\"\n\nAlso I would put a blank line between the import \"C\" and the import \"common\".",
+      "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_b88eb980",
+        "filename": "misc/cgo/testplugin/test.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:45:28Z",
+      "side": 1,
+      "message": "Why bother to test this?  None of the other misc/cgo/test*/test.bash scripts test it, do they?",
+      "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_9893f5a8",
+        "filename": "misc/cgo/testplugin/test.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:45:28Z",
+      "side": 1,
+      "message": "What is the default behavior for go build -buildmode\u003dplugin?  Does it create a .so in the current directory?",
+      "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
