@@ -101,6 +101,7 @@ func walkselect(sel *Node) {
 	var n *Node
 	var var_ *Node
 	var selv *Node
+	var ok *Node
 	if i == 0 {
 		sel.Nbody.Set1(mkcall("block", nil, nil))
 		goto out
@@ -187,6 +188,15 @@ func walkselect(sel *Node) {
 				n.Op = OSELRECV
 			}
 			if n.Op == OSELRECV2 {
+				if !n.List.First().Type.IsBoolean() {
+					if ok == nil {
+						ok = temp(Types[TBOOL])
+						sel.Ninit.Append(typecheck(Nod(OAS, ok, nil), Etop))
+					}
+					cas.Nbody.Set(append([]*Node{typecheck(Nod(OAS, n.List.First(), ok), Etop)}, cas.Nbody.Slice()...))
+					n.List.SetIndex(0, ok)
+				}
+
 				n.List.SetIndex(0, Nod(OADDR, n.List.First(), nil))
 				n.List.SetIndex(0, typecheck(n.List.Index(0), Erv))
 			}
@@ -220,24 +230,21 @@ func walkselect(sel *Node) {
 		default:
 			Fatalf("select %v", n.Op)
 
-			// if selectnbsend(c, v) { body } else { default body }
 		case OSEND:
+			// if selectnbsend(c, v) { body } else { default body }
 			ch := n.Left
-
 			r.Left = mkcall1(chanfn("selectnbsend", 2, ch.Type), Types[TBOOL], &r.Ninit, typename(ch.Type), ch, n.Right)
 
-			// if c != nil && selectnbrecv(&v, c) { body } else { default body }
 		case OSELRECV:
+			// if c != nil && selectnbrecv(&v, c) { body } else { default body }
 			r = Nod(OIF, nil, nil)
-
 			r.Ninit.Set(cas.Ninit.Slice())
 			ch := n.Right.Left
 			r.Left = mkcall1(chanfn("selectnbrecv", 2, ch.Type), Types[TBOOL], &r.Ninit, typename(ch.Type), n.Left, ch)
 
-			// if c != nil && selectnbrecv2(&v, c) { body } else { default body }
 		case OSELRECV2:
+			// if c != nil && selectnbrecv2(&v, &ok, c) { body } else { default body }
 			r = Nod(OIF, nil, nil)
-
 			r.Ninit.Set(cas.Ninit.Slice())
 			ch := n.Right.Left
 			r.Left = mkcall1(chanfn("selectnbrecv2", 2, ch.Type), Types[TBOOL], &r.Ninit, typename(ch.Type), n.Left, n.List.First(), ch)
@@ -284,16 +291,16 @@ func walkselect(sel *Node) {
 			default:
 				Fatalf("select %v", n.Op)
 
-				// selectsend(sel *byte, hchan *chan any, elem *any) (selected bool);
 			case OSEND:
+				// selectsend(sel *byte, hchan *chan any, elem *any) (selected bool);
 				r.Left = mkcall1(chanfn("selectsend", 2, n.Left.Type), Types[TBOOL], &r.Ninit, var_, n.Left, n.Right)
 
-				// selectrecv(sel *byte, hchan *chan any, elem *any) (selected bool);
 			case OSELRECV:
+				// selectrecv(sel *byte, hchan *chan any, elem *any) (selected bool);
 				r.Left = mkcall1(chanfn("selectrecv", 2, n.Right.Left.Type), Types[TBOOL], &r.Ninit, var_, n.Right.Left, n.Left)
 
-				// selectrecv2(sel *byte, hchan *chan any, elem *any, received *bool) (selected bool);
 			case OSELRECV2:
+				// selectrecv2(sel *byte, hchan *chan any, elem *any, received *bool) (selected bool);
 				r.Left = mkcall1(chanfn("selectrecv2", 2, n.Right.Left.Type), Types[TBOOL], &r.Ninit, var_, n.Right.Left, n.Left, n.List.First())
 			}
 		}
