@@ -184,6 +184,7 @@ const (
 	BuildmodeCArchive
 	BuildmodeCShared
 	BuildmodeShared
+	BuildmodePlugin
 )
 
 func (mode *BuildMode) Set(s string) error {
@@ -234,6 +235,13 @@ func (mode *BuildMode) Set(s string) error {
 			return badmode()
 		}
 		*mode = BuildmodeShared
+	case "plugin":
+		switch obj.GOARCH {
+		case "386", "amd64", "arm", "arm64":
+		default:
+			return badmode()
+		}
+		*mode = BuildmodePlugin
 	}
 	return nil
 }
@@ -252,6 +260,8 @@ func (mode *BuildMode) String() string {
 		return "c-shared"
 	case BuildmodeShared:
 		return "shared"
+	case BuildmodePlugin:
+		return "plugin"
 	}
 	return fmt.Sprintf("BuildMode(%d)", uint8(*mode))
 }
