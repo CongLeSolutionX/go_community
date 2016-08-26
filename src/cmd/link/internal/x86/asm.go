@@ -58,7 +58,7 @@ func gentext(ctxt *ld.Link) {
 			if !ld.Iself {
 				return
 			}
-		case ld.BuildmodePIE, ld.BuildmodeCShared:
+		case ld.BuildmodePIE, ld.BuildmodeCShared, ld.BuildmodePlugin:
 			// We need get_pc_thunk.
 		default:
 			return
