@@ -16,6 +16,24 @@
       "revId": "71ab9fa312f8266379dbb358b9ee9303cde7bd6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0545f683_6d0e6143",
+        "filename": "src/syscall/asm_plan9_386.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-26T00:21:15Z",
+      "side": 1,
+      "message": "Thanks so much for the heads up (and diagnostic!). Submitted https://go-review.googlesource.com/#/c/27815/. A LGTM there would be lovely. Thanks again.",
+      "parentUuid": "0545f683_240ab67f",
+      "revId": "71ab9fa312f8266379dbb358b9ee9303cde7bd6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
