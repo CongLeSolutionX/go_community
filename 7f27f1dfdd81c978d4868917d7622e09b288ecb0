@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_de871577",
+        "filename": "src/go/internal/gcimporter/gcimporter.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-08-26T21:56:35Z",
+      "side": 0,
+      "message": "Why remove this?",
+      "range": {
+        "startLine": 91,
+        "startChar": 44,
+        "endLine": 91,
+        "endChar": 46
+      },
+      "revId": "7f27f1dfdd81c978d4868917d7622e09b288ecb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
