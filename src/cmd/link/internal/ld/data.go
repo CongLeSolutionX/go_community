@@ -1336,6 +1336,10 @@ func (ctxt *Link) dodata() {
 	sect.Vaddr = uint64(datsize)
 	Linklookup(ctxt, "runtime.noptrdata", 0).Sect = sect
 	Linklookup(ctxt, "runtime.enoptrdata", 0).Sect = sect
+	if Buildmode == BuildmodePlugin {
+		Linklookup(ctxt, "runtime.firstmoduledata", 0).Sect = sect
+		Linklookup(ctxt, ".plt", 0).Sect = sect
+	}
 	for _, s := range data[obj.SNOPTRDATA] {
 		datsize = aligndatsize(datsize, s)
 		s.Sect = sect
@@ -1350,7 +1354,7 @@ func (ctxt *Link) dodata() {
 
 	/* shared library initializer */
 	switch Buildmode {
-	case BuildmodeCArchive, BuildmodeCShared, BuildmodeShared:
+	case BuildmodeCArchive, BuildmodeCShared, BuildmodeShared, BuildmodePlugin:
 		hasinitarr = true
 	}
 	if hasinitarr {

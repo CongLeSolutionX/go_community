@@ -89,7 +89,7 @@ func archinit(ctxt *ld.Link) {
 		ld.Linkmode = ld.LinkInternal
 	}
 
-	if ld.Buildmode == ld.BuildmodeCArchive || ld.Buildmode == ld.BuildmodeCShared || ctxt.DynlinkingGo() {
+	if ld.Buildmode == ld.BuildmodeCArchive || ld.Buildmode == ld.BuildmodeCShared || ld.Buildmode == ld.BuildmodePlugin || ctxt.DynlinkingGo() {
 		ld.Linkmode = ld.LinkExternal
 	}
 
