@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_013bf07f",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-08-26T23:15:06Z",
+      "side": 1,
+      "message": "There\u0027s a bunch of these p.s(x + y) that could be p.s(x).s(y).  Do you already plan on cleaning those up?  If not, I can prep a CL.",
+      "revId": "00eff28e0a9341a697c9fb6fb471a1ab90b9d1a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
