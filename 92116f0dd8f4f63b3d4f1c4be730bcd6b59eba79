@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_584b1d60",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:41:19Z",
+      "side": 1,
+      "message": "May as well repeat the same language as above, so that people don\u0027t wonder why it is different: \"Packages not named main are ignored.\"",
+      "revId": "92116f0dd8f4f63b3d4f1c4be730bcd6b59eba79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_387189a1",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:41:19Z",
+      "side": 1,
+      "message": "Update comment one way or another.",
+      "revId": "92116f0dd8f4f63b3d4f1c4be730bcd6b59eba79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
