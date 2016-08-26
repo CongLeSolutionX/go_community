@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0545f683_455c1981",
+        "filename": "src/path/filepath/path_windows_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T14:59:24Z",
+      "side": 1,
+      "message": "Testing \".\" here is a little tricky because it means that any tests that use \".\" after the first test that does not use \".\" will not be in the top-level directory.  That makes the table a little confusing--the second group of \".\" tests are not in the same directory as the first group of \".\" tests.",
+      "revId": "f0ddb41ce6de30e8ee1919e4b10a493d053c3c78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0545f683_e54a85b3",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T14:59:24Z",
+      "side": 1,
+      "message": "I don\u0027t understand the comment on this line.  I also don\u0027t understand why this if statement is necessary at all.  path[len(path):] is a valid expression that will always return the empty string.",
+      "revId": "f0ddb41ce6de30e8ee1919e4b10a493d053c3c78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
