@@ -854,6 +854,10 @@
 // 		position independent executables (PIE). Packages not named
 // 		main are ignored.
 //
+// 	-buildmode=plugin
+// 		Build the listed main packages, plus all packages that they
+// 		import, into a Go plugin. Non-main packages are ignored.
+//
 //
 // File types
 //
