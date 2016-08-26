@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "45b8cef5_fe3f7980",
+        "filename": "src/go/internal/gcimporter/bimport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-08-26T22:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_9ef19d96",
+      "range": {
+        "startLine": 45,
+        "startChar": 10,
+        "endLine": 45,
+        "endChar": 16
+      },
+      "revId": "ce94e5091cece3df9e83e88ac8f0353565d331a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_5e1665a7",
         "filename": "src/go/internal/gcimporter/bimport.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-08-26T21:56:35Z",
       "side": 1,
       "message": "Maybe mention the package path in the error so the user knows which one needs to be reinstalled?\n\nAlso, seems fine to suggest reinstalling, but blaming version skew seems potentially misleading unless p.version !\u003d exportVersion.",
+      "range": {
+        "startLine": 51,
+        "startChar": 28,
+        "endLine": 51,
+        "endChar": 34
+      },
+      "revId": "ce94e5091cece3df9e83e88ac8f0353565d331a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_be6221aa",
+        "filename": "src/go/internal/gcimporter/bimport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-08-26T22:09:42Z",
+      "side": 1,
+      "message": "Adjusted the message a bit.\n\nThe file info is actually added outside, by the called. BImportData is exported but this is an internal package and cannot be used directly in general. Added comment.",
+      "parentUuid": "45b8cef5_5e1665a7",
       "range": {
         "startLine": 51,
         "startChar": 28,
@@ -82,6 +130,30 @@
       "writtenOn": "2016-08-26T21:56:35Z",
       "side": 1,
       "message": "Maybe a quick comment that this is simply incrementing every 7th byte?  Just to make it clear that the corruption is something arbitrary.",
+      "range": {
+        "startLine": 167,
+        "startChar": 15,
+        "endLine": 167,
+        "endChar": 17
+      },
+      "revId": "ce94e5091cece3df9e83e88ac8f0353565d331a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_fee3f907",
+        "filename": "src/go/internal/gcimporter/gcimporter_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-08-26T22:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_5ea66505",
       "range": {
         "startLine": 167,
         "startChar": 15,
