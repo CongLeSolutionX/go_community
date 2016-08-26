@@ -139,3 +139,11 @@ func Rename(oldpath, newpath string) error {
 
 //sys	GetACP() (acp uint32) = kernel32.GetACP
 //sys	MultiByteToWideChar(codePage uint32, dwFlags uint32, str *byte, nstr int32, wchar *uint16, nwchar int32) (nwrite int32, err error) = kernel32.MultiByteToWideChar
+
+//sys	AdjustTokenPrivileges(token syscall.Token, disableAllPrivileges bool, newstate *TOKEN_PRIVILEGES, buflen uint32, prevstate *TOKEN_PRIVILEGES, returnlen *uint32) (err error) = advapi32.AdjustTokenPrivileges
+//sys	ImpersonateSelf(level uint32) (err error) = advapi32.ImpersonateSelf
+//sys	LookupPrivilegeValue(systemname *uint16, name *uint16, luid *LUID) (err error) = advapi32.LookupPrivilegeValueW
+//sys	OpenThreadToken(th syscall.Handle, access uint32, openAsSelf bool, token *syscall.Token) (err error) = advapi32.OpenThreadToken
+//sys	RevertToSelf() (err error) = advapi32.RevertToSelf
+
+//sys	GetCurrentThread() (th syscall.Handle, err error) = kernel32.GetCurrentThread
