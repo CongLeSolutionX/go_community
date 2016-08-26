@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "05e176e4_9e8bfd17",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-26T01:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0545f683_445a622f",
+      "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0545f683_04a33af4",
         "filename": "src/path/filepath/symlink_windows.go",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-25T22:14:44Z",
       "side": 1,
       "message": "I\u0027m not exactly sure what this means, but I think it\u0027s saying:\n\n   // The returned normalized path will be in the same form (of\n   // 5 listed above) as the input path.",
+      "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e176e4_be88b91b",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-26T01:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0545f683_04a33af4",
       "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "05e176e4_de958532",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-26T01:07:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0545f683_2403d6e5",
+      "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0545f683_c405d2c6",
         "filename": "src/path/filepath/symlink_windows.go",
         "patchSetId": 9
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-25T22:14:44Z",
       "side": 1,
       "message": "what if the string ends in Separator? won\u0027t this crash then, since i+1 is out of bounds? Or is it always guaranteed to not end in Separator? That\u0027s at least not obvious.\n\nYou could end pull this out into a little func if you\u0027d like for readability,\n\n    if finalPathComponentIsDotDot(path) {\n        normPath \u003d path + `\\` + normPath \n        break\n    }",
+      "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05e176e4_3ea669a9",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-08-26T01:07:31Z",
+      "side": 1,
+      "message": "Clean eliminates trailing slashes except the given path is root directory. But I addressed it for readability.\n\nI changed func name from \u0027finalPathComponentIsDotDot\u0027 to \u0027baseIsDotDot\u0027.\nPerhaps, it is confusing because there is a \u0027normBase\u0027 func.\nPlease let me know if this naming is confusing.",
+      "parentUuid": "0545f683_c405d2c6",
       "revId": "e39f4be8d3076f7bff3c188273fc8d7dd0a6f18e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
