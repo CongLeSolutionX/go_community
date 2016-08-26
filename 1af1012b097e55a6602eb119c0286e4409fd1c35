@@ -16,6 +16,74 @@
       "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_38fce9ce",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:58:15Z",
+      "side": 1,
+      "message": "This is a little terse.  We should have a separate doc.go file, so that we don\u0027t have to worry about build constraints, where we can expand on what plugins are and how to use them.",
+      "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_38a3c9f5",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:58:15Z",
+      "side": 1,
+      "message": "Add a blank line after the import \"C\".",
+      "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_b8e0f923",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:58:15Z",
+      "side": 1,
+      "message": "Why are you doing this?  It\u0027s meaningful to pass a relative or absolute path to dlopen.  Doing this will cause unexpected behavior for that case, and will prohibit loading both a/dll.so and b/dll.so.",
+      "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_d844cd25",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-26T18:58:15Z",
+      "side": 1,
+      "message": "Deferring the unlock here means that if an init function in the plugin tries to load another plugin, the program will deadlock.  I think you need to unlock pluginsMu before you call the init function, which probably means you also need to look up the symbols before you call the init function.",
+      "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
