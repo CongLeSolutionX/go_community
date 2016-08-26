@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0545f683_e57565d8",
+        "filename": "src/mime/quotedprintable/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-26T15:35:14Z",
+      "side": 1,
+      "message": "explain what this means for the reader?",
+      "revId": "9ebf8e115d1eb0c28644dd56e6a72b00fc183103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0545f683_2580eda1",
+        "filename": "src/mime/quotedprintable/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-26T15:35:14Z",
+      "side": 1,
+      "message": "I don\u0027t see how this means that a single \u0027\u003d\u0027 byte is okay.",
+      "revId": "9ebf8e115d1eb0c28644dd56e6a72b00fc183103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
