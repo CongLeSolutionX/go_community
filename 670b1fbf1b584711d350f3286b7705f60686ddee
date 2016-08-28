@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a5c8aa99_3302c8ac",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-28T02:21:06Z",
+      "side": 1,
+      "message": "Yes, a comment in runtime would be good, although the compiler already relies on the signature of runtime.newobject to pass parameters in and out.",
+      "parentUuid": "45b8cef5_01cd308f",
+      "revId": "670b1fbf1b584711d350f3286b7705f60686ddee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_2126f462",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-26T23:20:11Z",
       "side": 1,
       "message": "Another way to accomplish this is demonstrated in CL 21937. It\u0027s not obvious to me which is better.",
+      "revId": "670b1fbf1b584711d350f3286b7705f60686ddee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c8aa99_13ffcc94",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-08-28T02:21:06Z",
+      "side": 1,
+      "message": "Your method looks nice, thank you! A name comparison is simpler, but if it turns out not enough, we can pass gc.Sym through interface.",
+      "parentUuid": "45b8cef5_2126f462",
       "revId": "670b1fbf1b584711d350f3286b7705f60686ddee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
