@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25675aa1_a7f1ca95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2016-08-28T19:59:50Z",
+      "side": 1,
+      "message": "Will darwin/arm* need changes following the changes to InstallSuffix as well?",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "99e691c9f173d425d7f7b80b80d0863b95641089",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
