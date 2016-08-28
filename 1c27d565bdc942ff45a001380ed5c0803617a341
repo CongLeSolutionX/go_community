@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_2ddee503",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-28T21:53:19Z",
+      "side": 1,
+      "message": "https://github.com/golang/go/wiki/CodeReviewComments#comment-sentences\n\nAlso Go style is \"reports whether\" instead of \"returns true if\"",
+      "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_4de119c2",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-28T21:53:19Z",
+      "side": 1,
+      "message": "extra blank line?",
+      "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_0d1c41d0",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-28T21:53:19Z",
+      "side": 1,
+      "message": "oh, so you\u0027re using simple to mean \"not a specific table\"? didn\u0027t want to use \"generic\" because that sounds like an architecture thing?\n\nI\u0027d still prefer just \"update\" like it was.",
+      "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_6de4ddd3",
+        "filename": "src/hash/crc32/crc32_generic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-28T21:53:19Z",
+      "side": 1,
+      "message": "What does \"simple\" mean in the simple prefix?\n\nI\u0027d prefer to replace it with something more accurate, or just remove it. makeTable?",
+      "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
