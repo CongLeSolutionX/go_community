@@ -6,6 +6,7 @@ package main
 
 import (
 	"fmt"
+	"go/build"
 	"os"
 	"runtime"
 	"strings"
@@ -47,6 +48,11 @@ func mkEnv() []envVar {
 
 		// disable escape codes in clang errors
 		{"TERM", "dumb"},
+	}
+
+	pkg, err := buildContext.Import("runtime", "", build.FindOnly|build.AllowBinary)
+	if err == nil {
+		env = append(env, envVar{"GOPKGDIR", pkg.PkgTargetRoot})
 	}
 
 	if goos != "plan9" {
