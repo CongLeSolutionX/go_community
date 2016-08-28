@@ -137,7 +137,7 @@ type Reloc struct {
 	Siz     uint8
 	Done    uint8
 	Type    obj.RelocType
-	Variant int32
+	Variant obj.RelocVariant
 	Add     int64
 	Xadd    int64
 	Sym     *Symbol
@@ -249,23 +249,6 @@ type Pciter struct {
 	start   int
 	done    int
 }
-
-// Reloc.variant
-const (
-	RV_NONE = iota
-	RV_POWER_LO
-	RV_POWER_HI
-	RV_POWER_HA
-	RV_POWER_DS
-
-	// RV_390_DBL is a s390x-specific relocation variant that indicates that
-	// the value to be placed into the relocatable field should first be
-	// divided by 2.
-	RV_390_DBL
-
-	RV_CHECK_OVERFLOW = 1 << 8
-	RV_TYPE_MASK      = RV_CHECK_OVERFLOW - 1
-)
 
 // Pcdata iterator.
 //	for(pciterinit(ctxt, &it, &pcd); !it.done; pciternext(&it)) { it.value holds in [it.pc, it.nextpc) }

@@ -79,6 +79,7 @@ package ld
 //	- off [int]
 //	- siz [int]
 //	- type [int]
+//	- variant [int]
 //	- add [int]
 //	- sym [symref index]
 //
@@ -324,11 +325,12 @@ overwrite:
 
 		for i := 0; i < nreloc; i++ {
 			s.R[i] = Reloc{
-				Off:  r.readInt32(),
-				Siz:  r.readUint8(),
-				Type: obj.RelocType(r.readInt32()),
-				Add:  r.readInt64(),
-				Sym:  r.readSymIndex(),
+				Off:     r.readInt32(),
+				Siz:     r.readUint8(),
+				Type:    obj.RelocType(r.readInt32()),
+				Variant: obj.RelocVariant(r.readInt32()),
+				Add:     r.readInt64(),
+				Sym:     r.readSymIndex(),
 			}
 		}
 	}

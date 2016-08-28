@@ -71,7 +71,7 @@ func gentext(ctxt *ld.Link) {
 	lmd.Siz = 4
 	lmd.Sym = ctxt.Moduledata
 	lmd.Type = obj.R_PCREL
-	lmd.Variant = ld.RV_390_DBL
+	lmd.Variant = obj.RV_390_DBL
 	lmd.Add = 2 + int64(lmd.Siz)
 	ld.Adduint32(ctxt, initfunc, 0)
 
@@ -83,7 +83,7 @@ func gentext(ctxt *ld.Link) {
 	rel.Siz = 4
 	rel.Sym = ld.Linklookup(ctxt, "runtime.addmoduledata", 0)
 	rel.Type = obj.R_CALL
-	rel.Variant = ld.RV_390_DBL
+	rel.Variant = obj.RV_390_DBL
 	rel.Add = 2 + int64(rel.Siz)
 	ld.Adduint32(ctxt, initfunc, 0)
 
@@ -147,7 +147,7 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) {
 	case 256 + ld.R_390_PLT16DBL,
 		256 + ld.R_390_PLT32DBL:
 		r.Type = obj.R_PCREL
-		r.Variant = ld.RV_390_DBL
+		r.Variant = obj.RV_390_DBL
 		r.Add += int64(r.Siz)
 		if targ.Type == obj.SDYNIMPORT {
 			addpltsym(ctxt, targ)
@@ -195,7 +195,7 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) {
 	case 256 + ld.R_390_PC16DBL,
 		256 + ld.R_390_PC32DBL:
 		r.Type = obj.R_PCREL
-		r.Variant = ld.RV_390_DBL
+		r.Variant = obj.RV_390_DBL
 		r.Add += int64(r.Siz)
 		if targ.Type == obj.SDYNIMPORT {
 			ctxt.Diag("unexpected R_390_PCnnDBL relocation for dynamic symbol %s", targ.Name)
@@ -204,7 +204,7 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) {
 
 	case 256 + ld.R_390_GOTPCDBL:
 		r.Type = obj.R_PCREL
-		r.Variant = ld.RV_390_DBL
+		r.Variant = obj.RV_390_DBL
 		r.Sym = ld.Linklookup(ctxt, ".got", 0)
 		r.Add += int64(r.Siz)
 		return
@@ -213,7 +213,7 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) {
 		addgotsym(ctxt, targ)
 
 		r.Type = obj.R_PCREL
-		r.Variant = ld.RV_390_DBL
+		r.Variant = obj.RV_390_DBL
 		r.Sym = ld.Linklookup(ctxt, ".got", 0)
 		r.Add += int64(targ.Got)
 		r.Add += int64(r.Siz)
@@ -272,15 +272,9 @@ func elfreloc1(ctxt *ld.Link, r *ld.Reloc, sectoff int64) int {
 			return -1
 		}
 
-	case obj.R_PCREL, obj.R_PCRELDBL, obj.R_CALL:
+	case obj.R_PCREL, obj.R_CALL:
 		elfrel := ld.R_390_NONE
-		isdbl := r.Variant&ld.RV_TYPE_MASK == ld.RV_390_DBL
-		// TODO(mundaym): all DBL style relocations should be
-		// signalled using the variant - see issue 14218.
-		switch r.Type {
-		case obj.R_PCRELDBL, obj.R_CALL:
-			isdbl = true
-		}
+		isdbl := r.Variant&obj.RV_TYPE_MASK == obj.RV_390_DBL
 		if r.Xsym.Type == obj.SDYNIMPORT && (r.Xsym.ElfType == elf.STT_FUNC || r.Type == obj.R_CALL) {
 			if isdbl {
 				switch r.Siz {
@@ -399,15 +393,15 @@ func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
 }
 
 func archrelocvariant(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, t int64) int64 {
-	switch r.Variant & ld.RV_TYPE_MASK {
+	switch r.Variant & obj.RV_TYPE_MASK {
 	default:
 		ctxt.Diag("unexpected relocation variant %d", r.Variant)
 		return t
 
-	case ld.RV_NONE:
+	case obj.RV_NONE:
 		return t
 
-	case ld.RV_390_DBL:
+	case obj.RV_390_DBL:
 		if (t & 1) != 0 {
 			ctxt.Diag("%s+%v is not 2-byte aligned", r.Sym.Name, r.Sym.Value)
 		}

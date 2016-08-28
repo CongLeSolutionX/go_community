@@ -77,6 +77,7 @@
 //	- off [int]
 //	- siz [int]
 //	- type [int]
+//	- variant [int]
 //	- add [int]
 //	- sym [symref index]
 //
@@ -372,9 +373,9 @@ func (w *objWriter) writeSymDebug(s *LSym) {
 			name = "TLS"
 		}
 		if ctxt.Arch.InFamily(sys.ARM, sys.PPC64) {
-			fmt.Fprintf(ctxt.Bso, "\trel %d+%d t=%d %s+%x\n", int(r.Off), r.Siz, r.Type, name, uint64(r.Add))
+			fmt.Fprintf(ctxt.Bso, "\trel %d+%d t=%d v=%d %s+%x\n", int(r.Off), r.Siz, r.Type, r.Variant, name, uint64(r.Add))
 		} else {
-			fmt.Fprintf(ctxt.Bso, "\trel %d+%d t=%d %s+%d\n", int(r.Off), r.Siz, r.Type, name, r.Add)
+			fmt.Fprintf(ctxt.Bso, "\trel %d+%d t=%d v=%d %s+%d\n", int(r.Off), r.Siz, r.Type, r.Variant, name, r.Add)
 		}
 	}
 }
@@ -407,6 +408,7 @@ func (w *objWriter) writeSym(s *LSym) {
 		w.writeInt(int64(r.Off))
 		w.writeInt(int64(r.Siz))
 		w.writeInt(int64(r.Type))
+		w.writeInt(int64(r.Variant))
 		w.writeInt(r.Add)
 		w.writeRefIndex(r.Sym)
 	}

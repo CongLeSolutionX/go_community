@@ -172,7 +172,7 @@ func Addpcrelplus(ctxt *Link, s *Symbol, t *Symbol, add int64) int64 {
 	r.Type = obj.R_PCREL
 	r.Siz = 4
 	if SysArch.Family == sys.S390X {
-		r.Variant = RV_390_DBL
+		r.Variant = obj.RV_390_DBL
 	}
 	return i + int64(r.Siz)
 }
@@ -367,17 +367,6 @@ func relocsym(ctxt *Link, s *Symbol) {
 		}
 		if r.Sym != nil && r.Sym.Type != obj.STLSBSS && !r.Sym.Attr.Reachable() {
 			ctxt.Diag("unreachable sym in relocation: %s %s", s.Name, r.Sym.Name)
-		}
-
-		// TODO(mundaym): remove this special case - see issue 14218.
-		if SysArch.Family == sys.S390X {
-			switch r.Type {
-			case obj.R_PCRELDBL:
-				r.Type = obj.R_PCREL
-				r.Variant = RV_390_DBL
-			case obj.R_CALL:
-				r.Variant = RV_390_DBL
-			}
 		}
 
 		switch r.Type {
@@ -598,7 +587,7 @@ func relocsym(ctxt *Link, s *Symbol) {
 			o = r.Sym.Size + r.Add
 		}
 
-		if r.Variant != RV_NONE {
+		if r.Variant != obj.RV_NONE {
 			o = Thearch.Archrelocvariant(ctxt, r, s, o)
 		}
 

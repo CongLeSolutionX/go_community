@@ -2474,7 +2474,8 @@ func addrilreloc(ctxt *obj.Link, sym *obj.LSym, add int64) *obj.Reloc {
 	rel.Siz = 4
 	rel.Sym = sym
 	rel.Add = add + offset + int64(rel.Siz)
-	rel.Type = obj.R_PCRELDBL
+	rel.Type = obj.R_PCREL
+	rel.Variant = obj.RV_390_DBL
 	return rel
 }
 
@@ -2488,7 +2489,8 @@ func addrilrelocoffset(ctxt *obj.Link, sym *obj.LSym, add, offset int64) *obj.Re
 	rel.Siz = 4
 	rel.Sym = sym
 	rel.Add = add + offset + int64(rel.Siz)
-	rel.Type = obj.R_PCRELDBL
+	rel.Type = obj.R_PCREL
+	rel.Variant = obj.RV_390_DBL
 	return rel
 }
 
@@ -2505,6 +2507,7 @@ func addcallreloc(ctxt *obj.Link, sym *obj.LSym, add int64) *obj.Reloc {
 	rel.Sym = sym
 	rel.Add = add + offset + int64(rel.Siz)
 	rel.Type = obj.R_CALL
+	rel.Variant = obj.RV_390_DBL
 	return rel
 }
 

@@ -441,11 +441,12 @@ const (
 )
 
 type Reloc struct {
-	Off  int32
-	Siz  uint8
-	Type RelocType
-	Add  int64
-	Sym  *LSym
+	Off     int32
+	Siz     uint8
+	Type    RelocType
+	Variant RelocVariant
+	Add     int64
+	Sym     *LSym
 }
 
 type RelocType int32
@@ -586,16 +587,31 @@ const (
 	// relocated symbol rather than the symbol's address.
 	R_ADDRPOWER_TOCREL_DS
 
-	// R_PCRELDBL relocates s390x 2-byte aligned PC-relative addresses.
-	// TODO(mundaym): remove once variants can be serialized - see issue 14218.
-	R_PCRELDBL
-
 	// R_ADDRMIPSU (only used on mips64) resolves to the sign-adjusted "upper" 16
 	// bits (bit 16-31) of an external address, by encoding it into the instruction.
 	R_ADDRMIPSU
 	// R_ADDRMIPSTLS (only used on mips64) resolves to the low 16 bits of a TLS
 	// address (offset from thread pointer), by encoding it into the instruction.
 	R_ADDRMIPSTLS
+)
+
+type RelocVariant int32
+
+//go:generate stringer -type=RelocVariant
+const (
+	RV_NONE RelocVariant = iota
+	RV_POWER_LO
+	RV_POWER_HI
+	RV_POWER_HA
+	RV_POWER_DS
+
+	// RV_390_DBL is a s390x-specific relocation variant that indicates that
+	// the value to be placed into the relocatable field should first be
+	// divided by 2.
+	RV_390_DBL
+
+	RV_CHECK_OVERFLOW = 1 << 8
+	RV_TYPE_MASK      = RV_CHECK_OVERFLOW - 1
 )
 
 type Auto struct {
