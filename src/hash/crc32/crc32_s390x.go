@@ -25,62 +25,60 @@ func vectorizedCastagnoli(crc uint32, p []byte) uint32
 //go:noescape
 func vectorizedIEEE(crc uint32, p []byte) uint32
 
-func castagnoliInitArch() (needGenericTables bool) {
-	return true
+func archAvailableCastagnoli() bool {
+	return hasVX
 }
 
-func genericCastagnoli(crc uint32, p []byte) uint32 {
-	// Use slicing-by-8 on larger inputs.
-	if len(p) >= sliceBy8Cutoff {
-		return updateSlicingBy8(crc, castagnoliTable8, p)
+func archInitCastagnoli() {
+	if !hasVX {
+		panic("not available")
 	}
-	return update(crc, castagnoliTable, p)
+	// No initialization necessary.
 }
 
-func genericIEEE(crc uint32, p []byte) uint32 {
-	// Use slicing-by-8 on larger inputs.
-	if len(p) >= sliceBy8Cutoff {
-		ieeeTable8Once.Do(func() {
-			ieeeTable8 = makeTable8(IEEE)
-		})
-		return updateSlicingBy8(crc, ieeeTable8, p)
+// archUpdateCastagnoli calculates the checksum of p using
+// vectorizedCastagnoli.
+func archUpdateCastagnoli(crc uint32, p []byte) uint32 {
+	if !hasVX {
+		panic("not available")
 	}
-	return update(crc, IEEETable, p)
-}
-
-// updateCastagnoli calculates the checksum of p using
-// vectorizedCastagnoli if possible and falling back onto
-// genericCastagnoli as needed.
-func updateCastagnoli(crc uint32, p []byte) uint32 {
-	// Use vectorized function if vector facility is available and
-	// data length is above threshold.
-	if hasVX && len(p) >= vxMinLen {
+	// Use vectorized function if data length is above threshold.
+	if len(p) >= vxMinLen {
 		aligned := len(p) & ^vxAlignMask
 		crc = vectorizedCastagnoli(crc, p[:aligned])
 		p = p[aligned:]
-		// process remaining data
-		if len(p) > 0 {
-			crc = genericCastagnoli(crc, p)
-		}
+	}
+	if len(p) == 0 {
 		return crc
 	}
-	return genericCastagnoli(crc, p)
+	return simpleUpdate(crc, castagnoliTable, p)
+}
+
+func archAvailableIEEE() bool {
+	return hasVX
+}
+
+func archInitIEEE() {
+	if !hasVX {
+		panic("not available")
+	}
+	// No initialization necessary.
 }
 
 // updateIEEE calculates the checksum of p using vectorizedIEEE if
 // possible and falling back onto genericIEEE as needed.
 func updateIEEE(crc uint32, p []byte) uint32 {
-	// Use vectorized function if vector facility is available and
-	// data length is above threshold.
-	if hasVX && len(p) >= vxMinLen {
+	if !hasVX {
+		panic("not available")
+	}
+	// Use vectorized function if data length is above threshold.
+	if len(p) >= vxMinLen {
 		aligned := len(p) & ^vxAlignMask
 		crc = vectorizedIEEE(crc, p[:aligned])
 		p = p[aligned:]
-		// process remaining data
-		if len(p) > 0 {
-			crc = genericIEEE(crc, p)
-		}
+	}
+	if len(p) == 0 {
 		return crc
 	}
-	return genericIEEE(crc, p)
+	return simpleUpdate(crc, IEEETable, p)
 }
