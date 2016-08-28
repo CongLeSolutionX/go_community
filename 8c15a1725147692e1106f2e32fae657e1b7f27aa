@@ -16,6 +16,24 @@
       "revId": "8c15a1725147692e1106f2e32fae657e1b7f27aa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c8aa99_366cf630",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 12530
+      },
+      "writtenOn": "2016-08-28T22:18:41Z",
+      "side": 0,
+      "message": "Sure. I put it here just so it\u0027s clear that it\u0027s associated with the \"simple\" algorithm. The fact it\u0027s part of the public interface is unfortunate IMO, but that\u0027s another story.",
+      "parentUuid": "45b8cef5_8de731d9",
+      "revId": "8c15a1725147692e1106f2e32fae657e1b7f27aa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

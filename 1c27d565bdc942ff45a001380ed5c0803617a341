@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a5c8aa99_d65b8288",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 12530
+      },
+      "writtenOn": "2016-08-28T22:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_2ddee503",
+      "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_4de119c2",
         "filename": "src/hash/crc32/crc32.go",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-28T21:53:19Z",
       "side": 1,
       "message": "extra blank line?",
+      "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c8aa99_f6567e62",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 12530
+      },
+      "writtenOn": "2016-08-28T22:18:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_4de119c2",
       "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a5c8aa99_1669fa20",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 12530
+      },
+      "writtenOn": "2016-08-28T22:18:41Z",
+      "side": 1,
+      "message": "\"simple\" refers to the algorithm. We are using the \"simple\" algorithm in crc32_generic.go (i.e. the slowest one). We could in principle be using the faster slicing-by-8 for any polynomial, but the interface restricted us to using Tables suitable only for the simple algorithm..",
+      "parentUuid": "45b8cef5_0d1c41d0",
+      "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_6de4ddd3",
         "filename": "src/hash/crc32/crc32_generic.go",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-28T21:53:19Z",
       "side": 1,
       "message": "What does \"simple\" mean in the simple prefix?\n\nI\u0027d prefer to replace it with something more accurate, or just remove it. makeTable?",
+      "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5c8aa99_b6500666",
+        "filename": "src/hash/crc32/crc32_generic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 12530
+      },
+      "writtenOn": "2016-08-28T22:18:41Z",
+      "side": 1,
+      "message": "The file-level comment mentions the two algorithms we are implementing: simple, and slicing-by-8. We use the \"simple\" and \"slicing\" prefixes to denote the two algorithms. I have updated the function comments to make this clear.\n\nTreating the simple algorithm and its table as \"special\" leads to a lot of confusion in the existing code. There was an implicit suggestion that you need this \"main\" Table no matter what you are doing but that is simply not correct. You only need it if you want to use the simple algorithm (for whatever reason).\n\nSo I really want it to be clear from the call site what algorithm we are using.\n\nI don\u0027t care about the name though, if you have a better name I am happy to switch (\"naive\", \"slow\", \"basic\"?)",
+      "parentUuid": "45b8cef5_6de4ddd3",
       "revId": "1c27d565bdc942ff45a001380ed5c0803617a341",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
