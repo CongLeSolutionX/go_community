@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65887273_71c158ff",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2260,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-08-29T03:42:47Z",
+      "side": 1,
+      "message": "nope, the compiler gets it right. the zeroing happened on 2251 with b :\u003d new(rtype)",
+      "parentUuid": "45b8cef5_2d482588",
+      "revId": "e0b78ed66f815e070dcdacb597a5fc73e3f48d90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_0d2681d1",
         "filename": "src/reflect/type.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-29T02:22:44Z",
       "side": 1,
       "message": "likewise, these three \u0026x would be better as x if x were \u0026rtype{...} above",
+      "revId": "e0b78ed66f815e070dcdacb597a5fc73e3f48d90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65887273_11cecc2e",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3098,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-08-29T03:42:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_0d2681d1",
       "revId": "e0b78ed66f815e070dcdacb597a5fc73e3f48d90",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
