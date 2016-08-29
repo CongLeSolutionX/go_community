@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "25675aa1_67c192ff",
+        "filename": "src/regexp/exec.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-08-29T12:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2e5f26_afc8c57c",
+      "revId": "f0a0aac567c3357c793c917635034fb7ae95ba22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db2e5f26_6fe38dfc",
         "filename": "src/regexp/exec.go",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2016-08-18T17:25:42Z",
       "side": 1,
       "message": "seems a little silly to have doExecute allocate just to throw away its allocation and only check it for nil.\n\nmaybe instead of nil, you should pass some sentinel []byte value (which you can test for using \u0026s[0] \u003d\u003d \u0026wantBooleanExec[0]) and then it won\u0027t append and will instead return either wantBooleanExec (for true, on match) or nil (for no match)",
+      "range": {
+        "startLine": 414,
+        "startChar": 31,
+        "endLine": 414,
+        "endChar": 32
+      },
+      "revId": "f0a0aac567c3357c793c917635034fb7ae95ba22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25675aa1_07ce962e",
+        "filename": "src/regexp/exec.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-08-29T12:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2e5f26_6fe38dfc",
       "range": {
         "startLine": 414,
         "startChar": 31,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "25675aa1_074536a2",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-08-29T12:45:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db2e5f26_8f2aa924",
+      "revId": "f0a0aac567c3357c793c917635034fb7ae95ba22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db2e5f26_efcebd89",
         "filename": "src/regexp/regexp.go",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2016-08-18T17:25:42Z",
       "side": 1,
       "message": "you documented that doExecute returns dstCap (or the appended dstCap), but here you\u0027re testing the return value against nil, even though you\u0027re always passing in a non-nil value, so by the documentation this case could never occur.",
+      "revId": "f0a0aac567c3357c793c917635034fb7ae95ba22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25675aa1_47c48e10",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-08-29T12:45:59Z",
+      "side": 1,
+      "message": "Documented that doExecute returns nil if no matches are found.",
+      "parentUuid": "db2e5f26_efcebd89",
       "revId": "f0a0aac567c3357c793c917635034fb7ae95ba22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
