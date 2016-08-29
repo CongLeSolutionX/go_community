@@ -40,17 +40,37 @@ func decryptBlock(subkeys []uint64, dst, src []byte) {
 
 // DES Feistel function
 func feistel(right uint32, key uint64) (result uint32) {
-	sBoxLocations := key ^ expandBlock(right)
+
+	var block uint64
+
+	// Expand block:
+	// First, Left-rotate 5 bits the 'right' variable.
+	// Then left-rotate 4 bits of 'src' and take the 6 bits on the right as a sub-block.
+	// Finally, combine 8 sub-blcoks(6 bits each) into a 48 bits block.
+	src := (right << 5) | (right >> 27)
+
+	block = uint64(src&0x3f)<<42 |
+		uint64(((src<<4)|(src>>28))&0x3f)<<36 |
+		uint64(((src<<8)|(src>>24))&0x3f)<<30 |
+		uint64(((src<<12)|(src>>20))&0x3f)<<24 |
+		uint64(((src<<16)|(src>>16))&0x3f)<<18 |
+		uint64(((src<<20)|(src>>12))&0x3f)<<12 |
+		uint64(((src<<24)|(src>>8))&0x3f)<<6 |
+		uint64(((src<<28)|(src>>4)))&0x3f
+
+	// Calculate the sbox locations from the 48 bits block
+	sBoxLocations := key ^ block
+
 	var sBoxResult uint32
-	for i := uint8(0); i < 8; i++ {
-		sBoxLocation := uint8(sBoxLocations>>42) & 0x3f
-		sBoxLocations <<= 6
-		// row determined by 1st and 6th bit
-		// column is middle four bits
-		row := (sBoxLocation & 0x1) | ((sBoxLocation & 0x20) >> 4)
-		column := (sBoxLocation >> 1) & 0xf
-		sBoxResult ^= feistelBox[i][16*row+column]
-	}
+	sBoxResult = feistelBox[0][int8(sBoxLocations>>42)&0x3f] ^
+		feistelBox[1][uint8(sBoxLocations>>36)&0x3f] ^
+		feistelBox[2][uint8(sBoxLocations>>30)&0x3f] ^
+		feistelBox[3][uint8(sBoxLocations>>24)&0x3f] ^
+		feistelBox[4][uint8(sBoxLocations>>18)&0x3f] ^
+		feistelBox[5][uint8(sBoxLocations>>12)&0x3f] ^
+		feistelBox[6][uint8(sBoxLocations>>6)&0x3f] ^
+		feistelBox[7][uint8(sBoxLocations)&0x3f]
+
 	return sBoxResult
 }
 
@@ -73,25 +93,16 @@ func init() {
 			for j := 0; j < 16; j++ {
 				f := uint64(sBoxes[s][i][j]) << (4 * (7 - uint(s)))
 				f = permuteBlock(f, permutationFunction[:])
-				feistelBox[s][16*i+j] = uint32(f)
+
+				// row determined by 1st and 6th bit
+				// column is middle four bits
+				row := uint8(((i & 2) << 4) | i&1)
+				col := uint8(j << 1)
+				t := row | col
+				feistelBox[s][t] = uint32(f)
 			}
 		}
 	}
-}
-
-// expandBlock expands an input block of 32 bits,
-// producing an output block of 48 bits.
-func expandBlock(src uint32) (block uint64) {
-	// rotate the 5 highest bits to the right.
-	src = (src << 5) | (src >> 27)
-	for i := 0; i < 8; i++ {
-		block <<= 6
-		// take the 6 bits on the right
-		block |= uint64(src) & (1<<6 - 1)
-		// advance by 4 bits.
-		src = (src << 4) | (src >> 28)
-	}
-	return
 }
 
 // permuteInitialBlock is equivalent to the permutation defined
