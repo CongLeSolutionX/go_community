@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_1f546431",
+        "filename": "src/regexp/exec.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-29T15:18:04Z",
+      "side": 1,
+      "message": "Per Go documentation stye, change \"return true if\" to \"reports whether\"",
+      "revId": "e90f8f2208aacfed9156310e2e521ec1aae88a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_ff589066",
+        "filename": "src/regexp/exec.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-29T15:18:04Z",
+      "side": 1,
+      "message": "and then delete this line",
+      "revId": "e90f8f2208aacfed9156310e2e521ec1aae88a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_df5dcc54",
+        "filename": "src/regexp/exec.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-29T15:18:04Z",
+      "side": 1,
+      "message": "I see... you need to pass a non-nil slice to doExecute to be able to discern its return value.\n\nYou could make doExecute return a zero-capacity slice instead:\n\n   make([]int, 0, 0)\n\n... and it won\u0027t allocate.\n\nin doExecute you can do:\n\n   if dstCap \u003d\u003d nil {\n      dstCap \u003d make([]int, 0, 0)\n   }\n\nOr if that does allocate (I\u0027m pretty sure it won\u0027t), you could make a global variable:\n\n   var arrayNoInts [0]int\n\nAnd slice that instead.",
+      "revId": "e90f8f2208aacfed9156310e2e521ec1aae88a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45b8cef5_9f6874f1",
+        "filename": "src/regexp/exec.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-29T15:18:04Z",
+      "side": 1,
+      "message": "and you could append this promise: and non-nil if matches are found.",
+      "revId": "e90f8f2208aacfed9156310e2e521ec1aae88a12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
