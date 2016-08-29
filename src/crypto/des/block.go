@@ -45,11 +45,7 @@ func feistel(right uint32, key uint64) (result uint32) {
 	for i := uint8(0); i < 8; i++ {
 		sBoxLocation := uint8(sBoxLocations>>42) & 0x3f
 		sBoxLocations <<= 6
-		// row determined by 1st and 6th bit
-		// column is middle four bits
-		row := (sBoxLocation & 0x1) | ((sBoxLocation & 0x20) >> 4)
-		column := (sBoxLocation >> 1) & 0xf
-		sBoxResult ^= feistelBox[i][16*row+column]
+		sBoxResult ^= feistelBox[i][sBoxLocation]
 	}
 	return sBoxResult
 }
@@ -73,7 +69,13 @@ func init() {
 			for j := 0; j < 16; j++ {
 				f := uint64(sBoxes[s][i][j]) << (4 * (7 - uint(s)))
 				f = permuteBlock(f, permutationFunction[:])
-				feistelBox[s][16*i+j] = uint32(f)
+
+				// row determined by 1st and 6th bit
+				// column is middle four bits
+				row := uint8(((i & 2) << 4) | i&1)
+				col := uint8(j << 1)
+				t := row | col
+				feistelBox[s][t] = uint32(f)
 			}
 		}
 	}
