@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "453b6e5a_4096aee5",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2016-08-29T17:07:55Z",
+      "side": 1,
+      "message": "Yes, correct. Constants in golang asm are the binary representation of the decimal. Since the immediate field is a signed 5-bit value, 0x1F will be seen as -1 in binutils. I could change that to avoid confusion.",
+      "parentUuid": "a5c8aa99_7606eed2",
+      "revId": "49855a49a1ce41f663e9e45597baa676aa9be31e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5c8aa99_767dce44",
         "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "453b6e5a_606892f0",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2016-08-29T17:07:55Z",
+      "side": 1,
+      "message": "I am assuming you are using something binutils-based for the disassembly.\n\nIf you are getting \u0027evmwlumianw\u0027, then that is a SPE instruction that shares the same opcode. In that case, you should filter out any instruction flagged as PPCSPE, otherwise more opcode clashes across namespaces may occur. The correct namespace (flag) for vsbox is PPCVEC2.",
+      "parentUuid": "a5c8aa99_767dce44",
+      "revId": "49855a49a1ce41f663e9e45597baa676aa9be31e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5c8aa99_5603f2c0",
         "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2016-08-29T16:18:42Z",
       "side": 1,
       "message": "Can you use V2 instead of V1 so it can be verified that the operands are being assembled correctly?  That is, if the assembler was swapping operands for V1 and $1 you wouldn\u0027t be able to tell.",
+      "revId": "49855a49a1ce41f663e9e45597baa676aa9be31e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "453b6e5a_80659619",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2016-08-29T17:07:55Z",
+      "side": 1,
+      "message": "Okay.",
+      "parentUuid": "a5c8aa99_5603f2c0",
       "revId": "49855a49a1ce41f663e9e45597baa676aa9be31e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
