@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4500ceb2_7e1329b6",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-29T22:49:01Z",
+      "side": 1,
+      "message": "Nit: I think this would be clearer as n \u003d mkcall1 ... and then okas(ok, n). It fits the pattern, and r has a separate use above. Or pick a new name entirely, like \"call\".",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e58d42b7_9dd8e3ef",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2732,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-29T22:49:01Z",
+      "side": 1,
+      "message": "Doc please.",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e58d42b7_dd8b4bc9",
+        "filename": "test/fixedbugs/issue16870.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-29T22:49:01Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e58d42b7_fda9e725",
+        "filename": "test/fixedbugs/issue16870.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-29T22:49:01Z",
+      "side": 1,
+      "message": "Add a test using c in some select statement clauses? IIRC, that passes through different compiler code paths and different runtime calls.",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e58d42b7_dd2fcba0",
+        "filename": "test/fixedbugs/issue16870.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-08-29T22:49:01Z",
+      "side": 1,
+      "message": "It\u0027d be good to have both fast and non-fast-path type assertions. These are all E2T.",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
