@@ -4,25 +4,23 @@
 
 package des
 
-import (
-	"encoding/binary"
-)
+import "encoding/binary"
 
 func cryptBlock(subkeys []uint64, dst, src []byte, decrypt bool) {
 	b := binary.BigEndian.Uint64(src)
 	b = permuteInitialBlock(b)
 	left, right := uint32(b>>32), uint32(b)
 
-	var subkey uint64
-	for i := 0; i < 16; i++ {
-		if decrypt {
-			subkey = subkeys[15-i]
-		} else {
-			subkey = subkeys[i]
+	if decrypt {
+		for i := 0; i < 8; i++ {
+			left, right = feistel(left, right, subkeys[15-2*i], subkeys[15-(2*i+1)])
 		}
-
-		left, right = right, left^feistel(right, subkey)
+	} else {
+		for i := 0; i < 8; i++ {
+			left, right = feistel(left, right, subkeys[2*i], subkeys[2*i+1])
+		}
 	}
+
 	// switch left & right and perform final permutation
 	preOutput := (uint64(right) << 32) | uint64(left)
 	binary.BigEndian.PutUint64(dst, permuteFinalBlock(preOutput))
@@ -39,19 +37,88 @@ func decryptBlock(subkeys []uint64, dst, src []byte) {
 }
 
 // DES Feistel function
-func feistel(right uint32, key uint64) (result uint32) {
-	sBoxLocations := key ^ expandBlock(right)
-	var sBoxResult uint32
-	for i := uint8(0); i < 8; i++ {
-		sBoxLocation := uint8(sBoxLocations>>42) & 0x3f
-		sBoxLocations <<= 6
-		// row determined by 1st and 6th bit
-		// column is middle four bits
-		row := (sBoxLocation & 0x1) | ((sBoxLocation & 0x20) >> 4)
-		column := (sBoxLocation >> 1) & 0xf
-		sBoxResult ^= feistelBox[i][16*row+column]
-	}
-	return sBoxResult
+func feistel(l, r uint32, k0, k1 uint64) (lout, rout uint32) {
+	var t uint32
+
+	t = (r << 5) | (r >> 27) ^ uint32(k0)
+	l ^= feistelBox[0][t&0x3f] ^
+		feistelBox[6][(t>>8)&0x3f] ^
+		feistelBox[4][(t>>16)&0x3f] ^
+		feistelBox[2][(t>>24)&0x3f]
+
+	t = (r<<1 | r>>31) ^ uint32(k0>>32)
+
+	l ^= feistelBox[7][t&0x3f] ^
+		feistelBox[5][(t>>8)&0x3f] ^
+		feistelBox[3][(t>>16)&0x3f] ^
+		feistelBox[1][(t>>24)&0x3f]
+
+	t = (l << 5) | (l >> 27) ^ uint32(k1)
+	r ^= feistelBox[0][t&0x3f] ^
+		feistelBox[6][(t>>8)&0x3f] ^
+		feistelBox[4][(t>>16)&0x3f] ^
+		feistelBox[2][(t>>24)&0x3f]
+
+	t = (l<<1 | l>>31) ^ uint32(k1>>32)
+
+	r ^= feistelBox[7][t&0x3f] ^
+		feistelBox[5][(t>>8)&0x3f] ^
+		feistelBox[3][(t>>16)&0x3f] ^
+		feistelBox[1][(t>>24)&0x3f]
+
+	////
+	////
+	//t = (r << 5) | (r >> 27)
+
+	//l ^= feistelBox[6][uint8(uint64(t>>8)^(k0>>6))&0x3f] ^
+	//	feistelBox[4][uint8(uint64(t>>16)^(k0>>18))&0x3f] ^
+	//	feistelBox[2][uint8(uint64(t>>24)^(k0>>30))&0x3f] ^
+	//	feistelBox[0][uint8(uint64(t)^(k0>>42))&0x3f]
+
+	//t = t<<28 | t>>4
+	//l ^= feistelBox[7][uint8(uint64(t)^k0)&0x3f] ^
+	//	feistelBox[5][uint8(uint64(t>>8)^(k0>>12))&0x3f] ^
+	//	feistelBox[3][uint8(uint64(t>>16)^(k0>>24))&0x3f] ^
+	//	feistelBox[1][uint8(uint64(t>>24)^(k0>>36))&0x3f]
+
+	//t = (l << 5) | (l >> 27)
+
+	//r ^= feistelBox[6][uint8(uint64(t>>8)^(k1>>6))&0x3f] ^
+	//	feistelBox[4][uint8(uint64(t>>16)^(k1>>18))&0x3f] ^
+	//	feistelBox[2][uint8(uint64(t>>24)^(k1>>30))&0x3f] ^
+	//	feistelBox[0][uint8(uint64(t)^(k1>>42))&0x3f]
+
+	//t = t<<28 | t>>4
+	//r ^= feistelBox[7][uint8(uint64(t)^k1)&0x3f] ^
+	//	feistelBox[5][uint8(uint64(t>>8)^(k1>>12))&0x3f] ^
+	//	feistelBox[3][uint8(uint64(t>>16)^(k1>>24))&0x3f] ^
+	//	feistelBox[1][uint8(uint64(t>>24)^(k1>>36))&0x3f]
+
+	////
+	////
+	//	t = (r << 5) | (r >> 27)
+	//
+	//	l ^= feistelBox[7][uint8(uint64(t>>4)^k0)&0x3f] ^
+	//		feistelBox[6][uint8(uint64(t>>8)^(k0>>6))&0x3f] ^
+	//		feistelBox[5][uint8(uint64(t>>12)^(k0>>12))&0x3f] ^
+	//		feistelBox[4][uint8(uint64(t>>16)^(k0>>18))&0x3f] ^
+	//		feistelBox[3][uint8(uint64(t>>20)^(k0>>24))&0x3f] ^
+	//		feistelBox[2][uint8(uint64(t>>24)^(k0>>30))&0x3f] ^
+	//		feistelBox[1][uint8(uint64(t>>28|t<<4)^(k0>>36))&0x3f] ^
+	//		feistelBox[0][uint8(uint64(t)^(k0>>42))&0x3f]
+	//
+	//	t = (l << 5) | (l >> 27)
+	//
+	//	r ^= feistelBox[7][uint8(uint64(t>>4)^k1)&0x3f] ^
+	//		feistelBox[6][uint8(uint64(t>>8)^(k1>>6))&0x3f] ^
+	//		feistelBox[5][uint8(uint64(t>>12)^(k1>>12))&0x3f] ^
+	//		feistelBox[4][uint8(uint64(t>>16)^(k1>>18))&0x3f] ^
+	//		feistelBox[3][uint8(uint64(t>>20)^(k1>>24))&0x3f] ^
+	//		feistelBox[2][uint8(uint64(t>>24)^(k1>>30))&0x3f] ^
+	//		feistelBox[1][uint8(uint64(t>>28|t<<4)^(k1>>36))&0x3f] ^
+	//		feistelBox[0][uint8(uint64(t)^(k1>>42))&0x3f]
+
+	return l, r
 }
 
 // feistelBox[s][16*i+j] contains the output of permutationFunction
@@ -73,25 +140,16 @@ func init() {
 			for j := 0; j < 16; j++ {
 				f := uint64(sBoxes[s][i][j]) << (4 * (7 - uint(s)))
 				f = permuteBlock(f, permutationFunction[:])
-				feistelBox[s][16*i+j] = uint32(f)
+
+				// row determined by 1st and 6th bit
+				// column is middle four bits
+				row := uint8(((i & 2) << 4) | i&1)
+				col := uint8(j << 1)
+				t := row | col
+				feistelBox[s][t] = uint32(f)
 			}
 		}
 	}
-}
-
-// expandBlock expands an input block of 32 bits,
-// producing an output block of 48 bits.
-func expandBlock(src uint32) (block uint64) {
-	// rotate the 5 highest bits to the right.
-	src = (src << 5) | (src >> 27)
-	for i := 0; i < 8; i++ {
-		block <<= 6
-		// take the 6 bits on the right
-		block |= uint64(src) & (1<<6 - 1)
-		// advance by 4 bits.
-		src = (src << 4) | (src >> 28)
-	}
-	return
 }
 
 // permuteInitialBlock is equivalent to the permutation defined
@@ -218,6 +276,22 @@ func (c *desCipher) generateSubkeys(keyBytes []byte) {
 		// combine halves to form 56-bit input to PC2
 		pc2Input := uint64(leftRotations[i])<<28 | uint64(rightRotations[i])
 		// apply PC2 permutation to 7 byte input
-		c.subkeys[i] = permuteBlock(pc2Input, permutedChoice2[:])
+		c.subkeys[i] = unpack48bits(permuteBlock(pc2Input, permutedChoice2[:]))
 	}
+	return result
+}
+
+func unpack48bits(x uint64) uint64 {
+	var result uint64
+
+	result = ((x>>(6*0))&0xff)<<(8*7) |
+		((x>>(6*1))&0xff)<<(8*1) |
+		((x>>(6*2))&0xff)<<(8*3) |
+		((x>>(6*3))&0xff)<<(8*5) |
+		((x>>(6*4))&0xff)<<(8*0) |
+		((x>>(6*5))&0xff)<<(8*2) |
+		((x>>(6*6))&0xff)<<(8*4) |
+		((x>>(6*7))&0xff)<<(8*6)
+
+	return result
 }
