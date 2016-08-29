@@ -86,6 +86,12 @@
 
 (Sqrt x) -> (FSQRTD x)
 
+(Ctz64 <t> x) -> (CLZ (RBIT <t> x))
+(Ctz32 <t> x) -> (CLZW (RBITW <t> x))
+
+(Bswap64 x) -> (REV x)
+(Bswap32 x) -> (REVW x)
+
 // boolean ops -- booleans are represented with 0=false, 1=true
 (AndB x y) -> (AND x y)
 (OrB x y) -> (OR x y)
