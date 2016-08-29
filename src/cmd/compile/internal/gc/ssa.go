@@ -2542,7 +2542,7 @@ func isSSAIntrinsic(s *Sym) bool {
 	// so far has only been noticed for Bswap32 and the 16-bit count
 	// leading/trailing instructions, but heuristics might change
 	// in the future or on different architectures).
-	if !ssaEnabled || ssa.IntrinsicsDisable || Thearch.LinkArch.Family != sys.AMD64 {
+	if !ssaEnabled || ssa.IntrinsicsDisable || !Thearch.LinkArch.InFamily(sys.AMD64, sys.ARM64) {
 		return false
 	}
 	if s != nil && s.Pkg != nil && s.Pkg.Path == "runtime/internal/sys" {
@@ -2554,6 +2554,9 @@ func isSSAIntrinsic(s *Sym) bool {
 		}
 	}
 	if s != nil && s.Pkg != nil && s.Pkg.Path == "runtime/internal/atomic" {
+		if Thearch.LinkArch.Family != sys.AMD64 {
+			return false
+		}
 		switch s.Name {
 		case "Load", "Load64", "Loadint64", "Loadp", "Loaduint", "Loaduintptr":
 			return true

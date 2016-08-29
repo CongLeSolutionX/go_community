@@ -222,6 +222,10 @@ func rewriteValueARM64(v *Value, config *Config) bool {
 		return rewriteValueARM64_OpAndB(v, config)
 	case OpAvg64u:
 		return rewriteValueARM64_OpAvg64u(v, config)
+	case OpBswap32:
+		return rewriteValueARM64_OpBswap32(v, config)
+	case OpBswap64:
+		return rewriteValueARM64_OpBswap64(v, config)
 	case OpClosureCall:
 		return rewriteValueARM64_OpClosureCall(v, config)
 	case OpCom16:
@@ -250,6 +254,10 @@ func rewriteValueARM64(v *Value, config *Config) bool {
 		return rewriteValueARM64_OpConstNil(v, config)
 	case OpConvert:
 		return rewriteValueARM64_OpConvert(v, config)
+	case OpCtz32:
+		return rewriteValueARM64_OpCtz32(v, config)
+	case OpCtz64:
+		return rewriteValueARM64_OpCtz64(v, config)
 	case OpCvt32Fto32:
 		return rewriteValueARM64_OpCvt32Fto32(v, config)
 	case OpCvt32Fto32U:
@@ -9097,6 +9105,32 @@ func rewriteValueARM64_OpAvg64u(v *Value, config *Config) bool {
 		return true
 	}
 }
+func rewriteValueARM64_OpBswap32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Bswap32 x)
+	// cond:
+	// result: (REVW x)
+	for {
+		x := v.Args[0]
+		v.reset(OpARM64REVW)
+		v.AddArg(x)
+		return true
+	}
+}
+func rewriteValueARM64_OpBswap64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Bswap64 x)
+	// cond:
+	// result: (REV x)
+	for {
+		x := v.Args[0]
+		v.reset(OpARM64REV)
+		v.AddArg(x)
+		return true
+	}
+}
 func rewriteValueARM64_OpClosureCall(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
@@ -9283,6 +9317,38 @@ func rewriteValueARM64_OpConvert(v *Value, config *Config) bool {
 		v.reset(OpARM64MOVDconvert)
 		v.AddArg(x)
 		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueARM64_OpCtz32(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Ctz32 <t> x)
+	// cond:
+	// result: (CLZW (RBITW <t> x))
+	for {
+		t := v.Type
+		x := v.Args[0]
+		v.reset(OpARM64CLZW)
+		v0 := b.NewValue0(v.Line, OpARM64RBITW, t)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValueARM64_OpCtz64(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Ctz64 <t> x)
+	// cond:
+	// result: (CLZ (RBIT <t> x))
+	for {
+		t := v.Type
+		x := v.Args[0]
+		v.reset(OpARM64CLZ)
+		v0 := b.NewValue0(v.Line, OpARM64RBIT, t)
+		v0.AddArg(x)
+		v.AddArg(v0)
 		return true
 	}
 }
