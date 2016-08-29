@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45b8cef5_cde08925",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-08-29T04:54:27Z",
+      "side": 1,
+      "message": "This breaks the package comment, which must directly precede the package declaration with no blank line.  And in any case all this new comment does not belong in the package comment at all.  (The package comment is what you see at https://tip.golang.org/pkg/hash/crc32/).",
+      "revId": "76d725667a7faf40d09e75a7d381b12a0f722742",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
