@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "856646cf_1d1a1783",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-08-30T18:57:00Z",
+      "side": 1,
+      "message": "I did not know we could write rules for Blocks, but indeed we can.",
+      "range": {
+        "startLine": 885,
+        "startChar": 0,
+        "endLine": 885,
+        "endChar": 6
+      },
+      "revId": "7128a60274a931ebf5006ddea0b425dbdb1d647a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
