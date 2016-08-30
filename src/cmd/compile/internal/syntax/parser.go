@@ -28,7 +28,7 @@ type parser struct {
 	nerrors int // error count
 }
 
-func (p *parser) init(src io.Reader, errh ErrorHandler) {
+func (p *parser) init(src io.Reader, errh ErrorHandler, pragh PragmaHandler) {
 	p.scanner.init(src, func(pos, line int, msg string) {
 		p.nerrors++
 		if !debug && errh != nil {
@@ -36,7 +36,7 @@ func (p *parser) init(src io.Reader, errh ErrorHandler) {
 			return
 		}
 		panic(fmt.Sprintf("%d: %s\n", line, msg))
-	})
+	}, pragh)
 
 	p.fnest = 0
 	p.xnest = 0
@@ -245,6 +245,10 @@ func (p *parser) file() *File {
 			continue
 		}
 
+		// Reset p.pragma BEFORE advancing to the next token (consuming ';')
+		// since comments before may set pragmas for the next function decl.
+		p.pragma = 0
+
 		if p.tok != _EOF && !p.got(_Semi) {
 			p.syntax_error("after top level declaration")
 			p.advance(_Const, _Type, _Var, _Func)
@@ -253,7 +257,6 @@ func (p *parser) file() *File {
 	// p.tok == _EOF
 
 	f.Lines = p.source.line
-	f.Pragmas = p.pragmas
 
 	return f
 }
@@ -428,6 +431,7 @@ func (p *parser) funcDecl() *FuncDecl {
 	f.Type = p.funcType()
 	f.Body = p.funcBody()
 
+	f.Pragma = p.pragma
 	f.EndLine = uint32(p.line)
 
 	// TODO(gri) deal with function properties
