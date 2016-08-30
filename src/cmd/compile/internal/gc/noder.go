@@ -6,7 +6,6 @@ package gc
 
 import (
 	"fmt"
-	"sort"
 	"strconv"
 	"strings"
 	"unicode/utf8"
@@ -15,23 +14,13 @@ import (
 )
 
 func parseFile(filename string) {
-	errh := func(_, line int, msg string) {
-		yyerrorl(lexlineno+int32(line)-1, "%s", msg)
-	}
-
-	file, err := syntax.ReadFile(filename, errh, 0)
+	p := noder{baseline: lexlineno}
+	file, err := syntax.ReadFile(filename, p.errorHandler, p.pragmaHandler, 0)
 	if err != nil {
 		Fatalf("syntax.ReadFile %s: %v", filename, err)
 	}
 
-	p := noder{pragmas: file.Pragmas}
-
-	p.lineno(file.PkgName)
-	mkpackage(file.PkgName.Value)
-
-	xtop = append(xtop, p.decls(file.DeclList, true)...)
-	p.globalPragmas()
-	lexlineno += p.maxline
+	p.file(file)
 
 	if nsyntaxerrors == 0 {
 		testdclstack()
@@ -40,13 +29,19 @@ func parseFile(filename string) {
 
 // noder transforms package syntax's AST into a Nod tree.
 type noder struct {
-	indent  []byte
-	pragmas []syntax.Pragma
-	pline   int32
-	maxline int32
+	baseline int32
+	maxline  int32
 }
 
-func (p *noder) decls(decls []syntax.Decl, top bool) (l []*Node) {
+func (p *noder) file(file *syntax.File) {
+	p.lineno(file.PkgName)
+	mkpackage(file.PkgName.Value)
+
+	xtop = append(xtop, p.decls(file.DeclList)...)
+	lexlineno = p.baseline + p.maxline
+}
+
+func (p *noder) decls(decls []syntax.Decl) (l []*Node) {
 	var lastConstGroup *syntax.Group
 	var lastConstRHS []*Node
 	var iotaVal int32
@@ -91,10 +86,6 @@ func (p *noder) decls(decls []syntax.Decl, top bool) (l []*Node) {
 		default:
 			panic("unhandled Decl")
 		}
-
-		if top {
-			p.pline = p.maxline
-		}
 	}
 
 	return
@@ -102,7 +93,7 @@ func (p *noder) decls(decls []syntax.Decl, top bool) (l []*Node) {
 
 func (p *noder) importDecl(imp *syntax.ImportDecl) {
 	val := p.basicLit(imp.Path)
-	importfile(&val, p.indent)
+	importfile(&val, nil)
 	ipkg := importpkg
 	importpkg = nil
 
@@ -216,15 +207,13 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 		}
 	}
 
-	pragma := p.pragma()
-
 	f.Nbody.Set(body)
-	f.Noescape = pragma&Noescape != 0
+	f.Noescape = Pragma(fun.Pragma)&Noescape != 0
 	if f.Noescape && len(body) != 0 {
 		Yyerror("can only use //go:noescape with external func implementations")
 	}
-	f.Func.Pragma = pragma
-	lineno = lexlineno + int32(fun.EndLine) - 1
+	f.Func.Pragma = Pragma(fun.Pragma)
+	lineno = p.baseline + int32(fun.EndLine) - 1
 	f.Func.Endlineno = lineno
 
 	funcbody(f)
@@ -353,7 +342,7 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 	case *syntax.FuncLit:
 		closurehdr(p.typeExpr(expr.Type))
 		body := p.stmts(expr.Body)
-		lineno = lexlineno + int32(expr.EndLine) - 1
+		lineno = p.baseline + int32(expr.EndLine) - 1
 		return p.setlineno(expr, closurebody(body))
 	case *syntax.ParenExpr:
 		return p.nod(expr, OPAREN, p.expr(expr.X), nil)
@@ -577,7 +566,7 @@ func (p *noder) stmt(stmt syntax.Stmt) *Node {
 	case *syntax.SendStmt:
 		return p.nod(stmt, OSEND, p.expr(stmt.Chan), p.expr(stmt.Value))
 	case *syntax.DeclStmt:
-		return liststmt(p.decls(stmt.DeclList, false))
+		return liststmt(p.decls(stmt.DeclList))
 	case *syntax.AssignStmt:
 		if stmt.Op != 0 && stmt.Op != syntax.Def {
 			n := p.nod(stmt, OASOP, p.expr(stmt.Lhs), p.expr(stmt.Rhs))
@@ -978,7 +967,7 @@ func (p *noder) setlineno(src syntax.Node, dst *Node) *Node {
 	if l > p.maxline {
 		p.maxline = l
 	}
-	dst.Lineno = lexlineno + l - 1
+	dst.Lineno = p.baseline + l - 1
 	return dst
 }
 
@@ -994,75 +983,56 @@ func (p *noder) lineno(n syntax.Node) {
 	if l > p.maxline {
 		p.maxline = l
 	}
-	lineno = lexlineno + l - 1
+	lineno = p.baseline + l - 1
 }
 
-func (p *noder) pragma() Pragma {
-	lo := sort.Search(len(p.pragmas), func(i int) bool { return int32(p.pragmas[i].Line) >= p.pline })
-	hi := sort.Search(len(p.pragmas), func(i int) bool { return int32(p.pragmas[i].Line) > p.maxline })
+func (p *noder) errorHandler(_, line int, msg string) {
+	yyerrorl(p.baseline+int32(line)-1, "%s", msg)
+}
 
-	var res Pragma
-	for _, prag := range p.pragmas[lo:hi] {
-		text := prag.Text
-		if !strings.HasPrefix(text, "go:") {
-			continue
+func (p *noder) pragmaHandler(_, line int, text string) syntax.Pragma {
+	switch {
+	case strings.HasPrefix(text, "line "):
+		i := strings.IndexByte(text, ':')
+		if i < 0 {
+			break
 		}
+		n, err := strconv.Atoi(text[i+1:])
+		if err != nil {
+			// todo: make this an error instead? it is almost certainly a bug.
+			break
+		}
+		if n > 1e8 {
+			Yyerror("line number out of range")
+			errorexit()
+		}
+		if n <= 0 {
+			break
+		}
+		lexlineno = p.baseline + int32(line)
+		linehistupdate(text[5:i], n)
 
+	case strings.HasPrefix(text, "go:cgo_"):
+		pragcgobuf += pragcgo(text)
+
+	case strings.HasPrefix(text, "go:linkname "):
+		if !imported_unsafe {
+			Yyerror("//go:linkname only allowed in Go files that import \"unsafe\"")
+		}
+		f := strings.Fields(text)
+		if len(f) != 3 {
+			Yyerror("usage: //go:linkname localname linkname")
+			break
+		}
+		Lookup(f[1]).Linkname = f[2]
+
+	default:
 		verb := text
 		if i := strings.Index(text, " "); i >= 0 {
 			verb = verb[:i]
 		}
-
-		res |= PragmaValue(verb)
+		return syntax.Pragma(PragmaValue(verb))
 	}
-	return res
-}
 
-func (p *noder) globalPragmas() {
-	origlexlineno := lexlineno
-	defer func() {
-		lexlineno = origlexlineno
-	}()
-
-	for _, prag := range p.pragmas {
-		text := prag.Text
-
-		if strings.HasPrefix(text, "go:cgo_") {
-			pragcgobuf += pragcgo(text)
-		}
-
-		if strings.HasPrefix(text, "go:linkname ") {
-			if !imported_unsafe {
-				Yyerror("//go:linkname only allowed in Go files that import \"unsafe\"")
-			}
-			f := strings.Fields(text)
-			if len(f) != 3 {
-				Yyerror("usage: //go:linkname localname linkname")
-				break
-			}
-			Lookup(f[1]).Linkname = f[2]
-		}
-
-		// TODO(mdempsky): Move into package syntax.
-		if strings.HasPrefix(text, "line ") {
-			i := strings.IndexByte(text, ':')
-			if i < 0 {
-				continue
-			}
-			n, err := strconv.Atoi(text[i+1:])
-			if err != nil {
-				// todo: make this an error instead? it is almost certainly a bug.
-				continue
-			}
-			if n > 1e8 {
-				Yyerror("line number out of range")
-				errorexit()
-			}
-			if n <= 0 {
-				continue
-			}
-			lexlineno = origlexlineno + int32(prag.Line)
-			linehistupdate(text[5:i], n)
-		}
-	}
+	return 0
 }
