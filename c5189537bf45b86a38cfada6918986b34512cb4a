@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e58d42b7_3d426f4d",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-08-30T17:57:45Z",
+      "side": 1,
+      "message": "Picked \"call\" to match OAS2DOTTYPE.",
+      "parentUuid": "4500ceb2_7e1329b6",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e58d42b7_9dd8e3ef",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-29T22:49:01Z",
       "side": 1,
       "message": "Doc please.",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e58d42b7_b7569861",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2732,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-08-30T17:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e58d42b7_9dd8e3ef",
       "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
