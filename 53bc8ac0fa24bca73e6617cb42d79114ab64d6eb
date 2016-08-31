@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1bc71cf_33f14893",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-08-31T17:39:03Z",
+      "side": 1,
+      "message": "doc: update go tour installation instructions",
+      "revId": "53bc8ac0fa24bca73e6617cb42d79114ab64d6eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
