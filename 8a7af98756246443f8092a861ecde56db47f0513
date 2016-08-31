@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11453d84_01fe8cff",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-08-31T01:01:35Z",
+      "side": 1,
+      "message": "Sanity check: Is it possible for a step to return f.err !\u003d nil \u0026\u0026 len(f.toRead) !\u003d 0 *and* for there to still be unflushed data?\n\nIt looks like not, because if len(f.toRead) !\u003d 0, it seems to be because we just flushed the outstanding any data.",
+      "revId": "8a7af98756246443f8092a861ecde56db47f0513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
