@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/amd64"
 	"cmd/compile/internal/arm"
 	"cmd/compile/internal/arm64"
+	"cmd/compile/internal/mips32"
 	"cmd/compile/internal/mips64"
 	"cmd/compile/internal/ppc64"
 	"cmd/compile/internal/s390x"
@@ -35,6 +36,8 @@ func main() {
 		arm.Main()
 	case "arm64":
 		arm64.Main()
+	case "mips32", "mips32le":
+		mips32.Main()
 	case "mips64", "mips64le":
 		mips64.Main()
 	case "ppc64", "ppc64le":
