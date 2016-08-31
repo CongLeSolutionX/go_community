@@ -379,7 +379,7 @@ func (p *Parser) asmJump(op obj.As, cond string, a []obj.Addr) {
 			prog.Reg = reg
 			break
 		}
-		if p.arch.Family == sys.MIPS64 {
+		if p.arch.Family == sys.MIPS32 || p.arch.Family == sys.MIPS64 {
 			// 3-operand jumps.
 			// First two must be registers
 			target = &a[2]
@@ -537,6 +537,12 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 			prog.From = a[0]
 			prog.Reg = p.getRegister(prog, op, &a[1])
 			break
+		} else if p.arch.Family == sys.MIPS32 {
+			if arch.IsMIPSCMP(op) || arch.IsMIPSMUL(op) {
+				prog.From = a[0]
+				prog.Reg = p.getRegister(prog, op, &a[1])
+				break
+			}
 		} else if p.arch.Family == sys.MIPS64 {
 			if arch.IsMIPS64CMP(op) || arch.IsMIPS64MUL(op) {
 				prog.From = a[0]
@@ -548,7 +554,7 @@ func (p *Parser) asmInstruction(op obj.As, cond string, a []obj.Addr) {
 		prog.To = a[1]
 	case 3:
 		switch p.arch.Family {
-		case sys.MIPS64:
+		case sys.MIPS32, sys.MIPS64:
 			prog.From = a[0]
 			prog.Reg = p.getRegister(prog, op, &a[1])
 			prog.To = a[2]

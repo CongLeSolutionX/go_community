@@ -9,6 +9,7 @@ import (
 	"cmd/internal/obj/arm"
 	"cmd/internal/obj/arm64"
 	"cmd/internal/obj/mips"
+	"cmd/internal/obj/mips32"
 	"cmd/internal/obj/ppc64"
 	"cmd/internal/obj/s390x"
 	"cmd/internal/obj/x86"
@@ -59,9 +60,17 @@ func Set(GOARCH string) *Arch {
 		return archArm()
 	case "arm64":
 		return archArm64()
+	case "mips32":
+		a := archMips()
+		a.LinkArch = &mips32.Linkmips32
+		return a
 	case "mips64":
 		a := archMips64()
 		a.LinkArch = &mips.Linkmips64
+		return a
+	case "mips32le":
+		a := archMips()
+		a.LinkArch = &mips32.Linkmips32le
 		return a
 	case "mips64le":
 		a := archMips64()
@@ -422,6 +431,64 @@ func archMips64() *Arch {
 		RegisterPrefix: registerPrefix,
 		RegisterNumber: mipsRegisterNumber,
 		IsJump:         jumpMIPS64,
+	}
+}
+
+func archMips() *Arch {
+	register := make(map[string]int16)
+	// Create maps for easy lookup of instruction names etc.
+	// Note that there is no list of names as there is for x86.
+	for i := mips32.REG_R0; i <= mips32.REG_R31; i++ {
+		register[obj.Rconv(i)] = int16(i)
+	}
+
+	for i := mips32.REG_F0; i <= mips32.REG_F31; i++ {
+		register[obj.Rconv(i)] = int16(i)
+	}
+	for i := mips32.REG_M0; i <= mips32.REG_M31; i++ {
+		register[obj.Rconv(i)] = int16(i)
+	}
+	for i := mips32.REG_FCR0; i <= mips32.REG_FCR31; i++ {
+		register[obj.Rconv(i)] = int16(i)
+	}
+	register["HI"] = mips32.REG_HI
+	register["LO"] = mips32.REG_LO
+	// Pseudo-registers.
+	register["SB"] = RSB
+	register["FP"] = RFP
+	register["PC"] = RPC
+	// Avoid unintentionally clobbering g using R30.
+	delete(register, "R30")
+	register["g"] = mips32.REG_R30
+	// Avoid unintentionally clobbering RSB using R28.
+	delete(register, "R28")
+	register["RSB"] = mips32.REG_R28
+	registerPrefix := map[string]bool{
+		"F":   true,
+		"FCR": true,
+		"M":   true,
+		"R":   true,
+	}
+
+	instructions := make(map[string]obj.As)
+	for i, s := range obj.Anames {
+		instructions[s] = obj.As(i)
+	}
+	for i, s := range mips32.Anames {
+		if obj.As(i) >= obj.A_ARCHSPECIFIC {
+			instructions[s] = obj.As(i) + obj.ABaseMIPS
+		}
+	}
+	// Annoying alias.
+	instructions["JAL"] = mips32.AJAL
+
+	return &Arch{
+		LinkArch:       &mips32.Linkmips32le,
+		Instructions:   instructions,
+		Register:       register,
+		RegisterPrefix: registerPrefix,
+		RegisterNumber: mips32RegisterNumber,
+		IsJump:         jumpMIPS,
 	}
 }
 

@@ -383,6 +383,10 @@ func TestAMD64Errors(t *testing.T) {
 	testErrors(t, "amd64", "amd64error")
 }
 
+func TestMIPS32EndToEnd(t *testing.T) {
+	testEndToEnd(t, "mips32", "mips32")
+}
+
 func TestMIPS64EndToEnd(t *testing.T) {
 	testEndToEnd(t, "mips64", "mips64")
 }
