@@ -164,10 +164,6 @@ func buildssa(fn *Node) *ssa.Func {
 				// the function.
 				s.returns = append(s.returns, n)
 			}
-			if n.Class == PPARAM && s.canSSA(n) && n.Type.IsPtrShaped() {
-				s.ptrargs = append(s.ptrargs, n)
-				n.SetNotLiveAtEnd(true) // SSA takes care of this explicitly
-			}
 		case PAUTO:
 			// processed at each use, to prevent Addr coming
 			// before the decl.
@@ -291,10 +287,6 @@ type state struct {
 
 	// list of PPARAMOUT (return) variables.
 	returns []*Node
-
-	// list of PPARAM SSA-able pointer-shaped args. We ensure these are live
-	// throughout the function to help users avoid premature finalizers.
-	ptrargs []*Node
 
 	cgoUnsafeArgs bool
 	noWB          bool
@@ -1007,16 +999,6 @@ func (s *state) exit() *ssa.Block {
 		// TODO: if val is ever spilled, we'd like to use the
 		// PPARAMOUT slot for spilling it. That won't happen
 		// currently.
-	}
-
-	// Keep input pointer args live until the return. This is a bandaid
-	// fix for 1.7 for what will become in 1.8 explicit runtime.KeepAlive calls.
-	// For <= 1.7 we guarantee that pointer input arguments live to the end of
-	// the function to prevent premature (from the user's point of view)
-	// execution of finalizers. See issue 15277.
-	// TODO: remove for 1.8?
-	for _, n := range s.ptrargs {
-		s.vars[&memVar] = s.newValue2(ssa.OpKeepAlive, ssa.TypeMem, s.variable(n, n.Type), s.mem())
 	}
 
 	// Do actual return.
@@ -2558,6 +2540,13 @@ func intrinsicInit() {
 
 	// initial set of intrinsics.
 	i.std = map[intrinsicKey]intrinsicBuilder{
+		/******** runtime ********/
+		intrinsicKey{"runtime", "KeepAlive"}: func(s *state, n *Node) *ssa.Value {
+			data := s.newValue1(ssa.OpIData, Ptrto(Types[TUINT8]), s.intrinsicFirstArg(n))
+			s.vars[&memVar] = s.newValue2(ssa.OpKeepAlive, ssa.TypeMem, data, s.mem())
+			return nil
+		},
+
 		/******** runtime/internal/sys ********/
 		intrinsicKey{"runtime/internal/sys", "Ctz32"}: func(s *state, n *Node) *ssa.Value {
 			return s.newValue1(ssa.OpCtz32, Types[TUINT32], s.intrinsicFirstArg(n))
@@ -2931,10 +2920,6 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 
 	// Start exit block, find address of result.
 	s.startBlock(bNext)
-	// Keep input pointer args live across calls.  This is a bandaid until 1.8.
-	for _, n := range s.ptrargs {
-		s.vars[&memVar] = s.newValue2(ssa.OpKeepAlive, ssa.TypeMem, s.variable(n, n.Type), s.mem())
-	}
 	res := n.Left.Type.Results()
 	if res.NumFields() == 0 || k != callNormal {
 		// call has no return value. Continue with the next statement.
@@ -3276,11 +3261,6 @@ func (s *state) rtcall(fn *Node, returns bool, results []*Type, args ...*ssa.Val
 	bNext := s.f.NewBlock(ssa.BlockPlain)
 	b.AddEdgeTo(bNext)
 	s.startBlock(bNext)
-
-	// Keep input pointer args live across calls.  This is a bandaid until 1.8.
-	for _, n := range s.ptrargs {
-		s.vars[&memVar] = s.newValue2(ssa.OpKeepAlive, ssa.TypeMem, s.variable(n, n.Type), s.mem())
-	}
 
 	// Load results
 	res := make([]*ssa.Value, len(results))
