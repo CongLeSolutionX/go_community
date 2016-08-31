@@ -445,6 +445,11 @@ func main() {
 			if elfIsLittleEndian(os.Args[0]) {
 				gohostarch = "mips64le"
 			}
+		case strings.Contains(out, "mips"):
+			gohostarch = "mips32"
+			if elfIsLittleEndian(os.Args[0]) {
+				gohostarch = "mips32le"
+			}
 		case strings.Contains(out, "s390x"):
 			gohostarch = "s390x"
 		case gohostos == "darwin":
