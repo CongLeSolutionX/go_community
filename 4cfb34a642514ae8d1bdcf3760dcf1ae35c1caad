@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11453d84_32caf842",
+        "filename": "src/compress/internal/testutil/bitgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-08-31T08:26:32Z",
+      "side": 1,
+      "message": "@bradfitz and @mdempsky, what are your thoughts on something like this to assist in testing?\n\nSee inflate_test.go to see how it would be used to thoroughly test flate and bzip2 decompression.",
+      "revId": "4cfb34a642514ae8d1bdcf3760dcf1ae35c1caad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
