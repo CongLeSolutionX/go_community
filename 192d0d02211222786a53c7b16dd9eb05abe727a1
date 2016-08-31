@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11453d84_c78af416",
+        "filename": "doc/docs.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-31T04:24:28Z",
+      "side": 1,
+      "message": "https://go.googlesource.com/tour isn\u0027t a great URL. It\u0027s not very pretty nor helpful.\n\nWhy don\u0027t we just include the useful part:\n\n\u003cpre\u003e\n$ go get golang.org/x/tour/gotour\n\u003c/pre\u003e\n\nThis will place the \u003ccode\u003egotour\u003c/code\u003e binary in your workspace\u0027s \u003ccode\u003ebin\u003c/code\u003e directory.",
+      "revId": "192d0d02211222786a53c7b16dd9eb05abe727a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
