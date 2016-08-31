@@ -204,7 +204,7 @@ func cgen_wb(n, res *Node, wb bool) {
 
 	// Write barrier now handled. Code below this line can ignore wb.
 
-	if Ctxt.Arch.Family == sys.ARM { // TODO(rsc): Maybe more often?
+	if Ctxt.Arch.Family == sys.ARM || Ctxt.Arch.Family == sys.MIPS32 { // TODO(rsc): Maybe more often?
 		// if both are addressable, move
 		if n.Addable && res.Addable {
 			if Is64(n.Type) || Is64(res.Type) || n.Op == OREGISTER || res.Op == OREGISTER || n.Type.IsComplex() || res.Type.IsComplex() {
@@ -466,7 +466,7 @@ func cgen_wb(n, res *Node, wb bool) {
 
 		var n1 Node
 		var n2 Node
-		if Ctxt.Arch.Family == sys.ARM {
+		if Ctxt.Arch.Family == sys.ARM || Ctxt.Arch.Family == sys.MIPS32 {
 			if nl.Addable && !Is64(nl.Type) {
 				Regalloc(&n1, nl.Type, res)
 				Thearch.Gmove(nl, &n1)
@@ -992,7 +992,7 @@ func Agenr(n *Node, a *Node, res *Node) {
 		}
 
 	case OINDEX:
-		if Ctxt.Arch.Family == sys.ARM {
+		if Ctxt.Arch.Family == sys.ARM || Ctxt.Arch.Family == sys.MIPS32 {
 			var p2 *obj.Prog // to be patched to panicindex.
 			w := uint32(n.Type.Width)
 			bounded := Debug['B'] != 0 || n.Bounded
@@ -1836,7 +1836,7 @@ func bgenx(n, res *Node, wantTrue bool, likely int, to *obj.Prog) {
 		// Some architectures might need a temporary or other help here,
 		// but they don't support direct generation of a bool value yet.
 		// We can fix that as we go.
-		mayNeedTemp := Ctxt.Arch.InFamily(sys.ARM, sys.ARM64, sys.MIPS64, sys.PPC64, sys.S390X)
+		mayNeedTemp := Ctxt.Arch.InFamily(sys.ARM, sys.ARM64, sys.MIPS32, sys.MIPS64, sys.PPC64, sys.S390X)
 
 		if genval {
 			if mayNeedTemp {
@@ -2033,7 +2033,7 @@ func bgenx(n, res *Node, wantTrue bool, likely int, to *obj.Prog) {
 		Cgen(nl, &n1)
 		nl = &n1
 
-		if Smallintconst(nr) && Ctxt.Arch.Family != sys.MIPS64 && Ctxt.Arch.Family != sys.PPC64 {
+		if Smallintconst(nr) && Ctxt.Arch.Family != sys.MIPS32 && Ctxt.Arch.Family != sys.MIPS64 && Ctxt.Arch.Family != sys.PPC64 {
 			Thearch.Gins(Thearch.Optoas(OCMP, nr.Type), nl, nr)
 			bins(nr.Type, res, op, likely, to)
 			return
@@ -2059,7 +2059,7 @@ func bgenx(n, res *Node, wantTrue bool, likely int, to *obj.Prog) {
 	}
 
 	// MIPS does not have CMP instruction
-	if Ctxt.Arch.Family == sys.MIPS64 {
+	if Ctxt.Arch.Family == sys.MIPS32 || Ctxt.Arch.Family == sys.MIPS64 {
 		p := Thearch.Ginscmp(op, nr.Type, l, r, likely)
 		Patch(p, to)
 		return
@@ -2152,7 +2152,7 @@ func bgenNonZero(n, res *Node, wantTrue bool, likely int, to *obj.Prog) {
 	}
 
 	// MIPS does not have CMP instruction
-	if Thearch.LinkArch.Family == sys.MIPS64 {
+	if Thearch.LinkArch.Family == sys.MIPS32 || Thearch.LinkArch.Family == sys.MIPS64 {
 		p := Gbranch(Thearch.Optoas(op, n.Type), n.Type, likely)
 		Naddr(&p.From, n)
 		Patch(p, to)
@@ -2635,7 +2635,7 @@ func hasHMUL64() bool {
 	switch Ctxt.Arch.Family {
 	case sys.AMD64, sys.S390X, sys.ARM64:
 		return true
-	case sys.ARM, sys.I386, sys.MIPS64, sys.PPC64:
+	case sys.ARM, sys.I386, sys.MIPS32, sys.MIPS64, sys.PPC64:
 		return false
 	}
 	Fatalf("unknown architecture")
@@ -2648,7 +2648,7 @@ func hasRROTC64() bool {
 	switch Ctxt.Arch.Family {
 	case sys.AMD64:
 		return true
-	case sys.ARM, sys.ARM64, sys.I386, sys.MIPS64, sys.PPC64, sys.S390X:
+	case sys.ARM, sys.ARM64, sys.I386, sys.MIPS32, sys.MIPS64, sys.PPC64, sys.S390X:
 		return false
 	}
 	Fatalf("unknown architecture")
@@ -2659,7 +2659,7 @@ func hasRightShiftWithCarry() bool {
 	switch Ctxt.Arch.Family {
 	case sys.ARM64:
 		return true
-	case sys.AMD64, sys.ARM, sys.I386, sys.MIPS64, sys.PPC64, sys.S390X:
+	case sys.AMD64, sys.ARM, sys.I386, sys.MIPS32, sys.MIPS64, sys.PPC64, sys.S390X:
 		return false
 	}
 	Fatalf("unknown architecture")
@@ -2670,7 +2670,7 @@ func hasAddSetCarry() bool {
 	switch Ctxt.Arch.Family {
 	case sys.ARM64:
 		return true
-	case sys.AMD64, sys.ARM, sys.I386, sys.MIPS64, sys.PPC64, sys.S390X:
+	case sys.AMD64, sys.ARM, sys.I386, sys.MIPS32, sys.MIPS64, sys.PPC64, sys.S390X:
 		return false
 	}
 	Fatalf("unknown architecture")

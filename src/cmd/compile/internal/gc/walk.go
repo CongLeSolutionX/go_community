@@ -694,7 +694,7 @@ opswitch:
 		walkexprlist(n.List.Slice(), init)
 
 		if n.Left.Op == ONAME && n.Left.Sym.Name == "Sqrt" && n.Left.Sym.Pkg.Path == "math" {
-			if Thearch.LinkArch.InFamily(sys.AMD64, sys.ARM, sys.ARM64, sys.PPC64, sys.S390X) {
+			if Thearch.LinkArch.InFamily(sys.AMD64, sys.ARM, sys.ARM64, sys.PPC64, sys.MIPS32, sys.S390X) {
 				n.Op = OSQRT
 				n.Left = n.List.First()
 				n.List.Set(nil)
@@ -1108,7 +1108,7 @@ opswitch:
 		n = walkexpr(n, init)
 
 	case OCONV, OCONVNOP:
-		if Thearch.LinkArch.Family == sys.ARM {
+		if Thearch.LinkArch.Family == sys.ARM || Thearch.LinkArch.Family == sys.MIPS32 {
 			if n.Left.Type.IsFloat() {
 				if n.Type.Etype == TINT64 {
 					n = mkcall("float64toint64", n.Type, init, conv(n.Left, Types[TFLOAT64]))
@@ -3344,7 +3344,7 @@ func samecheap(a *Node, b *Node) bool {
 // 	n.Left = walkrotate(n.Left)
 func walkrotate(n *Node) *Node {
 	//TODO: enable LROT on ARM64 once the old backend is gone
-	if Thearch.LinkArch.InFamily(sys.MIPS64, sys.ARM64, sys.PPC64) {
+	if Thearch.LinkArch.InFamily(sys.MIPS32, sys.MIPS64, sys.ARM64, sys.PPC64) {
 		return n
 	}
 
@@ -3604,7 +3604,7 @@ func walkdiv(n *Node, init *Nodes) *Node {
 	// if >= 0, nr is 1<<pow // 1 if nr is negative.
 
 	// TODO(minux)
-	if Thearch.LinkArch.InFamily(sys.MIPS64, sys.PPC64) {
+	if Thearch.LinkArch.InFamily(sys.MIPS32, sys.MIPS64, sys.PPC64) {
 		return n
 	}
 

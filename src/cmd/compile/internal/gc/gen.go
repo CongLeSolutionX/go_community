@@ -9,6 +9,7 @@ package gc
 import (
 	"cmd/internal/obj"
 	"cmd/internal/sys"
+	"encoding/binary"
 	"fmt"
 )
 
@@ -1245,11 +1246,15 @@ func visitComponents(t *Type, startOffset int64, f func(elem *Type, elemOffset i
 		if Widthreg == 8 {
 			break
 		}
-		// NOTE: Assuming little endian (signed top half at offset 4).
-		// We don't have any 32-bit big-endian systems.
-		if !Thearch.LinkArch.InFamily(sys.ARM, sys.I386) {
+		if !Thearch.LinkArch.InFamily(sys.ARM, sys.I386, sys.MIPS32) {
 			Fatalf("unknown 32-bit architecture")
 		}
+
+		if Thearch.LinkArch.InFamily(sys.MIPS32) && Ctxt.Arch.ByteOrder == binary.BigEndian {
+			return f(Types[TUINT32], startOffset+4) &&
+				f(Types[TINT32], startOffset)
+		}
+
 		return f(Types[TUINT32], startOffset) &&
 			f(Types[TINT32], startOffset+4)
 
