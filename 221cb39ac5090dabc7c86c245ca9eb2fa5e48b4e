@@ -16,6 +16,24 @@
       "revId": "221cb39ac5090dabc7c86c245ca9eb2fa5e48b4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1bc71cf_36ebf673",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1042,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-08-31T19:49:50Z",
+      "side": 1,
+      "message": "[As discussed offline:] I omitted the empty line because of the preceding fallthrough, and this way seemed somewhat clearer about how the clauses are connected.",
+      "parentUuid": "b1bc71cf_16fa7a61",
+      "revId": "221cb39ac5090dabc7c86c245ca9eb2fa5e48b4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
