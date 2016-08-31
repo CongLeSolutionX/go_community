@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11453d84_e169e08c",
+        "filename": "src/compress/flate/inflate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-31T01:24:30Z",
+      "side": 1,
+      "message": "s/vectors/tests/\ns/input/in/\ns/output/want/",
+      "revId": "d3092464624f1f0ad29fa0ac4c4069fdd0697155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11453d84_4176d46d",
+        "filename": "src/compress/flate/inflate_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-31T01:24:30Z",
+      "side": 1,
+      "message": "s/b/got/",
+      "revId": "d3092464624f1f0ad29fa0ac4c4069fdd0697155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
