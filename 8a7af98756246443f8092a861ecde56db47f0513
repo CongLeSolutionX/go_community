@@ -16,6 +16,24 @@
       "revId": "8a7af98756246443f8092a861ecde56db47f0513",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11453d84_6164b0e7",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-08-31T01:08:39Z",
+      "side": 1,
+      "message": "That is correct. After step(), either len(f.toRead) \u003e 0 OR f.dict.availRead() \u003e 0, but not both. That is because going in to step(), we are guaranteed that len(f.toRead) \u003d\u003d 0. And the only way len(f.toRead) \u003e 0 is when we drain the dictionary into f.toRead.",
+      "parentUuid": "11453d84_01fe8cff",
+      "revId": "8a7af98756246443f8092a861ecde56db47f0513",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
