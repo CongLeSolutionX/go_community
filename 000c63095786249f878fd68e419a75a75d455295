@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11453d84_0d84fd3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-31T16:40:52Z",
+      "side": 1,
+      "message": "whose",
+      "revId": "000c63095786249f878fd68e419a75a75d455295",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11453d84_2d229965",
+        "filename": "src/archive/tar/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-08-31T16:40:52Z",
+      "side": 1,
+      "message": "As much as I normally crusade against useless named return parameters, I\u0027m fine keeping n/err on io.Readers since we usually do. But either way.",
+      "revId": "000c63095786249f878fd68e419a75a75d455295",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
