@@ -860,8 +860,8 @@ func slicelit(ctxt int, n *Node, var_ *Node, init *Nodes) {
 	init.Append(a)
 }
 
-func maplit(ctxt int, n *Node, m *Node, init *Nodes) {
-	ctxt = 0
+func maplit(n *Node, m *Node, init *Nodes) {
+	const ctxt = 0
 
 	// make the map var
 	nerr := nerrors
@@ -1007,7 +1007,8 @@ func maplit(ctxt int, n *Node, m *Node, init *Nodes) {
 	}
 }
 
-func anylit(ctxt int, n *Node, var_ *Node, init *Nodes) {
+func anylit(n *Node, var_ *Node, init *Nodes) {
+	const ctxt = 0
 	t := n.Type
 	switch n.Op {
 	default:
@@ -1037,7 +1038,7 @@ func anylit(ctxt int, n *Node, var_ *Node, init *Nodes) {
 
 		var_ = Nod(OIND, var_, nil)
 		var_ = typecheck(var_, Erv|Easgn)
-		anylit(ctxt, n.Left, var_, init)
+		anylit(n.Left, var_, init)
 
 	case OSTRUCTLIT:
 		if !t.IsStruct() {
@@ -1127,7 +1128,7 @@ func anylit(ctxt int, n *Node, var_ *Node, init *Nodes) {
 		if !t.IsMap() {
 			Fatalf("anylit: not map")
 		}
-		maplit(ctxt, n, var_, init)
+		maplit(n, var_, init)
 	}
 }
 
@@ -1149,14 +1150,6 @@ func oaslit(n *Node, init *Nodes) bool {
 		return false
 	}
 
-	// context is init() function.
-	// implies generated data executed
-	// exactly once and not subject to races.
-	ctxt := 0
-
-	//	if(n->dodata == 1)
-	//		ctxt = 1;
-
 	switch n.Right.Op {
 	default:
 		// not a special composit literal assignment
@@ -1167,7 +1160,7 @@ func oaslit(n *Node, init *Nodes) bool {
 			// not a special composit literal assignment
 			return false
 		}
-		anylit(ctxt, n.Right, n.Left, init)
+		anylit(n.Right, n.Left, init)
 	}
 
 	n.Op = OEMPTY
