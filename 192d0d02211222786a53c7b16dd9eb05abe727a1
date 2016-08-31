@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "11ca9d6e_d694843c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-08-31T17:29:34Z",
+      "side": 1,
+      "message": "doc: update go tour installation instructions",
+      "revId": "192d0d02211222786a53c7b16dd9eb05abe727a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11ca9d6e_76d490e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-08-31T17:29:34Z",
+      "side": 1,
+      "message": "Replace installing from code.google.com/p/go-tour with up to date\ninstructions on how to install the tour from golang.org/x/tour.",
+      "revId": "192d0d02211222786a53c7b16dd9eb05abe727a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11453d84_18dd5dd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-08-31T17:29:34Z",
+      "side": 1,
+      "message": "Could we remove this diff from the commit message?\nThis is because the CL itself will have an identical diff.",
+      "revId": "192d0d02211222786a53c7b16dd9eb05abe727a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11453d84_c78af416",
         "filename": "doc/docs.html",
         "patchSetId": 1
