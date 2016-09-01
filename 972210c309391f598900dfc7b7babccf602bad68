@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "916ccd82_8ddf05cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-01T19:18:45Z",
+      "side": 1,
+      "message": "Is this backwards? Update 16949 because gccgo still needs a fix, and fixes 16940 because the code in question should never have been accepted?\n\nI think a little more detail in the commit message would be helpful.",
+      "revId": "972210c309391f598900dfc7b7babccf602bad68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "916ccd82_0dfeb5ff",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3776,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-01T19:18:45Z",
+      "side": 1,
+      "message": "This can now be eliminated--there is identical code below. And the default case can also go. Can be separate CL. Also in that CL, it\u0027d be nice to document checkmake now that we\u0027ve looked at it a bunch. :)",
+      "revId": "972210c309391f598900dfc7b7babccf602bad68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
