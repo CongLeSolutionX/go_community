@@ -94,6 +94,14 @@ func TestRecorder(t *testing.T) {
 			return nil
 		}
 	}
+	hasContentLength := func(length int64) checkFunc {
+		return func(rec *ResponseRecorder) error {
+			if got := rec.Result().ContentLength; got != length {
+				return fmt.Errorf("ContentLength = %d; want %d", got, length)
+			}
+			return nil
+		}
+	}
 
 	tests := []struct {
 		name   string
@@ -103,7 +111,7 @@ func TestRecorder(t *testing.T) {
 		{
 			"200 default",
 			func(w http.ResponseWriter, r *http.Request) {},
-			check(hasStatus(200), hasContents("")),
+			check(hasStatus(200), hasContents(""), hasContentLength(0)),
 		},
 		{
 			"first code only",
@@ -112,7 +120,7 @@ func TestRecorder(t *testing.T) {
 				w.WriteHeader(202)
 				w.Write([]byte("hi"))
 			},
-			check(hasStatus(201), hasContents("hi")),
+			check(hasStatus(201), hasContents("hi"), hasContentLength(2)),
 		},
 		{
 			"write sends 200",
@@ -121,7 +129,8 @@ func TestRecorder(t *testing.T) {
 				w.WriteHeader(201)
 				w.WriteHeader(202)
 			},
-			check(hasStatus(200), hasContents("hi first"), hasFlush(false)),
+			check(hasStatus(200), hasContents("hi first"), hasFlush(false),
+				hasContentLength(8)),
 		},
 		{
 			"write string",
@@ -133,6 +142,7 @@ func TestRecorder(t *testing.T) {
 				hasContents("hi first"),
 				hasFlush(false),
 				hasHeader("Content-Type", "text/plain; charset=utf-8"),
+				hasContentLength(8),
 			),
 		},
 		{

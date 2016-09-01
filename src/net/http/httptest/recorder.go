@@ -160,6 +160,7 @@ func (rw *ResponseRecorder) Result() *http.Response {
 	}
 	res.Status = http.StatusText(res.StatusCode)
 	if rw.Body != nil {
+		res.ContentLength = int64(rw.Body.Len())
 		res.Body = ioutil.NopCloser(bytes.NewReader(rw.Body.Bytes()))
 	}
 
