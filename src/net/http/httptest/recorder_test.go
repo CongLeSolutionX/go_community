@@ -94,6 +94,14 @@ func TestRecorder(t *testing.T) {
 			return nil
 		}
 	}
+	hasContentLength := func(length int64) checkFunc {
+		return func(rec *ResponseRecorder) error {
+			if got := rec.Result().ContentLength; got != length {
+				return fmt.Errorf("ContentLength = %d; want %d", got, length)
+			}
+			return nil
+		}
+	}
 
 	tests := []struct {
 		name   string
@@ -243,6 +251,16 @@ func TestRecorder(t *testing.T) {
 				hasHeader("X-Foo", "1"),
 				hasNotHeaders("X-Bar"),
 			),
+		},
+		{
+			"setting Content-Length header",
+			func(w http.ResponseWriter, r *http.Request) {
+				body := "Some body"
+				contentLength := fmt.Sprintf("%d", len(body))
+				w.Header().Set("Content-Length", contentLength)
+				io.WriteString(w, body)
+			},
+			check(hasStatus(200), hasContents("Some body"), hasContentLength(9)),
 		},
 	}
 	r, _ := http.NewRequest("GET", "http://foo.com/", nil)
