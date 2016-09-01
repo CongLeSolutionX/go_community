@@ -135,6 +135,10 @@ func (g *gcm) Seal(dst, nonce, plaintext, data []byte) []byte {
 	if len(nonce) != g.nonceSize {
 		panic("cipher: incorrect nonce length given to GCM")
 	}
+	if uint64(len(plaintext)) > ((1<<32)-2)*uint64(g.cipher.BlockSize()) {
+		panic("cipher: message too large for GCM")
+	}
+
 	ret, out := sliceForAppend(dst, len(plaintext)+gcmTagSize)
 
 	var counter, tagMask [gcmBlockSize]byte
@@ -149,7 +153,10 @@ func (g *gcm) Seal(dst, nonce, plaintext, data []byte) []byte {
 	return ret
 }
 
-var errOpen = errors.New("cipher: message authentication failed")
+var (
+	errOpen     = errors.New("cipher: message authentication failed")
+	errTooLarge = errors.New("cipher: message too large")
+)
 
 func (g *gcm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(nonce) != g.nonceSize {
@@ -159,6 +166,10 @@ func (g *gcm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(ciphertext) < gcmTagSize {
 		return nil, errOpen
 	}
+	if uint64(len(ciphertext)) > ((1<<32)-2)*uint64(g.cipher.BlockSize())+gcmTagSize {
+		return nil, errTooLarge
+	}
+
 	tag := ciphertext[len(ciphertext)-gcmTagSize:]
 	ciphertext = ciphertext[:len(ciphertext)-gcmTagSize]
 

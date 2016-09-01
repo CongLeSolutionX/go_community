@@ -39,7 +39,10 @@ const (
 	gcmStandardNonceSize = 12
 )
 
-var errOpen = errors.New("cipher: message authentication failed")
+var (
+	errOpen = errors.New("cipher: message authentication failed")
+	errTooLarge = errors.New("cipher: message too large")
+)
 
 // aesCipherGCM implements crypto/cipher.gcmAble so that crypto/cipher.NewGCM
 // will use the optimised implementation in this file when possible. Instances
@@ -99,6 +102,9 @@ func (g *gcmAsm) Seal(dst, nonce, plaintext, data []byte) []byte {
 	if len(nonce) != g.nonceSize {
 		panic("cipher: incorrect nonce length given to GCM")
 	}
+	if uint64(len(plaintext)) > ((1<<32)-2)*BlockSize {
+		panic("cipher: message too large for GCM")
+	}
 
 	var counter, tagMask [gcmBlockSize]byte
 
@@ -137,6 +143,10 @@ func (g *gcmAsm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(ciphertext) < gcmTagSize {
 		return nil, errOpen
 	}
+	if uint64(len(ciphertext)) > ((1<<32)-2)*BlockSize+gcmTagSize {
+		return nil, errTooLarge
+	}
+
 	tag := ciphertext[len(ciphertext)-gcmTagSize:]
 	ciphertext = ciphertext[:len(ciphertext)-gcmTagSize]
 

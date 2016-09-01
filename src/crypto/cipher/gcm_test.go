@@ -9,6 +9,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/hex"
+	"strings"
 	"testing"
 )
 
@@ -272,5 +273,64 @@ func TestTagFailureOverwrite(t *testing.T) {
 		if dst[i] != 0 {
 			t.Fatal("Failed Open didn't zero dst buffer")
 		}
+	}
+}
+
+func makeLargeBuffer() []byte {
+	defer func() {
+		if r := recover(); r != nil {
+			return
+		}
+	}()
+
+	return make([]byte, (1<<32)*16)
+}
+
+func TestGCMLimits(t *testing.T) {
+	largeBuffer := func() []byte {
+		defer func() {
+			if r := recover(); r != nil {
+				return
+			}
+		}()
+
+		return make([]byte, (1<<32)*16)
+	}()
+
+	if largeBuffer == nil {
+		// If a sufficiently large buffer cannot be created then we
+		// cannot test the GCM limits. However, it also means that it
+		// would be very difficult for a program to pass a large enough
+		// buffer to cause a problem.
+		t.Skip("cannot allocate large buffer")
+	}
+
+	t.Logf("len(largeBuffer): %d", len(largeBuffer))
+
+	key, _ := hex.DecodeString("00000000000000000000000000000000")
+	nonce, _ := hex.DecodeString("000000000000000000000000")
+	aes, _ := aes.NewCipher(key)
+	aesgcm, _ := cipher.NewGCM(aes)
+
+	sealPanicked := func() (ret bool) {
+		defer func() {
+			if r := recover(); r != nil {
+				ret = true
+				return
+			}
+		}()
+
+		aesgcm.Seal(nil, nonce, largeBuffer, nil)
+		return false
+	}()
+
+	if !sealPanicked {
+		t.Error("Seal did not panic when given overlarge buffer")
+	}
+
+	t.Logf("len(largeBuffer): %d", len(largeBuffer))
+
+	if _, err := aesgcm.Open(nil, nonce, largeBuffer, nil); err == nil || !strings.Contains(err.Error(), "too large") {
+		t.Errorf("Open did not reject an overlarge buffer: %s", err)
 	}
 }
