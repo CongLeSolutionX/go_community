@@ -88,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "11db7d69_1576936c",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-01T16:21:19Z",
+      "side": 1,
+      "message": "\u003e I would be worried that when Isconst is false it still triggers the bug if the argument is not of Integer type.\n\nIf Isconst is false, and it\u0027s not an int type, then makecheck will already have rejected it.\n\nWhy? Because in order for a type to have etype TIDEAL, it must be a constant. If constant, then n.Op must be an OLITERAL. If n.Op is OLITERAL and it is a numeric type, it\u0027ll take the range-checking path in checkmake. So the only way to make it to the end of checkmake is to be a numeric constant or have integer etype. The integer etype is fine. The problem is float/complex numeric constants that don\u0027t have etype TIDEAL because they are a named type. So changing the initial check to look for constants should suffice.\n\nAnd as written, I think this CL takes the makeslice64 path unnecessarily for the test case.\n\nI could be wrong about all of this, though. Please take another look.\n\nWe might also want (in a separate CL) to update checkmake to be clearer.",
+      "parentUuid": "91ff6d6b_35eb1add",
+      "revId": "400eaf70862a9bf178e87db0639f625eff683ebe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11db7d69_d527ebba",
         "filename": "test/fixedbugs/issue16940.go",
         "patchSetId": 1
