@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11db7d69_830ecc91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-01T06:57:53Z",
+      "side": 1,
+      "message": "This paragraph is confusing. Maybe just get rid of it altogether.",
+      "revId": "c6258b21574ddb6b7904e6bc053b203afc0d810e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11db7d69_a321c810",
+        "filename": "src/path/filepath/path_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-01T06:57:53Z",
+      "side": 1,
+      "message": "Move these down to before line 898. And you, probably, do not need two variables.",
+      "revId": "c6258b21574ddb6b7904e6bc053b203afc0d810e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11db7d69_c3973439",
+        "filename": "src/path/filepath/symlink.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-01T06:57:53Z",
+      "side": 1,
+      "message": "Add to the comment.\n\n// Same for \"C:.\".\n\nto cover new scenario you are ading.",
+      "revId": "c6258b21574ddb6b7904e6bc053b203afc0d810e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
