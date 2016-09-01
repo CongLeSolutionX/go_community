@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "91ff6d6b_35eb1add",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-09-01T16:05:42Z",
+      "side": 1,
+      "message": "I would be worried that when Isconst is false it still triggers the bug if the argument is not of Integer type.\nIsInteger guards the Maxintval access. \n\nAlso checkmake has this check: if \"!n.Type.IsInteger() \u0026\u0026 n.Type.Etype !\u003d TIDEAL\" so its either an integer or ideal.\nSo i think this CL on its own is fine.\n\nHowever i think we can add Isconst checks too. Im just not sure if any constant should not instead be already converted as a preparation step to int like is done for CTFLT,... in checkmake in typecheck.go?",
+      "parentUuid": "11db7d69_55253bb6",
+      "revId": "400eaf70862a9bf178e87db0639f625eff683ebe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11db7d69_d527ebba",
         "filename": "test/fixedbugs/issue16940.go",
         "patchSetId": 1
