@@ -1518,8 +1518,8 @@ opswitch:
 			// typechecking guarantees that TIDEAL len/cap are positive and fit in an int.
 			// The case of len or cap overflow when converting TUINT or TUINTPTR to TINT
 			// will be handled by the negative range checks in makeslice during runtime.
-			if (len.Type.IsKind(TIDEAL) || Maxintval[len.Type.Etype].Cmp(Maxintval[TUINT]) <= 0) &&
-				(cap.Type.IsKind(TIDEAL) || Maxintval[cap.Type.Etype].Cmp(Maxintval[TUINT]) <= 0) {
+			if (len.Type.IsKind(TIDEAL) || (len.Type.IsInteger() && Maxintval[len.Type.Etype].Cmp(Maxintval[TUINT]) <= 0)) &&
+				(cap.Type.IsKind(TIDEAL) || (cap.Type.IsInteger() && Maxintval[cap.Type.Etype].Cmp(Maxintval[TUINT]) <= 0)) {
 				fnname = "makeslice"
 				argtype = Types[TINT]
 			}
