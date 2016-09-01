@@ -16,6 +16,24 @@
       "revId": "4cfb34a642514ae8d1bdcf3760dcf1ae35c1caad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11db7d69_483c83ce",
+        "filename": "src/compress/internal/testutil/bitgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-01T05:49:45Z",
+      "side": 1,
+      "message": "I\u0027ve only skimmed it, but I like the idea.\n\nThe only downside is that it adds a package only used by tests. That\u0027s a pretty small downside, though.",
+      "parentUuid": "11453d84_32caf842",
+      "revId": "4cfb34a642514ae8d1bdcf3760dcf1ae35c1caad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
