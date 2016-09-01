@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11db7d69_b1e59acd",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-09-01T00:30:04Z",
+      "side": 1,
+      "message": "Does this need to be a method on Val, I think it would be easier to test if it remained a function that took a fmt.State and a Val.",
+      "revId": "8e25c7f3b2f8d548ea1b588968a4d766777acada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
