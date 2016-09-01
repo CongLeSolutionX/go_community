@@ -33,6 +33,24 @@
       "revId": "972210c309391f598900dfc7b7babccf602bad68",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f15c29da_65b666d9",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3776,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-09-01T19:49:47Z",
+      "side": 1,
+      "message": "I wanted to do a seperate cleanup CL for that.",
+      "parentUuid": "916ccd82_0dfeb5ff",
+      "revId": "972210c309391f598900dfc7b7babccf602bad68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
