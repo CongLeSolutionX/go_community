@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11db7d69_9542833d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-01T15:36:55Z",
+      "side": 1,
+      "message": "s/typed/named/",
+      "revId": "400eaf70862a9bf178e87db0639f625eff683ebe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11db7d69_553c1bce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-01T15:36:55Z",
+      "side": 1,
+      "message": "s/Change//",
+      "revId": "400eaf70862a9bf178e87db0639f625eff683ebe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11db7d69_753f17c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-01T15:36:55Z",
+      "side": 1,
+      "message": "named",
+      "revId": "400eaf70862a9bf178e87db0639f625eff683ebe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11db7d69_55253bb6",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-01T15:36:55Z",
+      "side": 1,
+      "message": "I had in mind that the right fix was instead to change\n\nlen.Type.IsKind(TIDEAL)\n\nto\n\nIsconst(len)\n\nWhat do you think?",
+      "revId": "400eaf70862a9bf178e87db0639f625eff683ebe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11db7d69_d527ebba",
+        "filename": "test/fixedbugs/issue16940.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-01T15:36:55Z",
+      "side": 1,
+      "message": "s/typed/named/",
+      "revId": "400eaf70862a9bf178e87db0639f625eff683ebe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
