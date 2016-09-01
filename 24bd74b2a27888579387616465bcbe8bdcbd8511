@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11a37d16_eedf7fc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-01T20:13:57Z",
+      "side": 1,
+      "message": "I would cite the specification like what Robert did in the issue tracker.\n\n\u003e \"The size arguments n and m must be of integer type or untyped.\" (https://tip.golang.org/ref/spec#Making_slices_maps_and_channels)",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "24bd74b2a27888579387616465bcbe8bdcbd8511",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
