@@ -274,3 +274,13 @@ func TestTagFailureOverwrite(t *testing.T) {
 		}
 	}
 }
+
+func makeLargeBuffer() []byte {
+	defer func() {
+		if r := recover(); r != nil {
+			return
+		}
+	}()
+
+	return make([]byte, (1<<32)*16)
+}
