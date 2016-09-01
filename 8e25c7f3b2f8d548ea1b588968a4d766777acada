@@ -16,6 +16,24 @@
       "revId": "8e25c7f3b2f8d548ea1b588968a4d766777acada",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11db7d69_315f6a71",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-09-01T00:38:42Z",
+      "side": 1,
+      "message": "No, it doesn\u0027t have to be a method on Val (though I am not sure why it would be easier to test if it were not).\n\nI was thinking that down the road, all the Xconv functions would simply become format methods for the respective type as in\n\nfunc (T) format(s fmt.State) { ... }\n\nso it\u0027s totally uniform for all types.",
+      "parentUuid": "11db7d69_b1e59acd",
+      "revId": "8e25c7f3b2f8d548ea1b588968a4d766777acada",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
