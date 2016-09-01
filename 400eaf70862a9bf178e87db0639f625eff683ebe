@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "d1272549_543c2c20",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1521,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-09-01T16:30:09Z",
+      "side": 1,
+      "message": "thanks. I think i understand your point now and will test Isconst. \n\nIn that case we might want to add Isconst checks also to checkmake so that named types that are numeric consts are handled by checkmake and converted there to the right int value already like it is done for plain numeric values.",
+      "parentUuid": "11db7d69_1576936c",
+      "revId": "400eaf70862a9bf178e87db0639f625eff683ebe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11db7d69_d527ebba",
         "filename": "test/fixedbugs/issue16940.go",
         "patchSetId": 1
