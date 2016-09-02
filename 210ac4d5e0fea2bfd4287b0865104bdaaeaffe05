@@ -22,6 +22,30 @@
       "revId": "210ac4d5e0fea2bfd4287b0865104bdaaeaffe05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "563debbb_30e12891",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-09-02T23:33:43Z",
+      "side": 1,
+      "message": "Nuts, sorry. The code is correct.",
+      "parentUuid": "f18d09b7_806798de",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "210ac4d5e0fea2bfd4287b0865104bdaaeaffe05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
