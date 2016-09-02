@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d1c1e5c3_b3f9626f",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 9556
+      },
+      "writtenOn": "2016-09-02T15:10:32Z",
+      "side": 1,
+      "message": "This line used to come after p.Director. This change means that p.Director now can set Close to true.  Would this break any assumptions made by ReverseProxy?  (I don\u0027t see anything but it\u0027s worth considering.)",
+      "revId": "8d58aea9f0948734ff8b77ef5405fab76be5241c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1c1e5c3_d86fdd22",
         "filename": "src/net/http/httputil/reverseproxy_test.go",
         "patchSetId": 2
@@ -13,6 +30,24 @@
       "writtenOn": "2016-09-02T06:38:47Z",
       "side": 1,
       "message": "don\u0027t you want to fail the test if err !\u003d nil here?",
+      "revId": "8d58aea9f0948734ff8b77ef5405fab76be5241c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1c1e5c3_33273224",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 9556
+      },
+      "writtenOn": "2016-09-02T15:10:32Z",
+      "side": 1,
+      "message": "No, because it will get the \"done testing the interesting part\" error.",
+      "parentUuid": "d1c1e5c3_d86fdd22",
       "revId": "8d58aea9f0948734ff8b77ef5405fab76be5241c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
