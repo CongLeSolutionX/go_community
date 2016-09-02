@@ -63,11 +63,11 @@ func parsePlan9Addr(s string) (ip IP, iport int, err error) {
 			return nil, 0, &ParseError{Type: "IP address", Text: s}
 		}
 	}
-	p, _, ok := dtoi(s[i+1:])
+	p, _, ok := utoi(s[i+1:])
 	if !ok {
 		return nil, 0, &ParseError{Type: "port", Text: s}
 	}
-	if p < 0 || p > 0xFFFF {
+	if p > 0xFFFF {
 		return nil, 0, &AddrError{Err: "invalid port", Addr: string(p)}
 	}
 	return addr, p, nil

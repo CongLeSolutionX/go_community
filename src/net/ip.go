@@ -515,7 +515,7 @@ func parseIPv4(s string) IP {
 			}
 			s = s[1:]
 		}
-		n, c, ok := dtoi(s)
+		n, c, ok := utoi(s)
 		if !ok || n > 0xFF {
 			return nil
 		}
@@ -673,8 +673,8 @@ func ParseCIDR(s string) (IP, *IPNet, error) {
 		iplen = IPv6len
 		ip, _ = parseIPv6(addr, false)
 	}
-	n, i, ok := dtoi(mask)
-	if ip == nil || !ok || i != len(mask) || n < 0 || n > 8*iplen {
+	n, i, ok := utoi(mask)
+	if ip == nil || !ok || i != len(mask) || n > 8*iplen {
 		return nil, nil, &ParseError{Type: "CIDR address", Text: s}
 	}
 	m := CIDRMask(n, 8*iplen)
