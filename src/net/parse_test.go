@@ -86,9 +86,6 @@ func TestDtoi(t *testing.T) {
 		ok  bool
 	}{
 		{"", 0, 0, false},
-
-		{"-123456789", -big, 9, false},
-		{"-1", -1, 2, true},
 		{"0", 0, 1, true},
 		{"65536", 65536, 5, true},
 		{"123456789", big, 8, false},
