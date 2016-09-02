@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1c1e5c3_b3416260",
+        "filename": "src/path/filepath/path_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-02T15:53:13Z",
+      "side": 1,
+      "message": "This is misleading. The documentation doesn\u0027t say that this func is equivalent to strings.HasPrefix.\n\nOne might think that filepath.HasPrefix normalizes slash directions or something.\n\nI think the first sentence needs work before this line can go in. (but this new line is fine)\n\nMaybe:\n\n   // HasPrefix exists for historically compatibility and does nothing other\n   // than call strings.HasPrefix. It does nothing related to paths.\n   //\n   // Deprecated: Use strings.HasPrefix instead.",
+      "revId": "58da9db385ed94645853d3f5c43b5385524015d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
