@@ -19,7 +19,10 @@ func volumeNameLen(path string) int {
 	return 0
 }
 
-// HasPrefix exists for historical compatibility and should not be used.
+// HasPrefix exists for historically compatibility and does nothing other
+// than call strings.HasPrefix. It does nothing related to paths.
+//
+// Deprecated: Use strings.HasPrefix instead.
 func HasPrefix(p, prefix string) bool {
 	return strings.HasPrefix(p, prefix)
 }
