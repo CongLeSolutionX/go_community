@@ -16,6 +16,24 @@
       "revId": "58da9db385ed94645853d3f5c43b5385524015d9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1c1e5c3_eb9c825f",
+        "filename": "src/path/filepath/path_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2016-09-02T20:21:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1c1e5c3_b3416260",
+      "revId": "58da9db385ed94645853d3f5c43b5385524015d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
