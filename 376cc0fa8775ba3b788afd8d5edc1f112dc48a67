@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d1c1e5c3_f3963af5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-02T15:39:07Z",
+      "side": 1,
+      "message": "Don\u0027t refer to previous commits with a hash tag that will be meaningless if we ever move away from git.  Instead, write https://golang.org/cl/27206.",
+      "revId": "376cc0fa8775ba3b788afd8d5edc1f112dc48a67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1c1e5c3_38943143",
         "filename": "src/net/ip_test.go",
         "patchSetId": 1
