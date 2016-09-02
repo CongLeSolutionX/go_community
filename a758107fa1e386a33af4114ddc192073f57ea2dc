@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f18d09b7_802eb8fa",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1150,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-09-02T17:29:58Z",
+      "side": 1,
+      "message": "Perhaps a comment. \"// Load the bits once.\" or such.",
+      "revId": "a758107fa1e386a33af4114ddc192073f57ea2dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f18d09b7_400bd082",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-09-02T17:29:58Z",
+      "side": 1,
+      "message": "This reminded me about CL 25175, which renames bitMarked to the much better \"bitScan\". I\u0027ve gone ahead and submitted that (it\u0027s been sitting for a while), so you\u0027ll have to rebase and rename this to bitScan.",
+      "revId": "a758107fa1e386a33af4114ddc192073f57ea2dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
