@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f18d09b7_806798de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-09-02T23:31:43Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the code, which checks for 64GiB-32.",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "210ac4d5e0fea2bfd4287b0865104bdaaeaffe05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
