@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1654530d_e6475e46",
+        "filename": "src/cmd/compile/internal/gc/printfix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-03T16:20:28Z",
+      "side": 1,
+      "message": "s/of/one/",
+      "revId": "572d96b751b280795394e58df5051b0b4585ea17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1c1e5c3_ee42d0ee",
+        "filename": "src/cmd/compile/internal/gc/printfix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-03T16:20:28Z",
+      "side": 1,
+      "message": "This doesn\u0027t handle explicit argument indexes, like fmt.Sprintf(\"%[2]d %[1]d\\n\", 11, 22). That\u0027s probably ok, since I don\u0027t think we have any in cmd/compile, but for future-proofing you might want to detect \u0027[\u0027 and Fatalf with an appropriate error message.",
+      "revId": "572d96b751b280795394e58df5051b0b4585ea17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1c1e5c3_ee5db0ea",
+        "filename": "src/cmd/compile/internal/gc/printfix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-03T16:20:28Z",
+      "side": 1,
+      "message": "s/returns true if/reports whether/\n\nSame elsewhere.",
+      "revId": "572d96b751b280795394e58df5051b0b4585ea17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
