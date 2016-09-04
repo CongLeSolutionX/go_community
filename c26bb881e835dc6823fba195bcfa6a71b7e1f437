@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1654530d_69d90177",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-04T21:55:07Z",
+      "side": 1,
+      "message": "For context on this, see issue 16577.",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
