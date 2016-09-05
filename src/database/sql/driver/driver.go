@@ -8,7 +8,10 @@
 // Most code should use package sql.
 package driver
 
-import "errors"
+import (
+	"context"
+	"errors"
+)
 
 // Value is a value that drivers must be able to handle.
 // It is either nil or an instance of one of these types:
@@ -34,6 +37,11 @@ type Driver interface {
 	// The returned connection is only used by one goroutine at a
 	// time.
 	Open(name string) (Conn, error)
+}
+
+// DriverCtx is the same as Driver but with context.
+type DriverContext interface {
+	OpenContext(ctx context.Context, name string) (Conn, error)
 }
 
 // ErrSkip may be returned by some optional interfaces' methods to
@@ -65,6 +73,11 @@ type Execer interface {
 	Exec(query string, args []Value) (Result, error)
 }
 
+// ExecerContext is the same as Execer but with context.
+type ExecerContext interface {
+	ExecContext(ctx context.Context, query string, args []Value) (Result, error)
+}
+
 // Queryer is an optional interface that may be implemented by a Conn.
 //
 // If a Conn does not implement Queryer, the sql package's DB.Query will
@@ -74,6 +87,11 @@ type Execer interface {
 // Query may return ErrSkip.
 type Queryer interface {
 	Query(query string, args []Value) (Rows, error)
+}
+
+// QueryerContext is the same as Queryer but with context.
+type QueryerContext interface {
+	QueryContext(ctx context.Context, query string, args []Value) (Rows, error)
 }
 
 // Conn is a connection to a database. It is not used concurrently
@@ -96,6 +114,18 @@ type Conn interface {
 
 	// Begin starts and returns a new transaction.
 	Begin() (Tx, error)
+}
+
+// ConnContext is the same as Conn, but with context.
+type ConnContext interface {
+	// When the context is done, the Stmt is Closed.
+	Prepare(ctx context.Context, query string) (Stmt, error)
+
+	Close() error
+
+	// When the context is closed, the Tx is rolled back if it has not been
+	// committed yet.
+	Begin(ctx context.Context) (Tx, error)
 }
 
 // Result is the result of a query execution.
@@ -139,6 +169,20 @@ type Stmt interface {
 	Query(args []Value) (Rows, error)
 }
 
+// StmtContext is the same as Stmt but with a context.
+type StmtContext interface {
+	Close() error
+	NumInput() int
+
+	// ExecContext will allow the driver to cancel execution if the
+	// context finishes.
+	ExecContext(ctx context.Context, args []Value) (Result, error)
+
+	// QueryContext allows drivers to cancel query execution if the context
+	// finishes. It will also close the Rows when the context is cancelled.
+	QueryContext(ctx context.Context, args []Value) (Rows, error)
+}
+
 // ColumnConverter may be optionally implemented by Stmt if the
 // statement is aware of its own columns' types and can convert from
 // any type to a driver Value.
@@ -173,6 +217,14 @@ type Rows interface {
 type Tx interface {
 	Commit() error
 	Rollback() error
+}
+
+// TxContext is the same as Tx but with a context.
+// Drivers should use the provided context to cancel execution of action
+// should the context expire.
+type TxContext interface {
+	CommitContext(ctx context.Context) error
+	RollbackContext(ctx context.Context) error
 }
 
 // RowsAffected implements Result for an INSERT or UPDATE operation

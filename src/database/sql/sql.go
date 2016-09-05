@@ -13,6 +13,7 @@
 package sql
 
 import (
+	"context"
 	"database/sql/driver"
 	"errors"
 	"fmt"
@@ -246,6 +247,9 @@ type DB struct {
 	maxOpen     int                    // <= 0 means unlimited
 	maxLifetime time.Duration          // maximum amount of time a connection may be reused
 	cleanerCh   chan struct{}
+
+	parent *DB
+	ctx    context.Context
 }
 
 // connReuseStrategy determines how (*DB).conn returns database connections.
@@ -494,13 +498,28 @@ func Open(driverName, dataSourceName string) (*DB, error) {
 	return db, nil
 }
 
+// WithContext returns a per-request DB that will use the provided context.
+func (db *DB) WithContext(ctx context.Context) *DB {
+	if db.parent != nil {
+		db = db.parent
+	}
+	return &DB{
+		parent: db,
+		ctx:    ctx,
+	}
+}
+
 // Ping verifies a connection to the database is still alive,
 // establishing a connection if necessary.
 func (db *DB) Ping() error {
+	ctx := db.ctx
+	if db.parent != nil {
+		db = db.parent
+	}
 	// TODO(bradfitz): give drivers an optional hook to implement
 	// this in a more efficient or more reliable way, if they
 	// have one.
-	dc, err := db.conn(cachedOrNewConn)
+	dc, err := db.conn(ctx, cachedOrNewConn)
 	if err != nil {
 		return err
 	}
@@ -777,7 +796,7 @@ type connRequest struct {
 var errDBClosed = errors.New("sql: database is closed")
 
 // conn returns a newly-opened or cached *driverConn.
-func (db *DB) conn(strategy connReuseStrategy) (*driverConn, error) {
+func (db *DB) conn(ctx context.Context, strategy connReuseStrategy) (*driverConn, error) {
 	db.mu.Lock()
 	if db.closed {
 		db.mu.Unlock()
@@ -958,28 +977,32 @@ const maxBadConnRetries = 2
 // The caller must call the statement's Close method
 // when the statement is no longer needed.
 func (db *DB) Prepare(query string) (*Stmt, error) {
+	ctx := db.ctx
+	if db.parent != nil {
+		db = db.parent
+	}
 	var stmt *Stmt
 	var err error
 	for i := 0; i < maxBadConnRetries; i++ {
-		stmt, err = db.prepare(query, cachedOrNewConn)
+		stmt, err = db.prepare(ctx, query, cachedOrNewConn)
 		if err != driver.ErrBadConn {
 			break
 		}
 	}
 	if err == driver.ErrBadConn {
-		return db.prepare(query, alwaysNewConn)
+		return db.prepare(ctx, query, alwaysNewConn)
 	}
 	return stmt, err
 }
 
-func (db *DB) prepare(query string, strategy connReuseStrategy) (*Stmt, error) {
+func (db *DB) prepare(ctx context.Context, query string, strategy connReuseStrategy) (*Stmt, error) {
 	// TODO: check if db.driver supports an optional
 	// driver.Preparer interface and call that instead, if so,
 	// otherwise we make a prepared statement that's bound
 	// to a connection, and to execute this prepared statement
 	// we either need to use this connection (if it's free), else
 	// get a new connection + re-prepare + execute on that one.
-	dc, err := db.conn(strategy)
+	dc, err := db.conn(ctx, strategy)
 	if err != nil {
 		return nil, err
 	}
@@ -1005,22 +1028,26 @@ func (db *DB) prepare(query string, strategy connReuseStrategy) (*Stmt, error) {
 // Exec executes a query without returning any rows.
 // The args are for any placeholder parameters in the query.
 func (db *DB) Exec(query string, args ...interface{}) (Result, error) {
+	ctx := db.ctx
+	if db.parent != nil {
+		db = db.parent
+	}
 	var res Result
 	var err error
 	for i := 0; i < maxBadConnRetries; i++ {
-		res, err = db.exec(query, args, cachedOrNewConn)
+		res, err = db.exec(ctx, query, args, cachedOrNewConn)
 		if err != driver.ErrBadConn {
 			break
 		}
 	}
 	if err == driver.ErrBadConn {
-		return db.exec(query, args, alwaysNewConn)
+		return db.exec(ctx, query, args, alwaysNewConn)
 	}
 	return res, err
 }
 
-func (db *DB) exec(query string, args []interface{}, strategy connReuseStrategy) (res Result, err error) {
-	dc, err := db.conn(strategy)
+func (db *DB) exec(ctx context.Context, query string, args []interface{}, strategy connReuseStrategy) (res Result, err error) {
+	dc, err := db.conn(ctx, strategy)
 	if err != nil {
 		return nil, err
 	}
@@ -1060,32 +1087,63 @@ func (db *DB) exec(query string, args []interface{}, strategy connReuseStrategy)
 // Query executes a query that returns rows, typically a SELECT.
 // The args are for any placeholder parameters in the query.
 func (db *DB) Query(query string, args ...interface{}) (*Rows, error) {
+	ctx := db.ctx
+	if db.parent != nil {
+		db = db.parent
+	}
 	var rows *Rows
 	var err error
 	for i := 0; i < maxBadConnRetries; i++ {
-		rows, err = db.query(query, args, cachedOrNewConn)
+		rows, err = db.query(ctx, query, args, cachedOrNewConn)
 		if err != driver.ErrBadConn {
 			break
 		}
 	}
 	if err == driver.ErrBadConn {
-		return db.query(query, args, alwaysNewConn)
+		return db.query(ctx, query, args, alwaysNewConn)
 	}
 	return rows, err
 }
 
-func (db *DB) query(query string, args []interface{}, strategy connReuseStrategy) (*Rows, error) {
-	ci, err := db.conn(strategy)
+func (db *DB) query(ctx context.Context, query string, args []interface{}, strategy connReuseStrategy) (*Rows, error) {
+	ci, err := db.conn(ctx, strategy)
 	if err != nil {
 		return nil, err
 	}
 
-	return db.queryConn(ci, ci.releaseConn, query, args)
+	return db.queryConn(ctx, ci, ci.releaseConn, query, args)
 }
 
 // queryConn executes a query on the given connection.
 // The connection gets released by the releaseConn function.
-func (db *DB) queryConn(dc *driverConn, releaseConn func(error), query string, args []interface{}) (*Rows, error) {
+func (db *DB) queryConn(ctx context.Context, dc *driverConn, releaseConn func(error), query string, args []interface{}) (*Rows, error) {
+	if ctx != nil {
+		if queryer, ok := dc.ci.(driver.QueryerContext); ok {
+			dargs, err := driverArgs(nil, args)
+			if err != nil {
+				releaseConn(err)
+				return nil, err
+			}
+			var rowsi driver.Rows
+			withLock(dc, func() {
+				rowsi, err = queryer.QueryContext(ctx, query, dargs)
+			})
+			if err != driver.ErrSkip {
+				if err != nil {
+					releaseConn(err)
+					return nil, err
+				}
+				// Note: ownership of dc passes to the *Rows, to be freed
+				// with releaseConn.
+				rows := &Rows{
+					dc:          dc,
+					releaseConn: releaseConn,
+					rowsi:       rowsi,
+				}
+				return rows, nil
+			}
+		}
+	}
 	if queryer, ok := dc.ci.(driver.Queryer); ok {
 		dargs, err := driverArgs(nil, args)
 		if err != nil {
@@ -1154,22 +1212,26 @@ func (db *DB) QueryRow(query string, args ...interface{}) *Row {
 // Begin starts a transaction. The isolation level is dependent on
 // the driver.
 func (db *DB) Begin() (*Tx, error) {
+	ctx := db.ctx
+	if db.parent != nil {
+		db = db.parent
+	}
 	var tx *Tx
 	var err error
 	for i := 0; i < maxBadConnRetries; i++ {
-		tx, err = db.begin(cachedOrNewConn)
+		tx, err = db.begin(ctx, cachedOrNewConn)
 		if err != driver.ErrBadConn {
 			break
 		}
 	}
 	if err == driver.ErrBadConn {
-		return db.begin(alwaysNewConn)
+		return db.begin(ctx, alwaysNewConn)
 	}
 	return tx, err
 }
 
-func (db *DB) begin(strategy connReuseStrategy) (tx *Tx, err error) {
-	dc, err := db.conn(strategy)
+func (db *DB) begin(ctx context.Context, strategy connReuseStrategy) (tx *Tx, err error) {
+	dc, err := db.conn(ctx, strategy)
 	if err != nil {
 		return nil, err
 	}
@@ -1421,7 +1483,7 @@ func (tx *Tx) Query(query string, args ...interface{}) (*Rows, error) {
 		return nil, err
 	}
 	releaseConn := func(error) {}
-	return tx.db.queryConn(dc, releaseConn, query, args)
+	return tx.db.queryConn(tx.db.ctx, dc, releaseConn, query, args)
 }
 
 // QueryRow executes a query that is expected to return at most one row.
@@ -1474,7 +1536,7 @@ func (s *Stmt) Exec(args ...interface{}) (Result, error) {
 
 	var res Result
 	for i := 0; i < maxBadConnRetries; i++ {
-		dc, releaseConn, si, err := s.connStmt()
+		dc, releaseConn, si, err := s.connStmt(s.db.ctx)
 		if err != nil {
 			if err == driver.ErrBadConn {
 				continue
@@ -1550,7 +1612,7 @@ func (s *Stmt) removeClosedStmtLocked() {
 // connStmt returns a free driver connection on which to execute the
 // statement, a function to call to release the connection, and a
 // statement bound to that connection.
-func (s *Stmt) connStmt() (ci *driverConn, releaseConn func(error), si driver.Stmt, err error) {
+func (s *Stmt) connStmt(ctx context.Context) (ci *driverConn, releaseConn func(error), si driver.Stmt, err error) {
 	if err = s.stickyErr; err != nil {
 		return
 	}
@@ -1577,7 +1639,7 @@ func (s *Stmt) connStmt() (ci *driverConn, releaseConn func(error), si driver.St
 	s.mu.Unlock()
 
 	// TODO(bradfitz): or always wait for one? make configurable later?
-	dc, err := s.db.conn(cachedOrNewConn)
+	dc, err := s.db.conn(ctx, cachedOrNewConn)
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -1615,7 +1677,7 @@ func (s *Stmt) Query(args ...interface{}) (*Rows, error) {
 
 	var rowsi driver.Rows
 	for i := 0; i < maxBadConnRetries; i++ {
-		dc, releaseConn, si, err := s.connStmt()
+		dc, releaseConn, si, err := s.connStmt(s.db.ctx)
 		if err != nil {
 			if err == driver.ErrBadConn {
 				continue
