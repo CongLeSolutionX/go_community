@@ -19,6 +19,7 @@ func (mr *multiReader) Read(p []byte) (n int, err error) {
 		}
 		n, err = mr.readers[0].Read(p)
 		if err == EOF {
+			println("niled it.")
 			mr.readers[0] = nil // permit earlier GC
 			mr.readers = mr.readers[1:]
 		}
