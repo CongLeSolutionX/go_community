@@ -404,6 +404,44 @@ func bmIndexByte(index func([]byte, byte) int) func(b *testing.B, n int) {
 	}
 }
 
+func BenchmarkIndexRune(b *testing.B) {
+	benchBytes(b, indexSizes, bmIndexRune(IndexRune))
+}
+
+func BenchmarkIndexRuneASCII(b *testing.B) {
+	benchBytes(b, indexSizes, bmIndexRuneASCII(IndexRune))
+}
+
+func bmIndexRuneASCII(index func([]byte, rune) int) func(b *testing.B, n int) {
+	return func(b *testing.B, n int) {
+		buf := bmbuf[0:n]
+		buf[n-1] = 'x'
+		for i := 0; i < b.N; i++ {
+			j := index(buf, 'x')
+			if j != n-1 {
+				b.Fatal("bad index", j)
+			}
+		}
+		buf[n-1] = '\x00'
+	}
+}
+
+func bmIndexRune(index func([]byte, rune) int) func(b *testing.B, n int) {
+	return func(b *testing.B, n int) {
+		buf := bmbuf[0:n]
+		utf8.EncodeRune(buf[n-3:], '世')
+		for i := 0; i < b.N; i++ {
+			j := index(buf, '世')
+			if j != n-3 {
+				b.Fatal("bad index", j)
+			}
+		}
+		buf[n-3] = '\x00'
+		buf[n-2] = '\x00'
+		buf[n-1] = '\x00'
+	}
+}
+
 func BenchmarkEqual(b *testing.B) {
 	b.Run("0", func(b *testing.B) {
 		var buf [4]byte
