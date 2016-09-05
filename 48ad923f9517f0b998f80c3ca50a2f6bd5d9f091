@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1654530d_ec0f3fe5",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3226,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-09-05T15:53:37Z",
+      "side": 1,
+      "message": "I would call this intDivide or something.  It doesn\u0027t just do the check, it generates the divide also.",
+      "revId": "48ad923f9517f0b998f80c3ca50a2f6bd5d9f091",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
