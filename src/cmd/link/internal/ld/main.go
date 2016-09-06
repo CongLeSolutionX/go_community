@@ -196,6 +196,15 @@ func Main() {
 	}
 	ctxt.loadlib()
 
+	if ctxt.DynlinkingGo() {
+		// Disable DWARF when dynamically linking.
+		// Currently the linker panics when generating DWARF for
+		// dynamically linked programs.
+		//
+		// TODO(mwhudson): remove when fixed
+		*FlagW = true
+	}
+
 	ctxt.checkstrdata()
 	deadcode(ctxt)
 	fieldtrack(ctxt)
