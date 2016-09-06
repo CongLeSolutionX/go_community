@@ -34,6 +34,24 @@
       "revId": "4cfb34a642514ae8d1bdcf3760dcf1ae35c1caad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1654530d_bae059e9",
+        "filename": "src/compress/internal/testutil/bitgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-06T18:12:40Z",
+      "side": 1,
+      "message": "Yeah, I think this is reasonable.\n\nIs BitGen an existing format?  It looks familiar with Python somehow?",
+      "parentUuid": "11db7d69_483c83ce",
+      "revId": "4cfb34a642514ae8d1bdcf3760dcf1ae35c1caad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
