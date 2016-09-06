@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "96e9236c_c8db63e1",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-06T15:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1654530d_2cfaf7d6",
+      "revId": "71cc10907e0e89a26b7d9c360a5019466b37e879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1654530d_2cd31759",
         "filename": "src/regexp/all_test.go",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "36b797b7_6a5f9744",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-06T15:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1654530d_2cd31759",
+      "revId": "71cc10907e0e89a26b7d9c360a5019466b37e879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1654530d_8cea0bfe",
         "filename": "src/regexp/all_test.go",
         "patchSetId": 10
@@ -47,6 +83,24 @@
       "writtenOn": "2016-09-05T15:06:54Z",
       "side": 1,
       "message": "remove the []byte-\u003estring allocation here, since that\u0027s distracting from what you\u0027re actually trying to measure (that this change is removing allocs).\n\nif !bytes.Equal(subs, wantSubs) {\n ...",
+      "revId": "71cc10907e0e89a26b7d9c360a5019466b37e879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96e9236c_28e64fa9",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-06T15:51:33Z",
+      "side": 1,
+      "message": "Actually, this line doesn\u0027t trigger memory allocations - see benchmark results in the commit message.",
+      "parentUuid": "1654530d_8cea0bfe",
       "revId": "71cc10907e0e89a26b7d9c360a5019466b37e879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -81,6 +135,24 @@
       "writtenOn": "2016-09-05T15:06:54Z",
       "side": 1,
       "message": "same comments as above on the rest of these...",
+      "revId": "71cc10907e0e89a26b7d9c360a5019466b37e879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91668dcf_3db43b3e",
+        "filename": "src/regexp/all_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-06T15:51:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1654530d_ecccdfb3",
       "revId": "71cc10907e0e89a26b7d9c360a5019466b37e879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
