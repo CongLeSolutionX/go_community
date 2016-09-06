@@ -52,6 +52,24 @@
       "revId": "4cfb34a642514ae8d1bdcf3760dcf1ae35c1caad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6f8fb8b_acb223eb",
+        "filename": "src/compress/internal/testutil/bitgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-06T18:39:13Z",
+      "side": 1,
+      "message": "I made it up. It\u0027s heavily inspired by the Python struct package, which is why it may look familiar: https://docs.python.org/2/library/struct.html",
+      "parentUuid": "1654530d_bae059e9",
+      "revId": "4cfb34a642514ae8d1bdcf3760dcf1ae35c1caad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
