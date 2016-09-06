@@ -16,6 +16,24 @@
       "revId": "a82f84f02c51cdcb893024c26b93d41ae74ac384",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6f8fb8b_12deec5f",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-06T23:01:28Z",
+      "side": 1,
+      "message": "Ouch! thank you for your suggestions. Done.",
+      "parentUuid": "1654530d_9af11d60",
+      "revId": "a82f84f02c51cdcb893024c26b93d41ae74ac384",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
