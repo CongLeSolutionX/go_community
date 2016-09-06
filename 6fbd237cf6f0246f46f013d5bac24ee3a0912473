@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1654530d_ba085984",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-06T15:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1654530d_1a21ad0f",
+      "revId": "6fbd237cf6f0246f46f013d5bac24ee3a0912473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1654530d_da22f511",
         "filename": "src/bytes/bytes.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-06T15:26:31Z",
       "side": 1,
       "message": "I\u0027d drop the blank lines in this function. It doesn\u0027t match the rest of the file to have it so sparse.",
+      "revId": "6fbd237cf6f0246f46f013d5bac24ee3a0912473",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1654530d_9a059d6e",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-06T15:43:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1654530d_da22f511",
       "revId": "6fbd237cf6f0246f46f013d5bac24ee3a0912473",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
