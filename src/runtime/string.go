@@ -5,7 +5,6 @@
 package runtime
 
 import (
-	"runtime/internal/atomic"
 	"unsafe"
 )
 
@@ -253,12 +252,7 @@ func rawstring(size int) (s string, b []byte) {
 
 	*(*slice)(unsafe.Pointer(&b)) = slice{p, size, size}
 
-	for {
-		ms := maxstring
-		if uintptr(size) <= ms || atomic.Casuintptr((*uintptr)(unsafe.Pointer(&maxstring)), ms, uintptr(size)) {
-			return
-		}
-	}
+	return
 }
 
 // rawbyteslice allocates a new byte slice. The byte slice is not zeroed.
@@ -371,18 +365,10 @@ func findnullw(s *uint16) int {
 	return l
 }
 
-var maxstring uintptr = 256 // a hint for print
-
 //go:nosplit
 func gostringnocopy(str *byte) string {
 	ss := stringStruct{str: unsafe.Pointer(str), len: findnull(str)}
 	s := *(*string)(unsafe.Pointer(&ss))
-	for {
-		ms := maxstring
-		if uintptr(len(s)) <= ms || atomic.Casuintptr(&maxstring, ms, uintptr(len(s))) {
-			break
-		}
-	}
 	return s
 }
 
