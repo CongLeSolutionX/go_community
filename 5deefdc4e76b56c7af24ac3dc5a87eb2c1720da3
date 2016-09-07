@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f645ffe5_bd20ff0c",
+        "filename": "src/cmd/asm/internal/arch/ppc64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-07T19:51:27Z",
+      "side": 1,
+      "message": "that\u0027s a long way to write:\n\n   return op \u003d\u003d ppc64.AISEL\n\nI guess you expect more ops?",
+      "revId": "5deefdc4e76b56c7af24ac3dc5a87eb2c1720da3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
