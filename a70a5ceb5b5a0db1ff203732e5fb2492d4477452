@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f645ffe5_9df3c3d3",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-07T20:57:36Z",
+      "side": 1,
+      "message": "The error at tip if I remove -w is:\n\n##### ../misc/cgo/testshared\n--- FAIL: TestTrivialExecutable (0.10s)\n        shared_test.go:66: executing go install -installsuffix\u003d5577006791947779410 -linkshared trivial failed exit status 2:\n                # trivial\n                panic: runtime error: invalid memory address or nil pointer dereference\n                [signal SIGSEGV: segmentation violation code\u003d0x1 addr\u003d0x8 pc\u003d0x4cb846]\n\n                goroutine 1 [running]:\n                panic(0x5a3ec0, 0xc420010110)\n                        /usr/local/google/home/crawshaw/go/src/runtime/panic.go:500 +0x1a0\n                cmd/link/internal/ld.newtype(0xc4204f8000, 0xc4206e7040, 0xc42006b5c0)\n                        /usr/local/google/home/crawshaw/go/src/cmd/link/internal/ld/dwarf.go:518 +0x14e6\n                cmd/link/internal/ld.defgotype(0xc4204f8000, 0xc4206e7040, 0x12)\n                        /usr/local/google/home/crawshaw/go/src/cmd/link/internal/ld/dwarf.go:374 +0x1e5\n                cmd/link/internal/ld.dwarfgeneratedebugsyms(0xc4204f8000)\n                        /usr/local/google/home/crawshaw/go/src/cmd/link/internal/ld/dwarf.go:1447 +0x852\n                cmd/link/internal/ld.(*Link).dodata(0xc4204f8000)\n                        /usr/local/google/home/crawshaw/go/src/cmd/link/internal/ld/data.go:1688 +0x2f12\n                cmd/link/internal/ld.Main()\n                        /usr/local/google/home/crawshaw/go/src/cmd/link/internal/ld/main.go:219 +0xb72\n                cmd/link/internal/amd64.Main()\n                        /usr/local/google/home/crawshaw/go/src/cmd/link/internal/amd64/obj.go:45 +0x19\n                main.main()\n                        /usr/local/google/home/crawshaw/go/src/cmd/link/main.go:28 +0x27d",
+      "parentUuid": "1678d3fe_c63cc2d0",
+      "revId": "a70a5ceb5b5a0db1ff203732e5fb2492d4477452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d66d5b44_a4534233",
         "filename": "src/cmd/link/internal/ld/main.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-07T17:41:46Z",
       "side": 1,
       "message": "I\u0027m finding the current flag usage somewhat confusing but I suppose that is a different issue.",
+      "revId": "a70a5ceb5b5a0db1ff203732e5fb2492d4477452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f645ffe5_fdee87e8",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-07T20:57:36Z",
+      "side": 1,
+      "message": "I spent a couple of hours yesterday trying to improve the flag initialization in cmd/link. There are several fuzzy phases, I wanted them less fuzzy. The result wasn\u0027t obviously better so I threw it out.\n\nThere are a lot of conditions here. The internal/external linking dimension is particularly confusing to me.",
+      "parentUuid": "d66d5b44_a4534233",
       "revId": "a70a5ceb5b5a0db1ff203732e5fb2492d4477452",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
