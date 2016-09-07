@@ -16,6 +16,24 @@
       "revId": "849c2ea40b0ff82ee31a0403c1e43f51282c8948",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f645ffe5_a369be21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-07T22:37:06Z",
+      "side": 1,
+      "message": "I don\u0027t think COPY relocations will happen here. When we link the binary, we have all the symbols it needs.\n\nEven if they did, all the copying would happen when the main program starts, long before a plugin is loaded. The plugin itself will use the symbol as laid down.\n\nIt is even OK if the main binary uses position-dependent code, as long as it properly exports all the symbols the plugin might need.",
+      "parentUuid": "f645ffe5_1d8fb32d",
+      "revId": "849c2ea40b0ff82ee31a0403c1e43f51282c8948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
