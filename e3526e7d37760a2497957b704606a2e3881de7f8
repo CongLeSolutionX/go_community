@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "96e76324_52231417",
+        "filename": "src/cmd/compile/internal/gc/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-09-07T17:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6f8fb8b_668a1271",
+      "revId": "e3526e7d37760a2497957b704606a2e3881de7f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6f8fb8b_c69e66b4",
         "filename": "src/cmd/compile/internal/gc/fmt_test.go",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "96e76324_3230905a",
+        "filename": "src/cmd/compile/internal/gc/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-09-07T17:17:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6f8fb8b_c69e66b4",
+      "revId": "e3526e7d37760a2497957b704606a2e3881de7f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6f8fb8b_06998ec9",
         "filename": "src/cmd/compile/internal/gc/fmt_test.go",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2016-09-07T16:08:29Z",
       "side": 1,
       "message": "You\u0027ll want something like\n\ntestenv.MustHaveGoBuild(t)\n\nto avoid running on nacl. Although it might be better to add something more precise to testenv (it\u0027s not really go build you need here) and also use it in go/types/stdlib_test.go.",
+      "revId": "e3526e7d37760a2497957b704606a2e3881de7f8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96e76324_f2b4488e",
+        "filename": "src/cmd/compile/internal/gc/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-09-07T17:17:36Z",
+      "side": 1,
+      "message": "using testenv.MustHaveGoBuild(t) - goo enough for now",
+      "parentUuid": "d6f8fb8b_06998ec9",
       "revId": "e3526e7d37760a2497957b704606a2e3881de7f8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
