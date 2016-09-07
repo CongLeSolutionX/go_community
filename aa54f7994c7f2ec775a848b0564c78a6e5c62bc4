@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "96e76324_122d8cfe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-09-07T16:55:28Z",
+      "side": 1,
+      "message": "maybe \"net: remove parsing of negative decimals in IPv4 literal\" ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "aa54f7994c7f2ec775a848b0564c78a6e5c62bc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96e76324_d2c8244b",
         "filename": "src/net/ip_test.go",
         "patchSetId": 3
