@@ -7,90 +7,112 @@ package ssa
 // tighten moves Values closer to the Blocks in which they are used.
 // This can reduce the amount of register spilling required,
 // if it doesn't also create more live values.
-// For now, it handles only the trivial case in which a
-// Value with one or fewer args is only used in a single Block,
-// and not in a phi value.
-// TODO: Do something smarter.
 // A Value can be moved to any block that
 // dominates all blocks in which it is used.
-// Figure out when that will be an improvement.
 func tighten(f *Func) {
-	// For each value, the number of blocks in which it is used.
-	uses := make([]int32, f.NumValues())
+	canMove := make([]bool, f.NumValues())
+	for _, b := range f.Blocks {
+		for _, v := range b.Values {
+			switch v.Op {
+			case OpPhi, OpGetClosurePtr, OpArg, OpSelect0, OpSelect1:
+				// Phis need to stay in their block.
+				// GetClosurePtr & Arg must stay in the entry block.
+				// Tuple selectors must stay with the tuple generator.
+				continue
+			}
+			if len(v.Args) > 0 && v.Args[len(v.Args)-1].Type.IsMemory() {
+				// We can't move values which have a memory arg - it might
+				// make two memory values live across a block boundary.
+				continue
+			}
+			// Count arguments which will need a register.
+			narg := 0
+			for _, a := range v.Args {
+				switch a.Op {
+				case OpConst8, OpConst16, OpConst32, OpConst64, OpAddr:
+					// Probably foldable into v, don't count as an argument needing a register.
+					// TODO: move tighten to a machine-dependent phase and use v.rematerializeable()?
+				default:
+					narg++
+				}
+			}
+			if narg >= 2 && !v.Type.IsBoolean() {
+				// Don't move values with more than one input, as that may
+				// increase register pressure.
+				// We make an exception for boolean-typed values, as they will
+				// likely be converted to flags, and we want flag generators
+				// moved next to uses (because we only have 1 flag register).
+				continue
+			}
+			canMove[v.ID] = true
+		}
+	}
 
-	// For each value, whether that value is ever an arg to a phi value.
-	phi := make([]bool, f.NumValues())
+	// Build data structure for fast least-common-ancestor queries.
+	lca := makeLCArange(f)
+	//lca := makeLCAeasy(f)
 
-	// For each value, one block in which that value is used.
+	// For each moveable value, record the block that dominates all uses found so far.
 	home := make([]*Block, f.NumValues())
 
 	changed := true
 	for changed {
 		changed = false
 
-		// Reset uses
-		for i := range uses {
-			uses[i] = 0
+		// Reset home
+		for i := range home {
+			home[i] = nil
 		}
-		// No need to reset home; any relevant values will be written anew anyway.
-		// No need to reset phi; once used in a phi, always used in a phi.
 
+		// Compute home locations (for moveable values only).
+		// home location = the least common ancestor of all uses in the dominator tree.
 		for _, b := range f.Blocks {
 			for _, v := range b.Values {
-				for _, w := range v.Args {
-					if v.Op == OpPhi {
-						phi[w.ID] = true
+				for i, a := range v.Args {
+					if !canMove[a.ID] {
+						continue
 					}
-					uses[w.ID]++
-					home[w.ID] = b
+					use := b
+					if v.Op == OpPhi {
+						use = b.Preds[i].b
+					}
+					if home[a.ID] == nil {
+						home[a.ID] = use
+					} else {
+						home[a.ID] = lca.find(home[a.ID], use)
+					}
 				}
 			}
-			if b.Control != nil {
-				uses[b.Control.ID]++
-				home[b.Control.ID] = b
+			if c := b.Control; c != nil {
+				if !canMove[c.ID] {
+					continue
+				}
+				if home[c.ID] == nil {
+					home[c.ID] = b
+				} else {
+					home[c.ID] = lca.find(home[c.ID], b)
+				}
 			}
 		}
 
+		// Move values to home locations.
 		for _, b := range f.Blocks {
 			for i := 0; i < len(b.Values); i++ {
 				v := b.Values[i]
-				switch v.Op {
-				case OpPhi, OpGetClosurePtr, OpConvert, OpArg:
-					// GetClosurePtr & Arg must stay in entry block.
-					// OpConvert must not float over call sites.
-					// TODO do we instead need a dependence edge of some sort for OpConvert?
-					// Would memory do the trick, or do we need something else that relates
-					// to safe point operations?
-					continue
-				default:
-				}
-				if v.Op == OpSelect0 || v.Op == OpSelect1 {
-					// tuple selector must stay with tuple generator
+				h := home[v.ID]
+				if h == nil || h == b {
+					// not moveable, or already in correct place
 					continue
 				}
-				if len(v.Args) > 0 && v.Args[len(v.Args)-1].Type.IsMemory() {
-					// We can't move values which have a memory arg - it might
-					// make two memory values live across a block boundary.
-					continue
-				}
-				if uses[v.ID] == 1 && !phi[v.ID] && home[v.ID] != b && (len(v.Args) < 2 || v.Type.IsBoolean()) {
-					// v is used in exactly one block, and it is not b.
-					// Furthermore, it takes at most one input,
-					// so moving it will not increase the
-					// number of live values anywhere.
-					// Move v to that block.
-					// Also move bool generators even if they have more than 1 input.
-					// They will likely be converted to flags, and we want flag
-					// generators moved next to uses (because we only have 1 flag register).
-					c := home[v.ID]
-					c.Values = append(c.Values, v)
-					v.Block = c
-					last := len(b.Values) - 1
-					b.Values[i] = b.Values[last]
-					b.Values[last] = nil
-					b.Values = b.Values[:last]
-					changed = true
-				}
+				// Move v to the block which (just) dominates its uses.
+				h.Values = append(h.Values, v)
+				v.Block = h
+				last := len(b.Values) - 1
+				b.Values[i] = b.Values[last]
+				b.Values[last] = nil
+				b.Values = b.Values[:last]
+				changed = true
+				i--
 			}
 		}
 	}
