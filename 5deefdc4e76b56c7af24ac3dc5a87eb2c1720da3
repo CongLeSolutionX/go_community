@@ -34,6 +34,24 @@
       "revId": "5deefdc4e76b56c7af24ac3dc5a87eb2c1720da3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56cecbf0_a8757b2a",
+        "filename": "src/cmd/asm/internal/arch/ppc64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-07T23:03:37Z",
+      "side": 1,
+      "message": "No strong opinion. I\u0027ll let your reviewer decide.\n\nJust a passing question.",
+      "parentUuid": "f6ddff2c_c0220012",
+      "revId": "5deefdc4e76b56c7af24ac3dc5a87eb2c1720da3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
