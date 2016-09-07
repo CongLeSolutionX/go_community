@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f645ffe5_60e40c37",
+        "filename": "src/cmd/link/internal/ld/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-09-07T21:56:29Z",
+      "side": 1,
+      "message": "It\u0027s basically that the dwarf bits assume they have access to the dwarf descriptions of everything. So you get a panic if you have a global variable of a type defined in another module, for example.",
+      "parentUuid": "1678d3fe_c63cc2d0",
+      "revId": "a70a5ceb5b5a0db1ff203732e5fb2492d4477452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d66d5b44_a4534233",
         "filename": "src/cmd/link/internal/ld/main.go",
         "patchSetId": 3
