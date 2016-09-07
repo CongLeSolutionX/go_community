@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f645ffe5_1d8fb32d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-09-07T21:08:07Z",
+      "side": 1,
+      "message": "But in that case the executable won\u0027t have been compiled with -dynlink, right? Won\u0027t that mean that the executable will end up using COPY relocs and all the fun they bring? (I\u0027ve forgotten the details here already apparently).",
+      "revId": "849c2ea40b0ff82ee31a0403c1e43f51282c8948",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
