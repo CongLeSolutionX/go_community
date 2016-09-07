@@ -39,6 +39,14 @@ func IsPPC64RLD(op obj.As) bool {
 	return false
 }
 
+func IsPPC64ISEL(op obj.As) bool {
+	switch op {
+	case ppc64.AISEL:
+		return true
+	}
+	return false
+}
+
 // IsPPC64CMP reports whether the op (as defined by an ppc64.A* constant) is
 // one of the CMP instructions that require special handling.
 func IsPPC64CMP(op obj.As) bool {
