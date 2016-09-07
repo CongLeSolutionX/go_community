@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96e76324_d2c8244b",
+        "filename": "src/net/ip_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-09-07T16:49:03Z",
+      "side": 1,
+      "message": "pls add the \"-N.N.N.N\" test to parseIPTests",
+      "revId": "aa54f7994c7f2ec775a848b0564c78a6e5c62bc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
