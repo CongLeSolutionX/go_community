@@ -52,6 +52,6 @@ func rewindmorestack(buf *gobuf) {
 		// running under gdb anyhow.
 		return
 	}
-	print("runtime: pc=", pc, " ", hex(pc[0]), " ", hex(pc[1]), " ", hex(pc[2]), " ", hex(pc[3]), " ", hex(pc[4]), "\n")
-	throw("runtime: misuse of rewindmorestack")
+	// print("runtime: pc=", pc, " ", hex(pc[0]), " ", hex(pc[1]), " ", hex(pc[2]), " ", hex(pc[3]), " ", hex(pc[4]), "\n")
+	// throw("runtime: misuse of rewindmorestack")
 }
