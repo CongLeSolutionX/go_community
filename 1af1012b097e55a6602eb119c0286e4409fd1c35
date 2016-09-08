@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d61d5b4e_44c20e27",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T14:58:35Z",
+      "side": 1,
+      "message": "Will do in a later CL. It doesn\u0027t do anything right now, because there are no unit tests in the plugin package.",
+      "parentUuid": "e5ef02c1_8d9be10c",
+      "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_38fce9ce",
         "filename": "src/plugin/plugin.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-26T18:58:15Z",
       "side": 1,
       "message": "This is a little terse.  We should have a separate doc.go file, so that we don\u0027t have to worry about build constraints, where we can expand on what plugins are and how to use them.",
+      "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6447b3c_0cb837c3",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T14:58:35Z",
+      "side": 1,
+      "message": "Done. I moved the guts out of plugin.go so it could act as documentation for the function and method also.",
+      "parentUuid": "45b8cef5_38fce9ce",
       "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "d61d5b4e_24b512cc",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T14:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_38a3c9f5",
+      "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_b8e0f923",
         "filename": "src/plugin/plugin.go",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "d6447b3c_2cb5f3cb",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T14:58:35Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "45b8cef5_b8e0f923",
+      "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_d844cd25",
         "filename": "src/plugin/plugin.go",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2016-08-26T18:58:15Z",
       "side": 1,
       "message": "Deferring the unlock here means that if an init function in the plugin tries to load another plugin, the program will deadlock.  I think you need to unlock pluginsMu before you call the init function, which probably means you also need to look up the symbols before you call the init function.",
+      "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6447b3c_4cc23f27",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T14:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_d844cd25",
       "revId": "1af1012b097e55a6602eb119c0286e4409fd1c35",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
