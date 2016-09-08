@@ -1,0 +1,1387 @@
+diff --git a/src/cmd/compile/internal/amd64/prog.go b/src/cmd/compile/internal/amd64/prog.go
+index b8f6f06..f237fab 100644
+--- a/src/cmd/compile/internal/amd64/prog.go
++++ b/src/cmd/compile/internal/amd64/prog.go
+@@ -106,6 +106,7 @@ var progtable = [x86.ALAST & obj.AMask]obj.ProgInfo{
+ 	x86.ADIVW & obj.AMask:      {Flags: gc.SizeW | gc.LeftRead | gc.SetCarry, Reguse: AX | DX, Regset: AX | DX},
+ 	x86.ADIVSD & obj.AMask:     {Flags: gc.SizeD | gc.LeftRead | RightRdwr},
+ 	x86.ADIVSS & obj.AMask:     {Flags: gc.SizeF | gc.LeftRead | RightRdwr},
++	x86.AFAKEMOVQ & obj.AMask:  {Flags: gc.SizeQ | gc.LeftRead | gc.RightWrite | gc.Move},
+ 	x86.AIDIVB & obj.AMask:     {Flags: gc.SizeB | gc.LeftRead | gc.SetCarry, Reguse: AX, Regset: AX},
+ 	x86.AIDIVL & obj.AMask:     {Flags: gc.SizeL | gc.LeftRead | gc.SetCarry, Reguse: AX | DX, Regset: AX | DX},
+ 	x86.AIDIVQ & obj.AMask:     {Flags: gc.SizeQ | gc.LeftRead | gc.SetCarry, Reguse: AX | DX, Regset: AX | DX},
+diff --git a/src/cmd/compile/internal/amd64/ssa.go b/src/cmd/compile/internal/amd64/ssa.go
+index 20341db..1fdda73 100644
+--- a/src/cmd/compile/internal/amd64/ssa.go
++++ b/src/cmd/compile/internal/amd64/ssa.go
+@@ -534,7 +534,9 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
+ 		p.From.Val = math.Float64frombits(uint64(v.AuxInt))
+ 		p.To.Type = obj.TYPE_REG
+ 		p.To.Reg = x
+-	case ssa.OpAMD64MOVQload, ssa.OpAMD64MOVSSload, ssa.OpAMD64MOVSDload, ssa.OpAMD64MOVLload, ssa.OpAMD64MOVWload, ssa.OpAMD64MOVBload, ssa.OpAMD64MOVBQSXload, ssa.OpAMD64MOVWQSXload, ssa.OpAMD64MOVLQSXload, ssa.OpAMD64MOVOload:
++	case ssa.OpAMD64MOVQload, ssa.OpAMD64MOVSSload, ssa.OpAMD64MOVSDload, ssa.OpAMD64MOVLload, ssa.OpAMD64MOVWload, ssa.OpAMD64MOVBload, ssa.OpAMD64MOVBQSXload, ssa.OpAMD64MOVWQSXload, ssa.OpAMD64MOVLQSXload, ssa.OpAMD64MOVOload,
++		ssa.OpAMD64LOADArgI0, ssa.OpAMD64LOADArgI1, ssa.OpAMD64LOADArgI2, ssa.OpAMD64LOADArgI3, ssa.OpAMD64LOADArgI4, ssa.OpAMD64LOADArgI5,
++		ssa.OpAMD64LOADArgF0, ssa.OpAMD64LOADArgF1, ssa.OpAMD64LOADArgF2, ssa.OpAMD64LOADArgF3, ssa.OpAMD64LOADArgF4, ssa.OpAMD64LOADArgF5:
+ 		p := gc.Prog(v.Op.Asm())
+ 		p.From.Type = obj.TYPE_MEM
+ 		p.From.Reg = gc.SSARegNum(v.Args[0])
+@@ -582,7 +584,9 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
+ 		gc.AddAux(&p.From, v)
+ 		p.To.Type = obj.TYPE_REG
+ 		p.To.Reg = gc.SSARegNum(v)
+-	case ssa.OpAMD64MOVQstore, ssa.OpAMD64MOVSSstore, ssa.OpAMD64MOVSDstore, ssa.OpAMD64MOVLstore, ssa.OpAMD64MOVWstore, ssa.OpAMD64MOVBstore, ssa.OpAMD64MOVOstore:
++	case ssa.OpAMD64MOVQstore, ssa.OpAMD64MOVSSstore, ssa.OpAMD64MOVSDstore, ssa.OpAMD64MOVLstore, ssa.OpAMD64MOVWstore, ssa.OpAMD64MOVBstore, ssa.OpAMD64MOVOstore,
++		ssa.OpAMD64STOREArgI0, ssa.OpAMD64STOREArgI1, ssa.OpAMD64STOREArgI2, ssa.OpAMD64STOREArgI3, ssa.OpAMD64STOREArgI4, ssa.OpAMD64STOREArgI5,
++		ssa.OpAMD64STOREArgF0, ssa.OpAMD64STOREArgF1, ssa.OpAMD64STOREArgF2, ssa.OpAMD64STOREArgF3, ssa.OpAMD64STOREArgF4, ssa.OpAMD64STOREArgF5:
+ 		p := gc.Prog(v.Op.Asm())
+ 		p.From.Type = obj.TYPE_REG
+ 		p.From.Reg = gc.SSARegNum(v.Args[1])
+diff --git a/src/cmd/compile/internal/gc/lex.go b/src/cmd/compile/internal/gc/lex.go
+index 0d49b23..b8b0392 100644
+--- a/src/cmd/compile/internal/gc/lex.go
++++ b/src/cmd/compile/internal/gc/lex.go
+@@ -74,6 +74,7 @@ const (
+ 	Nowritebarrierrec        // error on write barrier in this or recursive callees
+ 	CgoUnsafeArgs            // treat a pointer to one arg as a pointer to them all
+ 	UintptrEscapes           // pointers converted to uintptr escape
++	RegisterArgs             // args pass in registers, as appropriate to architecture
+ )
+ 
+ func PragmaValue(verb string) Pragma {
+@@ -120,6 +121,8 @@ func PragmaValue(verb string) Pragma {
+ 		// in the argument list.
+ 		// Used in syscall/dll_windows.go.
+ 		return UintptrEscapes
++	case "go:register_args":
++		return RegisterArgs
+ 	}
+ 	return 0
+ }
+@@ -939,6 +942,7 @@ func (l *lexer) getlinepragma() rune {
+ 			Lookup(f[1]).Linkname = f[2]
+ 		default:
+ 			l.pragma |= PragmaValue(verb)
++
+ 		}
+ 		return c
+ 	}
+diff --git a/src/cmd/compile/internal/gc/parser.go b/src/cmd/compile/internal/gc/parser.go
+index c1bd6ca..16b3581 100644
+--- a/src/cmd/compile/internal/gc/parser.go
++++ b/src/cmd/compile/internal/gc/parser.go
+@@ -1821,6 +1821,9 @@ func (p *parser) xfndcl() *Node {
+ 	f.Func.Endlineno = lineno
+ 
+ 	funcbody(f)
++	if f.Func.Pragma&RegisterArgs != 0 {
++		Warnl(lineno, "Copied register args comment for %v", f.Func.Nname)
++	}
+ 
+ 	return f
+ }
+diff --git a/src/cmd/compile/internal/gc/ssa.go b/src/cmd/compile/internal/gc/ssa.go
+index bba40f6..5b031bc 100644
+--- a/src/cmd/compile/internal/gc/ssa.go
++++ b/src/cmd/compile/internal/gc/ssa.go
+@@ -77,6 +77,13 @@ func buildssa(fn *Node) *ssa.Func {
+ 		}
+ 	}()
+ 
++	registerArgs := fn.Func.Pragma&RegisterArgs != 0
++	if registerArgs {
++		Warnl(lineno, "Saw register args def %v", fn)
++	}
++	var ras regArgState
++	s.initRegArgState(registerArgs, &ras)
++
+ 	// Allocate starting block
+ 	s.f.Entry = s.f.NewBlock(ssa.BlockPlain)
+ 
+@@ -93,22 +100,29 @@ func buildssa(fn *Node) *ssa.Func {
+ 	s.varsyms = map[*Node]interface{}{}
+ 
+ 	// Generate addresses of local declarations
+-	s.decladdrs = map[*Node]*ssa.Value{}
++	s.decladdrs = map[*Node]argAddr{}
+ 	for _, n := range fn.Func.Dcl {
+ 		switch n.Class {
+ 		case PPARAM, PPARAMOUT:
+ 			aux := s.lookupSymbol(n, &ssa.ArgSymbol{Typ: n.Type, Node: n})
+-			s.decladdrs[n] = s.entryNewValue1A(ssa.OpAddr, Ptrto(n.Type), aux, s.sp)
+ 			if n.Class == PPARAMOUT && s.canSSA(n) {
+ 				// Save ssa-able PPARAMOUT variables so we can
+ 				// store them back to the stack at the end of
+ 				// the function.
++				// TODO: register argument/returns, insert fake stores there as necessary.
+ 				s.returns = append(s.returns, n)
+ 			}
+-			if n.Class == PPARAM && s.canSSA(n) && n.Type.IsPtrShaped() {
+-				s.ptrargs = append(s.ptrargs, n)
+-				n.SetNotLiveAtEnd(true) // SSA takes care of this explicitly
++			var reg ArgReg
++			if n.Class == PPARAM {
++				if registerArgs && s.argFitsInRegisters(n.Type) {
++					reg = ras.regFor(n.Type)
++				}
++				if s.canSSA(n) && n.Type.IsPtrShaped() {
++					s.ptrargs = append(s.ptrargs, n)
++					n.SetNotLiveAtEnd(true) // SSA takes care of this explicitly
++				}
+ 			}
++			s.decladdrs[n] = argAddr{addr: s.entryNewValue1A(ssa.OpAddr, Ptrto(n.Type), aux, s.sp), reg: reg}
+ 		case PAUTO:
+ 			// processed at each use, to prevent Addr coming
+ 			// before the decl.
+@@ -178,6 +192,67 @@ func buildssa(fn *Node) *ssa.Func {
+ 	return s.f
+ }
+ 
++// An ArgReg is a small index specifying argument registers in a machine-independent way (by counting them)
++type ArgReg uint8
++
++const (
++	ArgRegNone ArgReg = iota
++	ArgRegI0
++	ArgRegI1
++	ArgRegI2
++	ArgRegF0
++	ArgRegF1
++	ArgRegF2
++)
++
++// ArgRegLoads/Stores are indexed by ArgReg, providing the respective opcodes for "loading"/"storing" args.
++var ArgRegLoads = [...]ssa.Op{ssa.OpInvalid, ssa.OpLoadArgRegI0, ssa.OpLoadArgRegI1, ssa.OpLoadArgRegI2, ssa.OpLoadArgRegF0, ssa.OpLoadArgRegF1, ssa.OpLoadArgRegF2}
++var ArgRegStores = [...]ssa.Op{ssa.OpInvalid, ssa.OpLoadArgRegI0, ssa.OpLoadArgRegI1, ssa.OpLoadArgRegI2, ssa.OpLoadArgRegF0, ssa.OpLoadArgRegF1, ssa.OpLoadArgRegF2}
++var ArgRegGp = [...]ArgReg{ArgRegI0, ArgRegI1, ArgRegI2}
++var ArgRegFp = [...]ArgReg{ArgRegF0, ArgRegF1, ArgRegF2}
++
++type regArgState struct {
++	gp []ArgReg
++	fp []ArgReg
++}
++
++func (s *state) initRegArgState(registerArgs bool, ras *regArgState) {
++	if !registerArgs {
++		return
++	}
++	ras.gp = ArgRegGp[0:s.config.NumArgGpReg]
++	ras.fp = ArgRegFp[0:s.config.NumArgFpReg]
++}
++
++// TODO want to handle multiple register args, in particular interfaces, strings, and slices. Keep amd64p32 in mind.
++func (a *regArgState) regFor(t *Type) ArgReg {
++	if t.IsFloat() {
++		if len(a.fp) <= 0 {
++			return ArgRegNone
++		}
++		r := a.fp[0]
++		a.fp = a.fp[1:]
++		return r
++	}
++	if len(a.gp) <= 0 {
++		return ArgRegNone
++	}
++	r := a.gp[0]
++	a.gp = a.gp[1:]
++	return r
++}
++
++// TODO want to handle multiple register args, in particular interfaces, strings, and slices. Keep amd64p32 in mind.
++func (s *state) argFitsInRegisters(t *Type) bool {
++	return canSSAType(t) && t.Size() <= s.config.IntSize
++}
++
++type argAddr struct {
++	addr      *ssa.Value // address of arg, initialized by caller if no reg provided.
++	reg       ArgReg     // register containing value if any.
++	mustSpill bool       // if address is taken, must spill in prologue
++}
++
+ type state struct {
+ 	// configuration (arch) information
+ 	config *ssa.Config
+@@ -210,7 +285,7 @@ type state struct {
+ 	defvars []map[*Node]*ssa.Value
+ 
+ 	// addresses of PPARAM and PPARAMOUT variables.
+-	decladdrs map[*Node]*ssa.Value
++	decladdrs map[*Node]argAddr
+ 
+ 	// symbols for PEXTERN, PAUTO and PPARAMOUT variables so they can be reused.
+ 	varsyms map[*Node]interface{}
+@@ -395,6 +470,11 @@ func (s *state) newValue3(op ssa.Op, t ssa.Type, arg0, arg1, arg2 *ssa.Value) *s
+ 	return s.curBlock.NewValue3(s.peekLine(), op, t, arg0, arg1, arg2)
+ }
+ 
++// newValue3 adds a new value with three arguments to the current block.
++func (s *state) newValue3A(op ssa.Op, t ssa.Type, aux interface{}, arg0, arg1, arg2 *ssa.Value) *ssa.Value {
++	return s.curBlock.NewValue3A(s.peekLine(), op, t, aux, arg0, arg1, arg2)
++}
++
+ // newValue3I adds a new value with three arguments and an auxint value to the current block.
+ func (s *state) newValue3I(op ssa.Op, t ssa.Type, aux int64, arg0, arg1, arg2 *ssa.Value) *ssa.Value {
+ 	return s.curBlock.NewValue3I(s.peekLine(), op, t, aux, arg0, arg1, arg2)
+@@ -476,9 +556,9 @@ func (s *state) constInt(t ssa.Type, c int64) *ssa.Value {
+ 	return s.constInt32(t, int32(c))
+ }
+ 
+-func (s *state) stmts(a Nodes) {
+-	for _, x := range a.Slice() {
+-		s.stmt(x)
++func (s *state) stmts(l Nodes) {
++	for _, n := range l.Slice() {
++		s.stmt(n)
+ 	}
+ }
+ 
+@@ -489,6 +569,60 @@ func (s *state) stmtList(l Nodes) {
+ 	}
+ }
+ 
++var chatAboutAssignment bool
++
++// argList is like stmtList, but specialized for potentially passing parameters
++// in registers.
++func (s *state) argList(registerArgs bool, l Nodes) {
++	var ras regArgState
++	s.initRegArgState(registerArgs, &ras)
++	chatAboutAssignment = true
++	defer func() { chatAboutAssignment = false }()
++	for _, oas := range l.Slice() {
++		if oas.Op != OAS {
++			panic("Expected only OAS in arg list")
++		}
++
++		rhs := oas.Right
++		left := oas.Left
++		t := left.Type
++
++		// TODO: Some SSA-able types are larger than ints and should be passed in registers.
++		// TODO: Check register type and if a register is available.
++		// TODO:
++		// TODO: This logic should be put in a single place because the callee must make the same choices.
++		if !registerArgs || !s.argFitsInRegisters(t) {
++			s.stmt(oas)
++			continue
++		}
++		reg := ras.regFor(t)
++		if reg == ArgRegNone {
++			s.stmt(oas)
++			continue
++		}
++		// Outline/specialized a bit of the OAS case from s.stmt.
++		if rhs != nil {
++			if rhs.Op == OSTRUCTLIT || rhs.Op == OARRAYLIT {
++				rhs = nil
++			} else {
++				if rhs.Op == OAPPEND {
++					panic("Can't deal with OAPPEND in parameter list")
++				}
++			}
++		}
++		var r *ssa.Value
++		if rhs == nil {
++			r = s.zeroVal(t)
++		} else {
++			r = s.expr(rhs)
++		}
++
++		addr, _ := s.addr(left, false)
++		// TODO: replace this with optional assignment to register using appropriate register, "reg"
++		s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, t.Size(), addr, r, s.mem())
++	}
++}
++
+ // ssaStmt converts the statement n to SSA and adds it to s.
+ func (s *state) stmt(n *Node) {
+ 	s.pushLine(n.Lineno)
+@@ -939,7 +1073,7 @@ func (s *state) exit() *ssa.Block {
+ 
+ 	// Store SSAable PPARAMOUT variables back to stack locations.
+ 	for _, n := range s.returns {
+-		addr := s.decladdrs[n]
++		addr := s.decladdrs[n].addr // TODO not handling returns in regs yet.
+ 		val := s.variable(n, n.Type)
+ 		s.vars[&memVar] = s.newValue1A(ssa.OpVarDef, ssa.TypeMem, n, s.mem())
+ 		s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, n.Type.Size(), addr, val, s.mem())
+@@ -1916,7 +2050,7 @@ func (s *state) expr(n *Node) *ssa.Value {
+ 
+ 	case ODOT:
+ 		t := n.Left.Type
+-		if canSSAType(t) {
++		if canSSAType(t) { // TODO register arguments/results likely to interact with this.
+ 			v := s.expr(n.Left)
+ 			return s.newValue1I(ssa.OpStructSelect, n.Type, int64(fieldIdx(n)), v)
+ 		}
+@@ -1946,10 +2080,10 @@ func (s *state) expr(n *Node) *ssa.Value {
+ 				ptr = s.newValue2(ssa.OpAddPtr, ptrtyp, ptr, i)
+ 			}
+ 			return s.newValue2(ssa.OpLoad, Types[TUINT8], ptr, s.mem())
+-		case n.Left.Type.IsSlice():
++		case n.Left.Type.IsSlice(): // TODO register args/results?
+ 			p, _ := s.addr(n, false)
+ 			return s.newValue2(ssa.OpLoad, n.Left.Type.Elem(), p, s.mem())
+-		case n.Left.Type.IsArray():
++		case n.Left.Type.IsArray(): // TODO register args/results?
+ 			// TODO: fix when we can SSA arrays of length 1.
+ 			p, _ := s.addr(n, false)
+ 			return s.newValue2(ssa.OpLoad, n.Left.Type.Elem(), p, s.mem())
+@@ -2057,7 +2191,10 @@ func (s *state) expr(n *Node) *ssa.Value {
+ 		fallthrough
+ 
+ 	case OCALLINTER, OCALLMETH:
+-		a := s.call(n, callNormal)
++		inreg, a := s.call(n, callNormal)
++		if inreg {
++			return a
++		}
+ 		return s.newValue2(ssa.OpLoad, n.Type, a, s.mem())
+ 
+ 	case OGETG:
+@@ -2746,8 +2883,9 @@ func (s *state) intrinsicFirstArg(n *Node) *ssa.Value {
+ }
+ 
+ // Calls the function n using the specified call type.
+-// Returns the address of the return value (or nil if none).
+-func (s *state) call(n *Node, k callKind) *ssa.Value {
++// Returns the an indication that the result is in a register
++// or the address of the return value (or nil if none).
++func (s *state) call(n *Node, k callKind) (inreg bool, result *ssa.Value) {
+ 	var sym *Sym           // target symbol (if static)
+ 	var closure *ssa.Value // ptr to closure to run (if dynamic)
+ 	var codeptr *ssa.Value // ptr to target code (if dynamic)
+@@ -2792,14 +2930,44 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
+ 		}
+ 		rcvr = s.newValue1(ssa.OpIData, Types[TUINTPTR], i)
+ 	}
++
++	// should call use register args?
++	registerArgs := fn.Op == ONAME && fn.Name != nil && fn.Name.Defn != nil && fn.Name.Defn.Func != nil &&
++		fn.Name.Defn.Func.Pragma&RegisterArgs != 0
++
++	if registerArgs {
++		Warnl(lineno, "Saw register args call %v", fn)
++	}
++
++	// a call that uses register args is similar to a normal call -- the same memory on the caller's
++	// stack is reserved, so that if the stack must grow there is an easy place to spill to.
++	// compilation of the code to initialize the args (a list of OAS nodes) uses a fake store for
++	// each of the parameters passed in a register, and the caller side will in turn use a fake load
++	// to obtain them from the stack.
++	//
++	// Fake loads and stores help in several ways:
++	// - they make the lifetime of the parameters explicit, useful for understanding what the compiler is doing.
++	// - they require less modification of the code in plive to track pointer lifetimes.
++	// - they require less modification of the register allocator -- there is a fake load opcode
++	//   for each parameter register that only takes that register, which ensures that the register allocator
++	//   will deliver it there.  The only requirement is that the scheduler place all fake loads and stores
++	//   adjacent to their call, and that parameter registers are not reused between first fake store and last
++	//   fake load.
++	//
++	// A fake load/store models movement of an entire register, and thus do not come in byte/half/word/double
++	// integer sizes (floats, TBD, depending on architectural variation, but S and D might be needed).
++
+ 	dowidth(fn.Type)
++
++	// TODO: check args/return for cases that we handle/not
++
+ 	stksize := fn.Type.ArgWidth() // includes receiver
+ 
+ 	// Run all argument assignments. The arg slots have already
+ 	// been offset by the appropriate amount (+2*widthptr for go/defer,
+ 	// +widthptr for interface calls).
+ 	// For OCALLMETH, the receiver is set in these statements.
+-	s.stmtList(n.List)
++	s.argList(registerArgs, n.List)
+ 
+ 	// Set receiver (for interface calls)
+ 	if rcvr != nil {
+@@ -2867,10 +3035,11 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
+ 	res := n.Left.Type.Results()
+ 	if res.NumFields() == 0 || k != callNormal {
+ 		// call has no return value. Continue with the next statement.
+-		return nil
++		return
+ 	}
+ 	fp := res.Field(0)
+-	return s.entryNewValue1I(ssa.OpOffPtr, Ptrto(fp.Type), fp.Offset+Ctxt.FixedFrameSize(), s.sp)
++	result = s.entryNewValue1I(ssa.OpOffPtr, Ptrto(fp.Type), fp.Offset+Ctxt.FixedFrameSize(), s.sp)
++	return
+ }
+ 
+ // etypesign returns the signed-ness of e, for integer/pointer etypes.
+@@ -2926,7 +3095,14 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
+ 			return v, false
+ 		case PPARAM:
+ 			// parameter slot
+-			v := s.decladdrs[n]
++			aa := s.decladdrs[n]
++			if !aa.mustSpill {
++				// Addr of SSAable PPARAM occurs only for true address-taking, so a spill is required.
++				aa.mustSpill = true
++				s.decladdrs[n] = aa
++			}
++			v := aa.addr // TODO when do we address parameters?
++
+ 			if v != nil {
+ 				return v, false
+ 			}
+@@ -2944,6 +3120,7 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
+ 		case PPARAMOUT: // Same as PAUTO -- cannot generate LEA early.
+ 			// ensure that we reuse symbols for out parameters so
+ 			// that cse works on their addresses
++			// TODO register return values
+ 			aux := s.lookupSymbol(n, &ssa.ArgSymbol{Typ: n.Type, Node: n})
+ 			return s.newValue1A(ssa.OpAddr, t, aux, s.sp), false
+ 		default:
+@@ -2994,7 +3171,12 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
+ 		addr, isVolatile := s.addr(n.Left, bounded)
+ 		return s.newValue1(ssa.OpCopy, t, addr), isVolatile // ensure that addr has the right type
+ 	case OCALLFUNC, OCALLINTER, OCALLMETH:
+-		return s.call(n, callNormal), true
++		inreg, result := s.call(n, callNormal)
++		if inreg {
++			// TODO: we can just store this in a slot and return that right?
++			panic("Cannot address register-resident result, this needs to be implemented")
++		}
++		return result, true
+ 
+ 	default:
+ 		s.Fatalf("unhandled addr %v", n.Op)
+@@ -4013,7 +4195,7 @@ func (s *state) resolveFwdRef(v *ssa.Value, dm *sparseDefState) {
+ 			return
+ 		}
+ 		// Not SSAable. Load it.
+-		addr := s.decladdrs[name]
++		addr := s.decladdrs[name].addr // Not SSAable, guaranteed to be not in a register.
+ 		if addr == nil {
+ 			// TODO: closure args reach here.
+ 			s.Fatalf("unhandled closure arg %v at entry to function %s", name, b.Func.Name)
+diff --git a/src/cmd/compile/internal/ssa/config.go b/src/cmd/compile/internal/ssa/config.go
+index 6c891a5..008828e 100644
+--- a/src/cmd/compile/internal/ssa/config.go
++++ b/src/cmd/compile/internal/ssa/config.go
+@@ -23,6 +23,8 @@ type Config struct {
+ 	gpRegMask       regMask                    // general purpose integer register mask
+ 	fpRegMask       regMask                    // floating point register mask
+ 	specialRegMask  regMask                    // special register mask
++	NumArgGpReg     int8                       // number of general purpose registers for passing call arguments
++	NumArgFpReg     int8                       // number of floating point registers for passing call arguments
+ 	FPReg           int8                       // register number of frame pointer, -1 if not used
+ 	hasGReg         bool                       // has hardware g register
+ 	fe              Frontend                   // callbacks into compiler frontend
+@@ -135,6 +137,8 @@ func NewConfig(arch string, fe Frontend, ctxt *obj.Link, optimize bool) *Config
+ 		c.registers = registersAMD64[:]
+ 		c.gpRegMask = gpRegMaskAMD64
+ 		c.fpRegMask = fpRegMaskAMD64
++		c.NumArgGpReg = 3
++		c.NumArgFpReg = 3
+ 		c.FPReg = framepointerRegAMD64
+ 		c.hasGReg = false
+ 	case "amd64p32":
+diff --git a/src/cmd/compile/internal/ssa/func.go b/src/cmd/compile/internal/ssa/func.go
+index ff332ef..d3da8ff 100644
+--- a/src/cmd/compile/internal/ssa/func.go
++++ b/src/cmd/compile/internal/ssa/func.go
+@@ -301,6 +301,21 @@ func (b *Block) NewValue3(line int32, op Op, t Type, arg0, arg1, arg2 *Value) *V
+ 	return v
+ }
+ 
++// NewValue3A returns a new value in the block with three arguments and one aux values.
++func (b *Block) NewValue3A(line int32, op Op, t Type, aux interface{}, arg0, arg1, arg2 *Value) *Value {
++	v := b.Func.newValue(op, t, b, line)
++	v.AuxInt = 0
++	v.Aux = aux
++	v.Args = v.argstorage[:3]
++	v.argstorage[0] = arg0
++	v.argstorage[1] = arg1
++	v.argstorage[2] = arg2
++	arg0.Uses++
++	arg1.Uses++
++	arg2.Uses++
++	return v
++}
++
+ // NewValue3I returns a new value in the block with three arguments and an auxint value.
+ func (b *Block) NewValue3I(line int32, op Op, t Type, auxint int64, arg0, arg1, arg2 *Value) *Value {
+ 	v := b.Func.newValue(op, t, b, line)
+diff --git a/src/cmd/compile/internal/ssa/gen/AMD64.rules b/src/cmd/compile/internal/ssa/gen/AMD64.rules
+index bac3d70..5903f4f 100644
+--- a/src/cmd/compile/internal/ssa/gen/AMD64.rules
++++ b/src/cmd/compile/internal/ssa/gen/AMD64.rules
+@@ -306,6 +306,21 @@
+ (Store [2] ptr val mem) -> (MOVWstore ptr val mem)
+ (Store [1] ptr val mem) -> (MOVBstore ptr val mem)
+ 
++// Register-specific parameter movement. Must copy t across
++(LoadArgRegI0 <t> ptr mem) -> (LOADArgI0 <t> ptr mem)
++(LoadArgRegI1 <t> ptr mem) -> (LOADArgI1 <t> ptr mem)
++(LoadArgRegI2 <t> ptr mem) -> (LOADArgI2 <t> ptr mem)
++(LoadArgRegF0 <t> ptr mem) -> (LOADArgF0 <t> ptr mem)
++(LoadArgRegF1 <t> ptr mem) -> (LOADArgF1 <t> ptr mem)
++(LoadArgRegF2 <t> ptr mem) -> (LOADArgF2 <t> ptr mem)
++
++(StoreArgRegI0 <t> ptr val mem) -> (STOREArgI0 <t> ptr val mem)
++(StoreArgRegI1 <t> ptr val mem) -> (STOREArgI1 <t> ptr val mem)
++(StoreArgRegI2 <t> ptr val mem) -> (STOREArgI2 <t> ptr val mem)
++(StoreArgRegF0 <t> ptr val mem) -> (STOREArgF0 <t> ptr val mem)
++(StoreArgRegF1 <t> ptr val mem) -> (STOREArgF1 <t> ptr val mem)
++(StoreArgRegF2 <t> ptr val mem) -> (STOREArgF2 <t> ptr val mem)
++
+ // Lowering moves
+ (Move [s] _ _ mem) && SizeAndAlign(s).Size() == 0 -> mem
+ (Move [s] dst src mem) && SizeAndAlign(s).Size() == 1 -> (MOVBstore dst (MOVBload src mem) mem)
+diff --git a/src/cmd/compile/internal/ssa/gen/AMD64Ops.go b/src/cmd/compile/internal/ssa/gen/AMD64Ops.go
+index 6d15d82..3a0598a 100644
+--- a/src/cmd/compile/internal/ssa/gen/AMD64Ops.go
++++ b/src/cmd/compile/internal/ssa/gen/AMD64Ops.go
+@@ -94,7 +94,8 @@ func init() {
+ 		dx         = buildReg("DX")
+ 		gp         = buildReg("AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15")
+ 		fp         = buildReg("X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15")
+-		gpsp       = gp | buildReg("SP")
++		sp         = buildReg("SP")
++		gpsp       = gp | sp
+ 		gpspsb     = gpsp | buildReg("SB")
+ 		callerSave = gp | fp
+ 	)
+@@ -148,6 +149,8 @@ func init() {
+ 
+ 		fpstore    = regInfo{inputs: []regMask{gpspsb, fp, 0}}
+ 		fpstoreidx = regInfo{inputs: []regMask{gpspsb, gpsp, fp, 0}}
++
++		// racall = regInfo{inputs: []regMask{ax, dx}, outputs: []regMask{ax, 0}, clobbers: callerSave}
+ 	)
+ 
+ 	var AMD64ops = []opData{
+@@ -177,6 +180,37 @@ func init() {
+ 		{name: "MOVSDstoreidx1", argLength: 4, reg: fpstoreidx, asm: "MOVSD", aux: "SymOff"}, // fp64 indexed by i store
+ 		{name: "MOVSDstoreidx8", argLength: 4, reg: fpstoreidx, asm: "MOVSD", aux: "SymOff"}, // fp64 indexed by 8i store
+ 
++		// For parameter and result passing -- not all used quite yet.
++		// Like LoadReg and StoreReg, these all rely on the presence of a type to determine
++		// the appropriate load and store operations.
++		{name: "STOREArgI0", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("DI"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgI1", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("SI"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgI2", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("DX"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgI3", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("CX"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgI4", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("R8"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgI5", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("R9"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++
++		{name: "LOADArgI0", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("AX")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgI1", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("DX")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgI2", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("BX")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgI3", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("CX")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgI4", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("R8")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgI5", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("R9")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++
++		{name: "STOREArgF0", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X0"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgF1", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X1"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgF2", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X2"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgF3", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X3"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgF4", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X4"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "STOREArgF5", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X5"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
++
++		{name: "LOADArgF0", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X0")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgF1", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X1")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgF2", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X2")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgF3", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X3")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgF4", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X4")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++		{name: "LOADArgF5", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X5")}}, asm: "FAKEMOVQ", aux: "SymOff"},
++
+ 		// binary ops
+ 		{name: "ADDQ", argLength: 2, reg: gp21sp, asm: "ADDQ", commutative: true, clobberFlags: true},                // arg0 + arg1
+ 		{name: "ADDL", argLength: 2, reg: gp21sp, asm: "ADDL", commutative: true, clobberFlags: true},                // arg0 + arg1
+diff --git a/src/cmd/compile/internal/ssa/gen/genericOps.go b/src/cmd/compile/internal/ssa/gen/genericOps.go
+index def6a83..2a88b70 100644
+--- a/src/cmd/compile/internal/ssa/gen/genericOps.go
++++ b/src/cmd/compile/internal/ssa/gen/genericOps.go
+@@ -319,6 +319,34 @@ var genericOps = []opData{
+ 	{name: "GoCall", argLength: 1, aux: "Int64", call: true},      // go call.  arg0=memory, auxint=arg size.  Returns memory.
+ 	{name: "InterCall", argLength: 2, aux: "Int64", call: true},   // interface call.  arg0=code pointer, arg1=memory, auxint=arg size.  Returns memory.
+ 
++	// LoadArgReg and StoreArgReg opcodes are pseudo-ops that vanish in actual code generation,
++	// after translation to an architecture-dependent vanishing Load/Store bound to a particular register.
++	// if a parameter/result should be passed in a register, stack space is still reserved for it,
++	// but no actual store/load is actually performed.  These operands serve to make it clear to the
++	// register allocator what registers parameters/results are in, and also simplify plive.
++	// The suffixes indicates which parameter/result register the instruction targets.
++	//
++	// The choice to pass a parameter in a register is gated in two places; the function must be marked eligible for register parameter passing
++	// (for testing and early development this will be opt-in, once this is believed to be working it will be opt-out),
++	// and the particular architecture must expand these intended-to-be-fake loads and stores into
++	// platform-specific fake loads and stores that use particular registers for their inputs.
++	// An architecture that does not (yet) support register parameter passing, or that only
++	// has a few registers available for this purpose, would not translate (all) generic
++	// fake loads and stores into machine-specific fake loads and stores.
++	{name: "LoadArgRegI0", argLength: 2},                            // Load from arg0.  arg1=memory
++	{name: "StoreArgRegI0", argLength: 3, typ: "Mem", aux: "Int64"}, // Store arg1 to arg0.  arg2=memory, auxint=size.  Returns memory.
++	{name: "LoadArgRegI1", argLength: 2},                            // Load from arg0.  arg1=memory
++	{name: "StoreArgRegI1", argLength: 3, typ: "Mem", aux: "Int64"}, // Store arg1 to arg0.  arg2=memory, auxint=size.  Returns memory.
++	{name: "LoadArgRegI2", argLength: 2},                            // Load from arg0.  arg1=memory
++	{name: "StoreArgRegI2", argLength: 3, typ: "Mem", aux: "Int64"}, // Store arg1 to arg0.  arg2=memory, auxint=size.  Returns memory.
++
++	{name: "LoadArgRegF0", argLength: 2},                            // Load from arg0.  arg1=memory
++	{name: "StoreArgRegF0", argLength: 3, typ: "Mem", aux: "Int64"}, // Store arg1 to arg0.  arg2=memory, auxint=size.  Returns memory.
++	{name: "LoadArgRegF1", argLength: 2},                            // Load from arg0.  arg1=memory
++	{name: "StoreArgRegF1", argLength: 3, typ: "Mem", aux: "Int64"}, // Store arg1 to arg0.  arg2=memory, auxint=size.  Returns memory.
++	{name: "LoadArgRegF2", argLength: 2},                            // Load from arg0.  arg1=memory
++	{name: "StoreArgRegF2", argLength: 3, typ: "Mem", aux: "Int64"}, // Store arg1 to arg0.  arg2=memory, auxint=size.  Returns memory.
++
+ 	// Conversions: signed extensions, zero (unsigned) extensions, truncations
+ 	{name: "SignExt8to16", argLength: 1, typ: "Int16"},
+ 	{name: "SignExt8to32", argLength: 1, typ: "Int32"},
+diff --git a/src/cmd/compile/internal/ssa/op.go b/src/cmd/compile/internal/ssa/op.go
+index 6d201a5..6d7c930 100644
+--- a/src/cmd/compile/internal/ssa/op.go
++++ b/src/cmd/compile/internal/ssa/op.go
+@@ -65,6 +65,7 @@ const (
+ 	auxSym                  // aux is a symbol
+ 	auxSymOff               // aux is a symbol, auxInt is an offset
+ 	auxSymValAndOff         // aux is a symbol, auxInt is a ValAndOff
++	auxArgType              // aux is a Type, for an arg/result ("auxType" is taken)
+ 
+ 	auxSymInt32 // aux is a symbol, auxInt is a 32-bit integer
+ )
+diff --git a/src/cmd/compile/internal/ssa/opGen.go b/src/cmd/compile/internal/ssa/opGen.go
+index b9d98b4..3024d05 100644
+--- a/src/cmd/compile/internal/ssa/opGen.go
++++ b/src/cmd/compile/internal/ssa/opGen.go
+@@ -409,6 +409,30 @@ const (
+ 	OpAMD64MOVSSstoreidx4
+ 	OpAMD64MOVSDstoreidx1
+ 	OpAMD64MOVSDstoreidx8
++	OpAMD64STOREArgI0
++	OpAMD64STOREArgI1
++	OpAMD64STOREArgI2
++	OpAMD64STOREArgI3
++	OpAMD64STOREArgI4
++	OpAMD64STOREArgI5
++	OpAMD64LOADArgI0
++	OpAMD64LOADArgI1
++	OpAMD64LOADArgI2
++	OpAMD64LOADArgI3
++	OpAMD64LOADArgI4
++	OpAMD64LOADArgI5
++	OpAMD64STOREArgF0
++	OpAMD64STOREArgF1
++	OpAMD64STOREArgF2
++	OpAMD64STOREArgF3
++	OpAMD64STOREArgF4
++	OpAMD64STOREArgF5
++	OpAMD64LOADArgF0
++	OpAMD64LOADArgF1
++	OpAMD64LOADArgF2
++	OpAMD64LOADArgF3
++	OpAMD64LOADArgF4
++	OpAMD64LOADArgF5
+ 	OpAMD64ADDQ
+ 	OpAMD64ADDL
+ 	OpAMD64ADDQconst
+@@ -1620,6 +1644,18 @@ const (
+ 	OpDeferCall
+ 	OpGoCall
+ 	OpInterCall
++	OpLoadArgRegI0
++	OpStoreArgRegI0
++	OpLoadArgRegI1
++	OpStoreArgRegI1
++	OpLoadArgRegI2
++	OpStoreArgRegI2
++	OpLoadArgRegF0
++	OpStoreArgRegF0
++	OpLoadArgRegF1
++	OpStoreArgRegF1
++	OpLoadArgRegF2
++	OpStoreArgRegF2
+ 	OpSignExt8to16
+ 	OpSignExt8to32
+ 	OpSignExt8to64
+@@ -4430,6 +4466,318 @@ var opcodeTable = [...]opInfo{
+ 		},
+ 	},
+ 	{
++		name:    "STOREArgI0",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16},  // SP
++				{1, 128}, // DI
++			},
++		},
++	},
++	{
++		name:    "STOREArgI1",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++				{1, 64}, // SI
++			},
++		},
++	},
++	{
++		name:    "STOREArgI2",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++				{1, 4},  // DX
++			},
++		},
++	},
++	{
++		name:    "STOREArgI3",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++				{1, 2},  // CX
++			},
++		},
++	},
++	{
++		name:    "STOREArgI4",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16},  // SP
++				{1, 256}, // R8
++			},
++		},
++	},
++	{
++		name:    "STOREArgI5",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16},  // SP
++				{1, 512}, // R9
++			},
++		},
++	},
++	{
++		name:    "LOADArgI0",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 1}, // AX
++			},
++		},
++	},
++	{
++		name:    "LOADArgI1",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 4}, // DX
++			},
++		},
++	},
++	{
++		name:    "LOADArgI2",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 8}, // BX
++			},
++		},
++	},
++	{
++		name:    "LOADArgI3",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 2}, // CX
++			},
++		},
++	},
++	{
++		name:    "LOADArgI4",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 256}, // R8
++			},
++		},
++	},
++	{
++		name:    "LOADArgI5",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 512}, // R9
++			},
++		},
++	},
++	{
++		name:    "STOREArgF0",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16},    // SP
++				{1, 65536}, // X0
++			},
++		},
++	},
++	{
++		name:    "STOREArgF1",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16},     // SP
++				{1, 131072}, // X1
++			},
++		},
++	},
++	{
++		name:    "STOREArgF2",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16},     // SP
++				{1, 262144}, // X2
++			},
++		},
++	},
++	{
++		name:    "STOREArgF3",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16},     // SP
++				{1, 524288}, // X3
++			},
++		},
++	},
++	{
++		name:    "STOREArgF4",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16},      // SP
++				{1, 1048576}, // X4
++			},
++		},
++	},
++	{
++		name:    "STOREArgF5",
++		auxType: auxSymOff,
++		argLen:  3,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16},      // SP
++				{1, 2097152}, // X5
++			},
++		},
++	},
++	{
++		name:    "LOADArgF0",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 65536}, // X0
++			},
++		},
++	},
++	{
++		name:    "LOADArgF1",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 131072}, // X1
++			},
++		},
++	},
++	{
++		name:    "LOADArgF2",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 262144}, // X2
++			},
++		},
++	},
++	{
++		name:    "LOADArgF3",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 524288}, // X3
++			},
++		},
++	},
++	{
++		name:    "LOADArgF4",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 1048576}, // X4
++			},
++		},
++	},
++	{
++		name:    "LOADArgF5",
++		auxType: auxSymOff,
++		argLen:  2,
++		asm:     x86.AFAKEMOVQ,
++		reg: regInfo{
++			inputs: []inputInfo{
++				{0, 16}, // SP
++			},
++			outputs: []outputInfo{
++				{0, 2097152}, // X5
++			},
++		},
++	},
++	{
+ 		name:         "ADDQ",
+ 		argLen:       2,
+ 		commutative:  true,
+@@ -18668,6 +19016,72 @@ var opcodeTable = [...]opInfo{
+ 		generic: true,
+ 	},
+ 	{
++		name:    "LoadArgRegI0",
++		argLen:  2,
++		generic: true,
++	},
++	{
++		name:    "StoreArgRegI0",
++		auxType: auxInt64,
++		argLen:  3,
++		generic: true,
++	},
++	{
++		name:    "LoadArgRegI1",
++		argLen:  2,
++		generic: true,
++	},
++	{
++		name:    "StoreArgRegI1",
++		auxType: auxInt64,
++		argLen:  3,
++		generic: true,
++	},
++	{
++		name:    "LoadArgRegI2",
++		argLen:  2,
++		generic: true,
++	},
++	{
++		name:    "StoreArgRegI2",
++		auxType: auxInt64,
++		argLen:  3,
++		generic: true,
++	},
++	{
++		name:    "LoadArgRegF0",
++		argLen:  2,
++		generic: true,
++	},
++	{
++		name:    "StoreArgRegF0",
++		auxType: auxInt64,
++		argLen:  3,
++		generic: true,
++	},
++	{
++		name:    "LoadArgRegF1",
++		argLen:  2,
++		generic: true,
++	},
++	{
++		name:    "StoreArgRegF1",
++		auxType: auxInt64,
++		argLen:  3,
++		generic: true,
++	},
++	{
++		name:    "LoadArgRegF2",
++		argLen:  2,
++		generic: true,
++	},
++	{
++		name:    "StoreArgRegF2",
++		auxType: auxInt64,
++		argLen:  3,
++		generic: true,
++	},
++	{
+ 		name:    "SignExt8to16",
+ 		argLen:  1,
+ 		generic: true,
+diff --git a/src/cmd/compile/internal/ssa/rewriteAMD64.go b/src/cmd/compile/internal/ssa/rewriteAMD64.go
+index fcc2f37..d89f33b 100644
+--- a/src/cmd/compile/internal/ssa/rewriteAMD64.go
++++ b/src/cmd/compile/internal/ssa/rewriteAMD64.go
+@@ -544,6 +544,18 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
+ 		return rewriteValueAMD64_OpLess8U(v, config)
+ 	case OpLoad:
+ 		return rewriteValueAMD64_OpLoad(v, config)
++	case OpLoadArgRegF0:
++		return rewriteValueAMD64_OpLoadArgRegF0(v, config)
++	case OpLoadArgRegF1:
++		return rewriteValueAMD64_OpLoadArgRegF1(v, config)
++	case OpLoadArgRegF2:
++		return rewriteValueAMD64_OpLoadArgRegF2(v, config)
++	case OpLoadArgRegI0:
++		return rewriteValueAMD64_OpLoadArgRegI0(v, config)
++	case OpLoadArgRegI1:
++		return rewriteValueAMD64_OpLoadArgRegI1(v, config)
++	case OpLoadArgRegI2:
++		return rewriteValueAMD64_OpLoadArgRegI2(v, config)
+ 	case OpLrot16:
+ 		return rewriteValueAMD64_OpLrot16(v, config)
+ 	case OpLrot32:
+@@ -744,6 +756,18 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
+ 		return rewriteValueAMD64_OpStaticCall(v, config)
+ 	case OpStore:
+ 		return rewriteValueAMD64_OpStore(v, config)
++	case OpStoreArgRegF0:
++		return rewriteValueAMD64_OpStoreArgRegF0(v, config)
++	case OpStoreArgRegF1:
++		return rewriteValueAMD64_OpStoreArgRegF1(v, config)
++	case OpStoreArgRegF2:
++		return rewriteValueAMD64_OpStoreArgRegF2(v, config)
++	case OpStoreArgRegI0:
++		return rewriteValueAMD64_OpStoreArgRegI0(v, config)
++	case OpStoreArgRegI1:
++		return rewriteValueAMD64_OpStoreArgRegI1(v, config)
++	case OpStoreArgRegI2:
++		return rewriteValueAMD64_OpStoreArgRegI2(v, config)
+ 	case OpSub16:
+ 		return rewriteValueAMD64_OpSub16(v, config)
+ 	case OpSub32:
+@@ -15689,6 +15713,108 @@ func rewriteValueAMD64_OpLoad(v *Value, config *Config) bool {
+ 	}
+ 	return false
+ }
++func rewriteValueAMD64_OpLoadArgRegF0(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (LoadArgRegF0 <t> ptr mem)
++	// cond:
++	// result: (LOADArgF0 <t> ptr mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		mem := v.Args[1]
++		v.reset(OpAMD64LOADArgF0)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpLoadArgRegF1(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (LoadArgRegF1 <t> ptr mem)
++	// cond:
++	// result: (LOADArgF1 <t> ptr mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		mem := v.Args[1]
++		v.reset(OpAMD64LOADArgF1)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpLoadArgRegF2(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (LoadArgRegF2 <t> ptr mem)
++	// cond:
++	// result: (LOADArgF2 <t> ptr mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		mem := v.Args[1]
++		v.reset(OpAMD64LOADArgF2)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpLoadArgRegI0(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (LoadArgRegI0 <t> ptr mem)
++	// cond:
++	// result: (LOADArgI0 <t> ptr mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		mem := v.Args[1]
++		v.reset(OpAMD64LOADArgI0)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpLoadArgRegI1(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (LoadArgRegI1 <t> ptr mem)
++	// cond:
++	// result: (LOADArgI1 <t> ptr mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		mem := v.Args[1]
++		v.reset(OpAMD64LOADArgI1)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpLoadArgRegI2(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (LoadArgRegI2 <t> ptr mem)
++	// cond:
++	// result: (LOADArgI2 <t> ptr mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		mem := v.Args[1]
++		v.reset(OpAMD64LOADArgI2)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(mem)
++		return true
++	}
++}
+ func rewriteValueAMD64_OpLrot16(v *Value, config *Config) bool {
+ 	b := v.Block
+ 	_ = b
+@@ -18235,6 +18361,120 @@ func rewriteValueAMD64_OpStore(v *Value, config *Config) bool {
+ 	}
+ 	return false
+ }
++func rewriteValueAMD64_OpStoreArgRegF0(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (StoreArgRegF0 <t> ptr val mem)
++	// cond:
++	// result: (STOREArgF0 <t> ptr val mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		val := v.Args[1]
++		mem := v.Args[2]
++		v.reset(OpAMD64STOREArgF0)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(val)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpStoreArgRegF1(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (StoreArgRegF1 <t> ptr val mem)
++	// cond:
++	// result: (STOREArgF1 <t> ptr val mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		val := v.Args[1]
++		mem := v.Args[2]
++		v.reset(OpAMD64STOREArgF1)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(val)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpStoreArgRegF2(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (StoreArgRegF2 <t> ptr val mem)
++	// cond:
++	// result: (STOREArgF2 <t> ptr val mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		val := v.Args[1]
++		mem := v.Args[2]
++		v.reset(OpAMD64STOREArgF2)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(val)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpStoreArgRegI0(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (StoreArgRegI0 <t> ptr val mem)
++	// cond:
++	// result: (STOREArgI0 <t> ptr val mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		val := v.Args[1]
++		mem := v.Args[2]
++		v.reset(OpAMD64STOREArgI0)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(val)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpStoreArgRegI1(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (StoreArgRegI1 <t> ptr val mem)
++	// cond:
++	// result: (STOREArgI1 <t> ptr val mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		val := v.Args[1]
++		mem := v.Args[2]
++		v.reset(OpAMD64STOREArgI1)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(val)
++		v.AddArg(mem)
++		return true
++	}
++}
++func rewriteValueAMD64_OpStoreArgRegI2(v *Value, config *Config) bool {
++	b := v.Block
++	_ = b
++	// match: (StoreArgRegI2 <t> ptr val mem)
++	// cond:
++	// result: (STOREArgI2 <t> ptr val mem)
++	for {
++		t := v.Type
++		ptr := v.Args[0]
++		val := v.Args[1]
++		mem := v.Args[2]
++		v.reset(OpAMD64STOREArgI2)
++		v.Type = t
++		v.AddArg(ptr)
++		v.AddArg(val)
++		v.AddArg(mem)
++		return true
++	}
++}
+ func rewriteValueAMD64_OpSub16(v *Value, config *Config) bool {
+ 	b := v.Block
+ 	_ = b
+diff --git a/src/cmd/internal/obj/x86/a.out.go b/src/cmd/internal/obj/x86/a.out.go
+index 9e7bbe4..607bd35 100644
+--- a/src/cmd/internal/obj/x86/a.out.go
++++ b/src/cmd/internal/obj/x86/a.out.go
+@@ -95,6 +95,7 @@ const (
+ 	ADIVL
+ 	ADIVW
+ 	AENTER
++	AFAKEMOVQ
+ 	AHADDPD
+ 	AHADDPS
+ 	AHLT
+diff --git a/src/cmd/internal/obj/x86/anames.go b/src/cmd/internal/obj/x86/anames.go
+index 3b30154..a2879e2 100644
+--- a/src/cmd/internal/obj/x86/anames.go
++++ b/src/cmd/internal/obj/x86/anames.go
+@@ -57,6 +57,7 @@ var Anames = []string{
+ 	"DIVL",
+ 	"DIVW",
+ 	"ENTER",
++	"FAKEMOVQ",
+ 	"HADDPD",
+ 	"HADDPS",
+ 	"HLT",

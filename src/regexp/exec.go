@@ -85,6 +85,7 @@ func progMachine(p *syntax.Prog, op *onePassProg) *machine {
 	return m
 }
 
+//go:register_args
 func (m *machine) init(ncap int) {
 	for _, t := range m.pool {
 		t.cap = t.cap[:ncap]
@@ -94,6 +95,7 @@ func (m *machine) init(ncap int) {
 
 // alloc allocates a new thread with the given instruction.
 // It uses the free pool if possible.
+//go:register_args
 func (m *machine) alloc(i *syntax.Inst) *thread {
 	var t *thread
 	if n := len(m.pool); n > 0 {
@@ -110,6 +112,7 @@ func (m *machine) alloc(i *syntax.Inst) *thread {
 // match runs the machine over the input starting at pos.
 // It reports whether a match was found.
 // If so, m.matchcap holds the submatch information.
+//go:register_args
 func (m *machine) match(i input, pos int) bool {
 	startCond := m.re.cond
 	if startCond == ^syntax.EmptyOp(0) { // impossible
@@ -181,6 +184,7 @@ func (m *machine) match(i input, pos int) bool {
 }
 
 // clear frees all threads on the thread queue.
+//go:register_args
 func (m *machine) clear(q *queue) {
 	for _, d := range q.dense {
 		if d.t != nil {
@@ -195,6 +199,7 @@ func (m *machine) clear(q *queue) {
 // The step processes the rune c (which may be endOfText),
 // which starts at position pos and ends at nextPos.
 // nextCond gives the setting for the empty-width flags after c.
+//go:register_args
 func (m *machine) step(runq, nextq *queue, pos, nextPos int, c rune, nextCond syntax.EmptyOp) {
 	longest := m.re.longest
 	for j := 0; j < len(runq.dense); j++ {
@@ -252,6 +257,7 @@ func (m *machine) step(runq, nextq *queue, pos, nextPos int, c rune, nextCond sy
 // It also recursively adds an entry for all instructions reachable from pc by following
 // empty-width conditions satisfied by cond.  pos gives the current position
 // in the input.
+//go:register_args
 func (m *machine) add(q *queue, pc uint32, pos int, cap []int, cond syntax.EmptyOp, t *thread) *thread {
 	if pc == 0 {
 		return t
@@ -309,6 +315,7 @@ func (m *machine) add(q *queue, pc uint32, pos int, cap []int, cond syntax.Empty
 // onepass runs the machine over the input starting at pos.
 // It reports whether a match was found.
 // If so, m.matchcap holds the submatch information.
+//go:register_args
 func (m *machine) onepass(i input, pos int) bool {
 	startCond := m.re.cond
 	if startCond == ^syntax.EmptyOp(0) { // impossible
@@ -406,6 +413,7 @@ func (m *machine) onepass(i input, pos int) bool {
 }
 
 // doMatch reports whether either r, b or s match the regexp.
+//go:register_args
 func (re *Regexp) doMatch(r io.RuneReader, b []byte, s string) bool {
 	return re.doExecute(r, b, s, 0, 0, nil) != nil
 }
@@ -414,6 +422,7 @@ func (re *Regexp) doMatch(r io.RuneReader, b []byte, s string) bool {
 // of its subexpressions to dstCap and returns dstCap.
 //
 // nil is returned if no matches are found and non-nil if matches are found.
+//go:register_args
 func (re *Regexp) doExecute(r io.RuneReader, b []byte, s string, pos int, ncap int, dstCap []int) []int {
 	m := re.get()
 	var i input
