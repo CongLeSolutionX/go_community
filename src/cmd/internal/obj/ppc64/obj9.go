@@ -241,7 +241,7 @@ func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog) {
 	obj.Nopout(p)
 }
 
-func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
+func preprocess(ctxt *obj.Link, cursym *obj.LSym) (extraText *obj.LSym) {
 	// TODO(minux): add morestack short-cuts with small fixed frame-size.
 	ctxt.Cursym = cursym
 
@@ -775,6 +775,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			}
 		}
 	}
+	return
 }
 
 /*
@@ -972,6 +973,8 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32) *obj.Prog {
 		p.To.Reg = REGSP
 		p.To.Offset = 8
 	}
+	// Spill registers as necessary
+	p = ctxt.SpillRegisterArgs(p)
 
 	if ctxt.Flag_dynlink {
 		// Avoid calling morestack via a PLT when dynamically linking. The
@@ -1031,6 +1034,8 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32) *obj.Prog {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_R2
 	}
+	// Unspill any spilled registers
+	p = ctxt.UnspillRegisterArgs(p)
 
 	// BR	start
 	p = obj.Appendp(ctxt, p)

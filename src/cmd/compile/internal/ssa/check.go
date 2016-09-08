@@ -149,7 +149,7 @@ func checkFunc(f *Func) {
 				canHaveAuxInt = true
 			case auxString, auxSym:
 				canHaveAux = true
-			case auxSymOff, auxSymValAndOff:
+			case auxSymOff, auxSymValAndOff, auxTypeOff:
 				canHaveAuxInt = true
 				canHaveAux = true
 			case auxSymInt32:
