@@ -122,6 +122,14 @@ func (s *stackAllocState) init(f *Func, spillLive [][]ID) {
 	s.buildInterferenceGraph()
 }
 
+func isArgOp(x Op) bool {
+	switch x {
+	case OpArgI0, OpArgI1, OpArgI2, OpArgF0, OpArgF1, OpArgF2, OpArg:
+		return true
+	}
+	return false
+}
+
 func (s *stackAllocState) stackalloc() {
 	f := s.f
 
@@ -144,7 +152,7 @@ func (s *stackAllocState) stackalloc() {
 
 	// Allocate args to their assigned locations.
 	for _, v := range f.Entry.Values {
-		if v.Op != OpArg {
+		if !isArgOp(v.Op) {
 			continue
 		}
 		loc := LocalSlot{v.Aux.(GCNode), v.Type, v.AuxInt}
@@ -188,7 +196,7 @@ func (s *stackAllocState) stackalloc() {
 				s.nNotNeed++
 				continue
 			}
-			if v.Op == OpArg {
+			if isArgOp(v.Op) {
 				s.nArgSlot++
 				continue // already picked
 			}
@@ -384,7 +392,7 @@ func (s *stackAllocState) buildInterferenceGraph() {
 					live.add(a.ID)
 				}
 			}
-			if v.Op == OpArg && s.values[v.ID].needSlot {
+			if isArgOp(v.Op) && s.values[v.ID].needSlot {
 				// OpArg is an input argument which is pre-spilled.
 				// We add back v.ID here because we want this value
 				// to appear live even before this point. Being live

@@ -1016,7 +1016,7 @@ func (s *regAllocState) regalloc(f *Func) {
 				s.advanceUses(v)
 				goto issueSpill
 			}
-			if v.Op == OpArg {
+			if v.Op == OpArg || isArgOp(v.Op) { // TODO handle the non-OpArg cases differently because registers.
 				// Args are "pre-spilled" values. We don't allocate
 				// any register here. We just set up the spill pointer to
 				// point at itself and any later user will restore it to use it.

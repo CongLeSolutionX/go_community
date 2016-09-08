@@ -23,6 +23,8 @@ type Config struct {
 	gpRegMask       regMask                    // general purpose integer register mask
 	fpRegMask       regMask                    // floating point register mask
 	specialRegMask  regMask                    // special register mask
+	NumArgGpReg     int8                       // number of general purpose registers for passing call arguments
+	NumArgFpReg     int8                       // number of floating point registers for passing call arguments
 	FPReg           int8                       // register number of frame pointer, -1 if not used
 	hasGReg         bool                       // has hardware g register
 	fe              Frontend                   // callbacks into compiler frontend
@@ -136,6 +138,8 @@ func NewConfig(arch string, fe Frontend, ctxt *obj.Link, optimize bool) *Config 
 		c.registers = registersAMD64[:]
 		c.gpRegMask = gpRegMaskAMD64
 		c.fpRegMask = fpRegMaskAMD64
+		c.NumArgGpReg = 3
+		c.NumArgFpReg = 3
 		c.FPReg = framepointerRegAMD64
 		c.hasGReg = false
 	case "amd64p32":

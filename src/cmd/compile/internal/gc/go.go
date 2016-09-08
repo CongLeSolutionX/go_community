@@ -336,6 +336,9 @@ const (
 
 	// Instruction updates whichever of from/to is type D_OREG. (ppc64)
 	PostInc = 1 << 29
+
+	// Instruction reads From3
+	From3Read = 1 << 30
 )
 
 type Arch struct {

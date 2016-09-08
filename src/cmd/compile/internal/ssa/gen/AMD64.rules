@@ -306,6 +306,21 @@
 (Store [2] ptr val mem) -> (MOVWstore ptr val mem)
 (Store [1] ptr val mem) -> (MOVBstore ptr val mem)
 
+// Register-specific parameter movement. Must copy t across
+(LoadArgRegI0 <t> ptr mem) -> (LOADArgI0 <t> ptr mem)
+(LoadArgRegI1 <t> ptr mem) -> (LOADArgI1 <t> ptr mem)
+(LoadArgRegI2 <t> ptr mem) -> (LOADArgI2 <t> ptr mem)
+(LoadArgRegF0 <t> ptr mem) -> (LOADArgF0 <t> ptr mem)
+(LoadArgRegF1 <t> ptr mem) -> (LOADArgF1 <t> ptr mem)
+(LoadArgRegF2 <t> ptr mem) -> (LOADArgF2 <t> ptr mem)
+
+(StoreArgRegI0 <t> {vt} [off] ptr val mem) -> (STOREArgI0 <t> {vt} [off] ptr val mem)
+(StoreArgRegI1 <t> {vt} [off] ptr val mem) -> (STOREArgI1 <t> {vt} [off] ptr val mem)
+(StoreArgRegI2 <t> {vt} [off] ptr val mem) -> (STOREArgI2 <t> {vt} [off] ptr val mem)
+(StoreArgRegF0 <t> {vt} [off] ptr val mem) -> (STOREArgF0 <t> {vt} [off] ptr val mem)
+(StoreArgRegF1 <t> {vt} [off] ptr val mem) -> (STOREArgF1 <t> {vt} [off] ptr val mem)
+(StoreArgRegF2 <t> {vt} [off] ptr val mem) -> (STOREArgF2 <t> {vt} [off] ptr val mem)
+
 // Lowering moves
 (Move [s] _ _ mem) && SizeAndAlign(s).Size() == 0 -> mem
 (Move [s] dst src mem) && SizeAndAlign(s).Size() == 1 -> (MOVBstore dst (MOVBload src mem) mem)

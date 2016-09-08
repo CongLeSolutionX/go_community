@@ -57,6 +57,7 @@ var Anames = []string{
 	"DIVL",
 	"DIVW",
 	"ENTER",
+	"FAKEMOV",
 	"HADDPD",
 	"HADDPS",
 	"HLT",

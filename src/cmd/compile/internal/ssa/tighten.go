@@ -55,7 +55,7 @@ func tighten(f *Func) {
 			for i := 0; i < len(b.Values); i++ {
 				v := b.Values[i]
 				switch v.Op {
-				case OpPhi, OpGetClosurePtr, OpConvert, OpArg:
+				case OpPhi, OpGetClosurePtr, OpConvert, OpArg, OpArgI0, OpArgI1, OpArgI2, OpArgF0, OpArgF1, OpArgF2:
 					// GetClosurePtr & Arg must stay in entry block.
 					// OpConvert must not float over call sites.
 					// TODO do we instead need a dependence edge of some sort for OpConvert?
