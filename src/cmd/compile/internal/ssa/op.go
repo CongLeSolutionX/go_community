@@ -68,6 +68,7 @@ const (
 	auxSym                  // aux is a symbol
 	auxSymOff               // aux is a symbol, auxInt is an offset
 	auxSymValAndOff         // aux is a symbol, auxInt is a ValAndOff
+	auxTypeOff              // aux is a Type, for an arg/result, auxInt is an offset -- target
 
 	auxSymInt32 // aux is a symbol, auxInt is a 32-bit integer
 )

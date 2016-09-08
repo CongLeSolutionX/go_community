@@ -320,6 +320,34 @@ var genericOps = []opData{
 	{name: "GoCall", argLength: 1, aux: "Int64", call: true},      // go call.  arg0=memory, auxint=arg size.  Returns memory.
 	{name: "InterCall", argLength: 2, aux: "Int64", call: true},   // interface call.  arg0=code pointer, arg1=memory, auxint=arg size.  Returns memory.
 
+	// LoadArgReg and StoreArgReg opcodes are pseudo-ops that vanish in actual code generation,
+	// after translation to an architecture-dependent vanishing Load/Store bound to a particular register.
+	// if a parameter/result should be passed in a register, stack space is still reserved for it,
+	// but no actual store/load is actually performed.  These operands serve to make it clear to the
+	// register allocator what registers parameters/results are in, and also simplify plive.
+	// The suffixes indicates which parameter/result register the instruction targets.
+	//
+	// The choice to pass a parameter in a register is gated in two places; the function must be marked eligible for register parameter passing
+	// (for testing and early development this will be opt-in, once this is believed to be working it will be opt-out),
+	// and the particular architecture must expand these intended-to-be-fake loads and stores into
+	// platform-specific fake loads and stores that use particular registers for their inputs.
+	// An architecture that does not (yet) support register parameter passing, or that only
+	// has a few registers available for this purpose, would not translate (all) generic
+	// fake loads and stores into machine-specific fake loads and stores.
+	{name: "LoadArgRegI0", argLength: 2},                              // Load from arg0.  arg1=memory
+	{name: "StoreArgRegI0", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "LoadArgRegI1", argLength: 2},                              // Load from arg0.  arg1=memory
+	{name: "StoreArgRegI1", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "LoadArgRegI2", argLength: 2},                              // Load from arg0.  arg1=memory
+	{name: "StoreArgRegI2", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+
+	{name: "LoadArgRegF0", argLength: 2},                              // Load from arg0.  arg1=memory
+	{name: "StoreArgRegF0", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "LoadArgRegF1", argLength: 2},                              // Load from arg0.  arg1=memory
+	{name: "StoreArgRegF1", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "LoadArgRegF2", argLength: 2},                              // Load from arg0.  arg1=memory
+	{name: "StoreArgRegF2", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+
 	// Conversions: signed extensions, zero (unsigned) extensions, truncations
 	{name: "SignExt8to16", argLength: 1, typ: "Int16"},
 	{name: "SignExt8to32", argLength: 1, typ: "Int32"},

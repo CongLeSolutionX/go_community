@@ -407,6 +407,30 @@ const (
 	OpAMD64MOVSSstoreidx4
 	OpAMD64MOVSDstoreidx1
 	OpAMD64MOVSDstoreidx8
+	OpAMD64STOREArgI0
+	OpAMD64STOREArgI1
+	OpAMD64STOREArgI2
+	OpAMD64STOREArgI3
+	OpAMD64STOREArgI4
+	OpAMD64STOREArgI5
+	OpAMD64LOADArgI0
+	OpAMD64LOADArgI1
+	OpAMD64LOADArgI2
+	OpAMD64LOADArgI3
+	OpAMD64LOADArgI4
+	OpAMD64LOADArgI5
+	OpAMD64STOREArgF0
+	OpAMD64STOREArgF1
+	OpAMD64STOREArgF2
+	OpAMD64STOREArgF3
+	OpAMD64STOREArgF4
+	OpAMD64STOREArgF5
+	OpAMD64LOADArgF0
+	OpAMD64LOADArgF1
+	OpAMD64LOADArgF2
+	OpAMD64LOADArgF3
+	OpAMD64LOADArgF4
+	OpAMD64LOADArgF5
 	OpAMD64ADDQ
 	OpAMD64ADDL
 	OpAMD64ADDQconst
@@ -1618,6 +1642,18 @@ const (
 	OpDeferCall
 	OpGoCall
 	OpInterCall
+	OpLoadArgRegI0
+	OpStoreArgRegI0
+	OpLoadArgRegI1
+	OpStoreArgRegI1
+	OpLoadArgRegI2
+	OpStoreArgRegI2
+	OpLoadArgRegF0
+	OpStoreArgRegF0
+	OpLoadArgRegF1
+	OpStoreArgRegF1
+	OpLoadArgRegF2
+	OpStoreArgRegF2
 	OpSignExt8to16
 	OpSignExt8to32
 	OpSignExt8to64
@@ -4444,6 +4480,318 @@ var opcodeTable = [...]opInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
 				{2, 4294901760}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
 				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
+			},
+		},
+	},
+	{
+		name:    "STOREArgI0",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},  // SP
+				{1, 128}, // DI
+			},
+		},
+	},
+	{
+		name:    "STOREArgI1",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+				{1, 64}, // SI
+			},
+		},
+	},
+	{
+		name:    "STOREArgI2",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+				{1, 4},  // DX
+			},
+		},
+	},
+	{
+		name:    "STOREArgI3",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+				{1, 2},  // CX
+			},
+		},
+	},
+	{
+		name:    "STOREArgI4",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},  // SP
+				{1, 256}, // R8
+			},
+		},
+	},
+	{
+		name:    "STOREArgI5",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},  // SP
+				{1, 512}, // R9
+			},
+		},
+	},
+	{
+		name:    "LOADArgI0",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 1}, // AX
+			},
+		},
+	},
+	{
+		name:    "LOADArgI1",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 4}, // DX
+			},
+		},
+	},
+	{
+		name:    "LOADArgI2",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 8}, // BX
+			},
+		},
+	},
+	{
+		name:    "LOADArgI3",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 2}, // CX
+			},
+		},
+	},
+	{
+		name:    "LOADArgI4",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 256}, // R8
+			},
+		},
+	},
+	{
+		name:    "LOADArgI5",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 512}, // R9
+			},
+		},
+	},
+	{
+		name:    "STOREArgF0",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},    // SP
+				{1, 65536}, // X0
+			},
+		},
+	},
+	{
+		name:    "STOREArgF1",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},     // SP
+				{1, 131072}, // X1
+			},
+		},
+	},
+	{
+		name:    "STOREArgF2",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},     // SP
+				{1, 262144}, // X2
+			},
+		},
+	},
+	{
+		name:    "STOREArgF3",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},     // SP
+				{1, 524288}, // X3
+			},
+		},
+	},
+	{
+		name:    "STOREArgF4",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},      // SP
+				{1, 1048576}, // X4
+			},
+		},
+	},
+	{
+		name:    "STOREArgF5",
+		auxType: auxTypeOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},      // SP
+				{1, 2097152}, // X5
+			},
+		},
+	},
+	{
+		name:    "LOADArgF0",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 65536}, // X0
+			},
+		},
+	},
+	{
+		name:    "LOADArgF1",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 131072}, // X1
+			},
+		},
+	},
+	{
+		name:    "LOADArgF2",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 262144}, // X2
+			},
+		},
+	},
+	{
+		name:    "LOADArgF3",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 524288}, // X3
+			},
+		},
+	},
+	{
+		name:    "LOADArgF4",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 1048576}, // X4
+			},
+		},
+	},
+	{
+		name:    "LOADArgF5",
+		auxType: auxTypeOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOV,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 2097152}, // X5
 			},
 		},
 	},
@@ -18842,6 +19190,72 @@ var opcodeTable = [...]opInfo{
 		auxType: auxInt64,
 		argLen:  2,
 		call:    true,
+		generic: true,
+	},
+	{
+		name:    "LoadArgRegI0",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegI0",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadArgRegI1",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegI1",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadArgRegI2",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegI2",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadArgRegF0",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegF0",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadArgRegF1",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegF1",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadArgRegF2",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegF2",
+		auxType: auxTypeOff,
+		argLen:  3,
 		generic: true,
 	},
 	{
