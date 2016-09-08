@@ -158,7 +158,7 @@ const debugFormat = false // default: false
 const forceObjFileStability = true
 
 // Current export format version. Increase with each format change.
-const exportVersion = 2
+const exportVersion = 3
 
 // exportInlined enables the export of inlined function bodies and related
 // dependencies. The compiler should work w/o any loss of functionality with
@@ -511,6 +511,9 @@ func (p *exporter) obj(sym *Sym) {
 			p.tag(funcTag)
 			p.pos(n)
 			p.qualifiedName(sym)
+			if exportVersion >= 3 {
+				p.int(pragmaVal(sym.Def)) // version 3+, uint16 as of 1.8early
+			}
 
 			sig := sym.Def.Type
 			inlineable := isInlineable(sym.Def)
@@ -605,6 +608,18 @@ func isInlineable(n *Node) bool {
 		return true
 	}
 	return false
+}
+
+func pragmaVal(n *Node) int {
+	var pg Pragma
+	// TODO Why are pragmas landing in two (or more) provably different places?
+	if n != nil && n.Name != nil && n.Name.Defn != nil && n.Name.Defn.Func != nil {
+		pg = n.Name.Defn.Func.Pragma
+	}
+	if pg == 0 && n.Sym != nil && n.Sym.Def != nil && n.Sym.Def.Func != nil {
+		pg = n.Sym.Def.Func.Pragma
+	}
+	return int(pg)
 }
 
 var errorInterface *Type // lazily initialized

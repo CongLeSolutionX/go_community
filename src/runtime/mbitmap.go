@@ -361,6 +361,7 @@ func (m *markBits) advance() {
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //go:nosplit
+//go:register_args
 func heapBitsForAddr(addr uintptr) heapBits {
 	// 2 bits per work, 4 pairs per byte, and a mask is hard coded.
 	off := (addr - mheap_.arena_start) / sys.PtrSize
@@ -368,6 +369,7 @@ func heapBitsForAddr(addr uintptr) heapBits {
 }
 
 // heapBitsForSpan returns the heapBits for the span base address base.
+//go:register_args
 func heapBitsForSpan(base uintptr) (hbits heapBits) {
 	if base < mheap_.arena_start || base >= mheap_.arena_used {
 		throw("heapBitsForSpan: base out of range")
@@ -385,6 +387,7 @@ func heapBitsForSpan(base uintptr) (hbits heapBits) {
 // refBase and refOff optionally give the base address of the object
 // in which the pointer p was found and the byte offset at which it
 // was found. These are used for error reporting.
+//go:register_args
 func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits, s *mspan, objIndex uintptr) {
 	arenaStart := mheap_.arena_start
 	if p < arenaStart || p >= mheap_.arena_used {
@@ -519,6 +522,7 @@ func (h heapBits) hasPointers(size uintptr) bool {
 // It must be told how large the object at h is, because the encoding of the
 // checkmark bit varies by size.
 // h must describe the initial word of the object.
+//go:register_args
 func (h heapBits) isCheckmarked(size uintptr) bool {
 	if size == sys.PtrSize {
 		return (*h.bitp>>h.shift)&bitPointer != 0
@@ -534,6 +538,7 @@ func (h heapBits) isCheckmarked(size uintptr) bool {
 // It must be told how large the object at h is, because the encoding of the
 // checkmark bit varies by size.
 // h must describe the initial word of the object.
+//go:register_args
 func (h heapBits) setCheckmarked(size uintptr) {
 	if size == sys.PtrSize {
 		atomic.Or8(h.bitp, bitPointer<<h.shift)
@@ -861,6 +866,7 @@ func (s *mspan) countFree() int {
 // bits that belong to neighboring objects. Also, on weakly-ordered
 // machines, callers must execute a store/store (publication) barrier
 // between calling this function and making the object reachable.
+//go:register_args
 func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 	const doubleCheck = false // slow but helpful; enable to test modifications to this code
 
