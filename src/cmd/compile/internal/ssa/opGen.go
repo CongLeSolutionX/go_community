@@ -392,6 +392,30 @@ const (
 	OpAMD64MOVSSstoreidx4
 	OpAMD64MOVSDstoreidx1
 	OpAMD64MOVSDstoreidx8
+	OpAMD64STOREParamI0
+	OpAMD64STOREParamI1
+	OpAMD64STOREParamI2
+	OpAMD64STOREParamI3
+	OpAMD64STOREParamI4
+	OpAMD64STOREParamI5
+	OpAMD64LOADResultI0
+	OpAMD64LOADResultI1
+	OpAMD64LOADResultI2
+	OpAMD64LOADResultI3
+	OpAMD64LOADResultI4
+	OpAMD64LOADResultI5
+	OpAMD64STOREParamF0
+	OpAMD64STOREParamF1
+	OpAMD64STOREParamF2
+	OpAMD64STOREParamF3
+	OpAMD64STOREParamF4
+	OpAMD64STOREParamF5
+	OpAMD64LOADResultF0
+	OpAMD64LOADResultF1
+	OpAMD64LOADResultF2
+	OpAMD64LOADResultF3
+	OpAMD64LOADResultF4
+	OpAMD64LOADResultF5
 	OpAMD64ADDQ
 	OpAMD64ADDL
 	OpAMD64ADDQconst
@@ -1419,6 +1443,18 @@ const (
 	OpDeferCall
 	OpGoCall
 	OpInterCall
+	OpLoadResultI0
+	OpStoreParamI0
+	OpLoadResultI1
+	OpStoreParamI1
+	OpLoadResultI2
+	OpStoreParamI2
+	OpLoadResultF0
+	OpStoreParamF0
+	OpLoadResultF1
+	OpStoreParamF1
+	OpLoadResultF2
+	OpStoreParamF2
 	OpSignExt8to16
 	OpSignExt8to32
 	OpSignExt8to64
@@ -4220,6 +4256,318 @@ var opcodeTable = [...]opInfo{
 				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
 				{2, 4294901760}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
 				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
+			},
+		},
+	},
+	{
+		name:    "STOREParamI0",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},  // SP
+				{1, 128}, // DI
+			},
+		},
+	},
+	{
+		name:    "STOREParamI1",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+				{1, 64}, // SI
+			},
+		},
+	},
+	{
+		name:    "STOREParamI2",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+				{1, 4},  // DX
+			},
+		},
+	},
+	{
+		name:    "STOREParamI3",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+				{1, 2},  // CX
+			},
+		},
+	},
+	{
+		name:    "STOREParamI4",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},  // SP
+				{1, 256}, // R8
+			},
+		},
+	},
+	{
+		name:    "STOREParamI5",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},  // SP
+				{1, 512}, // R9
+			},
+		},
+	},
+	{
+		name:    "LOADResultI0",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 1}, // AX
+			},
+		},
+	},
+	{
+		name:    "LOADResultI1",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 4}, // DX
+			},
+		},
+	},
+	{
+		name:    "LOADResultI2",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 8}, // BX
+			},
+		},
+	},
+	{
+		name:    "LOADResultI3",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 2}, // CX
+			},
+		},
+	},
+	{
+		name:    "LOADResultI4",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 256}, // R8
+			},
+		},
+	},
+	{
+		name:    "LOADResultI5",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 512}, // R9
+			},
+		},
+	},
+	{
+		name:    "STOREParamF0",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},    // SP
+				{1, 65536}, // X0
+			},
+		},
+	},
+	{
+		name:    "STOREParamF1",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},     // SP
+				{1, 131072}, // X1
+			},
+		},
+	},
+	{
+		name:    "STOREParamF2",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},     // SP
+				{1, 262144}, // X2
+			},
+		},
+	},
+	{
+		name:    "STOREParamF3",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},     // SP
+				{1, 524288}, // X3
+			},
+		},
+	},
+	{
+		name:    "STOREParamF4",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},      // SP
+				{1, 1048576}, // X4
+			},
+		},
+	},
+	{
+		name:    "STOREParamF5",
+		auxType: auxSymOff,
+		argLen:  3,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16},      // SP
+				{1, 2097152}, // X5
+			},
+		},
+	},
+	{
+		name:    "LOADResultF0",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 65536}, // X0
+			},
+		},
+	},
+	{
+		name:    "LOADResultF1",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 131072}, // X1
+			},
+		},
+	},
+	{
+		name:    "LOADResultF2",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 262144}, // X2
+			},
+		},
+	},
+	{
+		name:    "LOADResultF3",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 524288}, // X3
+			},
+		},
+	},
+	{
+		name:    "LOADResultF4",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 1048576}, // X4
+			},
+		},
+	},
+	{
+		name:    "LOADResultF5",
+		auxType: auxSymOff,
+		argLen:  2,
+		asm:     x86.AFAKEMOVQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 16}, // SP
+			},
+			outputs: []outputInfo{
+				{0, 2097152}, // X5
 			},
 		},
 	},
@@ -15909,6 +16257,72 @@ var opcodeTable = [...]opInfo{
 		name:    "InterCall",
 		auxType: auxInt64,
 		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "LoadResultI0",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreParamI0",
+		auxType: auxInt64,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadResultI1",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreParamI1",
+		auxType: auxInt64,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadResultI2",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreParamI2",
+		auxType: auxInt64,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadResultF0",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreParamF0",
+		auxType: auxInt64,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadResultF1",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreParamF1",
+		auxType: auxInt64,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "LoadResultF2",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "StoreParamF2",
+		auxType: auxInt64,
+		argLen:  3,
 		generic: true,
 	},
 	{

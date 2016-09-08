@@ -1821,6 +1821,9 @@ func (p *parser) xfndcl() *Node {
 	f.Func.Endlineno = lineno
 
 	funcbody(f)
+	if f.Func.Pragma&RegisterArgs != 0 {
+		Warnl(lineno, "Copied register args comment for %v", f.Func.Nname)
+	}
 
 	return f
 }

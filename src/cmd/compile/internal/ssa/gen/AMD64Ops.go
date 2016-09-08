@@ -94,7 +94,8 @@ func init() {
 		dx         = buildReg("DX")
 		gp         = buildReg("AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15")
 		fp         = buildReg("X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15")
-		gpsp       = gp | buildReg("SP")
+		sp         = buildReg("SP")
+		gpsp       = gp | sp
 		gpspsb     = gpsp | buildReg("SB")
 		callerSave = gp | fp
 	)
@@ -148,6 +149,8 @@ func init() {
 
 		fpstore    = regInfo{inputs: []regMask{gpspsb, fp, 0}}
 		fpstoreidx = regInfo{inputs: []regMask{gpspsb, gpsp, fp, 0}}
+
+		// racall = regInfo{inputs: []regMask{ax, dx}, outputs: []regMask{ax, 0}, clobbers: callerSave}
 	)
 
 	var AMD64ops = []opData{
@@ -176,6 +179,35 @@ func init() {
 		{name: "MOVSSstoreidx4", argLength: 4, reg: fpstoreidx, asm: "MOVSS", aux: "SymOff"}, // fp32 indexed by 4i store
 		{name: "MOVSDstoreidx1", argLength: 4, reg: fpstoreidx, asm: "MOVSD", aux: "SymOff"}, // fp64 indexed by i store
 		{name: "MOVSDstoreidx8", argLength: 4, reg: fpstoreidx, asm: "MOVSD", aux: "SymOff"}, // fp64 indexed by 8i store
+
+		// For parameter and result passing -- not all used quite yet.
+		{name: "STOREParamI0", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("DI"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamI1", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("SI"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamI2", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("DX"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamI3", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("CX"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamI4", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("R8"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamI5", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("R9"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+
+		{name: "LOADResultI0", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("AX")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultI1", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("DX")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultI2", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("BX")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultI3", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("CX")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultI4", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("R8")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultI5", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("R9")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+
+		{name: "STOREParamF0", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X0"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamF1", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X1"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamF2", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X2"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamF3", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X3"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamF4", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X4"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "STOREParamF5", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg("X5"), 0}}, asm: "FAKEMOVQ", aux: "SymOff"},
+
+		{name: "LOADResultF0", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X0")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultF1", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X1")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultF2", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X2")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultF3", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X3")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultF4", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X4")}}, asm: "FAKEMOVQ", aux: "SymOff"},
+		{name: "LOADResultF5", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg("X5")}}, asm: "FAKEMOVQ", aux: "SymOff"},
 
 		// binary ops
 		{name: "ADDQ", argLength: 2, reg: gp21sp, asm: "ADDQ", commutative: true, clobberFlags: true},                // arg0 + arg1

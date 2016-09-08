@@ -74,6 +74,7 @@ const (
 	Nowritebarrierrec        // error on write barrier in this or recursive callees
 	CgoUnsafeArgs            // treat a pointer to one arg as a pointer to them all
 	UintptrEscapes           // pointers converted to uintptr escape
+	RegisterArgs             // args pass in registers, as appropriate to architecture
 )
 
 func PragmaValue(verb string) Pragma {
@@ -120,6 +121,8 @@ func PragmaValue(verb string) Pragma {
 		// in the argument list.
 		// Used in syscall/dll_windows.go.
 		return UintptrEscapes
+	case "go:register_args":
+		return RegisterArgs
 	}
 	return 0
 }
@@ -939,6 +942,7 @@ func (l *lexer) getlinepragma() rune {
 			Lookup(f[1]).Linkname = f[2]
 		default:
 			l.pragma |= PragmaValue(verb)
+
 		}
 		return c
 	}

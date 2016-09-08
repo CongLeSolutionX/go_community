@@ -534,7 +534,9 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Val = math.Float64frombits(uint64(v.AuxInt))
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = x
-	case ssa.OpAMD64MOVQload, ssa.OpAMD64MOVSSload, ssa.OpAMD64MOVSDload, ssa.OpAMD64MOVLload, ssa.OpAMD64MOVWload, ssa.OpAMD64MOVBload, ssa.OpAMD64MOVBQSXload, ssa.OpAMD64MOVWQSXload, ssa.OpAMD64MOVLQSXload, ssa.OpAMD64MOVOload:
+	case ssa.OpAMD64MOVQload, ssa.OpAMD64MOVSSload, ssa.OpAMD64MOVSDload, ssa.OpAMD64MOVLload, ssa.OpAMD64MOVWload, ssa.OpAMD64MOVBload, ssa.OpAMD64MOVBQSXload, ssa.OpAMD64MOVWQSXload, ssa.OpAMD64MOVLQSXload, ssa.OpAMD64MOVOload,
+		ssa.OpAMD64LOADResultI0, ssa.OpAMD64LOADResultI1, ssa.OpAMD64LOADResultI2, ssa.OpAMD64LOADResultI3, ssa.OpAMD64LOADResultI4, ssa.OpAMD64LOADResultI5,
+		ssa.OpAMD64LOADResultF0, ssa.OpAMD64LOADResultF1, ssa.OpAMD64LOADResultF2, ssa.OpAMD64LOADResultF3, ssa.OpAMD64LOADResultF4, ssa.OpAMD64LOADResultF5:
 		p := gc.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_MEM
 		p.From.Reg = gc.SSARegNum(v.Args[0])
@@ -582,7 +584,9 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		gc.AddAux(&p.From, v)
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = gc.SSARegNum(v)
-	case ssa.OpAMD64MOVQstore, ssa.OpAMD64MOVSSstore, ssa.OpAMD64MOVSDstore, ssa.OpAMD64MOVLstore, ssa.OpAMD64MOVWstore, ssa.OpAMD64MOVBstore, ssa.OpAMD64MOVOstore:
+	case ssa.OpAMD64MOVQstore, ssa.OpAMD64MOVSSstore, ssa.OpAMD64MOVSDstore, ssa.OpAMD64MOVLstore, ssa.OpAMD64MOVWstore, ssa.OpAMD64MOVBstore, ssa.OpAMD64MOVOstore,
+		ssa.OpAMD64STOREParamI0, ssa.OpAMD64STOREParamI1, ssa.OpAMD64STOREParamI2, ssa.OpAMD64STOREParamI3, ssa.OpAMD64STOREParamI4, ssa.OpAMD64STOREParamI5,
+		ssa.OpAMD64STOREParamF0, ssa.OpAMD64STOREParamF1, ssa.OpAMD64STOREParamF2, ssa.OpAMD64STOREParamF3, ssa.OpAMD64STOREParamF4, ssa.OpAMD64STOREParamF5:
 		p := gc.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = gc.SSARegNum(v.Args[1])

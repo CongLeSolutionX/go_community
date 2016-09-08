@@ -457,6 +457,11 @@ func (s *state) newValue3(op ssa.Op, t ssa.Type, arg0, arg1, arg2 *ssa.Value) *s
 	return s.curBlock.NewValue3(s.peekLine(), op, t, arg0, arg1, arg2)
 }
 
+// newValue3 adds a new value with three arguments to the current block.
+func (s *state) newValue3A(op ssa.Op, t ssa.Type, aux interface{}, arg0, arg1, arg2 *ssa.Value) *ssa.Value {
+	return s.curBlock.NewValue3A(s.peekLine(), op, t, aux, arg0, arg1, arg2)
+}
+
 // newValue3I adds a new value with three arguments and an auxint value to the current block.
 func (s *state) newValue3I(op ssa.Op, t ssa.Type, aux int64, arg0, arg1, arg2 *ssa.Value) *ssa.Value {
 	return s.curBlock.NewValue3I(s.peekLine(), op, t, aux, arg0, arg1, arg2)
@@ -538,9 +543,9 @@ func (s *state) constInt(t ssa.Type, c int64) *ssa.Value {
 	return s.constInt32(t, int32(c))
 }
 
-func (s *state) stmts(a Nodes) {
-	for _, x := range a.Slice() {
-		s.stmt(x)
+func (s *state) stmts(l Nodes) {
+	for _, n := range l.Slice() {
+		s.stmt(n)
 	}
 }
 
@@ -548,6 +553,63 @@ func (s *state) stmts(a Nodes) {
 func (s *state) stmtList(l Nodes) {
 	for _, n := range l.Slice() {
 		s.stmt(n)
+	}
+}
+
+var gpArgLoadOps = [...]ssa.Op{ssa.OpLoadResultI0, ssa.OpLoadResultI1, ssa.OpLoadResultI2}
+var fpArgLoadOps = [...]ssa.Op{ssa.OpLoadResultF0, ssa.OpLoadResultF1, ssa.OpLoadResultF2}
+
+type regArgstate struct {
+	gp []ssa.Op
+	fp []ssa.Op
+}
+
+var chatAboutAssignment bool
+
+// argList is like stmtList, but specialized for potentially passing parameters
+// in registers.
+func (s *state) argList(registerArgs bool, l Nodes) {
+	ras := regArgstate{gp: gpArgLoadOps[0:s.config.NumArgGpReg], fp: fpArgLoadOps[0:s.config.NumArgFpReg]}
+	_ = ras
+	chatAboutAssignment = true
+	defer func() { chatAboutAssignment = false }()
+	for _, oas := range l.Slice() {
+		if oas.Op != OAS {
+			panic("Expected only OAS in arg list")
+		}
+
+		rhs := oas.Right
+		left := oas.Left
+		t := left.Type
+
+		// TODO: Some SSA-able types are larger than ints and should be passed in registers.
+		// TODO: Check register type and if a register is available.
+		// TODO:
+		// TODO: This logic should be put in a single place because the callee must make the same choices.
+		if !registerArgs || !canSSAType(t) || t.Size() > s.config.IntSize {
+			s.stmt(oas)
+			continue
+		}
+		// Outline/specialized a bit of the OAS case from s.stmt.
+		if rhs != nil {
+			if rhs.Op == OSTRUCTLIT || rhs.Op == OARRAYLIT {
+				rhs = nil
+			} else {
+				if rhs.Op == OAPPEND {
+					panic("Can't deal with OAPPEND in parameter list")
+				}
+			}
+		}
+		var r *ssa.Value
+		if rhs == nil {
+			r = s.zeroVal(t)
+		} else {
+			r = s.expr(rhs)
+		}
+
+		addr, _ := s.addr(left, false)
+		// TODO: replace this with optional assignment to register.
+		s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, t.Size(), addr, r, s.mem())
 	}
 }
 
@@ -2118,7 +2180,10 @@ func (s *state) expr(n *Node) *ssa.Value {
 		fallthrough
 
 	case OCALLINTER, OCALLMETH:
-		a := s.call(n, callNormal)
+		inreg, a := s.call(n, callNormal)
+		if inreg {
+			return a
+		}
 		return s.newValue2(ssa.OpLoad, n.Type, a, s.mem())
 
 	case OGETG:
@@ -2809,8 +2874,9 @@ func (s *state) intrinsicFirstArg(n *Node) *ssa.Value {
 }
 
 // Calls the function n using the specified call type.
-// Returns the address of the return value (or nil if none).
-func (s *state) call(n *Node, k callKind) *ssa.Value {
+// Returns the an indication that the result is in a register
+// or the address of the return value (or nil if none).
+func (s *state) call(n *Node, k callKind) (inreg bool, result *ssa.Value) {
 	var sym *Sym           // target symbol (if static)
 	var closure *ssa.Value // ptr to closure to run (if dynamic)
 	var codeptr *ssa.Value // ptr to target code (if dynamic)
@@ -2855,14 +2921,46 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 		}
 		rcvr = s.newValue1(ssa.OpIData, Types[TUINTPTR], i)
 	}
+	// call target
+	bNext := s.f.NewBlock(ssa.BlockPlain)
+	var call *ssa.Value
+	// should call use register args?
+	registerArgs := fn.Op == ONAME && fn.Name != nil && fn.Name.Defn != nil && fn.Name.Defn.Func != nil &&
+		fn.Name.Defn.Func.Pragma&RegisterArgs != 0
+
+	if registerArgs {
+		Warnl(lineno, "Saw register args %v", fn)
+	}
+
+	// a call that uses register args is similar to a normal call -- the same memory on the caller's
+	// stack is reserved, so that if the stack must grow there is an easy place to spill to.
+	// compilation of the code to initialize the args (a list of OAS nodes) uses a fake store for
+	// each of the parameters passed in a register, and the caller side will in turn use a fake load
+	// to obtain them from the stack.
+	//
+	// Fake loads and stores help in several ways:
+	// - they make the lifetime of the parameters explicit, useful for understanding what the compiler is doing.
+	// - they require less modification of the code in plive to track pointer lifetimes.
+	// - they require less modification of the register allocator -- there is a fake load opcode
+	//   for each parameter register that only takes that register, which ensures that the register allocator
+	//   will deliver it there.  The only requirement is that the scheduler place all fake loads and stores
+	//   adjacent to their call, and that parameter registers are not reused between first fake store and last
+	//   fake load.
+	//
+	// A fake load/store models movement of an entire register, and thus do not come in byte/half/word/double
+	// integer sizes (floats, TBD, depending on architectural variation, but S and D might be needed).
+
 	dowidth(fn.Type)
+
+	// TODO: check args/return for cases that we handle/not
+
 	stksize := fn.Type.ArgWidth() // includes receiver
 
 	// Run all argument assignments. The arg slots have already
 	// been offset by the appropriate amount (+2*widthptr for go/defer,
 	// +widthptr for interface calls).
 	// For OCALLMETH, the receiver is set in these statements.
-	s.stmtList(n.List)
+	s.argList(registerArgs, n.List)
 
 	// Set receiver (for interface calls)
 	if rcvr != nil {
@@ -2886,9 +2984,6 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 		stksize += 2 * int64(Widthptr)
 	}
 
-	// call target
-	bNext := s.f.NewBlock(ssa.BlockPlain)
-	var call *ssa.Value
 	switch {
 	case k == callDefer:
 		call = s.newValue1(ssa.OpDeferCall, ssa.TypeMem, s.mem())
@@ -2931,10 +3026,11 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	res := n.Left.Type.Results()
 	if res.NumFields() == 0 || k != callNormal {
 		// call has no return value. Continue with the next statement.
-		return nil
+		return
 	}
 	fp := res.Field(0)
-	return s.entryNewValue1I(ssa.OpOffPtr, Ptrto(fp.Type), fp.Offset+Ctxt.FixedFrameSize(), s.sp)
+	result = s.entryNewValue1I(ssa.OpOffPtr, Ptrto(fp.Type), fp.Offset+Ctxt.FixedFrameSize(), s.sp)
+	return
 }
 
 // etypesign returns the signed-ness of e, for integer/pointer etypes.
@@ -3058,7 +3154,12 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
 		addr, isVolatile := s.addr(n.Left, bounded)
 		return s.newValue1(ssa.OpCopy, t, addr), isVolatile // ensure that addr has the right type
 	case OCALLFUNC, OCALLINTER, OCALLMETH:
-		return s.call(n, callNormal), true
+		inreg, result := s.call(n, callNormal)
+		if inreg {
+			// TODO: we can just store this in a slot and return that right?
+			panic("Cannot address register-resident result, this needs to be implemented")
+		}
+		return result, true
 
 	default:
 		s.Unimplementedf("unhandled addr %v", n.Op)
