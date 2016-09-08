@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966683cf_ee5767c9",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T17:56:46Z",
+      "side": 1,
+      "message": "Um, shouldn\u0027t this be what the _Response_ \"Connection\" header says, not the outreq.Header.Get(\"Connection\") string.\n\nalso, this CL has no tests.",
+      "revId": "b0da4f874c6b5e5fe7c9037e4ba94f3d2596e524",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
