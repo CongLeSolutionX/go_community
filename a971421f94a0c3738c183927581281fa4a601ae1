@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "8b601ae6_2ade5fce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-08T14:54:36Z",
+      "side": 1,
+      "message": "Before this CL the runtime prevented printing of ....\n\nand then rewrite a lot of this into past tense.",
+      "revId": "a971421f94a0c3738c183927581281fa4a601ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bf48e40_1f9e230d",
         "filename": "src/runtime/string.go",
         "patchSetId": 1
@@ -19,6 +36,24 @@
         "endLine": 9,
         "endChar": 1
       },
+      "revId": "a971421f94a0c3738c183927581281fa4a601ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab2dde95_2bc53952",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-08T14:54:36Z",
+      "side": 1,
+      "message": "I don\u0027t think we have a rule as such but the files in this package with a single import write it as\n\nimport \"unsafe\"\n\nso you should do that here.",
+      "parentUuid": "2bf48e40_1f9e230d",
       "revId": "a971421f94a0c3738c183927581281fa4a601ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
