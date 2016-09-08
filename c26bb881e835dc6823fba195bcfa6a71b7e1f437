@@ -2,6 +2,159 @@
   "comments": [
     {
       "key": {
+        "uuid": "966683cf_1a05bd1e",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "32-bit\n64-bit\nthey are grammatically adjectives",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_1a1a1d79",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "why not use bytes.Scanner? this kind of thing is what it\u0027s for.\nnot sure it\u0027s less code in this case, but you don\u0027t have to read the whole thing at once and it will use less memory.\nplus you get to use strings.Replacer...",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_3ab3615a",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "i\u0027d make this one comma-separated flag to set once.\nit\u0027s nicer to use and less code.\nyou don\u0027t even need a special flag type. you can make it a string\nand just split if after flag.Parse",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_fa62c9db",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "these flag definitions should be near the top of the file. they are just buried here.",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_5a52d508",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "platform to use such as linux/amd64; multiple uses accumulate",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_baa69118",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "but it doesn\u0027t do the same thing, exactly. is that OK?",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_daab45df",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "TODO",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_1ab69d49",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "s2/\"/:\"/",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_3a17e151",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "i like to put main near the top so i can see the program structure sooner.\nmain at the bottom is a C thing.\nnot a requirement, just a request.",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1654530d_69d90177",
         "filename": "src/cmd/vet/all/main.go",
         "patchSetId": 3
@@ -13,6 +166,40 @@
       "writtenOn": "2016-09-04T21:55:07Z",
       "side": 1,
       "message": "For context on this, see issue 16577.",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_7a2159ab",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "before you log, do\nlog.SetPrefix(\"whatthisthingiscalled: \")\nlog.SetFlags(0)",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_9aa1cd05",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "this is gross.\nwhy not have a variable rather than a flag? plus you don\u0027t check if all and p are both set.\n\n\nif *flagAll \u0026\u0026 len(flagPlatforms) \u003e 0 {\n  flag.Usage()\n}\nswitch {\ncase *flagAll \u0026\u0026 len(flagPlatforms) \u003e 0:\n  flag.Usage()\ncase len(flagPlatforms) \u003e 0:\n  p.vet(flagPlatforms)\ncase *flagAll:\n  p.vet(allPlatforms())\ndefault:\n  flag.Usage()\n}",
       "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -48,6 +235,40 @@
       "side": 1,
       "message": "Ack.\n\nBefore fixing, I\u0027d like to hear from Rob about whether he wants to keep the current whitelist form or switch to an autogenerated full list per platform approach. If the latter, everything in here moves or goes away anyway.",
       "parentUuid": "1654530d_af36d93d",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_7a2319c5",
+        "filename": "src/cmd/vet/all/whitelist/openbsd_386.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "is there a reason not to just fix these?\n\ni haven\u0027t looked at all these files but chose this one because it was longer.",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_7a4eb988",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-08T00:54:04Z",
+      "side": 1,
+      "message": "A lousy but expedient name.\nGoToolPath is taken, I get that. But I rail against \"OrErr\" as everything, pretty much, is \"OrErr\".\n\nHow about just \"GoTool\"?",
       "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
