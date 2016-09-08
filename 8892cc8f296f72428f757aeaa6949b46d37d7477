@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_43e10c25",
+        "filename": "misc/cgo/testplugin/src/host/host.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T17:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_98bad51e",
+      "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_f8943194",
         "filename": "misc/cgo/testplugin/src/plugin1/plugin1.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-26T18:45:28Z",
       "side": 1,
       "message": "Personally I think it\u0027s always best to say at least\n// // No C code required.\nimport \"C\"\n\nAlso I would put a blank line between the import \"C\" and the import \"common\".",
+      "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_63ee1016",
+        "filename": "misc/cgo/testplugin/src/plugin1/plugin1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T17:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_f8943194",
       "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_a3d82875",
+        "filename": "misc/cgo/testplugin/test.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T17:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_b88eb980",
+      "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_9893f5a8",
         "filename": "misc/cgo/testplugin/test.bash",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-08-26T18:45:28Z",
       "side": 1,
       "message": "What is the default behavior for go build -buildmode\u003dplugin?  Does it create a .so in the current directory?",
+      "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_ce7aa317",
+        "filename": "misc/cgo/testplugin/test.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T17:14:46Z",
+      "side": 1,
+      "message": "Yes, following the model of -buildmode\u003dc-archive creating a .a in the current directory.",
+      "parentUuid": "45b8cef5_9893f5a8",
       "revId": "8892cc8f296f72428f757aeaa6949b46d37d7477",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
