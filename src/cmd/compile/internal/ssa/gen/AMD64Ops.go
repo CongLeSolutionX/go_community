@@ -71,9 +71,9 @@ func init() {
 	if len(regNamesAMD64) > 64 {
 		panic("too many registers")
 	}
-	num := map[string]int{}
+	num := map[string]int8{}
 	for i, name := range regNamesAMD64 {
-		num[name] = i
+		num[name] = int8(i)
 	}
 	buildReg := func(s string) regMask {
 		m := regMask(0)
@@ -94,9 +94,28 @@ func init() {
 		dx         = buildReg("DX")
 		gp         = buildReg("AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15")
 		fp         = buildReg("X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15")
-		gpsp       = gp | buildReg("SP")
+		sp         = buildReg("SP")
+		gpsp       = gp | sp
 		gpspsb     = gpsp | buildReg("SB")
 		callerSave = gp | fp
+
+		// For parameters passed/return in registers.
+		// Not all necessarily used (yet), that is governed by slices in arch.
+		// Constraints on registers: normal entry seq uses CX to get G register.
+		// GC-inserted return tripwires use BX, CX, DX, R8
+		argi0 = "DI"
+		argi1 = "SI"
+		argi2 = "R9"
+		argi3 = "R10"
+		argi4 = "R11"
+		argi5 = "R12"
+
+		argf0 = "X0"
+		argf1 = "X1"
+		argf2 = "X2"
+		argf3 = "X3"
+		argf4 = "X4"
+		argf5 = "X5"
 	)
 	// Common slices of register masks
 	var (
@@ -148,6 +167,8 @@ func init() {
 
 		fpstore    = regInfo{inputs: []regMask{gpspsb, fp, 0}}
 		fpstoreidx = regInfo{inputs: []regMask{gpspsb, gpsp, fp, 0}}
+
+		// racall = regInfo{inputs: []regMask{ax, dx}, outputs: []regMask{ax, 0}, clobbers: callerSave}
 	)
 
 	var AMD64ops = []opData{
@@ -176,6 +197,37 @@ func init() {
 		{name: "MOVSSstoreidx4", argLength: 4, reg: fpstoreidx, asm: "MOVSS", aux: "SymOff"},                // fp32 indexed by 4i store
 		{name: "MOVSDstoreidx1", argLength: 4, reg: fpstoreidx, asm: "MOVSD", aux: "SymOff"},                // fp64 indexed by i store
 		{name: "MOVSDstoreidx8", argLength: 4, reg: fpstoreidx, asm: "MOVSD", aux: "SymOff"},                // fp64 indexed by 8i store
+
+		// For parameter and result passing -- not all used quite yet.
+		// Like LoadReg and StoreReg, these all rely on the presence of a type to determine
+		// the appropriate load and store operations.
+		{name: "STOREArgI0", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argi0), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgI1", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argi1), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgI2", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argi2), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgI3", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argi3), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgI4", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argi4), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgI5", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argi5), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+
+		{name: "LOADArgI0", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argi0)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgI1", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argi1)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgI2", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argi2)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgI3", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argi3)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgI4", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argi4)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgI5", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argi5)}}, asm: "FAKEMOV", aux: "TypeOff"},
+
+		{name: "STOREArgF0", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argf0), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgF1", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argf1), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgF2", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argf2), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgF3", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argf3), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgF4", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argf4), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "STOREArgF5", argLength: 3, reg: regInfo{inputs: []regMask{sp, buildReg(argf5), 0}}, asm: "FAKEMOV", aux: "TypeOff"},
+
+		{name: "LOADArgF0", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argf0)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgF1", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argf1)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgF2", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argf2)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgF3", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argf3)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgF4", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argf4)}}, asm: "FAKEMOV", aux: "TypeOff"},
+		{name: "LOADArgF5", argLength: 2, reg: regInfo{inputs: []regMask{sp, 0}, outputs: []regMask{buildReg(argf5)}}, asm: "FAKEMOV", aux: "TypeOff"},
 
 		// binary ops
 		{name: "ADDQ", argLength: 2, reg: gp21sp, asm: "ADDQ", commutative: true, clobberFlags: true},                // arg0 + arg1
@@ -575,6 +627,20 @@ func init() {
 		{name: "NAN"}, // FP, unordered comparison (parity one)
 	}
 
+	// This slice determines the registers used for integer args/results
+	var AMD64argIregs = []int8{
+		num[argi0],
+		num[argi1],
+		num[argi2],
+	}
+
+	// This slice determines the registers used for integer args/results
+	var AMD64argFregs = []int8{
+		num[argf0],
+		num[argf1],
+		num[argf2],
+	}
+
 	archs = append(archs, arch{
 		name:            "AMD64",
 		pkg:             "cmd/internal/obj/x86",
@@ -582,8 +648,10 @@ func init() {
 		ops:             AMD64ops,
 		blocks:          AMD64blocks,
 		regnames:        regNamesAMD64,
+		argiregs:        AMD64argIregs,
+		argfregs:        AMD64argFregs,
 		gpregmask:       gp,
 		fpregmask:       fp,
-		framepointerreg: int8(num["BP"]),
+		framepointerreg: num["BP"],
 	})
 }

@@ -494,7 +494,9 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Val = math.Float64frombits(uint64(v.AuxInt))
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = x
-	case ssa.OpAMD64MOVQload, ssa.OpAMD64MOVSSload, ssa.OpAMD64MOVSDload, ssa.OpAMD64MOVLload, ssa.OpAMD64MOVWload, ssa.OpAMD64MOVBload, ssa.OpAMD64MOVBQSXload, ssa.OpAMD64MOVWQSXload, ssa.OpAMD64MOVLQSXload, ssa.OpAMD64MOVOload:
+	case ssa.OpAMD64MOVQload, ssa.OpAMD64MOVSSload, ssa.OpAMD64MOVSDload, ssa.OpAMD64MOVLload, ssa.OpAMD64MOVWload, ssa.OpAMD64MOVBload, ssa.OpAMD64MOVBQSXload, ssa.OpAMD64MOVWQSXload, ssa.OpAMD64MOVLQSXload, ssa.OpAMD64MOVOload,
+		ssa.OpAMD64LOADArgI0, ssa.OpAMD64LOADArgI1, ssa.OpAMD64LOADArgI2, ssa.OpAMD64LOADArgI3, ssa.OpAMD64LOADArgI4, ssa.OpAMD64LOADArgI5,
+		ssa.OpAMD64LOADArgF0, ssa.OpAMD64LOADArgF1, ssa.OpAMD64LOADArgF2, ssa.OpAMD64LOADArgF3, ssa.OpAMD64LOADArgF4, ssa.OpAMD64LOADArgF5:
 		p := gc.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_MEM
 		p.From.Reg = v.Args[0].Reg()
@@ -549,6 +551,17 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = v.Args[0].Reg()
 		gc.AddAux(&p.To, v)
+	case ssa.OpAMD64STOREArgI0, ssa.OpAMD64STOREArgI1, ssa.OpAMD64STOREArgI2, ssa.OpAMD64STOREArgI3, ssa.OpAMD64STOREArgI4, ssa.OpAMD64STOREArgI5,
+		ssa.OpAMD64STOREArgF0, ssa.OpAMD64STOREArgF1, ssa.OpAMD64STOREArgF2, ssa.OpAMD64STOREArgF3, ssa.OpAMD64STOREArgF4, ssa.OpAMD64STOREArgF5:
+		// Used to store parameters passed to function.
+		// TODO: changed op name to FAKEMOV in rules, it's not going to be a FAKEMOVQ, it will be size-specific.
+		// t := v.Aux.(ssa.Type)
+		// op := storeByType(t) // For testing, use the store that's supposed to be used.
+		// p.From.Type = obj.TYPE_REG
+		// p.From.Reg = v.Args[1].Reg()
+		// p.To.Type = obj.TYPE_MEM
+		// p.To.Reg = v.Args[0].Reg()
+		// p.To.Offset = v.AuxInt
 	case ssa.OpAMD64MOVQstoreidx8, ssa.OpAMD64MOVSDstoreidx8:
 		p := gc.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
@@ -707,7 +720,16 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 	case ssa.OpInitMem:
 		// memory arg needs no code
 	case ssa.OpArg:
-		// input args need no code
+	case ssa.OpArgI0, ssa.OpArgI1, ssa.OpArgI2, ssa.OpArgF0, ssa.OpArgF1, ssa.OpArgF2:
+		// The assembler needs to wrap the entry safepoint/stack growth code with spill/unspill
+		// The loop only runs once.
+		for _, ap := range v.Block.Func.RegArgs {
+			gc.Ctxt.RegArgs = append(gc.Ctxt.RegArgs,
+				obj.RegArg{Reg: ap.Reg(), Unspill: loadByType(ap.Type()), Spill: storeByType(ap.Type())})
+			gc.SlotAddr(ap.Mem(), &gc.Ctxt.RegArgs[len(gc.Ctxt.RegArgs)-1].Addr)
+		}
+		v.Block.Func.RegArgs = nil
+
 	case ssa.OpAMD64LoweredGetClosurePtr:
 		// Closure pointer is DX.
 		gc.CheckLoweredGetClosurePtr(v)

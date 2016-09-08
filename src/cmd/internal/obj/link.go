@@ -646,6 +646,17 @@ const (
 	HistVersion = 1
 )
 
+// RegArg provides spill/fill information for a register-resident argument
+// to a function.  These need spilling/filling in the safepoint/stackgrowth case.
+// At the time of fill/spill, the offset must be adjusted by the architecture-dependent
+// adjustment to hardware SP that occurs in a call instruction.  E.g., for AMD64,
+// at Offset+8 because the return address was pushed.
+type RegArg struct {
+	Addr           Addr
+	Reg            int16
+	Spill, Unspill As
+}
+
 // Link holds the context for writing object code from a compiler
 // to be linker input or for reading that input into the linker.
 type Link struct {
@@ -689,6 +700,7 @@ type Link struct {
 	Cursym        *LSym
 	Version       int
 	Errors        int
+	RegArgs       []RegArg
 
 	Framepointer_enabled bool
 

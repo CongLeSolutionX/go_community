@@ -1028,6 +1028,18 @@ func (s *regAllocState) regalloc(f *Func) {
 				s.advanceUses(v)
 				continue
 			}
+			if v.Op != OpArg && isArgOp(v.Op) { // OpArg delivered in a register.
+				// TODO must modify wrapper to correctly spill/restore around safepoint/stack change
+				r := register(s.f.Config.ArgRegs[v.Op])
+				if s.regs[r].v != nil {
+					s.freeReg(r) // kick out the old value
+				}
+				fmt.Printf("register op s.assignReg(%v,%v,%v)\n", r, v, v)
+				s.assignReg(r, v, v)
+				b.Values = append(b.Values, v)
+				s.advanceUses(v)
+				goto issueSpill
+			}
 			if v.Op == OpKeepAlive {
 				// Make sure the argument to v is still live here.
 				s.advanceUses(v)

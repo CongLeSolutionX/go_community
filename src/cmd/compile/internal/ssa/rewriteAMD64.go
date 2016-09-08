@@ -544,6 +544,18 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		return rewriteValueAMD64_OpLess8U(v, config)
 	case OpLoad:
 		return rewriteValueAMD64_OpLoad(v, config)
+	case OpLoadArgRegF0:
+		return rewriteValueAMD64_OpLoadArgRegF0(v, config)
+	case OpLoadArgRegF1:
+		return rewriteValueAMD64_OpLoadArgRegF1(v, config)
+	case OpLoadArgRegF2:
+		return rewriteValueAMD64_OpLoadArgRegF2(v, config)
+	case OpLoadArgRegI0:
+		return rewriteValueAMD64_OpLoadArgRegI0(v, config)
+	case OpLoadArgRegI1:
+		return rewriteValueAMD64_OpLoadArgRegI1(v, config)
+	case OpLoadArgRegI2:
+		return rewriteValueAMD64_OpLoadArgRegI2(v, config)
 	case OpLrot16:
 		return rewriteValueAMD64_OpLrot16(v, config)
 	case OpLrot32:
@@ -744,6 +756,18 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		return rewriteValueAMD64_OpStaticCall(v, config)
 	case OpStore:
 		return rewriteValueAMD64_OpStore(v, config)
+	case OpStoreArgRegF0:
+		return rewriteValueAMD64_OpStoreArgRegF0(v, config)
+	case OpStoreArgRegF1:
+		return rewriteValueAMD64_OpStoreArgRegF1(v, config)
+	case OpStoreArgRegF2:
+		return rewriteValueAMD64_OpStoreArgRegF2(v, config)
+	case OpStoreArgRegI0:
+		return rewriteValueAMD64_OpStoreArgRegI0(v, config)
+	case OpStoreArgRegI1:
+		return rewriteValueAMD64_OpStoreArgRegI1(v, config)
+	case OpStoreArgRegI2:
+		return rewriteValueAMD64_OpStoreArgRegI2(v, config)
 	case OpSub16:
 		return rewriteValueAMD64_OpSub16(v, config)
 	case OpSub32:
@@ -15632,6 +15656,108 @@ func rewriteValueAMD64_OpLoad(v *Value, config *Config) bool {
 	}
 	return false
 }
+func rewriteValueAMD64_OpLoadArgRegF0(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LoadArgRegF0 <t> ptr mem)
+	// cond:
+	// result: (LOADArgF0 <t> ptr mem)
+	for {
+		t := v.Type
+		ptr := v.Args[0]
+		mem := v.Args[1]
+		v.reset(OpAMD64LOADArgF0)
+		v.Type = t
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpLoadArgRegF1(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LoadArgRegF1 <t> ptr mem)
+	// cond:
+	// result: (LOADArgF1 <t> ptr mem)
+	for {
+		t := v.Type
+		ptr := v.Args[0]
+		mem := v.Args[1]
+		v.reset(OpAMD64LOADArgF1)
+		v.Type = t
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpLoadArgRegF2(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LoadArgRegF2 <t> ptr mem)
+	// cond:
+	// result: (LOADArgF2 <t> ptr mem)
+	for {
+		t := v.Type
+		ptr := v.Args[0]
+		mem := v.Args[1]
+		v.reset(OpAMD64LOADArgF2)
+		v.Type = t
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpLoadArgRegI0(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LoadArgRegI0 <t> ptr mem)
+	// cond:
+	// result: (LOADArgI0 <t> ptr mem)
+	for {
+		t := v.Type
+		ptr := v.Args[0]
+		mem := v.Args[1]
+		v.reset(OpAMD64LOADArgI0)
+		v.Type = t
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpLoadArgRegI1(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LoadArgRegI1 <t> ptr mem)
+	// cond:
+	// result: (LOADArgI1 <t> ptr mem)
+	for {
+		t := v.Type
+		ptr := v.Args[0]
+		mem := v.Args[1]
+		v.reset(OpAMD64LOADArgI1)
+		v.Type = t
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpLoadArgRegI2(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LoadArgRegI2 <t> ptr mem)
+	// cond:
+	// result: (LOADArgI2 <t> ptr mem)
+	for {
+		t := v.Type
+		ptr := v.Args[0]
+		mem := v.Args[1]
+		v.reset(OpAMD64LOADArgI2)
+		v.Type = t
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+}
 func rewriteValueAMD64_OpLrot16(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
@@ -18177,6 +18303,144 @@ func rewriteValueAMD64_OpStore(v *Value, config *Config) bool {
 		return true
 	}
 	return false
+}
+func rewriteValueAMD64_OpStoreArgRegF0(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (StoreArgRegF0 <t> {vt} [off] ptr val mem)
+	// cond:
+	// result: (STOREArgF0 <t> {vt} [off] ptr val mem)
+	for {
+		t := v.Type
+		off := v.AuxInt
+		vt := v.Aux
+		ptr := v.Args[0]
+		val := v.Args[1]
+		mem := v.Args[2]
+		v.reset(OpAMD64STOREArgF0)
+		v.Type = t
+		v.AuxInt = off
+		v.Aux = vt
+		v.AddArg(ptr)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpStoreArgRegF1(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (StoreArgRegF1 <t> {vt} [off] ptr val mem)
+	// cond:
+	// result: (STOREArgF1 <t> {vt} [off] ptr val mem)
+	for {
+		t := v.Type
+		off := v.AuxInt
+		vt := v.Aux
+		ptr := v.Args[0]
+		val := v.Args[1]
+		mem := v.Args[2]
+		v.reset(OpAMD64STOREArgF1)
+		v.Type = t
+		v.AuxInt = off
+		v.Aux = vt
+		v.AddArg(ptr)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpStoreArgRegF2(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (StoreArgRegF2 <t> {vt} [off] ptr val mem)
+	// cond:
+	// result: (STOREArgF2 <t> {vt} [off] ptr val mem)
+	for {
+		t := v.Type
+		off := v.AuxInt
+		vt := v.Aux
+		ptr := v.Args[0]
+		val := v.Args[1]
+		mem := v.Args[2]
+		v.reset(OpAMD64STOREArgF2)
+		v.Type = t
+		v.AuxInt = off
+		v.Aux = vt
+		v.AddArg(ptr)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpStoreArgRegI0(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (StoreArgRegI0 <t> {vt} [off] ptr val mem)
+	// cond:
+	// result: (STOREArgI0 <t> {vt} [off] ptr val mem)
+	for {
+		t := v.Type
+		off := v.AuxInt
+		vt := v.Aux
+		ptr := v.Args[0]
+		val := v.Args[1]
+		mem := v.Args[2]
+		v.reset(OpAMD64STOREArgI0)
+		v.Type = t
+		v.AuxInt = off
+		v.Aux = vt
+		v.AddArg(ptr)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpStoreArgRegI1(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (StoreArgRegI1 <t> {vt} [off] ptr val mem)
+	// cond:
+	// result: (STOREArgI1 <t> {vt} [off] ptr val mem)
+	for {
+		t := v.Type
+		off := v.AuxInt
+		vt := v.Aux
+		ptr := v.Args[0]
+		val := v.Args[1]
+		mem := v.Args[2]
+		v.reset(OpAMD64STOREArgI1)
+		v.Type = t
+		v.AuxInt = off
+		v.Aux = vt
+		v.AddArg(ptr)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueAMD64_OpStoreArgRegI2(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (StoreArgRegI2 <t> {vt} [off] ptr val mem)
+	// cond:
+	// result: (STOREArgI2 <t> {vt} [off] ptr val mem)
+	for {
+		t := v.Type
+		off := v.AuxInt
+		vt := v.Aux
+		ptr := v.Args[0]
+		val := v.Args[1]
+		mem := v.Args[2]
+		v.reset(OpAMD64STOREArgI2)
+		v.Type = t
+		v.AuxInt = off
+		v.Aux = vt
+		v.AddArg(ptr)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
 }
 func rewriteValueAMD64_OpSub16(v *Value, config *Config) bool {
 	b := v.Block
