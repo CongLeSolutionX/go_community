@@ -1623,6 +1623,30 @@ const (
 	OpDeferCall
 	OpGoCall
 	OpInterCall
+	OpStoreArgRegI0
+	OpStoreArgRegI1
+	OpStoreArgRegI2
+	OpStoreArgRegI3
+	OpStoreArgRegI4
+	OpStoreArgRegI5
+	OpStoreArgRegF0
+	OpStoreArgRegF1
+	OpStoreArgRegF2
+	OpStoreArgRegF3
+	OpStoreArgRegF4
+	OpStoreArgRegF5
+	OpArgI0
+	OpArgI1
+	OpArgI2
+	OpArgI3
+	OpArgI4
+	OpArgI5
+	OpArgF0
+	OpArgF1
+	OpArgF2
+	OpArgF3
+	OpArgF4
+	OpArgF5
 	OpSignExt8to16
 	OpSignExt8to32
 	OpSignExt8to64
@@ -18928,6 +18952,150 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
+		name:    "StoreArgRegI0",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegI1",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegI2",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegI3",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegI4",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegI5",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegF0",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegF1",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegF2",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegF3",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegF4",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "StoreArgRegF5",
+		auxType: auxTypeOff,
+		argLen:  3,
+		generic: true,
+	},
+	{
+		name:    "ArgI0",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgI1",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgI2",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgI3",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgI4",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgI5",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgF0",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgF1",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgF2",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgF3",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgF4",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
+		name:    "ArgF5",
+		auxType: auxSymOff,
+		argLen:  0,
+		generic: true,
+	},
+	{
 		name:    "SignExt8to16",
 		argLen:  1,
 		generic: true,
@@ -19450,6 +19618,9 @@ var registers386 = [...]Register{
 	{15, x86.REG_X7, "X7"},
 	{16, 0, "SB"},
 }
+var argRegSpecs386 = map[Op]regInfo{}
+var argIReg386 = []string(nil)
+var argFReg386 = []string(nil)
 var gpRegMask386 = regMask(239)
 var fpRegMask386 = regMask(65280)
 var specialRegMask386 = regMask(0)
@@ -19489,6 +19660,58 @@ var registersAMD64 = [...]Register{
 	{31, x86.REG_X15, "X15"},
 	{32, 0, "SB"},
 }
+var argRegSpecsAMD64 = map[Op]regInfo{
+
+	OpArgI0: regInfo{outputs: []outputInfo{{0, 128}}}, // DI
+	OpStoreArgRegI0: regInfo{
+		inputs: []inputInfo{
+			{0, 16},  // SP
+			{1, 128}, // DI
+		},
+	},
+
+	OpArgI1: regInfo{outputs: []outputInfo{{0, 64}}}, // SI
+	OpStoreArgRegI1: regInfo{
+		inputs: []inputInfo{
+			{0, 16}, // SP
+			{1, 64}, // SI
+		},
+	},
+
+	OpArgI2: regInfo{outputs: []outputInfo{{0, 512}}}, // R9
+	OpStoreArgRegI2: regInfo{
+		inputs: []inputInfo{
+			{0, 16},  // SP
+			{1, 512}, // R9
+		},
+	},
+
+	OpArgF0: regInfo{outputs: []outputInfo{{0, 65536}}}, // X0
+	OpStoreArgRegF0: regInfo{
+		inputs: []inputInfo{
+			{0, 16},    // SP
+			{1, 65536}, // X0
+		},
+	},
+
+	OpArgF1: regInfo{outputs: []outputInfo{{0, 131072}}}, // X1
+	OpStoreArgRegF1: regInfo{
+		inputs: []inputInfo{
+			{0, 16},     // SP
+			{1, 131072}, // X1
+		},
+	},
+
+	OpArgF2: regInfo{outputs: []outputInfo{{0, 262144}}}, // X2
+	OpStoreArgRegF2: regInfo{
+		inputs: []inputInfo{
+			{0, 16},     // SP
+			{1, 262144}, // X2
+		},
+	},
+}
+var argIRegAMD64 = []string{"DI", "SI", "R9"}
+var argFRegAMD64 = []string{"X0", "X1", "X2"}
 var gpRegMaskAMD64 = regMask(65519)
 var fpRegMaskAMD64 = regMask(4294901760)
 var specialRegMaskAMD64 = regMask(0)
@@ -19528,6 +19751,9 @@ var registersARM = [...]Register{
 	{31, arm.REG_F15, "F15"},
 	{32, 0, "SB"},
 }
+var argRegSpecsARM = map[Op]regInfo{}
+var argIRegARM = []string(nil)
+var argFRegARM = []string(nil)
 var gpRegMaskARM = regMask(5119)
 var fpRegMaskARM = regMask(4294901760)
 var specialRegMaskARM = regMask(0)
@@ -19597,6 +19823,58 @@ var registersARM64 = [...]Register{
 	{61, arm64.REG_F31, "F31"},
 	{62, 0, "SB"},
 }
+var argRegSpecsARM64 = map[Op]regInfo{
+
+	OpArgI0: regInfo{outputs: []outputInfo{{0, 1048576}}}, // R20
+	OpStoreArgRegI0: regInfo{
+		inputs: []inputInfo{
+			{0, 536870912}, // SP
+			{1, 1048576},   // R20
+		},
+	},
+
+	OpArgI1: regInfo{outputs: []outputInfo{{0, 2097152}}}, // R21
+	OpStoreArgRegI1: regInfo{
+		inputs: []inputInfo{
+			{0, 536870912}, // SP
+			{1, 2097152},   // R21
+		},
+	},
+
+	OpArgI2: regInfo{outputs: []outputInfo{{0, 4194304}}}, // R22
+	OpStoreArgRegI2: regInfo{
+		inputs: []inputInfo{
+			{0, 536870912}, // SP
+			{1, 4194304},   // R22
+		},
+	},
+
+	OpArgF0: regInfo{outputs: []outputInfo{{0, 1125899906842624}}}, // F20
+	OpStoreArgRegF0: regInfo{
+		inputs: []inputInfo{
+			{0, 536870912},        // SP
+			{1, 1125899906842624}, // F20
+		},
+	},
+
+	OpArgF1: regInfo{outputs: []outputInfo{{0, 2251799813685248}}}, // F21
+	OpStoreArgRegF1: regInfo{
+		inputs: []inputInfo{
+			{0, 536870912},        // SP
+			{1, 2251799813685248}, // F21
+		},
+	},
+
+	OpArgF2: regInfo{outputs: []outputInfo{{0, 4503599627370496}}}, // F22
+	OpStoreArgRegF2: regInfo{
+		inputs: []inputInfo{
+			{0, 536870912},        // SP
+			{1, 4503599627370496}, // F22
+		},
+	},
+}
+var argIRegARM64 = []string{"R20", "R21", "R22"}
+var argFRegARM64 = []string{"F20", "F21", "F22"}
 var gpRegMaskARM64 = regMask(133955583)
 var fpRegMaskARM64 = regMask(4611686017353646080)
 var specialRegMaskARM64 = regMask(0)
@@ -19665,6 +19943,9 @@ var registersMIPS64 = [...]Register{
 	{60, mips.REG_LO, "LO"},
 	{61, 0, "SB"},
 }
+var argRegSpecsMIPS64 = map[Op]regInfo{}
+var argIRegMIPS64 = []string(nil)
+var argFRegMIPS64 = []string(nil)
 var gpRegMaskMIPS64 = regMask(33554430)
 var fpRegMaskMIPS64 = regMask(576460752169205760)
 var specialRegMaskMIPS64 = regMask(1729382256910270464)
@@ -19735,6 +20016,58 @@ var registersPPC64 = [...]Register{
 	{62, ppc64.REG_F30, "F30"},
 	{63, ppc64.REG_F31, "F31"},
 }
+var argRegSpecsPPC64 = map[Op]regInfo{
+
+	OpArgI0: regInfo{outputs: []outputInfo{{0, 1048576}}}, // R20
+	OpStoreArgRegI0: regInfo{
+		inputs: []inputInfo{
+			{0, 2},       // SP
+			{1, 1048576}, // R20
+		},
+	},
+
+	OpArgI1: regInfo{outputs: []outputInfo{{0, 2097152}}}, // R21
+	OpStoreArgRegI1: regInfo{
+		inputs: []inputInfo{
+			{0, 2},       // SP
+			{1, 2097152}, // R21
+		},
+	},
+
+	OpArgI2: regInfo{outputs: []outputInfo{{0, 4194304}}}, // R22
+	OpStoreArgRegI2: regInfo{
+		inputs: []inputInfo{
+			{0, 2},       // SP
+			{1, 4194304}, // R22
+		},
+	},
+
+	OpArgF0: regInfo{outputs: []outputInfo{{0, 4503599627370496}}}, // F20
+	OpStoreArgRegF0: regInfo{
+		inputs: []inputInfo{
+			{0, 2},                // SP
+			{1, 4503599627370496}, // F20
+		},
+	},
+
+	OpArgF1: regInfo{outputs: []outputInfo{{0, 9007199254740992}}}, // F21
+	OpStoreArgRegF1: regInfo{
+		inputs: []inputInfo{
+			{0, 2},                // SP
+			{1, 9007199254740992}, // F21
+		},
+	},
+
+	OpArgF2: regInfo{outputs: []outputInfo{{0, 18014398509481984}}}, // F22
+	OpStoreArgRegF2: regInfo{
+		inputs: []inputInfo{
+			{0, 2},                 // SP
+			{1, 18014398509481984}, // F22
+		},
+	},
+}
+var argIRegPPC64 = []string{"R20", "R21", "R22"}
+var argFRegPPC64 = []string{"F20", "F21", "F22"}
 var gpRegMaskPPC64 = regMask(1073733624)
 var fpRegMaskPPC64 = regMask(576460743713488896)
 var specialRegMaskPPC64 = regMask(0)
@@ -19774,6 +20107,9 @@ var registersS390X = [...]Register{
 	{31, s390x.REG_F15, "F15"},
 	{32, 0, "SB"},
 }
+var argRegSpecsS390X = map[Op]regInfo{}
+var argIRegS390X = []string(nil)
+var argFRegS390X = []string(nil)
 var gpRegMaskS390X = regMask(5119)
 var fpRegMaskS390X = regMask(4294901760)
 var specialRegMaskS390X = regMask(0)
