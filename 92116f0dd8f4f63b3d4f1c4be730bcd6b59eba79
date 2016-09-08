@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_239fb8b1",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T17:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_584b1d60",
+      "revId": "92116f0dd8f4f63b3d4f1c4be730bcd6b59eba79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45b8cef5_387189a1",
         "filename": "src/cmd/go/pkg.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-08-26T18:41:19Z",
       "side": 1,
       "message": "Update comment one way or another.",
+      "revId": "92116f0dd8f4f63b3d4f1c4be730bcd6b59eba79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_2e8a3f17",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-08T17:14:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8cef5_387189a1",
       "revId": "92116f0dd8f4f63b3d4f1c4be730bcd6b59eba79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
