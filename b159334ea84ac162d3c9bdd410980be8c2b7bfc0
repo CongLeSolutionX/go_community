@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966683cf_d4c234fa",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-08T19:59:36Z",
+      "side": 1,
+      "message": "Fprint, not Fprintf.  (Shouldn\u0027t matter in practice, since I don\u0027t believe names can ever contain %.)",
+      "range": {
+        "startLine": 565,
+        "startChar": 6,
+        "endLine": 565,
+        "endChar": 13
+      },
+      "revId": "b159334ea84ac162d3c9bdd410980be8c2b7bfc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
