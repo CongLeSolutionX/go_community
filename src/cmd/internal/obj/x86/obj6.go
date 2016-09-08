@@ -615,7 +615,7 @@ func nacladdr(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) {
 	}
 }
 
-func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
+func preprocess(ctxt *obj.Link, cursym *obj.LSym) (extraText *obj.LSym) {
 	if ctxt.Headtype == obj.Hplan9 && ctxt.Plan9privates == nil {
 		ctxt.Plan9privates = obj.Linklookup(ctxt, "_privates", 0)
 	}
@@ -686,7 +686,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 	}
 
 	if cursym.Text.From3Offset()&obj.NOSPLIT == 0 {
-		p = stacksplit(ctxt, p, autoffset, int32(textarg)) // emit split check
+		p, extraText = stacksplit(ctxt, p, autoffset, int32(textarg), cursym) // emit split check
+	} else if len(ctxt.RegArgs) > 0 {
+		// need to also emit the trailing part if we're calling blindly
 	}
 
 	if autoffset != 0 {
@@ -931,6 +933,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			p.As = obj.AJMP
 		}
 	}
+	return
 }
 
 func isZeroArgRuntimeCall(s *obj.LSym) bool {
@@ -990,7 +993,7 @@ func load_g_cx(ctxt *obj.Link, p *obj.Prog) *obj.Prog {
 // Appends to (does not overwrite) p.
 // Assumes g is in CX.
 // Returns last new instruction.
-func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32) *obj.Prog {
+func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32, cursym *obj.LSym) (jls *obj.Prog, extra *obj.LSym) {
 	cmp := ACMPQ
 	lea := ALEAQ
 	mov := AMOVQ
@@ -1105,7 +1108,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32) *ob
 	}
 
 	// common
-	jls := obj.Appendp(ctxt, p)
+	jls = obj.Appendp(ctxt, p)
 	jls.As = AJLS
 	jls.To.Type = obj.TYPE_BRANCH
 
@@ -1113,11 +1116,24 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32) *ob
 	for last = ctxt.Cursym.Text; last.Link != nil; last = last.Link {
 	}
 
+	// Apparently not as magical as it looks, else someone would have left an explanatory comment.
 	spfix := obj.Appendp(ctxt, last)
 	spfix.As = obj.ANOP
 	spfix.Spadj = -framesize
+	last = spfix
 
-	call := obj.Appendp(ctxt, spfix)
+	// Spill register args.
+	for _, ra := range ctxt.RegArgs {
+		spill := obj.Appendp(ctxt, last)
+		spill.As = ra.Spill
+		spill.From.Type = obj.TYPE_REG
+		spill.From.Reg = ra.Reg
+		spill.To = ra.Addr
+		spill.Mode = ctxt.Cursym.Text.Mode
+		last = spill
+	}
+
+	call := obj.Appendp(ctxt, last)
 	call.Lineno = ctxt.Cursym.Text.Lineno
 	call.Mode = ctxt.Cursym.Text.Mode
 	call.As = obj.ACALL
@@ -1141,18 +1157,67 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32) *ob
 		progedit(ctxt, callend.Link)
 	}
 
-	jmp := obj.Appendp(ctxt, callend)
+	// Patch in branch to morestack-call-block.
+	jls.Pcond = spfix
+	if q1 != nil {
+		q1.Pcond = spfix
+	}
+
+	last = callend
+
+	// // In the RegArgs > 0 case, create a named stub that will behave
+	// // as if registers arrived on stack, and also branch to that stub.
+
+	// wrapperName := cursym.Name + "*"
+	// wrapperNameSym := obj.Linklookup(ctxt, wrapperName, 0)
+
+	// jmp := obj.Appendp(ctxt, last)
+	// jmp.As = obj.AJMP
+	// jmp.To.Type = obj.TYPE_BRANCH
+	// jmp.To.Name = obj.NAME_EXTERN
+	// jmp.To.Sym = wrapperNameSym
+
+	// sym := *cursym
+	// extra = &sym
+
+	// extra.Name = wrapperName
+	// extra.Pcln = &obj.Pcln{}
+	// txt := ctxt.NewProg()
+	// *txt = *extra.Text
+	// extra.Text = txt
+	// txt.Link = nil
+	// txt.From.Sym = wrapperNameSym
+
+	// last = txt
+
+	// Unspill any spilled register args
+	for _, ra := range ctxt.RegArgs {
+		spill := ctxt.NewProg()
+		last.Link = spill
+		spill.As = ra.Unspill
+		spill.From = ra.Addr
+		spill.To.Type = obj.TYPE_REG
+		spill.To.Reg = ra.Reg
+		spill.Mode = ctxt.Cursym.Text.Mode
+
+		last = spill
+	}
+
+	jmp := obj.Appendp(ctxt, last)
 	jmp.As = obj.AJMP
 	jmp.To.Type = obj.TYPE_BRANCH
 	jmp.Pcond = ctxt.Cursym.Text.Link
 	jmp.Spadj = +framesize
+	return
 
-	jls.Pcond = call
-	if q1 != nil {
-		q1.Pcond = call
-	}
+	// jmp = ctxt.NewProg()
+	// last.Link = jmp
+	// jmp.As = obj.AJMP
+	// jmp.To.Type = obj.TYPE_BRANCH
+	// jmp.To.Name = obj.NAME_EXTERN
+	// jmp.To.Sym = cursym
 
-	return jls
+	return
 }
 
 func follow(ctxt *obj.Link, s *obj.LSym) {
