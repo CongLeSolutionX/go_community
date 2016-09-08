@@ -144,6 +144,7 @@ func (w *huffmanBitWriter) write(b []byte) {
 	_, w.err = w.writer.Write(b)
 }
 
+//go:register_args
 func (w *huffmanBitWriter) writeBits(b int32, nb uint) {
 	if w.err != nil {
 		return
@@ -332,6 +333,7 @@ func (w *huffmanBitWriter) storedSize(in []byte) (int, bool) {
 	return 0, false
 }
 
+//go:register_args
 func (w *huffmanBitWriter) writeCode(c hcode) {
 	if w.err != nil {
 		return

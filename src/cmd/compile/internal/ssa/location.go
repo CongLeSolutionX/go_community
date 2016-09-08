@@ -50,3 +50,29 @@ func (t LocPair) Name() string {
 	}
 	return fmt.Sprintf("<%s,%s>", n0, n1)
 }
+
+type ArgPair struct {
+	reg *Register
+	mem LocalSlot
+}
+
+func (ap *ArgPair) Reg() int16 {
+	return ap.reg.objNum
+}
+
+func (ap *ArgPair) Type() Type {
+	return ap.mem.Type
+}
+
+func (ap *ArgPair) Mem() *LocalSlot {
+	return &ap.mem
+}
+
+func (t ArgPair) Name() string {
+	n0, n1 := "nil", "nil"
+	if t.reg != nil {
+		n0 = t.reg.Name()
+	}
+	n1 = t.mem.Name()
+	return fmt.Sprintf("<%s,%s>", n0, n1)
+}
