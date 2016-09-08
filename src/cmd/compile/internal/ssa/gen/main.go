@@ -27,6 +27,8 @@ type arch struct {
 	ops             []opData
 	blocks          []blockData
 	regnames        []string
+	argiregs        []int8
+	argfregs        []int8
 	gpregmask       regMask
 	fpregmask       regMask
 	specialregmask  regMask
@@ -285,6 +287,8 @@ func genOp() {
 			fmt.Fprintf(w, "  {%d, %s, \"%s\"},\n", i, objname, r)
 		}
 		fmt.Fprintln(w, "}")
+		fmt.Fprintf(w, "var argIReg%s = %#v\n", a.name, a.argiregs)
+		fmt.Fprintf(w, "var argFReg%s = %#v\n", a.name, a.argfregs)
 		fmt.Fprintf(w, "var gpRegMask%s = regMask(%d)\n", a.name, a.gpregmask)
 		fmt.Fprintf(w, "var fpRegMask%s = regMask(%d)\n", a.name, a.fpregmask)
 		fmt.Fprintf(w, "var specialRegMask%s = regMask(%d)\n", a.name, a.specialregmask)

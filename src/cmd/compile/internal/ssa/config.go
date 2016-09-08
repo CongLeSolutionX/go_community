@@ -23,6 +23,8 @@ type Config struct {
 	gpRegMask       regMask                    // general purpose integer register mask
 	fpRegMask       regMask                    // floating point register mask
 	specialRegMask  regMask                    // special register mask
+	NumArgGpReg     int8                       // number of general purpose registers for passing call arguments
+	NumArgFpReg     int8                       // number of floating point registers for passing call arguments
 	FPReg           int8                       // register number of frame pointer, -1 if not used
 	hasGReg         bool                       // has hardware g register
 	fe              Frontend                   // callbacks into compiler frontend
@@ -37,7 +39,7 @@ type Config struct {
 	DebugTest       bool                       // default true unless $GOSSAHASH != ""; as a debugging aid, make new code conditional on this and use GOSSAHASH to binary search for failing cases
 	sparsePhiCutoff uint64                     // Sparse phi location algorithm used above this #blocks*#variables score
 	curFunc         *Func
-
+	ArgRegs         map[Op]int8
 	// TODO: more stuff. Compiler flags of interest, ...
 
 	// Given an environment variable used for debug hash match,
@@ -137,8 +139,17 @@ func NewConfig(arch string, fe Frontend, ctxt *obj.Link, optimize bool) *Config 
 		c.registers = registersAMD64[:]
 		c.gpRegMask = gpRegMaskAMD64
 		c.fpRegMask = fpRegMaskAMD64
+		c.NumArgGpReg = int8(len(argIRegAMD64))
+		c.NumArgFpReg = int8(len(argFRegAMD64))
 		c.FPReg = framepointerRegAMD64
 		c.hasGReg = false
+		c.ArgRegs = make(map[Op]int8)
+		c.ArgRegs[OpArgI0] = argIRegAMD64[0]
+		c.ArgRegs[OpArgI1] = argIRegAMD64[1]
+		c.ArgRegs[OpArgI2] = argIRegAMD64[2]
+		c.ArgRegs[OpArgF0] = argFRegAMD64[0]
+		c.ArgRegs[OpArgF1] = argFRegAMD64[1]
+		c.ArgRegs[OpArgF2] = argFRegAMD64[2]
 	case "amd64p32":
 		c.IntSize = 4
 		c.PtrSize = 4
