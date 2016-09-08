@@ -602,7 +602,7 @@ loop:
 	goto loop
 }
 
-func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
+func preprocess(ctxt *obj.Link, cursym *obj.LSym) (extraText *obj.LSym) {
 	ctxt.Cursym = cursym
 
 	if cursym.Text == nil || cursym.Text.Link == nil {
@@ -936,6 +936,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			break
 		}
 	}
+	return
 }
 
 func nocache(p *obj.Prog) {
