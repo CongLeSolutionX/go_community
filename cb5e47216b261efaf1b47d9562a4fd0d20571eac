@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966683cf_b49ea056",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T19:28:00Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "cb5e47216b261efaf1b47d9562a4fd0d20571eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_e9c12146",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T19:28:00Z",
+      "side": 1,
+      "message": "example, not examples",
+      "revId": "cb5e47216b261efaf1b47d9562a4fd0d20571eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_49a92d94",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T19:28:00Z",
+      "side": 1,
+      "message": "passing the cancel func to the thing doing work isn\u0027t how WithCancel is typically used.",
+      "revId": "cb5e47216b261efaf1b47d9562a4fd0d20571eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_2995d940",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T19:28:00Z",
+      "side": 1,
+      "message": "the return value is a distraction.\n\nI\u0027d make startStreaming instead take a result channel and it sends integers from 0 counting up, and then the caller does a cancel when it gets, say, 5.\n\nThen this func is:\n\n   n :\u003d 0\n   for {\n         select {\n         case dst \u003c- n:\n                      n++\n         case \u003c-ctx.Done():\n             return\n         }\n    }\n\nSee https://play.golang.org/p/zBDLxeFmyo",
+      "revId": "cb5e47216b261efaf1b47d9562a4fd0d20571eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_49920d5a",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T19:28:00Z",
+      "side": 1,
+      "message": "don\u0027t pass cancel",
+      "revId": "cb5e47216b261efaf1b47d9562a4fd0d20571eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_94919c4c",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T19:28:00Z",
+      "side": 1,
+      "message": "See https://play.golang.org/p/zBDLxeFmyo",
+      "revId": "cb5e47216b261efaf1b47d9562a4fd0d20571eac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
