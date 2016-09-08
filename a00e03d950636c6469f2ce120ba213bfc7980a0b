@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966683cf_03d2b422",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T16:58:19Z",
+      "side": 1,
+      "message": "I was hoping that this could simply be:\n\n   return b.WriteString(string(r))\n\nBut it seems that\u0027s nearly half as fast, despite not allocating. (the string is on the stack and known to not escape)\n\nSo, this CL works.",
+      "revId": "a00e03d950636c6469f2ce120ba213bfc7980a0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
