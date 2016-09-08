@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966683cf_a4874bbb",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T23:41:05Z",
+      "side": 1,
+      "message": "except \"it\" doesn\u0027t. encoder is an interface, so you can\u0027t say what it does. You can only say what it should do or is allowed to do.\n\n// Otherwise, if dst is not sufficiently large, encoder implementations may panic.",
+      "revId": "70e98eba3869dfe2b6524cc74532f7b773adb95b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_04af1735",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T23:41:05Z",
+      "side": 1,
+      "message": "yes:\n   if copy(dst, b) !\u003d len(b) {\n       panic(\"internal error\")\n   }",
+      "revId": "70e98eba3869dfe2b6524cc74532f7b773adb95b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_44a90f2d",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T23:41:05Z",
+      "side": 1,
+      "message": "if copy(dst, s) !\u003d len(s) {\n   panic(\"internal error\")\n}",
+      "revId": "70e98eba3869dfe2b6524cc74532f7b773adb95b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_a4a02b41",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T23:41:05Z",
+      "side": 1,
+      "message": "this issue is closed. remove TODO?",
+      "revId": "70e98eba3869dfe2b6524cc74532f7b773adb95b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_646b73e6",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T23:41:05Z",
+      "side": 1,
+      "message": "all these little allocations (3 here?) are still faster than before, eh?",
+      "revId": "70e98eba3869dfe2b6524cc74532f7b773adb95b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
