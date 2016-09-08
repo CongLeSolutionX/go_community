@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_092e5597",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966683cf_1a05bd1e",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_1a1a1d79",
         "filename": "src/cmd/vet/all/main.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-08T00:54:04Z",
       "side": 1,
       "message": "why not use bytes.Scanner? this kind of thing is what it\u0027s for.\nnot sure it\u0027s less code in this case, but you don\u0027t have to read the whole thing at once and it will use less memory.\nplus you get to use strings.Replacer...",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_698fd12c",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966683cf_1a1a1d79",
       "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_898c2538",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966683cf_3ab3615a",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_fa62c9db",
         "filename": "src/cmd/vet/all/main.go",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-08T00:54:04Z",
       "side": 1,
       "message": "these flag definitions should be near the top of the file. they are just buried here.",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_b475c02a",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966683cf_fa62c9db",
       "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_f47f3804",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Changed. PTAL.",
+      "parentUuid": "966683cf_5a52d508",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_baa69118",
         "filename": "src/cmd/vet/all/main.go",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-08T00:54:04Z",
       "side": 1,
       "message": "but it doesn\u0027t do the same thing, exactly. is that OK?",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_097c9577",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Yes. In practice, the only difference is that \u0027go tool vet .\u0027 processes some testdata directories that \u0027go vet ./...\u0027 would skip. But we manually skip those below.",
+      "parentUuid": "966683cf_baa69118",
       "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_c9a61d1a",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Added TODO, although based on my experience here, I\u0027ve been rather bearish on the prospects of the unsafeptr check. I\u0027ve been wondering whether a dynamic checker, like the race detector, would be better.",
+      "parentUuid": "966683cf_daab45df",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_1ab69d49",
         "filename": "src/cmd/vet/all/main.go",
         "patchSetId": 3
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_89bd0523",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966683cf_1ab69d49",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_3a17e151",
         "filename": "src/cmd/vet/all/main.go",
         "patchSetId": 3
@@ -149,6 +293,24 @@
       "writtenOn": "2016-09-08T00:54:04Z",
       "side": 1,
       "message": "i like to put main near the top so i can see the program structure sooner.\nmain at the bottom is a C thing.\nnot a requirement, just a request.",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_c98ffd7f",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966683cf_3a17e151",
       "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_699991c9",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966683cf_7a2159ab",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_9aa1cd05",
         "filename": "src/cmd/vet/all/main.go",
         "patchSetId": 3
@@ -200,6 +380,24 @@
       "writtenOn": "2016-09-08T00:54:04Z",
       "side": 1,
       "message": "this is gross.\nwhy not have a variable rather than a flag? plus you don\u0027t check if all and p are both set.\n\n\nif *flagAll \u0026\u0026 len(flagPlatforms) \u003e 0 {\n  flag.Usage()\n}\nswitch {\ncase *flagAll \u0026\u0026 len(flagPlatforms) \u003e 0:\n  flag.Usage()\ncase len(flagPlatforms) \u003e 0:\n  p.vet(flagPlatforms)\ncase *flagAll:\n  p.vet(allPlatforms())\ndefault:\n  flag.Usage()\n}",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_49fbeda7",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "\u003e why not have a variable rather than a flag?\n\nDone.\n\n\u003e plus you don\u0027t check if all and p are both set.\n\nI did, a few lines above. But now that platforms is a string this changes anyway.\n\n\n \u003e if *flagAll \u0026\u0026 len(flagPlatforms) \u003e 0 {\n \u003e   flag.Usage()\n \u003e }\n \u003e switch {\n \u003e case *flagAll \u0026\u0026 len(flagPlatforms) \u003e 0:\n \u003e   flag.Usage()\n \u003e case len(flagPlatforms) \u003e 0:\n \u003e   p.vet(flagPlatforms)\n \u003e case *flagAll:\n \u003e   p.vet(allPlatforms())\n \u003e default:\n \u003e   flag.Usage()\n \u003e }\n\nAdapted this.",
+      "parentUuid": "966683cf_9aa1cd05",
       "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -241,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_a92e4998",
+        "filename": "src/cmd/vet/all/whitelist/amd64.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6f8fb8b_66d85271",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_7a2319c5",
         "filename": "src/cmd/vet/all/whitelist/openbsd_386.txt",
         "patchSetId": 3
@@ -258,6 +474,24 @@
     },
     {
       "key": {
+        "uuid": "966683cf_14faec5d",
+        "filename": "src/cmd/vet/all/whitelist/openbsd_386.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "Here\u0027s the code in question:\n\n// func Syscall(trap int32, a1, a2, a3 int32) (r1, r2, err int32);\nTEXT\t·Syscall(SB),NOSPLIT,$0-28\n\tCALL\truntime·entersyscall(SB)\n\tMOVL\ttrap+0(FP), AX\t// syscall entry\n\t// slide args down on top of system call number\n\tLEAL\t\t8(SP), SI\n\tLEAL\t\t4(SP), DI\n\tCLD\n\tMOVSL\n\nThe SP references do not actually refer to the variables, so it seemed to me more appropriate for them to use the SP form.\n\nFWIW, I went through every single line of every single whitelist file you see here and decided (perhaps incorrectly) whether to fix it, fix vet, or leave it in the whitelist.",
+      "parentUuid": "966683cf_7a2319c5",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_7a4eb988",
         "filename": "src/internal/testenv/testenv.go",
         "patchSetId": 3
@@ -269,6 +503,24 @@
       "writtenOn": "2016-09-08T00:54:04Z",
       "side": 1,
       "message": "A lousy but expedient name.\nGoToolPath is taken, I get that. But I rail against \"OrErr\" as everything, pretty much, is \"OrErr\".\n\nHow about just \"GoTool\"?",
+      "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_9406fc76",
+        "filename": "src/internal/testenv/testenv.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-08T19:52:21Z",
+      "side": 1,
+      "message": "How about renaming GoToolPath to MustGoToolPath(?) and using GoToolPath here? With possibly s/Path// on all those names? Let me know your preference and I\u0027ll send a separate, prior CL making those changes.",
+      "parentUuid": "966683cf_7a4eb988",
       "revId": "c26bb881e835dc6823fba195bcfa6a71b7e1f437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
