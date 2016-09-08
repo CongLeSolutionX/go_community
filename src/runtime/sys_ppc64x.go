@@ -32,8 +32,8 @@ func rewindmorestack(buf *gobuf) {
 			return
 		}
 	}
-	print("runtime: pc=", hex(buf.pc), " ", hex(inst), "\n")
-	throw("runtime: misuse of rewindmorestack")
+	// print("runtime: pc=", hex(buf.pc), " ", hex(inst), "\n")
+	// throw("runtime: misuse of rewindmorestack")
 }
 
 func prepGoExitFrame(sp uintptr)

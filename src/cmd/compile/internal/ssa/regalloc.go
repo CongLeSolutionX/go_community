@@ -403,6 +403,22 @@ func (s *regAllocState) allocReg(mask regMask, v *Value) register {
 	return r
 }
 
+// regspec returns the regInfo for an Op.  In most cases this can be found inthe opcodeTable,
+// but for register parameter passing, to reduce the amount of boilerplate, the regInfo is
+// instead obtained from an architecture-specific map.
+// Parameter passing Ops are (currently) assumed to merely have inputs and outputs, and thus
+// this function is not always necessary.
+func (s *regAllocState) regspec(op Op) regInfo {
+	if s.f.Config.argRegSpecs == nil {
+		return opcodeTable[op].reg
+	}
+	r, ok := s.f.Config.argRegSpecs[op] // Argument passing ops are generic except for the register itself.
+	if ok {
+		return r
+	}
+	return opcodeTable[op].reg
+}
+
 // allocValToReg allocates v to a register selected from regMask and
 // returns the register copy of v. Any previous user is kicked out and spilled
 // (if necessary). Load code is added at the current pc. If nospill is set the
@@ -978,7 +994,7 @@ func (s *regAllocState) regalloc(f *Func) {
 			v := oldSched[i]
 			prefs := desired.remove(v.ID)
 			desired.clobber(opcodeTable[v.Op].reg.clobbers)
-			for _, j := range opcodeTable[v.Op].reg.inputs {
+			for _, j := range s.regspec(v.Op).inputs {
 				if countRegs(j.regs) != 1 {
 					continue
 				}
@@ -1006,7 +1022,7 @@ func (s *regAllocState) regalloc(f *Func) {
 			if s.f.pass.debug > regDebug {
 				fmt.Printf("  processing %s\n", v.LongString())
 			}
-			regspec := opcodeTable[v.Op].reg
+			regspec := s.regspec(v.Op) // opcodeTable[v.Op].reg
 			if v.Op == OpPhi {
 				f.Fatalf("phi %s not at start of block", v)
 			}
@@ -2317,7 +2333,7 @@ func (s *regAllocState) computeLive() {
 				// Cancel desired registers if they get clobbered.
 				desired.clobber(opcodeTable[v.Op].reg.clobbers)
 				// Update desired registers if there are any fixed register inputs.
-				for _, j := range opcodeTable[v.Op].reg.inputs {
+				for _, j := range s.regspec(v.Op).inputs {
 					if countRegs(j.regs) != 1 {
 						continue
 					}

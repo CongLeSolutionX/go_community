@@ -53,6 +53,7 @@ const bom = 0xFEFF // byte order mark, only permitted as very first character
 // Read the next Unicode char into s.ch.
 // s.ch < 0 means end-of-file.
 //
+//go:register_args
 func (s *Scanner) next() {
 	if s.rdOffset < len(s.src) {
 		s.offset = s.rdOffset
@@ -254,6 +255,7 @@ func (s *Scanner) findLineEnd() bool {
 	return false
 }
 
+//go:register_args
 func isLetter(ch rune) bool {
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_' || ch >= utf8.RuneSelf && unicode.IsLetter(ch)
 }
