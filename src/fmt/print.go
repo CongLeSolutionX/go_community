@@ -138,6 +138,7 @@ func newPrinter() *pp {
 }
 
 // free saves used pp structs in ppFree; avoids an allocation per invocation.
+//go:register_args
 func (p *pp) free() {
 	p.buf = p.buf[:0]
 	p.arg = nil
@@ -595,6 +596,7 @@ func (p *pp) handleMethods(verb rune) (handled bool) {
 	return false
 }
 
+//go:register_args
 func (p *pp) printArg(arg interface{}, verb rune) {
 	p.arg = arg
 	p.value = reflect.Value{}
@@ -930,6 +932,7 @@ func (p *pp) missingArg(verb rune) {
 	p.buf.WriteString(missingString)
 }
 
+//go:register_args
 func (p *pp) doPrintf(format string, a []interface{}) {
 	end := len(format)
 	argNum := 0         // we process one argument per non-trivial format
