@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bf48e40_1f9e230d",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-09-08T13:01:41Z",
+      "side": 1,
+      "message": "Do we follow a rule to have single imports always without ( )?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 1
+      },
+      "revId": "a971421f94a0c3738c183927581281fa4a601ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
