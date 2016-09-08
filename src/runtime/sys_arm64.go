@@ -21,6 +21,7 @@ func gostartcall(buf *gobuf, fn, ctxt unsafe.Pointer) {
 // To help us, the linker emits a jmp back to the beginning right after the
 // call to morestack. We just have to decode and apply that jump.
 func rewindmorestack(buf *gobuf) {
+	// TODO can we get rid of all of this?
 	var inst uint32
 	if buf.pc&3 == 0 && buf.pc != 0 {
 		inst = *(*uint32)(unsafe.Pointer(buf.pc))
@@ -31,6 +32,6 @@ func rewindmorestack(buf *gobuf) {
 		}
 	}
 
-	print("runtime: pc=", hex(buf.pc), " ", hex(inst), "\n")
-	throw("runtime: misuse of rewindmorestack")
+	// print("runtime: pc=", hex(buf.pc), " ", hex(inst), "\n")
+	// throw("runtime: misuse of rewindmorestack")
 }

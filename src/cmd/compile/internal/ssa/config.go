@@ -24,6 +24,8 @@ type Config struct {
 	gpRegMask       regMask                    // general purpose integer register mask
 	fpRegMask       regMask                    // floating point register mask
 	specialRegMask  regMask                    // special register mask
+	NumArgGpReg     int8                       // number of general purpose registers for passing call arguments
+	NumArgFpReg     int8                       // number of floating point registers for passing call arguments
 	FPReg           int8                       // register number of frame pointer, -1 if not used
 	hasGReg         bool                       // has hardware g register
 	fe              Frontend                   // callbacks into compiler frontend
@@ -38,7 +40,7 @@ type Config struct {
 	DebugTest       bool                       // default true unless $GOSSAHASH != ""; as a debugging aid, make new code conditional on this and use GOSSAHASH to binary search for failing cases
 	sparsePhiCutoff uint64                     // Sparse phi location algorithm used above this #blocks*#variables score
 	curFunc         *Func
-
+	argRegSpecs     map[Op]regInfo
 	// TODO: more stuff. Compiler flags of interest, ...
 
 	// Given an environment variable used for debug hash match,
@@ -139,6 +141,9 @@ func NewConfig(arch string, fe Frontend, ctxt *obj.Link, optimize bool) *Config 
 		c.registers = registersAMD64[:]
 		c.gpRegMask = gpRegMaskAMD64
 		c.fpRegMask = fpRegMaskAMD64
+		c.NumArgGpReg = int8(len(argIRegAMD64))
+		c.NumArgFpReg = int8(len(argFRegAMD64))
+		c.argRegSpecs = argRegSpecsAMD64
 		c.FPReg = framepointerRegAMD64
 		c.hasGReg = false
 	case "amd64p32":
@@ -184,6 +189,9 @@ func NewConfig(arch string, fe Frontend, ctxt *obj.Link, optimize bool) *Config 
 		c.registers = registersARM64[:]
 		c.gpRegMask = gpRegMaskARM64
 		c.fpRegMask = fpRegMaskARM64
+		c.NumArgGpReg = int8(len(argIRegARM64))
+		c.NumArgFpReg = int8(len(argFRegARM64))
+		c.argRegSpecs = argRegSpecsARM64
 		c.FPReg = framepointerRegARM64
 		c.hasGReg = true
 		c.noDuffDevice = obj.GOOS == "darwin" // darwin linker cannot handle BR26 reloc with non-zero addend
@@ -199,6 +207,9 @@ func NewConfig(arch string, fe Frontend, ctxt *obj.Link, optimize bool) *Config 
 		c.registers = registersPPC64[:]
 		c.gpRegMask = gpRegMaskPPC64
 		c.fpRegMask = fpRegMaskPPC64
+		c.NumArgGpReg = int8(len(argIRegPPC64))
+		c.NumArgFpReg = int8(len(argFRegPPC64))
+		c.argRegSpecs = argRegSpecsPPC64
 		c.FPReg = framepointerRegPPC64
 		c.noDuffDevice = true // TODO: Resolve PPC64 DuffDevice (has zero, but not copy)
 		c.NeedsFpScratch = true
