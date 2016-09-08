@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966683cf_8e06eb76",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T17:17:22Z",
+      "side": 1,
+      "message": "How would I use this?\n\nWhat types of symbols are supported? And for each, what is the type of the returned interface{}?\n\nMaybe instead of interface{}, use a named empty interface to which you can attach docs and methods?",
+      "revId": "d53bd8d1e65a0d36b73f6565960074ae1764eadd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
