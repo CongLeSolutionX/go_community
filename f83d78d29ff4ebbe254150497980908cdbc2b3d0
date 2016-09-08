@@ -34,6 +34,24 @@
       "revId": "f83d78d29ff4ebbe254150497980908cdbc2b3d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_49e4cdfd",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 14925
+      },
+      "writtenOn": "2016-09-08T19:18:15Z",
+      "side": 1,
+      "message": "The plot thickens. If I do \u0027git fetch https://go.googlesource.com/go refs/changes/31/27231/10\u0027. I can verify the git repository doesn\u0027t have these lines. Did I do something wrong with gerrit?",
+      "parentUuid": "966683cf_c9ee1de9",
+      "revId": "f83d78d29ff4ebbe254150497980908cdbc2b3d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
