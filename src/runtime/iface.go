@@ -152,6 +152,7 @@ func itabsinit() {
 	unlock(&ifaceLock)
 }
 
+//go:register_args
 func convT2E(t *_type, elem unsafe.Pointer) (e eface) {
 	if raceenabled {
 		raceReadObjectPC(t, elem, getcallerpc(unsafe.Pointer(&t)), funcPC(convT2E))
@@ -171,6 +172,7 @@ func convT2E(t *_type, elem unsafe.Pointer) (e eface) {
 	return
 }
 
+//go:register_args
 func convT2I(tab *itab, elem unsafe.Pointer) (i iface) {
 	t := tab._type
 	if raceenabled {
@@ -264,6 +266,7 @@ func assertE2T2(t *_type, e eface, r unsafe.Pointer) bool {
 	return true
 }
 
+//go:register_args
 func convI2E(i iface) (r eface) {
 	tab := i.tab
 	if tab == nil {
@@ -296,6 +299,7 @@ func assertI2E2(inter *interfacetype, i iface, r *eface) bool {
 	return true
 }
 
+//go:register_args
 func convI2I(inter *interfacetype, i iface) (r iface) {
 	tab := i.tab
 	if tab == nil {

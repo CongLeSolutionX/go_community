@@ -806,6 +806,7 @@ func largeAlloc(size uintptr, needzero bool) *mspan {
 // implementation of new builtin
 // compiler (both frontend and SSA backend) knows the signature
 // of this function
+//go:register_args
 func newobject(typ *_type) unsafe.Pointer {
 	return mallocgc(typ.size, typ, true)
 }
