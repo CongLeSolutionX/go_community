@@ -12,6 +12,7 @@ package runtime
 
 // emitted by compiler, not referred to by go programs
 
+//go:register_args
 func newobject(typ *byte) *any
 func panicindex()
 func panicslice()
@@ -58,9 +59,16 @@ func slicecopy(to any, fr any, wid uintptr) int
 func slicestringcopy(to any, fr any) int
 
 // interface conversions
+//go:register_args
 func convI2E(elem any) (ret any)
+
+//go:register_args
 func convI2I(typ *byte, elem any) (ret any)
+
+//go:register_args
 func convT2E(typ *byte, elem *any) (ret any)
+
+//go:register_args
 func convT2I(tab *byte, elem *any) (ret any)
 
 // interface type assertions  x.(T)
@@ -111,6 +119,7 @@ var writeBarrier struct {
 	cgo     bool
 }
 
+//go:register_args
 func writebarrierptr(dst *any, src any)
 
 // *byte is really *runtime.Type

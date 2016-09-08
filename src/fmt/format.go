@@ -87,6 +87,7 @@ func (f *fmt) writePadding(n int) {
 }
 
 // pad appends b to f.buf, padded on left (!f.minus) or right (f.minus).
+//go:register_args
 func (f *fmt) pad(b []byte) {
 	if !f.widPresent || f.wid == 0 {
 		f.buf.Write(b)
@@ -105,6 +106,7 @@ func (f *fmt) pad(b []byte) {
 }
 
 // padString appends s to f.buf, padded on left (!f.minus) or right (f.minus).
+//go:register_args
 func (f *fmt) padString(s string) {
 	if !f.widPresent || f.wid == 0 {
 		f.buf.WriteString(s)
@@ -191,6 +193,7 @@ func (f *fmt) fmt_unicode(u uint64) {
 }
 
 // fmt_integer formats signed and unsigned integers.
+//go:register_args
 func (f *fmt) fmt_integer(u uint64, base int, isSigned bool, digits string) {
 	negative := isSigned && int64(u) < 0
 	if negative {
