@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b176638_b9c4ff32",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5170
+      },
+      "writtenOn": "2016-09-08T05:28:22Z",
+      "side": 1,
+      "message": "I would make this a singular: one bad field. Just return the first instance of the failure when unmarshalling.",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 121,
+        "endChar": 33
+      },
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b176638_19d64bec",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 5170
+      },
+      "writtenOn": "2016-09-08T05:28:22Z",
+      "side": 1,
+      "message": "These are not unknown fields – they are duplicates. This is beyond the scope of the original proposal, so it should be a separate change.",
+      "range": {
+        "startLine": 694,
+        "startChar": 7,
+        "endLine": 694,
+        "endChar": 30
+      },
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b176638_d9b7b3d0",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 5170
+      },
+      "writtenOn": "2016-09-08T05:28:22Z",
+      "side": 1,
+      "message": "How does this handle nesting of objects/structs? It seems like the user will need more context to help them in debugging the missing field. Something like the (deprecated) type UnmarshalTypeError makes sense: the name of the missing key, and the type within which it was not found, maybe the offset?",
+      "range": {
+        "startLine": 704,
+        "startChar": 46,
+        "endLine": 704,
+        "endChar": 57
+      },
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b176638_59f3a399",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5170
+      },
+      "writtenOn": "2016-09-08T05:28:22Z",
+      "side": 1,
+      "message": "This seems like overkill. Use the same approach as useNumber and add specific tests that exercise the cases for DisallowUnknownFields.",
+      "range": {
+        "startLine": 382,
+        "startChar": 1,
+        "endLine": 382,
+        "endChar": 19
+      },
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b176638_99c13b23",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 5170
+      },
+      "writtenOn": "2016-09-08T05:28:22Z",
+      "side": 1,
+      "message": "This change seems to be unrelated?",
+      "range": {
+        "startLine": 1256,
+        "startChar": 1,
+        "endLine": 1256,
+        "endChar": 43
+      },
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
