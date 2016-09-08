@@ -156,8 +156,9 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	// copied above) so we only copy it if necessary.
 	copiedHeaders := false
 
-	// Remove headers with the same name as the connection-tokens.
+	// Remove hop-by-hop headers listed in the "Connection" header.
 	// See RFC 2616, section 14.10.
+	var customHopHeaders []string
 	if c := outreq.Header.Get("Connection"); c != "" {
 		for _, f := range strings.Split(c, ",") {
 			if f = strings.TrimSpace(f); f != "" {
@@ -166,6 +167,7 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 					copyHeader(outreq.Header, req.Header)
 					copiedHeaders = true
 				}
+				customHopHeaders = append(customHopHeaders, f)
 				outreq.Header.Del(f)
 			}
 		}
@@ -203,6 +205,10 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	for _, h := range hopHeaders {
+		res.Header.Del(h)
+	}
+
+	for _, h := range customHopHeaders {
 		res.Header.Del(h)
 	}
 
