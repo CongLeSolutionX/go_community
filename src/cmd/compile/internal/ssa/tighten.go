@@ -14,7 +14,7 @@ func tighten(f *Func) {
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			switch v.Op {
-			case OpPhi, OpGetClosurePtr, OpArg, OpSelect0, OpSelect1:
+			case OpPhi, OpGetClosurePtr, OpArg, OpSelect0, OpSelect1, OpArgI0, OpArgI1, OpArgI2, OpArgF0, OpArgF1, OpArgF2:
 				// Phis need to stay in their block.
 				// GetClosurePtr & Arg must stay in the entry block.
 				// Tuple selectors must stay with the tuple generator.
