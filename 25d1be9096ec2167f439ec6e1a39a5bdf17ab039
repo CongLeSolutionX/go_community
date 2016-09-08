@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "966683cf_8e30aba3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T18:06:27Z",
+      "side": 1,
+      "message": "say what it is:\n\n  encoding/json: add Decoder.DisallowUnknownFields to reject unknown keys",
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_eef3e7d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T18:06:27Z",
+      "side": 1,
+      "message": "Fixes",
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b176638_b9c4ff32",
         "filename": "src/encoding/json/decode.go",
         "patchSetId": 8
@@ -19,6 +53,41 @@
         "endLine": 121,
         "endChar": 33
       },
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_2eacffa4",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T18:06:27Z",
+      "side": 1,
+      "message": "Does it even need \"Unmarshal\" in front of it too?\n\nUnknownFieldError\nUnknownFieldsError",
+      "parentUuid": "6b176638_b9c4ff32",
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_aeb72ff8",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T18:06:27Z",
+      "side": 1,
+      "message": "%q instead of %v probably",
       "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -88,6 +157,23 @@
         "endLine": 382,
         "endChar": 19
       },
+      "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_eeccc785",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-08T18:06:27Z",
+      "side": 1,
+      "message": "don\u0027t combine these two tests from the same \"TestUnmarshal\" test. The now-lowercase helper func\u0027s error messages aren\u0027t all clear enough to say which case failed.\n\nJust make two capitalized Test funcs, so the origin of failures is clear.",
       "revId": "25d1be9096ec2167f439ec6e1a39a5bdf17ab039",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
