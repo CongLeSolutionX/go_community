@@ -48,6 +48,7 @@ func gobResponse(r *JSONResponse) *JSONResponse {
 	return &JSONResponse{gobNode(r.Tree), r.Username}
 }
 
+//go:register_args
 func gobNode(n *JSONNode) *JSONNode {
 	n1 := new(JSONNode)
 	*n1 = *n

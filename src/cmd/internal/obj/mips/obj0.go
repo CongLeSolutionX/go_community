@@ -120,7 +120,7 @@ func progedit(ctxt *obj.Link, p *obj.Prog) {
 	}
 }
 
-func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
+func preprocess(ctxt *obj.Link, cursym *obj.LSym) (extraText *obj.LSym) {
 	// TODO(minux): add morestack short-cuts with small fixed frame-size.
 	ctxt.Cursym = cursym
 
@@ -544,6 +544,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 		}
 		q = p
 	}
+	return
 }
 
 func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32) *obj.Prog {
