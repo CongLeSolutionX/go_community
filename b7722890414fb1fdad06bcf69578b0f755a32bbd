@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "6b176638_39fd8fcd",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-09T01:34:15Z",
+      "side": 1,
+      "message": "I\u0027ve replied on 249.",
+      "parentUuid": "966683cf_97a0bb41",
+      "revId": "b7722890414fb1fdad06bcf69578b0f755a32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b176638_79f30703",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-09T01:34:15Z",
+      "side": 1,
+      "message": "It looks like the recent compiler doesn\u0027t allocate int -\u003e interface if int is constant.\nBut I added\n\nvar byte00Encoder \u003d byteEncoder(0x00)\nvar byteFFEncoder \u003d byteEncoder(0xff)\n\nfor readability.\n\nThe allocation reductions came from here.\nSo I introduce bitStringEncoder instead of prefixedBytesEncoder.",
+      "revId": "b7722890414fb1fdad06bcf69578b0f755a32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_d7b95384",
         "filename": "src/encoding/asn1/marshal.go",
         "patchSetId": 9
@@ -36,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "6b176638_f9e6f73f",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-09T01:34:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966683cf_d7b95384",
+      "revId": "b7722890414fb1fdad06bcf69578b0f755a32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "966683cf_37a9af2e",
         "filename": "src/encoding/asn1/marshal.go",
         "patchSetId": 9
@@ -47,6 +100,24 @@
       "writtenOn": "2016-09-09T00:58:30Z",
       "side": 1,
       "message": "drop the blank lines here. This function isn\u0027t complicated enough to warrant them.",
+      "revId": "b7722890414fb1fdad06bcf69578b0f755a32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b176638_d9e3332e",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-09T01:34:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "966683cf_37a9af2e",
       "revId": "b7722890414fb1fdad06bcf69578b0f755a32bbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
