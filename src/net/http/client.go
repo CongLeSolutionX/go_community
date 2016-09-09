@@ -447,6 +447,7 @@ func (c *Client) doFollowingRedirects(req *Request, shouldRedirect func(int) boo
 		deadline = c.deadline()
 		reqs     []*Request
 		resp     *Response
+		ireqhdr  = req.Header.clone()
 	)
 	uerr := func(err error) error {
 		req.closeBody()
@@ -486,6 +487,17 @@ func (c *Client) doFollowingRedirects(req *Request, shouldRedirect func(int) boo
 			}
 			if ireq.Method == "POST" || ireq.Method == "PUT" {
 				req.Method = "GET"
+			}
+			// Copy the initial request's Header values
+			// (at least the safe ones).  Do this before
+			// setting the Referer, in case the user set
+			// Referer on their first request. If they
+			// really want to override, they can do it in
+			// their CheckRedirect func.
+			for k, vv := range ireqhdr {
+				if shouldCopyHeaderOnRedirect(k, ireq.URL, u) {
+					req.Header[k] = vv
+				}
 			}
 			// Add the Referer header from the most recent
 			// request URL to the new one, if it's not https->http:
@@ -668,4 +680,28 @@ func (b *cancelTimerBody) Close() error {
 	err := b.rc.Close()
 	b.stop()
 	return err
+}
+
+func shouldCopyHeaderOnRedirect(headerKey string, initial, dest *url.URL) bool {
+	headerKey = CanonicalHeaderKey(headerKey)
+	switch headerKey {
+	case "Authorization", "Www-Authenticate", "Cookie", "Cookie2":
+		// TODO(bradfitz): once issue 16142 is fixed, make
+		// this code use those URL accessors.
+		ihost := strings.ToLower(initial.Host)
+		dhost := strings.ToLower(dest.Host)
+		if ihost == dhost {
+			return true
+		}
+		if !strings.HasSuffix(dhost, ihost) {
+			return false
+		}
+		// Permit sending auth/cookie headers from "foo.com"
+		// to "sub.foo.com".
+		if strings.HasSuffix(dhost, "."+ihost) {
+			return true
+		}
+		return false
+	}
+	return true
 }
