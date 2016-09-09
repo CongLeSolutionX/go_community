@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebefd6c0_ad821dae",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1489,
+      "author": {
+        "id": 8466
+      },
+      "writtenOn": "2016-09-09T19:49:53Z",
+      "side": 1,
+      "message": "is there any difference between these two lines?",
+      "range": {
+        "startLine": 1488,
+        "startChar": 0,
+        "endLine": 1489,
+        "endChar": 28
+      },
+      "revId": "7e6619bbe2ab2798df53f7ca75450e7739658209",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
