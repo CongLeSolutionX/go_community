@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966683cf_17ff4bc6",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-09T01:39:30Z",
+      "side": 1,
+      "message": "This doesn\u0027t help. They need to be of type encoder so the convT2I happens at init-time and the interface is reused.\n\nvar (\n     byte00Encoder encoder \u003d byteEncoder(0x00)\n...",
+      "revId": "c5112c5dff1d7d9061641c5a7b1c5656ac27285f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
