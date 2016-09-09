@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "abbcfece_567f9205",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-09T21:38:05Z",
+      "side": 1,
+      "message": "Since Hostname doesn\u0027t return an error, I think it\u0027s probably best in this case to return the most accurate reproduction of the original host. I think the the TrimPrefix is fine.",
+      "parentUuid": "cb11329a_ea39a3dd",
+      "range": {
+        "startLine": 977,
+        "startChar": 0,
+        "endLine": 977,
+        "endChar": 46
+      },
+      "revId": "056de6c1d1fad4e207fbaeffcd5ff3dc6f4a12ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb11329a_2a573bfc",
         "filename": "src/net/url/url_test.go",
         "patchSetId": 2
