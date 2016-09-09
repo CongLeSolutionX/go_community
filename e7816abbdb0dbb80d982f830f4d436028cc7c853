@@ -16,6 +16,24 @@
       "revId": "e7816abbdb0dbb80d982f830f4d436028cc7c853",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb63f225_7444689e",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-09T11:01:10Z",
+      "side": 1,
+      "message": "The language spec says \"map with initial space for [N] elements\", so, yes, I think it\u0027s strictly true.\n\nI replaced the \"length 0\" bit with the word \"empty\" at the start--\"An empty map\".",
+      "parentUuid": "6b176638_99513b01",
+      "revId": "e7816abbdb0dbb80d982f830f4d436028cc7c853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
