@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966683cf_97a0bb41",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-09T00:58:30Z",
+      "side": 1,
+      "message": "I don\u0027t think this prefixedBytesEncoder pays for itself, especially if you have to keep multiEncoder anyway. I\u0027d just delete prefixedBytesEncoder.\n\nBut if you do my other suggestion, at least the 0x00 and 0xff are free, so the allocation of the multiEncoder slice into an interface isn\u0027t that bad.",
+      "revId": "b7722890414fb1fdad06bcf69578b0f755a32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_d7b95384",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-09T00:58:30Z",
+      "side": 1,
+      "message": "putting an integer into an interface always allocates.\n\nsince the only use of byteEncoder I see is for 0xff and 0x00, perhaps you should either make these global variables:\n\n   var byte00Encoder \u003d byteEncoder(0x00)\n   var byteFFEncoder \u003d byteEncoder(0xff)\n\nOr just make two new encoders:\n\n   type byte00Encoder struct{}\n   type byteFFEncoder struct{}\n\nA zero-width struct does not allocate when assigning it to an interface.",
+      "revId": "b7722890414fb1fdad06bcf69578b0f755a32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "966683cf_37a9af2e",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-09T00:58:30Z",
+      "side": 1,
+      "message": "drop the blank lines here. This function isn\u0027t complicated enough to warrant them.",
+      "revId": "b7722890414fb1fdad06bcf69578b0f755a32bbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
