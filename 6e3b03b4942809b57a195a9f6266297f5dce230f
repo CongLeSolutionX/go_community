@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b176638_19876b6b",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-09T01:23:38Z",
+      "side": 1,
+      "message": "This program, xxx, runs ...\n\nor\n\nXxx runs ...",
+      "revId": "6e3b03b4942809b57a195a9f6266297f5dce230f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b176638_39822f5b",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-09T01:23:38Z",
+      "side": 1,
+      "message": "it\u0027s vet/all above by file name. what do you mean to call it?",
+      "revId": "6e3b03b4942809b57a195a9f6266297f5dce230f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b176638_f99b97c1",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-09T01:23:38Z",
+      "side": 1,
+      "message": "os.Exit(1)",
+      "revId": "6e3b03b4942809b57a195a9f6266297f5dce230f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
