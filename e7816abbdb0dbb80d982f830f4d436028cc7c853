@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b176638_99513b01",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-09T00:08:29Z",
+      "side": 1,
+      "message": "is that strictly true? the old words were deliberately vague so the implementation was not constrained.\nalso you dropped the part about it still having length 0.",
+      "revId": "e7816abbdb0dbb80d982f830f4d436028cc7c853",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
