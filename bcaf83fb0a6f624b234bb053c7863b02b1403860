@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abbcfece_13128c6a",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-09T20:38:17Z",
+      "side": 1,
+      "message": "I have concerns about this white-list. It seems complete for standard headers, but I can imagine APIs using custom headers that hold authentication tokens (and I have vague recollections about needing to do so for some API I used in the past).\n\nIf some API was using \"My-Custom-Auth-Token\", I find it dangerous that we silently leak security-sensitive information.\n\nJust throwing ideas around. Should copying of headers be an opt-in feature?",
+      "revId": "bcaf83fb0a6f624b234bb053c7863b02b1403860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
