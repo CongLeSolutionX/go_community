@@ -34,6 +34,24 @@
       "revId": "bcaf83fb0a6f624b234bb053c7863b02b1403860",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbcfece_73cae063",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-09T21:19:49Z",
+      "side": 1,
+      "message": "Thanks for your response. The approach SGTM.",
+      "parentUuid": "abbcfece_f3da7033",
+      "revId": "bcaf83fb0a6f624b234bb053c7863b02b1403860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
