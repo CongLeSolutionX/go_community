@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b556e39_1717f45a",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-09T19:57:33Z",
+      "side": 1,
+      "message": "No need to explicitly convert to byte; \u0027f\u0027 is untyped.\n\nMore importantly, I\u0027m pretty sure that fmt.Sprintf(\"%v\", x) corresponds to strconv.FormatFloat(x, \u0027g\u0027, -1, 64).  That is, \u0027g\u0027, not \u0027f\u0027.",
+      "revId": "eba6210a9bfaacde971586a2fb18561f1c76ab2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
