@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "cb11329a_47cf107b",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-09T18:51:42Z",
+      "side": 1,
+      "message": "Nit: Didn\u0027t you convert all double spaces to a single space not long ago?",
+      "range": {
+        "startLine": 492,
+        "startChar": 30,
+        "endLine": 492,
+        "endChar": 33
+      },
+      "revId": "62588e9cfa2fd2d9926a10f01b4e829e3a09883d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb11329a_47a1d0a7",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-09T18:51:42Z",
+      "side": 1,
+      "message": "For the algorithm below, is this based on what cURL does?\n\nIf we were following same-origin policy (RFC 6454), I don\u0027t think subdomains would be allowed.",
+      "revId": "62588e9cfa2fd2d9926a10f01b4e829e3a09883d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb11329a_2788147c",
         "filename": "src/net/http/client.go",
         "patchSetId": 2
