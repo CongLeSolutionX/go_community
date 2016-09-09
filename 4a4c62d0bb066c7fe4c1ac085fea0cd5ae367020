@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b176638_396eaf94",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-09T02:29:18Z",
+      "side": 1,
+      "message": "I use reflect.Value#Bytes instead of this.",
+      "revId": "4a4c62d0bb066c7fe4c1ac085fea0cd5ae367020",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b176638_1973eb78",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-09T02:29:18Z",
+      "side": 1,
+      "message": "I use reflect.Value#Bytes instead of this.",
+      "revId": "4a4c62d0bb066c7fe4c1ac085fea0cd5ae367020",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
