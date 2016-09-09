@@ -69,6 +69,24 @@
       "revId": "438b77b03a99d1b4f65202cb4d45d1fda293c440",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbcfece_5635d2fa",
+        "filename": "src/context/example_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-09T22:09:12Z",
+      "side": 1,
+      "message": "You did both. I meant that you should fix it either way. By doing both, you introduced another problem: your range over the ints isn\u0027t interrupted by your underlying context being done.",
+      "parentUuid": "eb8b5631_8daf4185",
+      "revId": "438b77b03a99d1b4f65202cb4d45d1fda293c440",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
