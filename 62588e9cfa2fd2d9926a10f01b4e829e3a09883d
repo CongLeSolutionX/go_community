@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb11329a_2788147c",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2016-09-09T18:32:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure how well the http package works with IDNs, but this isn\u0027t the whole story around normalizing a domain name.",
+      "range": {
+        "startLine": 691,
+        "startChar": 11,
+        "endLine": 691,
+        "endChar": 26
+      },
+      "revId": "62588e9cfa2fd2d9926a10f01b4e829e3a09883d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb11329a_27f3f403",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2016-09-09T18:32:18Z",
+      "side": 1,
+      "message": "Seems like this whole chain of ifs could be replaced by one boolean expression.  I don\u0027t understand this particular condition, though.  Isn\u0027t this caught by the below condition?",
+      "range": {
+        "startLine": 696,
+        "startChar": 5,
+        "endLine": 696,
+        "endChar": 37
+      },
+      "revId": "62588e9cfa2fd2d9926a10f01b4e829e3a09883d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
