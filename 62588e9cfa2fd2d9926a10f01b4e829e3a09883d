@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cb11329a_2af8db65",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-09T19:08:04Z",
+      "side": 1,
+      "message": "Damnit, Emacs.\n\nhttps://www.gnu.org/software/emacs/manual/html_node/emacs/Fill-Commands.html\n\n\u003e If you set the variable sentence-end-double-space to nil, the fill commands will break a line after a period followed by one space, and put just one space after each period.\n\nI don\u0027t have that set.",
+      "parentUuid": "cb11329a_47cf107b",
+      "range": {
+        "startLine": 492,
+        "startChar": 30,
+        "endLine": 492,
+        "endChar": 33
+      },
+      "revId": "62588e9cfa2fd2d9926a10f01b4e829e3a09883d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb11329a_47a1d0a7",
         "filename": "src/net/http/client.go",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2016-09-09T18:51:42Z",
       "side": 1,
       "message": "For the algorithm below, is this based on what cURL does?\n\nIf we were following same-origin policy (RFC 6454), I don\u0027t think subdomains would be allowed.",
+      "revId": "62588e9cfa2fd2d9926a10f01b4e829e3a09883d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb11329a_6a6db32e",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-09T19:08:04Z",
+      "side": 1,
+      "message": "Note that this doesn\u0027t apply to Cookies set by the CookieJar, which will respect exact-domain vs *.foo.com properly still. These are only manually-specified cookies, which are very rare.\n\nI figure if a user went out of their way to set a Cookie by hand, they\u0027re fine with the \".foo.com\" way.",
+      "parentUuid": "cb11329a_47a1d0a7",
       "revId": "62588e9cfa2fd2d9926a10f01b4e829e3a09883d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
