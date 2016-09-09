@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb11329a_2a573bfc",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1492,
+      "author": {
+        "id": 5665
+      },
+      "writtenOn": "2016-09-09T19:41:35Z",
+      "side": 1,
+      "message": "Add cases for 1.2.3.4 and 1.2.3.4:80 for completeness? Same for below table.",
+      "revId": "056de6c1d1fad4e207fbaeffcd5ff3dc6f4a12ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
