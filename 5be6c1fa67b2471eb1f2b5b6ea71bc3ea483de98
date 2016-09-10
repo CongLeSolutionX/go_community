@@ -16,6 +16,24 @@
       "revId": "5be6c1fa67b2471eb1f2b5b6ea71bc3ea483de98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbcfece_e2db7807",
+        "filename": "src/os/error.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-10T16:11:44Z",
+      "side": 1,
+      "message": "The name \"convert\" doesn\u0027t say much, though. I don\u0027t know from the call sites what it\u0027s converting it to. More wrapping, less wrapping?\n\nWhy not \"underlyingError\" or simply \"func cause\"?\n\ngithub.com/pkg/errors calls this \"Cause\":\nhttps://godoc.org/github.com/pkg/errors#Cause",
+      "parentUuid": "2bbd6ee6_57f52c47",
+      "revId": "5be6c1fa67b2471eb1f2b5b6ea71bc3ea483de98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
