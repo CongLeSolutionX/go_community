@@ -118,6 +118,11 @@ func formatString(f *File, call *ast.CallExpr) (string, int) {
 		if s, ok := stringLiteralArg(f, call, idx); ok {
 			return s, idx
 		}
+		if f.pkg.types[call.Args[idx]].Type == stringType {
+			// Skip checking the call with non-literal string argument,
+			// since its' contents is unavailable for validation.
+			return "", -1
+		}
 	}
 	return "", -1
 }
@@ -183,8 +188,10 @@ func checkFmtPrintfCall(f *File, node ast.Node) {
 func isStringer(f *File, d *ast.FuncDecl) bool {
 	return d.Recv != nil && d.Name.Name == "String" && d.Type.Results != nil &&
 		len(d.Type.Params.List) == 0 && len(d.Type.Results.List) == 1 &&
-		f.pkg.types[d.Type.Results.List[0].Type].Type == types.Typ[types.String]
+		f.pkg.types[d.Type.Results.List[0].Type].Type == stringType
 }
+
+var stringType = types.Typ[types.String]
 
 // formatState holds the parsed representation of a printf directive such as "%3.*[4]d".
 // It is constructed by parsePrintfVerb.
