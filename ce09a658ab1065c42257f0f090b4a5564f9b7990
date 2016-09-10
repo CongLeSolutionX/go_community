@@ -16,6 +16,24 @@
       "revId": "ce09a658ab1065c42257f0f090b4a5564f9b7990",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bbd6ee6_f73fa0e5",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-09-10T22:39:57Z",
+      "side": 1,
+      "message": "also \"if instrumenting || !ssaEnabled {\" does seem to work here.",
+      "parentUuid": "abbcfece_e2be181d",
+      "revId": "ce09a658ab1065c42257f0f090b4a5564f9b7990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
