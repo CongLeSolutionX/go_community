@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abbcfece_62992824",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-10T19:19:54Z",
+      "side": 1,
+      "message": "I don\u0027t think this needs to be per-Config. It\u0027s not worth bloating the size of this structure for such a rarely used debug thing.\n\nI\u0027d just make one global Mutex shared by all writers. We don\u0027t have to worry about performance problems for such an unused feature.",
+      "revId": "667cc06f8136749f53f10aaa582c64d30dea9bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
