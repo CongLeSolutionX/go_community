@@ -2909,7 +2909,21 @@ func typecheckcomplit(n *Node) *Node {
 
 			l.Left = typecheck(l.Left, Erv)
 			evconst(l.Left)
+
+			// Try to truncate l.Left to Int.
+			// toint will leave the Val unchanged if l.Left does not
+			// contain numeric value, so we still have to check the
+			// conversion.
+			lv := toint(l.Left.Val())
+			lvi, ok := lv.U.(*Mpint)
+			if !ok && l.Left.Diag == 0 {
+				Yyerror("index must be non-negative integer constant")
+				l.Left.Diag = 1
+			}
+
+			l.Left = Nodintconst(lvi.Int64())
 			i = nonnegconst(l.Left)
+
 			if i < 0 && l.Left.Diag == 0 {
 				Yyerror("index must be non-negative integer constant")
 				l.Left.Diag = 1

@@ -1540,7 +1540,8 @@ func nonnegconst(n *Node) int {
 			TINT64,
 			TUINT64,
 			TIDEAL:
-			if n.Val().U.(*Mpint).Cmp(Minintval[TUINT32]) < 0 || n.Val().U.(*Mpint).Cmp(Maxintval[TINT32]) > 0 {
+			v, ok := n.Val().U.(*Mpint)
+			if !ok || v.Cmp(Minintval[TUINT32]) < 0 || v.Cmp(Maxintval[TINT32]) > 0 {
 				break
 			}
 			return int(n.Int64())
