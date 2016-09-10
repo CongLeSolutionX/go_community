@@ -33,6 +33,24 @@
       "revId": "9ebf8e115d1eb0c28644dd56e6a72b00fc183103",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b9e867e_41f1f2f2",
+        "filename": "src/mime/quotedprintable/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-09-10T23:54:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0545f683_2580eda1",
+      "revId": "9ebf8e115d1eb0c28644dd56e6a72b00fc183103",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
