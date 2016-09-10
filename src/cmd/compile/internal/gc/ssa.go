@@ -1471,6 +1471,11 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 	s.stmtList(n.Ninit)
 	switch n.Op {
+	case OARRAYBYTESTRTMP:
+		slice := s.expr(n.Left)
+		ptr := s.newValue1(ssa.OpSlicePtr, Ptrto(n.Left.Type.Elem()), slice)
+		len := s.newValue1(ssa.OpSliceLen, Types[TINT], slice)
+		return s.newValue2(ssa.OpStringMake, n.Type, ptr, len)
 	case OCFUNC:
 		aux := s.lookupSymbol(n, &ssa.ExternSymbol{Typ: n.Type, Sym: n.Left.Sym})
 		return s.entryNewValue1A(ssa.OpAddr, n.Type, aux, s.sb)
