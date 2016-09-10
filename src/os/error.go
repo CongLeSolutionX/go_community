@@ -63,3 +63,17 @@ func IsNotExist(err error) bool {
 func IsPermission(err error) bool {
 	return isPermission(err)
 }
+
+// convertError checks err type and if it's either *PathError or *LinkError
+// or *SyscallError, returns err.Err.
+func convertError(err error) error {
+	switch pe := err.(type) {
+	case *PathError:
+		return pe.Err
+	case *LinkError:
+		return pe.Err
+	case *SyscallError:
+		return pe.Err
+	}
+	return err
+}
