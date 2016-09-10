@@ -1554,7 +1554,11 @@ opswitch:
 
 		// slicebytetostringtmp([]byte) string;
 	case OARRAYBYTESTRTMP:
-		n = mkcall("slicebytetostringtmp", n.Type, init, n.Left)
+		n.Left = walkexpr(n.Left, init)
+		if instrumenting {
+			n = mkcall("slicebytetostringtmp", n.Type, init, n.Left)
+			break
+		}
 
 		// slicerunetostring(*[32]byte, []rune) string;
 	case OARRAYRUNESTR:
