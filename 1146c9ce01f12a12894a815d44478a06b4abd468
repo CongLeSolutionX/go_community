@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eba996a7_1d2c7304",
+        "filename": "src/os/error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-10T14:19:30Z",
+      "side": 1,
+      "message": "Add a function doc comment.",
+      "revId": "1146c9ce01f12a12894a815d44478a06b4abd468",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bbd6ee6_d7e81c7a",
+        "filename": "src/os/error_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-10T14:19:30Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem like any of the functions in this file need to check `err \u003d\u003d nil`.",
+      "revId": "1146c9ce01f12a12894a815d44478a06b4abd468",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bbd6ee6_b7dda8d2",
+        "filename": "src/os/error_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-10T14:19:30Z",
+      "side": 1,
+      "message": "No need to check `err \u003d\u003d nil` in this file either.",
+      "revId": "1146c9ce01f12a12894a815d44478a06b4abd468",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
