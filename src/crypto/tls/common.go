@@ -397,6 +397,8 @@ type Config struct {
 
 	serverInitOnce sync.Once // guards calling (*Config).serverInit
 
+	// keyLogMutex protects KeyLogWriter
+	keyLogMutex sync.Mutex
 	// mutex protects sessionTicketKeys
 	mutex sync.RWMutex
 	// sessionTicketKeys contains zero or more ticket keys. If the length
@@ -643,7 +645,9 @@ func (c *Config) writeKeyLog(clientRandom, masterSecret []byte) error {
 	if c.KeyLogWriter == nil {
 		return nil
 	}
+	c.keyLogMutex.Lock()
 	_, err := fmt.Fprintf(c.KeyLogWriter, "CLIENT_RANDOM %x %x\n", clientRandom, masterSecret)
+	c.keyLogMutex.Unlock()
 	return err
 }
 
