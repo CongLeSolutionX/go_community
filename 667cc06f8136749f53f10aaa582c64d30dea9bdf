@@ -16,6 +16,24 @@
       "revId": "667cc06f8136749f53f10aaa582c64d30dea9bdf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bbd6ee6_f758c05c",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2016-09-10T20:09:27Z",
+      "side": 1,
+      "message": "Ok makes sense. Now I understand what you meant earlier in the issue. Fixed.",
+      "parentUuid": "abbcfece_62992824",
+      "revId": "667cc06f8136749f53f10aaa582c64d30dea9bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
