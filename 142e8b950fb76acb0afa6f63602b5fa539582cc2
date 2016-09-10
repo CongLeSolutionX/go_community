@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b101ad0_2a381f28",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-10T21:15:18Z",
+      "side": 1,
+      "message": "The vet/all command ...",
+      "revId": "142e8b950fb76acb0afa6f63602b5fa539582cc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b101ad0_4a3b5327",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-09-10T21:15:18Z",
+      "side": 1,
+      "message": "add a comment explaining why it\u0027s OK not to find cmd/go.",
+      "revId": "142e8b950fb76acb0afa6f63602b5fa539582cc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
