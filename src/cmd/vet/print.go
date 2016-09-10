@@ -103,7 +103,7 @@ func formatString(f *File, call *ast.CallExpr) (string, int) {
 				// fixed arguments.
 				return "", -1
 			}
-			s, ok := stringLiteralArg(f, call, idx)
+			s, ok := stringConstantArg(f, call, idx)
 			if !ok {
 				// The last argument before variadic args isn't a string
 				return "", -1
@@ -112,21 +112,27 @@ func formatString(f *File, call *ast.CallExpr) (string, int) {
 		}
 	}
 
-	// Cannot determine call's signature. Fallback to scanning for the first
-	// string argument in the call
+	// Cannot determine call's signature. Fall back to scanning for the first
+	// string constant in the call
 	for idx := range call.Args {
-		if s, ok := stringLiteralArg(f, call, idx); ok {
+		if s, ok := stringConstantArg(f, call, idx); ok {
 			return s, idx
+		}
+		if f.pkg.types[call.Args[idx]].Type == types.Typ[types.String] {
+			// Skip checking a call with a non-constant format
+			// string argument, since its contents is unavailable
+			// for validation.
+			return "", -1
 		}
 	}
 	return "", -1
 }
 
-// stringLiteralArg returns call's string constant argument at the index idx.
+// stringConstantArg returns call's string constant argument at the index idx.
 //
 // ("", false) is returned if call's argument at the index idx isn't a string
-// literal.
-func stringLiteralArg(f *File, call *ast.CallExpr, idx int) (string, bool) {
+// constant.
+func stringConstantArg(f *File, call *ast.CallExpr, idx int) (string, bool) {
 	if idx >= len(call.Args) {
 		return "", false
 	}
