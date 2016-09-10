@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb74360d_65d6a6ed",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2016-09-10T20:09:27Z",
+      "side": 1,
+      "message": "I wasn\u0027t quite sure where to place the mutex in the file so I put it next to where it\u0027s used.\n\nI chose to write that it protects KeyLogWriters although you suggested the mutex would protect all writers. Since there aren\u0027t currently others, I think it\u0027s more clear to say what it does now, and if it\u0027s reused, then future users can update documentation.\n\nBut the intent is that this mutex can be shared by others in crypto/tls.",
+      "revId": "4f327be13b6f597a3cde4695bc7404ceab0d46b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
