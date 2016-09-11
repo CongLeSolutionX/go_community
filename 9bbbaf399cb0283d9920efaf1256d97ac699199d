@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abbcfece_4d945ded",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-11T17:11:31Z",
+      "side": 1,
+      "message": "don\u0027t need string; missing EZY :)",
+      "revId": "9bbbaf399cb0283d9920efaf1256d97ac699199d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbcfece_6d991924",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-11T17:11:31Z",
+      "side": 1,
+      "message": "putting the size before the filename? that\u0027s kinda odd. that matches neither Apache or \"ls -l\".",
+      "revId": "9bbbaf399cb0283d9920efaf1256d97ac699199d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
