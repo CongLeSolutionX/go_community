@@ -13,6 +13,13 @@ const (
 	bias     = 1023
 )
 
+var (
+	PosInf    = Inf(+1)
+	NegInf    = Inf(-1)
+	PlusZero  = Copysign(0, +1)
+	MinusZero = Copysign(0, -1)
+)
+
 // Inf returns positive infinity if sign >= 0, negative infinity if sign < 0.
 func Inf(sign int) float64 {
 	var v uint64
