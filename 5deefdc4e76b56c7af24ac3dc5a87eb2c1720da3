@@ -52,6 +52,29 @@
       "revId": "5deefdc4e76b56c7af24ac3dc5a87eb2c1720da3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b9e867e_218dce35",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2539,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-09-12T03:16:25Z",
+      "side": 1,
+      "message": "I\u0027ve been trying to figure out if this matches the order for FSEL, or if FSEL is even correct.\n\n\tcase 34: /* FMADDx fra,frb,frc,frd (d\u003da*b+c); FSELx a\u003c0? (d\u003db): (d\u003dc) */\n\t\to1 \u003d AOP_RRR(oprrr(ctxt, p.As), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg)) | (uint32(p.From3.Reg)\u002631)\u003c\u003c6\n\n//                      FRC       FRB       FRA\nfunc AOP_RRR(op uint32, d uint32, a uint32, b uint32) uint32 {\n\treturn op | (d\u002631)\u003c\u003c21 | (a\u002631)\u003c\u003c16 | (b\u002631)\u003c\u003c11\n}\nAs I read it, we\u0027ve scrambled these operands.\nWe\u0027re putting From3 @6 which is target, and we\u0027re putting To @21 which is FRC.\nHave I misread this completely ????\nI note that for some reason the operands to FMADD are written T,A,C,B,\nand so also for FSEL, but for ISEL, T,A,B,BC.\n\nI *think* what we want is \n  FSELx a,b,c,d \u003d\u003d a\u003c0 ? (d\u003db): (d\u003dc) meaning a -\u003e FRA@11, d -\u003e FRT@6, b -\u003e FRB@16, c -\u003e FRC@21\n  ISEL  a,b,c,d \u003d\u003d CR[a+32] ? (d\u003db) :(d\u003dc) meaning a -\u003e BC@21, d -\u003e RT@6, b -\u003e RA@11, c-\u003e RB@16\n  FMADD a,b,c,d \u003d\u003d d \u003d a*b+c meaning              a-\u003eFRA@11, c-\u003eFRB@16, b -\u003e FRC@21, d -\u003e FRT@6",
+      "range": {
+        "startLine": 2539,
+        "startChar": 7,
+        "endLine": 2539,
+        "endChar": 15
+      },
+      "revId": "5deefdc4e76b56c7af24ac3dc5a87eb2c1720da3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
