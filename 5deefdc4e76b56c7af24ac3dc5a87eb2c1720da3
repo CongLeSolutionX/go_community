@@ -75,6 +75,24 @@
       "revId": "5deefdc4e76b56c7af24ac3dc5a87eb2c1720da3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b9e867e_44b900e4",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2539,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-09-12T21:21:26Z",
+      "side": 1,
+      "message": "I misread the bit numbering, is the problem.\nIgnoring FMADD for the moment, and considering only ISEL, we have a similar (equivalent?) instruction on arm64, CSEL, and the encoding there is:\n\nCB in p.From.Reg (like here)\ntarget in p.To.Reg (like here)\niftrue in p.Reg (ifTrue \u003d FRA)\niffalse in p.From3.Reg (ifFalse \u003d FRB)\n\n(See http://infocenter.arm.com/help/index.jsp?topic\u003d/com.arm.doc.dui0802a/CSEL.html\nand https://github.com/golang/go/blob/master/src/cmd/internal/obj/arm64/asm7.go#L2203 )\n\nSo I think you need to swap A and B here, i.e.\n\n  // rt \u003d To.Reg, ra \u003d p.Reg, rb \u003d p.From3.Reg\n  o1 \u003d AOP_ISEL(OP_ISEL, uint32(p.To.Reg), uint32(p.Reg), uint32(p.From3.Reg), uint32(bc))\n\nI\u0027m going to ignore FSEL for a moment because that comparison is multi-operand, and also wonky in its true/false conventions -- by register order conventions, it looks like \"truth\" is FRA \u003c 0, but by Nan-yields-false conventions it looks like \"truth\" is FRA \u003e\u003d 0.",
+      "parentUuid": "6b9e867e_218dce35",
+      "revId": "5deefdc4e76b56c7af24ac3dc5a87eb2c1720da3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
