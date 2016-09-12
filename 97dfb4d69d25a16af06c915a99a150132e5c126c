@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b9e867e_84402839",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-09-12T18:31:28Z",
+      "side": 1,
+      "message": "The numbering of the operands here gives the impression that these are just the reverse of the PPC-native order, but I don\u0027t think that is the case.  I worked out the encoding for the subtract operations (where it matters) and it is my impression that (for example)\n\nVSUBSBS X,Y,Z translates to vsubsbs z,x,y, i.e., bytewise, z \u003d x saturating-signed-minus y\nwhere Z/z \u003d\u003d VRT, X/x \u003d\u003d VRA, Y/y \u003d\u003d VRB\n\nShowing my work:\n//                      p.To.Reg  p.Reg     p.From.Reg\nfunc AOP_RRR(op uint32, d uint32, a uint32, b uint32) uint32 {\n\treturn op | (d\u002631)\u003c\u003c21 | (a\u002631)\u003c\u003c16 | (b\u002631)\u003c\u003c11\n//                  bit 6(vrt)   bit 11(vra)  bit 16(vrb)\n}\n\nSo I approve of the operand order, but there needs to be (probably in src/command/internal/ppc64/asm9.g0) some statement of what operand order is intended, as for example:\n\tcase 34: /* FMADDx fra,frb,frc,frd (d\u003da*b+c); FSELx a\u003c0? (d\u003db): (d\u003dc) */\n\t\to1 \u003d AOP_RRR(oprrr(ctxt, p.As), uint32(p.To.Reg), uint32(p.From.Reg), uint32(p.Reg)) | (uint32(p.From3.Reg)\u002631)\u003c\u003c6",
+      "range": {
+        "startLine": 714,
+        "startChar": 0,
+        "endLine": 714,
+        "endChar": 13
+      },
+      "revId": "97dfb4d69d25a16af06c915a99a150132e5c126c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b9e867e_443a20d3",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2812,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-09-12T18:31:28Z",
+      "side": 1,
+      "message": "It would be useful if the input operand order could be tied to the intended semantics/translation, for example:\n// VSUBSBS X,Y,Z -\u003e vsubsbs z,x,y; bytewise, z \u003d x saturating-signed-minus y\nOr\n// VSUBSBS X,Y,Z -\u003e vsubsbs VRT\u003dZ, VRA\u003dX, VRB\u003dY, z \u003d x saturating-signed-minus y\nSubtract is a preferred example, since it is not commutative.\nI slightly prefer the second example, since there\u0027s at least one case (FMADD) where the Power assembler\u0027s operand order (ACB) does not match the instruction register order (ABC).\n\nThe bit numbering in the Power ISA docs is not the one I would have chosen, and I think I am not alone in finding it confusing.",
+      "range": {
+        "startLine": 2812,
+        "startChar": 13,
+        "endLine": 2812,
+        "endChar": 53
+      },
+      "revId": "97dfb4d69d25a16af06c915a99a150132e5c126c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
