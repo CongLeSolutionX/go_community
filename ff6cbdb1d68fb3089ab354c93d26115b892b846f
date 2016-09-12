@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8b101ad0_6a1f3778",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-12T01:33:40Z",
+      "side": 1,
+      "message": "Done. (maybe)",
+      "parentUuid": "abbcfece_8dd91576",
+      "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbcfece_cdca2d98",
         "filename": "src/encoding/asn1/marshal.go",
         "patchSetId": 13
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8b101ad0_ea3fa7e5",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-12T01:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbcfece_cdca2d98",
+      "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbcfece_0dc50585",
         "filename": "src/encoding/asn1/marshal.go",
         "patchSetId": 13
@@ -47,6 +83,24 @@
       "writtenOn": "2016-09-11T23:35:30Z",
       "side": 1,
       "message": "why eight? Does this code panic if the length of any tagged value is \u003e 2^(6*8)? (That\u0027s probably reasonable, I just wanted to check.)",
+      "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b101ad0_4a511328",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-12T01:33:40Z",
+      "side": 1,
+      "message": "I updated this value to 16. I hope this size is enough for representing most of OIDs. it\u0027s heuristic value though.\n\nThe scratch is used for initial buffer for the tag.\nIf the tagged value is huge, new buffer is allocated for it instead of panic.",
+      "parentUuid": "abbcfece_0dc50585",
       "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "8b101ad0_ca44e370",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-12T01:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbcfece_edc7e98c",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 83,
+        "endChar": 5
+      },
+      "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbcfece_4d529dda",
         "filename": "src/encoding/asn1/marshal.go",
         "patchSetId": 13
@@ -87,6 +165,24 @@
       "writtenOn": "2016-09-11T23:35:30Z",
       "side": 1,
       "message": "is this a base128 encoding? If so, why are the shifts 8 bits?",
+      "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b101ad0_aa39af02",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-12T01:33:40Z",
+      "side": 1,
+      "message": "This code comes from marshalInt64 and int64Length which is INTEGER encoding and that encoding is base256.",
+      "parentUuid": "abbcfece_4d529dda",
       "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "8b101ad0_8a3eebe6",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-12T01:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbcfece_6d5759c9",
+      "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbcfece_cd5dcde7",
         "filename": "src/encoding/asn1/marshal.go",
         "patchSetId": 13
@@ -121,6 +235,24 @@
       "writtenOn": "2016-09-11T23:35:30Z",
       "side": 1,
       "message": "could drop at least this blank line.",
+      "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b101ad0_6a54d719",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-12T01:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbcfece_cd5dcde7",
       "revId": "ff6cbdb1d68fb3089ab354c93d26115b892b846f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
