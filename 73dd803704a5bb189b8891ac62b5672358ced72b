@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "abbcfece_48244b73",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-09-12T14:34:37Z",
+      "side": 1,
+      "message": "While you\u0027re here: \"Fall back\".  (\"fallback\" is a noun.)",
+      "range": {
+        "startLine": 115,
+        "startChar": 39,
+        "endLine": 115,
+        "endChar": 47
+      },
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b101ad0_8a482bb3",
         "filename": "src/cmd/vet/print.go",
         "patchSetId": 1
@@ -13,6 +36,24 @@
       "writtenOn": "2016-09-10T20:40:11Z",
       "side": 1,
       "message": "s/argument/literal/",
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbcfece_a8123f0c",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-09-12T14:34:37Z",
+      "side": 1,
+      "message": "Actually, s/argument/constant/.  Consider:\n\n  const format \u003d \"%s\"\n  fmt.Printf(format, \"x\")\n\nThis scan will find format, not \"x\".\n\nThe function stringLiteralArg is similarly misnamed, and the comment on L122 needs fixing.",
+      "parentUuid": "8b101ad0_8a482bb3",
       "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -47,6 +88,23 @@
       "writtenOn": "2016-09-10T20:40:11Z",
       "side": 1,
       "message": "s/its\u0027 contents/its content/",
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbcfece_c80f7be7",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-09-12T14:34:37Z",
+      "side": 1,
+      "message": "Not sure this is necessary.  types.Typ[types.String] is fine.",
       "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
