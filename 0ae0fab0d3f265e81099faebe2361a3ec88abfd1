@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab523ec4_ac6527e6",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1544,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-09-13T22:35:06Z",
+      "side": 1,
+      "message": "I\u0027d reverse the condition and return the int(n.Int64()) here. Then no break is needed.\n\nSame is true for Smallintconst above.",
+      "revId": "0ae0fab0d3f265e81099faebe2361a3ec88abfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab523ec4_cc5663fe",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2924,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-09-13T22:35:06Z",
+      "side": 1,
+      "message": "I am not convinced that this is correct. For one, you create a new node here and you lose things like line number info etc.\n\nA quick search implies that nonnegconst is only called from one place, which is here. It seems to me that the better solution is to fix nonnegconst (and give it a better name while at it).",
+      "revId": "0ae0fab0d3f265e81099faebe2361a3ec88abfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb74360d_c5a91a80",
         "filename": "test/fixedbugs/issue7153.go",
         "patchSetId": 1
