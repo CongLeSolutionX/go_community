@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab523ec4_cca0a302",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-13T22:41:58Z",
+      "side": 1,
+      "message": "We avoid Latin abbreviations like \"etc\" in Go code.  I would just s/, etc//.\n\nActually, I think I would write\n\nmsg +\u003d \" (.go files ignored due to build tags)\"",
+      "revId": "1127b08ebd2560b7db1044859ca2ad014bf68b52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
