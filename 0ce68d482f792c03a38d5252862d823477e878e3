@@ -52,6 +52,24 @@
       "revId": "0ce68d482f792c03a38d5252862d823477e878e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b9e867e_8a726fa1",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-13T23:42:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab523ec4_378ae0c7",
+      "revId": "0ce68d482f792c03a38d5252862d823477e878e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
