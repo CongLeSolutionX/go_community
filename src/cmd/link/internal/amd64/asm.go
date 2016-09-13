@@ -255,9 +255,44 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) bool {
 			return true
 		}
 
-		if s.Type != obj.SDATA && s.Type != obj.SRODATA {
-			break
+		// Process data dynamic relocations.
+		if ld.Buildmode == ld.BuildmodePIE && ld.Linkmode == ld.LinkInternal {
+			// We are in the dynamic relocations pass, which happens
+			// before section addresses are determined and before
+			// static relocations are handled. The first part of
+			// generating the dynamic relocs for the .rela section
+			// is calling ld.Addaddrplus(..., r.Off). This function
+			// isn't just filling r.Off into the beginning of the
+			// dynamic relocation. It also creates a new R_ADDR
+			// static relocation that will later be tweaked by the
+			// static pass (which has access to the section addresses).
+			//
+			// These sections contain .rela and .dynamic, so they are
+			// filled with the R_ADDR relocs created below. If we
+			// attempt to process them now, doing so will generated
+			// more R_ADDR relocs which we have to process here. (The
+			// linker would get stuck in an infinite loop at this
+			// point.) But even if it didn't, we don't actually want
+			// a dynamic relocation for the first word (r_offset) of
+			// the Elf64_Rela struct.
+			//
+			// It would be nice to generate dynamic relocations here
+			// without generating a fake static relocation.
+			if s.Type == obj.SELFROSECT || s.Type == obj.SELFSECT {
+				break
+			}
+			// TODO: The fine-grained data sections STYPE,
+			// SGOSTRINGHDR, etc lead to more R_ADDR relocs
+			// and fewer R_PCREL relocs than is optimal.
+			// Given these sections are known to be packed,
+			// the compiler could generate more PC-relative
+			// relocations.
+		} else {
+			if s.Type != obj.SDATA && s.Type != obj.SRODATA {
+				break
+			}
 		}
+
 		if ld.Iself {
 			ld.Adddynsym(ctxt, targ)
 			rela := ld.Linklookup(ctxt, ".rela", 0)
