@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b9e867e_ca987723",
+        "filename": "src/go/build/build_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 15284
+      },
+      "writtenOn": "2016-09-13T21:18:33Z",
+      "side": 1,
+      "message": "Missing closing double-quote, should be (\"testdata/ignored\")",
+      "revId": "90d380a77b49297081bed1032aefedce3758e09b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
