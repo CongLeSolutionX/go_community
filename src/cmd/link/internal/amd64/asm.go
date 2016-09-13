@@ -255,9 +255,17 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) bool {
 			return true
 		}
 
-		if s.Type != obj.SDATA && s.Type != obj.SRODATA {
-			break
+		// Process data dynamic relocations.
+		if ld.Buildmode == ld.BuildmodePIE && ld.Linkmode == ld.LinkInternal {
+			if s.Type == obj.SELFROSECT || s.Type == obj.SELFSECT {
+				break
+			}
+		} else {
+			if s.Type != obj.SDATA && s.Type != obj.SRODATA {
+				break
+			}
 		}
+
 		if ld.Iself {
 			ld.Adddynsym(ctxt, targ)
 			rela := ld.Linklookup(ctxt, ".rela", 0)
