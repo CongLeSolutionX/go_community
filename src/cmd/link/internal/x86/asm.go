@@ -66,6 +66,7 @@ func gentext(ctxt *ld.Link) {
 	}
 
 	// Generate little thunks that load the PC of the next instruction into a register.
+	thunks := make([]*ld.Symbol, 0, 7+len(ctxt.Textp))
 	for _, r := range [...]struct {
 		name string
 		num  uint8
@@ -94,8 +95,9 @@ func gentext(ctxt *ld.Link) {
 		// c3		ret
 		o(0xc3)
 
-		ctxt.Textp = append(ctxt.Textp, thunkfunc)
+		thunks = append(thunks, thunkfunc)
 	}
+	ctxt.Textp = append(thunks, ctxt.Textp...) // keep Textp in dependency order
 
 	addmoduledata := ld.Linklookup(ctxt, "runtime.addmoduledata", 0)
 	if addmoduledata.Type == obj.STEXT && ld.Buildmode != ld.BuildmodePlugin {
@@ -151,10 +153,10 @@ func gentext(ctxt *ld.Link) {
 
 	o(0xc3)
 
-	ctxt.Textp = append(ctxt.Textp, initfunc)
 	if ld.Buildmode == ld.BuildmodePlugin {
 		ctxt.Textp = append(ctxt.Textp, addmoduledata)
 	}
+	ctxt.Textp = append(ctxt.Textp, initfunc)
 	initarray_entry := ld.Linklookup(ctxt, "go.link.addmoduledatainit", 0)
 	initarray_entry.Attr |= ld.AttrReachable
 	initarray_entry.Attr |= ld.AttrLocal
@@ -494,7 +496,7 @@ func pereloc1(ctxt *ld.Link, r *ld.Reloc, sectoff int64) bool {
 	return true
 }
 
-func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
+func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64, pass ld.RelocPass) int {
 	if ld.Linkmode == ld.LinkExternal {
 		return -1
 	}
@@ -511,7 +513,7 @@ func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
 	return -1
 }
 
-func archrelocvariant(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, t int64) int64 {
+func archrelocvariant(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, t int64, pass ld.RelocPass) int64 {
 	log.Fatalf("unexpected relocation variant")
 	return t
 }

@@ -195,6 +195,8 @@ type Link struct {
 	Filesyms    []*Symbol
 	Moduledata  *Symbol
 	SymbolBatch []Symbol
+
+	tramps []*Symbol // trampolines
 }
 
 // The smallest possible offset from the hardware stack pointer to a local
@@ -225,12 +227,19 @@ func (l *Link) Logf(format string, args ...interface{}) {
 }
 
 type Library struct {
-	Objref string
-	Srcref string
-	File   string
-	Pkg    string
-	Shlib  string
-	hash   []byte
+	Objref      string
+	Srcref      string
+	File        string
+	Pkg         string
+	Shlib       string
+	hash        []byte
+	imports     []*Library
+	textp       []*Symbol // text symbols defined in this library
+	dupTextSyms []*Symbol // dupok text symbols defined in this library
+}
+
+func (l Library) String() string {
+	return l.Pkg
 }
 
 type FuncInfo struct {

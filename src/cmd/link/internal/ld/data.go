@@ -314,7 +314,25 @@ func listsort(l *Symbol) *Symbol {
 	return l
 }
 
-func relocsym(ctxt *Link, s *Symbol) {
+func isInternalPkg(pkg string) bool {
+	switch pkg {
+	case "runtime",
+		"sync/atomic": // runtime may call to sync/atomic, due to go:linkname
+		return true
+	}
+	return strings.HasPrefix(pkg, "runtime/internal/") && !strings.HasSuffix(pkg, "_test")
+}
+
+type RelocPass uint8 // passes to apply relocation
+const (
+	PassJumpOnly RelocPass = iota
+	PassFinal
+)
+
+// resolve relocations in s.
+// first pass  -- jumps only, for jump-too-far detection and trampoline insertion
+// final pass -- resolve everything
+func relocsym(ctxt *Link, s *Symbol, pass RelocPass) {
 	var r *Reloc
 	var rs *Symbol
 	var i16 int16
@@ -326,6 +344,27 @@ func relocsym(ctxt *Link, s *Symbol) {
 	ctxt.Cursym = s
 	for ri := int32(0); ri < int32(len(s.R)); ri++ {
 		r = &s.R[ri]
+		if r.Done != 0 {
+			// already resolved
+			continue
+		}
+		if pass == PassJumpOnly {
+			// first pass: detect too-far jumps and insert trampolines if necessary
+			// (currently only ARM does trampoline insertion)
+			if !r.Type.IsDirectJump() {
+				continue
+			}
+			if Symaddr(ctxt, r.Sym) == 0 && r.Sym.Type != obj.SDYNIMPORT {
+				if r.Sym.File != s.File {
+					if !isInternalPkg(s.File) || !isInternalPkg(r.Sym.File) {
+						ctxt.Diag("unresolved inter-package jump: %s(%s) -> %s(%s)", s, s.File, r.Sym, r.Sym.File)
+					}
+					// internal packages are fine. they will be laid down together.
+				}
+				continue
+			}
+		}
+
 		r.Done = 1
 		off = r.Off
 		siz = int32(r.Siz)
@@ -394,7 +433,7 @@ func relocsym(ctxt *Link, s *Symbol) {
 			case 8:
 				o = int64(ctxt.Arch.ByteOrder.Uint64(s.P[off:]))
 			}
-			if Thearch.Archreloc(ctxt, r, s, &o) < 0 {
+			if Thearch.Archreloc(ctxt, r, s, &o, pass) < 0 {
 				ctxt.Diag("unknown reloc %d", r.Type)
 			}
 
@@ -606,7 +645,7 @@ func relocsym(ctxt *Link, s *Symbol) {
 		}
 
 		if r.Variant != RV_NONE {
-			o = Thearch.Archrelocvariant(ctxt, r, s, o)
+			o = Thearch.Archrelocvariant(ctxt, r, s, o, pass)
 		}
 
 		if false {
@@ -659,13 +698,13 @@ func (ctxt *Link) reloc() {
 	}
 
 	for _, s := range ctxt.Textp {
-		relocsym(ctxt, s)
+		relocsym(ctxt, s, PassFinal)
 	}
 	for _, sym := range datap {
-		relocsym(ctxt, sym)
+		relocsym(ctxt, sym, PassFinal)
 	}
 	for _, s := range dwarfp {
-		relocsym(ctxt, s)
+		relocsym(ctxt, s, PassFinal)
 	}
 }
 
@@ -1887,31 +1926,62 @@ func (ctxt *Link) textaddress() {
 	}
 	va := uint64(*FlagTextAddr)
 	sect.Vaddr = va
+	ntramps := 0
 	for _, sym := range ctxt.Textp {
-		sym.Sect = sect
-		if sym.Type&obj.SSUB != 0 {
-			continue
-		}
-		if sym.Align != 0 {
-			va = uint64(Rnd(int64(va), int64(sym.Align)))
-		} else {
-			va = uint64(Rnd(int64(va), int64(Funcalign)))
-		}
-		sym.Value = 0
-		for sub := sym; sub != nil; sub = sub.Sub {
-			sub.Value += int64(va)
-		}
-		if sym.Size == 0 && sym.Sub != nil {
-			ctxt.Cursym = sym
-		}
-		if sym.Size < MINFUNC {
-			va += MINFUNC // spacing required for findfunctab
-		} else {
-			va += uint64(sym.Size)
+		va = assignAddress(ctxt, sym, va)
+
+		relocsym(ctxt, sym, PassJumpOnly) // resolve jumps, may add trampolines if jump too far
+
+		// lay down trampolines after each function
+		for ; ntramps < len(ctxt.tramps); ntramps++ {
+			tramp := ctxt.tramps[ntramps]
+			va = assignAddress(ctxt, tramp, va)
 		}
 	}
 
 	sect.Length = va - sect.Vaddr
+
+	// merge tramps into Textp, keeping Textp in address order
+	if ntramps != 0 {
+		newtextp := make([]*Symbol, 0, len(ctxt.Textp)+ntramps)
+		i := 0
+		for _, sym := range ctxt.Textp {
+			for ; i < ntramps && ctxt.tramps[i].Value < sym.Value; i++ {
+				newtextp = append(newtextp, ctxt.tramps[i])
+			}
+			newtextp = append(newtextp, sym)
+		}
+		for ; i < ntramps; i++ {
+			newtextp = append(newtextp, ctxt.tramps[i])
+		}
+		ctxt.Textp = newtextp
+	}
+}
+
+// assign address for a text symbol
+func assignAddress(ctxt *Link, sym *Symbol, va uint64) uint64 {
+	sym.Sect = Segtext.Sect
+	if sym.Type&obj.SSUB != 0 {
+		return va
+	}
+	if sym.Align != 0 {
+		va = uint64(Rnd(int64(va), int64(sym.Align)))
+	} else {
+		va = uint64(Rnd(int64(va), int64(Funcalign)))
+	}
+	sym.Value = 0
+	for sub := sym; sub != nil; sub = sub.Sub {
+		sub.Value += int64(va)
+	}
+	if sym.Size == 0 && sym.Sub != nil {
+		ctxt.Cursym = sym
+	}
+	if sym.Size < MINFUNC {
+		va += MINFUNC // spacing required for findfunctab
+	} else {
+		va += uint64(sym.Size)
+	}
+	return va
 }
 
 // assign addresses
@@ -2120,4 +2190,15 @@ func (ctxt *Link) address() {
 	ctxt.xdefine("runtime.noptrbss", obj.SNOPTRBSS, int64(noptrbss.Vaddr))
 	ctxt.xdefine("runtime.enoptrbss", obj.SNOPTRBSS, int64(noptrbss.Vaddr+noptrbss.Length))
 	ctxt.xdefine("runtime.end", obj.SBSS, int64(Segdata.Vaddr+Segdata.Length))
+}
+
+// add a trampoline with symbol s (to be laid down after the current function)
+func (ctxt *Link) AddTramp(s *Symbol) {
+	s.Type = obj.STEXT
+	s.Attr |= AttrReachable
+	s.Attr |= AttrOnList
+	ctxt.tramps = append(ctxt.tramps, s)
+	if *FlagDebugTramp > 0 && ctxt.Debugvlog > 0 {
+		ctxt.Logf("trampoline %s inserted for %s\n", s, ctxt.Cursym)
+	}
 }

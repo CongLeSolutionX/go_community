@@ -95,10 +95,10 @@ func gentext(ctxt *ld.Link) {
 	rel.Type = obj.R_PCREL
 	rel.Add = 4
 
-	ctxt.Textp = append(ctxt.Textp, initfunc)
 	if ld.Buildmode == ld.BuildmodePlugin {
 		ctxt.Textp = append(ctxt.Textp, addmoduledata)
 	}
+	ctxt.Textp = append(ctxt.Textp, initfunc)
 	initarray_entry := ld.Linklookup(ctxt, "go.link.addmoduledatainit", 0)
 	initarray_entry.Attr |= ld.AttrReachable
 	initarray_entry.Attr |= ld.AttrLocal
@@ -412,7 +412,12 @@ func machoreloc1(ctxt *ld.Link, r *ld.Reloc, sectoff int64) int {
 	return 0
 }
 
-func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
+// sign extend a 24-bit integer
+func signext24(x int64) int32 {
+	return (int32(x) << 8) >> 8
+}
+
+func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64, pass ld.RelocPass) int {
 	if ld.Linkmode == ld.LinkExternal {
 		switch r.Type {
 		case obj.R_CALLARM:
@@ -421,10 +426,7 @@ func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
 			// set up addend for eventual relocation via outer symbol.
 			rs := r.Sym
 
-			r.Xadd = r.Add
-			if r.Xadd&0x800000 != 0 {
-				r.Xadd |= ^0xffffff
-			}
+			r.Xadd = int64(signext24(r.Add & 0xffffff))
 			r.Xadd *= 4
 			for rs.Outer != nil {
 				r.Xadd += ld.Symaddr(ctxt, rs) - ld.Symaddr(ctxt, rs.Outer)
@@ -443,6 +445,10 @@ func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
 			// from addend.
 			if ld.Headtype == obj.Hdarwin {
 				r.Xadd -= ld.Symaddr(ctxt, s) + int64(r.Off)
+			}
+
+			if r.Xadd/4 > 0x7fffff || r.Xadd/4 < -0x800000 {
+				ctxt.Diag("direct call too far %d", r.Xadd/4)
 			}
 
 			*val = int64(braddoff(int32(0xff000000&uint32(r.Add)), int32(0xffffff&uint32(r.Xadd/4))))
@@ -481,7 +487,54 @@ func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
 		return 0
 
 	case obj.R_CALLARM: // bl XXXXXX or b YYYYYY
-		*val = int64(braddoff(int32(0xff000000&uint32(r.Add)), int32(0xffffff&uint32((ld.Symaddr(ctxt, r.Sym)+int64((uint32(r.Add))*4)-(s.Value+int64(r.Off)))/4))))
+		// r.Add is the instruction
+		// low 24-bit encodes the target address
+		t := (ld.Symaddr(ctxt, r.Sym) + int64(signext24(r.Add&0xffffff)*4) - (s.Value + int64(r.Off))) / 4
+		if t > 0x7fffff || t < -0x800000 || (pass == ld.PassJumpOnly && *ld.FlagDebugTramp > 1 && s.File != r.Sym.File) {
+			// direct call too far, need to insert trampoline
+			if pass == ld.PassFinal {
+				ctxt.Diag("direct call too far: %s %x", r.Sym.Name, t)
+				return -1
+			}
+			offset := (signext24(r.Add&0xffffff) + 2) * 4
+			var tramp *ld.Symbol
+			for i := 0; ; i++ {
+				name := r.Sym.Name + fmt.Sprintf("%+d-tramp%d", offset, i)
+				tramp = ld.Linklookup(ctxt, name, int(r.Sym.Version))
+				if tramp.Value == 0 {
+					// trampoline does not exist, or the address is not assigned
+					break
+				}
+
+				// trampoline already exists and addess assigned
+				// we can resolve the reloc now to point to tramp if it is not too far
+				t = (ld.Symaddr(ctxt, tramp) - 8 - (s.Value + int64(r.Off))) / 4
+				if t >= -0x800000 && t < 0x7fffff {
+					goto out
+				}
+			}
+			if tramp.Type == 0 {
+				// trampoline does not exist, create one
+				ctxt.AddTramp(tramp)
+				tramp.Size = 12 // 3 instructions
+				tramp.P = make([]byte, tramp.Size)
+				t = ld.Symaddr(ctxt, r.Sym) + int64(offset)
+				o1 := uint32(0xe5900000 | 11<<12 | 15<<16) // MOVW (R15), R11 // R15 is actual pc + 8
+				o2 := uint32(0xe12fff10 | 11)              // JMP (R11)
+				o3 := uint32(t)                            // WORD $target
+				ld.SysArch.ByteOrder.PutUint32(tramp.P, o1)
+				ld.SysArch.ByteOrder.PutUint32(tramp.P[4:], o2)
+				ld.SysArch.ByteOrder.PutUint32(tramp.P[8:], o3)
+			}
+			// modify reloc to point to tramp, which will be resolved later
+			r.Sym = tramp
+			r.Add = r.Add&0xff000000 | 0xfffffe // clear the offset embedded in the instruction
+			r.Done = 0
+
+			return 0
+		}
+	out:
+		*val = int64(braddoff(int32(0xff000000&uint32(r.Add)), int32(0xffffff&t)))
 
 		return 0
 	}
@@ -489,7 +542,7 @@ func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
 	return -1
 }
 
-func archrelocvariant(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, t int64) int64 {
+func archrelocvariant(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, t int64, pass ld.RelocPass) int64 {
 	log.Fatalf("unexpected relocation variant")
 	return t
 }

@@ -85,10 +85,10 @@ func gentext(ctxt *ld.Link) {
 	Addcall(ctxt, initfunc, addmoduledata)
 	//    c:	c3                   	retq
 	o(0xc3)
-	ctxt.Textp = append(ctxt.Textp, initfunc)
 	if ld.Buildmode == ld.BuildmodePlugin {
 		ctxt.Textp = append(ctxt.Textp, addmoduledata)
 	}
+	ctxt.Textp = append(ctxt.Textp, initfunc)
 	initarray_entry := ld.Linklookup(ctxt, "go.link.addmoduledatainit", 0)
 	initarray_entry.Attr |= ld.AttrReachable
 	initarray_entry.Attr |= ld.AttrLocal
@@ -515,11 +515,11 @@ func pereloc1(ctxt *ld.Link, r *ld.Reloc, sectoff int64) bool {
 	return true
 }
 
-func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
+func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64, pass ld.RelocPass) int {
 	return -1
 }
 
-func archrelocvariant(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, t int64) int64 {
+func archrelocvariant(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, t int64, pass ld.RelocPass) int64 {
 	log.Fatalf("unexpected relocation variant")
 	return t
 }
