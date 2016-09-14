@@ -36,6 +36,40 @@
     },
     {
       "key": {
+        "uuid": "2b61eebb_1a13f913",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-14T17:18:49Z",
+      "side": 1,
+      "message": "missing copyright header",
+      "revId": "c267a5a972ac54e2c53b57fd236db1f272ce5b7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b61eebb_3a10bd04",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-14T17:18:49Z",
+      "side": 1,
+      "message": "delete this whole comment",
+      "revId": "c267a5a972ac54e2c53b57fd236db1f272ce5b7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b61eebb_9a1e291e",
         "filename": "src/sort/example_search_test.go",
         "patchSetId": 1
@@ -47,6 +81,40 @@
       "writtenOn": "2016-09-14T17:17:28Z",
       "side": 1,
       "message": "This should be named ExampleSearch since it is an example of the Search function.",
+      "revId": "c267a5a972ac54e2c53b57fd236db1f272ce5b7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b61eebb_da3fc173",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-14T17:18:49Z",
+      "side": 1,
+      "message": "Why _search and not Search?",
+      "revId": "c267a5a972ac54e2c53b57fd236db1f272ce5b7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b61eebb_3a37dd9a",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-14T17:18:49Z",
+      "side": 1,
+      "message": "The language is named Go, but we don\u0027t need to remind the user.\n\nAlso, no need to repeat the docs on the function. Just show code that normal users would write.",
       "revId": "c267a5a972ac54e2c53b57fd236db1f272ce5b7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
