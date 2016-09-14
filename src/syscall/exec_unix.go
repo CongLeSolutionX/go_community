@@ -241,7 +241,10 @@ func StartProcess(argv0 string, argv []string, attr *ProcAttr) (pid int, handle 
 	return pid, 0, err
 }
 
-// Ordinary exec.
+// Ordinary exec. argv0 must represent the full path to the executable, the
+// PATH environment variable is not consulted. At least one argument must be
+// present in the argv array; by custom, the first element should be the name
+// of the executed program (for example, the last component of argv0)
 func Exec(argv0 string, argv []string, envv []string) (err error) {
 	argv0p, err := BytePtrFromString(argv0)
 	if err != nil {
