@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6bdda69f_e9981523",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-14T11:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbcfece_48244b73",
+      "range": {
+        "startLine": 115,
+        "startChar": 39,
+        "endLine": 115,
+        "endChar": 47
+      },
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b101ad0_8a482bb3",
         "filename": "src/cmd/vet/print.go",
         "patchSetId": 1
@@ -60,6 +84,42 @@
     },
     {
       "key": {
+        "uuid": "6bdda69f_29834db6",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-14T11:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbcfece_a8123f0c",
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bdda69f_c99d5111",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-14T11:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b101ad0_8a482bb3",
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b101ad0_aa43ef95",
         "filename": "src/cmd/vet/print.go",
         "patchSetId": 1
@@ -71,6 +131,24 @@
       "writtenOn": "2016-09-10T20:40:11Z",
       "side": 1,
       "message": "s/the call with/a call with a/",
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bdda69f_098009a6",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-14T11:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b101ad0_aa43ef95",
       "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -94,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "6bdda69f_698d45de",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-14T11:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b101ad0_ca4e23c0",
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abbcfece_c80f7be7",
         "filename": "src/cmd/vet/print.go",
         "patchSetId": 1
@@ -105,6 +201,24 @@
       "writtenOn": "2016-09-12T14:34:37Z",
       "side": 1,
       "message": "Not sure this is necessary.  types.Typ[types.String] is fine.",
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bdda69f_498a01c8",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-14T11:30:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abbcfece_c80f7be7",
       "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
