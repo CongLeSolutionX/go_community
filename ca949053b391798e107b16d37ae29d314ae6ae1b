@@ -16,6 +16,24 @@
       "revId": "ca949053b391798e107b16d37ae29d314ae6ae1b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b61eebb_bde84779",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-09-14T17:42:07Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "2b61eebb_b7786857",
+      "revId": "ca949053b391798e107b16d37ae29d314ae6ae1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
