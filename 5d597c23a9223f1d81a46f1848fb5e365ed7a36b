@@ -22,6 +22,30 @@
       "revId": "5d597c23a9223f1d81a46f1848fb5e365ed7a36b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b61eebb_f75bc0f2",
+        "filename": "src/cmd/compile/internal/ssa/schedule.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-09-14T15:09:47Z",
+      "side": 1,
+      "message": "We cannot move nilcheck q before the *p \u003d 7 write.  The write generates a new store, and that store is an argument to the nilcheck.",
+      "parentUuid": "eb1a7624_b5a160ae",
+      "range": {
+        "startLine": 98,
+        "startChar": 35,
+        "endLine": 98,
+        "endChar": 40
+      },
+      "revId": "5d597c23a9223f1d81a46f1848fb5e365ed7a36b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
