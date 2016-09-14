@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2b61eebb_6b6c29c7",
+        "filename": "test/fixedbugs/issue16870.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-14T20:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e58d42b7_dd8b4bc9",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e58d42b7_fda9e725",
         "filename": "test/fixedbugs/issue16870.go",
         "patchSetId": 4
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "2b61eebb_aba00101",
+        "filename": "test/fixedbugs/issue16870.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-14T20:56:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e58d42b7_fda9e725",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e58d42b7_dd2fcba0",
         "filename": "test/fixedbugs/issue16870.go",
         "patchSetId": 4
@@ -117,6 +153,24 @@
       "writtenOn": "2016-08-29T22:49:01Z",
       "side": 1,
       "message": "It\u0027d be good to have both fast and non-fast-path type assertions. These are all E2T.",
+      "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b61eebb_2be7913d",
+        "filename": "test/fixedbugs/issue16870.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-14T20:56:48Z",
+      "side": 1,
+      "message": "Added a test for ptr-shaped type, which revealed the SSA bugs. Now I\u0027m handling this in order.go instead, which should be agnostic to [IET]2[IET] conversion type.\n\nI\u0027m open to more tests, but I\u0027m pretty burnt out on this silly CL by now. I\u0027d really rather submit as is. If there are any still unaddressed cases, we probably haven\u0027t been handling them correctly anyway, and we can address them as/if they\u0027re reported.",
+      "parentUuid": "e58d42b7_dd2fcba0",
       "revId": "c5189537bf45b86a38cfada6918986b34512cb4a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
