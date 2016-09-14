@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "eb1a7624_d5f7bcb9",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-14T10:56:32Z",
+      "side": 1,
+      "message": "Done. (I was trying to make an entirely different point about code size, which I will make somewhere else.)",
+      "parentUuid": "0b1eea17_5690d442",
+      "revId": "6a4640d3e8276b913a0a55fa27bf8ef29b8de424",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_b69b2867",
         "filename": "src/cmd/link/internal/amd64/asm.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
       "writtenOn": "2016-09-14T00:15:46Z",
       "side": 1,
       "message": "BTW I don\u0027t understand how this path can be taken. Not something for this branch!",
+      "revId": "6a4640d3e8276b913a0a55fa27bf8ef29b8de424",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb1a7624_15fad4a2",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-14T10:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b1eea17_b69b2867",
       "revId": "6a4640d3e8276b913a0a55fa27bf8ef29b8de424",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
