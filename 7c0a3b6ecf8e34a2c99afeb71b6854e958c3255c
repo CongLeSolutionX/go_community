@@ -155,6 +155,24 @@
       "revId": "7c0a3b6ecf8e34a2c99afeb71b6854e958c3255c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_560454b8",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T05:35:58Z",
+      "side": 1,
+      "message": "To me, it\u0027s not clear why the second example is \"wrong\". I can see an argument either way.\n\nIs the some specific definition of \"lower bound\" that you\u0027re assuming? I\u0027m thinking that perhaps it\u0027s too specialized for a general example.",
+      "parentUuid": "0b1eea17_b61e881d",
+      "revId": "7c0a3b6ecf8e34a2c99afeb71b6854e958c3255c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
