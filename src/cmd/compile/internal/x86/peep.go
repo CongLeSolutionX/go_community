@@ -1,3 +1,5 @@
+// +build !without_386 !without_amd64
+
 // Derived from Inferno utils/6c/peep.c
 // https://bitbucket.org/inferno-os/inferno-os/src/default/utils/6c/peep.c
 //

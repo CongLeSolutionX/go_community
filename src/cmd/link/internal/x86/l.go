@@ -1,3 +1,5 @@
+// +build !without_386
+
 // Inferno utils/8l/l.h
 // https://bitbucket.org/inferno-os/inferno-os/src/default/utils/8l/l.h
 //

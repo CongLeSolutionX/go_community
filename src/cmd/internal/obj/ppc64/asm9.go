@@ -1,3 +1,5 @@
+// +build !without_ppc64
+
 // cmd/9l/optab.c, cmd/9l/asmout.c from Vita Nuova.
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.

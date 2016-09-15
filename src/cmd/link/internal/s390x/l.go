@@ -1,3 +1,5 @@
+// +build !without_s390x
+
 // Inferno utils/5l/asm.c
 // https://bitbucket.org/inferno-os/inferno-os/src/default/utils/5l/asm.c
 //

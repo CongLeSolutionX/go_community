@@ -1,3 +1,5 @@
+// +build !without_arm64
+
 // cmd/7l/asm.c, cmd/7l/asmout.c, cmd/7l/optab.c, cmd/7l/span.c, cmd/ld/sub.c, cmd/ld/mod.c, from Vita Nuova.
 // https://code.google.com/p/ken-cc/source/browse/
 //

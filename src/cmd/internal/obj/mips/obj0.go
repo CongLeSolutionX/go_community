@@ -1,3 +1,5 @@
+// +build !without_mips64
+
 // cmd/9l/noop.c, cmd/9l/pass.c, cmd/9l/span.c from Vita Nuova.
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.

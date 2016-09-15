@@ -1,3 +1,5 @@
+// +build !without_arm64
+
 // cmd/7c/7.out.h  from Vita Nuova.
 // https://code.google.com/p/ken-cc/source/browse/src/cmd/7c/7.out.h
 //

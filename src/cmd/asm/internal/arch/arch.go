@@ -45,6 +45,8 @@ func nilRegisterNumber(name string, n int16) (int16, bool) {
 	return 0, false
 }
 
+var archMaker = map[string]func(*obj.LinkArch) *Arch{} // GOARCH => constructor
+
 // Set configures the architecture specified by GOARCH and returns its representation.
 // It returns nil if GOARCH is not recognized.
 func Set(GOARCH string) *Arch {

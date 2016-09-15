@@ -1,3 +1,5 @@
+// +build !without_arm
+
 // Inferno utils/5l/obj.c
 // https://bitbucket.org/inferno-os/inferno-os/src/default/utils/5l/obj.c
 //

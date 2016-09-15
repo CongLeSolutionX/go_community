@@ -1,3 +1,5 @@
+// +build !without_arm64
+
 // cmd/7l/list.c and cmd/7l/sub.c from Vita Nuova.
 // https://code.google.com/p/ken-cc/source/browse/
 //

@@ -1,3 +1,5 @@
+// +build !without_mips64
+
 // cmd/9c/9.out.h from Vita Nuova.
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.

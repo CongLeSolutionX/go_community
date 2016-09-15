@@ -1,3 +1,5 @@
+// +build !without_386 !without_amd64
+
 package x86_test
 
 import (

@@ -1,3 +1,5 @@
+// +build !without_amd64
+
 // Inferno utils/6l/asm.c
 // https://bitbucket.org/inferno-os/inferno-os/src/default/utils/6l/asm.c
 //

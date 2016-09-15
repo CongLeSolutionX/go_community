@@ -1,3 +1,5 @@
+// +build !without_mips64
+
 // Inferno utils/5l/obj.c
 // https://bitbucket.org/inferno-os/inferno-os/src/default/utils/5l/obj.c
 //

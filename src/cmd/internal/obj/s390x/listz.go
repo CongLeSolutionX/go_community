@@ -1,3 +1,5 @@
+// +build !without_s390x
+
 // Based on cmd/internal/obj/ppc64/list9.go.
 //
 //	Copyright © 1994-1999 Lucent Technologies Inc.  All rights reserved.

@@ -1,3 +1,5 @@
+// +build !without_arm64
+
 // cmd/7l/noop.c, cmd/7l/obj.c, cmd/ld/pass.c from Vita Nuova.
 // https://code.google.com/p/ken-cc/source/browse/
 //

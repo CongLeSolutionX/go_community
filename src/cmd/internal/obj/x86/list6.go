@@ -1,3 +1,5 @@
+// +build !without_386 !without_amd64
+
 // Inferno utils/6c/list.c
 // https://bitbucket.org/inferno-os/inferno-os/src/default/utils/6c/list.c
 //

@@ -6,35 +6,17 @@ package main
 
 import (
 	"cmd/internal/obj"
-	"cmd/link/internal/amd64"
-	"cmd/link/internal/arm"
-	"cmd/link/internal/arm64"
-	"cmd/link/internal/mips64"
-	"cmd/link/internal/ppc64"
-	"cmd/link/internal/s390x"
-	"cmd/link/internal/x86"
 	"fmt"
 	"os"
 )
 
+var archMain = map[string]func(){}
+
 func main() {
-	switch obj.GOARCH {
-	default:
+	if mainFn, ok := archMain[obj.GOARCH]; ok {
+		mainFn()
+	} else {
 		fmt.Fprintf(os.Stderr, "link: unknown architecture %q\n", obj.GOARCH)
 		os.Exit(2)
-	case "386":
-		x86.Main()
-	case "amd64", "amd64p32":
-		amd64.Main()
-	case "arm":
-		arm.Main()
-	case "arm64":
-		arm64.Main()
-	case "mips64", "mips64le":
-		mips64.Main()
-	case "ppc64", "ppc64le":
-		ppc64.Main()
-	case "s390x":
-		s390x.Main()
 	}
 }
