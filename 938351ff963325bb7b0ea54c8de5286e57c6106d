@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b1eea17_d66504e6",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T00:05:14Z",
+      "side": 1,
+      "message": "I don\u0027t think this is how output comments works.\n\nShould these each be separate examples, and therefore testable?",
+      "revId": "938351ff963325bb7b0ea54c8de5286e57c6106d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
