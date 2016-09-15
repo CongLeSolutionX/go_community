@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b28aa68_cff1b581",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 5665
+      },
+      "writtenOn": "2016-09-15T20:38:40Z",
+      "side": 0,
+      "message": "dnsConfigs are always created with dnsReadConfig, which ensures servers always has at least defaults in it.",
+      "revId": "f13701bf2f32fe48f6dcf9149b35b9ce3effe022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
