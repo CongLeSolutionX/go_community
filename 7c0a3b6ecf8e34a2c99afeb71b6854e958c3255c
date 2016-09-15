@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "0b1eea17_d62d0457",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 15015
+      },
+      "writtenOn": "2016-09-15T04:07:09Z",
+      "side": 1,
+      "message": "only works for exact match, see comment below for lower bound",
+      "parentUuid": "0b1eea17_9651ccd7",
+      "revId": "7c0a3b6ecf8e34a2c99afeb71b6854e958c3255c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_5668d489",
         "filename": "src/sort/example_search_test.go",
         "patchSetId": 6
@@ -87,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "0b1eea17_f6280049",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 15015
+      },
+      "writtenOn": "2016-09-15T04:07:09Z",
+      "side": 1,
+      "message": "can you please give an example?",
+      "parentUuid": "0b1eea17_5668d489",
+      "revId": "7c0a3b6ecf8e34a2c99afeb71b6854e958c3255c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_d65b44f3",
         "filename": "src/sort/example_search_test.go",
         "patchSetId": 6
@@ -98,6 +134,24 @@
       "writtenOn": "2016-09-15T03:28:56Z",
       "side": 1,
       "message": "I think a single descending order example suffices. It is clear from the first one that you invert the conditional.",
+      "revId": "7c0a3b6ecf8e34a2c99afeb71b6854e958c3255c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_b61e881d",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 15015
+      },
+      "writtenOn": "2016-09-15T04:07:09Z",
+      "side": 1,
+      "message": "using \u003c\u003d for lower bound doesn\u0027t work\n\nhttps://play.golang.org/p/upj_QTJdWP\n\nalthough it does if we are only interested in finding exact match, changed the search example to reflect that but keeping this for now",
+      "parentUuid": "0b1eea17_d65b44f3",
       "revId": "7c0a3b6ecf8e34a2c99afeb71b6854e958c3255c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
