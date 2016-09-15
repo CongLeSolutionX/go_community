@@ -189,32 +189,6 @@ func clearlabels() {
 	labellist = labellist[:0]
 }
 
-func newlab(n *Node) *Label {
-	s := n.Left.Sym
-	lab := s.Label
-	if lab == nil {
-		lab = new(Label)
-		lab.Sym = s
-		s.Label = lab
-		if n.Used {
-			lab.Used = true
-		}
-		labellist = append(labellist, lab)
-	}
-
-	if n.Op == OLABEL {
-		if lab.Def != nil {
-			Yyerror("label %v already defined at %v", s, lab.Def.Line())
-		} else {
-			lab.Def = n
-		}
-	} else {
-		lab.Use = append(lab.Use, n)
-	}
-
-	return lab
-}
-
 // There is a copy of checkgoto in the new SSA backend.
 // Please keep them in sync.
 func checkgoto(from *Node, to *Node) {
@@ -273,20 +247,6 @@ func checkgoto(from *Node, to *Node) {
 	}
 }
 
-func stmtlabel(n *Node) *Label {
-	if n.Sym != nil {
-		lab := n.Sym.Label
-		if lab != nil {
-			if lab.Def != nil {
-				if lab.Def.Name.Defn == n {
-					return lab
-				}
-			}
-		}
-	}
-	return nil
-}
-
 // make a new off the books
 func Tempname(nn *Node, t *Type) {
 	if Curfn == nil {
@@ -327,27 +287,4 @@ func temp(t *Type) *Node {
 	Tempname(&n, t)
 	n.Sym.Def.Used = true
 	return n.Orig
-}
-
-func checklabels() {
-	for _, lab := range labellist {
-		if lab.Def == nil {
-			for _, n := range lab.Use {
-				yyerrorl(n.Lineno, "label %v not defined", lab.Sym)
-			}
-			continue
-		}
-
-		if lab.Use == nil && !lab.Used {
-			yyerrorl(lab.Def.Lineno, "label %v defined and not used", lab.Sym)
-			continue
-		}
-
-		if lab.Gotopc != nil {
-			Fatalf("label %v never resolved", lab.Sym)
-		}
-		for _, n := range lab.Use {
-			checkgoto(n, lab.Def)
-		}
-	}
 }
