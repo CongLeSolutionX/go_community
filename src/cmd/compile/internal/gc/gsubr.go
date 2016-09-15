@@ -502,7 +502,7 @@ func nodarg(t interface{}, fp int) *Node {
 		funarg = t.StructType().Funarg
 
 		// Build fake variable name for whole arg struct.
-		n = Nod(ONAME, nil, nil)
+		n = nod(ONAME, nil, nil)
 		n.Sym = lookup(".args")
 		n.Type = t
 		first := t.Field(0)
@@ -551,7 +551,7 @@ func nodarg(t interface{}, fp int) *Node {
 		// Build fake name for individual variable.
 		// This is safe because if there was a real declared name
 		// we'd have used it above.
-		n = Nod(ONAME, nil, nil)
+		n = nod(ONAME, nil, nil)
 		n.Type = t.Type
 		n.Sym = t.Sym
 		if t.Offset == BADWIDTH {
