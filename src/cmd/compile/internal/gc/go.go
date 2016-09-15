@@ -371,8 +371,8 @@ type Arch struct {
 	Betypeinit func()
 	Defframe   func(*obj.Prog)
 	Gins       func(obj.As, *Node, *Node) *obj.Prog
-	Proginfo   func(*obj.Prog) // fills in Prog.Info
-	Use387     bool            // should 8g use 387 FP instructions instead of sse2.
+	Proginfo   func(*obj.Prog) ProgInfo
+	Use387     bool // should 8g use 387 FP instructions instead of sse2.
 
 	// SSARegToReg maps ssa register numbers to obj register numbers.
 	SSARegToReg []int16
