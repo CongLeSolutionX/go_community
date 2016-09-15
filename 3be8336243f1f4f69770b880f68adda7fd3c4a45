@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b61eebb_f6349901",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-15T12:12:14Z",
+      "side": 1,
+      "message": "You did nodSym two lines down, but not Nod too? I see no uses of it outside this package?",
+      "revId": "3be8336243f1f4f69770b880f68adda7fd3c4a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
