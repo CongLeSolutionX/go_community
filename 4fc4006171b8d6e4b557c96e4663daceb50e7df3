@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_699361a8",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:39:49Z",
+      "side": 1,
+      "message": "Done.\n\n(I might put a weekend into darwin support. I can\u0027t really justify it as part of my day job, but it sure would be nice. And we already have some kind of half-measure buildmode\u003dc-shared support on darwin.)",
+      "parentUuid": "0b28aa68_a9a55910",
+      "revId": "4fc4006171b8d6e4b557c96e4663daceb50e7df3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b28aa68_e9af51ec",
         "filename": "src/plugin/plugin.go",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-15T18:33:37Z",
       "side": 1,
       "message": "colon at end? maybe?",
+      "revId": "4fc4006171b8d6e4b557c96e4663daceb50e7df3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_89f25dfd",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:39:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b28aa68_e9af51ec",
       "revId": "4fc4006171b8d6e4b557c96e4663daceb50e7df3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
