@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b28aa68_ba783957",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-15T22:30:31Z",
+      "side": 1,
+      "message": "Since this looks like an example of something someone might type, I would drop the period.",
+      "revId": "c9c884c76173956b92bcbcad2e2ec33cf853bb50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_3acb699e",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-15T22:30:31Z",
+      "side": 1,
+      "message": "s/0/NULL/ ?",
+      "revId": "c9c884c76173956b92bcbcad2e2ec33cf853bb50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_5ac8259f",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-15T22:30:31Z",
+      "side": 1,
+      "message": "s/0/NULL/ ?",
+      "revId": "c9c884c76173956b92bcbcad2e2ec33cf853bb50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_1a614da8",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-15T22:30:31Z",
+      "side": 1,
+      "message": "I guess a \"placehodler\" is someone who wears a hoodie that advertises some specific place?",
+      "revId": "c9c884c76173956b92bcbcad2e2ec33cf853bb50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
