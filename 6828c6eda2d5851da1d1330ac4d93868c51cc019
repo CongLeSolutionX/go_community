@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b61eebb_39b0c2e1",
+        "filename": "src/cmd/link/internal/ld/sym.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-09-15T15:45:15Z",
+      "side": 1,
+      "message": "Does this work on a non-ELF system?",
+      "revId": "6828c6eda2d5851da1d1330ac4d93868c51cc019",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
