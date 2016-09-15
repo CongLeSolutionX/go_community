@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b61eebb_83340195",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-15T05:12:32Z",
+      "side": 1,
+      "message": "Any reason you didn\u0027t just include this in the for loop condition as \"\u0026\u0026 !Eqtype(r.Type, l.Type)\"?",
+      "revId": "834edd94ee5b42a89a9e7f8bf9cb60aa9fe66956",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
