@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b1eea17_369c38ba",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T02:31:39Z",
+      "side": 1,
+      "message": "delete this one",
+      "revId": "ce532b651560e2044bd7d75fcc8931cde8a9eb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_16993cca",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T02:31:39Z",
+      "side": 1,
+      "message": "and this one; if you want to document descending order, add another example",
+      "revId": "ce532b651560e2044bd7d75fcc8931cde8a9eb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_7696b099",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T02:31:39Z",
+      "side": 1,
+      "message": "delete this one",
+      "revId": "ce532b651560e2044bd7d75fcc8931cde8a9eb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_36b5583a",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T02:31:39Z",
+      "side": 1,
+      "message": "Put this example at the top of the file.",
+      "revId": "ce532b651560e2044bd7d75fcc8931cde8a9eb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_968c2c91",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T02:31:39Z",
+      "side": 1,
+      "message": "You don\u0027t need to document the function again. It has a documentation comment.",
+      "revId": "ce532b651560e2044bd7d75fcc8931cde8a9eb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_b687a86b",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T02:31:39Z",
+      "side": 1,
+      "message": "this is irrelevant, delete it.",
+      "revId": "ce532b651560e2044bd7d75fcc8931cde8a9eb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_f6812057",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T02:31:39Z",
+      "side": 1,
+      "message": "just define the slice once",
+      "revId": "ce532b651560e2044bd7d75fcc8931cde8a9eb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_d686a46c",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T02:31:39Z",
+      "side": 1,
+      "message": "don\u0027t wrap this up in the if statement. make it clear\n\ni :\u003d sort.Search(len(a), func (i int) bool {\n  return a[i] \u003e\u003d x\n})\nswitch {\ncase i \u003e\u003d len(a):\n  fmt.Printf(\"value %d not found in array\", x)\ncase a[i] \u003d x:\n  fmt.Printf(\"value %d found in array at index %d\", x, i)\ndefault:\n  fmt.Printf(\"value %d not found in array; nearest match is %d at index %d\", a[i], i)\n}",
+      "revId": "ce532b651560e2044bd7d75fcc8931cde8a9eb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_56bc5423",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-15T02:31:39Z",
+      "side": 1,
+      "message": "delete this example. There could be a separate example for SearchInts, but I don\u0027t think it\u0027s worth it.",
+      "revId": "ce532b651560e2044bd7d75fcc8931cde8a9eb95",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
