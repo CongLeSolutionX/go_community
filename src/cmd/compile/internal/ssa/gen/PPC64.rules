@@ -196,6 +196,9 @@
 
 // Lowering comparisons
 (EqB x y)  -> (ANDconst [1] (EQV x y))
+// Sign extension sets up for sign-extension elision -- choice doesn't actually matter to "Eq"
+(Eq8 x y) && isSigned(x.Type) && isSigned(y.Type) -> (Equal (CMPW (SignExt8to32 x) (SignExt8to32 y)))
+(Eq16 x y) && isSigned(x.Type) && isSigned(y.Type) -> (Equal (CMPW (SignExt16to32 x) (SignExt16to32 y)))
 (Eq8 x y)  -> (Equal (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
 (Eq16 x y) -> (Equal (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
 (Eq32 x y) -> (Equal (CMPW x y))
@@ -205,6 +208,8 @@
 (EqPtr x y) -> (Equal (CMP x y))
 
 (NeqB x y)  -> (XOR x y)
+(Neq8 x y) && isSigned(x.Type) && isSigned(y.Type) -> (NotEqual (CMPW (SignExt8to32 x) (SignExt8to32 y)))
+(Neq16 x y) && isSigned(x.Type) && isSigned(y.Type) -> (NotEqual (CMPW (SignExt16to32 x) (SignExt16to32 y)))
 (Neq8 x y)  -> (NotEqual (CMPW (ZeroExt8to32 x) (ZeroExt8to32 y)))
 (Neq16 x y) -> (NotEqual (CMPW (ZeroExt16to32 x) (ZeroExt16to32 y)))
 (Neq32 x y) -> (NotEqual (CMPW x y))
@@ -620,3 +625,7 @@
 (Trunc64to16 x) -> (MOVHreg x)
 (Trunc64to32 x) -> (MOVWreg x)
 
+(MOVBZreg x:(MOVBZload _ _))  -> x
+(MOVBreg x:(MOVBload _ _))  -> x
+(MOVHZreg x:(MOVHZload _ _))  -> x
+(MOVHreg x:(MOVHload _ _))  -> x
