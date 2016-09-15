@@ -159,6 +159,8 @@ type IPv6MTUInfo C.struct_ip6_mtuinfo
 
 type ICMPv6Filter C.struct_icmp6_filter
 
+type Xucred C.struct_xucred
+
 const (
 	SizeofSockaddrInet4    = C.sizeof_struct_sockaddr_in
 	SizeofSockaddrInet6    = C.sizeof_struct_sockaddr_in6
@@ -174,6 +176,7 @@ const (
 	SizeofInet6Pktinfo     = C.sizeof_struct_in6_pktinfo
 	SizeofIPv6MTUInfo      = C.sizeof_struct_ip6_mtuinfo
 	SizeofICMPv6Filter     = C.sizeof_struct_icmp6_filter
+	SizeofXucred           = C.sizeof_struct_xucred
 )
 
 // Ptrace requests

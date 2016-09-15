@@ -178,6 +178,27 @@ func (c *UnixConn) WriteMsgUnix(b, oob []byte, addr *UnixAddr) (n, oobn int, err
 	return
 }
 
+// Credentials of a peer connected to an UNIX socket.
+// Not all fields will be set in all OSs, some only provide Uid and Gid.
+type UnixPeerCreds struct {
+	Uid int
+	Gid int
+	Pid int
+}
+
+// GetPeerCredentials obtains the credentials of the peer c is connected to.
+func (c *UnixConn) GetPeerCredentials() (creds *UnixPeerCreds, err error) {
+	if !c.ok() {
+		return nil, syscall.EINVAL
+	}
+
+	creds, err = c.getPeerCredentials()
+	if err != nil {
+		err = &OpError{Op: "getpeercreds", Net: c.fd.net, Source: c.fd.laddr, Addr: c.fd.raddr, Err: err}
+	}
+	return
+}
+
 func newUnixConn(fd *netFD) *UnixConn { return &UnixConn{conn{fd}} }
 
 // DialUnix connects to the remote address raddr on the network net,

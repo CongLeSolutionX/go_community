@@ -204,6 +204,13 @@ func Getfsstat(buf []Statfs_t, flags int) (n int, err error) {
 	return
 }
 
+func GetsockoptXucred(fd, level, opt int) (*Xucred, error) {
+	var value Xucred
+	vallen := _Socklen(SizeofXucred)
+	errno := getsockopt(fd, level, opt, unsafe.Pointer(&value), &vallen)
+	return &value, errno
+}
+
 /*
  * Wrapped
  */

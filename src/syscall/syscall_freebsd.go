@@ -103,6 +103,13 @@ func SetsockoptIPMreqn(fd, level, opt int, mreq *IPMreqn) (err error) {
 	return setsockopt(fd, level, opt, unsafe.Pointer(mreq), unsafe.Sizeof(*mreq))
 }
 
+func GetsockoptXucred(fd, level, opt int) (*Xucred, error) {
+	var value Xucred
+	vallen := _Socklen(SizeofXucred)
+	errno := getsockopt(fd, level, opt, unsafe.Pointer(&value), &vallen)
+	return &value, errno
+}
+
 func Accept4(fd, flags int) (nfd int, sa Sockaddr, err error) {
 	var rsa RawSockaddrAny
 	var len _Socklen = SizeofSockaddrAny

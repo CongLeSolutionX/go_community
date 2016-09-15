@@ -117,3 +117,29 @@ func TestSCMCredentials(t *testing.T) {
 		t.Fatalf("ParseUnixCredentials = %+v, want %+v", newUcred, ucred)
 	}
 }
+
+// TestGetPeerCredentials tests getting the credentials (PID, UID, GID) of an
+// UNIX socket via GetsockoptUcred.
+func TestGetPeerCredentials(t *testing.T) {
+	fds, err := syscall.Socketpair(syscall.AF_LOCAL, syscall.SOCK_STREAM, 0)
+	if err != nil {
+		t.Fatalf("Socketpair: %v", err)
+	}
+	defer syscall.Close(fds[0])
+	defer syscall.Close(fds[1])
+
+	ucred, err := syscall.GetsockoptUcred(fds[1], syscall.SOL_SOCKET, syscall.SO_PEERCRED)
+	if err != nil {
+		t.Fatalf("GetsockoptUcred: %v", err)
+	}
+
+	if int(ucred.Pid) != os.Getpid() {
+		t.Errorf("GetsockoptUcred PID = %v, want %v", ucred.Pid, os.Getpid())
+	}
+	if int(ucred.Uid) != os.Getuid() {
+		t.Errorf("GetsockoptUcred UID = %v, want %v", ucred.Uid, os.Getuid())
+	}
+	if int(ucred.Gid) != os.Getgid() {
+		t.Errorf("GetsockoptUcred GID = %v, want %v", ucred.Gid, os.Getgid())
+	}
+}

@@ -115,6 +115,13 @@ func Getfsstat(buf []Statfs_t, flags int) (n int, err error) {
 	return
 }
 
+func GetsockoptSocketpeercred(fd, level, opt int) (*Socketpeercred, error) {
+	var value Socketpeercred
+	vallen := _Socklen(SizeofSocketpeercred)
+	err := getsockopt(fd, level, opt, unsafe.Pointer(&value), &vallen)
+	return &value, err
+}
+
 /*
  * Exposed directly
  */

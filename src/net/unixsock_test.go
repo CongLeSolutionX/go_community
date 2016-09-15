@@ -409,6 +409,74 @@ func TestUnixgramConnLocalAndRemoteNames(t *testing.T) {
 	}
 }
 
+func TestUnixConnGetPeerCreds(t *testing.T) {
+	if !testableNetwork("unix") {
+		t.Skip("unix test")
+	}
+
+	if runtime.GOOS == "plan9" || runtime.GOOS == "windows" {
+		t.Skip("GetPeerCredentials not work on this OS")
+	}
+
+	handler := func(ls *localServer, ln Listener) {}
+	for _, laddr := range []string{"", testUnixAddr()} {
+		laddr := laddr
+		taddr := testUnixAddr()
+		ta, err := ResolveUnixAddr("unix", taddr)
+		if err != nil {
+			t.Fatal(err)
+		}
+		ln, err := ListenUnix("unix", ta)
+		if err != nil {
+			t.Fatal(err)
+		}
+		ls, err := (&streamListener{Listener: ln}).newLocalServer()
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer ls.teardown()
+		if err := ls.buildup(handler); err != nil {
+			t.Fatal(err)
+		}
+
+		la, err := ResolveUnixAddr("unix", laddr)
+		if err != nil {
+			t.Fatal(err)
+		}
+		c, err := DialUnix("unix", la, ta)
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer func() {
+			c.Close()
+			if la != nil {
+				defer os.Remove(laddr)
+			}
+		}()
+		if _, err := c.Write([]byte("UNIXCONN LOCAL AND REMOTE NAME TEST")); err != nil {
+			t.Fatal(err)
+		}
+
+		creds, err := c.GetPeerCredentials()
+		if err != nil {
+			t.Fatalf("failed to get credentials: %v", err)
+		}
+
+		if creds.Uid != os.Getuid() {
+			t.Errorf("uid mismatch, got %d, want %d", creds.Uid, os.Getuid())
+		}
+		if creds.Gid != os.Getgid() {
+			t.Errorf("gid mismatch, got %d, want %d", creds.Gid, os.Getgid())
+		}
+
+		if runtime.GOOS == "linux" || runtime.GOOS == "openbsd" {
+			if creds.Pid != os.Getpid() {
+				t.Errorf("pid mismatch, got %d, want %d", creds.Pid, os.Getpid())
+			}
+		}
+	}
+}
+
 func TestUnixUnlink(t *testing.T) {
 	if !testableNetwork("unix") {
 		t.Skip("unix test")

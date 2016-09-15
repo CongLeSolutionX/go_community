@@ -137,6 +137,13 @@ func sendfile(outfd int, infd int, offset *int64, count int) (written int, err e
 	return -1, ENOSYS
 }
 
+func GetsockoptUnpcbid(fd, level, opt int) (*Unpcbid, error) {
+	var value Unpcbid
+	vallen := _Socklen(SizeofUnpcbid)
+	errno := getsockopt(fd, level, opt, unsafe.Pointer(&value), &vallen)
+	return &value, errno
+}
+
 /*
  * Exposed directly
  */
