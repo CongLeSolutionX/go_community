@@ -10,6 +10,7 @@ package net
 
 import (
 	"os"
+	"sync"
 	"time"
 )
 
@@ -19,7 +20,9 @@ var (
 )
 
 type dnsConfig struct {
-	servers    []string      // server addresses (in host:port form) to use
+	serversMu sync.Mutex // guards servers for rotation
+	servers   []string   // server addresses (in host:port form) to use
+
 	search     []string      // rooted suffixes to append to local name
 	ndots      int           // number of dots in name to trigger absolute lookup
 	timeout    time.Duration // wait before giving up on a query, including retries
@@ -134,6 +137,27 @@ func dnsReadConfig(filename string) *dnsConfig {
 		conf.search = dnsDefaultSearch()
 	}
 	return conf
+}
+
+// queryServers returns the list of servers to use for a query.
+// If the rotate option is enabled servers will be rotated through
+// the returned lists.
+func (c *dnsConfig) queryServers() []string {
+	if !c.rotate || len(c.servers) == 1 {
+		return c.servers
+	}
+
+	c.serversMu.Lock()
+	defer c.serversMu.Unlock()
+
+	// grab current list
+	servers := make([]string, len(c.servers))
+	copy(servers, c.servers)
+
+	// rotate for next time
+	c.servers = append(c.servers[1:], c.servers[0])
+
+	return servers
 }
 
 func dnsDefaultSearch() []string {

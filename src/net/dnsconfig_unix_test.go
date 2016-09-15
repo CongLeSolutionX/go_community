@@ -184,3 +184,44 @@ func TestDNSDefaultSearch(t *testing.T) {
 		}
 	}
 }
+
+var dnsQueryServersTests = []struct {
+	servers []string
+	rotate  bool
+
+	want [][]string
+}{
+	{
+		servers: []string{"1.2.3.4"},
+		want:    [][]string{{"1.2.3.4"}, {"1.2.3.4"}, {"1.2.3.4"}, {"1.2.3.4"}},
+	},
+	{
+		servers: []string{"1.2.3.4"},
+		rotate:  true,
+		want:    [][]string{{"1.2.3.4"}, {"1.2.3.4"}, {"1.2.3.4"}, {"1.2.3.4"}},
+	},
+	{
+		servers: []string{"1.2.3.4", "2.3.4.5", "3.4.5.6"},
+		want:    [][]string{{"1.2.3.4", "2.3.4.5", "3.4.5.6"}, {"1.2.3.4", "2.3.4.5", "3.4.5.6"}, {"1.2.3.4", "2.3.4.5", "3.4.5.6"}, {"1.2.3.4", "2.3.4.5", "3.4.5.6"}},
+	},
+	{
+		servers: []string{"1.2.3.4", "2.3.4.5", "3.4.5.6"},
+		rotate:  true,
+		want:    [][]string{{"1.2.3.4", "2.3.4.5", "3.4.5.6"}, {"2.3.4.5", "3.4.5.6", "1.2.3.4"}, {"3.4.5.6", "1.2.3.4", "2.3.4.5"}, {"1.2.3.4", "2.3.4.5", "3.4.5.6"}},
+	},
+}
+
+func TestDNSQueryServers(t *testing.T) {
+	for _, tt := range dnsQueryServersTests {
+		conf := &dnsConfig{servers: tt.servers, rotate: tt.rotate}
+
+		var got [][]string
+		for i := 0; i < 4; i++ {
+			got = append(got, conf.queryServers())
+		}
+
+		if !reflect.DeepEqual(got, tt.want) {
+			t.Errorf("queryServers with servers %v and rotate=%t\ngot:\n%v\nwant:\n%v", tt.servers, tt.rotate, got, tt.want)
+		}
+	}
+}

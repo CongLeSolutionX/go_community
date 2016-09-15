@@ -797,3 +797,59 @@ func TestRetryTimeout(t *testing.T) {
 		t.Error("deadline0 still zero", deadline0)
 	}
 }
+
+func TestRotate(t *testing.T) {
+	origTestHookDNSDialer := testHookDNSDialer
+	defer func() { testHookDNSDialer = origTestHookDNSDialer }()
+
+	conf, err := newResolvConfTest()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer conf.teardown()
+
+	// given nameserver lines below, we expect to rotate through them
+	want := []string{"192.0.2.1:53", "192.0.2.2:53", "192.0.2.1:53"}
+	if err := conf.writeAndUpdate([]string{"nameserver 192.0.2.1", "nameserver 192.0.2.2", "options rotate"}); err != nil {
+		t.Fatal(err)
+	}
+
+	d := &fakeDNSDialer{}
+	testHookDNSDialer = func() dnsDialer { return d }
+
+	var usedServers []string
+	d.rh = func(s string, q *dnsMsg, _ time.Time) (*dnsMsg, error) {
+		usedServers = append(usedServers, s)
+
+		r := &dnsMsg{
+			dnsMsgHdr: dnsMsgHdr{
+				id:                  q.id,
+				response:            true,
+				recursion_available: true,
+			},
+			question: q.question,
+			answer: []dnsRR{
+				&dnsRR_CNAME{
+					Hdr: dnsRR_Header{
+						Name:   q.question[0].Name,
+						Rrtype: dnsTypeCNAME,
+						Class:  dnsClassINET,
+					},
+					Cname: "golang.org",
+				},
+			},
+		}
+		return r, nil
+	}
+
+	// three times to rotate back to the start
+	for i := 0; i < 3; i++ {
+		if _, err := goLookupCNAME(context.Background(), "www.golang.org"); err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	if !reflect.DeepEqual(usedServers, want) {
+		t.Fatalf("got used servers:\n%v\nwant:\n%v", usedServers, want)
+	}
+}
