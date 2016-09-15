@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b28aa68_a9a55910",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-15T18:33:37Z",
+      "side": 1,
+      "message": "capitalize Linux? I know its GOOS is linux, but it\u0027s not obviously in GOOS context here.",
+      "revId": "4fc4006171b8d6e4b557c96e4663daceb50e7df3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_e9af51ec",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-15T18:33:37Z",
+      "side": 1,
+      "message": "colon at end? maybe?",
+      "revId": "4fc4006171b8d6e4b557c96e4663daceb50e7df3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
