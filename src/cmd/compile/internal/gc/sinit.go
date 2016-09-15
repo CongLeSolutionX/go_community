@@ -287,6 +287,9 @@ func staticcopy(l *Node, r *Node, out *[]*Node) bool {
 	r = r.Name.Defn.Right
 
 	for r.Op == OCONVNOP {
+		if Eqtype(r.Type, l.Type) {
+			break
+		}
 		r = r.Left
 	}
 
