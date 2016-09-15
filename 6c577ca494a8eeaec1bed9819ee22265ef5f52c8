@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b28aa68_8fbc1d8c",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-15T20:51:16Z",
+      "side": 1,
+      "message": "This will rotate the servers each attempt iteration. Is that intentional? I\u0027d sort of expect we would just get the server list once per tryOneName instead.",
+      "revId": "6c577ca494a8eeaec1bed9819ee22265ef5f52c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_4f8dc5dd",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-15T20:51:16Z",
+      "side": 1,
+      "message": "This is technically a race with the assignment at line 158.  (I say technically because line 158 will never change the value of len(c.servers) so it shouldn\u0027t cause problems in practice, but I believe the race detector will still complain.)\n\nYou can fix that by rotating servers in place:\n\n    tmp :\u003d c.servers[0]\n    copy(c.servers[:], c.servers[1:])\n    c.servers[len(c.servers)-1] \u003d tmp\n\nAlternatively, instead of allocating and populating a new copy of the slice, you can just return a counter to the caller for where to start within c.servers.",
+      "range": {
+        "startLine": 146,
+        "startChar": 17,
+        "endLine": 146,
+        "endChar": 31
+      },
+      "revId": "6c577ca494a8eeaec1bed9819ee22265ef5f52c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
