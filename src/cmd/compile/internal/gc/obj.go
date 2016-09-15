@@ -53,7 +53,7 @@ func dumpobj1(outfile string, mode int) {
 	var err error
 	bout, err = bio.Create(outfile)
 	if err != nil {
-		Flusherrors()
+		flusherrors()
 		fmt.Printf("can't create %s: %v\n", outfile, err)
 		errorexit()
 	}
@@ -347,15 +347,6 @@ func slicebytes(nam *Node, s string, len int) {
 	off = dsymptr(nam.Sym, off, sym, 0)
 	off = duintxx(nam.Sym, off, uint64(len), Widthint)
 	duintxx(nam.Sym, off, uint64(len), Widthint)
-}
-
-func Datastring(s string, a *obj.Addr) {
-	_, symdata := stringsym(s)
-	a.Type = obj.TYPE_MEM
-	a.Name = obj.NAME_EXTERN
-	a.Sym = symdata
-	a.Offset = 0
-	a.Etype = uint8(Simtype[TINT])
 }
 
 func datagostring(sval string, a *obj.Addr) {
