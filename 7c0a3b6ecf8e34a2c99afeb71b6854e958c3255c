@@ -173,6 +173,24 @@
       "revId": "7c0a3b6ecf8e34a2c99afeb71b6854e958c3255c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_d9ec17bc",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 15015
+      },
+      "writtenOn": "2016-09-15T15:06:38Z",
+      "side": 1,
+      "message": "the lower bound is the position an element would be placed at, in an ascending total ordering of an array\n\nthe upper bound is the first position after the lower bound where the element cannot be placed\n\nto get the number of occurrences of an element in a sorted array in logarithmic time, you can do `upper bound - lower bound`\n\na way to understand lower bound is to look at the solution for the longest increasing subsequence problem\n\nthe goal is to find the length of the longest increasing subsequence in a sequence. \n\nOne way is to look at all possible subsequences but that increases exponentially with size.\n\na O(n^2) solution tracks the next lowest number before each number. \n\nHere is an O(n(log(n)) solution\n\nfunc LIS(a []int) int {\n\tn, cache :\u003d 0, make([]int, len(a))\n\n\tfor _, x :\u003d range a {\n\t\ti :\u003d sort.Search(n, func (i int) bool { return cache[i] \u003e\u003d x })\n\t\tif i \u003d\u003d n {\n\t\t\tn++\n\t\t}\n\t\tcache[i] \u003d x\n\t}\n\n\treturn n\n}\n\nthe reason it works is because it finds a place for each encountered element, while maintaining each element less than it in the array. \n\nThat, by the way is a solution for LIS in idiomatic go, without treesets or iterators.\n\nit can also be used to understand upper bound, notice that we didn\u0027t define increasing or strictly increasing, so for the slice []int{1, 0, 1, 2, 0, 2, 3, 0, 3}, the above solution will give 4 (0, 1, 2, 3), since the lower bound for an item once placed will always be same, but if you replace it with upper bound, you get 6 (0, 1, 2, 2, 3, 3), because then you are taking the first position after an element has been placed, so you can repeat.\n\nto work with decreasing order arrays, in c++ you have reverse iterators, rbegin and rend, but here we get to show that the implemented binary search algorithm just works if you understand it, and a single implementation gets you all 6, instead of having 3 separate library functions, taking 2 kinds of iterators.\n\nsorry for the lecture.\n\nplay: https://play.golang.org/p/O8tBLwmCip",
+      "parentUuid": "0b1eea17_560454b8",
+      "revId": "7c0a3b6ecf8e34a2c99afeb71b6854e958c3255c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
