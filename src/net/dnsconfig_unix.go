@@ -10,6 +10,7 @@ package net
 
 import (
 	"os"
+	"sync/atomic"
 	"time"
 )
 
@@ -29,6 +30,7 @@ type dnsConfig struct {
 	lookup     []string      // OpenBSD top-level database "lookup" order
 	err        error         // any error that occurs during open of resolv.conf
 	mtime      time.Time     // time of resolv.conf modification
+	scounter   uint32        // count of calls to serverCounter, used for rotate
 }
 
 // See resolv.conf(5) on a Linux machine.
@@ -134,6 +136,17 @@ func dnsReadConfig(filename string) *dnsConfig {
 		conf.search = dnsDefaultSearch()
 	}
 	return conf
+}
+
+// serverCounter returns a counter that can be used to determine
+// indices of servers in c.servers when making queries.
+// When the rotate option is enabled, this counter increases,
+// otherwise it always returns 0.
+func (c *dnsConfig) serverCounter() uint32 {
+	if c.rotate {
+		return atomic.AddUint32(&c.scounter, 1) - 1 // return 0 to start
+	}
+	return 0
 }
 
 func dnsDefaultSearch() []string {
