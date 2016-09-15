@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_0619fa82",
+        "filename": "src/plugin/plugin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b61eebb_d9c186f8",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b61eebb_19edbeb5",
         "filename": "src/plugin/plugin_dlopen.go",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-15T16:04:20Z",
       "side": 1,
       "message": "As written these variables will go into the global C namespace, which would be a bad idea.  As far as I can see they could be static.  Same for the functions, for that matter.",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_a682e669",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2b61eebb_19edbeb5",
       "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_c677e292",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b61eebb_99d9ce12",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b61eebb_992c6e07",
         "filename": "src/plugin/plugin_dlopen.go",
         "patchSetId": 8
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-15T16:04:20Z",
       "side": 1,
       "message": "Why not call dlerror here if dlsym returns NULL?",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_c681a257",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b61eebb_992c6e07",
       "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_66ee2e18",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b61eebb_d967c64d",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b61eebb_19721e0c",
         "filename": "src/plugin/plugin_dlopen.go",
         "patchSetId": 8
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-15T16:04:20Z",
       "side": 1,
       "message": "I think it would be better to wait until the plugin has been loaded.",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_86d96a79",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "That would be useful, but it also means a plugin load cycle will deadlock instead of producing an error. Is it worth it?",
+      "parentUuid": "2b61eebb_19721e0c",
       "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_09d10dc2",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b61eebb_79615a35",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b61eebb_995e2e6f",
         "filename": "src/plugin/plugin_dlopen.go",
         "patchSetId": 8
@@ -132,6 +258,24 @@
       "writtenOn": "2016-09-15T16:04:20Z",
       "side": 1,
       "message": "strings.TrimSuffix?",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_093e6d17",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "I was trying to limit the dependencies of the plugin package. Silly for a cgo implementation, but I was imagining some platform a long time from now might want a no-C version.",
+      "parentUuid": "2b61eebb_995e2e6f",
       "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_293b2928",
+        "filename": "src/plugin/plugin_dlopen.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2b61eebb_79387a29",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b61eebb_39d1a2c2",
         "filename": "src/runtime/plugin.go",
         "patchSetId": 8
@@ -166,6 +328,24 @@
       "writtenOn": "2016-09-15T16:04:20Z",
       "side": 1,
       "message": "Isn\u0027t this going to do a lot of extra work?",
+      "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_09f82d42",
+        "filename": "src/runtime/plugin.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-09-15T18:30:40Z",
+      "side": 1,
+      "message": "It has to repeat the work of going over previous modules building typehash because we don\u0027t keep a copy of it anywhere.\n\nIt does not rebuild other modules typemaps, because that is guarded in typelinksinit.\n\nSo it doesn\u0027t seem like a lot of extra work to me.",
+      "parentUuid": "2b61eebb_39d1a2c2",
       "revId": "9662b3e89bbc2b79e2a79cd7c53f2c4b978b0155",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
