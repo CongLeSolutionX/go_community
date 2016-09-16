@@ -16,43 +16,63 @@ func f(a []int, x int) func(int) bool {
 	}
 }
 
-var data = []int{0: -10, 1: -5, 2: 0, 3: 1, 4: 2, 5: 3, 6: 5, 7: 7, 8: 11, 9: 100, 10: 100, 11: 100, 12: 1000, 13: 10000}
+func fdesc(a []int, x int) func(int) bool {
+	return func(i int) bool {
+		return a[i] <= x
+	}
+}
 
-var tests = []struct {
-	name string
-	n    int
-	f    func(int) bool
-	i    int
+var data = []int{-10, -5, 0, 1, 2, 3, 5, 7, 11, 100, 100, 100, 1000, 10000}
+var descendingdata = []int{10000, 1000, 100, 100, 100, 11, 7, 5, 3, 2, 1, 0, -5, -10}
+
+var tests = map[string]struct {
+	n int
+	f func(int) bool
+	i int
 }{
-	{"empty", 0, nil, 0},
-	{"1 1", 1, func(i int) bool { return i >= 1 }, 1},
-	{"1 true", 1, func(i int) bool { return true }, 0},
-	{"1 false", 1, func(i int) bool { return false }, 1},
-	{"1e9 991", 1e9, func(i int) bool { return i >= 991 }, 991},
-	{"1e9 true", 1e9, func(i int) bool { return true }, 0},
-	{"1e9 false", 1e9, func(i int) bool { return false }, 1e9},
-	{"data -20", len(data), f(data, -20), 0},
-	{"data -10", len(data), f(data, -10), 0},
-	{"data -9", len(data), f(data, -9), 1},
-	{"data -6", len(data), f(data, -6), 1},
-	{"data -5", len(data), f(data, -5), 1},
-	{"data 3", len(data), f(data, 3), 5},
-	{"data 11", len(data), f(data, 11), 8},
-	{"data 99", len(data), f(data, 99), 9},
-	{"data 100", len(data), f(data, 100), 9},
-	{"data 101", len(data), f(data, 101), 12},
-	{"data 10000", len(data), f(data, 10000), 13},
-	{"data 10001", len(data), f(data, 10001), 14},
-	{"descending a", 7, func(i int) bool { return []int{99, 99, 59, 42, 7, 0, -1, -1}[i] <= 7 }, 4},
-	{"descending 7", 1e9, func(i int) bool { return 1e9-i <= 7 }, 1e9 - 7},
-	{"overflow", 2e9, func(i int) bool { return false }, 2e9},
+	"empty":                {0, nil, 0},
+	"1 1":                  {1, func(i int) bool { return i >= 1 }, 1},
+	"1 true":               {1, func(i int) bool { return true }, 0},
+	"1 false":              {1, func(i int) bool { return false }, 1},
+	"1e9 991":              {1e9, func(i int) bool { return i >= 991 }, 991},
+	"1e9 true":             {1e9, func(i int) bool { return true }, 0},
+	"1e9 false":            {1e9, func(i int) bool { return false }, 1e9},
+	"data -20":             {len(data), f(data, -20), 0},
+	"data -10":             {len(data), f(data, -10), 0},
+	"data -9":              {len(data), f(data, -9), 1},
+	"data -6":              {len(data), f(data, -6), 1},
+	"data -5":              {len(data), f(data, -5), 1},
+	"data 3":               {len(data), f(data, 3), 5},
+	"data 11":              {len(data), f(data, 11), 8},
+	"data 99":              {len(data), f(data, 99), 9},
+	"data 100":             {len(data), f(data, 100), 9},
+	"data 101":             {len(data), f(data, 101), 12},
+	"data 10000":           {len(data), f(data, 10000), 13},
+	"data 10001":           {len(data), f(data, 10001), 14},
+	"descending a":         {7, func(i int) bool { return []int{99, 99, 59, 42, 7, 0, -1, -1}[i] <= 7 }, 4},
+	"descending 7":         {1e9, func(i int) bool { return 1e9-i <= 7 }, 1e9 - 7},
+	"descendingdata -20":   {len(data), fdesc(descendingdata, -20), 14},
+	"descendingdata -10":   {len(data), fdesc(descendingdata, -10), 13},
+	"descendingdata -9":    {len(data), fdesc(descendingdata, -9), 13},
+	"descendingdata -6":    {len(data), fdesc(descendingdata, -6), 13},
+	"descendingdata -5":    {len(data), fdesc(descendingdata, -5), 12},
+	"descendingdata 3":     {len(data), fdesc(descendingdata, 3), 8},
+	"descendingdata 11":    {len(data), fdesc(descendingdata, 11), 5},
+	"descendingdata 99":    {len(data), fdesc(descendingdata, 99), 5},
+	"descendingdata 100":   {len(data), fdesc(descendingdata, 100), 2},
+	"descendingdata 101":   {len(data), fdesc(descendingdata, 101), 2},
+	"descendingdata 1000":  {len(data), fdesc(descendingdata, 1000), 1},
+	"descendingdata 1001":  {len(data), fdesc(descendingdata, 1001), 1},
+	"descendingdata 10000": {len(data), fdesc(descendingdata, 10000), 0},
+	"descendingdata 10001": {len(data), fdesc(descendingdata, 10001), 0},
+	"overflow":             {2e9, func(i int) bool { return false }, 2e9},
 }
 
 func TestSearch(t *testing.T) {
-	for _, e := range tests {
+	for name, e := range tests {
 		i := Search(e.n, e.f)
 		if i != e.i {
-			t.Errorf("%s: expected index %d; got %d", e.name, e.i, i)
+			t.Errorf("%s: expected index %d; got %d", name, e.i, i)
 		}
 	}
 }
@@ -97,23 +117,22 @@ func TestSearchEfficiency(t *testing.T) {
 var fdata = []float64{0: -3.14, 1: 0, 2: 1, 3: 2, 4: 1000.7}
 var sdata = []string{0: "f", 1: "foo", 2: "foobar", 3: "x"}
 
-var wrappertests = []struct {
-	name   string
+var wrappertests = map[string]struct {
 	result int
 	i      int
 }{
-	{"SearchInts", SearchInts(data, 11), 8},
-	{"SearchFloat64s", SearchFloat64s(fdata, 2.1), 4},
-	{"SearchStrings", SearchStrings(sdata, ""), 0},
-	{"IntSlice.Search", IntSlice(data).Search(0), 2},
-	{"Float64Slice.Search", Float64Slice(fdata).Search(2.0), 3},
-	{"StringSlice.Search", StringSlice(sdata).Search("x"), 3},
+	"SearchInts":          {SearchInts(data, 11), 8},
+	"SearchFloat64s":      {SearchFloat64s(fdata, 2.1), 4},
+	"SearchStrings":       {SearchStrings(sdata, ""), 0},
+	"IntSlice.Search":     {IntSlice(data).Search(0), 2},
+	"Float64Slice.Search": {Float64Slice(fdata).Search(2.0), 3},
+	"StringSlice.Search":  {StringSlice(sdata).Search("x"), 3},
 }
 
 func TestSearchWrappers(t *testing.T) {
-	for _, e := range wrappertests {
+	for name, e := range wrappertests {
 		if e.result != e.i {
-			t.Errorf("%s: expected index %d; got %d", e.name, e.i, e.result)
+			t.Errorf("%s: expected index %d; got %d", name, e.i, e.result)
 		}
 	}
 }
