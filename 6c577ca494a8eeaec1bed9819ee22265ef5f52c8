@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_c3a50910",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5665
+      },
+      "writtenOn": "2016-09-16T19:38:56Z",
+      "side": 1,
+      "message": "Will move this up, based on my reading that will better match glibc:\n\nhttps://sourceware.org/git/?p\u003dglibc.git;a\u003dblob;f\u003dresolv/res_send.c;h\u003d869294fb95cd716f9643cd622985f7c4fc5afb5d;hb\u003dHEAD#l440",
+      "parentUuid": "0b28aa68_8fbc1d8c",
+      "revId": "6c577ca494a8eeaec1bed9819ee22265ef5f52c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b28aa68_4f8dc5dd",
         "filename": "src/net/dnsconfig_unix.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
         "endLine": 146,
         "endChar": 31
       },
+      "revId": "6c577ca494a8eeaec1bed9819ee22265ef5f52c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_264b4b57",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5665
+      },
+      "writtenOn": "2016-09-16T19:38:56Z",
+      "side": 1,
+      "message": "Blast, had removed the check on c.servers in the client for this reason.\n\nUploaded a new counter-based change, PTAL.",
+      "parentUuid": "0b28aa68_4f8dc5dd",
       "revId": "6c577ca494a8eeaec1bed9819ee22265ef5f52c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
