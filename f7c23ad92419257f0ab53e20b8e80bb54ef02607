@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50efb36f_c02d7e03",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "will it be removed on the same time including the fix?",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_3606f82c",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "I want see os.Readlink here instead of this.\nWe want to fix syscall.Readlink, not os.Stat.\nThis line makes me confusing again.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_b604c820",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "Also, this is unreliable. If we want to identify the file, we should use os.SameFile. (but I disagree about using os.Stat)",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_762350b7",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "It\u0027s not true. This is not a reparse data.\nI\u0027m not a wordsmith, but XXXBuilder or something.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_d62a2486",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "how about appendUTF16?",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_b62b288d",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "Why is this useful? Can you inline it?",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_5620d4a8",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "I assume you were trying to eliminate raw offset calculation. But it\u0027s not clear code to me.\nIt\u0027s too much separating and adding unneeded new types.\n\nI like the code like:\n\n rdbuf :\u003d rdbuf :\u003d make([]byte, syscall.MAXIMUM_REPARSE_DATA_BUFFER_SIZE)\n\n rdb :\u003d (*windows.MountPointReparseDataBuffer(unsafe.Pointer(\u0026rdbuf[0])) // I assumes REPARSE_DATA_BUFFER_HEADER is already embeded into MountPointReparseBuffer here.\n\n // rdb.SubstituteNameOffset \u003d ...\n // ...\n\n // rdbuf \u003d rdbuf[:unsafe.Sizeof(rdb.REPARSE_DATA_BUFFER_HEADER)+rdb.ReparseDataLength]\n\n return createDirLink(link, rdbuf)\n\nSo the flow of the code will be simple.\nallocate buffer \u003d\u003e encode buffer \u003d\u003e use buffer.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_f625a0b6",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "TestReadlinkJunction or TestReadJunction.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_563734e7",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "it lacks explaination about this format.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_9630acf6",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "I prefer to delete it now.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_3640b837",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "TestReadlinkSymbolicLink, TestReadSymlink or something.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_163dbcc9",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "Yes, please. or GetCurrentThread + ImpersonateSelf + RevertToSelf (CL 28010 uses that approach)",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_b65688fc",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "need explain",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b1eea17_763a30d3",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-16T04:03:53Z",
+      "side": 1,
+      "message": "supports testFileLinks.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
