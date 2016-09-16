@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50efb36f_801096bb",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-16T03:11:43Z",
+      "side": 1,
+      "message": "but with the condition inverted.",
+      "revId": "f73d9e6990e0beda2067ed86414bc4cc9afff316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50efb36f_601592a9",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-09-16T03:11:43Z",
+      "side": 1,
+      "message": "Let\u0027s omit the examples from here onward in this CL, and just get the obvious first two in.",
+      "revId": "f73d9e6990e0beda2067ed86414bc4cc9afff316",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
