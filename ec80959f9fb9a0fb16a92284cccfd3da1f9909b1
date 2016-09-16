@@ -114,6 +114,30 @@
       "revId": "ec80959f9fb9a0fb16a92284cccfd3da1f9909b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_033ac1ec",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-16T18:16:35Z",
+      "side": 1,
+      "message": "If you want, you can print newline when you Reset the reader so that the output reads nicer.",
+      "parentUuid": "0b28aa68_e3392502",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 42
+      },
+      "revId": "ec80959f9fb9a0fb16a92284cccfd3da1f9909b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
