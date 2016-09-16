@@ -76,28 +76,25 @@ var numelfsym int = 1 // 0 is reserved
 
 var elfbind int
 
-func putelfsym(ctxt *Link, x *Symbol, s string, t int, addr int64, size int64, ver int, go_ *Symbol) {
+func putelfsym(ctxt *Link, x *Symbol, s string, t SymbolType, addr int64, size int64, ver int, go_ *Symbol) {
 	var type_ int
 
 	switch t {
 	default:
 		return
 
-	case 'T':
+	case TextSym:
 		type_ = STT_FUNC
 
-	case 'D':
+	case DataSym, BSSSym:
 		type_ = STT_OBJECT
 
-	case 'B':
-		type_ = STT_OBJECT
-
-	case 'U':
+	case UndefinedSym:
 		// ElfType is only set for symbols read from Go shared libraries, but
 		// for other symbols it is left as STT_NOTYPE which is fine.
 		type_ = int(x.ElfType)
 
-	case 't':
+	case TLSSym:
 		type_ = STT_TLS
 	}
 
@@ -211,20 +208,16 @@ func Asmelfsym(ctxt *Link) {
 	genasmsym(ctxt, putelfsym)
 }
 
-func putplan9sym(ctxt *Link, x *Symbol, s string, t int, addr int64, size int64, ver int, go_ *Symbol) {
-	switch t {
-	case 'T', 'L', 'D', 'B':
+func putplan9sym(ctxt *Link, x *Symbol, s string, type_ SymbolType, addr int64, size int64, ver int, go_ *Symbol) {
+	t := int(type_)
+	switch type_ {
+	case TextSym, DataSym, BSSSym:
 		if ver != 0 {
 			t += 'a' - 'A'
 		}
 		fallthrough
 
-	case 'a',
-		'p',
-		'f',
-		'z',
-		'Z',
-		'm':
+	case AutoSym, ParamSym, FileSym, FrameSym:
 		l := 4
 		if Headtype == obj.Hplan9 && SysArch.Family == sys.AMD64 && !Flag8 {
 			Lputb(uint32(addr >> 32))
@@ -235,26 +228,15 @@ func putplan9sym(ctxt *Link, x *Symbol, s string, t int, addr int64, size int64,
 		Cput(uint8(t + 0x80)) /* 0x80 is variable length */
 
 		var i int
-		if t == 'z' || t == 'Z' {
-			Cput(s[0])
-			for i = 1; s[i] != 0 || s[i+1] != 0; i += 2 {
-				Cput(s[i])
-				Cput(s[i+1])
-			}
 
-			Cput(0)
-			Cput(0)
-			i++
-		} else {
-			/* skip the '<' in filenames */
-			if t == 'f' {
-				s = s[1:]
-			}
-			for i = 0; i < len(s); i++ {
-				Cput(s[i])
-			}
-			Cput(0)
+		/* skip the '<' in filenames */
+		if t == FileSym {
+			s = s[1:]
 		}
+		for i = 0; i < len(s); i++ {
+			Cput(s[i])
+		}
+		Cput(0)
 
 		Symsize += int32(l) + 1 + int32(i) + 1
 
