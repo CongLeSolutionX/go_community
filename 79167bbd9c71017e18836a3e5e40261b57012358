@@ -34,6 +34,24 @@
       "revId": "79167bbd9c71017e18836a3e5e40261b57012358",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50efb36f_a0d6fab6",
+        "filename": "src/sort/example_search_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 15015
+      },
+      "writtenOn": "2016-09-16T14:22:50Z",
+      "side": 1,
+      "message": "sorry just checked, and turns out it is required\n\nhttps://play.golang.org/p/aW02noB00a",
+      "parentUuid": "50efb36f_e0cc022d",
+      "revId": "79167bbd9c71017e18836a3e5e40261b57012358",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
