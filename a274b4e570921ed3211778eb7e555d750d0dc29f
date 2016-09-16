@@ -16,6 +16,24 @@
       "revId": "a274b4e570921ed3211778eb7e555d750d0dc29f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_77aa4f75",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5665
+      },
+      "writtenOn": "2016-09-16T23:23:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b28aa68_a1d805e5",
+      "revId": "a274b4e570921ed3211778eb7e555d750d0dc29f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
