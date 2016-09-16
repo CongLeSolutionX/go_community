@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b28aa68_a1d805e5",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-16T20:33:26Z",
+      "side": 1,
+      "message": "Nit: I\u0027d probably call it \"serverOffset\" instead, since it\u0027s not actually counting anything unless c.rotate is true.",
+      "revId": "a274b4e570921ed3211778eb7e555d750d0dc29f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
