@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "90120b46_dd843f0e",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-16T08:54:24Z",
+      "side": 1,
+      "message": "Gotcha. Nice, thanks for the recommendation.\n\nDone!",
+      "parentUuid": "0b28aa68_26fa76a3",
+      "revId": "fad8a0edf99ef3e28322b297fc5c0c839aa3ec53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b28aa68_06e73a3d",
         "filename": "src/compress/gzip/example_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-15T17:40:29Z",
       "side": 1,
       "message": "Since people have a tendency to copy-paste example code, we should be consistent about error handling.\n\nBoth Close and Write return errors, so we should check them. Can you add error checking here and all other cases?",
+      "revId": "fad8a0edf99ef3e28322b297fc5c0c839aa3ec53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_6ddc4601",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-16T08:54:24Z",
+      "side": 1,
+      "message": "Gotcha. Yeah, I didn\u0027t put in much error handling because in past example CLs, error handling seemed to be doing a lot.\n\nI totally agree, people copy and paste example code quite a lot.\n\nDone, thanks!",
+      "parentUuid": "0b28aa68_06e73a3d",
       "revId": "fad8a0edf99ef3e28322b297fc5c0c839aa3ec53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_2df88e42",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-16T08:54:24Z",
+      "side": 1,
+      "message": "Gotcha, yeah it felt awkward including hard-coded gzip data in there.\n\nI followed your suggestions.\n\nThank you, done!",
+      "parentUuid": "0b28aa68_86e88ae2",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 166
+      },
+      "revId": "fad8a0edf99ef3e28322b297fc5c0c839aa3ec53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b28aa68_2637d69a",
         "filename": "src/compress/gzip/example_test.go",
         "patchSetId": 1
@@ -70,6 +130,30 @@
       "writtenOn": "2016-09-15T17:40:29Z",
       "side": 1,
       "message": "Use of Reset is fairly straightforward in gzip. Instead of providing examples for Reset, I would suggest providing an example for Reader.Multistream, which is a clunky API to use.\n\nIn constructing a multistream gzip, you could probably make use of Writer.Reset and kill 2 birds with one stone.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 1
+      },
+      "revId": "fad8a0edf99ef3e28322b297fc5c0c839aa3ec53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_4df5ca47",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-16T08:54:24Z",
+      "side": 1,
+      "message": "Great suggestion. I\u0027ve done that.\n\nThank you, done.",
+      "parentUuid": "0b28aa68_2637d69a",
       "range": {
         "startLine": 33,
         "startChar": 0,
