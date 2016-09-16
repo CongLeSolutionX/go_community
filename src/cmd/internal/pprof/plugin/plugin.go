@@ -153,10 +153,6 @@ type UI interface {
 	// For line-based UI, PrintErr writes to standard error.
 	PrintErr(...interface{})
 
-	// IsTerminal returns whether the UI is known to be tied to an
-	// interactive terminal (as opposed to being redirected to a file).
-	IsTerminal() bool
-
 	// SetAutoComplete instructs the UI to call complete(cmd) to obtain
 	// the auto-completion of cmd, if the UI supports auto-completion at all.
 	SetAutoComplete(complete func(string) string)
@@ -184,10 +180,6 @@ func (ui *stdUI) Print(args ...interface{}) {
 
 func (ui *stdUI) PrintErr(args ...interface{}) {
 	ui.fprint(os.Stderr, args)
-}
-
-func (ui *stdUI) IsTerminal() bool {
-	return false
 }
 
 func (ui *stdUI) SetAutoComplete(func(string) string) {
