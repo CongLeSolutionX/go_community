@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90120b46_5dbcaf70",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-09-16T15:15:54Z",
+      "side": 1,
+      "message": "This will result in different types for LHS and RHS. That\u0027s why I have MOVDreg there on ARM64 (and optimize to NOP when possible). I am not sure this is a problem, maybe not for now (IIRC it was once a problem on ARM, but it might be because other rules were a bit aggressive).",
+      "revId": "7e24c68fdd41f914e16c3ed4c69ea63a4d97037b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
