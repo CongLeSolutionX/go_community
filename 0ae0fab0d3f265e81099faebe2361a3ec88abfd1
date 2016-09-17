@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "508b33e0_808e7686",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2924,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2016-09-17T12:40:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab523ec4_cc5663fe",
+      "revId": "0ae0fab0d3f265e81099faebe2361a3ec88abfd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb74360d_c5a91a80",
         "filename": "test/fixedbugs/issue7153.go",
         "patchSetId": 1
