@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_179cb86b",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-17T16:57:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0b28aa68_d7ba20df",
+      "revId": "3fa91f90e15a56540415346b330459cbd7825711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b28aa68_b7dbe437",
         "filename": "src/compress/gzip/example_test.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-17T16:20:48Z",
       "side": 1,
       "message": "drop \"entirely\" and end in a period",
+      "revId": "3fa91f90e15a56540415346b330459cbd7825711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_37a1b4a9",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-17T16:57:13Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "0b28aa68_b7dbe437",
       "revId": "3fa91f90e15a56540415346b330459cbd7825711",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -83,6 +119,24 @@
       "side": 1,
       "message": "Last line: I find it odd as well, but I find the multistream API a little odd in general.",
       "parentUuid": "0b28aa68_57af109d",
+      "revId": "3fa91f90e15a56540415346b330459cbd7825711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_5796304b",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-17T16:57:13Z",
+      "side": 1,
+      "message": "Yeah, what @dsnet said -- in order to read one stream at a time we need to set .Multstream(false).",
+      "parentUuid": "0b28aa68_f7bf1ccc",
       "revId": "3fa91f90e15a56540415346b330459cbd7825711",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
