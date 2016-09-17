@@ -50,6 +50,24 @@
       "revId": "3fa91f90e15a56540415346b330459cbd7825711",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_57af109d",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-17T16:43:21Z",
+      "side": 1,
+      "message": "I think it makes sense for this example to show up under the Reader.Multistream method.\n\nThe default value of Multistream is true, so to actually read the file one-stream-at-a-time, you have to set it to false.\n\nFind it odd as well, but I find the multistream API a little in general.",
+      "parentUuid": "0b28aa68_f7bf1ccc",
+      "revId": "3fa91f90e15a56540415346b330459cbd7825711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
