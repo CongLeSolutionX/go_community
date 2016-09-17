@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_f239ed01",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-17T02:11:00Z",
+      "side": 1,
+      "message": "Aha, nice. Pretty creative and engaging examples. SGTM.\n\nThanks for the reminder that Header is an embedded struct.\n\nDone.",
+      "parentUuid": "0b28aa68_63c5352d",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 76
+      },
+      "revId": "ec80959f9fb9a0fb16a92284cccfd3da1f9909b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b28aa68_835eb16e",
         "filename": "src/compress/gzip/example_test.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2016-09-16T18:15:49Z",
       "side": 1,
       "message": "No need for this. Just do rc.Comment, ...\nDo the same in the multistream example.",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 48,
+        "endChar": 7
+      },
+      "revId": "ec80959f9fb9a0fb16a92284cccfd3da1f9909b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_123f69e5",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-17T02:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b28aa68_835eb16e",
       "range": {
         "startLine": 48,
         "startChar": 1,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0b28aa68_b22a15a0",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-17T02:11:00Z",
+      "side": 1,
+      "message": "Nice hint on the precedence of the fields for more natural readability.\n\nThanks, done!",
+      "parentUuid": "0b28aa68_a349edba",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 42
+      },
+      "revId": "ec80959f9fb9a0fb16a92284cccfd3da1f9909b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b28aa68_a3b56d87",
         "filename": "src/compress/gzip/example_test.go",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2016-09-16T18:15:49Z",
       "side": 1,
       "message": "Call it \"file-1.txt\" so it\u0027s obvious that Name is the filename. Some below.",
+      "range": {
+        "startLine": 63,
+        "startChar": 19,
+        "endLine": 63,
+        "endChar": 25
+      },
+      "revId": "ec80959f9fb9a0fb16a92284cccfd3da1f9909b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_f2348d01",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-17T02:11:00Z",
+      "side": 1,
+      "message": "Yap, done.",
+      "parentUuid": "0b28aa68_a3b56d87",
       "range": {
         "startLine": 63,
         "startChar": 19,
@@ -128,6 +224,54 @@
       "writtenOn": "2016-09-16T18:16:35Z",
       "side": 1,
       "message": "If you want, you can print newline when you Reset the reader so that the output reads nicer.",
+      "parentUuid": "0b28aa68_e3392502",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 42
+      },
+      "revId": "ec80959f9fb9a0fb16a92284cccfd3da1f9909b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_521c8181",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-17T02:11:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b28aa68_033ac1ec",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 42
+      },
+      "revId": "ec80959f9fb9a0fb16a92284cccfd3da1f9909b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_321f0579",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-17T02:11:00Z",
+      "side": 1,
+      "message": "Cool, done.",
       "parentUuid": "0b28aa68_e3392502",
       "range": {
         "startLine": 122,
