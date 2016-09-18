@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b28aa68_faf703eb",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-18T01:12:35Z",
+      "side": 1,
+      "message": "The case of \"has\" and \"ignored\" don\u0027t seem to agree. \"Ignored\" is past tense, but \"has\" is more present.\n\nSaying \"were ignored\" or \"had ignored\" or \"some ignored\" or \"ignored any\" or \"ignored files\" all seem to work better.\n\nBut maybe just \"Ignored\" works?\n\nThen I\u0027d use the word \"whether\" in the comment like most of Go\u0027s bools.\n\n   Ignored bool // whether any Go files were ignored due to build tags",
+      "revId": "3afafd1d8a38566b897df8affff506943ee3d90a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
