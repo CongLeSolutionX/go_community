@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0b28aa68_3a027be2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-18T01:15:47Z",
+      "side": 1,
+      "message": "This commit message subject sounds more like a bug report title.\n\nDrop \"should\" and start with an active verb, saying what this CL changes:\n\n   cmd/go: note when some Go files were ignored on no-Go-files errors\n\nOr maybe:\n\n   cmd/go: on errors due to no Go files, note when some were ignored",
+      "revId": "3afafd1d8a38566b897df8affff506943ee3d90a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b28aa68_faf703eb",
         "filename": "src/go/build/build.go",
         "patchSetId": 3
