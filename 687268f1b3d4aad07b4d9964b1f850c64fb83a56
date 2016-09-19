@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b28aa68_2e115963",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1538,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-09-19T18:40:10Z",
+      "side": 1,
+      "message": "You\u0027re looking for a non-negative value so it should be a comparison against 0 (or just vi.Val.Sign() \u003e\u003d 0 or similar).\n\nI believe it works because if it\u0027s negative you return a value \u003c 0 (but not necessarily -1), and everywhere where you use this function you check the result against \u003c 0 and then the error cancels out.\n\nPlease fix or update the comment.\n\nAlternatively, if you want to go a step further:\n\nsmallintconst and nonnegintconst are doing very similar things. You could just have a single function\n\nfunc smallintconst(n *Node) (value int64, ok bool)\n\nand then implement the predicate above in terms of this one.",
+      "revId": "687268f1b3d4aad07b4d9964b1f850c64fb83a56",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
