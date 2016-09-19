@@ -140,6 +140,24 @@
       "revId": "3fa91f90e15a56540415346b330459cbd7825711",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b28aa68_83db06e1",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-19T16:47:36Z",
+      "side": 1,
+      "message": "Ah, the default is true. Okay, that\u0027s what I didn\u0027t know.",
+      "parentUuid": "0b28aa68_57af109d",
+      "revId": "3fa91f90e15a56540415346b330459cbd7825711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
