@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b79fb7_302caea0",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-20T15:22:56Z",
+      "side": 1,
+      "message": "zr instead of rc.\n\nrc is what it does (read closer), but zr is what it is (gzip reader)",
+      "revId": "a0089bae05f34b8527e463b0dabfcfcc266ca7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b79fb7_10272ac1",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-20T15:22:56Z",
+      "side": 1,
+      "message": "I don\u0027t like encouraging slurping APIs. We should teach the streaming APIs. What about:\n\nhttps://play.golang.org/p/aFdVH7Wsyv",
+      "revId": "a0089bae05f34b8527e463b0dabfcfcc266ca7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b79fb7_d040b23a",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-20T15:22:56Z",
+      "side": 1,
+      "message": "I\u0027d drop Data: and put an extra \\n before the data so it looks like RFC 822 headers.",
+      "revId": "a0089bae05f34b8527e463b0dabfcfcc266ca7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
