@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "30b79fb7_1698821e",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-20T18:45:11Z",
+      "side": 1,
+      "message": "Perhaps wc should be zw to be consistent with Brad\u0027s suggestion below?",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 3
+      },
+      "revId": "a0089bae05f34b8527e463b0dabfcfcc266ca7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b79fb7_56f91a68",
         "filename": "src/compress/gzip/example_test.go",
         "patchSetId": 8
@@ -88,6 +111,46 @@
       "side": 1,
       "message": "Hahaha, I think you\u0027ve been HTTP land for too long ;P\n\nThe suggestion SGTM, though.",
       "parentUuid": "30b79fb7_d040b23a",
+      "revId": "a0089bae05f34b8527e463b0dabfcfcc266ca7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b79fb7_36e4a6a1",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-20T18:45:11Z",
+      "side": 1,
+      "message": "Perhaps the Writer side should also be a loop?\n\nSee the archive/tar example to see what I mean:\nhttps://golang.org/pkg/archive/tar/#example_",
+      "revId": "a0089bae05f34b8527e463b0dabfcfcc266ca7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b79fb7_7693fe06",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-09-20T18:45:11Z",
+      "side": 1,
+      "message": "The Close method on gzip.Reader does absolutely nothing to cleanup resources, but provides a way to sanity that the stream is complete without errors.\n\nThus, a defer without checkout the error is pretty pointless.\nI\u0027m okay with this being at the end simply as:\n\n if err :\u003d zr.Close(); err !\u003d nil {\n \tlog.Fatal(err)\n }",
+      "range": {
+        "startLine": 94,
+        "startChar": 1,
+        "endLine": 94,
+        "endChar": 17
+      },
       "revId": "a0089bae05f34b8527e463b0dabfcfcc266ca7a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
