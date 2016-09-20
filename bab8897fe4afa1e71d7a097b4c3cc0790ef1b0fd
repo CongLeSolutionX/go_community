@@ -16,6 +16,24 @@
       "revId": "bab8897fe4afa1e71d7a097b4c3cc0790ef1b0fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b79fb7_2d88d977",
+        "filename": "src/compress/gzip/example_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-09-20T07:27:30Z",
+      "side": 1,
+      "message": "Roger that, it was unrolled because of the way we started the example ie with each file write on its own.\nYeah, that was my oversight on the io.EOF test. Done, thanks.\n\nYap, great suggestion, it looks nicer read in a loop and testing for io.EOF to break the loop rather than with the duplicated code.\nDone, thanks.",
+      "parentUuid": "0b28aa68_e393da03",
+      "revId": "bab8897fe4afa1e71d7a097b4c3cc0790ef1b0fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
