@@ -111,7 +111,7 @@ func TestRecorder(t *testing.T) {
 		{
 			"200 default",
 			func(w http.ResponseWriter, r *http.Request) {},
-			check(hasStatus(200), hasContents(""), hasContentLength(-1)),
+			check(hasStatus(200), hasContents("")),
 		},
 		{
 			"first code only",
@@ -120,7 +120,7 @@ func TestRecorder(t *testing.T) {
 				w.WriteHeader(202)
 				w.Write([]byte("hi"))
 			},
-			check(hasStatus(201), hasContents("hi"), hasContentLength(-1)),
+			check(hasStatus(201), hasContents("hi")),
 		},
 		{
 			"write sends 200",
@@ -129,8 +129,7 @@ func TestRecorder(t *testing.T) {
 				w.WriteHeader(201)
 				w.WriteHeader(202)
 			},
-			check(hasStatus(200), hasContents("hi first"), hasFlush(false),
-				hasContentLength(-1)),
+			check(hasStatus(200), hasContents("hi first"), hasFlush(false)),
 		},
 		{
 			"write string",
@@ -142,7 +141,6 @@ func TestRecorder(t *testing.T) {
 				hasContents("hi first"),
 				hasFlush(false),
 				hasHeader("Content-Type", "text/plain; charset=utf-8"),
-				hasContentLength(-1),
 			),
 		},
 		{
