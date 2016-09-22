@@ -713,6 +713,19 @@ func (u *URL) String() string {
 		if path != "" && path[0] != '/' && u.Host != "" {
 			buf.WriteByte('/')
 		}
+		if buf.Len() == 0 {
+			// RFC 3986 §4.2
+			// A path segment that contains a colon character (e.g., "this:that")
+			// cannot be used as the first segment of a relative-path reference, as
+			// it would be mistaken for a scheme name. Such a segment must be
+			// preceded by a dot-segment (e.g., "./this:that") to make a relative-
+			// path reference.
+			if cIdx := strings.IndexByte(path, ':'); cIdx > -1 {
+				if sIdx := strings.IndexByte(path, '/'); sIdx < 0 || cIdx < sIdx {
+					buf.WriteString("./")
+				}
+			}
+		}
 		buf.WriteString(path)
 	}
 	if u.ForceQuery || u.RawQuery != "" {
