@@ -11,6 +11,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -272,4 +273,79 @@ func ExampleIndent() {
 	// =		"Number": 51
 	// =	}
 	// =]
+}
+
+type Animal uint
+
+const (
+	UnidentifiedAnimal Animal = iota
+	Zebra
+	Gopher
+)
+
+func (a *Animal) String() string {
+	if a == nil {
+		return "unidentified-animal"
+	}
+
+	switch *a {
+	case Gopher:
+		return "gopher"
+	case Zebra:
+		return "zebra"
+	default:
+		return "unidentified-animal"
+	}
+}
+
+func sToAnimal(s string) Animal {
+	switch strings.ToLower(s) {
+	case "gopher":
+		return Gopher
+	case "zebra":
+		return Zebra
+	default:
+		return UnidentifiedAnimal
+	}
+}
+
+func (a *Animal) UnmarshalJSON(b []byte) error {
+	unquoted, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	aAnimal := sToAnimal(unquoted)
+	*a = aAnimal
+	return nil
+}
+
+func (a *Animal) MarshalJSON() ([]byte, error) {
+	quoted := strconv.Quote(a.String())
+	return []byte(quoted), nil
+}
+
+func ExampleMarshalJSON() {
+	zoo := []Animal{Gopher, Zebra, UnidentifiedAnimal, Gopher, Gopher, Zebra}
+	marshaled, err := json.Marshal(&zoo)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%s", marshaled)
+
+	// Output:
+	// ["gopher","zebra","unidentified-animal","gopher","gopher","zebra"]
+}
+
+func ExampleUnmarshalJSON() {
+	rawZooManifest := `["zebra", "zebra", "unidentified-animal", "gopher", "gopher"]`
+	var zooManifest []*Animal
+	if err := json.Unmarshal([]byte(rawZooManifest), &zooManifest); err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%+v", zooManifest)
+
+	// Output:
+	// [zebra zebra unidentified-animal gopher gopher]
 }
