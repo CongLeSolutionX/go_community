@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "e530e7ea_8cec4781",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-23T17:13:38Z",
+      "side": 1,
+      "message": "\u003e And os.Stat is calling syscall.Readlink, so we are effectively testing syscall.Readlink here\n\nThat means, readers/reviewers who try to understand this code must have known that os.Stat are implemented on top of os.Readlink. I don\u0027t think that\u0027s a common knowlege nor the spec.\nI bet most of them don\u0027t know a such thing, so they will misunderstand that these tests are just for os.Stat.\nGenerally speaking, the test should be performed against the spec, not the implementation. What you were saying is too much detail for me. The future implementation of os.Stat might not call os.Readlink, so it\u0027s weak for future changes. We can test os.Readlink directly, instead, which is a clear way, I think. \nAnd if you think current tests for os.Stat are poor, you can do after finishing this CL, that\u0027s the different issue.\n\n\u003e What exactly do you propose we do here instead of calling os.Stat?\n\nFor example:\n\ntarget, err :\u003d os.Readlink(link)\nif err !\u003d nil {\n  t.Fatal(err)\n}\n\nif target !\u003d test.expected {\n  t.Errorf(\"Readlink(%s): got %s, want %s\", link, target, test.expected)\n}",
+      "parentUuid": "b052afc4_03abee77",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_b604c820",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "\u003e It\u0027s not true. This is not a reparse data.\n\nI did not say it is reparse data. I said it \"is used to build reparse data\".\n\n \u003e I\u0027m not a wordsmith, but XXXBuilder or something.\n\nI am not wordsmith myself. I cannot come up with anything better than reparseData. But if you make suggestion better than XXXBuilder I will consider it.",
       "parentUuid": "0b1eea17_762350b7",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e530e7ea_6c891bda",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-23T17:13:38Z",
+      "side": 1,
+      "message": "So, how about:\n\n// pathBufBuilder builds a data format which is commonly used inside reparse data buffer for representing file paths.\ntype pathBufBuilder struct {\n}\n\n?\n\nI just want to eliminate naming conflicts. I\u0027m not persistent in \u0027how\u0027.",
+      "parentUuid": "b052afc4_a3ed3ab6",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -212,6 +248,24 @@
     },
     {
       "key": {
+        "uuid": "e530e7ea_ec7cebbe",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-23T17:13:38Z",
+      "side": 1,
+      "message": "Comments on 221 includes this.",
+      "parentUuid": "b052afc4_c3c5d635",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_5620d4a8",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -241,6 +295,24 @@
       "side": 1,
       "message": "\u003e It\u0027s too much separating and adding unneeded new types.\n\nIt is complicated code. Fair enough. But I don\u0027t see easier way to do it. Feel free to propose this bit of code and I will replace mine.\n\n \u003e \n \u003e I like the code like:\n \u003e \n \u003e // I assumes REPARSE_DATA_BUFFER_HEADER is already embeded into\n \u003e MountPointReparseBuffer here.\n\nBut you cannot, because REPARSE_DATA_BUFFER_HEADER does not include MountPointReparseBuffer.",
       "parentUuid": "0b1eea17_5620d4a8",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e530e7ea_4c8e5fe4",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-23T17:13:38Z",
+      "side": 1,
+      "message": "\u003e But you cannot, because REPARSE_DATA_BUFFER_HEADER does not include MountPointReparseBuffer.\n\nIt\u0027s possible. Please see my comments on reparse_windows.go\nAlso, I feel introducing the helper function is better.\n\nrdbuf :\u003d make([]byte, syscall.MAXIMUM_REPARSE_DATA_BUFFER_SIZE)\n\nn, err :\u003d encodeMountPoint(rdbuf, pathBuf)\nif err !\u003d nil {\n  return err\n}\n\nreturn createDirLink(link, rdbuf[:n])",
+      "parentUuid": "b052afc4_63b742d3",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -352,6 +424,24 @@
     },
     {
       "key": {
+        "uuid": "e530e7ea_cc792fcd",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-23T17:13:38Z",
+      "side": 1,
+      "message": "As I said on the top comment of previous change,\nthe fix for #16145 affects UNC paths which we don\u0027t have related tests yet. So I think we should include tests about UNC paths when/by the time we\u0027ll fix that. However I don\u0027t want to add new kind of tests to this CL now and I want to review UNC tests and this at the same time. Thus I want to postpone it.",
+      "parentUuid": "b052afc4_23c14a22",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_3640b837",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -416,6 +506,24 @@
       "side": 1,
       "message": "\u003e Yes, please. \n\nI think this CL is complicated enough already for that.\n\n \u003e or GetCurrentThread + ImpersonateSelf + RevertToSelf\n \u003e (CL 28010 uses that approach)\n\nI do not see how CL 28010 is any better. This CL changes privileges of the whole process. While CL 28010 change privileges of the random thread within process. I see more confusion caused by CL 28010 approach.\n\nWhy do you think CL 28010 approach is better?",
       "parentUuid": "0b1eea17_163dbcc9",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e530e7ea_ac86e3c2",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-09-23T17:13:38Z",
+      "side": 1,
+      "message": "It calls `LockOSThread` and `RevertToSelf` which means that privileges will be reverted before exiting the function body. So no other processes/threads will get side effects.",
+      "parentUuid": "b052afc4_e3f33299",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
