@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b052afc4_63ae6289",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "Yes. We will remove this code once fix is in. It is similar to what we do with t.Skip.",
+      "parentUuid": "50efb36f_c02d7e03",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_3606f82c",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-16T04:03:53Z",
       "side": 1,
       "message": "I want see os.Readlink here instead of this.\nWe want to fix syscall.Readlink, not os.Stat.\nThis line makes me confusing again.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b052afc4_03abee77",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "This line came from old TestStatJunctionLink. And os.Stat is calling syscall.Readlink, so we are effectively testing syscall.Readlink here. What exactly do you propose we do here instead of calling os.Stat?",
+      "parentUuid": "0b1eea17_3606f82c",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b052afc4_23a86a78",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "Again this is old code from TestStatJunctionLink. I think it is fine as is.",
+      "parentUuid": "0b1eea17_b604c820",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_762350b7",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-16T04:03:53Z",
       "side": 1,
       "message": "It\u0027s not true. This is not a reparse data.\nI\u0027m not a wordsmith, but XXXBuilder or something.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b052afc4_a3ed3ab6",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "\u003e It\u0027s not true. This is not a reparse data.\n\nI did not say it is reparse data. I said it \"is used to build reparse data\".\n\n \u003e I\u0027m not a wordsmith, but XXXBuilder or something.\n\nI am not wordsmith myself. I cannot come up with anything better than reparseData. But if you make suggestion better than XXXBuilder I will consider it.",
+      "parentUuid": "0b1eea17_762350b7",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "e530e7ea_ec118bb8",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "I changed to addUTF16s to make it more consistent with others.",
+      "parentUuid": "0b1eea17_d62a2486",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_b62b288d",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-16T04:03:53Z",
       "side": 1,
       "message": "Why is this useful? Can you inline it?",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b052afc4_c3c5d635",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "\u003e Why is this useful? \n\nI use this so I can create both \"symlinks\" and \"mount points\" by calling createDirLink.\n\n \u003e Can you inline it?\n\nI am not sure what you propose here.",
+      "parentUuid": "0b1eea17_b62b288d",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "b052afc4_63b742d3",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "\u003e It\u0027s too much separating and adding unneeded new types.\n\nIt is complicated code. Fair enough. But I don\u0027t see easier way to do it. Feel free to propose this bit of code and I will replace mine.\n\n \u003e \n \u003e I like the code like:\n \u003e \n \u003e // I assumes REPARSE_DATA_BUFFER_HEADER is already embeded into\n \u003e MountPointReparseBuffer here.\n\nBut you cannot, because REPARSE_DATA_BUFFER_HEADER does not include MountPointReparseBuffer.",
+      "parentUuid": "0b1eea17_5620d4a8",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_f625a0b6",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -132,6 +258,24 @@
       "writtenOn": "2016-09-16T04:03:53Z",
       "side": 1,
       "message": "TestReadlinkJunction or TestReadJunction.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b052afc4_03c44e31",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "I use term \"Directory Junction\" that mklink uses. I think it is fine as is.",
+      "parentUuid": "0b1eea17_f625a0b6",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "e530e7ea_cc0ecf96",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "Added comment. I hope it is ok.",
+      "parentUuid": "0b1eea17_563734e7",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_9630acf6",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -166,6 +328,24 @@
       "writtenOn": "2016-09-16T04:03:53Z",
       "side": 1,
       "message": "I prefer to delete it now.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b052afc4_23c14a22",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "You want to delete test below? Why?",
+      "parentUuid": "0b1eea17_9630acf6",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "b052afc4_c3ee36b4",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "Again, I use term \"Directory Symbolic Link\" that mklink uses. I think it is fine as is.",
+      "parentUuid": "0b1eea17_3640b837",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_163dbcc9",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -200,6 +398,24 @@
       "writtenOn": "2016-09-16T04:03:53Z",
       "side": 1,
       "message": "Yes, please. or GetCurrentThread + ImpersonateSelf + RevertToSelf (CL 28010 uses that approach)",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b052afc4_e3f33299",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "\u003e Yes, please. \n\nI think this CL is complicated enough already for that.\n\n \u003e or GetCurrentThread + ImpersonateSelf + RevertToSelf\n \u003e (CL 28010 uses that approach)\n\nI do not see how CL 28010 is any better. This CL changes privileges of the whole process. While CL 28010 change privileges of the random thread within process. I see more confusion caused by CL 28010 approach.\n\nWhy do you think CL 28010 approach is better?",
+      "parentUuid": "0b1eea17_163dbcc9",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -223,6 +439,24 @@
     },
     {
       "key": {
+        "uuid": "e530e7ea_ac0b8384",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "Added comment. I hope it is ok.",
+      "parentUuid": "0b1eea17_b65688fc",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_763a30d3",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -234,6 +468,24 @@
       "writtenOn": "2016-09-16T04:03:53Z",
       "side": 1,
       "message": "supports testFileLinks.",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b052afc4_83e83ea7",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-09-23T06:39:40Z",
+      "side": 1,
+      "message": "I do not understand what you suggest I do here.",
+      "parentUuid": "0b1eea17_763a30d3",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
