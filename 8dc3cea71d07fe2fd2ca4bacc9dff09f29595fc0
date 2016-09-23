@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d044833c_eccf6b77",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-09-23T16:15:53Z",
+      "side": 1,
+      "message": "isn\u0027t it returned to mcache first any more?",
+      "range": {
+        "startLine": 53,
+        "startChar": 55,
+        "endLine": 53,
+        "endChar": 56
+      },
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d044833c_0ce597fc",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-09-23T16:15:53Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 56,
+        "startChar": 5,
+        "endLine": 56,
+        "endChar": 8
+      },
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d044833c_2ce253f5",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2016-09-23T16:15:53Z",
+      "side": 1,
+      "message": "is this happening independently of GC or at the end of GC cycle? (based on the comment in runtime/debug.FreeOSMemory, I guess the former)",
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
