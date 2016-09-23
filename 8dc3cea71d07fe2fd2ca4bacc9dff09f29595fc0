@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "455b733f_873426e2",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-23T17:17:25Z",
+      "side": 1,
+      "message": "Delete.",
+      "range": {
+        "startLine": 35,
+        "startChar": 56,
+        "endLine": 35,
+        "endChar": 59
+      },
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "455b733f_47562e05",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-23T17:17:25Z",
+      "side": 1,
+      "message": "Above uses \"32kB\", but here it\u0027s \"1MB\" and not \"1mB\".  Shouldn\u0027t it at least be \"32KB\" for consistency, and ideally \"32KiB\" and \"1MiB\" using ISO/IEC 80000-13 standard prefixes?",
+      "range": {
+        "startLine": 45,
+        "startChar": 46,
+        "endLine": 45,
+        "endChar": 49
+      },
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d044833c_eccf6b77",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
@@ -59,6 +105,52 @@
       "writtenOn": "2016-09-23T16:15:53Z",
       "side": 1,
       "message": "is this happening independently of GC or at the end of GC cycle? (based on the comment in runtime/debug.FreeOSMemory, I guess the former)",
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "455b733f_275b3a2d",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-23T17:17:25Z",
+      "side": 1,
+      "message": "The previous lists started each item with a capital letter.",
+      "range": {
+        "startLine": 69,
+        "startChar": 3,
+        "endLine": 69,
+        "endChar": 11
+      },
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "455b733f_076036cd",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-23T17:17:25Z",
+      "side": 1,
+      "message": "since the program is probably about to write to the memory.",
+      "range": {
+        "startLine": 70,
+        "startChar": 44,
+        "endLine": 71,
+        "endChar": 57
+      },
       "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
