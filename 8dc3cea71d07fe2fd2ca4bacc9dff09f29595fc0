@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "d044833c_cf7d410d",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-09-23T18:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "455b733f_873426e2",
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "455b733f_47562e05",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 45,
         "endChar": 49
       },
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25fd9f27_3ef8c961",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-09-23T18:19:14Z",
+      "side": 1,
+      "message": "\"k\" and \"M\" are the SI prefixes for \"kilo\" and \"mega\". \"1mB\" will be a millibyte. You\u0027re right that technically it should be KiB and MiB, but nobody really uses those. :)",
+      "parentUuid": "455b733f_47562e05",
       "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "25fd9f27_1efd0d52",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-09-23T18:19:14Z",
+      "side": 1,
+      "message": "That\u0027s a good point. It is in some cases. I added a new case 1 to cover this.",
+      "parentUuid": "d044833c_eccf6b77",
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d044833c_0ce597fc",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
@@ -94,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "25fd9f27_fe1141b8",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-09-23T18:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d044833c_0ce597fc",
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d044833c_2ce253f5",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
@@ -105,6 +177,24 @@
       "writtenOn": "2016-09-23T16:15:53Z",
       "side": 1,
       "message": "is this happening independently of GC or at the end of GC cycle? (based on the comment in runtime/debug.FreeOSMemory, I guess the former)",
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d044833c_4f92314f",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-09-23T18:19:14Z",
+      "side": 1,
+      "message": "Independently of GC. It\u0027s triggered by the sysmon thread every 2.5 minutes.",
+      "parentUuid": "d044833c_2ce253f5",
       "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -134,6 +224,24 @@
     },
     {
       "key": {
+        "uuid": "d044833c_6f8fed25",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-09-23T18:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "455b733f_275b3a2d",
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "455b733f_076036cd",
         "filename": "src/runtime/malloc.go",
         "patchSetId": 1
@@ -151,6 +259,24 @@
         "endLine": 71,
         "endChar": 57
       },
+      "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d044833c_afa1d59d",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-09-23T18:19:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "455b733f_076036cd",
       "revId": "8dc3cea71d07fe2fd2ca4bacc9dff09f29595fc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
