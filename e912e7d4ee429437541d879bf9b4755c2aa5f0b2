@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "455b733f_67a7f213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-24T12:59:38Z",
+      "side": 1,
+      "message": "\"kicking\".  How about \"move value to spare register rather than spill\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "e912e7d4ee429437541d879bf9b4755c2aa5f0b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "455b733f_8762e6c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-24T12:59:38Z",
+      "side": 1,
+      "message": "registers",
+      "range": {
+        "startLine": 9,
+        "startChar": 16,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "e912e7d4ee429437541d879bf9b4755c2aa5f0b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "455b733f_47aceef5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-24T12:59:38Z",
+      "side": 1,
+      "message": "spare",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "e912e7d4ee429437541d879bf9b4755c2aa5f0b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "455b733f_07b6f645",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-24T12:59:38Z",
+      "side": 1,
+      "message": "Delete \"get\"?",
+      "range": {
+        "startLine": 266,
+        "startChar": 43,
+        "endLine": 266,
+        "endChar": 46
+      },
+      "revId": "e912e7d4ee429437541d879bf9b4755c2aa5f0b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "455b733f_e7bac228",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1702,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-24T12:59:38Z",
+      "side": 1,
+      "message": "If they only need freeing for DebugTest then the test of DebugTest can be hoisted to wrap the whole for loop and tested once.",
+      "range": {
+        "startLine": 1702,
+        "startChar": 0,
+        "endLine": 1702,
+        "endChar": 42
+      },
+      "revId": "e912e7d4ee429437541d879bf9b4755c2aa5f0b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "455b733f_c7b7be3e",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1954,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-09-24T12:59:38Z",
+      "side": 1,
+      "message": "appear",
+      "range": {
+        "startLine": 1954,
+        "startChar": 60,
+        "endLine": 1954,
+        "endChar": 68
+      },
+      "revId": "e912e7d4ee429437541d879bf9b4755c2aa5f0b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
