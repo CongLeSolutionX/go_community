@@ -30,9 +30,9 @@ to the float64 argument f. More flexibility is provided with explicit
 setters, for instance:
 
 	var z1 Int
-	z1.SetUint64(123)                 // z1 := 123
-	z2 := new(Rat).SetFloat64(1.2)    // z2 := 6/5
-	z3 := new(Float).SetInt(z1)       // z3 := 123.0
+	z1.SetUint64(123)                  // z1 := 123
+	z2 := new(Rat).SetFloat64(1.25)    // z2 := 5/4
+	z3 := new(Float).SetInt(z1)        // z3 := 123.0
 
 Setters, numeric operations and predicates are represented as methods of
 the form:
