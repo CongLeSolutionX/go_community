@@ -16,6 +16,24 @@
       "revId": "375092bdcbc5b095e1591558952ce537b9fa5fa3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d09643c8_b46a0681",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-09-26T16:45:46Z",
+      "side": 1,
+      "message": "No, line 441 ensures there\u0027s at least an OLABEL Node.",
+      "parentUuid": "d09643c8_f4f1eefb",
+      "revId": "375092bdcbc5b095e1591558952ce537b9fa5fa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
