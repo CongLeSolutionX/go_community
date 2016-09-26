@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5c92346_cb86d516",
+        "filename": "src/math/big/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-09-26T17:56:20Z",
+      "side": 1,
+      "message": "Please remove this blank again here and below so that these comments line up with the comments below (next example).\n\n(After all, you changed line 34, so you should adjust the spacing there, not on unrelated lines.)",
+      "revId": "0dbcc09dc7102c1cf5708c10e8e3282747ff52e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
