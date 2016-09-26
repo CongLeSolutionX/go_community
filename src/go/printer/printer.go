@@ -1291,7 +1291,10 @@ func (cfg *Config) Fprint(output io.Writer, fset *token.FileSet, node interface{
 }
 
 // Fprint "pretty-prints" an AST node to output.
-// It calls Config.Fprint with default settings.
+// It calls Config.Fprint with default settings, with tabs used for alignment
+// rather then spaces (note that gofmt uses tabs for indentation but spaces
+// for alignment). Use format.Node (package go/format) to obtain output that
+// matches gofmt.
 //
 func Fprint(output io.Writer, fset *token.FileSet, node interface{}) error {
 	return (&Config{Tabwidth: 8}).Fprint(output, fset, node)
