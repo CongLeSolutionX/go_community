@@ -23,6 +23,8 @@ net/http: make Transport retry non-idempotent requests if no bytes written (CL 2
 net: support "option ndots:0" in resolv.conf (CL 24901)
 net: use libresolv rules for ndots range and validation (CL 24901)
 runtime: fix map iterator concurrent map check (CL 23711)
+runtime: now uses correct system page size on all arches (CL 25022)
+syscall: Getpagesize returns the system page size (CL 25051)
 
 Optimizations:
 
@@ -35,4 +37,11 @@ encoding/hex: change lookup table from string to array (CL 27254)
 hash/crc32: improve the processing of the last bytes in the SSE4.2 code for AMD64 (CL 24470)
 math/big: avoid allocation in float.{Add, Sub} when there's no aliasing (CL 23568)
 math/big: use array instead of slice for deBruijn lookups (CL 26663)
+runtime: large objects no longer cause significant goroutine pauses (CL 23540)
+runtime: defer is now 2X faster (CL 29656)
+runtime: cgo calls are about 30ns faster (CL 29656)
 strings: add special cases for Join of 2 and 3 strings (CL 25005)
+
+Documentation:
+
+runtime: runtime.MemStats is better documented (CL 28972)
