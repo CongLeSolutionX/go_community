@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "a510afcf_ade1c9bd",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-09-27T15:31:14Z",
+      "side": 1,
+      "message": "Done. Changed to \"set\".",
+      "parentUuid": "d044833c_52be541d",
+      "revId": "7086141be571d483ebc3ffec3274975e3e28de4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d044833c_b2df7858",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 2
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "a510afcf_8de605d2",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-09-27T15:31:14Z",
+      "side": 1,
+      "message": "countRegs of v2 will be decremented back to 1 as the original value will be kicked out at line 402.",
+      "parentUuid": "d044833c_b2df7858",
+      "revId": "7086141be571d483ebc3ffec3274975e3e28de4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d044833c_52c9f4a0",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 2
@@ -59,6 +95,24 @@
       "writtenOn": "2016-09-26T18:06:38Z",
       "side": 1,
       "message": "// The copy at occupant.c was used to avoid a spill.",
+      "revId": "7086141be571d483ebc3ffec3274975e3e28de4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a510afcf_6ddcf108",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1965,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-09-27T15:31:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d044833c_52c9f4a0",
       "revId": "7086141be571d483ebc3ffec3274975e3e28de4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
