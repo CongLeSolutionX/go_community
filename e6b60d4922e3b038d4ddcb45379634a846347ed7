@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25dbdf69_0251ba0b",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-27T13:44:55Z",
+      "side": 1,
+      "message": "Add a reference to Issue 15589 in here somewhere? It looks a bit like black magic, so I\u0027d like to say that a Microsoft employee told us it\u0027s cool. Issue 15589 has some good links from it too.",
+      "revId": "e6b60d4922e3b038d4ddcb45379634a846347ed7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
