@@ -16,6 +16,24 @@
       "revId": "f9fc0887dc0a0b01e45153659255ce8e61f503cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25f59ffe_de59a503",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2016-09-27T18:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50efb36f_a0315aa5",
+      "revId": "f9fc0887dc0a0b01e45153659255ce8e61f503cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
