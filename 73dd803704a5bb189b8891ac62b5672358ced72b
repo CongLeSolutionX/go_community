@@ -222,6 +222,24 @@
       "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25dbdf69_a803e7e6",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-09-27T18:16:47Z",
+      "side": 1,
+      "message": "Not done in patch set 3.",
+      "parentUuid": "6bdda69f_498a01c8",
+      "revId": "73dd803704a5bb189b8891ac62b5672358ced72b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
