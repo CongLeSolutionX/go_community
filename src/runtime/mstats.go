@@ -73,7 +73,7 @@ type mstats struct {
 	// When heap_live ≥ gc_trigger, the mark phase will start.
 	// This is also the heap size by which proportional sweeping
 	// must be complete.
-	gc_trigger uint64
+	//gc_trigger uint64
 
 	// heap_live is the number of bytes considered live by the GC.
 	// That is: retained by the most recent GC plus allocated
