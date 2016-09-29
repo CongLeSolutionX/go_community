@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c541232d_8b45ed6f",
+        "filename": "src/html/template/content_test.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-09-29T13:41:27Z",
+      "side": 1,
+      "message": "This test is fine. Can you insert above this one\n\n\u003cscript type\u003d\"text/javascript\"\u003ealert(\"{{.}}\")\u003c/script\u003e\n\nwith the exact outputs from the \u003cscript\u003e (no type) test that starts on line 152?",
+      "revId": "81e4919c9251ae36aab5d29e297c1579b3c036eb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
