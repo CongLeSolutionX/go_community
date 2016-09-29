@@ -402,6 +402,7 @@ func (h *mheap) mapSpans(arena_used uintptr) {
 	n -= h.arena_start
 	n = n / _PageSize * sys.PtrSize
 	n = round(n, physPageSize)
+	n = round(n, 2<<20) // Huge page
 	if h.spans_mapped >= n {
 		return
 	}
@@ -722,6 +723,7 @@ func (h *mheap) grow(npage uintptr) bool {
 	if ask < _HeapAllocChunk {
 		ask = _HeapAllocChunk
 	}
+	ask = round(ask, _HeapAllocChunk) // XXX Keep huge-aligned.
 
 	v := h.sysAlloc(ask)
 	if v == nil {
@@ -733,6 +735,11 @@ func (h *mheap) grow(npage uintptr) bool {
 			print("runtime: out of memory: cannot allocate ", ask, "-byte block (", memstats.heap_sys, " in use)\n")
 			return false
 		}
+	}
+
+	if uintptr(v)&(2<<20-1) != 0 {
+		println(v, ask)
+		throw("unaligned allocated")
 	}
 
 	// Create a fake "in use" span and free it, so that the
@@ -1344,7 +1351,7 @@ func nextMarkBitArenaEpoch() {
 func newArena() *gcBits {
 	var result *gcBits
 	if gcBitsArenas.free == nil {
-		result = (*gcBits)(sysAlloc(gcBitsChunkBytes, &memstats.gc_sys))
+		result = (*gcBits)(persistentalloc(gcBitsChunkBytes, 0, &memstats.gc_sys))
 		if result == nil {
 			throw("runtime: cannot allocate memory")
 		}

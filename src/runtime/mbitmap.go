@@ -147,7 +147,7 @@ func (h *mheap) mapBits(arena_used uintptr) {
 	// Caller has added extra mappings to the arena.
 	// Add extra mappings of bitmap words as needed.
 	// We allocate extra bitmap pieces in chunks of bitmapChunk.
-	const bitmapChunk = 8192
+	const bitmapChunk = 2 << 20 //8192
 
 	n := (arena_used - mheap_.arena_start) / heapBitmapScale
 	n = round(n, bitmapChunk)

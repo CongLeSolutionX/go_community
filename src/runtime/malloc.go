@@ -130,7 +130,7 @@ const (
 
 	_FixAllocChunk  = 16 << 10               // Chunk size for FixAlloc
 	_MaxMHeapList   = 1 << (20 - _PageShift) // Maximum page length for fixed-size list in MHeap.
-	_HeapAllocChunk = 1 << 20                // Chunk size for heap growth
+	_HeapAllocChunk = 2 << 20                // Chunk size for heap growth
 
 	// Per-P, per order stack segment cache size.
 	_StackCacheSize = 32 * 1024
@@ -916,8 +916,8 @@ func persistentalloc(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 //go:systemstack
 func persistentalloc1(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 	const (
-		chunk    = 256 << 10
-		maxBlock = 64 << 10 // VM reservation granularity is 64K on windows
+		chunk    = 2 << 20
+		maxBlock = 2 << 20 // VM reservation granularity is 64K on windows
 	)
 
 	if size == 0 {
@@ -935,7 +935,10 @@ func persistentalloc1(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 	}
 
 	if size >= maxBlock {
-		return sysAlloc(size, sysStat)
+		x := sysAlloc(size+chunk, sysStat)
+		mSysStatDec(sysStat, chunk)
+		x = unsafe.Pointer((uintptr(x) + chunk - 1) &^ (chunk - 1))
+		return x
 	}
 
 	mp := acquirem()
@@ -948,13 +951,15 @@ func persistentalloc1(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 	}
 	persistent.off = round(persistent.off, align)
 	if persistent.off+size > chunk || persistent.base == nil {
-		persistent.base = sysAlloc(chunk, &memstats.other_sys)
+		persistent.base = sysAlloc(chunk*2, &memstats.other_sys)
 		if persistent.base == nil {
 			if persistent == &globalAlloc.persistentAlloc {
 				unlock(&globalAlloc.mutex)
 			}
 			throw("runtime: cannot allocate memory")
 		}
+		mSysStatDec(&memstats.other_sys, chunk)
+		persistent.base = unsafe.Pointer((uintptr(persistent.base) + chunk - 1) &^ (chunk - 1))
 		persistent.off = 0
 	}
 	p := add(persistent.base, persistent.off)
