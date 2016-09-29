@@ -459,6 +459,9 @@ retry:
 			gp.gcAssistBytes = 0
 			return
 		}
+
+		traceGCScanStart() // XXX Highlight in trace
+
 		// Track time spent in this assist. Since we're on the
 		// system stack, this is non-preemptible, so we can
 		// just measure start and end time.
@@ -510,6 +513,8 @@ retry:
 			atomic.Xaddint64(&gcController.assistTime, _p_.gcAssistTime)
 			_p_.gcAssistTime = 0
 		}
+
+		traceGCScanDone()
 	})
 
 	if completed {
@@ -935,6 +940,7 @@ const (
 	gcDrainUntilPreempt gcDrainFlags = 1 << iota
 	gcDrainNoBlock
 	gcDrainFlushBgCredit
+	gcDrainIdle // XXX Doc
 
 	// gcDrainBlock means neither gcDrainUntilPreempt or
 	// gcDrainNoBlock. It is the default, but callers should use
@@ -963,9 +969,11 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 	}
 
 	gp := getg()
+	pp := gp.m.p.ptr()
 	preemptible := flags&gcDrainUntilPreempt != 0
-	blocking := flags&(gcDrainUntilPreempt|gcDrainNoBlock) == 0
+	blocking := flags&(gcDrainUntilPreempt|gcDrainNoBlock|gcDrainIdle) == 0
 	flushBgCredit := flags&gcDrainFlushBgCredit != 0
+	idle := flags&gcDrainIdle != 0
 
 	// Drain root marking jobs.
 	if work.markrootNext < work.markrootJobs {
@@ -982,6 +990,23 @@ func gcDrain(gcw *gcWork, flags gcDrainFlags) {
 
 	// Drain heap marking jobs.
 	for !(preemptible && gp.preempt) {
+		if idle {
+			// Exit the idle worker if there are other
+			// things to do. See handoffp.
+			//
+			// TODO: This logic should live in the
+			// scheduler.
+			if !runqempty(pp) || sched.runqsize != 0 {
+				break
+			}
+			if netpollinited() && sched.lastpoll != 0 {
+				if gp := netpoll(false); gp != nil {
+					injectglist(gp)
+					break
+				}
+			}
+		}
+
 		// Try to keep work available on the global queue. We used to
 		// check if there were waiting workers, but it's better to
 		// just keep work available than to make workers wait. In the

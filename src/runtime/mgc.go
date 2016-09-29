@@ -1464,8 +1464,12 @@ func gcBgMarkWorker(_p_ *p) {
 			throw("gcBgMarkWorker: unexpected gcMarkWorkerMode")
 		case gcMarkWorkerDedicatedMode:
 			gcDrain(&_p_.gcw, gcDrainNoBlock|gcDrainFlushBgCredit)
-		case gcMarkWorkerFractionalMode, gcMarkWorkerIdleMode:
+		case gcMarkWorkerFractionalMode:
 			gcDrain(&_p_.gcw, gcDrainUntilPreempt|gcDrainFlushBgCredit)
+		case gcMarkWorkerIdleMode:
+			traceGCSweepStart() // XXX Highlight idle workers in trace
+			gcDrain(&_p_.gcw, gcDrainIdle|gcDrainFlushBgCredit)
+			traceGCSweepDone()
 		}
 
 		// If we are nearing the end of mark, dispose
