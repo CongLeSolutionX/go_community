@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "25ccbff8_dc450a6f",
+        "filename": "src/html/template/attr.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2016-09-29T03:00:59Z",
+      "side": 1,
+      "message": "Inlined it",
+      "parentUuid": "4025f8a7_5044b22e",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4025f8a7_104e2a4f",
         "filename": "src/html/template/js.go",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2015-12-05T03:32:40Z",
       "side": 1,
       "message": "isJSType",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25ccbff8_5c5aba4e",
+        "filename": "src/html/template/js.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2016-09-29T03:00:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4025f8a7_104e2a4f",
       "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "25ccbff8_1c0e8249",
+        "filename": "src/html/template/js.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2016-09-29T03:00:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4025f8a7_30492647",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4025f8a7_d02f8263",
         "filename": "src/html/template/js_test.go",
         "patchSetId": 9
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "25ccbff8_3c053e21",
+        "filename": "src/html/template/js_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2016-09-29T03:00:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4025f8a7_d02f8263",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4025f8a7_f0327ec9",
         "filename": "src/html/template/js_test.go",
         "patchSetId": 9
@@ -81,6 +153,24 @@
       "writtenOn": "2015-12-05T03:32:40Z",
       "side": 1,
       "message": "When this test fails, you get a few lines like (at best):\n\n    want true got \"false\"\n    want false got \"true\"\n\nThat\u0027s really unhelpful. It\u0027s also reversed from the usual Go printing.\n\n    t.Errorf(\"isJSType(%q) \u003d %v, want %v\", test.in, !test.out, test.out)",
+      "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25ccbff8_9c027217",
+        "filename": "src/html/template/js_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 7877
+      },
+      "writtenOn": "2016-09-29T03:00:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4025f8a7_f0327ec9",
       "revId": "6c3f2de6f8c8158f1a5e37c30f0e33aa545fc456",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
