@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29e1d21_bcf07657",
+        "filename": "src/context/context.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-30T21:28:31Z",
+      "side": 1,
+      "message": "single space after periods.",
+      "revId": "6820a4070f624541973bab249ddd2bab6b4ec1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_5c97f2f6",
+        "filename": "src/context/context.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-30T21:28:31Z",
+      "side": 1,
+      "message": "unexported doesn\u0027t matter as much as each caller should define its own type for them.\n\nMaybe just one new sentence:\n\n  // The provided key must be comparable and should not be\n  // of type string or any other built-in type.\n  // Users of WithValue should define their own types for keys.",
+      "revId": "6820a4070f624541973bab249ddd2bab6b4ec1d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
