@@ -81,6 +81,7 @@
 package runtime
 
 import (
+	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -899,6 +900,11 @@ var globalAlloc struct {
 	persistentAlloc
 }
 
+var palloc struct {
+	lock     mutex
+	pos, end uint64
+}
+
 // Wrapper around sysAlloc that can allocate small chunks.
 // There is no associated free operation.
 // Intended for things like function/type/debug-related persistent data.
@@ -916,8 +922,8 @@ func persistentalloc(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 //go:systemstack
 func persistentalloc1(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 	const (
-		chunk    = 2 << 20
-		maxBlock = 2 << 20 // VM reservation granularity is 64K on windows
+		chunk = 2 << 20
+		//maxBlock = 2 << 20 // VM reservation granularity is 64K on windows
 	)
 
 	if size == 0 {
@@ -934,44 +940,59 @@ func persistentalloc1(size, align uintptr, sysStat *uint64) unsafe.Pointer {
 		align = 8
 	}
 
-	if size >= maxBlock {
-		x := sysAlloc(size+chunk, sysStat)
-		mSysStatDec(sysStat, chunk)
-		x = unsafe.Pointer((uintptr(x) + chunk - 1) &^ (chunk - 1))
-		return x
-	}
-
-	mp := acquirem()
-	var persistent *persistentAlloc
-	if mp != nil && mp.p != 0 {
-		persistent = &mp.p.ptr().palloc
-	} else {
-		lock(&globalAlloc.mutex)
-		persistent = &globalAlloc.persistentAlloc
-	}
-	persistent.off = round(persistent.off, align)
-	if persistent.off+size > chunk || persistent.base == nil {
-		persistent.base = sysAlloc(chunk*2, &memstats.other_sys)
-		if persistent.base == nil {
-			if persistent == &globalAlloc.persistentAlloc {
-				unlock(&globalAlloc.mutex)
-			}
-			throw("runtime: cannot allocate memory")
+	// Try to lock-free allocate from the existing block.
+retry:
+	pos, end := uintptr(atomic.Load64(&palloc.pos)), uintptr(atomic.Load64(&palloc.end))
+	//println(hex(pos), hex(end), size)
+	v := round(pos, align)
+	if v+size <= end {
+		if !atomic.Cas64(&palloc.pos, uint64(pos), uint64(v+size)) {
+			//println("retry")
+			goto retry
 		}
-		mSysStatDec(&memstats.other_sys, chunk)
-		persistent.base = unsafe.Pointer((uintptr(persistent.base) + chunk - 1) &^ (chunk - 1))
-		persistent.off = 0
-	}
-	p := add(persistent.base, persistent.off)
-	persistent.off += size
-	releasem(mp)
-	if persistent == &globalAlloc.persistentAlloc {
-		unlock(&globalAlloc.mutex)
+		//println("got it")
+		stat := v + size - pos
+		mSysStatInc(sysStat, stat)
+		mSysStatDec(&memstats.other_sys, stat)
+		return unsafe.Pointer(v)
 	}
 
-	if sysStat != &memstats.other_sys {
-		mSysStatInc(sysStat, size)
-		mSysStatDec(&memstats.other_sys, size)
+	// Won't fit. Map more space.
+	lock(&palloc.lock)
+	end = uintptr(atomic.Load64(&palloc.end)) // palloc.end may have changed
+	if pos == 0 {
+		// First persistentalloc.
+		if mheap_.arena_end == 0 {
+			// Memory allocator isn't initialized yet.
+			unlock(&palloc.lock)
+			return sysAlloc(size, sysStat)
+		}
+		pos = mheap_.arena_end
+		end = pos
+		atomic.Store64(&palloc.pos, uint64(pos))
 	}
-	return p
+	var reserved bool
+	mapSize := round(size, chunk)
+	p := sysReserve(unsafe.Pointer(end), mapSize, &reserved)
+	if p == nil {
+		unlock(&palloc.lock)
+		throw("runtime: cannot allocate memory")
+	}
+	//println("grow", hex(pos), p, hex(end), mapSize)
+	// TODO: This is silly. Reserve in bigger chunks to avoid reserve/map.
+	sysMap(p, mapSize, reserved, &memstats.other_sys)
+	if uintptr(p) == end {
+		// Easy. We got what we asked for.
+		atomic.Store64(&palloc.end, uint64(uintptr(p)+mapSize))
+		unlock(&palloc.lock)
+		goto retry
+	}
+	// We're in a new area of the address space now. Adjust pos
+	// and end such that a concurrent allocation won't think
+	// there's space available.
+	atomic.Store64(&palloc.end, 0)
+	atomic.Store64(&palloc.pos, uint64(uintptr(p)))
+	atomic.Store64(&palloc.end, uint64(uintptr(p)+mapSize))
+	unlock(&palloc.lock)
+	goto retry
 }
