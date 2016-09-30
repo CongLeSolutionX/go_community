@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29e1d21_39c6b862",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-30T21:08:57Z",
+      "side": 1,
+      "message": "I don\u0027t like this wording much.",
+      "revId": "616cddd88b1990e7207641d24eb9d09defc9da39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_59cb8467",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-09-30T21:08:57Z",
+      "side": 1,
+      "message": "say more here?",
+      "revId": "616cddd88b1990e7207641d24eb9d09defc9da39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
