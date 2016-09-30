@@ -443,7 +443,9 @@ func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc) {
 // Use context Values only for request-scoped data that transits processes and
 // APIs, not for passing optional parameters to functions.
 //
-// The provided key must be comparable.
+// The provided key must be comparable.  Packages should define keys as
+// unexported types to avoid collisions.  Basic types such as string and int
+// should not be used.
 func WithValue(parent Context, key, val interface{}) Context {
 	if key == nil {
 		panic("nil key")
