@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29e1d21_765e904e",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-09-30T05:29:44Z",
+      "side": 1,
+      "message": "I don\u0027t understand how this could happen.  If s has more than one predecessor, then b doesn\u0027t dominate s and the phis in b can only be used in phis.  If s has a single predecessor, then no padding is needed.",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_d68204b0",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-09-30T05:29:44Z",
+      "side": 1,
+      "message": "This scares me a little bit, because it might use b.valstorage to store s.Values.  I don\u0027t think it would cause a problem right now because we don\u0027t garbage collect b.  But maybe at some point we would, and this would break that.\nAppend nils and then copy the values around, or use a scratch buffer, or just allocate a new Values array with new.",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_36924808",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-09-30T05:29:44Z",
+      "side": 1,
+      "message": "I would use b \u003d\u003d b.Func.Entry instead of len(b.Preds)\u003d\u003d0, it is clearer why we can\u0027t trim it.",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_f6a4e054",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-09-30T05:29:44Z",
+      "side": 1,
+      "message": "Double-check that u is a Phi op.  emptyBlock should ensure that, but just in case.",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_16a2ac46",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-09-30T05:29:44Z",
+      "side": 1,
+      "message": "j :\u003d 1; j \u003c len(b.Preds); j++\nor\nj :\u003d 0; j \u003c len(b.Preds)-1; j++",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
