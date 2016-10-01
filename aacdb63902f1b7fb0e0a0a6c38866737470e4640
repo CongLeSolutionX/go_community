@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29e1d21_c8e49cfb",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-01T17:21:09Z",
+      "side": 1,
+      "message": "these don\u0027t need to be vars (they can be consts), and there\u0027s no need for them to be global. move them to where they\u0027re needed.",
+      "revId": "aacdb63902f1b7fb0e0a0a6c38866737470e4640",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_e8e158e8",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-01T17:21:09Z",
+      "side": 1,
+      "message": "this whole loop seems like it\u0027d be easier to read you always used ReadBytes(\u0027\u0026\u0027) to work on units of pairs (\"foo\u003dbar\"). Keep in mind some pairs don\u0027t always have the \u003d sign: https://play.golang.org/p/xjYh6cMuw8",
+      "revId": "aacdb63902f1b7fb0e0a0a6c38866737470e4640",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
