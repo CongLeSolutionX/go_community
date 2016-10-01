@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29e1d21_ceeee5ad",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-01T21:13:49Z",
+      "side": 1,
+      "message": "One other thing is that since we now use url.ParseQuery, we can get rid of this clause since url.ParseQuery will strip out out any extra delimiters that are not attached to atleast a key.",
+      "revId": "58f6d0aa31e069a676939007fd44223a09343f03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
