@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "e24a9d97_5f2a2f80",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-01T20:36:07Z",
+      "side": 1,
+      "message": "Please remove this comment.",
+      "revId": "b836b5f14d99af76a11033fa451eb251d0914158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_aec03927",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-01T20:36:07Z",
+      "side": 1,
+      "message": "Please add a newline to separate the defer from the statements following it.",
+      "revId": "b836b5f14d99af76a11033fa451eb251d0914158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24a9d97_ff385bd7",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-01T20:36:07Z",
+      "side": 1,
+      "message": "Taking @bradfitz\u0027s suggestion to use url.ParseQuery, I think we can simplify the loop to this\n\nconst delim \u003d byte(\u0027\u003d\u0027)\nfor {\n   // Read until next delimiter\n   b, err :\u003d br.ReadBytes(delim)\n   ... until // Remove delimiter\n   vvs, err2 :\u003d url.ParseQuery(string(b))\n   if err2 !\u003d nil {\n     return err2\n   }\n   for key, values :\u003d range vvs {\n      vs[key] \u003d append(vs[key], values...)\n   }\n   if err \u003d\u003d io.EOF {\n      break\n   }\n}",
+      "revId": "b836b5f14d99af76a11033fa451eb251d0914158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_cea02594",
         "filename": "src/net/http/request.go",
         "patchSetId": 8
@@ -49,6 +100,23 @@
       "side": 1,
       "message": "*facepalm* yup, my mistake, thanks.",
       "parentUuid": "c2a2f97b_03736ea8",
+      "revId": "b836b5f14d99af76a11033fa451eb251d0914158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24a9d97_9f3b17d3",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-01T20:36:07Z",
+      "side": 1,
+      "message": "Bug here, we meant to return err2 instead of err",
       "revId": "b836b5f14d99af76a11033fa451eb251d0914158",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
