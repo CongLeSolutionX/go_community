@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "c2a2f97b_c36c76c4",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 12775
+      },
+      "writtenOn": "2016-10-01T20:55:19Z",
+      "side": 1,
+      "message": "I think you meant \"const delim \u003d byte(\u0027\u003d\u0027)\" and great idea indeed! Making the change now and submitting when I\u0027m finished",
+      "parentUuid": "e24a9d97_ff385bd7",
+      "revId": "b836b5f14d99af76a11033fa451eb251d0914158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_cea02594",
         "filename": "src/net/http/request.go",
         "patchSetId": 8
