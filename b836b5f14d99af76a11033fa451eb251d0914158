@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e29e1d21_0ebb6dba",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-01T21:02:21Z",
+      "side": 1,
+      "message": "Yap, thanks for the correction.\nWhat do the benchmarks look like now?",
+      "parentUuid": "c2a2f97b_a3637acf",
+      "revId": "b836b5f14d99af76a11033fa451eb251d0914158",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_cea02594",
         "filename": "src/net/http/request.go",
         "patchSetId": 8
