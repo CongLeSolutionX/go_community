@@ -605,6 +605,16 @@ func releaseThread() {
 	<-threadLimit
 }
 
+// buffersReader is the interface implemented by Conns that support a
+// "readv"-like batch read optimization.
+// readBuffers should fully fill all chunks from the
+// provided Buffers, else it should report a non-nil error.
+type buffersReader interface {
+	readBuffers(*Buffers) (int64, error)
+}
+
+var testHookDidReadv = func(read int) {}
+
 // buffersWriter is the interface implemented by Conns that support a
 // "writev"-like batch write optimization.
 // writeBuffers should fully consume and write all chunks from the
@@ -615,17 +625,34 @@ type buffersWriter interface {
 
 var testHookDidWritev = func(wrote int) {}
 
-// Buffers contains zero or more runs of bytes to write.
+// Buffers contains zero or more runs of bytes to read into or write.
 //
-// On certain machines, for certain types of connections, this is
-// optimized into an OS-specific batch write operation (such as
-// "writev").
+// On certain machines, for certain types of connections, these are
+// optimized into OS-specific batch read or write operations (such as
+// "readv" or "writev").
 type Buffers [][]byte
 
 var (
-	_ io.WriterTo = (*Buffers)(nil)
-	_ io.Reader   = (*Buffers)(nil)
+	_ io.Writer     = (*Buffers)(nil)
+	_ io.WriterTo   = (*Buffers)(nil)
+	_ io.Reader     = (*Buffers)(nil)
+	_ io.ReaderFrom = (*Buffers)(nil)
 )
+
+func (v *Buffers) Write(p []byte) (n int, err error) {
+	for _, b := range *v {
+		n0 := copy(b, p)
+		p = p[n0:]
+		n += n0
+		if n0 < len(b) || len(p) == 0 {
+			break
+		}
+	}
+	if len(p) > 0 {
+		err = io.ErrShortWrite
+	}
+	return
+}
 
 func (v *Buffers) WriteTo(w io.Writer) (n int64, err error) {
 	if wv, ok := w.(buffersWriter); ok {
@@ -654,6 +681,23 @@ func (v *Buffers) Read(p []byte) (n int, err error) {
 		err = io.EOF
 	}
 	return
+}
+
+func (v *Buffers) ReadFrom(r io.Reader) (n int64, err error) {
+	if rv, ok := r.(buffersReader); ok {
+		return rv.readBuffers(v)
+	}
+	for _, b := range *v {
+		nb, err := r.Read(b)
+		n += int64(nb)
+		if err != nil {
+			return n, err
+		}
+		if nb < len(b) {
+			break
+		}
+	}
+	return n, nil
 }
 
 func (v *Buffers) consume(n int64) {

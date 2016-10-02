@@ -29,7 +29,7 @@ type netFD struct {
 	laddr       Addr
 	raddr       Addr
 
-	// writev cache.
+	// readv/writev cache.
 	iovecs *[]syscall.Iovec
 
 	// wait server
