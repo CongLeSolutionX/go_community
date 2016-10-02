@@ -6,6 +6,7 @@ package exec_test
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -13,6 +14,7 @@ import (
 	"log"
 	"os/exec"
 	"strings"
+	"time"
 )
 
 func ExampleLookPath() {
@@ -122,4 +124,18 @@ func ExampleCmd_CombinedOutput() {
 		log.Fatal(err)
 	}
 	fmt.Printf("%s\n", stdoutStderr)
+}
+
+func ExampleCommandContext() {
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, "sleep", "5")
+	started := time.Now()
+	err := cmd.Run()
+
+	fmt.Printf("aborted after %.1f seconds\n", time.Since(started).Seconds())
+	fmt.Printf("run error: %v\n", err)
+	// aborted after 0.1 seconds
+	// run error: signal: killed
 }
