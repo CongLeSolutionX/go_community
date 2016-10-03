@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02ded128_1d79b387",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5475
+      },
+      "writtenOn": "2016-10-03T19:33:51Z",
+      "side": 1,
+      "message": "Done\n\nAdded a comment with an example of how lineBuffer stores the values.",
+      "parentUuid": "e29e1d21_e202d018",
+      "revId": "e25b5a97e34179afabb1524eec79be86adbb8b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_2209983d",
         "filename": "src/encoding/csv/reader.go",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c2a2f97b_6669101c",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5475
+      },
+      "writtenOn": "2016-10-03T19:33:51Z",
+      "side": 1,
+      "message": "Removed the second if. Removing the capacity check would gives the following performance changes on my machine:\n\nname                          old time/op    new time/op    delta\nReadWithFieldsPerRecord-8       4.49µs ± 1%    4.51µs ± 0%  +0.43%          (p\u003d0.012 n\u003d9+8)\nReadLargeFields-8               58.2µs ± 0%    59.3µs ± 0%  +1.79%          (p\u003d0.000 n\u003d8+9)\n\nname                          old alloc/op   new alloc/op   delta\nReadWithFieldsPerRecord-8       5.85kB ± 0%    5.87kB ± 0%  +0.41%        (p\u003d0.000 n\u003d10+10)\n\nname                          old allocs/op  new allocs/op  delta\nReadWithFieldsPerRecord-8         28.0 ± 0%      30.0 ± 0%  +7.14%        (p\u003d0.000 n\u003d10+10)\n\n(I removed lines with ~ delta)\n\nI\u0027ll let you decide, whether to remove the if or not.",
+      "parentUuid": "e29e1d21_2209983d",
+      "revId": "e25b5a97e34179afabb1524eec79be86adbb8b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e24a9d97_a2e4fa32",
         "filename": "src/encoding/csv/reader.go",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-03T19:22:47Z",
       "side": 1,
       "message": "Add a comment here to document that, with this approach, a reference to any of the fields will retain the whole line, but that combining the allocations improves performance, and the risk of a nontrivial space leak is considered minimal.",
+      "revId": "e25b5a97e34179afabb1524eec79be86adbb8b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62b22dc7_e8407333",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5475
+      },
+      "writtenOn": "2016-10-03T19:33:51Z",
+      "side": 1,
+      "message": "Done in PS9",
+      "parentUuid": "e24a9d97_a2e4fa32",
       "revId": "e25b5a97e34179afabb1524eec79be86adbb8b30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
