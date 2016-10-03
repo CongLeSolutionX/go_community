@@ -22,6 +22,24 @@
       "revId": "ed80ecb9eb66f95cddc4413ec3b6339b0a4badb1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "028c1149_90403a8c",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T21:46:40Z",
+      "side": 1,
+      "message": "Pick your poison: reorder, or stop using iota (at least for two rows?).",
+      "parentUuid": "028c1149_2de2cd22",
+      "revId": "ed80ecb9eb66f95cddc4413ec3b6339b0a4badb1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
