@@ -69,6 +69,24 @@
       "revId": "b1ad19bad4fdc60cf3071c1e6b6ac1c880004b06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24a9d97_c2e78636",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-03T19:22:47Z",
+      "side": 1,
+      "message": "Thanks! Looks like some of the win is from reducing the internal allocations, but most of it is indeed from combining the final allocations.",
+      "parentUuid": "02adf169_4802df18",
+      "revId": "b1ad19bad4fdc60cf3071c1e6b6ac1c880004b06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
