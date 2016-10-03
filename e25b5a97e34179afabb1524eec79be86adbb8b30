@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29e1d21_e202d018",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T18:59:01Z",
+      "side": 1,
+      "message": "document this buffer? in particular, this is the post-unescaped buffer, right?",
+      "revId": "e25b5a97e34179afabb1524eec79be86adbb8b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_2209983d",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T18:59:01Z",
+      "side": 1,
+      "message": "the if is unnecessary. you can even slice a nil with [:0]\n\nIn fact, even the cap check is not necessary. You could just write\n\n    r.lineBuffer.Reset()\n    r.fieldIndexes \u003d r.fieldIndexes[:0]",
+      "revId": "e25b5a97e34179afabb1524eec79be86adbb8b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
