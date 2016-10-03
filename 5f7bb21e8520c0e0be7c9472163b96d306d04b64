@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "028c1149_0dd7d11a",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-10-03T21:06:23Z",
+      "side": 1,
+      "message": "I\u0027m still not sure why this loop is needed.\nWhen ns\u003e1, then b contains only phis (trimmableBlock ensures that).  Those phis can only be used in phis in s (because b does not dominate any block).  We just altered the phis in s not to use the phis in b.  So all the values in b should be dead (Uses\u003d\u003d0) phis.  So we can just clear out b altogether, no need for this loop.\nWhat am I missing?",
+      "revId": "5f7bb21e8520c0e0be7c9472163b96d306d04b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
