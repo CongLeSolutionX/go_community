@@ -33,6 +33,23 @@
       "revId": "e25b5a97e34179afabb1524eec79be86adbb8b30",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24a9d97_a2e4fa32",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-03T19:22:47Z",
+      "side": 1,
+      "message": "Add a comment here to document that, with this approach, a reference to any of the fields will retain the whole line, but that combining the allocations improves performance, and the risk of a nontrivial space leak is considered minimal.",
+      "revId": "e25b5a97e34179afabb1524eec79be86adbb8b30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
