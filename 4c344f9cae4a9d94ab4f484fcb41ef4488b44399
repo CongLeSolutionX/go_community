@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e29e1d21_021d7c70",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T19:08:06Z",
+      "side": 1,
+      "message": "in Go, the destination usually is first. (io.Copy(dst, src))\n\nSo I\u0027d put \"vs\" before the \"r\".",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_a22b6885",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T19:08:06Z",
+      "side": 1,
+      "message": "no need for a type here. just:\n\n   const delim \u003d \u0027\u0026\u0027\n\nActually, you never use this except in one place. Just move it to line 1047 with ReadBytes.",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_a2504809",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T19:08:06Z",
+      "side": 1,
+      "message": "delete all these vars and push them down to where you use them.",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_e24df068",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T19:08:06Z",
+      "side": 1,
+      "message": "no need to write comments that say the next line pretty much verbatim. If you want a comment, add something, like:\n\n   // Read next \"key\u003dvalue\u0026\" or \"justkey\u0026\".\n   // If this is the last pair, b will contain just \"key\u003dvalue\" or \"justkey\".",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_627320a8",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T19:08:06Z",
+      "side": 1,
+      "message": "this whole change seems to go through a lot of work to just ultimately call back into ParseQuery and having to make this string from bytes.\n\nAt this point I think you can just safely remove the \u0027\u0026\u0027 at the end if present, find the \u0027\u003d\u0027 if present, and decode both sides and append the pair, avoiding url.ParseQuery altogether. Just use QueryUnescape.",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e29e1d21_a28fe885",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1065,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T19:08:06Z",
+      "side": 1,
+      "message": "no need for this comment.",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
