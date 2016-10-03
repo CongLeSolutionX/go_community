@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "e29e1d21_02657cab",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T19:25:50Z",
+      "side": 1,
+      "message": "Readable, idiomatic code wins.\n\nIf the compiler is doing something dumb, file a bug against the compiler.",
+      "parentUuid": "621eada7_cb5e6975",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_e24df068",
         "filename": "src/net/http/request.go",
         "patchSetId": 11
