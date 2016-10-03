@@ -123,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "82c1e11f_69780553",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 12775
+      },
+      "writtenOn": "2016-10-03T19:24:07Z",
+      "side": 1,
+      "message": "Never mind, I\u0027m wrong, the first br.ReadBytes(\u0027\u0026\u0027) does the trick",
+      "parentUuid": "62b22dc7_285f6b17",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_a28fe885",
         "filename": "src/net/http/request.go",
         "patchSetId": 11
