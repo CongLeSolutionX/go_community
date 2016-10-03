@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e24a9d97_1f78a751",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-03T07:08:54Z",
+      "side": 1,
+      "message": "Let\u0027s further cut down some of the time by declaring b, err, err2 and vvs outside the loop, and then reusing them ie\nvar b []byte\nvar err, err2 error\nvar vvs url.Values\n\nfor {\n   b, err \u003d br.ReadBytes(delim)\n   ...\n   vvs, err2 \u003d url.ParseQuery(string(b))\n}\n\nThis lowers the time/op by a few percentages to give us https://gist.github.com/odeke-em/9a10f8d8c8c90739b9d9be0f46f23923#file-results-new-new-md instead of https://gist.github.com/odeke-em/9a10f8d8c8c90739b9d9be0f46f23923#file-benchcmp-md.",
+      "revId": "7107016d752b0cffe731087d53a463e03f67ab44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
