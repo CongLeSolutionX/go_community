@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "621eada7_cb5e6975",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 12775
+      },
+      "writtenOn": "2016-10-03T19:17:49Z",
+      "side": 1,
+      "message": "Actually it was suggested by Emmanuel to declare those variables outside of the loop and reuse them afterwards to cut down some time",
+      "parentUuid": "e29e1d21_a2504809",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_e24df068",
         "filename": "src/net/http/request.go",
         "patchSetId": 11
@@ -81,6 +99,24 @@
       "writtenOn": "2016-10-03T19:08:06Z",
       "side": 1,
       "message": "this whole change seems to go through a lot of work to just ultimately call back into ParseQuery and having to make this string from bytes.\n\nAt this point I think you can just safely remove the \u0027\u0026\u0027 at the end if present, find the \u0027\u003d\u0027 if present, and decode both sides and append the pair, avoiding url.ParseQuery altogether. Just use QueryUnescape.",
+      "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62b22dc7_285f6b17",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 12775
+      },
+      "writtenOn": "2016-10-03T19:17:49Z",
+      "side": 1,
+      "message": "That\u0027s what I had done primarily, but you suggested that there are times when there are keys without values (?k1\u003dv1\u0026k2\u0026k3\u003dv3), so Emmanuel suggested to use url.ParseQuery which I thought was a good idea.\n\nOtherwise I could remove the \u0027\u0026\u0027 at the end, split on \u0027\u0026\u0027, and for each element find the \u0027\u003d\u0027 if present and do what you mentionned. What do you think ?",
+      "parentUuid": "e29e1d21_627320a8",
       "revId": "4c344f9cae4a9d94ab4f484fcb41ef4488b44399",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
