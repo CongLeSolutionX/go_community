@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2a2f97b_e312d263",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 10841
+      },
+      "writtenOn": "2016-10-03T22:53:37Z",
+      "side": 1,
+      "message": "It happens when comping the `mapaccess1_fast32` in runtime. I\u0027ve minimized it to the following code (after regalloc, b4:  v48 \u003d Phi \u003cmem\u003e v1 v32):\n\npackage p\n\nimport \"unsafe\"\n\nfunc hash() uintptr\nfunc a(unsafe.Pointer, uintptr) unsafe.Pointer\n\ntype hmap struct {\n        B       uint8\n        buckets unsafe.Pointer\n}\n\ntype bmap struct{}\n\nvar zero unsafe.Pointer\n\nfunc f(h *hmap) unsafe.Pointer {\n        var b *bmap\n        if h.B \u003d\u003d 0 {\n                b \u003d (*bmap)(h.buckets)\n        } else {\n                b \u003d (*bmap)(a(h.buckets, hash()))\n        }\n        for {\n                if b \u003d\u003d nil {\n                        return zero\n                }\n        }\n}",
+      "parentUuid": "e29e1d21_765e904e",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_d68204b0",
         "filename": "src/cmd/compile/internal/ssa/trim.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-30T05:29:44Z",
       "side": 1,
       "message": "This scares me a little bit, because it might use b.valstorage to store s.Values.  I don\u0027t think it would cause a problem right now because we don\u0027t garbage collect b.  But maybe at some point we would, and this would break that.\nAppend nils and then copy the values around, or use a scratch buffer, or just allocate a new Values array with new.",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2a2f97b_831f5e6a",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 10841
+      },
+      "writtenOn": "2016-10-03T22:53:37Z",
+      "side": 1,
+      "message": "Done. Opted for appending nils and stay in valstorage, if possible.",
+      "parentUuid": "e29e1d21_d68204b0",
       "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c2a2f97b_a31cda75",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 10841
+      },
+      "writtenOn": "2016-10-03T22:53:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e29e1d21_36924808",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_f6a4e054",
         "filename": "src/cmd/compile/internal/ssa/trim.go",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "c2a2f97b_432ba686",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 10841
+      },
+      "writtenOn": "2016-10-03T22:53:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e29e1d21_f6a4e054",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e29e1d21_16a2ac46",
         "filename": "src/cmd/compile/internal/ssa/trim.go",
         "patchSetId": 3
@@ -81,6 +153,24 @@
       "writtenOn": "2016-09-30T05:29:44Z",
       "side": 1,
       "message": "j :\u003d 1; j \u003c len(b.Preds); j++\nor\nj :\u003d 0; j \u003c len(b.Preds)-1; j++",
+      "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2a2f97b_633022f4",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 10841
+      },
+      "writtenOn": "2016-10-03T22:53:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e29e1d21_16a2ac46",
       "revId": "4cb219af924957db4f4e4d8690a256063a3293c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
