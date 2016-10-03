@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e24a9d97_0255ee1a",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-03T17:38:10Z",
+      "side": 1,
+      "message": "// The i\u0027th field starts at offset fieldIndexes[i] in lineBuffer.",
+      "revId": "b1ad19bad4fdc60cf3071c1e6b6ac1c880004b06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e24a9d97_4247f677",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-03T17:38:10Z",
+      "side": 1,
+      "message": "Can you try benchmarking a slightly different approach?\n\nbuf :\u003d r.lineBuffer.Bytes()\nfor i, idx :\u003d range r.fieldIndexes {\n    if i \u003d\u003d fieldCount-1 {\n        fields[i] \u003d string(buf[idx:])\n    } else {\n        fields[i] \u003d string(buf[idx:r.fieldIndexes[i+1]])\n    }\n}\n\nSince this change also affects allocations around field parsing, I want to make sure the important effect actually comes from the final string allocation. If it turn out we can get most of the win even with separate strings at the end, that would avoid the drawback of memory over-retention.",
+      "revId": "b1ad19bad4fdc60cf3071c1e6b6ac1c880004b06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
