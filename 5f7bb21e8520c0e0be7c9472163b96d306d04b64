@@ -34,6 +34,24 @@
       "revId": "5f7bb21e8520c0e0be7c9472163b96d306d04b64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "028c1149_d3d64ce7",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-10-03T23:07:17Z",
+      "side": 1,
+      "message": "Ok, thanks.  I now see how that can happen.",
+      "parentUuid": "c2a2f97b_86d76cbb",
+      "revId": "5f7bb21e8520c0e0be7c9472163b96d306d04b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
