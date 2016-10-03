@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "028c1149_f09b3e13",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T21:58:03Z",
+      "side": 1,
+      "message": "if you want to reduce your allocs/op and likely the speed a bit, you can do this []byte-\u003estring conversion once for the key \u0026 value together, since they\u0027ll likely have equivalent lifetimes.\n\n   k :\u003d string(b)\n   var v string\n   if eq :\u003d bytes.IndexByte(b, \u0027\u003d\u0027); eq \u003e -1 {\n       k, v \u003d k[:eq], v[eq+1:]\n   }",
+      "revId": "c0a70ae71ea7353c6964c53025e88f2728145f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "028c1149_907bdac3",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T21:58:03Z",
+      "side": 1,
+      "message": "drop this and just use a variable named \"err\".\n\nThe EOF check on line 1076 is too far away to be tested anyway. Test earlier instead:\n\n     isEOF :\u003d err \u003d\u003d io.EOF",
+      "revId": "c0a70ae71ea7353c6964c53025e88f2728145f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "028c1149_d08562ba",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-03T21:58:03Z",
+      "side": 1,
+      "message": "or just \"return nil\" here and delete line 1080",
+      "revId": "c0a70ae71ea7353c6964c53025e88f2728145f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
