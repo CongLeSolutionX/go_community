@@ -16,6 +16,24 @@
       "revId": "5f7bb21e8520c0e0be7c9472163b96d306d04b64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2a2f97b_86d76cbb",
+        "filename": "src/cmd/compile/internal/ssa/trim.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 10841
+      },
+      "writtenOn": "2016-10-03T22:53:37Z",
+      "side": 1,
+      "message": "`b` can dominate `s`,  if `s` dominates all of its other predecessors, i.e. is a natural loop header. `b` will dominate the loop exit block as well.\n\nThe testcase that I posted in the previous reply, enters `trim`  with the following and merges `b3` into `b6`. \n\nafter regalloc [102146 ns]\n\nb1:\nv1 \u003d InitMem \u003cmem\u003e\nv8 \u003d Arg \u003c*hmap\u003e {h} : h[*hmap]\nv2 \u003d SP \u003cuintptr\u003e : SP\nv38 \u003d LoadReg \u003c*hmap\u003e v8 : AX\nv11 \u003d MOVBload \u003cuint8\u003e v38 v1 : CX\nv7 \u003d TESTB \u003cflags\u003e v11 v11\nEQ v7 → b2 b4 (likely)\n\nb2: ← b1\nv18 \u003d MOVQload \u003cunsafe.Pointer\u003e [8] v38 v1 : AX\nPlain → b3\n\nb3: ← b2 b4\nv50 \u003d Phi \u003c*bmap\u003e v18 v34 : AX\nv48 \u003d Phi \u003cmem\u003e v1 v32\nPlain → b6\n\nb6: ← b3 b7\nv39 \u003d TESTQ \u003cflags\u003e v50 v50\nNE v39 → b7 b9 (likely)\n\nb7: ← b6\nPlain → b6\n\nb9: ← b6\nv3 \u003d SB \u003cuintptr\u003e : SB\nv40 \u003d MOVQload \u003cunsafe.Pointer\u003e {zero} v3 v48 : AX\nv41 \u003d VarDef \u003cmem\u003e {~r1} v48\nv42 \u003d MOVQstore \u003cmem\u003e {~r1} v2 v40 v41\nRet v42\n\nb4: ← b1\nv21 \u003d CALLstatic \u003cmem\u003e {hash} [8] v1\nv23 \u003d MOVQload \u003cuintptr\u003e v2 v21 : AX\nv33 \u003d LoadReg \u003c*hmap\u003e v8 : CX\nv27 \u003d MOVQload \u003cunsafe.Pointer\u003e [8] v33 v21 : CX\nv29 \u003d MOVQstore \u003cmem\u003e v2 v27 v21\nv31 \u003d MOVQstore \u003cmem\u003e [8] v2 v23 v29\nv32 \u003d CALLstatic \u003cmem\u003e {a} [24] v31\nv34 \u003d MOVQload \u003cunsafe.Pointer\u003e [16] v2 v32 : AX\nPlain → b3",
+      "parentUuid": "028c1149_0dd7d11a",
+      "revId": "5f7bb21e8520c0e0be7c9472163b96d306d04b64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
