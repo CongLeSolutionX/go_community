@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42ba8938_7586c0c6",
+        "filename": "src/encoding/csv/reader_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-04T23:03:17Z",
+      "side": 1,
+      "message": "could be a const",
+      "revId": "a80e0cf92df0b747e616c21e2b47df6cda88d614",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42ba8938_f5aab01f",
+        "filename": "src/encoding/csv/reader_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-04T23:03:17Z",
+      "side": 1,
+      "message": "Your benchmarks (all 3 of these, but I\u0027m only commenting on this one) put too much weight on this line.\n\nYour benchmark data above is too small.\n\nInstead of a strings.Reader, I\u0027d create a Reader type which returned a string b.N times, and then create one NewReader, and don\u0027t use ReadAll (another allocation we\u0027re not interested in measuring).\n\nInstead, just call Read() repeatedly until EOF or other error.\n\nAfter you make this change, I think you\u0027ll see the cap() games you were playing fade away and the size reached by append is sufficient after a few records. I think your data is just too small so it stands out.",
+      "revId": "a80e0cf92df0b747e616c21e2b47df6cda88d614",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
