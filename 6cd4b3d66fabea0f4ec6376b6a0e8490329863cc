@@ -16,6 +16,24 @@
       "revId": "6cd4b3d66fabea0f4ec6376b6a0e8490329863cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02017189_c59f3a56",
+        "filename": "src/os/exec/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 15115
+      },
+      "writtenOn": "2016-10-04T07:44:16Z",
+      "side": 1,
+      "message": "I think the best solution might be to just drop this line. Otherwise this might turn more into an example for context.\n\nDo you think this will still be useful without showing the ctx.Err()?",
+      "parentUuid": "e29e1d21_776d208f",
+      "revId": "6cd4b3d66fabea0f4ec6376b6a0e8490329863cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
