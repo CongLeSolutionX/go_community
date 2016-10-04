@@ -16,6 +16,24 @@
       "revId": "64cb8817a1ee291f66ae5a8e6b64c98c9a85b961",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6214edd4_b899f972",
+        "filename": "src/math/exp_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-04T12:34:54Z",
+      "side": 1,
+      "message": "No, because math.Exp really needs to be a func on all platforms. We don\u0027t want people setting math.Exp to something else.\n\n(This is also just the standard idiom for an assembly redirect stub used in this package and others. Perhaps that\u0027s the main reason, or perhaps there\u0027s another I\u0027m forgetting.)",
+      "parentUuid": "22ad95b1_1ee22ded",
+      "revId": "64cb8817a1ee291f66ae5a8e6b64c98c9a85b961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
