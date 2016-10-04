@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22ad95b1_1ee22ded",
+        "filename": "src/math/exp_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-04T03:06:34Z",
+      "side": 1,
+      "message": "If the goal is to avoid the call, can you just make a Go file with:\n\n   var Exp \u003d exp\n\n?",
+      "revId": "64cb8817a1ee291f66ae5a8e6b64c98c9a85b961",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
