@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4267e99f_8aaa8b1f",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-04T19:36:02Z",
+      "side": 1,
+      "message": "just say struct{...}\nno spaces, no printf.",
+      "revId": "e0a63e0c556b29dcc33e3dd8b41b929f813bf20d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4267e99f_eab54784",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-04T19:36:02Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "e0a63e0c556b29dcc33e3dd8b41b929f813bf20d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
