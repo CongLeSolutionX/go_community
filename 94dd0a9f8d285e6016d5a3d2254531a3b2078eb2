@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22ad95b1_4790e44a",
+        "filename": "src/cmd/vet/print.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-04T16:41:45Z",
+      "side": 1,
+      "message": "s/$/./",
+      "revId": "94dd0a9f8d285e6016d5a3d2254531a3b2078eb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
