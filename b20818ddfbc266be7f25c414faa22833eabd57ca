@@ -16,6 +16,24 @@
       "revId": "b20818ddfbc266be7f25c414faa22833eabd57ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22ad95b1_6727601f",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-04T16:55:04Z",
+      "side": 1,
+      "message": "I tried that, as well as the pcloc hack like I used for ATYPE progs, but both caused toolstash to complain. I\u0027m not entirely sure why. My closest guess is this comment from fixautoused:\n\n\t// Cannot remove VARDEF instruction, because - unlike TYPE handled above -\n\t// VARDEFs are interspersed with other code, and a jump might be using the\n\t// VARDEF as a target. Replace with a no-op instead. A later pass will remove\n\t// the no-ops.\n\nI can try again after submitting this CL though. I didn\u0027t check whether it affects the final executable output.",
+      "parentUuid": "22ad95b1_64963e52",
+      "revId": "b20818ddfbc266be7f25c414faa22833eabd57ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
