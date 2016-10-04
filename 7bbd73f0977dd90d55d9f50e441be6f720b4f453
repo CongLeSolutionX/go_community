@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6214edd4_1803451f",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-10-04T19:51:13Z",
+      "side": 1,
+      "message": "Is there any particular benefit to doing (as I read it) 32-bit wide shifts instead of 64-bit wide shifts?  If we attempt to write additional optimizations over shifts, it helps if they are all of a single width.",
+      "range": {
+        "startLine": 92,
+        "startChar": 50,
+        "endLine": 99,
+        "endChar": 55
+      },
+      "revId": "7bbd73f0977dd90d55d9f50e441be6f720b4f453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
