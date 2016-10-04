@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42ba8938_12b78a41",
+        "filename": "src/go/token/token.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-04T22:10:07Z",
+      "side": 1,
+      "message": "Did you intend for this to be part of the public go docs?",
+      "revId": "deab8c3fca384ab885ed978d4a5a7a57736989e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
