@@ -22,6 +22,23 @@
       "revId": "7bbd73f0977dd90d55d9f50e441be6f720b4f453",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42ba8938_2f5b4952",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 14650
+      },
+      "writtenOn": "2016-10-04T20:55:21Z",
+      "side": 1,
+      "message": "Related to David\u0027s comment, if I understand correctly what is implied by the above, it is not necessary to sign-extend 32 to 64 before 32-bit right shifts. The SR[A]W[I] opcodes effectively do this for you as part of their specifications.",
+      "revId": "7bbd73f0977dd90d55d9f50e441be6f720b4f453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
