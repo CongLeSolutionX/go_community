@@ -1728,7 +1728,7 @@ right.
 
 <pre class="ebnf">
 ConstDecl      = "const" ( ConstSpec | "(" { ConstSpec ";" } ")" ) .
-ConstSpec      = IdentifierList [ [ Type ] "=" ExpressionList ] .
+ConstSpec      = IdentifierList [ [ Type ] "=" ExpressionList ] | AliasSpec .
 
 IdentifierList = identifier { "," identifier } .
 ExpressionList = Expression { "," Expression } .
@@ -1846,9 +1846,16 @@ and operations defined for the existing type are also defined for the new type.
 The new type is <a href="#Type_identity">different</a> from the existing type.
 </p>
 
+<p>
+Using an <a href="#Alias_declarations">alias specification</a>, a type
+declaration may also be used to introduce an alternative name, or <i>alias</i>,
+for an imported type.
+
+</p>
+
 <pre class="ebnf">
 TypeDecl     = "type" ( TypeSpec | "(" { TypeSpec ";" } ")" ) .
-TypeSpec     = identifier Type .
+TypeSpec     = identifier Type | AliasSpec .
 </pre>
 
 <pre>
@@ -1930,7 +1937,7 @@ identifiers to them, and gives each a type and an initial value.
 
 <pre class="ebnf">
 VarDecl     = "var" ( VarSpec | "(" { VarSpec ";" } ")" ) .
-VarSpec     = IdentifierList ( Type [ "=" ExpressionList ] | "=" ExpressionList ) .
+VarSpec     = IdentifierList ( Type [ "=" ExpressionList ] | "=" ExpressionList ) | AliasSpec .
 </pre>
 
 <pre>
@@ -2035,7 +2042,7 @@ to a function.
 </p>
 
 <pre class="ebnf">
-FunctionDecl = "func" FunctionName ( Function | Signature ) .
+FunctionDecl = "func" ( FunctionName ( Function | Signature ) ) | AliasSpec .
 FunctionName = identifier .
 Function     = Signature FunctionBody .
 FunctionBody = Block .
@@ -2147,6 +2154,52 @@ func(p *Point, factor float64)
 However, a function declared this way is not a method.
 </p>
 
+
+<h3 id="Alias_declarations">Alias declarations</h3>
+
+<p>
+An alias declaration declares an alternative name, the <i>alias name</i>
+(or <i>alias</i> for short), for a
+<a href="#Constant_declarations">constant</a>,
+<a href="#Type_declarations">type</a>,
+<a href="#Variable_declarations">variable</a>, or
+<a href="#Function_declarations">function</a>
+declared in a different package, and referred to via its <i>original name</i>.
+An alias declaration may only appear as part of a constant, type, variable, or
+function declaration at the package-level; alias declarations inside functions
+are not permitted.
+</p>
+
+<pre class="ebnf">
+AliasSpec    = AliasName "=>" OriginalName .
+AliasName    = identifier .
+OriginalName = QualifiedIdent .
+</pre>
+
+<p>
+The original name must be a <a href="#Qualified_identifiers">qualified identifier</a>;
+it cannot be an identifier referring to a dot-imported object.
+An alias denotes the aliased object, and the effect of using an alias is
+indistinguishable from the effect of using the original name; the only
+visible difference is the name.
+</p>
+
+<p>
+An alias declaration is part of a constant, type, variable, or function
+declaration and the original name must denote a constant, type, variable, or
+function respectively. An original name may itself be an alias name.
+</p>
+
+<p>
+Implementation restriction: A compiler may disallow the use of an original name
+in a package that has introduced an alias for that name.
+<!--
+Looking for feedback: Should we try this restriction? It might reduce misuse
+of the feature and avoid confusion. On the other hand, we already can import
+a package multiple times under different names, so one can create aliases that
+way already.
+-->
+</p>
 
 <h2 id="Expressions">Expressions</h2>
 
