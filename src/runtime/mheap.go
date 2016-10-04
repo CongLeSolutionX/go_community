@@ -43,7 +43,6 @@ type mheap struct {
 	// must ensure that allocation cannot happen around the
 	// access (since that may free the backing store).
 	allspans []*mspan // all spans out there
-	nspan    uint32
 
 	// span lookup
 	spans        **mspan
@@ -274,7 +273,6 @@ func recordspan(vh unsafe.Pointer, p unsafe.Pointer) {
 		}
 	}
 	h.allspans = append(h.allspans, s)
-	h.nspan = uint32(len(h.allspans))
 }
 
 // inheap reports whether b is a pointer into a (potentially dead) heap object.
