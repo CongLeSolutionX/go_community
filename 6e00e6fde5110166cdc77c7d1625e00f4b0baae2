@@ -16,6 +16,24 @@
       "revId": "6e00e6fde5110166cdc77c7d1625e00f4b0baae2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42ba8938_0fb125dc",
+        "filename": "src/cmd/compile/internal/ssa/gen/386Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-04T20:31:42Z",
+      "side": 1,
+      "message": "That\u0027s actually already done currently: in gc/pgen.go, we only allocate scratchFpMem if f.Config.NeedsFpScratch is true, which is only true for 386/387 and ppc64.\n\nBut thanks for pointing that out.  I had a followup CL in mind to get rid of NeedsFpScratch because I thought it would be redundant, but apparently not.",
+      "parentUuid": "82b48148_d18064fe",
+      "revId": "6e00e6fde5110166cdc77c7d1625e00f4b0baae2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
