@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf46006a_03c82e1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-05T21:27:40Z",
+      "side": 1,
+      "message": "s/convey/send/\n\nAnd link to https://lwn.net/Articles/508865/",
+      "revId": "cb0cd5dce895f6123ed53e6f163a26f3077cf6c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf46006a_e3ccf232",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-05T21:27:40Z",
+      "side": 1,
+      "message": "I\u0027d drop this last sentence.",
+      "revId": "cb0cd5dce895f6123ed53e6f163a26f3077cf6c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf46006a_a3d6faba",
+        "filename": "src/net/dial.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-05T21:27:40Z",
+      "side": 1,
+      "message": "from prior",
+      "revId": "cb0cd5dce895f6123ed53e6f163a26f3077cf6c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf46006a_e3f3d260",
+        "filename": "src/net/dial.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-05T21:27:40Z",
+      "side": 1,
+      "message": "// If the operation system does not support TCP Fast Open or\n// has it disabled, then this option does nothing and returns\n// normal connections.",
+      "revId": "cb0cd5dce895f6123ed53e6f163a26f3077cf6c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf46006a_23956aec",
+        "filename": "src/net/dial.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-05T21:27:40Z",
+      "side": 1,
+      "message": "needs docs. not a great signature.",
+      "revId": "cb0cd5dce895f6123ed53e6f163a26f3077cf6c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf46006a_c37b36c1",
+        "filename": "src/net/dial.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-05T21:27:40Z",
+      "side": 1,
+      "message": "Move the network checks last, making the d.FastOpen part more upfront. (It\u0027s also cheaper as a bonus)",
+      "revId": "cb0cd5dce895f6123ed53e6f163a26f3077cf6c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf46006a_a3883ad3",
+        "filename": "src/net/fd_plan9.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-05T21:27:40Z",
+      "side": 1,
+      "message": "and what are the rules for TFO?",
+      "revId": "cb0cd5dce895f6123ed53e6f163a26f3077cf6c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
