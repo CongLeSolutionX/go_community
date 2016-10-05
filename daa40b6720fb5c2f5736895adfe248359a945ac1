@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22283569_c6c36200",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5475
+      },
+      "writtenOn": "2016-10-05T16:39:48Z",
+      "side": 1,
+      "message": "I removed the capacity check as it doesn\u0027t help (according to the new benchmarks) :-)",
+      "revId": "daa40b6720fb5c2f5736895adfe248359a945ac1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
