@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "42ba8938_7e0dfd96",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2016-10-05T13:07:51Z",
+      "side": 1,
+      "message": "Is this comment related to unnecessary sign extension, or whether SLD/SRD could be used even in the 32 bit case?  I don\u0027t think we should use D instead of W if that is your question because the contents of the register are left differently.",
+      "parentUuid": "6214edd4_1803451f",
+      "range": {
+        "startLine": 92,
+        "startChar": 50,
+        "endLine": 99,
+        "endChar": 55
+      },
+      "revId": "7bbd73f0977dd90d55d9f50e441be6f720b4f453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42ba8938_2f5b4952",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-10-04T20:55:21Z",
       "side": 1,
       "message": "Related to David\u0027s comment, if I understand correctly what is implied by the above, it is not necessary to sign-extend 32 to 64 before 32-bit right shifts. The SR[A]W[I] opcodes effectively do this for you as part of their specifications.",
+      "revId": "7bbd73f0977dd90d55d9f50e441be6f720b4f453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c26cb9ba_336f08ef",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2016-10-05T13:07:51Z",
+      "side": 1,
+      "message": "Yes you have a good point, I\u0027m not sure if I did this intentionally or was just being sloppy.  I can remove the extensions to 64 bits for the cases where a 32 bit shift is to be done.  I think the others are needed, and I tried to follow what was done in the shift with carry rules below to be consistent.",
+      "parentUuid": "42ba8938_2f5b4952",
       "revId": "7bbd73f0977dd90d55d9f50e441be6f720b4f453",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
