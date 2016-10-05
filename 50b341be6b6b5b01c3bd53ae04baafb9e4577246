@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf18c06f_9690ea4f",
+        "filename": "src/os/exec/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-05T20:29:39Z",
+      "side": 1,
+      "message": "anything timing-related with small timers like this usually ends up being a flaky test.\n\nI think we probably want to delete lines 139 and 140 so the output isn\u0027t tested.\n\nOr just write:\n\n     if err :\u003d exec.CommandContext(ctx, \"sleep\", \"5\").Run(); err !\u003d nil {\n          // ....\n     }",
+      "revId": "50b341be6b6b5b01c3bd53ae04baafb9e4577246",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
