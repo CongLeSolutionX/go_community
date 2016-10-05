@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42ba8938_1ece71ad",
+        "filename": "src/mime/multipart/formdata.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-05T15:33:05Z",
+      "side": 1,
+      "message": "Can you fix another bug while you\u0027re here and check the error value of this file.Close?\n\n    if cerr :\u003d file.Close(); cerr !\u003d nil \u0026\u0026 err \u003d\u003d nil {\n        err \u003d cerr\n    }",
+      "revId": "fabed4600ffc8995e378ae0852c4f25f87f6c720",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
