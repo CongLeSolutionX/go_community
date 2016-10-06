@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ff6a38fa_d54d7c6b",
+        "filename": "src/internal/syscall/windows/reparse_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-06T13:57:59Z",
+      "side": 1,
+      "message": "Hm. I understand what are you talking about.\n\nActually there are two definitions.\n\nhttps://msdn.microsoft.com/en-us/library/ff552012.aspx\nhttps://msdn.microsoft.com/en-us/library/cc232005.aspx\n\nMy suggestion is following later one. Both are correct. Both could be confusing?",
+      "parentUuid": "826ba19a_d9dc33dc",
+      "revId": "f7552b2344889af66ef6547da8cf11ed9a09cf63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e530e7ea_0c985724",
         "filename": "src/internal/syscall/windows/reparse_windows.go",
         "patchSetId": 6
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "Why? Do you know of any broken code?\nEven if we decide to do it, lets do it in the next CL.",
       "parentUuid": "e530e7ea_8c8327b3",
+      "revId": "f7552b2344889af66ef6547da8cf11ed9a09cf63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff6a38fa_55796c82",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-06T13:57:59Z",
+      "side": 1,
+      "message": "I revisit this CL because you said:\n\n\u003e \u003e So I want to test not only existing formats, but also common\n\u003e \u003e combinations if the spec allow it. ...\n\n\u003e Well, my offer to extend CL 25320 still stands.\n\n...Why do we need say same things again and again...",
+      "parentUuid": "826ba19a_19f78b52",
       "revId": "f7552b2344889af66ef6547da8cf11ed9a09cf63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
