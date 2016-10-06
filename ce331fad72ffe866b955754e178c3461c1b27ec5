@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffddd82c_660b0434",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-06T21:24:05Z",
+      "side": 1,
+      "message": "reflow the text for more consistent right margins.",
+      "revId": "ce331fad72ffe866b955754e178c3461c1b27ec5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffddd82c_e603941c",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-06T21:24:05Z",
+      "side": 1,
+      "message": "\"space\"\nthe form you use looks bad in about half the fonts.\n\nin Unicode, it\u0027s called \"whitespace\" not \"white space\". http://unicode.org/charts/collation/chart_Whitespace.html",
+      "revId": "ce331fad72ffe866b955754e178c3461c1b27ec5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffddd82c_662224ac",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-06T21:24:05Z",
+      "side": 1,
+      "message": "s/these/verbs/",
+      "revId": "ce331fad72ffe866b955754e178c3461c1b27ec5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffddd82c_665dc41c",
+        "filename": "src/fmt/scan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1079,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-06T21:24:05Z",
+      "side": 1,
+      "message": "s/ Here be dragons.//",
+      "revId": "ce331fad72ffe866b955754e178c3461c1b27ec5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
