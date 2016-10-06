@@ -1403,7 +1403,7 @@ var useCheckmark = false
 //go:nowritebarrier
 func initCheckmarks() {
 	useCheckmark = true
-	for _, s := range work.spans {
+	for _, s := range mheap_.allspans {
 		if s.state == _MSpanInUse {
 			heapBitsForSpan(s.base()).initCheckmarkSpan(s.layout())
 		}
@@ -1412,7 +1412,7 @@ func initCheckmarks() {
 
 func clearCheckmarks() {
 	useCheckmark = false
-	for _, s := range work.spans {
+	for _, s := range mheap_.allspans {
 		if s.state == _MSpanInUse {
 			heapBitsForSpan(s.base()).clearCheckmarkSpan(s.layout())
 		}
