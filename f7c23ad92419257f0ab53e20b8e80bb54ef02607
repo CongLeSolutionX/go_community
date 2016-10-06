@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "ff6a38fa_157ff46b",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-06T13:57:59Z",
+      "side": 1,
+      "message": "I said why it could be problematic. \"I don\u0027t like\" is not a valid answer.\nCan you provide alternative or deny my suggestion logically?",
+      "parentUuid": "826ba19a_39f44f4b",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_b604c820",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -208,6 +226,24 @@
       "side": 1,
       "message": "I do not see how os.pathBufBuilder explain better what the type does than os.reparseData. I do not like your suggestion.",
       "parentUuid": "e530e7ea_6c891bda",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff6a38fa_7574688c",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-06T13:57:59Z",
+      "side": 1,
+      "message": "So, how can you explain difference between reparseData and _REPARSE_DATA_BUFFER? like or not, my suggestion remove ambiguity. You can feel free to provide alternative.",
+      "parentUuid": "826ba19a_59f1035a",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -373,6 +409,24 @@
     },
     {
       "key": {
+        "uuid": "ff6a38fa_956ae4a6",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-06T13:57:59Z",
+      "side": 1,
+      "message": "I\u0027ll show you if you agree with my comment on reparse_windows.go",
+      "parentUuid": "826ba19a_79eec778",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_f625a0b6",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -508,6 +562,24 @@
       "side": 1,
       "message": "This CL proposes that we add tests for both issue #15978 and #16145 (see CL description). It does not considers what the solutions for these are.",
       "parentUuid": "e530e7ea_cc792fcd",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff6a38fa_f567d8dc",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-06T13:57:59Z",
+      "side": 1,
+      "message": "Okay.",
+      "parentUuid": "826ba19a_b9b5bf85",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
