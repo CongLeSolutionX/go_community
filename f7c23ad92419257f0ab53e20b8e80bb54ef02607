@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "826ba19a_39f44f4b",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-10-06T01:20:27Z",
+      "side": 1,
+      "message": "I do not like your suggestion. I think keeping existing code is fine.",
+      "parentUuid": "e530e7ea_8cec4781",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_b604c820",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -172,6 +190,24 @@
       "side": 1,
       "message": "So, how about:\n\n// pathBufBuilder builds a data format which is commonly used inside reparse data buffer for representing file paths.\ntype pathBufBuilder struct {\n}\n\n?\n\nI just want to eliminate naming conflicts. I\u0027m not persistent in \u0027how\u0027.",
       "parentUuid": "b052afc4_a3ed3ab6",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "826ba19a_59f1035a",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-10-06T01:20:27Z",
+      "side": 1,
+      "message": "I do not see how os.pathBufBuilder explain better what the type does than os.reparseData. I do not like your suggestion.",
+      "parentUuid": "e530e7ea_6c891bda",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -319,6 +355,24 @@
     },
     {
       "key": {
+        "uuid": "826ba19a_79eec778",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-10-06T01:20:27Z",
+      "side": 1,
+      "message": "\u003e It\u0027s possible. Please see my comments on reparse_windows.go\n\nI replied in reparse_windows.go.\n\n \u003e Also, I feel introducing the helper function is better.\n \u003e \n \u003e rdbuf :\u003d make([]byte, syscall.MAXIMUM_REPARSE_DATA_BUFFER_SIZE)\n \u003e \n \u003e n, err :\u003d encodeMountPoint(rdbuf, pathBuf)\n \u003e if err !\u003d nil {\n \u003e return err\n \u003e }\n \u003e \n \u003e return createDirLink(link, rdbuf[:n])\n\nI still do not see how this is possible. Maybe copy my CL and create correspondent change, so we could see the difference.",
+      "parentUuid": "e530e7ea_4c8e5fe4",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_f625a0b6",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -442,6 +496,24 @@
     },
     {
       "key": {
+        "uuid": "826ba19a_b9b5bf85",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-10-06T01:20:27Z",
+      "side": 1,
+      "message": "This CL proposes that we add tests for both issue #15978 and #16145 (see CL description). It does not considers what the solutions for these are.",
+      "parentUuid": "e530e7ea_cc792fcd",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_3640b837",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -524,6 +596,24 @@
       "side": 1,
       "message": "It calls `LockOSThread` and `RevertToSelf` which means that privileges will be reverted before exiting the function body. So no other processes/threads will get side effects.",
       "parentUuid": "b052afc4_e3f33299",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "826ba19a_19ceab26",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-10-06T01:20:27Z",
+      "side": 1,
+      "message": "You are correct. We can adjust our test privileges for the duration of the test. I have used your code.",
+      "parentUuid": "e530e7ea_ac86e3c2",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
