@@ -60,6 +60,9 @@ func (f *File) Chmod(mode FileMode) error {
 	if f == nil {
 		return ErrInvalid
 	}
+	if f.fd == fdClosed {
+		return ErrClosed
+	}
 	if e := syscall.Fchmod(f.fd, syscallMode(mode)); e != nil {
 		return &PathError{"chmod", f.name, e}
 	}
@@ -92,6 +95,9 @@ func (f *File) Chown(uid, gid int) error {
 	if f == nil {
 		return ErrInvalid
 	}
+	if f.fd == fdClosed {
+		return ErrClosed
+	}
 	if e := syscall.Fchown(f.fd, uid, gid); e != nil {
 		return &PathError{"chown", f.name, e}
 	}
@@ -105,6 +111,9 @@ func (f *File) Truncate(size int64) error {
 	if f == nil {
 		return ErrInvalid
 	}
+	if f.fd == fdClosed {
+		return ErrClosed
+	}
 	if e := syscall.Ftruncate(f.fd, size); e != nil {
 		return &PathError{"truncate", f.name, e}
 	}
@@ -117,6 +126,9 @@ func (f *File) Truncate(size int64) error {
 func (f *File) Sync() error {
 	if f == nil {
 		return ErrInvalid
+	}
+	if f.fd == fdClosed {
+		return ErrClosed
 	}
 	if e := syscall.Fsync(f.fd); e != nil {
 		return NewSyscallError("fsync", e)

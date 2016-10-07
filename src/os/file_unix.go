@@ -124,14 +124,17 @@ func (f *File) Close() error {
 }
 
 func (file *file) close() error {
-	if file == nil || file.fd < 0 {
+	if file == nil {
 		return syscall.EINVAL
+	}
+	if file.fd == fdClosed {
+		return ErrClosed
 	}
 	var err error
 	if e := syscall.Close(file.fd); e != nil {
 		err = &PathError{"close", file.name, e}
 	}
-	file.fd = -1 // so it can't be closed again
+	file.fd = fdClosed // so we can check on subsequent operations
 
 	// no need for a finalizer anymore
 	runtime.SetFinalizer(file, nil)

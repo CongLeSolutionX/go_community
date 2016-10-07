@@ -174,6 +174,9 @@ func (file *file) close() error {
 	if file.fd == syscall.InvalidHandle {
 		return syscall.EINVAL
 	}
+	if file.fd == fdClosed {
+		return ErrClosed
+	}
 	var e error
 	if file.isdir() {
 		e = syscall.FindClose(file.fd)
@@ -184,7 +187,7 @@ func (file *file) close() error {
 	if e != nil {
 		err = &PathError{"close", file.name, e}
 	}
-	file.fd = syscall.InvalidHandle // so it can't be closed again
+	file.fd = fdClosed // so we can check on subsequent operations
 
 	// no need for a finalizer anymore
 	runtime.SetFinalizer(file, nil)

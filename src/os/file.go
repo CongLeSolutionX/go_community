@@ -98,6 +98,9 @@ func (f *File) Read(b []byte) (n int, err error) {
 	if f == nil {
 		return 0, ErrInvalid
 	}
+	if f.fd == fdClosed {
+		return 0, ErrClosed
+	}
 	n, e := f.read(b)
 	if n == 0 && len(b) > 0 && e == nil {
 		return 0, io.EOF
@@ -115,6 +118,9 @@ func (f *File) Read(b []byte) (n int, err error) {
 func (f *File) ReadAt(b []byte, off int64) (n int, err error) {
 	if f == nil {
 		return 0, ErrInvalid
+	}
+	if f.fd == fdClosed {
+		return 0, ErrClosed
 	}
 	for len(b) > 0 {
 		m, e := f.pread(b, off)
@@ -139,6 +145,9 @@ func (f *File) Write(b []byte) (n int, err error) {
 	if f == nil {
 		return 0, ErrInvalid
 	}
+	if f.fd == fdClosed {
+		return 0, ErrClosed
+	}
 	n, e := f.write(b)
 	if n < 0 {
 		n = 0
@@ -162,6 +171,9 @@ func (f *File) WriteAt(b []byte, off int64) (n int, err error) {
 	if f == nil {
 		return 0, ErrInvalid
 	}
+	if f.fd == fdClosed {
+		return 0, ErrClosed
+	}
 	for len(b) > 0 {
 		m, e := f.pwrite(b, off)
 		if e != nil {
@@ -184,6 +196,9 @@ func (f *File) Seek(offset int64, whence int) (ret int64, err error) {
 	if f == nil {
 		return 0, ErrInvalid
 	}
+	if f.fd == fdClosed {
+		return 0, ErrClosed
+	}
 	r, e := f.seek(offset, whence)
 	if e == nil && f.dirinfo != nil && r != 0 {
 		e = syscall.EISDIR
@@ -199,6 +214,9 @@ func (f *File) Seek(offset int64, whence int) (ret int64, err error) {
 func (f *File) WriteString(s string) (n int, err error) {
 	if f == nil {
 		return 0, ErrInvalid
+	}
+	if f.fd == fdClosed {
+		return 0, ErrClosed
 	}
 	return f.Write([]byte(s))
 }
@@ -235,6 +253,9 @@ func Chdir(dir string) error {
 func (f *File) Chdir() error {
 	if f == nil {
 		return ErrInvalid
+	}
+	if f.fd == fdClosed {
+		return ErrClosed
 	}
 	if e := syscall.Fchdir(f.fd); e != nil {
 		return &PathError{"chdir", f.name, e}
@@ -278,3 +299,7 @@ func fixCount(n int, err error) (int, error) {
 	}
 	return n, err
 }
+
+// Set a files descriptor to fdClosed when it is closed.
+// This allows checking whether a file is closed before reading, writing, etc.
+const fdClosed = -1
