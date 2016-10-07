@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "ff6a38fa_f57d183e",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-10-07T05:16:28Z",
+      "side": 1,
+      "message": "\u003e \"I don\u0027t like\" is not a valid\n \u003e answer.\n\nFair enough.\n\n \u003e That means, readers/reviewers who try to understand this code must have known that os.Stat are implemented on top of os.Readlink.\n\nWhat does \"os.Stat are implemented on top of os.Readlink\" means? I don\u0027t understand.\n\n \u003e I don\u0027t think that\u0027s a common knowlege nor the spec.\n\nI do not know what is not in the spec. I do not even know what spec we are arguing about.\n\n \u003e I bet most of them don\u0027t know a such thing, so they will misunderstand that these tests are just for os.Stat.\n\nI already said that testing os.Stat is fine, since it calls os.Readlink anyway.\n\n \u003e Generally speaking, the test should be performed against the spec, not the implementation.\n\nTest should tickle buggy code. I don\u0027t think there is anything else to it. It can be written anyway we like.\n\n \u003e What you were saying is too much detail for me.\n\nI do not understand that bit.\n\n \u003e The future implementation of os.Stat might not call os.Readlink, so it\u0027s weak for future changes.\n\nUnlikely, but sure. But the same argument can be applied to os.Readlink - os.Readlink might change in a way that will stop calling buggy code.\n\n \u003e We can test os.Readlink directly, instead, which is a clear way, I think.\n\nI don\u0027t understand what \"clear way\" you are talking about.\n \n \u003e And if you think current tests for os.Stat are poor, you can do after finishing this CL, that\u0027s the different issue.\n\nI have no problem with os.Stat tests.",
+      "parentUuid": "ff6a38fa_157ff46b",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b1eea17_b604c820",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 5
@@ -244,6 +262,24 @@
       "side": 1,
       "message": "So, how can you explain difference between reparseData and _REPARSE_DATA_BUFFER? like or not, my suggestion remove ambiguity. You can feel free to provide alternative.",
       "parentUuid": "826ba19a_59f1035a",
+      "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff6a38fa_1547f408",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-10-07T05:16:28Z",
+      "side": 1,
+      "message": "\u003e So, how can you explain difference between reparseData and\n \u003e _REPARSE_DATA_BUFFER?\n\nI expect reader will read the comments for both.\n\n \u003e You can feel free to provide alternative.\n\nI did. Hopefully it helps.",
+      "parentUuid": "ff6a38fa_7574688c",
       "revId": "f7c23ad92419257f0ab53e20b8e80bb54ef02607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
