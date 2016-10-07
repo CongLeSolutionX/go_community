@@ -60,7 +60,8 @@ const (
 	traceEvGoStartLocal   = 38 // goroutine starts running on the same P as the last event [timestamp, goroutine id]
 	traceEvGoUnblockLocal = 39 // goroutine is unblocked on the same P as the last event [timestamp, goroutine id, stack]
 	traceEvGoSysExitLocal = 40 // syscall exit on the same P as the last event [timestamp, goroutine id, real timestamp]
-	traceEvCount          = 41
+	traceEvGCWorkerStart  = 41 // GC mark worker goroutine starts running [timestamp, goroutine id, seq, mode]
+	traceEvCount          = 42
 )
 
 const (
@@ -357,7 +358,7 @@ func ReadTrace() []byte {
 		trace.headerWritten = true
 		trace.lockOwner = nil
 		unlock(&trace.lock)
-		return []byte("go 1.7 trace\x00\x00\x00\x00")
+		return []byte("go 1.8 trace\x00\x00\x00\x00")
 	}
 	// Wait for new data.
 	if trace.fullHead == 0 && !trace.shutdown {
@@ -925,7 +926,9 @@ func traceGoStart() {
 	_g_ := getg().m.curg
 	_p_ := _g_.m.p
 	_g_.traceseq++
-	if _g_.tracelastp == _p_ {
+	if _g_ == _p_.ptr().gcBgMarkWorker.ptr() {
+		traceEvent(traceEvGCWorkerStart, -1, uint64(_g_.goid), _g_.traceseq, uint64(_p_.ptr().gcMarkWorkerMode))
+	} else if _g_.tracelastp == _p_ {
 		traceEvent(traceEvGoStartLocal, -1, uint64(_g_.goid))
 	} else {
 		_g_.tracelastp = _p_

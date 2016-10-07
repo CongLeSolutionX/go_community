@@ -300,6 +300,10 @@ type SortIndexArg struct {
 	Index int `json:"sort_index"`
 }
 
+// gcWorkerModes gives strings for EvGCWorkerStart modes. See
+// runtime/mgc.go:gcMarkWorkerMode.
+var gcWorkerModes = []string{"GC (dedicated)", "GC (fractional)", "GC (idle)"}
+
 // generateTrace generates json trace for trace-viewer:
 // https://github.com/google/trace-viewer
 // Trace format is described at:
@@ -367,11 +371,15 @@ func generateTrace(params *traceParams) ViewerData {
 		case trace.EvGCSweepStart:
 			ctx.emitSlice(ev, "SWEEP")
 		case trace.EvGCSweepDone:
-		case trace.EvGoStart:
+		case trace.EvGoStart, trace.EvGCWorkerStart:
 			ctx.grunnable--
 			ctx.grunning++
 			ctx.emitGoroutineCounters(ev)
-			ctx.emitSlice(ev, gnames[ev.G])
+			if ev.Type == trace.EvGCWorkerStart {
+				ctx.emitSlice(ev, gcWorkerModes[ev.Args[2]])
+			} else {
+				ctx.emitSlice(ev, gnames[ev.G])
+			}
 		case trace.EvGoCreate:
 			ctx.gcount++
 			ctx.grunnable++

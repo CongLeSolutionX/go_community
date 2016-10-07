@@ -309,6 +309,9 @@ const (
 	// should run until it is preempted and account its time
 	// against gcController.idleMarkTime.
 	gcMarkWorkerIdleMode
+
+	// If you change or add to this list, update
+	// cmd/trace/trace.go:gcWorkerModes.
 )
 
 // gcController implements the GC pacing controller that determines
