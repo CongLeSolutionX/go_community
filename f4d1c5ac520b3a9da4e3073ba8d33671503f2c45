@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcaac6e_99dddf05",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-10-07T15:02:54Z",
+      "side": 1,
+      "message": "Pull this out of the outer loop as well?",
+      "revId": "f4d1c5ac520b3a9da4e3073ba8d33671503f2c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
