@@ -6519,8 +6519,8 @@ func rewriteValueS390X_OpS390XCMPconst(v *Value, config *Config) bool {
 func rewriteValueS390X_OpS390XFMOVDload(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
-	// match: (FMOVDload [off1] {sym} (ADDconst [off2] ptr) mem)
-	// cond: is32Bit(off1+off2)
+	// match: (FMOVDload  [off1] {sym} (ADDconst [off2] ptr) mem)
+	// cond: is20Bit(off1+off2)
 	// result: (FMOVDload [off1+off2] {sym} ptr mem)
 	for {
 		off1 := v.AuxInt
@@ -6532,7 +6532,7 @@ func rewriteValueS390X_OpS390XFMOVDload(v *Value, config *Config) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XFMOVDload)
@@ -6671,7 +6671,7 @@ func rewriteValueS390X_OpS390XFMOVDstore(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
 	// match: (FMOVDstore [off1] {sym} (ADDconst [off2] ptr) val mem)
-	// cond: is32Bit(off1+off2)
+	// cond: is20Bit(off1+off2)
 	// result: (FMOVDstore [off1+off2] {sym} ptr val mem)
 	for {
 		off1 := v.AuxInt
@@ -6684,7 +6684,7 @@ func rewriteValueS390X_OpS390XFMOVDstore(v *Value, config *Config) bool {
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XFMOVDstore)
@@ -6833,8 +6833,8 @@ func rewriteValueS390X_OpS390XFMOVDstoreidx(v *Value, config *Config) bool {
 func rewriteValueS390X_OpS390XFMOVSload(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
-	// match: (FMOVSload [off1] {sym} (ADDconst [off2] ptr) mem)
-	// cond: is32Bit(off1+off2)
+	// match: (FMOVSload  [off1] {sym} (ADDconst [off2] ptr) mem)
+	// cond: is20Bit(off1+off2)
 	// result: (FMOVSload [off1+off2] {sym} ptr mem)
 	for {
 		off1 := v.AuxInt
@@ -6846,7 +6846,7 @@ func rewriteValueS390X_OpS390XFMOVSload(v *Value, config *Config) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XFMOVSload)
@@ -6985,7 +6985,7 @@ func rewriteValueS390X_OpS390XFMOVSstore(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
 	// match: (FMOVSstore [off1] {sym} (ADDconst [off2] ptr) val mem)
-	// cond: is32Bit(off1+off2)
+	// cond: is20Bit(off1+off2)
 	// result: (FMOVSstore [off1+off2] {sym} ptr val mem)
 	for {
 		off1 := v.AuxInt
@@ -6998,7 +6998,7 @@ func rewriteValueS390X_OpS390XFMOVSstore(v *Value, config *Config) bool {
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XFMOVSstore)
@@ -7171,8 +7171,8 @@ func rewriteValueS390X_OpS390XMOVBZload(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (MOVBZload  [off1] {sym} (ADDconst [off2] ptr) mem)
-	// cond: is32Bit(off1+off2)
-	// result: (MOVBZload  [off1+off2] {sym} ptr mem)
+	// cond: is20Bit(off1+off2)
+	// result: (MOVBZload [off1+off2] {sym} ptr mem)
 	for {
 		off1 := v.AuxInt
 		sym := v.Aux
@@ -7183,7 +7183,7 @@ func rewriteValueS390X_OpS390XMOVBZload(v *Value, config *Config) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XMOVBZload)
@@ -7464,6 +7464,29 @@ func rewriteValueS390X_OpS390XMOVBZreg(v *Value, config *Config) bool {
 func rewriteValueS390X_OpS390XMOVBload(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
+	// match: (MOVBload   [off1] {sym} (ADDconst [off2] ptr) mem)
+	// cond: is20Bit(off1+off2)
+	// result: (MOVBload  [off1+off2] {sym} ptr mem)
+	for {
+		off1 := v.AuxInt
+		sym := v.Aux
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XADDconst {
+			break
+		}
+		off2 := v_0.AuxInt
+		ptr := v_0.Args[0]
+		mem := v.Args[1]
+		if !(is20Bit(off1 + off2)) {
+			break
+		}
+		v.reset(OpS390XMOVBload)
+		v.AuxInt = off1 + off2
+		v.Aux = sym
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
 	// match: (MOVBload [off1] {sym1} (MOVDaddr [off2] {sym2} base) mem)
 	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)
 	// result: (MOVBload [off1+off2] {mergeSym(sym1,sym2)} base mem)
@@ -7658,7 +7681,7 @@ func rewriteValueS390X_OpS390XMOVBstore(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (MOVBstore  [off1] {sym} (ADDconst [off2] ptr) val mem)
-	// cond: is32Bit(off1+off2)
+	// cond: is20Bit(off1+off2)
 	// result: (MOVBstore  [off1+off2] {sym} ptr val mem)
 	for {
 		off1 := v.AuxInt
@@ -7671,7 +7694,7 @@ func rewriteValueS390X_OpS390XMOVBstore(v *Value, config *Config) bool {
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XMOVBstore)
@@ -9313,8 +9336,8 @@ func rewriteValueS390X_OpS390XMOVDload(v *Value, config *Config) bool {
 		v.AddArg(x)
 		return true
 	}
-	// match: (MOVDload  [off1] {sym} (ADDconst [off2] ptr) mem)
-	// cond: is32Bit(off1+off2)
+	// match: (MOVDload   [off1] {sym} (ADDconst [off2] ptr) mem)
+	// cond: is20Bit(off1+off2)
 	// result: (MOVDload  [off1+off2] {sym} ptr mem)
 	for {
 		off1 := v.AuxInt
@@ -9326,7 +9349,7 @@ func rewriteValueS390X_OpS390XMOVDload(v *Value, config *Config) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XMOVDload)
@@ -9465,7 +9488,7 @@ func rewriteValueS390X_OpS390XMOVDstore(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
 	// match: (MOVDstore  [off1] {sym} (ADDconst [off2] ptr) val mem)
-	// cond: is32Bit(off1+off2)
+	// cond: is20Bit(off1+off2)
 	// result: (MOVDstore  [off1+off2] {sym} ptr val mem)
 	for {
 		off1 := v.AuxInt
@@ -9478,7 +9501,7 @@ func rewriteValueS390X_OpS390XMOVDstore(v *Value, config *Config) bool {
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XMOVDstore)
@@ -10231,8 +10254,8 @@ func rewriteValueS390X_OpS390XMOVHZload(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (MOVHZload  [off1] {sym} (ADDconst [off2] ptr) mem)
-	// cond: is32Bit(off1+off2)
-	// result: (MOVHZload  [off1+off2] {sym} ptr mem)
+	// cond: is20Bit(off1+off2)
+	// result: (MOVHZload [off1+off2] {sym} ptr mem)
 	for {
 		off1 := v.AuxInt
 		sym := v.Aux
@@ -10243,7 +10266,7 @@ func rewriteValueS390X_OpS390XMOVHZload(v *Value, config *Config) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XMOVHZload)
@@ -10550,6 +10573,29 @@ func rewriteValueS390X_OpS390XMOVHZreg(v *Value, config *Config) bool {
 func rewriteValueS390X_OpS390XMOVHload(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
+	// match: (MOVHload   [off1] {sym} (ADDconst [off2] ptr) mem)
+	// cond: is20Bit(off1+off2)
+	// result: (MOVHload  [off1+off2] {sym} ptr mem)
+	for {
+		off1 := v.AuxInt
+		sym := v.Aux
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XADDconst {
+			break
+		}
+		off2 := v_0.AuxInt
+		ptr := v_0.Args[0]
+		mem := v.Args[1]
+		if !(is20Bit(off1 + off2)) {
+			break
+		}
+		v.reset(OpS390XMOVHload)
+		v.AuxInt = off1 + off2
+		v.Aux = sym
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
 	// match: (MOVHload [off1] {sym1} (MOVDaddr [off2] {sym2} base) mem)
 	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)
 	// result: (MOVHload [off1+off2] {mergeSym(sym1,sym2)} base mem)
@@ -10796,7 +10842,7 @@ func rewriteValueS390X_OpS390XMOVHstore(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (MOVHstore  [off1] {sym} (ADDconst [off2] ptr) val mem)
-	// cond: is32Bit(off1+off2)
+	// cond: is20Bit(off1+off2)
 	// result: (MOVHstore  [off1+off2] {sym} ptr val mem)
 	for {
 		off1 := v.AuxInt
@@ -10809,7 +10855,7 @@ func rewriteValueS390X_OpS390XMOVHstore(v *Value, config *Config) bool {
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XMOVHstore)
@@ -11672,8 +11718,8 @@ func rewriteValueS390X_OpS390XMOVWZload(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (MOVWZload  [off1] {sym} (ADDconst [off2] ptr) mem)
-	// cond: is32Bit(off1+off2)
-	// result: (MOVWZload  [off1+off2] {sym} ptr mem)
+	// cond: is20Bit(off1+off2)
+	// result: (MOVWZload [off1+off2] {sym} ptr mem)
 	for {
 		off1 := v.AuxInt
 		sym := v.Aux
@@ -11684,7 +11730,7 @@ func rewriteValueS390X_OpS390XMOVWZload(v *Value, config *Config) bool {
 		off2 := v_0.AuxInt
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XMOVWZload)
@@ -12017,6 +12063,29 @@ func rewriteValueS390X_OpS390XMOVWZreg(v *Value, config *Config) bool {
 func rewriteValueS390X_OpS390XMOVWload(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
+	// match: (MOVWload   [off1] {sym} (ADDconst [off2] ptr) mem)
+	// cond: is20Bit(off1+off2)
+	// result: (MOVWload  [off1+off2] {sym} ptr mem)
+	for {
+		off1 := v.AuxInt
+		sym := v.Aux
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XADDconst {
+			break
+		}
+		off2 := v_0.AuxInt
+		ptr := v_0.Args[0]
+		mem := v.Args[1]
+		if !(is20Bit(off1 + off2)) {
+			break
+		}
+		v.reset(OpS390XMOVWload)
+		v.AuxInt = off1 + off2
+		v.Aux = sym
+		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
 	// match: (MOVWload [off1] {sym1} (MOVDaddr [off2] {sym2} base) mem)
 	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)
 	// result: (MOVWload [off1+off2] {mergeSym(sym1,sym2)} base mem)
@@ -12315,7 +12384,7 @@ func rewriteValueS390X_OpS390XMOVWstore(v *Value, config *Config) bool {
 		return true
 	}
 	// match: (MOVWstore  [off1] {sym} (ADDconst [off2] ptr) val mem)
-	// cond: is32Bit(off1+off2)
+	// cond: is20Bit(off1+off2)
 	// result: (MOVWstore  [off1+off2] {sym} ptr val mem)
 	for {
 		off1 := v.AuxInt
@@ -12328,7 +12397,7 @@ func rewriteValueS390X_OpS390XMOVWstore(v *Value, config *Config) bool {
 		ptr := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1 + off2)) {
+		if !(is20Bit(off1 + off2)) {
 			break
 		}
 		v.reset(OpS390XMOVWstore)
