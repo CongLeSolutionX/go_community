@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fe77c24_5539bed8",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-07T13:25:28Z",
+      "side": 1,
+      "message": "You will reduce duplication, and I think avoid a problem on Windows, if you write this as\n    if err :\u003d f.valid(); err !\u003d nil {\n        return 0, err\n    }\n\nfunc (file *file) valid() error {\n    if file \u003d\u003d nil {\n        return ErrInvalid\n    }\n    if file.fd \u003c 0 {\n        return ErrClosed\n    }\n    return nil\n}\n\nThen the Windows version will check for syscall.InvalidHandle.  I don\u0027t really see the benefit to fdClosed.",
+      "revId": "817ca916ece819594bfcddec1a41ac64d757b3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fe77c24_7515e248",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-07T13:25:28Z",
+      "side": 1,
+      "message": "I don\u0027t see how this will work on Windows, where file.fd is type Syscall.Handle which is a name for uintptr.  You can\u0027t store a -1 in a uintptr.",
+      "revId": "817ca916ece819594bfcddec1a41ac64d757b3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fe77c24_5512de62",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-07T13:25:28Z",
+      "side": 1,
+      "message": "Check the error return.",
+      "revId": "817ca916ece819594bfcddec1a41ac64d757b3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fe77c24_351f5a6b",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-07T13:25:28Z",
+      "side": 1,
+      "message": "You don\u0027t care about b, so don\u0027t name it.\n    _, err \u003d file.Read(make([]byte, 100))",
+      "revId": "817ca916ece819594bfcddec1a41ac64d757b3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fe77c24_151c5672",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-07T13:25:28Z",
+      "side": 1,
+      "message": "Debugging dreg?  Don\u0027t print in a test.",
+      "revId": "817ca916ece819594bfcddec1a41ac64d757b3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9fe77c24_b5210aa8",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-07T13:25:28Z",
+      "side": 1,
+      "message": "t.Errorf(\"Read(100) returned _, %v, want _, %v\", err, ErrClosed)",
+      "revId": "817ca916ece819594bfcddec1a41ac64d757b3a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
