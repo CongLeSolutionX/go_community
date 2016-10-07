@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "ff6a38fa_f566b8b9",
+        "filename": "src/internal/syscall/windows/reparse_windows.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-10-07T05:16:28Z",
+      "side": 1,
+      "message": "\u003e Actually there are two definitions.\n \u003e \n \u003e https://msdn.microsoft.com/en-us/library/ff552012.aspx\n \u003e https://msdn.microsoft.com/en-us/library/cc232005.aspx\n\nThese are the same. First one is real definition for REPARSE_DATA_BUFFER. But REPARSE_DATA_BUFFER last field is a union. And the\n\nhttps://msdn.microsoft.com/en-us/library/cc232005.aspx\n\nlooks like REPARSE_DATA_BUFFER version with union part set to GenericReparseBuffer.\n\nSince REPARSE_DATA_BUFFER have union part, it can not be translated into Go. So I prefer not to define it in internal/syscall/windows package, because it will confuse future package users into believing that REPARSE_DATA_BUFFER is defined correctly. But it cannot be done. I hope I have explained my thinking.",
+      "parentUuid": "ff6a38fa_d54d7c6b",
+      "revId": "f7552b2344889af66ef6547da8cf11ed9a09cf63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e530e7ea_0c985724",
         "filename": "src/internal/syscall/windows/reparse_windows.go",
         "patchSetId": 6
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "I revisit this CL because you said:\n\n\u003e \u003e So I want to test not only existing formats, but also common\n\u003e \u003e combinations if the spec allow it. ...\n\n\u003e Well, my offer to extend CL 25320 still stands.\n\n...Why do we need say same things again and again...",
       "parentUuid": "826ba19a_19f78b52",
+      "revId": "f7552b2344889af66ef6547da8cf11ed9a09cf63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff6a38fa_753c687d",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-10-07T05:16:28Z",
+      "side": 1,
+      "message": "\u003e \u003e Well, my offer to extend CL 25320 still stands.\n \u003e \n \u003e ...Why do we need say same things again and again...\n\nPerhaps I did not explain myself well. I am happy to add / adjust whatever required in this CL to achieve its goal - add tests for issues #15978 and #16145. Adding tests for non-directory links will just make this goal more distant.",
+      "parentUuid": "ff6a38fa_55796c82",
       "revId": "f7552b2344889af66ef6547da8cf11ed9a09cf63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
