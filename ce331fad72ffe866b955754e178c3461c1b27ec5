@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1fcaac6e_9614cc4f",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-07T01:26:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffddd82c_660b0434",
+      "revId": "ce331fad72ffe866b955754e178c3461c1b27ec5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffddd82c_e603941c",
         "filename": "src/fmt/doc.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1fcaac6e_560b1433",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-07T01:26:30Z",
+      "side": 1,
+      "message": "Changed to \u0027space\u0027 to match \u0027verbs\u0027 above.\nChanged to whitespace.",
+      "parentUuid": "ffddd82c_e603941c",
+      "revId": "ce331fad72ffe866b955754e178c3461c1b27ec5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffddd82c_662224ac",
         "filename": "src/fmt/doc.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-06T21:24:05Z",
       "side": 1,
       "message": "s/these/verbs/",
+      "revId": "ce331fad72ffe866b955754e178c3461c1b27ec5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcaac6e_7610105b",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-07T01:26:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffddd82c_662224ac",
       "revId": "ce331fad72ffe866b955754e178c3461c1b27ec5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
