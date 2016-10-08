@@ -51,6 +51,60 @@
       "revId": "338355c65762c18f987317b24b8d1af490745736",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff600e4_b200fede",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-08T06:14:58Z",
+      "side": 1,
+      "message": "Thank you, removed.",
+      "parentUuid": "bff600e4_f2f676ed",
+      "revId": "338355c65762c18f987317b24b8d1af490745736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff600e4_920502ef",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-08T06:14:58Z",
+      "side": 1,
+      "message": "Gotcha.",
+      "parentUuid": "bff600e4_12c0f28f",
+      "revId": "338355c65762c18f987317b24b8d1af490745736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff600e4_72eba606",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-08T06:14:58Z",
+      "side": 1,
+      "message": "Thanks for the edit. Updating it. Done.",
+      "parentUuid": "bff600e4_529d4ab8",
+      "revId": "338355c65762c18f987317b24b8d1af490745736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
