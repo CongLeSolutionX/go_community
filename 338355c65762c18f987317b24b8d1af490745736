@@ -16,6 +16,24 @@
       "revId": "338355c65762c18f987317b24b8d1af490745736",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff600e4_529d4ab8",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-10-08T06:06:44Z",
+      "side": 1,
+      "message": "Although, the following would be fine too, since it\u0027s a alteration of the docstring on gzip.Writer.\n\n // Read reads uncompressed bytes into p from the underlying io.Reader.",
+      "parentUuid": "bff600e4_12c0f28f",
+      "revId": "338355c65762c18f987317b24b8d1af490745736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
