@@ -238,6 +238,7 @@ func (z *Reader) readHeader() (hdr Header, err error) {
 	return hdr, nil
 }
 
+// Read reads uncompressed bytes into p from the underlying io.Reader.
 func (z *Reader) Read(p []byte) (n int, err error) {
 	if z.err != nil {
 		return 0, z.err
