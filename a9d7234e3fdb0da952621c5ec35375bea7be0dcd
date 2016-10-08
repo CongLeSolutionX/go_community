@@ -16,6 +16,24 @@
       "revId": "a9d7234e3fdb0da952621c5ec35375bea7be0dcd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff600e4_52cf8aac",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-08T06:29:05Z",
+      "side": 1,
+      "message": "Aye aye, yeah excluding the`into p` guts out the redundancy.\n\nDone, thanks.",
+      "parentUuid": "bff600e4_d2e25a23",
+      "revId": "a9d7234e3fdb0da952621c5ec35375bea7be0dcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
