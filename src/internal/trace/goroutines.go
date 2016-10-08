@@ -76,7 +76,7 @@ func GoroutineStats(events []*Event) map[uint64]*GDesc {
 			g := gs[ev.G]
 			g.ExecTime += ev.Ts - g.lastStartTime
 			g.blockSchedTime = ev.Ts
-		case EvGoSleep, EvGoBlock:
+		case EvGoSleep, EvGoBlock, EvGoBlockGC:
 			g := gs[ev.G]
 			g.ExecTime += ev.Ts - g.lastStartTime
 		case EvGoBlockNet:

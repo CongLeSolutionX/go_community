@@ -61,7 +61,8 @@ const (
 	traceEvGoUnblockLocal = 39 // goroutine is unblocked on the same P as the last event [timestamp, goroutine id, stack]
 	traceEvGoSysExitLocal = 40 // syscall exit on the same P as the last event [timestamp, goroutine id, real timestamp]
 	traceEvGCWorkerStart  = 41 // GC mark worker goroutine starts running [timestamp, goroutine id, seq, mode]
-	traceEvCount          = 42
+	traceEvGoBlockGC      = 42 // goroutine blocks on GC assist [timestamp, stack]
+	traceEvCount          = 43
 )
 
 const (
