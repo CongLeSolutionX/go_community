@@ -238,6 +238,8 @@ func (z *Reader) readHeader() (hdr Header, err error) {
 	return hdr, nil
 }
 
+// Read implements io.Reader, reading bytes from
+// it's underlying decompressor and saving them into p.
 func (z *Reader) Read(p []byte) (n int, err error) {
 	if z.err != nil {
 		return 0, z.err
