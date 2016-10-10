@@ -2275,9 +2275,9 @@ func (srv *Server) Serve(l net.Listener) error {
 					tempDelay = 5 * time.Millisecond
 				} else {
 					tempDelay *= 2
-				}
-				if max := 1 * time.Second; tempDelay > max {
-					tempDelay = max
+					if tempDelay > time.Second {
+						tempDelay = time.Second
+					}
 				}
 				srv.logf("http: Accept error: %v; retrying in %v", e, tempDelay)
 				time.Sleep(tempDelay)
