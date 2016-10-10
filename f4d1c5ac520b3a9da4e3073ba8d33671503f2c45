@@ -16,6 +16,24 @@
       "revId": "f4d1c5ac520b3a9da4e3073ba8d33671503f2c45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f49cc01_81cfdcab",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-10T18:50:14Z",
+      "side": 1,
+      "message": "I tried this (see patch set 3) and the result was reliably 0.5% slower on my laptop, maybe because vn2 has to be spilled and reloaded across the subVV/addVV below. Leaving as is.",
+      "parentUuid": "1fcaac6e_99dddf05",
+      "revId": "f4d1c5ac520b3a9da4e3073ba8d33671503f2c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
