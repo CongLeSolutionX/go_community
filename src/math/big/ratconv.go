@@ -18,6 +18,8 @@ func ratTok(ch rune) bool {
 	return strings.ContainsRune("+-/0123456789.eE", ch)
 }
 
+var _ fmt.Scanner = &Rat{} // *Rat must implement fmt.Scanner
+
 // Scan is a support routine for fmt.Scanner. It accepts the formats
 // 'e', 'E', 'f', 'F', 'g', 'G', and 'v'. All formats are equivalent.
 func (z *Rat) Scan(s fmt.ScanState, ch rune) error {
