@@ -14,6 +14,9 @@ import (
 	"strings"
 )
 
+// Type assert to ensure that Rat implements fmt.Scanner
+var _ fmt.Scanner = &Rat{}
+
 func ratTok(ch rune) bool {
 	return strings.ContainsRune("+-/0123456789.eE", ch)
 }

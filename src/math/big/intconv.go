@@ -12,6 +12,14 @@ import (
 	"io"
 )
 
+var (
+	zint = &Int{}
+	// Type assert to ensure that Int implements fmt.Scanner
+	_ fmt.Scanner = zint
+	// Type assert to ensure that Int implements fmt.Formatter
+	_ fmt.Formatter = zint
+)
+
 // TODO(gri) Should rename itoa to utoa (there's no sign). That
 // would permit the introduction of itoa which is like utoa but
 // reserves a byte for a possible sign that's passed in. That

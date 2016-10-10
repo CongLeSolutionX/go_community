@@ -5,6 +5,7 @@
 package big
 
 import (
+	"bytes"
 	"fmt"
 	"math"
 	"strconv"
@@ -662,6 +663,42 @@ func BenchmarkParseFloatLargeExp(b *testing.B) {
 			if err != nil {
 				b.Fatalf("%s: %v", s, err)
 			}
+		}
+	}
+}
+
+var floatScanTests = []struct {
+	input     string
+	format    string
+	output    string
+	remaining int
+}{
+	0: {"10.0", "%f", "10", 0},
+	1: {"23.98+2.0", "%v", "23.98", 4},
+	2: {"-1+1", "%v", "-1", 2},
+	3: {" 00000", "%v", "0", 0},
+	4: {"-123456p-78", "%b", "-4.084816388e-19", 0},
+	5: {"+123", "%b", "123", 0},
+	6: {"-1.234e+56", "%e", "-1.234e+56", 0},
+	7: {"-1.234E-56", "%E", "-1.234e-56", 0},
+	8: {"-1.234e+567", "%g", "-1.234e+567", 0},
+	9: {"+1234567891011.234", "%G", "1.234567891e+12", 0},
+}
+
+func TestFloatScan(t *testing.T) {
+	var buf bytes.Buffer
+	for i, test := range floatScanTests {
+		x := new(Float)
+		buf.Reset()
+		buf.WriteString(test.input)
+		if _, err := fmt.Fscanf(&buf, test.format, x); err != nil {
+			t.Errorf("#%d error: %s", i, err)
+		}
+		if x.String() != test.output {
+			t.Errorf("#%d got %s; want %s", i, x.String(), test.output)
+		}
+		if buf.Len() != test.remaining {
+			t.Errorf("#%d got %d bytes remaining; want %d", i, buf.Len(), test.remaining)
 		}
 	}
 }
