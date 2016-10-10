@@ -1223,3 +1223,39 @@ func (z nat) setBytes(buf []byte) nat {
 
 	return z.norm()
 }
+
+// sqrt sets z = ⌊√x⌋
+func (z nat) sqrt(x nat) nat {
+	if x.cmp(natOne) <= 0 {
+		return z.set(x)
+	}
+	if alias(z, x) {
+		z = nil
+	}
+
+	// Start with value known to be too large and repeat "z = ⌊(z + ⌊x/z⌋)/2⌋" until it stops getting smaller.
+	// See Brent and Zimmermann, Modern Computer Arithmetic, Algorithm 1.13 (SqrtInt).
+	// https://members.loria.fr/PZimmermann/mca/pub226.html
+	// If x is one less than a perfect square, the sequence oscillates between the correct z and z+1;
+	// otherwise it converges to the correct z and stays there.
+	var z1, z2 nat
+	z1 = z
+	z1 = z1.setUint64(1)
+	z1 = z1.shl(z1, uint(x.bitLen()/2+1)) // must be ≥ √x
+	var n int
+	for n = 0; ; n++ {
+		z2, _ = z2.div(nil, x, z1)
+		z2 = z2.add(z2, z1)
+		z2 = z2.shr(z2, 1)
+		if z2.cmp(z1) >= 0 {
+			break
+		}
+		z1, z2 = z2, z1
+	}
+	if n&1 != 0 {
+		z = z.set(z1)
+	} else {
+		z = z1
+	}
+	return z
+}
