@@ -308,6 +308,10 @@ func (tv *Timeval) Nanoseconds() int64 {
 func NsecToTimeval(nsec int64) (tv Timeval) {
 	tv.Sec = int32(nsec / 1e9)
 	tv.Usec = int32(nsec % 1e9 / 1e3)
+	if tv.Usec < 0 {
+		tv.Usec += 1e6
+		tv.Sec--
+	}
 	return
 }
 

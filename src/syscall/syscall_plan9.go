@@ -285,6 +285,10 @@ func NsecToTimeval(nsec int64) (tv Timeval) {
 	nsec += 999 // round up to microsecond
 	tv.Usec = int32(nsec % 1e9 / 1e3)
 	tv.Sec = int32(nsec / 1e9)
+	if tv.Usec < 0 {
+		tv.Usec += 1e6
+		tv.Sec--
+	}
 	return
 }
 

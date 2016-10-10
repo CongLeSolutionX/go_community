@@ -16,6 +16,10 @@ func TimespecToNsec(ts Timespec) int64 { return int64(ts.Sec)*1e9 + int64(ts.Nse
 func NsecToTimespec(nsec int64) (ts Timespec) {
 	ts.Sec = int32(nsec / 1e9)
 	ts.Nsec = int32(nsec % 1e9)
+	if ts.Nsec < 0 {
+		ts.Nsec += 1e9
+		ts.Sec--
+	}
 	return
 }
 
@@ -23,6 +27,10 @@ func NsecToTimeval(nsec int64) (tv Timeval) {
 	nsec += 999 // round up to microsecond
 	tv.Sec = int32(nsec / 1e9)
 	tv.Usec = int32(nsec % 1e9 / 1e3)
+	if tv.Usec < 0 {
+		tv.Usec += 1e6
+		tv.Sec--
+	}
 	return
 }
 
