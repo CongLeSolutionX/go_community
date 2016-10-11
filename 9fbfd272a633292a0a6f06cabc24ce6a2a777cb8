@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dffad4f1_7c6859af",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-10-11T09:24:15Z",
+      "side": 1,
+      "message": "Also handle this in httpBlock. It should be shows in blocking profile.\n\nAlso handle it in GoroutineStats in internal/trace package, it should be accounted as GCTime.",
+      "revId": "9fbfd272a633292a0a6f06cabc24ce6a2a777cb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
