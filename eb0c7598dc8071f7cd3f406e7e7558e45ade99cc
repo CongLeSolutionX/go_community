@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fe13c43_a28f5edf",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2016-10-11T01:40:21Z",
+      "side": 1,
+      "message": "You save ModifiedTime\u003d0 ModifiedDate\u003d0, So the header is always having Extra field. Is this better?\n\nif len(fh.Extra) \u003d\u003d 0 {\n    t.Fatal(\"...\")\n}\nif fh.ModifiedTime !\u003d 0 || fh.ModifiedDate !\u003d 0 {\n    t.Fatal(\"...\")\n}\n\nAnd if you want to test to check preserving another headers, let\u0027s separete tests.",
+      "revId": "eb0c7598dc8071f7cd3f406e7e7558e45ade99cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
