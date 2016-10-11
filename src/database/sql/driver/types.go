@@ -214,6 +214,10 @@ func (defaultConverter) ConvertValue(v interface{}) (Value, error) {
 	}
 
 	if svi, ok := v.(Valuer); ok {
+		rv := reflect.ValueOf(svi)
+		if rv.Kind() == reflect.Ptr && rv.IsNil() {
+			return nil, nil
+		}
 		sv, err := svi.Value()
 		if err != nil {
 			return nil, err

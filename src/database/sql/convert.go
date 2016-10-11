@@ -47,6 +47,11 @@ func driverArgs(ds *driverStmt, args []interface{}) ([]driver.Value, error) {
 		// itself to a driver type. For example, a NullString
 		// struct changing into a string or nil.
 		if svi, ok := arg.(driver.Valuer); ok {
+			rv := reflect.ValueOf(svi)
+			if rv.Kind() == reflect.Ptr && rv.IsNil() {
+				arg = nil
+				continue
+			}
 			sv, err := svi.Value()
 			if err != nil {
 				return nil, fmt.Errorf("sql: argument index %d from Value: %v", n, err)

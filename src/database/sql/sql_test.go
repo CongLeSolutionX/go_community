@@ -2297,6 +2297,34 @@ func TestIssue6081(t *testing.T) {
 	}
 }
 
+type Issue8415Type string
+
+func (t Issue8415Type) Value() (v driver.Value, err error) {
+	return strings.ToUpper(string(t)), nil
+}
+
+func TestIssue8415(t *testing.T) {
+	db := newTestDB(t, "foo")
+	defer closeDB(t, db)
+	exec(t, db, "CREATE|t1|name=string")
+	q := "INSERT|t1|name=?"
+
+	// Works with pointer
+	v := Issue8415Type("str value")
+	pv := &v
+	_, err := db.Exec(q, pv)
+	if err != nil {
+		t.Errorf("failed to insert custom value type %v", err)
+	}
+
+	// Does NOT work with nil pointer
+	pv = nil
+	_, err = db.Exec(q, pv)
+	if err != nil {
+		t.Errorf("failed to insert nil custom value type %v", err)
+	}
+}
+
 func TestConcurrency(t *testing.T) {
 	doConcurrentTest(t, new(concurrentDBQueryTest))
 	doConcurrentTest(t, new(concurrentDBExecTest))
