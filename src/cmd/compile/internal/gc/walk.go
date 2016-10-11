@@ -189,6 +189,34 @@ func walkstmt(n *Node) *Node {
 		wascopy := n.Op == OCOPY
 		init := n.Ninit
 		n.Ninit.Set(nil)
+
+		if n.Op == OAS && n.Left != nil && n.Left.Op == OINDEXMAP {
+			// TODO: also OASOP
+			walkstmtlist(n.Left.Ninit.Slice())
+			init.AppendNodes(&n.Left.Ninit)
+			map_ := n.Left.Left
+			key := n.Left.Right
+			val := n.Right
+			map_ = walkexpr(map_, &init)
+			key = walkexpr(key, &init)
+			val = walkexpr(val, &init)
+
+			// orderexpr made sure key is addressable.
+			key = nod(OADDR, key, nil)
+
+			// p := mapassign(maptype, map, key)
+			// *p = val
+			call := mkcall1(mapfn("mapassign", map_.Type), nil, &init, typename(map_.Type), map_, key)
+			call.Type = ptrto(map_.Type.Val())
+			call.NonNil = true // mapassign always returns a non-nil pointer
+			n = nod(OAS, nod(OIND, call, nil), val)
+			n = typecheck(n, Etop)
+			ullmancalc(n)
+			n = applywritebarrier(n)
+			n = addinit(n, init.Slice())
+			return n
+		}
+
 		n = walkexpr(n, &init)
 		n = addinit(n, init.Slice())
 		if wascopy && n.Op == OCONVNOP {
@@ -1288,7 +1316,7 @@ opswitch:
 
 	case OINDEXMAP:
 		if n.Etype == 1 {
-			break
+			Fatalf("assignment found in expression")
 		}
 		n.Left = walkexpr(n.Left, init)
 		n.Right = walkexpr(n.Right, init)
@@ -2298,22 +2326,6 @@ func convas(n *Node, init *Nodes) *Node {
 
 	if isblank(n.Left) {
 		n.Right = defaultlit(n.Right, nil)
-		goto out
-	}
-
-	if n.Left.Op == OINDEXMAP {
-		map_ := n.Left.Left
-		key := n.Left.Right
-		val := n.Right
-		map_ = walkexpr(map_, init)
-		key = walkexpr(key, init)
-		val = walkexpr(val, init)
-
-		// orderexpr made sure key and val are addressable.
-		key = nod(OADDR, key, nil)
-
-		val = nod(OADDR, val, nil)
-		n = mkcall1(mapfn("mapassign1", map_.Type), nil, init, typename(map_.Type), map_, key, val)
 		goto out
 	}
 
