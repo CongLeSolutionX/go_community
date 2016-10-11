@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3f6130bc_8616d401",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-10-11T18:59:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c547a0d_c6a9027c",
+      "revId": "eb0c7598dc8071f7cd3f406e7e7558e45ade99cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fe13c43_a28f5edf",
         "filename": "src/archive/zip/zip_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-11T01:40:21Z",
       "side": 1,
       "message": "You save ModifiedTime\u003d0 ModifiedDate\u003d0, So the header is always having Extra field. Is this better?\n\nif len(fh.Extra) \u003d\u003d 0 {\n    t.Fatal(\"...\")\n}\nif fh.ModifiedTime !\u003d 0 || fh.ModifiedDate !\u003d 0 {\n    t.Fatal(\"...\")\n}\n\nAnd if you want to test to check preserving another headers, let\u0027s separete tests.",
+      "revId": "eb0c7598dc8071f7cd3f406e7e7558e45ade99cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f6130bc_c6460c0b",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-10-11T18:59:28Z",
+      "side": 1,
+      "message": "I think the check as is, is what I want.\nA basic file (assuming it doesn\u0027t need int64 sizes) should generate the zero value for the Extra field. The check copies over non-zero Extra so that they get flagged by the next check.\n\nI do want to check other FileHeader fields and I don\u0027t they need to be a separate test.",
+      "parentUuid": "9fe13c43_a28f5edf",
       "revId": "eb0c7598dc8071f7cd3f406e7e7558e45ade99cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
