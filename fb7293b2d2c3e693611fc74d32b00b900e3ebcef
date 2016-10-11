@@ -16,6 +16,24 @@
       "revId": "fb7293b2d2c3e693611fc74d32b00b900e3ebcef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f6130bc_b12790bb",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1669,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-11T20:23:20Z",
+      "side": 1,
+      "message": "Done. I omitted the word length padding part, since the following CL gets rid of that anyway.",
+      "parentUuid": "5f5184f3_7378bab4",
+      "revId": "fb7293b2d2c3e693611fc74d32b00b900e3ebcef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
