@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1c547a0d_c6a9027c",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-11T12:20:46Z",
+      "side": 1,
+      "message": "verify [0] exists first before referencing it?",
+      "revId": "eb0c7598dc8071f7cd3f406e7e7558e45ade99cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fe13c43_a28f5edf",
         "filename": "src/archive/zip/zip_test.go",
         "patchSetId": 1
