@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "ff1a3824_752d08ae",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-10-11T08:59:09Z",
+      "side": 1,
+      "message": "I think it makes sense to make this event more general, i.e. system/runtime rather than GC. We may want to name other special goroutines (timers, etc).",
+      "revId": "34688ce00d618de9e7eb6a7bd789e2ae00841a78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f1e2c18_79a6a3ab",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-10-11T08:59:09Z",
+      "side": 1,
+      "message": "Since we are bumping version and adding more events, please collect some 1.7 traces and upload them to internal/trace/testdata (TestParseCanned will pick them up).\nI\u0027ve collected 1.5 traces on http ClientServerParallel4 benchmark and on the two stress tests in runtime/trace/trace_test.go.",
+      "revId": "34688ce00d618de9e7eb6a7bd789e2ae00841a78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f49cc01_873fec0d",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
@@ -30,6 +64,30 @@
       "writtenOn": "2016-10-11T01:55:41Z",
       "side": 1,
       "message": "in this case _g_.tracelastp doesn\u0027t need be updated?",
+      "range": {
+        "startLine": 929,
+        "startChar": 42,
+        "endLine": 929,
+        "endChar": 43
+      },
+      "revId": "34688ce00d618de9e7eb6a7bd789e2ae00841a78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f1e2c18_59a3e799",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-10-11T08:59:09Z",
+      "side": 1,
+      "message": "We could update it, but then we will also need traceEvGCWorkerStartLocal event to take advantage of tracelastp.\nIf these events are not too frequent, then it does not worth it.",
+      "parentUuid": "1f49cc01_873fec0d",
       "range": {
         "startLine": 929,
         "startChar": 42,
