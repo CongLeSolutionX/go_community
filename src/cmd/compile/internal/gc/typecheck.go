@@ -3175,7 +3175,7 @@ func checkassign(stmt *Node, n *Node) {
 		return
 	}
 	if n.Op == OINDEXMAP {
-		n.Etype = 1
+		n.Etype = 1 // TODO: remove?
 		return
 	}
 

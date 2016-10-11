@@ -723,6 +723,32 @@ opswitch:
 	case OAS:
 		init.AppendNodes(&n.Ninit)
 
+		if n.Left != nil && n.Left.Op == OINDEXMAP {
+			if n.IsStatic {
+				panic("isStatic")
+			}
+			map_ := n.Left.Left
+			key := n.Left.Right
+			val := n.Right
+			map_ = walkexpr(map_, init)
+			key = walkexpr(key, init)
+			val = walkexpr(val, init)
+
+			// orderexpr made sure key is addressable.
+			key = nod(OADDR, key, nil)
+
+			// p := mapassign(maptype, map, key)
+			// *p = val
+			call := mkcall1(mapfn("mapassign", map_.Type), nil, init, typename(map_.Type), map_, key)
+			call.Type = ptrto(map_.Type.Val())
+			call.NonNil = true // mapassign always returns a non-nil pointer
+			n = nod(OAS, nod(OIND, call, nil), val)
+			n = typecheck(n, Etop)
+			ullmancalc(n)
+			n = applywritebarrier(n)
+			return n
+		}
+
 		n.Left = walkexpr(n.Left, init)
 		n.Left = safeexpr(n.Left, init)
 
@@ -730,7 +756,7 @@ opswitch:
 			break
 		}
 
-		if n.Right == nil || iszero(n.Right) && !instrumenting {
+		if n.Right == nil || iszero(n.Right) && !instrumenting && n.Left.Op != OINDEXMAP {
 			break
 		}
 
@@ -1288,7 +1314,7 @@ opswitch:
 
 	case OINDEXMAP:
 		if n.Etype == 1 {
-			break
+			Fatalf("map assign should have already been handled")
 		}
 		n.Left = walkexpr(n.Left, init)
 		n.Right = walkexpr(n.Right, init)
@@ -2282,6 +2308,28 @@ func convas(n *Node, init *Nodes) *Node {
 		Fatalf("convas: not OAS %v", n.Op)
 	}
 
+	if n.Left != nil && n.Left.Op == OINDEXMAP {
+		map_ := n.Left.Left
+		key := n.Left.Right
+		val := n.Right
+		map_ = walkexpr(map_, init)
+		key = walkexpr(key, init)
+		val = walkexpr(val, init)
+
+		// orderexpr made sure key is addressable.
+		key = nod(OADDR, key, nil)
+
+		// p := mapassign(maptype, map, key)
+		// *p = val
+		call := mkcall1(mapfn("mapassign", map_.Type), nil, init, typename(map_.Type), map_, key)
+		call.Type = ptrto(map_.Type.Val())
+		call.NonNil = true // mapassign always returns a non-nil pointer
+		n = nod(OAS, nod(OIND, call, nil), val)
+		n = typecheck(n, Etop)
+		ullmancalc(n)
+		return n
+	}
+
 	n.Typecheck = 1
 
 	var lt *Type
@@ -2298,22 +2346,6 @@ func convas(n *Node, init *Nodes) *Node {
 
 	if isblank(n.Left) {
 		n.Right = defaultlit(n.Right, nil)
-		goto out
-	}
-
-	if n.Left.Op == OINDEXMAP {
-		map_ := n.Left.Left
-		key := n.Left.Right
-		val := n.Right
-		map_ = walkexpr(map_, init)
-		key = walkexpr(key, init)
-		val = walkexpr(val, init)
-
-		// orderexpr made sure key and val are addressable.
-		key = nod(OADDR, key, nil)
-
-		val = nod(OADDR, val, nil)
-		n = mkcall1(mapfn("mapassign1", map_.Type), nil, init, typename(map_.Type), map_, key, val)
 		goto out
 	}
 
