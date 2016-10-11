@@ -1678,16 +1678,7 @@ func onebitwritesymbol(arr []bvec, sym *Sym) {
 		if bv.b == nil {
 			break
 		}
-		for j := 0; int32(j) < bv.n; j += 32 {
-			word := bv.b[j/32]
-
-			// Runtime reads the bitmaps as byte arrays. Oblige.
-			off = duint8(sym, off, uint8(word))
-
-			off = duint8(sym, off, uint8(word>>8))
-			off = duint8(sym, off, uint8(word>>16))
-			off = duint8(sym, off, uint8(word>>24))
-		}
+		off = dbvec(sym, off, bv)
 	}
 
 	duint32(sym, 0, uint32(i)) // number of bitmaps
