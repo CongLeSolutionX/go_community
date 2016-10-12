@@ -16,6 +16,24 @@
       "revId": "2385c1c59a592bc14ee05431cfe544692d943c12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc7ec69b_3b99df26",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-10-12T20:31:55Z",
+      "side": 1,
+      "message": "Thanks, I did your rewrite as suggested and I think it simplified things a bit.  PTAL.",
+      "parentUuid": "3c23feed_0d76d566",
+      "revId": "2385c1c59a592bc14ee05431cfe544692d943c12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
