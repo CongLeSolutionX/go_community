@@ -16,6 +16,24 @@
       "revId": "9814126e93733e928b89f773a1652239135d0548",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c23feed_2ab3bfa0",
+        "filename": "src/crypto/tls/handshake_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-10-12T16:48:06Z",
+      "side": 1,
+      "message": "Fair point. I only want the banner printed once, but failing all the tests saves cleaning up any updated test data. Done.",
+      "parentUuid": "fcac0670_45df2a5f",
+      "revId": "9814126e93733e928b89f773a1652239135d0548",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
