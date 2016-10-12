@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcac0670_45df2a5f",
+        "filename": "src/crypto/tls/handshake_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-12T13:27:02Z",
+      "side": 1,
+      "message": "this only fails the first test, not subsequent ones.\n\nYou want to do:\n\nvar (\n   opensslVersionTestOnce sync.Once\n   versionCheckErr error\n)\n\n   func checkOpenSSLVersion(t *testing.T) {\n      opensslVersionTestOnce.Do(testOpenSSLVersion)\n      if versionCheckErr !\u003d nil {\n            // banner\n            t.Fatal(err) // etc\n      }",
+      "revId": "9814126e93733e928b89f773a1652239135d0548",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
