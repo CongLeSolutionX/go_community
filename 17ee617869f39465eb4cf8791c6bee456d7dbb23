@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f6130bc_96dfdd27",
+        "filename": "src/cmd/cover/profile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-12T02:51:58Z",
+      "side": 1,
+      "message": "don\u0027t panic, just print an error and exit.",
+      "revId": "17ee617869f39465eb4cf8791c6bee456d7dbb23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
