@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c23feed_0d76d566",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-12T18:38:13Z",
+      "side": 1,
+      "message": "This seems to duplicate a lot of OAS\u0027s logic in walkexpr. Could you avoid that by having the OINDEXMAP\u0026\u0026Etype\u003d\u003d1 case below at line 1319 just rewrite the \"m[k]\" node into \"*mapassign(typ, m, \u0026k)\"? Or is there extra assigning-to-map specific logic here that I\u0027m overlooking?",
+      "revId": "2385c1c59a592bc14ee05431cfe544692d943c12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
