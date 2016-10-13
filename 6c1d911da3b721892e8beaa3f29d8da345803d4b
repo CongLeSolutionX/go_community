@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c0bfeaa_47dc6e04",
+        "filename": "src/expvar/expvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-13T21:30:08Z",
+      "side": 1,
+      "message": "this one\u0027s kinda useless considering the concrete type of Func is a func.\n\nI guess it\u0027s here for consistency, but it\u0027s not like it satisfies an interface.\n\nOh well.",
+      "revId": "6c1d911da3b721892e8beaa3f29d8da345803d4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
