@@ -48,6 +48,24 @@
     },
     {
       "key": {
+        "uuid": "dcb2e210_dcef2daa",
+        "filename": "src/testing/quick/quick.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-13T16:18:18Z",
+      "side": 1,
+      "message": "OK, then write a test for exactly that and nothing else.  Your new test is very large and does not clearly show the change you are making.  Keep your change focused, and write a test for just that change.",
+      "parentUuid": "5cb272c6_68fb23d6",
+      "revId": "4ed91620541338365e84fc370202f3a814b2c0e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ccdca7b_02986ac5",
         "filename": "src/testing/quick/quick.go",
         "patchSetId": 1
