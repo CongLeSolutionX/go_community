@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bc60ce1c_d3075479",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 15695
+      },
+      "writtenOn": "2016-10-13T14:50:05Z",
+      "side": 1,
+      "message": "I don\u0027t believe nil slices, maps or channels cause a problem in the current implementation.  It\u0027s not the underlying type but the method set that causes the break, ie. calling a method defined on a value when arg is a nil pointer.",
+      "parentUuid": "bca28e7a_2361cad5",
+      "revId": "65200d38072c92fae13ea5e74b67f99803e2cd34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcac0670_08114768",
         "filename": "src/database/sql/sql_test.go",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2016-10-13T14:46:35Z",
       "side": 1,
       "message": "I was on the fence if it was user error or not https://github.com/golang/go/issues/8415#issuecomment-253410005\nBut upon you pointing out this, yes, you are correct, this is 100% user error.",
+      "parentUuid": "fcac0670_08114768",
+      "revId": "65200d38072c92fae13ea5e74b67f99803e2cd34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc60ce1c_33668852",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2302,
+      "author": {
+        "id": 15695
+      },
+      "writtenOn": "2016-10-13T14:50:05Z",
+      "side": 1,
+      "message": "I think the essence of this issue is that the client often doesn\u0027t control per-column NULL constraints, so the client may want to use their same custom nullable type on both NULL and not NULL columns, so use a mix of pointers and values of the custom nullable type.",
       "parentUuid": "fcac0670_08114768",
       "revId": "65200d38072c92fae13ea5e74b67f99803e2cd34",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
