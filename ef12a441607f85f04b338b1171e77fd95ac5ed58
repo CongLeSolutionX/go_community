@@ -22,6 +22,24 @@
       "revId": "ef12a441607f85f04b338b1171e77fd95ac5ed58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c3b525a_e0658245",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-13T20:56:59Z",
+      "side": 1,
+      "message": "sweepgen is incremented by two every sweep phase, so the actual sweep phase \"number\" is sweepgen/2. There are two sweepSpans lists that trade roles at every sweep phase, so the swept in-use spans are in sweepSpans[sweepNum%2] aka sweepSpans[sweepgen/2%2].\n\nIf that clarifies things, I\u0027ll update the comment.\n\nI would prefer to just swap the two sweepBufs, but unfortunately the structure contains a mutex, so it\u0027s not safe to move around. (I suppose I could lock both mutexes, swap them, and then unlock both, which would happen to work because of how mutexes are implemented, but that\u0027s pretty gnarly.)",
+      "parentUuid": "5c3b525a_40d6aee5",
+      "revId": "ef12a441607f85f04b338b1171e77fd95ac5ed58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
