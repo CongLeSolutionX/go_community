@@ -533,10 +533,6 @@ func funchdr(n *Node) {
 		Fatalf("funchdr: dclcontext = %d", dclcontext)
 	}
 
-	if importpkg == nil && n.Func.Nname != nil {
-		makefuncsym(n.Func.Nname.Sym)
-	}
-
 	dclcontext = PAUTO
 	funcstart(n)
 
@@ -1276,22 +1272,12 @@ func funcsym(s *Sym) *Sym {
 
 	s1 := Pkglookup(s.Name+"·f", s.Pkg)
 	s.Fsym = s1
-	return s1
-}
-
-func makefuncsym(s *Sym) {
-	if isblanksym(s) {
-		return
-	}
-	if compiling_runtime && s.Name == "getg" {
-		// runtime.getg() is not a real function and so does
-		// not get a funcsym.
-		return
-	}
-	s1 := funcsym(s)
 	s1.Def = newfuncname(s1)
 	s1.Def.Func.Shortname = newname(s)
-	funcsyms = append(funcsyms, s1.Def)
+	dsymptr(s1, 0, s1.Def.Func.Shortname.Sym, 0)
+	ggloblsym(s1, int32(Widthptr), obj.DUPOK|obj.RODATA)
+
+	return s1
 }
 
 type nowritebarrierrecChecker struct {

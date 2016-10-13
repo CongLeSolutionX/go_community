@@ -214,8 +214,6 @@ var exportlist []*Node
 
 var importlist []*Node // imported functions and methods with inlinable bodies
 
-var funcsyms []*Node
-
 var dclcontext Class // PEXTERN/PAUTO
 
 var statuniqgen int // name generator for static temps

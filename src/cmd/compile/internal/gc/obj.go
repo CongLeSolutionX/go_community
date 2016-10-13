@@ -211,14 +211,6 @@ func dumpglobls() {
 		dowidth(n.Type)
 		ggloblnod(n)
 	}
-
-	for _, n := range funcsyms {
-		dsymptr(n.Sym, 0, n.Sym.Def.Func.Shortname.Sym, 0)
-		ggloblsym(n.Sym, int32(Widthptr), obj.DUPOK|obj.RODATA)
-	}
-
-	// Do not reprocess funcsyms on next dumpglobls call.
-	funcsyms = nil
 }
 
 func Linksym(s *Sym) *obj.LSym {
