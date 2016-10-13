@@ -44,6 +44,16 @@ func randFloat64(rand *rand.Rand) float64 {
 // randInt64 returns a random integer taking half the range of an int64.
 func randInt64(rand *rand.Rand) int64 { return rand.Int63() - 1<<62 }
 
+// randString returns a random string.
+func randString(rand *rand.Rand, maxSize int) string {
+	numChars := rand.Intn(maxSize + 1)
+	codePoints := make([]rune, numChars)
+	for i := 0; i < numChars; i++ {
+		codePoints[i] = rune(rand.Intn(0x10ffff))
+	}
+	return string(codePoints)
+}
+
 // complexSize is the maximum length of arbitrary values that contain other
 // values.
 const complexSize = 50
@@ -59,8 +69,10 @@ func Value(t reflect.Type, rand *rand.Rand) (value reflect.Value, ok bool) {
 // hint is used for shrinking as a function of indirection level so
 // that recursive data structures will terminate.
 func sizedValue(t reflect.Type, rand *rand.Rand, size int) (value reflect.Value, ok bool) {
-	if m, ok := reflect.Zero(t).Interface().(Generator); ok {
-		return m.Generate(rand, size), true
+	if !(t.Kind() == reflect.Ptr && t.Elem().Implements(reflect.TypeOf((*Generator)(nil)).Elem())) {
+		if m, ok := reflect.Zero(t).Interface().(Generator); ok {
+			return m.Generate(rand, size), true
+		}
 	}
 
 	v := reflect.New(t).Elem()
@@ -139,12 +151,7 @@ func sizedValue(t reflect.Type, rand *rand.Rand, size int) (value reflect.Value,
 			v.Index(i).Set(elem)
 		}
 	case reflect.String:
-		numChars := rand.Intn(complexSize)
-		codePoints := make([]rune, numChars)
-		for i := 0; i < numChars; i++ {
-			codePoints[i] = rune(rand.Intn(0x10ffff))
-		}
-		v.SetString(string(codePoints))
+		v.SetString(randString(rand, complexSize))
 	case reflect.Struct:
 		n := v.NumField()
 		// Divide sizeLeft evenly among the struct fields.
@@ -155,11 +162,13 @@ func sizedValue(t reflect.Type, rand *rand.Rand, size int) (value reflect.Value,
 			sizeLeft /= n
 		}
 		for i := 0; i < n; i++ {
-			elem, ok := sizedValue(concrete.Field(i).Type, rand, sizeLeft)
-			if !ok {
-				return reflect.Value{}, false
+			if fieldValue := v.Field(i); fieldValue.CanSet() {
+				elem, ok := sizedValue(concrete.Field(i).Type, rand, sizeLeft)
+				if !ok {
+					return reflect.Value{}, false
+				}
+				fieldValue.Set(elem)
 			}
-			v.Field(i).Set(elem)
 		}
 	default:
 		return reflect.Value{}, false
