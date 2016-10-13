@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c99da37_b83c0919",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-10-13T13:20:32Z",
+      "side": 1,
+      "message": "I would just pass gp in. The caller has already qualified it as !\u003d gp.m.g0.",
+      "range": {
+        "startLine": 578,
+        "startChar": 1,
+        "endLine": 578,
+        "endChar": 13
+      },
+      "revId": "4ae5bc86631eb1652cd6d38bd4c352bed98de2d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
