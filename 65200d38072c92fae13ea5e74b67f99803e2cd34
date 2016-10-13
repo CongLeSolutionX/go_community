@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bca28e7a_2361cad5",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-13T07:22:43Z",
+      "side": 1,
+      "message": "checking for reflect.Ptr explicitly feels wrong. What about a nil slice? Or channel? Or map?",
+      "revId": "65200d38072c92fae13ea5e74b67f99803e2cd34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcac0670_08114768",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2302,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-13T07:22:43Z",
+      "side": 1,
+      "message": "If you want an nullable custom type, this Value method should be on the pointer *Issue8415Type, and then the method body should do:\n\n   if t \u003d\u003d nil {\n       return nil, nil\n   }\n\nThis CL seems like it\u0027s fixing user error, no?",
+      "revId": "65200d38072c92fae13ea5e74b67f99803e2cd34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
