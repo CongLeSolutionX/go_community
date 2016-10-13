@@ -318,6 +318,33 @@ noswitch:
  * support for morestack
  */
 
+DATA	badmorestackg0_msg<>+0x00(SB)/8, $"fatal: m"
+DATA	badmorestackg0_msg<>+0x08(SB)/8, $"orestack"
+DATA	badmorestackg0_msg<>+0x10(SB)/8, $" on g0\n "
+GLOBL	badmorestackg0_msg<>(SB), RODATA, $24
+
+TEXT runtime·badmorestackg0(SB),NOSPLIT,$24-0
+	MOVQ	$2, 0(SP)
+	MOVQ	$badmorestackg0_msg<>(SB), AX
+	MOVQ	AX, 8(SP)
+	MOVQ	$23, 16(SP)
+	CALL	runtime·write(SB)
+	INT	$3
+
+DATA	badmorestackgsignal_msg<>+0x00(SB)/8, $"fatal: m"
+DATA	badmorestackgsignal_msg<>+0x08(SB)/8, $"orestack"
+DATA	badmorestackgsignal_msg<>+0x10(SB)/8, $" on gsig"
+DATA	badmorestackgsignal_msg<>+0x18(SB)/4, $"nal\n"
+GLOBL	badmorestackgsignal_msg<>(SB), RODATA, $28
+
+TEXT runtime·badmorestackgsignal(SB),NOSPLIT,$24-0
+	MOVQ	$2, 0(SP)
+	MOVQ	$badmorestackgsignal_msg<>(SB), AX
+	MOVQ	AX, 8(SP)
+	MOVQ	$28, 16(SP)
+	CALL	runtime·write(SB)
+	INT	$3
+
 // Called during function prolog when more stack is needed.
 //
 // The traceback routines see morestack on a g0 as being
@@ -332,13 +359,13 @@ TEXT runtime·morestack(SB),NOSPLIT,$0-0
 	MOVQ	m_g0(BX), SI
 	CMPQ	g(CX), SI
 	JNE	2(PC)
-	INT	$3
+	CALL	runtime·badmorestackg0(SB)
 
 	// Cannot grow signal stack (m->gsignal).
 	MOVQ	m_gsignal(BX), SI
 	CMPQ	g(CX), SI
 	JNE	2(PC)
-	INT	$3
+	CALL	runtime·badmorestackgsignal(SB)
 
 	// Called from f.
 	// Set m->morebuf to f's caller.
