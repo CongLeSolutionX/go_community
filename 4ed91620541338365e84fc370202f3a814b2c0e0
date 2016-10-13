@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc1f61c_e9b4f53b",
+        "filename": "src/testing/quick/quick.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 15590
+      },
+      "writtenOn": "2016-10-13T15:53:59Z",
+      "side": 1,
+      "message": "The function has been created because this code also is used in quick_test.go.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 1
+      },
+      "revId": "4ed91620541338365e84fc370202f3a814b2c0e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5cb272c6_68fb23d6",
+        "filename": "src/testing/quick/quick.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 15590
+      },
+      "writtenOn": "2016-10-13T15:53:59Z",
+      "side": 1,
+      "message": "Old code will panic with this:\n\ntype generatedType struct {\n\tA int64\n\tB int64\n}\n\nfunc (gt generatedType) Generate(r *rand.Rand, _ int) reflect.Value {\n\treturn reflect.ValueOf(generatedType{A: 1, B: 2})\n}\n\ntype filledStruct struct {\n\tGt *generatedType\n}\n\nfunc main() {\n\tquick.Value(reflect.TypeOf(filledStruct{}), rand.New(rand.NewSource(10)))\n}\n\nhttps://play.golang.org/p/DQnuYL3Dm0",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 2
+      },
+      "revId": "4ed91620541338365e84fc370202f3a814b2c0e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ccdca7b_02986ac5",
+        "filename": "src/testing/quick/quick.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 15590
+      },
+      "writtenOn": "2016-10-13T15:53:59Z",
+      "side": 1,
+      "message": "Omit read-only fields, otherwise will panic when set value of internal field.\nFor example this code panic:\ns :\u003d struct {\n\tinternal int\n\tExternal int\n}{}\nquick.Value(reflect.TypeOf(s), rand.New(rand.NewSource(10)))\n\nhttps://play.golang.org/p/BHCsR-G9gT",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 53
+      },
+      "revId": "4ed91620541338365e84fc370202f3a814b2c0e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
