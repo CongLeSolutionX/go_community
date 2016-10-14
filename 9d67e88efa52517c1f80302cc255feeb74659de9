@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dc5582ad_aad3cb27",
+        "filename": "src/strconv/quote.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-10-14T22:37:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2a7261_c8d8cf76",
+      "range": {
+        "startLine": 366,
+        "startChar": 31,
+        "endLine": 366,
+        "endChar": 33
+      },
+      "revId": "9d67e88efa52517c1f80302cc255feeb74659de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2a7261_c85b6f27",
         "filename": "src/strconv/quote.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2016-10-14T19:54:53Z",
       "side": 1,
       "message": "s/len(buf)/len(s)/\n\nI don\u0027t understand how this can work as is. This loop is never entered.",
+      "revId": "9d67e88efa52517c1f80302cc255feeb74659de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_6ae63306",
+        "filename": "src/strconv/quote.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-10-14T22:37:02Z",
+      "side": 1,
+      "message": "That\u0027s a darn good question. And yet the tests passed...\n\nOf course, that means the test is broken (even before my CL). Fixed now.",
+      "parentUuid": "5c2a7261_c85b6f27",
       "revId": "9d67e88efa52517c1f80302cc255feeb74659de9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "dc5582ad_0ae3fff4",
+        "filename": "src/strconv/quote.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-10-14T22:37:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2a7261_289ecbb5",
+      "range": {
+        "startLine": 369,
+        "startChar": 27,
+        "endLine": 369,
+        "endChar": 28
+      },
+      "revId": "9d67e88efa52517c1f80302cc255feeb74659de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc182371_3379283b",
         "filename": "src/strconv/quote.go",
         "patchSetId": 1
@@ -76,6 +142,24 @@
       "writtenOn": "2016-10-14T19:54:53Z",
       "side": 1,
       "message": "Alternative, w/o using append (not sure which produces better code):\n\nbuf :\u003d make([]byte, len(s))\ni :\u003d 0\nfor j :\u003d range buf {\n   if s[j] !\u003d \u0027\\r\u0027 {\n      buf[i] \u003d s[j]\n      i++\n   }\n}\nreturn string(buf[:i])",
+      "revId": "9d67e88efa52517c1f80302cc255feeb74659de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_cabde7d2",
+        "filename": "src/strconv/quote.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-10-14T22:37:02Z",
+      "side": 1,
+      "message": "I wanted to stick to the append pattern because that\u0027s what is used elsewhere in this package. I\u0027m hoping they both compile down to roughly the same code.",
+      "parentUuid": "dc182371_3379283b",
       "revId": "9d67e88efa52517c1f80302cc255feeb74659de9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
