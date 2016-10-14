@@ -233,7 +233,7 @@ func (f *File) readOneUTF16FromConsole() (uint16, error) {
 			return 0, err
 		}
 		if nmb == 0 {
-			continue
+			return 0, nil
 		}
 		mbytes = append(mbytes, buf[0])
 
@@ -269,7 +269,7 @@ func (f *File) readConsole(buf []byte) (n int, err error) {
 		return f.copyReadConsoleBuffer(buf)
 	}
 	wchar, err := f.readOneUTF16FromConsole()
-	if err != nil {
+	if err != nil || wchar == 0 {
 		return 0, err
 	}
 	r := rune(wchar)
