@@ -274,6 +274,7 @@ var unquotetests = []unQuoteTest{
 	{"`\n`", "\n"},
 	{"`	`", `	`},
 	{"` `", ` `},
+	{"`a\rb`", "ab"},
 }
 
 var misquoted = []string{
