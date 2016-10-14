@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5c899276_8aa4bf54",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-14T13:57:56Z",
+      "side": 1,
+      "message": "s/has have/has/",
+      "revId": "c9ec0be7cfe67f58cff37e5309161952782250de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c899276_2aa11343",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-14T13:57:56Z",
+      "side": 1,
+      "message": "It\u0027s clearly essential that these substituted packages remain buildable with Go 1.4.  I guess we will rely on the builders to enforce that?  It means that at least some builders must use a real Go 1.4 release as the bootstrap compiler.",
+      "revId": "c9ec0be7cfe67f58cff37e5309161952782250de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c3b525a_00ac269d",
         "filename": "src/cmd/dist/buildtool.go",
         "patchSetId": 1
@@ -13,6 +47,24 @@
       "writtenOn": "2016-10-13T21:49:18Z",
       "side": 1,
       "message": "what about _ppc64.s and _s390x.s?",
+      "revId": "c9ec0be7cfe67f58cff37e5309161952782250de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c899276_0a61af07",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-14T13:57:56Z",
+      "side": 1,
+      "message": "I also see _ppc64le.s.  But the reason it works without skipping those files is that for some reason they have explicit build tags, unlike the arm64 files.",
+      "parentUuid": "5c3b525a_00ac269d",
       "revId": "c9ec0be7cfe67f58cff37e5309161952782250de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
