@@ -362,6 +362,15 @@ func Unquote(s string) (string, error) {
 		if contains(s, '`') {
 			return "", ErrSyntax
 		}
+		if contains(s, '\r') {
+			buf := make([]byte, 0, len(s)-1)
+			for i := 0; i < len(s); i++ {
+				if s[i] != '\r' {
+					buf = append(buf, s[i])
+				}
+			}
+			return string(buf), nil
+		}
 		return s, nil
 	}
 	if quote != '"' && quote != '\'' {
