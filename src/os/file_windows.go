@@ -5,7 +5,6 @@
 package os
 
 import (
-	"errors"
 	"internal/syscall/windows"
 	"io"
 	"runtime"
@@ -29,7 +28,7 @@ type file struct {
 	// only for console io
 	isConsole bool
 	lastbits  []byte // first few bytes of the last incomplete rune in last write
-	readbuf   []byte // last few bytes of the last read that did not fit in the user buffer
+	readbuf   []byte // unreaded bytes in last read
 }
 
 // Fd returns the Windows handle referencing the open file.
@@ -223,81 +222,52 @@ func (f *File) copyReadConsoleBuffer(buf []byte) (n int, err error) {
 	return n, nil
 }
 
-// readOneUTF16FromConsole reads single character from console,
-// converts it into utf16 and return it to the caller.
-func (f *File) readOneUTF16FromConsole() (uint16, error) {
-	var buf [1]byte
-	mbytes := make([]byte, 0, 4)
-	cp := getCP()
-	for {
-		var nmb uint32
-		err := readFile(f.fd, buf[:], &nmb, nil)
-		if err != nil {
-			return 0, err
-		}
-		if nmb == 0 {
-			continue
-		}
-		mbytes = append(mbytes, buf[0])
-
-		// Convert from 8-bit console encoding to UTF16.
-		// MultiByteToWideChar defaults to Unicode NFC form, which is the expected one.
-		nwc, err := windows.MultiByteToWideChar(cp, windows.MB_ERR_INVALID_CHARS, &mbytes[0], int32(len(mbytes)), nil, 0)
-		if err != nil {
-			if err == windows.ERROR_NO_UNICODE_TRANSLATION {
-				continue
-			}
-			return 0, err
-		}
-		if nwc != 1 {
-			return 0, errors.New("MultiByteToWideChar returns " + itoa(int(nwc)) + " characters, but only 1 expected")
-		}
-		var wchars [1]uint16
-		nwc, err = windows.MultiByteToWideChar(cp, windows.MB_ERR_INVALID_CHARS, &mbytes[0], int32(len(mbytes)), &wchars[0], nwc)
-		if err != nil {
-			return 0, err
-		}
-		return wchars[0], nil
-	}
-}
-
 // readConsole reads utf16 characters from console File,
-// encodes them into utf8 and stores them in buffer buf.
+// encodes them into utf8 and stores them in buffer b.
 // It returns the number of utf8 bytes read and an error, if any.
-func (f *File) readConsole(buf []byte) (n int, err error) {
-	if len(buf) == 0 {
+func (f *File) readConsole(b []byte) (n int, err error) {
+	if len(b) == 0 {
 		return 0, nil
 	}
-	if len(f.readbuf) > 0 {
-		return f.copyReadConsoleBuffer(buf)
-	}
-	wchar, err := f.readOneUTF16FromConsole()
-	if err != nil {
-		return 0, err
-	}
-	r := rune(wchar)
-	if utf16.IsSurrogate(r) {
-		wchar, err := f.readOneUTF16FromConsole()
+	if len(f.readbuf) == 0 {
+		// Windows  can't read bytes over max of int16.
+		// Some versions of Windows can read even less.
+		// See golang.org/issue/13697.
+		mbytes := make([]byte, 10000)
+		var nmb uint32
+		err := readFile(f.fd, mbytes, &nmb, nil)
 		if err != nil {
 			return 0, err
 		}
-		r = utf16.DecodeRune(r, rune(wchar))
-	}
-	if nr := utf8.RuneLen(r); nr > len(buf) {
-		start := len(f.readbuf)
-		for ; nr > 0; nr-- {
-			f.readbuf = append(f.readbuf, 0)
+		if nmb > 0 {
+			var pmb *byte
+			if len(b) > 0 {
+				pmb = &mbytes[0]
+			}
+			ccp := getCP()
+			// Convert from 8-bit console encoding to UTF16.
+			// MultiByteToWideChar defaults to Unicode NFC form, which is the expected one.
+			nwc, err := windows.MultiByteToWideChar(ccp, 0, pmb, int32(nmb), nil, 0)
+			if err != nil {
+				return 0, err
+			}
+			wchars := make([]uint16, nwc)
+			pwc := &wchars[0]
+			nwc, err = windows.MultiByteToWideChar(ccp, 0, pmb, int32(nmb), pwc, nwc)
+			if err != nil {
+				return 0, err
+			}
+			for _, r := range utf16.Decode(wchars[:nwc]) {
+				start := len(f.readbuf)
+				nr := utf8.RuneLen(r)
+				for ; nr > 0; nr-- {
+					f.readbuf = append(f.readbuf, 0)
+				}
+				utf8.EncodeRune(f.readbuf[start:cap(f.readbuf)], r)
+			}
 		}
-		utf8.EncodeRune(f.readbuf[start:cap(f.readbuf)], r)
-	} else {
-		utf8.EncodeRune(buf, r)
-		buf = buf[nr:]
-		n += nr
 	}
-	if n > 0 {
-		return n, nil
-	}
-	return f.copyReadConsoleBuffer(buf)
+	return f.copyReadConsoleBuffer(b)
 }
 
 // read reads up to len(b) bytes from the File.

@@ -9,6 +9,7 @@ import (
 	"encoding/hex"
 	"internal/syscall/windows"
 	"internal/testenv"
+	"io"
 	"io/ioutil"
 	"os"
 	osexec "os/exec"
@@ -732,4 +733,48 @@ func TestStatPagefile(t *testing.T) {
 		t.Skip(`skipping because c:\pagefile.sys is not found`)
 	}
 	t.Fatal(err)
+}
+
+func TestCtrlzWindows(t *testing.T) {
+	defer os.ResetGetConsoleCPAndReadFileFuncs()
+
+	testConsole := os.NewConsoleFile(syscall.Stdin, "test")
+
+	expected := []byte("あ")
+
+	*os.GetCPP = func() uint32 {
+		return 65001 // UTF-8
+	}
+	// break at end of the line
+	pos := 0
+	*os.ReadFileP = func(h syscall.Handle, buf []byte, done *uint32, o *syscall.Overlapped) error {
+		if pos < len(expected) {
+			*done = uint32(copy(buf, expected[pos:]))
+			pos += int(*done)
+			return nil
+		}
+		// break
+		*done = uint32(0)
+		return nil
+	}
+	var buf [10]byte
+	n, err := testConsole.Read(buf[:])
+	if err != nil {
+		t.Fatal(err)
+	}
+	have := string(buf[:n])
+	if have != string(expected) {
+		t.Errorf("%q expected, but %q received", expected, have)
+	}
+
+	/* break at begin of the line */
+	pos = 0
+	*os.ReadFileP = func(h syscall.Handle, buf []byte, done *uint32, o *syscall.Overlapped) error {
+		*done = uint32(0)
+		return nil
+	}
+	_, err = testConsole.Read(buf[:])
+	if err != io.EOF {
+		t.Fatal(err)
+	}
 }
