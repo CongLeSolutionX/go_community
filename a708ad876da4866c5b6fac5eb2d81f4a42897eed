@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c730bd0_1ffdeb96",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "e530e7ea_cc9ecfb8",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e530e7ea_0c04d7ed",
         "filename": "src/encoding/json/example_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-09-26T05:25:02Z",
       "side": 1,
       "message": "just use int.",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_5ff363cc",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "e530e7ea_0c04d7ed",
       "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9c730bd0_bf363fa4",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "e530e7ea_6cf59be3",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e530e7ea_4cfadfd5",
         "filename": "src/encoding/json/example_test.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-09-26T05:25:02Z",
       "side": 1,
       "message": "Put Gopher before Zebra",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_9f39fb98",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "e530e7ea_4cfadfd5",
       "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "dc5582ad_8dce2981",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "It isn\u0027t on Stringers but for the examples to be simpilifed and have the strings printed, we need to use String() when we print the unmarshalled list of anmials and when we are marshalling.",
+      "parentUuid": "e530e7ea_8c98c7ca",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e530e7ea_2cff93c5",
         "filename": "src/encoding/json/example_test.go",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2016-09-26T05:25:02Z",
       "side": 1,
       "message": "put this in the UnmarshalJSON method",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_3f022fb8",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "e530e7ea_2cff93c5",
       "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9c730bd0_bf1f1f1e",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "You need UnmarshalJSON to use a pointer otherwise the result that we get in won\u0027t be saved.",
+      "parentUuid": "e530e7ea_acf263f4",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e530e7ea_cce5af2e",
         "filename": "src/encoding/json/example_test.go",
         "patchSetId": 1
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "9c730bd0_5f4cc33e",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "But if we use int, then we can\u0027t use a custom MarshalJSON with symbolic names on the wire e.g \"zebra\", \"gopher\", we\u0027ll then have to switch its MarshalJSON\u0027s to deserialize to ints then.",
+      "parentUuid": "e530e7ea_cce5af2e",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e530e7ea_ece86b08",
         "filename": "src/encoding/json/example_test.go",
         "patchSetId": 1
@@ -149,6 +293,41 @@
       "writtenOn": "2016-09-26T05:25:02Z",
       "side": 1,
       "message": "s :\u003d \"unknown\"\nswitch a {\ncase Gopher:\n  s \u003d \"gopher\"\n// ...\n}\nreturn json.Marshal(s)",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_7f5187d5",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "Nice one getting rid of strconv, thanks. Done.",
+      "parentUuid": "e530e7ea_ece86b08",
+      "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_1f464b1d",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-15T23:09:46Z",
+      "side": 1,
+      "message": "If we get rid of .String() we won\u0027t be able to have this nice output and also we\u0027ll have switch to ints as well for MarshalJSON.",
       "revId": "a708ad876da4866c5b6fac5eb2d81f4a42897eed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
