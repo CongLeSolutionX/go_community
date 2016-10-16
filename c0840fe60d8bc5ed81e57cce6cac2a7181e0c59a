@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c82d683_a46f4c53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-16T16:12:53Z",
+      "side": 1,
+      "message": "s/on/in/",
+      "revId": "c0840fe60d8bc5ed81e57cce6cac2a7181e0c59a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c82d683_c4745028",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-16T16:12:53Z",
+      "side": 1,
+      "message": "In interactive mode, ...",
+      "revId": "c0840fe60d8bc5ed81e57cce6cac2a7181e0c59a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c82d683_e479541d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-16T16:12:53Z",
+      "side": 1,
+      "message": "shows .... any program",
+      "revId": "c0840fe60d8bc5ed81e57cce6cac2a7181e0c59a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
