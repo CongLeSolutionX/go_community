@@ -125,11 +125,6 @@ func testDirLinks(t *testing.T, tests []dirLinkTest) {
 			continue
 		}
 
-		if test.issueNo > 0 {
-			t.Logf("skipping broken %q test: see issue %d", test.name, test.issueNo)
-			continue
-		}
-
 		fi, err := os.Stat(link)
 		if err != nil {
 			t.Errorf("failed to stat link %v: %v", link, err)
@@ -400,6 +395,99 @@ func TestDirectorySymbolicLink(t *testing.T) {
 		},
 	)
 	testDirLinks(t, tests)
+}
+
+func TestNetworkSymbolicLink(t *testing.T) {
+	dir, err := ioutil.TempDir("", "TestNetworkSymbolicLink")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.RemoveAll(dir)
+
+	oldwd, err := os.Getwd()
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = os.Chdir(dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer os.Chdir(oldwd)
+
+	sharePath := filepath.Join(dir, "TestShare")
+
+	err = os.MkdirAll(filepath.Join(dir, "TestDir"), 0777)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	wShareName, err := syscall.UTF16PtrFromString("TestShare")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	wSharePath, err := syscall.UTF16PtrFromString(sharePath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	p := windows.ShareInfo{
+		Netname:     wShareName,
+		Type:        windows.STYPE_DISKTREE,
+		Remark:      nil,
+		Permissions: 0,
+		MaxUses:     1,
+		CurrentUses: 0,
+		Path:        wSharePath,
+		Passwd:      nil,
+	}
+
+	b := (*byte)(unsafe.Pointer(&p))
+
+	var parmErr uint16
+
+	err = windows.NetShareAdd(nil, 2, &b, &parmErr)
+	if err != nil {
+		if err == syscall.ERROR_ACCESS_DENIED {
+			t.Skip("you don't have enough privileges to add network share")
+		}
+		t.Fatal(err)
+	}
+	defer func() {
+		err = windows.NetShareDel(nil, wShareName, 0)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}()
+
+	fi, err := os.Stat(sharePath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	fi2, err := os.Stat(`\\localhost\TestShare\`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !os.SameFile(f1, f2) {
+		t.Fatal("wrong network path")
+	}
+
+	target := `\\localhost\TestShare\TestDir`
+	link := "link"
+
+	err = os.Symlink(target, link)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	got, err := os.Readlink(link)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if got != target {
+		t.Errorf(`os.Readlink("%s"): got %v, want %v`, link, got, target)
+	}
 }
 
 func TestStartProcessAttr(t *testing.T) {
