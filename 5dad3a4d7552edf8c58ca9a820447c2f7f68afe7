@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fc1a4624_d5b21c50",
+        "filename": "src/encoding/asn1/asn1_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-16T06:28:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c730bd0_a28ce419",
+      "revId": "5dad3a4d7552edf8c58ca9a820447c2f7f68afe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c730bd0_c289d808",
         "filename": "src/encoding/asn1/marshal.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-16T06:06:01Z",
       "side": 1,
       "message": "nil big.Int pointer",
+      "revId": "5dad3a4d7552edf8c58ca9a820447c2f7f68afe7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1a4624_35b8b02d",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-16T06:28:10Z",
+      "side": 1,
+      "message": "If I understand you correctly, \nthe word \"empty integer\" is taken from func checkInteger in asn1.go. so I think it isn\u0027t bad.",
+      "parentUuid": "9c730bd0_c289d808",
       "revId": "5dad3a4d7552edf8c58ca9a820447c2f7f68afe7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
