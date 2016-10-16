@@ -841,23 +841,28 @@ func parseField(v reflect.Value, bytes []byte, initOffset int, params fieldParam
 	case reflect.Struct:
 		structType := fieldType
 
-		if structType.NumField() > 0 &&
-			structType.Field(0).Type == rawContentsType {
-			bytes := bytes[initOffset:offset]
-			val.Field(0).Set(reflect.ValueOf(RawContent(bytes)))
+		if n := structType.NumField(); n > 0 {
+			i := 0
+
+			if f := structType.Field(0); f.PkgPath == "" {
+				if f.Type == rawContentsType {
+					bytes := bytes[initOffset:offset]
+					val.Field(0).Set(reflect.ValueOf(RawContent(bytes)))
+					i++
+				}
+			}
+
+			innerOffset := 0
+			for ; i < n; i++ {
+				if f := structType.Field(i); f.PkgPath == "" {
+					innerOffset, err = parseField(val.Field(i), innerBytes, innerOffset, parseFieldParameters(f.Tag.Get("asn1")))
+					if err != nil {
+						return
+					}
+				}
+			}
 		}
 
-		innerOffset := 0
-		for i := 0; i < structType.NumField(); i++ {
-			field := structType.Field(i)
-			if i == 0 && field.Type == rawContentsType {
-				continue
-			}
-			innerOffset, err = parseField(val.Field(i), innerBytes, innerOffset, parseFieldParameters(field.Tag.Get("asn1")))
-			if err != nil {
-				return
-			}
-		}
 		// We allow extra bytes at the end of the SEQUENCE because
 		// adding elements to the end has been used in X.509 as the
 		// version numbers have increased.

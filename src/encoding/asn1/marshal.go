@@ -423,45 +423,50 @@ func makeBody(value reflect.Value, params fieldParameters) (e encoder, err error
 	case reflect.Struct:
 		t := v.Type()
 
-		startingField := 0
+		i := 0
 
-		n := t.NumField()
-		if n == 0 {
-			return bytesEncoder(nil), nil
-		}
+		if n := t.NumField(); n > 0 {
+			if f := t.Field(0); f.PkgPath == "" {
+				// If the first element of the structure is a non-empty
+				// RawContents, then we don't bother serializing the rest.
+				if f.Type == rawContentsType {
+					s := v.Field(0)
+					if s.Len() > 0 {
+						bytes := s.Bytes()
+						/* The RawContents will contain the tag and
+						 * length fields but we'll also be writing
+						 * those ourselves, so we strip them out of
+						 * bytes */
+						return bytesEncoder(stripTagAndLength(bytes)), nil
+					}
 
-		// If the first element of the structure is a non-empty
-		// RawContents, then we don't bother serializing the rest.
-		if t.Field(0).Type == rawContentsType {
-			s := v.Field(0)
-			if s.Len() > 0 {
-				bytes := s.Bytes()
-				/* The RawContents will contain the tag and
-				 * length fields but we'll also be writing
-				 * those ourselves, so we strip them out of
-				 * bytes */
-				return bytesEncoder(stripTagAndLength(bytes)), nil
-			}
-
-			startingField = 1
-		}
-
-		switch n1 := n - startingField; n1 {
-		case 0:
-			return bytesEncoder(nil), nil
-		case 1:
-			return makeField(v.Field(startingField), parseFieldParameters(t.Field(startingField).Tag.Get("asn1")))
-		default:
-			m := make([]encoder, n1)
-			for i := 0; i < n1; i++ {
-				m[i], err = makeField(v.Field(i+startingField), parseFieldParameters(t.Field(i+startingField).Tag.Get("asn1")))
-				if err != nil {
-					return nil, err
+					i++
 				}
 			}
 
-			return multiEncoder(m), nil
+			switch n1 := n - i; n1 {
+			case 0:
+			case 1:
+				if f := t.Field(i); f.PkgPath == "" {
+					return makeField(v.Field(i), parseFieldParameters(f.Tag.Get("asn1")))
+				}
+			default:
+				m := make([]encoder, 0, n1)
+				for ; i < n; i++ {
+					if f := t.Field(i); f.PkgPath == "" {
+						e, err = makeField(v.Field(i), parseFieldParameters(f.Tag.Get("asn1")))
+						if err != nil {
+							return nil, err
+						}
+						m = append(m, e)
+					}
+				}
+				if len(m) > 0 {
+					return multiEncoder(m), nil
+				}
+			}
 		}
+		return bytesEncoder(nil), nil
 	case reflect.Slice:
 		sliceType := v.Type()
 		if sliceType.Elem().Kind() == reflect.Uint8 {
