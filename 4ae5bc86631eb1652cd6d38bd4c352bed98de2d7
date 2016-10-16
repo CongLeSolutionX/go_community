@@ -22,6 +22,24 @@
       "revId": "4ae5bc86631eb1652cd6d38bd4c352bed98de2d7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_18c03522",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-16T15:33:12Z",
+      "side": 1,
+      "message": "I originally did this (looks like I forgot to update the doc comment when I changed it), but I didn\u0027t like it because rather than being \"park the current goroutine\", passing gp in makes this \"park gp, which had better be the current goroutine\". That complicates the gcParkAssist interface and, since getg() is virtually free and the goparkunlock will fail if we try to park a g0 anyway, there doesn\u0027t seem to be any gain.",
+      "parentUuid": "1c99da37_b83c0919",
+      "revId": "4ae5bc86631eb1652cd6d38bd4c352bed98de2d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
