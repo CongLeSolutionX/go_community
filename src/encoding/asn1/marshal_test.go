@@ -183,3 +183,23 @@ func BenchmarkMarshal(b *testing.B) {
 		}
 	}
 }
+
+type T struct {
+	t time.Time
+}
+
+type E struct{}
+
+func TestMarshalUnexportedField(t *testing.T) {
+	got, err := Marshal(T{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	want, err := Marshal(E{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(got, want) {
+		t.Fatalf("T should be encoded as the same as E, got %v, want %v", got, want)
+	}
+}
