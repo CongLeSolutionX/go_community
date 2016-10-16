@@ -963,11 +963,58 @@ func TestUnmarshalInvalidUTF8(t *testing.T) {
 func TestMarshalNilValue(t *testing.T) {
 	nilValueTestData := []interface{}{
 		nil,
-		struct{ v interface{} }{},
+		struct{ V interface{} }{},
 	}
 	for i, test := range nilValueTestData {
 		if _, err := Marshal(test); err == nil {
 			t.Fatalf("#%d: successfully marshaled nil value", i)
 		}
+	}
+}
+
+type exported struct {
+	X int
+	Y string
+}
+
+type unexported struct {
+	x int // should be skipped
+	X int
+	y string // should be skipped
+	Y string
+	z string // should be skipped
+}
+
+func TestUnexportedStructField(t *testing.T) {
+	e := exported{X: 12345, Y: "test"}
+	bs, err := Marshal(e)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var u unexported
+	rest, err := Unmarshal(bs, &u)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(rest) != 0 {
+		t.Fatalf("len(rest) should be 0, got %d", len(rest))
+	}
+
+	if e.X != u.X {
+		t.Fatalf("got %d, want %d", u.X, e.X)
+	}
+	if e.Y != u.Y {
+		t.Fatalf("got %q, want %q", u.Y, e.Y)
+	}
+
+	u.x = 321 // should not affect Marshal result
+
+	bs2, err := Marshal(u)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !bytes.Equal(bs, bs2) {
+		t.Fatalf("got %v, want %v", bs2, bs)
 	}
 }
