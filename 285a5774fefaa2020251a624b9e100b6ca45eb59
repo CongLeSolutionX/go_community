@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c82d683_e1a066a5",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-16T16:11:27Z",
+      "side": 1,
+      "message": "not a great example if it contains \"_\". That invites more questions than it answers.\n\nIt looks an ignored error check if you don\u0027t know already what it is.",
+      "revId": "285a5774fefaa2020251a624b9e100b6ca45eb59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c82d683_01a62abe",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-16T16:11:27Z",
+      "side": 1,
+      "message": "this is misleading, like it\u0027s an error for it to not be an RSA public key.\n\nI\u0027d replace this type check with something like:\n\nfmt.Fprintf(\"Got a %T\", pub)",
+      "revId": "285a5774fefaa2020251a624b9e100b6ca45eb59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c82d683_219b2e78",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-16T16:11:27Z",
+      "side": 1,
+      "message": "include output",
+      "revId": "285a5774fefaa2020251a624b9e100b6ca45eb59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
