@@ -1204,9 +1204,7 @@ var tags [1 << (bitsPerOutputInTag + EscReturnBits)]string
 
 // mktag returns the string representation for an escape analysis tag.
 func mktag(mask int) string {
-	switch mask & EscMask {
-	case EscNone, EscReturn:
-	default:
+	if mask == EscUnknown {
 		Fatalf("escape mktag")
 	}
 
@@ -1299,12 +1297,17 @@ func (e *EscState) escassignfromtag(note string, dsts Nodes, src *Node) uint16 {
 			linestr(lineno), src, describeEscape(em))
 	}
 
-	if em == EscUnknown {
+	switch em {
+	case EscNone:
+		return em
+	case EscUnknown:
 		e.escassignSinkNilWhy(src, src, "passed to function[unknown]")
 		return em
-	}
-
-	if em == EscNone {
+	case EscScope:
+		e.escassignSinkNilWhy(src, src, "passed to function[scope]")
+		return em
+	case EscHeap:
+		e.escassignSinkNilWhy(src, src, "passed to function[heap]")
 		return em
 	}
 
@@ -2061,21 +2064,17 @@ func (e *EscState) esctag(fn *Node) {
 	}
 
 	for _, ln := range fn.Func.Dcl {
-		if ln.Op != ONAME {
+		if ln.Op != ONAME || ln.Class != PPARAM || !haspointers(ln.Type) {
 			continue
 		}
 
-		switch ln.Esc & EscMask {
-		case EscNone, // not touched by escflood
-			EscReturn:
-			if haspointers(ln.Type) { // don't bother tagging for scalars
-				if ln.Name.Param.Field.Note != uintptrEscapesTag {
-					ln.Name.Param.Field.Note = mktag(int(ln.Esc))
-				}
-			}
+		// If the closure isn't called in its parent function, its params are not touched, nothing to do.
+		if ln.Esc == EscUnknown {
+			break
+		}
 
-		case EscHeap, // touched by escflood, moved to heap
-			EscScope: // touched by escflood, value leaves scope
+		if ln.Name.Param.Field.Note != uintptrEscapesTag {
+			ln.Name.Param.Field.Note = mktag(int(ln.Esc))
 		}
 	}
 }
