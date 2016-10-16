@@ -49,33 +49,20 @@ func explode(s []byte, n int) [][]byte {
 // Count counts the number of non-overlapping instances of sep in s.
 // If sep is an empty slice, Count returns 1 + the number of Unicode code points in s.
 func Count(s, sep []byte) int {
-	n := len(sep)
-	if n == 0 {
+	n := 0
+	// special cases
+	if len(sep) == 0 {
 		return utf8.RuneCount(s) + 1
 	}
-	if n > len(s) {
-		return 0
-	}
-	count := 0
-	c := sep[0]
-	i := 0
-	t := s[:len(s)-n+1]
-	for i < len(t) {
-		if t[i] != c {
-			o := IndexByte(t[i:], c)
-			if o < 0 {
-				break
-			}
-			i += o
+	offset := 0
+	for {
+		i := Index(s[offset:], sep)
+		if i == -1 {
+			return n
 		}
-		if n == 1 || Equal(s[i:i+n], sep) {
-			count++
-			i += n
-			continue
-		}
-		i++
+		n++
+		offset += i + len(sep)
 	}
-	return count
 }
 
 // Contains reports whether subslice is within b.
