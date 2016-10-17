@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c730bd0_b3819849",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1246,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-17T18:18:17Z",
+      "side": 1,
+      "message": "the n \u003d 0 is not needed, but I assume you left it to highlight that we start with 0 ?",
+      "revId": "88f8e3e6b1094de0f8dded53a264f6e0def5a60a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_73a220e8",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-17T18:18:17Z",
+      "side": 1,
+      "message": "this if could use a comment",
+      "revId": "88f8e3e6b1094de0f8dded53a264f6e0def5a60a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
