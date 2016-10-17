@@ -16,6 +16,24 @@
       "revId": "bed23fc2a5ba0bb5a39ee1c7fea62069c5c3b180",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc74a3bf_564032a1",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-17T20:30:00Z",
+      "side": 1,
+      "message": "That doesn\u0027t work: the updated slice must be returned in both cases. I could have written\n\nif n\u00261 !\u003d 0 {\n   z \u003d z.set(z1)\n} else {\n   z \u003d z1\n} \nreturn z\n\nbut that\u0027s more code than what I ended up with.",
+      "parentUuid": "9c730bd0_8efd4702",
+      "revId": "bed23fc2a5ba0bb5a39ee1c7fea62069c5c3b180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
