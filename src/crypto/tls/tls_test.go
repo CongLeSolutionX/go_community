@@ -523,7 +523,7 @@ func TestConnCloseWrite(t *testing.T) {
 	go func() {
 		sconn, err := ln2.Accept()
 		if err != nil {
-			t.Fatal(err)
+			panic(err)
 		}
 
 		serverConfig := testConfig.Clone()
