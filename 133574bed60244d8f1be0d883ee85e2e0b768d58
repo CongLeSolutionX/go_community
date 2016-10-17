@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c82d683_6450e401",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-17T13:18:36Z",
+      "side": 1,
+      "message": "2016, not 2009",
+      "revId": "133574bed60244d8f1be0d883ee85e2e0b768d58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ccef2f0_88e35728",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-17T13:18:36Z",
+      "side": 1,
+      "message": "It\u0027s not a pair if it\u0027s only a public key.\n\nJust say \"and some more\"",
+      "revId": "133574bed60244d8f1be0d883ee85e2e0b768d58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c45bf84_5e687533",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-17T13:18:36Z",
+      "side": 1,
+      "message": "drop the period after %q and drop the string(...).  You can use []byte with %q, so you can just write \"rest\" by itself.",
+      "revId": "133574bed60244d8f1be0d883ee85e2e0b768d58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
