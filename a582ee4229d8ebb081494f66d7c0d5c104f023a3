@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc5582ad_d8eb7dd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-10-17T16:20:05Z",
+      "side": 1,
+      "message": "Not sure \"static\" works here -- do we also catch some of the writes to globals?\nDo those matter?",
+      "range": {
+        "startLine": 18,
+        "startChar": 39,
+        "endLine": 18,
+        "endChar": 64
+      },
+      "revId": "a582ee4229d8ebb081494f66d7c0d5c104f023a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_5800edac",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3348,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-10-17T16:20:05Z",
+      "side": 1,
+      "message": "I didn\u0027t see a corresponding change to the instruction scheduler, nor a constraint in compile.go that would guarantee this came before the scheduler, and this also feels like it might put us at some risk of code inserted-after by some other optimization phase.\n\nI\u0027m not entirely sure what\u0027s the best way to address this, but it seems like at minimum a watch-out or // TODO to warn future-us about this.",
+      "range": {
+        "startLine": 3345,
+        "startChar": 4,
+        "endLine": 3348,
+        "endChar": 21
+      },
+      "revId": "a582ee4229d8ebb081494f66d7c0d5c104f023a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_c7eba0d7",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-10-17T16:20:05Z",
+      "side": 1,
+      "message": "// r a power of two.",
+      "range": {
+        "startLine": 233,
+        "startChar": 5,
+        "endLine": 233,
+        "endChar": 10
+      },
+      "revId": "a582ee4229d8ebb081494f66d7c0d5c104f023a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
