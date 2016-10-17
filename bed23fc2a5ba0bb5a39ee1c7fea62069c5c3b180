@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c730bd0_8efd4702",
+        "filename": "src/math/big/nat.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-17T19:26:33Z",
+      "side": 1,
+      "message": "if n\u00261 !\u003d 0 {\n   z.set(z1)\n}\nreturn\n\n?",
+      "revId": "bed23fc2a5ba0bb5a39ee1c7fea62069c5c3b180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
