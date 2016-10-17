@@ -206,6 +206,52 @@
       "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_1eefbd77",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2206,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2016-10-17T23:48:10Z",
+      "side": 1,
+      "message": "I like the rule. It\u0027s rare to use different package identifiers for the same package, even by mistake, but I think it would be likely to introduce an alias (say, near the bottom of a file) and forget to rename all occurrences of the aliased identifier.",
+      "range": {
+        "startLine": 2202,
+        "startChar": 0,
+        "endLine": 2206,
+        "endChar": 7
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_fee5019c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2210,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2016-10-17T23:48:10Z",
+      "side": 1,
+      "message": "Why may instead of must?",
+      "range": {
+        "startLine": 2210,
+        "startChar": 39,
+        "endLine": 2210,
+        "endChar": 42
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
