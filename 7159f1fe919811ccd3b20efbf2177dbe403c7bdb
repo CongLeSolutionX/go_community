@@ -16,6 +16,24 @@
       "revId": "7159f1fe919811ccd3b20efbf2177dbe403c7bdb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_5846ad52",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 12645
+      },
+      "writtenOn": "2016-10-17T13:45:41Z",
+      "side": 1,
+      "message": "I ran `go test` but have the master branch aliased under `dev-go`. So the tests passed missing the import.",
+      "parentUuid": "7c82d683_446cc0c2",
+      "revId": "7159f1fe919811ccd3b20efbf2177dbe403c7bdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
