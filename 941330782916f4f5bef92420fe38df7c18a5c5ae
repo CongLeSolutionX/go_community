@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcf8878b_15f7f670",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2186,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2016-10-17T23:34:21Z",
+      "side": 1,
+      "message": "Is object the right word to be using here? Wondering if it might be confused with OOP.",
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_350b1299",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2188,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2016-10-17T23:34:21Z",
+      "side": 1,
+      "message": "typo: the the",
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
