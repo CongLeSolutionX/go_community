@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcf8878b_efc41dfa",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2016-10-17T21:40:48Z",
+      "side": 1,
+      "message": "For many of these, the VS registers \u003e 32 are being truncated.  Like this one:\nMFVSRWZ VS33, R1        //      mfvrwz  r1,v1",
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_6fb14d99",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2016-10-17T21:40:48Z",
+      "side": 1,
+      "message": "This disassembles to mtfprwa f31,r1",
+      "range": {
+        "startLine": 909,
+        "startChar": 1,
+        "endLine": 909,
+        "endChar": 8
+      },
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_6fc82d09",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2016-10-17T21:40:48Z",
+      "side": 1,
+      "message": "XXLANDQ VS0, VS1, VS32  //      xxland  vs32,vs0,vs1\nxxlandq?",
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_8fde39c3",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2016-10-17T21:40:48Z",
+      "side": 1,
+      "message": "XXSEL VS0, VS1, VS3, VS32       //      xxsel   vs32,vs0,vs1,vs3\nexpected order?",
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_2f7585f0",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2016-10-17T21:40:48Z",
+      "side": 1,
+      "message": "XXPERMDI VS0, VS1, $3, VS32     //      xxmrgld vs32,vs0,vs1",
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
