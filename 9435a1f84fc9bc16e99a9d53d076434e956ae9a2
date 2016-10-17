@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c730bd0_82f8c0a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-17T09:06:30Z",
+      "side": 1,
+      "message": "encoding/asn1: error instead of dereferencing nil *big.Int in marshaling",
+      "revId": "9435a1f84fc9bc16e99a9d53d076434e956ae9a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
