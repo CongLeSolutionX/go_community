@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c82d683_e4da34dc",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-17T09:19:41Z",
+      "side": 1,
+      "message": "missing copyright header",
+      "revId": "0646a2e964f4335220942445de17f25aa8692465",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c82d683_04e0f888",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-17T09:19:41Z",
+      "side": 1,
+      "message": "delete comment. It adds nothing.",
+      "revId": "0646a2e964f4335220942445de17f25aa8692465",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c82d683_a4e02c8e",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-17T09:19:41Z",
+      "side": 1,
+      "message": "fmt.Printf is shorter.",
+      "revId": "0646a2e964f4335220942445de17f25aa8692465",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c82d683_c4e5309d",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-17T09:19:41Z",
+      "side": 1,
+      "message": "Maybe put some non-zero bytes after the END PUBLIC KEY line and print them here instead of the len? Or the len is fine too. Your choice. But I\u0027d make it non-zero.",
+      "revId": "0646a2e964f4335220942445de17f25aa8692465",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
