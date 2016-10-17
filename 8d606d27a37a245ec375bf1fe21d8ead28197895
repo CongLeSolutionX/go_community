@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fc1a4624_78d97d13",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-17T13:03:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc1a4624_f5ce3881",
+      "range": {
+        "startLine": 154,
+        "startChar": 5,
+        "endLine": 154,
+        "endChar": 15
+      },
+      "revId": "8d606d27a37a245ec375bf1fe21d8ead28197895",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1a4624_d5d33c27",
         "filename": "src/internal/syscall/windows/syscall_windows.go",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-17T05:26:21Z",
       "side": 1,
       "message": "s/**byte/*byte/\n\nI don\u0027t see why you need double star. Why?",
+      "range": {
+        "startLine": 165,
+        "startChar": 57,
+        "endLine": 165,
+        "endChar": 63
+      },
+      "revId": "8d606d27a37a245ec375bf1fe21d8ead28197895",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1a4624_58d641e5",
+        "filename": "src/internal/syscall/windows/syscall_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-17T13:03:48Z",
+      "side": 1,
+      "message": "good catch! thanks.",
+      "parentUuid": "fc1a4624_d5d33c27",
       "range": {
         "startLine": 165,
         "startChar": 57,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "fc1a4624_b81315cb",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-17T13:03:48Z",
+      "side": 1,
+      "message": "Just for unifying skip messages. But either is fine. I removed it.",
+      "parentUuid": "fc1a4624_55072cc2",
+      "revId": "8d606d27a37a245ec375bf1fe21d8ead28197895",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1a4624_75e348f4",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 2
@@ -76,6 +142,24 @@
       "writtenOn": "2016-10-17T05:26:21Z",
       "side": 1,
       "message": "I do not think you should create new variable \"b\" here. But it is up to you.",
+      "revId": "8d606d27a37a245ec375bf1fe21d8ead28197895",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1a4624_9818d9e6",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-17T13:03:48Z",
+      "side": 1,
+      "message": "Done. I like your suggestion too.",
+      "parentUuid": "fc1a4624_75e348f4",
       "revId": "8d606d27a37a245ec375bf1fe21d8ead28197895",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "fc1a4624_f81d8dd4",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-17T13:03:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc1a4624_15e65404",
+      "range": {
+        "startLine": 454,
+        "startChar": 38,
+        "endLine": 454,
+        "endChar": 46
+      },
+      "revId": "8d606d27a37a245ec375bf1fe21d8ead28197895",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1a4624_95d9c44b",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 2
@@ -116,6 +224,24 @@
       "writtenOn": "2016-10-17T05:26:21Z",
       "side": 1,
       "message": "s/\u003d/:\u003d/\n\njust to be on the safe side.",
+      "revId": "8d606d27a37a245ec375bf1fe21d8ead28197895",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc1a4624_d8225112",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-17T13:03:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc1a4624_95d9c44b",
       "revId": "8d606d27a37a245ec375bf1fe21d8ead28197895",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
