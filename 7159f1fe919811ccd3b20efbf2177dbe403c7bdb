@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c82d683_446cc0c2",
+        "filename": "src/encoding/pem/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-17T13:33:48Z",
+      "side": 1,
+      "message": "this should be pem_test or example_test ... not pem.\n\nSee the trybot failures.\n\nDid you not even run \"go test\" on this?",
+      "revId": "7159f1fe919811ccd3b20efbf2177dbe403c7bdb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
