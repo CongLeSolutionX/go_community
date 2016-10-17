@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c730bd0_42ef0805",
+        "filename": "src/encoding/json/example_marshaling_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-17T07:01:12Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "fc1a4624_f5c7585d",
+      "revId": "981da3cfc81bebdfc4956e49273cdce0643d8752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1a4624_75bce8cf",
         "filename": "src/encoding/json/example_marshaling_test.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9c730bd0_a274e47e",
+        "filename": "src/encoding/json/example_marshaling_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-17T07:01:12Z",
+      "side": 1,
+      "message": "Aye aye, I\u0027ve updated it and changed the example a little to make it a zoo census.\n\nCombining the examples helps rid the need for a .String method, so cool.\n\nI\u0027ve followed your tips and don\u0027t wanna miss out on the wisdom, If you don\u0027t mind me asking, what should I be looking for?",
+      "parentUuid": "fc1a4624_75bce8cf",
+      "revId": "981da3cfc81bebdfc4956e49273cdce0643d8752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1a4624_35b27000",
         "filename": "src/encoding/json/example_marshaling_test.go",
         "patchSetId": 2
@@ -47,6 +83,30 @@
       "writtenOn": "2016-10-17T06:05:34Z",
       "side": 1,
       "message": "blob",
+      "range": {
+        "startLine": 56,
+        "startChar": 1,
+        "endLine": 56,
+        "endChar": 10
+      },
+      "revId": "981da3cfc81bebdfc4956e49273cdce0643d8752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_e2e3bc1c",
+        "filename": "src/encoding/json/example_marshaling_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-17T07:01:12Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "fc1a4624_35b27000",
       "range": {
         "startLine": 56,
         "startChar": 1,
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "9c730bd0_02e11014",
+        "filename": "src/encoding/json/example_marshaling_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-17T07:01:12Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "fc1a4624_d5ccdc82",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 15
+      },
+      "revId": "981da3cfc81bebdfc4956e49273cdce0643d8752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc1a4624_15af7498",
         "filename": "src/encoding/json/example_marshaling_test.go",
         "patchSetId": 2
@@ -93,6 +177,30 @@
       "writtenOn": "2016-10-17T06:05:34Z",
       "side": 1,
       "message": "zoo",
+      "range": {
+        "startLine": 69,
+        "startChar": 5,
+        "endLine": 69,
+        "endChar": 16
+      },
+      "revId": "981da3cfc81bebdfc4956e49273cdce0643d8752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_a2ddc458",
+        "filename": "src/encoding/json/example_marshaling_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-17T07:01:12Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "fc1a4624_15af7498",
       "range": {
         "startLine": 69,
         "startChar": 5,
