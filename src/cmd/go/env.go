@@ -49,12 +49,35 @@ func mkEnv() []envVar {
 		{"TERM", "dumb"},
 	}
 
+	if gccgoBin != "" {
+		env = append(env, envVar{"GCCGO", gccgoBin})
+	} else {
+		env = append(env, envVar{"GCCGO", gccgoName})
+	}
+
+	switch goarch {
+	case "arm":
+		env = append(env, envVar{"GOARM", os.Getenv("GOARM")})
+	case "386":
+		env = append(env, envVar{"GO386", os.Getenv("GO386")})
+	}
+
 	if goos != "plan9" {
 		cmd := b.gccCmd(".")
 		env = append(env, envVar{"CC", cmd[0]})
 		env = append(env, envVar{"GOGCCFLAGS", strings.Join(cmd[3:], " ")})
 		cmd = b.gxxCmd(".")
 		env = append(env, envVar{"CXX", cmd[0]})
+		p := packages([]string{"runtime"})
+		cppflags, cflags, cxxflags, fflags, ldflags := b.cflags(p[0], true)
+		env = append(env, []envVar{
+			{"PKG_CONFIG", b.pkgconfigCmd()},
+			{"CGO_CFLAGS", strings.Join(cflags, " ")},
+			{"CGO_CPPFLAGS", strings.Join(cppflags, " ")},
+			{"CGO_CXXFLAGS", strings.Join(cxxflags, " ")},
+			{"CGO_FFLAGS", strings.Join(fflags, " ")},
+			{"CGO_LDFLAGS", strings.Join(ldflags, " ")},
+		}...)
 	}
 
 	if buildContext.CgoEnabled {
