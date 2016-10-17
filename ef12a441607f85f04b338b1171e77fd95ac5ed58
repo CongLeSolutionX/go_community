@@ -40,6 +40,24 @@
       "revId": "ef12a441607f85f04b338b1171e77fd95ac5ed58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_d3b27e9b",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-17T19:06:25Z",
+      "side": 1,
+      "message": "I\u0027ve expanded the comment on mheap_.sweepSpans (in CL 30535).",
+      "parentUuid": "5c3b525a_e0658245",
+      "revId": "ef12a441607f85f04b338b1171e77fd95ac5ed58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
