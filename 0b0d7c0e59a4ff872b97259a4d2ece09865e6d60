@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dc5582ad_5eb695d4",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2016-10-17T22:50:27Z",
+      "side": 1,
+      "message": "No, it\u0027s not. The disassembler is using the extended mnemonic:\n\nmfvsrwz r1, vs33 \u003d\u003d mfvrwz r1,v1\n\nMore generically:\n\nmfvsrwz RA,VS[0-31] \u003d\u003d mffprwz RA,F[0-31]\nmfvsrwz RA,VS[32-63] \u003d\u003d mfvrwz RA,V[0-31]\n\nThe ISA considers that doubleword 0 of VS[0-31] physically overlaps F[0-31] and that VS[32-63] physically overlap V[0-31] and provides those extended mnemonics so the programmer can use FP or VMX registers as well.\n\nI noticed this when reading the opcodes with objdump as well. \n\nI did not implement any extended mnemonics.",
+      "parentUuid": "fcf8878b_efc41dfa",
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_6fb14d99",
         "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2016-10-17T21:40:48Z",
       "side": 1,
       "message": "This disassembles to mtfprwa f31,r1",
+      "range": {
+        "startLine": 909,
+        "startChar": 1,
+        "endLine": 909,
+        "endChar": 8
+      },
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_1ec01d22",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2016-10-17T22:50:27Z",
+      "side": 1,
+      "message": "I think you are referring to MTVSRWA above. Then, yes, that\u0027s the extended mnemonic when operating on VS[0-31]. It\u0027s the same case as above.",
+      "parentUuid": "fcf8878b_6fb14d99",
       "range": {
         "startLine": 909,
         "startChar": 1,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "dc5582ad_3ebdd9aa",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2016-10-17T22:50:27Z",
+      "side": 1,
+      "message": "I added a Q to the go asm instruction to make it explicit that it operates on the quadword. If you think it\u0027s confusing, I can change that.\n\nThe correspondence between go asm and ppc asm is in cmd/internal/obj/ppc64/asm9.go, either in buildop() or oprrr() functions.",
+      "parentUuid": "fcf8878b_6fc82d09",
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_8fde39c3",
         "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
         "patchSetId": 3
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "dc5582ad_feef41a9",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2016-10-17T22:50:27Z",
+      "side": 1,
+      "message": "Yes. See the comment right above.",
+      "parentUuid": "fcf8878b_8fde39c3",
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_2f7585f0",
         "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
         "patchSetId": 3
@@ -87,6 +165,24 @@
       "writtenOn": "2016-10-17T21:40:48Z",
       "side": 1,
       "message": "XXPERMDI VS0, VS1, $3, VS32     //      xxmrgld vs32,vs0,vs1",
+      "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_5edf75fa",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2016-10-17T22:50:27Z",
+      "side": 1,
+      "message": "Another case of the disassembler using the extended mnemonic:\n\nxxpermdi T,A,B,3 \u003d\u003d xxmrgld T,A,B\n\nOther possibilities:\n\nxxpermdi T,A,A,0 \u003d\u003d xxspltd T,A,0\nxxpermdi T,A,A,3 \u003d\u003d xxspltd T,A,1\nxxpermdi T,A,B,0 \u003d\u003d xxmrghd T,A,B\nxxpermdi T,A,B,2 \u003d\u003d xxswapd T,A",
+      "parentUuid": "fcf8878b_2f7585f0",
       "revId": "0b0d7c0e59a4ff872b97259a4d2ece09865e6d60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
