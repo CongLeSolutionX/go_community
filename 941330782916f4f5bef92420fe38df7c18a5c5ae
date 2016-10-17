@@ -77,6 +77,98 @@
     },
     {
       "key": {
+        "uuid": "dc5582ad_1e3d7d13",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2188,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2016-10-17T23:41:19Z",
+      "side": 1,
+      "message": "I think you can delete this phrase, by transitivity of indistinguishability.",
+      "range": {
+        "startLine": 2187,
+        "startChar": 43,
+        "endLine": 2188,
+        "endChar": 10
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_5e43f599",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2188,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2016-10-17T23:41:19Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 2188,
+        "startChar": 11,
+        "endLine": 2188,
+        "endChar": 18
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_bec6a910",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2195,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2016-10-17T23:41:19Z",
+      "side": 1,
+      "message": "nit: it\u0027s not really part of one, it\u0027s a variant (according to the grammar).",
+      "range": {
+        "startLine": 2195,
+        "startChar": 37,
+        "endLine": 2195,
+        "endChar": 47
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_deb7e5a1",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2196,
+      "author": {
+        "id": 14570
+      },
+      "writtenOn": "2016-10-17T23:41:19Z",
+      "side": 1,
+      "message": "grammar nit: no hyphen if not an adjective.",
+      "range": {
+        "startLine": 2196,
+        "startChar": 35,
+        "endLine": 2196,
+        "endChar": 36
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_95ada66c",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
