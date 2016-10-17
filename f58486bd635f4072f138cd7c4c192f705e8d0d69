@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c730bd0_a23ce4df",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-17T00:51:41Z",
+      "side": 1,
+      "message": "s/golang/go/",
+      "range": {
+        "startLine": 877,
+        "startChar": 4,
+        "endLine": 877,
+        "endChar": 10
+      },
+      "revId": "f58486bd635f4072f138cd7c4c192f705e8d0d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_a20e2450",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1811,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-17T00:51:41Z",
+      "side": 1,
+      "message": "This comment feels like it should be inside the function above the line r :\u003d d - REG_VS0. Where it is now it seems to imply that the VSX register argument should be between 0 and 63 which isn\u0027t true from what I can see.\n\nAlso, bit 0 is the little-endian index right? Maybe say rightmost-bit instead? I think in the manual this is called bit 31.",
+      "range": {
+        "startLine": 1810,
+        "startChar": 0,
+        "endLine": 1811,
+        "endChar": 48
+      },
+      "revId": "f58486bd635f4072f138cd7c4c192f705e8d0d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_c2e23857",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1818,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-17T00:51:41Z",
+      "side": 1,
+      "message": "I\u0027d get rid of the \u0027Same for\u0027 part of these comments.",
+      "range": {
+        "startLine": 1818,
+        "startChar": 3,
+        "endLine": 1818,
+        "endChar": 11
+      },
+      "revId": "f58486bd635f4072f138cd7c4c192f705e8d0d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c730bd0_a2538429",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3952,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-17T00:51:41Z",
+      "side": 1,
+      "message": "You\u0027ve added XXPERM too but haven\u0027t added it here or to the tests (and I think this is probably true for other instructions too). Is there a reason?",
+      "range": {
+        "startLine": 3952,
+        "startChar": 6,
+        "endLine": 3952,
+        "endChar": 15
+      },
+      "revId": "f58486bd635f4072f138cd7c4c192f705e8d0d69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
