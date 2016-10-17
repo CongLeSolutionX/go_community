@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"internal/testenv"
 	"io"
+	"io/ioutil"
 	"math"
 	"math/rand"
 	"net"
@@ -455,6 +456,88 @@ func TestConnCloseBreakingWrite(t *testing.T) {
 	<-closeReturned
 	if err := tconn.Close(); err != errClosed {
 		t.Errorf("Close error = %v; want errClosed", err)
+	}
+}
+
+func TestConnCloseWrite(t *testing.T) {
+	ln := newLocalListener(t)
+	defer ln.Close()
+
+	errChan := make(chan error)
+	go func() {
+		defer close(errChan)
+
+		sconn, err := ln.Accept()
+		if err != nil {
+			panic(fmt.Errorf("accept: %v", err))
+		}
+
+		serverConfig := testConfig.Clone()
+		srv := Server(sconn, serverConfig)
+		if err := srv.Handshake(); err != nil {
+			errChan <- fmt.Errorf("handshake: %v", err)
+			return
+		}
+		defer srv.Close()
+
+		data, err := ioutil.ReadAll(srv)
+		if err != nil {
+			t.Error(err)
+		}
+		if len(data) > 0 {
+			errChan <- fmt.Errorf("Read data = %q; want nothing", data)
+			return
+		}
+
+		if err := srv.CloseWrite(); err != nil {
+			errChan <- fmt.Errorf("server CloseWrite: %v", err)
+			return
+		}
+	}()
+
+	clientConfig := testConfig.Clone()
+	conn, err := Dial("tcp", ln.Addr().String(), clientConfig)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := conn.Handshake(); err != nil {
+		t.Fatal(err)
+	}
+	defer conn.Close()
+
+	if err := <-errChan; err != nil {
+		t.Fatal(err)
+	}
+
+	if err := conn.CloseWrite(); err != nil {
+		t.Fatalf("client CloseWrite: %v", err)
+	}
+
+	if _, err := conn.Write([]byte{0}); err != errShutdown {
+		t.Errorf("CloseWrite error = %v; want errShutdown", err)
+	}
+
+	data, err := ioutil.ReadAll(conn)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(data) > 0 {
+		t.Errorf("Read data = %q; want nothing", data)
+	}
+
+	// test CloseWrite called before handshake finished
+
+	ln2 := newLocalListener(t)
+	defer ln2.Close()
+
+	netConn, err := net.Dial("tcp", ln2.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	conn = Client(netConn, clientConfig)
+
+	if err := conn.CloseWrite(); err != errEarlyCloseWrite {
+		t.Errorf("CloseWrite error = %v; want errEarlyCloseWrite", err)
 	}
 }
 
