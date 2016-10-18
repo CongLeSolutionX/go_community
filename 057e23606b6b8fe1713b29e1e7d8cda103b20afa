@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcf8878b_0082164c",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-18T03:24:11Z",
+      "side": 1,
+      "message": "The readers don\u0027t have to arrive, they could already be waiting.  I think you can omit \"arrived and\"; the requirement on zero-byte writes is satisfied by \"one or more\".",
+      "revId": "057e23606b6b8fe1713b29e1e7d8cda103b20afa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
