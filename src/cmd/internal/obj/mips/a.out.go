@@ -44,7 +44,7 @@ const (
 )
 
 const (
-	REG_R0 = obj.RBaseMIPS64 + iota
+	REG_R0 = obj.RBaseMIPS + iota
 	REG_R1
 	REG_R2
 	REG_R3
@@ -218,6 +218,11 @@ const (
 )
 
 const (
+	Mips32 = 1 << iota
+	Mips64
+)
+
+const (
 	C_NONE = iota
 	C_REG
 	C_FREG
@@ -258,7 +263,7 @@ const (
 )
 
 const (
-	AABSD = obj.ABaseMIPS64 + obj.A_ARCHSPECIFIC + iota
+	AABSD = obj.ABaseMIPS + obj.A_ARCHSPECIFIC + iota
 	AABSF
 	AABSW
 	AADD
@@ -290,6 +295,7 @@ const (
 	ADIVU
 	ADIVW
 	AGOK
+	ALL
 	ALUI
 	AMOVB
 	AMOVBU
@@ -319,9 +325,12 @@ const (
 	AREM
 	AREMU
 	ARFE
+	ASC
 	ASGT
 	ASGTU
 	ASLL
+	ASQRTD
+	ASQRTF
 	ASRA
 	ASRL
 	ASUB
@@ -329,13 +338,24 @@ const (
 	ASUBF
 	ASUBU
 	ASUBW
+	ASYNC
 	ASYSCALL
+	ATEQ
 	ATLBP
 	ATLBR
 	ATLBWI
 	ATLBWR
+	ATNE
 	AWORD
 	AXOR
+
+	/* 32-bit */
+	ACLO
+	ACLZ
+	ACMOVF
+	ACMOVN
+	ACMOVT
+	ACMOVZ
 
 	/* 64-bit */
 	AMOVV
