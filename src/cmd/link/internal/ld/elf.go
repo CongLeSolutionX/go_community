@@ -961,6 +961,9 @@ func Elfinit(ctxt *Link) {
 			ehdr.flags = 0x5000002 // has entry point, Version5 EABI
 		}
 		fallthrough
+	case sys.MIPS:
+		ehdr.flags = 0x50000000 /* MIPS 32 */
+		fallthrough
 	default:
 		ehdr.phoff = ELF32HDRSIZE
 		/* Must be be ELF32HDRSIZE: first PHdr must follow ELF header */
@@ -2196,7 +2199,7 @@ func Asmbelf(ctxt *Link, symo int64) {
 	switch SysArch.Family {
 	default:
 		Exitf("unknown architecture in asmbelf: %v", SysArch.Family)
-	case sys.MIPS64:
+	case sys.MIPS, sys.MIPS64:
 		eh.machine = EM_MIPS
 	case sys.ARM:
 		eh.machine = EM_ARM
