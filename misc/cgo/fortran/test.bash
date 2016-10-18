@@ -10,6 +10,7 @@ set -e
 FC=$1
 
 goos=$(go env GOOS)
+goarch=$(go env GOARCH)
 
 libext="so"
 if [ "$goos" == "darwin" ]; then
@@ -28,6 +29,11 @@ if ! $FC helloworld/helloworld.f90 -o main.exe >& /dev/null; then
   exit 0
 fi
 rm -f main.exe
+
+if ! [ "$goarch" == $(go env GOHOSTARCH) ]; then
+  echo "skipping Fortran test when GOARCH != GOHOSTARCH"
+  exit 0
+fi
 
 status=0
 
