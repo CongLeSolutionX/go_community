@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcf8878b_5b340fa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-18T08:05:13Z",
+      "side": 1,
+      "message": "#11480 appears to be about emitting shared libraries (i.e., compiling Go code into a DSO), not about dynamic linking (i.e., emitting a Go executable that depends on DSOs, like glibc in the case of cgo-using programs). The former is Flag_shared, the latter is Flag_dynlink.",
+      "range": {
+        "startLine": 10,
+        "startChar": 45,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "15ed8cf2fdfe5fd41d3f725caba49b1068e48c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
