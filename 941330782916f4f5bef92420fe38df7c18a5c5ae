@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fcf8878b_352af2af",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2171,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "fcf8878b_55e33ebf",
+      "range": {
+        "startLine": 2171,
+        "startChar": 30,
+        "endLine": 2171,
+        "endChar": 41
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_15f7f670",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -53,6 +77,42 @@
       "writtenOn": "2016-10-17T23:40:33Z",
       "side": 1,
       "message": "I thought we used \"object\" somewhere in the spec, but apparently not. We do use \"entity\" in two places.",
+      "parentUuid": "fcf8878b_15f7f670",
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_35115278",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2186,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "using entity now",
+      "parentUuid": "fcf8878b_553fbe1e",
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_d5344e0f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2186,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "addressed",
       "parentUuid": "fcf8878b_15f7f670",
       "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
@@ -123,6 +183,48 @@
     },
     {
       "key": {
+        "uuid": "fcf8878b_b5042233",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2188,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "Probably, but I like to be overly explicit here. Let\u0027s see what others say.",
+      "parentUuid": "dc5582ad_1e3d7d13",
+      "range": {
+        "startLine": 2187,
+        "startChar": 43,
+        "endLine": 2188,
+        "endChar": 10
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_55205ec2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2188,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcf8878b_350b1299",
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc5582ad_bec6a910",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -134,6 +236,30 @@
       "writtenOn": "2016-10-17T23:41:19Z",
       "side": 1,
       "message": "nit: it\u0027s not really part of one, it\u0027s a variant (according to the grammar).",
+      "range": {
+        "startLine": 2195,
+        "startChar": 37,
+        "endLine": 2195,
+        "endChar": 47
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_95012623",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2195,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc5582ad_bec6a910",
       "range": {
         "startLine": 2195,
         "startChar": 37,
@@ -169,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "fcf8878b_b5eb8236",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2196,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc5582ad_deb7e5a1",
+      "range": {
+        "startLine": 2196,
+        "startChar": 35,
+        "endLine": 2196,
+        "endChar": 36
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_95ada66c",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -180,6 +330,30 @@
       "writtenOn": "2016-10-17T23:40:33Z",
       "side": 1,
       "message": "Seems redundant. The first sentence already says they may only appear at package scope.",
+      "range": {
+        "startLine": 2197,
+        "startChar": 52,
+        "endLine": 2198,
+        "endChar": 27
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_d5e28e56",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2198,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "I know. But sometimes we are redundant for extra clarity (and avoid questions). Let\u0027s see what others say.",
+      "parentUuid": "fcf8878b_95ada66c",
       "range": {
         "startLine": 2197,
         "startChar": 52,
@@ -232,6 +406,48 @@
     },
     {
       "key": {
+        "uuid": "fcf8878b_351f9277",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2206,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "fcf8878b_35e4b2c9",
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_152416c8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2206,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "ACK",
+      "parentUuid": "dc5582ad_1eefbd77",
+      "range": {
+        "startLine": 2202,
+        "startChar": 0,
+        "endLine": 2206,
+        "endChar": 7
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc5582ad_fee5019c",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -243,6 +459,30 @@
       "writtenOn": "2016-10-17T23:48:10Z",
       "side": 1,
       "message": "Why may instead of must?",
+      "range": {
+        "startLine": 2210,
+        "startChar": 39,
+        "endLine": 2210,
+        "endChar": 42
+      },
+      "revId": "941330782916f4f5bef92420fe38df7c18a5c5ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_75291aa0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2210,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T00:01:54Z",
+      "side": 1,
+      "message": "It\u0027s a compiler restriction. It may or may not restrict.\n\nI know it\u0027s effectively a \"must\" - but I\u0027m just using the same language we use elsewhere. We should perhaps address this another time.",
+      "parentUuid": "dc5582ad_fee5019c",
       "range": {
         "startLine": 2210,
         "startChar": 39,
