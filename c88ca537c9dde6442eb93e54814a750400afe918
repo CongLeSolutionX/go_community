@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcf8878b_e66f2217",
+        "filename": "src/net/http/internal/chunked.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-18T14:33:18Z",
+      "side": 1,
+      "message": "Why continue here?  You\u0027ll just wind up in the same place as if there were no continue statement.",
+      "revId": "c88ca537c9dde6442eb93e54814a750400afe918",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
