@@ -46,6 +46,30 @@
       "revId": "96649f2421e16a1181317bd2c952023d10d42a77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_56cea118",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-18T18:47:24Z",
+      "side": 1,
+      "message": "I find the reversed if condition to be harder to follow.  Please use \u0027continue\u0027 like I suggested.\n\nWhy do you need to construct \u0027out\u0027? You\u0027re modifying ls in place.",
+      "parentUuid": "fcf8878b_1657f96f",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 172,
+        "endChar": 17
+      },
+      "revId": "96649f2421e16a1181317bd2c952023d10d42a77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
