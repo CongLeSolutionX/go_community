@@ -392,7 +392,7 @@ const (
 	RBaseARM    = 3 * 1024
 	RBasePPC64  = 4 * 1024  // range [4k, 8k)
 	RBaseARM64  = 8 * 1024  // range [8k, 13k)
-	RBaseMIPS64 = 13 * 1024 // range [13k, 14k)
+	RBaseMIPS   = 13 * 1024 // range [13k, 14k)
 	RBaseS390X  = 14 * 1024 // range [14k, 15k)
 )
 
