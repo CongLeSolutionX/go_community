@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcf8878b_fb8b3b37",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-18T07:58:35Z",
+      "side": 1,
+      "message": "I believe you can simplify this further to:\n\n    afterCall :\u003d false\n    ls :\u003d n.List.Slice()\n    for i :\u003d range ls {\n        // Skip past OAS nodes copying results off stack.\n        // ...\n        if afterCall \u0026\u0026 ls[i].Op \u003d\u003d OAS \u0026\u0026 iscallret(ls[i].Right) {\n             continue\n        }\n\n        instrumentnode(\u0026ls[i], \u0026ls[i].Ninit, 0, 0)\n\n        switch ls[i].Op {\n        case OCALLFUNC, OCALLMETH, OCALLINTER:\n            afterCall \u003d true\n        default:\n            afterCall \u003d false\n        }\n    }",
+      "range": {
+        "startLine": 148,
+        "startChar": 2,
+        "endLine": 172,
+        "endChar": 17
+      },
+      "revId": "96649f2421e16a1181317bd2c952023d10d42a77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
