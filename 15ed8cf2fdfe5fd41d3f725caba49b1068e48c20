@@ -22,6 +22,24 @@
       "revId": "15ed8cf2fdfe5fd41d3f725caba49b1068e48c20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_15f27480",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-10-18T09:35:30Z",
+      "side": 1,
+      "message": "No, you\u0027ve got this backwards. Flag_shared is \"compile code that can be put into a shared library\" (think buildmode\u003dc-shared or pie). Flag_dynlink is \"compile code such that Go code can be linked together at runtime\" (think buildmode\u003dshared). But you\u0027re right that the commit message is a bit confusing, perhaps it should just say \"Before go supported -buildmode\u003dshared ...\"",
+      "parentUuid": "fcf8878b_5b340fa9",
+      "revId": "15ed8cf2fdfe5fd41d3f725caba49b1068e48c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
