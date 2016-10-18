@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc5582ad_7e6d91f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-18T00:19:04Z",
+      "side": 1,
+      "message": "plain quotes",
+      "revId": "d323505d575a41f6c3f95ec3a2849f6e0a6bdd16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_5e70d5ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-18T00:19:04Z",
+      "side": 1,
+      "message": "plain quotes are fine. This isn\u0027t markdown.",
+      "revId": "d323505d575a41f6c3f95ec3a2849f6e0a6bdd16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc5582ad_3e7719c6",
+        "filename": "src/cmd/go/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-18T00:19:04Z",
+      "side": 1,
+      "message": "Don\u0027t append a slice with ...; just write out the elements being appended. That is: don\u0027t write\n    x \u003d append(x, []int{1,2,3}...)\nWrite:\n    x \u003d append(x, 1, 2, 3).\nI see that you\u0027ll have to say \u0027envVar\u0027 multiple times. That\u0027s OK.",
+      "revId": "d323505d575a41f6c3f95ec3a2849f6e0a6bdd16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
