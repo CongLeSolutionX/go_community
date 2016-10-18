@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fcf8878b_c9edd6dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T20:59:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2353ec_8756261a",
+      "revId": "a4045094bad8ccae4802c7515dd4430b01c449d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "656dae10_36ee78e5",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
