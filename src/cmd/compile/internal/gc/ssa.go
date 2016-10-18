@@ -6,6 +6,7 @@ package gc
 
 import (
 	"bytes"
+	"encoding/binary"
 	"fmt"
 	"html"
 	"os"
@@ -1632,7 +1633,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 		if ft.IsFloat() || tt.IsFloat() {
 			conv, ok := fpConvOpToSSA[twoTypes{s.concreteEtype(ft), s.concreteEtype(tt)}]
-			if s.config.IntSize == 4 && Thearch.LinkArch.Name != "amd64p32" {
+			if s.config.IntSize == 4 && Thearch.LinkArch.Name != "amd64p32" && Thearch.LinkArch.Family != sys.MIPS {
 				if conv1, ok1 := fpConvOpToSSA32[twoTypes{s.concreteEtype(ft), s.concreteEtype(tt)}]; ok1 {
 					conv = conv1
 				}
@@ -1642,6 +1643,27 @@ func (s *state) expr(n *Node) *ssa.Value {
 					conv = conv1
 				}
 			}
+
+			if Thearch.LinkArch.Family == sys.MIPS {
+				if ft.IsInteger() && !ft.IsSigned() {
+					// tt is float32 or float64, and ft is also unsigned
+					if tt.Size() == 4 {
+						return s.uint32Tofloat32(n, x, ft, tt)
+					}
+					if tt.Size() == 8 {
+						return s.uint32Tofloat64(n, x, ft, tt)
+					}
+				} else if tt.IsInteger() && !tt.IsSigned() {
+					// therefore ft is float32 or float64, and tt is unsigned integer
+					if ft.Size() == 4 {
+						return s.float32ToUint32(n, x, ft, tt)
+					}
+					if ft.Size() == 8 {
+						return s.float64ToUint32(n, x, ft, tt)
+					}
+				}
+			}
+
 			if !ok {
 				s.Fatalf("weird float conversion %v -> %v", ft, tt)
 			}
@@ -2545,10 +2567,10 @@ func intrinsicInit() {
 		/******** runtime/internal/sys ********/
 		intrinsicKey{"runtime/internal/sys", "Ctz32"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			return s.newValue1(ssa.OpCtz32, Types[TUINT32], s.intrinsicFirstArg(n))
-		}, sys.AMD64, sys.ARM64, sys.ARM, sys.S390X),
+		}, sys.AMD64, sys.ARM64, sys.ARM, sys.S390X, sys.MIPS),
 		intrinsicKey{"runtime/internal/sys", "Ctz64"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			return s.newValue1(ssa.OpCtz64, Types[TUINT64], s.intrinsicFirstArg(n))
-		}, sys.AMD64, sys.ARM64, sys.ARM, sys.S390X),
+		}, sys.AMD64, sys.ARM64, sys.ARM, sys.S390X, sys.MIPS),
 		intrinsicKey{"runtime/internal/sys", "Bswap32"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			return s.newValue1(ssa.OpBswap32, Types[TUINT32], s.intrinsicFirstArg(n))
 		}, sys.AMD64, sys.ARM64, sys.ARM, sys.S390X),
@@ -2561,7 +2583,7 @@ func intrinsicInit() {
 			v := s.newValue2(ssa.OpAtomicLoad32, ssa.MakeTuple(Types[TUINT32], ssa.TypeMem), s.intrinsicArg(n, 0), s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, ssa.TypeMem, v)
 			return s.newValue1(ssa.OpSelect0, Types[TUINT32], v)
-		}, sys.AMD64, sys.ARM64),
+		}, sys.AMD64, sys.ARM64, sys.MIPS),
 		intrinsicKey{"runtime/internal/atomic", "Load64"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			v := s.newValue2(ssa.OpAtomicLoad64, ssa.MakeTuple(Types[TUINT64], ssa.TypeMem), s.intrinsicArg(n, 0), s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, ssa.TypeMem, v)
@@ -2571,12 +2593,12 @@ func intrinsicInit() {
 			v := s.newValue2(ssa.OpAtomicLoadPtr, ssa.MakeTuple(ptrto(Types[TUINT8]), ssa.TypeMem), s.intrinsicArg(n, 0), s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, ssa.TypeMem, v)
 			return s.newValue1(ssa.OpSelect0, ptrto(Types[TUINT8]), v)
-		}, sys.AMD64, sys.ARM64),
+		}, sys.AMD64, sys.ARM64, sys.MIPS),
 
 		intrinsicKey{"runtime/internal/atomic", "Store"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			s.vars[&memVar] = s.newValue3(ssa.OpAtomicStore32, ssa.TypeMem, s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.mem())
 			return nil
-		}, sys.AMD64, sys.ARM64),
+		}, sys.AMD64, sys.ARM64, sys.MIPS),
 		intrinsicKey{"runtime/internal/atomic", "Store64"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			s.vars[&memVar] = s.newValue3(ssa.OpAtomicStore64, ssa.TypeMem, s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.mem())
 			return nil
@@ -2584,13 +2606,13 @@ func intrinsicInit() {
 		intrinsicKey{"runtime/internal/atomic", "StorepNoWB"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			s.vars[&memVar] = s.newValue3(ssa.OpAtomicStorePtrNoWB, ssa.TypeMem, s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.mem())
 			return nil
-		}, sys.AMD64, sys.ARM64),
+		}, sys.AMD64, sys.ARM64, sys.MIPS),
 
 		intrinsicKey{"runtime/internal/atomic", "Xchg"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			v := s.newValue3(ssa.OpAtomicExchange32, ssa.MakeTuple(Types[TUINT32], ssa.TypeMem), s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, ssa.TypeMem, v)
 			return s.newValue1(ssa.OpSelect0, Types[TUINT32], v)
-		}, sys.AMD64, sys.ARM64),
+		}, sys.AMD64, sys.ARM64, sys.MIPS),
 		intrinsicKey{"runtime/internal/atomic", "Xchg64"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			v := s.newValue3(ssa.OpAtomicExchange64, ssa.MakeTuple(Types[TUINT64], ssa.TypeMem), s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, ssa.TypeMem, v)
@@ -2601,7 +2623,7 @@ func intrinsicInit() {
 			v := s.newValue3(ssa.OpAtomicAdd32, ssa.MakeTuple(Types[TUINT32], ssa.TypeMem), s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, ssa.TypeMem, v)
 			return s.newValue1(ssa.OpSelect0, Types[TUINT32], v)
-		}, sys.AMD64, sys.ARM64),
+		}, sys.AMD64, sys.ARM64, sys.MIPS),
 		intrinsicKey{"runtime/internal/atomic", "Xadd64"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			v := s.newValue3(ssa.OpAtomicAdd64, ssa.MakeTuple(Types[TUINT64], ssa.TypeMem), s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, ssa.TypeMem, v)
@@ -2612,7 +2634,7 @@ func intrinsicInit() {
 			v := s.newValue4(ssa.OpAtomicCompareAndSwap32, ssa.MakeTuple(Types[TBOOL], ssa.TypeMem), s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.intrinsicArg(n, 2), s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, ssa.TypeMem, v)
 			return s.newValue1(ssa.OpSelect0, Types[TBOOL], v)
-		}, sys.AMD64, sys.ARM64),
+		}, sys.AMD64, sys.ARM64, sys.MIPS),
 		intrinsicKey{"runtime/internal/atomic", "Cas64"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			v := s.newValue4(ssa.OpAtomicCompareAndSwap64, ssa.MakeTuple(Types[TBOOL], ssa.TypeMem), s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.intrinsicArg(n, 2), s.mem())
 			s.vars[&memVar] = s.newValue1(ssa.OpSelect1, ssa.TypeMem, v)
@@ -2622,11 +2644,11 @@ func intrinsicInit() {
 		intrinsicKey{"runtime/internal/atomic", "And8"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			s.vars[&memVar] = s.newValue3(ssa.OpAtomicAnd8, ssa.TypeMem, s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.mem())
 			return nil
-		}, sys.AMD64, sys.ARM64),
+		}, sys.AMD64, sys.ARM64, sys.MIPS),
 		intrinsicKey{"runtime/internal/atomic", "Or8"}: enableOnArch(func(s *state, n *Node) *ssa.Value {
 			s.vars[&memVar] = s.newValue3(ssa.OpAtomicOr8, ssa.TypeMem, s.intrinsicArg(n, 0), s.intrinsicArg(n, 1), s.mem())
 			return nil
-		}, sys.AMD64, sys.ARM64),
+		}, sys.AMD64, sys.ARM64, sys.MIPS),
 	}
 
 	// aliases internal to runtime/internal/atomic
@@ -3642,12 +3664,12 @@ func (s *state) slice(t *Type, v, i, j, k *ssa.Value) (p, l, c *ssa.Value) {
 	return rptr, rlen, rcap
 }
 
-type u2fcvtTab struct {
+type u642fcvtTab struct {
 	geq, cvt2F, and, rsh, or, add ssa.Op
 	one                           func(*state, ssa.Type, int64) *ssa.Value
 }
 
-var u64_f64 u2fcvtTab = u2fcvtTab{
+var u64_f64 u642fcvtTab = u642fcvtTab{
 	geq:   ssa.OpGeq64,
 	cvt2F: ssa.OpCvt64to64F,
 	and:   ssa.OpAnd64,
@@ -3657,7 +3679,7 @@ var u64_f64 u2fcvtTab = u2fcvtTab{
 	one:   (*state).constInt64,
 }
 
-var u64_f32 u2fcvtTab = u2fcvtTab{
+var u64_f32 u642fcvtTab = u642fcvtTab{
 	geq:   ssa.OpGeq64,
 	cvt2F: ssa.OpCvt64to32F,
 	and:   ssa.OpAnd64,
@@ -3668,14 +3690,14 @@ var u64_f32 u2fcvtTab = u2fcvtTab{
 }
 
 func (s *state) uint64Tofloat64(n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
-	return s.uintTofloat(&u64_f64, n, x, ft, tt)
+	return s.uint64Tofloat(&u64_f64, n, x, ft, tt)
 }
 
 func (s *state) uint64Tofloat32(n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
-	return s.uintTofloat(&u64_f32, n, x, ft, tt)
+	return s.uint64Tofloat(&u64_f32, n, x, ft, tt)
 }
 
-func (s *state) uintTofloat(cvttab *u2fcvtTab, n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
+func (s *state) uint64Tofloat(cvttab *u642fcvtTab, n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
 	// if x >= 0 {
 	//    result = (floatY) x
 	// } else {
@@ -3727,6 +3749,66 @@ func (s *state) uintTofloat(cvttab *u2fcvtTab, n *Node, x *ssa.Value, ft, tt *Ty
 	a := s.newValue1(cvttab.cvt2F, tt, z)
 	a1 := s.newValue2(cvttab.add, tt, a, a)
 	s.vars[n] = a1
+	s.endBlock()
+	bElse.AddEdgeTo(bAfter)
+
+	s.startBlock(bAfter)
+	return s.variable(n, n.Type)
+}
+
+type u322fcvtTab struct {
+	cvtI2F, cvtF2F ssa.Op
+}
+
+var u32_f64 u322fcvtTab = u322fcvtTab{
+	cvtI2F: ssa.OpCvt32to64F,
+	cvtF2F: ssa.OpCopy,
+}
+
+var u32_f32 u322fcvtTab = u322fcvtTab{
+	cvtI2F: ssa.OpCvt32to32F,
+	cvtF2F: ssa.OpCvt64Fto32F,
+}
+
+func (s *state) uint32Tofloat64(n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
+	return s.uint32Tofloat(&u32_f64, n, x, ft, tt)
+}
+
+func (s *state) uint32Tofloat32(n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
+	return s.uint32Tofloat(&u32_f32, n, x, ft, tt)
+}
+
+func (s *state) uint32Tofloat(cvttab *u322fcvtTab, n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
+	// if x >= 0 {
+	//    result = floatY(x)
+	// } else {
+	// 	  result = floatY(float64(x) + (1<<32))
+	// }
+	cmp := s.newValue2(ssa.OpGeq32, Types[TBOOL], x, s.zeroVal(ft))
+	b := s.endBlock()
+	b.Kind = ssa.BlockIf
+	b.SetControl(cmp)
+	b.Likely = ssa.BranchLikely
+
+	bThen := s.f.NewBlock(ssa.BlockPlain)
+	bElse := s.f.NewBlock(ssa.BlockPlain)
+	bAfter := s.f.NewBlock(ssa.BlockPlain)
+
+	b.AddEdgeTo(bThen)
+	s.startBlock(bThen)
+	a0 := s.newValue1(cvttab.cvtI2F, tt, x)
+	s.vars[n] = a0
+	s.endBlock()
+	bThen.AddEdgeTo(bAfter)
+
+	b.AddEdgeTo(bElse)
+	s.startBlock(bElse)
+	a1 := s.newValue1(ssa.OpCvt32to64F, Types[TFLOAT64], x)
+	oneOnTo32 := s.constFloat64(Types[TFLOAT64], float64(1<<32))
+	a2 := s.newValue2(ssa.OpAdd64F, Types[TFLOAT64], a1, oneOnTo32)
+	a3 := s.newValue1(cvttab.cvtF2F, tt, a2)
+
+	s.vars[n] = a3
 	s.endBlock()
 	bElse.AddEdgeTo(bAfter)
 
@@ -3786,22 +3868,50 @@ func (s *state) referenceTypeBuiltin(n *Node, x *ssa.Value) *ssa.Value {
 }
 
 type f2uCvtTab struct {
-	ltf, cvt2U, subf ssa.Op
-	value            func(*state, ssa.Type, float64) *ssa.Value
+	ltf, cvt2U, subf, or ssa.Op
+	floatValue           func(*state, ssa.Type, float64) *ssa.Value
+	intValue             func(*state, ssa.Type, int64) *ssa.Value
+	cutoff               uint64
 }
 
 var f32_u64 f2uCvtTab = f2uCvtTab{
-	ltf:   ssa.OpLess32F,
-	cvt2U: ssa.OpCvt32Fto64,
-	subf:  ssa.OpSub32F,
-	value: (*state).constFloat32,
+	ltf:        ssa.OpLess32F,
+	cvt2U:      ssa.OpCvt32Fto64,
+	subf:       ssa.OpSub32F,
+	or:         ssa.OpOr64,
+	floatValue: (*state).constFloat32,
+	intValue:   (*state).constInt64,
+	cutoff:     9223372036854775808,
 }
 
 var f64_u64 f2uCvtTab = f2uCvtTab{
-	ltf:   ssa.OpLess64F,
-	cvt2U: ssa.OpCvt64Fto64,
-	subf:  ssa.OpSub64F,
-	value: (*state).constFloat64,
+	ltf:        ssa.OpLess64F,
+	cvt2U:      ssa.OpCvt64Fto64,
+	subf:       ssa.OpSub64F,
+	or:         ssa.OpOr64,
+	floatValue: (*state).constFloat64,
+	intValue:   (*state).constInt64,
+	cutoff:     9223372036854775808,
+}
+
+var f32_u32 f2uCvtTab = f2uCvtTab{
+	ltf:        ssa.OpLess32F,
+	cvt2U:      ssa.OpCvt32Fto32,
+	subf:       ssa.OpSub32F,
+	or:         ssa.OpOr32,
+	floatValue: (*state).constFloat32,
+	intValue:   func(s *state, t ssa.Type, v int64) *ssa.Value { return s.constInt32(t, int32(v)) },
+	cutoff:     2147483648,
+}
+
+var f64_u32 f2uCvtTab = f2uCvtTab{
+	ltf:        ssa.OpLess64F,
+	cvt2U:      ssa.OpCvt64Fto32,
+	subf:       ssa.OpSub64F,
+	or:         ssa.OpOr32,
+	floatValue: (*state).constFloat64,
+	intValue:   func(s *state, t ssa.Type, v int64) *ssa.Value { return s.constInt32(t, int32(v)) },
+	cutoff:     2147483648,
 }
 
 func (s *state) float32ToUint64(n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
@@ -3811,16 +3921,25 @@ func (s *state) float64ToUint64(n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value 
 	return s.floatToUint(&f64_u64, n, x, ft, tt)
 }
 
+func (s *state) float32ToUint32(n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
+	return s.floatToUint(&f32_u32, n, x, ft, tt)
+}
+
+func (s *state) float64ToUint32(n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
+	return s.floatToUint(&f64_u32, n, x, ft, tt)
+}
+
 func (s *state) floatToUint(cvttab *f2uCvtTab, n *Node, x *ssa.Value, ft, tt *Type) *ssa.Value {
-	// if x < 9223372036854775808.0 {
+	// cutoff:=1<<(intY_Size-1)
+	// if x < floatX(cutoff) {
 	// 	result = uintY(x)
 	// } else {
-	// 	y = x - 9223372036854775808.0
+	// 	y = x - floatX(cutoff)
 	// 	z = uintY(y)
-	// 	result = z | -9223372036854775808
+	// 	result = z | -(cutoff)
 	// }
-	twoToThe63 := cvttab.value(s, ft, 9223372036854775808.0)
-	cmp := s.newValue2(cvttab.ltf, Types[TBOOL], x, twoToThe63)
+	cutoff := cvttab.floatValue(s, ft, float64(cvttab.cutoff))
+	cmp := s.newValue2(cvttab.ltf, Types[TBOOL], x, cutoff)
 	b := s.endBlock()
 	b.Kind = ssa.BlockIf
 	b.SetControl(cmp)
@@ -3839,10 +3958,10 @@ func (s *state) floatToUint(cvttab *f2uCvtTab, n *Node, x *ssa.Value, ft, tt *Ty
 
 	b.AddEdgeTo(bElse)
 	s.startBlock(bElse)
-	y := s.newValue2(cvttab.subf, ft, x, twoToThe63)
+	y := s.newValue2(cvttab.subf, ft, x, cutoff)
 	y = s.newValue1(cvttab.cvt2U, tt, y)
-	z := s.constInt64(tt, -9223372036854775808)
-	a1 := s.newValue2(ssa.OpOr64, tt, y, z)
+	z := cvttab.intValue(s, tt, int64(-cvttab.cutoff))
+	a1 := s.newValue2(cvttab.or, tt, y, z)
 	s.vars[n] = a1
 	s.endBlock()
 	bElse.AddEdgeTo(bAfter)
@@ -4615,7 +4734,9 @@ func (e *ssaExport) SplitInt64(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot
 		return ssa.LocalSlot{N: h, Type: t, Off: 0}, ssa.LocalSlot{N: l, Type: Types[TUINT32], Off: 0}
 	}
 	// Return the two parts of the larger variable.
-	// Assuming little endian (we don't support big endian 32-bit architecture yet)
+	if Thearch.LinkArch.ByteOrder == binary.BigEndian {
+		return ssa.LocalSlot{N: n, Type: t, Off: name.Off}, ssa.LocalSlot{N: n, Type: Types[TUINT32], Off: name.Off + 4}
+	}
 	return ssa.LocalSlot{N: n, Type: t, Off: name.Off + 4}, ssa.LocalSlot{N: n, Type: Types[TUINT32], Off: name.Off}
 }
 
