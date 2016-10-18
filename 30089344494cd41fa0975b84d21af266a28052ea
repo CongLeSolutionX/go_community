@@ -16,6 +16,24 @@
       "revId": "30089344494cd41fa0975b84d21af266a28052ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_ec34200f",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-18T21:45:14Z",
+      "side": 1,
+      "message": "ok to adjust test in my opinion",
+      "parentUuid": "fcf8878b_ec86e09e",
+      "revId": "30089344494cd41fa0975b84d21af266a28052ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
