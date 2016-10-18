@@ -448,7 +448,15 @@ func (c *Client) doFollowingRedirects(req *Request, shouldRedirect func(int) boo
 		reqs     []*Request
 		resp     *Response
 		ireqhdr  = req.Header.clone()
+		icookies map[string][]*Cookie
 	)
+	if c.Jar != nil && req.Header.Get("Cookie") != "" {
+		icookies = make(map[string][]*Cookie)
+		for _, c := range req.Cookies() {
+			icookies[c.Name] = append(icookies[c.Name], c)
+		}
+	}
+
 	uerr := func(err error) error {
 		req.closeBody()
 		method := valueOrDefault(reqs[0].Method, "GET")
@@ -489,7 +497,7 @@ func (c *Client) doFollowingRedirects(req *Request, shouldRedirect func(int) boo
 				req.Method = "GET"
 			}
 			// Copy the initial request's Header values
-			// (at least the safe ones).  Do this before
+			// (at least the safe ones). Do this before
 			// setting the Referer, in case the user set
 			// Referer on their first request. If they
 			// really want to override, they can do it in
@@ -550,6 +558,37 @@ func (c *Client) doFollowingRedirects(req *Request, shouldRedirect func(int) boo
 
 		if !shouldRedirect(resp.StatusCode) {
 			return resp, nil
+		}
+
+		// If Jar is present and there was some initial cookies provided
+		// via the request header, then we may need to alter the initial
+		// cookies as we follow redirects since each redirect may end up
+		// modifying a pre-existing cookie.
+		//
+		// Since cookies already set in the request header do not contain
+		// information about the original domain and path, the logic below
+		// assumes any new set cookies override the original cookie
+		// regardless of domain or path.
+		//
+		// See https://golang.org/issue/17494
+		if c.Jar != nil && icookies != nil {
+			var changed bool
+			for _, c := range resp.Cookies() {
+				if _, ok := icookies[c.Name]; ok {
+					delete(icookies, c.Name)
+					changed = true
+				}
+			}
+			if changed {
+				ireqhdr.Del("Cookie")
+				var ss []string
+				for _, cs := range icookies {
+					for _, c := range cs {
+						ss = append(ss, c.Name+"="+c.Value)
+					}
+				}
+				ireqhdr.Set("Cookie", strings.Join(ss, "; "))
+			}
 		}
 	}
 }
@@ -618,7 +657,7 @@ func (c *Client) PostForm(url string, data url.Values) (resp *Response, err erro
 	return c.Post(url, "application/x-www-form-urlencoded", strings.NewReader(data.Encode()))
 }
 
-// Head issues a HEAD to the specified URL.  If the response is one of
+// Head issues a HEAD to the specified URL. If the response is one of
 // the following redirect codes, Head follows the redirect, up to a
 // maximum of 10 redirects:
 //
@@ -632,7 +671,7 @@ func Head(url string) (resp *Response, err error) {
 	return DefaultClient.Head(url)
 }
 
-// Head issues a HEAD to the specified URL.  If the response is one of the
+// Head issues a HEAD to the specified URL. If the response is one of the
 // following redirect codes, Head follows the redirect after calling the
 // Client's CheckRedirect function:
 //
