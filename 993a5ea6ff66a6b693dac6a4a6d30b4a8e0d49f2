@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "fcf8878b_a95dea31",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 2195,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-18T20:33:56Z",
+      "side": 1,
+      "message": "may appear only",
+      "revId": "993a5ea6ff66a6b693dac6a4a6d30b4a8e0d49f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cc71b67_553a2c30",
         "filename": "doc/go_spec.html",
         "patchSetId": 4
@@ -64,6 +81,24 @@
       "writtenOn": "2016-10-18T00:14:39Z",
       "side": 1,
       "message": "I\u0027d delete these restrictions. The part about top-level and only referring to qualified identifiers seems fine, but the ones below seem like just additional restrictions that are complex to implement and explain without significant benefit.",
+      "revId": "993a5ea6ff66a6b693dac6a4a6d30b4a8e0d49f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_29c0da87",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 2217,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-18T20:33:56Z",
+      "side": 1,
+      "message": "I agree.",
+      "parentUuid": "dc5582ad_fe60a105",
       "revId": "993a5ea6ff66a6b693dac6a4a6d30b4a8e0d49f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
