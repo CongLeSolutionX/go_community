@@ -58,6 +58,24 @@
       "revId": "15ed8cf2fdfe5fd41d3f725caba49b1068e48c20",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_060fce4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-18T15:29:22Z",
+      "side": 1,
+      "message": "I\u0027m still confused, but I\u0027ll take your word for it.",
+      "parentUuid": "1cc71b67_15f27480",
+      "revId": "15ed8cf2fdfe5fd41d3f725caba49b1068e48c20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
