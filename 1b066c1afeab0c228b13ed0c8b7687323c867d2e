@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cc71b67_95684414",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "s/Updates/Fixes/, 8579 is now an open issue.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_b565403b",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "again,\n\nif err !\u003d nil {\n        t.Error(err)\n        return\n}",
+      "range": {
+        "startLine": 469,
+        "startChar": 3,
+        "endLine": 469,
+        "endChar": 15
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_d572bc01",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "i don\u0027t think it\u0027s a good idea to call panic here. the returned API error is veiled with panic. why not:\n\nif err :\u003d ...; err !\u003d nil {\n        t.Errorf(...)\n        return\n}",
+      "range": {
+        "startLine": 475,
+        "startChar": 3,
+        "endLine": 475,
+        "endChar": 42
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_f56fb816",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 481,
+        "startChar": 3,
+        "endLine": 481,
+        "endChar": 13
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_159c34f8",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "ditto, you can use t.Errorf",
+      "range": {
+        "startLine": 484,
+        "startChar": 3,
+        "endLine": 484,
+        "endChar": 58
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_35a13031",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 488,
+        "startChar": 3,
+        "endLine": 488,
+        "endChar": 50
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_958f64b7",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "TestCloseWrite in net/net_test.go tests CloseWrite for passive-open connection endpoins too. isn\u0027t it necessarily for tls to test?",
+      "range": {
+        "startLine": 489,
+        "startChar": 2,
+        "endLine": 489,
+        "endChar": 3
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_15435487",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "err :\u003d conn.Handshake",
+      "range": {
+        "startLine": 497,
+        "startChar": 4,
+        "endLine": 497,
+        "endChar": 15
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_f586d89e",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "err :\u003d conn.CloseWrite",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 14
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_5596acd7",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "t.Errorf(\"got %q; want nothing\", string(data)) maybe?",
+      "range": {
+        "startLine": 515,
+        "startChar": 11,
+        "endLine": 515,
+        "endChar": 41
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_d589dcb1",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "conn2 :\u003d ... for avoiding unnecessary confusion unless you like variable shadowing\n\nalso defer conn2.Close()",
+      "range": {
+        "startLine": 527,
+        "startChar": 1,
+        "endLine": 527,
+        "endChar": 5
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cc71b67_759ba8fe",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T03:50:12Z",
+      "side": 1,
+      "message": "\"got %v; want ...\" maybe?",
+      "range": {
+        "startLine": 530,
+        "startChar": 12,
+        "endLine": 530,
+        "endChar": 40
+      },
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
