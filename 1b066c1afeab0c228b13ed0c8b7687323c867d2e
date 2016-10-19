@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "1cc71b67_d560fc19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-19T04:01:14Z",
+      "side": 1,
+      "message": "ah, you don\u0027t implement CloseRead, so just \"Updates #8579\" is fine",
+      "parentUuid": "1cc71b67_95684414",
+      "revId": "1b066c1afeab0c228b13ed0c8b7687323c867d2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cc71b67_b565403b",
         "filename": "src/crypto/tls/tls_test.go",
         "patchSetId": 3
