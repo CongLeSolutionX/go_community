@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "fcf8878b_bd0360b8",
+        "filename": "src/math/big/floatconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-19T02:40:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcf8878b_0704e5ed",
+      "revId": "1d25921979a59a784fdefb51f00ba5c66ce89446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_6709690e",
         "filename": "src/math/big/floatconv.go",
         "patchSetId": 2
@@ -47,6 +65,24 @@
       "writtenOn": "2016-10-18T23:19:01Z",
       "side": 1,
       "message": "s/zfloat/\u0026floatZero/\n\n(this avoids allocation - not that it matters, but it\u0027s just as easy as the code that\u0027s here)",
+      "revId": "1d25921979a59a784fdefb51f00ba5c66ce89446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_7d0298b8",
+        "filename": "src/math/big/floatconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-19T02:40:22Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "fcf8878b_6709690e",
       "revId": "1d25921979a59a784fdefb51f00ba5c66ce89446",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -76,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "fcf8878b_dd062cca",
+        "filename": "src/math/big/floatconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-19T02:40:22Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "fcf8878b_07ad05d0",
+      "range": {
+        "startLine": 286,
+        "startChar": 39,
+        "endLine": 286,
+        "endChar": 43
+      },
+      "revId": "1d25921979a59a784fdefb51f00ba5c66ce89446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_475c2d08",
         "filename": "src/math/big/ftoa.go",
         "patchSetId": 2
@@ -93,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "fcf8878b_1d11d401",
+        "filename": "src/math/big/ftoa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-19T02:40:22Z",
+      "side": 1,
+      "message": "Done. Thanks.",
+      "parentUuid": "fcf8878b_475c2d08",
+      "revId": "1d25921979a59a784fdefb51f00ba5c66ce89446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_e7fc39cb",
         "filename": "src/math/big/ratconv.go",
         "patchSetId": 2
@@ -104,6 +182,30 @@
       "writtenOn": "2016-10-18T23:19:01Z",
       "side": 1,
       "message": "I prefer\n\ns/\u0026Rat{}/new(Rat)\n\nor, if you want to repeat the pattern for Floats:\n\nvar ratZero Rat\nvar _ fmt.Scanner \u003d \u0026ratZero",
+      "range": {
+        "startLine": 21,
+        "startChar": 21,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "1d25921979a59a784fdefb51f00ba5c66ce89446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fcf8878b_fd0de8e4",
+        "filename": "src/math/big/ratconv.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-19T02:40:22Z",
+      "side": 1,
+      "message": "Done, thanks.",
+      "parentUuid": "fcf8878b_e7fc39cb",
       "range": {
         "startLine": 21,
         "startChar": 21,
