@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9c714b5a_8c28679e",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-10-20T01:03:59Z",
+      "side": 1,
+      "message": "The challenge is that the logic is dependent on state that is scoped within this function. I didn\u0027t want to add them as fields to the Client struct since that\u0027s a larger scope than needed. I also didn\u0027t want to keep passing them as arguments to this helper function.\n\nThe best solution I could think of was to have a method that returned a copyHeaders callback which could reference the ireqhdrs and icookies variables only within the scope that matters.\n\nPTAL, what are your thoughts?",
+      "parentUuid": "dcdd835f_8be26dba",
+      "revId": "d22f4c0fa3e3c6d94ea5365a15261429d9f2e52a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf8878b_cc3fa47c",
         "filename": "src/net/http/client.go",
         "patchSetId": 2
@@ -71,6 +89,24 @@
       "side": 1,
       "message": "non-deterministic is annoying for testing and surprising for users, though. At least do a strings.Sort on it before the strings.Join",
       "parentUuid": "fcf8878b_cc3fa47c",
+      "revId": "d22f4c0fa3e3c6d94ea5365a15261429d9f2e52a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c714b5a_ec9a434c",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-10-20T01:03:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcdd835f_abdd29fc",
       "revId": "d22f4c0fa3e3c6d94ea5365a15261429d9f2e52a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
