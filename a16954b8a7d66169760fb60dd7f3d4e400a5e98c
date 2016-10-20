@@ -16,6 +16,24 @@
       "revId": "a16954b8a7d66169760fb60dd7f3d4e400a5e98c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c714b5a_d89379a7",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-20T18:11:21Z",
+      "side": 1,
+      "message": "Thanks for noticing.  Sent https://golang.org/cl/31594.",
+      "parentUuid": "dcdd835f_ae23f7d7",
+      "revId": "a16954b8a7d66169760fb60dd7f3d4e400a5e98c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
