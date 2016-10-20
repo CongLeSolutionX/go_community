@@ -4,6 +4,10 @@
 
 // Package aes implements AES encryption (formerly Rijndael), as defined in
 // U.S. Federal Information Processing Standards Publication 197.
+//
+// The AES and GHASH operations in this package are not implemented using constant-time algorithms.
+// An exception is when running on amd64 processors supporting AESNI:
+// on such systems, the use of AESNI makes the operations constant-time.
 package aes
 
 // This file contains AES constants - 8720 bytes of initialized data.
