@@ -169,3 +169,45 @@ func testBuffer_writeTo(t *testing.T, chunks int, useCopy bool) {
 		return nil
 	})
 }
+
+func TestWritevError(t *testing.T) {
+	ln, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer ln.Close()
+
+	ch := make(chan Conn, 1)
+	go func() {
+		defer close(ch)
+		c, err := ln.Accept()
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		ch <- c
+	}()
+	c1, err := Dial("tcp", ln.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer c1.Close()
+	c2 := <-ch
+	if c2 == nil {
+		t.Fatal("no server side connection")
+	}
+	c2.Close()
+
+	// 1 GB of data should be enough to notice the connection is gone.
+	// Just a few bytes is not enough.
+	// Arrange to reuse the same 1 MB buffer so that we don't allocate much.
+	buf := make([]byte, 1<<20)
+	buffers := make(Buffers, 1<<10)
+	for i := range buffers {
+		buffers[i] = buf
+	}
+	n, err := buffers.WriteTo(c1)
+	if n != 0 || err == nil {
+		t.Fatalf("Buffers.WriteTo(closed conn) = %d, %v, want 0, error", n, err)
+	}
+}
