@@ -114,3 +114,9 @@ func TestSetGCPercent(t *testing.T) {
 		t.Errorf("SetGCPercent(123); SetGCPercent(x) = %d, want 123", new)
 	}
 }
+
+func TestSetMaxThreads(t *testing.T) {
+	// Verify that a big threads count will not overflow the int32
+	// maxmcount variable, causing a panic (see Issue 16076).
+	SetMaxThreads(1 << 31)
+}
