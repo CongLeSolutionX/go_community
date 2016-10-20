@@ -174,6 +174,9 @@
 	that type has a String method. Such pathologies are rare, however,
 	and the package does not protect against them.
 
+	When printing a struct, fmt cannot and therefore does not invoke
+	the Error or String method on unexported fields.
+
 	Explicit argument indexes:
 
 	In Printf, Sprintf, and Fprintf, the default behavior is for each
