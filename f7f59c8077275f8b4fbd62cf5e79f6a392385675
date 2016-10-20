@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c714b5a_38adf5cf",
+        "filename": "src/runtime/debug/garbage_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-20T18:13:40Z",
+      "side": 1,
+      "message": "This test should leave maxmcount unchanged when it is done, so that it doesn\u0027t affect other tests.",
+      "revId": "f7f59c8077275f8b4fbd62cf5e79f6a392385675",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
