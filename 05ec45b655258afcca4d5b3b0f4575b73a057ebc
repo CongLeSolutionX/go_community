@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c714b5a_7857ed17",
+        "filename": "src/runtime/chan.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-10-20T18:09:06Z",
+      "side": 1,
+      "message": "Maybe we should have a test for this case? (Or do we already?)",
+      "revId": "05ec45b655258afcca4d5b3b0f4575b73a057ebc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
