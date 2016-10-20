@@ -16,6 +16,24 @@
       "revId": "d97d30cd74472f187e1c0658421e32c7740fd3d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_e167a261",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-10-20T22:58:08Z",
+      "side": 1,
+      "message": "Ahh, I forgot that os/signal.process is using a nonblocking send,\nso I think using a package global synchronous channel should work.",
+      "parentUuid": "dcf74308_c158a6a7",
+      "revId": "d97d30cd74472f187e1c0658421e32c7740fd3d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
