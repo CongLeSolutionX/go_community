@@ -11,4 +11,5 @@ var (
 	GetCPP                            = &getCP
 	ReadFileP                         = &readFile
 	ResetGetConsoleCPAndReadFileFuncs = resetGetConsoleCPAndReadFileFuncs
+	CommandLineToArgv                 = commandLineToArgv
 )
