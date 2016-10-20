@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ca0fb08_ad29fdbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-10-20T14:56:57Z",
+      "side": 1,
+      "message": "I would add an sentence explaining how a shrinking heap moves a span off of these lists.",
+      "revId": "c4ce1b34e02aff4bfe88c99fcbac0d6f6ef79d15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ca0fb08_6d61d51b",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-10-20T14:56:57Z",
+      "side": 1,
+      "message": "If it becomes an issue, and I doubt it will, we could collect it once all concurrent goroutines have been chased out of the push/pop code by a GC cycle.",
+      "range": {
+        "startLine": 94,
+        "startChar": 22,
+        "endLine": 100,
+        "endChar": 3
+      },
+      "revId": "c4ce1b34e02aff4bfe88c99fcbac0d6f6ef79d15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
