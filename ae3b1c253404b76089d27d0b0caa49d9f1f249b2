@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcf74308_6f6899d0",
+        "filename": "src/cmd/doc/dirs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-21T20:57:28Z",
+      "side": 1,
+      "message": "This should be list log.Print(err). The error already says \u0027read dir: \u0027.\nSame for the next one.",
+      "revId": "ae3b1c253404b76089d27d0b0caa49d9f1f249b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
