@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcf74308_0ff2b52e",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-21T20:41:09Z",
+      "side": 1,
+      "message": "s/path to a complete name/name to a complete path/",
+      "revId": "c3e4a75f445d64828ef8cafbf101dad28a23b5ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_eff66920",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-21T20:41:09Z",
+      "side": 1,
+      "message": "s/directly/directly as Path/",
+      "revId": "c3e4a75f445d64828ef8cafbf101dad28a23b5ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_6f0c1958",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-21T20:41:09Z",
+      "side": 1,
+      "message": "Start the sentence on the next line instead of having one word here.",
+      "revId": "c3e4a75f445d64828ef8cafbf101dad28a23b5ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_4fecbd4e",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-21T20:41:09Z",
+      "side": 1,
+      "message": "Args[0] is always name, not the possibly resolved Path.",
+      "revId": "c3e4a75f445d64828ef8cafbf101dad28a23b5ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
