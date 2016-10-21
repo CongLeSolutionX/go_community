@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcf74308_eff02977",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-21T18:42:13Z",
+      "side": 1,
+      "message": "Undo",
+      "revId": "265aeec028e3fdf6f0117016e39652737a6e4de1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_0fec759f",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-21T18:42:13Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this check be done in the atomics?",
+      "revId": "265aeec028e3fdf6f0117016e39652737a6e4de1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
