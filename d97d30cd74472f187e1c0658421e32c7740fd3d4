@@ -34,6 +34,29 @@
       "revId": "d97d30cd74472f187e1c0658421e32c7740fd3d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_84822c4b",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-10-21T16:05:21Z",
+      "side": 1,
+      "message": "What happens if this races with the completion of the IO? You could deliver the hangup note to a different random goroutine/process, no?",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 12
+      },
+      "revId": "d97d30cd74472f187e1c0658421e32c7740fd3d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
