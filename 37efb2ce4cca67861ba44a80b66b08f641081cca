@@ -34,6 +34,24 @@
       "revId": "37efb2ce4cca67861ba44a80b66b08f641081cca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c0f8be2_888a3fa4",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-21T21:11:42Z",
+      "side": 1,
+      "message": "How about this: now that we have internationalized domain names, presumably the Location header is permitted to refer to URLs that contain non-ASCII characters.  How is it supposed to do that?",
+      "parentUuid": "3c1e9f18_3f336b12",
+      "revId": "37efb2ce4cca67861ba44a80b66b08f641081cca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
