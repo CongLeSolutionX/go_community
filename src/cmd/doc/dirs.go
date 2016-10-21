@@ -78,13 +78,13 @@ func (d *Dirs) bfsWalkRoot(root string) {
 			fd, err := os.Open(dir)
 			if err != nil {
 				log.Printf("error opening %s: %v", dir, err)
-				return // TODO? There may be entry before the error.
+				continue
 			}
 			entries, err := fd.Readdir(0)
 			fd.Close()
 			if err != nil {
 				log.Printf("error reading %s: %v", dir, err)
-				return // TODO? There may be entry before the error.
+				continue
 			}
 			hasGoFiles := false
 			for _, entry := range entries {
