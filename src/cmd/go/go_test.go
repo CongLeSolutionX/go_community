@@ -935,21 +935,21 @@ func testLocalRun(tg *testgoData, exepath, local, match string) {
 }
 
 func testLocalEasy(tg *testgoData, local string) {
-	exepath := "./easy" + exeSuffix
+	exepath := "./easy-" + local + exeSuffix
 	tg.creatingTemp(exepath)
 	tg.run("build", "-o", exepath, filepath.Join("testdata", local, "easy.go"))
 	testLocalRun(tg, exepath, local, `(?m)^easysub\.Hello`)
 }
 
 func testLocalEasySub(tg *testgoData, local string) {
-	exepath := "./easysub" + exeSuffix
+	exepath := "./easysub-" + local + exeSuffix
 	tg.creatingTemp(exepath)
 	tg.run("build", "-o", exepath, filepath.Join("testdata", local, "easysub", "main.go"))
 	testLocalRun(tg, exepath, local, `(?m)^easysub\.Hello`)
 }
 
 func testLocalHard(tg *testgoData, local string) {
-	exepath := "./hard" + exeSuffix
+	exepath := "./hard-" + local + exeSuffix
 	tg.creatingTemp(exepath)
 	tg.run("build", "-o", exepath, filepath.Join("testdata", local, "hard.go"))
 	testLocalRun(tg, exepath, local, `(?m)^sub\.Hello`)
