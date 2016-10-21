@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc41032d_6b0c4158",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-21T20:58:39Z",
+      "side": 1,
+      "message": "Is this some kind of standard escaping?  It seems problematic because 1) it doesn\u0027t deal with dubious characters like NUL, ESC, DEL, etc.; 2) it\u0027s not reversible if a non-ASCII character is followed by a hex digit.",
+      "revId": "37efb2ce4cca67861ba44a80b66b08f641081cca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
