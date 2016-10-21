@@ -57,6 +57,30 @@
       "revId": "d97d30cd74472f187e1c0658421e32c7740fd3d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcdd835f_f46e6e72",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-10-21T16:39:52Z",
+      "side": 1,
+      "message": "Yes, I think this is a drawback of this approach.\nCould we do something to prevent the process being reused by the Go runtime?\nIf the process don\u0027t get reused by Go, it would be very unlikely that the PID get reused by another process since PIDs are 32-bit and allocated incrementally on Plan 9.",
+      "parentUuid": "dcf74308_84822c4b",
+      "range": {
+        "startLine": 75,
+        "startChar": 1,
+        "endLine": 75,
+        "endChar": 12
+      },
+      "revId": "d97d30cd74472f187e1c0658421e32c7740fd3d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
