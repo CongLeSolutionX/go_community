@@ -125,7 +125,9 @@ type Cmd struct {
 //
 // The returned Cmd's Args field is constructed from the command name
 // followed by the elements of arg, so arg should not include the
-// command name itself. For example, Command("echo", "hello")
+// command name itself. For example, Command("echo", "hello"). The
+// process's first argument will be the verbatim name passed to
+// Command, and not the resolved path of the program.
 func Command(name string, arg ...string) *Cmd {
 	cmd := &Cmd{
 		Path: name,
