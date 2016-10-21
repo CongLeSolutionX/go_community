@@ -281,7 +281,19 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			q = p
 
 			if autosize != 0 {
-				q = obj.Appendp(ctxt, p)
+				// store link register before decrement SP, so if a profiling
+				// signal comes at an unlucky time, the traceback code will not
+				// see a half-updated stack frame.
+				q = obj.Appendp(ctxt, q)
+				q.As = AMOVV
+				q.Lineno = p.Lineno
+				q.From.Type = obj.TYPE_REG
+				q.From.Reg = REGLINK
+				q.To.Type = obj.TYPE_MEM
+				q.To.Offset = int64(-autosize)
+				q.To.Reg = REGSP
+
+				q = obj.Appendp(ctxt, q)
 				q.As = AADDV
 				q.Lineno = p.Lineno
 				q.From.Type = obj.TYPE_CONST
@@ -303,15 +315,6 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 				cursym.Leaf = true
 				break
 			}
-
-			q = obj.Appendp(ctxt, q)
-			q.As = AMOVV
-			q.Lineno = p.Lineno
-			q.From.Type = obj.TYPE_REG
-			q.From.Reg = REGLINK
-			q.To.Type = obj.TYPE_MEM
-			q.To.Offset = int64(0)
-			q.To.Reg = REGSP
 
 			if cursym.Text.From3.Offset&obj.WRAPPER != 0 {
 				// if(g->panic != nil && g->panic->argp == FP) g->panic->argp = bottom-of-frame
