@@ -113,12 +113,16 @@ func equalASCIILabel(x, y string) bool {
 	return true
 }
 
+// isDomainName checks if a string is a presentation-format domain name
+// (currently restricted to hostname-compatible "preferred name" LDH labels and
+// SRV-like "underscore labels"; see golang.org/issue/12421).
 func isDomainName(s string) bool {
 	// See RFC 1035, RFC 3696.
-	if len(s) == 0 {
-		return false
-	}
-	if len(s) > 255 {
+	// Maximum wire-format length is 255 octets; reserve one for length of the
+	// first label and one for the terminal root label (ignoring the last dot
+	// for already-absolute input), leaving 253.
+	l := len(s)
+	if l == 0 || l > 254 || l == 254 && s[l-1] != '.' {
 		return false
 	}
 
