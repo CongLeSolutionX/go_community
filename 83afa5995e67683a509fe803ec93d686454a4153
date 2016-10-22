@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc52e3c5_e3a6d2f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-22T05:47:57Z",
+      "side": 1,
+      "message": "unicast domain name",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "83afa5995e67683a509fe803ec93d686454a4153",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc52e3c5_839b5eaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-22T05:47:57Z",
+      "side": 1,
+      "message": "please drop it and revise comments in test. isDomainName is just for the combination of unicast DNS and LDH labels. also it never runs when GODEBUG\u003dnetdns\u003dcgo, when using mDNS.",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 43
+      },
+      "revId": "83afa5995e67683a509fe803ec93d686454a4153",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc52e3c5_23d62a52",
+        "filename": "src/net/dnsclient.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-22T05:47:57Z",
+      "side": 1,
+      "message": "you can write simply like the following:\n\nl :\u003d len(s)\nif 1 \u003e l || l \u003e 254 || s[l-1] !\u003d \u0027.\u0027 \u0026\u0026 l \u003d\u003d 254 {\n        return false\n}\n\nalso no need to test the existence of root zone here because dnsConfig.nameList takes care of it.",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 131,
+        "endChar": 2
+      },
+      "revId": "83afa5995e67683a509fe803ec93d686454a4153",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc52e3c5_c3a156e3",
+        "filename": "src/net/dnsclient.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-22T05:47:57Z",
+      "side": 1,
+      "message": "no need to test the trailing dot for root zone here.",
+      "range": {
+        "startLine": 165,
+        "startChar": 1,
+        "endLine": 165,
+        "endChar": 48
+      },
+      "revId": "83afa5995e67683a509fe803ec93d686454a4153",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
