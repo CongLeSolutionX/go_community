@@ -5,6 +5,7 @@
 package testing
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"os"
@@ -126,6 +127,10 @@ func (b *B) nsPerOp() int64 {
 
 // runN runs a single benchmark for the specified number of iterations.
 func (b *B) runN(n int) {
+	if b.ctx == nil {
+		b.ctx, b.cancel = context.WithCancel(context.Background())
+		defer b.cancel()
+	}
 	benchmarkLock.Lock()
 	defer benchmarkLock.Unlock()
 	// Try to get a comparable environment for each run
@@ -372,25 +377,29 @@ func runBenchmarks(matchString func(pat, str string) (bool, error), benchmarks [
 			maxprocs = procs
 		}
 	}
-	ctx := &benchContext{
+	bctx := &benchContext{
 		match:  newMatcher(matchString, *matchBenchmarks, "-test.bench"),
 		extLen: len(benchmarkName("", maxprocs)),
 	}
 	var bs []InternalBenchmark
 	for _, Benchmark := range benchmarks {
-		if _, matched := ctx.match.fullName(nil, Benchmark.Name); matched {
+		if _, matched := bctx.match.fullName(nil, Benchmark.Name); matched {
 			bs = append(bs, Benchmark)
 			benchName := benchmarkName(Benchmark.Name, maxprocs)
-			if l := len(benchName) + ctx.extLen + 1; l > ctx.maxLen {
-				ctx.maxLen = l
+			if l := len(benchName) + bctx.extLen + 1; l > bctx.maxLen {
+				bctx.maxLen = l
 			}
 		}
 	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	main := &B{
 		common: common{
 			name:   "Main",
 			w:      os.Stdout,
 			chatty: *chatty,
+			ctx:    ctx,
+			cancel: cancel,
 		},
 		benchFunc: func(b *B) {
 			for _, Benchmark := range bs {
@@ -398,7 +407,7 @@ func runBenchmarks(matchString func(pat, str string) (bool, error), benchmarks [
 			}
 		},
 		benchTime: *benchTime,
-		context:   ctx,
+		context:   bctx,
 	}
 	main.runN(1)
 	return !main.failed
@@ -412,17 +421,22 @@ func (ctx *benchContext) processBench(b *B) {
 		fmt.Fprintf(b.w, "%-*s\t", ctx.maxLen, benchName)
 		// Recompute the running time for all but the first iteration.
 		if i > 0 {
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
 			b = &B{
 				common: common{
 					signal: make(chan bool),
 					name:   b.name,
 					w:      b.w,
 					chatty: b.chatty,
+					ctx:    ctx,
+					cancel: cancel,
 				},
 				benchFunc: b.benchFunc,
 				benchTime: b.benchTime,
 			}
 			b.run1()
+			cancel()
 		}
 		r := b.doBench()
 		if b.failed {
@@ -468,6 +482,8 @@ func (b *B) Run(name string, f func(b *B)) bool {
 	if !ok {
 		return true
 	}
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	sub := &B{
 		common: common{
 			signal: make(chan bool),
@@ -476,6 +492,8 @@ func (b *B) Run(name string, f func(b *B)) bool {
 			level:  b.level + 1,
 			w:      b.w,
 			chatty: b.chatty,
+			ctx:    ctx,
+			cancel: cancel,
 		},
 		benchFunc: f,
 		benchTime: b.benchTime,
@@ -617,10 +635,14 @@ func (b *B) SetParallelism(p int) {
 // If f calls Run, the result will be an estimate of running all its
 // subbenchmarks that don't call Run in sequence in a single benchmark.
 func Benchmark(f func(b *B)) BenchmarkResult {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 	b := &B{
 		common: common{
 			signal: make(chan bool),
 			w:      discard{},
+			ctx:    ctx,
+			cancel: cancel,
 		},
 		benchFunc: f,
 		benchTime: *benchTime,

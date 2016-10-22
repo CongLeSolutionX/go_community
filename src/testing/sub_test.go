@@ -6,6 +6,7 @@ package testing
 
 import (
 	"bytes"
+	"context"
 	"regexp"
 	"strings"
 	"sync/atomic"
@@ -330,19 +331,23 @@ func TestTRun(t *T) {
 		},
 	}}
 	for _, tc := range testCases {
-		ctx := newTestContext(tc.maxPar, newMatcher(regexp.MatchString, "", ""))
+		tctx := newTestContext(tc.maxPar, newMatcher(regexp.MatchString, "", ""))
 		buf := &bytes.Buffer{}
+		ctx, cancel := context.WithCancel(context.Background())
+		defer cancel()
 		root := &T{
 			common: common{
 				signal: make(chan bool),
 				name:   "Test",
 				w:      buf,
 				chatty: tc.chatty,
+				ctx:    ctx,
+				cancel: cancel,
 			},
-			context: ctx,
+			context: tctx,
 		}
 		ok := root.Run(tc.desc, tc.f)
-		ctx.release()
+		tctx.release()
 
 		if ok != tc.ok {
 			t.Errorf("%s:ok: got %v; want %v", tc.desc, ok, tc.ok)
@@ -350,8 +355,8 @@ func TestTRun(t *T) {
 		if ok != !root.Failed() {
 			t.Errorf("%s:root failed: got %v; want %v", tc.desc, !ok, root.Failed())
 		}
-		if ctx.running != 0 || ctx.numWaiting != 0 {
-			t.Errorf("%s:running and waiting non-zero: got %d and %d", tc.desc, ctx.running, ctx.numWaiting)
+		if tctx.running != 0 || tctx.numWaiting != 0 {
+			t.Errorf("%s:running and waiting non-zero: got %d and %d", tc.desc, tctx.running, tctx.numWaiting)
 		}
 		got := strings.TrimSpace(buf.String())
 		want := strings.TrimSpace(tc.output)
