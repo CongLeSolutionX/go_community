@@ -113,12 +113,16 @@ func equalASCIILabel(x, y string) bool {
 	return true
 }
 
+// isDomainName checks if a string is a presentation-format domain name
+// (currently restricted to hostname-compatible "preferred name" LDH labels and
+// SRV-like "underscore labels"; see golang.org/issue/12421).
 func isDomainName(s string) bool {
 	// See RFC 1035, RFC 3696.
-	if len(s) == 0 {
-		return false
-	}
-	if len(s) > 255 {
+	l := len(s)
+	// Assume no escapes and ignore terminal dots in length calculation.
+	// Allow up to 254 octets for Multicast DNS ".label" domains
+	// (see golang.org/issue/13878).
+	if l == 0 || l > 255 || l == 255 && s[l-1] != '.' {
 		return false
 	}
 
