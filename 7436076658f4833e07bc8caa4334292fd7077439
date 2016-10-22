@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcf74308_9a11dc04",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-22T17:29:51Z",
+      "side": 1,
+      "message": "Don\u0027t use Fatal in goroutines other than the main TestFoo goroutine. See the testing package for docs on this.",
+      "revId": "7436076658f4833e07bc8caa4334292fd7077439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_fad8e03b",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-22T17:29:51Z",
+      "side": 1,
+      "message": "can you do all these without panics? return an error on a goroutine to the main goroutine?",
+      "revId": "7436076658f4833e07bc8caa4334292fd7077439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_bade5826",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-22T17:29:51Z",
+      "side": 1,
+      "message": ":\u003d",
+      "revId": "7436076658f4833e07bc8caa4334292fd7077439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_dad9a442",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-22T17:29:51Z",
+      "side": 1,
+      "message": ":\u003d",
+      "revId": "7436076658f4833e07bc8caa4334292fd7077439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_7a0e90e1",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-22T17:29:51Z",
+      "side": 1,
+      "message": "I\u0027d use :\u003d here and reduce the scope, so the user doesn\u0027t need to consider side effects elsewhere.",
+      "revId": "7436076658f4833e07bc8caa4334292fd7077439",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
