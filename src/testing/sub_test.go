@@ -6,6 +6,7 @@ package testing
 
 import (
 	"bytes"
+	"context"
 	"regexp"
 	"strings"
 	"sync/atomic"
@@ -341,6 +342,7 @@ func TestTRun(t *T) {
 			},
 			context: ctx,
 		}
+		root.ctx, root.cancel = context.WithCancel(context.Background())
 		ok := root.Run(tc.desc, tc.f)
 		ctx.release()
 
