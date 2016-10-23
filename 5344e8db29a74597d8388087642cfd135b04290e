@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "011c1460_54c12c1c",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-23T15:59:26Z",
+      "side": 1,
+      "message": "Is this fix strictly limited to profiling signals or does it affect signals more generally?",
+      "revId": "5344e8db29a74597d8388087642cfd135b04290e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "011c1460_74bc28a4",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-23T15:59:26Z",
+      "side": 1,
+      "message": "Can you replace \u0027at an unlucky time\u0027 with something more precise like \u0027during execution of the function prologue\u0027? It took me a little while to understand what was going on here.",
+      "revId": "5344e8db29a74597d8388087642cfd135b04290e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
