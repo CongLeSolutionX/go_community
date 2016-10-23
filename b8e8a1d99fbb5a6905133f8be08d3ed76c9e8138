@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dcf74308_b88dc016",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 5673
+      },
+      "writtenOn": "2016-10-23T19:40:54Z",
+      "side": 1,
+      "message": "Accept is the only place that could reach an error without the client handshake failing. So I switched that error check back to a panic.",
+      "parentUuid": "dcf74308_dd4b5e26",
+      "revId": "b8e8a1d99fbb5a6905133f8be08d3ed76c9e8138",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcf74308_bd5012d4",
         "filename": "src/crypto/tls/tls_test.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-23T15:08:03Z",
       "side": 1,
       "message": "Fatalf probably. I can\u0027t imagine anything else working well after this.",
+      "revId": "b8e8a1d99fbb5a6905133f8be08d3ed76c9e8138",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_788338eb",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 5673
+      },
+      "writtenOn": "2016-10-23T19:40:54Z",
+      "side": 1,
+      "message": "fixed",
+      "parentUuid": "dcf74308_bd5012d4",
       "revId": "b8e8a1d99fbb5a6905133f8be08d3ed76c9e8138",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
