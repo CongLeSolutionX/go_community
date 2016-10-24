@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcf74308_cea0c62f",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-24T16:52:06Z",
+      "side": 1,
+      "message": "This is not actually true at present.  See _cgoPREFIX_Cfunc__Cmalloc in cmd/cgo/out.go.",
+      "range": {
+        "startLine": 222,
+        "startChar": 20,
+        "endLine": 222,
+        "endChar": 39
+      },
+      "revId": "2b624030a9aa061b163c1ca0696c956ed130c943",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
