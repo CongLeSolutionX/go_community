@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dcf74308_49667046",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2172,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-24T18:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcf74308_8e3a3ee1",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcf74308_ee45c262",
         "filename": "doc/go_spec.html",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-24T17:20:22Z",
       "side": 1,
       "message": "The effect of referring....\n\nthe reference itself is of course distinguishable.",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_a973b405",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2186,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-24T18:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcf74308_ee45c262",
       "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -88,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "dcf74308_897078fa",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2194,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-24T18:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcf74308_ce4a8672",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcf74308_ce71e6c4",
         "filename": "doc/go_spec.html",
         "patchSetId": 7
@@ -105,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "dcf74308_69908cd8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2206,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-24T18:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcf74308_ce71e6c4",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcf74308_4e5e762d",
         "filename": "doc/go_spec.html",
         "patchSetId": 7
@@ -116,6 +188,24 @@
       "writtenOn": "2016-10-24T17:20:22Z",
       "side": 1,
       "message": "s/shortcut/non-exported \u0026/",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_299684d6",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2211,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-24T18:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcf74308_4e5e762d",
       "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
