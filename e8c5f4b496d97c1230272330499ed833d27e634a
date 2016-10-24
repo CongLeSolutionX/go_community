@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "dcf74308_8e3a3ee1",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2172,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-24T17:20:22Z",
+      "side": 1,
+      "message": "you write alias name and put just alias in parens, yet refer to it as just alias everywhere.\njust call it alias here and drop the \"name\".",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_ee45c262",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2186,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-24T17:20:22Z",
+      "side": 1,
+      "message": "The effect of referring....\n\nthe reference itself is of course distinguishable.",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6142304e_f2af2661",
         "filename": "doc/go_spec.html",
         "patchSetId": 7
@@ -31,6 +65,57 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "6142304e_f2af2661",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_ce4a8672",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2194,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-24T17:20:22Z",
+      "side": 1,
+      "message": "s/ a / /",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_ce71e6c4",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2206,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-24T17:20:22Z",
+      "side": 1,
+      "message": "the comment is vacuous. what you\u0027re trying to say is that the export status of the alias can be different from the aliased entity, but the key point is that the name is arbitrary; the export status is a result not a reason. if that\u0027s worth calling out, don\u0027t do it just in an example.\n\nin fact, the net two examples can do it all for you; see my suggestion there. that covers all you need to say.",
+      "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcf74308_4e5e762d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 2211,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-24T17:20:22Z",
+      "side": 1,
+      "message": "s/shortcut/non-exported \u0026/",
       "revId": "e8c5f4b496d97c1230272330499ed833d27e634a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
