@@ -16,6 +16,24 @@
       "revId": "03af8fb374053125a10451c1c012d11a60155d2b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6142304e_b2dcfeca",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2016-10-24T18:16:22Z",
+      "side": 1,
+      "message": "OK. Let me take another shot at it.",
+      "parentUuid": "818ba4df_2078ca34",
+      "revId": "03af8fb374053125a10451c1c012d11a60155d2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
