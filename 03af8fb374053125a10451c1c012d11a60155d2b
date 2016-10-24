@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "818ba4df_2078ca34",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-24T18:11:12Z",
+      "side": 1,
+      "message": "This isn\u0027t quite right either, because package paths can contain periods. I think the correct fix probably needs to happen within cmd/compile, probably by just passing the variable names down without package qualification.",
+      "revId": "03af8fb374053125a10451c1c012d11a60155d2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
