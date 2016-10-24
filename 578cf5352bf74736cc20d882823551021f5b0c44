@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c0657a0_4e8fe746",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-10-24T16:40:37Z",
+      "side": 1,
+      "message": "same would i guess apply for Format and GoString too.\n\nIf you think that is better to leave the list open maybe change to something like \"does not invoke any methods e.g. Error and String on unexported fields.\"?",
+      "range": {
+        "startLine": 178,
+        "startChar": 10,
+        "endLine": 178,
+        "endChar": 11
+      },
+      "revId": "578cf5352bf74736cc20d882823551021f5b0c44",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
