@@ -588,8 +588,10 @@ func PutFunc(ctxt Context, s Sym, name string, external bool, startPC Sym, size 
 		}
 		names[n] = true
 
-		// Drop the package prefix from locals and arguments.
-		if i := strings.LastIndex(n, "."); i >= 0 {
+		// Drop the package prefix from locals and arguments. Preserve
+		// a "." in the name itself since it may correspond to a structure
+		// field (eg. "myslice.cap").
+		if i := strings.Index(n, "."); i >= 0 {
 			n = n[i+1:]
 		}
 
