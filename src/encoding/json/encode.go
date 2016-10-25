@@ -439,10 +439,14 @@ func invalidValueEncoder(e *encodeState, v reflect.Value, _ encOpts) {
 }
 
 func marshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
-	if v.Kind() == reflect.Ptr && v.IsNil() {
-		e.WriteString("null")
-		return
+	switch v.Kind() {
+	case reflect.Ptr, reflect.Interface:
+		if v.IsNil() {
+			e.WriteString("null")
+			return
+		}
 	}
+
 	m := v.Interface().(Marshaler)
 	b, err := m.MarshalJSON()
 	if err == nil {

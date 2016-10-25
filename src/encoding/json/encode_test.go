@@ -293,6 +293,50 @@ type BugX struct {
 	BugB
 }
 
+func marshalAndRecover(v interface{}) (b []byte, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			switch t := r.(type) {
+			case error:
+				err = t
+			default:
+				err = fmt.Errorf("%v", t)
+			}
+		}
+	}()
+	b, err = Marshal(v)
+	return
+}
+
+// Issue 16042.
+func TestNilMarshal(t *testing.T) {
+	testCases := [...]struct {
+		v    interface{}
+		want string
+	}{
+		0: {v: struct{ M Marshaler }{}, want: `{"M":null}`},
+		1: {v: nil, want: `null`},
+		2: {v: struct{ M string }{"gopher"}, want: `{"M":"gopher"}`},
+		3: {v: new(float64), want: `0`},
+		4: {v: []interface{}(nil), want: `null`},
+		5: {v: []string(nil), want: `null`},
+		6: {v: map[string]string(nil), want: `null`},
+		7: {v: []byte(nil), want: `null`},
+	}
+
+	for i, tt := range testCases {
+		got, err := marshalAndRecover(tt.v)
+		if err != nil {
+			t.Errorf("#%d: got err=%v", i, err)
+			continue
+		}
+		want := []byte(tt.want)
+		if !bytes.Equal(got, want) {
+			t.Errorf("#%d: got=%s want=%s", i, got, want)
+		}
+	}
+}
+
 // Issue 5245.
 func TestEmbeddedBug(t *testing.T) {
 	v := BugB{
