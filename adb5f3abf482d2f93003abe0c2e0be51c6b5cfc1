@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21d3d849_9882d997",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T20:54:17Z",
+      "side": 1,
+      "message": "This is also not a complete sentence; it lacks a subject.\n\nI\u0027d move this to the bottom, though, with a blank line before it:\n\n// The HTTP/2 spec ...\n//\n// Push returns ErrNotSupported if ...",
+      "revId": "adb5f3abf482d2f93003abe0c2e0be51c6b5cfc1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
