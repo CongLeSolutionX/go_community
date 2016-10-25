@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21d3d849_d5adbc85",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T20:10:11Z",
+      "side": 1,
+      "message": "you managed to get two typos of the same word in different ways on the same line. Two gold stars for you: 🌟🌟",
+      "revId": "a120afa42c28a1a180a17968c96604c80adffb78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
