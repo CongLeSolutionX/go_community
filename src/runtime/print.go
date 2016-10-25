@@ -4,7 +4,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"runtime/internal/atomic"
+	"unsafe"
+)
 
 // The compiler knows that a print of a value of this type
 // should use printhex instead of printuint (decimal).
@@ -17,6 +20,45 @@ func bytes(s string) (ret []byte) {
 	rp.len = sp.len
 	rp.cap = sp.len
 	return
+}
+
+var (
+	// printBacklog is a circular buffer of messages written with the builtin
+	// print* functions, for use in postmortem analysis of core dumps.
+	printBacklog      [1 << 10]byte
+	printBacklogIndex int
+	// crashStacks is a buffer for the first several stacks written in
+	// response to a panic or fatal error, for use in postmortem analysis of
+	// core dumps.
+	crashStacks      [8 << 10]byte
+	crashStacksIndex int
+)
+
+// recordForPanic maintains a circular buffer of messages written by the
+// runtime leading up to a process crash, and the beginning of the stack
+// traces printed in response to a panic or fatal error. This allows the
+// messages to be extracted from a core dump.
+func recordForPanic(b []byte) {
+	printlock()
+
+	if atomic.Load(&panicking) == 0 {
+		// Not actively crashing: maintain circular buffer of print output.
+		for i := 0; i < len(b); {
+			n := copy(printBacklog[printBacklogIndex:], b[i:])
+			i += n
+			printBacklogIndex += n
+			printBacklogIndex %= len(printBacklog)
+		}
+	} else {
+		// Crashing: retain as much of the beginning of the stack traces as we
+		// have room.
+		if crashStacksIndex < len(crashStacks) {
+			n := copy(crashStacks[crashStacksIndex:], b)
+			crashStacksIndex += n
+		}
+	}
+
+	printunlock()
 }
 
 var debuglock mutex
@@ -53,6 +95,7 @@ func gwrite(b []byte) {
 	if len(b) == 0 {
 		return
 	}
+	recordForPanic(b)
 	gp := getg()
 	if gp == nil || gp.writebuf == nil {
 		writeErr(b)
