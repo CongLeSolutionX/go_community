@@ -103,3 +103,27 @@ func TestCmdGoNoHTTPServer(t *testing.T) {
 		}
 	}
 }
+
+// Unexported functions from fs.go.
+func TestScanETag(t *testing.T) {
+	tests := []struct {
+		in         []byte
+		wantETag   string
+		wantRemain []byte
+	}{
+		{[]byte(`W/"etag-1"`), `W/"etag-1"`, []byte{}},
+		{[]byte(`"etag-2"`), `"etag-2"`, []byte{}},
+		{[]byte(`"etag-1", "etag-2"`), `"etag-1"`, []byte(`, "etag-2"`)},
+		{nil, "", nil},
+		{[]byte{}, "", nil},
+		{[]byte("W/"), "", nil},
+		{[]byte(`W/"truc`), "", nil},
+		{[]byte(`w/"case-sensitive"`), "", nil},
+	}
+	for _, test := range tests {
+		etag, remain := scanETag(test.in)
+		if etag != test.wantETag || !bytes.Equal(remain, test.wantRemain) {
+			t.Errorf("scanETag(%q)=%q %q, want %q %q", test.in, etag, remain, test.wantETag, test.wantRemain)
+		}
+	}
+}
