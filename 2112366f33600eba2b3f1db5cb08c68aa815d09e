@@ -16,6 +16,24 @@
       "revId": "2112366f33600eba2b3f1db5cb08c68aa815d09e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_f00d2055",
+        "filename": "VERSION",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-10-25T00:20:59Z",
+      "side": 1,
+      "message": "LGTM, FWIW",
+      "parentUuid": "8105644c_305848a3",
+      "revId": "2112366f33600eba2b3f1db5cb08c68aa815d09e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
