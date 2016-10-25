@@ -33,6 +33,11 @@ func mkEnv() []envVar {
 	var b builder
 	b.init()
 
+	gopath := os.Getenv("GOPATH")
+	if gopath == "" {
+		gopath = defaultGOPATH()
+	}
+
 	env := []envVar{
 		{"GOARCH", goarch},
 		{"GOBIN", gobin},
@@ -40,7 +45,7 @@ func mkEnv() []envVar {
 		{"GOHOSTARCH", runtime.GOARCH},
 		{"GOHOSTOS", runtime.GOOS},
 		{"GOOS", goos},
-		{"GOPATH", os.Getenv("GOPATH")},
+		{"GOPATH", gopath},
 		{"GORACE", os.Getenv("GORACE")},
 		{"GOROOT", goroot},
 		{"GOTOOLDIR", toolDir},
