@@ -100,3 +100,39 @@ var (
 	_ io.WriterTo   = NoBody
 	_ io.ReadCloser = NoBody
 )
+
+// PushOptions describes options for Pusher.Push.
+type PushOptions struct {
+	// PromisedMethod is the HTTP method to use for the promised request.
+	// If not specified, it defaults to "GET". If set, it must be "GET" or
+	// "HEAD".
+	PromisedMethod string
+
+	// PromisedHeader is the promised request header. May be nil. This cannot
+	// include HTTP/2 pseudo header fields like ":path" and ":scheme" (Push
+	// will infer those header fields automatically).
+	PromisedHeader http.Header
+}
+
+// Pusher is the interface implemented by ResponseWriters that support
+// server push.
+type Pusher interface {
+	// Push initiates a server push. This constructs a synthetic request
+	// using the given URL and options, serializes that request into a
+	// PUSH_PROMISE frame, then dispatches that request using the server's
+	// request handler. url must contain a valid host and must have the
+	// same scheme as the parent request. If opts is nil, default options
+	// are used.
+	//
+	// The HTTP/2 spec disallows recursive pushes and cross-authority pushes.
+	// Push may or may not detect these invalid pushes; however, invalid
+	// pushes will be detected and canceled by conforming clients.
+	//
+	// Handlers that wish to push URL X should call Push before sending any
+	// data that may trigger a request for URL X. This avoids a race where the
+	// client issues requests for X before receiving the PUSH_PROMISE for X.
+	//
+	// For more background on HTTP/2 server push, see
+	// https://tools.ietf.org/html/rfc7540#section-8.2.
+	Push(url string, opts *PushOptions) error
+}
