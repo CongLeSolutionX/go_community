@@ -323,6 +323,68 @@ func (s *slowReader) Read(p []byte) (int, error) {
 	return s.r.Read(p[:1])
 }
 
+type sentinelReader struct {
+	// done is closed when this reader is read from.
+	done chan struct{}
+}
+
+func (s *sentinelReader) Read([]byte) (int, error) {
+	if s.done != nil {
+		close(s.done)
+		s.done = nil
+	}
+	return 0, io.EOF
+}
+
+func TestMultipartStream(t *testing.T) {
+	testBody1 := `
+This is a multi-part message.  This line is ignored.
+--MyBoundary
+foo-bar: baz
+
+Body
+--MyBoundary
+`
+	testBody2 := `foo-bar: bop
+
+Body 2
+--MyBoundary--
+`
+	done1 := make(chan struct{})
+	reader := NewReader(
+		io.MultiReader(
+			strings.NewReader(testBody1),
+			&sentinelReader{done1},
+			strings.NewReader(testBody2)),
+		"MyBoundary")
+
+	readPart := func(hdr textproto.MIMEHeader, body string) {
+		part, err := reader.NextPart()
+		if part == nil || err != nil {
+			t.Fatalf("NextPart failed: %v", err)
+		}
+
+		if !reflect.DeepEqual(part.Header, hdr) {
+			t.Errorf("part.Header = %v, want %v", part.Header, hdr)
+		}
+		data, err := ioutil.ReadAll(part)
+		expectEq(t, body, string(data), "Part body")
+		if err != nil {
+			t.Fatalf("ReadAll of part failed: %v", err)
+		}
+	}
+
+	readPart(textproto.MIMEHeader{"Foo-Bar": {"baz"}}, "Body")
+
+	select {
+	case <-done1:
+		t.Errorf("Reader read past second boundary")
+	default:
+	}
+
+	readPart(textproto.MIMEHeader{"Foo-Bar": {"bop"}}, "Body 2")
+}
+
 func TestLineContinuation(t *testing.T) {
 	// This body, extracted from an email, contains headers that span multiple
 	// lines.
