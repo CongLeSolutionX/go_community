@@ -112,6 +112,8 @@ func (t *tester) run() {
 	}
 	t.runNames = flag.Args()
 
+	log.Printf("RUN_NAMES: %v", t.runNames)
+
 	if t.hasBash() {
 		if _, err := exec.LookPath("time"); err == nil {
 			t.haveTime = true
