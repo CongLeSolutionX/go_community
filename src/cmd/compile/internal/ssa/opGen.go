@@ -1721,6 +1721,7 @@ const (
 	OpSub32withcarry
 	OpSignmask
 	OpZeromask
+	OpSlicemask
 	OpCvt32Uto32F
 	OpCvt32Uto64F
 	OpCvt32Fto32U
@@ -19600,6 +19601,11 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Zeromask",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "Slicemask",
 		argLen:  1,
 		generic: true,
 	},
