@@ -443,6 +443,17 @@ func marshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 		e.WriteString("null")
 		return
 	}
+
+	typ := v.Type()
+	if meth, ok := typ.MethodByName("MarshalJSON"); ok {
+		// Return an error if we encounter a nil MarshalJSON method instead
+		// of panicing during the interface assertion below. See Issue 16042.
+		if meth.Func.Kind() == reflect.Invalid {
+			e.error(&MarshalerError{typ, fmt.Errorf("nil MarshalJSON method")})
+			return
+		}
+	}
+
 	m := v.Interface().(Marshaler)
 	b, err := m.MarshalJSON()
 	if err == nil {
@@ -450,7 +461,7 @@ func marshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 		err = compact(&e.Buffer, b, opts.escapeHTML)
 	}
 	if err != nil {
-		e.error(&MarshalerError{v.Type(), err})
+		e.error(&MarshalerError{typ, err})
 	}
 }
 
