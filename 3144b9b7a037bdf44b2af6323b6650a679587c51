@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81ed6409_3301b269",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-25T22:37:45Z",
+      "side": 1,
+      "message": "\"reword\" is rather neutral, I think you could say \"fix\" or \"improve\".",
+      "revId": "3144b9b7a037bdf44b2af6323b6650a679587c51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81ed6409_f3e44acc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-25T22:37:45Z",
+      "side": 1,
+      "message": "We tend to avoid these Signed-off-by lines in our CL descriptions.",
+      "revId": "3144b9b7a037bdf44b2af6323b6650a679587c51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81ed6409_53043679",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-25T22:37:45Z",
+      "side": 1,
+      "message": "s/the timerproc/timerproc/",
+      "range": {
+        "startLine": 91,
+        "startChar": 45,
+        "endLine": 91,
+        "endChar": 58
+      },
+      "revId": "3144b9b7a037bdf44b2af6323b6650a679587c51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81ed6409_f3f20a81",
+        "filename": "src/runtime/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-25T22:37:45Z",
+      "side": 1,
+      "message": "We capitalize sentences.  This line is correct as is, or it could be\n// The timerproc function ....",
+      "revId": "3144b9b7a037bdf44b2af6323b6650a679587c51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
