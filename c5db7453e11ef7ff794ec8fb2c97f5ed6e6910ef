@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a1bb48d0_19562bea",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-10-25T20:43:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8105644c_73c93a0b",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8105644c_13d42ea7",
         "filename": "src/net/fd_io_plan9.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-25T04:38:03Z",
       "side": 1,
       "message": "yes, but what is the lifetime of one of these? Is it one of these per read or write operation, one for the life of the process, per conn, somewhere in-between? Say more about the design here.\n\nI\u0027m reading this top-down and don\u0027t know what\u0027s going on yet, and that\u0027s how you should assume people are reading this.",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "817ac4f4_c8de8f52",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-10-25T20:43:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8105644c_13d42ea7",
       "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "211918c1_05c5124a",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-10-25T20:43:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8105644c_53ceb614",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8105644c_d3d906da",
         "filename": "src/net/fd_io_plan9.go",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2016-10-25T04:38:03Z",
       "side": 1,
       "message": "lowercase new. And \"an I/O\"",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1898840_29f64de5",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-10-25T20:43:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8105644c_d3d906da",
       "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a1d26816_010dcae2",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-10-25T20:43:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8105644c_737e5ad4",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8105644c_f3dc0acc",
         "filename": "src/net/fd_io_plan9.go",
         "patchSetId": 4
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "211918c1_e5a4368f",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-10-25T20:43:57Z",
+      "side": 1,
+      "message": "Sorry, the result channel was meant to be unbuffered.",
+      "parentUuid": "8105644c_f3dc0acc",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8105644c_93df7ebf",
         "filename": "src/net/fd_io_plan9.go",
         "patchSetId": 4
@@ -115,6 +223,24 @@
       "writtenOn": "2016-10-25T04:38:03Z",
       "side": 1,
       "message": "instead of allocating an os.Signal interface with a string (which is bigger than a single pointer) on each Cancel, you should make a package global:\n\n   var hangupNote os.Signal \u003d syscall.Note(\"hangup\")\n\n... so it\u0027s only created once.",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "211918c1_45cf0a68",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-10-25T20:43:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8105644c_93df7ebf",
       "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
