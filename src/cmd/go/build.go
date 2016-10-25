@@ -713,7 +713,21 @@ func init() {
 	if goos == "windows" {
 		exeSuffix = ".exe"
 	}
+	if buildContext.GOPATH == "" {
+		buildContext.GOPATH = defaultGOPATH()
+	}
 	gopath = filepath.SplitList(buildContext.GOPATH)
+}
+
+func defaultGOPATH() string {
+	env := "HOME"
+	if goos == "windows" {
+		env = "USERPROFILE"
+	}
+	if home := os.Getenv(env); home != "" {
+		return filepath.Join(home, "go")
+	}
+	return ""
 }
 
 // A builder holds global state about a build.
