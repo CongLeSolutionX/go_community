@@ -12,6 +12,7 @@ import (
 	"reflect"
 	"regexp"
 	"strconv"
+	"strings"
 	"testing"
 	"unicode"
 )
@@ -291,6 +292,59 @@ type BugX struct {
 	A int
 	BugA
 	BugB
+}
+
+// Issue 16042. Even if a nil interface value is passed in
+// as long as it implements MarshalJSON, it should be marshaled.
+type nilMarshaler string
+
+func (nm *nilMarshaler) MarshalJSON() ([]byte, error) {
+	if nm == nil {
+		return Marshal("0zenil0")
+	}
+	return Marshal("zenil:" + string(*nm))
+}
+
+// Issue 16042.
+func TestNilMarshal(t *testing.T) {
+	testCases := [...]struct {
+		v    interface{}
+		want string
+		err  string
+	}{
+		0: {v: struct{ M Marshaler }{}, want: `{"M":null}`, err: "nil MarshalJSON"},
+		1: {v: nil, want: `null`},
+		2: {v: struct{ M string }{"gopher"}, want: `{"M":"gopher"}`},
+		3: {v: new(float64), want: `0`},
+		4: {v: []interface{}(nil), want: `null`},
+		5: {v: []string(nil), want: `null`},
+		6: {v: map[string]string(nil), want: `null`},
+		7: {v: []byte(nil), want: `null`},
+		8: {
+			v: struct{ M Marshaler }{
+				M: func() *nilMarshaler { return nil }(),
+			},
+			want: `{"M":"0zenil0"}`,
+			err:  "nil MarshalJSON",
+		},
+		9: {v: struct{ M interface{} }{
+			M: func() *nilMarshaler { return nil }(),
+		}, want: `{"M":null}`},
+	}
+
+	for i, tt := range testCases {
+		got, err := Marshal(tt.v)
+		if err != nil {
+			if !strings.Contains(err.Error(), tt.err) {
+				t.Errorf("#%d: got=%q want=%q", i, err, tt.err)
+			}
+			continue
+		}
+		want := []byte(tt.want)
+		if !bytes.Equal(got, want) {
+			t.Errorf("#%d: got=%s want=%s", i, got, want)
+		}
+	}
 }
 
 // Issue 5245.
