@@ -439,10 +439,24 @@ func invalidValueEncoder(e *encodeState, v reflect.Value, _ encOpts) {
 }
 
 func marshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
-	if v.Kind() == reflect.Ptr && v.IsNil() {
-		e.WriteString("null")
-		return
+	switch v.Kind() {
+	case reflect.Ptr:
+		if v.IsNil() {
+			e.WriteString("null")
+			return
+		}
+	case reflect.Interface:
+		if meth, ok := v.Type().MethodByName("MarshalJSON"); ok {
+			// If the MarshalJSON method on an interface is nil,
+			// encode it as null as promised by Marshal, instead of
+			// panicking during Marshaler interface assertion. See Issue 16042.
+			if meth.Func.Kind() == reflect.Invalid {
+				e.WriteString("null")
+				return
+			}
+		}
 	}
+
 	m := v.Interface().(Marshaler)
 	b, err := m.MarshalJSON()
 	if err == nil {
