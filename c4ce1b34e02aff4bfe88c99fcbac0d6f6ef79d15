@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "81ed6409_7093b076",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-25T21:58:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ca0fb08_ad29fdbc",
+      "revId": "c4ce1b34e02aff4bfe88c99fcbac0d6f6ef79d15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ca0fb08_6d61d51b",
         "filename": "src/runtime/mgcsweepbuf.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
         "endLine": 100,
         "endChar": 3
       },
+      "revId": "c4ce1b34e02aff4bfe88c99fcbac0d6f6ef79d15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81ed6409_5090ac67",
+        "filename": "src/runtime/mgcsweepbuf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-25T21:58:16Z",
+      "side": 1,
+      "message": "Yes, that\u0027s true. I expanded the comment to mention this.",
+      "parentUuid": "1ca0fb08_6d61d51b",
       "revId": "c4ce1b34e02aff4bfe88c99fcbac0d6f6ef79d15",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
