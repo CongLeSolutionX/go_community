@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21d3d849_58320156",
+        "filename": "src/cmd/internal/pprof/plugin/plugin.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 10031
+      },
+      "writtenOn": "2016-10-25T21:01:41Z",
+      "side": 0,
+      "message": "Please do not remove these functions. While the golang version doesn\u0027t use them, other implementations can override them and provide other capabilities.",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 18
+      },
+      "revId": "4d898776ff973056aa906d90be0f23af772631c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
