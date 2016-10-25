@@ -16,6 +16,24 @@
       "revId": "89cb2da7c9caed94580fc6314a15167b57966c37",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d3d849_9b50934b",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 5673
+      },
+      "writtenOn": "2016-10-25T22:35:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d3d849_1bc123e8",
+      "revId": "89cb2da7c9caed94580fc6314a15167b57966c37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
