@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8105644c_f38a4aa3",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-10-25T04:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8105644c_73977ad4",
+      "revId": "b8a9dce274e8a77832d812ed3de59bcde1c1fe65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8105644c_339df2f4",
         "filename": "src/net/http/client.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-25T04:49:10Z",
       "side": 1,
       "message": "\"ireq\" was always meant to mean \"initial request\". It is by definition immutable, since it was the initial one.\n\nIf you want this to be mutable, you should find a different variable name.",
+      "revId": "b8a9dce274e8a77832d812ed3de59bcde1c1fe65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_d387469b",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-10-25T04:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8105644c_339df2f4",
       "revId": "b8a9dce274e8a77832d812ed3de59bcde1c1fe65",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
