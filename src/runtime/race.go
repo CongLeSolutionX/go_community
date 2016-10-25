@@ -275,10 +275,14 @@ func raceinit() (gctx, pctx uintptr) {
 	if end < firstmoduledata.ebss {
 		end = firstmoduledata.ebss
 	}
-	size := round(end-start, _PageSize)
-	racecall(&__tsan_map_shadow, start, size, 0, 0)
+
+	// __tsan_map_shadow wants page-aligned addresses, empirically.
+	// See golang.org/issue/17065.
+	shadowstart := start &^ (_PageSize - 1)
+	shadowsize := round(end, _PageSize) - shadowstart
+	racecall(&__tsan_map_shadow, shadowstart, shadowsize, 0, 0)
 	racedatastart = start
-	racedataend = start + size
+	racedataend = end
 
 	return
 }
