@@ -256,13 +256,24 @@ func (ctxt *Context) SrcDirs() []string {
 // if set, or else the compiled code's GOARCH, GOOS, and GOROOT.
 var Default Context = defaultContext()
 
+func defaultGOPATH(goos string) string {
+	env := "HOME"
+	if goos == "windows" {
+		env = "USERPROFILE"
+	}
+	if home := os.Getenv(env); home != "" {
+		return filepath.Join(home, "go")
+	}
+	return ""
+}
+
 func defaultContext() Context {
 	var c Context
 
 	c.GOARCH = envOr("GOARCH", runtime.GOARCH)
 	c.GOOS = envOr("GOOS", runtime.GOOS)
 	c.GOROOT = pathpkg.Clean(runtime.GOROOT())
-	c.GOPATH = envOr("GOPATH", "")
+	c.GOPATH = envOr("GOPATH", defaultGOPATH(c.GOOS))
 	c.Compiler = runtime.Compiler
 
 	// Each major Go release in the Go 1.x series should add a tag here.
