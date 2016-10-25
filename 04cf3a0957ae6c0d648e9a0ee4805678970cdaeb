@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a13a6853_c1f1627b",
+        "filename": "src/mime/multipart/multipart.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-25T20:37:43Z",
+      "side": 1,
+      "message": "can probably delete the TODO now",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13a6853_e157c673",
+        "filename": "src/mime/multipart/multipart.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-25T20:37:43Z",
+      "side": 1,
+      "message": "This seems wrong. Why is +1 going to make the remaining code safe to execute? I would believe this if it was going to go back around the loop and retest all these conditions.",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
