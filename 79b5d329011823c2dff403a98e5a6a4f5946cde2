@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8105644c_f6a4f88e",
+        "filename": "src/crypto/tls/handshake_client_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T14:49:35Z",
+      "side": 1,
+      "message": "ah, there it is.",
+      "revId": "79b5d329011823c2dff403a98e5a6a4f5946cde2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
