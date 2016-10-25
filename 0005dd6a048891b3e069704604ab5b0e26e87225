@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8105644c_937e5e1e",
+        "filename": "src/cmd/compile/internal/ssa/rewriteS390X.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2016-10-25T02:12:42Z",
+      "side": 1,
+      "message": "LAA \u003d\u003d Load and Add\n\"All accesses to the second-operand location appear\nto be a block-concurrent interlocked-update reference\nas observed by other CPUs and the I/O subsystem.\nA specific-operand-serialization operation is\nperformed.\"",
+      "range": {
+        "startLine": 918,
+        "startChar": 35,
+        "endLine": 918,
+        "endChar": 38
+      },
+      "revId": "0005dd6a048891b3e069704604ab5b0e26e87225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_3397b227",
+        "filename": "src/cmd/compile/internal/ssa/rewriteS390X.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2016-10-25T02:12:42Z",
+      "side": 1,
+      "message": "LAAG \u003d\u003d Load and Add Grand, which is the 64 bit instruction",
+      "range": {
+        "startLine": 938,
+        "startChar": 35,
+        "endLine": 938,
+        "endChar": 39
+      },
+      "revId": "0005dd6a048891b3e069704604ab5b0e26e87225",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
