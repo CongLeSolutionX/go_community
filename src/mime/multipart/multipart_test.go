@@ -13,8 +13,10 @@ import (
 	"net/textproto"
 	"os"
 	"reflect"
+	"runtime/trace"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestBoundaryLine(t *testing.T) {
@@ -120,6 +122,11 @@ func TestMultipartOnlyNewlines(t *testing.T) {
 }
 
 func TestMultipartSlowInput(t *testing.T) {
+	// DONOTSUBMIT
+	go func() {
+		time.Sleep(5 * time.Second)
+		trace.Stop()
+	}()
 	bodyReader := strings.NewReader(testMultipartBody("\r\n"))
 	testMultipart(t, &slowReader{bodyReader}, false)
 }
@@ -321,6 +328,79 @@ func (s *slowReader) Read(p []byte) (int, error) {
 		return s.r.Read(p)
 	}
 	return s.r.Read(p[:1])
+}
+
+type sentinalReader struct {
+	// done is closed when this reader is read from.
+	done chan struct{}
+}
+
+func (s *sentinalReader) Read([]byte) (int, error) {
+	if s.done != nil {
+		close(s.done)
+		s.done = nil
+	}
+	return 0, io.EOF
+}
+
+func TestMultipartStream(t *testing.T) {
+	testBody1 := `
+This is a multi-part message.  This line is ignored.
+--MyBoundary
+foo-bar: baz
+
+Body
+--MyBoundary
+`
+	testBody2 := `foo-bar: bop
+
+Body 2
+--MyBoundary--
+`
+	done1 := make(chan struct{})
+	reader := NewReader(
+		io.MultiReader(
+			strings.NewReader(testBody1),
+			&sentinalReader{done1},
+			strings.NewReader(testBody2)),
+		"MyBoundary")
+	buf := new(bytes.Buffer)
+
+	part, err := reader.NextPart()
+	if part == nil || err != nil {
+		t.Error("Expected part1")
+		return
+	}
+	if x := part.Header.Get("foo-bar"); x != "baz" {
+		t.Errorf("part.Header.Get(%q) = %q, want %q", "foo-bar", x, "baz")
+	}
+	buf.Reset()
+	if _, err := io.Copy(buf, part); err != nil {
+		t.Errorf("part 1 copy: %v", err)
+	}
+
+	expectEq(t, "Body", buf.String(), "Value of first part")
+
+	select {
+	case <-done1:
+		t.Errorf("Reader read past second boundary")
+	default:
+	}
+
+	part, err = reader.NextPart()
+	if part == nil || err != nil {
+		t.Error("Expected part2")
+		return
+	}
+	if x := part.Header.Get("foo-bar"); x != "bop" {
+		t.Errorf("part.Header.Get(%q) = %q, want %q", "foo-bar", x, "bop")
+	}
+	buf.Reset()
+	if _, err := io.Copy(buf, part); err != nil {
+		t.Errorf("part 2 copy: %v", err)
+	}
+
+	expectEq(t, "Body 2", buf.String(), "Value of second part")
 }
 
 func TestLineContinuation(t *testing.T) {

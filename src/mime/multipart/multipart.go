@@ -171,7 +171,12 @@ func (pr partReader) Read(d []byte) (n int, err error) {
 		// the read request. No need to parse more at the moment.
 		return p.buffer.Read(d)
 	}
-	peek, err := p.mr.bufReader.Peek(peekBufferSize) // TODO(bradfitz): add buffer size accessor
+	// Make sure the buffer is big enough to potentially contain
+	// the separator, but don't block on reading beyond the next
+	// boundary.
+	p.mr.bufReader.Peek(len(p.mr.nlDashBoundary) + 1)
+	// Read anything we can, but at least enough for the separator.
+	peek, err := p.mr.bufReader.Peek(p.mr.bufReader.Buffered()) // TODO(bradfitz): add buffer size accessor
 
 	// Look for an immediate empty part without a leading \r\n
 	// before the boundary separator. Some MIME code makes empty
@@ -197,9 +202,6 @@ func (pr partReader) Read(d []byte) (n int, err error) {
 	if idx, isEnd := p.mr.peekBufferSeparatorIndex(peek); idx != -1 {
 		nCopy = idx
 		foundBoundary = isEnd
-		if !isEnd && nCopy == 0 {
-			nCopy = 1 // make some progress.
-		}
 	} else if safeCount := len(peek) - len(p.mr.nlDashBoundary); safeCount > 0 {
 		nCopy = safeCount
 	} else if unexpectedEOF {
@@ -207,6 +209,14 @@ func (pr partReader) Read(d []byte) (n int, err error) {
 		// wasn't found (and can't possibly fit), we must have
 		// hit the end of the file unexpectedly.
 		return 0, io.ErrUnexpectedEOF
+	}
+	if nCopy == 0 && !foundBoundary {
+		// We don't have enough data to either populate the
+		// buffer or find the boundary; peek one byte further
+		// to ensure we make some progress.
+		if _, err := p.mr.bufReader.Peek(p.mr.bufReader.Buffered() + 1); err == io.EOF {
+			return 0, io.ErrUnexpectedEOF
+		}
 	}
 	if nCopy > 0 {
 		if _, err := io.CopyN(p.buffer, p.mr.bufReader, int64(nCopy)); err != nil {
@@ -391,6 +401,13 @@ func (mr *Reader) peekBufferSeparatorIndex(peek []byte) (idx int, isEnd bool) {
 	}
 	if len(peek) > 1 && peek[0] == '\r' && peek[1] == '\n' {
 		return idx, true
+	}
+	// We found the prefix and a subsequent newline, but it's not
+	// actually the separator because there are other characters
+	// on the line.
+	if idx == 0 && len(peek) > 0 {
+		// Force the fake separator to be emitted
+		return len(mr.nlDashBoundary), false
 	}
 	return idx, false
 }
