@@ -16,6 +16,24 @@
       "revId": "fa713fab06232dcd7f38f62b0842c70aa72bd0cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13a6853_0130aa1e",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-10-25T21:43:04Z",
+      "side": 1,
+      "message": "Done. Yes, this is clearer.",
+      "parentUuid": "81ed6409_9045f461",
+      "revId": "fa713fab06232dcd7f38f62b0842c70aa72bd0cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
