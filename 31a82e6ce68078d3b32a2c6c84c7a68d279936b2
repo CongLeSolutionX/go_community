@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21d3d849_95450462",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T19:26:19Z",
+      "side": 1,
+      "message": "can we drop the \"Promised\" prefix from both of these?",
+      "revId": "31a82e6ce68078d3b32a2c6c84c7a68d279936b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d3d849_d54b7c74",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T19:26:19Z",
+      "side": 1,
+      "message": "Mention HTTP/2.",
+      "revId": "31a82e6ce68078d3b32a2c6c84c7a68d279936b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d3d849_f56b18d1",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T19:26:19Z",
+      "side": 1,
+      "message": "an HTTP/2 server push?",
+      "revId": "31a82e6ce68078d3b32a2c6c84c7a68d279936b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d3d849_755b8845",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T19:26:19Z",
+      "side": 1,
+      "message": "The url (so you don\u0027t need to capitalize it)\n\nWhy not allow a /path too? The server knows the authority it received the original request on.",
+      "revId": "31a82e6ce68078d3b32a2c6c84c7a68d279936b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d3d849_15521427",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T19:26:19Z",
+      "side": 1,
+      "message": "Move this to the type comment?",
+      "revId": "31a82e6ce68078d3b32a2c6c84c7a68d279936b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
