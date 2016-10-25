@@ -16,6 +16,24 @@
       "revId": "30a31f53a6b6e88f11b71fa142a4342b7d70115c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13a6853_01d42aa6",
+        "filename": "src/cmd/vet/structtag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-25T20:41:41Z",
+      "side": 1,
+      "message": "Yes, intentional change to make it report\n\n    struct field tag `xml:\"foo\",json:\"bar\"` not compatible...\n\nwhen possible instead of what it prints now:\n\n    struct field tag \"xml:\\\"foo\\\",json:\\\"bar\\\"\" not compatible...\n\nMost source code is using the `` form, so requoting it using \"\" was jarring when I saw the errors come out.",
+      "parentUuid": "21d3d849_158a1434",
+      "revId": "30a31f53a6b6e88f11b71fa142a4342b7d70115c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
