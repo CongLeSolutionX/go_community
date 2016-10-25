@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "21d3d849_dbe96ba2",
+        "filename": "src/cmd/go/env.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-10-25T22:18:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c183dc53_f29b084e",
+      "revId": "198d9d065ac029c72ec205d687e50629d54dc778",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c183dc53_92907c2c",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "21d3d849_1ba24381",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1634,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-10-25T22:18:42Z",
+      "side": 1,
+      "message": "you\u0027re fast! yeah, I replaced this with an actual test",
+      "parentUuid": "c183dc53_92907c2c",
+      "revId": "198d9d065ac029c72ec205d687e50629d54dc778",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c183dc53_b295801b",
         "filename": "src/cmd/go/main.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-25T22:04:57Z",
       "side": 1,
       "message": "This logic is repeated at least twice. What about a wrapper.\n\nfunc GOPATHFromEnvOrDefault() string {\n       gopath :\u003d os.Getenv(\"GOAPATH\")\n       if gopath \u003d\u003d \"\" {\n              gopath \u003d defualtGOPATH()\n       ]\n       return gopath\n}",
+      "revId": "198d9d065ac029c72ec205d687e50629d54dc778",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d3d849_9b1893ea",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-10-25T22:18:42Z",
+      "side": 1,
+      "message": "actually, why not just use buildContext.GOPATH everywhere?",
+      "parentUuid": "c183dc53_b295801b",
       "revId": "198d9d065ac029c72ec205d687e50629d54dc778",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
