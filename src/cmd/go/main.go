@@ -138,6 +138,10 @@ func main() {
 	if gopath := os.Getenv("GOPATH"); gopath == runtime.GOROOT() {
 		fmt.Fprintf(os.Stderr, "warning: GOPATH set to GOROOT (%s) has no effect\n", gopath)
 	} else {
+		if gopath == "" {
+			gopath = defaultGOPATH()
+		}
+
 		for _, p := range filepath.SplitList(gopath) {
 			// Note: using HasPrefix instead of Contains because a ~ can appear
 			// in the middle of directory elements, such as /tmp/git-1.8.2~rc3
