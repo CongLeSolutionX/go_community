@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c1b67ce6_9a1dcdda",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-10-25T20:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d3d849_75b70826",
+      "revId": "f30c33dfe38639edae5eb0290ed53f5fd6888e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d3d849_f50798f9",
         "filename": "src/net/http/http.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-25T19:52:50Z",
       "side": 1,
       "message": "\"May be nil.\" is not a complete sentence.\n\nMaybe just:\n\n  // Header specifies any additional request headers.\n  // This may not include HTTP/2 pseudo headers.",
+      "revId": "f30c33dfe38639edae5eb0290ed53f5fd6888e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1b67ce6_ba1a91dd",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-10-25T20:01:47Z",
+      "side": 1,
+      "message": "\"additional\" with respect to what? I think a bit more detail is useful.",
+      "parentUuid": "21d3d849_f50798f9",
       "revId": "f30c33dfe38639edae5eb0290ed53f5fd6888e63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "014b349d_5c67dd64",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-10-25T20:01:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d3d849_d50c9c1e",
+      "revId": "f30c33dfe38639edae5eb0290ed53f5fd6888e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d3d849_350630fa",
         "filename": "src/net/http/http.go",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "014b349d_bc4b81c9",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-10-25T20:01:47Z",
+      "side": 1,
+      "message": "Switched to target.",
+      "parentUuid": "21d3d849_350630fa",
+      "revId": "f30c33dfe38639edae5eb0290ed53f5fd6888e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d3d849_95ef4403",
         "filename": "src/net/http/http.go",
         "patchSetId": 2
@@ -81,6 +153,24 @@
       "writtenOn": "2016-10-25T19:52:50Z",
       "side": 1,
       "message": "This whole paragraph might be too much detail.\n\nBut one question: what\u0027s the behavior for HTTP/2 clients who have disabled push?\n\nDoes the responsewriter still implement this interface? If so, does it return an error, or nil?",
+      "revId": "f30c33dfe38639edae5eb0290ed53f5fd6888e63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1b67ce6_fa240926",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-10-25T20:01:47Z",
+      "side": 1,
+      "message": "If the client has disabled push, the http2 implementation will return an error.\nhttps://canary-go-review.googlesource.com/c/29439/3/http2/server.go#2485",
+      "parentUuid": "21d3d849_95ef4403",
       "revId": "f30c33dfe38639edae5eb0290ed53f5fd6888e63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
