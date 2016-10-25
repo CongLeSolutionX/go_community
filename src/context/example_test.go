@@ -10,39 +10,47 @@ import (
 	"time"
 )
 
-// This example demonstrate the use of a cancelable context preventing a
-// goroutine leak. By the end of the example func's execution, the "count"
-// goroutine is canceled.
+// This example demonstrates the use of a cancelable context to prevent a
+// goroutine leak. By the end of the example function, the goroutine
+// forked by gen is canceled.
 func ExampleWithCancel() {
-	count := func(ctx context.Context, dst chan<- int) {
-		n := 1
-		for {
-			select {
-			case dst <- n:
-				n++
-			case <-ctx.Done():
-				return
+	// gen generates integers in a separate goroutine and
+	// sends them to the returned channel.
+	// The callers of gen need to cancel the the context once
+	// they are done consuming generated integers to kill the
+	// internal gorotuine.
+	gen := func(ctx context.Context) <-chan int {
+		dst := make(chan int)
+		var n int
+		go func() {
+			for {
+				select {
+				case <-ctx.Done():
+					return // killing goroutine
+				default:
+					dst <- n
+					n++
+				}
 			}
-		}
+		}()
+		return dst
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	defer cancel() // cancel when we are finished consuming integers.
 
-	ints := make(chan int)
-	go count(ctx, ints)
-	for n := range ints {
-		fmt.Println(n)
+	for n := range gen(ctx) {
 		if n == 5 {
-			return
+			break
 		}
+		fmt.Println(n)
 	}
 	// Output:
+	// 0
 	// 1
 	// 2
 	// 3
 	// 4
-	// 5
 }
 
 // This example passes a context with a arbitrary deadline to tell a blocking
