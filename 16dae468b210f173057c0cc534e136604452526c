@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "21d3d849_5b531b55",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5673
+      },
+      "writtenOn": "2016-10-25T22:35:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d3d849_d8be110b",
+      "revId": "16dae468b210f173057c0cc534e136604452526c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d3d849_38d8657d",
         "filename": "src/crypto/tls/tls_test.go",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "21d3d849_5b32fb55",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5673
+      },
+      "writtenOn": "2016-10-25T22:35:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d3d849_38d8657d",
+      "revId": "16dae468b210f173057c0cc534e136604452526c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d3d849_78ceddbb",
         "filename": "src/crypto/tls/tls_test.go",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-25T21:22:35Z",
       "side": 1,
       "message": "also select on a time.After(10 * time.Second) and Fatal if it\u0027s taking too long?",
+      "revId": "16dae468b210f173057c0cc534e136604452526c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d3d849_3b2f3fea",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5673
+      },
+      "writtenOn": "2016-10-25T22:35:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d3d849_78ceddbb",
       "revId": "16dae468b210f173057c0cc534e136604452526c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
