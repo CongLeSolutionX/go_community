@@ -16,6 +16,23 @@
       "revId": "a120afa42c28a1a180a17968c96604c80adffb78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21d3d849_15945428",
+        "filename": "src/net/http/http.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T20:12:36Z",
+      "side": 1,
+      "message": "Want to add a package-level variable too?\n\n   var ErrPushNotAvailable \u003d errors.New(\"http: HTTP/2 server push not available\")\n\nAnd then document it here?\n\nIt could also be used by people wrapping ResponseWriters, giving them a safe error value to return when the underlying type doesn\u0027t implement the interface.\n\nIt\u0027d be nice for callers to know which errors are boring vs. their fault.",
+      "revId": "a120afa42c28a1a180a17968c96604c80adffb78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
