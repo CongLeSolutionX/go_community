@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c183dc53_72a87861",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1640,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-10-25T22:35:42Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this works, it should only pass if HOME is set to \"\", but if HOME is set to \"\" , then DefaultGOPATH would return \"\"",
+      "revId": "8400da9bda1132525c70cd9e0580bfe41d7b6bc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
