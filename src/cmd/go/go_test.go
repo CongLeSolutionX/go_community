@@ -1640,14 +1640,17 @@ func TestMentionGOPATHNotOnSecondEntry(t *testing.T) {
 	}
 }
 
-// Test missing GOPATH is reported.
-func TestMissingGOPATHIsReported(t *testing.T) {
+// Test missing GOPATH shows default.
+func TestMissingGOPATHDefault(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
 	tg.setenv("GOPATH", "")
-	tg.runFail("install", "foo/quxx")
-	if tg.grepCountBoth(`\(\$GOPATH not set\. For more details see: 'go help gopath'\)$`) != 1 {
-		t.Error(`go install foo/quxx expected error: ($GOPATH not set. For more details see: 'go help gopath')`)
+	tg.run("env", "GOPATH")
+
+	const want = "go"
+	got := filepath.Base(strings.TrimSpace(tg.getStdout()))
+	if got != want {
+		t.Errorf("got %q; want %q", got, want)
 	}
 }
 

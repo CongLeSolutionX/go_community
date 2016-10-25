@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	"go/build"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -445,6 +446,18 @@ func downloadPackage(p *Package) error {
 		if _, err := os.Stat(root); err == nil {
 			return fmt.Errorf("%s exists but %s does not - stale checkout?", root, meta)
 		}
+
+		if os.Getenv("GOPATH_UNSET") == "yes" {
+			gopath := buildContext.GOPATH
+			exists, err := checkGOPATH(gopath)
+			if err != nil {
+				return fmt.Errorf("can't create GOPATH at %s: %v", gopath, err)
+			}
+			if !exists {
+				fmt.Fprintf(os.Stderr, "warning: GOPATH is not set, creating directory %s. See 'go help gopath' for more information\n", gopath)
+			}
+		}
+
 		// Some version control tools require the parent of the target to exist.
 		parent, _ := filepath.Split(root)
 		if err = os.MkdirAll(parent, 0777); err != nil {
@@ -482,6 +495,33 @@ func downloadPackage(p *Package) error {
 	}
 
 	return nil
+}
+
+// checkGOPATH checks whether the given path exists and whether it is
+// a good candidate to be used as GOPATH.
+func checkGOPATH(path string) (exists bool, err error) {
+	fi, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	if !fi.IsDir() {
+		return true, fmt.Errorf("it is not a directory")
+	}
+
+	fis, err := ioutil.ReadDir(os.Args[1])
+	if os.IsNotExist(err) {
+	} else if err != nil {
+		return false, err
+	}
+	if len(fis) == 0 {
+		return true, nil
+	}
+	for _, fi := range fis {
+		if fi.IsDir() && fi.Name() == "src" {
+			return true, nil
+		}
+	}
+	return true, fmt.Errorf("it is not empty, and no 'src' was found")
 }
 
 // goTag matches go release tags such as go1 and go1.2.3.

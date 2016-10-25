@@ -40,7 +40,7 @@ func mkEnv() []envVar {
 		{"GOHOSTARCH", runtime.GOARCH},
 		{"GOHOSTOS", runtime.GOOS},
 		{"GOOS", goos},
-		{"GOPATH", os.Getenv("GOPATH")},
+		{"GOPATH", buildContext.GOPATH},
 		{"GORACE", os.Getenv("GORACE")},
 		{"GOROOT", goroot},
 		{"GOTOOLDIR", toolDir},
@@ -49,6 +49,9 @@ func mkEnv() []envVar {
 		{"TERM", "dumb"},
 	}
 
+	if os.Getenv("GOPATH") == "" {
+		env = append(env, envVar{"GOPATH_UNSET", "yes"})
+	}
 	if gccgoBin != "" {
 		env = append(env, envVar{"GCCGO", gccgoBin})
 	} else {
