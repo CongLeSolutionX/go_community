@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c183dc53_d2e4c4cc",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-25T23:40:28Z",
+      "side": 1,
+      "message": "I think this should always be runtime.GOOS.\nThe GOPATH is a place on your local system.\nGOOS/GOARCH are the targets of your build.\nSetting GOOS shouldn\u0027t screw up your GOPATH.",
+      "range": {
+        "startLine": 276,
+        "startChar": 42,
+        "endLine": 276,
+        "endChar": 48
+      },
+      "revId": "4499b417e0570f35cac6a0128feb49e3d65df886",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
