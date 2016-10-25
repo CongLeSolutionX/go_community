@@ -62,6 +62,24 @@
       "revId": "d962ebb55ba0ffa7111a9f4aa02cd82f09122aca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a13a6853_c1b4028c",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-10-25T20:35:42Z",
+      "side": 1,
+      "message": "Ah, it should be one line down. I meant to break the loop, because of your comment in line 107. Thanks.",
+      "parentUuid": "a13a6853_412c72f2",
+      "revId": "d962ebb55ba0ffa7111a9f4aa02cd82f09122aca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
