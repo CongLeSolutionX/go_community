@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21d3d849_158a1434",
+        "filename": "src/cmd/vet/structtag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-25T19:59:39Z",
+      "side": 1,
+      "message": "do you really want %#q here not just %q?",
+      "revId": "30a31f53a6b6e88f11b71fa142a4342b7d70115c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
