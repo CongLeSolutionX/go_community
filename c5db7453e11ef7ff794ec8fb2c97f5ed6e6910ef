@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8105644c_73c93a0b",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T04:38:03Z",
+      "side": 1,
+      "message": "what are these? docs. and maybe move them to the very bottom.",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_13d42ea7",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T04:38:03Z",
+      "side": 1,
+      "message": "yes, but what is the lifetime of one of these? Is it one of these per read or write operation, one for the life of the process, per conn, somewhere in-between? Say more about the design here.\n\nI\u0027m reading this top-down and don\u0027t know what\u0027s going on yet, and that\u0027s how you should assume people are reading this.",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_53ceb614",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T04:38:03Z",
+      "side": 1,
+      "message": "// result is the return value of a Read or Write operation.\n\n(I\u0027m guessing)",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_d3d906da",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T04:38:03Z",
+      "side": 1,
+      "message": "lowercase new. And \"an I/O\"",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_737e5ad4",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T04:38:03Z",
+      "side": 1,
+      "message": "If you\u0027re going to return a pointer, start with a pointer here, and never risk having a value type in scope anywhere.\n\naio :\u003d \u0026asyncIO{\n   res: make(chan result),\n}",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_f3dc0acc",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T04:38:03Z",
+      "side": 1,
+      "message": "will this result ever be ignored? Do you want to make this buffered with size 1?\n\n(I don\u0027t know yet; I\u0027m just reading the code top-down)",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_93df7ebf",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T04:38:03Z",
+      "side": 1,
+      "message": "instead of allocating an os.Signal interface with a string (which is bigger than a single pointer) on each Cancel, you should make a package global:\n\n   var hangupNote os.Signal \u003d syscall.Note(\"hangup\")\n\n... so it\u0027s only created once.",
+      "revId": "c5db7453e11ef7ff794ec8fb2c97f5ed6e6910ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
