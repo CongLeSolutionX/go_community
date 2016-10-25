@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8105644c_73977ad4",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T04:49:10Z",
+      "side": 1,
+      "message": "let\u0027s avoid \"callback\". It\u0027s a func, but that alone doesn\u0027t mean it\u0027s a callback. When I hear callback, I think of inversion of control and little hooks that let you modify the flow of things.\n\nThis is just a func.\n\nI\u0027d make this method be \"makeCopyHeaders\" or \"makeHeadersCopier\".",
+      "revId": "b8a9dce274e8a77832d812ed3de59bcde1c1fe65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8105644c_339df2f4",
+        "filename": "src/net/http/client.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-25T04:49:10Z",
+      "side": 1,
+      "message": "\"ireq\" was always meant to mean \"initial request\". It is by definition immutable, since it was the initial one.\n\nIf you want this to be mutable, you should find a different variable name.",
+      "revId": "b8a9dce274e8a77832d812ed3de59bcde1c1fe65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
