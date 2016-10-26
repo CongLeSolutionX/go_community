@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "413fec97_0e358b3c",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 8976
+      },
+      "writtenOn": "2016-10-26T08:36:24Z",
+      "side": 1,
+      "message": "Should be: DB.PingContext will check if there is at least one Conn available.",
+      "range": {
+        "startLine": 74,
+        "startChar": 3,
+        "endLine": 74,
+        "endChar": 75
+      },
+      "revId": "cf14ba4d6450855cb2c1734dc151aa23e611fdd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
