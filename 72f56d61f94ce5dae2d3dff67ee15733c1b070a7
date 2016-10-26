@@ -69,6 +69,24 @@
       "revId": "72f56d61f94ce5dae2d3dff67ee15733c1b070a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e152a0c5_43b006c5",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-10-26T00:41:14Z",
+      "side": 1,
+      "message": "Simpler:\n\n1. TCP connection setup\n\n2. First byte of the request header\n3. Last byte of the request header\n4. Last byte of the request body\n5. Last byte of the response body sent\n\n6. First byte of the next request header\n7. Last byte of the next request header\n8. Last byte of the next request body\n9. Last byte of the next response body sent\n\netc.\n\nReadHeaderTimeout \u003d 2-\u003e3, 6-\u003e7\nReadTimeout \u003d 2-\u003e4, 6-\u003e8\nIdleTimeout \u003d 1-\u003e2, 5-\u003e6",
+      "parentUuid": "e152a0c5_e3c0121c",
+      "revId": "72f56d61f94ce5dae2d3dff67ee15733c1b070a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
