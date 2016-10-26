@@ -215,6 +215,25 @@ type ClientSessionCache interface {
 	Put(sessionKey string, cs *ClientSessionState)
 }
 
+// SignatureScheme enumerates the signature algorithms supported in TLS. See
+// https://tools.ietf.org/html/draft-ietf-tls-tls13-18#section-4.2.3.
+type SignatureScheme uint16
+
+const (
+	PKCS1WithSHA1   SignatureScheme = 0x0201
+	PKCS1WithSHA256 SignatureScheme = 0x0401
+	PKCS1WithSHA384 SignatureScheme = 0x0501
+	PKCS1WithSHA512 SignatureScheme = 0x0601
+
+	PSSWithSHA256 SignatureScheme = 0x0804
+	PSSWithSHA384 SignatureScheme = 0x0805
+	PSSWithSHA512 SignatureScheme = 0x0806
+
+	ECDSAWithP256AndSHA256 SignatureScheme = 0x0403
+	ECDSAWithP384AndSHA384 SignatureScheme = 0x0503
+	ECDSAWithP521AndSHA512 SignatureScheme = 0x0603
+)
+
 // ClientHelloInfo contains information from a ClientHello message in order to
 // guide certificate selection in the GetCertificate callback.
 type ClientHelloInfo struct {
@@ -244,7 +263,7 @@ type ClientHelloInfo struct {
 	// is willing to verify. SignatureSchemes is set only if the Signature
 	// Algorithms Extension is being used (see
 	// https://tools.ietf.org/html/rfc5246#section-7.4.1.4.1).
-	SignatureSchemes []uint16
+	SignatureSchemes []SignatureScheme
 
 	// SupportedProtos lists the application protocols supported by the client.
 	// SupportedProtos is set only if the Application-Layer Protocol
@@ -265,6 +284,21 @@ type ClientHelloInfo struct {
 	// from, or write to, this connection; that will cause the TLS
 	// connection to fail.
 	Conn net.Conn
+}
+
+// CertificateRequestInfo contains information from a server's
+// CertificateRequest message, which is used to demand a certificate and proof
+// of control from a client.
+type CertificateRequestInfo struct {
+	// AcceptableCAs contains zero or more, DER-encoded, X.501
+	// Distinguished Names. These are the names of root or intermediate CAs
+	// that the server wishes the returned certificate to be signed by. An
+	// empty slice indicates that the server has no preference.
+	AcceptableCAs [][]byte
+
+	// SignatureSchemes lists the signature schemes that the server is
+	// willing to verify.
+	SignatureSchemes []SignatureScheme
 }
 
 // RenegotiationSupport enumerates the different levels of support for TLS
@@ -311,8 +345,9 @@ type Config struct {
 
 	// Certificates contains one or more certificate chains
 	// to present to the other side of the connection.
-	// Server configurations must include at least one certificate
-	// or else set GetCertificate.
+	// Server configurations must include at least one certificate or else
+	// set GetCertificate. Clients doing client-authentication may set
+	// Certificates or else GetClientCertificate.
 	Certificates []Certificate
 
 	// NameToCertificate maps from a certificate name to an element of
@@ -331,6 +366,21 @@ type Config struct {
 	// retrieved from NameToCertificate. If NameToCertificate is nil, the
 	// first element of Certificates will be used.
 	GetCertificate func(*ClientHelloInfo) (*Certificate, error)
+
+	// GetClientCertificate, if not nil, is called when a server requests a
+	// certificate from a client. If set, the contents of Certificates will
+	// be ignored.
+	//
+	// If GetClientCertificate returns an error, the handshake will be
+	// aborted and that error will be returned. Otherwise
+	// GetClientCertificate must return a non-nil Certificate. If
+	// Certificate.Certificate is empty then no certificate will be sent to
+	// the server. If this is unacceptable to the server then it may abort
+	// the handshake.
+	//
+	// GetClientCertificate may be called multiple times for the same
+	// connection if renegotiation occurs or if TLS 1.3 is in use.
+	GetClientCertificate func(*CertificateRequestInfo) (*Certificate, error)
 
 	// GetConfigForClient, if not nil, is called after a ClientHello is
 	// received from a client. It may return a non-nil Config in order to
