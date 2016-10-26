@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "612f9071_47ba0ea4",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-10-26T08:22:26Z",
+      "side": 1,
+      "message": "switch runtime.GOOS {\ncase \"plan9\":\n\tenv \u003d \"home\"\ncase \"windows\":\n\tenv \u003d \"USERPROFILE\"\n}",
+      "revId": "8d16985aa2239bac115c100570fcf161a7b8417c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
