@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f40642_7f940f1e",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-26T22:39:33Z",
+      "side": 1,
+      "message": "or consuming s is also fun. Your preference:\n\n   for len(s) \u003e 0 {\n       r1, n :\u003d utf8.DecodeRune(s)\n       ...\n       s \u003d s[n:]\n   }",
+      "revId": "0b6b084a6d213cad8cef2d49e6505f460b7ce13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f40642_3f8e8710",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-26T22:39:33Z",
+      "side": 1,
+      "message": "kinda wordy. Maybe just:\n\n// If r is utf8.RuneError, it returns the first instance of any\n// invalid UTF-8 byte sequence.",
+      "revId": "0b6b084a6d213cad8cef2d49e6505f460b7ce13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
