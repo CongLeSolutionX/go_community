@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c17d9c54_4b3e8d80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-10-26T19:36:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17d9c54_c8f543d9",
+      "revId": "b3e6da95761162482c37c18d0e152353963eec8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c17d9c54_08f00be5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-26T17:42:38Z",
       "side": 1,
       "message": "mention the author\u0027s name",
+      "revId": "b3e6da95761162482c37c18d0e152353963eec8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c17d9c54_6b3b518f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-10-26T19:36:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17d9c54_08f00be5",
       "revId": "b3e6da95761162482c37c18d0e152353963eec8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c17d9c54_ebfbe1a0",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-10-26T19:36:50Z",
+      "side": 1,
+      "message": "changed to \"identifies\", which has a few more instances in the code base. Other suggestions welcomed.",
+      "parentUuid": "c17d9c54_c85aa30b",
+      "revId": "b3e6da95761162482c37c18d0e152353963eec8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c17d9c54_a8555fde",
         "filename": "src/crypto/tls/common.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2016-10-26T17:42:38Z",
       "side": 1,
       "message": "can we do this in its own CL? It seems unrelated and worth doing separately.",
+      "revId": "b3e6da95761162482c37c18d0e152353963eec8e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c17d9c54_cbc45d50",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-10-26T19:36:50Z",
+      "side": 1,
+      "message": "Split into https://go-review.googlesource.com/32119.",
+      "parentUuid": "c17d9c54_a8555fde",
       "revId": "b3e6da95761162482c37c18d0e152353963eec8e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
