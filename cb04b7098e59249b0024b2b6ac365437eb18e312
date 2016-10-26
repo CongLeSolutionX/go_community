@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61ba3039_72c416f9",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-10-26T13:56:37Z",
+      "side": 1,
+      "message": "From CL 31754, it seems preferred to use (XOR (MOVDconst [-1]) ...)",
+      "range": {
+        "startLine": 129,
+        "startChar": 22,
+        "endLine": 129,
+        "endChar": 35
+      },
+      "revId": "cb04b7098e59249b0024b2b6ac365437eb18e312",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1dd08a2_495de15b",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-10-26T13:56:37Z",
+      "side": 1,
+      "message": "this is a little hard to read, maybe something like\n\"if x is larger than -y (y is negative), then slicemask is -1\".\nmaybe also comment that generic opt rewrite Sub const to Add -const.",
+      "revId": "cb04b7098e59249b0024b2b6ac365437eb18e312",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
