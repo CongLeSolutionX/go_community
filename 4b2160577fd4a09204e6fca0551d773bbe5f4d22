@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "c17d9c54_16daec31",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-26T21:47:42Z",
+      "side": 1,
+      "message": "worth putting this one first still, with a r \u003c\u003d 0 \u0026\u0026 r \u003c utf8.RuleSelf check, even if it\u0027s partially redundant with ValidRune?",
+      "revId": "4b2160577fd4a09204e6fca0551d773bbe5f4d22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "612f9071_a7990ac9",
         "filename": "src/bytes/bytes.go",
         "patchSetId": 1
@@ -42,6 +59,23 @@
         "endLine": 141,
         "endChar": 29
       },
+      "revId": "4b2160577fd4a09204e6fca0551d773bbe5f4d22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c17d9c54_b6da2033",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-26T21:47:42Z",
+      "side": 1,
+      "message": "I know the compiler optimized range []byte(s), but I don\u0027t recall if we did the other direction, from []byte to string. Can you verify this isn\u0027t allocating?",
       "revId": "4b2160577fd4a09204e6fca0551d773bbe5f4d22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
