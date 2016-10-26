@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8189e479_10a56488",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3624,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-10-26T00:37:14Z",
+      "side": 0,
+      "message": "maybe it is worth to keep this condition in the new code too such that if we know i \u003d 0 then we just not generate code to calculate the pointer and just set rptr \u003d p.",
+      "range": {
+        "startLine": 3623,
+        "startChar": 1,
+        "endLine": 3624,
+        "endChar": 52
+      },
+      "revId": "6ca662ca0e1a41077bd93501a5d04668474bca69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
