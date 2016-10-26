@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c17d9c54_cb229dbe",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-26T18:52:11Z",
+      "side": 1,
+      "message": "this doesn\u0027t clarify anything for people who don\u0027t already know about the distinction you\u0027re alluding to.\n\nLet\u0027s just write:\n\n   // See https://blog.golang.org/http-tracing.\n\nIf you really want to say more:\n\n   // ClientTrace currently traces a single HTTP request \u0026 response\n   // and has no hooks that span a series of redirected requests.\n   //\n   // See https://blog.golang.org/http-tracing.",
+      "revId": "e1f58162d9f50f06440f6645da42cc4ac372b1cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
