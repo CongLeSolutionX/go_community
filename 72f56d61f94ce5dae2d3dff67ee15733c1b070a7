@@ -105,6 +105,24 @@
       "revId": "72f56d61f94ce5dae2d3dff67ee15733c1b070a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c17d9c54_42a83261",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-26T00:42:29Z",
+      "side": 1,
+      "message": "Yes to all of that, except for IdleTimeout is only 5-\u003e6, not 1-\u003e2.\n\nThere is no IdleTimeout for the first request.",
+      "parentUuid": "e152a0c5_43b006c5",
+      "revId": "72f56d61f94ce5dae2d3dff67ee15733c1b070a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
