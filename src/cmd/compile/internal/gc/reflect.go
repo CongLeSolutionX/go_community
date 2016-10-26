@@ -1399,7 +1399,7 @@ func dumptypestructs() {
 
 		ilink := Pkglookup(i.t.tconv(FmtLeft)+","+i.itype.tconv(FmtLeft), itablinkpkg)
 		dsymptr(ilink, 0, i.sym, 0)
-		ggloblsym(ilink, int32(Widthptr), int16(obj.DUPOK|obj.RODATA))
+		ggloblsym(ilink, int32(Widthptr), int16(obj.DUPOK|obj.RODATA|obj.LOCAL))
 	}
 
 	// process ptabs
