@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "413fec97_8e6dfb77",
+        "filename": "src/cmd/internal/pprof/commands/commands.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-26T01:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d3d849_58532155",
+      "range": {
+        "startLine": 136,
+        "startChar": 17,
+        "endLine": 136,
+        "endChar": 50
+      },
+      "revId": "93bd350aac92136ce2bf92f7f64a3ae7161d20cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d3d849_f8a54d57",
         "filename": "src/cmd/internal/pprof/commands/commands.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "413fec97_ee7cbf2a",
+        "filename": "src/cmd/internal/pprof/commands/commands.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-26T01:21:30Z",
+      "side": 1,
+      "message": "Done. I still use nil as non-interactive mode.\nPlease tell me, if you don\u0027t like it.",
+      "parentUuid": "21d3d849_f8a54d57",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 42
+      },
+      "revId": "93bd350aac92136ce2bf92f7f64a3ae7161d20cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21d3d849_b8afd533",
         "filename": "src/cmd/internal/pprof/commands/commands.go",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-10-25T21:01:41Z",
       "side": 1,
       "message": "This should remain as \"\". PPROF_TMPDIR is for storing profiles, not other data. Output files should go to $CWD, just as if we had done\n\"pdf \u003e file.pdf\"",
+      "range": {
+        "startLine": 140,
+        "startChar": 33,
+        "endLine": 140,
+        "endChar": 37
+      },
+      "revId": "93bd350aac92136ce2bf92f7f64a3ae7161d20cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_2e7fa71c",
+        "filename": "src/cmd/internal/pprof/commands/commands.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2016-10-26T01:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d3d849_b8afd533",
       "range": {
         "startLine": 140,
         "startChar": 33,
