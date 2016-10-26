@@ -16,6 +16,24 @@
       "revId": "661c10c1c4792686b534c99e984195556b31cd57",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_ae72b756",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-26T01:16:15Z",
+      "side": 1,
+      "message": "maybe the warning on the next line should be altered to match that\n\nI prefer \"; ignoring\" to \"has no effect\"",
+      "parentUuid": "a1dd08a2_29b06dc4",
+      "revId": "661c10c1c4792686b534c99e984195556b31cd57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
