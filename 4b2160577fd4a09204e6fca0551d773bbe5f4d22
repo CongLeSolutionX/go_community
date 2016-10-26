@@ -115,6 +115,24 @@
       "revId": "4b2160577fd4a09204e6fca0551d773bbe5f4d22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c17d9c54_96e6fcfa",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2016-10-26T22:30:49Z",
+      "side": 1,
+      "message": "Both directions no longer allocate since Go1.5.\nAlso confirmed that it still doesn\u0027t allocate on tip.",
+      "parentUuid": "c17d9c54_b6da2033",
+      "revId": "4b2160577fd4a09204e6fca0551d773bbe5f4d22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
