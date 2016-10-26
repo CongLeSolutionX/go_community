@@ -274,6 +274,11 @@ type DB struct {
 // connReuseStrategy determines how (*DB).conn returns database connections.
 type connReuseStrategy uint8
 
+// maxBadConnRetries is the number of maximum retries if the driver returns
+// driver.ErrBadConn to signal a broken connection before forcing a new
+// connection to be opened.
+const maxBadConnRetries = 2
+
 const (
 	// alwaysNewConn forces a new connection to the database.
 	alwaysNewConn connReuseStrategy = iota
@@ -520,15 +525,27 @@ func Open(driverName, dataSourceName string) (*DB, error) {
 // PingContext verifies a connection to the database is still alive,
 // establishing a connection if necessary.
 func (db *DB) PingContext(ctx context.Context) error {
-	// TODO(bradfitz): give drivers an optional hook to implement
-	// this in a more efficient or more reliable way, if they
-	// have one.
-	dc, err := db.conn(ctx, cachedOrNewConn)
+	var dc *driverConn
+	var err error
+
+	for i := 0; i < maxBadConnRetries; i++ {
+		dc, err = db.conn(ctx, cachedOrNewConn)
+		if err != driver.ErrBadConn {
+			break
+		}
+	}
+	if err == driver.ErrBadConn {
+		dc, err = db.conn(ctx, alwaysNewConn)
+	}
 	if err != nil {
 		return err
 	}
-	db.putConn(dc, nil)
-	return nil
+
+	if pinger, ok := dc.ci.(driver.Pinger); ok {
+		err = pinger.Ping(ctx)
+	}
+	db.putConn(dc, err)
+	return err
 }
 
 // Ping verifies a connection to the database is still alive,
@@ -986,11 +1003,6 @@ func (db *DB) putConnDBLocked(dc *driverConn, err error) bool {
 	}
 	return false
 }
-
-// maxBadConnRetries is the number of maximum retries if the driver returns
-// driver.ErrBadConn to signal a broken connection before forcing a new
-// connection to be opened.
-const maxBadConnRetries = 2
 
 // PrepareContext creates a prepared statement for later queries or executions.
 // Multiple queries or executions may be run concurrently from the
