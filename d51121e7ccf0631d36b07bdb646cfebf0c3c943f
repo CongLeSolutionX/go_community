@@ -16,6 +16,24 @@
       "revId": "d51121e7ccf0631d36b07bdb646cfebf0c3c943f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c17d9c54_05c9d4b2",
+        "filename": "src/log/syslog/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-10-26T16:12:27Z",
+      "side": 1,
+      "message": "It wasn\u0027t exactly incorrect, just a stumble for me because it seemed to be missing a word. I rewrote it to use a more parallel structure with two is\u0027s instead of one.\n\nI also put the package name in each message so a grep for \u0027frozen\u0027 will identify which they are.",
+      "parentUuid": "c17d9c54_a2557ede",
+      "revId": "d51121e7ccf0631d36b07bdb646cfebf0c3c943f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
