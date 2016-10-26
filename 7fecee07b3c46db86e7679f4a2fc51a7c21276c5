@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c17d9c54_e25f86f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-26T05:11:30Z",
+      "side": 1,
+      "message": "Don\u0027t we normally just do the directory, instead of the file? \"doc: ...\"",
+      "revId": "7fecee07b3c46db86e7679f4a2fc51a7c21276c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
