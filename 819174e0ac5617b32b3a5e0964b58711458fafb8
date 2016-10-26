@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c17d9c54_c872a358",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-26T16:56:24Z",
+      "side": 1,
+      "message": "Gotcha, I couldn\u0027t think of a way to make it concise. nil Marshaler makes more sense.\n\nDone, thanks!",
+      "parentUuid": "61ba3039_b56dc877",
+      "revId": "819174e0ac5617b32b3a5e0964b58711458fafb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61ba3039_32b44ed8",
         "filename": "src/encoding/json/encode_test.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-26T16:34:28Z",
       "side": 1,
       "message": "Delete the numbering. It will just make it hard to maintain. I know you\u0027re doing it for the #x prints in the debugging output but we can fix that separately (see below).\n\nAlso move this one line down next to the other uses of struct{M Marshaler}.",
+      "revId": "819174e0ac5617b32b3a5e0964b58711458fafb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c17d9c54_e5a23095",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-26T16:56:24Z",
+      "side": 1,
+      "message": "Gotcha, I see. Done, thanks.",
+      "parentUuid": "61ba3039_32b44ed8",
       "revId": "819174e0ac5617b32b3a5e0964b58711458fafb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c17d9c54_e5c95065",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-26T16:56:24Z",
+      "side": 1,
+      "message": "Nice. Done, thanks.",
+      "parentUuid": "61ba3039_f2c92665",
+      "revId": "819174e0ac5617b32b3a5e0964b58711458fafb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61ba3039_d2cea26a",
         "filename": "src/encoding/json/encode_test.go",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "c17d9c54_c5c44c50",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-26T16:56:24Z",
+      "side": 1,
+      "message": "The difference is that M is explicitly an interface, while in 8 it is a Marshaler, the results are different.",
+      "parentUuid": "61ba3039_d2cea26a",
+      "revId": "819174e0ac5617b32b3a5e0964b58711458fafb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61ba3039_f2a2c694",
         "filename": "src/encoding/json/encode_test.go",
         "patchSetId": 4
@@ -81,6 +153,24 @@
       "writtenOn": "2016-10-26T16:34:28Z",
       "side": 1,
       "message": "out, err :\u003d Marshal(tt.v)\nif string(out) !\u003d tt.want || err !\u003d nil {\n    t.Errorf(\"Marshal(%#v) \u003d %#q, %v, want %#q, nil\", out, err, tt.want)\n}",
+      "revId": "819174e0ac5617b32b3a5e0964b58711458fafb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c17d9c54_65e9c0cb",
+        "filename": "src/encoding/json/encode_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-26T16:56:24Z",
+      "side": 1,
+      "message": "Done, thanks!",
+      "parentUuid": "61ba3039_f2a2c694",
       "revId": "819174e0ac5617b32b3a5e0964b58711458fafb8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
