@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c17d9c54_11675665",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-26T22:15:47Z",
+      "side": 1,
+      "message": "I think you\u0027ll want to loop over this without range. Otherwise you pay for this []byte to string allocation each time.",
+      "revId": "0dc9a3181d0b7605a4bae2669ee4fe858b0c12c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
