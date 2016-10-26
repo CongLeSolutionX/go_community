@@ -520,15 +520,15 @@ func Open(driverName, dataSourceName string) (*DB, error) {
 // PingContext verifies a connection to the database is still alive,
 // establishing a connection if necessary.
 func (db *DB) PingContext(ctx context.Context) error {
-	// TODO(bradfitz): give drivers an optional hook to implement
-	// this in a more efficient or more reliable way, if they
-	// have one.
 	dc, err := db.conn(ctx, cachedOrNewConn)
 	if err != nil {
 		return err
 	}
-	db.putConn(dc, nil)
-	return nil
+	if pinger, ok := dc.ci.(driver.Pinger); ok {
+		err = pinger.Ping(ctx)
+	}
+	db.putConn(dc, err)
+	return err
 }
 
 // Ping verifies a connection to the database is still alive,
