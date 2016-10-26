@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "61ba3039_6f39d105",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-26T03:34:33Z",
+      "side": 1,
+      "message": "I assume this is some kind of debugging?\nIf you are debugging a hang, you can type ctrl-\\ at the hung process and get stacks. No need for runtime/trace.",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a13a6853_21728e04",
         "filename": "src/mime/multipart/multipart_test.go",
         "patchSetId": 1
@@ -47,6 +64,75 @@
       "writtenOn": "2016-10-25T20:56:09Z",
       "side": 1,
       "message": "s/sentinal/sentinel/",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_af0f3951",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-26T03:34:33Z",
+      "side": 1,
+      "message": "Even better:\n\ntype didRead bool\n\nfunc (r *didRead) Read([]byte) (int, error) {\n   *r \u003d true\n   return 0, io.EOF\n}",
+      "parentUuid": "a13a6853_21728e04",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_8f14f568",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-26T03:34:33Z",
+      "side": 1,
+      "message": "var tooFar bool",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_ef19419f",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-26T03:34:33Z",
+      "side": 1,
+      "message": "(*didRead)(\u0026tooFar),",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_4f0b2d40",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-26T03:34:33Z",
+      "side": 1,
+      "message": "You can assume part !\u003d nil if err \u003d\u003d nil.\nUse t.Fatal instead of t.Error+return.\nShow the actual errors returned.\nCheck all the returned results together so you can show them all in the failure output.\nPull repetitive parts into a local helper func to make the final test logic clearer. Tables are good too, but a table is overkill here.\nWhen it makes sense (returned from something like Read), check returned data in addition to (usually before) error.\n\nPutting all that together:\n\nreadPart :\u003d func(hdr textproto.MIMEHeader, body string) {\n    part, err :\u003d reader.NextPart()\n    if err !\u003d nil {\n        t.Fatalf(\"NextPart: %v\", err)\n    }\n    data, err :\u003d ioutil.ReadAll(part)\n    if !reflect.DeepEqual(part.Header, hdr) || string(data) !\u003d body {\n       t.Errorf(\"Part \u003d %v, %q, want %v, %q\", part.Header, data, hdr, body)\n    }\n    if err !\u003d nil {\n       t.Fatalf(\"reading Part: %v\", err)\n    }\n}\n\nreadPart(textproto.MIMEHeader{\"foo-bar\": {\"baz\"}}, \"Body\")\nif tooFar {\n    t.Errorf(\"read too far during Part1\")\n}\nreadPart(textproto.MIMEHeader{\"foo-bar\": {\"bop\"}}, \"Body 2\")",
       "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
