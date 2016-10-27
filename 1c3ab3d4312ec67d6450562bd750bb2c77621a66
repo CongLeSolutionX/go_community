@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1dd08a2_cf7a719d",
+        "filename": "src/runtime/msize.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-27T16:14:59Z",
+      "side": 0,
+      "message": "It looks like we lost this. Maybe move the call to mallocinit?",
+      "revId": "1c3ab3d4312ec67d6450562bd750bb2c77621a66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1dd08a2_ef8e557b",
+        "filename": "src/runtime/msize.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-27T16:14:59Z",
+      "side": 0,
+      "message": "And this?",
+      "revId": "1c3ab3d4312ec67d6450562bd750bb2c77621a66",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

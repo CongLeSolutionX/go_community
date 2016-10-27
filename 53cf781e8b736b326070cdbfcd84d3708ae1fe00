@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1dd08a2_8f2fd9bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-27T16:14:59Z",
+      "side": 1,
+      "message": "Maybe remove this line.",
+      "revId": "53cf781e8b736b326070cdbfcd84d3708ae1fe00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1dd08a2_cf1ef184",
+        "filename": "src/runtime/mksizeclasses.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-27T16:14:59Z",
+      "side": 1,
+      "message": "sizeclasses.go",
+      "range": {
+        "startLine": 45,
+        "startChar": 68,
+        "endLine": 45,
+        "endChar": 78
+      },
+      "revId": "53cf781e8b736b326070cdbfcd84d3708ae1fe00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1dd08a2_ef19359f",
+        "filename": "src/runtime/mksizeclasses.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-27T16:14:59Z",
+      "side": 1,
+      "message": "Add\n\n  fmt.Fprintln(\u0026b, \"//go:generate go run mksizeclasses.go\")\n\nso the file can regenerate itself and the exact command is documented.",
+      "revId": "53cf781e8b736b326070cdbfcd84d3708ae1fe00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1dd08a2_4f67a100",
+        "filename": "src/runtime/mksizeclasses.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-27T16:14:59Z",
+      "side": 1,
+      "message": "Can we make these types match the types in runtime.mspan exactly so the double-check does the exact same math?",
+      "revId": "53cf781e8b736b326070cdbfcd84d3708ae1fe00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1dd08a2_6f6a65ca",
+        "filename": "src/runtime/mksizeclasses.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-27T16:14:59Z",
+      "side": 1,
+      "message": "I\u0027m going to assume this is right. :)",
+      "revId": "53cf781e8b736b326070cdbfcd84d3708ae1fe00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1dd08a2_af945d91",
+        "filename": "src/runtime/mksizeclasses.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-27T16:14:59Z",
+      "side": 1,
+      "message": "Consider moving this into computeDivMagic and double checking it, too. E.g., if maxSmallSize were any larger, this wouldn\u0027t work and I don\u0027t think we\u0027d catch it.",
+      "revId": "53cf781e8b736b326070cdbfcd84d3708ae1fe00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
