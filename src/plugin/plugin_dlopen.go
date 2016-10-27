@@ -35,6 +35,7 @@ import "C"
 
 import (
 	"errors"
+	"path/filepath"
 	"sync"
 	"unsafe"
 )
@@ -92,6 +93,10 @@ func open(name string) (*Plugin, error) {
 		initFunc := *(*func())(unsafe.Pointer(&initFuncP))
 		initFunc()
 	}
+
+	// A plugin might be opened with an absolute or relative path,
+	// use the base so name to look for the symbols.
+	name = filepath.Base(name)
 
 	// Fill out the value of each plugin symbol.
 	for symName, sym := range syms {
