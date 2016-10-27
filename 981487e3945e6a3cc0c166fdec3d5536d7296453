@@ -210,6 +210,24 @@
       "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "81b56446_77e6bffd",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2920,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T22:55:19Z",
+      "side": 1,
+      "message": "I can\u0027t think of anything substantial to say. It all feels like it amounts to saying the AST mirrors the source, which seems redundant as that\u0027s the intention of an AST.\n\nI\u0027m going to submit as is.",
+      "parentUuid": "064a6a70_64c36a49",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
