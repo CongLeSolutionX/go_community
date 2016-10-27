@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "66f40642_059ed64b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T16:16:58Z",
+      "side": 1,
+      "message": "To be fair, it was also hit hardest by the new parser.",
+      "parentUuid": "66f40642_c5246e78",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66f40642_05901664",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "66f40642_25a9da79",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T16:16:58Z",
+      "side": 1,
+      "message": "Yeah, I feel a little dirty using k-1 here.  I\u0027ll check if I can refactor this somehow.",
+      "parentUuid": "66f40642_05901664",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66f40642_a5860a30",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -64,6 +100,24 @@
       "writtenOn": "2016-10-27T15:37:58Z",
       "side": 1,
       "message": "Prior to this CL, the assignments generated here would sorted by index; now they match the source. This\u0027ll be less efficient, memory-write-wise. I\u0027m not sure it matters, just noting it.\n\nIf we wanted to fix it, we could sort (inserting a minimal extra zero value nodes as needed) during typechecking.",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f40642_85aae66f",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T16:16:58Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure there\u0027s no change to assignment ordering happening here. n.List was and still is in source order.\n\nIt may help to sort, but we need to be careful because\n\n    _ \u003d [2]int{1: f(), 0: g()}\n\nneeds to evaluate f() before g().  (gccgo actually gets this wrong.)",
+      "parentUuid": "66f40642_a5860a30",
       "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
