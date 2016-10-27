@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f40642_08b94b7e",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2016-10-27T16:56:51Z",
+      "side": 1,
+      "message": "Let\u0027s not move this.",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 27
+      },
+      "revId": "d355369a285675607c18a9b55a368a18a512b410",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
