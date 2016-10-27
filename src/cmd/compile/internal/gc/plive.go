@@ -114,8 +114,9 @@ func newblock(prog *obj.Prog) *BasicBlock {
 	result.mark = UNVISITED
 	result.first = prog
 	result.last = prog
-	result.pred = make([]*BasicBlock, 0, 2)
-	result.succ = make([]*BasicBlock, 0, 2)
+	blocks := make([]*BasicBlock, 4)
+	result.pred = blocks[:0:2]
+	result.succ = blocks[2:2]
 	return result
 }
 
