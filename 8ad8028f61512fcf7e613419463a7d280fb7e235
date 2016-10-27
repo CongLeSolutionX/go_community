@@ -139,6 +139,23 @@
     },
     {
       "key": {
+        "uuid": "213cb8a3_50565274",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-10-27T16:05:43Z",
+      "side": 1,
+      "message": "The empty \u0027then\u0027 block seems odd.  Perhaps\n\n    if err !\u003d nil \u0026\u0026 !os.IsNotExist(err) {\n\nbut shouldn\u0027t it be returning true, err in that case?\n\nAnd if ReadDir returned an IsNotExist, e.g. path was deleted between Stat and ReadDir, then exists\u003dfalse should be returned?\n\nWhy not replace the above with just ReadDir.  It will complain \"no such file or directory\" or \"not a directory\" without having to Stat first.",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413fec97_2ef967d7",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 10
