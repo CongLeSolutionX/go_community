@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1dd08a2_0f048978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-10-27T14:46:15Z",
+      "side": 1,
+      "message": "Sorry, I still don\u0027t understand it. What\u0027s the difference between MIPS32\u0027s Xadd64 and 386\u0027s and ARM\u0027s? Why does it require 8-byte alignment?",
+      "revId": "bba1009f3f51a7ca7f9e5d78c4cc4c6b90302e22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
