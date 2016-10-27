@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "413fec97_0eb74b26",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-27T08:04:42Z",
+      "side": 1,
+      "message": "this needn\u0027t be a function variable, and this change should be a separate CL (I know you need it here for trybots)",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_aef557d9",
+        "filename": "src/cmd/go/env.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-27T08:04:42Z",
+      "side": 1,
+      "message": "I think this should probably be the reverse\n\nGOPATH_SET\u003dno\nGOAPTH_SET\u003dyes",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_8ef09bea",
+        "filename": "src/cmd/go/env.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-27T08:04:42Z",
+      "side": 1,
+      "message": "I think you need an else that is\n\nenv \u003d append(env, envVar{\"GOPATH_UNSET\", \"no\"}",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_6eae0fcd",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-27T08:04:42Z",
+      "side": 1,
+      "message": "can\u0027t use GOPATH at",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_8e07bbfa",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-27T08:04:42Z",
+      "side": 1,
+      "message": "I think this function should just do all the logic that you have above and return a helpful error message",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_0efcabc6",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-27T08:04:42Z",
+      "side": 1,
+      "message": "the sequence you want is\n\nos.Stat(path)\nIsDir\nos.Stat(filepath.Join(path, \"src\"))\nIsDir",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_ee167f2d",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-27T08:04:42Z",
+      "side": 1,
+      "message": "os.Args[1] ??",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_2ef967d7",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1643,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2016-10-27T08:04:42Z",
+      "side": 1,
+      "message": "You should also add a test for the new subtle functionality you just introduced",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
