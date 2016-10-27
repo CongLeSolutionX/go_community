@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "413fec97_4e22336b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2016-10-27T10:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17d9c54_f69668d6",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "d2f29831e1994f750c1630eaba1e6b634a9e7264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c17d9c54_76725805",
         "filename": "src/database/sql/driver/driver.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "413fec97_6e1fef1d",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2016-10-27T10:03:08Z",
+      "side": 1,
+      "message": "Now DB.PingContext retries with new connection when ErrBadConn\nreturned by pool.",
+      "parentUuid": "c17d9c54_76725805",
+      "range": {
+        "startLine": 76,
+        "startChar": 24,
+        "endLine": 76,
+        "endChar": 34
+      },
+      "revId": "d2f29831e1994f750c1630eaba1e6b634a9e7264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c17d9c54_f67d88d6",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2016-10-26T20:34:18Z",
       "side": 1,
       "message": "Right now db.conn is not in a loop to check for expired bad connections. Other query methods first ask for cached connections, then ask for a new connection if those fail.\n\nI think the PingContext should either always ask for a new connection or you should replicate the other query loop + new connection paradigm. The pinger interface might need to return a different error message to differentiate a bad pool connection with a bad connection.",
+      "range": {
+        "startLine": 523,
+        "startChar": 25,
+        "endLine": 523,
+        "endChar": 40
+      },
+      "revId": "d2f29831e1994f750c1630eaba1e6b634a9e7264",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_2e15e7ff",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 5895
+      },
+      "writtenOn": "2016-10-27T10:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c17d9c54_f67d88d6",
       "range": {
         "startLine": 523,
         "startChar": 25,
