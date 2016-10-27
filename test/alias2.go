@@ -74,6 +74,9 @@ func _ => math.Sin
 func sin => math.Sin
 func sin1 => math.Pi // ERROR "math.Pi is not a function"
 
+// aliases may not be called init
+func init => build.Import // ERROR "cannot declare init"
+
 // alias reference to a package marks package as used
 func _ => fmt.Println
 
