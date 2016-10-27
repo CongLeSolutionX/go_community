@@ -32,7 +32,12 @@ func checkLinkOutput(buildid string, message string) {
 		log.Fatalf("expected cmd/link to fail")
 	}
 
-	firstLine := string(bytes.SplitN(out, []byte("\n"), 2)[0])
+	lines := bytes.Split(out, []byte("\n"))
+	firstLine := string(lines[0])
+	for strings.HasPrefix(firstLine, "warning:") && len(lines) >= 2 {
+		firstLine, lines = string(lines[1]), lines[1:]
+	}
+
 	if strings.HasPrefix(firstLine, "panic") {
 		log.Fatalf("cmd/link panicked:\n%s", out)
 	}

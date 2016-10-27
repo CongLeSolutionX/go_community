@@ -612,7 +612,7 @@ func TestFileLineInErrorMessages(t *testing.T) {
 	if rel, err := filepath.Rel(tg.pwd(), path); err == nil && len(rel) < len(path) {
 		shortPath = rel
 	}
-	tg.grepStderr("^"+regexp.QuoteMeta(shortPath)+":", "missing file:line in error message")
+	tg.grepStderr("^(warning:.*\n)*"+regexp.QuoteMeta(shortPath)+":", "missing file:line in error message")
 }
 
 func TestProgramNameInCrashMessages(t *testing.T) {
@@ -1688,7 +1688,7 @@ func TestLdflagsArgumentsWithSpacesIssue3941(t *testing.T) {
 			println(extern)
 		}`)
 	tg.run("run", "-ldflags", `-X "main.extern=hello world"`, tg.path("main.go"))
-	tg.grepStderr("^hello world", `ldflags -X "main.extern=hello world"' failed`)
+	tg.grepStderr("^(warning:.*\n)*hello world", `ldflags -X "main.extern=hello world"' failed`)
 }
 
 func TestGoTestCpuprofileLeavesBinaryBehind(t *testing.T) {
@@ -1956,14 +1956,14 @@ func TestShadowingLogic(t *testing.T) {
 	// The foo in root2 is not "foo" because the foo in root1 got there first.
 	tg.run("list", "-f", "({{.ImportPath}}) ({{.ConflictDir}})", "./testdata/shadow/root2/src/foo")
 	want = "(_" + pwdForwardSlash + "/testdata/shadow/root2/src/foo) (" + filepath.Join(pwd, "testdata", "shadow", "root1", "src", "foo") + ")"
-	if strings.TrimSpace(tg.getStdout()) != want {
+	if !strings.Contains(strings.TrimSpace(tg.getStdout()), want) {
 		t.Error("shadowed foo is not shadowed; looking for", want)
 	}
 
 	// The error for go install should mention the conflicting directory.
 	tg.runFail("install", "./testdata/shadow/root2/src/foo")
 	want = "go install: no install location for " + filepath.Join(pwd, "testdata", "shadow", "root2", "src", "foo") + ": hidden by " + filepath.Join(pwd, "testdata", "shadow", "root1", "src", "foo")
-	if strings.TrimSpace(tg.getStderr()) != want {
+	if !strings.Contains(strings.TrimSpace(tg.getStderr()), want) {
 		t.Error("wrong shadowed install error; looking for", want)
 	}
 }

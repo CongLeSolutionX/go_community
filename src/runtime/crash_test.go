@@ -159,7 +159,7 @@ var (
 func checkStaleRuntime(t *testing.T) {
 	staleRuntimeOnce.Do(func() {
 		// 'go run' uses the installed copy of runtime.a, which may be out of date.
-		out, err := testEnv(exec.Command(testenv.GoToolPath(t), "list", "-f", "{{.Stale}}", "runtime")).CombinedOutput()
+		out, err := testEnv(exec.Command(testenv.GoToolPath(t), "list", "-f", "{{.Stale}}", "runtime")).Output()
 		if err != nil {
 			staleRuntimeErr = fmt.Errorf("failed to execute 'go list': %v\n%v", err, string(out))
 			return
