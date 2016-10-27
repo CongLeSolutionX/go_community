@@ -11,6 +11,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"errors"
 	"flag"
@@ -223,6 +224,26 @@ func linkFile(runcmd runCmd, goname string) (err error) {
 	cmd = append(cmd, pfile)
 	_, err = runcmd(cmd...)
 	return
+}
+
+func normalizedOutput(b []byte) []byte {
+	var out bytes.Buffer
+	s := bufio.NewScanner(bytes.NewReader(b))
+	for s.Scan() {
+		t := s.Text()
+		if strings.HasPrefix(t, "warning:") {
+			continue
+		}
+		if len(t) > 0 && t[len(t)-1] == '\r' {
+			t = t[:len(t)-1]
+		}
+		out.WriteString(t)
+		out.WriteRune('\n')
+	}
+	if err := s.Err(); err != nil {
+		panic(fmt.Sprintf("error scanning output: %v", err))
+	}
+	return out.Bytes()
 }
 
 // skipError describes why a test was skipped.
@@ -659,8 +680,8 @@ func (t *test) run() {
 					t.err = err
 					return
 				}
-				if strings.Replace(string(out), "\r\n", "\n", -1) != t.expectedOutput() {
-					t.err = fmt.Errorf("incorrect output\n%s", out)
+				if out := normalizedOutput(out); string(out) != t.expectedOutput() {
+					t.err = fmt.Errorf("incorrect output\nGOT:\n%s\nWANTS:\n%s\n", out, t.expectedOutput())
 				}
 			}
 		}
@@ -683,8 +704,8 @@ func (t *test) run() {
 			t.err = err
 			return
 		}
-		if strings.Replace(string(out), "\r\n", "\n", -1) != t.expectedOutput() {
-			t.err = fmt.Errorf("incorrect output\n%s", out)
+		if out := normalizedOutput(out); string(out) != t.expectedOutput() {
+			t.err = fmt.Errorf("incorrect output\nGOT:\n%s\nWANTS:\n%s\n", out, t.expectedOutput())
 		}
 
 	case "runoutput":
@@ -703,6 +724,8 @@ func (t *test) run() {
 			t.err = err
 			return
 		}
+		// remove warnings
+		out = normalizedOutput(out)
 		tfile := filepath.Join(t.tempDir, "tmp__.go")
 		if err := ioutil.WriteFile(tfile, out, 0666); err != nil {
 			t.err = fmt.Errorf("write tempfile:%s", err)
@@ -718,8 +741,8 @@ func (t *test) run() {
 			t.err = err
 			return
 		}
-		if string(out) != t.expectedOutput() {
-			t.err = fmt.Errorf("incorrect output\n%s", out)
+		if out := normalizedOutput(out); string(out) != t.expectedOutput() {
+			t.err = fmt.Errorf("incorrect output\nGOT:\n%s\nWANTS:\n%s\n", out, t.expectedOutput())
 		}
 
 	case "errorcheckoutput":
@@ -734,6 +757,8 @@ func (t *test) run() {
 			t.err = err
 			return
 		}
+		// remove warnings
+		out = normalizedOutput(out)
 		tfile := filepath.Join(t.tempDir, "tmp__.go")
 		err = ioutil.WriteFile(tfile, out, 0666)
 		if err != nil {
@@ -755,7 +780,7 @@ func (t *test) run() {
 				return
 			}
 		}
-		t.err = t.errorCheck(string(out), false, tfile, "tmp__.go")
+		t.err = t.errorCheck(string(normalizedOutput(out)), false, tfile, "tmp__.go")
 		return
 	}
 }
@@ -874,9 +899,18 @@ func (t *test) errorCheck(outStr string, wantAuto bool, fullshort ...string) (er
 	}
 
 	if len(out) > 0 {
-		errs = append(errs, fmt.Errorf("Unmatched Errors:"))
+		var noWarnings []string
 		for _, errLine := range out {
-			errs = append(errs, fmt.Errorf("%s", errLine))
+			if !strings.HasPrefix(errLine, "warning:") {
+				noWarnings = append(noWarnings, errLine)
+			}
+		}
+
+		if len(noWarnings) > 0 {
+			errs = append(errs, fmt.Errorf("Unmatched Errors:"))
+			for _, errLine := range noWarnings {
+				errs = append(errs, fmt.Errorf("%s", errLine))
+			}
 		}
 	}
 

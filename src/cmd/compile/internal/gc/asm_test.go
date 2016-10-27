@@ -46,6 +46,16 @@ func TestAssembly(t *testing.T) {
 	}
 }
 
+// onlyWarnings checks whether all the lines in the given string start with 'warning:'.
+func onlyWarnings(s string) bool {
+	for _, l := range strings.Split(s, "\n") {
+		if l := strings.TrimSpace(l); l != "" && !strings.HasPrefix(l, "warning:") {
+			return false
+		}
+	}
+	return true
+}
+
 // compile compiles the package pkg for architecture arch and
 // returns the generated assembly.  dir is a scratch directory.
 func compileToAsm(t *testing.T, dir, goarch, goos, pkg string) string {
@@ -72,7 +82,8 @@ func compileToAsm(t *testing.T, dir, goarch, goos, pkg string) string {
 	if s := stdout.String(); s != "" {
 		panic(fmt.Errorf("Stdout = %s\nWant empty", s))
 	}
-	if s := stderr.String(); s != "" {
+
+	if s := stderr.String(); !onlyWarnings(s) {
 		panic(fmt.Errorf("Stderr = %s\nWant empty", s))
 	}
 
@@ -84,7 +95,7 @@ func compileToAsm(t *testing.T, dir, goarch, goos, pkg string) string {
 	if err := cmd.Run(); err != nil {
 		panic(err)
 	}
-	if s := stderr.String(); s != "" {
+	if s := stderr.String(); !onlyWarnings(s) {
 		panic(fmt.Errorf("Stderr = %s\nWant empty", s))
 	}
 	return stdout.String()
