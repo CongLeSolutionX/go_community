@@ -102,10 +102,12 @@ func TestTraceSymbolize(t *testing.T) {
 		pipeReadDone <- true
 	}()
 
-	time.Sleep(time.Millisecond)
+	time.Sleep(100 * time.Millisecond)
 	runtime.GC()
-	runtime.Gosched()
-	time.Sleep(time.Millisecond) // the last chance for the goroutines above to block
+	for i := 0; i < 1000; i++ {
+		runtime.Gosched()
+	}
+	time.Sleep(100 * time.Millisecond) // the last chance for the goroutines above to block
 	done1 <- true
 	<-done2
 	select {
