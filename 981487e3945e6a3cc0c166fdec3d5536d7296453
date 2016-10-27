@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f40642_a5216a66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-10-27T15:37:58Z",
+      "side": 1,
+      "message": "Want to declare that this fixes #15350?",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f40642_c5246e78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-10-27T15:37:58Z",
+      "side": 1,
+      "message": "Been a good few weeks for package unicode.",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f40642_05901664",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-10-27T15:37:58Z",
+      "side": 1,
+      "message": "It\u0027d be nice (if it\u0027s not too ugly or awkward) to extract out a shared array/slice literal-walking function that returns (int index, *Node value) entries and document the k accounting there.\n\nNote that there are subtle differences between this walk and the one below, e.g. whether k++ occurs before or after node construction, and thus whether the correct index is k or k-1. Seems like a possible source of future bugs.",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f40642_a5860a30",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-10-27T15:37:58Z",
+      "side": 1,
+      "message": "Prior to this CL, the assignments generated here would sorted by index; now they match the source. This\u0027ll be less efficient, memory-write-wise. I\u0027m not sure it matters, just noting it.\n\nIf we wanted to fix it, we could sort (inserting a minimal extra zero value nodes as needed) during typechecking.",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f40642_051b7634",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2920,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-10-27T15:37:58Z",
+      "side": 1,
+      "message": "For the sake of future readers, please add a comment here explaining what the untypechecked and typechecked array/slice literal Node structures are.\n\nAlso, please update syntax.go\u0027s opcode AST comments for OARRAYLIT and OSLICELIT, possibly pointing them here for a more complete explanation.",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
