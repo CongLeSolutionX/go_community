@@ -69,6 +69,24 @@
       "revId": "787b0d50fa3c05c8fdeb7db059622b6b02aad731",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f40642_02ffecbc",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T01:34:17Z",
+      "side": 1,
+      "message": "On the upside, I think unbounded slices are relatively common, and any failures should be pretty obvious. So I think it\u0027s fine to proceed with for now.\n\nIf we see more than a couple issues during freeze, we can revert and try again for 1.9.",
+      "parentUuid": "66f40642_02cdacc0",
+      "revId": "787b0d50fa3c05c8fdeb7db059622b6b02aad731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
