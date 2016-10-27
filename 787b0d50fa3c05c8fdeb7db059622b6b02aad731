@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f40642_82fadc05",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T00:57:46Z",
+      "side": 1,
+      "message": "Wow, pinning more work on me! ;)",
+      "revId": "787b0d50fa3c05c8fdeb7db059622b6b02aad731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f40642_821d3c7d",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T00:57:46Z",
+      "side": 1,
+      "message": "Hm, I\u0027m a little nervous if there\u0027s anywhere else that we\u0027re generically iterating over Node.List without expecting nil pointers.",
+      "revId": "787b0d50fa3c05c8fdeb7db059622b6b02aad731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
