@@ -192,6 +192,24 @@
       "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "064a6a70_64c36a49",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2920,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-10-27T21:19:06Z",
+      "side": 1,
+      "message": "I guess I would want to say something (somewhere, if not here) about how the elements of the slice are either values or OKEY Nodes, and that when they\u0027re not OKEY nodes, the index is implicit, calculated the same way that that it is in regular code.\n\nOr simply omit if you can\u0027t find something you\u0027re happy with.",
+      "parentUuid": "064a6a70_a45e0258",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
