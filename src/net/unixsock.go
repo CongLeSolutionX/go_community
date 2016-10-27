@@ -35,6 +35,10 @@ func (a *UnixAddr) isWildcard() bool {
 	return a == nil || a.Name == ""
 }
 
+func (a *UnixAddr) toLocal(net string) sockaddr {
+	return a
+}
+
 func (a *UnixAddr) opAddr() Addr {
 	if a == nil {
 		return nil

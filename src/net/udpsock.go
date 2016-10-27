@@ -46,6 +46,10 @@ func (a *UDPAddr) isWildcard() bool {
 	return a.IP.IsUnspecified()
 }
 
+func (a *UDPAddr) toLocal(net string) sockaddr {
+	return &UDPAddr{localIP(net), a.Port, a.Zone}
+}
+
 func (a *UDPAddr) opAddr() Addr {
 	if a == nil {
 		return nil

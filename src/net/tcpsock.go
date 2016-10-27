@@ -43,6 +43,17 @@ func (a *TCPAddr) isWildcard() bool {
 	return a.IP.IsUnspecified()
 }
 
+func (a *TCPAddr) toLocal(net string) sockaddr {
+	return &TCPAddr{localIP(net), a.Port, a.Zone}
+}
+
+func localIP(net string) IP {
+	if net != "" && net[len(net)-1] == '6' {
+		return IP{15: 1}
+	}
+	return IP{127, 0, 0, 1}
+}
+
 func (a *TCPAddr) opAddr() Addr {
 	if a == nil {
 		return nil

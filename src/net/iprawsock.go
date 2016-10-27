@@ -49,6 +49,10 @@ func (a *IPAddr) opAddr() Addr {
 	return a
 }
 
+func (a *IPAddr) toLocal(net string) sockaddr {
+	return &IPAddr{localIP(net), a.Zone}
+}
+
 // ResolveIPAddr parses addr as an IP address of the form "host" or
 // "ipv6-host%zone" and resolves the domain name on the network net,
 // which must be "ip", "ip4" or "ip6".
