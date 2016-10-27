@@ -223,6 +223,7 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	info+16(FP), SI
 	MOVQ	ctx+24(FP), DX
 	MOVQ	fn+0(FP), AX
+	ANDQ	$~15, SP	// alignment as per amd64 psABI
 	CALL	AX
 	RET
 
