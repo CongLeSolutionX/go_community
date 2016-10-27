@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "a1dd08a2_6c8d534b",
+        "filename": "src/cmd/go/env.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-27T12:50:43Z",
+      "side": 1,
+      "message": "Why? Can we not do GOPATH_UNSET etc? We really don\u0027t want more variables.",
+      "parentUuid": "413fec97_aef557d9",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413fec97_8ef09bea",
         "filename": "src/cmd/go/env.go",
         "patchSetId": 10
