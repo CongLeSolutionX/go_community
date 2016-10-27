@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "413fec97_6e0d2fe2",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-10-27T16:57:06Z",
+      "side": 1,
+      "message": "merge into next const block?",
+      "revId": "880d0c2ca69a9b0ade6f7be4dbe8c03169c1ede7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_4e1073ff",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-10-27T16:57:06Z",
+      "side": 1,
+      "message": "maybe merge these two const blocks while you\u0027re here?",
+      "revId": "880d0c2ca69a9b0ade6f7be4dbe8c03169c1ede7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_8eda5b33",
+        "filename": "src/runtime/malloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2016-10-27T16:57:06Z",
+      "side": 1,
+      "message": "for i, size :\u003d range class_to_size {\n    memstats.by_size[i] \u003d size \u003d uint32(size)",
+      "revId": "880d0c2ca69a9b0ade6f7be4dbe8c03169c1ede7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
