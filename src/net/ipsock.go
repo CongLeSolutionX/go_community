@@ -76,7 +76,7 @@ func (addrs addrList) partition(strategy func(Addr) bool) (primaries, fallbacks 
 // yielding a list of Addr objects. Known filters are nil, ipv4only,
 // and ipv6only. It returns every address when the filter is nil.
 // The result contains at least one address when error is nil.
-func filterAddrList(filter func(IPAddr) bool, ips []IPAddr, inetaddr func(IPAddr) Addr) (addrList, error) {
+func filterAddrList(filter func(IPAddr) bool, ips []IPAddr, inetaddr func(IPAddr) Addr, originalAddr string) (addrList, error) {
 	var addrs addrList
 	for _, ip := range ips {
 		if filter == nil || filter(ip) {
@@ -84,7 +84,7 @@ func filterAddrList(filter func(IPAddr) bool, ips []IPAddr, inetaddr func(IPAddr
 		}
 	}
 	if len(addrs) == 0 {
-		return nil, errNoSuitableAddress
+		return nil, &AddrError{Err: errNoSuitableAddress.Error(), Addr: originalAddr}
 	}
 	return addrs, nil
 }
@@ -228,20 +228,21 @@ func (r *Resolver) internetAddrList(ctx context.Context, net, addr string) (addr
 	if host == "" {
 		return addrList{inetaddr(IPAddr{})}, nil
 	}
-	// Try as a literal IP address.
-	var ip IP
-	if ip = parseIPv4(host); ip != nil {
-		return addrList{inetaddr(IPAddr{IP: ip})}, nil
+
+	// Try as a literal IP address, then as a DNS name.
+	var ips []IPAddr
+	if ip := parseIPv4(host); ip != nil {
+		ips = []IPAddr{{IP: ip}}
+	} else if ip, zone := parseIPv6(host, true); ip != nil {
+		ips = []IPAddr{{IP: ip, Zone: zone}}
+	} else {
+		// Try as a DNS name.
+		ips, err = r.LookupIPAddr(ctx, host)
+		if err != nil {
+			return nil, err
+		}
 	}
-	var zone string
-	if ip, zone = parseIPv6(host, true); ip != nil {
-		return addrList{inetaddr(IPAddr{IP: ip, Zone: zone})}, nil
-	}
-	// Try as a DNS name.
-	ips, err := r.LookupIPAddr(ctx, host)
-	if err != nil {
-		return nil, err
-	}
+
 	var filter func(IPAddr) bool
 	if net != "" && net[len(net)-1] == '4' {
 		filter = ipv4only
@@ -249,5 +250,5 @@ func (r *Resolver) internetAddrList(ctx context.Context, net, addr string) (addr
 	if net != "" && net[len(net)-1] == '6' {
 		filter = ipv6only
 	}
-	return filterAddrList(filter, ips, inetaddr)
+	return filterAddrList(filter, ips, inetaddr, host)
 }
