@@ -105,24 +105,13 @@ const (
 )
 
 const (
-	_PageShift = 13
-	_PageSize  = 1 << _PageShift
-	_PageMask  = _PageSize - 1
+	_PageSize = 1 << _PageShift
+	_PageMask = _PageSize - 1
 )
 
 const (
 	// _64bit = 1 on 64-bit systems, 0 on 32-bit systems
 	_64bit = 1 << (^uintptr(0) >> 63) / 2
-
-	// Computed constant. The definition of MaxSmallSize and the
-	// algorithm in msize.go produces some number of different allocation
-	// size classes. NumSizeClasses is that number. It's needed here
-	// because there are static arrays of this length; when msize runs its
-	// size choosing algorithm it double-checks that NumSizeClasses agrees.
-	_NumSizeClasses = 67
-
-	// Tunable constants.
-	_MaxSmallSize = 32 << 10
 
 	// Tiny allocator parameters, see "Tiny allocator" comment in malloc.go.
 	_TinySize      = 16
@@ -220,8 +209,6 @@ var physPageSize uintptr
 // if accessed. Used only for debugging the runtime.
 
 func mallocinit() {
-	initSizes()
-
 	if class_to_size[_TinySizeClass] != _TinySize {
 		throw("bad TinySizeClass")
 	}
