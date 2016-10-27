@@ -22,6 +22,23 @@
       "revId": "8b00fb7a3b31a6f6ce2d5d22d19a045cc0dbe705",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1dd08a2_ef3ad52d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-10-27T14:51:34Z",
+      "side": 1,
+      "message": "Add an explanation why it is disabled (because external linking is not supported, due to issue #XXXX).",
+      "revId": "8b00fb7a3b31a6f6ce2d5d22d19a045cc0dbe705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
