@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "064a6a70_049dd6ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T21:13:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66f40642_a5216a66",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66f40642_c5246e78",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -89,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "064a6a70_e404fac5",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T21:13:06Z",
+      "side": 1,
+      "message": "Tweaked to use k instead of k-1 to be consistent with elsewhere. I\u0027m going to punt on a more general solution for now.",
+      "parentUuid": "66f40642_25a9da79",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66f40642_a5860a30",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 2
@@ -135,6 +171,24 @@
       "writtenOn": "2016-10-27T15:37:58Z",
       "side": 1,
       "message": "For the sake of future readers, please add a comment here explaining what the untypechecked and typechecked array/slice literal Node structures are.\n\nAlso, please update syntax.go\u0027s opcode AST comments for OARRAYLIT and OSLICELIT, possibly pointing them here for a more complete explanation.",
+      "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "064a6a70_a45e0258",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2920,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-10-27T21:13:06Z",
+      "side": 1,
+      "message": "I\u0027m actually not sure what to say. It used to be the case that during typechecking we would transform\n\n    []int{a, b, 10: c, d}\n\ninto\n\n    []int{0: a, 1: b, 10: c, 11: d}\n\nbut after this CL, we just leave the structure untouched, so there\u0027s no difference.\n\nAny suggestions on what you would find useful?",
+      "parentUuid": "66f40642_051b7634",
       "revId": "981487e3945e6a3cc0c166fdec3d5536d7296453",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
