@@ -228,20 +228,21 @@ func (r *Resolver) internetAddrList(ctx context.Context, net, addr string) (addr
 	if host == "" {
 		return addrList{inetaddr(IPAddr{})}, nil
 	}
-	// Try as a literal IP address.
-	var ip IP
-	if ip = parseIPv4(host); ip != nil {
-		return addrList{inetaddr(IPAddr{IP: ip})}, nil
+
+	// Try as a literal IP address, then as a DNS name.
+	var ips []IPAddr
+	if ip := parseIPv4(host); ip != nil {
+		ips = []IPAddr{{IP: ip}}
+	} else if ip, zone := parseIPv6(host, true); ip != nil {
+		ips = []IPAddr{{IP: ip, Zone: zone}}
+	} else {
+		// Try as a DNS name.
+		ips, err = r.LookupIPAddr(ctx, host)
+		if err != nil {
+			return nil, err
+		}
 	}
-	var zone string
-	if ip, zone = parseIPv6(host, true); ip != nil {
-		return addrList{inetaddr(IPAddr{IP: ip, Zone: zone})}, nil
-	}
-	// Try as a DNS name.
-	ips, err := r.LookupIPAddr(ctx, host)
-	if err != nil {
-		return nil, err
-	}
+
 	var filter func(IPAddr) bool
 	if net != "" && net[len(net)-1] == '4' {
 		filter = ipv4only
