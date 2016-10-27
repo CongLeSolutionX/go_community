@@ -22,6 +22,24 @@
       "revId": "050130c46e8e3c67bd2afe19c43e23c6aade156f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66f40642_289d2ff0",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-27T17:08:35Z",
+      "side": 1,
+      "message": "Or even:\n\nblocks[0:][:0:2]\nblocks[2:][:0:2]\n\n... which almost seems the most explicit and readable, having the same construction (and width) on both lines.\n\nAll three work. I don\u0027t have much preference.",
+      "parentUuid": "213cb8a3_b0aa1624",
+      "revId": "050130c46e8e3c67bd2afe19c43e23c6aade156f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
