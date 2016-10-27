@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "66f40642_68f57764",
+        "filename": "src/runtime/mksizeclasses.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-10-27T16:50:24Z",
+      "side": 1,
+      "message": "I\u0027d rather keep these as int to keep casts out of everywhere.\nThe range on all of these is checked by the compiler when compiling the generated code.\nI\u0027ll add double-checks with the appropriate casts to make sure it works (on both 32 and 64) bit.",
+      "parentUuid": "a1dd08a2_4f67a100",
+      "revId": "53cf781e8b736b326070cdbfcd84d3708ae1fe00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1dd08a2_6f6a65ca",
         "filename": "src/runtime/mksizeclasses.go",
         "patchSetId": 2
