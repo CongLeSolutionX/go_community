@@ -49,6 +49,24 @@
     },
     {
       "key": {
+        "uuid": "413fec97_712c32f3",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-28T22:19:23Z",
+      "side": 1,
+      "message": "up to you",
+      "parentUuid": "61ba3039_67b44dd9",
+      "revId": "97c28f32de573eb906ed1af450969519a11011b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413fec97_d1616652",
         "filename": "src/net/tcpsock.go",
         "patchSetId": 1
@@ -113,6 +131,24 @@
         "endLine": 51,
         "endChar": 41
       },
+      "revId": "97c28f32de573eb906ed1af450969519a11011b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "413fec97_91a51e59",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-28T22:19:23Z",
+      "side": 1,
+      "message": "right, i misunderstood the role of localIP.",
+      "parentUuid": "868bbadf_0ffcd1c4",
       "revId": "97c28f32de573eb906ed1af450969519a11011b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
