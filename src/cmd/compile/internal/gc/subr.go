@@ -365,6 +365,8 @@ func nod(op Op, nleft *Node, nright *Node) *Node {
 	case ONAME:
 		n.Name = new(Name)
 		n.Name.Param = new(Param)
+	case ONONAME:
+		n.Name = new(Name)
 	case OLABEL, OPACK:
 		n.Name = new(Name)
 	}
