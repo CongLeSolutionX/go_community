@@ -70,6 +70,24 @@
       "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6655e638_d7d0dcdc",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-10-28T17:29:14Z",
+      "side": 1,
+      "message": "\u003e sigfwd is calling a function that is assumed to be written in C, so\n \u003e C ABI rules apply.  In the amd64 C ABI BP is callee saved,  meaning\n \u003e that the callee will not change it.  So it\u0027s fine for sigfwd to\n \u003e store a value in BP across a call to a C ABI function.\n \nSorry, I guess I was unclear.  I understand why it\u0027s safe to save SP in BP across the call *from* sigfwd.  I do not understand why it\u0027s safe to clobber the BP value that was passed *to* sigfwd without saving it, given that that call (and sigfwd itself) may then return.\n\nMy understanding is that in the Go calling convention, BP is callee-saved when frame pointers are enabled, and they are enabled by default as of 1.7.  Am I mistaken?",
+      "parentUuid": "a6eefe70_3e90c064",
+      "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
