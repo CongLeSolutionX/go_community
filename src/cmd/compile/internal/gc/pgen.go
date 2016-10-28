@@ -304,6 +304,10 @@ func compile(fn *Node) {
 		panicdivide = Sysfunc("panicdivide")
 		growslice = Sysfunc("growslice")
 		panicdottype = Sysfunc("panicdottype")
+		assertE2I = Sysfunc("assertE2I")
+		assertE2I2 = Sysfunc("assertE2I2")
+		assertI2I = Sysfunc("assertI2I")
+		assertI2I2 = Sysfunc("assertI2I2")
 	}
 
 	defer func(lno int32) {
