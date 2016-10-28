@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "413fec97_31b70a8e",
+        "filename": "src/time/time.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2016-10-28T22:35:50Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem like the right phrasing. It\u0027s perfectly predictable if you know the implementation here. It sounds like you\u0027re trying to dissuade people from using \u003d\u003d but without being explicit about why.\n\nWhat about:\n\n// Using \u003d\u003d with Time values is usually incorrect, because that will\n// compare the time\u0027s locations by pointer comparison.",
+      "range": {
+        "startLine": 78,
+        "startChar": 48,
+        "endLine": 78,
+        "endChar": 69
+      },
+      "revId": "ec921a58923bbc189d908e097f65a15fe1593f0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
