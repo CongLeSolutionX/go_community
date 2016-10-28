@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "61ba3039_c7f7f96e",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-28T13:23:59Z",
+      "side": 1,
+      "message": "Oops. Done.",
+      "parentUuid": "011ed449_243ef27f",
+      "revId": "7089ae653e528af11f22895c8ef99bd322c2d4e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "213cb8a3_d0f2422f",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
         "endLine": 316,
         "endChar": 32
       },
+      "revId": "7089ae653e528af11f22895c8ef99bd322c2d4e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_27ed259c",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-28T13:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "213cb8a3_d0f2422f",
       "revId": "7089ae653e528af11f22895c8ef99bd322c2d4e6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
