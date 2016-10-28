@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81b56446_700d25e2",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-28T03:54:28Z",
+      "side": 1,
+      "message": "This will be unreliable when calling a signal handler that simply returns, because if the new ANDQ instruction changes the stack pointer then the RET will read the wrong address from the stack.  For example, look at the same function in sys_darwin_amd64.s, which does it right.\n\nThere is nothing GNU/Linux-specific about this, we should change this for every sys_GOOS_amd64.s.\n\nAnd, for that matter, the same issue arises for 386, so we should also change this for sys_GOOS_386.s.",
+      "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
