@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "461c62af_06f51a65",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-28T23:44:56Z",
+      "side": 1,
+      "message": "I\u0027m curious: what extra information did the runtime trace have?",
+      "parentUuid": "a1dd08a2_a9f0dde9",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a13a6853_21728e04",
         "filename": "src/mime/multipart/multipart_test.go",
         "patchSetId": 1
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "Doesn\u0027t your didRead formulation have a possible data race?",
       "parentUuid": "61ba3039_af0f3951",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "461c62af_66ea0e89",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-28T23:44:56Z",
+      "side": 1,
+      "message": "What is the race you are concerned about?\nI\u0027m pretty sure there\u0027s only one goroutine executing.",
+      "parentUuid": "a1dd08a2_6906e5fa",
       "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -205,6 +241,24 @@
       "side": 1,
       "message": "The tests I\u0027m using here are exact copies of the tests used in the rest of this file; I prefer matching the style over making this test more compact.",
       "parentUuid": "61ba3039_4f0b2d40",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "461c62af_a6036673",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-28T23:44:56Z",
+      "side": 1,
+      "message": "In general that\u0027s good but the rest of the file is not particularly ideal code. In addition to collapsing a few lines the formulation above also avoids a 2X copy-paste. Since you can\u0027t reuse the helpers in the rest of the file, might as well write clear code here.",
+      "parentUuid": "a1dd08a2_490321e9",
       "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
