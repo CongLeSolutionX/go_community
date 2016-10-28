@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6655e638_6bef6997",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2016-10-28T23:41:03Z",
+      "side": 1,
+      "message": "This looks good to me. Should we also mention release-branch.go1.4 for those who want to check out from git?",
+      "parentUuid": "61ba3039_3db7f28d",
+      "revId": "b1ee3f8f60ac9b1d9488653a540289731870ebb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6655e638_d7dc5c5a",
         "filename": "doc/install-source.html",
         "patchSetId": 1
