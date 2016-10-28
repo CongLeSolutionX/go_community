@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61ba3039_67b44dd9",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-28T16:05:07Z",
+      "side": 1,
+      "message": "I didn\u0027t use a tag, explicitly so that if new fields are added this code will stop compiling and someone will have to think about whether it is appropriate to propagate those new fields here or not.",
+      "parentUuid": "413fec97_b15cda97",
+      "range": {
+        "startLine": 47,
+        "startChar": 17,
+        "endLine": 47,
+        "endChar": 46
+      },
+      "revId": "97c28f32de573eb906ed1af450969519a11011b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413fec97_d1616652",
         "filename": "src/net/tcpsock.go",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2016-10-28T08:09:32Z",
       "side": 1,
       "message": "if net !\u003d \"\" \u0026\u0026 net[len(net)-1] \u003d\u003d \u00276\u0027 \u0026\u0026 supportsIPv6 {",
+      "range": {
+        "startLine": 51,
+        "startChar": 1,
+        "endLine": 51,
+        "endChar": 41
+      },
+      "revId": "97c28f32de573eb906ed1af450969519a11011b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "868bbadf_0ffcd1c4",
+        "filename": "src/net/tcpsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-28T16:05:07Z",
+      "side": 1,
+      "message": "Why should IPv6 support factor in? If someone is asking for \"tcp6\", \":80\", they should get IPv6 ::1, right? If IPv6 is unsupported, then the operation should fail. I don\u0027t see why it should transparently flip down to IPv4.",
+      "parentUuid": "413fec97_11076e80",
       "range": {
         "startLine": 51,
         "startChar": 1,
