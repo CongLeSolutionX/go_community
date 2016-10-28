@@ -52,6 +52,24 @@
       "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6eefe70_3e90c064",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-28T17:18:46Z",
+      "side": 1,
+      "message": "sigfwd is calling a function that is assumed to be written in C, so C ABI rules apply.  In the amd64 C ABI BP is callee saved,  meaning that the callee will not change it.  So it\u0027s fine for sigfwd to store a value in BP across a call to a C ABI function.\n\nI think the subtraction of $64 is unnecessary.  I think I accidentally copied that from asm_amd64.s, where it is there because the Windows C ABI requires it in some cases.  But of course Darwin does not.",
+      "parentUuid": "e19380d8_b8d040df",
+      "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
