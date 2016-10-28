@@ -19,6 +19,121 @@
     },
     {
       "key": {
+        "uuid": "213cb8a3_b028564e",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-28T15:38:24Z",
+      "side": 1,
+      "message": "This line isn\u0027t technically necessary anymore. R0 can hold any value. I should update it elsewhere too though, so you can leave it for now.",
+      "range": {
+        "startLine": 53,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 49
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e11aa056_2690b867",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-28T15:38:24Z",
+      "side": 1,
+      "message": "s/ADD/ADDW/ to indicate that COUNT is 32-bits",
+      "range": {
+        "startLine": 261,
+        "startChar": 1,
+        "endLine": 261,
+        "endChar": 15
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "213cb8a3_d02de25c",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-28T15:38:24Z",
+      "side": 1,
+      "message": "CMPW COUNT, $17 (this compiles to chi now).",
+      "range": {
+        "startLine": 263,
+        "startChar": 1,
+        "endLine": 263,
+        "endChar": 34
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "213cb8a3_f07d7e5d",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-28T15:38:24Z",
+      "side": 1,
+      "message": "s/ADD/ADDW/",
+      "range": {
+        "startLine": 353,
+        "startChar": 1,
+        "endLine": 353,
+        "endChar": 15
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "213cb8a3_1093ea76",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-28T15:38:24Z",
+      "side": 1,
+      "message": "CMPW COUNT, $65",
+      "range": {
+        "startLine": 355,
+        "startChar": 1,
+        "endLine": 355,
+        "endChar": 34
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "213cb8a3_30538656",
         "filename": "src/crypto/elliptic/p256_asm_s390x.s",
         "patchSetId": 3
@@ -58,6 +173,29 @@
         "startChar": 5,
         "endLine": 1332,
         "endChar": 20
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "213cb8a3_508d724a",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 2345,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-28T15:38:24Z",
+      "side": 1,
+      "message": "Comments within a comment? I guess these don\u0027t really need leading //.",
+      "range": {
+        "startLine": 2322,
+        "startChar": 0,
+        "endLine": 2345,
+        "endChar": 66
       },
       "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
