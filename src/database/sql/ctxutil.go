@@ -14,40 +14,12 @@ func ctxDriverPrepare(ctx context.Context, ci driver.Conn, query string) (driver
 	if ciCtx, is := ci.(driver.ConnPrepareContext); is {
 		return ciCtx.PrepareContext(ctx, query)
 	}
-	if ctx.Done() == context.Background().Done() {
-		return ci.Prepare(query)
-	}
-
-	type R struct {
-		err   error
-		panic interface{}
-		si    driver.Stmt
-	}
-
-	rc := make(chan R, 1)
-	go func() {
-		r := R{}
-		defer func() {
-			if v := recover(); v != nil {
-				r.panic = v
-			}
-			rc <- r
-		}()
-		r.si, r.err = ci.Prepare(query)
-	}()
-	select {
-	case <-ctx.Done():
-		go func() {
-			<-rc
-			close(rc)
-		}()
+	si, err := ci.Prepare(query)
+	if err == nil && ctx.Err() != nil {
+		si.Close()
 		return nil, ctx.Err()
-	case r := <-rc:
-		if r.panic != nil {
-			panic(r.panic)
-		}
-		return r.si, r.err
 	}
+	return si, err
 }
 
 func ctxDriverExec(ctx context.Context, execer driver.Execer, query string, nvdargs []driver.NamedValue) (driver.Result, error) {
@@ -58,84 +30,30 @@ func ctxDriverExec(ctx context.Context, execer driver.Execer, query string, nvda
 	if err != nil {
 		return nil, err
 	}
-	if ctx.Done() == context.Background().Done() {
-		return execer.Exec(query, dargs)
-	}
 
-	type R struct {
-		err   error
-		panic interface{}
-		resi  driver.Result
+	resi, err := execer.Exec(query, dargs)
+	if err == nil && ctx.Err() != nil {
+		return resi, ctx.Err()
 	}
-
-	rc := make(chan R, 1)
-	go func() {
-		r := R{}
-		defer func() {
-			if v := recover(); v != nil {
-				r.panic = v
-			}
-			rc <- r
-		}()
-		r.resi, r.err = execer.Exec(query, dargs)
-	}()
-	select {
-	case <-ctx.Done():
-		go func() {
-			<-rc
-			close(rc)
-		}()
-		return nil, ctx.Err()
-	case r := <-rc:
-		if r.panic != nil {
-			panic(r.panic)
-		}
-		return r.resi, r.err
-	}
+	return resi, err
 }
 
 func ctxDriverQuery(ctx context.Context, queryer driver.Queryer, query string, nvdargs []driver.NamedValue) (driver.Rows, error) {
 	if queryerCtx, is := queryer.(driver.QueryerContext); is {
-		return queryerCtx.QueryContext(ctx, query, nvdargs)
+		ret, err := queryerCtx.QueryContext(ctx, query, nvdargs)
+		return ret, err
 	}
 	dargs, err := namedValueToValue(nvdargs)
 	if err != nil {
 		return nil, err
 	}
-	if ctx.Done() == context.Background().Done() {
-		return queryer.Query(query, dargs)
-	}
 
-	type R struct {
-		err   error
-		panic interface{}
-		rowsi driver.Rows
-	}
-
-	rc := make(chan R, 1)
-	go func() {
-		r := R{}
-		defer func() {
-			if v := recover(); v != nil {
-				r.panic = v
-			}
-			rc <- r
-		}()
-		r.rowsi, r.err = queryer.Query(query, dargs)
-	}()
-	select {
-	case <-ctx.Done():
-		go func() {
-			<-rc
-			close(rc)
-		}()
+	rowsi, err := queryer.Query(query, dargs)
+	if err == nil && ctx.Err() != nil {
+		rowsi.Close()
 		return nil, ctx.Err()
-	case r := <-rc:
-		if r.panic != nil {
-			panic(r.panic)
-		}
-		return r.rowsi, r.err
 	}
+	return rowsi, err
 }
 
 func ctxDriverStmtExec(ctx context.Context, si driver.Stmt, nvdargs []driver.NamedValue) (driver.Result, error) {
@@ -146,40 +64,12 @@ func ctxDriverStmtExec(ctx context.Context, si driver.Stmt, nvdargs []driver.Nam
 	if err != nil {
 		return nil, err
 	}
-	if ctx.Done() == context.Background().Done() {
-		return si.Exec(dargs)
-	}
 
-	type R struct {
-		err   error
-		panic interface{}
-		resi  driver.Result
+	resi, err := si.Exec(dargs)
+	if err == nil && ctx.Err() != nil {
+		return resi, ctx.Err()
 	}
-
-	rc := make(chan R, 1)
-	go func() {
-		r := R{}
-		defer func() {
-			if v := recover(); v != nil {
-				r.panic = v
-			}
-			rc <- r
-		}()
-		r.resi, r.err = si.Exec(dargs)
-	}()
-	select {
-	case <-ctx.Done():
-		go func() {
-			<-rc
-			close(rc)
-		}()
-		return nil, ctx.Err()
-	case r := <-rc:
-		if r.panic != nil {
-			panic(r.panic)
-		}
-		return r.resi, r.err
-	}
+	return resi, err
 }
 
 func ctxDriverStmtQuery(ctx context.Context, si driver.Stmt, nvdargs []driver.NamedValue) (driver.Rows, error) {
@@ -190,40 +80,13 @@ func ctxDriverStmtQuery(ctx context.Context, si driver.Stmt, nvdargs []driver.Na
 	if err != nil {
 		return nil, err
 	}
-	if ctx.Done() == context.Background().Done() {
-		return si.Query(dargs)
-	}
 
-	type R struct {
-		err   error
-		panic interface{}
-		rowsi driver.Rows
-	}
-
-	rc := make(chan R, 1)
-	go func() {
-		r := R{}
-		defer func() {
-			if v := recover(); v != nil {
-				r.panic = v
-			}
-			rc <- r
-		}()
-		r.rowsi, r.err = si.Query(dargs)
-	}()
-	select {
-	case <-ctx.Done():
-		go func() {
-			<-rc
-			close(rc)
-		}()
+	rowsi, err := si.Query(dargs)
+	if err == nil && ctx.Err() != nil {
+		rowsi.Close()
 		return nil, ctx.Err()
-	case r := <-rc:
-		if r.panic != nil {
-			panic(r.panic)
-		}
-		return r.rowsi, r.err
 	}
+	return rowsi, err
 }
 
 var errLevelNotSupported = errors.New("sql: selected isolation level is not supported")
@@ -249,35 +112,12 @@ func ctxDriverBegin(ctx context.Context, ci driver.Conn) (driver.Tx, error) {
 		return nil, errors.New("sql: driver does not support read-only transactions")
 	}
 
-	type R struct {
-		err   error
-		panic interface{}
-		txi   driver.Tx
-	}
-	rc := make(chan R, 1)
-	go func() {
-		r := R{}
-		defer func() {
-			if v := recover(); v != nil {
-				r.panic = v
-			}
-			rc <- r
-		}()
-		r.txi, r.err = ci.Begin()
-	}()
-	select {
-	case <-ctx.Done():
-		go func() {
-			<-rc
-			close(rc)
-		}()
+	txi, err := ci.Begin()
+	if err == nil && ctx.Err() != nil {
+		txi.Rollback()
 		return nil, ctx.Err()
-	case r := <-rc:
-		if r.panic != nil {
-			panic(r.panic)
-		}
-		return r.txi, r.err
 	}
+	return txi, err
 }
 
 func namedValueToValue(named []driver.NamedValue) ([]driver.Value, error) {
