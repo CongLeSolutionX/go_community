@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6655e638_d7dc5c5a",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-10-28T18:17:40Z",
+      "side": 1,
+      "message": "Instead of adding an \"if you\u0027re using macOS Sierra\" clause, I\u0027d be inclined to delete a bunch of this and instead just instruct people to download a binary release and set GOROOT_BOOTSTRAP. And then mention that if you want to build from source, direct them to use the release-branch.go1.4 branch of the repo or download the bootstrap source code.",
+      "revId": "b1ee3f8f60ac9b1d9488653a540289731870ebb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
