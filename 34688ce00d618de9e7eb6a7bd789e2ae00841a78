@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "61ba3039_b17833e8",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-28T03:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f49cc01_e74d90c9",
+      "revId": "34688ce00d618de9e7eb6a7bd789e2ae00841a78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff1a3824_752d08ae",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "61ba3039_d194d792",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-28T03:07:01Z",
+      "side": 1,
+      "message": "Sure, makes sense.\n\nI\u0027m going to take it a step further so we don\u0027t have to hard-code the labels for these in the trace viewer (and version them, and worry about not removing stale ones, etc). Since we already have a string table, I\u0027m replacing \"mode\" with a string table ID. This is a little more mechanism, but will keep the knowledge of these labels in the runtime and make it easy to extend them.",
+      "parentUuid": "ff1a3824_752d08ae",
+      "revId": "34688ce00d618de9e7eb6a7bd789e2ae00841a78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f1e2c18_79a6a3ab",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-10-11T08:59:09Z",
       "side": 1,
       "message": "Since we are bumping version and adding more events, please collect some 1.7 traces and upload them to internal/trace/testdata (TestParseCanned will pick them up).\nI\u0027ve collected 1.5 traces on http ClientServerParallel4 benchmark and on the two stress tests in runtime/trace/trace_test.go.",
+      "revId": "34688ce00d618de9e7eb6a7bd789e2ae00841a78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_51e58721",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-28T03:07:01Z",
+      "side": 1,
+      "message": "Okay. I\u0027ll do this tomorrow.",
+      "parentUuid": "1f1e2c18_79a6a3ab",
       "revId": "34688ce00d618de9e7eb6a7bd789e2ae00841a78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -94,6 +148,24 @@
         "endLine": 929,
         "endChar": 43
       },
+      "revId": "34688ce00d618de9e7eb6a7bd789e2ae00841a78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_f19bdbfb",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-28T03:07:01Z",
+      "side": 1,
+      "message": "Mark workers can move between Ps (though only when they\u0027re just starting or just about to exit), so as Dmitry pointed out, we\u0027d need both the local and non-local versions of this. It\u0027s much rarer than starting other goroutines, so I don\u0027t think the little bit of space savings is worth the complexity.",
+      "parentUuid": "1f1e2c18_59a3e799",
       "revId": "34688ce00d618de9e7eb6a7bd789e2ae00841a78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
