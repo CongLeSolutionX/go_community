@@ -1214,6 +1214,7 @@ func (db *DB) queryConn(ctx context.Context, dc *driverConn, releaseConn func(er
 	var err error
 	withLock(dc, func() {
 		si, err = ctxDriverPrepare(ctx, dc.ci, query)
+		fmt.Printf("\tprepare err = %v\n", err)
 	})
 	if err != nil {
 		releaseConn(err)
@@ -1451,7 +1452,7 @@ func (tx *Tx) PrepareContext(ctx context.Context, query string) (*Stmt, error) {
 
 	var si driver.Stmt
 	withLock(dc, func() {
-		si, err = dc.ci.Prepare(query)
+		si, err = ctxDriverPrepare(ctx, dc.ci, query)
 	})
 	if err != nil {
 		return nil, err
@@ -1509,7 +1510,7 @@ func (tx *Tx) StmtContext(ctx context.Context, stmt *Stmt) *Stmt {
 	}
 	var si driver.Stmt
 	withLock(dc, func() {
-		si, err = dc.ci.Prepare(stmt.query)
+		si, err = ctxDriverPrepare(ctx, dc.ci, stmt.query)
 	})
 	txs := &Stmt{
 		db: tx.db,
