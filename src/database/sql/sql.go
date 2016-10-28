@@ -1324,8 +1324,10 @@ func (db *DB) begin(ctx context.Context, strategy connReuseStrategy) (tx *Tx, er
 	go func() {
 		select {
 		case <-ctx.Done():
-			if !tx.done {
-				tx.Rollback()
+			if !tx.isDone() {
+				// Discard and close the connection used to ensure the transaction
+				// is closed and the resources are released.
+				tx.rollback(true)
 			}
 		}
 	}()
@@ -1355,10 +1357,11 @@ type Tx struct {
 	dc  *driverConn
 	txi driver.Tx
 
-	// done transitions from false to true exactly once, on Commit
+	// done transitions from 0 to 1 exactly once, on Commit
 	// or Rollback. once done, all operations fail with
 	// ErrTxDone.
-	done bool
+	// Use atomic operations on value when checking value.
+	done int32
 
 	// All Stmts prepared for this transaction. These will be closed after the
 	// transaction has been committed or rolled back.
@@ -1371,15 +1374,18 @@ type Tx struct {
 	cancel func()
 }
 
+func (tx *Tx) isDone() bool {
+	return atomic.LoadInt32(&tx.done) != 0
+}
+
 // ErrTxDone is returned by any operation that is performed on a transaction
 // that has already been committed or rolled back.
 var ErrTxDone = errors.New("sql: Transaction has already been committed or rolled back")
 
 func (tx *Tx) close(err error) {
-	if tx.done {
+	if !atomic.CompareAndSwapInt32(&tx.done, 0, 1) {
 		panic("double close") // internal error
 	}
-	tx.done = true
 	tx.db.putConn(tx.dc, err)
 	tx.cancel()
 	tx.dc = nil
@@ -1387,7 +1393,7 @@ func (tx *Tx) close(err error) {
 }
 
 func (tx *Tx) grabConn(ctx context.Context) (*driverConn, error) {
-	if tx.done {
+	if tx.isDone() {
 		return nil, ErrTxDone
 	}
 	return tx.dc, nil
@@ -1404,7 +1410,7 @@ func (tx *Tx) closePrepared() {
 
 // Commit commits the transaction.
 func (tx *Tx) Commit() error {
-	if tx.done {
+	if tx.isDone() {
 		return ErrTxDone
 	}
 	var err error
@@ -1418,9 +1424,10 @@ func (tx *Tx) Commit() error {
 	return err
 }
 
-// Rollback aborts the transaction.
-func (tx *Tx) Rollback() error {
-	if tx.done {
+// rollback aborts the transaction and optionally forces the pool to discard
+// the connection.
+func (tx *Tx) rollback(discardConn bool) error {
+	if tx.isDone() {
 		return ErrTxDone
 	}
 	var err error
@@ -1430,8 +1437,16 @@ func (tx *Tx) Rollback() error {
 	if err != driver.ErrBadConn {
 		tx.closePrepared()
 	}
+	if discardConn {
+		err = driver.ErrBadConn
+	}
 	tx.close(err)
 	return err
+}
+
+// Rollback aborts the transaction.
+func (tx *Tx) Rollback() error {
+	return tx.rollback(false)
 }
 
 // Prepare creates a prepared statement for use within a transaction.
@@ -1465,7 +1480,7 @@ func (tx *Tx) PrepareContext(ctx context.Context, query string) (*Stmt, error) {
 
 	var si driver.Stmt
 	withLock(dc, func() {
-		si, err = dc.ci.Prepare(query)
+		si, err = ctxDriverPrepare(ctx, dc.ci, query)
 	})
 	if err != nil {
 		return nil, err
@@ -1523,7 +1538,7 @@ func (tx *Tx) StmtContext(ctx context.Context, stmt *Stmt) *Stmt {
 	}
 	var si driver.Stmt
 	withLock(dc, func() {
-		si, err = dc.ci.Prepare(stmt.query)
+		si, err = ctxDriverPrepare(ctx, dc.ci, stmt.query)
 	})
 	txs := &Stmt{
 		db: tx.db,
