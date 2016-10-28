@@ -363,18 +363,17 @@ var pcloc int32
 
 var Thearch Arch
 
-var Newproc *Node
-
-var Deferproc *Node
-
-var Deferreturn *Node
-
-var panicindex *Node
-
-var panicslice *Node
-
-var panicdivide *Node
-
-var growslice *Node
-
-var panicdottype *Node
+var (
+	Newproc      *Node
+	Deferproc    *Node
+	Deferreturn  *Node
+	panicindex   *Node
+	panicslice   *Node
+	panicdivide  *Node
+	growslice    *Node
+	panicdottype *Node
+	assertE2I    *Node
+	assertE2I2   *Node
+	assertI2I    *Node
+	assertI2I2   *Node
+)

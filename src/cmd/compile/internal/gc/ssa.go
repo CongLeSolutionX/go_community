@@ -3059,7 +3059,13 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
 		return s.newValue1(ssa.OpCopy, t, addr), isVolatile // ensure that addr has the right type
 	case OCALLFUNC, OCALLINTER, OCALLMETH:
 		return s.call(n, callNormal), true
-
+	case ODOTTYPE:
+		v, _ := s.dottype(n, false)
+		if v.Op != ssa.OpLoad {
+			s.Fatalf("dottype of non-load")
+		}
+		return v.Args[0], false
+		// TODO: memory arg gets lost - does that matter?
 	default:
 		s.Fatalf("unhandled addr %v", n.Op)
 		return nil, false
@@ -3773,20 +3779,20 @@ func (s *state) floatToUint(cvttab *f2uCvtTab, n *Node, x *ssa.Value, ft, tt *Ty
 }
 
 // ifaceType returns the value for the word containing the type.
-// n is the node for the interface expression.
+// t is the type of the interface expression.
 // v is the corresponding value.
-func (s *state) ifaceType(n *Node, v *ssa.Value) *ssa.Value {
+func (s *state) ifaceType(t *Type, v *ssa.Value) *ssa.Value {
 	byteptr := ptrto(Types[TUINT8]) // type used in runtime prototypes for runtime type (*byte)
 
-	if n.Type.IsEmptyInterface() {
-		// Have *eface. The type is the first word in the struct.
+	if t.IsEmptyInterface() {
+		// Have eface. The type is the first word in the struct.
 		return s.newValue1(ssa.OpITab, byteptr, v)
 	}
 
-	// Have *iface.
-	// The first word in the struct is the *itab.
-	// If the *itab is nil, return 0.
-	// Otherwise, the second word in the *itab is the type.
+	// Have iface.
+	// The first word in the struct is the itab.
+	// If the itab is nil, return 0.
+	// Otherwise, the second word in the itab is the type.
 
 	tab := s.newValue1(ssa.OpITab, byteptr, v)
 	s.vars[&typVar] = tab
@@ -3818,13 +3824,99 @@ func (s *state) ifaceType(n *Node, v *ssa.Value) *ssa.Value {
 // commaok indicates whether to panic or return a bool.
 // If commaok is false, resok will be nil.
 func (s *state) dottype(n *Node, commaok bool) (res, resok *ssa.Value) {
-	iface := s.expr(n.Left)
-	typ := s.ifaceType(n.Left, iface)  // actual concrete type
+	iface := s.expr(n.Left)            // input interface
 	target := s.expr(typename(n.Type)) // target type
-	if !isdirectiface(n.Type) {
-		// walk rewrites ODOTTYPE/OAS2DOTTYPE into runtime calls except for this case.
-		Fatalf("dottype needs a direct iface type %v", n.Type)
+	byteptr := ptrto(Types[TUINT8])
+
+	if n.Type.IsInterface() {
+		if n.Type.IsEmptyInterface() {
+			// Converting to an empty interface.
+			// Input could be an empty or nonempty interface.
+			if Debug_typeassert > 0 {
+				Warnl(n.Lineno, "type assertion inlined")
+			}
+
+			// Get itab/type field from input.
+			itab := s.newValue1(ssa.OpITab, byteptr, iface)
+			// Conversion succeeds iff that field is not nil.
+			cond := s.newValue2(ssa.OpNeqPtr, Types[TBOOL], itab, s.constNil(byteptr))
+
+			if n.Left.Type.IsEmptyInterface() && commaok {
+				// Converting empty interface to empty interface with ,ok is just a nil check.
+				return iface, cond
+			}
+
+			// Branch on nilness.
+			b := s.endBlock()
+			b.Kind = ssa.BlockIf
+			b.SetControl(cond)
+			b.Likely = ssa.BranchLikely
+			bOk := s.f.NewBlock(ssa.BlockPlain)
+			bFail := s.f.NewBlock(ssa.BlockPlain)
+			b.AddEdgeTo(bOk)
+			b.AddEdgeTo(bFail)
+
+			if !commaok {
+				// On failure, panic by calling panicdottype.
+				s.startBlock(bFail)
+				taddr := s.newValue1A(ssa.OpAddr, byteptr, &ssa.ExternSymbol{Typ: byteptr, Sym: typenamesym(n.Left.Type)}, s.sb)
+				s.rtcall(panicdottype, false, nil, itab, target, taddr) // TODO: fix args. Split on I/E?
+
+				// On success, just use input interface.
+				s.startBlock(bOk)
+				if n.Left.Type.IsEmptyInterface() {
+					res = iface // Use input interface unchanged.
+					return
+				}
+				// Load type out of itab, build interface with existing idata.
+				off := s.newValue1I(ssa.OpOffPtr, byteptr, int64(Widthptr), itab)
+				typ := s.newValue2(ssa.OpLoad, byteptr, off, s.mem())
+				idata := s.newValue1(ssa.OpIData, n.Type, iface)
+				res = s.newValue2(ssa.OpIMake, n.Type, typ, idata)
+				return
+			}
+
+			s.startBlock(bOk)
+			// nonempty -> empty
+			// Need to load type from itab
+			off := s.newValue1I(ssa.OpOffPtr, byteptr, int64(Widthptr), itab)
+			s.vars[&idataVar] = s.newValue2(ssa.OpLoad, byteptr, off, s.mem())
+			s.endBlock()
+
+			// itab is nil, might as well use that as the nil result.
+			s.startBlock(bFail)
+			s.vars[&idataVar] = itab
+			s.endBlock()
+
+			// Merge point.
+			bEnd := s.f.NewBlock(ssa.BlockPlain)
+			bOk.AddEdgeTo(bEnd)
+			bFail.AddEdgeTo(bEnd)
+			s.startBlock(bEnd)
+			idata := s.newValue1(ssa.OpIData, n.Type, iface)
+			res = s.newValue2(ssa.OpIMake, n.Type, s.variable(&idataVar, byteptr), idata)
+			resok = cond
+			delete(s.vars, &idataVar)
+			return
+		}
+		// converting to a nonempty interface needs a runtime call.
+		if n.Left.Type.IsEmptyInterface() {
+			if commaok {
+				call := s.rtcall(assertE2I2, true, []*Type{n.Type, Types[TBOOL]}, target, iface)
+				return call[0], call[1]
+			}
+			return s.rtcall(assertE2I, true, []*Type{n.Type}, target, iface)[0], nil
+		}
+		if commaok {
+			call := s.rtcall(assertI2I2, true, []*Type{n.Type, Types[TBOOL]}, target, iface)
+			return call[0], call[1]
+		}
+		return s.rtcall(assertI2I, true, []*Type{n.Type}, target, iface)[0], nil
 	}
+
+	// Converting to a concrete type.
+	typ := s.ifaceType(n.Left.Type, iface) // actual concrete type of input interface
+	direct := isdirectiface(n.Type)
 
 	if Debug_typeassert > 0 {
 		Warnl(n.Lineno, "type assertion inlined")
@@ -3838,8 +3930,6 @@ func (s *state) dottype(n *Node, commaok bool) (res, resok *ssa.Value) {
 	b.SetControl(cond)
 	b.Likely = ssa.BranchLikely
 
-	byteptr := ptrto(Types[TUINT8])
-
 	bOk := s.f.NewBlock(ssa.BlockPlain)
 	bFail := s.f.NewBlock(ssa.BlockPlain)
 	b.AddEdgeTo(bOk)
@@ -3851,9 +3941,13 @@ func (s *state) dottype(n *Node, commaok bool) (res, resok *ssa.Value) {
 		taddr := s.newValue1A(ssa.OpAddr, byteptr, &ssa.ExternSymbol{Typ: byteptr, Sym: typenamesym(n.Left.Type)}, s.sb)
 		s.rtcall(panicdottype, false, nil, typ, target, taddr)
 
-		// on success, return idata field
+		// on success, return data from interface
 		s.startBlock(bOk)
-		return s.newValue1(ssa.OpIData, n.Type, iface), nil
+		if direct {
+			return s.newValue1(ssa.OpIData, n.Type, iface), nil
+		}
+		p := s.newValue1(ssa.OpIData, ptrto(n.Type), iface)
+		return s.newValue2(ssa.OpLoad, n.Type, p, s.mem()), nil
 	}
 
 	// commaok is the more complicated case because we have
@@ -3862,21 +3956,26 @@ func (s *state) dottype(n *Node, commaok bool) (res, resok *ssa.Value) {
 
 	// type assertion succeeded
 	s.startBlock(bOk)
-	s.vars[&idataVar] = s.newValue1(ssa.OpIData, n.Type, iface)
+	if direct {
+		s.vars[&idataVar] = s.newValue1(ssa.OpIData, n.Type, iface)
+	} else {
+		p := s.newValue1(ssa.OpIData, ptrto(n.Type), iface)
+		s.vars[&idataVar] = s.newValue2(ssa.OpLoad, n.Type, p, s.mem())
+	}
 	s.vars[&okVar] = s.constBool(true)
 	s.endBlock()
 	bOk.AddEdgeTo(bEnd)
 
 	// type assertion failed
 	s.startBlock(bFail)
-	s.vars[&idataVar] = s.constNil(byteptr)
+	s.vars[&idataVar] = s.zeroVal(n.Type)
 	s.vars[&okVar] = s.constBool(false)
 	s.endBlock()
 	bFail.AddEdgeTo(bEnd)
 
 	// merge point
 	s.startBlock(bEnd)
-	res = s.variable(&idataVar, byteptr)
+	res = s.variable(&idataVar, n.Type)
 	resok = s.variable(&okVar, Types[TBOOL])
 	delete(s.vars, &idataVar)
 	delete(s.vars, &okVar)
