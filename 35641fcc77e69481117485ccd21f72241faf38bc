@@ -16,6 +16,24 @@
       "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_0c1926ed",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-10-28T04:40:20Z",
+      "side": 1,
+      "message": "\u003e For example, look at the same function in sys_darwin_amd64.s, which does it right.\n\nI don\u0027t really understand how the darwin version works:\nWhy doesn\u0027t it need to push and pop BP like a normal function prologue would?\nWhy does it subtract an extra 64 bytes from SP before making the forwarded call?\n\nI\u0027m happy to copy it once I have a better idea of what it\u0027s doing...",
+      "parentUuid": "81b56446_700d25e2",
+      "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
