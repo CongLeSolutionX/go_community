@@ -16,6 +16,24 @@
       "revId": "bb6527be35799c67b718eacca12efd09e130f3d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01a974f7_a928ca4d",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-10-28T03:13:27Z",
+      "side": 1,
+      "message": "That\u0027d make a slice of len 2; we want a slice of len 0 but cap 2.",
+      "parentUuid": "61ba3039_f1647bd1",
+      "revId": "bb6527be35799c67b718eacca12efd09e130f3d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
