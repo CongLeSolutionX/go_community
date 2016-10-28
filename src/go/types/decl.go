@@ -85,6 +85,8 @@ func (check *Checker) objDecl(obj Object, def *Named, path []*TypeName) {
 	case *Func:
 		// functions may be recursive - no need to track dependencies
 		check.funcDecl(obj, d)
+	case *Alias:
+		check.aliasDecl(obj, d)
 	default:
 		unreachable()
 	}
@@ -327,6 +329,139 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 	if !check.conf.IgnoreFuncBodies && fdecl.Body != nil {
 		check.later(obj.name, decl, sig, fdecl.Body)
 	}
+}
+
+func (check *Checker) aliasDecl(obj *Alias, decl *declInfo) {
+	assert(obj.typ == nil)
+	obj.typ = Typ[Invalid]
+
+	// alias declarations cannot use iota (actually, they can be inside const decls)
+	assert(check.iota == nil)
+
+	// orig must be a package-qualified identifer
+	orig, ok := decl.init.(*ast.SelectorExpr)
+	if !ok {
+		check.errorf(decl.init.Pos(), "invalid alias: %v is not a package-qualified identifier", decl.init)
+		return
+	}
+
+	ident, ok := orig.X.(*ast.Ident)
+	if !ok {
+		check.errorf(orig.Pos(), "invalid alias: %v is not a package name", orig.X)
+		return
+	}
+
+	_, pobj := check.scope.LookupParent(ident.Name, check.pos)
+	pkg, _ := pobj.(*PkgName)
+	if pkg == nil {
+		check.errorf(ident.Pos(), "invalid alias: %s is not a package", ident.Name)
+		return
+	}
+	assert(pkg.pkg == check.pkg)
+	check.recordUse(ident, pkg)
+	pkg.used = true
+
+	exp := pkg.imported.scope.Lookup(orig.Sel.Name)
+	if exp == nil {
+		check.errorf(orig.Pos(), "invalid alias: %v is not exported", orig.Sel) // TODO(gri) better message
+		return
+	}
+	if !exp.Exported() {
+		check.errorf(orig.Pos(), "invalid alias: %v is not exported", orig.Sel) // TODO(gri) better message
+		return
+	}
+	check.recordUse(orig.Sel, exp)
+
+	// An alias declaration must not refer to package unsafe.
+	if exp.Pkg() == Unsafe {
+		check.errorf(orig.Pos(), "invalid alias: %v refers to package unsafe (%v)", exp, exp)
+		return
+	}
+
+	// The aliased object must be from a matching constant, type, variable,
+	// or function declaration, respectively.
+	var what string
+	switch obj.kind {
+	case token.CONST:
+		if _, ok := exp.(*Const); !ok {
+			what = "constant"
+		}
+	case token.TYPE:
+		if _, ok := exp.(*TypeName); !ok {
+			what = "type"
+		}
+	case token.VAR:
+		if _, ok := exp.(*Var); !ok {
+			what = "variable"
+		}
+	case token.FUNC:
+		if _, ok := exp.(*Func); !ok {
+			what = "function"
+		}
+	default:
+		unreachable()
+	}
+	if what != "" {
+		check.errorf(orig.Pos(), "invalid alias: %v is not a %s", exp, what)
+		return
+	}
+
+	obj.typ = exp.Type()
+	obj.orig = exp
+
+	/*
+		sel := orig.Sel.Name
+		// If the identifier refers to a package, handle everything here
+		// so we don't need a "package" mode for operands: package names
+		// can only appear in qualified identifiers which are mapped to
+		// selector expressions.
+		if ident, ok := orig.X.(*ast.Ident); ok {
+			_, obj := check.scope.LookupParent(ident.Name, check.pos)
+			if pkg, _ := obj.(*PkgName); pkg != nil {
+				assert(pkg.pkg == check.pkg)
+				check.recordUse(ident, pkg)
+				pkg.used = true
+				exp := pkg.imported.scope.Lookup(sel)
+				if exp == nil {
+					if !pkg.imported.fake {
+						check.errorf(e.Pos(), "%s not declared by package %s", sel, ident)
+					}
+					goto Error
+				}
+				if !exp.Exported() {
+					check.errorf(e.Pos(), "%s not exported by package %s", sel, ident)
+					// ok to continue
+				}
+				check.recordUse(e.Sel, exp)
+				// Simplified version of the code for *ast.Idents:
+				// - imported objects are always fully initialized
+				switch exp := exp.(type) {
+				case *Const:
+					assert(exp.Val() != nil)
+					x.mode = constant_
+					x.typ = exp.typ
+					x.val = exp.val
+				case *TypeName:
+					x.mode = typexpr
+					x.typ = exp.typ
+				case *Var:
+					x.mode = variable
+					x.typ = exp.typ
+				case *Func:
+					x.mode = value
+					x.typ = exp.typ
+				case *Builtin:
+					x.mode = builtin
+					x.typ = exp.typ
+					x.id = exp.id
+				default:
+					unreachable()
+				}
+				x.expr = e
+				return
+			}
+		}
+	*/
 }
 
 func (check *Checker) declStmt(decl ast.Decl) {

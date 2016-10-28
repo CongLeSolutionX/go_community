@@ -221,6 +221,21 @@ func (obj *Func) Scope() *Scope {
 
 func (*Func) isDependency() {} // a function may be a dependency of an initialization expression
 
+// An Alias represents a declared alias.
+type Alias struct {
+	object
+	kind token.Token // token.CONST, token.TYPE, token.VAR, or token.FUNC
+	orig Object      // aliased constant, type, variable, or function
+}
+
+func NewAlias(pos token.Pos, pkg *Package, name string, kind token.Token, orig Object) *Alias {
+	return &Alias{object{pos: pos, pkg: pkg, name: name}, kind, orig}
+}
+
+func (obj *Alias) Orig() Object {
+	return obj.orig
+}
+
 // A Label represents a declared label.
 type Label struct {
 	object
@@ -278,6 +293,9 @@ func writeObject(buf *bytes.Buffer, obj Object, qf Qualifier) {
 			WriteSignature(buf, typ.(*Signature), qf)
 		}
 		return
+
+	case *Alias:
+		buf.WriteString("alias")
 
 	case *Label:
 		buf.WriteString("label")

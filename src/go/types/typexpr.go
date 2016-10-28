@@ -45,6 +45,14 @@ func (check *Checker) ident(x *operand, e *ast.Ident, def *Named, path []*TypeNa
 		delete(check.unusedDotImports[scope], pkg)
 	}
 
+	// An alias stands for the original object; use that one instead.
+	// TODO(gri) move this up?
+	if alias, _ := obj.(*Alias); alias != nil {
+		obj = alias.orig
+		typ = obj.Type()
+		assert(typ != nil)
+	}
+
 	switch obj := obj.(type) {
 	case *PkgName:
 		check.errorf(e.Pos(), "use of package %s not in selector", obj.name)
