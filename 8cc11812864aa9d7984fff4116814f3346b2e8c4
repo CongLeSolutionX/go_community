@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "213cb8a3_f37ca82a",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-10-28T20:34:32Z",
+      "side": 1,
+      "message": "This should be physPageSize. _PageSize is Go heap page size which has weak correlation with the rest of the universe.\n\nI can as well fix it in tsan runtime. I am just working on an update.\nI wonder if darwin shows off here as well and shrinks unaligned mmap regions when the rest of the world enlarges them :)",
+      "revId": "8cc11812864aa9d7984fff4116814f3346b2e8c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
