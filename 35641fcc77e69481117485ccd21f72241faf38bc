@@ -88,6 +88,24 @@
       "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_a13900ef",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-10-28T20:41:14Z",
+      "side": 1,
+      "message": "Ah, my apologies.  This is theoretically a problem for all C ABI callee-saved registers, since the signal handler runs Go code and Go can trample pretty much any register.  In fact, it seems to me that BP is the only register is not a problem for, since the Go signal handling function will save BP and then restore it on the way out.\n\nThat is, the potential problem here is that the kernel calls the signal handler, expecting it to be a properly behaved C ABI function that preserves all callee-saved registers.  The Go signal handler, written in assembly, immediately jumps into Go code, that does not follow the C ABI, and promptly trashes all the registers.  Eventually, in some cases, the Go code returns to the kernel, at which point the registers are trashed.  Except for BP, since BP is a callee-saved register for Go, so it will retain the same value it had when the kernel called the signal handler.\n\nIn practice, this has never been a problem.  I expect that the kernel doesn\u0027t want to risk that misbehaving userspace code will mess up its registers.  If there ever were a problem, the fix would be to change runtime.sigtramp to save all callee-saved register before calling runtime.sigtrampgo.\n\nI hope I understood you correctly this time.",
+      "parentUuid": "6655e638_d7d0dcdc",
+      "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
