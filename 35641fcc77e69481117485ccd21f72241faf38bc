@@ -106,6 +106,24 @@
       "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6655e638_fd5e9f58",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-10-28T21:05:50Z",
+      "side": 1,
+      "message": "I think I\u0027m starting to understand, but I\u0027m not quite there yet.\n\n\u003e That is, the potential problem here is that the kernel calls the signal handler, expecting it to be a properly behaved C ABI function that preserves all callee-saved registers.\n\nIt\u0027s not just the kernel; other signal handlers registered later may forward signals (as the Go runtime does) and expect that the forwarded-to function also follows C calling conventions.  But I\u0027d rather leave that as a separate issue for now, as I do not currently have an example of such a handler.\n\n----\n\nMy more immediate concern is that the C handler function might return, in which case sigfwd will return and we will execute the (Go) function epilogues for sigfwdgo and sigtrampgo without having restored the BP value they expect to be callee-saved, potentially leading to an unexpected segfault within one of those two functions.\n\n(I can be confident that sigtramp and cgoSigtramp don\u0027t care about the previous value of BP because they\u0027re written in assembly.  I\u0027m less confident about the functions written in Go.)",
+      "parentUuid": "61ba3039_a13900ef",
+      "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
