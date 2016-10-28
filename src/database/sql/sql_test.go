@@ -320,6 +320,30 @@ func TestQueryContext(t *testing.T) {
 	}
 }
 
+func TestQueryContextWait(t *testing.T) {
+	db := newTestDB(t, "people")
+	defer closeDB(t, db)
+	prepares0 := numPrepares(t, db)
+
+	ctx, _ := context.WithTimeout(context.Background(), time.Millisecond*15)
+
+	// This will trigger the *fakeConn.Prepare method which will take time
+	// performing the query. The ctxDriverPrepare func will check the context
+	// after this and close the rows and return an error.
+	_, err := db.QueryContext(ctx, "WAIT|30ms|SELECT|people|age,name|")
+	if err != context.DeadlineExceeded {
+		t.Fatalf("expected QueryContext to error with context deadline exceeded but returned %v", err)
+	}
+
+	// Verify closed rows connection after error condition.
+	if n := db.numFreeConns(); n != 1 {
+		t.Fatalf("free conns after query hitting EOF = %d; want 1", n)
+	}
+	if prepares := numPrepares(t, db) - prepares0; prepares != 1 {
+		t.Errorf("executed %d Prepare statements; want 1", prepares)
+	}
+}
+
 func TestMultiResultSetQuery(t *testing.T) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)

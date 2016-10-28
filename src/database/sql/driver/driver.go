@@ -167,8 +167,8 @@ func ReadOnlyFromContext(ctx context.Context) (readonly bool) {
 // ConnBeginContext enhances the Conn interface with context.
 type ConnBeginContext interface {
 	// BeginContext starts and returns a new transaction.
-	// The provided context should be used to roll the transaction back
-	// if it is cancelled.
+	// If the context is cancelled by the user the sql package will rollback the
+	// transaction.
 	//
 	// This must call IsolationFromContext to determine if there is a set
 	// isolation level. If the driver does not support setting the isolation
