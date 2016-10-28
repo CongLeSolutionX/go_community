@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61ba3039_b12f93bc",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-10-28T02:20:19Z",
+      "side": 1,
+      "message": "I\u0027m not one for these tricks unless they show significant benefit, but:\n\ntype blk struct {\n        b BasicBlock\n        blocks [4]*BasicBlock\n}\nbb :\u003d new(blk)\nresult :\u003d bb.b\nresult.pred \u003d bb.blocks[0:][:0:2]\nresult.succ \u003d bb.blocks[2:][:0:2]",
+      "revId": "6d65fd74a514e9829868ef22c30859af363f1fad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
