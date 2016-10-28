@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "61ba3039_31cba3ab",
+        "filename": "src/crypto/elliptic/p256.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-28T03:00:03Z",
+      "side": 1,
+      "message": "This change is OK to keep.",
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "213cb8a3_30538656",
         "filename": "src/crypto/elliptic/p256_asm_s390x.s",
         "patchSetId": 3
@@ -42,6 +59,57 @@
         "endLine": 1332,
         "endChar": 20
       },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_71d52b45",
+        "filename": "src/crypto/elliptic/p256_generic.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-28T03:00:03Z",
+      "side": 1,
+      "message": "This becomes\n\nfunc initP256Arch() {\n    p256 \u003d p256Curve{p256Params}\n}",
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_b1a793f5",
+        "filename": "src/crypto/elliptic/p256_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-28T03:00:03Z",
+      "side": 1,
+      "message": "We basically never factor multiline type declarations. It\u0027s just harder to read.\n\ntype p256CurveFast struct { \n   *CurveParams\n}\n\ntype p256Point struct {\n    ...\n}",
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61ba3039_f1c8fbb0",
+        "filename": "src/crypto/elliptic/p256_s390x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-28T03:00:03Z",
+      "side": 1,
+      "message": "This becomes func initP256Arch, and the init already done in the portable func initP256 can be deleted below.",
       "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
