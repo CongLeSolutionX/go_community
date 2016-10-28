@@ -34,6 +34,24 @@
       "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e19380d8_b8d040df",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2016-10-28T15:49:08Z",
+      "side": 1,
+      "message": "In particular, I was under the impression (from the PDF linked in https://github.com/golang/go/issues/16922#issuecomment-243748180 and the frame pointer change mentioned in #15840) that BP, as the amd64 frame pointer, is now callee-save.",
+      "parentUuid": "61ba3039_0c1926ed",
+      "revId": "35641fcc77e69481117485ccd21f72241faf38bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
