@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "011ed449_243ef27f",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-10-28T09:31:40Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "7089ae653e528af11f22895c8ef99bd322c2d4e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "213cb8a3_d0f2422f",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-10-28T09:31:40Z",
+      "side": 1,
+      "message": "s/3/.../\n\nthis still will be an array, but less duplication this way",
+      "range": {
+        "startLine": 316,
+        "startChar": 31,
+        "endLine": 316,
+        "endChar": 32
+      },
+      "revId": "7089ae653e528af11f22895c8ef99bd322c2d4e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
