@@ -422,6 +422,9 @@ func compile(fn *Node) {
 			}
 			fallthrough
 		case PPARAM, PPARAMOUT:
+			if istemp(n) {
+				continue
+			}
 			p := Gins(obj.ATYPE, n, nil)
 			p.From.Sym = obj.Linklookup(Ctxt, n.Sym.Name, 0)
 			p.To.Type = obj.TYPE_MEM
