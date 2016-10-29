@@ -2173,6 +2173,21 @@ func (w *http2responseWriter) Push(target string, opts *PushOptions) error {
 	return w.push(target, internalOpts)
 }
 
+func init() {
+	http2configServerFuncs = append(http2configServerFuncs, http2configureServer18)
+}
+
+func http2configureServer18(h1 *Server, h2 *http2Server) error {
+	if h2.IdleTimeout == 0 {
+		if h1.IdleTimeout != 0 {
+			h2.IdleTimeout = h1.IdleTimeout
+		} else {
+			h2.IdleTimeout = h1.ReadTimeout
+		}
+	}
+	return nil
+}
+
 var http2DebugGoroutines = os.Getenv("DEBUG_HTTP2_GOROUTINES") == "1"
 
 type http2goroutineLock uint64
@@ -2971,14 +2986,26 @@ func (s *http2Server) maxConcurrentStreams() uint32 {
 	return http2defaultMaxStreams
 }
 
+// List of funcs for ConfigureServer to run. Both h1 and h2 are guaranteed
+// to be non-nil.
+var http2configServerFuncs []func(h1 *Server, h2 *http2Server) error
+
 // ConfigureServer adds HTTP/2 support to a net/http Server.
 //
 // The configuration conf may be nil.
 //
 // ConfigureServer must be called before s begins serving.
 func http2ConfigureServer(s *Server, conf *http2Server) error {
+	if s == nil {
+		panic("nil *http.Server")
+	}
 	if conf == nil {
 		conf = new(http2Server)
+	}
+	for _, fn := range http2configServerFuncs {
+		if err := fn(s, conf); err != nil {
+			return err
+		}
 	}
 
 	if s.TLSConfig == nil {
