@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "461c62af_a6dfe6be",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-10-29T01:07:55Z",
+      "side": 1,
+      "message": "typo: is",
+      "range": {
+        "startLine": 341,
+        "startChar": 17,
+        "endLine": 341,
+        "endChar": 19
+      },
+      "revId": "febeb4fb31b549ead9332462c6d77e57f7c1481e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "461c62af_a66a460b",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-10-29T01:07:55Z",
+      "side": 1,
+      "message": "Report the kind of the original?",
+      "revId": "febeb4fb31b549ead9332462c6d77e57f7c1481e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "461c62af_86510a4b",
+        "filename": "src/go/types/testdata/aliasdecl.src",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-10-29T01:07:55Z",
+      "side": 1,
+      "message": "Related: in bexport.go, be sure to handle the case of writing export data containing aliases whose Orig is invalid.",
+      "revId": "febeb4fb31b549ead9332462c6d77e57f7c1481e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "461c62af_262816b8",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-10-29T01:07:55Z",
+      "side": 1,
+      "message": "Don\u0027t you need to apply this procedure recursively?",
+      "revId": "febeb4fb31b549ead9332462c6d77e57f7c1481e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
