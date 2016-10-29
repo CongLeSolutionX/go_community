@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6655e638_c6030c73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-29T05:26:50Z",
+      "side": 1,
+      "message": "It has to be cherry-picked to the release branch and also deployed. This is step 1 of 3.",
+      "parentUuid": "6655e638_26f5a865",
+      "revId": "b1ee3f8f60ac9b1d9488653a540289731870ebb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61ba3039_3db7f28d",
         "filename": "doc/install-source.html",
         "patchSetId": 1
