@@ -1966,7 +1966,7 @@ OpSwitch:
 		typecheckas(n)
 
 		// Code that creates temps does not bother to set defn, so do it here.
-		if n.Left.Op == ONAME && strings.HasPrefix(n.Left.Sym.Name, "autotmp_") {
+		if istemp(n.Left) {
 			n.Left.Name.Defn = n
 		}
 		break OpSwitch
