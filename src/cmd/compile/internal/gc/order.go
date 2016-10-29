@@ -6,7 +6,6 @@ package gc
 
 import (
 	"fmt"
-	"strings"
 )
 
 // Rewrite tree to use separate statements to enforce
@@ -172,10 +171,7 @@ func ordersafeexpr(n *Node, order *Order) *Node {
 
 // Istemp reports whether n is a temporary variable.
 func istemp(n *Node) bool {
-	if n.Op != ONAME {
-		return false
-	}
-	return strings.HasPrefix(n.Sym.Name, "autotmp_")
+	return n.Op == ONAME && n.Name.AutoTemp
 }
 
 // Isaddrokay reports whether it is okay to pass n's address to runtime routines.

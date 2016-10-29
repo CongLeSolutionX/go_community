@@ -188,6 +188,7 @@ type Name struct {
 	Byval     bool // is the variable captured by value or by reference
 	Needzero  bool // if it contains pointers, needs to be zeroed on function entry
 	Keepalive bool // mark value live across unknown assembly call
+	AutoTemp  bool // autotmp variable generated during walk
 }
 
 type Param struct {

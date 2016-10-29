@@ -115,6 +115,11 @@ func moveToHeap(n *Node) {
 	heapaddr.Sym = lookup("&" + n.Sym.Name)
 	heapaddr.Orig.Sym = heapaddr.Sym
 
+	// Unset AutoTemp to persist the &foo variable name through SSA to
+	// liveness analysis.
+	// TODO(mdempsky): Cleaner solution?
+	heapaddr.Name.AutoTemp = false
+
 	// Parameters have a local stack copy used at function start/end
 	// in addition to the copy in the heap that may live longer than
 	// the function.
@@ -204,6 +209,7 @@ func tempname(nn *Node, t *Type) {
 	n.Ullman = 1
 	n.Esc = EscNever
 	n.Name.Curfn = Curfn
+	n.Name.AutoTemp = true
 	Curfn.Func.Dcl = append(Curfn.Func.Dcl, n)
 
 	dowidth(t)

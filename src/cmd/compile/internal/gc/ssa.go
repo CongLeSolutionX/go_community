@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"html"
 	"os"
-	"strings"
 
 	"cmd/compile/internal/ssa"
 	"cmd/internal/obj"
@@ -3987,8 +3986,8 @@ func (s *state) addNamedValue(n *Node, v *ssa.Value) {
 		// Don't track our dummy nodes (&memVar etc.).
 		return
 	}
-	if strings.HasPrefix(n.Sym.Name, "autotmp_") {
-		// Don't track autotmp_ variables.
+	if istemp(n) {
+		// Don't track autotmp variables.
 		return
 	}
 	if n.Class == PPARAMOUT {
