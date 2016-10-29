@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6655e638_06d7c44d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-29T20:22:47Z",
+      "side": 1,
+      "message": "cmd/compile: avoid nil-ing out a node\u0027s Type in typecheckcomplit()",
+      "revId": "9db0a361313099c06c56d30246e8ef843ea9b10a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
