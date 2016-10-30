@@ -65,16 +65,18 @@ const (
 type cpuprofEntry struct {
 	count uintptr
 	depth int
+	tag   uint64
 	stack [maxCPUProfStack]uintptr
 }
 
 //go:notinheap
 type cpuProfile struct {
-	on     bool    // profiling is on
+	on     uint32  // profiling is on (atomic flag)
 	wait   note    // goroutine waits here
 	count  uintptr // tick count
 	evicts uintptr // eviction count
 	lost   uintptr // lost ticks that need to be logged
+	tagged bool    // whether to log tags
 
 	// Active recent stack traces.
 	hash [numBuckets]struct {
@@ -102,14 +104,9 @@ var (
 	cpuprofLock mutex
 	cpuprof     *cpuProfile
 
-	eod = [3]uintptr{0, 1, 0}
+	eodTagged = [4]uintptr{0, 0, 1, 0}
+	eod       = [3]uintptr{0, 1, 0}
 )
-
-func setcpuprofilerate(hz int32) {
-	systemstack(func() {
-		setcpuprofilerate_m(hz)
-	})
-}
 
 // lostProfileData is a no-op function used in profiles
 // to mark the number of profiling stack traces that were
@@ -124,6 +121,23 @@ func lostProfileData() {}
 // the testing package's -test.cpuprofile flag instead of calling
 // SetCPUProfileRate directly.
 func SetCPUProfileRate(hz int) {
+	setCPUProfileRate(hz, false)
+}
+
+// setCPUProfileRateTagged sets the CPU profiling rate to hz samples per second.
+// If hz <= 0, setCPUProfileRateTagged turns off profiling.
+// If the profiler is on, the rate cannot be changed without first turning it off.
+//
+// setCPUProfileRateTagged produces profiles in a special format meant to be
+// consumed by only by Census profiling code, so it is unexported so that it can
+// only be called by the Census profiling code.
+//
+//go:linkname setCPUProfileRateTagged runtime/pprof.setCPUProfileRateTagged
+func setCPUProfileRateTagged(hz int) {
+	setCPUProfileRate(hz, true)
+}
+
+func setCPUProfileRate(hz int, tagged bool) {
 	// Clamp hz to something reasonable.
 	if hz < 0 {
 		hz = 0
@@ -142,33 +156,41 @@ func SetCPUProfileRate(hz int) {
 				return
 			}
 		}
-		if cpuprof.on || cpuprof.handoff != 0 {
+		if atomic.Load(&cpuprof.on) != 0 || cpuprof.handoff != 0 {
 			print("runtime: cannot set cpu profile rate until previous profile has finished.\n")
 			unlock(&cpuprofLock)
 			return
 		}
 
-		cpuprof.on = true
 		// pprof binary header format.
 		// https://github.com/gperftools/gperftools/blob/master/src/profiledata.cc#L119
 		p := &cpuprof.log[0]
-		p[0] = 0                 // count for header
-		p[1] = 3                 // depth for header
-		p[2] = 0                 // version number
-		p[3] = uintptr(1e6 / hz) // period (microseconds)
+		p[0] = 0 // count for header
+		p[1] = 3 // depth for header
+		p[2] = 0 // version number
+		p[3] = 0 // period, filled in below
 		p[4] = 0
-		cpuprof.nlog = 5
+		cpuprof.nlog = 0
 		cpuprof.toggle = 0
 		cpuprof.wholding = false
 		cpuprof.wtoggle = 0
 		cpuprof.flushing = false
 		cpuprof.eodSent = false
+		cpuprof.tagged = tagged
+		if cpuprof.tagged {
+			// Set version number to two to indicate a tagged profile.
+			// This version is only ever consumed by Census.
+			p[2] = 2
+		}
 		noteclear(&cpuprof.wait)
 
-		setcpuprofilerate(int32(hz))
-	} else if cpuprof != nil && cpuprof.on {
+		hz = int(setcpuprofilerate(int32(hz)))
+		p[3] = 1000000 / uintptr(hz) // period (microseconds)
+		cpuprof.nlog = 5
+		atomic.Store(&cpuprof.on, 1)
+	} else if cpuprof != nil && atomic.Load(&cpuprof.on) != 0 {
 		setcpuprofilerate(0)
-		cpuprof.on = false
+		atomic.Store(&cpuprof.on, 0)
 
 		// Now add is not running anymore, and getprofile owns the entire log.
 		// Set the high bit in cpuprof.handoff to tell getprofile.
@@ -195,11 +217,13 @@ func SetCPUProfileRate(hz int) {
 // held at the time of the signal, nor can it use substantial amounts
 // of stack. It is allowed to call evict.
 //go:nowritebarrierrec
-func (p *cpuProfile) add(pc []uintptr) {
-	p.addWithFlushlog(pc, p.flushlog)
+func (p *cpuProfile) add(proftag uint64, pc []uintptr) {
+	p.addWithFlushlog(proftag, pc, p.flushlog)
 }
 
 // addWithFlushlog implements add and addNonGo.
+// proftag is the goroutine's proftag field, which is set by the SetProfTag
+// call and is used to implement census profiling support.
 // It is called from signal handlers and other limited environments
 // and cannot allocate memory or acquire locks that might be
 // held at the time of the signal, nor can it use substantial amounts
@@ -207,7 +231,14 @@ func (p *cpuProfile) add(pc []uintptr) {
 // It is allowed to call evict, passing the flushlog parameter.
 //go:nosplit
 //go:nowritebarrierrec
-func (p *cpuProfile) addWithFlushlog(pc []uintptr, flushlog func() bool) {
+func (p *cpuProfile) addWithFlushlog(proftag uint64, pc []uintptr, flushlog func() bool) {
+	// For Census, we have to be careful not to add new events
+	// until the header has been finalized in SetCPUProfileRate above.
+	// cpuprof.on controls that.
+	if atomic.Load(&cpuprof.on) == 0 {
+		return
+	}
+
 	if len(pc) > maxCPUProfStack {
 		pc = pc[:maxCPUProfStack]
 	}
@@ -233,6 +264,9 @@ Assoc:
 				continue Assoc
 			}
 		}
+		if e.tag != proftag {
+			continue Assoc
+		}
 		e.count++
 		return
 	}
@@ -256,6 +290,7 @@ Assoc:
 	// Reuse the newly evicted entry.
 	e.depth = len(pc)
 	e.count = 1
+	e.tag = proftag
 	copy(e.stack[:], pc)
 }
 
@@ -269,7 +304,7 @@ Assoc:
 //go:nowritebarrierrec
 func (p *cpuProfile) evict(e *cpuprofEntry, flushlog func() bool) bool {
 	d := e.depth
-	nslot := d + 2
+	nslot := d + 3
 	log := &p.log[p.toggle]
 	if p.nlog+nslot > len(log) {
 		if !flushlog() {
@@ -281,6 +316,10 @@ func (p *cpuProfile) evict(e *cpuprofEntry, flushlog func() bool) bool {
 	q := p.nlog
 	log[q] = e.count
 	q++
+	if p.tagged {
+		log[q] = uintptr(e.tag)
+		q++
+	}
 	log[q] = uintptr(d)
 	q++
 	copy(log[q:], e.stack[:d])
@@ -323,7 +362,7 @@ func (p *cpuProfile) flushlog() bool {
 //go:nosplit
 //go:nowritebarrierrec
 func (p *cpuProfile) addNonGo(pc []uintptr) {
-	p.addWithFlushlog(pc, func() bool { return false })
+	p.addWithFlushlog(0, pc, func() bool { return false })
 }
 
 // getprofile blocks until the next block of profiling data is available
@@ -360,7 +399,7 @@ func (p *cpuProfile) getprofile() []byte {
 		goto Flush
 	}
 
-	if !p.on && p.handoff == 0 {
+	if atomic.Load(&p.on) == 0 && p.handoff == 0 {
 		return nil
 	}
 
@@ -414,6 +453,9 @@ Flush:
 		// We may not have space to append this to the partial log buf,
 		// so we always return a new slice for the end-of-data marker.
 		p.eodSent = true
+		if p.tagged {
+			return uintptrBytes(eodTagged[:])
+		}
 		return uintptrBytes(eod[:])
 	}
 

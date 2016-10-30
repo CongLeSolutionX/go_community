@@ -81,6 +81,7 @@ import (
 	"sync"
 	"text/tabwriter"
 	"time"
+	_ "unsafe" // for linkname
 
 	"runtime/pprof/internal/profile"
 	"runtime/pprof/internal/protopprof"
@@ -609,6 +610,23 @@ var cpu struct {
 // for syscall.SIGPROF, but note that doing so may break any profiling
 // being done by the main program.
 func StartCPUProfile(w io.Writer) error {
+	return startCPUProfile(w, false)
+}
+
+// startCPUProfileTagged enables CPU profiling for the current process.
+// While profiling, the profile will be buffered and written to w.
+// startCPUProfileTagged returns an error if profiling is already enabled.
+//
+// startCPUProfileTagged produces profiles in a special format meant to
+// be consumed by Census. For this reason it is unexported so its format
+// can only be consumed by Census.
+//
+//go:linkname startCPUProfileTagged google3/util/profiling/go/protopprof.pprof_startCPUProfileTagged
+func startCPUProfileTagged(w io.Writer) error {
+	return startCPUProfile(w, true)
+}
+
+func startCPUProfile(w io.Writer, tagged bool) error {
 	// The runtime routines allow a variable profiling rate,
 	// but in practice operating systems cannot trigger signals
 	// at more than about 500 Hz, and our processing of the
@@ -630,7 +648,11 @@ func StartCPUProfile(w io.Writer) error {
 		return fmt.Errorf("cpu profiling already in use")
 	}
 	cpu.profiling = true
-	runtime.SetCPUProfileRate(hz)
+	if tagged {
+		setCPUProfileRateTagged(hz)
+	} else {
+		runtime.SetCPUProfileRate(hz)
+	}
 	go profileWriter(w)
 	return nil
 }
@@ -654,6 +676,9 @@ func profileWriter(w io.Writer) {
 	p.Write(w)
 	cpu.done <- true
 }
+
+// setCPUProfileRateTagged is implemented in package runtime.
+func setCPUProfileRateTagged(hz int)
 
 // StopCPUProfile stops the current CPU profile, if any.
 // StopCPUProfile only returns after all the writes for the

@@ -2266,6 +2266,7 @@ func goexit0(gp *g) {
 		atomic.Xadd(&sched.ngsys, -1)
 	}
 	gp.m = nil
+	gp.proftag = 0
 	gp.lockedm = nil
 	_g_.m.lockedg = nil
 	gp.paniconfault = false
@@ -2851,6 +2852,7 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 	gostartcallfn(&newg.sched, fn)
 	newg.gopc = callerpc
 	newg.startpc = fn.fn
+	newg.proftag = _g_.proftag
 	if isSystemGoroutine(newg) {
 		atomic.Xadd(&sched.ngsys, +1)
 	}
@@ -3097,8 +3099,10 @@ func mcount() int32 {
 }
 
 var prof struct {
-	lock uint32
-	hz   int32
+	lock   uint32
+	hz     int32
+	active bool // main profiler in use
+	bg     bool // background profiler in use
 }
 
 func _System()       { _System() }
@@ -3254,13 +3258,20 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 		}
 	}
 
-	if prof.hz != 0 {
+	if prof.active || prof.bg {
 		// Simple cas-lock to coordinate with setcpuprofilerate.
 		for !atomic.Cas(&prof.lock, 0, 1) {
 			osyield()
 		}
-		if prof.hz != 0 {
-			cpuprof.add(stk[:n])
+		if prof.bg {
+			bgcpu(gp, stk[:n])
+		}
+		if prof.active {
+			var proftag uint64
+			if gp != nil {
+				proftag = gp.proftag
+			}
+			cpuprof.add(proftag, stk[:n])
 		}
 		atomic.Store(&prof.lock, 0)
 	}
@@ -3280,7 +3291,7 @@ var sigprofCallersUse uint32
 //go:nosplit
 //go:nowritebarrierrec
 func sigprofNonGo() {
-	if prof.hz != 0 {
+	if prof.active {
 		n := 0
 		for n < len(sigprofCallers) && sigprofCallers[n] != 0 {
 			n++
@@ -3290,7 +3301,7 @@ func sigprofNonGo() {
 		for !atomic.Cas(&prof.lock, 0, 1) {
 			osyield()
 		}
-		if prof.hz != 0 {
+		if prof.active {
 			cpuprof.addNonGo(sigprofCallers[:n])
 		}
 		atomic.Store(&prof.lock, 0)
@@ -3305,7 +3316,7 @@ func sigprofNonGo() {
 //go:nosplit
 //go:nowritebarrierrec
 func sigprofNonGoPC(pc uintptr) {
-	if prof.hz != 0 {
+	if prof.active {
 		pc := []uintptr{
 			pc,
 			funcPC(_ExternalCode) + sys.PCQuantum,
@@ -3315,7 +3326,7 @@ func sigprofNonGoPC(pc uintptr) {
 		for !atomic.Cas(&prof.lock, 0, 1) {
 			osyield()
 		}
-		if prof.hz != 0 {
+		if prof.active {
 			cpuprof.addNonGo(pc)
 		}
 		atomic.Store(&prof.lock, 0)
@@ -3347,7 +3358,8 @@ func setsSP(pc uintptr) bool {
 }
 
 // Arrange to call fn with a traceback hz times a second.
-func setcpuprofilerate_m(hz int32) {
+// Returns actual hz.
+func setcpuprofilerate(hz int32) int32 {
 	// Force sane arguments.
 	if hz < 0 {
 		hz = 0
@@ -3366,7 +3378,44 @@ func setcpuprofilerate_m(hz int32) {
 	for !atomic.Cas(&prof.lock, 0, 1) {
 		osyield()
 	}
-	prof.hz = hz
+	if !prof.bg {
+		prof.hz = hz
+	}
+	prof.active = hz != 0
+	hz = prof.hz
+	atomic.Store(&prof.lock, 0)
+
+	lock(&sched.lock)
+	sched.profilehz = hz
+	unlock(&sched.lock)
+
+	if hz != 0 {
+		resetcpuprofiler(hz)
+	}
+
+	_g_.m.locks--
+	return hz
+}
+
+// enablebgcpu enables background CPU profiling at the given sample rate.
+func enablebgcpu(hz int32) {
+	_g_ := getg()
+	_g_.m.locks++
+
+	// Stop profiler on this thread so that it is safe to lock prof.
+	// if a profiling signal came in while we had prof locked,
+	// it would deadlock.
+	resetcpuprofiler(0)
+
+	for !atomic.Cas(&prof.lock, 0, 1) {
+		osyield()
+	}
+
+	if hz != 0 || !prof.active {
+		prof.hz = hz
+	}
+	prof.bg = hz != 0
+	hz = prof.hz
 	atomic.Store(&prof.lock, 0)
 
 	lock(&sched.lock)
@@ -3410,6 +3459,12 @@ func procresize(nprocs int32) *p {
 			pp.sudogcache = pp.sudogbuf[:0]
 			for i := range pp.deferpool {
 				pp.deferpool[i] = pp.deferpoolbuf[i][:0]
+			}
+			if i > 0 {
+				b0 := allp[0].bgcpu
+				if b0 != nil {
+					pp.bgcpu = newProfBuf(int(b0.hdrsize), len(b0.data))
+				}
 			}
 			atomicstorep(unsafe.Pointer(&allp[i]), unsafe.Pointer(pp))
 		}

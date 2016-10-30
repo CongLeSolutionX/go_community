@@ -378,6 +378,7 @@ type g struct {
 	gopc           uintptr // pc of go statement that created this goroutine
 	startpc        uintptr // pc of goroutine function
 	racectx        uintptr
+	proftag        uint64
 	waiting        *sudog    // sudog structures this g is waiting on (that have a valid elem ptr); in lock order
 	cgoCtxt        []uintptr // cgo traceback context
 
@@ -504,6 +505,8 @@ type p struct {
 	// Available G's (status == Gdead)
 	gfree    *g
 	gfreecnt int32
+
+	bgcpu *profBuf
 
 	sudogcache []*sudog
 	sudogbuf   [128]*sudog
