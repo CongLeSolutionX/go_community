@@ -4832,3 +4832,76 @@ func TestServerIdleTimeout(t *testing.T) {
 		t.Fatal("copy byte succeeded; want err")
 	}
 }
+
+func get(t *testing.T, c *Client, url string) string {
+	res, err := c.Get(url)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer res.Body.Close()
+	slurp, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return string(slurp)
+}
+
+// Tests that calls to Server.SetKeepAlivesEnabled(false) closes any
+// currently-open connections.
+func TestServerSetKeepAlivesEnabledClosesConns(t *testing.T) {
+	defer afterTest(t)
+	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		io.WriteString(w, r.RemoteAddr)
+	}))
+	defer ts.Close()
+
+	tr := &Transport{}
+	defer tr.CloseIdleConnections()
+	c := &Client{Transport: tr}
+
+	get := func() string { return get(t, c, ts.URL) }
+
+	a1, a2 := get(), get()
+	if a1 != a2 {
+		t.Fatal("expected first two requests on same connection")
+	}
+	ts.Config.SetKeepAlivesEnabled(false)
+	a3 := get()
+	if a3 == a2 {
+		t.Fatal("expected third request on new connection")
+	}
+}
+
+func TestServerShutdown_h1(t *testing.T) { testServerShutdown(t, h1Mode) }
+func TestServerShutdown_h2(t *testing.T) { testServerShutdown(t, h2Mode) }
+
+func testServerShutdown(t *testing.T, h2 bool) {
+	defer afterTest(t)
+	var doShutdown func() // set later
+	var shutdownRes = make(chan error, 1)
+	cst := newClientServerTest(t, h2, HandlerFunc(func(w ResponseWriter, r *Request) {
+		go doShutdown()
+		// Shutdown is graceful, so it should not interrupt
+		// this in-flight response. Add a tiny sleep here to
+		// increase the odds of a failure if shutdown has
+		// bugs.
+		time.Sleep(20 * time.Millisecond)
+		io.WriteString(w, r.RemoteAddr)
+	}))
+	defer cst.close()
+
+	doShutdown = func() {
+		shutdownRes <- cst.ts.Config.Shutdown(context.Background())
+	}
+	get(t, cst.c, cst.ts.URL) // calls t.Fail on failure
+
+	if err := <-shutdownRes; err != nil {
+		t.Fatalf("Shutdown: %v", err)
+	}
+
+	res, err := cst.c.Get(cst.ts.URL)
+	if err == nil {
+		res.Body.Close()
+		t.Fatal("second request should fail. server should be shut down")
+	}
+}
