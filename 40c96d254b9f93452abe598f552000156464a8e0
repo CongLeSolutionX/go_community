@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86a1faac_508ecc10",
+        "filename": "src/net/ipsock_posix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-30T02:59:00Z",
+      "side": 1,
+      "message": "if (runtime.GOOS \u003d\u003d \"windows\" || !supportsIPv4map) \u0026\u0026 mode \u003d\u003d \"dial\" \u0026\u0026 raddr.isWildcard() { \n\nsorry, i didn\u0027t look at this if-statement carefully. we need to take case of 1) ipv4-only kernel, 2) ipv6-only kernel, 3) ip dual stack coexistent-and-interworkable kernel and 4) ip dual dual stack coexistent-and-non-interworkable kernel. testing supportsIPv4map is required for (3) and (4). otherwirse, AF_INET6 will be used for creating an active open-side endpoint.",
+      "range": {
+        "startLine": 157,
+        "startChar": 1,
+        "endLine": 157,
+        "endChar": 71
+      },
+      "revId": "40c96d254b9f93452abe598f552000156464a8e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
