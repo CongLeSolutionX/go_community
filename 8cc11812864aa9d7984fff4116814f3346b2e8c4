@@ -16,6 +16,24 @@
       "revId": "8cc11812864aa9d7984fff4116814f3346b2e8c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "461c62af_ac1ce7db",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-10-30T19:16:11Z",
+      "side": 1,
+      "message": "OK, should I submit this patch, or did your race runtime change fix this?",
+      "parentUuid": "213cb8a3_f37ca82a",
+      "revId": "8cc11812864aa9d7984fff4116814f3346b2e8c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
