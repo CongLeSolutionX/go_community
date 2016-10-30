@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6b692e6_fafa494f",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2016-10-30T14:57:25Z",
+      "side": 1,
+      "message": "Did you deliberately keep this if statement? Only if it is removed will it cause cancel call to be invoked for each invocation of the benchmark. I probably was unclear, but I think the \"if b.ctx \u003d\u003d nil\" should be removed.\n\nI would just write \n\nb.ctx, b.cancel \u003d context.WithCancel(context.Background())\ndefer b.cancel()\n\nunconditionally",
+      "revId": "a712340578d2afa455b80a49e1c505e561597e27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6b692e6_5a65f55c",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2016-10-30T14:57:25Z",
+      "side": 1,
+      "message": "You should be able to undo all changes in this file. They are unnecessary with the changes in testing.go.",
+      "revId": "a712340578d2afa455b80a49e1c505e561597e27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
