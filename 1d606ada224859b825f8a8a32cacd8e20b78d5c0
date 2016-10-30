@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "c6b692e6_9a1ceddc",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2355,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-10-30T11:39:28Z",
+      "side": 1,
+      "message": "Perhaps\n\ncloseIdleConns closes all idle connections and returns true if\nthere are then no connections left.",
+      "revId": "1d606ada224859b825f8a8a32cacd8e20b78d5c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6b692e6_3a0e81a9",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
