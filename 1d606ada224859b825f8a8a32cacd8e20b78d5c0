@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6b692e6_7a18f9e7",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2281,
+      "author": {
+        "id": 5020
+      },
+      "writtenOn": "2016-10-30T11:17:30Z",
+      "side": 1,
+      "message": "inClose is not used anywhere",
+      "revId": "1d606ada224859b825f8a8a32cacd8e20b78d5c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06c0aa4d_1494341d",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2316,
+      "author": {
+        "id": 5020
+      },
+      "writtenOn": "2016-10-30T11:17:30Z",
+      "side": 1,
+      "message": "I wonder if there\u0027s a race here. Can it happen that we close all active connections between Serve accepting a new connection and adding it to activeConn?\n\nIn my own code, I made sure to wait until after Serve returns, as that guarantees that all StateNew have fired.",
+      "revId": "1d606ada224859b825f8a8a32cacd8e20b78d5c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6b692e6_3a0e81a9",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2369,
+      "author": {
+        "id": 5020
+      },
+      "writtenOn": "2016-10-30T11:17:30Z",
+      "side": 1,
+      "message": "How about `return len(s.activeConn) \u003d\u003d 0`?",
+      "revId": "1d606ada224859b825f8a8a32cacd8e20b78d5c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
