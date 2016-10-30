@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "4678e2ff_06941a1d",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2355,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-10-30T12:31:28Z",
+      "side": 1,
+      "message": "Thanks, I\u0027ll try and remember.  I find the negatives in \"no connections left\" a bit awkward.  \"...and reports whether all connections are then closed\"?",
+      "parentUuid": "c6b692e6_da26652e",
+      "revId": "1d606ada224859b825f8a8a32cacd8e20b78d5c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6b692e6_3a0e81a9",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
