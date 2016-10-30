@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86a1faac_10e604d5",
+        "filename": "src/net/dnsclient_unix.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-30T10:32:15Z",
+      "side": 1,
+      "message": "this test is unnecessary and redundant.\n\n// If name is rooted (trailing dot), try only that name.\nl :\u003d len(name)\nrooted :\u003d l \u003e 0 \u0026\u0026 name[l-1] \u003d\u003d \u0027.\u0027\nif rooted {\n        return []string{name}\n}",
+      "range": {
+        "startLine": 368,
+        "startChar": 1,
+        "endLine": 370,
+        "endChar": 2
+      },
+      "revId": "5b32b81e1e4c772c0606b39693600a0cf73f3662",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86a1faac_50e08cb5",
+        "filename": "src/net/dnsconfig_unix_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-30T10:32:15Z",
+      "side": 1,
+      "message": "well, this test looks a bit complicated. can you add a few test specific resolv.conf files in testdata and simplify the test case? i think what we need for checking query name length boundaries is the following;\n- len(search label in dnsConfig) \u003d\u003d 0\n- len(search label in dnsConfig) \u003d\u003d 253\n- len(search label in dnsConfig) \u003d\u003d 254",
+      "range": {
+        "startLine": 189,
+        "startChar": 5,
+        "endLine": 189,
+        "endChar": 22
+      },
+      "revId": "5b32b81e1e4c772c0606b39693600a0cf73f3662",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
