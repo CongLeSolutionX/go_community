@@ -3058,6 +3058,13 @@ func http2ConfigureServer(s *Server, conf *http2Server) error {
 	return nil
 }
 
+// h1ServerShutdownChan if non-nil provides a func to return a
+// close-only channel when the provided *http.Server wants to
+// shutdown. This is initialized via an init func in net/http (via
+// its mangled name from x/tools/cmd/bundle). This is only use when
+// http2 is bundled into std for now.
+var http2h1ServerShutdownChan func(*Server) <-chan struct{}
+
 // ServeConnOpts are options for the Server.ServeConn method.
 type http2ServeConnOpts struct {
 	// BaseConfig optionally sets the base configuration
@@ -3512,6 +3519,11 @@ func (sc *http2serverConn) serve() {
 		sc.idleTimerCh = sc.idleTimer.C
 	}
 
+	var gracefulShutdownCh <-chan struct{}
+	if sc.hs != nil && http2h1ServerShutdownChan != nil {
+		gracefulShutdownCh = http2h1ServerShutdownChan(sc.hs)
+	}
+
 	go sc.readFrames()
 
 	settingsTimer := time.NewTimer(http2firstSettingsTimeout)
@@ -3539,6 +3551,9 @@ func (sc *http2serverConn) serve() {
 		case <-settingsTimer.C:
 			sc.logf("timeout waiting for SETTINGS frames from %v", sc.conn.RemoteAddr())
 			return
+		case <-gracefulShutdownCh:
+			gracefulShutdownCh = nil
+			sc.goAwayIn(http2ErrCodeNo, 0)
 		case <-sc.shutdownTimerCh:
 			sc.vlogf("GOAWAY close timer fired; closing conn from %v", sc.conn.RemoteAddr())
 			return
@@ -3547,6 +3562,10 @@ func (sc *http2serverConn) serve() {
 			sc.goAway(http2ErrCodeNo)
 		case fn := <-sc.testHookCh:
 			fn(loopNum)
+		}
+
+		if sc.inGoAway && sc.curClientStreams == 0 && !sc.needToSendGoAway && !sc.writingFrame {
+			return
 		}
 	}
 }
@@ -3803,7 +3822,7 @@ func (sc *http2serverConn) scheduleFrameWrite() {
 			sc.startFrameWrite(http2FrameWriteRequest{write: http2writeSettingsAck{}})
 			continue
 		}
-		if !sc.inGoAway {
+		if !sc.inGoAway || sc.goAwayCode == http2ErrCodeNo {
 			if wr, ok := sc.writeSched.Pop(); ok {
 				sc.startFrameWrite(wr)
 				continue
@@ -3821,14 +3840,23 @@ func (sc *http2serverConn) scheduleFrameWrite() {
 
 func (sc *http2serverConn) goAway(code http2ErrCode) {
 	sc.serveG.check()
+	var forceCloseIn time.Duration
+	if code != http2ErrCodeNo {
+		forceCloseIn = 250 * time.Millisecond
+	} else {
+
+		forceCloseIn = 1 * time.Second
+	}
+	sc.goAwayIn(code, forceCloseIn)
+}
+
+func (sc *http2serverConn) goAwayIn(code http2ErrCode, forceCloseIn time.Duration) {
+	sc.serveG.check()
 	if sc.inGoAway {
 		return
 	}
-	if code != http2ErrCodeNo {
-		sc.shutDownIn(250 * time.Millisecond)
-	} else {
-
-		sc.shutDownIn(1 * time.Second)
+	if forceCloseIn != 0 {
+		sc.shutDownIn(forceCloseIn)
 	}
 	sc.inGoAway = true
 	sc.needToSendGoAway = true
