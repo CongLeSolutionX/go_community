@@ -3236,6 +3236,32 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, cgofi
 	// Allows including _cgo_export.h from .[ch] files in the package.
 	cgoCPPFLAGS = append(cgoCPPFLAGS, "-I", obj)
 
+	// If all cgofiles are in the same directory, set cgodir to it.
+	// We check because SWIG generates files in a different directory.
+	cgodir, _ := filepath.Split(cgofiles[0])
+	for _, f := range cgofiles[1:] {
+		dir, _ := filepath.Split(f)
+		if dir != cgodir {
+			cgodir = "///"
+			break
+		}
+	}
+	rundir := p.Dir
+	var srcdirargs []string
+	objarg := obj
+	if cgodir != "///" {
+		rundir = obj
+		if !filepath.IsAbs(cgodir) {
+			cgodir = filepath.Join(p.Dir, cgodir)
+		}
+		srcdirargs = []string{"-srcdir", cgodir}
+		objarg = "." + string(filepath.Separator)
+		cgoCPPFLAGS = append(cgoCPPFLAGS, "-I", p.Dir)
+		for i, f := range cgofiles {
+			_, cgofiles[i] = filepath.Split(f)
+		}
+	}
+
 	// cgo
 	// TODO: CGO_FLAGS?
 	gofiles := []string{obj + "_cgo_gotypes.go"}
@@ -3285,7 +3311,7 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, cgofi
 		cgoflags = append(cgoflags, "-exportheader="+obj+"_cgo_install.h")
 	}
 
-	if err := b.run(p.Dir, p.ImportPath, cgoenv, buildToolExec, cgoExe, "-objdir", obj, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
+	if err := b.run(rundir, p.ImportPath, cgoenv, buildToolExec, cgoExe, srcdirargs, "-objdir", objarg, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
 		return nil, nil, err
 	}
 	outGo = append(outGo, gofiles...)
@@ -3301,7 +3327,13 @@ func (b *builder) cgo(p *Package, cgoExe, obj string, pcCFLAGS, pcLDFLAGS, cgofi
 	}
 
 	for _, file := range gccfiles {
-		ofile := obj + cgoRe.ReplaceAllString(file[:len(file)-1], "_") + "o"
+		// If the file is in obj, probably because it was created
+		// by SWIG, dont put "obj" in the object file name.
+		dir, name := filepath.Split(file)
+		if dir != obj {
+			name = file
+		}
+		ofile := obj + cgoRe.ReplaceAllString(name[:len(name)-1], "_") + "o"
 		if err := b.gcc(p, ofile, cflags, file); err != nil {
 			return nil, nil, err
 		}
