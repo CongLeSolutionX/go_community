@@ -486,11 +486,12 @@ func gomcache() *mcache {
 
 //go:linkname reflect_typelinks reflect.typelinks
 func reflect_typelinks() ([]unsafe.Pointer, [][]int32) {
-	sections := []unsafe.Pointer{unsafe.Pointer(firstmoduledata.types)}
-	ret := [][]int32{firstmoduledata.typelinks}
-	for datap := firstmoduledata.next; datap != nil; datap = datap.next {
-		sections = append(sections, unsafe.Pointer(datap.types))
-		ret = append(ret, datap.typelinks)
+	modules := activeModules()
+	sections := []unsafe.Pointer{unsafe.Pointer(modules[0].types)}
+	ret := [][]int32{modules[0].typelinks}
+	for i := 1; modules[i] != nil; i++ {
+		sections = append(sections, unsafe.Pointer(modules[i].types))
+		ret = append(ret, modules[i].typelinks)
 	}
 	return sections, ret
 }

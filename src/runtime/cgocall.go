@@ -569,7 +569,9 @@ func cgoCheckUnknownPointer(p unsafe.Pointer, msg string) (base, i uintptr) {
 		return
 	}
 
-	for datap := &firstmoduledata; datap != nil; datap = datap.next {
+	modules := activeModules()
+	for i := 0; modules[i] != nil; i++ {
+		datap := modules[i]
 		if cgoInRange(p, datap.data, datap.edata) || cgoInRange(p, datap.bss, datap.ebss) {
 			// We have no way to know the size of the object.
 			// We have to assume that it might contain a pointer.
@@ -596,7 +598,9 @@ func cgoIsGoPointer(p unsafe.Pointer) bool {
 		return true
 	}
 
-	for datap := &firstmoduledata; datap != nil; datap = datap.next {
+	modules := activeModules()
+	for i := 0; modules[i] != nil; i++ {
+		datap := modules[i]
 		if cgoInRange(p, datap.data, datap.edata) || cgoInRange(p, datap.bss, datap.ebss) {
 			return true
 		}

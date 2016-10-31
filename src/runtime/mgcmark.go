@@ -60,14 +60,17 @@ func gcMarkRootPrepare() {
 
 	// Only scan globals once per cycle; preferably concurrently.
 	if !work.markrootDone {
-		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+		modules := activeModules()
+		for i := 0; modules[i] != nil; i++ {
+			datap := modules[i]
 			nDataRoots := nBlocks(datap.edata - datap.data)
 			if nDataRoots > work.nDataRoots {
 				work.nDataRoots = nDataRoots
 			}
 		}
 
-		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+		for i := 0; modules[i] != nil; i++ {
+			datap := modules[i]
 			nBSSRoots := nBlocks(datap.ebss - datap.bss)
 			if nBSSRoots > work.nBSSRoots {
 				work.nBSSRoots = nBSSRoots
@@ -175,12 +178,16 @@ func markroot(gcw *gcWork, i uint32) {
 		flushmcache(int(i - baseFlushCache))
 
 	case baseData <= i && i < baseBSS:
-		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+		modules := activeModules()
+		for j := 0; modules[j] != nil; j++ {
+			datap := modules[j]
 			markrootBlock(datap.data, datap.edata-datap.data, datap.gcdatamask.bytedata, gcw, int(i-baseData))
 		}
 
 	case baseBSS <= i && i < baseSpans:
-		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+		modules := activeModules()
+		for j := 0; modules[j] != nil; j++ {
+			datap := modules[j]
 			markrootBlock(datap.bss, datap.ebss-datap.bss, datap.gcbssmask.bytedata, gcw, int(i-baseBSS))
 		}
 

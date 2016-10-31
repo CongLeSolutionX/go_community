@@ -5,6 +5,7 @@
 package runtime
 
 import (
+	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -224,6 +225,53 @@ type modulehash struct {
 
 var firstmoduledata moduledata  // linker symbol
 var lastmoduledatap *moduledata // linker symbol
+var modulesArray unsafe.Pointer // see activeModules
+
+// activeModules returns an array of active modules.
+//
+// This is an unsafe type. The array pointed to is not as large as the
+// type advertises. Instead, the final *moduledata is followed by a nil
+// pointer. To iterate through active modules, use:
+//
+//	modules := activeModules()
+//	for i := 0; modules[i] != nil; i++ {
+//		// ...
+//	}
+//
+// When a module is first loaded by the dynamic linker, an .init_array
+// function (written by cmd/link) is invoked to call addmoduledata,
+// appending to the module to the linked list that starts with
+// firstmoduledata.
+//
+// There are two times this can happen in the lifecycle of a Go
+// program. First, if compiled with -linkshared, a number of modules
+// built with -buildmode=shared can be loaded at program initialization.
+// Second, a Go program can load a module while running that was built
+// with -buildmode=plugin.
+//
+// After loading, the modules are made active parts of the program by
+// initialization done in schedinit and plugin_lastmoduleinit. After
+// the modules are ready for use, a modules array is constructed and
+// swapped into the modulesArray variable by the modulesinit function.
+func activeModules() *[1 << 12]*moduledata {
+	return (*[1 << 12]*moduledata)(atomic.Loadp(unsafe.Pointer(&modulesArray)))
+}
+
+// modulesinit constructs modules.
+func modulesinit() {
+	num := 0
+	for md := &firstmoduledata; md != nil; md = md.next {
+		num++
+	}
+	modules := make([]*moduledata, num+1, num+1) // add nil-terminator
+
+	md := &firstmoduledata
+	for i := 0; i < num; i++ {
+		modules[i] = md
+		md = md.next
+	}
+	modulesArray = unsafe.Pointer(&modules[0])
+}
 
 type functab struct {
 	entry   uintptr

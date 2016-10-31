@@ -19,7 +19,9 @@ func plugin_lastmoduleinit() (path string, syms map[string]interface{}) {
 		throw("runtime: plugin already initialized")
 	}
 
-	for pmd := &firstmoduledata; pmd != md; pmd = pmd.next {
+	modules := activeModules()
+	for i := 0; modules[i] != nil; i++ {
+		pmd := modules[i]
 		if pmd.pluginpath == md.pluginpath {
 			println("plugin: plugin", md.pluginpath, "already loaded")
 			throw("plugin: plugin already loaded")
@@ -52,6 +54,8 @@ func plugin_lastmoduleinit() (path string, syms map[string]interface{}) {
 		additab(i, true, false)
 	}
 	unlock(&ifaceLock)
+
+	modulesinit()
 
 	// Build a map of symbol names to symbols. Here in the runtime
 	// we fill out the first word of the interface, the type. We
