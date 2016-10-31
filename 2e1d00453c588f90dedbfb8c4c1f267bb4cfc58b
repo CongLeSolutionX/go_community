@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "869f3a79_e346ccbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2016-10-31T16:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6b692e6_5a5fb5f9",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "2e1d00453c588f90dedbfb8c4c1f267bb4cfc58b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6b692e6_1a553dda",
         "filename": "src/reflect/type.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-10-31T16:05:55Z",
       "side": 1,
       "message": "i am not a native speaker but \"in\" did sound fine to me. Like \"number of elements in a set\".",
+      "range": {
+        "startLine": 66,
+        "startChar": 53,
+        "endLine": 66,
+        "endChar": 57
+      },
+      "revId": "2e1d00453c588f90dedbfb8c4c1f267bb4cfc58b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_a369e43b",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2016-10-31T16:19:12Z",
+      "side": 1,
+      "message": "Done\n\ns/in/from was unnecessary, reverted it.",
+      "parentUuid": "c6b692e6_1a553dda",
       "range": {
         "startLine": 66,
         "startChar": 53,
