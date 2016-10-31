@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6b692e6_9a894d77",
+        "filename": "src/runtime/os_linux_ppc64x.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-10-31T14:22:17Z",
+      "side": 1,
+      "message": "Ditch the single quotes and add a space after cpu.",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 8
+      },
+      "revId": "cb10edd3b2ab2c317612b3c8474c4d2e93e78916",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
