@@ -4,6 +4,10 @@
 
 // Package path implements utility routines for manipulating slash-separated
 // paths.
+//
+// This package is not recommended for manuplating filename paths.
+// For cross-platform path manupulation, see the path/filepath package,
+// https://golang.org/pkg/path/filepath/.
 package path
 
 import (
