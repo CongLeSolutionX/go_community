@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "869f3a79_c67876a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2016-10-31T19:08:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_638f5cb9",
+      "revId": "2022a80238e191049c3ee15bd1f3b42461902a85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "869f3a79_036f70e2",
         "filename": "test/fixedbugs/issue17588.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-10-31T17:19:26Z",
       "side": 1,
       "message": "It\u0027s usually easier to read tests like this when they use generic names, such as:\n\ntype T func(F)\n\nfunc F(t T) {\n  func() {\n    t(nil)\n  }9()\n}\n\nOr Foo/Bar as in the original example. Haha and Hehe end up being distractions.\n\nSimilarly, please use \u0027package p\u0027 or \u0027package x\u0027 above; using \u0027package haha\u0027 alongside type \u0027Haha\u0027 suggests that they are related.",
+      "revId": "2022a80238e191049c3ee15bd1f3b42461902a85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_a67d7295",
+        "filename": "test/fixedbugs/issue17588.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2016-10-31T19:08:14Z",
+      "side": 1,
+      "message": "I really like Haha/Hehe. Anyway, done.",
+      "parentUuid": "869f3a79_036f70e2",
       "revId": "2022a80238e191049c3ee15bd1f3b42461902a85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
