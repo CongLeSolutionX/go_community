@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86057a4c_703130b7",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2016-10-31T18:26:34Z",
+      "side": 1,
+      "message": "The code just set gcw.scanWork to 0.\n\nif idle \u0026\u0026 -idleCheck \u003e\u003d idleCheckThreshold\n\nwill never trigger. Did we want\n\nif idle \u0026\u0026 idleCheck \u003c\u003d 0",
+      "range": {
+        "startLine": 1088,
+        "startChar": 14,
+        "endLine": 1088,
+        "endChar": 26
+      },
+      "revId": "8ddf8d4ea85096734c07b11517c87e39dd2a53ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
