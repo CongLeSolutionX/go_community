@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "461c62af_8cb5ab83",
+        "filename": "test/fixedbugs/issue17588.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-31T00:46:43Z",
+      "side": 1,
+      "message": "Perhaps we should preserve a record of what was happening like this:\n// license that can be found in the LICENSE file.\n\n// Issue 17588: typecheckclosure: var fn does not have decldepth assigned",
+      "revId": "d1c5322a2e59e5734c8114e8ba50c7c818d5847b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
