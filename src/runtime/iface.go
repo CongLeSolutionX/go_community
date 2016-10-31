@@ -148,6 +148,8 @@ func additab(m *itab, locked, canfail bool) {
 
 func itabsinit() {
 	lock(&ifaceLock)
+	// Walk moduledata linked list instead of calling activeModules
+	// because itabsinit is invoked before modulesinit.
 	for m := &firstmoduledata; m != nil; m = m.next {
 		for _, i := range m.itablinks {
 			additab(i, true, false)

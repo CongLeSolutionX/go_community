@@ -467,6 +467,7 @@ func schedinit() {
 	alginit()       // maps must not be used before this call
 	typelinksinit() // uses maps
 	itabsinit()
+	modulesinit()
 
 	msigsave(_g_.m)
 	initSigmask = _g_.m.sigmask
