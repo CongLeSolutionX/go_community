@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "26aa0e9c_26883c05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-31T21:57:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86057a4c_10f704df",
+      "revId": "ee62029246cda24c94234de7238967fc7fdecc8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86057a4c_70ec9013",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2016-10-31T17:51:32Z",
       "side": 1,
       "message": "Isn\u0027t it a little more than this? The (only) reason one does root jobs is to generate heap work. If the assist does various root jobs that do not generate heap work then in some sense the work does not contribute to generating a heap credit and shouldn\u0027t.\n\nOn the other hand a little root work should generate some heap work and credits will follow.",
+      "revId": "ee62029246cda24c94234de7238967fc7fdecc8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26aa0e9c_e6981454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-31T21:57:35Z",
+      "side": 1,
+      "message": "True, we do root jobs to generate heap work (for the most part), but it\u0027s not *guaranteed* to generate heap work. E.g., an assist could put a bunch of time into scanning a huge stack that turns out not to have any heap pointer in it. It\u0027s not the assist\u0027s fault that it didn\u0027t have any heap pointers in it, and it still helped the GC make progress, which is why I argue that it should get credit for putting in that work (\"A\" for effort? :). It\u0027s the same as scanning a large heap object that may not have many pointers in it. The assist still gets credit for the whole object because it progressed the GC.",
+      "parentUuid": "86057a4c_70ec9013",
       "revId": "ee62029246cda24c94234de7238967fc7fdecc8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +95,24 @@
         "endLine": 526,
         "endChar": 28
       },
+      "revId": "ee62029246cda24c94234de7238967fc7fdecc8b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26aa0e9c_c68d1814",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-10-31T21:57:35Z",
+      "side": 1,
+      "message": "Sure. That parallels the \"GC assist wait\" message better.",
+      "parentUuid": "86057a4c_90e2d419",
       "revId": "ee62029246cda24c94234de7238967fc7fdecc8b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
