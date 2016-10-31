@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "869f3a79_e6d01ab3",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1990,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2016-10-31T18:36:56Z",
+      "side": 1,
+      "message": "Sorry, nevermind, I just noticed 1986 is s.boundsCheck(z, z), not s.boundsCheck(i, z).",
+      "parentUuid": "869f3a79_66b64a8f",
+      "revId": "ce21afa63eb49c8cd36e7594b087691656ede6fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26aa0e9c_7d6937a8",
         "filename": "src/cmd/compile/internal/ssa/decompose.go",
         "patchSetId": 1
