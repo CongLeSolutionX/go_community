@@ -286,6 +286,24 @@
       "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26aa0e9c_433c5a84",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2343,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-10-31T21:28:38Z",
+      "side": 1,
+      "message": "The state changes already require a mutex, via either src.trackConn() or srv.notifyMaybeShutdown(). The code I proposed above doesn\u0027t seem any slower at first glance, but admittedly I haven\u0027t measured. Your call.",
+      "parentUuid": "869f3a79_89b4c11e",
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
