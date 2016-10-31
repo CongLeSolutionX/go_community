@@ -46,6 +46,24 @@
       "revId": "40c96d254b9f93452abe598f552000156464a8e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "86a1faac_300ea8a9",
+        "filename": "src/net/ipsock_posix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-10-31T00:25:51Z",
+      "side": 1,
+      "message": "\u003e This change is only supposed to ...\n\nhm,\n\nif (runtime.GOOS \u003d\u003d \"windows\" || runtime.GOOS \u003d\u003d \"openbsd\") \u0026\u0026 mode \u003d\u003d \"dial\" \u0026\u0026 raddr.isWildcard() {\n\n\u003e Only Windows is rejecting it.\n\nunlike other unix variants, openbsd rejects connecting to an unspecified address, either 0.0.0.0 or ::, since, i guess, when it dropped the dual stack interwork feature.\ndragonfly which is another platform that doesn\u0027t support the dual stack interwork feature, accepts the operation now, but not sure whether they\u0027ll keep it in future.\n\ni\u0027m also fine just adding `runtime.GOOS \u003d\u003d \"openbsd\"` for now.",
+      "parentUuid": "461c62af_2c0917a1",
+      "revId": "40c96d254b9f93452abe598f552000156464a8e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
