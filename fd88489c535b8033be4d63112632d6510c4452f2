@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "869f3a79_c92649d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "clarify how",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_c9f3e92f",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "another way to spell s[0:] is s.\n\nCan you give an example of input and outputs?\n\nWhat is the \"remaining slice\"? After what?",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_89ee0148",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "could name these return values. (etag string, remain []byte)\n\n(Note that naming return parameters is for documentation. It doesn\u0027t mean you should necessarily use naked returns)",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_e9feadf9",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "what is a[1]? assuming it\u0027s a \u0027/\u0027?",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_4911196f",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "drop an RFC reference in here afterwards.\n\n// See https://tools.ietf.org/html/rfc7232 section N.N.N",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_a921c5ca",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "Go style: replace \"returns true if\" with \"reports whether\"",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_c91c098f",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "typo in func name",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_49e8f93a",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "is the missing \" intentional?\n\nAlso, is this a behavior change? Please document in the commit message if so.",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_29e5b560",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_89316108",
+        "filename": "src/net/http/http_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T20:57:24Z",
+      "side": 1,
+      "message": "You can move this back to fs_test.go, but get at innards using export_test.go forwarding vars/funcs",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
