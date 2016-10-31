@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c6b692e6_5a5fb5f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5846
+      },
+      "writtenOn": "2016-10-31T16:08:40Z",
+      "side": 1,
+      "message": "maybe better: clarify NumMethod returns number of exported methods",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "2e1d00453c588f90dedbfb8c4c1f267bb4cfc58b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6b692e6_1a553dda",
         "filename": "src/reflect/type.go",
         "patchSetId": 1
