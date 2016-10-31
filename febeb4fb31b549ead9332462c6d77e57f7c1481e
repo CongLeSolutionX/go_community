@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26aa0e9c_a0cd5453",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-31T16:39:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "461c62af_a6dfe6be",
+      "range": {
+        "startLine": 341,
+        "startChar": 17,
+        "endLine": 341,
+        "endChar": 19
+      },
+      "revId": "febeb4fb31b549ead9332462c6d77e57f7c1481e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "461c62af_a66a460b",
         "filename": "src/go/types/decl.go",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2016-10-29T01:07:55Z",
       "side": 1,
       "message": "Report the kind of the original?",
+      "revId": "febeb4fb31b549ead9332462c6d77e57f7c1481e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26aa0e9c_60b06cc1",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-31T16:39:41Z",
+      "side": 1,
+      "message": "That\u0027s done as part of %v printing already.",
+      "parentUuid": "461c62af_a66a460b",
       "revId": "febeb4fb31b549ead9332462c6d77e57f7c1481e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +112,24 @@
       "writtenOn": "2016-10-29T01:07:55Z",
       "side": 1,
       "message": "Don\u0027t you need to apply this procedure recursively?",
+      "revId": "febeb4fb31b549ead9332462c6d77e57f7c1481e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26aa0e9c_40bd7097",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-10-31T16:39:41Z",
+      "side": 1,
+      "message": "The compiler resolves aliases always to the original non-alias object, and we\u0027ll do the same during import. Added assertion and comment.",
+      "parentUuid": "461c62af_262816b8",
       "revId": "febeb4fb31b549ead9332462c6d77e57f7c1481e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
