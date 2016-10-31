@@ -304,6 +304,24 @@
       "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_8e7ddb95",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2343,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T23:05:28Z",
+      "side": 1,
+      "message": "The trackConn ones were intentional and considered acceptable, since they were only for when connections came \u0026 went, which I considered already kinda heavy, and mostly I couldn\u0027t find an alternative.\n\nBut good find on notifyMaybeShutdown! The notifyMaybeShutdown mutex acquisition on idle was the late addition and exactly the sort of thing I was trying to avoid, acquiring a Server-wide mutex on transitions between idle and active. So let me see about deleting that.\n\nI\u0027m trying to avoid mutex contention with lots of busy connections on a many-CPU machine.",
+      "parentUuid": "26aa0e9c_433c5a84",
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
