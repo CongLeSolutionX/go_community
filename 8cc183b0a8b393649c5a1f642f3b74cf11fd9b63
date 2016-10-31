@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "869f3a79_a942e557",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T21:11:18Z",
+      "side": 1,
+      "message": "Because atomic.Value is super cheap and connection states change often. Hijacked is never used, so I don\u0027t care there as much, and that code was also written before atomic.Value existed.",
+      "parentUuid": "a6c7de80_597e831f",
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6c7de80_d9717352",
         "filename": "src/net/http/server.go",
         "patchSetId": 7
@@ -36,6 +54,24 @@
         "endLine": 2290,
         "endChar": 27
       },
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_49523926",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2290,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T21:11:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c7de80_d9717352",
       "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -65,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "869f3a79_89584148",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2304,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T21:11:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c7de80_b976bf46",
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86b81af7_987bf530",
         "filename": "src/net/http/server.go",
         "patchSetId": 7
@@ -82,6 +136,24 @@
         "endLine": 2323,
         "endChar": 45
       },
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_294ff57f",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2323,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T21:11:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86b81af7_987bf530",
       "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -111,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "869f3a79_096f91e2",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2327,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T21:11:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c7de80_997bfb30",
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6c7de80_798147e3",
         "filename": "src/net/http/server.go",
         "patchSetId": 7
@@ -128,6 +218,42 @@
     },
     {
       "key": {
+        "uuid": "869f3a79_89cde1c2",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2331,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T21:11:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6c7de80_798147e3",
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_69ca9daa",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2331,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T21:11:18Z",
+      "side": 1,
+      "message": "Done, similarly.",
+      "parentUuid": "a6c7de80_798147e3",
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6c7de80_19880b05",
         "filename": "src/net/http/server.go",
         "patchSetId": 7
@@ -139,6 +265,24 @@
       "writtenOn": "2016-10-31T20:49:32Z",
       "side": 1,
       "message": "Why is the ticker needed -- is there a potential for lost updates where Shutdown doesn\u0027t learn of connections that have gone idle? Something like the following seems cleaner, although it may not work for some reason:\n\nfunc (c *conn) setState(state) {\n  ...\n  if state \u003d\u003d StateIdle {\n    srv.mu.Lock()\n    if srv.waitingShutdown !\u003d nil {\n      srv.trackConnLocked(c, false)\n    }\n    srv.mu.Unlock()\n  }\n  ...\n}\n\nfunc (s *Server) trackConn(c *conn, add bool) {\n  ...\n  if add \u003d\u003d false {\n    delete(s.activeConn, s)\n    if len(s.activeConn) \u003d\u003d 0 \u0026\u0026 s.waitingShutdown !\u003d nil {\n      close(s.waitingShutdown)\n    }\n  }\n}\n\nfunc (s *Server) Shutdown(ctx) error {\n  s.mu.Lock()\n  s.closeDoneChanLocked()\n  lnerr :\u003d s.closeListenersLocked()\n  ch :\u003d ... s.waitingShutdown\n  haveActive :\u003d len(s.activeConn) \u003e\u003d 0\n  s.mu.Unlock()\n\n  if haveActive {\n    select {\n    case \u003c-ctx.Done():\n      return ctx.Err()\n    case \u003c-ch:  // ch is closed after all idle conns have closed\n    }\n  }\n  return lnerr\n}",
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_89b4c11e",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2343,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-10-31T21:11:18Z",
+      "side": 1,
+      "message": "My first version didn\u0027t even have the waitingShutdown chan. It only had the polling loop. But then I was annoyed by the tests being slow, so added an opportunistic speedup chan.\n\nI don\u0027t want all connection state changes acquiring a mutex. I\u0027m not willing to slow down the common case for a rarely-called function like Shutdown. I\u0027d rather have Shutdown be a little bit slow in some cases, which is why I find the polling loop acceptable here. Especially since it might be minutes before somebody is done downloading some Handler\u0027s big response.",
+      "parentUuid": "a6c7de80_19880b05",
       "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
