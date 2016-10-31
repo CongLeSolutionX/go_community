@@ -311,7 +311,6 @@ func Main() {
 	for _, infile = range flag.Args() {
 		linehistpush(infile)
 		block = 1
-		iota_ = -1000000
 		imported_unsafe = false
 		parseFile(infile)
 		if nsyntaxerrors != 0 {
@@ -676,7 +675,6 @@ func findpkg(name string) (file string, ok bool) {
 // but does not make them visible to user code.
 func loadsys() {
 	block = 1
-	iota_ = -1000000
 
 	importpkg = Runtimepkg
 	typecheckok = true
