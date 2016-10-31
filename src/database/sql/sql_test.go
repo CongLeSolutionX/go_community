@@ -1457,6 +1457,8 @@ func TestPendingConnsAfterErr(t *testing.T) {
 	unblock := make(chan struct{})
 	setHookOpenErr(func() error {
 		<-unblock // block until all connections are in flight
+		// Causes this test to fail on desktop systems without the sleep at the end.
+		runtime.Gosched()
 		return errOffline
 	})
 
@@ -1489,6 +1491,9 @@ func TestPendingConnsAfterErr(t *testing.T) {
 			t.Fatalf("orphaned connection request(s), still waiting after %v", timeout)
 		}
 	}
+
+	// Wait for all connections to be returned.
+	time.Sleep(30 * time.Millisecond)
 }
 
 func TestSingleOpenConn(t *testing.T) {
