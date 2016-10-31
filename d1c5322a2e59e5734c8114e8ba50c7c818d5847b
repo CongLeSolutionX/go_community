@@ -69,6 +69,24 @@
       "revId": "d1c5322a2e59e5734c8114e8ba50c7c818d5847b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "869f3a79_e02122bc",
+        "filename": "test/fixedbugs/issue17588.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-10-31T01:11:43Z",
+      "side": 1,
+      "message": "I see, maybe word it differently? However, IMO without that context of the description, this is any other bug that\u0027s checking for \"is not a type\", yet we are actually testing to ensure that that combination with a closure doesn\u0027t fail, otherwise that is lost in translation.\n\nIn the directory test/fixedbugs, if you run:\ngrep -Rn \u0027Issue \u0027 *\n\nthat should return some examples of descriptions given for fixed bugs.",
+      "parentUuid": "869f3a79_80eed647",
+      "revId": "d1c5322a2e59e5734c8114e8ba50c7c818d5847b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
