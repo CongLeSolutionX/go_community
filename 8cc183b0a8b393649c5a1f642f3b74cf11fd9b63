@@ -322,6 +322,24 @@
       "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26aa0e9c_0628a0b7",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2343,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-10-31T23:08:26Z",
+      "side": 1,
+      "message": "\u003e My first version didn\u0027t even have the waitingShutdown chan. It only had\n\u003e the polling loop. But then I was annoyed by the tests being slow, so added\n\u003e an opportunistic speedup chan.\n\nHow about going back to the polling loop with a shorter timer? s.waitingShutdown would be completely unnecessary. Or use a short timer in tests and a long timer otherwise.",
+      "parentUuid": "46db8268_8e7ddb95",
+      "revId": "8cc183b0a8b393649c5a1f642f3b74cf11fd9b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
