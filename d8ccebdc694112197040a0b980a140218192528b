@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_0eab2bc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-10-31T23:25:00Z",
+      "side": 1,
+      "message": "I think I have the converse of what you\u0027re asking for in the last paragraph of the commit message.  Did you want something else?",
+      "parentUuid": "46db8268_ee9fbf99",
+      "revId": "d8ccebdc694112197040a0b980a140218192528b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_ae99b7b6",
         "filename": "src/cmd/compile/internal/gc/go.go",
         "patchSetId": 2
