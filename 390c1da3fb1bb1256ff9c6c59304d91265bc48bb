@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86a1faac_901cb4dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2016-10-31T01:47:45Z",
+      "side": 1,
+      "message": "Probably because noone is making heavy use of shared libraries with go 1.7 yet (I\u0027m just starting to).",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 57
+      },
+      "revId": "390c1da3fb1bb1256ff9c6c59304d91265bc48bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
