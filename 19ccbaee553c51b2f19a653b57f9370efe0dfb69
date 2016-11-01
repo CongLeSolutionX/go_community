@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "46db8268_b41c688d",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2016-11-01T06:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "213cb8a3_b028564e",
+      "range": {
+        "startLine": 53,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 49
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e11aa056_2690b867",
         "filename": "src/crypto/elliptic/p256_asm_s390x.s",
         "patchSetId": 3
@@ -53,6 +77,30 @@
       "writtenOn": "2016-10-28T15:38:24Z",
       "side": 1,
       "message": "s/ADD/ADDW/ to indicate that COUNT is 32-bits",
+      "range": {
+        "startLine": 261,
+        "startChar": 1,
+        "endLine": 261,
+        "endChar": 15
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_94216ccb",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2016-11-01T06:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e11aa056_2690b867",
       "range": {
         "startLine": 261,
         "startChar": 1,
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "46db8268_94f84c0d",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2016-11-01T06:17:49Z",
+      "side": 1,
+      "message": "Well.. if you say so! I have you know that I like my programs in hex just fine, that way I know _exactly_ what I am telling my machine to do! and some grubby golang.. err.. clever golang developer is not going to rearange my operands!\n\nOk, now I am just poking fun at you. This wouldn\u0027t be one of those instructions I whined so much about? Anyway, thanks!! :)",
+      "parentUuid": "213cb8a3_d02de25c",
+      "range": {
+        "startLine": 263,
+        "startChar": 1,
+        "endLine": 263,
+        "endChar": 34
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "213cb8a3_f07d7e5d",
         "filename": "src/crypto/elliptic/p256_asm_s390x.s",
         "patchSetId": 3
@@ -99,6 +171,30 @@
       "writtenOn": "2016-10-28T15:38:24Z",
       "side": 1,
       "message": "s/ADD/ADDW/",
+      "range": {
+        "startLine": 353,
+        "startChar": 1,
+        "endLine": 353,
+        "endChar": 15
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_74ee004b",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2016-11-01T06:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "213cb8a3_f07d7e5d",
       "range": {
         "startLine": 353,
         "startChar": 1,
@@ -134,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "46db8268_54eb0439",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2016-11-01T06:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "213cb8a3_1093ea76",
+      "range": {
+        "startLine": 355,
+        "startChar": 1,
+        "endLine": 355,
+        "endChar": 34
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "213cb8a3_30538656",
         "filename": "src/crypto/elliptic/p256_asm_s390x.s",
         "patchSetId": 3
@@ -145,6 +265,30 @@
       "writtenOn": "2016-10-27T23:27:47Z",
       "side": 1,
       "message": "I think this is dead code now so probably best to delete it.",
+      "range": {
+        "startLine": 892,
+        "startChar": 0,
+        "endLine": 1186,
+        "endChar": 10
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_14e57c60",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1186,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2016-11-01T06:17:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "213cb8a3_30538656",
       "range": {
         "startLine": 892,
         "startChar": 0,
@@ -180,6 +324,30 @@
     },
     {
       "key": {
+        "uuid": "46db8268_f41c3080",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1332,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2016-11-01T06:17:49Z",
+      "side": 1,
+      "message": "Hmm.. this one will require some adult supervision from you Michael and I am too sleep deprived to try and trace it myself. I get all sorts of linkage errors about other asm functions unable to find this function. \n\ni.e. \ncrypto/elliptic.p256PointDoubleAsm: relocation target p256MulInternal not defined",
+      "parentUuid": "213cb8a3_10568a45",
+      "range": {
+        "startLine": 1332,
+        "startChar": 5,
+        "endLine": 1332,
+        "endChar": 20
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "213cb8a3_508d724a",
         "filename": "src/crypto/elliptic/p256_asm_s390x.s",
         "patchSetId": 3
@@ -191,6 +359,30 @@
       "writtenOn": "2016-10-28T15:38:24Z",
       "side": 1,
       "message": "Comments within a comment? I guess these don\u0027t really need leading //.",
+      "range": {
+        "startLine": 2322,
+        "startChar": 0,
+        "endLine": 2345,
+        "endChar": 66
+      },
+      "revId": "19ccbaee553c51b2f19a653b57f9370efe0dfb69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_d42134bc",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 2345,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2016-11-01T06:17:49Z",
+      "side": 1,
+      "message": "Well.. I replaced // with a #. Comment inside a comment is an eyesore indeed!",
+      "parentUuid": "213cb8a3_508d724a",
       "range": {
         "startLine": 2322,
         "startChar": 0,
