@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "064fca08_7c55990b",
+        "filename": "doc/install-source.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-01T19:30:55Z",
+      "side": 1,
+      "message": "This now appears in the middle of a list of four choices for obtaining a bootstrap tool chain. That\u0027s strange.",
+      "revId": "55a6885d0531915d94b1c70c05c02af36d9569de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
