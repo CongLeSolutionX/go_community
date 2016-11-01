@@ -16,6 +16,24 @@
       "revId": "5567b878915f7c2f1e7ee3898125c2cd2b7fe287",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_14c0dce3",
+        "filename": "src/crypto/elliptic/p256.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2016-11-01T04:39:41Z",
+      "side": 0,
+      "message": "Good idea, thanks, moved back in. I did think this was the more appropriate place to call initP256Arch() instead of elliptic.go, let me know",
+      "parentUuid": "61ba3039_51890771",
+      "revId": "5567b878915f7c2f1e7ee3898125c2cd2b7fe287",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
