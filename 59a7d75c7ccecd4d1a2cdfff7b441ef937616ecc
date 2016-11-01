@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "064fca08_dcb86d21",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-01T19:57:30Z",
+      "side": 1,
+      "message": "original may return nil, so this case must not panic.",
+      "revId": "59a7d75c7ccecd4d1a2cdfff7b441ef937616ecc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "064fca08_1c849558",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-01T19:57:30Z",
+      "side": 1,
+      "message": "The result may be nil, though, so all callers of original must be defensive.",
+      "revId": "59a7d75c7ccecd4d1a2cdfff7b441ef937616ecc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "064fca08_3c815149",
+        "filename": "src/go/types/decl.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-01T19:57:30Z",
+      "side": 1,
+      "message": "Possible nil deference.",
+      "revId": "59a7d75c7ccecd4d1a2cdfff7b441ef937616ecc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "064fca08_fcbd290e",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-01T19:57:30Z",
+      "side": 1,
+      "message": "Possible nil dereference.",
+      "revId": "59a7d75c7ccecd4d1a2cdfff7b441ef937616ecc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
