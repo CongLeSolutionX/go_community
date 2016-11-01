@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46db8268_c2c29292",
+        "filename": "doc/install-source.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-11-01T18:31:32Z",
+      "side": 1,
+      "message": "There\u0027s a lot of duplication between this paragraph and the preceding and following paragraph. Proposed rewrite, start after the h2 and going to \"To cross-compile a bootstrap tool chain from source\":\n\n\n\u003cp\u003e\nThe Go tool chain is written in Go. To build it, you need a Go compiler installed.\nThere are two options for obtaining an existing Go tool chain: use a\nbinary distribution, or build one from Go 1.4 sources. (Go 1.4 was the\nlast distribution in which the tool chain was written in C.)\n\u003c/p\u003e\n\n\u003cp\u003e\nTo use a binary release as a bootstrap tool chain, see\n\u003ca href\u003d\"/dl/\"\u003ethe downloads page\u003c/a\u003e or use any other\npackaged Go distribution.\n\u003c/p\u003e\n\n\u003cp\u003e\nTo use build a bootstrap tool chain from source, use\n\u003ca href\u003d\"https://storage.googleapis.com/golang/go1.4-bootstrap-20161024.tar.gz\"\u003ego1.4-bootstrap-20161024.tar.gz\u003c/a\u003e,\nwhich contains the Go 1.4 source code plus accumulated fixes\nto keep the tools running on newer operating systems.\n\u003c/p\u003e\n\n\u003cp\u003e\nAfter obtaining a Go tool chain, set \u003ccode\u003eGOROOT_BOOTSTRAP\u003c/code\u003e to the\ndirectory containing the unpacked tree.\nFor example, \u003ccode\u003e$GOROOT_BOOTSTRAP/bin/go\u003c/code\u003e should be the go\ncommand binary for the botstrap tool chain.\n\u003ccode\u003eGOROOT_BOOTSTRAP\u003c/code\u003e defaults to \u003ccode\u003e$HOME/go1.4\u003c/code\u003e.\n\u003c/p\u003e",
+      "revId": "09d07973c7d73eed8703c63254044010b7128bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
