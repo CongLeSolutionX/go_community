@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_e2f58ead",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_42aea2d0",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_c2ebb2fa",
         "filename": "src/net/http/fs.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-01T18:49:46Z",
       "side": 1,
       "message": "drop the 0",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_02f1bac1",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_c2ebb2fa",
       "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_22395694",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_a219c65d",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_e2f6aee0",
         "filename": "src/net/http/fs.go",
         "patchSetId": 4
@@ -81,6 +135,24 @@
       "writtenOn": "2016-11-01T18:49:46Z",
       "side": 1,
       "message": "a \u003d strings.TrimPrefix(a, \"W/\")\n\nOr just:\n\n   return strings.TrimPrefix(a, \"W/\") \u003d\u003d strings.TrimPrefix(b, \"W/\")\n\nSince this isn\u0027t performance-sensitive code, I\u0027d prefer to write the idiomatic, higher-level thing.",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_423c6284",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_e2f6aee0",
       "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_62187e36",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_2206f6f9",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_82e6ca2e",
         "filename": "src/net/http/fs.go",
         "patchSetId": 4
@@ -115,6 +205,24 @@
       "writtenOn": "2016-11-01T18:49:46Z",
       "side": 1,
       "message": "why are we going from string to bytes back to string? can\u0027t you just stay in strings? or are there other places where you need to scanETag on []byte?",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_a24c263e",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "I was probably thinking string slices were copies. Done.",
+      "parentUuid": "46db8268_82e6ca2e",
       "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_a2ff868b",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "46db8268_42e0e211",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_22ddd653",
         "filename": "src/net/http/fs.go",
         "patchSetId": 4
@@ -149,6 +275,24 @@
       "writtenOn": "2016-11-01T18:49:46Z",
       "side": 1,
       "message": "likewise",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_c2fa929d",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_22ddd653",
       "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -172,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_8205aac1",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_e2590e17",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_42734295",
         "filename": "src/net/http/fs.go",
         "patchSetId": 4
@@ -183,6 +345,24 @@
       "writtenOn": "2016-11-01T18:49:46Z",
       "side": 1,
       "message": "\"valid\" depends on the use case. If this is going to be a top-level func in http, let\u0027s give it a more specific name.\n\nMaybe: isNonzeroTime ?",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_629bde5b",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "using isZeroTime(), because \u0027!isNonzeroTime()\u0027 is hard to read.",
+      "parentUuid": "46db8268_42734295",
       "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -206,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_2295d622",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_c25e12fd",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_82900a67",
         "filename": "src/net/http/fs.go",
         "patchSetId": 4
@@ -217,6 +415,24 @@
       "writtenOn": "2016-11-01T18:49:46Z",
       "side": 1,
       "message": "I\u0027m not sure this is the place for this. The http server adds implicit Content-Type and Content-Length if these are unset.\n\nI\u0027d file a separate bug about this and we can add tests to verify http1 and http2 Server both do this in a consistent way for all handlers, not just this fs.go code.",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_bd768b46",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T19:56:10Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure this is the place for this.\nCan you be more specific? I think the only functional change is the 3 lines below this comment -- is that what you\u0027re referring to?\n\nPreviously, fs.go set Last-Modified just after determining a 304 wasn\u0027t appropriate. So the old behavior was to overwrite Last-Modified except on 304. The new behavior is to always write the Last-Modified header, but remove it when the RFC says we shouldn\u0027t. It seems like this subtle difference is only for 304\u0027s. Given we do set Last-Modified for a 200 response, I assume the Last-Modified header provided in ServeContent is suitable for the response -- and therefore should be just as good as the caller-provided one.\n\nSo the only significant differences are, for 304 responses:\n* When ETag is present, and caller sets Last-Modified, Last-Modified is removed.\n* When ETag is not present, and caller does not set Last-Modified, Last-Modified is added.\n\nSo are you asking for the old behavior of these two points to be retained, or something else?",
+      "parentUuid": "46db8268_82900a67",
       "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
