@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46db8268_f72792e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T16:05:06Z",
+      "side": 1,
+      "message": "vendor updates should say what git rev you\u0027re updating to in the commit message body",
+      "revId": "724804f5a8b0950223d8551a23d822f55b8e0b1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
