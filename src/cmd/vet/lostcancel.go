@@ -307,6 +307,9 @@ func callName(info *types.Info, call *ast.CallExpr) string {
 		}
 		if obj, ok := info.Uses[fun.Sel]; ok {
 			// qualified identifier, e.g. "os.Exit"
+			if alias, ok := obj.(*types.Alias); ok {
+				obj = alias.Orig()
+			}
 			return fmt.Sprintf("%s.%s",
 				obj.Pkg().Path(),
 				obj.Name())
