@@ -16,6 +16,24 @@
       "revId": "09d07973c7d73eed8703c63254044010b7128bae",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "064fca08_bc424158",
+        "filename": "doc/install-source.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-01T19:29:59Z",
+      "side": 1,
+      "message": "This ordering doesn\u0027t work. The GOROOT_BOOTSTRAP text needs to be above the choices because there are some low-likelihood-but-still-need-to-be-documented choices that end the list (like gccgo and bootstrap.bash).",
+      "parentUuid": "46db8268_c2c29292",
+      "revId": "09d07973c7d73eed8703c63254044010b7128bae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
