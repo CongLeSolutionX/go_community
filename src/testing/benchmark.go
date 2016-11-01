@@ -230,12 +230,12 @@ func (b *B) run1() bool {
 // run executes the benchmark in a separate goroutine, including all of its
 // subbenchmarks. b must not have subbenchmarks.
 func (b *B) run() BenchmarkResult {
-	if b.context != nil {
-		// Running go test --test.bench
-		b.context.processBench(b) // Must call doBench.
-	} else {
+	if b.context == nil {
 		// Running func Benchmark.
 		b.doBench()
+	} else {
+		// Running go test --test.bench
+		b.context.processBench(b) // Must call doBench.
 	}
 	return b.result
 }
