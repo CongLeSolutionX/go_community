@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46db8268_42aea2d0",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "just FYI, but s[:2] \u003d\u003d \"W/\" generated the same code as of recently. No need to change.",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_c2ebb2fa",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "drop the 0",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_c214d225",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "Go style: \"reports whether\" instead of \"returns true if\".",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_a219c65d",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "reports whether",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_e2f6aee0",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "a \u003d strings.TrimPrefix(a, \"W/\")\n\nOr just:\n\n   return strings.TrimPrefix(a, \"W/\") \u003d\u003d strings.TrimPrefix(b, \"W/\")\n\nSince this isn\u0027t performance-sensitive code, I\u0027d prefer to write the idiomatic, higher-level thing.",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_2206f6f9",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "this doesn\u0027t do what you think.\n\nSee https://play.golang.org/p/2ma9rQZFNS",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_82e6ca2e",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "why are we going from string to bytes back to string? can\u0027t you just stay in strings? or are there other places where you need to scanETag on []byte?",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_42e0e211",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "Do you want to use https://golang.org/pkg/net/http/#ParseTime instead?",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_22ddd653",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_e2590e17",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "etc",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_42734295",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "\"valid\" depends on the use case. If this is going to be a top-level func in http, let\u0027s give it a more specific name.\n\nMaybe: isNonzeroTime ?",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_c25e12fd",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "blank line before this",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_82900a67",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:49:46Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is the place for this. The http server adds implicit Content-Type and Content-Length if these are unset.\n\nI\u0027d file a separate bug about this and we can add tests to verify http1 and http2 Server both do this in a consistent way for all handlers, not just this fs.go code.",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
