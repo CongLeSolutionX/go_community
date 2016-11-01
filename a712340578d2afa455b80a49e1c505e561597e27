@@ -33,6 +33,24 @@
       "revId": "a712340578d2afa455b80a49e1c505e561597e27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_e22c6ecd",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T18:05:06Z",
+      "side": 1,
+      "message": "No, it crashes without this.\n\ntRunner is run in a goroutine, and tRunner is what sets up the cancel func.\n\nI\u0027ll add the init to (*T).Run too and revert this file.\n\nFor the record:\n\npanic: runtime error: invalid memory address or nil pointer dereference [recovered]\n        panic: runtime error: invalid memory address or nil pointer dereference\n[signal SIGSEGV: segmentation violation code\u003d0x1 addr\u003d0x0 pc\u003d0x1104247]\n\ngoroutine 58 [running]:\npanic(0x1141f60, 0x12249a0)\n        /Users/bradfitz/go/src/runtime/panic.go:531 +0x1cf\ntesting.(*common).Fail(0xc42008c460)\n        /Users/bradfitz/go/src/testing/testing.go:444 +0x37\ntesting.(*common).Fail(0xc42008c540)\n        /Users/bradfitz/go/src/testing/testing.go:442 +0x13f\ntesting.(*common).Fail(0xc42008c620)\n        /Users/bradfitz/go/src/testing/testing.go:442 +0x13f\ntesting.tRunner.func1(0xc420452d20, 0xc42008c620)\n        /Users/bradfitz/go/src/testing/testing.go:622 +0x275\npanic(0x1141f60, 0x12249a0)\n        /Users/bradfitz/go/src/runtime/panic.go:489 +0x2d3\ntesting.(*common).Fail(0xc42008c460)\n        /Users/bradfitz/go/src/testing/testing.go:444 +0x37\ntesting.(*common).Fail(0xc42008c540)\n        /Users/bradfitz/go/src/testing/testing.go:442 +0x13f\ntesting.(*common).Fail(0xc42008c620)\n        /Users/bradfitz/go/src/testing/testing.go:442 +0x13f\ntesting.(*common).FailNow(0xc42008c620)\n        /Users/bradfitz/go/src/testing/testing.go:468 +0x2b\ntesting.TestTRun.func1.1(0xc42008c620)\n        /Users/bradfitz/go/src/testing/sub_test.go:139 +0x11e\ntesting.tRunner(0xc42008c620, 0xc42000e6c0)\n        /Users/bradfitz/go/src/testing/testing.go:658 +0xf6\ncreated by testing.(*T).Run\n        /Users/bradfitz/go/src/testing/testing.go:695 +0x2c4\nFAIL    testing 0.034s",
+      "parentUuid": "c6b692e6_5a65f55c",
+      "revId": "a712340578d2afa455b80a49e1c505e561597e27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
