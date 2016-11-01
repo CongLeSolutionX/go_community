@@ -9,6 +9,7 @@ import (
 	"log"
 	"path/filepath"
 	"plugin"
+	"runtime"
 
 	"common"
 )
@@ -18,6 +19,8 @@ func init() {
 }
 
 func main() {
+	runtime.LockOSThread() // HACK TODO
+
 	if got, want := common.X, 3*5; got != want {
 		log.Fatalf("before plugin load common.X=%d, want %d", got, want)
 	}
