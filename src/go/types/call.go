@@ -296,6 +296,8 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr) {
 				// ok to continue
 			}
 			check.recordUse(e.Sel, exp)
+			exp = original(exp)
+
 			// Simplified version of the code for *ast.Idents:
 			// - imported objects are always fully initialized
 			switch exp := exp.(type) {
@@ -318,7 +320,7 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr) {
 				x.typ = exp.typ
 				x.id = exp.id
 			default:
-				check.dump("unexpected object %v (%T)", exp, exp)
+				check.dump("unexpected object %v", exp)
 				unreachable()
 			}
 			x.expr = e

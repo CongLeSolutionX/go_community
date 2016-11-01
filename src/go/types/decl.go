@@ -332,6 +332,20 @@ func (check *Checker) funcDecl(obj *Func, decl *declInfo) {
 	}
 }
 
+// original returns the original Object if obj is an Alias;
+// otherwise it returns obj. The result is never an Alias.
+func original(obj Object) Object {
+	// an alias stands for the original object; use that one instead
+	if alias, _ := obj.(*Alias); alias != nil {
+		obj = alias.orig
+		// aliases always refer to non-alias originals
+		if _, ok := obj.(*Alias); ok {
+			panic("original is an alias")
+		}
+	}
+	return obj
+}
+
 func (check *Checker) aliasDecl(obj *Alias, decl *declInfo) {
 	assert(obj.typ == nil)
 
@@ -372,6 +386,7 @@ func (check *Checker) aliasDecl(obj *Alias, decl *declInfo) {
 		return
 	}
 	check.recordUse(sel, orig)
+	orig = original(orig)
 
 	// An alias declaration must not refer to package unsafe.
 	if orig.Pkg() == Unsafe {
