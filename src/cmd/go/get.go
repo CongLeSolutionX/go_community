@@ -445,11 +445,23 @@ func downloadPackage(p *Package) error {
 		if _, err := os.Stat(root); err == nil {
 			return fmt.Errorf("%s exists but %s does not - stale checkout?", root, meta)
 		}
+
+		gopath, gopathExisted := filepath.Dir(p.build.SrcRoot), true
+		if _, err := os.Stat(gopath); os.IsNotExist(err) {
+			gopathExisted = false
+		} else if err != nil {
+			return fmt.Errorf("could not check for existence of GOPATH=%s", gopath)
+		}
+
 		// Some version control tools require the parent of the target to exist.
 		parent, _ := filepath.Split(root)
 		if err = os.MkdirAll(parent, 0777); err != nil {
 			return err
 		}
+		if buildV && !gopathExisted {
+			fmt.Fprintf(os.Stderr, "created GOPATH=%s; see 'go help gopath'\n", gopath)
+		}
+
 		if err = vcs.create(root, repo); err != nil {
 			return err
 		}
