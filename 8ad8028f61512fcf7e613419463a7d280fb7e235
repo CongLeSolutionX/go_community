@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "863d7abf_b0bcf89d",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-01T20:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413fec97_0eb74b26",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413fec97_aef557d9",
         "filename": "src/cmd/go/env.go",
         "patchSetId": 10
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "Why? Can we not do GOPATH_UNSET etc? We really don\u0027t want more variables.",
       "parentUuid": "413fec97_aef557d9",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "863d7abf_70e690d6",
+        "filename": "src/cmd/go/env.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-01T20:23:42Z",
+      "side": 1,
+      "message": "we set GOPATH before calling this command, so it\u0027s either this or a package variable, unless we pass the value as an argument.",
+      "parentUuid": "a1dd08a2_6c8d534b",
       "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -88,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "863d7abf_d07d3c23",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-01T20:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413fec97_6eae0fcd",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413fec97_8e07bbfa",
         "filename": "src/cmd/go/get.go",
         "patchSetId": 10
@@ -99,6 +153,24 @@
       "writtenOn": "2016-10-27T08:04:42Z",
       "side": 1,
       "message": "I think this function should just do all the logic that you have above and return a helpful error message",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "863d7abf_9087b4f5",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-01T20:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413fec97_8e07bbfa",
       "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -122,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "863d7abf_909e9437",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-01T20:23:42Z",
+      "side": 1,
+      "message": "then if the directory ~/go exists but it\u0027s empty we\u0027ll still fail?",
+      "parentUuid": "413fec97_0efcabc6",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413fec97_ee167f2d",
         "filename": "src/cmd/go/get.go",
         "patchSetId": 10
@@ -133,6 +223,24 @@
       "writtenOn": "2016-10-27T08:04:42Z",
       "side": 1,
       "message": "os.Args[1] ??",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a617de36_9955bb65",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-01T20:23:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "413fec97_ee167f2d",
       "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -156,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "863d7abf_70bfb098",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-01T20:23:42Z",
+      "side": 1,
+      "message": "Unfortunately ReadDir will return an error that IsNotExist if there\u0027s a file with that path, but it\u0027s not a directory.",
+      "parentUuid": "213cb8a3_50565274",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "413fec97_2ef967d7",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 10
@@ -167,6 +293,24 @@
       "writtenOn": "2016-10-27T08:04:42Z",
       "side": 1,
       "message": "You should also add a test for the new subtle functionality you just introduced",
+      "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "863d7abf_10e504c5",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1643,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-01T20:23:42Z",
+      "side": 1,
+      "message": "more tests coming soon",
+      "parentUuid": "413fec97_2ef967d7",
       "revId": "8ad8028f61512fcf7e613419463a7d280fb7e235",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
