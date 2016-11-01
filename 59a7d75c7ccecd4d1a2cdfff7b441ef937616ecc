@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "064fca08_bcf001e4",
+        "filename": "src/go/types/call.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-01T20:31:53Z",
+      "side": 1,
+      "message": "I meant: the default case of the switch was selected when exp \u003d\u003d nil, but you\u0027ve fixed that now.",
+      "parentUuid": "265daed4_6804fb32",
+      "revId": "59a7d75c7ccecd4d1a2cdfff7b441ef937616ecc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "064fca08_1c849558",
         "filename": "src/go/types/decl.go",
         "patchSetId": 2
