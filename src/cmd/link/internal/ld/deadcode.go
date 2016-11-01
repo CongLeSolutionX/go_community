@@ -7,9 +7,7 @@ package ld
 import (
 	"cmd/internal/obj"
 	"cmd/internal/sys"
-	"flag"
 	"fmt"
-	"path/filepath"
 	"strings"
 	"unicode"
 )
@@ -245,15 +243,28 @@ func (d *deadcodepass) init() {
 		if *FlagLinkshared && (Buildmode == BuildmodeExe || Buildmode == BuildmodePIE) {
 			names = append(names, "main.main", "main.init")
 		} else if Buildmode == BuildmodePlugin {
-			pluginName := strings.TrimSuffix(filepath.Base(flag.Arg(0)), ".a")
-			pluginInit := pluginName + ".init"
-			names = append(names, pluginInit, "go.plugin.tabs")
+			names = append(names, *flagPluginPath+".init", *flagPluginPath+".main", "go.plugin.tabs")
 
 			// We don't keep the go.plugin.exports symbol,
 			// but we do keep the symbols it refers to.
 			exports := d.ctxt.Syms.ROLookup("go.plugin.exports", 0)
 			for _, r := range exports.R {
 				d.mark(r.Sym, nil)
+			}
+
+			// The runtime package depends on symbols and types
+			// that in very small plugins may not be reachable
+			// from these roots. To handle this, include the
+			// symbols referenced from runtime.main, skipping
+			// over the main package symbols that have been
+			// renamed and are included above.
+			//
+			// TODO: remove this when Issue #17150 is resolved.
+			s := d.ctxt.Syms.ROLookup("runtime.main", 0)
+			for _, r := range s.R {
+				if r.Sym != nil && !strings.HasPrefix(r.Sym.Name, "runtime.main_main") && !strings.HasPrefix(r.Sym.Name, "runtime.main_init") {
+					d.mark(r.Sym, nil)
+				}
 			}
 		}
 		for _, name := range markextra {
