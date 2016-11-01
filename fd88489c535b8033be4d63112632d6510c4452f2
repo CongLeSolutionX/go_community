@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_a27b0630",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T17:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_c9f3e92f",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "869f3a79_89ee0148",
         "filename": "src/net/http/fs.go",
         "patchSetId": 3
@@ -47,6 +65,24 @@
       "writtenOn": "2016-10-31T20:57:24Z",
       "side": 1,
       "message": "could name these return values. (etag string, remain []byte)\n\n(Note that naming return parameters is for documentation. It doesn\u0027t mean you should necessarily use naked returns)",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_82812ae6",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T17:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_89ee0148",
       "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_7705e2be",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T17:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_e9feadf9",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "869f3a79_4911196f",
         "filename": "src/net/http/fs.go",
         "patchSetId": 3
@@ -81,6 +135,24 @@
       "writtenOn": "2016-10-31T20:57:24Z",
       "side": 1,
       "message": "drop an RFC reference in here afterwards.\n\n// See https://tools.ietf.org/html/rfc7232 section N.N.N",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_57e9c6ce",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T17:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_4911196f",
       "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_f7c2f243",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T17:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_a921c5ca",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "869f3a79_c91c098f",
         "filename": "src/net/http/fs.go",
         "patchSetId": 3
@@ -115,6 +205,24 @@
       "writtenOn": "2016-10-31T20:57:24Z",
       "side": 1,
       "message": "typo in func name",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_d7c7f651",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T17:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_c91c098f",
       "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_77b722db",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T17:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_49e8f93a",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "869f3a79_29e5b560",
         "filename": "src/net/http/fs_test.go",
         "patchSetId": 3
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "46db8268_57b426d4",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T17:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_29e5b560",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "869f3a79_89316108",
         "filename": "src/net/http/http_test.go",
         "patchSetId": 3
@@ -166,6 +310,24 @@
       "writtenOn": "2016-10-31T20:57:24Z",
       "side": 1,
       "message": "You can move this back to fs_test.go, but get at innards using export_test.go forwarding vars/funcs",
+      "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_026d3a78",
+        "filename": "src/net/http/http_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-01T17:29:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "869f3a79_89316108",
       "revId": "fd88489c535b8033be4d63112632d6510c4452f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
