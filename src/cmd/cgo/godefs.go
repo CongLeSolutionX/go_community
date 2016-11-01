@@ -68,7 +68,10 @@ func (p *Package) godefs(f *File, srcfile string) string {
 			continue
 		}
 		for _, s := range d.Specs {
-			s := s.(*ast.TypeSpec)
+			s, ok := s.(*ast.TypeSpec)
+			if !ok {
+				continue // type alias
+			}
 			n := refName[&s.Type]
 			if n != nil && n.Mangle != "" {
 				override[n.Mangle] = s.Name.Name
