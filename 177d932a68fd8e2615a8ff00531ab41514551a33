@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a688be73_f10f8812",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-11-01T21:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_b730eab4",
+      "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_9735eea4",
         "filename": "src/net/fd_io_plan9.go",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-01T16:56:05Z",
       "side": 1,
       "message": "this signature needs some comments.",
+      "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6235e39_59554334",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-11-01T21:41:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46db8268_9735eea4",
       "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "4632a288_d64da43d",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-11-01T21:41:21Z",
+      "side": 1,
+      "message": "Yes. The asyncIO structure could be put in a free list to be reused later.\nThe asyncIO structure could be freed once the result channel has been read, not only in Wait but also after a Cancel. We would probably need a freeAsyncIO function.",
+      "parentUuid": "46db8268_37251a72",
+      "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_378aba38",
         "filename": "src/net/fd_io_plan9.go",
         "patchSetId": 7
@@ -64,6 +118,24 @@
       "writtenOn": "2016-11-01T16:56:05Z",
       "side": 1,
       "message": "did you consider using time.AfterFunc instead, with the func() being the aioCancel (note sending) func?",
+      "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6235e39_390e4f53",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2016-11-01T21:41:21Z",
+      "side": 1,
+      "message": "I\u0027ve used AfterFunc during an earlier experiment. I think I could indeed simplify newIO using AfterFunc. I\u0027ll do it in a future changeset.",
+      "parentUuid": "46db8268_378aba38",
       "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
