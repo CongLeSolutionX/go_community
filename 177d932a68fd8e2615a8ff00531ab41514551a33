@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46db8268_b730eab4",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T16:56:05Z",
+      "side": 1,
+      "message": "I think these are better named past tense: rtimedout.\n\nAlso, little comments for all these.",
+      "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_9735eea4",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T16:56:05Z",
+      "side": 1,
+      "message": "this signature needs some comments.",
+      "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_37251a72",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T16:56:05Z",
+      "side": 1,
+      "message": "is the plan to reuse these asyncIOs to cut back on allocations later? I imagine newAsyncIO and Wait would do the reuse/recycling and this could would be unchanged?",
+      "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46db8268_378aba38",
+        "filename": "src/net/fd_io_plan9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-01T16:56:05Z",
+      "side": 1,
+      "message": "did you consider using time.AfterFunc instead, with the func() being the aioCancel (note sending) func?",
+      "revId": "177d932a68fd8e2615a8ff00531ab41514551a33",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
