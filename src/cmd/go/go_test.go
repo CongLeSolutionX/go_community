@@ -1647,14 +1647,151 @@ func TestMentionGOPATHNotOnSecondEntry(t *testing.T) {
 	}
 }
 
-// Test missing GOPATH is reported.
-func TestMissingGOPATHIsReported(t *testing.T) {
+// Test go env missing GOPATH shows default.
+func TestMissingGOPATHEnvShowsDefault(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
 	tg.setenv("GOPATH", "")
-	tg.runFail("install", "foo/quxx")
-	if tg.grepCountBoth(`\(\$GOPATH not set\. For more details see: 'go help gopath'\)$`) != 1 {
-		t.Error(`go install foo/quxx expected error: ($GOPATH not set. For more details see: 'go help gopath')`)
+	tg.run("env", "GOPATH")
+
+	const want = "go"
+	got := filepath.Base(strings.TrimSpace(tg.getStdout()))
+	if got != want {
+		t.Errorf("got %q; want %q", got, want)
+	}
+}
+
+// Test go get missing GOPATH causes go get to warn if directory doesn't exist.
+func TestMissingGOPATHGetWarnsIfNotExists(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+
+	// setenv variables for test and defer resetting them.
+	tg.setenv("GOPATH", "")
+	tmp, err := ioutil.TempDir("", "")
+	if err != nil {
+		t.Fatalf("could not create tmp home: %v", err)
+	}
+	defer os.RemoveAll(tmp)
+	tg.setenv("HOME", tmp)
+
+	tg.run("get", "github.com/golang/example/hello")
+
+	want := fmt.Sprintf("warning: GOPATH is not set, creating directory %s/go. See 'go help gopath' for more information", tmp)
+	got := strings.TrimSpace(tg.getStderr())
+	if got != want {
+		t.Errorf("got %q; want %q", got, want)
+	}
+}
+
+// Test go get missing GOPATH causes no warning if directory exists.
+func TestMissingGOPATHGetDoesntWarnIfExists(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+
+	// setenv variables for test and defer resetting them.
+	tg.setenv("GOPATH", "")
+	tmp, err := ioutil.TempDir("", "")
+	if err != nil {
+		t.Fatalf("could not create tmp home: %v", err)
+	}
+	defer os.RemoveAll(tmp)
+	if err := os.Mkdir(filepath.Join(tmp, "go"), 0777); err != nil {
+		t.Fatalf("could not create $HOME/go: %v", err)
+	}
+
+	tg.setenv("HOME", tmp)
+
+	tg.run("get", "github.com/golang/example/hello")
+
+	got := strings.TrimSpace(tg.getStderr())
+	if got != "" {
+		t.Errorf("got %q; wants empty", got)
+	}
+}
+
+// Test go get missing GOPATH fails if pointed file is not a directory.
+func TestMissingGOPATHGetFailsIfItsNotDirectory(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+
+	// setenv variables for test and defer resetting them.
+	tg.setenv("GOPATH", "")
+	tmp, err := ioutil.TempDir("", "")
+	if err != nil {
+		t.Fatalf("could not create tmp home: %v", err)
+	}
+	defer os.RemoveAll(tmp)
+	if err := ioutil.WriteFile(filepath.Join(tmp, "go"), nil, 0777); err != nil {
+		t.Fatalf("could not create $HOME/go: %v", err)
+	}
+	tg.setenv("HOME", tmp)
+
+	tg.runFail("get", "github.com/golang/example/hello")
+
+	want := fmt.Sprintf("package github.com/golang/example/hello: can't use GOPATH at %s/go: it is not a directory", tmp)
+	got := strings.TrimSpace(tg.getStderr())
+	if got != want {
+		t.Errorf("got %q; wants %q", got, want)
+	}
+}
+
+// Test go get missing GOPATH fails if pointed directory is not empty as has no "src" directory.
+func TestMissingGOPATHGetFailsIfDirNotEmptyAndHasNoSrc(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+
+	// setenv variables for test and defer resetting them.
+	tg.setenv("GOPATH", "")
+	tmp, err := ioutil.TempDir("", "")
+	if err != nil {
+		t.Fatalf("could not create tmp home: %v", err)
+	}
+	defer os.RemoveAll(tmp)
+	if err := os.Mkdir(filepath.Join(tmp, "go"), 0777); err != nil {
+		t.Fatalf("could not create $HOME/go: %v", err)
+	}
+	if err := ioutil.WriteFile(filepath.Join(tmp, "go", "foo"), nil, 0777); err != nil {
+		t.Fatalf("could not create $HOME/go: %v", err)
+	}
+	tg.setenv("HOME", tmp)
+
+	tg.runFail("get", "github.com/golang/example/hello")
+
+	want := fmt.Sprintf("package github.com/golang/example/hello: can't use GOPATH at %s/go: it is not empty, and no 'src' was found", tmp)
+	got := strings.TrimSpace(tg.getStderr())
+	if got != want {
+		t.Errorf("got %q; wants %q", got, want)
+	}
+}
+
+// Test go install of missing package when missing GOPATH fails and shows default GOPATH.
+func TestMissingGOPATHInstallMissingPackageFailsAndShowsDefault(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+
+	// setenv variables for test and defer resetting them.
+	tg.setenv("GOPATH", "")
+	tmp, err := ioutil.TempDir("", "")
+	if err != nil {
+		t.Fatalf("could not create tmp home: %v", err)
+	}
+	defer os.RemoveAll(tmp)
+	if err := os.Mkdir(filepath.Join(tmp, "go"), 0777); err != nil {
+		t.Fatalf("could not create $HOME/go: %v", err)
+	}
+	tg.setenv("HOME", tmp)
+
+	const pkg = "github.com/golang/example/hello"
+	tg.runFail("install", pkg)
+
+	want := fmt.Sprintf("can't load package: package %s: cannot find package \"%s\" in any of:", pkg, pkg) +
+		fmt.Sprintf("\n\t%s/src/%s (from $GOROOT)", runtime.GOROOT(), pkg) +
+		fmt.Sprintf("\n\t%s/go/src/%s (from $GOPATH)", tmp, pkg)
+
+	got := strings.TrimSpace(tg.getStderr())
+	if got != want {
+		t.Errorf("got %q; wants %q", got, want)
 	}
 }
 
