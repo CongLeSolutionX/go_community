@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "064fca08_fc73e9c7",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-01T19:38:01Z",
+      "side": 1,
+      "message": "Sorry for not realizing this during the review, but this is wrong.  The recordUse call must come after the Alias has been resolved, otherwise every existing tool that uses the Uses map is potentially broken.  For example, Uses[x]\u003d\u003dUses[y] was a valid way to see if two identifiers referred to the same declaration, but that no longer works.\n\nFor compatibility, the existing Uses map must resolve aliases, and for the few clients that need it (refactoring tools mostly) we need a second map, AliasUses, that returns the Alias to which an identifier refers.  (See https://github.com/golang/go/issues/17706.)",
+      "revId": "53c004f94efa85f05b28938509b250e02d1568ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
