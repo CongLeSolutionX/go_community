@@ -16,6 +16,24 @@
       "revId": "53c004f94efa85f05b28938509b250e02d1568ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "064fca08_fc0f6912",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-01T20:21:22Z",
+      "side": 1,
+      "message": "On further investigation, this seems like the best way after all.\n\nTools that use Uses fall into two groups, refactoring tools and non-refactoring tools.  Refactoring tools are severely broken by the addition of aliases, so they already need major changes; they also need \"fine-grained\" information about aliases and are prepared to call alias.Orig() explicitly when necessary.  Having to consult two maps (Uses and AliasUses) would be a nuisance for them.  When non-refactoring tools use Uses, it\u0027s usually either to jump to a definition, or to find the type of an identifier.  The first of these demands that Uses contain aliases, and the second is indifferent to it.  And of course any tools that attempt an exhaustive type-switch on Uses[id] are going to be broken by aliases, but that\u0027s inevitable for Defs[id] so it doesn\u0027t seem like a compelling reason not to change Uses.",
+      "parentUuid": "064fca08_fc73e9c7",
+      "revId": "53c004f94efa85f05b28938509b250e02d1568ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
