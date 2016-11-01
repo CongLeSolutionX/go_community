@@ -296,6 +296,17 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr) {
 				// ok to continue
 			}
 			check.recordUse(e.Sel, exp)
+
+			// An alias stands for the original object; use that one instead.
+			// TODO(gri) Factor this code out - we have the same in checker.ident.
+			if alias, _ := exp.(*Alias); alias != nil {
+				exp = alias.orig
+				// Aliases always refer to non-alias originals.
+				if _, ok := exp.(*Alias); ok {
+					panic("original is an alias")
+				}
+			}
+
 			// Simplified version of the code for *ast.Idents:
 			// - imported objects are always fully initialized
 			switch exp := exp.(type) {
@@ -318,7 +329,7 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr) {
 				x.typ = exp.typ
 				x.id = exp.id
 			default:
-				check.dump("unexpected object %v (%T)", exp, exp)
+				check.dump("unexpected object %v", exp)
 				unreachable()
 			}
 			x.expr = e
