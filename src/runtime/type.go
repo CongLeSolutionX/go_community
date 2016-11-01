@@ -165,20 +165,44 @@ func reflectOffsUnlock() {
 	unlock(&reflectOffs.lock)
 }
 
+func findModule(base uintptr) *moduledata {
+	// Check firstmoduledata to avoid the atomic load in common programs.
+	if base >= firstmoduledata.types && base < firstmoduledata.etypes {
+		return &firstmoduledata
+	}
+	modules := activeModules()
+	if modules == nil {
+		// A -buildmode=shared program can resolve types across
+		// modules before activeModules has been initialized.
+		println("findModule called with nil modules")
+		for md := firstmoduledata.next; md != nil; md = md.next {
+			if base >= md.types && base < md.etypes {
+				return md
+			}
+		}
+		return nil
+	}
+	for _, md := range activeModules()[1:] {
+		if base >= md.types && base < md.etypes {
+			return md
+		}
+	}
+	return nil
+}
+
 func resolveNameOff(ptrInModule unsafe.Pointer, off nameOff) name {
 	if off == 0 {
 		return name{}
 	}
 	base := uintptr(ptrInModule)
-	for md := &firstmoduledata; md != nil; md = md.next {
-		if base >= md.types && base < md.etypes {
-			res := md.types + uintptr(off)
-			if res > md.etypes {
-				println("runtime: nameOff", hex(off), "out of range", hex(md.types), "-", hex(md.etypes))
-				throw("runtime: name offset out of range")
-			}
-			return name{(*byte)(unsafe.Pointer(res))}
+	md := findModule(base)
+	if md != nil {
+		res := md.types + uintptr(off)
+		if res > md.etypes {
+			println("runtime: nameOff", hex(off), "out of range", hex(md.types), "-", hex(md.etypes))
+			throw("runtime: name offset out of range")
 		}
+		return name{(*byte)(unsafe.Pointer(res))}
 	}
 
 	// No module found. see if it is a run time name.
@@ -187,7 +211,7 @@ func resolveNameOff(ptrInModule unsafe.Pointer, off nameOff) name {
 	reflectOffsUnlock()
 	if !found {
 		println("runtime: nameOff", hex(off), "base", hex(base), "not in ranges:")
-		for next := &firstmoduledata; next != nil; next = next.next {
+		for _, next := range activeModules() {
 			println("\ttypes", hex(next.types), "etypes", hex(next.etypes))
 		}
 		throw("runtime: name offset base pointer out of range")
@@ -204,20 +228,14 @@ func (t *_type) typeOff(off typeOff) *_type {
 		return nil
 	}
 	base := uintptr(unsafe.Pointer(t))
-	var md *moduledata
-	for next := &firstmoduledata; next != nil; next = next.next {
-		if base >= next.types && base < next.etypes {
-			md = next
-			break
-		}
-	}
+	md := findModule(base)
 	if md == nil {
 		reflectOffsLock()
 		res := reflectOffs.m[int32(off)]
 		reflectOffsUnlock()
 		if res == nil {
 			println("runtime: typeOff", hex(off), "base", hex(base), "not in ranges:")
-			for next := &firstmoduledata; next != nil; next = next.next {
+			for _, next := range activeModules() {
 				println("\ttypes", hex(next.types), "etypes", hex(next.etypes))
 			}
 			throw("runtime: type offset base pointer out of range")
@@ -237,20 +255,14 @@ func (t *_type) typeOff(off typeOff) *_type {
 
 func (t *_type) textOff(off textOff) unsafe.Pointer {
 	base := uintptr(unsafe.Pointer(t))
-	var md *moduledata
-	for next := &firstmoduledata; next != nil; next = next.next {
-		if base >= next.types && base < next.etypes {
-			md = next
-			break
-		}
-	}
+	md := findModule(base)
 	if md == nil {
 		reflectOffsLock()
 		res := reflectOffs.m[int32(off)]
 		reflectOffsUnlock()
 		if res == nil {
 			println("runtime: textOff", hex(off), "base", hex(base), "not in ranges:")
-			for next := &firstmoduledata; next != nil; next = next.next {
+			for _, next := range activeModules() {
 				println("\ttypes", hex(next.types), "etypes", hex(next.etypes))
 			}
 			throw("runtime: text offset base pointer out of range")

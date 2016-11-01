@@ -40,6 +40,9 @@ import (
 )
 
 func open(name string) (*Plugin, error) {
+	lockosthread()
+	defer unlockosthread()
+
 	cPath := (*C.char)(C.malloc(C.PATH_MAX + 1))
 	defer C.free(unsafe.Pointer(cPath))
 
@@ -130,5 +133,7 @@ var (
 	plugins   map[string]*Plugin
 )
 
-// lastmoduleinit is defined in package runtime
+// functions defined in package runtime
 func lastmoduleinit() (pluginpath string, syms map[string]interface{})
+func lockosthread()
+func unlockosthread()

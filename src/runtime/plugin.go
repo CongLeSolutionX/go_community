@@ -6,6 +6,16 @@ package runtime
 
 import "unsafe"
 
+//go:linkname plugin_lockosthread plugin.lockosthread
+func plugin_lockosthread() {
+	lockOSThread()
+}
+
+//go:linkname plugin_unlockosthread plugin.unlockosthread
+func plugin_unlockosthread() {
+	unlockOSThread()
+}
+
 //go:linkname plugin_lastmoduleinit plugin.lastmoduleinit
 func plugin_lastmoduleinit() (path string, syms map[string]interface{}) {
 	md := firstmoduledata.next
