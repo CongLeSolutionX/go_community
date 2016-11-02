@@ -140,11 +140,12 @@ const debugFormat = false // default: false
 const forceObjFileStability = true
 
 // Current export format version. Increase with each format change.
+// 4: added export of pragmas
 // 3: added aliasTag and export of aliases
 // 2: removed unused bool in ODCL export
 // 1: header format change (more regular), export package for _ struct fields
 // 0: Go1.7 encoding
-const exportVersion = 3
+const exportVersion = 4
 
 // exportInlined enables the export of inlined function bodies and related
 // dependencies. The compiler should work w/o any loss of functionality with
@@ -524,6 +525,9 @@ func (p *exporter) obj(sym *Sym) {
 			p.tag(funcTag)
 			p.pos(n)
 			p.qualifiedName(sym)
+			if exportVersion >= 4 {
+				p.int(pragmaVal(sym.Def)) // version 4+, uint16 as of 1.8early
+			}
 
 			sig := sym.Def.Type
 			inlineable := isInlineable(sym.Def)
@@ -618,6 +622,18 @@ func isInlineable(n *Node) bool {
 		return true
 	}
 	return false
+}
+
+func pragmaVal(n *Node) int {
+	var pg Pragma
+	// TODO Why are pragmas landing in two (or more) provably different places?
+	if n != nil && n.Name != nil && n.Name.Defn != nil && n.Name.Defn.Func != nil {
+		pg = n.Name.Defn.Func.Pragma
+	}
+	if pg == 0 && n.Sym != nil && n.Sym.Def != nil && n.Sym.Def.Func != nil {
+		pg = n.Sym.Def.Func.Pragma
+	}
+	return int(pg)
 }
 
 var errorInterface *Type // lazily initialized

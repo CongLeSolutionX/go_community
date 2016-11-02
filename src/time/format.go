@@ -348,6 +348,7 @@ func lookup(tab []string, val string) (int, string, error) {
 // appendInt appends the decimal form of x to b and returns the result.
 // If the decimal form (excluding sign) is shorter than width, the result is padded with leading 0's.
 // Duplicates functionality in strconv, but avoids dependency.
+//go:register_args
 func appendInt(b []byte, x int, width int) []byte {
 	u := uint(x)
 	if x < 0 {
