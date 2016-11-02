@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66d32697_edcca178",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-02T18:37:55Z",
+      "side": 1,
+      "message": "Our four fields are T1 T2, T3, t3 and T4....\nOur *five* fields are--I\u0027ll come in again.",
+      "range": {
+        "startLine": 986,
+        "startChar": 17,
+        "endLine": 986,
+        "endChar": 21
+      },
+      "revId": "6f7d725c789ac89bc3cadefd0713227c73d2c2d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
