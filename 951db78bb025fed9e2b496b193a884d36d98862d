@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06142af7_94a9c436",
+        "filename": "src/cmd/go/env.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-02T14:02:52Z",
+      "side": 1,
+      "message": "Please drop this. I strongly object to showing variables that don\u0027t exist. We show the default for other settings without saying that they were unset. People who want to know if GOPATH is set can echo $GOPATH or run plain \u0027env\u0027 (not \u0027go env\u0027).",
+      "revId": "951db78bb025fed9e2b496b193a884d36d98862d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
