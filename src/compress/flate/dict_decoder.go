@@ -100,6 +100,7 @@ func (dd *dictDecoder) writeByte(c byte) {
 // length if the available space in the output buffer is too small.
 //
 // This invariant must be kept: 0 < dist <= histSize()
+//go:register_args
 func (dd *dictDecoder) writeCopy(dist, length int) int {
 	dstBase := dd.wrPos
 	dstPos := dstBase

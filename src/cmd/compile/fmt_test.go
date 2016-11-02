@@ -213,23 +213,31 @@ func TestFormats(t *testing.T) {
 
 	// check that knownFormats is up to date
 	if !testing.Verbose() && !*update {
-		var mismatch bool
+		var foundmismatch bool
+		var knownmismatch bool
+		var founds []string
+		var knowns []string
 		for s := range foundFormats {
 			if _, ok := knownFormats[s]; !ok {
-				mismatch = true
-				break
+				founds = append(founds, s)
+				foundmismatch = true
 			}
 		}
-		if !mismatch {
-			for s := range knownFormats {
-				if _, ok := foundFormats[s]; !ok {
-					mismatch = true
-					break
-				}
+		for s := range knownFormats {
+			if _, ok := foundFormats[s]; !ok {
+				knowns = append(knowns, s)
+				knownmismatch = true
 			}
 		}
-		if mismatch {
-			t.Errorf("knownFormats is out of date; please run with -v to regenerate")
+		if foundmismatch {
+			for _, s := range founds {
+				t.Errorf("knownFormats is out of date, found unknown format %s; please run with -v to regenerate", s)
+			}
+		}
+		if knownmismatch {
+			for _, s := range knowns {
+				t.Errorf("knownFormats is out of date, missing known format %s; please run with -v to regenerate", s)
+			}
 		}
 	}
 
@@ -687,7 +695,7 @@ var knownFormats = map[string]string{
 	"interface{} %q":                                  "",
 	"interface{} %s":                                  "",
 	"interface{} %v":                                  "",
-	"map[*cmd/compile/internal/gc.Node]*cmd/compile/internal/ssa.Value %v": "",
+	"map[*cmd/compile/internal/gc.Node]cmd/compile/internal/gc.argAddr %v": "",
 	"reflect.Type %s":  "",
 	"rune %#U":         "",
 	"rune %c":          "",

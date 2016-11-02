@@ -98,10 +98,10 @@ func BImportData(fset *token.FileSet, imports map[string]*types.Package, data []
 
 	// read version specific flags - extend as necessary
 	switch p.version {
-	// case 4:
+	// case 5:
 	// 	...
 	//	fallthrough
-	case 3, 2, 1:
+	case 4, 3, 2, 1:
 		p.debugFormat = p.rawStringln(p.rawByte()) == "debug"
 		p.trackAllTypes = p.int() != 0
 		p.posInfoFormat = p.int() != 0
@@ -272,6 +272,12 @@ func (p *importer) obj(tag int) {
 	case funcTag:
 		pos := p.pos()
 		pkg, name := p.qualifiedName()
+		var pragma uint16
+		if p.version >= 4 {
+			pragma = uint16(p.int())
+			_ = pragma
+		}
+
 		params, isddd := p.paramList()
 		result, _ := p.paramList()
 		sig := types.NewSignature(nil, params, result, isddd)

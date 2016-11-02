@@ -199,8 +199,11 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32) *obj.Prog {
 		debug.To.Reg = REGTMP
 	}
 
+	// Spill registers as necessary
+	last = ctxt.SpillRegisterArgs(debug)
+
 	// BL	runtime.morestack(SB)
-	call := obj.Appendp(ctxt, debug)
+	call := obj.Appendp(ctxt, last)
 	call.As = ABL
 	call.To.Type = obj.TYPE_BRANCH
 	morestack := "runtime.morestack"
@@ -212,8 +215,11 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32) *obj.Prog {
 	}
 	call.To.Sym = obj.Linklookup(ctxt, morestack, 0)
 
+	// Unspill any spilled registers
+	last = ctxt.UnspillRegisterArgs(call)
+
 	// B	start
-	jmp := obj.Appendp(ctxt, call)
+	jmp := obj.Appendp(ctxt, last)
 	jmp.As = AB
 	jmp.To.Type = obj.TYPE_BRANCH
 	jmp.Pcond = ctxt.Cursym.Text.Link
@@ -628,7 +634,7 @@ loop:
 	goto loop
 }
 
-func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
+func preprocess(ctxt *obj.Link, cursym *obj.LSym) (extraText *obj.LSym) {
 	ctxt.Cursym = cursym
 
 	if cursym.Text == nil || cursym.Text.Link == nil {
@@ -978,6 +984,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			break
 		}
 	}
+	return
 }
 
 func nocache(p *obj.Prog) {
