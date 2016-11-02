@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of October 28, 2016",
+	"Subtitle": "Version of November 2, 2016",
 	"Path": "/ref/spec"
 }-->
 
@@ -979,16 +979,18 @@ also called an <i>embedded</i> field or an embedding of the type in the struct.
 An embedded type must be specified as
 a type name <code>T</code> or as a pointer to a non-interface type name <code>*T</code>,
 and <code>T</code> itself may not be
-a pointer type. The unqualified type name acts as the field name.
+a pointer type. The unqualified type name, which may be an alias, acts as the field name.
 </p>
 
 <pre>
-// A struct with four anonymous fields of type T1, *T2, P.T3 and *P.T4
+// A struct with four anonymous fields of type T1, *T2, p.T3, t3, and *p.T4,
+// where p is the package declaring T3 and T4, and t3 is an alias for p.T3.
 struct {
 	T1        // field name is T1
 	*T2       // field name is T2
-	P.T3      // field name is T3
-	*P.T4     // field name is T4
+	p.T3      // field name is T3
+	t3        // field name is t3
+	*p.T4     // field name is T4
 	x, y int  // field names are x and y
 }
 </pre>
