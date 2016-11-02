@@ -223,7 +223,11 @@ type Alias struct {
 }
 
 func NewAlias(pos token.Pos, pkg *Package, name string, orig Object) *Alias {
-	return &Alias{object{pos: pos, pkg: pkg, name: name}, orig, token.ILLEGAL}
+	var typ Type = Typ[Invalid]
+	if orig != nil {
+		typ = orig.Type()
+	}
+	return &Alias{object{nil, pos, pkg, name, typ, 0, token.NoPos}, orig, token.ILLEGAL}
 }
 
 // Orig returns the aliased object, or nil if there was an error.
