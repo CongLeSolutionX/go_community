@@ -12,6 +12,7 @@ package runtime
 
 // emitted by compiler, not referred to by go programs
 
+//go:register_args
 func newobject(typ *byte) *any
 func panicindex()
 func panicslice()
@@ -59,7 +60,9 @@ func slicestringcopy(to any, fr any) int
 
 // interface conversions
 func convI2I(typ *byte, elem any) (ret any)
+
 func convT2E(typ *byte, elem *any) (ret any)
+
 func convT2I(tab *byte, elem *any) (ret any)
 
 // interface type assertions  x.(T)

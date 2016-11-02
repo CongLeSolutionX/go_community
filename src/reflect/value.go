@@ -196,6 +196,7 @@ type nonEmptyInterface struct {
 // the very clear v.mustBe(Bool) and have it compile into
 // v.flag.mustBe(Bool), which will only bother to copy the
 // single important word for the receiver.
+//go:register_args
 func (f flag) mustBe(expected Kind) {
 	if f.kind() != expected {
 		panic(&ValueError{methodName(), f.kind()})
@@ -216,6 +217,7 @@ func (f flag) mustBeExported() {
 // mustBeAssignable panics if f records that the value is not assignable,
 // which is to say that either it was obtained using an unexported field
 // or it is not addressable.
+//go:register_args
 func (f flag) mustBeAssignable() {
 	if f == 0 {
 		panic(&ValueError{methodName(), Invalid})

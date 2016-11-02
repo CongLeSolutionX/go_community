@@ -37,6 +37,7 @@ type onePassInst struct {
 // is the entire match. Pc is the index of the last rune instruction
 // in the string. The OnePassPrefix skips over the mandatory
 // EmptyBeginText
+//go:register_args
 func onePassPrefix(p *syntax.Prog) (prefix string, complete bool, pc uint32) {
 	i := &p.Inst[p.Start]
 	if i.Op != syntax.InstEmptyWidth || (syntax.EmptyOp(i.Arg))&syntax.EmptyBeginText == 0 {
@@ -71,6 +72,7 @@ func onePassPrefix(p *syntax.Prog) (prefix string, complete bool, pc uint32) {
 // It should only be called when i.Op == InstAlt or InstAltMatch, and from the one-pass machine.
 // One of the alternates may ultimately lead without input to end of line. If the instruction
 // is InstAltMatch the path to the InstMatch is in i.Out, the normal node in i.Next.
+//go:register_args
 func onePassNext(i *onePassInst, r rune) uint32 {
 	next := i.MatchRunePos(r)
 	if next >= 0 {
@@ -82,6 +84,7 @@ func onePassNext(i *onePassInst, r rune) uint32 {
 	return 0
 }
 
+//go:register_args
 func iop(i *syntax.Inst) syntax.InstOp {
 	op := i.Op
 	switch op {
@@ -98,21 +101,25 @@ type queueOnePass struct {
 	size, nextIndex uint32
 }
 
+//go:register_args
 func (q *queueOnePass) empty() bool {
 	return q.nextIndex >= q.size
 }
 
+//go:register_args
 func (q *queueOnePass) next() (n uint32) {
 	n = q.dense[q.nextIndex]
 	q.nextIndex++
 	return
 }
 
+//go:register_args
 func (q *queueOnePass) clear() {
 	q.size = 0
 	q.nextIndex = 0
 }
 
+//go:register_args
 func (q *queueOnePass) contains(u uint32) bool {
 	if u >= uint32(len(q.sparse)) {
 		return false
@@ -120,12 +127,14 @@ func (q *queueOnePass) contains(u uint32) bool {
 	return q.sparse[u] < q.size && q.dense[q.sparse[u]] == u
 }
 
+//go:register_args
 func (q *queueOnePass) insert(u uint32) {
 	if !q.contains(u) {
 		q.insertNew(u)
 	}
 }
 
+//go:register_args
 func (q *queueOnePass) insertNew(u uint32) {
 	if u >= uint32(len(q.sparse)) {
 		return
@@ -135,6 +144,7 @@ func (q *queueOnePass) insertNew(u uint32) {
 	q.size++
 }
 
+//go:register_args
 func newQueue(size int) (q *queueOnePass) {
 	return &queueOnePass{
 		sparse: make([]uint32, size),
@@ -154,6 +164,7 @@ var (
 	noNext = []uint32{mergeFailed}
 )
 
+//go:register_args
 func mergeRuneSets(leftRunes, rightRunes *[]rune, leftPC, rightPC uint32) ([]rune, []uint32) {
 	leftLen := len(*leftRunes)
 	rightLen := len(*rightRunes)
@@ -204,6 +215,7 @@ func mergeRuneSets(leftRunes, rightRunes *[]rune, leftPC, rightPC uint32) ([]run
 }
 
 // cleanupOnePass drops working memory, and restores certain shortcut instructions.
+//go:register_args
 func cleanupOnePass(prog *onePassProg, original *syntax.Prog) {
 	for ix, instOriginal := range original.Inst {
 		switch instOriginal.Op {
@@ -218,6 +230,7 @@ func cleanupOnePass(prog *onePassProg, original *syntax.Prog) {
 }
 
 // onePassCopy creates a copy of the original Prog, as we'll be modifying it
+//go:register_args
 func onePassCopy(prog *syntax.Prog) *onePassProg {
 	p := &onePassProg{
 		Start:  prog.Start,
@@ -295,6 +308,7 @@ var anyRune = []rune{0, unicode.MaxRune}
 // p if it is turned into a onepass Prog. If it isn't possible for this to be a
 // onepass Prog, the Prog notOnePass is returned. makeOnePass is recursive
 // to the size of the Prog.
+//go:register_args
 func makeOnePass(p *onePassProg) *onePassProg {
 	// If the machine is very long, it's not worth the time to check if we can use one pass.
 	if len(p.Inst) >= 1000 {
@@ -464,6 +478,7 @@ var notOnePass *onePassProg = nil
 // can be recharacterized as a one-pass regexp program, or syntax.notOnePass if the
 // Prog cannot be converted. For a one pass prog, the fundamental condition that must
 // be true is: at any InstAlt, there must be no ambiguity about what branch to  take.
+//go:register_args
 func compileOnePass(prog *syntax.Prog) (p *onePassProg) {
 	if prog.Start == 0 {
 		return notOnePass

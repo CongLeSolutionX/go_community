@@ -35,6 +35,9 @@ type Func struct {
 	// of keys to make iteration order deterministic.
 	Names []LocalSlot
 
+	// RegArgs is a slice of register-memory pairs that must be spilled and unspilled in the uncommon path of function entry.
+	RegArgs []ArgPair
+
 	freeValues *Value // free Values linked by argstorage[0].  All other fields except ID are 0/nil.
 	freeBlocks *Block // free Blocks linked by succstorage[0].b.  All other fields except ID are 0/nil.
 
@@ -306,9 +309,39 @@ func (b *Block) NewValue3(line int32, op Op, t Type, arg0, arg1, arg2 *Value) *V
 	return v
 }
 
+// NewValue3A returns a new value in the block with three arguments and one aux values.
+func (b *Block) NewValue3A(line int32, op Op, t Type, aux interface{}, arg0, arg1, arg2 *Value) *Value {
+	v := b.Func.newValue(op, t, b, line)
+	v.AuxInt = 0
+	v.Aux = aux
+	v.Args = v.argstorage[:3]
+	v.argstorage[0] = arg0
+	v.argstorage[1] = arg1
+	v.argstorage[2] = arg2
+	arg0.Uses++
+	arg1.Uses++
+	arg2.Uses++
+	return v
+}
+
 // NewValue3I returns a new value in the block with three arguments and an auxint value.
 func (b *Block) NewValue3I(line int32, op Op, t Type, auxint int64, arg0, arg1, arg2 *Value) *Value {
 	v := b.Func.newValue(op, t, b, line)
+	v.AuxInt = auxint
+	v.Args = v.argstorage[:3]
+	v.argstorage[0] = arg0
+	v.argstorage[1] = arg1
+	v.argstorage[2] = arg2
+	arg0.Uses++
+	arg1.Uses++
+	arg2.Uses++
+	return v
+}
+
+// NewValue3AI returns a new value in the block with three arguments and aux and auxint values.
+func (b *Block) NewValue3AI(line int32, op Op, t Type, aux interface{}, auxint int64, arg0, arg1, arg2 *Value) *Value {
+	v := b.Func.newValue(op, t, b, line)
+	v.Aux = aux
 	v.AuxInt = auxint
 	v.Args = v.argstorage[:3]
 	v.argstorage[0] = arg0

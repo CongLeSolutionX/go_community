@@ -683,6 +683,14 @@ func loadsys() {
 		case funcTag:
 			importsym(sym, ONAME)
 			n := newfuncname(sym)
+			if d.pragmas != "" {
+				var p Pragma
+				for _, s := range strings.Split(d.pragmas, ";") {
+					// fmt.Printf("Pragma %s for function %s\n", s, d.name)
+					p |= pragmaValue(s)
+				}
+				n.Func.Pragma = p
+			}
 			n.Type = typ
 			declare(n, PFUNC)
 		case varTag:

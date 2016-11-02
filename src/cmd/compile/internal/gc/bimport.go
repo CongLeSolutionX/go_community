@@ -86,10 +86,10 @@ func Import(in *bufio.Reader) {
 
 	// read version specific flags - extend as necessary
 	switch p.version {
-	// case 4:
+	// case 5:
 	// 	...
 	//	fallthrough
-	case 3, 2, 1:
+	case 4, 3, 2, 1:
 		p.debugFormat = p.rawStringln(p.rawByte()) == "debug"
 		p.trackAllTypes = p.bool()
 		p.posInfoFormat = p.bool()
@@ -327,6 +327,11 @@ func (p *importer) obj(tag int) {
 	case funcTag:
 		p.pos()
 		sym := p.qualifiedName()
+		var pragma Pragma
+		if p.version >= 4 {
+			pragma = Pragma(p.int())
+		}
+
 		params := p.paramList()
 		result := p.paramList()
 
@@ -343,6 +348,7 @@ func (p *importer) obj(tag int) {
 
 		n := newfuncname(sym)
 		n.Type = sig
+		n.Func.Pragma = pragma
 		declare(n, PFUNC)
 		p.funcList = append(p.funcList, n)
 		importlist = append(importlist, n)

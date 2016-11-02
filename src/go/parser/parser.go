@@ -237,6 +237,7 @@ func un(p *parser) {
 }
 
 // Advance to the next token.
+//go:register_args
 func (p *parser) next0() {
 	// Because of one-token look-ahead, print the previous token
 	// when tracing as it provides a more readable output. The
@@ -313,6 +314,7 @@ func (p *parser) consumeCommentGroup(n int) (comments *ast.CommentGroup, endline
 // Lead and line comments may be considered documentation that is
 // stored in the AST.
 //
+//go:register_args
 func (p *parser) next() {
 	p.leadComment = nil
 	p.lineComment = nil

@@ -255,7 +255,7 @@ const (
 	LEAF  = 1 << 2
 )
 
-func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
+func preprocess(ctxt *obj.Link, cursym *obj.LSym) (extraText *obj.LSym) {
 	autosize := int32(0)
 
 	ctxt.Cursym = cursym
@@ -619,6 +619,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			}
 		}
 	}
+	return
 }
 
 func isfloatreg(a *obj.Addr) bool {

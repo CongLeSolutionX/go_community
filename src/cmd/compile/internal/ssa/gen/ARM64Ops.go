@@ -156,6 +156,12 @@ func init() {
 		fpstore   = regInfo{inputs: []regMask{gpspsbg, fp}}
 		readflags = regInfo{inputs: nil, outputs: []regMask{gp}}
 	)
+	// This slice determines the registers used for integer args/results
+	// Picked these registers because I didn't think they were used in the runtime.
+	var argIregs = []string{"R20", "R21", "R22"}
+	// This slice determines the registers used for floating args/results
+	var argFregs = []string{"F20", "F21", "F22"}
+
 	ops := []opData{
 		// binary ops
 		{name: "ADD", argLength: 2, reg: gp21, asm: "ADD", commutative: true},     // arg0 + arg1
@@ -527,6 +533,8 @@ func init() {
 		ops:             ops,
 		blocks:          blocks,
 		regnames:        regNamesARM64,
+		argiregs:        argIregs,
+		argfregs:        argFregs,
 		gpregmask:       gp,
 		fpregmask:       fp,
 		framepointerreg: -1, // not used
