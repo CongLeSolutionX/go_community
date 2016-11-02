@@ -53,14 +53,14 @@ func main() {
 
 func mkbuiltin(w io.Writer, name string) {
 	fset := token.NewFileSet()
-	f, err := parser.ParseFile(fset, filepath.Join("builtin", name+".go"), nil, 0)
+	f, err := parser.ParseFile(fset, filepath.Join("builtin", name+".go"), nil, parser.ParseComments)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	var interner typeInterner
 
-	fmt.Fprintf(w, "var %sDecls = [...]struct { name string; tag int; typ int }{\n", name)
+	fmt.Fprintf(w, "var %sDecls = [...]struct { name string; tag int; typ int; pragmas string}{\n", name)
 	for _, decl := range f.Decls {
 		switch decl := decl.(type) {
 		case *ast.FuncDecl:
@@ -70,7 +70,17 @@ func mkbuiltin(w io.Writer, name string) {
 			if decl.Body != nil {
 				log.Fatal("unexpected function body")
 			}
-			fmt.Fprintf(w, "{%q, funcTag, %d},\n", decl.Name.Name, interner.intern(decl.Type))
+			pragmas := ""
+			if decl.Doc != nil {
+				cll := decl.Doc.List
+				for i := len(cll) - 1; i >= 0 && strings.HasPrefix(cll[i].Text, "//go:"); i-- {
+					if len(pragmas) > 0 {
+						pragmas = ";" + pragmas
+					}
+					pragmas = cll[i].Text[2:] + pragmas
+				}
+			}
+			fmt.Fprintf(w, "{%q, funcTag, %d, \"%s\"},\n", decl.Name.Name, interner.intern(decl.Type), pragmas)
 		case *ast.GenDecl:
 			if decl.Tok == token.IMPORT {
 				if len(decl.Specs) != 1 || decl.Specs[0].(*ast.ImportSpec).Path.Value != "\"unsafe\"" {
@@ -88,7 +98,7 @@ func mkbuiltin(w io.Writer, name string) {
 				}
 				typ := interner.intern(spec.Type)
 				for _, name := range spec.Names {
-					fmt.Fprintf(w, "{%q, varTag, %d},\n", name.Name, typ)
+					fmt.Fprintf(w, "{%q, varTag, %d, \"\"},\n", name.Name, typ)
 				}
 			}
 		default:

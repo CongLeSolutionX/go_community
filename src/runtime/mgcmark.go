@@ -1088,6 +1088,7 @@ func scanblock(b0, n0 uintptr, ptrmask *uint8, gcw *gcWork) {
 // spans for the size of the object.
 //
 //go:nowritebarrier
+//go:register_args
 func scanobject(b uintptr, gcw *gcWork) {
 	// Note that arena_used may change concurrently during
 	// scanobject and hence scanobject may encounter a pointer to
@@ -1206,6 +1207,7 @@ func shade(b uintptr) {
 // If it isn't already marked, mark it and enqueue into gcw.
 // base and off are for debugging only and could be removed.
 //go:nowritebarrierrec
+//go:register_args
 func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork, objIndex uintptr) {
 	// obj should be start of allocation, and so must be at least pointer-aligned.
 	if obj&(sys.PtrSize-1) != 0 {

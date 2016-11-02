@@ -208,7 +208,7 @@ func rewriteToUseGot(ctxt *obj.Link, p *obj.Prog) {
 	obj.Nopout(p)
 }
 
-func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
+func preprocess(ctxt *obj.Link, cursym *obj.LSym) (extraText *obj.LSym) {
 	// TODO(minux): add morestack short-cuts with small fixed frame-size.
 	ctxt.Cursym = cursym
 
@@ -610,6 +610,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 	if wasSplit {
 		pLast = stacksplitPost(ctxt, pLast, pPre, pPreempt, autosize) // emit post part of split check
 	}
+	return
 }
 
 /*

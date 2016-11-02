@@ -63,6 +63,11 @@ func (v *Value) String() string {
 	return fmt.Sprintf("v%d", v.ID)
 }
 
+// TODO refactor this into the dozen places that say ".Block.Func.Config"
+func (v *Value) Config() *Config {
+	return v.Block.Func.Config
+}
+
 func (v *Value) AuxInt8() int8 {
 	if opcodeTable[v.Op].auxType != auxInt8 {
 		v.Fatalf("op %s doesn't have an int8 aux field", v.Op)

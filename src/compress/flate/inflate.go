@@ -690,6 +690,7 @@ func (f *decompressor) finishBlock() {
 	f.step = (*decompressor).nextBlock
 }
 
+//go:register_args
 func (f *decompressor) moreBits() error {
 	c, err := f.r.ReadByte()
 	if err != nil {
@@ -705,6 +706,7 @@ func (f *decompressor) moreBits() error {
 }
 
 // Read the next Huffman-encoded symbol from f according to h.
+//go:register_args
 func (f *decompressor) huffSym(h *huffmanDecoder) (int, error) {
 	// Since a huffmanDecoder can be empty or be composed of a degenerate tree
 	// with single element, huffSym must error on these two edge cases. In both

@@ -614,7 +614,7 @@ func nacladdr(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) {
 	}
 }
 
-func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
+func preprocess(ctxt *obj.Link, cursym *obj.LSym) (extraText *obj.LSym) {
 	if ctxt.Headtype == obj.Hplan9 && ctxt.Plan9privates == nil {
 		ctxt.Plan9privates = obj.Linklookup(ctxt, "_privates", 0)
 	}
@@ -701,7 +701,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 	}
 
 	if cursym.Text.From3Offset()&obj.NOSPLIT == 0 {
-		p = stacksplit(ctxt, p, autoffset, int32(textarg)) // emit split check
+		p, extraText = stacksplit(ctxt, p, autoffset, int32(textarg), cursym) // emit split check
+	} else if len(ctxt.RegArgs) > 0 {
+		// need to also emit the trailing part if we're calling blindly
 	}
 
 	if autoffset != 0 {
@@ -976,6 +978,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym) {
 			p.As = obj.AJMP
 		}
 	}
+	return
 }
 
 func isZeroArgRuntimeCall(s *obj.LSym) bool {
@@ -1035,7 +1038,7 @@ func load_g_cx(ctxt *obj.Link, p *obj.Prog) *obj.Prog {
 // Appends to (does not overwrite) p.
 // Assumes g is in CX.
 // Returns last new instruction.
-func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32) *obj.Prog {
+func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32, cursym *obj.LSym) (jls *obj.Prog, extra *obj.LSym) {
 	cmp := ACMPQ
 	lea := ALEAQ
 	mov := AMOVQ
@@ -1150,7 +1153,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32) *ob
 	}
 
 	// common
-	jls := obj.Appendp(ctxt, p)
+	jls = obj.Appendp(ctxt, p)
 	jls.As = AJLS
 	jls.To.Type = obj.TYPE_BRANCH
 
@@ -1164,6 +1167,7 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32) *ob
 	spfix := obj.Appendp(ctxt, last)
 	spfix.As = obj.ANOP
 	spfix.Spadj = -framesize
+	last = spfix
 
 	pcdata := obj.Appendp(ctxt, spfix)
 	pcdata.Pos = ctxt.Cursym.Text.Pos
@@ -1174,7 +1178,10 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32) *ob
 	pcdata.To.Type = obj.TYPE_CONST
 	pcdata.To.Offset = -1 // pcdata starts at -1 at function entry
 
-	call := obj.Appendp(ctxt, pcdata)
+	// Spill registers as necessary
+	last = ctxt.SpillRegisterArgs(pcdata)
+
+	call := obj.Appendp(ctxt, last)
 	call.Pos = ctxt.Cursym.Text.Pos
 	call.Mode = ctxt.Cursym.Text.Mode
 	call.As = obj.ACALL
@@ -1198,18 +1205,32 @@ func stacksplit(ctxt *obj.Link, p *obj.Prog, framesize int32, textarg int32) *ob
 		progedit(ctxt, callend.Link)
 	}
 
-	jmp := obj.Appendp(ctxt, callend)
+	// Patch in branch to morestack-call-block.
+	jls.Pcond = spfix
+	if q1 != nil {
+		q1.Pcond = spfix
+	}
+
+	last = callend
+
+	// Unspill any spilled registers
+	last = ctxt.UnspillRegisterArgs(last)
+
+	jmp := obj.Appendp(ctxt, last)
 	jmp.As = obj.AJMP
 	jmp.To.Type = obj.TYPE_BRANCH
 	jmp.Pcond = ctxt.Cursym.Text.Link
 	jmp.Spadj = +framesize
+	return
 
-	jls.Pcond = call
-	if q1 != nil {
-		q1.Pcond = call
-	}
+	// jmp = ctxt.NewProg()
+	// last.Link = jmp
+	// jmp.As = obj.AJMP
+	// jmp.To.Type = obj.TYPE_BRANCH
+	// jmp.To.Name = obj.NAME_EXTERN
+	// jmp.To.Sym = cursym
 
-	return jls
+	return
 }
 
 var unaryDst = map[obj.As]bool{

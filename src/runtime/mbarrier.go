@@ -139,6 +139,7 @@ import (
 //
 //go:nowritebarrierrec
 //go:systemstack
+//go:register_args
 func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 	if writeBarrier.needed {
 		// Note: This turns bad pointer writes into bad
@@ -196,6 +197,28 @@ func writebarrierptr_prewrite1(dst *uintptr, src uintptr) {
 	releasem(mp)
 }
 
+// writebarrierptr_prewrite1x is duplicate of writebarrierptr_prewrite1
+// but register_args and thus inaccessible to assembly language in the
+// register_args experiment
+//go:nosplit
+//go:register_args
+func writebarrierptr_prewrite1x(dst *uintptr, src uintptr) {
+	mp := acquirem()
+	if mp.inwb || mp.dying > 0 {
+		releasem(mp)
+		return
+	}
+	systemstack(func() {
+		if mp.p == 0 && memstats.enablegc && !mp.inwb && inheap(src) {
+			throw("writebarrierptr_prewrite1 called with mp.p == nil")
+		}
+		mp.inwb = true
+		gcmarkwb_m(dst, src)
+	})
+	mp.inwb = false
+	releasem(mp)
+}
+
 // NOTE: Really dst *unsafe.Pointer, src unsafe.Pointer,
 // but if we do that, Go inserts a write barrier on *dst = src.
 //go:nosplit
@@ -213,7 +236,7 @@ func writebarrierptr(dst *uintptr, src uintptr) {
 			throw("bad pointer in write barrier")
 		})
 	}
-	writebarrierptr_prewrite1(dst, src)
+	writebarrierptr_prewrite1x(dst, src)
 	*dst = src
 }
 
@@ -232,7 +255,7 @@ func writebarrierptr_prewrite(dst *uintptr, src uintptr) {
 	if src != 0 && src < minPhysPageSize {
 		systemstack(func() { throw("bad pointer in write barrier") })
 	}
-	writebarrierptr_prewrite1(dst, src)
+	writebarrierptr_prewrite1x(dst, src)
 }
 
 // typedmemmove copies a value of type t to dst from src.

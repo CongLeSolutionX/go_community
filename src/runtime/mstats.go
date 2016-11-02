@@ -441,6 +441,7 @@ func init() {
 // call to ReadMemStats. This is in contrast with a heap profile,
 // which is a snapshot as of the most recently completed garbage
 // collection cycle.
+//-go:register_args
 func ReadMemStats(m *MemStats) {
 	stopTheWorld("read mem stats")
 

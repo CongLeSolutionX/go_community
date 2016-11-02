@@ -10,6 +10,7 @@ import (
 	"bufio"
 	"bytes"
 	"cmd/compile/internal/ssa"
+	"cmd/compile/internal/syntax"
 	"cmd/internal/obj"
 	"cmd/internal/src"
 	"cmd/internal/sys"
@@ -700,6 +701,14 @@ func loadsys() {
 		case funcTag:
 			importsym(sym, ONAME)
 			n := newfuncname(sym)
+			if d.pragmas != "" {
+				var p syntax.Pragma
+				for _, s := range strings.Split(d.pragmas, ";") {
+					// fmt.Printf("Pragma %s for function %s\n", s, d.name)
+					p |= pragmaValue(s)
+				}
+				n.Func.Pragma = p
+			}
 			n.Type = typ
 			declare(n, PFUNC)
 		case varTag:

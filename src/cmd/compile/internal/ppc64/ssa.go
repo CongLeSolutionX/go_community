@@ -480,6 +480,28 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Reg = v.Args[0].Reg()
 		gc.AddrAuto(&p.To, v)
 
+	case ssa.OpStoreArgRegI0, ssa.OpStoreArgRegI1, ssa.OpStoreArgRegI2, ssa.OpStoreArgRegI3, ssa.OpStoreArgRegI4, ssa.OpStoreArgRegI5,
+		ssa.OpStoreArgRegF0, ssa.OpStoreArgRegF1, ssa.OpStoreArgRegF2, ssa.OpStoreArgRegF3, ssa.OpStoreArgRegF4, ssa.OpStoreArgRegF5:
+		// Used to store parameters passed to function.
+		// No code is needed, the input is constrained to be in the proper register.
+
+	case ssa.OpArgI0, ssa.OpArgI1, ssa.OpArgI2, ssa.OpArgF0, ssa.OpArgF1, ssa.OpArgF2:
+		// The assembler needs to wrap the entry safepoint/stack growth code with spill/unspill
+		// The loop only runs once.
+		for _, ap := range v.Block.Func.RegArgs {
+			// Tell a pleasing story to the liveness code so that the memory versions of the arguments
+			// are live in the prologue.
+			if ap.Type().IsPtrShaped() {
+				p := gc.Prog(obj.AVARLIVE)
+				gc.AddrForParamSlot(ap.Mem(), &p.From)
+			}
+			// Pass the spill/unspill information along to the assembler.
+			addr := gc.SpillSlotAddr(ap.Mem(), ppc64.REGSP, 32)
+			gc.Ctxt.RegArgs = append(gc.Ctxt.RegArgs,
+				obj.RegArg{Reg: ap.Reg(), Addr: addr, Unspill: loadByType(ap.Type()), Spill: storeByType(ap.Type())})
+		}
+		v.Block.Func.RegArgs = nil
+
 	case ssa.OpPPC64DIVD:
 		// For now,
 		//

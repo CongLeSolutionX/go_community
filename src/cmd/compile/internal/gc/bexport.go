@@ -140,12 +140,13 @@ const debugFormat = false // default: false
 const forceObjFileStability = true
 
 // Current export format version. Increase with each format change.
+// 5: added export of pragmas for methods
 // 4: type name objects support type aliases, uses aliasTag
 // 3: Go1.8 encoding (same as version 2, aliasTag defined but never used)
 // 2: removed unused bool in ODCL export (compiler only)
 // 1: header format change (more regular), export package for _ struct fields
 // 0: Go1.7 encoding
-const exportVersion = 4
+const exportVersion = 5
 
 // exportInlined enables the export of inlined function bodies and related
 // dependencies. The compiler should work w/o any loss of functionality with
@@ -507,6 +508,9 @@ func (p *exporter) obj(sym *Sym) {
 			p.tag(funcTag)
 			p.pos(n)
 			p.qualifiedName(sym)
+			if exportVersion >= 5 {
+				p.int(pragmaVal(sym.Def)) // version 5+, uint16 as of 1.9early
+			}
 
 			sig := sym.Def.Type
 			inlineable := isInlineable(sym.Def)
@@ -596,6 +600,30 @@ func isInlineable(n *Node) bool {
 		return true
 	}
 	return false
+}
+
+func pragmaVal(n *Node) int {
+	// TODO Why are pragmas landing in three (or more) provably different places?
+	if n == nil {
+		return 0
+	}
+	if n.Name != nil && n.Name.Defn != nil && n.Name.Defn.Func != nil {
+		if pg := n.Name.Defn.Func.Pragma; pg != 0 {
+			return int(pg)
+		}
+	}
+	if n.Sym != nil && n.Sym.Def != nil && n.Sym.Def.Func != nil {
+		if pg := n.Sym.Def.Func.Pragma; pg != 0 {
+			return int(pg)
+		}
+	}
+	if n.Type == nil {
+		return 0
+	}
+	if nn := n.Type.Nname(); nn != nil && nn.Func != nil {
+		return int(n.Type.Nname().Func.Pragma)
+	}
+	return 0
 }
 
 var errorInterface *Type // lazily initialized
@@ -692,12 +720,24 @@ func (p *exporter) typ(t *Type) {
 				Fatalf("invalid symbol name: %s (%v)", m.Sym.Name, m.Sym)
 			}
 
+			if Debug['E'] != 0 {
+				fmt.Printf("export method %s\n", m.Sym.Name)
+			}
+
 			p.pos(m.Nname)
 			p.fieldSym(m.Sym, false)
 
 			sig := m.Type
 			mfn := sig.Nname()
 			inlineable := isInlineable(mfn)
+
+			if exportVersion >= 5 {
+				pragma := pragmaVal(mfn)
+				if pragma != 0 && Debug['E'] != 0 {
+					fmt.Printf("export method %s pragma %x\n", mfn.Sym.Name, pragma)
+				}
+				p.int(pragma) // version 5+, uint16 as of 1.8early
+			}
 
 			p.paramList(sig.Recvs(), inlineable)
 			p.paramList(sig.Params(), inlineable)

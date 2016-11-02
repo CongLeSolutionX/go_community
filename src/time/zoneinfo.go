@@ -71,6 +71,7 @@ var Local *Location = &localLoc
 var localLoc Location
 var localOnce sync.Once
 
+//go:register_args
 func (l *Location) get() *Location {
 	if l == nil {
 		return &utcLoc
@@ -108,6 +109,7 @@ func FixedZone(name string, offset int) *Location {
 // the start and end times bracketing sec when that zone is in effect,
 // the offset in seconds east of UTC (such as -5*60*60), and whether
 // the daylight savings is being observed at that time.
+//go:register_args
 func (l *Location) lookup(sec int64) (name string, offset int, isDST bool, start, end int64) {
 	l = l.get()
 

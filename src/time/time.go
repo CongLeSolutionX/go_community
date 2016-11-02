@@ -920,6 +920,7 @@ func (t Time) date(full bool) (year int, month Month, day int, yday int) {
 }
 
 // absDate is like date but operates on an absolute time.
+//go:register_args
 func absDate(abs uint64, full bool) (year int, month Month, day int, yday int) {
 	// Split into time and day.
 	d := abs / secondsPerDay

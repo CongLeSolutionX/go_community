@@ -98,10 +98,10 @@ func BImportData(fset *token.FileSet, imports map[string]*types.Package, data []
 
 	// read version specific flags - extend as necessary
 	switch p.version {
-	// case 5:
+	// case 6:
 	// 	...
 	//	fallthrough
-	case 4, 3, 2, 1:
+	case 5, 4, 3, 2, 1:
 		p.debugFormat = p.rawStringln(p.rawByte()) == "debug"
 		p.trackAllTypes = p.int() != 0
 		p.posInfoFormat = p.int() != 0
@@ -277,6 +277,12 @@ func (p *importer) obj(tag int) {
 	case funcTag:
 		pos := p.pos()
 		pkg, name := p.qualifiedName()
+		var pragma uint16
+		if p.version >= 4 {
+			pragma = uint16(p.int())
+			_ = pragma
+		}
+
 		params, isddd := p.paramList()
 		result, _ := p.paramList()
 		sig := types.NewSignature(nil, params, result, isddd)
@@ -411,6 +417,12 @@ func (p *importer) typ(parent *types.Package) types.Type {
 			name := p.string()
 			if !exported(name) {
 				p.pkg()
+			}
+
+			var pragma uint16
+			if p.version >= 5 {
+				pragma = uint16(p.int())
+				_ = pragma
 			}
 
 			recv, _ := p.paramList() // TODO(gri) do we need a full param list for the receiver?

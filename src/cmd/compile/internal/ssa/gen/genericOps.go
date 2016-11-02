@@ -312,6 +312,53 @@ var genericOps = []opData{
 	{name: "GoCall", argLength: 1, aux: "Int64", call: true},      // go call.  arg0=memory, auxint=arg size.  Returns memory.
 	{name: "InterCall", argLength: 2, aux: "Int64", call: true},   // interface call.  arg0=code pointer, arg1=memory, auxint=arg size.  Returns memory.
 
+	// StoreArgReg and Arg{I,F} opcodes are pseudo-ops that vanish in actual code generation.
+	// These generic ops, because they are so similar across architectures, are also not
+	// translated to machine-specific versions, and instead have per-architecture regspecs
+	// created for them (Arg has single output in specified register; StoreArgReg has single
+	// input in specified register).
+	//
+	// If a parameter/result should be passed in a register, stack space is still reserved for it,
+	// but no actual store/load is actually performed.  These operands serve to make it clear to the
+	// register allocator what registers parameters/results are in, and also simplify plive.
+	// The suffixes indicates which parameter/result register the instruction targets.
+	//
+	// The choice to pass a parameter in a register is gated in two places;
+	// the function must be marked eligible for register parameter passing
+	// (for testing and early development this will be opt-in, once this is believed to be working it will be opt-out),
+	// and the particular architecture must specify that it is willing to pass parameters
+	// in registers.
+	//
+	// Policy for what goes in registers and what does not resides in gc/ssa.go; it is not yet machine-dependent,
+	// though clearly it could be.
+	{name: "StoreArgRegI0", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegI1", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegI2", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegI3", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegI4", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegI5", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+
+	{name: "StoreArgRegF0", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegF1", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegF2", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegF3", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegF4", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+	{name: "StoreArgRegF5", argLength: 3, typ: "Mem", aux: "TypeOff"}, // Store arg1 to arg0.  arg2=memory, aux=type, auxint=offset.  Returns memory.
+
+	{name: "ArgI0", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to I0.
+	{name: "ArgI1", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to I1.
+	{name: "ArgI2", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to I2.
+	{name: "ArgI3", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to I3.
+	{name: "ArgI4", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to I4.
+	{name: "ArgI5", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to I5.
+
+	{name: "ArgF0", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to F0.
+	{name: "ArgF1", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to F1.
+	{name: "ArgF2", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to F2.
+	{name: "ArgF3", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to F3.
+	{name: "ArgF4", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to F4.
+	{name: "ArgF5", aux: "SymOff"}, // argument to the function.  aux=GCNode of arg, off = offset in that arg, tied to F5.
+
 	// Conversions: signed extensions, zero (unsigned) extensions, truncations
 	{name: "SignExt8to16", argLength: 1, typ: "Int16"},
 	{name: "SignExt8to32", argLength: 1, typ: "Int32"},

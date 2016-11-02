@@ -71,9 +71,9 @@ func init() {
 	if len(regNamesAMD64) > 64 {
 		panic("too many registers")
 	}
-	num := map[string]int{}
+	num := map[string]int8{}
 	for i, name := range regNamesAMD64 {
-		num[name] = i
+		num[name] = int8(i)
 	}
 	buildReg := func(s string) regMask {
 		m := regMask(0)
@@ -94,7 +94,8 @@ func init() {
 		dx         = buildReg("DX")
 		gp         = buildReg("AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15")
 		fp         = buildReg("X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15")
-		gpsp       = gp | buildReg("SP")
+		sp         = buildReg("SP")
+		gpsp       = gp | sp
 		gpspsb     = gpsp | buildReg("SB")
 		callerSave = gp | fp
 	)
@@ -103,6 +104,13 @@ func init() {
 		gponly = []regMask{gp}
 		fponly = []regMask{fp}
 	)
+
+	// This slice determines the registers used for integer args/results
+	// Constraints on registers: normal entry seq uses CX to get G register.
+	// GC-inserted return tripwires use BX, CX, DX, R8, so that limits use for return values.
+	var argIregs = []string{"R10", "R11", "R12"} // plan for also , "R10", "R11", "R12"
+	// This slice determines the registers used for floating args/results
+	var argFregs = []string{"X0", "X1", "X2"} // plan for also , "X3", "X4", "X5"
 
 	// Common regInfo
 	var (
@@ -150,6 +158,8 @@ func init() {
 
 		fpstore    = regInfo{inputs: []regMask{gpspsb, fp, 0}}
 		fpstoreidx = regInfo{inputs: []regMask{gpspsb, gpsp, fp, 0}}
+
+		// racall = regInfo{inputs: []regMask{ax, dx}, outputs: []regMask{ax, 0}, clobbers: callerSave}
 	)
 
 	var AMD64ops = []opData{
@@ -616,6 +626,8 @@ func init() {
 		ops:             AMD64ops,
 		blocks:          AMD64blocks,
 		regnames:        regNamesAMD64,
+		argiregs:        argIregs,
+		argfregs:        argFregs,
 		gpregmask:       gp,
 		fpregmask:       fp,
 		framepointerreg: int8(num["BP"]),

@@ -10,6 +10,7 @@ package gc
 
 import (
 	"bufio"
+	"cmd/compile/internal/syntax"
 	"encoding/binary"
 	"fmt"
 	"math/big"
@@ -86,10 +87,10 @@ func Import(in *bufio.Reader) {
 
 	// read version specific flags - extend as necessary
 	switch p.version {
-	// case 5:
+	// case 6:
 	// 	...
 	//	fallthrough
-	case 4, 3, 2, 1:
+	case 5, 4, 3, 2, 1:
 		p.debugFormat = p.rawStringln(p.rawByte()) == "debug"
 		p.trackAllTypes = p.bool()
 		p.posInfoFormat = p.bool()
@@ -335,6 +336,11 @@ func (p *importer) obj(tag int) {
 	case funcTag:
 		p.pos()
 		sym := p.qualifiedName()
+		var pragma syntax.Pragma
+		if p.version >= 5 {
+			pragma = syntax.Pragma(p.int())
+		}
+
 		params := p.paramList()
 		result := p.paramList()
 
@@ -352,6 +358,7 @@ func (p *importer) obj(tag int) {
 		n := newfuncname(sym)
 		n.Type = sig
 		declare(n, PFUNC)
+		n.Func.Pragma = pragma
 		p.funcList = append(p.funcList, n)
 		importlist = append(importlist, n)
 
@@ -463,13 +470,22 @@ func (p *importer) typ() *Type {
 				Fatalf("imported method name %+v in wrong package %s\n", sym, tsym.Pkg.Name)
 			}
 
+			var pragma syntax.Pragma
+			if p.version >= 5 {
+				pragma = syntax.Pragma(p.int())
+			}
+
 			recv := p.paramList() // TODO(gri) do we need a full param list for the receiver?
 			params := p.paramList()
 			result := p.paramList()
 			nointerface := p.bool()
 
 			n := newfuncname(methodname(sym, recv[0].Type))
+			n.Func.Pragma = pragma
 			n.Type = functypefield(recv[0], params, result)
+			if pragma != 0 && Debug['E'] != 0 {
+				fmt.Printf("import method %s pragma %x, n=%v\n", n.Sym.Name, pragma, n)
+			}
 			checkwidth(n.Type)
 			addmethod(sym, n.Type, false, nointerface)
 			p.funcList = append(p.funcList, n)

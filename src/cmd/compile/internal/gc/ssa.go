@@ -11,6 +11,7 @@ import (
 	"html"
 	"os"
 	"sort"
+	"strconv"
 
 	"cmd/compile/internal/ssa"
 	"cmd/internal/obj"
@@ -20,6 +21,7 @@ import (
 
 var ssaConfig *ssa.Config
 var ssaExp ssaExport
+var chatty int
 
 func initssa() *ssa.Config {
 	if ssaConfig == nil {
@@ -29,12 +31,34 @@ func initssa() *ssa.Config {
 		}
 	}
 	ssaConfig.HTML = nil
+	s := os.Getenv("GO_CHATTY")
+	if s != "" {
+		chatty, _ = strconv.Atoi(s)
+	}
 	return ssaConfig
+}
+
+func (f *Func) hasRegisterArgs() bool {
+	return f != nil && f.Pragma&RegisterArgs != 0
+}
+
+func debugTestForGc(name string) bool {
+	if ssaConfig == nil {
+		initssa()
+	}
+	return ssaConfig.DebugHashMatch("GOSSAHASH", name)
 }
 
 // buildssa builds an SSA function.
 func buildssa(fn *Node) *ssa.Func {
+	registerArgs := fn.Func.hasRegisterArgs()
+	Ctxt.RegArgs = nil
+	Ctxt.RegArgs_enabled = registerArgs
 	name := fn.Func.Nname.Sym.Name
+	if registerArgs && chatty > 0 {
+		Warnl(lineno, "Saw register args def for %v.%v", myimportpath, name)
+	}
+
 	printssa := name == os.Getenv("GOSSAFUNC")
 	if printssa {
 		fmt.Println("generating SSA for", name)
@@ -70,7 +94,7 @@ func buildssa(fn *Node) *ssa.Func {
 	}
 	s.exitCode = fn.Func.Exit
 	s.panics = map[funcLine]*ssa.Block{}
-	s.config.DebugTest = s.config.DebugHashMatch("GOSSAHASH", name)
+	// s.config.DebugTest = s.config.DebugHashMatch("GOSSAHASH", name)
 
 	if name == os.Getenv("GOSSAFUNC") {
 		// TODO: tempfile? it is handy to have the location
@@ -78,6 +102,9 @@ func buildssa(fn *Node) *ssa.Func {
 		s.config.HTML = ssa.NewHTMLWriter("ssa.html", s.config, name)
 		// TODO: generate and print a mapping from nodes to values and blocks
 	}
+
+	var ras regArgState
+	s.initRegArgState(registerArgs, &ras)
 
 	// Allocate starting block
 	s.f.Entry = s.f.NewBlock(ssa.BlockPlain)
@@ -96,18 +123,26 @@ func buildssa(fn *Node) *ssa.Func {
 	s.varsyms = map[*Node]interface{}{}
 
 	// Generate addresses of local declarations
-	s.decladdrs = map[*Node]*ssa.Value{}
+	s.decladdrs = map[*Node]argAddr{}
 	for _, n := range fn.Func.Dcl {
 		switch n.Class {
 		case PPARAM, PPARAMOUT:
 			aux := s.lookupSymbol(n, &ssa.ArgSymbol{Typ: n.Type, Node: n})
-			s.decladdrs[n] = s.entryNewValue1A(ssa.OpAddr, ptrto(n.Type), aux, s.sp)
 			if n.Class == PPARAMOUT && s.canSSA(n) {
 				// Save ssa-able PPARAMOUT variables so we can
 				// store them back to the stack at the end of
 				// the function.
+				// TODO: register argument/returns, insert fake stores there as necessary.
 				s.returns = append(s.returns, n)
 			}
+			var reg ArgReg
+			if n.Class == PPARAM {
+				// Exclude the bogus ".fp" parameter inserted by racewalk.
+				if registerArgs && n.Sym.Name != ".fp" && s.argFitsInRegisters(n.Type) {
+					reg = ras.regFor(n.Type)
+				}
+			}
+			s.decladdrs[n] = argAddr{addr: s.entryNewValue1A(ssa.OpAddr, ptrto(n.Type), aux, s.sp), reg: reg}
 		case PAUTO:
 			// processed at each use, to prevent Addr coming
 			// before the decl.
@@ -122,9 +157,22 @@ func buildssa(fn *Node) *ssa.Func {
 
 	// Populate SSAable arguments.
 	for _, n := range fn.Func.Dcl {
-		if n.Class == PPARAM && s.canSSA(n) {
-			s.vars[n] = s.newValue0A(ssa.OpArg, n.Type, n)
+		if n.Class != PPARAM {
+			continue
 		}
+		var v *ssa.Value
+		a := s.decladdrs[n]
+		if s.canSSA(n) {
+			v = s.newValue0A(ArgRegArgOps[a.reg], n.Type, n)
+		} else {
+			// Not SSAable. Load it.
+			if a.reg != ArgRegNone { // if it must have arrived in a register, store it first.
+				v = s.newValue0A(ArgRegArgOps[a.reg], n.Type, n)
+				s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, n.Type.Size(), a.addr, v, s.vars[&memVar])
+			}
+			v = s.newValue2(ssa.OpLoad, n.Type, a.addr, s.vars[&memVar])
+		}
+		s.vars[n] = v
 	}
 
 	// Convert the AST-based IR to the SSA-based IR
@@ -175,6 +223,75 @@ func buildssa(fn *Node) *ssa.Func {
 	return s.f
 }
 
+// An ArgReg is a small index specifying argument registers in a machine-independent way (by counting them)
+type ArgReg uint8
+
+const (
+	ArgRegNone ArgReg = iota
+	ArgRegI0
+	ArgRegI1
+	ArgRegI2
+	ArgRegF0
+	ArgRegF1
+	ArgRegF2
+)
+
+// ArgRegStores are indexed by ArgReg, providing the respective opcodes for "storing" args.
+var ArgRegStores = [...]ssa.Op{ssa.OpInvalid, ssa.OpStoreArgRegI0, ssa.OpStoreArgRegI1, ssa.OpStoreArgRegI2, ssa.OpStoreArgRegF0, ssa.OpStoreArgRegF1, ssa.OpStoreArgRegF2}
+var ArgRegArgOps = [...]ssa.Op{ssa.OpArg, ssa.OpArgI0, ssa.OpArgI1, ssa.OpArgI2, ssa.OpArgF0, ssa.OpArgF1, ssa.OpArgF2}
+var ArgRegGp = [...]ArgReg{ArgRegI0, ArgRegI1, ArgRegI2}
+var ArgRegFp = [...]ArgReg{ArgRegF0, ArgRegF1, ArgRegF2}
+
+type regArgState struct {
+	gp []ArgReg
+	fp []ArgReg
+}
+
+func (s *state) initRegArgState(registerArgs bool, ras *regArgState) {
+	if !registerArgs {
+		return
+	}
+	ras.gp = ArgRegGp[0:s.config.NumArgGpReg]
+	ras.fp = ArgRegFp[0:s.config.NumArgFpReg]
+}
+
+// TODO want to handle multiple register args, in particular interfaces, strings, and slices. Keep amd64p32 in mind.
+func (a *regArgState) regFor(t ssa.Type) ArgReg {
+	if t.IsFloat() {
+		if len(a.fp) <= 0 {
+			return ArgRegNone
+		}
+		r := a.fp[0]
+		a.fp = a.fp[1:]
+		return r
+	}
+	if len(a.gp) <= 0 {
+		return ArgRegNone
+	}
+	r := a.gp[0]
+	a.gp = a.gp[1:]
+	return r
+}
+
+// TODO want to handle multiple register args, in particular interfaces, strings, and slices. Keep amd64p32 in mind.
+func (s *state) argFitsInRegisters(t ssa.Type) bool {
+	sz := t.Size() // For gc.Type, has side effect of dowidth.
+	switch {
+	case t.IsBoolean(),
+		t.IsInteger(),
+		t.IsFloat(),
+		t.IsPtrShaped():
+		return sz <= s.config.IntSize
+	}
+	return false
+}
+
+type argAddr struct {
+	addr      *ssa.Value // address of arg, initialized by caller if no reg provided.
+	reg       ArgReg     // register containing value if any.
+	mustSpill bool       // if address is taken, must spill in prologue
+}
+
 type state struct {
 	// configuration (arch) information
 	config *ssa.Config
@@ -213,7 +330,7 @@ type state struct {
 	defvars []map[*Node]*ssa.Value
 
 	// addresses of PPARAM and PPARAMOUT variables.
-	decladdrs map[*Node]*ssa.Value
+	decladdrs map[*Node]argAddr
 
 	// symbols for PEXTERN, PAUTO and PPARAMOUT variables so they can be reused.
 	varsyms map[*Node]interface{}
@@ -397,9 +514,19 @@ func (s *state) newValue3(op ssa.Op, t ssa.Type, arg0, arg1, arg2 *ssa.Value) *s
 	return s.curBlock.NewValue3(s.peekPos(), op, t, arg0, arg1, arg2)
 }
 
+// newValue3A adds a new value with three arguments and an aux value to the current block.
+func (s *state) newValue3A(op ssa.Op, t ssa.Type, aux interface{}, arg0, arg1, arg2 *ssa.Value) *ssa.Value {
+	return s.curBlock.NewValue3A(s.peekPos(), op, t, aux, arg0, arg1, arg2)
+}
+
 // newValue3I adds a new value with three arguments and an auxint value to the current block.
 func (s *state) newValue3I(op ssa.Op, t ssa.Type, aux int64, arg0, arg1, arg2 *ssa.Value) *ssa.Value {
 	return s.curBlock.NewValue3I(s.peekPos(), op, t, aux, arg0, arg1, arg2)
+}
+
+// newValue3AI adds a new value with three arguments and aux and auxint values to the current block.
+func (s *state) newValue3AI(op ssa.Op, t ssa.Type, aux interface{}, auxint int64, arg0, arg1, arg2 *ssa.Value) *ssa.Value {
+	return s.curBlock.NewValue3AI(s.peekPos(), op, t, aux, auxint, arg0, arg1, arg2)
 }
 
 // newValue4 adds a new value with four arguments to the current block.
@@ -482,6 +609,61 @@ func (s *state) constInt(t ssa.Type, c int64) *ssa.Value {
 func (s *state) stmtList(l Nodes) {
 	for _, n := range l.Slice() {
 		s.stmt(n)
+	}
+}
+
+var chatAboutAssignment bool
+
+// argList is like stmtList, but specialized for potentially passing parameters
+// in registers.
+func (s *state) argList(registerArgs bool, n *Node) {
+
+	if !registerArgs {
+		l := n.List
+		for _, oas := range l.Slice() {
+			s.stmt(oas)
+		}
+		return
+	}
+
+	args := s.sortedCallArgs(n)
+
+	var ras regArgState
+	s.initRegArgState(registerArgs, &ras)
+	chatAboutAssignment = true
+	defer func() { chatAboutAssignment = false }()
+
+	// First do all the non-register parameters (free up registers)
+	for _, v := range args {
+		t := v.v.Type
+
+		// TODO: Some SSA-able types are larger than ints and should be passed in registers.
+		// TODO: Check register type and if a register is available.
+		if s.argFitsInRegisters(t) {
+			reg := ras.regFor(t)
+			if reg != ArgRegNone {
+				continue
+			}
+		}
+		// Not in a register.
+		offset := s.entryNewValue1I(ssa.OpOffPtr, t.PtrTo(), v.offset, s.sp)
+		s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, t.Size(), offset, v.v, s.mem())
+	}
+
+	s.initRegArgState(registerArgs, &ras)
+	// Next do the register parameters
+	for _, v := range args {
+		t := v.v.Type
+
+		// TODO: Some SSA-able types are larger than ints and should be passed in registers.
+		// TODO: Check register type and if a register is available.
+		if s.argFitsInRegisters(t) {
+			reg := ras.regFor(t)
+			if reg != ArgRegNone {
+				// In a register.
+				s.vars[&memVar] = s.newValue3AI(ArgRegStores[reg], ssa.TypeMem, t, v.offset, s.sp, v.v, s.mem())
+			}
+		}
 	}
 }
 
@@ -959,7 +1141,7 @@ func (s *state) exit() *ssa.Block {
 
 	// Store SSAable PPARAMOUT variables back to stack locations.
 	for _, n := range s.returns {
-		addr := s.decladdrs[n]
+		addr := s.decladdrs[n].addr // TODO not handling returns in regs yet.
 		val := s.variable(n, n.Type)
 		s.vars[&memVar] = s.newValue1A(ssa.OpVarDef, ssa.TypeMem, n, s.mem())
 		s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, n.Type.Size(), addr, val, s.mem())
@@ -1941,7 +2123,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 	case ODOT:
 		t := n.Left.Type
-		if canSSAType(t) {
+		if canSSAType(t) { // TODO register arguments/results likely to interact with this.
 			v := s.expr(n.Left)
 			return s.newValue1I(ssa.OpStructSelect, n.Type, int64(fieldIdx(n)), v)
 		}
@@ -1986,10 +2168,10 @@ func (s *state) expr(n *Node) *ssa.Value {
 				ptr = s.newValue2(ssa.OpAddPtr, ptrtyp, ptr, i)
 			}
 			return s.newValue2(ssa.OpLoad, Types[TUINT8], ptr, s.mem())
-		case n.Left.Type.IsSlice():
+		case n.Left.Type.IsSlice(): // TODO register args/results?
 			p, _ := s.addr(n, false)
 			return s.newValue2(ssa.OpLoad, n.Left.Type.Elem(), p, s.mem())
-		case n.Left.Type.IsArray():
+		case n.Left.Type.IsArray(): // TODO register args/results?
 			if bound := n.Left.Type.NumElem(); bound <= 1 {
 				// SSA can handle arrays of length at most 1.
 				a := s.expr(n.Left)
@@ -2086,7 +2268,10 @@ func (s *state) expr(n *Node) *ssa.Value {
 		fallthrough
 
 	case OCALLINTER, OCALLMETH:
-		a := s.call(n, callNormal)
+		inreg, a := s.call(n, callNormal)
+		if inreg {
+			return a
+		}
 		return s.newValue2(ssa.OpLoad, n.Type, a, s.mem())
 
 	case OGETG:
@@ -2863,7 +3048,7 @@ func (x byOffset) Less(i, j int) bool {
 }
 
 // intrinsicArgs extracts args from n, evaluates them to SSA values, and returns them.
-func (s *state) intrinsicArgs(n *Node) []*ssa.Value {
+func (s *state) sortedCallArgs(n *Node) []callArg {
 	// This code is complicated because of how walk transforms calls. For a call node,
 	// each entry in n.List is either an assignment to OINDREGSP which actually
 	// stores an arg, or an assignment to a temporary which computes an arg
@@ -2898,6 +3083,11 @@ func (s *state) intrinsicArgs(n *Node) []*ssa.Value {
 		}
 	}
 	sort.Sort(byOffset(args))
+	return args
+}
+
+func (s *state) intrinsicArgs(n *Node) []*ssa.Value {
+	args := s.sortedCallArgs(n)
 	res := make([]*ssa.Value, len(args))
 	for i, a := range args {
 		res[i] = a.v
@@ -2905,18 +3095,44 @@ func (s *state) intrinsicArgs(n *Node) []*ssa.Value {
 	return res
 }
 
+func (s *state) someRegisterArgs(fn *Node, sym *Sym, how string) bool {
+	registerArgs1 := sym.Def != nil && sym.Def.Func.hasRegisterArgs()
+	registerArgs2 := fn.Name != nil && fn.Name.Defn != nil && fn.Name.Defn.Func.hasRegisterArgs()
+	registerArgs3 := fn.Type != nil && fn.Type.Nname() != nil && fn.Type.Nname().Func.hasRegisterArgs()
+	registerArgs4 := sym.Def != nil && sym.Def.Type != nil && sym.Def.Type.Nname() != nil && sym.Def.Type.Nname().Func.hasRegisterArgs()
+	registerArgs := registerArgs1 || registerArgs2 || registerArgs3 || registerArgs4
+	// TODO Why are pragmas landing in two (or more) provably different places?
+	if registerArgs {
+		// Imported pragmas land here, but ONLY imported pragmas land here.
+		if chatty > 2 {
+			s.f.Config.Warnl(lineno, "registerArgs Y %s, %s %v %v %v %v", sym.Name, how, registerArgs1, registerArgs2, registerArgs3, registerArgs4)
+		}
+	} else {
+		if chatty > 3 {
+			s.f.Config.Warnl(lineno, "registerArgs N %s, %v %v %v %v", sym.Name, registerArgs1, registerArgs2, registerArgs3, registerArgs4)
+		}
+	}
+	return registerArgs
+}
+
 // Calls the function n using the specified call type.
-// Returns the address of the return value (or nil if none).
-func (s *state) call(n *Node, k callKind) *ssa.Value {
+// Returns the an indication that the result is in a register
+// or the address of the return value (or nil if none).
+func (s *state) call(n *Node, k callKind) (inreg bool, result *ssa.Value) {
 	var sym *Sym           // target symbol (if static)
 	var closure *ssa.Value // ptr to closure to run (if dynamic)
 	var codeptr *ssa.Value // ptr to target code (if dynamic)
 	var rcvr *ssa.Value    // receiver to set
 	fn := n.Left
+
+	// should call use register args? Default is no.
+	registerArgs := false
+
 	switch n.Op {
 	case OCALLFUNC:
 		if k == callNormal && fn.Op == ONAME && fn.Class == PFUNC {
 			sym = fn.Sym
+			registerArgs = s.someRegisterArgs(fn, sym, "callfunc")
 			break
 		}
 		closure = s.expr(fn)
@@ -2924,10 +3140,17 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 		if fn.Op != ODOTMETH {
 			Fatalf("OCALLMETH: n.Left not an ODOTMETH: %v", fn)
 		}
+
 		if k == callNormal {
 			sym = fn.Sym
+			tfn := fn.Type.Nname()
+			tsym := fn.Sym
+
+			// TODO comments imply this is not necessarily the Defn I want, but comments are also clue-free on how to find the one that I want.
+			registerArgs = s.someRegisterArgs(tfn, tsym, "callmeth")
 			break
 		}
+
 		// Make a name n2 for the function.
 		// fn.Sym might be sync.(*Mutex).Unlock.
 		// Make a PFUNC node out of that, then evaluate it.
@@ -2958,14 +3181,39 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 		}
 		rcvr = s.newValue1(ssa.OpIData, Types[TUINTPTR], i)
 	}
+
+	// a call that uses register args is similar to a normal call -- the same memory on the caller's
+	// stack is reserved, so that if the stack must grow there is an easy place to spill to.
+	// compilation of the code to initialize the args (a list of OAS nodes) uses a fake store for
+	// each of the parameters passed in a register, and the caller side will in turn use a fake load
+	// to obtain them from the stack.
+	//
+	// Fake loads and stores help in several ways:
+	// - they make the lifetime of the parameters explicit, useful for understanding what the compiler is doing.
+	// - they require less modification of the code in plive to track pointer lifetimes.
+	// - they require less modification of the register allocator -- there is a fake load opcode
+	//   for each parameter register that only takes that register, which ensures that the register allocator
+	//   will deliver it there.  The only requirement is that the scheduler place all fake loads and stores
+	//   adjacent to their call, and that parameter registers are not reused between first fake store and last
+	//   fake load.
+	//
+	// A fake load/store models movement of an entire register, and thus do not come in byte/half/word/double
+	// integer sizes (floats, TBD, depending on architectural variation, but S and D might be needed).
+
 	dowidth(fn.Type)
+
+	// TODO: check args/return for cases that we handle/not
+
 	stksize := fn.Type.ArgWidth() // includes receiver
 
 	// Run all argument assignments. The arg slots have already
 	// been offset by the appropriate amount (+2*widthptr for go/defer,
 	// +widthptr for interface calls).
 	// For OCALLMETH, the receiver is set in these statements.
-	s.stmtList(n.List)
+	if registerArgs && chatty > 1 {
+		s.f.Config.Warnl(lineno, "Saw register args call to %s", fn.Sym.Name)
+	}
+	s.argList(registerArgs, n)
 
 	// Set receiver (for interface calls)
 	if rcvr != nil {
@@ -3028,10 +3276,11 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 	res := n.Left.Type.Results()
 	if res.NumFields() == 0 || k != callNormal {
 		// call has no return value. Continue with the next statement.
-		return nil
+		return
 	}
 	fp := res.Field(0)
-	return s.entryNewValue1I(ssa.OpOffPtr, ptrto(fp.Type), fp.Offset+Ctxt.FixedFrameSize(), s.sp)
+	result = s.entryNewValue1I(ssa.OpOffPtr, ptrto(fp.Type), fp.Offset+Ctxt.FixedFrameSize(), s.sp)
+	return
 }
 
 // etypesign returns the signed-ness of e, for integer/pointer etypes.
@@ -3087,7 +3336,14 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
 			return v, false
 		case PPARAM:
 			// parameter slot
-			v := s.decladdrs[n]
+			aa := s.decladdrs[n]
+			if !aa.mustSpill {
+				// Addr of SSAable PPARAM occurs only for true address-taking, so a spill is required.
+				aa.mustSpill = true
+				s.decladdrs[n] = aa
+			}
+			v := aa.addr // TODO when do we address parameters?
+
 			if v != nil {
 				return v, false
 			}
@@ -3104,6 +3360,7 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
 		case PPARAMOUT: // Same as PAUTO -- cannot generate LEA early.
 			// ensure that we reuse symbols for out parameters so
 			// that cse works on their addresses
+			// TODO register return values
 			aux := s.lookupSymbol(n, &ssa.ArgSymbol{Typ: n.Type, Node: n})
 			return s.newValue1A(ssa.OpAddr, t, aux, s.sp), false
 		default:
@@ -3150,7 +3407,12 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
 		addr, isVolatile := s.addr(n.Left, bounded)
 		return s.newValue1(ssa.OpCopy, t, addr), isVolatile // ensure that addr has the right type
 	case OCALLFUNC, OCALLINTER, OCALLMETH:
-		return s.call(n, callNormal), true
+		inreg, result := s.call(n, callNormal)
+		if inreg {
+			// TODO: we can just store this in a slot and return that right?
+			panic("Cannot address register-resident result, this needs to be implemented")
+		}
+		return result, true
 	case ODOTTYPE:
 		v, _ := s.dottype(n, false)
 		if v.Op != ssa.OpLoad {
@@ -3344,15 +3606,36 @@ func (s *state) intDivide(n *Node, a, b *ssa.Value) *ssa.Value {
 // If returns is false, the block is marked as an exit block.
 func (s *state) rtcall(fn *obj.LSym, returns bool, results []*Type, args ...*ssa.Value) []*ssa.Value {
 	// Write args to the stack
+
+	// TODO Temporarily disabled register args for runtime functions because access to the pragma is lost.
+	// sym := fn.Sym
+	// registerArgs := s.someRegisterArgs(fn, sym, "rtcall")
+
+	// var ras regArgState
+
+	// s.initRegArgState(registerArgs, &ras)
 	off := Ctxt.FixedFrameSize()
 	for _, arg := range args {
 		t := arg.Type
 		off = Rnd(off, t.Alignment())
+
+		size := t.Size()
+
+		// TODO against the unpleasant chance of an unfortunate register shuffle,
+		// ought to run this loop twice, once for stack, once for registers.
+		// if registerArgs && s.argFitsInRegisters(t) {
+		// 	reg := ras.regFor(t)
+		// 	if reg != ArgRegNone {
+		// 		s.vars[&memVar] = s.newValue3AI(ArgRegStores[reg], ssa.TypeMem, t, off, s.sp, arg, s.mem())
+		// 		off += size
+		// 		continue
+		// 	}
+		// }
+
 		ptr := s.sp
 		if off != 0 {
 			ptr = s.newValue1I(ssa.OpOffPtr, t.PtrTo(), off, s.sp)
 		}
-		size := t.Size()
 		s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, size, ptr, arg, s.mem())
 		off += size
 	}
@@ -4712,6 +4995,56 @@ func (s *SSAGenState) AddrScratch(a *obj.Addr) {
 	a.Sym = Linksym(s.ScratchFpMem.Sym)
 	a.Reg = int16(Thearch.REGSP)
 	a.Offset = s.ScratchFpMem.Xoffset
+}
+
+func AutoSlot(v *ssa.Value) ssa.LocalSlot {
+	loc := v.Block.Func.RegAlloc[v.ID].(ssa.LocalSlot)
+	if v.Type.Size() > loc.Type.Size() {
+		v.Fatalf("spill/restore type %s doesn't fit in slot type %s", v.Type, loc.Type)
+	}
+	return loc
+}
+
+func SlotAutoVar(slot *ssa.LocalSlot) (*Node, int64) {
+	return slot.N.(*Node), slot.Off
+}
+
+// SlotAddr uses LocalSlot information to initialize an obj.Addr
+// The resulting addr is used in a non-standard context -- in the prologue
+// of a function, before the frame has been constructed, so the standard
+// addressing for the parameters will be wrong.
+func SpillSlotAddr(slot *ssa.LocalSlot, baseReg int16, extraOffset int64) obj.Addr {
+	n, off := slot.N.(*Node), slot.Off
+	var a obj.Addr
+	a.Type = obj.TYPE_MEM
+	a.Reg = baseReg
+	// TODO does it help in any way to initialize Node and Sym?
+	a.Offset = off
+	if n.Class == PPARAM || n.Class == PPARAMOUT {
+		a.Name = obj.NAME_NONE
+		a.Offset += n.Xoffset
+	} else {
+		panic("Only expected to see param and returns here")
+	}
+	a.Offset += extraOffset
+	return a
+}
+
+// addrForSlot fills in an Addr appropriately for a Spill,
+// Restore, or VARLIVE.
+func AddrForParamSlot(slot *ssa.LocalSlot, addr *obj.Addr) {
+	// TODO replace this boilerplate in a couple of places.
+	n, off := SlotAutoVar(slot)
+	addr.Type = obj.TYPE_MEM
+	addr.Node = n
+	addr.Sym = Linksym(n.Sym)
+	addr.Offset = off
+	if n.Class == PPARAM || n.Class == PPARAMOUT {
+		addr.Name = obj.NAME_PARAM
+		addr.Offset += n.Xoffset
+	} else {
+		addr.Name = obj.NAME_AUTO
+	}
 }
 
 // fieldIdx finds the index of the field referred to by the ODOT node n.

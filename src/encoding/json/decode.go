@@ -341,6 +341,7 @@ func (d *decodeState) next() []byte {
 // scanWhile processes bytes in d.data[d.off:] until it
 // receives a scan code not equal to op.
 // It updates d.off and returns the new scan code.
+//go:register_args
 func (d *decodeState) scanWhile(op int) int {
 	var newOp int
 	for {
@@ -591,6 +592,7 @@ var textUnmarshalerType = reflect.TypeOf(new(encoding.TextUnmarshaler)).Elem()
 
 // object consumes an object from d.data[d.off-1:], decoding into the value v.
 // the first byte ('{') of the object has been read already.
+//go:register_args
 func (d *decodeState) object(v reflect.Value) {
 	// Check for unmarshaler.
 	u, ut, pv := d.indirect(v, false)

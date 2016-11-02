@@ -230,6 +230,7 @@ func (d *compressor) fillWindow(b []byte) {
 
 // Try to find a match starting at index whose length is greater than prevSize.
 // We only look at chainCount possibilities before giving up.
+//go:register_args
 func (d *compressor) findMatch(pos int, prevHead int, prevLength int, lookahead int) (length, offset int, ok bool) {
 	minMatchLook := maxMatchLength
 	if lookahead < minMatchLook {
@@ -317,6 +318,7 @@ func bulkHash4(b []byte, dst []uint32) {
 // matchLen returns the number of matching bytes in a and b
 // up to length 'max'. Both slices must be at least 'max'
 // bytes in size.
+//go:register_args
 func matchLen(a, b []byte, max int) int {
 	a = a[:max]
 	b = b[:len(a)]

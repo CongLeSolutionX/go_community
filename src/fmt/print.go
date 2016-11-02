@@ -138,6 +138,7 @@ func newPrinter() *pp {
 }
 
 // free saves used pp structs in ppFree; avoids an allocation per invocation.
+//go:register_args
 func (p *pp) free() {
 	p.buf = p.buf[:0]
 	p.arg = nil
@@ -350,6 +351,7 @@ func (p *pp) fmt0x64(v uint64, leading0x bool) {
 }
 
 // fmtInteger formats a signed or unsigned integer.
+//go:register_args
 func (p *pp) fmtInteger(v uint64, isSigned bool, verb rune) {
 	switch verb {
 	case 'v':
@@ -601,6 +603,7 @@ func (p *pp) handleMethods(verb rune) (handled bool) {
 	return false
 }
 
+//go:register_args
 func (p *pp) printArg(arg interface{}, verb rune) {
 	p.arg = arg
 	p.value = reflect.Value{}
@@ -916,6 +919,7 @@ func parseArgNumber(format string) (index int, wid int, ok bool) {
 // argNumber returns the next argument to evaluate, which is either the value of the passed-in
 // argNum or the value of the bracketed integer that begins format[i:]. It also returns
 // the new value of i, that is, the index of the next byte of the format to process.
+//go:register_args
 func (p *pp) argNumber(argNum int, format string, i int, numArgs int) (newArgNum, newi int, found bool) {
 	if len(format) <= i || format[i] != '[' {
 		return argNum, i, false
@@ -941,6 +945,7 @@ func (p *pp) missingArg(verb rune) {
 	p.buf.WriteString(missingString)
 }
 
+//go:register_args
 func (p *pp) doPrintf(format string, a []interface{}) {
 	end := len(format)
 	argNum := 0         // we process one argument per non-trivial format

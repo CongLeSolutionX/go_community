@@ -205,6 +205,7 @@ func LastIndexAny(s []byte, chars string) int {
 
 // Generic split: splits after each instance of sep,
 // including sepSave bytes of sep in the subslices.
+//go:register_args
 func genSplit(s, sep []byte, sepSave, n int) [][]byte {
 	if n == 0 {
 		return nil
@@ -438,6 +439,7 @@ func ToTitleSpecial(c unicode.SpecialCase, s []byte) []byte {
 
 // isSeparator reports whether the rune could mark a word boundary.
 // TODO: update when package unicode captures more of the properties.
+//go:register_args
 func isSeparator(r rune) bool {
 	// ASCII alphanumerics and underscore are not separators
 	if r <= 0x7F {

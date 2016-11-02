@@ -102,6 +102,7 @@ func (enc *Encoder) freeEncoderState(e *encoderState) {
 // by the byte length, negated.
 
 // encodeUint writes an encoded unsigned integer to state.b.
+// go:register_args
 func (state *encoderState) encodeUint(x uint64) {
 	if x <= 0x7F {
 		state.b.WriteByte(uint8(x))
@@ -120,6 +121,7 @@ func (state *encoderState) encodeUint(x uint64) {
 // encodeInt writes an encoded signed integer to state.w.
 // The low bit of the encoding says whether to bit complement the (other bits of the)
 // uint to recover the int.
+// go:register_args
 func (state *encoderState) encodeInt(i int64) {
 	var x uint64
 	if i < 0 {
@@ -160,6 +162,7 @@ func (state *encoderState) update(instr *encInstr) {
 // format.
 
 // encIndirect dereferences pv indir times and returns the result.
+// go:register_args
 func encIndirect(pv reflect.Value, indir int) reflect.Value {
 	for ; indir > 0; indir-- {
 		if pv.IsNil() {
@@ -292,6 +295,7 @@ func valid(v reflect.Value) bool {
 }
 
 // encodeSingle encodes a single top-level non-struct value.
+// go:register_args
 func (enc *Encoder) encodeSingle(b *encBuffer, engine *encEngine, value reflect.Value) {
 	state := enc.newEncoderState(b)
 	defer enc.freeEncoderState(state)
@@ -309,6 +313,7 @@ func (enc *Encoder) encodeSingle(b *encBuffer, engine *encEngine, value reflect.
 }
 
 // encodeStruct encodes a single struct value.
+// go:register_args
 func (enc *Encoder) encodeStruct(b *encBuffer, engine *encEngine, value reflect.Value) {
 	if !valid(value) {
 		return
@@ -336,6 +341,7 @@ func (enc *Encoder) encodeStruct(b *encBuffer, engine *encEngine, value reflect.
 }
 
 // encodeArray encodes an array.
+// go:register_args
 func (enc *Encoder) encodeArray(b *encBuffer, value reflect.Value, op encOp, elemIndir int, length int, helper encHelper) {
 	state := enc.newEncoderState(b)
 	defer enc.freeEncoderState(state)
@@ -359,6 +365,7 @@ func (enc *Encoder) encodeArray(b *encBuffer, value reflect.Value, op encOp, ele
 }
 
 // encodeReflectValue is a helper for maps. It encodes the value v.
+// go:register_args
 func encodeReflectValue(state *encoderState, v reflect.Value, op encOp, indir int) {
 	for i := 0; i < indir && v.IsValid(); i++ {
 		v = reflect.Indirect(v)
@@ -370,6 +377,7 @@ func encodeReflectValue(state *encoderState, v reflect.Value, op encOp, indir in
 }
 
 // encodeMap encodes a map as unsigned count followed by key:value pairs.
+// go:register_args
 func (enc *Encoder) encodeMap(b *encBuffer, mv reflect.Value, keyOp, elemOp encOp, keyIndir, elemIndir int) {
 	state := enc.newEncoderState(b)
 	state.fieldnum = -1
@@ -388,6 +396,7 @@ func (enc *Encoder) encodeMap(b *encBuffer, mv reflect.Value, keyOp, elemOp encO
 // by the type identifier (which might require defining that type right now), followed
 // by the concrete value. A nil value gets sent as the empty string for the name,
 // followed by no value.
+// go:register_args
 func (enc *Encoder) encodeInterface(b *encBuffer, iv reflect.Value) {
 	// Gobs can encode nil interface values but not typed interface
 	// values holding nil pointers, since nil pointers point to no value.
@@ -473,6 +482,7 @@ func isZero(val reflect.Value) bool {
 
 // encGobEncoder encodes a value that implements the GobEncoder interface.
 // The data is sent as a byte array.
+// go:register_args
 func (enc *Encoder) encodeGobEncoder(b *encBuffer, ut *userTypeInfo, v reflect.Value) {
 	// TODO: should we catch panics from the called method?
 
@@ -693,6 +703,7 @@ func buildEncEngine(info *typeInfo, ut *userTypeInfo, building map[*typeInfo]boo
 	return enc
 }
 
+// go:register_args
 func (enc *Encoder) encode(b *encBuffer, value reflect.Value, ut *userTypeInfo) {
 	defer catchError(&enc.err)
 	engine := getEncEngine(ut, nil)

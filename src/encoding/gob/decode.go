@@ -91,6 +91,7 @@ func (d *decBuffer) Reset() {
 
 // We pass the bytes.Buffer separately for easier testing of the infrastructure
 // without requiring a full Decoder.
+// go:register_args
 func (dec *Decoder) newDecoderState(buf *decBuffer) *decoderState {
 	d := dec.freeList
 	if d == nil {
@@ -103,6 +104,7 @@ func (dec *Decoder) newDecoderState(buf *decBuffer) *decoderState {
 	return d
 }
 
+// go:register_args
 func (dec *Decoder) freeDecoderState(d *decoderState) {
 	d.next = dec.freeList
 	dec.freeList = d
@@ -146,6 +148,7 @@ func decodeUintReader(r io.Reader, buf []byte) (x uint64, width int, err error) 
 
 // decodeUint reads an encoded unsigned integer from state.r.
 // Does not check for overflow.
+// go:register_args
 func (state *decoderState) decodeUint() (x uint64) {
 	b, err := state.b.ReadByte()
 	if err != nil {
@@ -173,6 +176,7 @@ func (state *decoderState) decodeUint() (x uint64) {
 
 // decodeInt reads an encoded signed integer from state.r.
 // Does not check for overflow.
+// go:register_args
 func (state *decoderState) decodeInt() int64 {
 	x := state.decodeUint()
 	if x&1 != 0 {
@@ -184,6 +188,7 @@ func (state *decoderState) decodeInt() int64 {
 // getLength decodes the next uint and makes sure it is a possible
 // size for a data item that follows, which means it must fit in a
 // non-negative int and fit in the buffer.
+// go:register_args
 func (state *decoderState) getLength() (int, bool) {
 	n := int(state.decodeUint())
 	if n < 0 || state.b.Len() < n || tooBig <= n {
@@ -312,6 +317,7 @@ func decUint64(i *decInstr, state *decoderState, value reflect.Value) {
 // the exponent end coming out first, so integer floating point numbers
 // (for example) transmit more compactly. This routine does the
 // unswizzling.
+// go:register_args
 func float64FromBits(u uint64) float64 {
 	var v uint64
 	for i := 0; i < 8; i++ {
@@ -326,6 +332,7 @@ func float64FromBits(u uint64) float64 {
 // number, and returns it. It's a helper function for float32 and complex64.
 // It returns a float64 because that's what reflection needs, but its return
 // value is known to be accurately representable in a float32.
+// go:register_args
 func float32FromBits(u uint64, ovfl error) float64 {
 	v := float64FromBits(u)
 	av := v
@@ -430,6 +437,7 @@ type decEngine struct {
 // decodeSingle decodes a top-level value that is not a struct and stores it in value.
 // Such values are preceded by a zero, making them have the memory layout of a
 // struct field (although with an illegal field number).
+// go:register_args
 func (dec *Decoder) decodeSingle(engine *decEngine, ut *userTypeInfo, value reflect.Value) {
 	state := dec.newDecoderState(&dec.buf)
 	defer dec.freeDecoderState(state)
@@ -446,6 +454,7 @@ func (dec *Decoder) decodeSingle(engine *decEngine, ut *userTypeInfo, value refl
 // differ from ut.indir, which was computed when the engine was built.
 // This state cannot arise for decodeSingle, which is called directly
 // from the user's value, not from the innards of an engine.
+// go:register_args
 func (dec *Decoder) decodeStruct(engine *decEngine, ut *userTypeInfo, value reflect.Value) {
 	state := dec.newDecoderState(&dec.buf)
 	defer dec.freeDecoderState(state)
@@ -480,6 +489,7 @@ func (dec *Decoder) decodeStruct(engine *decEngine, ut *userTypeInfo, value refl
 var noValue reflect.Value
 
 // ignoreStruct discards the data for a struct with no destination.
+// go:register_args
 func (dec *Decoder) ignoreStruct(engine *decEngine) {
 	state := dec.newDecoderState(&dec.buf)
 	defer dec.freeDecoderState(state)
@@ -504,6 +514,7 @@ func (dec *Decoder) ignoreStruct(engine *decEngine) {
 
 // ignoreSingle discards the data for a top-level non-struct value with no
 // destination. It's used when calling Decode with a nil value.
+// go:register_args
 func (dec *Decoder) ignoreSingle(engine *decEngine) {
 	state := dec.newDecoderState(&dec.buf)
 	defer dec.freeDecoderState(state)
@@ -517,6 +528,7 @@ func (dec *Decoder) ignoreSingle(engine *decEngine) {
 }
 
 // decodeArrayHelper does the work for decoding arrays and slices.
+// go:register_args
 func (dec *Decoder) decodeArrayHelper(state *decoderState, value reflect.Value, elemOp decOp, length int, ovfl error, helper decHelper) {
 	if helper != nil && helper(state, value, length, ovfl) {
 		return
@@ -538,6 +550,7 @@ func (dec *Decoder) decodeArrayHelper(state *decoderState, value reflect.Value, 
 // decodeArray decodes an array and stores it in value.
 // The length is an unsigned integer preceding the elements. Even though the length is redundant
 // (it's part of the type), it's a useful check and is included in the encoding.
+// go:register_args
 func (dec *Decoder) decodeArray(atyp reflect.Type, state *decoderState, value reflect.Value, elemOp decOp, length int, ovfl error, helper decHelper) {
 	if n := state.decodeUint(); n != uint64(length) {
 		errorf("length mismatch in decodeArray")
@@ -546,6 +559,7 @@ func (dec *Decoder) decodeArray(atyp reflect.Type, state *decoderState, value re
 }
 
 // decodeIntoValue is a helper for map decoding.
+// go:register_args
 func decodeIntoValue(state *decoderState, op decOp, isPtr bool, value reflect.Value, ovfl error) reflect.Value {
 	instr := &decInstr{op, 0, nil, ovfl}
 	v := value
@@ -560,6 +574,7 @@ func decodeIntoValue(state *decoderState, op decOp, isPtr bool, value reflect.Va
 // Maps are encoded as a length followed by key:value pairs.
 // Because the internals of maps are not visible to us, we must
 // use reflection rather than pointer magic.
+// go:register_args
 func (dec *Decoder) decodeMap(mtyp reflect.Type, state *decoderState, value reflect.Value, keyOp, elemOp decOp, ovfl error) {
 	if value.IsNil() {
 		// Allocate map.
@@ -576,6 +591,7 @@ func (dec *Decoder) decodeMap(mtyp reflect.Type, state *decoderState, value refl
 }
 
 // ignoreArrayHelper does the work for discarding arrays and slices.
+// go:register_args
 func (dec *Decoder) ignoreArrayHelper(state *decoderState, elemOp decOp, length int) {
 	instr := &decInstr{elemOp, 0, nil, errors.New("no error")}
 	for i := 0; i < length; i++ {
@@ -587,6 +603,7 @@ func (dec *Decoder) ignoreArrayHelper(state *decoderState, elemOp decOp, length 
 }
 
 // ignoreArray discards the data for an array value with no destination.
+// go:register_args
 func (dec *Decoder) ignoreArray(state *decoderState, elemOp decOp, length int) {
 	if n := state.decodeUint(); n != uint64(length) {
 		errorf("length mismatch in ignoreArray")
@@ -595,6 +612,7 @@ func (dec *Decoder) ignoreArray(state *decoderState, elemOp decOp, length int) {
 }
 
 // ignoreMap discards the data for a map value with no destination.
+// go:register_args
 func (dec *Decoder) ignoreMap(state *decoderState, keyOp, elemOp decOp) {
 	n := int(state.decodeUint())
 	keyInstr := &decInstr{keyOp, 0, nil, errors.New("no error")}
@@ -607,6 +625,7 @@ func (dec *Decoder) ignoreMap(state *decoderState, keyOp, elemOp decOp) {
 
 // decodeSlice decodes a slice and stores it in value.
 // Slices are encoded as an unsigned length followed by the elements.
+// go:register_args
 func (dec *Decoder) decodeSlice(state *decoderState, value reflect.Value, elemOp decOp, ovfl error, helper decHelper) {
 	u := state.decodeUint()
 	typ := value.Type()
@@ -628,6 +647,7 @@ func (dec *Decoder) decodeSlice(state *decoderState, value reflect.Value, elemOp
 }
 
 // ignoreSlice skips over the data for a slice value with no destination.
+// go:register_args
 func (dec *Decoder) ignoreSlice(state *decoderState, elemOp decOp) {
 	dec.ignoreArrayHelper(state, elemOp, int(state.decodeUint()))
 }
@@ -635,6 +655,7 @@ func (dec *Decoder) ignoreSlice(state *decoderState, elemOp decOp) {
 // decodeInterface decodes an interface value and stores it in value.
 // Interfaces are encoded as the name of a concrete type followed by a value.
 // If the name is empty, the value is nil and no value is sent.
+// go:register_args
 func (dec *Decoder) decodeInterface(ityp reflect.Type, state *decoderState, value reflect.Value) {
 	// Read the name of the concrete type.
 	nr := state.decodeUint()
@@ -687,6 +708,7 @@ func (dec *Decoder) decodeInterface(ityp reflect.Type, state *decoderState, valu
 }
 
 // ignoreInterface discards the data for an interface value with no destination.
+// go:register_args
 func (dec *Decoder) ignoreInterface(state *decoderState) {
 	// Read the name of the concrete type.
 	n, ok := state.getLength()
@@ -712,6 +734,7 @@ func (dec *Decoder) ignoreInterface(state *decoderState) {
 
 // decodeGobDecoder decodes something implementing the GobDecoder interface.
 // The data is encoded as a byte slice.
+// go:register_args
 func (dec *Decoder) decodeGobDecoder(ut *userTypeInfo, state *decoderState, value reflect.Value) {
 	// Read the bytes for the value.
 	n, ok := state.getLength()
@@ -740,6 +763,7 @@ func (dec *Decoder) decodeGobDecoder(ut *userTypeInfo, state *decoderState, valu
 }
 
 // ignoreGobDecoder discards the data for a GobDecoder value with no destination.
+// go:register_args
 func (dec *Decoder) ignoreGobDecoder(state *decoderState) {
 	// Read the bytes for the value.
 	n, ok := state.getLength()
@@ -1204,6 +1228,7 @@ func (dec *Decoder) decodeValue(wireId typeId, value reflect.Value) {
 }
 
 // decodeIgnoredValue decodes the data stream representing a value of the specified type and discards it.
+// go:register_args
 func (dec *Decoder) decodeIgnoredValue(wireId typeId) {
 	var enginePtr **decEngine
 	enginePtr, dec.err = dec.getIgnoreEnginePtr(wireId)

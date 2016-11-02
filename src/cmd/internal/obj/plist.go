@@ -119,15 +119,23 @@ func flushplist(ctxt *Link, plist *Plist, freeProgs bool) {
 	}
 
 	// Turn functions into machine code images.
-	for _, s := range text {
+	otext := text
+	for _, s := range otext {
 		mkfwd(s)
 		linkpatch(ctxt, s)
-		ctxt.Arch.Preprocess(ctxt, s)
+		extra := ctxt.Arch.Preprocess(ctxt, s)
 		ctxt.Arch.Assemble(ctxt, s)
 		fieldtrack(ctxt, s)
 		linkpcln(ctxt, s)
 		if freeProgs {
 			s.Text = nil
+		}
+		if extra != nil {
+			ctxt.Arch.Assemble(ctxt, extra)
+			if freeProgs {
+				extra.Text = nil
+			}
+			text = append(text, extra)
 		}
 	}
 

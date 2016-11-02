@@ -50,6 +50,7 @@ func NewDecoder(r io.Reader) *Decoder {
 }
 
 // recvType loads the definition of a type.
+//go:register_args
 func (dec *Decoder) recvType(id typeId) {
 	// Have we already seen this type?  That's an error
 	if id < firstUserId || dec.wireType[id] != nil {
@@ -71,6 +72,7 @@ var errBadCount = errors.New("invalid message length")
 
 // recvMessage reads the next count-delimited item from the input. It is the converse
 // of Encoder.writeMessage. It returns false on EOF or other error reading the message.
+//go:register_args
 func (dec *Decoder) recvMessage() bool {
 	// Read a count.
 	nbytes, _, err := decodeUintReader(dec.r, dec.countBuf)
@@ -87,6 +89,7 @@ func (dec *Decoder) recvMessage() bool {
 }
 
 // readMessage reads the next nbytes bytes from the input.
+//go:register_args
 func (dec *Decoder) readMessage(nbytes int) {
 	if dec.buf.Len() != 0 {
 		// The buffer should always be empty now.
@@ -103,6 +106,7 @@ func (dec *Decoder) readMessage(nbytes int) {
 }
 
 // toInt turns an encoded uint64 into an int, according to the marshaling rules.
+//go:register_args
 func toInt(x uint64) int64 {
 	i := int64(x >> 1)
 	if x&1 != 0 {
@@ -111,6 +115,7 @@ func toInt(x uint64) int64 {
 	return i
 }
 
+//go:register_args
 func (dec *Decoder) nextInt() int64 {
 	n, _, err := decodeUintReader(&dec.buf, dec.countBuf)
 	if err != nil {
@@ -119,6 +124,7 @@ func (dec *Decoder) nextInt() int64 {
 	return toInt(n)
 }
 
+//go:register_args
 func (dec *Decoder) nextUint() uint64 {
 	n, _, err := decodeUintReader(&dec.buf, dec.countBuf)
 	if err != nil {

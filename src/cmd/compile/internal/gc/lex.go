@@ -49,6 +49,7 @@ const (
 	Noinline                     // func should not be inlined
 	CgoUnsafeArgs                // treat a pointer to one arg as a pointer to them all
 	UintptrEscapes               // pointers converted to uintptr escape
+	RegisterArgs                 // args pass in registers, as appropriate to architecture
 
 	// Runtime-only func pragmas.
 	// See ../../../../runtime/README.md for detailed descriptions.
@@ -100,6 +101,8 @@ func pragmaValue(verb string) syntax.Pragma {
 		return UintptrEscapes
 	case "go:notinheap":
 		return NotInHeap
+	case "go:register_args":
+		return RegisterArgs
 	}
 	return 0
 }

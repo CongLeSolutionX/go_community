@@ -18,6 +18,7 @@ import (
 	"path"
 	"regexp"
 	"sort"
+	"strings"
 )
 
 type arch struct {
@@ -27,6 +28,8 @@ type arch struct {
 	ops             []opData
 	blocks          []blockData
 	regnames        []string
+	argiregs        []string
+	argfregs        []string
 	gpregmask       regMask
 	fpregmask       regMask
 	specialregmask  regMask
@@ -219,7 +222,11 @@ func genOp() {
 				continue
 			}
 			if v.asm != "" {
-				fmt.Fprintf(w, "asm: %s.A%s,\n", pkg, v.asm)
+				if strings.HasPrefix(v.asm, "obj.") {
+					fmt.Fprintf(w, "asm: %s,\n", v.asm)
+				} else {
+					fmt.Fprintf(w, "asm: %s.A%s,\n", pkg, v.asm)
+				}
 			}
 			fmt.Fprintln(w, "reg:regInfo{")
 
@@ -296,6 +303,47 @@ func genOp() {
 			fmt.Fprintf(w, "  {%d, %s, \"%s\"},\n", i, objname, r)
 		}
 		fmt.Fprintln(w, "}")
+
+		num := map[string]int8{}
+		for i, name := range a.regnames {
+			num[name] = int8(i)
+		}
+
+		// Register args, such as they are:
+		fmt.Fprintf(w, "var argRegSpecs%s = map[Op]regInfo{\n", a.name)
+
+		for i, name := range a.argiregs {
+			v := num[name]
+			mask := 1 << uint(v)
+			fmt.Fprintf(w, `
+	OpArgI%d: regInfo{outputs: []outputInfo{{0, %d}}}, // %s
+	OpStoreArgRegI%d: regInfo{
+		inputs: []inputInfo{
+			{0, %d}, // %s
+			{1, %d}, // %s
+		},
+	},
+`, i, mask, name, i, 1<<uint(num["SP"]), "SP", mask, name)
+		}
+
+		for i, name := range a.argfregs {
+			v := num[name]
+			mask := 1 << uint(v)
+			fmt.Fprintf(w, `
+	OpArgF%d: regInfo{outputs: []outputInfo{{0, %d}}}, // %s
+	OpStoreArgRegF%d: regInfo{
+		inputs: []inputInfo{
+			{0, %d}, // %s
+			{1, %d}, // %s
+		},
+	},
+`, i, mask, name, i, 1<<uint(num["SP"]), "SP", mask, name)
+		}
+
+		fmt.Fprintln(w, "}")
+
+		fmt.Fprintf(w, "var argIReg%s = %#v\n", a.name, a.argiregs)
+		fmt.Fprintf(w, "var argFReg%s = %#v\n", a.name, a.argfregs)
 		fmt.Fprintf(w, "var gpRegMask%s = regMask(%d)\n", a.name, a.gpregmask)
 		fmt.Fprintf(w, "var fpRegMask%s = regMask(%d)\n", a.name, a.fpregmask)
 		fmt.Fprintf(w, "var specialRegMask%s = regMask(%d)\n", a.name, a.specialregmask)

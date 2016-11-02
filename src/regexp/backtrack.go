@@ -44,6 +44,7 @@ var notBacktrack *bitState = nil
 
 // maxBitStateLen returns the maximum length of a string to search with
 // the backtracker using prog.
+//go:register_args
 func maxBitStateLen(prog *syntax.Prog) int {
 	if !shouldBacktrack(prog) {
 		return 0
@@ -54,6 +55,7 @@ func maxBitStateLen(prog *syntax.Prog) int {
 // newBitState returns a new bitState for the given prog,
 // or notBacktrack if the size of the prog exceeds the maximum size that
 // the backtracker will be run for.
+//go:register_args
 func newBitState(prog *syntax.Prog) *bitState {
 	if !shouldBacktrack(prog) {
 		return notBacktrack
@@ -65,6 +67,7 @@ func newBitState(prog *syntax.Prog) *bitState {
 
 // shouldBacktrack reports whether the program is too
 // long for the backtracker to run.
+//go:register_args
 func shouldBacktrack(prog *syntax.Prog) bool {
 	return len(prog.Inst) <= maxBacktrackProg
 }
@@ -72,6 +75,7 @@ func shouldBacktrack(prog *syntax.Prog) bool {
 // reset resets the state of the backtracker.
 // end is the end position in the input.
 // ncap is the number of captures.
+//go:register_args
 func (b *bitState) reset(end int, ncap int) {
 	b.end = end
 
@@ -103,6 +107,7 @@ func (b *bitState) reset(end int, ncap int) {
 
 // shouldVisit reports whether the combination of (pc, pos) has not
 // been visited yet.
+//go:register_args
 func (b *bitState) shouldVisit(pc uint32, pos int) bool {
 	n := uint(int(pc)*(b.end+1) + pos)
 	if b.visited[n/visitedBits]&(1<<(n&(visitedBits-1))) != 0 {
@@ -114,6 +119,7 @@ func (b *bitState) shouldVisit(pc uint32, pos int) bool {
 
 // push pushes (pc, pos, arg) onto the job stack if it should be
 // visited.
+//go:register_args
 func (b *bitState) push(pc uint32, pos int, arg int) {
 	if b.prog.Inst[pc].Op == syntax.InstFail {
 		return
@@ -129,6 +135,7 @@ func (b *bitState) push(pc uint32, pos int, arg int) {
 }
 
 // tryBacktrack runs a backtracking search starting at pos.
+//go:register_args
 func (m *machine) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 	longest := m.re.longest
 	m.matched = false
@@ -303,6 +310,7 @@ func (m *machine) tryBacktrack(b *bitState, i input, pc uint32, pos int) bool {
 }
 
 // backtrack runs a backtracking search of prog on the input starting at pos.
+//go:register_args
 func (m *machine) backtrack(i input, pos int, end int, ncap int) bool {
 	if !i.canCheckPrefix() {
 		panic("backtrack called for a RuneReader")

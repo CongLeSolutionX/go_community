@@ -13,6 +13,7 @@ const (
 	ScoreVarDef
 	ScoreMemory
 	ScoreDefault
+	ScoreStoreArg
 	ScoreFlags
 	ScoreControl // towards bottom of block
 )
@@ -100,7 +101,8 @@ func schedule(f *Func) {
 			case v.Op == OpAMD64LoweredNilCheck || v.Op == OpPPC64LoweredNilCheck ||
 				v.Op == OpARMLoweredNilCheck || v.Op == OpARM64LoweredNilCheck ||
 				v.Op == Op386LoweredNilCheck || v.Op == OpMIPS64LoweredNilCheck ||
-				v.Op == OpS390XLoweredNilCheck || v.Op == OpMIPSLoweredNilCheck:
+				v.Op == OpS390XLoweredNilCheck || v.Op == OpMIPSLoweredNilCheck ||
+				(v.Op != OpArg && isArgOp(v.Op)):
 				// Nil checks must come before loads from the same address.
 				score[v.ID] = ScoreNilCheck
 			case v.Op == OpPhi:
@@ -109,6 +111,13 @@ func schedule(f *Func) {
 			case v.Op == OpVarDef:
 				// We want all the vardefs next.
 				score[v.ID] = ScoreVarDef
+			case v.Op == OpStoreArgRegI0 || v.Op == OpStoreArgRegI1 || v.Op == OpStoreArgRegI2 ||
+				v.Op == OpStoreArgRegI3 || v.Op == OpStoreArgRegI4 || v.Op == OpStoreArgRegI5 ||
+				v.Op == OpStoreArgRegF0 || v.Op == OpStoreArgRegF1 || v.Op == OpStoreArgRegF2 ||
+				v.Op == OpStoreArgRegF3 || v.Op == OpStoreArgRegF4 || v.Op == OpStoreArgRegF5:
+				// Unlike other memory ops, "Arg stores" don't reduce register pressure, since their effect is to pass their input to a call.
+				// TODO fix the register allocator so this also isn't necessary to keep arg registers from getting trod on.
+				score[v.ID] = ScoreStoreArg
 			case v.Type.IsMemory():
 				// Schedule stores as early as possible. This tends to
 				// reduce register pressure. It also helps make sure

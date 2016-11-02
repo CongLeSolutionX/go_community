@@ -196,6 +196,7 @@ func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
 // and negates them so that ctz (count trailing zeros) instructions
 // can be used. It then places these 8 bytes into the cached 64 bit
 // s.allocCache.
+//go:register_args
 func (s *mspan) refillAllocCache(whichByte uintptr) {
 	bytes := (*[8]uint8)(unsafe.Pointer(addb(s.allocBits, whichByte)))
 	aCache := uint64(0)
@@ -214,6 +215,7 @@ func (s *mspan) refillAllocCache(whichByte uintptr) {
 // or after s.freeindex.
 // There are hardware instructions that can be used to make this
 // faster if profiling warrants it.
+//go:register_args
 func (s *mspan) nextFreeIndex() uintptr {
 	sfreeindex := s.freeindex
 	snelems := s.nelems
@@ -360,6 +362,7 @@ func (m *markBits) advance() {
 //
 // nosplit because it is used during write barriers and must not be preempted.
 //go:nosplit
+//go:register_args
 func heapBitsForAddr(addr uintptr) heapBits {
 	// 2 bits per work, 4 pairs per byte, and a mask is hard coded.
 	off := (addr - mheap_.arena_start) / sys.PtrSize
@@ -367,6 +370,7 @@ func heapBitsForAddr(addr uintptr) heapBits {
 }
 
 // heapBitsForSpan returns the heapBits for the span base address base.
+//go:register_args
 func heapBitsForSpan(base uintptr) (hbits heapBits) {
 	if base < mheap_.arena_start || base >= mheap_.arena_used {
 		throw("heapBitsForSpan: base out of range")
@@ -384,6 +388,7 @@ func heapBitsForSpan(base uintptr) (hbits heapBits) {
 // refBase and refOff optionally give the base address of the object
 // in which the pointer p was found and the byte offset at which it
 // was found. These are used for error reporting.
+//go:register_args
 func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits, s *mspan, objIndex uintptr) {
 	arenaStart := mheap_.arena_start
 	if p < arenaStart || p >= mheap_.arena_used {
@@ -518,6 +523,7 @@ func (h heapBits) hasPointers(size uintptr) bool {
 // It must be told how large the object at h is, because the encoding of the
 // checkmark bit varies by size.
 // h must describe the initial word of the object.
+//go:register_args
 func (h heapBits) isCheckmarked(size uintptr) bool {
 	if size == sys.PtrSize {
 		return (*h.bitp>>h.shift)&bitPointer != 0
@@ -533,6 +539,7 @@ func (h heapBits) isCheckmarked(size uintptr) bool {
 // It must be told how large the object at h is, because the encoding of the
 // checkmark bit varies by size.
 // h must describe the initial word of the object.
+//go:register_args
 func (h heapBits) setCheckmarked(size uintptr) {
 	if size == sys.PtrSize {
 		atomic.Or8(h.bitp, bitPointer<<h.shift)
@@ -564,6 +571,7 @@ func (h heapBits) setCheckmarked(size uintptr) {
 // make sure the underlying allocation contains pointers, usually
 // by checking typ.kind&kindNoPointers.
 //
+//go:register_args
 //go:nosplit
 func bulkBarrierPreWrite(dst, src, size uintptr) {
 	if (dst|src|size)&(sys.PtrSize-1) != 0 {
@@ -865,6 +873,7 @@ func (s *mspan) countFree() int {
 // bits that belong to neighboring objects. Also, on weakly-ordered
 // machines, callers must execute a store/store (publication) barrier
 // between calling this function and making the object reachable.
+//go:register_args
 func heapBitsSetType(x, size, dataSize uintptr, typ *_type) {
 	const doubleCheck = false // slow but helpful; enable to test modifications to this code
 

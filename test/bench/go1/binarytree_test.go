@@ -14,6 +14,7 @@ type binaryNode struct {
 	left, right *binaryNode
 }
 
+//go:register_args
 func bottomUpTree(item, depth int) *binaryNode {
 	if depth <= 0 {
 		return &binaryNode{item: item}
@@ -21,6 +22,7 @@ func bottomUpTree(item, depth int) *binaryNode {
 	return &binaryNode{item, bottomUpTree(2*item-1, depth-1), bottomUpTree(2*item, depth-1)}
 }
 
+//go:register_args
 func (n *binaryNode) itemCheck() int {
 	if n.left == nil {
 		return n.item
@@ -30,6 +32,7 @@ func (n *binaryNode) itemCheck() int {
 
 const minDepth = 4
 
+//go:register_args
 func binarytree(n int) {
 	maxDepth := n
 	if minDepth+2 > n {
