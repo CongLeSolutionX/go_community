@@ -170,6 +170,7 @@ func (p *Pool) getSlow() (x interface{}) {
 
 // pin pins the current goroutine to P, disables preemption and returns poolLocal pool for the P.
 // Caller must call runtime_procUnpin() when done with the pool.
+//go:register_args
 func (p *Pool) pin() *poolLocal {
 	pid := runtime_procPin()
 	// In pinSlow we store to localSize and then to local, here we load in opposite order.

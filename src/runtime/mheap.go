@@ -458,6 +458,7 @@ func (h *mheap) mapSpans(arena_used uintptr) {
 
 // Sweeps spans in list until reclaims at least npages into heap.
 // Returns the actual number of pages reclaimed.
+//go:register_args
 func (h *mheap) reclaimList(list *mSpanList, npages uintptr) uintptr {
 	n := uintptr(0)
 	sg := mheap_.sweepgen
