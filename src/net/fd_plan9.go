@@ -7,9 +7,16 @@ package net
 import (
 	"io"
 	"os"
+	"sync/atomic"
 	"syscall"
 	"time"
 )
+
+type atomicBool int32
+
+func (b *atomicBool) isSet() bool { return atomic.LoadInt32((*int32)(b)) != 0 }
+func (b *atomicBool) setFalse()   { atomic.StoreInt32((*int32)(b), 0) }
+func (b *atomicBool) setTrue()    { atomic.StoreInt32((*int32)(b), 1) }
 
 // Network file descriptor.
 type netFD struct {
@@ -23,6 +30,14 @@ type netFD struct {
 	listen, ctl, data *os.File
 	laddr, raddr      Addr
 	isStream          bool
+
+	// deadlines
+	raio      *asyncIO
+	waio      *asyncIO
+	rtimer    *time.Timer
+	wtimer    *time.Timer
+	rtimedout atomicBool // set true when read deadline has been reached
+	wtimedout atomicBool // set true when write deadline has been reached
 }
 
 var (
@@ -83,7 +98,46 @@ func (fd *netFD) destroy() {
 	fd.listen = nil
 }
 
+// newIO performs a Read or Write I/O operation by calling fn
+// with buffer b and returns its result.
+// The I/O operation will be performed asynchronously. The
+// caller has to provide an asyncIO structure to store its state.
+// If timer has been set, the I/O operation will be interrupted
+// once timer has been expired and timedout will be set true.
+func newIO(fn func([]byte) (int, error), b []byte, t *time.Timer, timedout *atomicBool, io **asyncIO) (int, error) {
+	// No timer enabled; start asynchronous I/O operation
+	if t == nil {
+		*io = newAsyncIO(fn, b)
+		return (*io).Wait()
+	}
+	// Has the I/O operation been interrupted before starting?
+	select {
+	case <-t.C:
+		timedout.setTrue()
+		return 0, errTimeout
+	default:
+	}
+	// Start asynchronous I/O operation
+	*io = newAsyncIO(fn, b)
+	select {
+	case <-t.C:
+		// I/O operation has been interrupted
+		timedout.setTrue()
+		(*io).Cancel()
+		<-(*io).res
+		*io = nil
+		return 0, errTimeout
+	case ret := <-(*io).res:
+		// I/O operation completed
+		*io = nil
+		return ret.n, ret.err
+	}
+}
+
 func (fd *netFD) Read(b []byte) (n int, err error) {
+	if fd.rtimedout.isSet() {
+		return 0, errTimeout
+	}
 	if !fd.ok() || fd.data == nil {
 		return 0, syscall.EINVAL
 	}
@@ -94,7 +148,7 @@ func (fd *netFD) Read(b []byte) (n int, err error) {
 	if len(b) == 0 {
 		return 0, nil
 	}
-	n, err = fd.data.Read(b)
+	n, err = newIO(fd.data.Read, b, fd.rtimer, &fd.rtimedout, &fd.raio)
 	if isHangup(err) {
 		err = io.EOF
 	}
@@ -106,6 +160,9 @@ func (fd *netFD) Read(b []byte) (n int, err error) {
 }
 
 func (fd *netFD) Write(b []byte) (n int, err error) {
+	if fd.wtimedout.isSet() {
+		return 0, errTimeout
+	}
 	if !fd.ok() || fd.data == nil {
 		return 0, syscall.EINVAL
 	}
@@ -113,7 +170,8 @@ func (fd *netFD) Write(b []byte) (n int, err error) {
 		return 0, err
 	}
 	defer fd.writeUnlock()
-	return fd.data.Write(b)
+	n, err = newIO(fd.data.Write, b, fd.wtimer, &fd.wtimedout, &fd.waio)
+	return
 }
 
 func (fd *netFD) closeRead() error {
@@ -185,15 +243,61 @@ func (fd *netFD) file(f *os.File, s string) (*os.File, error) {
 }
 
 func (fd *netFD) setDeadline(t time.Time) error {
-	return syscall.EPLAN9
+	return setDeadlineImpl(fd, t, 'r'+'w')
 }
 
 func (fd *netFD) setReadDeadline(t time.Time) error {
-	return syscall.EPLAN9
+	return setDeadlineImpl(fd, t, 'r')
 }
 
 func (fd *netFD) setWriteDeadline(t time.Time) error {
-	return syscall.EPLAN9
+	return setDeadlineImpl(fd, t, 'w')
+}
+
+func setDeadlineImpl(fd *netFD, t time.Time, mode int) error {
+	d := t.Sub(time.Now())
+	if d < 0 {
+		d = 1
+	}
+	if mode == 'r' || mode == 'r'+'w' {
+		fd.rtimedout.setFalse()
+	}
+	if mode == 'w' || mode == 'r'+'w' {
+		fd.wtimedout.setFalse()
+	}
+	if t.IsZero() {
+		if mode == 'r' || mode == 'r'+'w' {
+			if fd.rtimer != nil {
+				fd.rtimer.Stop()
+			}
+			fd.rtimer = nil
+		}
+		if mode == 'w' || mode == 'r'+'w' {
+			if fd.wtimer != nil {
+				fd.wtimer.Stop()
+			}
+			fd.wtimer = nil
+		}
+	} else {
+		if mode == 'r' || mode == 'r'+'w' {
+			fd.rtimer = time.NewTimer(d)
+		}
+		if mode == 'w' || mode == 'r'+'w' {
+			fd.wtimer = time.NewTimer(d)
+		}
+	}
+	if d == 1 {
+		// Expire timer immediately
+		time.Sleep(1)
+		// Interrupt current I/O operation
+		if (mode == 'r' || mode == 'r'+'w') && fd.raio != nil {
+			fd.raio.Cancel()
+		}
+		if (mode == 'w' || mode == 'r'+'w') && fd.waio != nil {
+			fd.waio.Cancel()
+		}
+	}
+	return nil
 }
 
 func setReadBuffer(fd *netFD, bytes int) error {
