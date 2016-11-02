@@ -204,6 +204,7 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 // get returns a machine to use for matching re.
 // It uses the re's machine cache if possible, to avoid
 // unnecessary allocation.
+//go:register_args
 func (re *Regexp) get() *machine {
 	re.mu.Lock()
 	if n := len(re.machine); n > 0 {
@@ -222,6 +223,7 @@ func (re *Regexp) get() *machine {
 // There is no attempt to limit the size of the cache, so it will
 // grow to the maximum number of simultaneous matches
 // run using re.  (The cache empties when re gets garbage collected.)
+//go:register_args
 func (re *Regexp) put(z *machine) {
 	re.mu.Lock()
 	re.machine = append(re.machine, z)
@@ -250,6 +252,7 @@ func MustCompilePOSIX(str string) *Regexp {
 	return regexp
 }
 
+//go:register_args
 func quote(s string) string {
 	if strconv.CanBackquote(s) {
 		return "`" + s + "`"
@@ -592,6 +595,7 @@ func (re *Regexp) ReplaceAllFunc(src []byte, repl func([]byte) []byte) []byte {
 
 var specialBytes = []byte(`\.+*?()|[]{}^$`)
 
+//go:register_args
 func special(b byte) bool {
 	return bytes.IndexByte(specialBytes, b) >= 0
 }
@@ -631,6 +635,7 @@ func QuoteMeta(s string) string {
 // For example, "(a){0}" turns into an empty program, so the
 // maximum capture in the program is 0 but we need to return
 // an expression for \1.  Pad appends -1s to the slice a as needed.
+//go:register_args
 func (re *Regexp) pad(a []int) []int {
 	if a == nil {
 		// No match.
@@ -644,6 +649,7 @@ func (re *Regexp) pad(a []int) []int {
 }
 
 // Find matches in slice b if b is non-nil, otherwise find matches in string s.
+//go:register_args
 func (re *Regexp) allMatches(s string, b []byte, n int, deliver func([]int)) {
 	var end int
 	if b == nil {
@@ -800,6 +806,7 @@ func (re *Regexp) ExpandString(dst []byte, template string, src string, match []
 	return re.expand(dst, template, nil, src, match)
 }
 
+//go:register_args
 func (re *Regexp) expand(dst []byte, template string, bsrc []byte, src string, match []int) []byte {
 	for len(template) > 0 {
 		i := strings.Index(template, "$")
@@ -849,6 +856,7 @@ func (re *Regexp) expand(dst []byte, template string, bsrc []byte, src string, m
 
 // extract returns the name from a leading "$name" or "${name}" in str.
 // If it is a number, extract returns num set to that number; otherwise num = -1.
+//go:register_args
 func extract(str string) (name string, num int, rest string, ok bool) {
 	if len(str) < 2 || str[0] != '$' {
 		return
