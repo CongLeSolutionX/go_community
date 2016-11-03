@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "66d32697_5c391993",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-03T15:55:35Z",
+      "side": 1,
+      "message": "Put this magic Github line in the footer:\n\nFixes #17572\n\n(before the Change-Id, and typically surrounded by blank lines)",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_42aea2d0",
         "filename": "src/net/http/fs.go",
         "patchSetId": 4
@@ -433,6 +450,24 @@
       "side": 1,
       "message": "\u003e I\u0027m not sure this is the place for this.\nCan you be more specific? I think the only functional change is the 3 lines below this comment -- is that what you\u0027re referring to?\n\nPreviously, fs.go set Last-Modified just after determining a 304 wasn\u0027t appropriate. So the old behavior was to overwrite Last-Modified except on 304. The new behavior is to always write the Last-Modified header, but remove it when the RFC says we shouldn\u0027t. It seems like this subtle difference is only for 304\u0027s. Given we do set Last-Modified for a 200 response, I assume the Last-Modified header provided in ServeContent is suitable for the response -- and therefore should be just as good as the caller-provided one.\n\nSo the only significant differences are, for 304 responses:\n* When ETag is present, and caller sets Last-Modified, Last-Modified is removed.\n* When ETag is not present, and caller does not set Last-Modified, Last-Modified is added.\n\nSo are you asking for the old behavior of these two points to be retained, or something else?",
       "parentUuid": "46db8268_82900a67",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66d32697_bcf015bf",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-03T15:55:35Z",
+      "side": 1,
+      "message": "Thanks for the explanation. I was mostly concerned that the http Server would re-add it, this delete is only when we\u0027re sending a 304 only, which the Server knows not to mess with.",
+      "parentUuid": "46db8268_bd768b46",
       "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
