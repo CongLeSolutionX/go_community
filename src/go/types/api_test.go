@@ -1444,3 +1444,27 @@ var _ = Implements(nil, nil)
 		t.Errorf("missing aliases: %v", defs)
 	}
 }
+
+func TestAliasIssue17778(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
+	const src = `
+package p
+import "bytes"
+type buffer => bytes.Buffer
+type S struct { buffer } // Uses[buffer] should be *Alias not *TypeName
+`
+
+	info := Info{Uses: make(map[*ast.Ident]Object)}
+	mustTypecheck(t, "TestAliasIssue17778", src, &info)
+
+	for id, obj := range info.Uses {
+		if id.Name == "buffer" {
+			if got, want := ObjectString(obj), "alias p.buffer bytes.Buffer"; got != want {
+				t.Errorf("Uses[%q]=%v (%T)", id.Name, obj, obj)
+			}
+			return // success
+		}
+	}
+	t.Errorf(`Uses["buffer"] not found`)
+}
