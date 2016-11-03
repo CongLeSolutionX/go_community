@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "66d32697_90e8953c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-03T17:55:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66d32697_5c391993",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46db8268_42aea2d0",
         "filename": "src/net/http/fs.go",
         "patchSetId": 4
@@ -468,6 +486,24 @@
       "side": 1,
       "message": "Thanks for the explanation. I was mostly concerned that the http Server would re-add it, this delete is only when we\u0027re sending a 304 only, which the Server knows not to mess with.",
       "parentUuid": "46db8268_bd768b46",
+      "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66d32697_d01ccd80",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 8040
+      },
+      "writtenOn": "2016-11-03T17:55:42Z",
+      "side": 1,
+      "message": "sounds good. I forgot to add my changes on the last reply. Now things I said I fixed should be.",
+      "parentUuid": "66d32697_bcf015bf",
       "revId": "bdefe38b6c6e65153a0f668a307971735ad3f67e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
