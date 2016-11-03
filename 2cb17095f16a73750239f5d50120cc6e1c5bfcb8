@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66d32697_e1f02ae5",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-03T01:55:09Z",
+      "side": 1,
+      "message": "Since there is no formatting, and the preceding lines use b.WriteString, seems that this might as well use b.WriteString too.",
+      "revId": "2cb17095f16a73750239f5d50120cc6e1c5bfcb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
