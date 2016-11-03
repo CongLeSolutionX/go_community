@@ -22,6 +22,24 @@
       "revId": "8ddf8d4ea85096734c07b11517c87e39dd2a53ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c67db254_96fb5c54",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-11-03T02:17:36Z",
+      "side": 1,
+      "message": "The code is correct as written. The fact that we just set scanWork to 0 is actually irrelevant. When we flush scanWork we shift both scanWork and idleCheck down by the same amount (that amount being scanWork), so at any point in this loop, the expression gcw.scanWork - idleCheck is the amount of work that\u0027s been done since the last idle check. More concretely, perhaps, this condition triggers when idleCheck is sufficiently negative.\n\nBut I agree that this is annoyingly weird to think about. I\u0027ll rearrange things so you\u0027re suggested expression works by changing the meaning of idleCheck to be the scan work at which to do the next idle check, which I think will be more intuitive.",
+      "parentUuid": "86057a4c_703130b7",
+      "revId": "8ddf8d4ea85096734c07b11517c87e39dd2a53ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
