@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "c67db254_364ff0da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-11-03T02:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26aa0e9c_bdd1ff15",
+      "revId": "05ce87227e1044092065f5103f801a20a99a7ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26aa0e9c_60a50c8a",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 1
@@ -42,6 +60,24 @@
         "endLine": 247,
         "endChar": 3
       },
+      "revId": "05ce87227e1044092065f5103f801a20a99a7ae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c67db254_765978a0",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-11-03T02:45:48Z",
+      "side": 1,
+      "message": "I would, but dispose is called in some pretty touchy places. Specifically, this could create a deadlock on sched.lock.",
+      "parentUuid": "26aa0e9c_60a50c8a",
       "revId": "05ce87227e1044092065f5103f801a20a99a7ae1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
