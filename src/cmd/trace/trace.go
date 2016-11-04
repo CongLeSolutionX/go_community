@@ -459,6 +459,15 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			ctx.emitInstant(ev, "syscall")
 		case trace.EvGoSysExit:
 			ctx.emitArrow(ev, "sysexit")
+		case trace.EvUserSpan:
+			if !ctx.gtrace {
+				// TODO: Show this in P trace by
+				// splitting the span across goroutine
+				// scheduling.
+				break
+			}
+			label := ev.SArgs[0] + " " + strings.Join(ev.SArgs[1:], "")
+			ctx.emitSlice(ev, label)
 		}
 		// Emit any counter updates.
 		ctx.emitThreadCounters(ev)

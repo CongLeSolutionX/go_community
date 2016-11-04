@@ -62,7 +62,10 @@ const (
 	traceEvGoSysExitLocal = 40 // syscall exit on the same P as the last event [timestamp, goroutine id, real timestamp]
 	traceEvGoStartLabel   = 41 // goroutine starts running with label [timestamp, goroutine id, seq, label string id]
 	traceEvGoBlockGC      = 42 // goroutine blocks on GC assist [timestamp, stack]
-	traceEvCount          = 43
+	traceEvUserArg        = 43 // string for user event [length, string]
+	traceEvUserSpan       = 44 // user span [timestamp, type string id, stack]
+	traceEvUserSpanEnd    = 45 // end user span [timestamp, stack]
+	traceEvCount          = 46
 )
 
 const (
@@ -118,12 +121,9 @@ var trace struct {
 	stackTab      traceStackTable // maps stack traces to unique ids
 
 	// Dictionary for traceEvString.
-	//
-	// Currently this is used only at trace setup and for
-	// func/file:line info after tracing session, so we assume
-	// single-threaded access.
-	strings   map[string]uint64
-	stringSeq uint64
+	strings     map[string]uint64
+	stringSeq   uint64
+	stringsLock mutex
 
 	// markWorkerLabels maps gcMarkWorkerMode to string ID.
 	markWorkerLabels [len(gcMarkWorkerModeStrings)]uint64
@@ -638,13 +638,16 @@ func traceString(buf *traceBuf, s string) (uint64, *traceBuf) {
 	if s == "" {
 		return 0, buf
 	}
+	lock(&trace.stringsLock)
 	if id, ok := trace.strings[s]; ok {
+		unlock(&trace.stringsLock)
 		return id, buf
 	}
 
 	trace.stringSeq++
 	id := trace.stringSeq
 	trace.strings[s] = id
+	unlock(&trace.stringsLock)
 
 	size := 1 + 2*traceBytesPerNumber + len(s)
 	if len(buf.arr)-buf.pos < size {
@@ -1040,4 +1043,69 @@ func traceNextGC() {
 	} else {
 		traceEvent(traceEvNextGC, -1, memstats.next_gc)
 	}
+}
+
+// TODO: Put this in the trace package.
+//
+// TODO: Make args interface{} and "format" them like print. We can do
+// this without allocation here so it's low overhead. Maybe just dump
+// the string in the event so I don't need all this annoying variable
+// arguments stuff.
+func Trace_StartSpan(typ string, args ...string) {
+	// Get the string ID of the span type.
+	//
+	// TODO: Cache these in the P to avoid contention.
+	//
+	// TODO: Make the traceString API like other trace* functions.
+	// In particular, if we already have this string, there's no
+	// need to acquire a trace buffer for this.
+	//
+	// TODO: traceString will crash unceremoniously if given a too
+	// long string. Since these are user-provided, we should
+	// handle this better.
+	mp, pid, bufp := traceAcquireBuffer()
+	if !trace.enabled && !mp.startingtrace {
+		traceReleaseBuffer(pid)
+		return
+	}
+
+	buf := (*bufp).ptr()
+	if buf == nil {
+		buf = traceFlush(0).ptr()
+		(*bufp).set(buf)
+	}
+	typId, buf := traceString(buf, typ)
+
+	// Write argument string events.
+	//
+	// XXX These can be in a different block from the "real"
+	// event, which makes it hard to match them up.
+	const maxUserArg = 16 << 10
+	for _, arg := range args {
+		if len(arg) >= maxUserArg {
+			arg = arg[:maxUserArg]
+		}
+		size := 1 + traceBytesPerNumber + len(arg)
+		if len(buf.arr)-buf.pos < size {
+			buf = traceFlush(traceBufPtrOf(buf)).ptr()
+		}
+		buf.byte(traceEvUserArg)
+		buf.varint(uint64(len(arg)))
+		buf.pos += copy(buf.arr[buf.pos:], arg)
+	}
+	traceReleaseBuffer(pid)
+
+	traceEvent(traceEvUserSpan, 1, typId)
+}
+
+// TODO: Put this in the trace package.
+//
+// TODO: Have a first-class representation of the span? That would
+// allow non-nested spans and closing spans from a different
+// goroutine, and bugs from mis-matched start/end would be much less
+// confusing. Then this event would need to encode which event was
+// being ended (which could be done using a per-P unique ID
+// generator).
+func Trace_EndSpan() {
+	traceEvent(traceEvUserSpanEnd, 1)
 }

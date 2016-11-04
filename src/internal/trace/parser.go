@@ -40,6 +40,7 @@ type Event struct {
 	// for GoUnblock: the associated GoStart
 	// for blocking GoSysCall: the associated GoSysExit
 	// for GoSysExit: the next GoStart
+	// for UserSpan: the associated UserSpanEnd, GoEnd, or GoStop
 	Link *Event
 }
 
@@ -110,6 +111,7 @@ type rawEvent struct {
 	off  int
 	typ  byte
 	args []uint64
+	str  string
 }
 
 // readTrace does wire-format parsing and verification.
@@ -178,32 +180,25 @@ func readTrace(r io.Reader) (ver int, events []rawEvent, strings map[uint64]stri
 				err = fmt.Errorf("string at offset %d has duplicate id %v", off, id)
 				return
 			}
-			var ln uint64
-			ln, off, err = readVal(r, off)
+			var str string
+			str, off, err = readStr(r, off)
 			if err != nil {
 				return
 			}
-			if ln == 0 {
+			if len(str) == 0 {
 				err = fmt.Errorf("string at offset %d has invalid length 0", off)
 				return
 			}
-			if ln > 1e6 {
-				err = fmt.Errorf("string at offset %d has too large length %v", off, ln)
-				return
-			}
-			buf := make([]byte, ln)
-			var n int
-			n, err = io.ReadFull(r, buf)
-			if err != nil {
-				err = fmt.Errorf("failed to read trace at offset %d: read %v, want %v, error %v", off, n, ln, err)
-				return
-			}
-			off += n
-			strings[id] = string(buf)
+			strings[id] = str
 			continue
 		}
 		ev := rawEvent{typ: typ, off: off0}
-		if narg < inlineArgs {
+		if typ == EvUserArg {
+			ev.str, off, err = readStr(r, off)
+			if err != nil {
+				return
+			}
+		} else if narg < inlineArgs {
 			for i := 0; i < int(narg); i++ {
 				var v uint64
 				v, off, err = readVal(r, off)
@@ -273,15 +268,17 @@ func parseEvents(ver int, rawEvents []rawEvent, strings map[uint64]string) (even
 	var lastP int
 	lastGs := make(map[int]uint64) // last goroutine running on P
 	stacks = make(map[uint64][]*Frame)
-	batches := make(map[int][]*Event) // events by P
+	batches := make(map[int][]*Event)  // events by P
+	userArgs := make(map[int][]string) // user args by P
 	for _, raw := range rawEvents {
 		desc := EventDescriptions[raw.typ]
 		if desc.Name == "" {
 			err = fmt.Errorf("missing description for event type %v", raw.typ)
 			return
 		}
+		// XXX Can't check variable argument event.
 		narg := argNum(raw, ver)
-		if len(raw.args) != narg {
+		if len(raw.args) != narg && raw.typ != EvUserSpan {
 			err = fmt.Errorf("%v has wrong number of arguments at offset 0x%x: want %v, got %v",
 				desc.Name, raw.off, narg, len(raw.args))
 			return
@@ -345,6 +342,12 @@ func parseEvents(ver int, rawEvents []rawEvent, strings map[uint64]string) (even
 				}
 				stacks[id] = stk
 			}
+		case EvUserArg:
+			if len(userArgs[lastP]) == 0 {
+				// Leave room for a type string.
+				userArgs[lastP] = []string{""}
+			}
+			userArgs[lastP] = append(userArgs[lastP], raw.str)
 		default:
 			e := &Event{Off: raw.off, Type: raw.typ, P: lastP, G: lastG}
 			var argOffset int
@@ -381,6 +384,15 @@ func parseEvents(ver int, rawEvents []rawEvent, strings map[uint64]string) (even
 				lastG = 0
 			case EvGoSysExit, EvGoWaiting, EvGoInSyscall:
 				e.G = e.Args[0]
+			case EvUserSpan:
+				e.SArgs = userArgs[lastP]
+				typ := strings[e.Args[0]]
+				if len(e.SArgs) == 0 {
+					e.SArgs = []string{typ}
+				} else {
+					e.SArgs[0] = typ
+				}
+				delete(userArgs, lastP)
 			}
 			batches[lastP] = append(batches[lastP], e)
 		}
@@ -501,10 +513,11 @@ func postProcessTrace(ver int, events []*Event) error {
 		gWaiting
 	)
 	type gdesc struct {
-		state    int
-		ev       *Event
-		evStart  *Event
-		evCreate *Event
+		state     int
+		ev        *Event
+		evStart   *Event
+		evCreate  *Event
+		userSpans []*Event
 	}
 	type pdesc struct {
 		running bool
@@ -635,6 +648,11 @@ func postProcessTrace(ver int, events []*Event) error {
 			}
 			g.evStart.Link = ev
 			g.evStart = nil
+			// Auto-close all user spans.
+			for _, ev1 := range g.userSpans {
+				ev1.Link = ev
+			}
+			g.userSpans = nil
 			g.state = gDead
 			p.g = 0
 		case EvGoSched, EvGoPreempt:
@@ -698,6 +716,16 @@ func postProcessTrace(ver int, events []*Event) error {
 			g.evStart.Link = ev
 			g.evStart = nil
 			p.g = 0
+		case EvUserSpan:
+			g.userSpans = append(g.userSpans, ev)
+		case EvUserSpanEnd:
+			// The user can end more spans than it starts,
+			// so we don't consider this an error.
+			if len(g.userSpans) != 0 {
+				ev1 := g.userSpans[len(g.userSpans)-1]
+				g.userSpans = g.userSpans[:len(g.userSpans)-1]
+				ev1.Link = ev
+			}
 		}
 
 		gs[ev.G] = g
@@ -802,6 +830,26 @@ func readVal(r io.Reader, off0 int) (v uint64, off int, err error) {
 	return 0, 0, fmt.Errorf("bad value at offset 0x%x", off0)
 }
 
+func readStr(r io.Reader, off0 int) (s string, off int, err error) {
+	var ln uint64
+	ln, off, err = readVal(r, off0)
+	if err != nil {
+		return
+	}
+	if ln > 1e6 {
+		err = fmt.Errorf("string at offset %d has too large length %v", off, ln)
+	}
+	buf := make([]byte, ln)
+	var n int
+	n, err = io.ReadFull(r, buf)
+	if err != nil {
+		err = fmt.Errorf("failed to read trace at offset %d: read %v, want %v, error %v", off, n, ln, err)
+		return
+	}
+	off += n
+	return string(buf), off, nil
+}
+
 // Print dumps events to stdout. For debugging.
 func Print(events []*Event) {
 	for _, ev := range events {
@@ -898,7 +946,10 @@ const (
 	EvGoSysExitLocal = 40 // syscall exit on the same P as the last event [timestamp, goroutine id, real timestamp]
 	EvGoStartLabel   = 41 // goroutine starts running with label [timestamp, goroutine id, seq, label string id]
 	EvGoBlockGC      = 42 // goroutine blocks on GC assist [timestamp, stack]
-	EvCount          = 43
+	EvUserArg        = 43 // string for user event [length, string]
+	EvUserSpan       = 44 // user span [timestamp, type string id, stack]
+	EvUserSpanEnd    = 45 // end user span [timestamp, stack]
+	EvCount          = 46
 )
 
 var EventDescriptions = [EvCount]struct {
@@ -950,4 +1001,7 @@ var EventDescriptions = [EvCount]struct {
 	EvGoSysExitLocal: {"GoSysExitLocal", 1007, false, []string{"g", "ts"}},
 	EvGoStartLabel:   {"GoStartLabel", 1008, false, []string{"g", "seq", "label"}},
 	EvGoBlockGC:      {"GoBlockGC", 1008, true, []string{}},
+	EvUserArg:        {"UserArg", 1008, false, []string{}},
+	EvUserSpan:       {"UserSpan", 1008, true, []string{"type"}},
+	EvUserSpanEnd:    {"UserSpanEnd", 1008, true, []string{}},
 }
