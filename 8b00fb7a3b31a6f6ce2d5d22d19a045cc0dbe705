@@ -39,6 +39,48 @@
       "revId": "8b00fb7a3b31a6f6ce2d5d22d19a045cc0dbe705",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bf0179f_cd5a0963",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-11-04T16:47:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1dd08a2_6f56e574",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "8b00fb7a3b31a6f6ce2d5d22d19a045cc0dbe705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bf0179f_ed5d455d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-11-04T16:47:26Z",
+      "side": 1,
+      "message": "Done (opened issue #17792).",
+      "parentUuid": "a1dd08a2_ef3ad52d",
+      "revId": "8b00fb7a3b31a6f6ce2d5d22d19a045cc0dbe705",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
