@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb285bc8_ea0fe74c",
+        "filename": "src/crypto/elliptic/p256_asm_s390x.s",
+        "patchSetId": 7
+      },
+      "lineNbr": 2049,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-11-04T10:43:11Z",
+      "side": 1,
+      "message": "This change seems to have got lost.",
+      "range": {
+        "startLine": 2027,
+        "startChar": 0,
+        "endLine": 2049,
+        "endChar": 66
+      },
+      "revId": "303d25565bb4b043e1811246aa0b7f8b7f9c5e5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb285bc8_2afbbf0b",
+        "filename": "src/crypto/elliptic/p256_generic.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2016-11-04T10:43:11Z",
+      "side": 1,
+      "message": "s/2015/2016/",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "303d25565bb4b043e1811246aa0b7f8b7f9c5e5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
