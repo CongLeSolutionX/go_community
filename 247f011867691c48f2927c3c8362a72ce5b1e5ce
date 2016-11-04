@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb285bc8_1e48bdc9",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-11-04T22:13:00Z",
+      "side": 1,
+      "message": "nit: disabbled \u003d\u003e disabled",
+      "revId": "247f011867691c48f2927c3c8362a72ce5b1e5ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
