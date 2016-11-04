@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "c67db254_eb2121d3",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-04T19:51:31Z",
+      "side": 1,
+      "message": "It turned out to not have the right information, either. I was trying to debug an infinite loop and I was hoping the runtime trace would show the sequence of function calls. Unfortunately it only shows the stack at the end of each span.",
+      "parentUuid": "461c62af_06f51a65",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a13a6853_21728e04",
         "filename": "src/mime/multipart/multipart_test.go",
         "patchSetId": 1
@@ -172,6 +190,24 @@
       "side": 1,
       "message": "What is the race you are concerned about?\nI\u0027m pretty sure there\u0027s only one goroutine executing.",
       "parentUuid": "a1dd08a2_6906e5fa",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c67db254_2b3ce9f5",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-04T19:51:31Z",
+      "side": 1,
+      "message": "I didn\u0027t want to assume that mime/multipart had no concurrency.",
+      "parentUuid": "461c62af_66ea0e89",
       "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -259,6 +295,24 @@
       "side": 1,
       "message": "In general that\u0027s good but the rest of the file is not particularly ideal code. In addition to collapsing a few lines the formulation above also avoids a 2X copy-paste. Since you can\u0027t reuse the helpers in the rest of the file, might as well write clear code here.",
       "parentUuid": "a1dd08a2_490321e9",
+      "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c67db254_4b392d05",
+        "filename": "src/mime/multipart/multipart_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-04T19:51:31Z",
+      "side": 1,
+      "message": "Fair enough. The rest of the file could definitely use a cleanup at some point as well.",
+      "parentUuid": "461c62af_a6036673",
       "revId": "04cf3a0957ae6c0d648e9a0ee4805678970cdaeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
