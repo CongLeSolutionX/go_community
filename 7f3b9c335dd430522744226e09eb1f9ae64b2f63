@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_85cd6653",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b78b3b0_377d7293",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_177876a2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-04T20:11:51Z",
       "side": 1,
       "message": "Is this supposed to be golang.org/cl/XXX?",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_65c86242",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "yes fixed",
+      "parentUuid": "0b78b3b0_177876a2",
       "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6b3ccff2_9fb15330",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b78b3b0_5797ce93",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_779c4ab5",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-11-04T20:11:51Z",
       "side": 1,
       "message": "Delete.",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b3ccff2_ffae9fcd",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b78b3b0_779c4ab5",
       "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "6b3ccff2_5fd86b36",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b78b3b0_d78afe67",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_3796d295",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2016-11-04T20:11:51Z",
       "side": 1,
       "message": "s/n4/period/",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b3ccff2_bfec17e1",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b78b3b0_3796d295",
       "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "6b3ccff2_9fe953d1",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b78b3b0_3afa3904",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b3ccff2_7f128fca",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
         "patchSetId": 2
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "6b3ccff2_dfe3dbec",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "removed as it wasn\u0027t used by TranslateCPUProfile",
+      "parentUuid": "6b3ccff2_7f128fca",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_b768a2d1",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
         "patchSetId": 2
@@ -149,6 +293,24 @@
       "writtenOn": "2016-11-04T20:11:51Z",
       "side": 1,
       "message": "runtime/pprof not runtime/proto. But this really shouldn\u0027t be here at all. Instead of having the runtime/pprof package serialize a data structure to text and then parsing the text back into a data structure, why not have runtime/pprof actually generate a data structure from the first data structure?\n\nThat is, probably runtime/pprof.printCountProfile should generate the protobuf format directly when debug\u003d\u003d0. Then this parser is not needed. \n\nLet\u0027s remove non-CPU-profile handling code from this CL and do the other profile types in a followup. (And that followup should probably avoid the serialization to text and parsing of that text.)",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b3ccff2_3fc2c745",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "0b78b3b0_b768a2d1",
       "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -206,6 +368,24 @@
     },
     {
       "key": {
+        "uuid": "6b3ccff2_1fc70356",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "0b78b3b0_da2f85a3",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_7a2191ba",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
         "patchSetId": 2
@@ -217,6 +397,24 @@
       "writtenOn": "2016-11-04T20:11:51Z",
       "side": 1,
       "message": "I don\u0027t understand this claim. Is this really true of Go? Maybe it was true of the C++ profiler? I\u0027ve never seen this problem in Go profiles. Please delete this function until we know it\u0027s a problem. (And if it is a problem we can just fix the runtime.)",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b3ccff2_7fcc4f76",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "0b78b3b0_7a2191ba",
       "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -240,6 +438,24 @@
     },
     {
       "key": {
+        "uuid": "6b3ccff2_5fd18b0a",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b78b3b0_7a4af174",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_1a3f3dce",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
         "patchSetId": 2
@@ -251,6 +467,24 @@
       "writtenOn": "2016-11-04T20:11:51Z",
       "side": 1,
       "message": "None of this makes sense. Why is a test of some straightforward data conversion functions using HTTP servers and HTTP handlers? If this package is about converting the data, make the tests about converting the data. Don\u0027t add HTTP into the mix.",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_658f820b",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "This was a direct copy of the open sourced test code. Removed the HTTP bits.",
+      "parentUuid": "0b78b3b0_1a3f3dce",
       "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -274,6 +508,24 @@
     },
     {
       "key": {
+        "uuid": "6b3ccff2_9fb2f3e8",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b78b3b0_ba4f297d",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_5a6e15e6",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
         "patchSetId": 2
@@ -285,6 +537,24 @@
       "writtenOn": "2016-11-04T20:11:51Z",
       "side": 1,
       "message": "Let\u0027s drop this until we get to the CL that updates goroutine profiles.",
+      "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b3ccff2_bfb537d5",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-07T19:50:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b78b3b0_5a6e15e6",
       "revId": "7f3b9c335dd430522744226e09eb1f9ae64b2f63",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
