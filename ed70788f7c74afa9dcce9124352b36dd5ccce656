@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b78b3b0_ee6723d4",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2026,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-11-07T03:00:05Z",
+      "side": 1,
+      "message": "Can there be an idle P with !p.gcw.empty()?\nIf not, I would add:\n\n    if !_p_.gcw.empty() {\n        throw(\"pidleput: P has non-empty gcw)\n    }\n\nto pidleput.",
+      "revId": "ed70788f7c74afa9dcce9124352b36dd5ccce656",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b78b3b0_0e65bfcb",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2030,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-11-07T03:00:05Z",
+      "side": 1,
+      "message": "When does it happen that _p_.gcBgMarkWorker\u003d\u003d0?\nIt looks suspicious that we can be GCing, and this P is idle and it has GC work, but still can do GC work...",
+      "range": {
+        "startLine": 2030,
+        "startChar": 19,
+        "endLine": 2030,
+        "endChar": 37
+      },
+      "revId": "ed70788f7c74afa9dcce9124352b36dd5ccce656",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
