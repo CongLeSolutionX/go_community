@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b78b3b0_ae8a8b34",
+        "filename": "src/runtime/race/output_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-11-07T03:33:41Z",
+      "side": 1,
+      "message": "I guess it will take more on builders from time to time. Ignore the exact value.",
+      "range": {
+        "startLine": 187,
+        "startChar": 21,
+        "endLine": 187,
+        "endChar": 26
+      },
+      "revId": "43f954e09858449cc5f3650720e81b7e879ab349",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b78b3b0_8e2b0f4b",
+        "filename": "src/runtime/race/race_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-11-07T03:33:41Z",
+      "side": 1,
+      "message": "The problem here is that we now cannot distinguish failure due to race and any other failures. For example, if I do:\n\n--- a/src/runtime/race/testdata/mop_test.go\n+++ b/src/runtime/race/testdata/mop_test.go\n@@ -75,6 +75,7 @@ func TestRaceIntRWClosures(t *testing.T) {\n }\n \n func TestNoRaceIntRWClosures(t *testing.T) {\n+       panic(\"foo\")\n        var x, y int\n        ch :\u003d make(chan int, 1)\n\n\nThe test crashes half-way, but TestRun declares success while part of tests did not even run.\n\nOr, these tests can detect a throw in runtime, but it will be silently ignored.\n\nLet\u0027s at least grep for \"FAIL\tcommand-line-arguments\". Or can you think of a better solution?",
+      "revId": "43f954e09858449cc5f3650720e81b7e879ab349",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
