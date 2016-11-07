@@ -57,6 +57,24 @@
       "revId": "43f954e09858449cc5f3650720e81b7e879ab349",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_9fb133c9",
+        "filename": "src/runtime/race/race_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-11-07T18:19:12Z",
+      "side": 1,
+      "message": "Currently we don\u0027t know how many there should be. We could parse test files to understand how many tests should be executed and then check that we actually executed that many.",
+      "parentUuid": "0b78b3b0_697d4d5d",
+      "revId": "43f954e09858449cc5f3650720e81b7e879ab349",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
