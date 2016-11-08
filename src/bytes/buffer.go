@@ -116,6 +116,17 @@ func (b *Buffer) grow(n int) int {
 	return b.off + m
 }
 
+// tryGrow is a inlineable version of grow for the fast-case where the
+// internal buffer only needs to be re-sliced.
+// It returns the index where bytes should be written or -1 if tryGrow failed.
+func (b *Buffer) tryGrow(n int) int {
+	if l := b.Len(); l != 0 && len(b.buf)+n <= cap(b.buf) {
+		b.buf = b.buf[:b.off+l+n]
+		return b.off + l
+	}
+	return -1
+}
+
 // Grow grows the buffer's capacity, if necessary, to guarantee space for
 // another n bytes. After Grow(n), at least n bytes can be written to the
 // buffer without another allocation.
@@ -134,7 +145,10 @@ func (b *Buffer) Grow(n int) {
 // buffer becomes too large, Write will panic with ErrTooLarge.
 func (b *Buffer) Write(p []byte) (n int, err error) {
 	b.lastRead = opInvalid
-	m := b.grow(len(p))
+	m := b.tryGrow(len(p))
+	if m < 0 {
+		m = b.grow(len(p))
+	}
 	return copy(b.buf[m:], p), nil
 }
 
@@ -143,7 +157,10 @@ func (b *Buffer) Write(p []byte) (n int, err error) {
 // buffer becomes too large, WriteString will panic with ErrTooLarge.
 func (b *Buffer) WriteString(s string) (n int, err error) {
 	b.lastRead = opInvalid
-	m := b.grow(len(s))
+	m := b.tryGrow(len(s))
+	if m < 0 {
+		m = b.grow(len(s))
+	}
 	return copy(b.buf[m:], s), nil
 }
 
@@ -235,7 +252,10 @@ func (b *Buffer) WriteTo(w io.Writer) (n int64, err error) {
 // ErrTooLarge.
 func (b *Buffer) WriteByte(c byte) error {
 	b.lastRead = opInvalid
-	m := b.grow(1)
+	m := b.tryGrow(1)
+	if m < 0 {
+		m = b.grow(1)
+	}
 	b.buf[m] = c
 	return nil
 }
@@ -250,7 +270,10 @@ func (b *Buffer) WriteRune(r rune) (n int, err error) {
 		return 1, nil
 	}
 	b.lastRead = opInvalid
-	m := b.grow(utf8.UTFMax)
+	m := b.tryGrow(utf8.UTFMax)
+	if m < 0 {
+		m = b.grow(utf8.UTFMax)
+	}
 	n = utf8.EncodeRune(b.buf[m:m+utf8.UTFMax], r)
 	b.buf = b.buf[:m+n]
 	return n, nil
