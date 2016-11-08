@@ -22,6 +22,24 @@
       "revId": "7749e4015b582b37b5299fe4f8a4bd93f15f19ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_f7397b05",
+        "filename": "doc/install-source.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-08T18:20:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_f7509b47",
+      "revId": "7749e4015b582b37b5299fe4f8a4bd93f15f19ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
