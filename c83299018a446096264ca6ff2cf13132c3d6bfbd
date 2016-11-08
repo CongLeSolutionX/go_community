@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "2bf0179f_33e7b0d3",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-11-08T15:53:21Z",
+      "side": 1,
+      "message": "Delete comment?  It doesn\u0027t match the code.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bf0179f_3308509b",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-11-08T15:53:21Z",
+      "side": 1,
+      "message": "s/a http Response/an http.Response/?  Not sure about the dot, but definitely the \"an\" as it\u0027s \"aitch tee tee pee\".",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_dee3b41e",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
