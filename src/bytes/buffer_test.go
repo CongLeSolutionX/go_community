@@ -514,6 +514,18 @@ func TestBufferGrowth(t *testing.T) {
 	}
 }
 
+func BenchmarkWriteByte(b *testing.B) {
+	const n = 4 << 10
+	b.SetBytes(int64(n))
+	buf := NewBuffer(make([]byte, n))
+	for i := 0; i < b.N; i++ {
+		buf.Reset()
+		for i := 0; i < n; i++ {
+			buf.WriteByte('x')
+		}
+	}
+}
+
 func BenchmarkWriteRune(b *testing.B) {
 	const n = 4 << 10
 	const r = '☺'
