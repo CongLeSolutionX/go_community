@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd84f3b_f7509b47",
+        "filename": "doc/install-source.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-08T18:19:31Z",
+      "side": 1,
+      "message": "/To use/To/",
+      "range": {
+        "startLine": 138,
+        "startChar": 3,
+        "endLine": 138,
+        "endChar": 6
+      },
+      "revId": "7749e4015b582b37b5299fe4f8a4bd93f15f19ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
