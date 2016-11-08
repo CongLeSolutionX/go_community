@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd84f3b_97174a6a",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-11-08T23:19:25Z",
+      "side": 1,
+      "message": "// common case: avoid calling b.grow(1)\n\nis sufficient. The \"otherwise\" part is obvious from the else branch.",
+      "revId": "4253c1a2ad43d8a480f47858df99819e1e84bf8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
