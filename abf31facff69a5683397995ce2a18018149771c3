@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd84f3b_37212366",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-08T18:45:57Z",
+      "side": 1,
+      "message": "wait, if the context is canceled, the driver may not even be able to talk to its backend anymore, depending on how aggressively it\u0027s using the context, no?\n\nI think we should define BeginContext to be more unspecified with regards to context cancelation and just say that the state is undefined.\n\nRequiring the drivers to do more work (rollback) when the context is canceled seems a bit weird. The caller wants them to be done, not do more calls. (And what\u0027s the timeout on the rollback then?)",
+      "revId": "abf31facff69a5683397995ce2a18018149771c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
