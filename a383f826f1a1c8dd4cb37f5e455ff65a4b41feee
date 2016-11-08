@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_5212357c",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-08T19:39:10Z",
+      "side": 1,
+      "message": "ah, ok",
+      "parentUuid": "6bd84f3b_d204857f",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_525a359b",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-08T19:10:58Z",
       "side": 1,
       "message": "1\u003c\u003c24 is a bit small. You can do 1\u003c\u003c28 at least.",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_7217396b",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-08T19:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_525a359b",
       "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_92f59d17",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-08T19:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_9264bd64",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_b269c13a",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
         "patchSetId": 11
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_d2056532",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-08T19:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_b269c13a",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_724819cb",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
         "patchSetId": 11
@@ -81,6 +153,24 @@
       "writtenOn": "2016-11-08T19:10:58Z",
       "side": 1,
       "message": "Already fixed in my comment above, but note that when you are forced to introduce integer conversions, you should attempt to up-convert, so as not to invalidate the comparison. In this case, since uintptr could be larger than int, this should be uintptr(len(data)) \u003c 2+nstk",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_52fb150a",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-08T19:39:10Z",
+      "side": 1,
+      "message": "ah ok",
+      "parentUuid": "6bd84f3b_724819cb",
       "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_92267dd2",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-08T19:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_322e91ee",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_12d50dcd",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
         "patchSetId": 11
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_1237cd12",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-08T19:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_12d50dcd",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_f218a9e6",
         "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
         "patchSetId": 11
@@ -149,6 +275,24 @@
       "writtenOn": "2016-11-08T19:10:58Z",
       "side": 1,
       "message": "For now I guess this is OK, but note that you can\u0027t have this package protopprof importing runtime/pprof, since runtime/pprof is going to need to import protopprof instead.",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_f2398905",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2016-11-08T19:39:10Z",
+      "side": 1,
+      "message": "Okay. Once that happens, we can move the test cases that depend on func Profile to package runtime/pprof",
+      "parentUuid": "6bd84f3b_f218a9e6",
       "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
