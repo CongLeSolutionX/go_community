@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_3c558864",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "I simply copied the way errorType is defined.\nDone",
+      "parentUuid": "6bd84f3b_fe8a3835",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bf0179f_33e7b0d3",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-08T15:53:21Z",
       "side": 1,
       "message": "Delete comment?  It doesn\u0027t match the code.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_7c48f0ca",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "It does match the code, added http.Client.",
+      "parentUuid": "2bf0179f_33e7b0d3",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_1c31a44c",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "some pronounce \"haitch\", but I don\u0027t have any strong feelings on this.\ndone",
+      "parentUuid": "2bf0179f_3308509b",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_dee3b41e",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-11-08T15:05:01Z",
       "side": 1,
       "message": "You haven\u0027t proven that stmts[0] is an *ast.AssignStmt yet, so this check would crash on this (admittedly unlikely) input:\n\n   http.Get()\n   defer f()",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_7c7b90e1",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_dee3b41e",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_7c2e30c5",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_9e63ecc9",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_fe71588d",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_9c1cd48d",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done\nI wonder how idiomatic this is and if there\u0027s a nicer way to write it.",
+      "parentUuid": "6bd84f3b_fe71588d",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_9e7ccc60",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -115,6 +223,24 @@
       "writtenOn": "2016-11-08T15:05:01Z",
       "side": 1,
       "message": "A comment explaining each early return would help:\n\nreturn false // call not of form x.f()\n\netc.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_bc6358c9",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_9e7ccc60",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -144,6 +270,30 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_3c6f48ab",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_1e6fdcaa",
+      "range": {
+        "startLine": 75,
+        "startChar": 22,
+        "endLine": 75,
+        "endChar": 64
+      },
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_3e7d805e",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -155,6 +305,24 @@
       "writtenOn": "2016-11-08T15:05:01Z",
       "side": 1,
       "message": "ditto",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_5c7dec5c",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_3e7d805e",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -178,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_dc901c69",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_de8d7450",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_be90b067",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -189,6 +375,24 @@
       "writtenOn": "2016-11-08T15:05:01Z",
       "side": 1,
       "message": "This is presumptious.  A misspelled identifier should not be assumed to belong to http.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_7c5470c6",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "What\u0027s the best way of ensuring that the function is defined in net/http?",
+      "parentUuid": "6bd84f3b_be90b067",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -212,6 +416,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_1c3d2480",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_1e88bc3b",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_3e266086",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -223,6 +445,24 @@
       "writtenOn": "2016-11-08T15:05:01Z",
       "side": 1,
       "message": "types.Identical",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_9c493430",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_3e266086",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -246,6 +486,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_7cf550ad",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "I removed the check for the selector being an identifier, so now it should work.\nAlso added a test.",
+      "parentUuid": "6bd84f3b_7e30e8b4",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_7e49c82c",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -257,6 +515,24 @@
       "writtenOn": "2016-11-08T15:05:01Z",
       "side": 1,
       "message": "// target of search",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_9cfa149b",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_7e49c82c",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -280,6 +556,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_bcffd88a",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_5e5404c6",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_3e4f4036",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -291,6 +585,24 @@
       "writtenOn": "2016-11-08T15:05:01Z",
       "side": 1,
       "message": "// innermost block enclosing argument to Visit",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_dc03bcbb",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_3e4f4036",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -314,6 +626,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_3c0bc8d2",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "I had not thought about it, thanks",
+      "parentUuid": "6bd84f3b_de3f3478",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_3e54a0de",
         "filename": "src/cmd/vet/httpresponse.go",
         "patchSetId": 2
@@ -325,6 +655,24 @@
       "writtenOn": "2016-11-08T15:05:01Z",
       "side": 1,
       "message": "\"...returns the statements of f.block starting...\"",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_7cde3027",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_3e54a0de",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -348,6 +696,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_9cd3f41c",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_1edefc4f",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bd84f3b_1e3a7c87",
         "filename": "src/cmd/vet/testdata/httpresponse.go",
         "patchSetId": 2
@@ -359,6 +725,24 @@
       "writtenOn": "2016-11-08T15:05:01Z",
       "side": 1,
       "message": "Try also:\n  client :\u003d http.Client{}",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_5cc24c46",
+        "filename": "src/cmd/vet/testdata/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2016-11-08T17:57:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bd84f3b_1e3a7c87",
       "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
