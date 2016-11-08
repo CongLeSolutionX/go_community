@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6bd84f3b_9e44cc67",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-11-08T13:26:07Z",
+      "side": 1,
+      "message": "Yes, it is good to make bootstrap remain working on other architectures while some, but not all of your CL submitted. You may want to rearrange code to do so if necessary. Thanks.",
+      "parentUuid": "2bf0179f_f036be14",
+      "revId": "3b6b292e33c7395d349ee8fe8284feca2390650d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_88a9c734",
         "filename": "src/cmd/dist/buildtool.go",
         "patchSetId": 2
