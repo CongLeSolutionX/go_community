@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd84f3b_d204857f",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-08T19:10:58Z",
+      "side": 1,
+      "message": "The profile is not ints. It\u0027s uintptrs. They happen to be the same size today, but the fundamental thing about the profile is that they are program counters (code pointers), so uintptrs. Please change this to use uintptr(0) here and uintptr below. There is no guarantee in go that int is as big as uintptr.",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_525a359b",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-08T19:10:58Z",
+      "side": 1,
+      "message": "1\u003c\u003c24 is a bit small. You can do 1\u003c\u003c28 at least.",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_9264bd64",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-08T19:10:58Z",
+      "side": 1,
+      "message": "if len(data) \u003c 2 || uintptr(len(data)) \u003c 2+data[1] {",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_b269c13a",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-08T19:10:58Z",
+      "side": 1,
+      "message": "Drop the \"/1\".",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_724819cb",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-08T19:10:58Z",
+      "side": 1,
+      "message": "Already fixed in my comment above, but note that when you are forced to introduce integer conversions, you should attempt to up-convert, so as not to invalidate the comparison. In this case, since uintptr could be larger than int, this should be uintptr(len(data)) \u003c 2+nstk",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_f2334954",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-08T19:10:58Z",
+      "side": 1,
+      "message": "Since there are a lot of these and we know the size needed ahead of time, might as well avoid any append slop:\n\nsloc :\u003d make([]*profile.Location, len(stk))",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_322e91ee",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-08T19:10:58Z",
+      "side": 1,
+      "message": "sloc[i] \u003d loc",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_12d50dcd",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-08T19:10:58Z",
+      "side": 1,
+      "message": "Blank line between copyright comment and package statement.",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_f218a9e6",
+        "filename": "src/runtime/pprof/internal/protopprof/protopprof_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-08T19:10:58Z",
+      "side": 1,
+      "message": "For now I guess this is OK, but note that you can\u0027t have this package protopprof importing runtime/pprof, since runtime/pprof is going to need to import protopprof instead.",
+      "revId": "a383f826f1a1c8dd4cb37f5e455ff65a4b41feee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
