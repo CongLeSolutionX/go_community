@@ -235,7 +235,16 @@ func (b *Buffer) WriteTo(w io.Writer) (n int64, err error) {
 // ErrTooLarge.
 func (b *Buffer) WriteByte(c byte) error {
 	b.lastRead = opInvalid
-	m := b.grow(1)
+	var m int
+	// Avoid call to b.grow(1) in the common case. Otherwise
+	// this code could be written as just:
+	// 	m := b.grow(1)
+	if l := b.Len(); l != 0 && len(b.buf)+1 <= cap(b.buf) {
+		b.buf = b.buf[:b.off+l+1]
+		m = b.off + l
+	} else {
+		m = b.grow(1)
+	}
 	b.buf[m] = c
 	return nil
 }
