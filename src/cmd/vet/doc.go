@@ -84,6 +84,13 @@ Flag: -copylocks
 
 Locks that are erroneously passed by value.
 
+HTTP responses used incorrectly
+
+Flag: -httpresponse
+
+Mistakes deferring a function call on an HTTP response before
+checking whether the error returned with the response was nil.
+
 Tests and documentation examples
 
 Flag: -tests
