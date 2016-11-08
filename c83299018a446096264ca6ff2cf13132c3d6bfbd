@@ -1,0 +1,333 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd84f3b_fe8a3835",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "Why are you using the underlying types here?  The names are significant.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_dee3b41e",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "You haven\u0027t proven that stmts[0] is an *ast.AssignStmt yet, so this check would crash on this (admittedly unlikely) input:\n\n   http.Get()\n   defer f()",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_9e63ecc9",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "Nitpick: deal with stmts[0], then stmts[1], then do the Obj comparison, in that order.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_fe71588d",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "sig, _ :\u003d \nif sig \u003d\u003d nil",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_9e7ccc60",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "A comment explaining each early return would help:\n\nreturn false // call not of form x.f()\n\netc.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_1e6fdcaa",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "Always compare types with types.Identical.",
+      "range": {
+        "startLine": 75,
+        "startChar": 22,
+        "endLine": 75,
+        "endChar": 64
+      },
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_3e7d805e",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_de8d7450",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "typ :\u003d f.pkg.types[id].Type\n\n(this is safe even when the map lookup fails)",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_be90b067",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "This is presumptious.  A misspelled identifier should not be assumed to belong to http.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_1e88bc3b",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "Again, there\u0027s no need to use underlying type here.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_3e266086",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "types.Identical",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_7e30e8b4",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "This check spuriously fails if you call a method on an http.Client variable.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_7e49c82c",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "// target of search",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_5e5404c6",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "// innermost statement enclosing argument to Visit",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_3e4f4036",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "// innermost block enclosing argument to Visit",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_de3f3478",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "FYI: know that an ExprStmt and its child CallExpr can be coextensive.  That\u0027s fine here because you want the (outer) statement.",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_3e54a0de",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "\"...returns the statements of f.block starting...\"",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_1edefc4f",
+        "filename": "src/cmd/vet/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "\"root identifier x in a chain of selections x.y.z, or nil if not found\"",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bd84f3b_1e3a7c87",
+        "filename": "src/cmd/vet/testdata/httpresponse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-11-08T15:05:01Z",
+      "side": 1,
+      "message": "Try also:\n  client :\u003d http.Client{}",
+      "revId": "c83299018a446096264ca6ff2cf13132c3d6bfbd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
