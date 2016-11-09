@@ -162,7 +162,7 @@ func jsValEscaper(args ...interface{}) string {
 		// a division operator it is not turned into a line comment:
 		//     x/{{y}}
 		// turning into
-		//     x//* error marshalling y:
+		//     x//* error marshaling y:
 		//          second line of error message */null
 		return fmt.Sprintf(" /* %s */null ", strings.Replace(err.Error(), "*/", "* /", -1))
 	}
