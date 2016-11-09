@@ -43,6 +43,30 @@
     },
     {
       "key": {
+        "uuid": "eb243f49_33d8a8d2",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 15046
+      },
+      "writtenOn": "2016-11-09T18:07:32Z",
+      "side": 1,
+      "message": "\u003e delete?\n\nI think he only means the period. The comments above do not end with a period.",
+      "parentUuid": "6bd84f3b_9af68f71",
+      "range": {
+        "startLine": 120,
+        "startChar": 50,
+        "endLine": 120,
+        "endChar": 51
+      },
+      "revId": "2d5bcc5265bd4b5cfdd8a81716edd5c68fea7529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b9f4379_c063be5a",
         "filename": "src/text/template/parse/lex.go",
         "patchSetId": 1
