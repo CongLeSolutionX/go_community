@@ -140,7 +140,7 @@ func (w *Writer) Close() error {
 	size := uint64(end - start)
 	offset := uint64(start)
 
-	if records > uint16max || size > uint32max || offset > uint32max {
+	if records >= uint16max || size >= uint32max || offset >= uint32max {
 		var buf [directory64EndLen + directory64LocLen]byte
 		b := writeBuf(buf[:])
 
