@@ -290,6 +290,80 @@ func TestZip64EdgeCase(t *testing.T) {
 	testZip64DirectoryRecordLength(buf, t)
 }
 
+func TestZip64DirectoryOffset(t *testing.T) {
+	if testing.Short() {
+		t.Skip("slow test; skipping")
+	}
+	// Test a zip file with the directory at offset 0xFFFFFFFF.
+	const size = 1<<32 - 1 - int64(len("END\n")) - fileHeaderLen - int64(len("huge.txt")) - dataDescriptorLen
+	buf := testZip64(t, size)
+	testZip64DirectoryRecordLength(buf, t)
+}
+
+func TestZip64ManyRecords(t *testing.T) {
+	// A directory should include a zip64 header if it contains uint16max records.
+	buf := new(rleBuffer)
+	w := NewWriter(buf)
+	for i := 0; i < uint16max; i++ {
+		f, err := w.CreateHeader(&FileHeader{
+			Name:   "a",
+			Method: Store,
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		f.(*fileWriter).crc32 = fakeHash32{}
+	}
+	if err := w.Close(); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := NewReader(buf, int64(buf.Size())); err != nil {
+		t.Fatal(err)
+	}
+	testZip64DirectoryRecordLength(buf, t)
+}
+
+func bigString(len int64) string {
+	buf := make([]byte, len)
+	for i := range buf {
+		buf[i] = '.'
+	}
+	return string(buf)
+}
+
+func TestZip64LargeDirectory(t *testing.T) {
+	if testing.Short() {
+		t.Skip("slow test; skipping")
+	}
+	// Zip64 is required if the total size of the records is uint32max.
+	uint16string := bigString(uint16max)
+	buf := new(rleBuffer)
+	w := NewWriter(buf)
+	const records = uint16max/2 + 1
+	for i := 0; i < records; i++ {
+		// This produces a directory entry which is 2^17 bytes
+		// long, or 2^17-1 for the last directory entry.
+		if i == records-1 {
+			uint16string = uint16string[:uint16max-1]
+		}
+		f, err := w.CreateHeader(&FileHeader{
+			Name:    uint16string,
+			Comment: uint16string[:uint16max-directoryHeaderLen+2],
+		})
+		if err != nil {
+			t.Fatal(err)
+		}
+		f.(*fileWriter).crc32 = fakeHash32{}
+	}
+	if err := w.Close(); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := NewReader(buf, int64(buf.Size())); err != nil {
+		t.Fatal(err)
+	}
+	testZip64DirectoryRecordLength(buf, t)
+}
+
 func testZip64(t testing.TB, size int64) *rleBuffer {
 	const chunkSize = 1024
 	chunks := int(size / chunkSize)
