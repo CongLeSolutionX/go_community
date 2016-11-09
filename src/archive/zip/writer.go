@@ -140,7 +140,12 @@ func (w *Writer) Close() error {
 	size := uint64(end - start)
 	offset := uint64(start)
 
-	if records > uint16max || size > uint32max || offset > uint32max {
+	// Check if we're going to overflow and if so, use zip64. We
+	// need to reserve 1 extra record and directoryEndLen size for
+	// the end record that we write below. We also need to avoid
+	// writing any ^0 values as those are interpreted as an
+	// alternate encoding.
+	if records >= uint16max-1 || size >= uint32max-directoryEndLen || offset >= uint32max {
 		var buf [directory64EndLen + directory64LocLen]byte
 		b := writeBuf(buf[:])
 
