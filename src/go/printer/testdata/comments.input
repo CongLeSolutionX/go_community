@@ -607,6 +607,20 @@ func _() {
 	_ = a
 }
 
+// Test cases from issue 15137:
+// Semicolon must not be lost when multiple statements are on the same line with a comment.
+func _() {
+	f(); f()
+	f(); /* comment */ f()
+	f() /* comment */; f()	
+	f(); /* a */ /* b */ f()
+	f() /* a */ /* b */; f()
+	f() /* a */; /* b */ f()
+}
+
+func _() {
+	f() /* a */ /* b */ }
+
 // Comments immediately adjacent to punctuation followed by a newline
 // remain after the punctuation (looks better and permits alignment of
 // comments).
