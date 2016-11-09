@@ -39,6 +39,7 @@ function cleanup() {
 	rm -f libgo.h libgo4.h libgo5.h
 	rm -f testp testp2 testp3 testp4 testp5
 	rm -rf pkg "${goroot}/${installdir}"
+	rm -f test6*
 
 	if [ "$goos" == "android" ]; then
 		adb shell rm -rf "$androidpath"
@@ -178,6 +179,27 @@ if test "$output" != "PASS"; then
     fi
     status=1
 fi
+
+# test6: test that external linking with -pie does not create a TEXTREL
+# dynamic tag.
+case "$goos" in
+linux|freebsd|netbsd|openbsd|dragonfly|solaris)
+	cat >> test6.go <<EOF
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("test6")
+}
+EOF
+	go build -ldflags="-linkmode=external -extldflags=-pie" test6.go
+	if readelf -d test6 | grep TEXTREL >/dev/null 2>&1; then
+	    echo "FAIL test6 has TEXTREL set"
+	    status=1
+	fi
+	rm -f test6*
+esac
 
 if test $status = 0; then
     echo "ok"

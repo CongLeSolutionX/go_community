@@ -78,6 +78,27 @@ func (f *elfFile) pcln() (textStart uint64, symtab, pclntab []byte, err error) {
 			return 0, nil, nil, err
 		}
 	}
+
+	// A relro file has no separate .gopclntab section.
+	if pclntab == nil {
+		elfsyms, err := f.elf.Symbols()
+		if err != nil {
+			return 0, nil, nil, err
+		}
+		for _, s := range elfsyms {
+			if s.Name == "runtime.pclntab" && s.Section >= 0 && s.Section < elf.SectionIndex(len(f.elf.Sections)) {
+				sect := f.elf.Sections[s.Section]
+				data, err := sect.Data()
+				if err != nil {
+					return 0, nil, nil, err
+				}
+				off := s.Value - sect.Addr
+				pclntab = data[off : off+s.Size]
+				break
+			}
+		}
+	}
+
 	return textStart, symtab, pclntab, nil
 }
 

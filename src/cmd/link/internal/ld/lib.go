@@ -178,6 +178,25 @@ func UseRelro() bool {
 	switch Buildmode {
 	case BuildmodeCArchive, BuildmodeCShared, BuildmodeShared, BuildmodePIE, BuildmodePlugin:
 		return Iself
+
+	case BuildmodeExe:
+		if *FlagLinkshared {
+			return true
+		}
+
+		// On ELF systems always use relro in external linking mode.
+		// Increasingly external linkers default to PIE, and using
+		// relro avoids generating a DT_TEXTREL dynamic tag.
+		switch Linkmode {
+		default:
+			log.Fatal("UseRelro called before Linkmode set")
+			return false
+		case LinkInternal:
+			return false
+		case LinkExternal:
+			return Iself
+		}
+
 	default:
 		return *FlagLinkshared
 	}
