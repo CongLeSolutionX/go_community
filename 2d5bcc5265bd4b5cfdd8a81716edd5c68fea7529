@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd84f3b_9af68f71",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2016-11-09T00:23:42Z",
+      "side": 1,
+      "message": "delete?",
+      "range": {
+        "startLine": 120,
+        "startChar": 50,
+        "endLine": 120,
+        "endChar": 51
+      },
+      "revId": "2d5bcc5265bd4b5cfdd8a81716edd5c68fea7529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b9f4379_c063be5a",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2016-11-09T00:23:42Z",
+      "side": 1,
+      "message": "This is a pretty zany case, but text/template allows using \\n in delimiters:\n\nhttps://play.golang.org/p/o6zb2WQhHW\n\nI think the fix is as easy as adding itemLeftDelim and itemRightDelim to this case.",
+      "range": {
+        "startLine": 159,
+        "startChar": 1,
+        "endLine": 159,
+        "endChar": 30
+      },
+      "revId": "2d5bcc5265bd4b5cfdd8a81716edd5c68fea7529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be7d3fb_9d784da5",
+        "filename": "src/text/template/parse/parse_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2016-11-09T00:23:42Z",
+      "side": 1,
+      "message": "Any reason for declaring count here but not in BenchmarkParseLarge?",
+      "range": {
+        "startLine": 489,
+        "startChar": 1,
+        "endLine": 489,
+        "endChar": 18
+      },
+      "revId": "2d5bcc5265bd4b5cfdd8a81716edd5c68fea7529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
