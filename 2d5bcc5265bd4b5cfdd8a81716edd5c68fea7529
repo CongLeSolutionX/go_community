@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "4bad4bb0_12433cb3",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-11-09T17:31:30Z",
+      "side": 1,
+      "message": "why? it\u0027s used all over. see lexer.emit for example.",
+      "parentUuid": "6bd84f3b_9af68f71",
+      "revId": "2d5bcc5265bd4b5cfdd8a81716edd5c68fea7529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b9f4379_c063be5a",
         "filename": "src/text/template/parse/lex.go",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "4bad4bb0_f247b0ba",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-11-09T17:31:30Z",
+      "side": 1,
+      "message": "gak, you\u0027re right. will do.",
+      "parentUuid": "8b9f4379_c063be5a",
+      "revId": "2d5bcc5265bd4b5cfdd8a81716edd5c68fea7529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0be7d3fb_9d784da5",
         "filename": "src/text/template/parse/parse_test.go",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 489,
         "endChar": 18
       },
+      "revId": "2d5bcc5265bd4b5cfdd8a81716edd5c68fea7529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bad4bb0_b24128a8",
+        "filename": "src/text/template/parse/parse_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-11-09T17:31:30Z",
+      "side": 1,
+      "message": "it\u0027s used multiple times here and only once there.",
+      "parentUuid": "0be7d3fb_9d784da5",
       "revId": "2d5bcc5265bd4b5cfdd8a81716edd5c68fea7529",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
