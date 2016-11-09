@@ -67,6 +67,24 @@
     },
     {
       "key": {
+        "uuid": "8bb823f7_a1d7a407",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-11-09T18:16:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb243f49_33d8a8d2",
+      "revId": "2d5bcc5265bd4b5cfdd8a81716edd5c68fea7529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b9f4379_c063be5a",
         "filename": "src/text/template/parse/lex.go",
         "patchSetId": 1
