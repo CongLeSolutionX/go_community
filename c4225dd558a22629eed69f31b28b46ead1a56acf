@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebafdfaa_fb530ff6",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-09T01:51:37Z",
+      "side": 1,
+      "message": "maybe you should add a test to guarantee that it\u0027s inlined then?\n\nLook at my TestCmdGoNoHTTPServer test as an example of running \"go tool nm\" and looking for a symbol. This \"tryGrow\" symbol shouldn\u0027t exist if it\u0027s inlined, I believe.",
+      "revId": "c4225dd558a22629eed69f31b28b46ead1a56acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
