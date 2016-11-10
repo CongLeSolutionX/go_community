@@ -24,6 +24,7 @@ type Func struct {
 	vid        idAlloc     // value ID allocator
 
 	scheduled bool // Values in Blocks are in final order
+	NoSplit   bool // true if function is marked as nosplit.  Used by schedule check pass.
 
 	// when register allocation is done, maps value ids to locations
 	RegAlloc []Location
@@ -33,6 +34,10 @@ type Func struct {
 	// Names is a copy of NamedValues.Keys. We keep a separate list
 	// of keys to make iteration order deterministic.
 	Names []LocalSlot
+
+	// lastMems maps block ids to last memory-output op in a block, if any
+	// filled by dead store elimination
+	lastMems []*Value
 
 	freeValues *Value // free Values linked by argstorage[0].  All other fields except ID are 0/nil.
 	freeBlocks *Block // free Blocks linked by succstorage[0].b.  All other fields except ID are 0/nil.

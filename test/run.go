@@ -463,6 +463,7 @@ func (t *test) run() {
 	}
 
 	var args, flags []string
+	var tim int
 	wantError := false
 	wantAuto := false
 	singlefilepkgs := false
@@ -478,7 +479,7 @@ func (t *test) run() {
 		action = "rundir"
 	case "cmpout":
 		action = "run" // the run case already looks for <dir>/<test>.out files
-	case "compile", "compiledir", "build", "run", "runoutput", "rundir":
+	case "compile", "compiledir", "build", "run", "buildrun", "runoutput", "rundir":
 		// nothing to do
 	case "errorcheckandrundir":
 		wantError = false // should be no error if also will run
@@ -505,6 +506,14 @@ func (t *test) run() {
 			wantError = false
 		case "-s":
 			singlefilepkgs = true
+		case "-t": // timeout in seconds
+			args = args[1:]
+			var err error
+			tim, err = strconv.Atoi(args[0])
+			if err != nil {
+				t.err = fmt.Errorf("need number of seconds for -t timeout, got %s instead", args[0])
+			}
+
 		default:
 			flags = append(flags, args[0])
 		}
@@ -539,7 +548,29 @@ func (t *test) run() {
 		} else {
 			cmd.Env = os.Environ()
 		}
-		err := cmd.Run()
+
+		var err error
+
+		if tim != 0 {
+			ch := make(chan error)
+			go func() {
+				e := cmd.Run()
+				ch <- e
+			}()
+			go func() {
+				time.Sleep(time.Duration(tim) * time.Second)
+				if cmd.ProcessState != nil && cmd.ProcessState.Exited() {
+					return
+				}
+				ch <- errors.New("Test timeout")
+			}()
+			err = <-ch
+			if err != nil {
+				cmd.Process.Signal(os.Interrupt) // best-effort cleanup
+			}
+		} else {
+			err = cmd.Run()
+		}
 		if err != nil {
 			err = fmt.Errorf("%s\n%s", err, buf.Bytes())
 		}
@@ -669,6 +700,31 @@ func (t *test) run() {
 		_, err := runcmd("go", "build", "-o", "a.exe", long)
 		if err != nil {
 			t.err = err
+		}
+
+	case "buildrun": // build binary, then run binary, instead of go run. Useful for tests where failure mode is infinite loop.
+		// TODO: leaves a.exe in directory.
+		useTmp = false
+		cmd := []string{"go", "build", "-o", "a.exe"}
+		if *linkshared {
+			cmd = append(cmd, "-linkshared")
+		}
+		cmd = append(cmd, flags...)
+		cmd = append(cmd, t.goFileName())
+		out, err := runcmd(cmd...)
+		if err != nil {
+			t.err = err
+			return
+		}
+		cmd = []string{"./a.exe"}
+		out, err = runcmd(append(cmd, args...)...)
+		if err != nil {
+			t.err = err
+			return
+		}
+
+		if strings.Replace(string(out), "\r\n", "\n", -1) != t.expectedOutput() {
+			t.err = fmt.Errorf("incorrect output\n%s", out)
 		}
 
 	case "run":
