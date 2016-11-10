@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b8e57b3_0021c8c9",
+        "filename": "src/cmd/vet/doc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-11-10T20:00:24Z",
+      "side": 1,
+      "message": "these used to be in alphabetical order and now they\u0027re not. the -tests one is out of place. not your fault but please fix.",
+      "revId": "43bc6a4c3b46e7de2092eb136fd711f6f957b601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
