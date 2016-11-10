@@ -5,6 +5,7 @@
 package ssa
 
 import (
+	"cmd/internal/obj"
 	"fmt"
 	"log"
 	"os"
@@ -349,6 +350,8 @@ var passes = [...]pass{
 	{name: "writebarrier", fn: writebarrier, required: true}, // expand write barrier ops
 	{name: "fuse", fn: fuse},
 	{name: "dse", fn: dse},
+	{name: "insert resched checks", fn: insertLoopReschedChecks,
+		disabled: 0 == obj.Preemptibleloops_enabled}, // insert resched checks in loops.
 	{name: "tighten", fn: tighten}, // move values closer to their uses
 	{name: "lower", fn: lower, required: true},
 	{name: "lowered cse", fn: cse},
@@ -369,6 +372,8 @@ var passes = [...]pass{
 	{name: "trim", fn: trim}, // remove empty blocks
 }
 
+var passNameToIndex map[string]int
+
 // Double-check phase ordering constraints.
 // This code is intended to document the ordering requirements
 // between different phases. It does not override the passes
@@ -378,7 +383,13 @@ type constraint struct {
 }
 
 var passOrder = [...]constraint{
-	// prove reliese on common-subexpression elimination for maximum benefits.
+	// "insert resched checks" uses mem, better to clean out stores first.
+	{"dse", "insert resched checks"},
+	// insert resched checks adds new blocks containing generic instructions
+	{"insert resched checks", "lower"},
+	{"insert resched checks", "tighten"},
+
+	// prove relies on common-subexpression elimination for maximum benefits.
 	{"generic cse", "prove"},
 	// deadcode after prove to eliminate all new dead blocks.
 	{"prove", "generic deadcode"},
@@ -424,17 +435,22 @@ var passOrder = [...]constraint{
 }
 
 func init() {
+	passNameToIndex = make(map[string]int)
+	for i, p := range passes {
+		if j, ok := passNameToIndex[p.name]; ok {
+			log.Panicf("pass %s appears at both index %d and %d", p.name, j, i)
+		}
+		passNameToIndex[p.name] = i
+	}
 	for _, c := range passOrder {
 		a, b := c.a, c.b
 		i := -1
 		j := -1
-		for k, p := range passes {
-			if p.name == a {
-				i = k
-			}
-			if p.name == b {
-				j = k
-			}
+		if ii, ok := passNameToIndex[a]; ok {
+			i = ii
+		}
+		if jj, ok := passNameToIndex[b]; ok {
+			j = jj
 		}
 		if i < 0 {
 			log.Panicf("pass %s not found", a)
