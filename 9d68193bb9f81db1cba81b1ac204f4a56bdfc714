@@ -50,6 +50,24 @@
       "revId": "9d68193bb9f81db1cba81b1ac204f4a56bdfc714",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_97fb83cd",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-10T01:11:13Z",
+      "side": 1,
+      "message": "In general, Write is a method on an io.Writer, and you can\u0027t be sure that all implementations follow the rules.\n\nIn this case, it\u0027s a concrete *os.File, but if we ever make the os package have a VFS of sorts (an old bug), there might be an io.Writer that it proxies through to.\n\nSo... it\u0027s safer to check that people obey the rules.",
+      "parentUuid": "8b89037a_77ccdfc3",
+      "revId": "9d68193bb9f81db1cba81b1ac204f4a56bdfc714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
