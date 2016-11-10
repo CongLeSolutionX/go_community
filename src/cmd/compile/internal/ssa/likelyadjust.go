@@ -50,16 +50,21 @@ func (l *loop) setContainsCall() {
 
 }
 func (l *loop) checkContainsCall(bb *Block) {
-	if bb.Kind == BlockDefer {
+	if bb.containsCall() {
 		l.setContainsCall()
-		return
+	}
+}
+
+func (bb *Block) containsCall() bool {
+	if bb.Kind == BlockDefer {
+		return true
 	}
 	for _, v := range bb.Values {
 		if opcodeTable[v.Op].call {
-			l.setContainsCall()
-			return
+			return true
 		}
 	}
+	return false
 }
 
 type loopnest struct {
