@@ -75,7 +75,9 @@ var (
 // If ServeHTTP panics, the server (the caller of ServeHTTP) assumes
 // that the effect of the panic was isolated to the active request.
 // It recovers the panic, logs a stack trace to the server error log,
-// and hangs up the connection.
+// and hangs up the connection. To abort a response so the client sees
+// an error but the stack trace isn't logged to the server's error
+// log, panic with the value ErrAbortHandler.
 type Handler interface {
 	ServeHTTP(ResponseWriter, *Request)
 }
