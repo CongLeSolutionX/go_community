@@ -16,6 +16,40 @@
       "revId": "9d68193bb9f81db1cba81b1ac204f4a56bdfc714",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_57d3db60",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-11-10T01:09:07Z",
+      "side": 1,
+      "message": "Oh, and close f here too.",
+      "revId": "9d68193bb9f81db1cba81b1ac204f4a56bdfc714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_77ccdfc3",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-11-10T01:09:07Z",
+      "side": 1,
+      "message": "Aside: Isn\u0027t Write required to return err !\u003d nil if n \u003c len(data)?",
+      "revId": "9d68193bb9f81db1cba81b1ac204f4a56bdfc714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
