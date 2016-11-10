@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b89037a_21d291bb",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-10T17:26:14Z",
+      "side": 1,
+      "message": "Add after this line:\n\nif _, err :\u003d os.Stat(filepath.Join(list[0], \"src/cmd/go/alldocs.go\"); err \u003d\u003d nil {\n    return fmt.Errorf(\"cannot download, %s is a GOROOT, not a GOPATH. For more details see: \u0027go help gopath\u0027\", list[0])\n}",
+      "revId": "3d7996b9fc2a094736194003eaadea39978130e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_0143cdb2",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-10T17:26:14Z",
+      "side": 1,
+      "message": "Insert above this line:\np.build.Root \u003d list[0]",
+      "revId": "3d7996b9fc2a094736194003eaadea39978130e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_e1b2499c",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-10T17:26:14Z",
+      "side": 1,
+      "message": "1. Avoid parallel assignments of unrelated variables. It\u0027s just confusing.\n\ngopath :\u003d filepath.Dir(p.build.SrcRoot)\ngopathExisted :\u003d true\n\n2. filepath.Dir(p.build.SrcRoot) seems like a complex way to write p.build.Root, and given that you don\u0027t need a variable. (See comment above; maybe it\u0027s not initialized right.)\n\n3. No need for failing if the stat fails. It didn\u0027t fail before, so it shouldn\u0027t fail now. Also no need for checking the exact failure cause. If the stat fails but the mkdirall succeeds, that means the directory was created.\n\n4. The message will be confusing if this is not actually the GOPATH setting (for example if GOPATH\u003dx:y and we just created x, it\u0027s confusing to say GOPATH\u003dx in the message and pretend y isn\u0027t there). Let\u0027s only print it for the single GOPATH case.\n\nPutting all that together:\n\n_, err :\u003d os.Stat(p.build.Root)\ngopathExisted :\u003d err \u003d\u003d nil\n\n... existing code from before this CL ...\n\nif buildV \u0026\u0026 !gopathExisted \u0026\u0026 p.build.Root \u003d\u003d buildContext.GOPATH {\n    fmt.Fprintf(os.Stderr, \"created GOPATH\u003d%s; see \u0027go help gopath\u0027\\n\", buildContext.GOPATH)\n}",
+      "revId": "3d7996b9fc2a094736194003eaadea39978130e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
