@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8b89037a_5a6f82a9",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-10T02:01:40Z",
+      "side": 1,
+      "message": "No.\n\nLet\u0027s not call performance by calling Sync everywhere. Also, don\u0027t give more guarantees than we had before.\n\nThe bug report was a legit problem that led to loss of data. This fixes that. We don\u0027t need an fsync also.",
+      "parentUuid": "8b89037a_7a6286f7",
+      "revId": "0dd28de97f6e10f196f9a299cf778c0d058ac581",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b89037a_85fb50cd",
         "filename": "src/cmd/gofmt/gofmt.go",
         "patchSetId": 2
