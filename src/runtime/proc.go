@@ -240,6 +240,16 @@ func Gosched() {
 	mcall(gosched_m)
 }
 
+var alwaysFalse bool
+
+// goschedguarded just checks for a reschedule request, subject to whatever
+// rules the runtime imposes.
+func goschedguarded() {
+	if alwaysFalse {
+		goschedguarded()
+	}
+}
+
 // Puts the current goroutine into a waiting state and calls unlockf.
 // If unlockf returns false, the goroutine is resumed.
 // unlockf must not access this G's stack, as it may be moved between
