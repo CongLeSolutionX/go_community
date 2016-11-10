@@ -72,13 +72,23 @@ func isGoFile(f os.FileInfo) bool {
 
 // If in == nil, the source is the contents of the file with the given filename.
 func processFile(filename string, in io.Reader, out io.Writer, stdin bool) error {
+	perm := os.FileMode(0777)
+	flag := os.O_RDONLY
 	if in == nil {
-		f, err := os.Open(filename)
+		if *write {
+			flag = os.O_RDWR
+		}
+		f, err := os.OpenFile(filename, flag, perm)
 		if err != nil {
 			return err
 		}
 		defer f.Close()
 		in = f
+		fi, err := f.Stat()
+		if err != nil {
+			return err
+		}
+		perm &= fi.Mode()
 	}
 
 	src, err := ioutil.ReadAll(in)
@@ -116,7 +126,7 @@ func processFile(filename string, in io.Reader, out io.Writer, stdin bool) error
 			fmt.Fprintln(out, filename)
 		}
 		if *write {
-			err = writeFile(filename, res, 0644)
+			err = writeFile(filename, res, perm)
 			if err != nil {
 				return err
 			}
