@@ -21,6 +21,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"syscall"
 	"testing"
 	"time"
 )
@@ -2210,8 +2211,21 @@ func TestCgoPkgConfig(t *testing.T) {
 	tg.parallel()
 
 	tg.run("env", "PKG_CONFIG")
-	if _, err := exec.LookPath(strings.TrimSpace(tg.getStdout())); err != nil {
+	pcPath, err := exec.LookPath(strings.TrimSpace(tg.getStdout()))
+	if err != nil {
 		t.Skip("skipping because pkg-config could not be found")
+	}
+
+	cmd := exec.Command(pcPath, "--atleast-pkgconfig-version", "0.24")
+	if out, err := cmd.CombinedOutput(); err != nil {
+		if err, ok := err.(*exec.ExitError); ok {
+			if ws, ok := err.Sys().(syscall.WaitStatus); ok {
+				if ws.Exited() {
+					t.Skip("skipping because pkg-config is too old; at least 0.24 is required")
+				}
+			}
+		}
+		t.Fatalf("unable to run %q --atleast-pkgconfig-version 0.24: %v\n%s", pcPath, err, out)
 	}
 
 	// OpenBSD's pkg-config is strict about whitespace and only
