@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "2b8e57b3_5d581b9c",
+        "filename": "AUTHORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-10T19:05:48Z",
+      "side": 1,
+      "message": "I can\u0027t find a fuller name than this anywhere. Plus, we don\u0027t even need these C+A files any more I\u0027m told, so these files are mostly here for vanity.\n\nIf this is how this person wants to be represented publicly, fine.\n\nIf this is the level of legality this person wants to assert (~none), fine.",
+      "parentUuid": "8b89037a_1c9c92b3",
+      "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b89037a_7cccbec3",
         "filename": "CONTRIBUTORS",
         "patchSetId": 1
