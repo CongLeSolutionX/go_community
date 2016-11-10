@@ -247,11 +247,12 @@ func writeFile(filename string, data []byte, perm os.FileMode) error {
 	if err != nil {
 		return err
 	}
+	tmpname := f.Name()
 	err = f.Chmod(perm)
 	if err != nil {
+		os.Remove(tmpname)
 		return err
 	}
-	tmpname := f.Name()
 
 	// write data to temp file
 	n, err := f.Write(data)
@@ -261,9 +262,12 @@ func writeFile(filename string, data []byte, perm os.FileMode) error {
 	if err1 := f.Close(); err == nil {
 		err = err1
 	}
+	if err == nil {
+		err = os.Rename(tmpname, filename)
+	}
 	if err != nil {
-		return err
+		os.Remove(tmpname)
 	}
 
-	return os.Rename(tmpname, filename)
+	return err
 }
