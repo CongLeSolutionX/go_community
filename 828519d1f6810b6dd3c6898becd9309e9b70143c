@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b89037a_fc966e96",
+        "filename": "AUTHORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-10T18:40:07Z",
+      "side": 1,
+      "message": "Should we say \"Atin Malaviy\" here?  At least I assume that is the full last name.",
+      "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_1c9c92b3",
+        "filename": "AUTHORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-10T18:40:07Z",
+      "side": 1,
+      "message": "Is this a full name?",
+      "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_7cccbec3",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-10T18:40:07Z",
+      "side": 1,
+      "message": "Malaviy?",
+      "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_1cbd720c",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-10T18:40:07Z",
+      "side": 1,
+      "message": "Full name?",
+      "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_7c8b5e6d",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-10T18:40:07Z",
+      "side": 1,
+      "message": "Seems to already be in this file under the name Ulrich Kunitz.",
+      "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
