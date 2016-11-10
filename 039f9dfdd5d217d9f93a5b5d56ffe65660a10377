@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b1bb72a_157db420",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-11-10T03:27:49Z",
+      "side": 1,
+      "message": "You assume here, that mbytes does not contain half of \"multi byte character\" at the end. How do you know that ReadFile will always provide you only with \"full multi byte characters\"? If  you will get half of character, you next ReadFile will start with second half of that character. Do you think MultiByteToWideChar will be able to handle these?\n\nI do not think we should assume any of that. In fact I will add new test for that (see https://go-review.googlesource.com/33030).",
+      "revId": "039f9dfdd5d217d9f93a5b5d56ffe65660a10377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
