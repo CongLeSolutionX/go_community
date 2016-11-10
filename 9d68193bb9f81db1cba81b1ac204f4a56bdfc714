@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8b89037a_17f8f3cb",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-10T01:12:25Z",
+      "side": 1,
+      "message": "Before it\u0027s removed. Otherwise Windows gets angry.",
+      "parentUuid": "8b89037a_57d3db60",
+      "revId": "9d68193bb9f81db1cba81b1ac204f4a56bdfc714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b89037a_77ccdfc3",
         "filename": "src/cmd/gofmt/gofmt.go",
         "patchSetId": 1
