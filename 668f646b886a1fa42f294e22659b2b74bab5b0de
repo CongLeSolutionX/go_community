@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "2b1bb72a_955ee48b",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2218,
+      "author": {
+        "id": 10715
+      },
+      "writtenOn": "2016-11-10T18:26:52Z",
+      "side": 1,
+      "message": "This could have been simplified by executing:\n\n    pkg-config --atleast-pkgconfig-version\u003d0.23\n\nand checking the exit status.",
+      "revId": "668f646b886a1fa42f294e22659b2b74bab5b0de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b89037a_06c20346",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 1
