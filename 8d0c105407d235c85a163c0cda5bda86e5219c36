@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b89037a_e6681f37",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5917,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-11-10T15:12:30Z",
+      "side": 1,
+      "message": "Please put a comment here. It\u0027s pretty obscure, or at least obscure enough that I\u0027m not sure what it does. And remember, unexported fields are accessible, just not addressable.",
+      "revId": "8d0c105407d235c85a163c0cda5bda86e5219c36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
