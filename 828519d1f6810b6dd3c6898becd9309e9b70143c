@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2b8e57b3_3d90afd5",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-10T19:10:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b89037a_7cccbec3",
+      "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b89037a_1cbd720c",
         "filename": "CONTRIBUTORS",
         "patchSetId": 1
@@ -106,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "2b8e57b3_7d8a37a7",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-10T19:10:30Z",
+      "side": 1,
+      "message": "Same as other file. Don\u0027t have one.",
+      "parentUuid": "8b89037a_1cbd720c",
+      "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b89037a_7c8b5e6d",
         "filename": "CONTRIBUTORS",
         "patchSetId": 1
@@ -117,6 +153,24 @@
       "writtenOn": "2016-11-10T18:40:07Z",
       "side": 1,
       "message": "Seems to already be in this file under the name Ulrich Kunitz.",
+      "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b8e57b3_dd98ab02",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-10T19:10:30Z",
+      "side": 1,
+      "message": "Hmm. That\u0027s odd. My program shouldn\u0027t have added it then.\n\nDeleted.",
+      "parentUuid": "8b89037a_7c8b5e6d",
       "revId": "828519d1f6810b6dd3c6898becd9309e9b70143c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
