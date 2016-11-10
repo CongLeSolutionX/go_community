@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b89037a_46e7abfb",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2215,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-10T17:03:05Z",
+      "side": 1,
+      "message": "The message doesn\u0027t need to say \"skipping because\", just like test failures don\u0027t need to say \"failing because\". \n\nIf there\u0027s an error, code should almost always show it or return it, not just discard it (it\u0027s an error not a bool so you can get detail). The error also has information about the operation that failed (whatever the function that returned the error knew from its arguments), so in this case just printing the error is enough:\n\nt.Skip(err)",
+      "revId": "668f646b886a1fa42f294e22659b2b74bab5b0de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_06c20346",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2221,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-10T17:03:05Z",
+      "side": 1,
+      "message": "When running cmds, you get an error for a non-zero exit status but you also get output. It\u0027s almost always a good idea to show the output when reporting the exit status. And use CombinedOutput to get the standard error too.\n\nout, err :\u003d cmd.CombinedOutput()\nif err !\u003d nil {\n    t.Skipf(\"%s --version: %v\\n%s\", pcPath, err, out)\n}",
+      "revId": "668f646b886a1fa42f294e22659b2b74bab5b0de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b89037a_869fd345",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2226,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-10T17:03:05Z",
+      "side": 1,
+      "message": "s/skipping because //",
+      "revId": "668f646b886a1fa42f294e22659b2b74bab5b0de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
