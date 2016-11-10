@@ -24,6 +24,7 @@ type Func struct {
 	vid        idAlloc     // value ID allocator
 
 	scheduled bool // Values in Blocks are in final order
+	NoSplit   bool // If function is nosplit, do not schedule-check in loops.
 
 	// when register allocation is done, maps value ids to locations
 	RegAlloc []Location
@@ -34,6 +35,10 @@ type Func struct {
 	// of keys to make iteration order deterministic.
 	Names []LocalSlot
 
+	// lastMems maps block ids to last memory-output op in a block, if any
+	// filled by dead store elimination
+	lastMems []*Value
+
 	freeValues *Value // free Values linked by argstorage[0].  All other fields except ID are 0/nil.
 	freeBlocks *Block // free Blocks linked by succstorage[0].b.  All other fields except ID are 0/nil.
 
@@ -41,6 +46,7 @@ type Func struct {
 	cachedIdom      []*Block   // cached immediate dominators
 	cachedSdom      SparseTree // cached dominator tree
 	cachedLoopnest  *loopnest  // cached loop nest information
+	cachedBackedges *[]Edge    // cached backedges (may be empty, thus pointer to slice)
 
 	constants map[int64][]*Value // constants cache, keyed by constant value; users must check value's Op and Type
 }
@@ -452,6 +458,14 @@ func (f *Func) postorder() []*Block {
 	return f.cachedPostorder
 }
 
+// backedges returns the backedges in f encountered in a postorder traversal
+func (f *Func) backedges() []Edge {
+	if f.cachedBackedges == nil {
+		f.cachedBackedges = backedges(f)
+	}
+	return *f.cachedBackedges
+}
+
 // Idom returns a map from block ID to the immediate dominator of that block.
 // f.Entry.ID maps to nil. Unreachable blocks map to nil as well.
 func (f *Func) Idom() []*Block {
@@ -484,4 +498,5 @@ func (f *Func) invalidateCFG() {
 	f.cachedIdom = nil
 	f.cachedSdom = nil
 	f.cachedLoopnest = nil
+	f.cachedBackedges = nil
 }

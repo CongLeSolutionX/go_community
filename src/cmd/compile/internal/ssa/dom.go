@@ -306,3 +306,27 @@ func intersect(b, c *Block, postnum []int, idom []*Block) *Block {
 	}
 	return b
 }
+
+// backedges returns a pointer-to-slice (so it can be nil if not
+// initialized in the Func cache) of successor edges that are back
+// edges.  For reducible loops, edge.b is the header.
+func backedges(f *Func) *[]Edge {
+	edges := []Edge{}
+	mark := make([]markKind, f.NumBlocks())
+	backedges1(f.Entry, &edges, mark)
+	return &edges
+}
+
+func backedges1(b *Block, be *[]Edge, mark []markKind) {
+	mark[b.ID] = notExplored
+	for _, e := range b.Succs {
+		s := e.b
+		if mark[s.ID] == notFound {
+			// TODO undo this recursion.
+			backedges1(s, be, mark)
+		} else if mark[s.ID] == notExplored {
+			*be = append(*be, e)
+		}
+	}
+	mark[b.ID] = done
+}
