@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b89037a_f7a0cfe2",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-11-10T01:08:55Z",
+      "side": 1,
+      "message": "f.Close() first?",
+      "revId": "9d68193bb9f81db1cba81b1ac204f4a56bdfc714",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
