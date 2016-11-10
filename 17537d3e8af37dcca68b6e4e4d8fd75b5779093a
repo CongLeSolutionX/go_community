@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "2b8e57b3_c6c61858",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-11-10T21:53:10Z",
+      "side": 1,
+      "message": "It\u0027s the end of the file. That seems not great if we have a longer file and the raw string starts somewhere early. I suppose, since it\u0027s a raw string, one could backward-search for the opening ` - but if it\u0027s not too hard to fix, I would fix it.",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 13,
+        "endChar": 25
+      },
+      "revId": "17537d3e8af37dcca68b6e4e4d8fd75b5779093a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbe13b42_421ad22f",
+        "filename": "src/text/template/exec_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-11-10T21:53:10Z",
+      "side": 1,
+      "message": "This indicates that it\u0027s the end of the file which may be very far from the offending string. Even worse if there are multiple raw strings and only the first one is not terminated. This could be pretty confusing because the first error message may be about something else altogether (content of the 2nd raw string after the offending string).",
+      "revId": "17537d3e8af37dcca68b6e4e4d8fd75b5779093a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6bba0f39_2ffea9be",
+        "filename": "src/text/template/exec_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-11-10T21:53:10Z",
+      "side": 1,
+      "message": "s/strin/string/",
+      "range": {
+        "startLine": 1155,
+        "startChar": 69,
+        "endLine": 1155,
+        "endChar": 74
+      },
+      "revId": "17537d3e8af37dcca68b6e4e4d8fd75b5779093a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b8e57b3_60728c93",
         "filename": "src/text/template/parse/lex.go",
         "patchSetId": 3
@@ -13,6 +76,29 @@
       "writtenOn": "2016-11-10T20:19:59Z",
       "side": 1,
       "message": "In the compiler\u0027s lexer we have a similar operation but I simply keep the previous line number (which only needs to be set when l.line increases). Then, this operation here becomes\n\nl.pos -\u003d l.width\nl.line \u003d l.prevLine\n\nbut I guess it doesn\u0027t matter unless this is a frequent operation.",
+      "revId": "17537d3e8af37dcca68b6e4e4d8fd75b5779093a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b8e57b3_b1e6a8d3",
+        "filename": "src/text/template/parse/parse_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-11-10T21:53:10Z",
+      "side": 1,
+      "message": "s/action/pipe/ ?",
+      "range": {
+        "startLine": 507,
+        "startChar": 22,
+        "endLine": 507,
+        "endChar": 28
+      },
       "revId": "17537d3e8af37dcca68b6e4e4d8fd75b5779093a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
