@@ -10,11 +10,11 @@ package foo
 
 func f(x, y, z int) int {
 	a := 0
-	for i := 0; i < x; i++ { // ERROR "Branch prediction rule stay in loop"
-		for j := 0; j < y; j++ { // ERROR "Branch prediction rule stay in loop"
+	for i := 0; i < x; i++ { // ERROR "Branch prediction rule stay in loop \(agrees with previous\)$"
+		for j := 0; j < y; j++ { // ERROR "Branch prediction rule stay in loop \(agrees with previous\)$"
 			a += j
 		}
-		for k := 0; k < z; k++ { // ERROR "Branch prediction rule stay in loop"
+		for k := 0; k < z; k++ { // ERROR "Branch prediction rule stay in loop \(agrees with previous\)$"
 			a -= x + y + z
 		}
 	}
@@ -23,32 +23,32 @@ func f(x, y, z int) int {
 
 func g(x, y, z int) int {
 	a := 0
-	if y == 0 { // ERROR "Branch prediction rule default < call"
+	if y == 0 { // ERROR "Branch prediction rule default < call$"
 		y = g(y, z, x)
 	} else {
 		y++
 	}
-	if y == x { // ERROR "Branch prediction rule default < call"
+	if y == x { // ERROR "Branch prediction rule default < call$"
 		y = g(y, z, x)
 	} else {
 	}
-	if y == 2 { // ERROR "Branch prediction rule default < call"
+	if y == 2 { // ERROR "Branch prediction rule default < call$"
 		z++
 	} else {
 		y = g(z, x, y)
 	}
-	if y+z == 3 { // ERROR "Branch prediction rule call < exit"
+	if y+z == 3 { // ERROR "Branch prediction rule call < exit$"
 		println("ha ha")
 	} else {
 		panic("help help help")
 	}
-	if x != 0 { // ERROR "Branch prediction rule default < ret"
-		for i := 0; i < x; i++ { // ERROR "Branch prediction rule stay in loop"
-			if x == 4 { // ERROR "Branch prediction rule stay in loop"
+	if x != 0 { // ERROR "Branch prediction rule default < ret$"
+		for i := 0; i < x; i++ { // ERROR "Branch prediction rule stay in loop \(agrees with previous\)$"
+			if x == 4 { // ERROR "Branch prediction rule stay in loop$"
 				return a
 			}
-			for j := 0; j < y; j++ { // ERROR "Branch prediction rule stay in loop"
-				for k := 0; k < z; k++ { // ERROR "Branch prediction rule stay in loop"
+			for j := 0; j < y; j++ { // ERROR "Branch prediction rule stay in loop \(agrees with previous\)$"
+				for k := 0; k < z; k++ { // ERROR "Branch prediction rule stay in loop \(agrees with previous\)$"
 					a -= j * i
 				}
 				a += j
@@ -60,15 +60,15 @@ func g(x, y, z int) int {
 
 func h(x, y, z int) int {
 	a := 0
-	for i := 0; i < x; i++ { // ERROR "Branch prediction rule stay in loop"
-		for j := 0; j < y; j++ { // ERROR "Branch prediction rule stay in loop"
+	for i := 0; i < x; i++ { // ERROR "Branch prediction rule stay in loop \(agrees with previous\)$"
+		for j := 0; j < y; j++ { // ERROR "Branch prediction rule stay in loop \(agrees with previous\)$"
 			a += j
-			if i == j { // ERROR "Branch prediction rule stay in loop"
+			if i == j { // ERROR "Branch prediction rule stay in loop$"
 				break
 			}
 			a *= j
 		}
-		for k := 0; k < z; k++ { // ERROR "Branch prediction rule stay in loop"
+		for k := 0; k < z; k++ { // ERROR "Branch prediction rule stay in loop \(agrees with previous\)$"
 			a -= k
 			if i == k {
 				continue
@@ -76,7 +76,7 @@ func h(x, y, z int) int {
 			a *= k
 		}
 	}
-	if a > 0 { // ERROR "Branch prediction rule default < call"
+	if a > 0 { // ERROR "Branch prediction rule default < call$"
 		a = g(x, y, z)
 	} else {
 		a = -a
