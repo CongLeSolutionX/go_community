@@ -240,6 +240,13 @@ func Gosched() {
 	mcall(gosched_m)
 }
 
+//go:nosplit
+// goschedguarded is like gosched, but checks for forbidden states and
+// opts out of the rescheduling in that case.
+func goschedguarded() {
+	mcall(goschedguarded_m)
+}
+
 // Puts the current goroutine into a waiting state and calls unlockf.
 // If unlockf returns false, the goroutine is resumed.
 // unlockf must not access this G's stack, as it may be moved between
@@ -2272,6 +2279,18 @@ func goschedImpl(gp *g) {
 
 // Gosched continuation on g0.
 func gosched_m(gp *g) {
+	if trace.enabled {
+		traceGoSched()
+	}
+	goschedImpl(gp)
+}
+
+func goschedguarded_m(gp *g) {
+
+	if gp.m.locks != 0 || gp.m.mallocing != 0 || gp.m.preemptoff != "" || gp.m.p.ptr().status != _Prunning {
+		gogo(&gp.sched) // never return
+	}
+
 	if trace.enabled {
 		traceGoSched()
 	}

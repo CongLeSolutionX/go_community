@@ -10,6 +10,9 @@ package ssa
 // This implementation only works within a basic block. TODO: use something more global.
 func dse(f *Func) {
 	var stores []*Value
+	if loopReschedChecksEnabled {
+		f.lastMems = make([]*Value, f.NumBlocks())
+	}
 	loadUse := f.newSparseSet(f.NumValues())
 	defer f.retSparseSet(loadUse)
 	storeUse := f.newSparseSet(f.NumValues())
@@ -22,8 +25,12 @@ func dse(f *Func) {
 		loadUse.clear()
 		storeUse.clear()
 		stores = stores[:0]
+		var memPhi *Value
 		for _, v := range b.Values {
 			if v.Op == OpPhi {
+				if v.Type.IsMemory() {
+					memPhi = v
+				}
 				// Ignore phis - they will always be first and can't be eliminated
 				continue
 			}
@@ -52,6 +59,9 @@ func dse(f *Func) {
 			}
 		}
 		if len(stores) == 0 {
+			if len(f.lastMems) > 0 {
+				f.lastMems[b.ID] = memPhi
+			}
 			continue
 		}
 
@@ -68,6 +78,9 @@ func dse(f *Func) {
 		}
 		if last == nil {
 			b.Fatalf("no last store found - cycle?")
+		}
+		if len(f.lastMems) > 0 {
+			f.lastMems[b.ID] = last
 		}
 
 		// Walk backwards looking for dead stores. Keep track of shadowed addresses.

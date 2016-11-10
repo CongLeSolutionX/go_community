@@ -973,7 +973,12 @@ func (s *regAllocState) regalloc(f *Func) {
 					// specially during merge edge processing.
 					continue
 				}
-				regList = append(regList, startReg{r, v.ID, s.values[v.ID].uses.line})
+				vid := v.ID
+				vuses := s.values[vid].uses
+				if vuses == nil {
+					fmt.Printf("Vuses of %s is nil\n", v.LongString())
+				}
+				regList = append(regList, startReg{r, v.ID, vuses.line})
 			}
 			s.startRegs[b.ID] = regList
 
