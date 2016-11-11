@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b8e57b3_ff98f201",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-11T17:09:35Z",
+      "side": 1,
+      "message": "I don\u0027t understand the new -1 and -directoryEndLen in the test below, nor do I understand this explanation. What is wrong with those cases? Please add tests if they are in fact broken. I expected this line to be:\n\nif records \u003e\u003d uint16max || size \u003e\u003d uint32max || offset \u003e\u003d uint32max {",
+      "revId": "ba3b04a1a8d2c9226c36e623635f8de8d2c9cb81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
