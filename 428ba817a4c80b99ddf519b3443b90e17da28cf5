@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b8e57b3_496a140e",
+        "filename": "src/net/http/doc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-11T06:18:52Z",
+      "side": 1,
+      "message": "Period at end of sentence?",
+      "revId": "428ba817a4c80b99ddf519b3443b90e17da28cf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b8e57b3_6967d044",
+        "filename": "src/net/http/doc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-11T06:18:52Z",
+      "side": 1,
+      "message": "\"over net/http\u0027s built-in http2 support\" (or \"over the net/http package\u0027s built-in http2 support\").",
+      "range": {
+        "startLine": 103,
+        "startChar": 25,
+        "endLine": 103,
+        "endChar": 69
+      },
+      "revId": "428ba817a4c80b99ddf519b3443b90e17da28cf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
