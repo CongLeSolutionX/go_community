@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b8e57b3_5cde54c2",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2219,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-11T14:45:00Z",
+      "side": 1,
+      "message": "This all seems overly pedantic. Either pkg-config works or not. If not, might as well skip the test.\n\ntg.run(\"env\", \"PKG_CONFIG\")\npkgConfig :\u003d strings.TrimSpace(tg.getStdout())\nout, err :\u003d exec.Command(pkgConfig, \"--atleast-pkgconfig-version\", \"0.24\").CombinedOutput()\nif err !\u003d nil {\n    t.Skip(\"%s --atleast-pkgconfig-version 0.24: %v\\n%s\", pkgConfig, err, out)\n}",
+      "revId": "741e7c3da80fac4f0a64fbf2cdbfc3fae17c4812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
