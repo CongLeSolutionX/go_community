@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b8e57b3_77c09037",
+        "filename": "src/net/http/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-11T01:29:05Z",
+      "side": 1,
+      "message": "I can\u0027t decide whether it\u0027s useful to say that it \"contains a private snapshot\".  Should we just say \"supports HTTP/2\"?  And then say something like \"For additional HTTP/2 configuration not available in the standard package, you can import golang.org/x/net/http2 and use the ConfigureTransport and/or ConfigureServer functions.\"",
+      "revId": "b75803e0e7a8e9370e80b12821835afa67580b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebbeff35_860eac15",
+        "filename": "src/net/http/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-11T01:29:05Z",
+      "side": 1,
+      "message": "s/which/that/",
+      "range": {
+        "startLine": 98,
+        "startChar": 57,
+        "endLine": 98,
+        "endChar": 62
+      },
+      "revId": "b75803e0e7a8e9370e80b12821835afa67580b9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
