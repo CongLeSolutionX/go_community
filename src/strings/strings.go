@@ -290,11 +290,39 @@ func SplitAfter(s, sep string) []string {
 	return genSplit(s, sep, len(sep), -1)
 }
 
+// asciiSpace is a mapping indicating whether an ASCII character is whitespace.
+// We use 1 as true so that we can use branchless math.
+var asciiSpace = [256]uint8{'\t': 1, '\n': 1, '\v': 1, '\f': 1, '\r': 1, ' ': 1}
+
 // Fields splits the string s around each instance of one or more consecutive white space
 // characters, as defined by unicode.IsSpace, returning an array of substrings of s or an
 // empty list if s contains only white space.
 func Fields(s string) []string {
-	return FieldsFunc(s, unicode.IsSpace)
+	// Rough count of the fields (ASCII only).
+	n := 0
+	inField := uint8(0)
+	for i := 0; i < len(s); i++ {
+		wasInField := inField
+		inField = ^asciiSpace[s[i]]
+		n += int(inField & ^wasInField & 1)
+	}
+
+	a := make([]string, 0, n)
+	fieldStart := -1 // Set to -1 when looking for start of field.
+	for i, rune := range s {
+		if unicode.IsSpace(rune) {
+			if fieldStart >= 0 {
+				a = append(a, s[fieldStart:i])
+				fieldStart = -1
+			}
+		} else if fieldStart == -1 {
+			fieldStart = i
+		}
+	}
+	if fieldStart >= 0 { // Last field might end at EOF.
+		a = append(a, s[fieldStart:])
+	}
+	return a
 }
 
 // FieldsFunc splits the string s at each run of Unicode code points c satisfying f(c)
@@ -303,26 +331,12 @@ func Fields(s string) []string {
 // FieldsFunc makes no guarantees about the order in which it calls f(c).
 // If f does not return consistent results for a given c, FieldsFunc may crash.
 func FieldsFunc(s string, f func(rune) bool) []string {
-	// First count the fields.
-	n := 0
-	inField := false
-	for _, rune := range s {
-		wasInField := inField
-		inField = !f(rune)
-		if inField && !wasInField {
-			n++
-		}
-	}
-
-	// Now create them.
-	a := make([]string, n)
-	na := 0
+	var a []string
 	fieldStart := -1 // Set to -1 when looking for start of field.
 	for i, rune := range s {
 		if f(rune) {
 			if fieldStart >= 0 {
-				a[na] = s[fieldStart:i]
-				na++
+				a = append(a, s[fieldStart:i])
 				fieldStart = -1
 			}
 		} else if fieldStart == -1 {
@@ -330,7 +344,7 @@ func FieldsFunc(s string, f func(rune) bool) []string {
 		}
 	}
 	if fieldStart >= 0 { // Last field might end at EOF.
-		a[na] = s[fieldStart:]
+		a = append(a, s[fieldStart:])
 	}
 	return a
 }

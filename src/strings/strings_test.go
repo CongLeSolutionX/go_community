@@ -1463,16 +1463,26 @@ var makeFieldsInput = func() string {
 var fieldsInput = makeFieldsInput()
 
 func BenchmarkFields(b *testing.B) {
-	b.SetBytes(int64(len(fieldsInput)))
-	for i := 0; i < b.N; i++ {
-		Fields(fieldsInput)
+	for j := 1 << 4; j <= 1<<20; j <<= 4 {
+		b.Run(fmt.Sprintf("%d", j), func(b *testing.B) {
+			b.ReportAllocs()
+			b.SetBytes(int64(j))
+			for i := 0; i < b.N; i++ {
+				Fields(fieldsInput[:j])
+			}
+		})
 	}
 }
 
 func BenchmarkFieldsFunc(b *testing.B) {
-	b.SetBytes(int64(len(fieldsInput)))
-	for i := 0; i < b.N; i++ {
-		FieldsFunc(fieldsInput, unicode.IsSpace)
+	for j := 1 << 4; j <= 1<<20; j <<= 4 {
+		b.Run(fmt.Sprintf("%d", j), func(b *testing.B) {
+			b.ReportAllocs()
+			b.SetBytes(int64(j))
+			for i := 0; i < b.N; i++ {
+				FieldsFunc(fieldsInput[:j], unicode.IsSpace)
+			}
+		})
 	}
 }
 
