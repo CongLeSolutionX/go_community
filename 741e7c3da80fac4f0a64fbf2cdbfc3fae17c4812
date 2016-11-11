@@ -16,6 +16,24 @@
       "revId": "741e7c3da80fac4f0a64fbf2cdbfc3fae17c4812",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b8e57b3_709c1151",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2219,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-11T21:20:15Z",
+      "side": 1,
+      "message": "Done. Note, though, that pkg-config does not ever print output whether it exits 0 or non-0. I stuck with CombinedOutput for completeness just in case.",
+      "parentUuid": "2b8e57b3_5cde54c2",
+      "revId": "741e7c3da80fac4f0a64fbf2cdbfc3fae17c4812",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
