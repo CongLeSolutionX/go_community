@@ -92,5 +92,15 @@ environment variables are currently supported:
 The GODEBUG variables are not covered by Go's API compatibility promise.
 HTTP/2 support was added in Go 1.6. Please report any issues instead of
 disabling HTTP/2 support: https://golang.org/s/http2bug
+
+Each release of Go since Go 1.6 contains a private snapshot of the
+golang.org/x/net/http2 package. To use a newer version of the http2
+package, or to configure http2 with non-standard options which might
+otherwise disable the standard library's automatic http2 support,
+import "golang.org/x/net/http2" directly and use its
+ConfigureTransport and/or ConfigureServer functions. Manually
+configuring http2 via the golang.org/x/net/http2 package takes
+precedence over Go's built-in copy of the http2 package.
+
 */
 package http
