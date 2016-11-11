@@ -104,6 +104,24 @@
       "revId": "7d925356b146b32a3dda3f408b7ec165a31758f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b8e57b3_baa0387b",
+        "filename": "src/unicode/graphic.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-11T18:06:38Z",
+      "side": 1,
+      "message": "I know. But a pile of constants looks gross.",
+      "parentUuid": "2b8e57b3_9f960e2f",
+      "revId": "7d925356b146b32a3dda3f408b7ec165a31758f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
