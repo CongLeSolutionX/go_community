@@ -117,6 +117,10 @@ func IsPunct(r rune) bool {
 	return Is(Punct, r)
 }
 
+var latinSpaces = [256]bool{
+	'\t': true, '\n': true, '\v': true, '\f': true, '\r': true, ' ': true, '\u0085': true, '\u00a0': true,
+}
+
 // IsSpace reports whether the rune is a space character as defined
 // by Unicode's White Space property; in the Latin-1 space
 // this is
@@ -124,15 +128,17 @@ func IsPunct(r rune) bool {
 // Other definitions of spacing characters are set by category
 // Z and property Pattern_White_Space.
 func IsSpace(r rune) bool {
-	// This property isn't the same as Z; special-case it.
-	if uint32(r) <= MaxLatin1 {
-		switch r {
-		case '\t', '\n', '\v', '\f', '\r', ' ', 0x85, 0xA0:
-			return true
-		}
+	// Profiling indicates that IsSpace is a hot function.
+	// Implement IsSpace in such a way that it is inlineable.
+	if int(r) <= MaxLatin1 {
+		return latinSpaces[uint8(r)]
+	}
+	switch r {
+	case 0x1680, 0x2000, 0x2001, 0x2002, 0x2003, 0x2004, 0x2005, 0x2006, 0x2007, 0x2008, 0x2009, 0x200a, 0x2028, 0x2029, 0x202f, 0x205f, 0x3000:
+		return true
+	default:
 		return false
 	}
-	return isExcludingLatin(White_Space, r)
 }
 
 // IsSymbol reports whether the rune is a symbolic character.
