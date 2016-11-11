@@ -340,6 +340,32 @@ func TestIsSpace(t *testing.T) {
 	}
 }
 
+func TestIsSpaceOptimization(t *testing.T) {
+	for i := rune(0); i <= MaxRune; i++ {
+		if Is(White_Space, i) != IsSpace(i) {
+			t.Errorf("IsSpace(U+%04X) disagrees with Is(White_Space)", i)
+		}
+	}
+}
+
+func BenchmarkIsSpace(b *testing.B) {
+	var sink bool
+	b.Run("Latin1", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			for r := rune(0); r <= MaxLatin1; r++ {
+				sink = IsSpace(r)
+			}
+		}
+	})
+	b.Run("FullRange", func(b *testing.B) {
+		for i := 0; i < b.N; i++ {
+			for r := rune(0); r <= MaxRune; r++ {
+				sink = IsSpace(r)
+			}
+		}
+	})
+}
+
 // Check that the optimizations for IsLetter etc. agree with the tables.
 // We only need to check the Latin-1 range.
 func TestLetterOptimizations(t *testing.T) {
