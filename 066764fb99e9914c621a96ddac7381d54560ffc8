@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2bf2d718_404e50dd",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2016-11-11T17:45:46Z",
+      "side": 1,
+      "message": "I only thought about this, not tried it, but ISTM that if inField started as 0xfe, then the ...\u00261 wouldn\u0027t be needed.  I think it\u0027s only there to handle the initial iteration where ^wasInField is 0xff which might result in 0xff\u00260xff.  ^0xfe would give the 1 as in later iterations.",
+      "revId": "066764fb99e9914c621a96ddac7381d54560ffc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b8e57b3_89e7bcfa",
         "filename": "src/strings/strings.go",
         "patchSetId": 1
