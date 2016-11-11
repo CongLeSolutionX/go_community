@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2b8e57b3_0999ec03",
+        "filename": "src/net/http/doc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-11T06:23:48Z",
+      "side": 1,
+      "message": "I was afraid of dumb auto-linkification and copy/paste. I\u0027d prefer to omit it.",
+      "parentUuid": "2b8e57b3_496a140e",
+      "revId": "428ba817a4c80b99ddf519b3443b90e17da28cf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b8e57b3_6967d044",
         "filename": "src/net/http/doc.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
         "endLine": 103,
         "endChar": 69
       },
+      "revId": "428ba817a4c80b99ddf519b3443b90e17da28cf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b8e57b3_4993f4e3",
+        "filename": "src/net/http/doc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-11T06:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b8e57b3_6967d044",
       "revId": "428ba817a4c80b99ddf519b3443b90e17da28cf5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
