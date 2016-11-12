@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "d0ff2c21_bb886709",
+        "filename": "src/unicode/graphic.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2016-11-12T12:59:36Z",
+      "side": 1,
+      "message": "runes are int32 (i confused this in the past). I would also think we should look for a way to avoid all these LUTs. In isolation and micro benchmarks it looks great but we are more and more polluting caches and rely on the LUT being loaded. As an alternative here we can try to come up with hashing scheme that is fast and only needs to test if a bit in an int is set. That way our LUT is packed as an intermediate in the code itself that is already loaded. We have some time until 1.9 to experiment and test the tradeoffs :)",
+      "parentUuid": "2b8e57b3_5aa9f466",
+      "revId": "7d925356b146b32a3dda3f408b7ec165a31758f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b8e57b3_dc58a413",
         "filename": "src/unicode/graphic.go",
         "patchSetId": 4
