@@ -202,7 +202,9 @@ type moduledata struct {
 
 	ptab []ptabEntry
 
-	pluginpath   string
+	pluginpath string
+	pkghashes  []modulehash
+
 	modulename   string
 	modulehashes []modulehash
 
