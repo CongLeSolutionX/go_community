@@ -16,6 +16,24 @@
       "revId": "039f9dfdd5d217d9f93a5b5d56ffe65660a10377",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2f6f71_47dbeed0",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2016-11-12T11:58:46Z",
+      "side": 1,
+      "message": "\u003e ReadFile will always provide you only with \"full multi byte characters\n\nNo. ReadFile break the multi-byte. And it not continue to read trailing bytes. So we need to read whole of buffer. As I wrote in comment of this change, ReadFile have problem to read with small buffer. So I changed this to read with enough buffer.\n\nI\u0027ll try to separate changes, however seems to be difficult.",
+      "parentUuid": "2b1bb72a_157db420",
+      "revId": "039f9dfdd5d217d9f93a5b5d56ffe65660a10377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
