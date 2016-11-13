@@ -34,6 +34,24 @@
       "revId": "039f9dfdd5d217d9f93a5b5d56ffe65660a10377",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2f6f71_c798be02",
+        "filename": "src/os/file_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-11-13T03:53:01Z",
+      "side": 1,
+      "message": "Perhaps I did not explain myself very well. I think your approach (changing to use large buffer for Windows ReadFile, instead of single byte buffer) will not work. Try and apply https://go-review.googlesource.com/33030 to your \"use large buffer\" change, you will see that test will fail.\n\nI do not believe we have any problems with console reading code, except issue #17427 (os: CtrlZ doesn\u0027t work on Windows). If you think there is something else broken, please, create an issue for it.",
+      "parentUuid": "6b2f6f71_47dbeed0",
+      "revId": "039f9dfdd5d217d9f93a5b5d56ffe65660a10377",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
