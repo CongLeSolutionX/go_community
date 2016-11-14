@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "30b088be_4cac3387",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-14T22:52:04Z",
+      "side": 1,
+      "message": "This test takes about 0.2s and about 5 MB of memory. I think that is fine for a short test, no?",
+      "parentUuid": "30b088be_0cc4fbf6",
+      "revId": "e644655109756601ef4bb9fd6bd9c3962f1fab6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b088be_acbda767",
         "filename": "src/archive/zip/zip_test.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-14T22:16:34Z",
       "side": 1,
       "message": "this isn\u0027t idiomatic.",
+      "revId": "e644655109756601ef4bb9fd6bd9c3962f1fab6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b088be_4f6bc55f",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-14T22:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b088be_acbda767",
       "revId": "e644655109756601ef4bb9fd6bd9c3962f1fab6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "30b088be_0f75cd39",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-14T22:52:04Z",
+      "side": 1,
+      "message": "Done (It takes about 10s)",
+      "parentUuid": "30b088be_2cc9b70f",
+      "revId": "e644655109756601ef4bb9fd6bd9c3962f1fab6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b088be_8cc0ebe8",
         "filename": "src/archive/zip/zip_test.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2016-11-14T22:16:34Z",
       "side": 1,
       "message": "this isn\u0027t idiomatic.",
+      "revId": "e644655109756601ef4bb9fd6bd9c3962f1fab6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b088be_6f70014b",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-14T22:52:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30b088be_8cc0ebe8",
       "revId": "e644655109756601ef4bb9fd6bd9c3962f1fab6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
