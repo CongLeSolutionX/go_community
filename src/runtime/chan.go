@@ -324,9 +324,6 @@ func sendDirect(t *_type, sg *sudog, src unsafe.Pointer) {
 	// Once we read sg.elem out of sg, it will no longer
 	// be updated if the destination's stack gets copied (shrunk).
 	// So make sure that no preemption points can happen between read & use.
-	dst := sg.elem
-	memmove(dst, src, t.size)
-	typeBitsBulkBarrier(t, uintptr(dst), t.size)
 	if debug.gcroc >= 1 {
 		// ROC needs to publish on the send side since the receive will not
 		// assume that the pointer is already published.
@@ -334,10 +331,14 @@ func sendDirect(t *_type, sg *sudog, src unsafe.Pointer) {
 		// publish uses the wbuf pop routine which needs to run on the
 		// systemstack. This is also the reason we don't move the publish
 		// logic into typeBitsBulkBarrier.
+		// It must happen prior to the actual memmove.
 		systemstack(func() {
-			typeBitsBulkPublish(t, uintptr(dst), t.size)
+			typeBitsBulkPublish(t, uintptr(src), t.size)
 		})
 	}
+	dst := sg.elem
+	memmove(dst, src, t.size)
+	typeBitsBulkBarrier(t, uintptr(dst), t.size)
 }
 
 func closechan(c *hchan) {
@@ -572,6 +573,18 @@ func recv(c *hchan, sg *sudog, ep unsafe.Pointer, unlockf func()) {
 			// copy data from sender
 			// ep points to our own stack or heap, so nothing
 			// special (ala sendDirect) needed here.
+			if debug.gcroc >= 1 {
+				// ROC needs to publish on the send side since the receive will not
+				// assume that the pointer is already published.
+				// This is done on the system stack (unlike typeBitsBulkBarrier) since
+				// publish uses the wbuf pop routine which needs to run on the
+				// systemstack. This is also the reason we don't move the publish
+				// logic into typeBitsBulkBarrier.
+				// It must happen prior to the actual memmove.
+				systemstack(func() {
+					typeBitsBulkPublish(c.elemtype, uintptr(sg.elem), c.elemtype.size)
+				})
+			}
 			typedmemmove(c.elemtype, ep, sg.elem)
 		}
 	} else {
