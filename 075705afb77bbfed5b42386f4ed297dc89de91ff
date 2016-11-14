@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b8e57b3_974ee9da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-14T18:12:10Z",
+      "side": 1,
+      "message": "strings\n\nalso: \"speed up\" is a verb. \"speedup\" (or speed-up) is a noun. generally.",
+      "revId": "075705afb77bbfed5b42386f4ed297dc89de91ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
