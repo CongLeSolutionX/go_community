@@ -3,6 +3,8 @@
 // license that can be found in the LICENSE file.
 
 // This file is a simple protocol buffer encoder and decoder.
+// The format is described at
+// https://developers.google.com/protocol-buffers/docs/encoding
 //
 // A protocol message must implement the message interface:
 //   decoder() []decoder
@@ -24,8 +26,8 @@ package profile
 import "errors"
 
 type buffer struct {
-	field int
-	typ   int
+	field int // field tag
+	typ   int // proto wire type code for field
 	u64   uint64
 	data  []byte
 	tmp   [16]byte
@@ -95,13 +97,6 @@ func encodeInt64(b *buffer, tag int, x int64) {
 	encodeUint64(b, tag, u)
 }
 
-func encodeInt64Opt(b *buffer, tag int, x int64) {
-	if x == 0 {
-		return
-	}
-	encodeInt64(b, tag, x)
-}
-
 func encodeInt64s(b *buffer, tag int, x []int64) {
 	if len(x) > 2 {
 		// Use packed encoding
@@ -120,6 +115,13 @@ func encodeInt64s(b *buffer, tag int, x []int64) {
 	for _, u := range x {
 		encodeInt64(b, tag, u)
 	}
+}
+
+func encodeInt64Opt(b *buffer, tag int, x int64) {
+	if x == 0 {
+		return
+	}
+	encodeInt64(b, tag, x)
 }
 
 func encodeString(b *buffer, tag int, x string) {
@@ -180,9 +182,8 @@ func le32(p []byte) uint32 {
 }
 
 func decodeVarint(data []byte) (uint64, []byte, error) {
-	var i int
 	var u uint64
-	for i = 0; ; i++ {
+	for i := 0; ; i++ {
 		if i >= 10 || i >= len(data) {
 			return 0, nil, errors.New("bad varint")
 		}
@@ -232,7 +233,7 @@ func decodeField(b *buffer, data []byte) ([]byte, error) {
 		b.u64 = uint64(le32(data[:4]))
 		data = data[4:]
 	default:
-		return nil, errors.New("unknown type: " + string(b.typ))
+		return nil, errors.New("unknown wire type: " + string(b.typ))
 	}
 
 	return data, nil
@@ -280,6 +281,7 @@ func decodeInt64s(b *buffer, x *[]int64) error {
 	if b.typ == 2 {
 		// Packed encoding
 		data := b.data
+		tmp := make([]int64, 0, len(data)) // Maximally sized
 		for len(data) > 0 {
 			var u uint64
 			var err error
@@ -287,8 +289,9 @@ func decodeInt64s(b *buffer, x *[]int64) error {
 			if u, data, err = decodeVarint(data); err != nil {
 				return err
 			}
-			*x = append(*x, int64(u))
+			tmp = append(tmp, int64(u))
 		}
+		*x = append(*x, tmp...)
 		return nil
 	}
 	var i int64
@@ -311,6 +314,7 @@ func decodeUint64s(b *buffer, x *[]uint64) error {
 	if b.typ == 2 {
 		data := b.data
 		// Packed encoding
+		tmp := make([]uint64, 0, len(data)) // Maximally sized
 		for len(data) > 0 {
 			var u uint64
 			var err error
@@ -318,8 +322,9 @@ func decodeUint64s(b *buffer, x *[]uint64) error {
 			if u, data, err = decodeVarint(data); err != nil {
 				return err
 			}
-			*x = append(*x, u)
+			tmp = append(tmp, u)
 		}
+		*x = append(*x, tmp...)
 		return nil
 	}
 	var u uint64

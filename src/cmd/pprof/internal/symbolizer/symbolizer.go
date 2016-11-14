@@ -4,36 +4,103 @@
 
 // Package symbolizer provides a routine to populate a profile with
 // symbol, file and line number information. It relies on the
-// addr2liner and demangler packages to do the actual work.
+// addr2liner and demangle packages to do the actual work.
 package symbolizer
 
 import (
 	"fmt"
-	"os"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 	"path/filepath"
 	"strings"
 
 	"cmd/pprof/internal/plugin"
+	"cmd/pprof/internal/symbolz"
 	"internal/pprof/profile"
 )
 
-// Symbolize adds symbol and line number information to all locations
-// in a profile. mode enables some options to control
-// symbolization. Currently only recognizes "force", which causes it
-// to overwrite any existing data.
-func Symbolize(mode string, prof *profile.Profile, obj plugin.ObjTool, ui plugin.UI) error {
-	force := false
-	// Disable some mechanisms based on mode string.
+// Symbolizer implements the plugin.Symbolize interface.
+type Symbolizer struct {
+	Obj plugin.ObjTool
+	UI  plugin.UI
+}
+
+// test taps for dependency injection
+var symbolzSymbolize = symbolz.Symbolize
+var localSymbolize = doLocalSymbolize
+
+// Symbolize attempts to symbolize profile p. First uses binutils on
+// local binaries; if the source is a URL it attempts to get any
+// missed entries using symbolz.
+func (s *Symbolizer) Symbolize(mode string, sources plugin.MappingSources, p *profile.Profile) error {
+	remote, local, force, demanglerMode := true, true, false, ""
 	for _, o := range strings.Split(strings.ToLower(mode), ":") {
 		switch o {
-		case "force":
+		case "none", "no":
+			return nil
+		case "local", "fastlocal":
+			remote, local = false, true
+		case "remote":
+			remote, local = true, false
+		case "", "force":
 			force = true
 		default:
+			switch d := strings.TrimPrefix(o, "demangle="); d {
+			case "full", "none", "templates":
+				demanglerMode = d
+				force = true
+				continue
+			case "default":
+				continue
+			}
+			s.UI.PrintErr("ignoring unrecognized symbolization option: " + mode)
+			s.UI.PrintErr("expecting -symbolize=[local|fastlocal|remote|none][:force][:demangle=[none|full|templates|default]")
 		}
 	}
 
-	if len(prof.Mapping) == 0 {
-		return fmt.Errorf("no known mappings")
+	var err error
+	if local {
+		// Symbolize locally.
+		if err = localSymbolize(mode, p, s.Obj, s.UI); err != nil {
+			s.UI.PrintErr("local symbolization: " + err.Error())
+		}
+	}
+	if remote {
+		if err = symbolzSymbolize(sources, postURL, p, s.UI); err != nil {
+			return err // Ran out of options.
+		}
+	}
+
+	Demangle(p, force, demanglerMode)
+	return nil
+}
+
+// postURL issues a POST to a URL over HTTP.
+func postURL(source, post string) ([]byte, error) {
+	resp, err := http.Post(source, "application/octet-stream", strings.NewReader(post))
+	if err != nil {
+		return nil, fmt.Errorf("http post %s: %v", source, err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("server response: %s", resp.Status)
+	}
+	defer resp.Body.Close()
+	return ioutil.ReadAll(resp.Body)
+}
+
+// doLocalSymbolize adds symbol and line number information to all locations
+// in a profile. mode enables some options to control
+// symbolization.
+func doLocalSymbolize(mode string, prof *profile.Profile, obj plugin.ObjTool, ui plugin.UI) error {
+	force := false
+	// Disable some mechanisms based on mode string.
+	for _, o := range strings.Split(strings.ToLower(mode), ":") {
+		switch {
+		case o == "force":
+			force = true
+		default:
+		}
 	}
 
 	mt, err := newMapping(prof, obj, ui, force)
@@ -47,13 +114,13 @@ func Symbolize(mode string, prof *profile.Profile, obj plugin.ObjTool, ui plugin
 		m := l.Mapping
 		segment := mt.segments[m]
 		if segment == nil {
-			// Nothing to do
+			// Nothing to do.
 			continue
 		}
 
 		stack, err := segment.SourceLine(l.Address)
 		if err != nil || len(stack) == 0 {
-			// No answers from addr2line
+			// No answers from addr2line.
 			continue
 		}
 
@@ -90,7 +157,15 @@ func Symbolize(mode string, prof *profile.Profile, obj plugin.ObjTool, ui plugin
 			m.HasInlineFrames = true
 		}
 	}
+
 	return nil
+}
+
+// Demangle updates the function names in a profile with demangled C++
+// names, simplified according to demanglerMode. If force is set,
+// overwrite any names that appear already demangled.
+func Demangle(prof *profile.Profile, force bool, demanglerMode string) {
+	// No demangle support.
 }
 
 // newMapping creates a mappingTable for a profile.
@@ -106,78 +181,57 @@ func newMapping(prof *profile.Profile, obj plugin.ObjTool, ui plugin.UI, force b
 		mappings[l.Mapping] = true
 	}
 
-	for _, m := range prof.Mapping {
+	missingBinaries := false
+	for midx, m := range prof.Mapping {
 		if !mappings[m] {
 			continue
 		}
+
 		// Do not attempt to re-symbolize a mapping that has already been symbolized.
 		if !force && (m.HasFunctions || m.HasFilenames || m.HasLineNumbers) {
 			continue
 		}
 
-		f, err := locateFile(obj, m.File, m.BuildID, m.Start)
-		if err != nil {
-			ui.PrintErr("Local symbolization failed for ", filepath.Base(m.File), ": ", err)
-			// Move on to other mappings
+		if m.File == "" {
+			if midx == 0 {
+				ui.PrintErr("Main binary filename not available.\n" +
+					"Try passing the path to the main binary before the profile.")
+				continue
+			}
+			missingBinaries = true
 			continue
 		}
 
+		// Skip well-known system mappings
+		name := filepath.Base(m.File)
+		if name == "[vdso]" || strings.HasPrefix(name, "linux-vdso") {
+			continue
+		}
+
+		// Skip mappings pointing to a source URL
+		if m.BuildID == "" {
+			if u, err := url.Parse(m.File); err == nil && u.IsAbs() {
+				continue
+			}
+		}
+
+		f, err := obj.Open(m.File, m.Start, m.Limit, m.Offset)
+		if err != nil {
+			ui.PrintErr("Local symbolization failed for ", name, ": ", err)
+			continue
+		}
 		if fid := f.BuildID(); m.BuildID != "" && fid != "" && fid != m.BuildID {
-			// Build ID mismatch - ignore.
+			ui.PrintErr("Local symbolization failed for ", name, ": build ID mismatch")
 			f.Close()
 			continue
 		}
 
 		mt.segments[m] = f
 	}
-
+	if missingBinaries {
+		ui.PrintErr("Some binary filenames not available. Symbolization may be incomplete.")
+	}
 	return mt, nil
-}
-
-// locateFile opens a local file for symbolization on the search path
-// at $PPROF_BINARY_PATH. Looks inside these directories for files
-// named $BUILDID/$BASENAME and $BASENAME (if build id is available).
-func locateFile(obj plugin.ObjTool, file, buildID string, start uint64) (plugin.ObjFile, error) {
-	// Construct search path to examine
-	searchPath := os.Getenv("PPROF_BINARY_PATH")
-	if searchPath == "" {
-		// Use $HOME/pprof/binaries as default directory for local symbolization binaries
-		searchPath = filepath.Join(os.Getenv("HOME"), "pprof", "binaries")
-	}
-
-	// Collect names to search: {buildid/basename, basename}
-	var fileNames []string
-	if baseName := filepath.Base(file); buildID != "" {
-		fileNames = []string{filepath.Join(buildID, baseName), baseName}
-	} else {
-		fileNames = []string{baseName}
-	}
-	for _, path := range filepath.SplitList(searchPath) {
-		for nameIndex, name := range fileNames {
-			file := filepath.Join(path, name)
-			if f, err := obj.Open(file, start); err == nil {
-				fileBuildID := f.BuildID()
-				if buildID == "" || buildID == fileBuildID {
-					return f, nil
-				}
-				f.Close()
-				if nameIndex == 0 {
-					// If this is the first name, the path includes the build id. Report inconsistency.
-					return nil, fmt.Errorf("found file %s with inconsistent build id %s", file, fileBuildID)
-				}
-			}
-		}
-	}
-	// Try original file name
-	f, err := obj.Open(file, start)
-	if err == nil && buildID != "" {
-		if fileBuildID := f.BuildID(); fileBuildID != "" && fileBuildID != buildID {
-			// Mismatched build IDs, ignore
-			f.Close()
-			return nil, fmt.Errorf("mismatched build ids %s != %s", fileBuildID, buildID)
-		}
-	}
-	return f, err
 }
 
 // mappingTable contains the mechanisms for symbolization of a

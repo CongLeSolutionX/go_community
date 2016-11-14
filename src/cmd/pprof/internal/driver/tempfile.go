@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Package tempfile provides tools to create and delete temporary files
-package tempfile
+package driver
 
 import (
 	"fmt"
@@ -12,8 +11,8 @@ import (
 	"sync"
 )
 
-// New returns an unused filename for output files.
-func New(dir, prefix, suffix string) (*os.File, error) {
+// newTempFile returns a new output file in dir with the provided prefix and suffix.
+func newTempFile(dir, prefix, suffix string) (*os.File, error) {
 	for index := 1; index < 10000; index++ {
 		path := filepath.Join(dir, fmt.Sprintf("%s%03d%s", prefix, index, suffix))
 		if _, err := os.Stat(path); err != nil {
@@ -27,19 +26,18 @@ func New(dir, prefix, suffix string) (*os.File, error) {
 var tempFiles []string
 var tempFilesMu = sync.Mutex{}
 
-// DeferDelete marks a file or directory to be deleted by next call to Cleanup.
-func DeferDelete(path string) {
+// deferDeleteTempFile marks a file to be deleted by next call to Cleanup()
+func deferDeleteTempFile(path string) {
 	tempFilesMu.Lock()
 	tempFiles = append(tempFiles, path)
 	tempFilesMu.Unlock()
 }
 
-// Cleanup removes any temporary files or directories selected for deferred cleaning.
-// Similar to defer semantics, the nodes are deleted in LIFO order.
-func Cleanup() {
+// cleanupTempFiles removes any temporary files selected for deferred cleaning.
+func cleanupTempFiles() {
 	tempFilesMu.Lock()
-	for i := len(tempFiles) - 1; i >= 0; i-- {
-		os.Remove(tempFiles[i])
+	for _, f := range tempFiles {
+		os.Remove(f)
 	}
 	tempFiles = nil
 	tempFilesMu.Unlock()

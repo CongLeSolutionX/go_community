@@ -2,16 +2,16 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// Implements methods to filter samples from profiles.
-
 package profile
+
+// Implements methods to filter samples from profiles.
 
 import "regexp"
 
 // FilterSamplesByName filters the samples in a profile and only keeps
 // samples where at least one frame matches focus but none match ignore.
 // Returns true is the corresponding regexp matched at least one sample.
-func (p *Profile) FilterSamplesByName(focus, ignore, hide *regexp.Regexp) (fm, im, hm bool) {
+func (p *Profile) FilterSamplesByName(focus, ignore, hide, show *regexp.Regexp) (fm, im, hm, hnm bool) {
 	focusOrIgnore := make(map[uint64]bool)
 	hidden := make(map[uint64]bool)
 	for _, l := range p.Location {
@@ -22,9 +22,17 @@ func (p *Profile) FilterSamplesByName(focus, ignore, hide *regexp.Regexp) (fm, i
 			fm = true
 			focusOrIgnore[l.ID] = true
 		}
+
 		if hide != nil && l.matchesName(hide) {
 			hm = true
 			l.Line = l.unmatchedLines(hide)
+			if len(l.Line) == 0 {
+				hidden[l.ID] = true
+			}
+		}
+		if show != nil {
+			hnm = true
+			l.Line = l.matchedLines(show)
 			if len(l.Line) == 0 {
 				hidden[l.ID] = true
 			}
@@ -55,18 +63,49 @@ func (p *Profile) FilterSamplesByName(focus, ignore, hide *regexp.Regexp) (fm, i
 	return
 }
 
-// matchesName returns whether the function name or file in the
-// location matches the regular expression.
+// FilterTagsByName filters the tags in a profile and only keeps
+// tags that match show and not hide.
+func (p *Profile) FilterTagsByName(show, hide *regexp.Regexp) (sm, hm bool) {
+	matchRemove := func(name string) bool {
+		matchShow := show == nil || show.MatchString(name)
+		matchHide := hide != nil && hide.MatchString(name)
+
+		if matchShow {
+			sm = true
+		}
+		if matchHide {
+			hm = true
+		}
+		return !matchShow || matchHide
+	}
+	for _, s := range p.Sample {
+		for lab := range s.Label {
+			if matchRemove(lab) {
+				delete(s.Label, lab)
+			}
+		}
+		for lab := range s.NumLabel {
+			if matchRemove(lab) {
+				delete(s.NumLabel, lab)
+			}
+		}
+	}
+	return
+}
+
+// matchesName returns whether the location matches the regular
+// expression. It checks any available function names, file names, and
+// mapping object filename.
 func (loc *Location) matchesName(re *regexp.Regexp) bool {
 	for _, ln := range loc.Line {
 		if fn := ln.Function; fn != nil {
-			if re.MatchString(fn.Name) {
-				return true
-			}
-			if re.MatchString(fn.Filename) {
+			if re.MatchString(fn.Name) || re.MatchString(fn.Filename) {
 				return true
 			}
 		}
+	}
+	if m := loc.Mapping; m != nil && re.MatchString(m.File) {
+		return true
 	}
 	return false
 }
@@ -74,13 +113,28 @@ func (loc *Location) matchesName(re *regexp.Regexp) bool {
 // unmatchedLines returns the lines in the location that do not match
 // the regular expression.
 func (loc *Location) unmatchedLines(re *regexp.Regexp) []Line {
+	if m := loc.Mapping; m != nil && re.MatchString(m.File) {
+		return nil
+	}
 	var lines []Line
 	for _, ln := range loc.Line {
 		if fn := ln.Function; fn != nil {
-			if re.MatchString(fn.Name) {
+			if re.MatchString(fn.Name) || re.MatchString(fn.Filename) {
 				continue
 			}
-			if re.MatchString(fn.Filename) {
+		}
+		lines = append(lines, ln)
+	}
+	return lines
+}
+
+// matchedLines returns the lines in the location that match
+// the regular expression.
+func (loc *Location) matchedLines(re *regexp.Regexp) []Line {
+	var lines []Line
+	for _, ln := range loc.Line {
+		if fn := ln.Function; fn != nil {
+			if !re.MatchString(fn.Name) && !re.MatchString(fn.Filename) {
 				continue
 			}
 		}
@@ -111,7 +165,7 @@ func focusedAndNotIgnored(locs []*Location, m map[uint64]bool) bool {
 }
 
 // TagMatch selects tags for filtering
-type TagMatch func(key, val string, nval int64) bool
+type TagMatch func(s *Sample) bool
 
 // FilterSamplesByTag removes all samples from the profile, except
 // those that match focus and do not match the ignore regular
@@ -119,7 +173,13 @@ type TagMatch func(key, val string, nval int64) bool
 func (p *Profile) FilterSamplesByTag(focus, ignore TagMatch) (fm, im bool) {
 	samples := make([]*Sample, 0, len(p.Sample))
 	for _, s := range p.Sample {
-		focused, ignored := focusedSample(s, focus, ignore)
+		focused, ignored := true, false
+		if focus != nil {
+			focused = focus(s)
+		}
+		if ignore != nil {
+			ignored = ignore(s)
+		}
 		fm = fm || focused
 		im = im || ignored
 		if focused && !ignored {
@@ -128,31 +188,4 @@ func (p *Profile) FilterSamplesByTag(focus, ignore TagMatch) (fm, im bool) {
 	}
 	p.Sample = samples
 	return
-}
-
-// focusedTag checks a sample against focus and ignore regexps.
-// Returns whether the focus/ignore regexps match any tags
-func focusedSample(s *Sample, focus, ignore TagMatch) (fm, im bool) {
-	fm = focus == nil
-	for key, vals := range s.Label {
-		for _, val := range vals {
-			if ignore != nil && ignore(key, val, 0) {
-				im = true
-			}
-			if !fm && focus(key, val, 0) {
-				fm = true
-			}
-		}
-	}
-	for key, vals := range s.NumLabel {
-		for _, val := range vals {
-			if ignore != nil && ignore(key, "", val) {
-				im = true
-			}
-			if !fm && focus(key, "", val) {
-				fm = true
-			}
-		}
-	}
-	return fm, im
 }
