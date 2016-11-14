@@ -20,16 +20,16 @@ import (
 //
 //go:nosplit
 func atomicstorep(ptr unsafe.Pointer, new unsafe.Pointer) {
-	atomic.StorepNoWB(noescape(ptr), new)
 	writebarrierptr_nostore((*uintptr)(ptr), uintptr(new))
+	atomic.StorepNoWB(noescape(ptr), new)
 }
 
 //go:nosplit
 func casp(ptr *unsafe.Pointer, old, new unsafe.Pointer) bool {
+	writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
 	if !atomic.Casp1((*unsafe.Pointer)(noescape(unsafe.Pointer(ptr))), noescape(old), new) {
 		return false
 	}
-	writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
 	return true
 }
 
@@ -43,8 +43,8 @@ func sync_atomic_StoreUintptr(ptr *uintptr, new uintptr)
 //go:linkname sync_atomic_StorePointer sync/atomic.StorePointer
 //go:nosplit
 func sync_atomic_StorePointer(ptr *unsafe.Pointer, new unsafe.Pointer) {
-	sync_atomic_StoreUintptr((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
 	writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
+	sync_atomic_StoreUintptr((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
 }
 
 //go:linkname sync_atomic_SwapUintptr sync/atomic.SwapUintptr
@@ -53,8 +53,8 @@ func sync_atomic_SwapUintptr(ptr *uintptr, new uintptr) uintptr
 //go:linkname sync_atomic_SwapPointer sync/atomic.SwapPointer
 //go:nosplit
 func sync_atomic_SwapPointer(ptr *unsafe.Pointer, new unsafe.Pointer) unsafe.Pointer {
-	old := unsafe.Pointer(sync_atomic_SwapUintptr((*uintptr)(noescape(unsafe.Pointer(ptr))), uintptr(new)))
 	writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
+	old := unsafe.Pointer(sync_atomic_SwapUintptr((*uintptr)(noescape(unsafe.Pointer(ptr))), uintptr(new)))
 	return old
 }
 
@@ -64,9 +64,9 @@ func sync_atomic_CompareAndSwapUintptr(ptr *uintptr, old, new uintptr) bool
 //go:linkname sync_atomic_CompareAndSwapPointer sync/atomic.CompareAndSwapPointer
 //go:nosplit
 func sync_atomic_CompareAndSwapPointer(ptr *unsafe.Pointer, old, new unsafe.Pointer) bool {
+	writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
 	if !sync_atomic_CompareAndSwapUintptr((*uintptr)(noescape(unsafe.Pointer(ptr))), uintptr(old), uintptr(new)) {
 		return false
 	}
-	writebarrierptr_nostore((*uintptr)(unsafe.Pointer(ptr)), uintptr(new))
 	return true
 }
