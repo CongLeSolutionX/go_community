@@ -14,10 +14,10 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"sort"
 	"strconv"
 	"strings"
 
+	"cmd/pprof/internal/graph"
 	"cmd/pprof/internal/plugin"
 )
 
@@ -27,59 +27,65 @@ import (
 // eliminate potential nondeterminism.
 func printSource(w io.Writer, rpt *Report) error {
 	o := rpt.options
-	g, err := newGraph(rpt)
-	if err != nil {
-		return err
-	}
+	g := rpt.newGraph(nil)
 
 	// Identify all the functions that match the regexp provided.
 	// Group nodes for each matching function.
-	var functions nodes
-	functionNodes := make(map[string]nodes)
-	for _, n := range g.ns {
-		if !o.Symbol.MatchString(n.info.name) {
+	var functions graph.Nodes
+	functionNodes := make(map[string]graph.Nodes)
+	for _, n := range g.Nodes {
+		if !o.Symbol.MatchString(n.Info.Name) {
 			continue
 		}
-		if functionNodes[n.info.name] == nil {
+		if functionNodes[n.Info.Name] == nil {
 			functions = append(functions, n)
 		}
-		functionNodes[n.info.name] = append(functionNodes[n.info.name], n)
+		functionNodes[n.Info.Name] = append(functionNodes[n.Info.Name], n)
 	}
-	functions.sort(nameOrder)
+	functions.Sort(graph.NameOrder)
+
+	sourcePath := o.SourcePath
+	if sourcePath == "" {
+		wd, err := os.Getwd()
+		if err != nil {
+			return fmt.Errorf("Could not stat current dir: %v", err)
+		}
+		sourcePath = wd
+	}
 
 	fmt.Fprintf(w, "Total: %s\n", rpt.formatValue(rpt.total))
 	for _, fn := range functions {
-		name := fn.info.name
+		name := fn.Info.Name
 
 		// Identify all the source files associated to this function.
 		// Group nodes for each source file.
-		var sourceFiles nodes
-		fileNodes := make(map[string]nodes)
+		var sourceFiles graph.Nodes
+		fileNodes := make(map[string]graph.Nodes)
 		for _, n := range functionNodes[name] {
-			if n.info.file == "" {
+			if n.Info.File == "" {
 				continue
 			}
-			if fileNodes[n.info.file] == nil {
+			if fileNodes[n.Info.File] == nil {
 				sourceFiles = append(sourceFiles, n)
 			}
-			fileNodes[n.info.file] = append(fileNodes[n.info.file], n)
+			fileNodes[n.Info.File] = append(fileNodes[n.Info.File], n)
 		}
 
 		if len(sourceFiles) == 0 {
-			fmt.Printf("No source information for %s\n", name)
+			fmt.Fprintf(w, "No source information for %s\n", name)
 			continue
 		}
 
-		sourceFiles.sort(fileOrder)
+		sourceFiles.Sort(graph.FileOrder)
 
 		// Print each file associated with this function.
 		for _, fl := range sourceFiles {
-			filename := fl.info.file
+			filename := fl.Info.File
 			fns := fileNodes[filename]
-			flatSum, cumSum := sumNodes(fns)
+			flatSum, cumSum := fns.Sum()
 
-			fnodes, path, err := getFunctionSource(name, filename, fns, 0, 0)
-			fmt.Fprintf(w, "ROUTINE ======================== %s in %s\n", name, path)
+			fnodes, _, err := getSourceFromFile(filename, sourcePath, fns, 0, 0)
+			fmt.Fprintf(w, "ROUTINE ======================== %s in %s\n", name, filename)
 			fmt.Fprintf(w, "%10s %10s (flat, cum) %s of Total\n",
 				rpt.formatValue(flatSum), rpt.formatValue(cumSum),
 				percentage(cumSum, rpt.total))
@@ -90,7 +96,7 @@ func printSource(w io.Writer, rpt *Report) error {
 			}
 
 			for _, fn := range fnodes {
-				fmt.Fprintf(w, "%10s %10s %6d:%s\n", valueOrDot(fn.flat, rpt), valueOrDot(fn.cum, rpt), fn.info.lineno, fn.info.name)
+				fmt.Fprintf(w, "%10s %10s %6d:%s\n", valueOrDot(fn.Flat, rpt), valueOrDot(fn.Cum, rpt), fn.Info.Lineno, fn.Info.Name)
 			}
 		}
 	}
@@ -101,10 +107,7 @@ func printSource(w io.Writer, rpt *Report) error {
 // functions with samples that match the regexp rpt.options.symbol.
 func printWebSource(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 	o := rpt.options
-	g, err := newGraph(rpt)
-	if err != nil {
-		return err
-	}
+	g := rpt.newGraph(nil)
 
 	// If the regexp source can be parsed as an address, also match
 	// functions that land on that address.
@@ -113,66 +116,77 @@ func printWebSource(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 		address = &hex
 	}
 
+	sourcePath := o.SourcePath
+	if sourcePath == "" {
+		wd, err := os.Getwd()
+		if err != nil {
+			return fmt.Errorf("Could not stat current dir: %v", err)
+		}
+		sourcePath = wd
+	}
+
+	type fileFunction struct {
+		fileName, functionName string
+	}
+
 	// Extract interesting symbols from binary files in the profile and
 	// classify samples per symbol.
 	symbols := symbolsFromBinaries(rpt.prof, g, o.Symbol, address, obj)
-	symNodes := nodesPerSymbol(g.ns, symbols)
+	symNodes := nodesPerSymbol(g.Nodes, symbols)
 
-	// Sort symbols for printing.
-	var syms objSymbols
-	for s := range symNodes {
-		syms = append(syms, s)
-	}
-	sort.Sort(syms)
-
-	if len(syms) == 0 {
-		return fmt.Errorf("no samples found on routines matching: %s", o.Symbol.String())
-	}
-
-	printHeader(w, rpt)
-	for _, s := range syms {
-		name := s.sym.Name[0]
-		// Identify sources associated to a symbol by examining
-		// symbol samples. Classify samples per source file.
-		var sourceFiles nodes
-		fileNodes := make(map[string]nodes)
-		for _, n := range symNodes[s] {
-			if n.info.file == "" {
+	// Identify sources associated to a symbol by examining
+	// symbol samples. Classify samples per source file.
+	fileNodes := make(map[fileFunction]graph.Nodes)
+	if len(symNodes) == 0 {
+		for _, n := range g.Nodes {
+			if n.Info.File == "" || !o.Symbol.MatchString(n.Info.Name) {
 				continue
 			}
-			if fileNodes[n.info.file] == nil {
-				sourceFiles = append(sourceFiles, n)
+			ff := fileFunction{n.Info.File, n.Info.Name}
+			fileNodes[ff] = append(fileNodes[ff], n)
+		}
+	} else {
+		for _, nodes := range symNodes {
+			for _, n := range nodes {
+				if n.Info.File != "" {
+					ff := fileFunction{n.Info.File, n.Info.Name}
+					fileNodes[ff] = append(fileNodes[ff], n)
+				}
 			}
-			fileNodes[n.info.file] = append(fileNodes[n.info.file], n)
+		}
+	}
+
+	if len(fileNodes) == 0 {
+		return fmt.Errorf("No source information for %s\n", o.Symbol.String())
+	}
+
+	sourceFiles := make(graph.Nodes, 0, len(fileNodes))
+	for _, nodes := range fileNodes {
+		sNode := *nodes[0]
+		sNode.Flat, sNode.Cum = nodes.Sum()
+		sourceFiles = append(sourceFiles, &sNode)
+	}
+	sourceFiles.Sort(graph.FileOrder)
+
+	// Print each file associated with this function.
+	printHeader(w, rpt)
+	for _, n := range sourceFiles {
+		ff := fileFunction{n.Info.File, n.Info.Name}
+		fns := fileNodes[ff]
+
+		asm := assemblyPerSourceLine(symbols, fns, ff.fileName, obj)
+		start, end := sourceCoordinates(asm)
+
+		fnodes, path, err := getSourceFromFile(ff.fileName, sourcePath, fns, start, end)
+		if err != nil {
+			fnodes, path = getMissingFunctionSource(ff.fileName, asm, start, end)
 		}
 
-		if len(sourceFiles) == 0 {
-			fmt.Printf("No source information for %s\n", name)
-			continue
+		printFunctionHeader(w, ff.functionName, path, n.Flat, n.Cum, rpt)
+		for _, fn := range fnodes {
+			printFunctionSourceLine(w, fn, asm[fn.Info.Lineno], rpt)
 		}
-
-		sourceFiles.sort(fileOrder)
-
-		// Print each file associated with this function.
-		for _, fl := range sourceFiles {
-			filename := fl.info.file
-			fns := fileNodes[filename]
-
-			asm := assemblyPerSourceLine(symbols, fns, filename, obj)
-			start, end := sourceCoordinates(asm)
-
-			fnodes, path, err := getFunctionSource(name, filename, fns, start, end)
-			if err != nil {
-				fnodes, path = getMissingFunctionSource(filename, asm, start, end)
-			}
-
-			flatSum, cumSum := sumNodes(fnodes)
-			printFunctionHeader(w, name, path, flatSum, cumSum, rpt)
-			for _, fn := range fnodes {
-				printFunctionSourceLine(w, fn, asm[fn.info.lineno], rpt)
-			}
-			printFunctionClosing(w)
-		}
+		printFunctionClosing(w)
 	}
 	printPageClosing(w)
 	return nil
@@ -180,7 +194,7 @@ func printWebSource(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 
 // sourceCoordinates returns the lowest and highest line numbers from
 // a set of assembly statements.
-func sourceCoordinates(asm map[int]nodes) (start, end int) {
+func sourceCoordinates(asm map[int]graph.Nodes) (start, end int) {
 	for l := range asm {
 		if start == 0 || l < start {
 			start = l
@@ -195,8 +209,8 @@ func sourceCoordinates(asm map[int]nodes) (start, end int) {
 // assemblyPerSourceLine disassembles the binary containing a symbol
 // and classifies the assembly instructions according to its
 // corresponding source line, annotating them with a set of samples.
-func assemblyPerSourceLine(objSyms []*objSymbol, rs nodes, src string, obj plugin.ObjTool) map[int]nodes {
-	assembly := make(map[int]nodes)
+func assemblyPerSourceLine(objSyms []*objSymbol, rs graph.Nodes, src string, obj plugin.ObjTool) map[int]graph.Nodes {
+	assembly := make(map[int]graph.Nodes)
 	// Identify symbol to use for this collection of samples.
 	o := findMatchingSymbol(objSyms, rs)
 	if o == nil {
@@ -213,8 +227,8 @@ func assemblyPerSourceLine(objSyms []*objSymbol, rs nodes, src string, obj plugi
 	anodes := annotateAssembly(insns, rs, o.base)
 	var lineno = 0
 	for _, an := range anodes {
-		if filepath.Base(an.info.file) == srcBase {
-			lineno = an.info.lineno
+		if filepath.Base(an.Info.File) == srcBase {
+			lineno = an.Info.Lineno
 		}
 		if lineno != 0 {
 			assembly[lineno] = append(assembly[lineno], an)
@@ -226,12 +240,12 @@ func assemblyPerSourceLine(objSyms []*objSymbol, rs nodes, src string, obj plugi
 
 // findMatchingSymbol looks for the symbol that corresponds to a set
 // of samples, by comparing their addresses.
-func findMatchingSymbol(objSyms []*objSymbol, ns nodes) *objSymbol {
+func findMatchingSymbol(objSyms []*objSymbol, ns graph.Nodes) *objSymbol {
 	for _, n := range ns {
 		for _, o := range objSyms {
-			if filepath.Base(o.sym.File) == n.info.objfile &&
-				o.sym.Start <= n.info.address-o.base &&
-				n.info.address-o.base <= o.sym.End {
+			if filepath.Base(o.sym.File) == filepath.Base(n.Info.Objfile) &&
+				o.sym.Start <= n.Info.Address-o.base &&
+				n.Info.Address-o.base <= o.sym.End {
 				return o
 			}
 		}
@@ -244,7 +258,7 @@ func printHeader(w io.Writer, rpt *Report) {
 	fmt.Fprintln(w, weblistPageHeader)
 
 	var labels []string
-	for _, l := range legendLabels(rpt) {
+	for _, l := range ProfileLabels(rpt) {
 		labels = append(labels, template.HTMLEscapeString(l))
 	}
 
@@ -266,35 +280,35 @@ func printFunctionHeader(w io.Writer, name, path string, flatSum, cumSum int64, 
 }
 
 // printFunctionSourceLine prints a source line and the corresponding assembly.
-func printFunctionSourceLine(w io.Writer, fn *node, assembly nodes, rpt *Report) {
+func printFunctionSourceLine(w io.Writer, fn *graph.Node, assembly graph.Nodes, rpt *Report) {
 	if len(assembly) == 0 {
 		fmt.Fprintf(w,
 			"<span class=line> %6d</span> <span class=nop>  %10s %10s %s </span>\n",
-			fn.info.lineno,
-			valueOrDot(fn.flat, rpt), valueOrDot(fn.cum, rpt),
-			template.HTMLEscapeString(fn.info.name))
+			fn.Info.Lineno,
+			valueOrDot(fn.Flat, rpt), valueOrDot(fn.Cum, rpt),
+			template.HTMLEscapeString(fn.Info.Name))
 		return
 	}
 
 	fmt.Fprintf(w,
 		"<span class=line> %6d</span> <span class=deadsrc>  %10s %10s %s </span>",
-		fn.info.lineno,
-		valueOrDot(fn.flat, rpt), valueOrDot(fn.cum, rpt),
-		template.HTMLEscapeString(fn.info.name))
+		fn.Info.Lineno,
+		valueOrDot(fn.Flat, rpt), valueOrDot(fn.Cum, rpt),
+		template.HTMLEscapeString(fn.Info.Name))
 	fmt.Fprint(w, "<span class=asm>")
 	for _, an := range assembly {
 		var fileline string
 		class := "disasmloc"
-		if an.info.file != "" {
-			fileline = fmt.Sprintf("%s:%d", template.HTMLEscapeString(an.info.file), an.info.lineno)
-			if an.info.lineno != fn.info.lineno {
+		if an.Info.File != "" {
+			fileline = fmt.Sprintf("%s:%d", template.HTMLEscapeString(an.Info.File), an.Info.Lineno)
+			if an.Info.Lineno != fn.Info.Lineno {
 				class = "unimportant"
 			}
 		}
 		fmt.Fprintf(w, " %8s %10s %10s %8x: %-48s <span class=%s>%s</span>\n", "",
-			valueOrDot(an.flat, rpt), valueOrDot(an.cum, rpt),
-			an.info.address,
-			template.HTMLEscapeString(an.info.name),
+			valueOrDot(an.Flat, rpt), valueOrDot(an.Cum, rpt),
+			an.Info.Address,
+			template.HTMLEscapeString(an.Info.Name),
 			class,
 			template.HTMLEscapeString(fileline))
 	}
@@ -311,35 +325,35 @@ func printPageClosing(w io.Writer) {
 	fmt.Fprintln(w, weblistPageClosing)
 }
 
-// getFunctionSource collects the sources of a function from a source
+// getSourceFromFile collects the sources of a function from a source
 // file and annotates it with the samples in fns. Returns the sources
 // as nodes, using the info.name field to hold the source code.
-func getFunctionSource(fun, file string, fns nodes, start, end int) (nodes, string, error) {
-	f, file, err := adjustSourcePath(file)
+func getSourceFromFile(file, sourcePath string, fns graph.Nodes, start, end int) (graph.Nodes, string, error) {
+	file = trimPath(file)
+	f, err := openSourceFile(file, sourcePath)
 	if err != nil {
 		return nil, file, err
 	}
 
-	lineNodes := make(map[int]nodes)
-
+	lineNodes := make(map[int]graph.Nodes)
 	// Collect source coordinates from profile.
 	const margin = 5 // Lines before first/after last sample.
 	if start == 0 {
-		if fns[0].info.startLine != 0 {
-			start = fns[0].info.startLine
+		if fns[0].Info.StartLine != 0 {
+			start = fns[0].Info.StartLine
 		} else {
-			start = fns[0].info.lineno - margin
+			start = fns[0].Info.Lineno - margin
 		}
 	} else {
 		start -= margin
 	}
 	if end == 0 {
-		end = fns[0].info.lineno
+		end = fns[0].Info.Lineno
 	}
 	end += margin
 	for _, n := range fns {
-		lineno := n.info.lineno
-		nodeStart := n.info.startLine
+		lineno := n.Info.Lineno
+		nodeStart := n.Info.StartLine
 		if nodeStart == 0 {
 			nodeStart = lineno - margin
 		}
@@ -352,7 +366,7 @@ func getFunctionSource(fun, file string, fns nodes, start, end int) (nodes, stri
 		lineNodes[lineno] = append(lineNodes[lineno], n)
 	}
 
-	var src nodes
+	var src graph.Nodes
 	buf := bufio.NewReader(f)
 	lineno := 1
 	for {
@@ -362,20 +376,19 @@ func getFunctionSource(fun, file string, fns nodes, start, end int) (nodes, stri
 				return nil, file, err
 			}
 			if line == "" {
-				// end was at or past EOF; that's okay
 				break
 			}
 		}
 		if lineno >= start {
-			flat, cum := sumNodes(lineNodes[lineno])
+			flat, cum := lineNodes[lineno].Sum()
 
-			src = append(src, &node{
-				info: nodeInfo{
-					name:   strings.TrimRight(line, "\n"),
-					lineno: lineno,
+			src = append(src, &graph.Node{
+				Info: graph.NodeInfo{
+					Name:   strings.TrimRight(line, "\n"),
+					Lineno: lineno,
 				},
-				flat: flat,
-				cum:  cum,
+				Flat: flat,
+				Cum:  cum,
 			})
 		}
 		lineno++
@@ -388,51 +401,53 @@ func getFunctionSource(fun, file string, fns nodes, start, end int) (nodes, stri
 
 // getMissingFunctionSource creates a dummy function body to point to
 // the source file and annotates it with the samples in asm.
-func getMissingFunctionSource(filename string, asm map[int]nodes, start, end int) (nodes, string) {
-	var fnodes nodes
+func getMissingFunctionSource(filename string, asm map[int]graph.Nodes, start, end int) (graph.Nodes, string) {
+	var fnodes graph.Nodes
 	for i := start; i <= end; i++ {
 		lrs := asm[i]
 		if len(lrs) == 0 {
 			continue
 		}
-		flat, cum := sumNodes(lrs)
-		fnodes = append(fnodes, &node{
-			info: nodeInfo{
-				name:   "???",
-				lineno: i,
+		flat, cum := lrs.Sum()
+		fnodes = append(fnodes, &graph.Node{
+			Info: graph.NodeInfo{
+				Name:   "???",
+				Lineno: i,
 			},
-			flat: flat,
-			cum:  cum,
+			Flat: flat,
+			Cum:  cum,
 		})
 	}
 	return fnodes, filename
 }
 
-// adjustSourcePath adjusts the path for a source file by trimming
-// known prefixes and searching for the file on all parents of the
-// current working dir.
-func adjustSourcePath(path string) (*os.File, string, error) {
-	path = trimPath(path)
-	f, err := os.Open(path)
-	if err == nil {
-		return f, path, nil
+// openSourceFile opens a source file from a name encoded in a
+// profile. File names in a profile after often relative paths, so
+// search them in each of the paths in searchPath (or CWD by default),
+// and their parents.
+func openSourceFile(path, searchPath string) (*os.File, error) {
+	if filepath.IsAbs(path) {
+		f, err := os.Open(path)
+		return f, err
 	}
 
-	if dir, wderr := os.Getwd(); wderr == nil {
+	// Scan each component of the path
+	for _, dir := range strings.Split(searchPath, ":") {
+		// Search up for every parent of each possible path.
 		for {
+			filename := filepath.Join(dir, path)
+			if f, err := os.Open(filename); err == nil {
+				return f, nil
+			}
 			parent := filepath.Dir(dir)
 			if parent == dir {
 				break
 			}
-			if f, err := os.Open(filepath.Join(parent, path)); err == nil {
-				return f, filepath.Join(parent, path), nil
-			}
-
 			dir = parent
 		}
 	}
 
-	return nil, path, err
+	return nil, fmt.Errorf("Could not find file %s on path %s", path, searchPath)
 }
 
 // trimPath cleans up a path by removing prefixes that are commonly

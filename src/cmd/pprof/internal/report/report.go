@@ -17,6 +17,8 @@ import (
 	"strings"
 	"time"
 
+	"cmd/pprof/internal/graph"
+	"cmd/pprof/internal/measurement"
 	"cmd/pprof/internal/plugin"
 	"internal/pprof/profile"
 )
@@ -32,6 +34,8 @@ func Generate(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 		return printTree(w, rpt)
 	case Text:
 		return printText(w, rpt)
+	case Traces:
+		return printTraces(w, rpt)
 	case Raw:
 		fmt.Fprint(w, rpt.prof.String())
 		return nil
@@ -39,6 +43,8 @@ func Generate(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 		return printTags(w, rpt)
 	case Proto:
 		return rpt.prof.Write(w)
+	case TopProto:
+		return printTopProto(w, rpt)
 	case Dis:
 		return printAssembly(w, rpt, obj)
 	case List:
@@ -51,15 +57,216 @@ func Generate(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 	return fmt.Errorf("unexpected output format")
 }
 
-// printAssembly prints an annotated assembly listing.
-func printAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
-	g, err := newGraph(rpt)
-	if err != nil {
-		return err
+// newTrimmedGraph creates a graph for this report, trimmed according
+// to the report options.
+func (rpt *Report) newTrimmedGraph() (g *graph.Graph, origCount, droppedNodes, droppedEdges int) {
+	o := rpt.options
+
+	// Build a graph and refine it. On each refinement step we must rebuild the graph from the samples,
+	// as the graph itself doesn't contain enough information to preserve full precision.
+	visualMode := o.OutputFormat == Dot
+	cumSort := o.CumSort
+
+	// First step: Build complete graph to identify low frequency nodes, based on their cum weight.
+	g = rpt.newGraph(nil)
+	totalValue, _ := g.Nodes.Sum()
+	nodeCutoff := abs64(int64(float64(totalValue) * o.NodeFraction))
+	edgeCutoff := abs64(int64(float64(totalValue) * o.EdgeFraction))
+
+	// Filter out nodes with cum value below nodeCutoff.
+	if nodeCutoff > 0 {
+		if o.CallTree {
+			if nodesKept := g.DiscardLowFrequencyNodePtrs(nodeCutoff); len(g.Nodes) != len(nodesKept) {
+				droppedNodes = len(g.Nodes) - len(nodesKept)
+				g.TrimTree(nodesKept)
+			}
+		} else {
+			if nodesKept := g.DiscardLowFrequencyNodes(nodeCutoff); len(g.Nodes) != len(nodesKept) {
+				droppedNodes = len(g.Nodes) - len(nodesKept)
+				g = rpt.newGraph(nodesKept)
+			}
+		}
+	}
+	origCount = len(g.Nodes)
+
+	// Second step: Limit the total number of nodes. Apply specialized heuristics to improve
+	// visualization when generating dot output.
+	g.SortNodes(cumSort, visualMode)
+	if nodeCount := o.NodeCount; nodeCount > 0 {
+		// Remove low frequency tags and edges as they affect selection.
+		g.TrimLowFrequencyTags(nodeCutoff)
+		g.TrimLowFrequencyEdges(edgeCutoff)
+		if o.CallTree {
+			if nodesKept := g.SelectTopNodePtrs(nodeCount, visualMode); len(g.Nodes) != len(nodesKept) {
+				g.TrimTree(nodesKept)
+				g.SortNodes(cumSort, visualMode)
+			}
+		} else {
+			if nodesKept := g.SelectTopNodes(nodeCount, visualMode); len(g.Nodes) != len(nodesKept) {
+				g = rpt.newGraph(nodesKept)
+				g.SortNodes(cumSort, visualMode)
+			}
+		}
 	}
 
+	// Final step: Filter out low frequency tags and edges, and remove redundant edges that clutter
+	// the graph.
+	g.TrimLowFrequencyTags(nodeCutoff)
+	droppedEdges = g.TrimLowFrequencyEdges(edgeCutoff)
+	if visualMode {
+		g.RemoveRedundantEdges()
+	}
+	return
+}
+
+func (rpt *Report) selectOutputUnit(g *graph.Graph) {
+	o := rpt.options
+
+	// Select best unit for profile output.
+	// Find the appropriate units for the smallest non-zero sample
+	if o.OutputUnit != "minimum" || len(g.Nodes) == 0 {
+		return
+	}
+	var minValue int64
+
+	for _, n := range g.Nodes {
+		nodeMin := abs64(n.FlatValue())
+		if nodeMin == 0 {
+			nodeMin = abs64(n.CumValue())
+		}
+		if nodeMin > 0 && (minValue == 0 || nodeMin < minValue) {
+			minValue = nodeMin
+		}
+	}
+	maxValue := rpt.total
+	if minValue == 0 {
+		minValue = maxValue
+	}
+
+	if r := o.Ratio; r > 0 && r != 1 {
+		minValue = int64(float64(minValue) * r)
+		maxValue = int64(float64(maxValue) * r)
+	}
+
+	_, minUnit := measurement.Scale(minValue, o.SampleUnit, "minimum")
+	_, maxUnit := measurement.Scale(maxValue, o.SampleUnit, "minimum")
+
+	unit := minUnit
+	if minUnit != maxUnit && minValue*100 < maxValue && o.OutputFormat != Callgrind {
+		// Minimum and maximum values have different units. Scale
+		// minimum by 100 to use larger units, allowing minimum value to
+		// be scaled down to 0.01, except for callgrind reports since
+		// they can only represent integer values.
+		_, unit = measurement.Scale(100*minValue, o.SampleUnit, "minimum")
+	}
+
+	if unit != "" {
+		o.OutputUnit = unit
+	} else {
+		o.OutputUnit = o.SampleUnit
+	}
+}
+
+// newGraph creates a new graph for this report. If nodes is non-nil,
+// only nodes whose info matches are included. Otherwise, all nodes
+// are included, without trimming.
+func (rpt *Report) newGraph(nodes graph.NodeSet) *graph.Graph {
+	o := rpt.options
+
+	// Clean up file paths using heuristics.
+	prof := rpt.prof
+	for _, f := range prof.Function {
+		f.Filename = trimPath(f.Filename)
+	}
+	// Remove numeric tags not recognized by pprof.
+	for _, s := range prof.Sample {
+		numLabels := make(map[string][]int64, len(s.NumLabel))
+		for k, v := range s.NumLabel {
+			if k == "bytes" {
+				numLabels[k] = append(numLabels[k], v...)
+			}
+		}
+		s.NumLabel = numLabels
+	}
+
+	formatTag := func(v int64, key string) string {
+		return measurement.ScaledLabel(v, key, o.OutputUnit)
+	}
+
+	gopt := &graph.Options{
+		SampleValue:       o.SampleValue,
+		SampleMeanDivisor: o.SampleMeanDivisor,
+		FormatTag:         formatTag,
+		CallTree:          o.CallTree && (o.OutputFormat == Dot || o.OutputFormat == Callgrind),
+		DropNegative:      o.DropNegative,
+		KeptNodes:         nodes,
+	}
+
+	// Only keep binary names for disassembly-based reports, otherwise
+	// remove it to allow merging of functions across binaries.
+	switch o.OutputFormat {
+	case Raw, List, WebList, Dis, Callgrind:
+		gopt.ObjNames = true
+	}
+
+	return graph.New(rpt.prof, gopt)
+}
+
+func printTopProto(w io.Writer, rpt *Report) error {
+	p := rpt.prof
+	o := rpt.options
+	g, _, _, _ := rpt.newTrimmedGraph()
+	rpt.selectOutputUnit(g)
+
+	out := profile.Profile{
+		SampleType: []*profile.ValueType{
+			{Type: "cum", Unit: o.OutputUnit},
+			{Type: "flat", Unit: o.OutputUnit},
+		},
+		TimeNanos:     p.TimeNanos,
+		DurationNanos: p.DurationNanos,
+		PeriodType:    p.PeriodType,
+		Period:        p.Period,
+	}
+	var flatSum int64
+	for i, n := range g.Nodes {
+		name, flat, cum := n.Info.PrintableName(), n.FlatValue(), n.CumValue()
+
+		flatSum += flat
+		f := &profile.Function{
+			ID:         uint64(i + 1),
+			Name:       name,
+			SystemName: name,
+		}
+		l := &profile.Location{
+			ID: uint64(i + 1),
+			Line: []profile.Line{
+				{
+					Function: f,
+				},
+			},
+		}
+
+		fv, _ := measurement.Scale(flat, o.SampleUnit, o.OutputUnit)
+		cv, _ := measurement.Scale(cum, o.SampleUnit, o.OutputUnit)
+		s := &profile.Sample{
+			Location: []*profile.Location{l},
+			Value:    []int64{int64(cv), int64(fv)},
+		}
+		out.Function = append(out.Function, f)
+		out.Location = append(out.Location, l)
+		out.Sample = append(out.Sample, s)
+	}
+
+	return out.Write(w)
+}
+
+// printAssembly prints an annotated assembly listing.
+func printAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 	o := rpt.options
 	prof := rpt.prof
+
+	g := rpt.newGraph(nil)
 
 	// If the regexp source can be parsed as an address, also match
 	// functions that land on that address.
@@ -70,7 +277,7 @@ func printAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 
 	fmt.Fprintln(w, "Total:", rpt.formatValue(rpt.total))
 	symbols := symbolsFromBinaries(prof, g, o.Symbol, address, obj)
-	symNodes := nodesPerSymbol(g.ns, symbols)
+	symNodes := nodesPerSymbol(g.Nodes, symbols)
 	// Sort function names for printing.
 	var syms objSymbols
 	for s := range symNodes {
@@ -83,7 +290,7 @@ func printAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 		sns := symNodes[s]
 
 		// Gather samples for this symbol.
-		flatSum, cumSum := sumNodes(sns)
+		flatSum, cumSum := sns.Sum()
 
 		// Get the function assembly.
 		insns, err := obj.Disasm(s.sym.File, s.sym.Start, s.sym.End)
@@ -102,7 +309,7 @@ func printAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 			percentage(cumSum, rpt.total))
 
 		for _, n := range ns {
-			fmt.Fprintf(w, "%10s %10s %10x: %s\n", valueOrDot(n.flat, rpt), valueOrDot(n.cum, rpt), n.info.address, n.info.name)
+			fmt.Fprintf(w, "%10s %10s %10x: %s\n", valueOrDot(n.FlatValue(), rpt), valueOrDot(n.CumValue(), rpt), n.Info.Address, n.Info.Name)
 		}
 	}
 	return nil
@@ -110,26 +317,26 @@ func printAssembly(w io.Writer, rpt *Report, obj plugin.ObjTool) error {
 
 // symbolsFromBinaries examines the binaries listed on the profile
 // that have associated samples, and identifies symbols matching rx.
-func symbolsFromBinaries(prof *profile.Profile, g graph, rx *regexp.Regexp, address *uint64, obj plugin.ObjTool) []*objSymbol {
+func symbolsFromBinaries(prof *profile.Profile, g *graph.Graph, rx *regexp.Regexp, address *uint64, obj plugin.ObjTool) []*objSymbol {
 	hasSamples := make(map[string]bool)
 	// Only examine mappings that have samples that match the
 	// regexp. This is an optimization to speed up pprof.
-	for _, n := range g.ns {
-		if name := n.info.prettyName(); rx.MatchString(name) && n.info.objfile != "" {
-			hasSamples[n.info.objfile] = true
+	for _, n := range g.Nodes {
+		if name := n.Info.PrintableName(); rx.MatchString(name) && n.Info.Objfile != "" {
+			hasSamples[n.Info.Objfile] = true
 		}
 	}
 
 	// Walk all mappings looking for matching functions with samples.
 	var objSyms []*objSymbol
 	for _, m := range prof.Mapping {
-		if !hasSamples[filepath.Base(m.File)] {
+		if !hasSamples[m.File] {
 			if address == nil || !(m.Start <= *address && *address <= m.Limit) {
 				continue
 			}
 		}
 
-		f, err := obj.Open(m.File, m.Start)
+		f, err := obj.Open(m.File, m.Start, m.Limit, m.Offset)
 		if err != nil {
 			fmt.Printf("%v\n", err)
 			continue
@@ -186,12 +393,12 @@ func (o objSymbols) Swap(i, j int) {
 }
 
 // nodesPerSymbol classifies nodes into a group of symbols.
-func nodesPerSymbol(ns nodes, symbols []*objSymbol) map[*objSymbol]nodes {
-	symNodes := make(map[*objSymbol]nodes)
+func nodesPerSymbol(ns graph.Nodes, symbols []*objSymbol) map[*objSymbol]graph.Nodes {
+	symNodes := make(map[*objSymbol]graph.Nodes)
 	for _, s := range symbols {
 		// Gather samples for this symbol.
 		for _, n := range ns {
-			address := n.info.address - s.base
+			address := n.Info.Address - s.base
 			if address >= s.sym.Start && address < s.sym.End {
 				symNodes[s] = append(symNodes[s], n)
 			}
@@ -201,37 +408,39 @@ func nodesPerSymbol(ns nodes, symbols []*objSymbol) map[*objSymbol]nodes {
 }
 
 // annotateAssembly annotates a set of assembly instructions with a
-// set of samples. It returns a set of nodes to display.  base is an
+// set of samples. It returns a set of nodes to display. base is an
 // offset to adjust the sample addresses.
-func annotateAssembly(insns []plugin.Inst, samples nodes, base uint64) nodes {
+func annotateAssembly(insns []plugin.Inst, samples graph.Nodes, base uint64) graph.Nodes {
 	// Add end marker to simplify printing loop.
 	insns = append(insns, plugin.Inst{
 		Addr: ^uint64(0),
 	})
 
 	// Ensure samples are sorted by address.
-	samples.sort(addressOrder)
+	samples.Sort(graph.AddressOrder)
 
 	var s int
-	var asm nodes
+	var asm graph.Nodes
 	for ix, in := range insns[:len(insns)-1] {
-		n := node{
-			info: nodeInfo{
-				address: in.Addr,
-				name:    in.Text,
-				file:    trimPath(in.File),
-				lineno:  in.Line,
+		n := graph.Node{
+			Info: graph.NodeInfo{
+				Address: in.Addr,
+				Name:    in.Text,
+				File:    trimPath(in.File),
+				Lineno:  in.Line,
 			},
 		}
 
 		// Sum all the samples until the next instruction (to account
 		// for samples attributed to the middle of an instruction).
-		for next := insns[ix+1].Addr; s < len(samples) && samples[s].info.address-base < next; s++ {
-			n.flat += samples[s].flat
-			n.cum += samples[s].cum
-			if samples[s].info.file != "" {
-				n.info.file = trimPath(samples[s].info.file)
-				n.info.lineno = samples[s].info.lineno
+		for next := insns[ix+1].Addr; s < len(samples) && samples[s].Info.Address-base < next; s++ {
+			n.FlatDiv += samples[s].FlatDiv
+			n.Flat += samples[s].Flat
+			n.CumDiv += samples[s].CumDiv
+			n.Cum += samples[s].Cum
+			if samples[s].Info.File != "" {
+				n.Info.File = trimPath(samples[s].Info.File)
+				n.Info.Lineno = samples[s].Info.Lineno
 			}
 		}
 		asm = append(asm, &n)
@@ -254,6 +463,11 @@ func valueOrDot(value int64, rpt *Report) string {
 func printTags(w io.Writer, rpt *Report) error {
 	p := rpt.prof
 
+	o := rpt.options
+	formatTag := func(v int64, key string) string {
+		return measurement.ScaledLabel(v, key, o.OutputUnit)
+	}
+
 	// Hashtable to keep accumulate tags as key,value,count.
 	tagMap := make(map[string]map[string]int64)
 	for _, s := range p.Sample {
@@ -270,7 +484,7 @@ func printTags(w io.Writer, rpt *Report) error {
 		}
 		for key, vals := range s.NumLabel {
 			for _, nval := range vals {
-				val := scaledValueLabel(nval, key, "auto")
+				val := formatTag(nval, key)
 				if valueMap, ok := tagMap[key]; ok {
 					valueMap[val] = valueMap[val] + s.Value[0]
 					continue
@@ -282,29 +496,26 @@ func printTags(w io.Writer, rpt *Report) error {
 		}
 	}
 
-	tagKeys := make(tags, 0, len(tagMap))
+	tagKeys := make([]*graph.Tag, 0, len(tagMap))
 	for key := range tagMap {
-		tagKeys = append(tagKeys, &tag{name: key})
+		tagKeys = append(tagKeys, &graph.Tag{Name: key})
 	}
-	sort.Sort(tagKeys)
-
-	for _, tagKey := range tagKeys {
+	for _, tagKey := range graph.SortTags(tagKeys, true) {
 		var total int64
-		key := tagKey.name
-		tags := make(tags, 0, len(tagMap[key]))
+		key := tagKey.Name
+		tags := make([]*graph.Tag, 0, len(tagMap[key]))
 		for t, c := range tagMap[key] {
 			total += c
-			tags = append(tags, &tag{name: t, weight: c})
+			tags = append(tags, &graph.Tag{Name: t, Flat: c})
 		}
 
-		sort.Sort(tags)
 		fmt.Fprintf(w, "%s: Total %d\n", key, total)
-		for _, t := range tags {
+		for _, t := range graph.SortTags(tags, true) {
 			if total > 0 {
-				fmt.Fprintf(w, "  %8d (%s): %s\n", t.weight,
-					percentage(t.weight, total), t.name)
+				fmt.Fprintf(w, "  %8d (%s): %s\n", t.FlatValue(),
+					percentage(t.FlatValue(), total), t.Name)
 			} else {
-				fmt.Fprintf(w, "  %8d: %s\n", t.weight, t.name)
+				fmt.Fprintf(w, "  %8d: %s\n", t.FlatValue(), t.Name)
 			}
 		}
 		fmt.Fprintln(w)
@@ -314,20 +525,34 @@ func printTags(w io.Writer, rpt *Report) error {
 
 // printText prints a flat text report for a profile.
 func printText(w io.Writer, rpt *Report) error {
-	g, err := newGraph(rpt)
-	if err != nil {
-		return err
-	}
+	g, origCount, droppedNodes, _ := rpt.newTrimmedGraph()
+	rpt.selectOutputUnit(g)
 
-	origCount, droppedNodes, _ := g.preprocess(rpt)
-	fmt.Fprintln(w, strings.Join(legendDetailLabels(rpt, g, origCount, droppedNodes, 0), "\n"))
+	fmt.Fprintln(w, strings.Join(reportLabels(rpt, g, origCount, droppedNodes, 0, false), "\n"))
 
 	fmt.Fprintf(w, "%10s %5s%% %5s%% %10s %5s%%\n",
 		"flat", "flat", "sum", "cum", "cum")
 
 	var flatSum int64
-	for _, n := range g.ns {
-		name, flat, cum := n.info.prettyName(), n.flat, n.cum
+	for _, n := range g.Nodes {
+		name, flat, cum := n.Info.PrintableName(), n.FlatValue(), n.CumValue()
+
+		var inline, noinline bool
+		for _, e := range n.In {
+			if e.Inline {
+				inline = true
+			} else {
+				noinline = true
+			}
+		}
+
+		if inline {
+			if noinline {
+				name = name + " (partial-inline)"
+			} else {
+				name = name + " (inline)"
+			}
+		}
 
 		flatSum += flat
 		fmt.Fprintf(w, "%10s %s %s %10s %s  %s\n",
@@ -341,19 +566,65 @@ func printText(w io.Writer, rpt *Report) error {
 	return nil
 }
 
+// printTraces prints all traces from a profile.
+func printTraces(w io.Writer, rpt *Report) error {
+	fmt.Fprintln(w, strings.Join(ProfileLabels(rpt), "\n"))
+
+	prof := rpt.prof
+	o := rpt.options
+
+	const separator = "-----------+-------------------------------------------------------"
+
+	_, locations := graph.CreateNodes(prof, &graph.Options{})
+	for _, sample := range prof.Sample {
+		var stack graph.Nodes
+		for _, loc := range sample.Location {
+			id := loc.ID
+			stack = append(stack, locations[id]...)
+		}
+
+		if len(stack) == 0 {
+			continue
+		}
+
+		fmt.Fprintln(w, separator)
+		// Print any text labels for the sample.
+		var labels []string
+		for s, vs := range sample.Label {
+			labels = append(labels, fmt.Sprintf("%10s:  %s\n", s, strings.Join(vs, " ")))
+		}
+		sort.Strings(labels)
+		fmt.Fprint(w, strings.Join(labels, ""))
+		var d, v int64
+		v = o.SampleValue(sample.Value)
+		if o.SampleMeanDivisor != nil {
+			d = o.SampleMeanDivisor(sample.Value)
+		}
+		// Print call stack.
+		if d != 0 {
+			v = v / d
+		}
+		fmt.Fprintf(w, "%10s   %s\n",
+			rpt.formatValue(v), stack[0].Info.PrintableName())
+		for _, s := range stack[1:] {
+			fmt.Fprintf(w, "%10s   %s\n", "", s.Info.PrintableName())
+		}
+	}
+	fmt.Fprintln(w, separator)
+	return nil
+}
+
 // printCallgrind prints a graph for a profile on callgrind format.
 func printCallgrind(w io.Writer, rpt *Report) error {
-	g, err := newGraph(rpt)
-	if err != nil {
-		return err
-	}
-
 	o := rpt.options
 	rpt.options.NodeFraction = 0
 	rpt.options.EdgeFraction = 0
 	rpt.options.NodeCount = 0
 
-	g.preprocess(rpt)
+	g, _, _, _ := rpt.newTrimmedGraph()
+	rpt.selectOutputUnit(g)
+
+	nodeNames := getDisambiguatedNames(g)
 
 	fmt.Fprintln(w, "positions: instr line")
 	fmt.Fprintln(w, "events:", o.SampleType+"("+o.OutputUnit+")")
@@ -362,39 +633,82 @@ func printCallgrind(w io.Writer, rpt *Report) error {
 	files := make(map[string]int)
 	names := make(map[string]int)
 
-	// prevInfo points to the previous nodeInfo.
+	// prevInfo points to the previous NodeInfo.
 	// It is used to group cost lines together as much as possible.
-	var prevInfo *nodeInfo
-	for _, n := range g.ns {
-		if prevInfo == nil || n.info.objfile != prevInfo.objfile || n.info.file != prevInfo.file || n.info.name != prevInfo.name {
+	var prevInfo *graph.NodeInfo
+	for _, n := range g.Nodes {
+		if prevInfo == nil || n.Info.Objfile != prevInfo.Objfile || n.Info.File != prevInfo.File || n.Info.Name != prevInfo.Name {
 			fmt.Fprintln(w)
-			fmt.Fprintln(w, "ob="+callgrindName(objfiles, n.info.objfile))
-			fmt.Fprintln(w, "fl="+callgrindName(files, n.info.file))
-			fmt.Fprintln(w, "fn="+callgrindName(names, n.info.name))
+			fmt.Fprintln(w, "ob="+callgrindName(objfiles, n.Info.Objfile))
+			fmt.Fprintln(w, "fl="+callgrindName(files, n.Info.File))
+			fmt.Fprintln(w, "fn="+callgrindName(names, n.Info.Name))
 		}
 
-		addr := callgrindAddress(prevInfo, n.info.address)
-		sv, _ := ScaleValue(n.flat, o.SampleUnit, o.OutputUnit)
-		fmt.Fprintf(w, "%s %d %d\n", addr, n.info.lineno, int(sv))
+		addr := callgrindAddress(prevInfo, n.Info.Address)
+		sv, _ := measurement.Scale(n.FlatValue(), o.SampleUnit, o.OutputUnit)
+		fmt.Fprintf(w, "%s %d %d\n", addr, n.Info.Lineno, int64(sv))
 
 		// Print outgoing edges.
-		for _, out := range sortedEdges(n.out) {
-			c, _ := ScaleValue(out.weight, o.SampleUnit, o.OutputUnit)
-			callee := out.dest
-			fmt.Fprintln(w, "cfl="+callgrindName(files, callee.info.file))
-			fmt.Fprintln(w, "cfn="+callgrindName(names, callee.info.name))
-			fmt.Fprintf(w, "calls=%d %s %d\n", int(c), callgrindAddress(prevInfo, callee.info.address), callee.info.lineno)
+		for _, out := range n.Out.Sort() {
+			c, _ := measurement.Scale(out.Weight, o.SampleUnit, o.OutputUnit)
+			callee := out.Dest
+			fmt.Fprintln(w, "cfl="+callgrindName(files, callee.Info.File))
+			fmt.Fprintln(w, "cfn="+callgrindName(names, nodeNames[callee]))
+			// pprof doesn't have a flat weight for a call, leave as 0.
+			fmt.Fprintf(w, "calls=0 %s %d\n", callgrindAddress(prevInfo, callee.Info.Address), callee.Info.Lineno)
 			// TODO: This address may be in the middle of a call
 			// instruction. It would be best to find the beginning
 			// of the instruction, but the tools seem to handle
 			// this OK.
-			fmt.Fprintf(w, "* * %d\n", int(c))
+			fmt.Fprintf(w, "* * %d\n", int64(c))
 		}
 
-		prevInfo = &n.info
+		prevInfo = &n.Info
 	}
 
 	return nil
+}
+
+// getDisambiguatedNames returns a map from each node in the graph to
+// the name to use in the callgrind output. Callgrind merges all
+// functions with the same [file name, function name]. Add a [%d/n]
+// suffix to disambiguate nodes with different values of
+// node.Function, which we want to keep separate. In particular, this
+// affects graphs created with --call_tree, where nodes from different
+// contexts are associated to different Functions.
+func getDisambiguatedNames(g *graph.Graph) map[*graph.Node]string {
+	nodeName := make(map[*graph.Node]string, len(g.Nodes))
+
+	type names struct {
+		file, function string
+	}
+
+	// nameFunctionIndex maps the callgrind names (filename, function)
+	// to the node.Function values found for that name, and each
+	// node.Function value to a sequential index to be used on the
+	// disambiguated name.
+	nameFunctionIndex := make(map[names]map[*graph.Node]int)
+	for _, n := range g.Nodes {
+		nm := names{n.Info.File, n.Info.Name}
+		p, ok := nameFunctionIndex[nm]
+		if !ok {
+			p = make(map[*graph.Node]int)
+			nameFunctionIndex[nm] = p
+		}
+		if _, ok := p[n.Function]; !ok {
+			p[n.Function] = len(p)
+		}
+	}
+
+	for _, n := range g.Nodes {
+		nm := names{n.Info.File, n.Info.Name}
+		nodeName[n] = n.Info.Name
+		if p := nameFunctionIndex[nm]; len(p) > 1 {
+			// If there is more than one function, add suffix to disambiguate.
+			nodeName[n] += fmt.Sprintf(" [%d/%d]", p[n.Function]+1, len(p))
+		}
+	}
+	return nodeName
 }
 
 // callgrindName implements the callgrind naming compression scheme.
@@ -417,13 +731,13 @@ func callgrindName(names map[string]int, name string) string {
 // possible. If prevInfo != nil, it contains the previous address. The current
 // address can be given relative to the previous address, with an explicit +/-
 // to indicate it is relative, or * for the same address.
-func callgrindAddress(prevInfo *nodeInfo, curr uint64) string {
+func callgrindAddress(prevInfo *graph.NodeInfo, curr uint64) string {
 	abs := fmt.Sprintf("%#x", curr)
 	if prevInfo == nil {
 		return abs
 	}
 
-	prev := prevInfo.address
+	prev := prevInfo.Address
 	if prev == curr {
 		return "*"
 	}
@@ -444,21 +758,18 @@ func printTree(w io.Writer, rpt *Report) error {
 	const separator = "----------------------------------------------------------+-------------"
 	const legend = "      flat  flat%   sum%        cum   cum%   calls calls% + context 	 	 "
 
-	g, err := newGraph(rpt)
-	if err != nil {
-		return err
-	}
+	g, origCount, droppedNodes, _ := rpt.newTrimmedGraph()
+	rpt.selectOutputUnit(g)
 
-	origCount, droppedNodes, _ := g.preprocess(rpt)
-	fmt.Fprintln(w, strings.Join(legendDetailLabels(rpt, g, origCount, droppedNodes, 0), "\n"))
+	fmt.Fprintln(w, strings.Join(reportLabels(rpt, g, origCount, droppedNodes, 0, false), "\n"))
 
 	fmt.Fprintln(w, separator)
 	fmt.Fprintln(w, legend)
 	var flatSum int64
 
 	rx := rpt.options.Symbol
-	for _, n := range g.ns {
-		name, flat, cum := n.info.prettyName(), n.flat, n.cum
+	for _, n := range g.Nodes {
+		name, flat, cum := n.Info.PrintableName(), n.FlatValue(), n.CumValue()
 
 		// Skip any entries that do not match the regexp (for the "peek" command).
 		if rx != nil && !rx.MatchString(name) {
@@ -467,11 +778,14 @@ func printTree(w io.Writer, rpt *Report) error {
 
 		fmt.Fprintln(w, separator)
 		// Print incoming edges.
-		inEdges := sortedEdges(n.in)
-		inSum := inEdges.sum()
+		inEdges := n.In.Sort()
 		for _, in := range inEdges {
-			fmt.Fprintf(w, "%50s %s |   %s\n", rpt.formatValue(in.weight),
-				percentage(in.weight, inSum), in.src.info.prettyName())
+			var inline string
+			if in.Inline {
+				inline = " (inline)"
+			}
+			fmt.Fprintf(w, "%50s %s |   %s%s\n", rpt.formatValue(in.Weight),
+				percentage(in.Weight, cum), in.Src.Info.PrintableName(), inline)
 		}
 
 		// Print current node.
@@ -485,14 +799,17 @@ func printTree(w io.Writer, rpt *Report) error {
 			name)
 
 		// Print outgoing edges.
-		outEdges := sortedEdges(n.out)
-		outSum := outEdges.sum()
+		outEdges := n.Out.Sort()
 		for _, out := range outEdges {
-			fmt.Fprintf(w, "%50s %s |   %s\n", rpt.formatValue(out.weight),
-				percentage(out.weight, outSum), out.dest.info.prettyName())
+			var inline string
+			if out.Inline {
+				inline = " (inline)"
+			}
+			fmt.Fprintf(w, "%50s %s |   %s%s\n", rpt.formatValue(out.Weight),
+				percentage(out.Weight, cum), out.Dest.Info.PrintableName(), inline)
 		}
 	}
-	if len(g.ns) > 0 {
+	if len(g.Nodes) > 0 {
 		fmt.Fprintln(w, separator)
 	}
 	return nil
@@ -500,55 +817,23 @@ func printTree(w io.Writer, rpt *Report) error {
 
 // printDOT prints an annotated callgraph in DOT format.
 func printDOT(w io.Writer, rpt *Report) error {
-	g, err := newGraph(rpt)
-	if err != nil {
-		return err
+	g, origCount, droppedNodes, droppedEdges := rpt.newTrimmedGraph()
+	rpt.selectOutputUnit(g)
+	labels := reportLabels(rpt, g, origCount, droppedNodes, droppedEdges, true)
+
+	o := rpt.options
+	formatTag := func(v int64, key string) string {
+		return measurement.ScaledLabel(v, key, o.OutputUnit)
 	}
 
-	origCount, droppedNodes, droppedEdges := g.preprocess(rpt)
-
-	prof := rpt.prof
-	graphname := "unnamed"
-	if len(prof.Mapping) > 0 {
-		graphname = filepath.Base(prof.Mapping[0].File)
+	c := &graph.DotConfig{
+		Title:       rpt.options.Title,
+		Labels:      labels,
+		FormatValue: rpt.formatValue,
+		FormatTag:   formatTag,
+		Total:       rpt.total,
 	}
-	fmt.Fprintln(w, `digraph "`+graphname+`" {`)
-	fmt.Fprintln(w, `node [style=filled fillcolor="#f8f8f8"]`)
-	fmt.Fprintln(w, dotLegend(rpt, g, origCount, droppedNodes, droppedEdges))
-
-	if len(g.ns) == 0 {
-		fmt.Fprintln(w, "}")
-		return nil
-	}
-
-	// Make sure nodes have a unique consistent id.
-	nodeIndex := make(map[*node]int)
-	maxFlat := float64(g.ns[0].flat)
-	for i, n := range g.ns {
-		nodeIndex[n] = i + 1
-		if float64(n.flat) > maxFlat {
-			maxFlat = float64(n.flat)
-		}
-	}
-	var edges edgeList
-	for _, n := range g.ns {
-		node := dotNode(rpt, maxFlat, nodeIndex[n], n)
-		fmt.Fprintln(w, node)
-		if nodelets := dotNodelets(rpt, nodeIndex[n], n); nodelets != "" {
-			fmt.Fprint(w, nodelets)
-		}
-
-		// Collect outgoing edges.
-		for _, e := range n.out {
-			edges = append(edges, e)
-		}
-	}
-	// Sort edges by frequency as a hint to the graph layout engine.
-	sort.Sort(edges)
-	for _, e := range edges {
-		fmt.Fprintln(w, dotEdge(rpt, nodeIndex[e.src], nodeIndex[e.dest], e))
-	}
-	fmt.Fprintln(w, "}")
+	graph.ComposeDot(w, g, &graph.DotAttributes{}, c)
 	return nil
 }
 
@@ -557,30 +842,23 @@ func printDOT(w io.Writer, rpt *Report) error {
 func percentage(value, total int64) string {
 	var ratio float64
 	if total != 0 {
-		ratio = float64(value) / float64(total) * 100
+		ratio = math.Abs(float64(value)/float64(total)) * 100
 	}
 	switch {
-	case ratio >= 99.95:
+	case math.Abs(ratio) >= 99.95 && math.Abs(ratio) <= 100.05:
 		return "  100%"
-	case ratio >= 1.0:
+	case math.Abs(ratio) >= 1.0:
 		return fmt.Sprintf("%5.2f%%", ratio)
 	default:
 		return fmt.Sprintf("%5.2g%%", ratio)
 	}
 }
 
-// dotLegend generates the overall graph label for a report in DOT format.
-func dotLegend(rpt *Report, g graph, origCount, droppedNodes, droppedEdges int) string {
-	label := legendLabels(rpt)
-	label = append(label, legendDetailLabels(rpt, g, origCount, droppedNodes, droppedEdges)...)
-	return fmt.Sprintf(`subgraph cluster_L { L [shape=box fontsize=32 label="%s\l"] }`, strings.Join(label, `\l`))
-}
-
-// legendLabels generates labels exclusive to graph visualization.
-func legendLabels(rpt *Report) []string {
+// ProfileLabels returns printable labels for a profile.
+func ProfileLabels(rpt *Report) []string {
+	label := []string{}
 	prof := rpt.prof
 	o := rpt.options
-	var label []string
 	if len(prof.Mapping) > 0 {
 		if prof.Mapping[0].File != "" {
 			label = append(label, "File: "+filepath.Base(prof.Mapping[0].File))
@@ -589,6 +867,7 @@ func legendLabels(rpt *Report) []string {
 			label = append(label, "Build ID: "+prof.Mapping[0].BuildID)
 		}
 	}
+	label = append(label, prof.Comments...)
 	if o.SampleType != "" {
 		label = append(label, "Type: "+o.SampleType)
 	}
@@ -597,39 +876,52 @@ func legendLabels(rpt *Report) []string {
 		label = append(label, "Time: "+time.Unix(0, prof.TimeNanos).Format(layout))
 	}
 	if prof.DurationNanos != 0 {
-		label = append(label, fmt.Sprintf("Duration: %v", time.Duration(prof.DurationNanos)))
+		duration := measurement.Label(prof.DurationNanos, "nanoseconds")
+		totalNanos, totalUnit := measurement.Scale(rpt.total, o.SampleUnit, "nanoseconds")
+		var ratio string
+		if totalUnit == "ns" && totalNanos != 0 {
+			ratio = "(" + percentage(int64(totalNanos), prof.DurationNanos) + ")"
+		}
+		label = append(label, fmt.Sprintf("Duration: %s, Total samples = %s %s", duration, rpt.formatValue(rpt.total), ratio))
 	}
 	return label
 }
 
-// legendDetailLabels generates labels common to graph and text visualization.
-func legendDetailLabels(rpt *Report, g graph, origCount, droppedNodes, droppedEdges int) []string {
+// reportLabels returns printable labels for a report. Includes
+// profileLabels.
+func reportLabels(rpt *Report, g *graph.Graph, origCount, droppedNodes, droppedEdges int, fullHeaders bool) []string {
 	nodeFraction := rpt.options.NodeFraction
 	edgeFraction := rpt.options.EdgeFraction
-	nodeCount := rpt.options.NodeCount
+	nodeCount := len(g.Nodes)
 
-	label := []string{}
-
-	var flatSum int64
-	for _, n := range g.ns {
-		flatSum = flatSum + n.flat
+	var label []string
+	if len(rpt.options.ProfileLabels) > 0 {
+		for _, l := range rpt.options.ProfileLabels {
+			label = append(label, l)
+		}
+	} else if fullHeaders || !rpt.options.CompactLabels {
+		label = ProfileLabels(rpt)
 	}
 
-	label = append(label, fmt.Sprintf("%s of %s total (%s)", rpt.formatValue(flatSum), rpt.formatValue(rpt.total), percentage(flatSum, rpt.total)))
+	var flatSum int64
+	for _, n := range g.Nodes {
+		flatSum = flatSum + n.FlatValue()
+	}
 
-	if rpt.total > 0 {
+	label = append(label, fmt.Sprintf("Showing nodes accounting for %s, %s of %s total", rpt.formatValue(flatSum), strings.TrimSpace(percentage(flatSum, rpt.total)), rpt.formatValue(rpt.total)))
+
+	if rpt.total != 0 {
 		if droppedNodes > 0 {
 			label = append(label, genLabel(droppedNodes, "node", "cum",
-				rpt.formatValue(int64(float64(rpt.total)*nodeFraction))))
+				rpt.formatValue(abs64(int64(float64(rpt.total)*nodeFraction)))))
 		}
 		if droppedEdges > 0 {
 			label = append(label, genLabel(droppedEdges, "edge", "freq",
-				rpt.formatValue(int64(float64(rpt.total)*edgeFraction))))
+				rpt.formatValue(abs64(int64(float64(rpt.total)*edgeFraction)))))
 		}
 		if nodeCount > 0 && nodeCount < origCount {
-			label = append(label, fmt.Sprintf("Showing top %d nodes out of %d (cum >= %s)",
-				nodeCount, origCount,
-				rpt.formatValue(g.ns[len(g.ns)-1].cum)))
+			label = append(label, fmt.Sprintf("Showing top %d nodes out of %d",
+				nodeCount, origCount))
 		}
 	}
 	return label
@@ -642,315 +934,6 @@ func genLabel(d int, n, l, f string) string {
 	return fmt.Sprintf("Dropped %d %s (%s <= %s)", d, n, l, f)
 }
 
-// dotNode generates a graph node in DOT format.
-func dotNode(rpt *Report, maxFlat float64, rIndex int, n *node) string {
-	flat, cum := n.flat, n.cum
-
-	labels := strings.Split(n.info.prettyName(), "::")
-	label := strings.Join(labels, `\n`) + `\n`
-
-	flatValue := rpt.formatValue(flat)
-	if flat > 0 {
-		label = label + fmt.Sprintf(`%s(%s)`,
-			flatValue,
-			strings.TrimSpace(percentage(flat, rpt.total)))
-	} else {
-		label = label + "0"
-	}
-	cumValue := flatValue
-	if cum != flat {
-		if flat > 0 {
-			label = label + `\n`
-		} else {
-			label = label + " "
-		}
-		cumValue = rpt.formatValue(cum)
-		label = label + fmt.Sprintf(`of %s(%s)`,
-			cumValue,
-			strings.TrimSpace(percentage(cum, rpt.total)))
-	}
-
-	// Scale font sizes from 8 to 24 based on percentage of flat frequency.
-	// Use non linear growth to emphasize the size difference.
-	baseFontSize, maxFontGrowth := 8, 16.0
-	fontSize := baseFontSize
-	if maxFlat > 0 && flat > 0 && float64(flat) <= maxFlat {
-		fontSize += int(math.Ceil(maxFontGrowth * math.Sqrt(float64(flat)/maxFlat)))
-	}
-	return fmt.Sprintf(`N%d [label="%s" fontsize=%d shape=box tooltip="%s (%s)"]`,
-		rIndex,
-		label,
-		fontSize, n.info.prettyName(), cumValue)
-}
-
-// dotEdge generates a graph edge in DOT format.
-func dotEdge(rpt *Report, from, to int, e *edgeInfo) string {
-	w := rpt.formatValue(e.weight)
-	attr := fmt.Sprintf(`label=" %s"`, w)
-	if rpt.total > 0 {
-		if weight := 1 + int(e.weight*100/rpt.total); weight > 1 {
-			attr = fmt.Sprintf(`%s weight=%d`, attr, weight)
-		}
-		if width := 1 + int(e.weight*5/rpt.total); width > 1 {
-			attr = fmt.Sprintf(`%s penwidth=%d`, attr, width)
-		}
-	}
-	arrow := "->"
-	if e.residual {
-		arrow = "..."
-	}
-	tooltip := fmt.Sprintf(`"%s %s %s (%s)"`,
-		e.src.info.prettyName(), arrow, e.dest.info.prettyName(), w)
-	attr = fmt.Sprintf(`%s tooltip=%s labeltooltip=%s`,
-		attr, tooltip, tooltip)
-
-	if e.residual {
-		attr = attr + ` style="dotted"`
-	}
-
-	if len(e.src.tags) > 0 {
-		// Separate children further if source has tags.
-		attr = attr + " minlen=2"
-	}
-	return fmt.Sprintf("N%d -> N%d [%s]", from, to, attr)
-}
-
-// dotNodelets generates the DOT boxes for the node tags.
-func dotNodelets(rpt *Report, rIndex int, n *node) (dot string) {
-	const maxNodelets = 4    // Number of nodelets for alphanumeric labels
-	const maxNumNodelets = 4 // Number of nodelets for numeric labels
-
-	var ts, nts tags
-	for _, t := range n.tags {
-		if t.unit == "" {
-			ts = append(ts, t)
-		} else {
-			nts = append(nts, t)
-		}
-	}
-
-	// Select the top maxNodelets alphanumeric labels by weight
-	sort.Sort(ts)
-	if len(ts) > maxNodelets {
-		ts = ts[:maxNodelets]
-	}
-	for i, t := range ts {
-		weight := rpt.formatValue(t.weight)
-		dot += fmt.Sprintf(`N%d_%d [label = "%s" fontsize=8 shape=box3d tooltip="%s"]`+"\n", rIndex, i, t.name, weight)
-		dot += fmt.Sprintf(`N%d -> N%d_%d [label=" %s" weight=100 tooltip="\L" labeltooltip="\L"]`+"\n", rIndex, rIndex, i, weight)
-	}
-
-	// Collapse numeric labels into maxNumNodelets buckets, of the form:
-	// 1MB..2MB, 3MB..5MB, ...
-	nts = collapseTags(nts, maxNumNodelets)
-	sort.Sort(nts)
-	for i, t := range nts {
-		weight := rpt.formatValue(t.weight)
-		dot += fmt.Sprintf(`NN%d_%d [label = "%s" fontsize=8 shape=box3d tooltip="%s"]`+"\n", rIndex, i, t.name, weight)
-		dot += fmt.Sprintf(`N%d -> NN%d_%d [label=" %s" weight=100 tooltip="\L" labeltooltip="\L"]`+"\n", rIndex, rIndex, i, weight)
-	}
-
-	return dot
-}
-
-// graph summarizes a performance profile into a format that is
-// suitable for visualization.
-type graph struct {
-	ns nodes
-}
-
-// nodes is an ordered collection of graph nodes.
-type nodes []*node
-
-// tags represent sample annotations
-type tags []*tag
-type tagMap map[string]*tag
-
-type tag struct {
-	name   string
-	unit   string // Describe the value, "" for non-numeric tags
-	value  int64
-	weight int64
-}
-
-func (t tags) Len() int      { return len(t) }
-func (t tags) Swap(i, j int) { t[i], t[j] = t[j], t[i] }
-func (t tags) Less(i, j int) bool {
-	if t[i].weight == t[j].weight {
-		return t[i].name < t[j].name
-	}
-	return t[i].weight > t[j].weight
-}
-
-// node is an entry on a profiling report. It represents a unique
-// program location. It can include multiple names to represent
-// inlined functions.
-type node struct {
-	info nodeInfo // Information associated to this entry.
-
-	// values associated to this node.
-	// flat is exclusive to this node, cum includes all descendents.
-	flat, cum int64
-
-	// in and out contains the nodes immediately reaching or reached by this nodes.
-	in, out edgeMap
-
-	// tags provide additional information about subsets of a sample.
-	tags tagMap
-}
-
-type nodeInfo struct {
-	name              string
-	origName          string
-	address           uint64
-	file              string
-	startLine, lineno int
-	inline            bool
-	lowPriority       bool
-	objfile           string
-	parent            *node // Used only if creating a calltree
-}
-
-func (n *node) addTags(s *profile.Sample, weight int64) {
-	// Add a tag with all string labels
-	var labels []string
-	for key, vals := range s.Label {
-		for _, v := range vals {
-			labels = append(labels, key+":"+v)
-		}
-	}
-	if len(labels) > 0 {
-		sort.Strings(labels)
-		l := n.tags.findOrAddTag(strings.Join(labels, `\n`), "", 0)
-		l.weight += weight
-	}
-
-	for key, nvals := range s.NumLabel {
-		for _, v := range nvals {
-			label := scaledValueLabel(v, key, "auto")
-			l := n.tags.findOrAddTag(label, key, v)
-			l.weight += weight
-		}
-	}
-}
-
-func (m tagMap) findOrAddTag(label, unit string, value int64) *tag {
-	if l := m[label]; l != nil {
-		return l
-	}
-	l := &tag{
-		name:  label,
-		unit:  unit,
-		value: value,
-	}
-	m[label] = l
-	return l
-}
-
-// collapseTags reduces the number of entries in a tagMap by merging
-// adjacent nodes into ranges. It uses a greedy approach to merge
-// starting with the entries with the lowest weight.
-func collapseTags(ts tags, count int) tags {
-	if len(ts) <= count {
-		return ts
-	}
-
-	sort.Sort(ts)
-	tagGroups := make([]tags, count)
-	for i, t := range ts[:count] {
-		tagGroups[i] = tags{t}
-	}
-	for _, t := range ts[count:] {
-		g, d := 0, tagDistance(t, tagGroups[0][0])
-		for i := 1; i < count; i++ {
-			if nd := tagDistance(t, tagGroups[i][0]); nd < d {
-				g, d = i, nd
-			}
-		}
-		tagGroups[g] = append(tagGroups[g], t)
-	}
-
-	var nts tags
-	for _, g := range tagGroups {
-		l, w := tagGroupLabel(g)
-		nts = append(nts, &tag{
-			name:   l,
-			weight: w,
-		})
-	}
-	return nts
-}
-
-func tagDistance(t, u *tag) float64 {
-	v, _ := ScaleValue(u.value, u.unit, t.unit)
-	if v < float64(t.value) {
-		return float64(t.value) - v
-	}
-	return v - float64(t.value)
-}
-
-func tagGroupLabel(g tags) (string, int64) {
-	if len(g) == 1 {
-		t := g[0]
-		return scaledValueLabel(t.value, t.unit, "auto"), t.weight
-	}
-	min := g[0]
-	max := g[0]
-	w := min.weight
-	for _, t := range g[1:] {
-		if v, _ := ScaleValue(t.value, t.unit, min.unit); int64(v) < min.value {
-			min = t
-		}
-		if v, _ := ScaleValue(t.value, t.unit, max.unit); int64(v) > max.value {
-			max = t
-		}
-		w += t.weight
-	}
-	return scaledValueLabel(min.value, min.unit, "auto") + ".." +
-		scaledValueLabel(max.value, max.unit, "auto"), w
-}
-
-// sumNodes adds the flat and sum values on a report.
-func sumNodes(ns nodes) (flat int64, cum int64) {
-	for _, n := range ns {
-		flat += n.flat
-		cum += n.cum
-	}
-	return
-}
-
-type edgeMap map[*node]*edgeInfo
-
-// edgeInfo contains any attributes to be represented about edges in a graph/
-type edgeInfo struct {
-	src, dest *node
-	// The summary weight of the edge
-	weight int64
-	// residual edges connect nodes that were connected through a
-	// separate node, which has been removed from the report.
-	residual bool
-}
-
-// bumpWeight increases the weight of an edge. If there isn't such an
-// edge in the map one is created.
-func bumpWeight(from, to *node, w int64, residual bool) {
-	if from.out[to] != to.in[from] {
-		panic(fmt.Errorf("asymmetric edges %v %v", *from, *to))
-	}
-
-	if n := from.out[to]; n != nil {
-		n.weight += w
-		if n.residual && !residual {
-			n.residual = false
-		}
-		return
-	}
-
-	info := &edgeInfo{src: from, dest: to, weight: w, residual: residual}
-	from.out[to] = info
-	to.in[from] = info
-}
-
 // Output formats.
 const (
 	Proto = iota
@@ -958,11 +941,13 @@ const (
 	Tags
 	Tree
 	Text
+	Traces
 	Raw
 	Dis
 	List
 	WebList
 	Callgrind
+	TopProto
 )
 
 // Options are the formatting and filtering options used to generate a
@@ -970,747 +955,83 @@ const (
 type Options struct {
 	OutputFormat int
 
-	CumSort        bool
-	CallTree       bool
-	PrintAddresses bool
-	DropNegative   bool
-	Ratio          float64
+	CumSort             bool
+	CallTree            bool
+	DropNegative        bool
+	PositivePercentages bool
+	CompactLabels       bool
+	Ratio               float64
+	Title               string
+	ProfileLabels       []string
 
 	NodeCount    int
 	NodeFraction float64
 	EdgeFraction float64
 
-	SampleType string
-	SampleUnit string // Unit for the sample data from the profile.
+	SampleValue       func(s []int64) int64
+	SampleMeanDivisor func(s []int64) int64
+	SampleType        string
+	SampleUnit        string // Unit for the sample data from the profile.
+
 	OutputUnit string // Units for data formatting in report.
 
-	Symbol *regexp.Regexp // Symbols to include on disassembly report.
-}
-
-// newGraph summarizes performance data from a profile into a graph.
-func newGraph(rpt *Report) (g graph, err error) {
-	prof := rpt.prof
-	o := rpt.options
-
-	// Generate a tree for graphical output if requested.
-	buildTree := o.CallTree && o.OutputFormat == Dot
-
-	locations := make(map[uint64][]nodeInfo)
-	for _, l := range prof.Location {
-		locations[l.ID] = newLocInfo(l)
-	}
-
-	nm := make(nodeMap)
-	for _, sample := range prof.Sample {
-		if sample.Location == nil {
-			continue
-		}
-
-		// Construct list of node names for sample.
-		var stack []nodeInfo
-		for _, loc := range sample.Location {
-			id := loc.ID
-			stack = append(stack, locations[id]...)
-		}
-
-		// Upfront pass to update the parent chains, to prevent the
-		// merging of nodes with different parents.
-		if buildTree {
-			var nn *node
-			for i := len(stack); i > 0; i-- {
-				n := &stack[i-1]
-				n.parent = nn
-				nn = nm.findOrInsertNode(*n)
-			}
-		}
-
-		leaf := nm.findOrInsertNode(stack[0])
-		weight := rpt.sampleValue(sample)
-		leaf.addTags(sample, weight)
-
-		// Aggregate counter data.
-		leaf.flat += weight
-		seen := make(map[*node]bool)
-		var nn *node
-		for _, s := range stack {
-			n := nm.findOrInsertNode(s)
-			if !seen[n] {
-				seen[n] = true
-				n.cum += weight
-
-				if nn != nil {
-					bumpWeight(n, nn, weight, false)
-				}
-			}
-			nn = n
-		}
-	}
-
-	// Collect new nodes into a report.
-	ns := make(nodes, 0, len(nm))
-	for _, n := range nm {
-		if rpt.options.DropNegative && n.flat < 0 {
-			continue
-		}
-		ns = append(ns, n)
-	}
-
-	return graph{ns}, nil
-}
-
-// Create a slice of formatted names for a location.
-func newLocInfo(l *profile.Location) []nodeInfo {
-	var objfile string
-
-	if m := l.Mapping; m != nil {
-		objfile = m.File
-	}
-
-	if len(l.Line) == 0 {
-		return []nodeInfo{
-			{
-				address: l.Address,
-				objfile: objfile,
-			},
-		}
-	}
-	var info []nodeInfo
-	numInlineFrames := len(l.Line) - 1
-	for li, line := range l.Line {
-		ni := nodeInfo{
-			address: l.Address,
-			lineno:  int(line.Line),
-			inline:  li < numInlineFrames,
-			objfile: objfile,
-		}
-
-		if line.Function != nil {
-			ni.name = line.Function.Name
-			ni.origName = line.Function.SystemName
-			ni.file = line.Function.Filename
-			ni.startLine = int(line.Function.StartLine)
-		}
-
-		info = append(info, ni)
-	}
-	return info
-}
-
-// nodeMap maps from a node info struct to a node. It is used to merge
-// report entries with the same info.
-type nodeMap map[nodeInfo]*node
-
-func (m nodeMap) findOrInsertNode(info nodeInfo) *node {
-	rr := m[info]
-	if rr == nil {
-		rr = &node{
-			info: info,
-			in:   make(edgeMap),
-			out:  make(edgeMap),
-			tags: make(map[string]*tag),
-		}
-		m[info] = rr
-	}
-	return rr
-}
-
-// preprocess does any required filtering/sorting according to the
-// report options. Returns the mapping from each node to any nodes
-// removed by path compression and statistics on the nodes/edges removed.
-func (g *graph) preprocess(rpt *Report) (origCount, droppedNodes, droppedEdges int) {
-	o := rpt.options
-
-	// Compute total weight of current set of nodes.
-	// This is <= rpt.total because of node filtering.
-	var totalValue int64
-	for _, n := range g.ns {
-		totalValue += n.flat
-	}
-
-	// Remove nodes with value <= total*nodeFraction
-	if nodeFraction := o.NodeFraction; nodeFraction > 0 {
-		var removed nodes
-		minValue := int64(float64(totalValue) * nodeFraction)
-		kept := make(nodes, 0, len(g.ns))
-		for _, n := range g.ns {
-			if n.cum < minValue {
-				removed = append(removed, n)
-			} else {
-				kept = append(kept, n)
-				tagsKept := make(map[string]*tag)
-				for s, t := range n.tags {
-					if t.weight >= minValue {
-						tagsKept[s] = t
-					}
-				}
-				n.tags = tagsKept
-			}
-		}
-		droppedNodes = len(removed)
-		removeNodes(removed, false, false)
-		g.ns = kept
-	}
-
-	// Remove edges below minimum frequency.
-	if edgeFraction := o.EdgeFraction; edgeFraction > 0 {
-		minEdge := int64(float64(totalValue) * edgeFraction)
-		for _, n := range g.ns {
-			for src, e := range n.in {
-				if e.weight < minEdge {
-					delete(n.in, src)
-					delete(src.out, n)
-					droppedEdges++
-				}
-			}
-		}
-	}
-
-	sortOrder := flatName
-	if o.CumSort {
-		// Force cum sorting for graph output, to preserve connectivity.
-		sortOrder = cumName
-	}
-
-	// Nodes that have flat==0 and a single in/out do not provide much
-	// information. Give them first chance to be removed. Do not consider edges
-	// from/to nodes that are expected to be removed.
-	maxNodes := o.NodeCount
-	if o.OutputFormat == Dot {
-		if maxNodes > 0 && maxNodes < len(g.ns) {
-			sortOrder = cumName
-			g.ns.sort(cumName)
-			cumCutoff := g.ns[maxNodes].cum
-			for _, n := range g.ns {
-				if n.flat == 0 {
-					if count := countEdges(n.out, cumCutoff); count > 1 {
-						continue
-					}
-					if count := countEdges(n.in, cumCutoff); count != 1 {
-						continue
-					}
-					n.info.lowPriority = true
-				}
-			}
-		}
-	}
-
-	g.ns.sort(sortOrder)
-	if maxNodes > 0 {
-		origCount = len(g.ns)
-		for index, nodes := 0, 0; index < len(g.ns); index++ {
-			nodes++
-			// For DOT output, count the tags as nodes since we will draw
-			// boxes for them.
-			if o.OutputFormat == Dot {
-				nodes += len(g.ns[index].tags)
-			}
-			if nodes > maxNodes {
-				// Trim to the top n nodes. Create dotted edges to bridge any
-				// broken connections.
-				removeNodes(g.ns[index:], true, true)
-				g.ns = g.ns[:index]
-				break
-			}
-		}
-	}
-	removeRedundantEdges(g.ns)
-
-	// Select best unit for profile output.
-	// Find the appropriate units for the smallest non-zero sample
-	if o.OutputUnit == "minimum" && len(g.ns) > 0 {
-		var maxValue, minValue int64
-
-		for _, n := range g.ns {
-			if n.flat > 0 && (minValue == 0 || n.flat < minValue) {
-				minValue = n.flat
-			}
-			if n.cum > maxValue {
-				maxValue = n.cum
-			}
-		}
-		if r := o.Ratio; r > 0 && r != 1 {
-			minValue = int64(float64(minValue) * r)
-			maxValue = int64(float64(maxValue) * r)
-		}
-
-		_, minUnit := ScaleValue(minValue, o.SampleUnit, "minimum")
-		_, maxUnit := ScaleValue(maxValue, o.SampleUnit, "minimum")
-
-		unit := minUnit
-		if minUnit != maxUnit && minValue*100 < maxValue && o.OutputFormat != Callgrind {
-			// Minimum and maximum values have different units. Scale
-			// minimum by 100 to use larger units, allowing minimum value to
-			// be scaled down to 0.01, except for callgrind reports since
-			// they can only represent integer values.
-			_, unit = ScaleValue(100*minValue, o.SampleUnit, "minimum")
-		}
-
-		if unit != "" {
-			o.OutputUnit = unit
-		} else {
-			o.OutputUnit = o.SampleUnit
-		}
-	}
-	return
-}
-
-// countEdges counts the number of edges below the specified cutoff.
-func countEdges(el edgeMap, cutoff int64) int {
-	count := 0
-	for _, e := range el {
-		if e.weight > cutoff {
-			count++
-		}
-	}
-	return count
-}
-
-// removeNodes removes nodes from a report, optionally bridging
-// connections between in/out edges and spreading out their weights
-// proportionally. residual marks new bridge edges as residual
-// (dotted).
-func removeNodes(toRemove nodes, bridge, residual bool) {
-	for _, n := range toRemove {
-		for ei := range n.in {
-			delete(ei.out, n)
-		}
-		if bridge {
-			for ei, wi := range n.in {
-				for eo, wo := range n.out {
-					var weight int64
-					if n.cum != 0 {
-						weight = int64(float64(wo.weight) * (float64(wi.weight) / float64(n.cum)))
-					}
-					bumpWeight(ei, eo, weight, residual)
-				}
-			}
-		}
-		for eo := range n.out {
-			delete(eo.in, n)
-		}
-	}
-}
-
-// removeRedundantEdges removes residual edges if the destination can
-// be reached through another path. This is done to simplify the graph
-// while preserving connectivity.
-func removeRedundantEdges(ns nodes) {
-	// Walk the nodes and outgoing edges in reverse order to prefer
-	// removing edges with the lowest weight.
-	for i := len(ns); i > 0; i-- {
-		n := ns[i-1]
-		in := sortedEdges(n.in)
-		for j := len(in); j > 0; j-- {
-			if e := in[j-1]; e.residual && isRedundant(e) {
-				delete(e.src.out, e.dest)
-				delete(e.dest.in, e.src)
-			}
-		}
-	}
-}
-
-// isRedundant determines if an edge can be removed without impacting
-// connectivity of the whole graph. This is implemented by checking if the
-// nodes have a common ancestor after removing the edge.
-func isRedundant(e *edgeInfo) bool {
-	destPred := predecessors(e, e.dest)
-	if len(destPred) == 1 {
-		return false
-	}
-	srcPred := predecessors(e, e.src)
-
-	for n := range srcPred {
-		if destPred[n] && n != e.dest {
-			return true
-		}
-	}
-	return false
-}
-
-// predecessors collects all the predecessors to node n, excluding edge e.
-func predecessors(e *edgeInfo, n *node) map[*node]bool {
-	seen := map[*node]bool{n: true}
-	queue := []*node{n}
-	for len(queue) > 0 {
-		n := queue[0]
-		queue = queue[1:]
-		for _, ie := range n.in {
-			if e == ie || seen[ie.src] {
-				continue
-			}
-			seen[ie.src] = true
-			queue = append(queue, ie.src)
-		}
-	}
-	return seen
-}
-
-// nodeSorter is a mechanism used to allow a report to be sorted
-// in different ways.
-type nodeSorter struct {
-	rs   nodes
-	less func(i, j int) bool
-}
-
-func (s nodeSorter) Len() int           { return len(s.rs) }
-func (s nodeSorter) Swap(i, j int)      { s.rs[i], s.rs[j] = s.rs[j], s.rs[i] }
-func (s nodeSorter) Less(i, j int) bool { return s.less(i, j) }
-
-type nodeOrder int
-
-const (
-	flatName nodeOrder = iota
-	flatCumName
-	cumName
-	nameOrder
-	fileOrder
-	addressOrder
-)
-
-// sort reorders the entries in a report based on the specified
-// ordering criteria. The result is sorted in decreasing order for
-// numeric quantities, alphabetically for text, and increasing for
-// addresses.
-func (ns nodes) sort(o nodeOrder) error {
-	var s nodeSorter
-
-	switch o {
-	case flatName:
-		s = nodeSorter{ns,
-			func(i, j int) bool {
-				if iv, jv := ns[i].flat, ns[j].flat; iv != jv {
-					return iv > jv
-				}
-				if ns[i].info.prettyName() != ns[j].info.prettyName() {
-					return ns[i].info.prettyName() < ns[j].info.prettyName()
-				}
-				iv, jv := ns[i].cum, ns[j].cum
-				return iv > jv
-			},
-		}
-	case flatCumName:
-		s = nodeSorter{ns,
-			func(i, j int) bool {
-				if iv, jv := ns[i].flat, ns[j].flat; iv != jv {
-					return iv > jv
-				}
-				if iv, jv := ns[i].cum, ns[j].cum; iv != jv {
-					return iv > jv
-				}
-				return ns[i].info.prettyName() < ns[j].info.prettyName()
-			},
-		}
-	case cumName:
-		s = nodeSorter{ns,
-			func(i, j int) bool {
-				if ns[i].info.lowPriority != ns[j].info.lowPriority {
-					return ns[j].info.lowPriority
-				}
-				if iv, jv := ns[i].cum, ns[j].cum; iv != jv {
-					return iv > jv
-				}
-				if ns[i].info.prettyName() != ns[j].info.prettyName() {
-					return ns[i].info.prettyName() < ns[j].info.prettyName()
-				}
-				iv, jv := ns[i].flat, ns[j].flat
-				return iv > jv
-			},
-		}
-	case nameOrder:
-		s = nodeSorter{ns,
-			func(i, j int) bool {
-				return ns[i].info.name < ns[j].info.name
-			},
-		}
-	case fileOrder:
-		s = nodeSorter{ns,
-			func(i, j int) bool {
-				return ns[i].info.file < ns[j].info.file
-			},
-		}
-	case addressOrder:
-		s = nodeSorter{ns,
-			func(i, j int) bool {
-				return ns[i].info.address < ns[j].info.address
-			},
-		}
-	default:
-		return fmt.Errorf("report: unrecognized sort ordering: %d", o)
-	}
-	sort.Sort(s)
-	return nil
-}
-
-type edgeList []*edgeInfo
-
-// sortedEdges return a slice of the edges in the map, sorted for
-// visualization. The sort order is first based on the edge weight
-// (higher-to-lower) and then by the node names to avoid flakiness.
-func sortedEdges(edges map[*node]*edgeInfo) edgeList {
-	el := make(edgeList, 0, len(edges))
-	for _, w := range edges {
-		el = append(el, w)
-	}
-
-	sort.Sort(el)
-	return el
-}
-
-func (el edgeList) Len() int {
-	return len(el)
-}
-
-func (el edgeList) Less(i, j int) bool {
-	if el[i].weight != el[j].weight {
-		return el[i].weight > el[j].weight
-	}
-
-	from1 := el[i].src.info.prettyName()
-	from2 := el[j].src.info.prettyName()
-	if from1 != from2 {
-		return from1 < from2
-	}
-
-	to1 := el[i].dest.info.prettyName()
-	to2 := el[j].dest.info.prettyName()
-
-	return to1 < to2
-}
-
-func (el edgeList) Swap(i, j int) {
-	el[i], el[j] = el[j], el[i]
-}
-
-func (el edgeList) sum() int64 {
-	var ret int64
-	for _, e := range el {
-		ret += e.weight
-	}
-	return ret
-}
-
-// ScaleValue reformats a value from a unit to a different unit.
-func ScaleValue(value int64, fromUnit, toUnit string) (sv float64, su string) {
-	// Avoid infinite recursion on overflow.
-	if value < 0 && -value > 0 {
-		v, u := ScaleValue(-value, fromUnit, toUnit)
-		return -v, u
-	}
-	if m, u, ok := memoryLabel(value, fromUnit, toUnit); ok {
-		return m, u
-	}
-	if t, u, ok := timeLabel(value, fromUnit, toUnit); ok {
-		return t, u
-	}
-	// Skip non-interesting units.
-	switch toUnit {
-	case "count", "sample", "unit", "minimum":
-		return float64(value), ""
-	default:
-		return float64(value), toUnit
-	}
-}
-
-func scaledValueLabel(value int64, fromUnit, toUnit string) string {
-	v, u := ScaleValue(value, fromUnit, toUnit)
-
-	sv := strings.TrimSuffix(fmt.Sprintf("%.2f", v), ".00")
-	if sv == "0" || sv == "-0" {
-		return "0"
-	}
-	return sv + u
-}
-
-func memoryLabel(value int64, fromUnit, toUnit string) (v float64, u string, ok bool) {
-	fromUnit = strings.TrimSuffix(strings.ToLower(fromUnit), "s")
-	toUnit = strings.TrimSuffix(strings.ToLower(toUnit), "s")
-
-	switch fromUnit {
-	case "byte", "b":
-	case "kilobyte", "kb":
-		value *= 1024
-	case "megabyte", "mb":
-		value *= 1024 * 1024
-	case "gigabyte", "gb":
-		value *= 1024 * 1024 * 1024
-	default:
-		return 0, "", false
-	}
-
-	if toUnit == "minimum" || toUnit == "auto" {
-		switch {
-		case value < 1024:
-			toUnit = "b"
-		case value < 1024*1024:
-			toUnit = "kb"
-		case value < 1024*1024*1024:
-			toUnit = "mb"
-		default:
-			toUnit = "gb"
-		}
-	}
-
-	var output float64
-	switch toUnit {
-	default:
-		output, toUnit = float64(value), "B"
-	case "kb", "kbyte", "kilobyte":
-		output, toUnit = float64(value)/1024, "kB"
-	case "mb", "mbyte", "megabyte":
-		output, toUnit = float64(value)/(1024*1024), "MB"
-	case "gb", "gbyte", "gigabyte":
-		output, toUnit = float64(value)/(1024*1024*1024), "GB"
-	}
-	return output, toUnit, true
-}
-
-func timeLabel(value int64, fromUnit, toUnit string) (v float64, u string, ok bool) {
-	fromUnit = strings.ToLower(fromUnit)
-	if len(fromUnit) > 2 {
-		fromUnit = strings.TrimSuffix(fromUnit, "s")
-	}
-
-	toUnit = strings.ToLower(toUnit)
-	if len(toUnit) > 2 {
-		toUnit = strings.TrimSuffix(toUnit, "s")
-	}
-
-	var d time.Duration
-	switch fromUnit {
-	case "nanosecond", "ns":
-		d = time.Duration(value) * time.Nanosecond
-	case "microsecond":
-		d = time.Duration(value) * time.Microsecond
-	case "millisecond", "ms":
-		d = time.Duration(value) * time.Millisecond
-	case "second", "sec":
-		d = time.Duration(value) * time.Second
-	case "cycle":
-		return float64(value), "", true
-	default:
-		return 0, "", false
-	}
-
-	if toUnit == "minimum" || toUnit == "auto" {
-		switch {
-		case d < 1*time.Microsecond:
-			toUnit = "ns"
-		case d < 1*time.Millisecond:
-			toUnit = "us"
-		case d < 1*time.Second:
-			toUnit = "ms"
-		case d < 1*time.Minute:
-			toUnit = "sec"
-		case d < 1*time.Hour:
-			toUnit = "min"
-		case d < 24*time.Hour:
-			toUnit = "hour"
-		case d < 15*24*time.Hour:
-			toUnit = "day"
-		case d < 120*24*time.Hour:
-			toUnit = "week"
-		default:
-			toUnit = "year"
-		}
-	}
-
-	var output float64
-	dd := float64(d)
-	switch toUnit {
-	case "ns", "nanosecond":
-		output, toUnit = dd/float64(time.Nanosecond), "ns"
-	case "us", "microsecond":
-		output, toUnit = dd/float64(time.Microsecond), "us"
-	case "ms", "millisecond":
-		output, toUnit = dd/float64(time.Millisecond), "ms"
-	case "min", "minute":
-		output, toUnit = dd/float64(time.Minute), "mins"
-	case "hour", "hr":
-		output, toUnit = dd/float64(time.Hour), "hrs"
-	case "day":
-		output, toUnit = dd/float64(24*time.Hour), "days"
-	case "week", "wk":
-		output, toUnit = dd/float64(7*24*time.Hour), "wks"
-	case "year", "yr":
-		output, toUnit = dd/float64(365*7*24*time.Hour), "yrs"
-	default:
-		fallthrough
-	case "sec", "second", "s":
-		output, toUnit = dd/float64(time.Second), "s"
-	}
-	return output, toUnit, true
-}
-
-// prettyName determines the printable name to be used for a node.
-func (info *nodeInfo) prettyName() string {
-	var name string
-	if info.address != 0 {
-		name = fmt.Sprintf("%016x", info.address)
-	}
-
-	if info.name != "" {
-		name = name + " " + info.name
-	}
-
-	if info.file != "" {
-		name += " " + trimPath(info.file)
-		if info.lineno != 0 {
-			name += fmt.Sprintf(":%d", info.lineno)
-		}
-	}
-
-	if info.inline {
-		name = name + " (inline)"
-	}
-
-	if name = strings.TrimSpace(name); name == "" && info.objfile != "" {
-		name = "[" + filepath.Base(info.objfile) + "]"
-	}
-	return name
+	Symbol     *regexp.Regexp // Symbols to include on disassembly report.
+	SourcePath string         // Search path for source files.
 }
 
 // New builds a new report indexing the sample values interpreting the
 // samples with the provided function.
-func New(prof *profile.Profile, options Options, value func(s *profile.Sample) int64, unit string) *Report {
-	o := &options
-	if o.SampleUnit == "" {
-		o.SampleUnit = unit
-	}
+func New(prof *profile.Profile, o *Options) *Report {
 	format := func(v int64) string {
 		if r := o.Ratio; r > 0 && r != 1 {
 			fv := float64(v) * r
 			v = int64(fv)
 		}
-		return scaledValueLabel(v, o.SampleUnit, o.OutputUnit)
+		return measurement.ScaledLabel(v, o.SampleUnit, o.OutputUnit)
 	}
-	return &Report{prof, computeTotal(prof, value), o, value, format}
+	return &Report{prof, computeTotal(prof, o.SampleValue, o.SampleMeanDivisor, !o.PositivePercentages),
+		o, format}
 }
 
-// NewDefault builds a new report indexing the sample values with the
-// last value available.
+// NewDefault builds a new report indexing the last sample value
+// available.
 func NewDefault(prof *profile.Profile, options Options) *Report {
 	index := len(prof.SampleType) - 1
 	o := &options
-	if o.SampleUnit == "" {
-		o.SampleUnit = strings.ToLower(prof.SampleType[index].Unit)
+	if o.Title == "" && len(prof.Mapping) > 0 && prof.Mapping[0].File != "" {
+		o.Title = filepath.Base(prof.Mapping[0].File)
 	}
-	value := func(s *profile.Sample) int64 {
-		return s.Value[index]
+	o.SampleType = prof.SampleType[index].Type
+	o.SampleUnit = strings.ToLower(prof.SampleType[index].Unit)
+	o.SampleValue = func(v []int64) int64 {
+		return v[index]
 	}
-	format := func(v int64) string {
-		if r := o.Ratio; r > 0 && r != 1 {
-			fv := float64(v) * r
-			v = int64(fv)
-		}
-		return scaledValueLabel(v, o.SampleUnit, o.OutputUnit)
-	}
-	return &Report{prof, computeTotal(prof, value), o, value, format}
+	return New(prof, o)
 }
 
-func computeTotal(prof *profile.Profile, value func(s *profile.Sample) int64) int64 {
-	var ret int64
+// computeTotal computes the sum of all sample values. This will be
+// used to compute percentages. If includeNegative is set, use use
+// absolute values to provide a meaningful percentage for both
+// negative and positive values. Otherwise only use positive values,
+// which is useful when comparing profiles from different jobs.
+func computeTotal(prof *profile.Profile, value, meanDiv func(v []int64) int64, includeNegative bool) int64 {
+	var div, ret int64
 	for _, sample := range prof.Sample {
-		ret += value(sample)
+		var d, v int64
+		v = value(sample.Value)
+		if meanDiv != nil {
+			d = meanDiv(sample.Value)
+		}
+		if v >= 0 {
+			ret += v
+			div += d
+		} else if includeNegative {
+			ret -= v
+			div += d
+		}
+	}
+	if div != 0 {
+		return ret / div
 	}
 	return ret
 }
@@ -1721,6 +1042,12 @@ type Report struct {
 	prof        *profile.Profile
 	total       int64
 	options     *Options
-	sampleValue func(*profile.Sample) int64
 	formatValue func(int64) string
+}
+
+func abs64(i int64) int64 {
+	if i < 0 {
+		return -i
+	}
+	return i
 }

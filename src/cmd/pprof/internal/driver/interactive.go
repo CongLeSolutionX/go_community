@@ -12,20 +12,384 @@ import (
 	"strconv"
 	"strings"
 
-	"cmd/pprof/internal/commands"
 	"cmd/pprof/internal/plugin"
+	"cmd/pprof/internal/report"
 	"internal/pprof/profile"
 )
 
-var profileFunctionNames = []string{}
+var commentStart = "//:" // Sentinel for comments on options
+var tailDigitsRE = regexp.MustCompile("[0-9]+$")
+
+// interactive starts a shell to read pprof commands.
+func interactive(p *profile.Profile, o *plugin.Options) error {
+	// Enter command processing loop.
+	o.UI.SetAutoComplete(newCompleter(functionNames(p)))
+	pprofVariables.set("compact_labels", "true")
+	pprofVariables["sample_index"].help += fmt.Sprintf("Or use sample_index=name, with name in %v.\n", sampleTypes(p))
+
+	// Do not wait for the visualizer to complete, to allow multiple
+	// graphs to be visualized simultaneously.
+	interactiveMode = true
+	shortcuts := profileShortcuts(p)
+
+	greetings(p, o.UI)
+	for {
+		input, err := o.UI.ReadLine("(pprof) ")
+		if err != nil {
+			if err != io.EOF {
+				return err
+			}
+			if input == "" {
+				return nil
+			}
+		}
+
+		for _, input := range shortcuts.expand(input) {
+			// Process assignments of the form variable=value
+			if s := strings.SplitN(input, "=", 2); len(s) > 0 {
+				name := strings.TrimSpace(s[0])
+				var value string
+				if len(s) == 2 {
+					value = s[1]
+					if comment := strings.LastIndex(value, commentStart); comment != -1 {
+						value = value[:comment]
+					}
+					value = strings.TrimSpace(value)
+				}
+				if v := pprofVariables[name]; v != nil {
+					if name == "sample_index" {
+						// Error check sample_index=xxx to ensure xxx is a valid sample type.
+						index, err := locateSampleIndex(p, value)
+						if err != nil {
+							o.UI.PrintErr(err)
+							continue
+						}
+						value = p.SampleType[index].Type
+					}
+					if err := pprofVariables.set(name, value); err != nil {
+						o.UI.PrintErr(err)
+					}
+					continue
+				}
+				// Allow group=variable syntax by converting into variable="".
+				if v := pprofVariables[value]; v != nil && v.group == name {
+					if err := pprofVariables.set(value, ""); err != nil {
+						o.UI.PrintErr(err)
+					}
+					continue
+				}
+			}
+
+			tokens := strings.Fields(input)
+			if len(tokens) == 0 {
+				continue
+			}
+
+			switch tokens[0] {
+			case "o", "options":
+				printCurrentOptions(p, o.UI)
+				continue
+			case "exit", "quit":
+				return nil
+			case "help":
+				commandHelp(strings.Join(tokens[1:], " "), o.UI)
+				continue
+			}
+
+			args, vars, err := parseCommandLine(tokens)
+			if err == nil {
+				err = generateReportWrapper(p, args, vars, o)
+			}
+
+			if err != nil {
+				o.UI.PrintErr(err)
+			}
+		}
+	}
+}
+
+var generateReportWrapper = generateReport // For testing purposes.
+
+// greetings prints a brief welcome and some overall profile
+// information before accepting interactive commands.
+func greetings(p *profile.Profile, ui plugin.UI) {
+	ropt, err := reportOptions(p, pprofVariables)
+	if err == nil {
+		ui.Print(strings.Join(report.ProfileLabels(report.New(p, ropt)), "\n"))
+	}
+	ui.Print("Entering interactive mode (type \"help\" for commands, \"o\" for options)")
+}
+
+// shortcuts represents composite commands that expand into a sequence
+// of other commands.
+type shortcuts map[string][]string
+
+func (a shortcuts) expand(input string) []string {
+	input = strings.TrimSpace(input)
+	if a != nil {
+		if r, ok := a[input]; ok {
+			return r
+		}
+	}
+	return []string{input}
+}
+
+var pprofShortcuts = shortcuts{
+	":": []string{"focus=", "ignore=", "hide=", "tagfocus=", "tagignore="},
+}
+
+// profileShortcuts creates macros for convenience and backward compatibility.
+func profileShortcuts(p *profile.Profile) shortcuts {
+	s := pprofShortcuts
+	// Add shortcuts for sample types
+	for _, st := range p.SampleType {
+		command := fmt.Sprintf("sample_index=%s", st.Type)
+		s[st.Type] = []string{command}
+		s["total_"+st.Type] = []string{"mean=0", command}
+		s["mean_"+st.Type] = []string{"mean=1", command}
+	}
+	return s
+}
+
+func printCurrentOptions(p *profile.Profile, ui plugin.UI) {
+	var args []string
+	type groupInfo struct {
+		set    string
+		values []string
+	}
+	groups := make(map[string]*groupInfo)
+	for n, o := range pprofVariables {
+		v := o.stringValue()
+		comment := ""
+		if g := o.group; g != "" {
+			gi, ok := groups[g]
+			if !ok {
+				gi = &groupInfo{}
+				groups[g] = gi
+			}
+			if o.boolValue() {
+				gi.set = n
+			}
+			gi.values = append(gi.values, n)
+			continue
+		}
+		switch {
+		case n == "sample_index":
+			st := sampleTypes(p)
+			if v == "" {
+				// Apply default (last sample index).
+				v = st[len(st)-1]
+			}
+			// Add comments for all sample types in profile.
+			comment = "[" + strings.Join(st, " | ") + "]"
+		case n == "source_path":
+			continue
+		case n == "nodecount" && v == "-1":
+			comment = "default"
+		case v == "":
+			// Add quotes for empty values.
+			v = `""`
+		}
+		if comment != "" {
+			comment = commentStart + " " + comment
+		}
+		args = append(args, fmt.Sprintf("  %-25s = %-20s %s", n, v, comment))
+	}
+	for g, vars := range groups {
+		sort.Strings(vars.values)
+		comment := commentStart + " [" + strings.Join(vars.values, " | ") + "]"
+		args = append(args, fmt.Sprintf("  %-25s = %-20s %s", g, vars.set, comment))
+	}
+	sort.Strings(args)
+	ui.Print(strings.Join(args, "\n"))
+}
+
+// parseCommandLine parses a command and returns the pprof command to
+// execute and a set of variables for the report.
+func parseCommandLine(input []string) ([]string, variables, error) {
+	cmd, args := input[:1], input[1:]
+	name := cmd[0]
+
+	c := pprofCommands[name]
+	if c == nil {
+		// Attempt splitting digits on abbreviated commands (eg top10)
+		if d := tailDigitsRE.FindString(name); d != "" && d != name {
+			name = name[:len(name)-len(d)]
+			cmd[0], args = name, append([]string{d}, args...)
+			c = pprofCommands[name]
+		}
+	}
+	if c == nil {
+		return nil, nil, fmt.Errorf("Unrecognized command: %q", name)
+	}
+
+	if c.hasParam {
+		if len(args) == 0 {
+			return nil, nil, fmt.Errorf("command %s requires an argument", name)
+		}
+		cmd = append(cmd, args[0])
+		args = args[1:]
+	}
+
+	// Copy the variables as options set in the command line are not persistent.
+	vcopy := pprofVariables.makeCopy()
+
+	var focus, ignore string
+	for i := 0; i < len(args); i++ {
+		t := args[i]
+		if _, err := strconv.ParseInt(t, 10, 32); err == nil {
+			vcopy.set("nodecount", t)
+			continue
+		}
+		switch t[0] {
+		case '>':
+			outputFile := t[1:]
+			if outputFile == "" {
+				i++
+				if i >= len(args) {
+					return nil, nil, fmt.Errorf("Unexpected end of line after >")
+				}
+				outputFile = args[i]
+			}
+			vcopy.set("output", outputFile)
+		case '-':
+			if t == "--cum" || t == "-cum" {
+				vcopy.set("cum", "t")
+				continue
+			}
+			ignore = catRegex(ignore, t[1:])
+		default:
+			focus = catRegex(focus, t)
+		}
+	}
+
+	if name == "tags" {
+		updateFocusIgnore(vcopy, "tag", focus, ignore)
+	} else {
+		updateFocusIgnore(vcopy, "", focus, ignore)
+	}
+
+	if vcopy["nodecount"].intValue() == -1 && (name == "text" || name == "top") {
+		vcopy.set("nodecount", "10")
+	}
+
+	return cmd, vcopy, nil
+}
+
+func updateFocusIgnore(v variables, prefix, f, i string) {
+	if f != "" {
+		focus := prefix + "focus"
+		v.set(focus, catRegex(v[focus].value, f))
+	}
+
+	if i != "" {
+		ignore := prefix + "ignore"
+		v.set(ignore, catRegex(v[ignore].value, i))
+	}
+}
+
+func catRegex(a, b string) string {
+	if a != "" && b != "" {
+		return a + "|" + b
+	}
+	return a + b
+}
+
+// commandHelp displays help and usage information for all Commands
+// and Variables or a specific Command or Variable.
+func commandHelp(args string, ui plugin.UI) {
+	if args == "" {
+		help := usage(false)
+		help = help + `
+  :   Clear focus/ignore/hide/tagfocus/tagignore
+
+  type "help <cmd|option>" for more information
+`
+
+		ui.Print(help)
+		return
+	}
+
+	if c := pprofCommands[args]; c != nil {
+		ui.Print(c.help(args))
+		return
+	}
+
+	if v := pprofVariables[args]; v != nil {
+		ui.Print(v.help + "\n")
+		return
+	}
+
+	ui.PrintErr("Unknown command: " + args)
+}
+
+// newCompleter creates an autocompletion function for a set of commands.
+func newCompleter(fns []string) func(string) string {
+	return func(line string) string {
+		v := pprofVariables
+		switch tokens := strings.Fields(line); len(tokens) {
+		case 0:
+			// Nothing to complete
+		case 1:
+			// Single token -- complete command name
+			if match := matchVariableOrCommand(v, tokens[0]); match != "" {
+				return match
+			}
+		case 2:
+			if tokens[0] == "help" {
+				if match := matchVariableOrCommand(v, tokens[1]); match != "" {
+					return tokens[0] + " " + match
+				}
+				return line
+			}
+			fallthrough
+		default:
+			// Multiple tokens -- complete using functions, except for tags
+			if cmd := pprofCommands[tokens[0]]; cmd != nil && tokens[0] != "tags" {
+				lastTokenIdx := len(tokens) - 1
+				lastToken := tokens[lastTokenIdx]
+				if strings.HasPrefix(lastToken, "-") {
+					lastToken = "-" + functionCompleter(lastToken[1:], fns)
+				} else {
+					lastToken = functionCompleter(lastToken, fns)
+				}
+				return strings.Join(append(tokens[:lastTokenIdx], lastToken), " ")
+			}
+		}
+		return line
+	}
+}
+
+// matchCommand attempts to match a string token to the prefix of a Command.
+func matchVariableOrCommand(v variables, token string) string {
+	token = strings.ToLower(token)
+	found := ""
+	for cmd := range pprofCommands {
+		if strings.HasPrefix(cmd, token) {
+			if found != "" {
+				return ""
+			}
+			found = cmd
+		}
+	}
+	for variable := range v {
+		if strings.HasPrefix(variable, token) {
+			if found != "" {
+				return ""
+			}
+			found = variable
+		}
+	}
+	return found
+}
 
 // functionCompleter replaces provided substring with a function
 // name retrieved from a profile if a single match exists. Otherwise,
 // it returns unchanged substring. It defaults to no-op if the profile
 // is not specified.
-func functionCompleter(substring string) string {
+func functionCompleter(substring string, fns []string) string {
 	found := ""
-	for _, fName := range profileFunctionNames {
+	for _, fName := range fns {
 		if strings.Contains(fName, substring) {
 			if found != "" {
 				return substring
@@ -39,454 +403,10 @@ func functionCompleter(substring string) string {
 	return substring
 }
 
-// updateAutoComplete enhances autocompletion with information that can be
-// retrieved from the profile
-func updateAutoComplete(p *profile.Profile) {
-	profileFunctionNames = nil // remove function names retrieved previously
+func functionNames(p *profile.Profile) []string {
+	var fns []string
 	for _, fn := range p.Function {
-		profileFunctionNames = append(profileFunctionNames, fn.Name)
+		fns = append(fns, fn.Name)
 	}
-}
-
-// splitCommand splits the command line input into tokens separated by
-// spaces. Takes care to separate commands of the form 'top10' into
-// two tokens: 'top' and '10'
-func splitCommand(input string) []string {
-	fields := strings.Fields(input)
-	if num := strings.IndexAny(fields[0], "0123456789"); num != -1 {
-		inputNumber := fields[0][num:]
-		fields[0] = fields[0][:num]
-		fields = append([]string{fields[0], inputNumber}, fields[1:]...)
-	}
-	return fields
-}
-
-// interactive displays a prompt and reads commands for profile
-// manipulation/visualization.
-func interactive(p *profile.Profile, obj plugin.ObjTool, ui plugin.UI, f *flags) error {
-	updateAutoComplete(p)
-
-	// Enter command processing loop.
-	ui.Print("Entering interactive mode (type \"help\" for commands)")
-	ui.SetAutoComplete(commands.NewCompleter(f.commands))
-
-	for {
-		input, err := readCommand(p, ui, f)
-		if err != nil {
-			if err != io.EOF {
-				return err
-			}
-			if input == "" {
-				return nil
-			}
-		}
-		// Process simple commands.
-		switch input {
-		case "":
-			continue
-		case ":":
-			f.flagFocus = newString("")
-			f.flagIgnore = newString("")
-			f.flagTagFocus = newString("")
-			f.flagTagIgnore = newString("")
-			f.flagHide = newString("")
-			continue
-		}
-
-		fields := splitCommand(input)
-		// Process report generation commands.
-		if _, ok := f.commands[fields[0]]; ok {
-			if err := generateReport(p, fields, obj, ui, f); err != nil {
-				if err == io.EOF {
-					return nil
-				}
-				ui.PrintErr(err)
-			}
-			continue
-		}
-
-		switch cmd := fields[0]; cmd {
-		case "help":
-			commandHelp(fields, ui, f)
-			continue
-		case "exit", "quit":
-			return nil
-		}
-
-		// Process option settings.
-		if of, err := optFlags(p, input, f); err == nil {
-			f = of
-		} else {
-			ui.PrintErr("Error: ", err.Error())
-		}
-	}
-}
-
-func generateReport(p *profile.Profile, cmd []string, obj plugin.ObjTool, ui plugin.UI, f *flags) error {
-	prof := p.Copy()
-
-	cf, err := cmdFlags(prof, cmd, ui, f)
-	if err != nil {
-		return err
-	}
-
-	return generate(true, prof, obj, ui, cf)
-}
-
-// validateRegex checks if a string is a valid regular expression.
-func validateRegex(v string) error {
-	_, err := regexp.Compile(v)
-	return err
-}
-
-// readCommand prompts for and reads the next command.
-func readCommand(p *profile.Profile, ui plugin.UI, f *flags) (string, error) {
-	//ui.Print("Options:\n", f.String(p))
-	s, err := ui.ReadLine()
-	return strings.TrimSpace(s), err
-}
-
-func commandHelp(_ []string, ui plugin.UI, f *flags) error {
-	help := `
- Commands:
-   cmd [n] [--cum] [focus_regex]* [-ignore_regex]*
-       Produce a text report with the top n entries.
-       Include samples matching focus_regex, and exclude ignore_regex.
-       Add --cum to sort using cumulative data.
-       Available commands:
-`
-	var commands []string
-	for name, cmd := range f.commands {
-		commands = append(commands, fmt.Sprintf("         %-12s %s", name, cmd.Usage))
-	}
-	sort.Strings(commands)
-
-	help = help + strings.Join(commands, "\n") + `
-   peek func_regex
-       Display callers and callees of functions matching func_regex.
-
-   dot [n] [focus_regex]* [-ignore_regex]* [>file]
-       Produce an annotated callgraph with the top n entries.
-       Include samples matching focus_regex, and exclude ignore_regex.
-       For other outputs, replace dot with:
-       - Graphic formats: dot, svg, pdf, ps, gif, png (use > to name output file)
-       - Graph viewer:    gv, web, evince, eog
-
-   callgrind [n] [focus_regex]* [-ignore_regex]* [>file]
-       Produce a file in callgrind-compatible format.
-       Include samples matching focus_regex, and exclude ignore_regex.
-
-   weblist func_regex [-ignore_regex]*
-       Show annotated source with interspersed assembly in a web browser.
-
-   list func_regex [-ignore_regex]*
-       Print source for routines matching func_regex, and exclude ignore_regex.
-
-   disasm func_regex [-ignore_regex]*
-       Disassemble routines matching func_regex, and exclude ignore_regex.
-
-   tags tag_regex [-ignore_regex]*
-       List tags with key:value matching tag_regex and exclude ignore_regex.
-
-   quit/exit/^D
- 	     Exit pprof.
-
-   option=value
-       The following options can be set individually:
-           cum/flat:           Sort entries based on cumulative or flat data
-           call_tree:          Build context-sensitive call trees
-           nodecount:          Max number of entries to display
-           nodefraction:       Min frequency ratio of nodes to display
-           edgefraction:       Min frequency ratio of edges to display
-           focus/ignore:       Regexp to include/exclude samples by name/file
-           tagfocus/tagignore: Regexp or value range to filter samples by tag
-                               eg "1mb", "1mb:2mb", ":64kb"
-
-           functions:          Level of aggregation for sample data
-           files:
-           lines:
-           addresses:
-
-           unit:               Measurement unit to use on reports
-
-           Sample value selection by index:
-            sample_index:      Index of sample value to display
-            mean:              Average sample value over first value
-
-           Sample value selection by name:
-            alloc_space        for heap profiles
-            alloc_objects
-            inuse_space
-            inuse_objects
-
-            total_delay        for contention profiles
-            mean_delay
-            contentions
-
-   :   Clear focus/ignore/hide/tagfocus/tagignore`
-
-	ui.Print(help)
-	return nil
-}
-
-// cmdFlags parses the options of an interactive command and returns
-// an updated flags object.
-func cmdFlags(prof *profile.Profile, input []string, ui plugin.UI, f *flags) (*flags, error) {
-	cf := *f
-
-	var focus, ignore string
-	output := *cf.flagOutput
-	nodeCount := *cf.flagNodeCount
-	cmd := input[0]
-
-	// Update output flags based on parameters.
-	tokens := input[1:]
-	for p := 0; p < len(tokens); p++ {
-		t := tokens[p]
-		if t == "" {
-			continue
-		}
-		if c, err := strconv.ParseInt(t, 10, 32); err == nil {
-			nodeCount = int(c)
-			continue
-		}
-		switch t[0] {
-		case '>':
-			if len(t) > 1 {
-				output = t[1:]
-				continue
-			}
-			// find next token
-			for p++; p < len(tokens); p++ {
-				if tokens[p] != "" {
-					output = tokens[p]
-					break
-				}
-			}
-		case '-':
-			if t == "--cum" || t == "-cum" {
-				cf.flagCum = newBool(true)
-				continue
-			}
-			ignore = catRegex(ignore, t[1:])
-		default:
-			focus = catRegex(focus, t)
-		}
-	}
-
-	pcmd, ok := f.commands[cmd]
-	if !ok {
-		return nil, fmt.Errorf("Unexpected parse failure: %v", input)
-	}
-	// Reset flags
-	cf.flagCommands = make(map[string]*bool)
-	cf.flagParamCommands = make(map[string]*string)
-
-	if !pcmd.HasParam {
-		cf.flagCommands[cmd] = newBool(true)
-
-		switch cmd {
-		case "tags":
-			cf.flagTagFocus = newString(focus)
-			cf.flagTagIgnore = newString(ignore)
-		default:
-			cf.flagFocus = newString(catRegex(*cf.flagFocus, focus))
-			cf.flagIgnore = newString(catRegex(*cf.flagIgnore, ignore))
-		}
-	} else {
-		if focus == "" {
-			focus = "."
-		}
-		cf.flagParamCommands[cmd] = newString(focus)
-		cf.flagIgnore = newString(catRegex(*cf.flagIgnore, ignore))
-	}
-
-	if nodeCount < 0 {
-		switch cmd {
-		case "text", "top":
-			// Default text/top to 10 nodes on interactive mode
-			nodeCount = 10
-		default:
-			nodeCount = 80
-		}
-	}
-
-	cf.flagNodeCount = newInt(nodeCount)
-	cf.flagOutput = newString(output)
-
-	// Do regular flags processing
-	if err := processFlags(prof, ui, &cf); err != nil {
-		cf.usage(ui)
-		return nil, err
-	}
-
-	return &cf, nil
-}
-
-func catRegex(a, b string) string {
-	if a == "" {
-		return b
-	}
-	if b == "" {
-		return a
-	}
-	return a + "|" + b
-}
-
-// optFlags parses an interactive option setting and returns
-// an updated flags object.
-func optFlags(p *profile.Profile, input string, f *flags) (*flags, error) {
-	inputs := strings.SplitN(input, "=", 2)
-	option := strings.ToLower(strings.TrimSpace(inputs[0]))
-	var value string
-	if len(inputs) == 2 {
-		value = strings.TrimSpace(inputs[1])
-	}
-
-	of := *f
-
-	var err error
-	var bv bool
-	var uv uint64
-	var fv float64
-
-	switch option {
-	case "cum":
-		if bv, err = parseBool(value); err != nil {
-			return nil, err
-		}
-		of.flagCum = newBool(bv)
-	case "flat":
-		if bv, err = parseBool(value); err != nil {
-			return nil, err
-		}
-		of.flagCum = newBool(!bv)
-	case "call_tree":
-		if bv, err = parseBool(value); err != nil {
-			return nil, err
-		}
-		of.flagCallTree = newBool(bv)
-	case "unit":
-		of.flagDisplayUnit = newString(value)
-	case "sample_index":
-		if uv, err = strconv.ParseUint(value, 10, 32); err != nil {
-			return nil, err
-		}
-		if ix := int(uv); ix < 0 || ix >= len(p.SampleType) {
-			return nil, fmt.Errorf("sample_index out of range [0..%d]", len(p.SampleType)-1)
-		}
-		of.flagSampleIndex = newInt(int(uv))
-	case "mean":
-		if bv, err = parseBool(value); err != nil {
-			return nil, err
-		}
-		of.flagMean = newBool(bv)
-	case "nodecount":
-		if uv, err = strconv.ParseUint(value, 10, 32); err != nil {
-			return nil, err
-		}
-		of.flagNodeCount = newInt(int(uv))
-	case "nodefraction":
-		if fv, err = strconv.ParseFloat(value, 64); err != nil {
-			return nil, err
-		}
-		of.flagNodeFraction = newFloat64(fv)
-	case "edgefraction":
-		if fv, err = strconv.ParseFloat(value, 64); err != nil {
-			return nil, err
-		}
-		of.flagEdgeFraction = newFloat64(fv)
-	case "focus":
-		if err = validateRegex(value); err != nil {
-			return nil, err
-		}
-		of.flagFocus = newString(value)
-	case "ignore":
-		if err = validateRegex(value); err != nil {
-			return nil, err
-		}
-		of.flagIgnore = newString(value)
-	case "tagfocus":
-		if err = validateRegex(value); err != nil {
-			return nil, err
-		}
-		of.flagTagFocus = newString(value)
-	case "tagignore":
-		if err = validateRegex(value); err != nil {
-			return nil, err
-		}
-		of.flagTagIgnore = newString(value)
-	case "hide":
-		if err = validateRegex(value); err != nil {
-			return nil, err
-		}
-		of.flagHide = newString(value)
-	case "addresses", "files", "lines", "functions":
-		if bv, err = parseBool(value); err != nil {
-			return nil, err
-		}
-		if !bv {
-			return nil, fmt.Errorf("select one of addresses/files/lines/functions")
-		}
-		setGranularityToggle(option, &of)
-	default:
-		if ix := findSampleIndex(p, "", option); ix >= 0 {
-			of.flagSampleIndex = newInt(ix)
-		} else if ix := findSampleIndex(p, "total_", option); ix >= 0 {
-			of.flagSampleIndex = newInt(ix)
-			of.flagMean = newBool(false)
-		} else if ix := findSampleIndex(p, "mean_", option); ix >= 1 {
-			of.flagSampleIndex = newInt(ix)
-			of.flagMean = newBool(true)
-		} else {
-			return nil, fmt.Errorf("unrecognized command: %s", input)
-		}
-	}
-	return &of, nil
-}
-
-// parseBool parses a string as a boolean value.
-func parseBool(v string) (bool, error) {
-	switch strings.ToLower(v) {
-	case "true", "t", "yes", "y", "1", "":
-		return true, nil
-	case "false", "f", "no", "n", "0":
-		return false, nil
-	}
-	return false, fmt.Errorf(`illegal input "%s" for bool value`, v)
-}
-
-func findSampleIndex(p *profile.Profile, prefix, sampleType string) int {
-	if !strings.HasPrefix(sampleType, prefix) {
-		return -1
-	}
-	sampleType = strings.TrimPrefix(sampleType, prefix)
-	for i, r := range p.SampleType {
-		if r.Type == sampleType {
-			return i
-		}
-	}
-	return -1
-}
-
-// setGranularityToggle manages the set of granularity options. These
-// operate as a toggle; turning one on turns the others off.
-func setGranularityToggle(o string, fl *flags) {
-	t, f := newBool(true), newBool(false)
-	fl.flagFunctions = f
-	fl.flagFiles = f
-	fl.flagLines = f
-	fl.flagAddresses = f
-	switch o {
-	case "functions":
-		fl.flagFunctions = t
-	case "files":
-		fl.flagFiles = t
-	case "lines":
-		fl.flagLines = t
-	case "addresses":
-		fl.flagAddresses = t
-	default:
-		panic(fmt.Errorf("unexpected option %s", o))
-	}
+	return fns
 }

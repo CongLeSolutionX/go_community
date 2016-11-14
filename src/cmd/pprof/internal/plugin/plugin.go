@@ -6,15 +6,28 @@
 package plugin
 
 import (
-	"bufio"
-	"fmt"
-	"os"
+	"io"
 	"regexp"
-	"strings"
 	"time"
 
 	"internal/pprof/profile"
 )
+
+// Options groups all the optional plugins into pprof.
+type Options struct {
+	Writer  Writer
+	Flagset FlagSet
+	Fetch   Fetcher
+	Sym     Symbolizer
+	Obj     ObjTool
+	UI      UI
+}
+
+// Writer provides a mechanism to write data under a certain name,
+// typically a filename.
+type Writer interface {
+	Open(name string) (io.WriteCloser, error)
+}
 
 // A FlagSet creates and parses command-line flags.
 // It is similar to the standard flag.FlagSet.
@@ -25,6 +38,17 @@ type FlagSet interface {
 	Int(name string, def int, usage string) *int
 	Float64(name string, def float64, usage string) *float64
 	String(name string, def string, usage string) *string
+
+	// BoolVar, IntVar, Float64Var, and StringVar define new flags referencing
+	// a given pointer, like the functions of the same name in package flag.
+	BoolVar(pointer *bool, name string, def bool, usage string)
+	IntVar(pointer *int, name string, def int, usage string)
+	Float64Var(pointer *float64, name string, def float64, usage string)
+	StringVar(pointer *string, name string, def string, usage string)
+
+	// StringList is similar to String but allows multiple values for a
+	// single flag
+	StringList(name string, def string, usage string) *[]*string
 
 	// ExtraUsage returns any additional text that should be
 	// printed after the standard usage message.
@@ -39,51 +63,47 @@ type FlagSet interface {
 	Parse(usage func()) []string
 }
 
+// A Fetcher reads and returns the profile named by src. src can be a
+// local file path or a URL. duration and timeout are units specified
+// by the end user, or 0 by default. duration refers to the length of
+// the profile collection, if applicable, and timeout is the amount of
+// time to wait for a profile before returning an error. Returns the
+// fetched profile, the URL of the actual source of the profile, or an
+// error.
+type Fetcher interface {
+	Fetch(src string, duration, timeout time.Duration) (*profile.Profile, string, error)
+}
+
+// A Symbolizer introduces symbol information into a profile.
+type Symbolizer interface {
+	Symbolize(mode string, srcs MappingSources, prof *profile.Profile) error
+}
+
+// MappingSources map each profile.Mapping to the source of the profile.
+// The key is either Mapping.File or Mapping.BuildId.
+type MappingSources map[string][]struct {
+	Source string // URL of the source the mapping was collected from
+	Start  uint64 // delta applied to addresses from this source (to represent Merge adjustments)
+}
+
 // An ObjTool inspects shared libraries and executable files.
 type ObjTool interface {
-	// Open opens the named object file.
-	// If the object is a shared library, start is the address where
-	// it is mapped into memory in the address space being inspected.
-	Open(file string, start uint64) (ObjFile, error)
-
-	// Demangle translates a batch of symbol names from mangled
-	// form to human-readable form.
-	Demangle(names []string) (map[string]string, error)
+	// Open opens the named object file. If the object is a shared
+	// library, start/limit/offset are the addresses where it is mapped
+	// into memory in the address space being inspected.
+	Open(file string, start, limit, offset uint64) (ObjFile, error)
 
 	// Disasm disassembles the named object file, starting at
 	// the start address and stopping at (before) the end address.
 	Disasm(file string, start, end uint64) ([]Inst, error)
-
-	// SetConfig configures the tool.
-	// The implementation defines the meaning of the string
-	// and can ignore it entirely.
-	SetConfig(config string)
 }
 
-// NoObjTool returns a trivial implementation of the ObjTool interface.
-// Open returns an error indicating that the requested file does not exist.
-// Demangle returns an empty map and a nil error.
-// Disasm returns an error.
-// SetConfig is a no-op.
-func NoObjTool() ObjTool {
-	return noObjTool{}
-}
-
-type noObjTool struct{}
-
-func (noObjTool) Open(file string, start uint64) (ObjFile, error) {
-	return nil, &os.PathError{Op: "open", Path: file, Err: os.ErrNotExist}
-}
-
-func (noObjTool) Demangle(name []string) (map[string]string, error) {
-	return make(map[string]string), nil
-}
-
-func (noObjTool) Disasm(file string, start, end uint64) ([]Inst, error) {
-	return nil, fmt.Errorf("disassembly not supported")
-}
-
-func (noObjTool) SetConfig(config string) {
+// An Inst is a single instruction in an assembly listing.
+type Inst struct {
+	Addr uint64 // virtual address of instruction
+	Text string // instruction text
+	File string // source file
+	Line int    // source line
 }
 
 // An ObjFile is a single object file: a shared library or executable.
@@ -129,18 +149,11 @@ type Sym struct {
 	End   uint64   // virtual address of last byte in sym (Start+size-1)
 }
 
-// An Inst is a single instruction in an assembly listing.
-type Inst struct {
-	Addr uint64 // virtual address of instruction
-	Text string // instruction text
-	File string // source file
-	Line int    // source line
-}
-
 // A UI manages user interactions.
 type UI interface {
 	// Read returns a line of text (a command) read from the user.
-	ReadLine() (string, error)
+	// prompt is printed before reading the command.
+	ReadLine(prompt string) (string, error)
 
 	// Print shows a message to the user.
 	// It formats the text as fmt.Print would and adds a final \n if not already present.
@@ -161,53 +174,3 @@ type UI interface {
 	// the auto-completion of cmd, if the UI supports auto-completion at all.
 	SetAutoComplete(complete func(string) string)
 }
-
-// StandardUI returns a UI that reads from standard input,
-// prints messages to standard output,
-// prints errors to standard error, and doesn't use auto-completion.
-func StandardUI() UI {
-	return &stdUI{r: bufio.NewReader(os.Stdin)}
-}
-
-type stdUI struct {
-	r *bufio.Reader
-}
-
-func (ui *stdUI) ReadLine() (string, error) {
-	os.Stdout.WriteString("(pprof) ")
-	return ui.r.ReadString('\n')
-}
-
-func (ui *stdUI) Print(args ...interface{}) {
-	ui.fprint(os.Stderr, args)
-}
-
-func (ui *stdUI) PrintErr(args ...interface{}) {
-	ui.fprint(os.Stderr, args)
-}
-
-func (ui *stdUI) IsTerminal() bool {
-	return false
-}
-
-func (ui *stdUI) SetAutoComplete(func(string) string) {
-}
-
-func (ui *stdUI) fprint(f *os.File, args []interface{}) {
-	text := fmt.Sprint(args...)
-	if !strings.HasSuffix(text, "\n") {
-		text += "\n"
-	}
-	f.WriteString(text)
-}
-
-// A Fetcher reads and returns the profile named by src.
-// It gives up after the given timeout, unless src contains a timeout override
-// (as defined by the implementation).
-// It can print messages to ui.
-type Fetcher func(src string, timeout time.Duration, ui UI) (*profile.Profile, error)
-
-// A Symbolizer annotates a profile with symbol information.
-// The profile was fetch from src.
-// The meaning of mode is defined by the implementation.
-type Symbolizer func(mode, src string, prof *profile.Profile, obj ObjTool, ui UI) error
