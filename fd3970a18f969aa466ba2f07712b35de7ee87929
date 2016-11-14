@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_4f2e65c1",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-14T23:10:43Z",
+      "side": 1,
+      "message": "alternatively, pull this out into a function, and test the function (in short mode).\n\nOr: have your test only write a single file or so, but mess with the Writer\u0027s internals instead such that it thinks it wrote uint16max records, or a huge size, or a huge offset.\n\nshort tests are preferred.",
+      "revId": "fd3970a18f969aa466ba2f07712b35de7ee87929",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
