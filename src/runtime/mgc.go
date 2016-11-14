@@ -834,6 +834,8 @@ var work struct {
 	// program started if debug.gctrace > 0.
 	totaltime int64
 
+	_ uint32 // padding to enforce 8-alignment for atomic access of bytesMarked on 32-bit arch
+
 	// bytesMarked is the number of bytes marked this cycle. This
 	// includes bytes blackened in scanned objects, noscan objects
 	// that go straight to black, and permagrey objects scanned by
