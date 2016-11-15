@@ -276,6 +276,20 @@ func reflect_typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 // dst and src point off bytes into the value and only copies size bytes.
 //go:linkname reflect_typedmemmovepartial reflect.typedmemmovepartial
 func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size uintptr) {
+	if writeBarrier.needed && writeBarrier.roc && debug.gcroc >= 1 &&
+		isPublic(uintptr(dst)) && typ.kind&kindNoPointers == 0 {
+		// if dst is public we need to publish before we
+		// do the copy.
+
+		// Pointer-align start address for bulk publish
+		adst, asrc, asize := dst, src, size
+		if frag := -off & (sys.PtrSize - 1); frag != 0 {
+			adst = add(dst, frag)
+			asrc = add(src, frag)
+			asize -= frag
+		}
+		heapBitsBulkPublish(uintptr(asrc), uintptr(adst), asize&^(sys.PtrSize-1))
+	}
 	memmove(dst, src, size)
 	if writeBarrier.cgo {
 		cgoCheckMemmove(typ, dst, src, off, size)
@@ -298,6 +312,7 @@ func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size 
 // values) is described by typ. Because the copy has already
 // happened, we call writebarrierptr_nostore, and this is nosplit so
 // the copy and write barrier appear atomic to GC.
+// The publish is in heapBitsBulkBarrier
 //go:nosplit
 func callwritebarrier(typ *_type, frame unsafe.Pointer, framesize, retoffset uintptr) {
 	if (!writeBarrier.needed && !writeBarrier.roc) || typ == nil || typ.kind&kindNoPointers != 0 || framesize-retoffset < sys.PtrSize {
