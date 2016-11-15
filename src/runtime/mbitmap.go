@@ -190,62 +190,69 @@ type markBits struct {
 }
 
 //go:nosplit
-func inBss(p uintptr) bool {
-	for datap := &firstmoduledata; datap != nil; datap = datap.next {
-		if p >= datap.bss && p < datap.ebss {
-			return true
-		}
-	}
-	return false
-}
-
-//go:nosplit
-func inData(p uintptr) bool {
-	for datap := &firstmoduledata; datap != nil; datap = datap.next {
-		if p >= datap.data && p < datap.edata {
-			return true
-		}
+func isInBssOrData(p uintptr, datap *moduledata) bool {
+	if (p >= datap.data && p < datap.edata) || (p >= datap.bss && p < datap.ebss) {
+		return true
 	}
 	return false
 }
 
 // isPublic checks whether the object has been published.
-// ptr may not point to the start of the object.
+// obj may not point to the start of the object.
 // This is conservative in the sense that it will return true
-// for any object that hasn't been allocated by this
+// for all object that haven't been allocated by this
 // goroutine since the last roc checkpoint was performed.
-// Must run on the system stack to prevent stack growth and
-// moving of goroutine stack.
+//go:nosplit
 //go:systemstack
-func isPublic(ptr uintptr) bool {
-	if !writeBarrier.roc {
-		// Unexpected call to ROC specific routine while not running ROC.
-		// blowup without supressing inlining.
-		_ = *(*int)(nil)
+func isPublic(obj uintptr) bool {
+	if debug.gcroc == 0 {
+		throw("isPublic but ROC is not running.")
 	}
 
-	if inStack(ptr, getg().stack) {
+	s := spanOf(obj) // spanObj(nil) == nil or if obj is not between arena_start and arena_end.
+
+	if s == nil {
+		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+			if isInBssOrData(obj, datap) {
+				return true
+			}
+		}
 		return false
+		// This false picks up the obj == nil since spanOf(nil) and isBssOrDate(nil) both return nil
 	}
 
-	if getg().m != nil && getg().m.curg != nil && inStack(ptr, getg().m.curg.stack) {
-		return false
-	}
+	spanBase := s.base()
 
-	if inBss(ptr) {
-		return true
-	}
-	if inData(ptr) {
-		return true
-	}
-	if !inheap(ptr) {
+	if s.state != _MSpanInUse {
+
+		if inStack(obj, getg().stack) {
+			return false
+		}
+
+		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+			if isInBssOrData(obj, datap) {
+				return true
+			}
+		}
+
 		// Note: Objects created using persistentalloc are not in the heap
 		// so any pointers from such object to local objects needs to be dealt
-		// with specially. nil is also considered not in the heap.
+		// with specially.
+		// Try true
 		return true
 	}
-	// At this point we know the object is in the heap.
-	s := spanOf(ptr)
+
+	index := s.offsetIndex(obj - spanBase)
+	if s.startindex > index {
+		return true
+	}
+
+	marked := s.isIndexMarked(index)
+
+	if marked {
+		return true
+	}
+
 	oldSweepgen := atomic.Load(&s.sweepgen)
 	sg := mheap_.sweepgen
 	if oldSweepgen != sg {
@@ -253,30 +260,222 @@ func isPublic(ptr uintptr) bool {
 		// be found to be marked once it is swept.
 		return true
 	}
-	abits := s.allocBitsForAddr(ptr)
-	if abits.isMarked() {
-		return true
-	} else if s.freeindex <= abits.index {
-		// Unmarked and beyond freeindex yet reachable object encountered.
-		// blowup without supressing inlining.
-		_ = *(*int)(nil)
-	}
+	return false
+}
 
-	// The object is not marked. If it is part of the current
-	// ROC epoch then it is not public.
-	if s.startindex*s.elemsize <= ptr-s.base() {
-		// Object allocated in this ROC epoch and since it is
-		// not marked it has not been published.
+var dlogTraceOn = false
+
+// isPublicToLocal checks whether src is public and dst is local.
+// src and dst may not point to the object's start.
+// This is conservative in the sense that it will return true
+// for any object that hasn't been allocated by this
+// goroutine since the last roc checkpoint was performed.
+// Must run on the system stack to prevent stack growth and
+// moving of goroutine stack.
+//go:systemstack
+func isPublicToLocal(src, dst uintptr) bool {
+	dstSpan := spanOf(dst)
+	// Start out by assuming src and dst are not public
+	// As soon as we can determine that dst is public we can return false.
+	// As soon as we can determing src is local we can return false.
+	// If we can show that src is public and dst is local we return true.
+	if dstSpan == nil {
+		// dst can't be local so just return false
 		return false
 	}
-	// Object allocated since last GC but in a previous ROC epoch so it is public.
+
+	if dstSpan.state != _MSpanInUse || dstSpan.startindex == dstSpan.freeindex {
+		// If dst is public PublicToLocal is false
+		// If dst is local and on a stack then no public object can
+		// point into the stack so we know it is a local to local.
+		return false
+	}
+
+	dstBase := dstSpan.base()
+	dstIndex := dstSpan.offsetIndex(dst - dstBase)
+	dstMarked := dstSpan.isIndexMarked(dstIndex)
+	if dstMarked {
+		// dst is public
+		return false
+	}
+
+	if dstSpan.startindex > dstIndex || dstSpan.freeindex <= dstIndex {
+		// dst is public
+		return false
+	}
+
+	// This check is not needed since if the span has not been swept it will not be
+	// in the mcache and it will have startindex set to freeindex and the above
+	// check will always fire.
+	//	sg := mheap_.sweepgen
+	//	dstSweepgen := atomic.Load(&dstSpan.sweepgen)
+	//	if dstSweepgen != sg {
+	// We have an unswept span which means that the pointer points to a public object since it will
+	// be found to be marked once it is swept.
+	// dst is public
+	//		throw("why is freeindex != startindex")
+	//		return false
+	//	}
+
+	srcSpan := spanOf(src)
+	if srcSpan == nil {
+		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+			if isInBssOrData(src, datap) {
+				return true
+			}
+		}
+		// src is local so PublicToLocal is false
+		return false
+
+		// This false picks up the obj == nil since spanOf(nil) and isBssOrDate(nil) both return nil
+	}
+
+	if srcSpan.state != _MSpanInUse {
+		return false
+	}
+
+	// At this point we know that srcSpan and dstSpan are != nil
+
+	srcBase := srcSpan.base()
+	srcIndex := srcSpan.offsetIndex(src - srcBase)
+	if srcSpan.startindex > srcIndex || srcSpan.freeindex <= srcIndex {
+		// src is public
+		return true
+	}
+	// This check is not needed since if the if the span has not been swept the above
+	// check will fire.
+	//		srcSweepgen := atomic.Load(&srcSpan.sweepgen)
+	//		if srcSweepgen != sg {
+	// 			We have an unswept span which means that the pointer points to a public object since it will
+	// 			be found to be marked once it is swept.
+	// 			src is public
+	//			return true
+	//		}
+
+	// At this point dst is local
+	srcMarked := srcSpan.isIndexMarked(srcIndex)
+	if !srcMarked {
+		// src is not public
+		return false
+	}
+
 	return true
+}
+
+// isPublic checks whether the object has been published.
+// obj may not point to the start of the object.
+// This is conservative in the sense that it will return true
+// for all object that haven't been allocated by this
+// goroutine since the last roc checkpoint was performed.
+//go:nosplit
+//go:systemstack
+func (s *mspan) isPublic(obj uintptr) bool {
+	if debug.gcroc == 0 {
+		throw("isPublic but ROC is not running.")
+	}
+
+	if s == nil {
+		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+			if isInBssOrData(obj, datap) {
+				return true
+			}
+		}
+		return false
+		// This false picks up the obj == nil since spanOf(nil) and isBssOrDate(nil) both return nil
+	}
+	if s.startindex == s.freeindex {
+		return true
+	}
+	if s.state != _MSpanInUse {
+		// it is not in the heap, could be in a span used for the stack.
+		// Note: Objects created using persistentalloc are not in the heap
+		// so any pointers from such object to local objects needs to be dealt
+		// with specially. nil is also considered not in the heap.
+		return true
+	}
+
+	spanBase := s.base()
+
+	index := s.offsetIndex(obj - spanBase)
+	if s.startindex > index || s.freeindex <= index {
+		return true
+	}
+
+	marked := s.isIndexMarked(index)
+
+	if marked {
+		return true
+	}
+
+	oldSweepgen := atomic.Load(&s.sweepgen)
+	sg := mheap_.sweepgen
+	if oldSweepgen != sg {
+		// We have an unswept span which means that the pointer points to a public object since it will
+		// be found to be marked once it is swept.
+		return true
+	}
+	return false
+}
+
+//go:nosplit
+func (s *mspan) offsetIndex(byteOffset uintptr) uintptr {
+	allocBitIndex := uintptr(0)
+	if byteOffset == 0 {
+		allocBitIndex = uintptr(0)
+	} else if s.baseMask != 0 {
+		// s.baseMask is 0, elemsize is a power of two, so shift by s.divShift
+		allocBitIndex = byteOffset >> s.divShift
+	} else {
+		allocBitIndex = uintptr(((uint64(byteOffset) >> s.divShift) * uint64(s.divMul)) >> s.divShift2)
+	}
+	return allocBitIndex
+}
+
+//go:nosplit
+func (s *mspan) isIndexMarked(allocBitIndex uintptr) bool {
+	whichByte := allocBitIndex / 8
+	whichBit := allocBitIndex % 8
+	bytePtr := addb(s.allocBits, whichByte)
+	marked := *bytePtr&uint8(1<<whichBit) != 0
+	return marked
+}
+
+//go:nosplit
+func (s *mspan) markedAndIndex(byteOffset uintptr) (marked bool, allocBitIndex uintptr) {
+	if byteOffset == 0 {
+		allocBitIndex = 0
+	} else if s.baseMask != 0 {
+		// s.baseMask is 0, elemsize is a power of two, so shift by s.divShift
+		allocBitIndex = byteOffset >> s.divShift
+	} else {
+		allocBitIndex = uintptr(((uint64(byteOffset) >> s.divShift) * uint64(s.divMul)) >> s.divShift2)
+	}
+
+	whichByte := allocBitIndex / 8
+	whichBit := allocBitIndex % 8
+	bytePtr := addb(s.allocBits, whichByte)
+	marked = *bytePtr&uint8(1<<whichBit) != 0
+	return
+}
+
+func traceBackFrameDumper() {
+	printFrameName := func(frame *stkframe, unused unsafe.Pointer) bool {
+		f := frame.fn
+		name := funcname(f)
+		if name == "" {
+			name = "unknown function"
+		}
+		println(name)
+		return true
+	}
+	gp := getg()
+	gentraceback(^uintptr(0), ^uintptr(0), 0, gp, 0, nil, 0x7fffffff, printFrameName, nil, 0)
 }
 
 // makePublic sets the allocation bit indicating that the object indicated by ptr
 // is public and visible to other goroutines.
-func makePublic(ptr uintptr, s *mspan) {
-	abits := s.allocBitsForAddr(ptr)
+func makePublic(obj uintptr, s *mspan) {
+	abits := s.allocBitsForAddr(obj)
 	abits.setMarked()
 }
 
@@ -308,8 +507,18 @@ func (s *mspan) allocBitsForIndex(allocBitIndex uintptr) markBits {
 
 //go:nosplit
 func (s *mspan) allocBitsForAddr(p uintptr) markBits {
+	allocBitIndex := uintptr(0) // need to inline so caller can also inline.
+
 	byteOffset := p - s.base()
-	allocBitIndex := byteOffset / s.elemsize
+	if byteOffset == 0 {
+		allocBitIndex = 0
+	} else if s.baseMask != 0 {
+		// s.baseMask is 0, elemsize is a power of two, so shift by s.divShift
+		allocBitIndex = byteOffset >> s.divShift
+	} else {
+		allocBitIndex = uintptr(((uint64(byteOffset) >> s.divShift) * uint64(s.divMul)) >> s.divShift2)
+	}
+
 	whichByte := allocBitIndex / 8
 	whichBit := allocBitIndex % 8
 	bytePtr := addb(s.allocBits, whichByte)
@@ -490,7 +699,7 @@ func (m *markBits) advance() {
 // nosplit because it is used during write barriers and must not be preempted.
 //go:nosplit
 func heapBitsForAddr(addr uintptr) heapBits {
-	// 2 bits per work, 4 pairs per byte, and a mask is hard coded.
+	// 2 bits per word, 4 pairs per byte, and a mask is hard coded.
 	off := (addr - mheap_.arena_start) / sys.PtrSize
 	return heapBits{(*uint8)(unsafe.Pointer(mheap_.bitmap - off/4 - 1)), uint32(off & 3)}
 }
@@ -513,6 +722,50 @@ func heapBitsForSpan(base uintptr) (hbits heapBits) {
 // refBase and refOff optionally give the base address of the object
 // in which the pointer p was found and the byte offset at which it
 // was found. These are used for error reporting.
+func (s *mspan) heapBitsForObject(p uintptr) (base uintptr, hbits heapBits, objIndex uintptr) {
+	arenaStart := mheap_.arena_start
+	if p < arenaStart || p >= mheap_.arena_used {
+		return
+	}
+	if s == nil {
+		return
+	}
+	sbase := s.base()
+	if p < sbase || p >= s.limit || s.state != mSpanInUse {
+		return
+	}
+	// If this span holds object of a power of 2 size, just mask off the bits to
+	// the interior of the object. Otherwise use the size to get the base.
+	base = sbase
+	if s.baseMask != 0 {
+		// optimize for power of 2 sized objects.
+		base = base + (p-base)&uintptr(s.baseMask)
+		objIndex = (base - sbase) >> s.divShift
+		// base = p & s.baseMask is faster for small spans,
+		// but doesn't work for large spans.
+		// Overall, it's faster to use the more general computation above.
+	} else {
+		if p-base >= s.elemsize {
+			// n := (p - base) / s.elemsize, using division by multiplication
+			objIndex = uintptr(uint64(p-base) >> s.divShift * uint64(s.divMul) >> s.divShift2)
+			base += objIndex * s.elemsize
+		}
+	}
+	// Now that we know the actual base, compute heapBits to return to caller.
+	hbits = heapBitsForAddr(base)
+	return
+}
+
+// heapBitsForObject returns the base address for the heap object
+// containing the address p, the heapBits for base,
+// the object's span, and of the index of the object in s.
+// If p does not point into a heap object,
+// return base == 0
+// otherwise return the base of the object.
+//
+// refBase and refOff optionally give the base address of the object
+// in which the pointer p was found and the byte offset at which it
+// was found. These are used for error reporting.
 func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits, s *mspan, objIndex uintptr) {
 	arenaStart := mheap_.arena_start
 	if p < arenaStart || p >= mheap_.arena_used {
@@ -523,8 +776,12 @@ func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits
 	// p points into the heap, but possibly to the middle of an object.
 	// Consult the span table to find the block beginning.
 	s = mheap_.spans[idx]
-	if s == nil || p < s.base() || p >= s.limit || s.state != mSpanInUse {
-		if s == nil || s.state == _MSpanStack {
+	if s == nil {
+		return
+	}
+	sbase := s.base()
+	if p < sbase || p >= s.limit || s.state != mSpanInUse {
+		if s.state == _MSpanStack {
 			// If s is nil, the virtual address has never been part of the heap.
 			// This pointer may be to some mmap'd region, so we allow it.
 			// Pointers into stacks are also ok, the runtime manages these explicitly.
@@ -533,7 +790,7 @@ func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits
 
 		// The following ensures that we are rigorous about what data
 		// structures hold valid pointers.
-		if debug.invalidptr != 0 {
+		if false && debug.invalidptr != 0 {
 			// Typically this indicates an incorrect use
 			// of unsafe or cgo to store a bad pointer in
 			// the Go heap. It may also indicate a runtime
@@ -562,14 +819,14 @@ func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits
 	// the interior of the object. Otherwise use the size to get the base.
 	if s.baseMask != 0 {
 		// optimize for power of 2 sized objects.
-		base = s.base()
+		base = sbase
 		base = base + (p-base)&uintptr(s.baseMask)
-		objIndex = (base - s.base()) >> s.divShift
+		objIndex = (base - sbase) >> s.divShift
 		// base = p & s.baseMask is faster for small spans,
 		// but doesn't work for large spans.
 		// Overall, it's faster to use the more general computation above.
 	} else {
-		base = s.base()
+		base = sbase
 		if p-base >= s.elemsize {
 			// n := (p - base) / s.elemsize, using division by multiplication
 			objIndex = uintptr(p-base) >> s.divShift * uintptr(s.divMul) >> s.divShift2
@@ -647,14 +904,15 @@ func publish(ptr uintptr) {
 			println("runtime: base=", hex(base), "span=", span)
 			throw("publishing a non-heap object")
 		}
+
 		numSlots := span.elemsize / sys.PtrSize
 
 		for i, slot := uintptr(0), base; i < numSlots; hbits, i, slot = hbits.next(), i+1, slot+sys.PtrSize {
 			if !hbits.isPointer() {
 				// During checkmarking, 1-word objects store the checkmark
-				// in the type bit for the one word. Only one-word objects
-				// are pointers. If they are not pointers they would have been
-				// merged with other non-pointer data into a larger allocation.
+				// in the type bit for the one word. The only one-word objects
+				// are pointers, or else they'd be merged with other non-pointer
+				// data into larger allocations.
 				if i > 1 && !hbits.morePointers() {
 					break // no more pointers in this object
 				}
@@ -665,7 +923,7 @@ func publish(ptr uintptr) {
 				continue // nil
 			}
 			bBase, _, s, _ := heapBitsForObject(b, 0, 0)
-			if isPublic(bBase) {
+			if s.isPublic(bBase) {
 				continue // Already public or nil
 			}
 
