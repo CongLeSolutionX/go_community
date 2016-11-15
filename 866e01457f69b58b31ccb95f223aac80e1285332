@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "500a5c5e_8f34753c",
+        "filename": "src/net/ipsock.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-11-15T10:01:35Z",
+      "side": 1,
+      "message": "fwiw, dropping the use of supportsIPv{4,6} will increase unnecessary system calls; for example, when the node implements only ipv6 stack and the target name is mapped to both ipv4 and ipv6 addresses (see sortByRFC6724). for now it probably doesn\u0027t matter because # of dns rrs in each msg are limited by mainly dns transport restrictions. in future, we need to revisit here when people start to load tons of rrs into dns msgs for various purposes.",
+      "revId": "866e01457f69b58b31ccb95f223aac80e1285332",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
