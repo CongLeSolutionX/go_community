@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_21aa154f",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-15T18:08:19Z",
+      "side": 1,
+      "message": "I don\u0027t think this is right. If the context is canceled, we may not have a valid context anymore to even dial across the network and do a rollback. If the Begin fails, we need to just be sure to never use that driver.Conn again, since it\u0027s in an unknown state.\n\n(Also, we spell canceled with a single el)",
+      "revId": "3d8e7d9921e1e86038c01d3e02e28fbe8acc257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
