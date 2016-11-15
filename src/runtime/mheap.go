@@ -167,20 +167,11 @@ type mSpanList struct {
 
 //go:notinheap
 type mspan struct {
-	next *mspan     // next span in list, or nil if none
-	prev *mspan     // previous span in list, or nil if none
-	list *mSpanList // For debugging. TODO: Remove.
+	next      *mspan     // next span in list, or nil if none
+	prev      *mspan     // previous span in list, or nil if none
+	list      *mSpanList // For debugging. TODO: Remove.
+	startAddr uintptr    // address of first byte of span aka s.base()
 
-	startAddr     uintptr   // address of first byte of span aka s.base()
-	npages        uintptr   // number of pages in span
-	stackfreelist gclinkptr // list of free stacks, avoids overloading freelist
-
-	// freeindex is the slot index between 0 and nelems at which to begin scanning
-	// for the next free object in this span.
-	// Each allocation scans allocBits starting at freeindex until it encounters a 0
-	// indicating a free object. freeindex is then adjusted so that subsequent scans begin
-	// just past the the newly discovered free object.
-	//
 	// If freeindex == nelem, this span has no free objects.
 	//
 	// allocBits is a bitmap of objects in this span.
@@ -190,9 +181,6 @@ type mspan struct {
 	// undefined and should never be referenced.
 	//
 	// Object n starts at address n*elemsize + (start << pageShift).
-	freeindex          uintptr
-	rollbackCount      uintptr
-	abortRollbackCount uintptr
 	// TODO: Look up nelems from sizeclass and remove this field if it
 	// helps performance.
 	nelems uintptr // number of object in the span.
@@ -201,6 +189,15 @@ type mspan struct {
 	//
 	// This is used in conjunction with nextUsedSpan to implement ROC checkpoints and recycles.
 	startindex uintptr
+
+	// freeindex is the slot index between 0 and nelems at which to begin scanning
+	// for the next free object in this span.
+	// Each allocation scans allocBits starting at freeindex until it encounters a 0
+	// indicating a free object. freeindex is then adjusted so that subsequent scans begin
+	// just past the the newly discovered free object.
+	//
+	freeindex uintptr
+
 	// nextUsedSpan links together all spans that have the same span class and owner G.
 	nextUsedSpan *mspan
 
@@ -212,6 +209,9 @@ type mspan struct {
 	// these.
 	allocCache uint64
 
+	// Counters for human consumption.
+	rollbackCount      uintptr
+	abortRollbackCount uintptr
 	// allocBits and gcmarkBits hold pointers to a span's mark and
 	// allocation bits. The pointers are 8 byte aligned.
 	// There are three arenas where this data is held.
@@ -236,6 +236,9 @@ type mspan struct {
 	// out memory.
 	allocBits  *uint8
 	gcmarkBits *uint8
+
+	npages        uintptr   // number of pages in span
+	stackfreelist gclinkptr // list of free stacks, avoids overloading freelist
 
 	// sweep generation:
 	// if sweepgen == h->sweepgen - 2, the span needs sweeping
@@ -262,7 +265,7 @@ type mspan struct {
 }
 
 func (s *mspan) trace(str string) {
-	if debug.gcroc >= 3 {
+	if debug.gcroc >= 5 {
 		if s == &emptymspan {
 			println(str, "emptymspan")
 		} else {

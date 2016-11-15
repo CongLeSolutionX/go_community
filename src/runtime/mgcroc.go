@@ -37,6 +37,9 @@ func (c *mcache) startG() {
 	if !writeBarrier.roc {
 		throw("startG called but writeBarrier.roc is false")
 	}
+	if debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.startGCalls, 1)
+	}
 	mp := acquirem()
 	_g_ := mp.curg
 	if _g_ == nil {
@@ -54,7 +57,8 @@ func (c *mcache) startG() {
 			next := s.nextUsedSpan
 			s.nextUsedSpan = nil
 			for s = next; s != nil; s = next {
-				s.startindex = s.freeindex // The write barrier uses this to see if a slot is between
+				s.startindex = s.freeindex
+				// The write barrier uses this to see if a slot is between
 				// startindex and freeindex. If so it is in the current
 				// rollback eligible area and is local if its allocation
 				// bit is not set.
@@ -64,10 +68,12 @@ func (c *mcache) startG() {
 				}
 				next = s.nextUsedSpan
 				s.nextUsedSpan = nil
+				// Note that this does not release the span in c.alloc[i] which remains in the mcache.
 				mheap_.central[i].mcentral.releaseROCSpan(s) // nextUsedSpan is nil since this can be reused immediately
 			}
 		}
 	}
+
 	// clean up tiny logic
 	c.tiny = 0
 	c.tinyoffset = 0
@@ -84,6 +90,10 @@ func (c *mcache) startG() {
 func (c *mcache) publishG() {
 	if !writeBarrier.roc {
 		throw("publishG called but writeBarrier.roc is false")
+	}
+
+	if debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.publishGCalls, 1)
 	}
 	mp := acquirem()
 	_g_ := getg().m.curg
@@ -134,8 +144,7 @@ func (c *mcache) publishG() {
 	}
 	c.largeAllocSpans = nil
 	if _g_ != nil {
-		_g_.rocvalid = false
-		_g_.rocgcnum = 0
+		_g_.rocvalid = true
 	}
 	// clean up tiny logic
 	c.tiny = 0
@@ -143,13 +152,45 @@ func (c *mcache) publishG() {
 	releasem(mp)
 }
 
-// rocTrace tracks the bytes ROC recovers.
+// Keeps track of the total number of bytes ROC recovers.
 type rocTrace struct {
-	recoveredBytes    uint64
-	recoveredBytesAll uint64
+	recoveredBytes                   uint64
+	recoveredBytesAll                uint64
+	recycleGCalls                    uint64
+	recycleGCallsFailure             uint64
+	failureDueTogisnil               uint64
+	failureDueTognotrocvalid         uint64
+	failureDueTogbadnumgc            uint64
+	failureDueTogcoff                uint64
+	publishGCalls                    uint64
+	startGCalls                      uint64
+	releaseAllCalls                  uint64
+	publishAllGsCalls                uint64
+	dropgCalls                       uint64
+	parkCalls                        uint64
+	goschedImplCalls                 uint64
+	entersyscallCalls                uint64
+	exitsyscall0Calls                uint64
+	goexit0Calls                     uint64
+	publicToLocal                    uint64
+	publicToPublic                   uint64
+	localToPublic                    uint64
+	localToLocal                     uint64
+	mumbleToMumble                   uint64
+	makePublicCount                  uint64
+	makePublicAlreadyMarked          uint64
+	stacksPublished                  uint64
+	framesPublished                  uint64
+	maxFramesPublished               uint64
+	oneFramesPublished               uint64
+	twoToTenFramesPublished          uint64
+	elevenToFiftyFramesPublished     uint64
+	fiftyOneToHundredFramesPublished uint64
+	overHundredFramesPublished       uint64
 }
 
 var rocData rocTrace
+var rocDataPrevious rocTrace
 
 // recycleG recycles spans that were used for allocation in the
 // ROC epoch that is ending. The span's allocBits reflect whether
@@ -165,25 +206,46 @@ func (c *mcache) recycleG() {
 	if !writeBarrier.roc {
 		throw("in recycleNormal but writeBarrier.roc is false")
 	}
+	if debug.gcroc == 3 && debug.gctrace == 1 {
+		atomic.Xadd64(&rocData.recycleGCalls, 1)
+	}
 	_g_ := getg().m.curg
+
 	recycleValid := _g_ != nil && _g_.rocvalid && _g_.rocgcnum == memstats.numgc && isGCoff()
 
 	if !recycleValid {
+		if debug.gcroc == 2 {
+			atomic.Xadd64(&rocData.recycleGCallsFailure, 1)
+			if _g_ == nil {
+				atomic.Xadd64(&rocData.failureDueTogisnil, 1)
+			} else if !_g_.rocvalid {
+				atomic.Xadd64(&rocData.failureDueTognotrocvalid, 1)
+			} else if _g_.rocgcnum != memstats.numgc {
+				atomic.Xadd64(&rocData.failureDueTogbadnumgc, 1)
+			} else if isGCoff() {
+				atomic.Xadd64(&rocData.failureDueTogcoff, 1)
+			}
+		}
+
 		systemstack(c.publishG)
 		if _g_ != nil {
-			_g_.rocvalid = false // reset in startG
-			_g_.rocgcnum = 0
+			_g_.rocvalid = false    // reset in startG
+			_g_.rocgcnum = 0xbadbad // reset in startG
 		}
 		return
 	}
-
+	// This is broken... and needs to be debugged.
 	if c.rocgoid != _g_.goid {
-		println("c.rocgoid=", c.rocgoid, "_g_.goid=", _g_.goid)
+		println("runtime: c.rocgoid=", c.rocgoid, "_g_.goid=", _g_.goid,
+			"\n          getg().goid=", getg().goid, "getg().m.mcache.rocgoid=", getg().m.mcache.rocgoid, "c=", c,
+			"\n          getg().m.curg.goid=", getg().m.curg.goid)
 		throw("c.rocgoid != _g_.goid")
 	}
 
-	// Count of the number of objects recovered using ROC
+	// Count of the number of bytes recovered using ROC
 	recoveredBytes := int64(0)
+	// Count of the number of bytes recovered by ROC that are returned from the mcache.
+	heapLiveRecovered := int64(0)
 	for i := range c.alloc {
 		if c.alloc[i] == &emptymspan {
 			continue
@@ -222,17 +284,17 @@ func (c *mcache) recycleG() {
 				s.startindex++ // no sense in rolling back over public objects, set startindex and then freeindex to first free object.
 			}
 
-			for ii := s.startindex; ii < s.freeindex; ii++ {
-				if s.isFree(ii) {
-					recoveredBytes += int64(s.elemsize)
-				}
-			}
+			oldAllocCount := s.allocCount
 
 			s.smashDebugHelper() // this increases the chance of triggering a bug
 
 			s.freeindex = s.startindex // The actual recycle step.
 			s.rollbackCount++
 			s.rollbackAllocCount()
+
+			recycled := oldAllocCount - s.allocCount
+			recoveredBytes += int64(recycled) * int64(s.elemsize)
+
 			if s.freeindex == s.nelems {
 				s.allocCache = 0 // Clear it since this span is full.
 			} else {
@@ -255,6 +317,8 @@ func (c *mcache) recycleG() {
 			// it if it has available space for new objects.
 			if s != c.alloc[i] {
 				mheap_.central[i].mcentral.releaseROCSpan(s)
+				// Not not count recovered bytes still remaining in the mcache.
+				heapLiveRecovered += int64(recycled) * int64(s.elemsize)
 			}
 		}
 	}
@@ -273,6 +337,8 @@ func (c *mcache) recycleG() {
 			s.allocCount = 0
 			s.nelems = 1
 			recoveredBytes += int64(s.elemsize)
+			heapLiveRecovered += int64(s.elemsize)
+			atomic.Xadd64(&memstats.heap_live, -heapLiveRecovered) // releaseROCSpan adjusts this for non-largeAllocSpans
 			mheap_.freeSpan(s, 1)
 		} else {
 			s.startindex = s.freeindex
@@ -280,39 +346,22 @@ func (c *mcache) recycleG() {
 		}
 	}
 
-	atomic.Xadd64(&rocData.recoveredBytes, int64(recoveredBytes)) // TBD make available, perhaps as part of gctrace=2
+	if debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.recoveredBytes, int64(recoveredBytes)) // TBD make available, perhaps as part of gctrace=2
+	}
 
 	c.largeAllocSpans = nil
 
 	if _g_ != nil {
-		_g_.rocvalid = false
-		_g_.rocgcnum = 0
+		_g_.rocvalid = true
 	}
 	// clean up tiny logic
 	c.tiny = 0
 	c.tinyoffset = 0
 }
 
-// smashDebugHelper will obliterate the contents of any free objects
-// in the hopes that this will cause the program to abort quickly and
-// make debugging easier.
-func (s *mspan) smashDebugHelper() {
-	if debug.gcroc >= 2 {
-		// Smash object between s.startindex and freeindex
-		for i := s.startindex; i < s.freeindex; i++ {
-			if s.isFree(i) {
-				words := s.elemsize / unsafe.Sizeof(uintptr(0))
-				for j := uintptr(0); j < words; j++ {
-					ptr := (*uintptr)(unsafe.Pointer(s.base() + i*s.elemsize + j*unsafe.Sizeof(uintptr(0))))
-					*ptr = uintptr(0xdeada11c)
-				}
-			}
-		}
-	}
-}
-
 // publishStack scans a freshly create G's stack, publishing all pointers
-// found on the stack. While the G is fresh, the initial routine's arguements,
+// found on the stack. While the G is fresh, the initial routine's arguments,
 // potentially including pointers, are already on the stack.
 // Since all of these pointers originated on the parent G
 // and are being used by the offspring G they need to be published.
@@ -338,9 +387,12 @@ func publishStack(gp *g) {
 		throw("publishStack called during a GC")
 	}
 
+	if debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.stacksPublished, 1)
+	}
 	// Scan the stack.
 	var cache pcvalueCache
-	n := 0
+	n := int64(0)
 
 	// When creating a new goroutine only a single frame needs to be published.
 	// When a stack is being preempted, say when it becomes dormant waiting
@@ -351,7 +403,35 @@ func publishStack(gp *g) {
 		n++
 		return true
 	}
+
 	gentraceback(^uintptr(0), ^uintptr(0), 0, gp, 0, nil, 0x7fffffff, publishframe, nil, 0)
+	tracebackdefers(gp, publishframe, nil)
+	if debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.framesPublished, n)
+		tmp := atomic.Load64(&rocData.maxFramesPublished)
+		if tmp < uint64(n) {
+			for !atomic.Cas64(&rocData.maxFramesPublished, tmp, uint64(n)) {
+				tmp := atomic.Load64(&rocData.maxFramesPublished)
+				if tmp >= uint64(n) {
+					break
+				}
+			}
+		}
+		if n == 0 {
+			throw("why do we have a stack with no frames.")
+		} else if n == 1 {
+			atomic.Xadd64(&rocData.oneFramesPublished, 1)
+		} else if n <= 10 {
+			atomic.Xadd64(&rocData.twoToTenFramesPublished, 1)
+		} else if n <= 100 {
+			atomic.Xadd64(&rocData.elevenToFiftyFramesPublished, 1)
+		} else if n <= 100 {
+			atomic.Xadd64(&rocData.fiftyOneToHundredFramesPublished, 1)
+		} else {
+			atomic.Xadd64(&rocData.overHundredFramesPublished, 1)
+		}
+
+	}
 }
 
 // Scan a stack frame: local variables and function arguments/results.
@@ -366,7 +446,7 @@ func publishFrameWorker(frame *stkframe, cache *pcvalueCache) {
 	targetpc := frame.continpc
 	if targetpc == 0 {
 		// Frame is dead.
-		throw("publishFrameWorker encounters dead frame")
+		return
 	}
 	if _DebugGC > 1 {
 		print("publishFrameWorker ", funcname(f), "\n")
@@ -468,6 +548,26 @@ func publishStackBlock(b0, n0 uintptr, ptrmask *uint8) {
 			}
 			bits >>= 1
 			i += sys.PtrSize
+		}
+	}
+}
+
+// Code below this point is for debugging and deserves only light review.
+
+// smashDebugHelper will obliterate the contents of any free objects
+// in the hopes that this will cause the program to abort quickly and
+// make debugging easier.
+func (s *mspan) smashDebugHelper() {
+	if debug.gcroc >= 3 {
+		// Smash object between s.startindex and freeindex
+		for i := s.startindex; i < s.freeindex; i++ {
+			if s.isFree(i) {
+				words := s.elemsize / unsafe.Sizeof(uintptr(0))
+				for j := uintptr(0); j < words; j++ {
+					ptr := (*uintptr)(unsafe.Pointer(s.base() + i*s.elemsize + j*unsafe.Sizeof(uintptr(0))))
+					*ptr = uintptr(0xdeada11c)
+				}
+			}
 		}
 	}
 }
