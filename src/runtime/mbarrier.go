@@ -102,22 +102,21 @@ import (
 //go:systemstack
 func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 	if writeBarrier.needed {
-		if ptr != 0 && inheap(ptr) {
+		if inheap(ptr) {
 			shade(ptr)
 		}
 	}
 
-	if ptr == 0 {
-		return
-	}
-
 	// ROC: publish local ptrs being written into public slots.
 	if debug.gcroc >= 1 {
-		// local -> public
-		// local -> local
-		if !isPublic(uintptr(unsafe.Pointer(slot))) {
-			// If local slot then we are done.
-			return
+		if isPublicToLocal(uintptr(unsafe.Pointer(slot)), ptr) {
+			if inheap(ptr) {
+				// public -> local
+				// Turn into a public -> public
+				ptrSpan := spanOf(ptr)
+				makePublic(ptr, ptrSpan)
+				publish(ptr)
+			}
 		}
 		if trackMapOn {
 			// Debug code that tracks pointers
@@ -198,20 +197,18 @@ func wbTrack(slotObj uintptr) {
 // a pointer to a heap object.
 //go:nosplit
 func writebarrierptr_nostore1(dst *uintptr, src uintptr) {
-	mp := acquirem()
+	mp := getg().m
 	if mp.inwb || mp.dying > 0 {
-		releasem(mp)
 		return
 	}
-	systemstack(func() {
-		if mp.p == 0 && memstats.enablegc && !mp.inwb && inheap(src) {
-			throw("writebarrierptr_nostore1 called with mp.p == nil")
-		}
-		mp.inwb = true
+	if mp.p == 0 && memstats.enablegc && !mp.inwb && inheap(src) {
+		throw("writebarrierptr_nostore1 called with mp.p == nil")
+	}
+	mp.inwb = true
+	if src != 0 {
 		gcmarkwb_m(dst, src)
-	})
+	}
 	mp.inwb = false
-	releasem(mp)
 }
 
 // NOTE: Really dst *unsafe.Pointer, src unsafe.Pointer,
@@ -231,7 +228,7 @@ func writebarrierptr(dst *uintptr, src uintptr) {
 			throw("bad pointer in write barrier")
 		})
 	}
-	writebarrierptr_nostore1(dst, src)
+	systemstack(func() { writebarrierptr_nostore1(dst, src) })
 	*dst = src // We need to do the write barrier before the store so publication works.
 }
 
@@ -248,7 +245,7 @@ func writebarrierptr_nostore(dst *uintptr, src uintptr) {
 	if src != 0 && src < minPhysPageSize {
 		systemstack(func() { throw("bad pointer in write barrier") })
 	}
-	writebarrierptr_nostore1(dst, src)
+	systemstack(func() { writebarrierptr_nostore1(dst, src) })
 }
 
 // typedmemmove copies a value of type t to dst from src.
