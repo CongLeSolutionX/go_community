@@ -155,7 +155,8 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 			}
 		}
 		// TODO: Make this conditional on the caller's stack color.
-		if ptr != 0 && inheap(ptr) {
+		if inheap(ptr) {
+			// check for nil done in inheap
 			shade(ptr)
 		}
 	}
@@ -166,23 +167,11 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 
 	// ROC: publish local ptrs being written into public slots.
 	if writeBarrier.roc {
-		// local -> public
-		// local -> local
-		// If slot is local then we are done.
-		if !isPublic(uintptr(unsafe.Pointer(slot))) {
-			return
-		}
-		// public -> public
-		// if ptr is public we are done
-		if isPublic(ptr) {
-			return
-		}
-		// public -> local
-		// Turn into a public -> public
-		if inheap(ptr) {
-			publish(ptr)
-			if !isPublic(ptr) {
-				throw("published ptr but it is still not public")
+		if isPublicToLocal(uintptr(unsafe.Pointer(slot)), ptr) {
+			if inheap(ptr) {
+				// public -> local
+				// Turn into a public -> public
+				publish(ptr)
 			}
 		}
 		return
@@ -236,7 +225,7 @@ func writebarrierptr(dst *uintptr, src uintptr) {
 			throw("bad pointer in write barrier")
 		})
 	}
-	writebarrierptr_prewrite1(dst, src)
+	systemstack(func() { writebarrierptr_prewrite1(dst, src) })
 	*dst = src
 }
 
@@ -255,7 +244,7 @@ func writebarrierptr_prewrite(dst *uintptr, src uintptr) {
 	if src != 0 && src < minPhysPageSize {
 		systemstack(func() { throw("bad pointer in write barrier") })
 	}
-	writebarrierptr_prewrite1(dst, src)
+	systemstack(func() { writebarrierptr_prewrite1(dst, src) })
 }
 
 // typedmemmove copies a value of type t to dst from src,
