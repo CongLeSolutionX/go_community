@@ -205,7 +205,7 @@ func isInBssOrData(p uintptr, datap *moduledata) bool {
 //go:nosplit
 //go:systemstack
 func isPublic(obj uintptr) bool {
-	if debug.gcroc == 0 {
+	if !writeBarrier.roc {
 		throw("isPublic but ROC is not running.")
 		return false
 	}
@@ -272,7 +272,7 @@ var dlogTraceOn = false
 //go:systemstack
 func isPublicDebug(obj uintptr) bool {
 	logOn := false
-	if debug.gcroc == 0 {
+	if !writeBarrier.roc {
 		throw("isPublic but ROC is not running.")
 		return false
 	}
@@ -684,7 +684,7 @@ func isPublicToLocalTrace(src, dst uintptr) bool {
 //go:nosplit
 //go:systemstack
 func (s *mspan) isPublic(obj uintptr) bool {
-	if debug.gcroc == 0 {
+	if !writeBarrier.roc {
 		throw("isPublic but ROC is not running.")
 	}
 

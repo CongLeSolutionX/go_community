@@ -2277,7 +2277,7 @@ func dropg(recycle bool) {
 		if _g_.m.mcache != nil {
 			// _g_ has an associated mcache, either recycle or publish
 			if recycle {
-				_g_.m.mcache.recycleG()
+				// recycle done in caller since it must be done before the casgstatus.
 			} else {
 				_g_.m.mcache.publishG()
 			}
