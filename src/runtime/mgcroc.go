@@ -625,7 +625,7 @@ func CheckRocGoids() {
 // smash will obliterate the contents of any free objects in the hopes that
 // this will cause the program to abort quickly and debugging easier.
 func (s *mspan) smashDebugHelper() {
-	if debug.gcroc >= 1 {
+	if writeBarrier.roc {
 		// Smash object between s.startindex and freeindex
 		for i := s.startindex; i < s.freeindex; i++ {
 			if s.isFree(i) {

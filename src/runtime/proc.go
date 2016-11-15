@@ -185,6 +185,7 @@ func main() {
 		// has a main, but it is not executed.
 		return
 	}
+	CheckRocGoids()
 	fn = main_main // make an indirect call, as the linker doesn't know the address of the main package when laying down the runtime
 	fn()
 	if raceenabled {
@@ -289,6 +290,7 @@ func goready(gp *g, traceskip int) {
 
 //go:nosplit
 func acquireSudog() *sudog {
+	var newSudog *sudog
 	// Delicate dance: the semaphore implementation calls
 	// acquireSudog, acquireSudog calls new(sudog),
 	// new calls malloc, malloc can call the garbage collector,
@@ -311,14 +313,49 @@ func acquireSudog() *sudog {
 		unlock(&sched.sudoglock)
 		// If the central cache is empty, allocate a new one.
 		if len(pp.sudogcache) == 0 {
-			pp.sudogcache = append(pp.sudogcache, new(sudog))
+			newSudog = new(sudog)
+			if true {
+				if writeBarrier.roc {
+					asUintptr := uintptr(unsafe.Pointer(newSudog))
+					aSpan := spanOf(asUintptr)
+					systemstack(func() {
+						makePublic(asUintptr, aSpan)
+					})
+				}
+			}
+			pp.sudogcache = append(pp.sudogcache, newSudog)
+			if writeBarrier.roc {
+				if !isPublic(uintptr(unsafe.Pointer(newSudog))) {
+					throw("isPublic(uintptr(unsafe.Pointer(newSudog))) is false:")
+				}
+			}
+			if newSudog.elem != nil {
+				throw(" newSudog.elem should be 0")
+			}
+		} else {
+			// n := len(pp.sudogcache)
+			// s := pp.sudogcache[n-1]
+			//			dlog().string("proc.go:318 acquireSudog gets sudog off global cache sudog:").hex(uintptr(unsafe.Pointer(s))).end()
 		}
+		// make sure the new sudog is public sudog should be last element in the pp.sudogcache.
+		// start tracing the new sudogs sudog
 	}
 	n := len(pp.sudogcache)
 	s := pp.sudogcache[n-1]
+	if newSudog != nil {
+		if s != newSudog {
+			//			dlog().string("proc.go:327 s != newSudog, s:").hex(uintptr(unsafe.Pointer(s))).string("newSudog:").
+			//				hex(uintptr(unsafe.Pointer(newSudog))).end()
+		}
+	}
 	pp.sudogcache[n-1] = nil
 	pp.sudogcache = pp.sudogcache[:n-1]
 	if s.elem != nil {
+		//dlog().string("proc.go:334 acquireSudog: pp:").hex(uintptr(mp.p)).string(" and &s.elem:").
+		//	hex(uintptr(unsafe.Pointer(&s.elem))).string("\n and s.elem: ").hex(uintptr(s.elem)).
+		//	string(" &s: ").hex(uintptr(unsafe.Pointer(&s))).string(" s:").hex(uintptr(unsafe.Pointer(s))).
+		//	end()
+		// check if p is public, if it is in cache it is public if I just allocated it was appened so it should be public?
 		throw("acquireSudog: found s.elem != nil in cache")
 	}
 	releasem(mp)
@@ -751,13 +788,13 @@ func castogscanstatus(gp *g, oldval, newval uint32) bool {
 // put it in the Gscan state is finished.
 //go:nosplit
 func casgstatus(gp *g, oldval, newval uint32) {
+	CheckRocGoids()
 	if (oldval&_Gscan != 0) || (newval&_Gscan != 0) || oldval == newval {
 		systemstack(func() {
 			print("runtime: casgstatus: oldval=", hex(oldval), " newval=", hex(newval), "\n")
 			throw("casgstatus: bad incoming values")
 		})
 	}
-
 	if oldval == _Grunning && gp.gcscanvalid {
 		// If oldvall == _Grunning, then the actual status must be
 		// _Grunning or _Grunning|_Gscan; either way,
@@ -1904,6 +1941,7 @@ func execute(gp *g, inheritTime bool) {
 	// ROC: start a new ROC epoch.
 	if writeBarrier.roc {
 		_g_.m.mcache.startG()
+		CheckRocGoids()
 	}
 	gogo(&gp.sched)
 }
@@ -2266,6 +2304,7 @@ func dropg(recycle bool) {
 
 	// ROC: reset the allocation pointers and recycle unmarked objects.
 	if writeBarrier.roc {
+		atomic.Xadd64(&rocData.dropgCalls, 1)
 		mp := acquirem()
 		if _g_.m.p != 0 && _g_.m.p.ptr().mcache != _g_.m.mcache {
 			// _g_.m.p might be 0 if this is the result of an exitsyscall0
@@ -2301,9 +2340,20 @@ func park_m(gp *g) {
 	if trace.enabled {
 		traceGoPark(_g_.m.waittraceev, _g_.m.waittraceskip, gp)
 	}
+	recycleDone := false
+	if writeBarrier.roc && gcphase == _GCoff {
+		publishStack(gp)
+		if _g_.m.mcache != nil {
+			_g_.m.mcache.recycleG()
+			recycleDone = true
+		}
+	}
 
+	if debug.gcroc >= 2 && debug.gctrace >= 1 {
+		atomic.Xadd64(&rocData.parkCalls, 1)
+	}
 	casgstatus(gp, _Grunning, _Gwaiting)
-	dropg(false) // alternatively scan the stack publishing local objects and call dropg(true)
+	dropg(recycleDone)
 
 	if _g_.m.waitunlockf != nil {
 		fn := *(*func(*g, unsafe.Pointer) bool)(unsafe.Pointer(&_g_.m.waitunlockf))
@@ -2324,13 +2374,28 @@ func park_m(gp *g) {
 }
 
 func goschedImpl(gp *g) {
+	_g_ := getg()
 	status := readgstatus(gp)
 	if status&^_Gscan != _Grunning {
 		dumpgstatus(gp)
 		throw("bad g status")
 	}
+	// These publishStack calls are encountering dead frames in the sync/atomic tests in run.bash
+
+	recycleDone := false
+	if writeBarrier.roc && gcphase == _GCoff {
+		publishStack(gp)
+		if _g_.m.mcache != nil {
+			_g_.m.mcache.recycleG()
+			recycleDone = true
+		}
+	}
 	casgstatus(gp, _Grunning, _Grunnable)
-	dropg(false) // alternatively scan the stack publishing local objects and call dropg(true)
+	if writeBarrier.roc {
+		atomic.Xadd64(&rocData.goschedImplCalls, 1)
+	}
+
+	dropg(recycleDone)
 	lock(&sched.lock)
 	globrunqput(gp)
 	unlock(&sched.lock)
@@ -2386,11 +2451,22 @@ func goexit0(gp *g) {
 	gp.waitreason = ""
 	gp.param = nil
 
+	if writeBarrier.roc {
+		atomic.Xadd64(&rocData.goexit0Calls, 1)
+	}
+
+	recycleDone := false
+	if writeBarrier.roc && gcphase == _GCoff {
+		if _g_.m.mcache != nil {
+			_g_.m.mcache.recycleG()
+			recycleDone = true
+		}
+	}
 	// Note that gp's stack scan is now "valid" because it has no
 	// stack. We could dequeueRescan, but that takes a lock and
 	// isn't really necessary.
 	gp.gcscanvalid = true
-	dropg(true) // recycleG in dropg
+	dropg(recycleDone) // recycleG in dropg
 
 	if _g_.m.locked&^_LockExternal != 0 {
 		print("invalid m->locked = ", _g_.m.locked, "\n")
@@ -2524,16 +2600,57 @@ func reentersyscall(pc, sp uintptr) {
 	_g_.m.locks--
 }
 
+//go:systemstack
+func entersyscallRocRecycle() {
+	_g_ := getg().m.curg
+	// The g may get preempted so we need to publish all local objects and abort the ROC epoch.
+	if !writeBarrier.roc {
+		throw(" writeBarrier.roc is false ")
+	}
+
+	recycleDone := false
+	CheckRocGoids()
+	if gcphase == _GCoff {
+		CheckRocGoids()
+		if dlogTraceOn {
+			//dlog().string("proc.go:2470 entersyscallRocRecycle publishing stack").end()
+		}
+		publishStack(_g_)
+		if false && _g_.m.mcache != nil {
+			// RLH commenting out these lines results in code running fine.
+
+			if dlogTraceOn {
+				//dlog().string("proc.go:2478 entersyscallRocRecycle mcache != nil").end()
+			}
+			_g_.m.mcache.recycleG() //  in entersycallRocRecycle uncomment RLH RLH
+			recycleDone = true
+		}
+	}
+
+	if debug.gcroc == 3 && debug.gctrace > 0 {
+		atomic.Xadd64(&rocData.entersyscallCalls, 1)
+	}
+	if !recycleDone {
+		_g_.m.mcache.publishG()
+	}
+
+	if dlogTraceOn {
+		//dlog().string("proc.go:2493 entersyscallRocRecycle dlogTraceOn turning off").end()
+		dlogTraceOn = false
+	}
+}
+
 // Standard syscall entry used by the go syscall library and normal cgo calls.
 //go:nosplit
 func entersyscall(dummy int32) {
-	_g_ := getg()
-
+	_g_ := getg() // This will always be the Go stack.
+	if _g_ != _g_.m.curg {
+		throw("why")
+	}
 	// The g may get preempted so we need to publish all local objects and abort the ROC epoch.
 	if writeBarrier.roc {
-		systemstack(_g_.m.mcache.publishG)
+		systemstack(entersyscallRocRecycle)
 	}
-
 	reentersyscall(getcallerpc(unsafe.Pointer(&dummy)), getcallersp(unsafe.Pointer(&dummy)))
 }
 
@@ -2650,9 +2767,14 @@ func exitsyscall(dummy int32) {
 		}
 		// There's a cpu for us, so we can run.
 		_g_.m.p.ptr().syscalltick++
+		if writeBarrier.roc {
+			systemstack(func() {
+				_g_.m.mcache.startG()
+				CheckRocGoids()
+			})
+		}
 		// We need to cas the status and scan before resuming...
 		casgstatus(_g_, _Gsyscall, _Grunning)
-
 		// Garbage collector isn't running (since we are),
 		// so okay to clear syscallsp.
 		_g_.syscallsp = 0
@@ -2798,6 +2920,9 @@ func exitsyscall0(gp *g) {
 	_g_ := getg()
 
 	casgstatus(gp, _Gsyscall, _Grunnable)
+	if writeBarrier.roc {
+		atomic.Xadd64(&rocData.exitsyscall0Calls, 1)
+	}
 	dropg(false)
 	lock(&sched.lock)
 	_p_ := pidleget()
@@ -3932,6 +4057,8 @@ var pdesc [_MaxGomaxprocs]struct {
 // preempted.
 const forcePreemptNS = 10 * 1000 * 1000 // 10ms
 
+//onst forcePreemptNS = 10 * 1000 * 1000 * 10000 // 10ms * 10000 = 100 seconds basically turns preemption off.
+
 func retake(now int64) uint32 {
 	n := 0
 	for i := int32(0); i < gomaxprocs; i++ {
@@ -3967,6 +4094,12 @@ func retake(now int64) uint32 {
 				}
 				n++
 				_p_.syscalltick++
+				if writeBarrier.roc {
+					if _p_.m != 0 && _p_.m.ptr().curg != nil {
+						println("retake about to handoff: proc.go:3848", "_p_.m.ptr().curg.goid=", _p_.m.ptr().curg.goid,
+							"_p_.mcache.rocgoid=", _p_.mcache.rocgoid)
+					}
+				}
 				handoffp(_p_)
 			}
 			incidlelocked(1)
