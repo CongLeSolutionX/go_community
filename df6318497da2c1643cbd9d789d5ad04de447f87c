@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_97a6a8f5",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-15T23:34:32Z",
+      "side": 1,
+      "message": "Instead of relying on the old docs to fill this in, can you copy all the docs to the new types, so this is the source of truth and the only place driver authors need to read?\n\nThen the old ones can include:\n\n  // Deprecated: Drivers should implement FooContext instead (or additionally).",
+      "revId": "df6318497da2c1643cbd9d789d5ad04de447f87c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
