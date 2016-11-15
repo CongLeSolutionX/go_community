@@ -37,6 +37,9 @@ func (c *mcache) startG() {
 	if !writeBarrier.roc {
 		throw("startG called but writeBarrier.roc is false")
 	}
+	if debug.gcroc == 3 && debug.gctrace > 0 {
+		atomic.Xadd64(&rocData.startGCalls, 1)
+	}
 	mp := acquirem()
 	_g_ := mp.curg
 	if _g_ == nil {
@@ -84,6 +87,10 @@ func (c *mcache) startG() {
 func (c *mcache) publishG() {
 	if !writeBarrier.roc {
 		throw("publishG called but writeBarrier.roc is false")
+	}
+
+	if debug.gcroc == 3 && debug.gctrace > 0 {
+		atomic.Xadd64(&rocData.publishGCalls, 1)
 	}
 	mp := acquirem()
 	_g_ := getg().m.curg
@@ -162,11 +169,45 @@ func (c *mcache) recycleG() {
 
 // Keeps track of the total number of bytes ROC recovers.
 type rocTrace struct {
-	recoveredBytes    uint64
-	recoveredBytesAll uint64
+	recoveredBytes                   uint64
+	recoveredBytesAll                uint64
+	recycleGCalls                    uint64
+	recycleGCallsFailure             uint64
+	failureDueTogisnil               uint64
+	failureDueTognotrocvalid         uint64
+	failureDueTogbadnumgc            uint64
+	failureDueTogcoff                uint64
+	publishGCalls                    uint64
+	startGCalls                      uint64
+	releaseAllCalls                  uint64
+	publishAllGsCalls                uint64
+	dropgCalls                       uint64
+	parkCalls                        uint64
+	goschedImplCalls                 uint64
+	entersyscallCalls                uint64
+	exitsyscall0Calls                uint64
+	goexit0Calls                     uint64
+	publicToLocal                    uint64
+	publicToPublic                   uint64
+	localToPublic                    uint64
+	localToLocal                     uint64
+	mumbleToMumble                   uint64
+	makePublicCount                  uint64
+	makePublicAlreadyMarked          uint64
+	stacksPublished                  uint64
+	framesPublished                  uint64
+	maxFramesPublished               uint64
+	oneFramesPublished               uint64
+	twoToTenFramesPublished          uint64
+	elevenToFiftyFramesPublished     uint64
+	fiftyOneToHundredFramesPublished uint64
+	overHundredFramesPublished       uint64
 }
 
 var rocData rocTrace
+var rocDataPrevious rocTrace
+
+var gisnil, gnotrocvalid, gbadnumgc, gcoff uint64
 
 // The spans linked by nextUsedSpan are on the empty list but the
 // recycle is about to release some objects making them non-empty.
@@ -180,6 +221,19 @@ func (c *mcache) recycleNormal() {
 	recycleValid := _g_ != nil && _g_.rocvalid && _g_.rocgcnum == memstats.numgc && isGCoff()
 
 	if !recycleValid {
+		if debug.gcroc == 3 && debug.gctrace > 0 {
+			atomic.Xadd64(&rocData.recycleGCallsFailure, 1)
+			if _g_ == nil {
+				atomic.Xadd64(&rocData.failureDueTogisnil, 1)
+			} else if !_g_.rocvalid {
+				atomic.Xadd64(&rocData.failureDueTognotrocvalid, 1)
+			} else if _g_.rocgcnum != memstats.numgc {
+				atomic.Xadd64(&rocData.failureDueTogbadnumgc, 1)
+			} else if isGCoff() {
+				atomic.Xadd64(&rocData.failureDueTogcoff, 1)
+			}
+		}
+
 		systemstack(c.publishG)
 		if _g_ != nil {
 			_g_.rocvalid = false // reset in startG
@@ -347,6 +401,9 @@ func publishStack(gp *g) {
 		throw("publishStack called during a GC")
 	}
 
+	if debug.gcroc == 3 && debug.gctrace > 0 {
+		atomic.Xadd64(&rocData.stacksPublished, 1)
+	}
 	// Scan the stack.
 	var cache pcvalueCache
 	n := 0
