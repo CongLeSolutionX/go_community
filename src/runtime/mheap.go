@@ -120,13 +120,10 @@ type mSpanList struct {
 }
 
 type mspan struct {
-	next *mspan     // next span in list, or nil if none
-	prev **mspan    // previous span's next field, or list head's first field if none
-	list *mSpanList // For debugging. TODO: Remove.
+	next *mspan  // next span in list, or nil if none
+	prev **mspan // previous span's next field, or list head's first field if none
 
-	startAddr     uintptr   // address of first byte of span aka s.base()
-	npages        uintptr   // number of pages in span
-	stackfreelist gclinkptr // list of free stacks, avoids overloading freelist
+	startAddr uintptr // address of first byte of span aka s.base()
 
 	// freeindex is the slot index between 0 and nelems at which to begin scanning
 	// for the next free object in this span.
@@ -143,17 +140,15 @@ type mspan struct {
 	// undefined and should never be referenced.
 	//
 	// Object n starts at address n*elemsize + (start << pageShift).
-	freeindex          uintptr
-	rollbackCount      uintptr
-	abortRollbackCount uintptr
 	// TODO: Look up nelems from sizeclass and remove this field if it
 	// helps performance.
 	nelems uintptr // number of object in the span.
 
-	// These 2 fields support ROC checkpointing the allocations the current
+	// These fields support ROC checkpointing the allocations the current
 	// g has made on this span. Multiple spans of the same span class are
 	// linked together using nextUsedSpan.
 	startindex   uintptr // index of where the current g started allocation in this span.
+	freeindex    uintptr
 	nextUsedSpan *mspan
 
 	// Cache of the allocBits at freeindex. allocCache is shifted
@@ -164,6 +159,9 @@ type mspan struct {
 	// these.
 	allocCache uint64
 
+	// Counters for human consumption.
+	rollbackCount      uintptr
+	abortRollbackCount uintptr
 	// allocBits and gcmarkBits hold pointers to a span's mark and
 	// allocation bits. The pointers are 8 byte aligned.
 	// There are three arenas where this data is held.
@@ -188,6 +186,10 @@ type mspan struct {
 	// out memory.
 	allocBits  *uint8
 	gcmarkBits *uint8
+
+	list          *mSpanList // For debugging. TODO: Remove.
+	npages        uintptr    // number of pages in span
+	stackfreelist gclinkptr  // list of free stacks, avoids overloading freelist
 
 	// sweep generation:
 	// if sweepgen == h->sweepgen - 2, the span needs sweeping

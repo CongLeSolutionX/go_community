@@ -178,6 +178,9 @@ func (c *mcache) refill(spc spanClass) *mspan {
 // publishAllGs publishes all local objects.
 // The world is stopped.
 func publishAllGs() {
+	if debug.gcroc == 3 && debug.gctrace > 0 {
+		atomic.Xadd64(&rocData.publishAllGsCalls, 1)
+	}
 	for _, p := range &allp {
 		if p == nil || p.mcache == nil {
 			continue
@@ -203,6 +206,9 @@ func (c *mcache) releaseAll() {
 		systemstack(c.publishG)
 	}
 
+	if debug.gcroc == 3 && debug.gctrace >= 1 {
+		atomic.Xadd64(&rocData.releaseAllCalls, 1)
+	}
 	for i := range c.alloc {
 		s := c.alloc[i]
 		// ROC can introduce a span without allocated objects in it where
