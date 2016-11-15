@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_a3e92d3a",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-15T16:23:49Z",
+      "side": 1,
+      "message": "I can\u0027t run this test on my development machine with 4GB of RAM, which is twice what the builders have.\n\nbradfitz@gdev:~/go/src/archive/zip$ time go test -v\n\u003d\u003d\u003d RUN   TestReader\n--- PASS: TestReader (0.01s)\n\u003d\u003d\u003d RUN   TestInvalidFiles\n--- PASS: TestInvalidFiles (0.00s)\n\u003d\u003d\u003d RUN   TestIssue8186\n--- PASS: TestIssue8186 (0.00s)\n\u003d\u003d\u003d RUN   TestIssue10957\n--- PASS: TestIssue10957 (0.00s)\n\u003d\u003d\u003d RUN   TestIssue10956\n--- PASS: TestIssue10956 (0.00s)\n\u003d\u003d\u003d RUN   TestIssue11146\n--- PASS: TestIssue11146 (0.00s)\n\u003d\u003d\u003d RUN   TestIssue12449\n--- PASS: TestIssue12449 (0.00s)\n\u003d\u003d\u003d RUN   TestWriter\n--- PASS: TestWriter (0.01s)\n\u003d\u003d\u003d RUN   TestWriterOffset\n--- PASS: TestWriterOffset (0.01s)\n\u003d\u003d\u003d RUN   TestWriterFlush\n--- PASS: TestWriterFlush (0.00s)\n\u003d\u003d\u003d RUN   TestOver65kFiles\n--- PASS: TestOver65kFiles (0.17s)\n\u003d\u003d\u003d RUN   TestModTime\n--- PASS: TestModTime (0.00s)\n\u003d\u003d\u003d RUN   TestFileHeaderRoundTrip\n--- PASS: TestFileHeaderRoundTrip (0.00s)\n\u003d\u003d\u003d RUN   TestFileHeaderRoundTrip64\n--- PASS: TestFileHeaderRoundTrip64 (0.00s)\n\u003d\u003d\u003d RUN   TestZeroFileRoundTrip\n--- PASS: TestZeroFileRoundTrip (0.00s)\n\u003d\u003d\u003d RUN   TestRLEBuffer\n--- PASS: TestRLEBuffer (0.00s)\n\u003d\u003d\u003d RUN   TestZip64\n--- PASS: TestZip64 (6.17s)\n\u003d\u003d\u003d RUN   TestZip64EdgeCase\n--- PASS: TestZip64EdgeCase (6.41s)\n\u003d\u003d\u003d RUN   TestZip64DirectoryOffset\n--- PASS: TestZip64DirectoryOffset (6.67s)\n\u003d\u003d\u003d RUN   TestZip64ManyRecords\n--- PASS: TestZip64ManyRecords (0.35s)\n\u003d\u003d\u003d RUN   TestZip64LargeDirectory\nfatal error: runtime: out of memory\n\nruntime stack:\nruntime.throw(0x56dbbb, 0x16)\n        /home/bradfitz/go/src/runtime/panic.go:596 +0x95\nruntime.sysMap(0xc4f3720000, 0x100000, 0x456300, 0x651c58)\n        /home/bradfitz/go/src/runtime/mem_linux.go:216 +0x1d0\nruntime.(*mheap).sysAlloc(0x638420, 0x100000, 0x0)\n        /home/bradfitz/go/src/runtime/malloc.go:420 +0x374\nruntime.(*mheap).grow(0x638420, 0x10, 0x0)\n        /home/bradfitz/go/src/runtime/mheap.go:774 +0x62\nruntime.(*mheap).allocSpanLocked(0x638420, 0x10, 0x7fb6bc5e4690)\n        /home/bradfitz/go/src/runtime/mheap.go:678 +0x448",
+      "revId": "787935c6d6e6033abdd43a82a7b991aaea853842",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
