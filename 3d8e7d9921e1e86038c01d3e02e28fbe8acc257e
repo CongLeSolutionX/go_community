@@ -16,6 +16,24 @@
       "revId": "3d8e7d9921e1e86038c01d3e02e28fbe8acc257e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b088be_7c92f639",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2016-11-15T19:00:28Z",
+      "side": 1,
+      "message": "Fixed spelling on canceled.\n\nI\u0027ll note that driver.Rollback() currently doesn\u0027t take a context. The issue here is locking. If you drop a connection to a transaction it will eventually be dropped, but until then it has the potential to block other queries, esp if the DB uses locking rather than MVCC. Even MVCC uses locking for certain operations which such dangling transactions can block for an unknown amount of time. Lastly, the behavior between a drop and a rollback can be different. For instance, for SQL Server if XACT_ABORT is OFF, then it won\u0027t be rolled back... yeah, stupid, but another valid difference. But...\n\nMaybe rather than calling Rollback on the tran as we currently do, we can remove the tran conn from the pool, but let the driver opt in to rolling back the connection.\n\nMS SQL Server supports cancel with a cancel token, I think can be init with a different or same TCP conn, postgres requires a different TCP conn to send the cancel signal.\n\n...\n\nRight now this documents what is currently implemented. I\u0027ve got a question into the Oracle driver author. \n\nPostgresql: http://dba.stackexchange.com/questions/81408/is-a-postgres-long-running-query-aborted-if-the-connection-is-lost-broken\n\nMs SQL Server: http://stackoverflow.com/questions/1539564/what-happens-to-an-uncommitted-transaction-when-the-connection-is-closed\n\n...\n\nRight now if the query completes but the client is still processing / receiving rows, the database/sql code will call Rollback on the transaction. This would probably be surprising.\n\nIf the context is canceled that started the query, the pool will drop the conn and not do anything further including call Rollback(). The driver has the option to propagate that to the database in any way they see fit that makes sense for their driver.",
+      "parentUuid": "30b088be_21aa154f",
+      "revId": "3d8e7d9921e1e86038c01d3e02e28fbe8acc257e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
