@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_5abf0506",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-15T00:19:41Z",
+      "side": 1,
+      "message": "do bytesMarked and nproc/nwait also have to be in different cache lines?",
+      "revId": "75a79347ac0eef5183904316caa37d2546ffd7c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
