@@ -319,6 +319,13 @@ func typedmemmove(typ *_type, dst, src unsafe.Pointer) {
 	if typ.kind&kindNoPointers == 0 {
 		bulkBarrierPreWrite(uintptr(dst), uintptr(src), typ.size)
 	}
+	// There's a race here: if some other goroutine can write to
+	// src, it may change some pointer in src after we've
+	// performed the write barrier but before we perform the
+	// memory copy. This is safe because the write performed by that
+	// other goroutine must also be accompanied by a write
+	// barrier, so at worst we've unnecessarily greyed the old
+	// pointer that was in src.
 	memmove(dst, src, typ.size)
 	if writeBarrier.cgo {
 		cgoCheckMemmove(typ, dst, src, 0, typ.size)
@@ -352,7 +359,6 @@ func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size 
 		}
 		bulkBarrierPreWrite(uintptr(adst), uintptr(asrc), asize&^(sys.PtrSize-1))
 	}
-
 	memmove(dst, src, size)
 	if writeBarrier.cgo {
 		cgoCheckMemmove(typ, dst, src, off, size)
@@ -367,6 +373,13 @@ func reflect_typedmemmovepartial(typ *_type, dst, src unsafe.Pointer, off, size 
 //
 // It must be nosplit and must only call nosplit functions because the
 // stack map of reflectcall is wrong.
+//
+// The publish is in heapBitsBulkBarrier
+// ROC - RLH if this is just moving values from the stack into
+// a _newly allocated_ area of the heap and there is no possiblity
+// that a ROC recycle has happened since the return area was allocated
+// then don't we know that the dst is not public so no public to local
+// edges are being created so do we actually need a write barrier here?
 //
 //go:nosplit
 func reflectcallmove(typ *_type, dst, src unsafe.Pointer, size uintptr) {
