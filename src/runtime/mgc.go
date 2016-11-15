@@ -1397,10 +1397,106 @@ func gcMarkTermination() {
 			print(" (forced)")
 		}
 		print("\n")
-		if writeBarrier.roc {
+		if writeBarrier.roc && debug.gcroc == 2 {
 			rocData.recoveredBytesAll += rocData.recoveredBytes
-			print("ROC: ", rocData.recoveredBytes/1000, "KB Recycled, ", rocData.recoveredBytesAll/1000000, "MB total recycled.\n")
+			publicToLocalPercent := int64(0)
+			publicToLocalPercentPrevious := int64(0)
+			if rocData.publicToLocal != 0 {
+				publicToLocalPercent = int64(float64(rocData.publicToLocal) / float64(rocData.mumbleToMumble) * 100)
+				publicToLocalPercentPrevious = int64(float64(rocData.publicToLocal-rocDataPrevious.publicToLocal) /
+					float64(rocData.mumbleToMumble-rocDataPrevious.mumbleToMumble) * 100)
+			}
+			publicToPublicPercent := int64(0)
+			publicToPublicPercentPrevious := int64(0)
+			if rocData.publicToPublic != 0 {
+				publicToPublicPercent = int64(float64(rocData.publicToPublic) / float64(rocData.mumbleToMumble) * 100)
+				publicToPublicPercentPrevious = int64(float64(rocData.publicToPublic-rocDataPrevious.publicToPublic) /
+					float64(rocData.mumbleToMumble-rocDataPrevious.mumbleToMumble) * 100)
+			}
+			localToLocalPercent := int64(0)
+			localToLocalPercentPrevious := int64(0)
+			if rocData.localToLocal != 0 {
+				localToLocalPercent = int64(float64(rocData.localToLocal) / float64(rocData.mumbleToMumble) * 100)
+				localToLocalPercentPrevious = int64(float64(rocData.localToLocal-rocDataPrevious.localToLocal) /
+					float64(rocData.mumbleToMumble-rocDataPrevious.mumbleToMumble) * 100)
+			}
+			localToPublicPercent := int64(0)
+			localToPublicPercentPrevious := int64(0)
+			if rocData.localToPublic != 0 {
+				localToPublicPercentPrevious = int64(float64(rocData.localToPublic-rocDataPrevious.localToPublic) /
+					float64(rocData.mumbleToMumble-rocDataPrevious.mumbleToMumble) * 100)
+				localToPublicPercent = int64(float64(rocData.localToPublic) / float64(rocData.mumbleToMumble) * 100)
+			}
+
+			print("ROC: (since last GC / cummulative) ", rocData.recoveredBytes/1000, "KB Recycled / ",
+				rocData.recoveredBytesAll/1000000, "MB total recycled,\n    ",
+				rocData.startGCalls-rocDataPrevious.startGCalls, " / ",
+				rocData.startGCalls, " Calls starting ROC startGCalls,    ",
+				rocData.recycleGCalls-rocDataPrevious.recycleGCalls, " / ",
+				rocData.recycleGCalls, " Successful ROC recycle recycleGCalls,\n    ",
+				rocData.recycleGCallsFailure-rocDataPrevious.recycleGCallsFailure, " / ",
+				rocData.recycleGCallsFailure, " ROC recycle failures recycleGCallsFailure,        ",
+				rocData.failureDueTogisnil-rocDataPrevious.failureDueTogisnil, " / ",
+				rocData.failureDueTogisnil, " rocData.failureDueTogisnil,\n    ",
+				rocData.failureDueTognotrocvalid-rocDataPrevious.failureDueTognotrocvalid, " / ",
+				rocData.failureDueTognotrocvalid, " rocData.failureDueTognotrocvalid, ",
+				rocData.failureDueTogbadnumgc-rocDataPrevious.failureDueTogbadnumgc, " / ",
+				rocData.failureDueTogbadnumgc, " rocData.failureDueTogbadnumgc,\n    ",
+				rocData.failureDueTogcoff-rocDataPrevious.failureDueTogcoff, " / ",
+				rocData.failureDueTogcoff, " rocData.failureDueTogcoff    ",
+				rocData.publishGCalls-rocDataPrevious.publishGCalls, " / ",
+				rocData.publishGCalls, " Unsuccessful ROC recycle publishGCalls,\n    ",
+				rocData.releaseAllCalls-rocDataPrevious.releaseAllCalls, " / ",
+				rocData.releaseAllCalls, " releaseAll ROC calls releaseAllCalls,    ",
+				rocData.publishAllGsCalls-rocDataPrevious.publishAllGsCalls, " / ",
+				rocData.publishAllGsCalls, " publishAllGs ROC calls,\n    ",
+				rocData.dropgCalls-rocDataPrevious.dropgCalls, " / ",
+				rocData.dropgCalls, " dropg ROC calls,    ",
+				rocData.parkCalls-rocDataPrevious.parkCalls, " / ",
+				rocData.parkCalls, " park ROC calls,\n    ",
+				rocData.goschedImplCalls-rocDataPrevious.goschedImplCalls, " / ",
+				rocData.goschedImplCalls, " goschedImpl ROC calls,    ",
+				rocData.entersyscallCalls-rocDataPrevious.entersyscallCalls, " / ",
+				rocData.entersyscallCalls, " entersyscall ROC calls,\n    ",
+				rocData.exitsyscall0Calls-rocDataPrevious.exitsyscall0Calls, " / ",
+				rocData.exitsyscall0Calls, " exitsyscall0 ROC calls,\n    ",
+				rocData.goexit0Calls-rocDataPrevious.goexit0Calls, " / ",
+				rocData.goexit0Calls, " goexit0 ROC calls.    ",
+				rocData.makePublicCount-rocDataPrevious.makePublicCount, " / ",
+				rocData.makePublicCount, " makePublicCount,\n    ",
+				rocData.makePublicAlreadyMarked-rocDataPrevious.makePublicAlreadyMarked, " / ",
+				rocData.makePublicAlreadyMarked, " makePublicAlreadyMarked,    ",
+				rocData.mumbleToMumble-rocDataPrevious.mumbleToMumble, " / ",
+				rocData.mumbleToMumble, " mumbleToMumble writes,\n    ",
+				rocData.publicToLocal-rocDataPrevious.publicToLocal, " / ",
+				rocData.publicToLocal, " publicToLocal writes,    ",
+				rocData.publicToPublic-rocDataPrevious.publicToPublic, " / ",
+				rocData.publicToPublic, " publicToPublic writes,\n    ",
+				rocData.localToLocal-rocDataPrevious.localToLocal, " / ",
+				rocData.localToLocal, " localToLocal writes,    ",
+				rocData.localToPublic-rocDataPrevious.localToPublic, " / ",
+				rocData.localToPublic, " localToPublic writes. \n    ",
+				publicToLocalPercentPrevious, "% / ", publicToLocalPercent, "% publicToLocal,    ",
+				publicToPublicPercentPrevious, "% / ", publicToPublicPercent, "% publicToPublic,    ",
+				localToLocalPercentPrevious, "% / ", localToLocalPercent, "% localToLocal,    ",
+				localToPublicPercentPrevious, "% / ", localToPublicPercent, "% localToPublic\n    ",
+				rocData.stacksPublished-rocDataPrevious.stacksPublished, " / ", rocData.stacksPublished, " stacks Published,\n    ",
+				rocData.framesPublished-rocDataPrevious.framesPublished, " / ", rocData.framesPublished, " frames Published,\n    ",
+				rocData.maxFramesPublished-rocDataPrevious.maxFramesPublished, " / ",
+				rocData.maxFramesPublished, " max Frames Published,\n    ",
+				rocData.oneFramesPublished-rocDataPrevious.oneFramesPublished, " / ",
+				rocData.oneFramesPublished, " stack with 1 Frame Published,\n    ",
+				rocData.twoToTenFramesPublished-rocDataPrevious.twoToTenFramesPublished, " / ",
+				rocData.twoToTenFramesPublished, " stack with 2 to 10 frames published,\n    ",
+				rocData.elevenToFiftyFramesPublished-rocDataPrevious.elevenToFiftyFramesPublished, " / ",
+				rocData.elevenToFiftyFramesPublished, " stack with 11 to a 50 frames published,\n    ",
+				rocData.fiftyOneToHundredFramesPublished-rocDataPrevious.fiftyOneToHundredFramesPublished, " / ",
+				rocData.fiftyOneToHundredFramesPublished, " stack with 51 to a 100 frames published,\n    ",
+				rocData.overHundredFramesPublished-rocDataPrevious.overHundredFramesPublished, " / ",
+				rocData.overHundredFramesPublished, " stack with > 100 frames published,\n    ",
+				"\n")
 			rocData.recoveredBytes = 0
+			rocDataPrevious = rocData
 		}
 		printunlock()
 	}

@@ -183,6 +183,12 @@ func (c *mcentral) releaseROCSpan(s *mspan) {
 		c.nonempty.insert(s) // nonempty free list
 	}
 	atomic.Xadd64(&memstats.heap_live, -int64(s.nelems-s.allocCount)*int64(s.elemsize))
+	if memstats.heap_live < 0 {
+		println("runtime: memstats.heap_live=", memstats.heap_live,
+			"int64(s.nelems(", s.nelems, ")-s.allocCount (", s.allocCount, ")*int64(s.elemsize(", s.elemsize, ")=",
+			int64(s.nelems-s.allocCount)*int64(s.elemsize))
+		throw("memstats < 0")
+	}
 	unlock(&c.lock)
 }
 

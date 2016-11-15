@@ -519,7 +519,7 @@ func schedinit() {
 		// to ensure runtime·buildVersion is kept in the resulting binary.
 		buildVersion = "unknown"
 	}
-	parsedebugvars()
+	parsedebugvars() // ROC needs this after the gcinit.
 }
 
 func dumpgstatus(gp *g) {
@@ -2277,6 +2277,9 @@ func dropg(recycle bool) {
 
 	// ROC: reset the allocation pointers and recycle unmarked objects.
 	if writeBarrier.roc {
+		if debug.gcroc == 2 {
+			atomic.Xadd64(&rocData.dropgCalls, 1)
+		}
 		mp := acquirem()
 		if _g_.m.p != 0 && _g_.m.p.ptr().mcache != _g_.m.mcache {
 			// _g_.m.p might be 0 if this is the result of an exitsyscall0
@@ -2288,7 +2291,7 @@ func dropg(recycle bool) {
 		if _g_.m.mcache != nil {
 			// _g_ has an associated mcache, either recycle or publish
 			if recycle {
-				_g_.m.mcache.recycleG()
+				// recycle done in caller since it must be done before the casgstatus.
 			} else {
 				_g_.m.mcache.publishG()
 			}
@@ -2308,7 +2311,6 @@ func parkunlock_c(gp *g, lock unsafe.Pointer) bool {
 // park continuation on g0.
 func park_m(gp *g) {
 	_g_ := getg()
-
 	if trace.enabled {
 		traceGoPark(_g_.m.waittraceev, _g_.m.waittraceskip, gp)
 	}
@@ -2319,6 +2321,9 @@ func park_m(gp *g) {
 			_g_.m.mcache.recycleG()
 			recycleDone = true
 		}
+	}
+	if writeBarrier.roc && debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.parkCalls, 1)
 	}
 	casgstatus(gp, _Grunning, _Gwaiting)
 	dropg(recycleDone)
@@ -2359,6 +2364,9 @@ func goschedImpl(gp *g) {
 		}
 	}
 	casgstatus(gp, _Grunning, _Grunnable)
+	if writeBarrier.roc && debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.goschedImplCalls, 1)
+	}
 	dropg(recycleDone)
 	lock(&sched.lock)
 	globrunqput(gp)
@@ -2415,6 +2423,9 @@ func goexit0(gp *g) {
 	gp.waitreason = ""
 	gp.param = nil
 
+	if writeBarrier.roc && debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.goexit0Calls, 1)
+	}
 	recycleDone := false
 	if writeBarrier.roc && gcphase == _GCoff {
 		if _g_.m.mcache != nil {
@@ -2562,6 +2573,9 @@ func reentersyscall(pc, sp uintptr) {
 
 //go:systemstack
 func entersyscallRocRecycle() {
+	if debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.entersyscallCalls, 1)
+	}
 	_g_ := getg().m.curg
 	// The g may get preempted so we need to publish all local objects.
 	if gcphase == _GCoff {
@@ -2849,6 +2863,9 @@ func exitsyscall0(gp *g) {
 	_g_ := getg()
 
 	casgstatus(gp, _Gsyscall, _Grunnable)
+	if writeBarrier.roc && debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.exitsyscall0Calls, 1)
+	}
 	dropg(false)
 	lock(&sched.lock)
 	_p_ := pidleget()

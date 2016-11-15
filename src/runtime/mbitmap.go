@@ -205,7 +205,7 @@ func isInBssOrData(p uintptr, datap *moduledata) bool {
 //go:nosplit
 //go:systemstack
 func isPublic(obj uintptr) bool {
-	if debug.gcroc == 0 {
+	if !writeBarrier.roc {
 		throw("isPublic but ROC is not running.")
 	}
 
@@ -274,6 +274,10 @@ var dlogTraceOn = false
 // moving of goroutine stack.
 //go:systemstack
 func isPublicToLocal(src, dst uintptr) bool {
+	if debug.gcroc == 2 {
+		return isPublicToLocalTrace(src, dst)
+	}
+
 	dstSpan := spanOf(dst)
 	// Start out by assuming src and dst are not public
 	// As soon as we can determine that dst is public we can return false.
@@ -362,6 +366,123 @@ func isPublicToLocal(src, dst uintptr) bool {
 	return true
 }
 
+// Called when debug.gcroc == 2
+//go:nosplit
+//go:systemstack
+func isPublicToLocalTrace(src, dst uintptr) bool {
+	if !writeBarrier.roc {
+		// Unexpected call to ROC specific routine while not running ROC.
+		// blowup without supressing inlining.
+		_ = *(*int)(nil)
+	}
+	atomic.Xadd64(&rocData.mumbleToMumble, 1)
+
+	dstSpan := spanOf(dst)
+	// Start out by assuming src and dst are not public
+	// As soon as we can determine that dst is public we return false.
+	// As soon as we can determine src is local we return false.
+	// If we can show that src is public and dst is local we return true.
+	if dstSpan == nil {
+		// dst can't be local so just return false
+		if isPublic(src) {
+			atomic.Xadd64(&rocData.publicToPublic, 1)
+		} else {
+			atomic.Xadd64(&rocData.localToPublic, 1)
+		}
+
+		return false
+	}
+
+	if dstSpan.state != _MSpanInUse || dstSpan.startindex == dstSpan.freeindex {
+		// dst is public or on a stack and local where something public
+		// cant't point.
+		// In either case PublicToLocal is false
+		publicSrc := isPublic(src)
+		publicDst := isPublic(dst)
+		if publicSrc && publicDst {
+			atomic.Xadd64(&rocData.publicToPublic, 1)
+		} else if publicSrc && !publicDst {
+			atomic.Xadd64(&rocData.publicToLocal, 1)
+		} else if !publicSrc && publicDst {
+			atomic.Xadd64(&rocData.localToPublic, 1)
+		} else {
+			atomic.Xadd64(&rocData.localToLocal, 1)
+		}
+
+		return false
+	}
+
+	dstBase := dstSpan.base()
+	dstIndex := dstSpan.offsetIndex(dst - dstBase)
+	dstMarked := dstSpan.isIndexMarked(dstIndex)
+	if dstMarked {
+		// dst is public
+		if isPublic(src) {
+			atomic.Xadd64(&rocData.publicToPublic, 1)
+		} else {
+			atomic.Xadd64(&rocData.localToPublic, 1)
+		}
+		return false
+	}
+
+	if dstSpan.startindex > dstIndex || dstSpan.freeindex <= dstIndex {
+		// dst is public
+		if isPublic(src) {
+			atomic.Xadd64(&rocData.publicToPublic, 1)
+		} else {
+			atomic.Xadd64(&rocData.localToPublic, 1)
+		}
+		return false
+	}
+
+	srcSpan := spanOf(src)
+	if srcSpan == nil {
+		for datap := &firstmoduledata; datap != nil; datap = datap.next {
+			if isInBssOrData(src, datap) {
+				atomic.Xadd64(&rocData.publicToLocal, 1)
+				return true
+			}
+		}
+		// src is local so PublicToLocal is false
+		// We are about to put a pointer into a slot that is not in a span
+		// (on the heap or in a stack) and is also not in the data or bss
+		// segments. What is going on?
+		if src != uintptr(0) { // This will fault shortly if it hasn't already
+			throw(" Why are we assinging to a non-span (heap or stack) / non data/ non bss location? ")
+		}
+		atomic.Xadd64(&rocData.localToLocal, 1)
+		return false
+	}
+
+	// At this point we know that srcSpan and dstSpan are != nil
+	if srcSpan.state != _MSpanInUse {
+		// This picks up the case where the assignment is to a stack span. _MSpanStack
+		// and we have a local to local
+		atomic.Xadd64(&rocData.localToLocal, 1)
+		return false
+	}
+
+	srcBase := srcSpan.base()
+	srcIndex := srcSpan.offsetIndex(src - srcBase)
+	if srcSpan.startindex > srcIndex || srcSpan.freeindex <= srcIndex {
+		// src is public and dst is local
+		atomic.Xadd64(&rocData.publicToLocal, 1)
+		return true
+	}
+
+	// At this point dst is local
+	srcMarked := srcSpan.isIndexMarked(srcIndex)
+	if !srcMarked {
+		// src wasn't marked as of the last GC so it is local
+		atomic.Xadd64(&rocData.localToLocal, 1)
+		return false
+	}
+
+	// src is marked as public and dst is local
+	atomic.Xadd64(&rocData.publicToLocal, 1)
+	return true
+}
+
 // isPublic checks whether the object has been published.
 // obj may not point to the start of the object.
 // This is conservative in the sense that it will return true
@@ -370,7 +491,7 @@ func isPublicToLocal(src, dst uintptr) bool {
 //go:nosplit
 //go:systemstack
 func (s *mspan) isPublic(obj uintptr) bool {
-	if debug.gcroc == 0 {
+	if !writeBarrier.roc {
 		throw("isPublic but ROC is not running.")
 	}
 
@@ -477,9 +598,11 @@ func traceBackFrameDumper() {
 func makePublic(obj uintptr, s *mspan) {
 	abits := s.allocBitsForAddr(obj)
 	abits.setMarked()
+	if debug.gcroc == 2 {
+		atomic.Xadd64(&rocData.makePublicCount, 1)
+	}
 }
 
-// Eventually this goes to mgcroc.go
 func dumpMakePublicState(s *mspan, abits markBits, obj uintptr) {
 	if debug.gcroc < 5 {
 		return
