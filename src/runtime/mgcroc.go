@@ -610,7 +610,7 @@ func CheckRocGoids() {
 // in the hopes that this will cause the program to abort quickly and
 // make debugging easier.
 func (s *mspan) smashDebugHelper() {
-	if debug.gcroc >= 2 {
+	if writeBarrier.roc {
 		// Smash object between s.startindex and freeindex
 		for i := s.startindex; i < s.freeindex; i++ {
 			if s.isFree(i) {
