@@ -1370,7 +1370,7 @@ func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork
 	if obj&(sys.PtrSize-1) != 0 {
 		throw("greyobject: obj not pointer-aligned")
 	}
-	if debug.gcroc >= 2 {
+	if debug.gcroc >= 10 {
 		validateGreyobject(obj, objIndex, span)
 	}
 	mbits := span.markBitsForIndex(objIndex)

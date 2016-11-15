@@ -544,7 +544,7 @@ func schedinit() {
 		// to ensure runtime·buildVersion is kept in the resulting binary.
 		buildVersion = "unknown"
 	}
-	parsedebugvars()
+	parsedebugvars() // ROC needs this after the gcinit.
 }
 
 func dumpgstatus(gp *g) {
@@ -2349,7 +2349,7 @@ func park_m(gp *g) {
 		}
 	}
 
-	if debug.gcroc >= 2 && debug.gctrace >= 1 {
+	if debug.gcroc >= 2 {
 		atomic.Xadd64(&rocData.parkCalls, 1)
 	}
 	casgstatus(gp, _Grunning, _Gwaiting)

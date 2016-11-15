@@ -37,7 +37,7 @@ func (c *mcache) startG() {
 	if !writeBarrier.roc {
 		throw("startG called but writeBarrier.roc is false")
 	}
-	if debug.gcroc == 3 && debug.gctrace > 0 {
+	if debug.gcroc == 2 {
 		atomic.Xadd64(&rocData.startGCalls, 1)
 	}
 	mp := acquirem()
@@ -96,7 +96,7 @@ func (c *mcache) publishG() {
 		throw("publishG called but writeBarrier.roc is false")
 	}
 
-	if debug.gcroc == 3 && debug.gctrace > 0 {
+	if debug.gcroc == 2 {
 		atomic.Xadd64(&rocData.publishGCalls, 1)
 	}
 	mp := acquirem()
@@ -148,8 +148,7 @@ func (c *mcache) publishG() {
 	}
 	c.largeAllocSpans = nil
 	if _g_ != nil {
-		_g_.rocvalid = true //RLH
-		//		_g_.rocgcnum = 42155
+		_g_.rocvalid = true
 	}
 	// clean up tiny logic
 	c.tiny = 0
@@ -171,7 +170,7 @@ func (c *mcache) recycleG() {
 	if !writeBarrier.roc {
 		throw("in recycleG but writeBarrier.roc is false")
 	}
-	if debug.gcroc == 3 && debug.gctrace == 1 {
+	if debug.gcroc == 2 {
 		atomic.Xadd64(&rocData.recycleGCalls, 1)
 	}
 
@@ -245,7 +244,7 @@ func (c *mcache) recycleNormal() {
 	recycleValid := _g_ != nil && _g_.rocvalid && _g_.rocgcnum == memstats.numgc && isGCoff()
 
 	if !recycleValid {
-		if debug.gcroc == 3 && debug.gctrace > 0 {
+		if debug.gcroc == 2 {
 			atomic.Xadd64(&rocData.recycleGCallsFailure, 1)
 			if _g_ == nil {
 				atomic.Xadd64(&rocData.failureDueTogisnil, 1)
@@ -377,7 +376,7 @@ func (c *mcache) recycleNormal() {
 		}
 	}
 
-	if debug.gcroc == 3 && debug.gctrace > 0 {
+	if debug.gcroc == 2 {
 		atomic.Xadd64(&rocData.recoveredBytes, int64(recoveredBytes)) // TBD make available, perhaps as part of gctrace=2
 	}
 
@@ -418,7 +417,7 @@ func publishStack(gp *g) {
 		throw("publishStack called during a GC")
 	}
 
-	if debug.gcroc == 3 && debug.gctrace > 0 {
+	if debug.gcroc == 2 {
 		atomic.Xadd64(&rocData.stacksPublished, 1)
 	}
 	// Scan the stack.
@@ -438,7 +437,7 @@ func publishStack(gp *g) {
 
 	gentraceback(^uintptr(0), ^uintptr(0), 0, gp, 0, nil, 0x7fffffff, publishframe, nil, 0)
 	tracebackdefers(gp, publishframe, nil)
-	if debug.gcroc == 3 && debug.gctrace > 0 {
+	if debug.gcroc == 2 {
 		atomic.Xadd64(&rocData.framesPublished, n)
 		tmp := atomic.Load64(&rocData.maxFramesPublished)
 		if tmp < uint64(n) {
