@@ -804,7 +804,7 @@ func largeAlloc(size uintptr, needzero bool, noscan bool) *mspan {
 	// shouldn't a ROC rollback of the span be responsible for
 	// zeroing the span instead of the mheap_.alloc? If so
 	// then we can drop the || debug.gcroc > 0 part.
-	s := mheap_.alloc(npages, makeSpanClass(0, noscan), true, needzero || debug.gcroc > 0)
+	s := mheap_.alloc(npages, makeSpanClass(0, noscan), true, needzero || debug.gcroc >= 1)
 	if s == nil {
 		throw("out of memory")
 	}
