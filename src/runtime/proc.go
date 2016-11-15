@@ -289,6 +289,7 @@ func goready(gp *g, traceskip int) {
 
 //go:nosplit
 func acquireSudog() *sudog {
+	var newSudog *sudog
 	// Delicate dance: the semaphore implementation calls
 	// acquireSudog, acquireSudog calls new(sudog),
 	// new calls malloc, malloc can call the garbage collector,
@@ -311,7 +312,18 @@ func acquireSudog() *sudog {
 		unlock(&sched.sudoglock)
 		// If the central cache is empty, allocate a new one.
 		if len(pp.sudogcache) == 0 {
-			pp.sudogcache = append(pp.sudogcache, new(sudog))
+			newSudog = new(sudog)
+			if writeBarrier.roc {
+				asUintptr := uintptr(unsafe.Pointer(newSudog))
+				aSpan := spanOf(asUintptr)
+				systemstack(func() {
+					makePublic(asUintptr, aSpan)
+				})
+			}
+			pp.sudogcache = append(pp.sudogcache, newSudog)
+			if newSudog.elem != nil {
+				throw(" newSudog.elem should be 0")
+			}
 		}
 	}
 	n := len(pp.sudogcache)
@@ -757,7 +769,6 @@ func casgstatus(gp *g, oldval, newval uint32) {
 			throw("casgstatus: bad incoming values")
 		})
 	}
-
 	if oldval == _Grunning && gp.gcscanvalid {
 		// If oldvall == _Grunning, then the actual status must be
 		// _Grunning or _Grunning|_Gscan; either way,
@@ -2301,9 +2312,16 @@ func park_m(gp *g) {
 	if trace.enabled {
 		traceGoPark(_g_.m.waittraceev, _g_.m.waittraceskip, gp)
 	}
-
+	recycleDone := false
+	if writeBarrier.roc && gcphase == _GCoff {
+		publishStack(gp)
+		if _g_.m.mcache != nil {
+			_g_.m.mcache.recycleG()
+			recycleDone = true
+		}
+	}
 	casgstatus(gp, _Grunning, _Gwaiting)
-	dropg(false) // alternatively scan the stack publishing local objects and call dropg(true)
+	dropg(recycleDone)
 
 	if _g_.m.waitunlockf != nil {
 		fn := *(*func(*g, unsafe.Pointer) bool)(unsafe.Pointer(&_g_.m.waitunlockf))
@@ -2324,13 +2342,24 @@ func park_m(gp *g) {
 }
 
 func goschedImpl(gp *g) {
+	_g_ := getg()
 	status := readgstatus(gp)
 	if status&^_Gscan != _Grunning {
 		dumpgstatus(gp)
 		throw("bad g status")
 	}
+	// These publishStack calls are encountering dead frames in the sync/atomic tests in run.bash
+
+	recycleDone := false
+	if writeBarrier.roc && gcphase == _GCoff {
+		publishStack(gp)
+		if _g_.m.mcache != nil {
+			_g_.m.mcache.recycleG()
+			recycleDone = true
+		}
+	}
 	casgstatus(gp, _Grunning, _Grunnable)
-	dropg(false) // alternatively scan the stack publishing local objects and call dropg(true)
+	dropg(recycleDone)
 	lock(&sched.lock)
 	globrunqput(gp)
 	unlock(&sched.lock)
@@ -2386,11 +2415,18 @@ func goexit0(gp *g) {
 	gp.waitreason = ""
 	gp.param = nil
 
+	recycleDone := false
+	if writeBarrier.roc && gcphase == _GCoff {
+		if _g_.m.mcache != nil {
+			_g_.m.mcache.recycleG()
+			recycleDone = true
+		}
+	}
 	// Note that gp's stack scan is now "valid" because it has no
 	// stack. We could dequeueRescan, but that takes a lock and
 	// isn't really necessary.
 	gp.gcscanvalid = true
-	dropg(true) // recycleG in dropg
+	dropg(recycleDone) // recycleG in dropg
 
 	if _g_.m.locked&^_LockExternal != 0 {
 		print("runtime: invalid m->locked = ", _g_.m.locked, "\n")
@@ -2524,16 +2560,27 @@ func reentersyscall(pc, sp uintptr) {
 	_g_.m.locks--
 }
 
+//go:systemstack
+func entersyscallRocRecycle() {
+	_g_ := getg().m.curg
+	// The g may get preempted so we need to publish all local objects.
+	if gcphase == _GCoff {
+		publishStack(_g_)
+		if _g_.m.mcache != nil {
+			_g_.m.mcache.recycleG()
+			return
+		}
+	}
+	_g_.m.mcache.publishG()
+}
+
 // Standard syscall entry used by the go syscall library and normal cgo calls.
 //go:nosplit
 func entersyscall(dummy int32) {
-	_g_ := getg()
-
 	// The g may get preempted so we need to publish all local objects and abort the ROC epoch.
 	if writeBarrier.roc {
-		systemstack(_g_.m.mcache.publishG)
+		systemstack(entersyscallRocRecycle)
 	}
-
 	reentersyscall(getcallerpc(unsafe.Pointer(&dummy)), getcallersp(unsafe.Pointer(&dummy)))
 }
 
@@ -2650,9 +2697,13 @@ func exitsyscall(dummy int32) {
 		}
 		// There's a cpu for us, so we can run.
 		_g_.m.p.ptr().syscalltick++
+		if writeBarrier.roc {
+			systemstack(func() {
+				_g_.m.mcache.startG()
+			})
+		}
 		// We need to cas the status and scan before resuming...
 		casgstatus(_g_, _Gsyscall, _Grunning)
-
 		// Garbage collector isn't running (since we are),
 		// so okay to clear syscallsp.
 		_g_.syscallsp = 0
