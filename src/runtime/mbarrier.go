@@ -173,7 +173,65 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 				publish(ptr)
 			}
 		}
+		if trackMapOn {
+			// Debug code that tracks pointers
+			slotAsUintptr := uintptr(unsafe.Pointer(slot))
+			b, _, _, _ := heapBitsForObject(slotAsUintptr, 0, 0)
+			if wbTracking(ptr) {
+				if !wbTracking(b) {
+					wbTrack(b)
+					if isPublic(b) {
+						// dlog().string("gcmarkwb_m:217 now tracking _PUBLIC_ b ").hex(b).
+						//	string(" holding ptr ").hex(ptr).string(" in slot at ").hex(slotAsUintptr).end()
+					} else {
+						// dlog().string("gcmarkwb_m:217 now tracking _NON PUBLIC_ b ").hex(b).
+						//	string(" holding ptr ").hex(ptr).string(" in slot at ").hex(slotAsUintptr).end()
+					}
+				}
+			}
+		}
+	}
+}
+
+// When trackMapOn is true calls to wbTrack(x) will initiate tracking of pointers to x.
+// As pointers to the object pass through gc_markwb on there way to being written in a slot they
+// object holding the slot is also tracked. At the end of the day trackMap will hold the
+// objects that may transitively point to the original object.
+// This has been shown to useful in debugging ROC objects that are not made public for some reason.
+var trackMap [10000]uintptr
+var trackMapCnt = 0
+
+const trackMapOn = false
+
+//go:nowritebarrierrec
+//go:systemstack
+func wbTracking(ptr uintptr) bool {
+	if !trackMapOn {
+		return false
+	}
+	objBase, _, _, _ := heapBitsForObject(ptr, 0, 0)
+	for i := 0; i < trackMapCnt; i++ {
+		if trackMap[i] == objBase {
+			return true
+		}
+	}
+	return false
+}
+
+//go:nowritebarrierrec
+//go:systemstack
+func wbTrack(slotObj uintptr) {
+	if !trackMapOn {
 		return
+	}
+	objBase, _, _, _ := heapBitsForObject(slotObj, 0, 0)
+	if wbTracking(objBase) {
+		return
+	}
+	trackMap[trackMapCnt] = objBase
+	trackMapCnt++
+	if trackMapCnt == len(trackMap) {
+		panic("overflow of trackMap")
 	}
 }
 
