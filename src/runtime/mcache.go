@@ -156,7 +156,9 @@ func (c *mcache) refill(spc spanClass) *mspan {
 	}
 	s.incache = true
 	c.alloc[spc] = s
-	s.checkAllocCount(s.freeindex)
+	if debug.gcroc >= 1 && !s.checkAllocCount(s.freeindex) {
+		throw("checkAllocCount fails.")
+	}
 
 	if olds != &emptymspan {
 		olds.incache = false

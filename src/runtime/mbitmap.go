@@ -412,7 +412,7 @@ func (s *mspan) nextFreeIndex() uintptr {
 	}
 
 	// Make sure allocCount is OK before we reset s.freeindex and inc allocCount in caller.
-	if !s.checkAllocCount(s.freeindex) {
+	if debug.gcroc >= 1 && !s.checkAllocCount(s.freeindex) {
 		throw("bad checkAllocCount")
 	}
 
@@ -1108,7 +1108,7 @@ func (h heapBits) initSpan(s *mspan) {
 		}
 		return
 	}
-	if !s.checkAllocCount(s.freeindex) {
+	if debug.gcroc >= 1 && !s.checkAllocCount(s.freeindex) {
 		throw("bad checkAllocCount")
 	}
 	memclr(unsafe.Pointer(subtractb(h.bitp, nbyte-1)), nbyte)

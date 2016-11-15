@@ -514,7 +514,7 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 
 	v = gclinkptr(freeIndex*s.elemsize + s.base())
 	s.allocCount++
-	if !s.checkAllocCount(s.freeindex) {
+	if debug.gcroc >= 1 && !s.checkAllocCount(s.freeindex) {
 		throw("failed checkAllocCount")
 	}
 	if uintptr(s.allocCount) > s.nelems {
@@ -677,7 +677,7 @@ func mallocgc(size uintptr, typ *_type, needzero bool) unsafe.Pointer {
 			c.largeAllocSpans = s
 		})
 
-		if !s.checkAllocCount(s.freeindex) {
+		if debug.gcroc >= 1 && !s.checkAllocCount(s.freeindex) {
 			throw("failed checkAllocCount")
 		}
 		x = unsafe.Pointer(s.base())
@@ -801,7 +801,7 @@ func largeAlloc(size uintptr, needzero bool, noscan bool) *mspan {
 	s.freeindex = 1
 	s.startindex = 0
 	s.allocCount = 1
-	if !s.checkAllocCount(s.freeindex) {
+	if debug.gcroc >= 1 && !s.checkAllocCount(s.freeindex) {
 		throw("bad checkAllocCount")
 	}
 	return s
