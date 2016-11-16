@@ -512,9 +512,6 @@ func schedinit() {
 		buildVersion = "unknown"
 	}
 	parsedebugvars()
-	if debug.gcroc >= 1 {
-		//	initPublicSpan()
-	}
 }
 
 func dumpgstatus(gp *g) {
@@ -2250,7 +2247,7 @@ func park_m(gp *g) {
 		}
 	}
 
-	if debug.gcroc >= 2 && debug.gctrace >= 1 {
+	if debug.gcroc >= 2 {
 		atomic.Xadd64(&rocData.parkCalls, 1)
 	}
 	casgstatus(gp, _Grunning, _Gwaiting)

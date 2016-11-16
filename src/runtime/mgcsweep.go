@@ -167,7 +167,7 @@ func (s *mspan) sweep(preserve bool) bool {
 	var mp *m
 	if debug.gcroc >= 1 {
 		mp = acquirem()
-		if debug.gcroc >= 2 && !s.checkAllocCount(s.freeindex) {
+		if debug.gcroc >= 3 && !s.checkAllocCount(s.freeindex) {
 			throw("sweep has wrong allocCount.")
 		}
 	}
@@ -317,7 +317,7 @@ func (s *mspan) sweep(preserve bool) bool {
 	s.freeindex = 0  // reset allocation index to start of span.
 	s.startindex = 0 // reset start index
 
-	if debug.gcroc >= 2 && !s.checkAllocCount(s.freeindex) {
+	if debug.gcroc >= 10 && !s.checkAllocCount(s.freeindex) {
 		throw("bad checkAllocCount")
 	}
 	// Initialize alloc bits cache.

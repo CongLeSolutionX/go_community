@@ -1330,7 +1330,7 @@ func gcMarkTermination() {
 			print(" (forced)")
 		}
 		print("\n")
-		if debug.gcroc == 3 {
+		if debug.gcroc == 2 {
 			rocData.recoveredBytesAll += rocData.recoveredBytes
 			publicToLocalPercent := int64(0)
 			publicToLocalPercentPrevious := int64(0)

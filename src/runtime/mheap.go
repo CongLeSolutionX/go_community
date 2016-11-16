@@ -216,7 +216,7 @@ type mspan struct {
 }
 
 func (s *mspan) trace(str string) {
-	if debug.gcroc >= 3 {
+	if debug.gcroc >= 5 {
 		if s == &emptymspan {
 			println(str, "emptymspan")
 		} else {
@@ -229,7 +229,7 @@ func (s *mspan) trace(str string) {
 }
 
 func (s *mspan) traceList(str string, list *mSpanList) {
-	if debug.gcroc > 1 {
+	if debug.gcroc >= 5 {
 		if s == &emptymspan {
 			println(str, "emptymspan", list)
 		} else {
@@ -1344,7 +1344,7 @@ var gcBitsArenas struct {
 }
 
 func checkCleared(result *uint8, count uintptr) {
-	if debug.gcroc >= 2 {
+	if debug.gcroc >= 10 {
 		tmp := uintptr(unsafe.Pointer(result))
 		for i := uintptr(0); i < count; i++ {
 			val := (*uint8)(unsafe.Pointer(tmp + i))
