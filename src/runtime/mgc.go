@@ -1288,6 +1288,9 @@ func gcMarkTermination() {
 
 	_g_.m.traceback = 0
 	casgstatus(gp, _Gwaiting, _Grunning)
+	if writeBarrier.roc {
+		gp.m.mcache.startG()
+	}
 
 	if trace.enabled {
 		traceGCDone()
