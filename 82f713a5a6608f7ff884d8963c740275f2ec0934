@@ -16,6 +16,24 @@
       "revId": "82f713a5a6608f7ff884d8963c740275f2ec0934",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b088be_3e8c68c6",
+        "filename": "src/cmd/compile/internal/gc/phi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2016-11-16T16:23:12Z",
+      "side": 1,
+      "message": "It could, but it doesn\u0027t matter, since that loop isn\u0027t remotely as hot, and keeping it closer aids readability and reduces the probability that the compiler decides to spill the value.",
+      "parentUuid": "b0cd587b_a508a84b",
+      "revId": "82f713a5a6608f7ff884d8963c740275f2ec0934",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
