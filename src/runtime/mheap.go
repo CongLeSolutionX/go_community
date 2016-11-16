@@ -388,10 +388,11 @@ func inHeapOrStack(b uintptr) bool {
 // spanOf returns the span of p. If p does not point into the heap or
 // no span contains p, spanOf returns nil.
 func spanOf(p uintptr) *mspan {
-	if p == 0 || p < mheap_.arena_start || p >= mheap_.arena_used {
+	arenaStart := mheap_.arena_start
+	if p == 0 || p < arenaStart || p >= mheap_.arena_used {
 		return nil
 	}
-	return spanOfUnchecked(p)
+	return mheap_.spans[(p-arenaStart)>>_PageShift]
 }
 
 // spanOfUnchecked is equivalent to spanOf, but the caller must ensure
