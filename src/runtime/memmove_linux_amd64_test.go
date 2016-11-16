@@ -16,6 +16,11 @@ import (
 // TestMemmoveOverflow maps 3GB of memory and calls memmove on
 // the corresponding slice.
 func TestMemmoveOverflow(t *testing.T) {
+
+	if testing.Short() {
+		t.Skip("Skipping in short mode") // Takes more than 60 secondes if ROC is on.
+	}
+
 	// Create a temporary file.
 	tmp, err := ioutil.TempFile("", "go-memmovetest")
 	if err != nil {
