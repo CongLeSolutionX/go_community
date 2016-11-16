@@ -34,6 +34,24 @@
       "revId": "07f5ff59ab816be138e6e115fd17842339a40437",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b088be_0d80591b",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-11-16T21:49:49Z",
+      "side": 1,
+      "message": "I backed off on the struct embedding so it\u0027s now more clear where the state is.",
+      "parentUuid": "0b78b3b0_57ab4e74",
+      "revId": "07f5ff59ab816be138e6e115fd17842339a40437",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
