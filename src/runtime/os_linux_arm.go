@@ -18,6 +18,10 @@ var armArch uint8 = 6 // we default to ARMv6
 var hwcap uint32      // set by setup_auxv
 
 func checkgoarm() {
+	if goarm == 5 {
+		print("runtime: GOARM=5 is not supported\n")
+		exit(1)
+	}
 	if goarm > 5 && hwcap&_HWCAP_VFP == 0 {
 		print("runtime: this CPU has no floating point hardware, so it cannot run\n")
 		print("this GOARM=", goarm, " binary. Recompile using GOARM=5.\n")
