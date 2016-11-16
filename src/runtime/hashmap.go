@@ -200,6 +200,14 @@ func (h *hmap) setoverflow(t *maptype, b, ovf *bmap) {
 	h.incrnoverflow()
 	if t.bucket.kind&kindNoPointers != 0 {
 		h.createOverflow()
+		if writeBarrier.roc {
+			// append lacks a write barrier so do roc write barrier here.
+			if isPublic(uintptr(unsafe.Pointer(h))) {
+				systemstack(func() {
+					makePublic(uintptr(unsafe.Pointer(ovf)), spanOf(uintptr(unsafe.Pointer(ovf))))
+				})
+			}
+		}
 		*h.overflow[0] = append(*h.overflow[0], ovf)
 	}
 	*(**bmap)(add(unsafe.Pointer(b), uintptr(t.bucketsize)-sys.PtrSize)) = ovf
