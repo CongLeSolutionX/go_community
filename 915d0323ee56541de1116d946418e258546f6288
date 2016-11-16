@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_c533fb25",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-16T19:55:57Z",
+      "side": 1,
+      "message": "I think this should be CombinedOutput so that if uname for some reason writes to stderr that does not show up in the test output.",
+      "revId": "915d0323ee56541de1116d946418e258546f6288",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
