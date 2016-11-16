@@ -198,6 +198,8 @@ type Result interface {
 type Stmt interface {
 	// Close closes the statement.
 	//
+	// Close may be called multiple times and should be idempotent.
+	//
 	// As of Go 1.1, a Stmt will not be closed if it's in use
 	// by any queries.
 	Close() error
