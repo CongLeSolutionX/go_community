@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_347fa71b",
+        "filename": "src/runtime/os_linux_arm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-16T18:29:13Z",
+      "side": 1,
+      "message": "This check makes the suggestions below to \"recompile using GOARM\u003d5\" a bit of a catch-22.\n\nIt also has nothing to do with the CL description--was this an accidental inclusion?",
+      "revId": "cc57f19e85f73d3cddbe204bda1fde56ade0f3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b088be_54aa634f",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-16T18:29:13Z",
+      "side": 1,
+      "message": "How hard do we want to try?  Some systems use /boot/config, some use /boot/config-$(uname -r).",
+      "revId": "cc57f19e85f73d3cddbe204bda1fde56ade0f3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b088be_b40f17a7",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-16T18:29:13Z",
+      "side": 1,
+      "message": "Where did you get these values (1000, 1024)?  Can we see other values here?  If there any reason to care about systems that do not have CONFIG_HIGH_RES_TIMERS\u003dy?\n\nI check a few systems I have access to (all x86, various GNU/Linux distros); they all have CONFIG_HIGH_RES_TIMERS\u003dy and either CONFIG_HZ\u003d250 or CONFIG_HZ\u003d1000.",
+      "revId": "cc57f19e85f73d3cddbe204bda1fde56ade0f3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
