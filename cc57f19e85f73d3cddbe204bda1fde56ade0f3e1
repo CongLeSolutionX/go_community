@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "30b088be_f40a6f00",
+        "filename": "src/runtime/os_linux_arm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-16T18:58:46Z",
+      "side": 1,
+      "message": "Ugh, yeah, this was the start of nuking GOARM\u003d5 support and I only made it a few lines into that before my flight landed",
+      "parentUuid": "30b088be_347fa71b",
+      "revId": "cc57f19e85f73d3cddbe204bda1fde56ade0f3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b088be_54aa634f",
         "filename": "src/runtime/pprof/pprof_test.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "30b088be_94621bbe",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-16T18:58:46Z",
+      "side": 1,
+      "message": "I\u0027ll try harder.",
+      "parentUuid": "30b088be_54aa634f",
+      "revId": "cc57f19e85f73d3cddbe204bda1fde56ade0f3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30b088be_b40f17a7",
         "filename": "src/runtime/pprof/pprof_test.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-11-16T18:29:13Z",
       "side": 1,
       "message": "Where did you get these values (1000, 1024)?  Can we see other values here?  If there any reason to care about systems that do not have CONFIG_HIGH_RES_TIMERS\u003dy?\n\nI check a few systems I have access to (all x86, various GNU/Linux distros); they all have CONFIG_HIGH_RES_TIMERS\u003dy and either CONFIG_HZ\u003d250 or CONFIG_HZ\u003d1000.",
+      "revId": "cc57f19e85f73d3cddbe204bda1fde56ade0f3e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b088be_d4f973d0",
+        "filename": "src/runtime/pprof/pprof_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-16T18:58:46Z",
+      "side": 1,
+      "message": "I saw these referenced in Cherry\u0027s comment on the bug.\n\nI can only check HIGH_RES_TIMERS if you prefer.",
+      "parentUuid": "30b088be_b40f17a7",
       "revId": "cc57f19e85f73d3cddbe204bda1fde56ade0f3e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
