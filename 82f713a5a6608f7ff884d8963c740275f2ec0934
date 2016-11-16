@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0cd587b_a508a84b",
+        "filename": "src/cmd/compile/internal/gc/phi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2016-11-16T16:13:53Z",
+      "side": 1,
+      "message": "Am I missing something, or could this be out of the `for len(q) \u003e 0` loop too?",
+      "revId": "82f713a5a6608f7ff884d8963c740275f2ec0934",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
