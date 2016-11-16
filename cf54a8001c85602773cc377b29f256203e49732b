@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_cfa8fc2b",
+        "filename": "src/math/rand/rand_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-11-16T19:14:45Z",
+      "side": 1,
+      "message": "also mips64 (which is the builder that timeouts).",
+      "revId": "cf54a8001c85602773cc377b29f256203e49732b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
