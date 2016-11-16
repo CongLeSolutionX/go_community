@@ -22,6 +22,24 @@
       "revId": "2f40e962108bb4f6a84c8e65e2c731e27e47edf3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b088be_549d8352",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-11-16T19:09:32Z",
+      "side": 1,
+      "message": "Good point. Changed to not use Chdir.",
+      "parentUuid": "30b088be_b4a637f5",
+      "revId": "2f40e962108bb4f6a84c8e65e2c731e27e47edf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
