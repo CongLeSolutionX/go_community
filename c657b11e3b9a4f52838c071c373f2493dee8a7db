@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_0a5842a0",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-11-16T19:40:27Z",
+      "side": 1,
+      "message": "Does just doing this work (and reverting the cmd/internal/dwarf change)?\n\n    if n.IsAutoTmp() {\n        // Continue emitting type debug info for temporaries\n        // as a workaround for #17830.\n        ngotype(n)\n        continue\n    }\n\nIf not, I\u0027m okay with your fix.",
+      "revId": "c657b11e3b9a4f52838c071c373f2493dee8a7db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
