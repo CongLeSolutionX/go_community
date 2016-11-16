@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_6a5d3606",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-16T19:45:07Z",
+      "side": 1,
+      "message": "can you just protect this one line instead, to keep the code flowing from the top-down?\n\nmake this be like:\n\n    safeClose(si)\n\nfunc safeClose(si foo) (err error) {\n   defer func() {\n       if e :\u003d recover(); e !\u003d nil {\n             err \u003d e\n        }\n   }()\n   err \u003d si.Close()\n}",
+      "revId": "2f260a2ed6539708c486463c313eec6ee0117d28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
