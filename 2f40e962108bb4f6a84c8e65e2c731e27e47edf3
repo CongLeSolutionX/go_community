@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_b4a637f5",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-11-16T18:57:25Z",
+      "side": 1,
+      "message": "is Chdir okay in a test that might run in the same process as some other tests?",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "2f40e962108bb4f6a84c8e65e2c731e27e47edf3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
