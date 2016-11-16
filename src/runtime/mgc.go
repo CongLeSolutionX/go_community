@@ -1237,6 +1237,9 @@ func gcMarkTermination() {
 
 	_g_.m.traceback = 0
 	casgstatus(gp, _Gwaiting, _Grunning)
+	if debug.gcroc >= 1 {
+		gp.m.mcache.startG()
+	}
 
 	if trace.enabled {
 		traceGCDone()
