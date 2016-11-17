@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b088be_b42aa98e",
+        "filename": "src/cmd/internal/obj/arm64/asm_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-11-17T05:40:41Z",
+      "side": 1,
+      "message": "usually we don\u0027t need to preallocate the buffer here\nas this test is certainly not that performance critical.\n\njust do:\n\n    var buf bytes.Buffer\n    gen(\u0026buf)\n\ninstead.",
+      "revId": "1e3c57c2cc1500b12a35a859f3d6e8aa27aeebc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
