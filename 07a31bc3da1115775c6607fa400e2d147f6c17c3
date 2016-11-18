@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b010f8cf_de326523",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 14975
+      },
+      "writtenOn": "2016-11-18T22:35:15Z",
+      "side": 1,
+      "message": "Is this loop and label needed?  Unlike intermediates, there should only be one root.  Thus, unless I\u0027m just missing something, it should be sufficient to just compare root to the very last certificate of currentChain.",
+      "range": {
+        "startLine": 352,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 3
+      },
+      "revId": "07a31bc3da1115775c6607fa400e2d147f6c17c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
