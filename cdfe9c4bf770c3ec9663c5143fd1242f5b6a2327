@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b010f8cf_7915d302",
+        "filename": "src/go/internal/gccgoimporter/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-18T23:34:41Z",
+      "side": 1,
+      "message": "Comment needs updating: three argument \"package\", \"prefix\".",
+      "revId": "cdfe9c4bf770c3ec9663c5143fd1242f5b6a2327",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b010f8cf_d94cbf43",
+        "filename": "src/go/internal/gccgoimporter/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-18T23:34:41Z",
+      "side": 1,
+      "message": "This works but it doesn\u0027t really match the format.  The format is\n    v1N;\n    package unquotedString;\n    \u003cdirectives\u003e\nwhere among the \u003cdirectives\u003e, for v2 only, is\n    package unquotedString unquotedString unquotedString;\nThis code is OK as is, I just wanted to point that out.",
+      "revId": "cdfe9c4bf770c3ec9663c5143fd1242f5b6a2327",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
