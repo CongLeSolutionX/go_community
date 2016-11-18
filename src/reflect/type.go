@@ -19,6 +19,7 @@ import (
 	"runtime"
 	"strconv"
 	"sync"
+	"sync/atomic"
 	"unsafe"
 )
 
@@ -1415,8 +1416,8 @@ func TypeOf(i interface{}) Type {
 
 // ptrMap is the cache for PtrTo.
 var ptrMap struct {
-	sync.RWMutex
-	m map[*rtype]*ptrType
+	value atomic.Value // map[*rtype]*ptrType
+	sync.Mutex
 }
 
 // PtrTo returns the pointer type with element t.
@@ -1431,57 +1432,61 @@ func (t *rtype) ptrTo() *rtype {
 	}
 
 	// Check the cache.
-	ptrMap.RLock()
-	if m := ptrMap.m; m != nil {
-		if p := m[t]; p != nil {
-			ptrMap.RUnlock()
-			return &p.rtype
-		}
-	}
-	ptrMap.RUnlock()
-
-	ptrMap.Lock()
-	if ptrMap.m == nil {
-		ptrMap.m = make(map[*rtype]*ptrType)
-	}
-	p := ptrMap.m[t]
-	if p != nil {
-		// some other goroutine won the race and created it
-		ptrMap.Unlock()
+	m, _ := ptrMap.value.Load().(map[*rtype]*ptrType)
+	if p := m[t]; p != nil {
 		return &p.rtype
 	}
+
+	// Calculate the new value before taking the lock.
+	// May duplicate work but won't hold other computations back.
+	var p *ptrType
 
 	// Look in known types.
 	s := "*" + t.String()
 	for _, tt := range typesByString(s) {
-		p = (*ptrType)(unsafe.Pointer(tt))
-		if p.elem == t {
-			ptrMap.m[t] = p
-			ptrMap.Unlock()
-			return &p.rtype
+		if p1 := (*ptrType)(unsafe.Pointer(tt)); p1.elem == t {
+			p = p1
+			break
 		}
 	}
 
-	// Create a new ptrType starting with the description
-	// of an *unsafe.Pointer.
-	var iptr interface{} = (*unsafe.Pointer)(nil)
-	prototype := *(**ptrType)(unsafe.Pointer(&iptr))
-	pp := *prototype
+	if p == nil {
+		// Create a new ptrType starting with the description
+		// of an *unsafe.Pointer.
+		var iptr interface{} = (*unsafe.Pointer)(nil)
+		prototype := *(**ptrType)(unsafe.Pointer(&iptr))
+		pp := *prototype
 
-	pp.str = resolveReflectName(newName(s, "", "", false))
+		pp.str = resolveReflectName(newName(s, "", "", false))
 
-	// For the type structures linked into the binary, the
-	// compiler provides a good hash of the string.
-	// Create a good hash for the new string by using
-	// the FNV-1 hash's mixing function to combine the
-	// old hash and the new "*".
-	pp.hash = fnv1(t.hash, '*')
+		// For the type structures linked into the binary, the
+		// compiler provides a good hash of the string.
+		// Create a good hash for the new string by using
+		// the FNV-1 hash's mixing function to combine the
+		// old hash and the new "*".
+		pp.hash = fnv1(t.hash, '*')
 
-	pp.elem = t
+		pp.elem = t
+		p = &pp
+	}
 
-	ptrMap.m[t] = &pp
+	// Now lock ptrMap, copy the map, and update the atomic.Value.
+
+	ptrMap.Lock()
+	m, _ = ptrMap.value.Load().(map[*rtype]*ptrType)
+	if p1 := m[t]; p1 != nil {
+		// Someone else found the type already; use theirs.
+		p = p1
+	} else {
+		newM := make(map[*rtype]*ptrType, len(m)+1)
+		for k, v := range m {
+			newM[k] = v
+		}
+		newM[t] = p
+		ptrMap.value.Store(newM)
+	}
 	ptrMap.Unlock()
-	return &pp.rtype
+	return &p.rtype
 }
 
 // fnv1 incorporates the list of bytes into the hash x using the FNV-1 hash function.
