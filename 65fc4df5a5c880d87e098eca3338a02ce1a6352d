@@ -16,6 +16,24 @@
       "revId": "65fc4df5a5c880d87e098eca3338a02ce1a6352d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b010f8cf_50b664dc",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1441,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2016-11-18T21:08:07Z",
+      "side": 1,
+      "message": "\u003e The only other work being blocked would be concurrent calculations of this value.\n\nIt would also block concurrent calculations for other values.",
+      "parentUuid": "10d8e46b_cdaac9ba",
+      "revId": "65fc4df5a5c880d87e098eca3338a02ce1a6352d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
