@@ -1414,10 +1414,45 @@ func TypeOf(i interface{}) Type {
 }
 
 // ptrMap is the cache for PtrTo.
-var ptrMap struct {
-	sync.RWMutex
-	m map[*rtype]*ptrType
-}
+var ptrMap = struct {
+	m *dmap
+	sync.Mutex
+}{m: newdmap(func(a, b interface{}) int {
+	at := a.(*rtype)
+	bt := b.(*rtype)
+	switch {
+	case at == bt:
+		return 0
+	case at.hash < bt.hash:
+		return -1
+	case at.hash > bt.hash:
+		return 1
+	}
+	as := at.String()
+	bs := bt.String()
+	switch {
+	case as < bs:
+		return -1
+	case as > bs:
+		return 1
+	}
+	ap := at.PkgPath()
+	bp := bt.PkgPath()
+	switch {
+	case ap < bp:
+		return -1
+	case ap > bp:
+		return 1
+	}
+	// This can happen for types defined within functions with the
+	// same name.  Rely on the fact that pointers don't move.
+	switch {
+	case uintptr(unsafe.Pointer(at)) < uintptr(unsafe.Pointer(bt)):
+		return -1
+	default:
+		return 1
+	}
+})}
 
 // PtrTo returns the pointer type with element t.
 // For example, if t represents type Foo, PtrTo(t) represents *Foo.
@@ -1430,58 +1465,56 @@ func (t *rtype) ptrTo() *rtype {
 		return t.typeOff(t.ptrToThis)
 	}
 
-	// Check the cache.
-	ptrMap.RLock()
-	if m := ptrMap.m; m != nil {
-		if p := m[t]; p != nil {
-			ptrMap.RUnlock()
-			return &p.rtype
-		}
+	v := ptrMap.m.lookup(t)
+	if v != nil {
+		return &v.(*ptrType).rtype
 	}
-	ptrMap.RUnlock()
 
-	ptrMap.Lock()
-	if ptrMap.m == nil {
-		ptrMap.m = make(map[*rtype]*ptrType)
-	}
-	p := ptrMap.m[t]
-	if p != nil {
-		// some other goroutine won the race and created it
-		ptrMap.Unlock()
-		return &p.rtype
-	}
+	// Calculate the new value before taking the lock.
+	// May duplicate work but won't hold other computations back.
+	var p *ptrType
 
 	// Look in known types.
 	s := "*" + t.String()
 	for _, tt := range typesByString(s) {
-		p = (*ptrType)(unsafe.Pointer(tt))
-		if p.elem == t {
-			ptrMap.m[t] = p
-			ptrMap.Unlock()
-			return &p.rtype
+		if p1 := (*ptrType)(unsafe.Pointer(tt)); p1.elem == t {
+			p = p1
+			break
 		}
 	}
 
-	// Create a new ptrType starting with the description
-	// of an *unsafe.Pointer.
-	var iptr interface{} = (*unsafe.Pointer)(nil)
-	prototype := *(**ptrType)(unsafe.Pointer(&iptr))
-	pp := *prototype
+	if p == nil {
+		// Create a new ptrType starting with the description
+		// of an *unsafe.Pointer.
+		var iptr interface{} = (*unsafe.Pointer)(nil)
+		prototype := *(**ptrType)(unsafe.Pointer(&iptr))
+		pp := *prototype
 
-	pp.str = resolveReflectName(newName(s, "", "", false))
+		pp.str = resolveReflectName(newName(s, "", "", false))
 
-	// For the type structures linked into the binary, the
-	// compiler provides a good hash of the string.
-	// Create a good hash for the new string by using
-	// the FNV-1 hash's mixing function to combine the
-	// old hash and the new "*".
-	pp.hash = fnv1(t.hash, '*')
+		// For the type structures linked into the binary, the
+		// compiler provides a good hash of the string.
+		// Create a good hash for the new string by using
+		// the FNV-1 hash's mixing function to combine the
+		// old hash and the new "*".
+		pp.hash = fnv1(t.hash, '*')
 
-	pp.elem = t
+		pp.elem = t
+		p = &pp
+	}
 
-	ptrMap.m[t] = &pp
+	// Now lock ptrMap, check again, and update.
+
+	ptrMap.Lock()
+	p1 := ptrMap.m.lookup(t)
+	if p1 != nil {
+		// Someone else found the type already; use theirs.
+		p = p1.(*ptrType)
+	} else {
+		ptrMap.m.insert(t, p)
+	}
 	ptrMap.Unlock()
-	return &pp.rtype
+	return &p.rtype
 }
 
 // fnv1 incorporates the list of bytes into the hash x using the FNV-1 hash function.
@@ -2863,6 +2896,7 @@ func ArrayOf(count int, elem Type) Type {
 	prototype := *(**arrayType)(unsafe.Pointer(&iarray))
 	array := *prototype
 	array.str = resolveReflectName(newName(s, "", "", false))
+	array.tflag = 0
 	array.hash = fnv1(typ.hash, '[')
 	for n := uint32(count); n > 0; n >>= 8 {
 		array.hash = fnv1(array.hash, byte(n))
