@@ -34,6 +34,24 @@
       "revId": "65fc4df5a5c880d87e098eca3338a02ce1a6352d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e0b014_0f8689fb",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1441,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-11-18T21:15:48Z",
+      "side": 1,
+      "message": "\u003e \u003e The only other work being blocked would be concurrent calculations of this value.\n \u003e \n \u003e It would also block concurrent calculations for other values.\n\nThanks for enlightening me Caleb. This was the fact I overlooked here.",
+      "parentUuid": "b010f8cf_50b664dc",
+      "revId": "65fc4df5a5c880d87e098eca3338a02ce1a6352d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
