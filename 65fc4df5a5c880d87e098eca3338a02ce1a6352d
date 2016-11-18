@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10d8e46b_cdaac9ba",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1441,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-11-18T20:57:20Z",
+      "side": 1,
+      "message": "I don\u0027t follow the logic here. The only other work being blocked would be concurrent calculations of this value. Blocking this duplicate work should improve performance in theory. But I am very sure I am overlooking something here.",
+      "revId": "65fc4df5a5c880d87e098eca3338a02ce1a6352d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
