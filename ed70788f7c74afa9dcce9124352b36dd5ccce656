@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b010f8cf_c7ef3190",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2026,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-11-19T21:49:34Z",
+      "side": 1,
+      "message": "Yes, this can happen if a P has no mark worker (so there\u0027s nothing for the idle P to run) and it has executed write barriers (so there are things in the gcWork buffer).",
+      "parentUuid": "0b78b3b0_ee6723d4",
+      "revId": "ed70788f7c74afa9dcce9124352b36dd5ccce656",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_0e65bfcb",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
         "endLine": 2030,
         "endChar": 37
       },
+      "revId": "ed70788f7c74afa9dcce9124352b36dd5ccce656",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b010f8cf_a7f43d65",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2030,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-11-19T21:49:34Z",
+      "side": 1,
+      "message": "It\u0027s possible it can\u0027t happen in this particular case, but it can happen in general. When a mark worker thinks it\u0027s time to enter mark 2 or mark termination, it temporarily disassociates from the P so it can perform the phase change.",
+      "parentUuid": "0b78b3b0_0e65bfcb",
       "revId": "ed70788f7c74afa9dcce9124352b36dd5ccce656",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
