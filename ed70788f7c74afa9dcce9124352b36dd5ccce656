@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "b010f8cf_e5c22d24",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2026,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-11-20T22:43:55Z",
+      "side": 1,
+      "message": "It\u0027s always a transient condition. If the transition is to mark 2, then as soon as it\u0027s done performing the phase change, it will reassociate as the mark worker with its original P and resume doing work if there is any. If the transition is to mark termination, then there won\u0027t be any more work to do once the world is started again.",
+      "parentUuid": "30db286a_8e8efb7e",
+      "revId": "ed70788f7c74afa9dcce9124352b36dd5ccce656",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b78b3b0_0e65bfcb",
         "filename": "src/runtime/proc.go",
         "patchSetId": 2
