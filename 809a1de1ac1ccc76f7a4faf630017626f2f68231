@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b010f8cf_8a2f009f",
+        "filename": "src/crypto/x509/pkix/pkix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 14975
+      },
+      "writtenOn": "2016-11-20T10:02:10Z",
+      "side": 1,
+      "message": "While this code successfully parses a multi-value RDN, by merely appending to Names, it strips the set grouping. That is, ToRDNSequence after parsing such a certificate will not result in a multi-value RDN.\n\nAs noted previously, without a breaking change to pkix.Name or the introduction of new fields/methods, I do not see an obvious way to preserve the multi-value nature of the RDN.\n\nWhile multi-valued RDNs may not be common, they are clearly part of the RDN standard in RFC 5280, not erroneous certificate constructions like Bug #16836 seems to suggest.\n\nIf you decide to keep the parsing logic, I would at least add a note documenting the loss of information about the multi-value nature of an RDN.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 4
+      },
+      "revId": "809a1de1ac1ccc76f7a4faf630017626f2f68231",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
