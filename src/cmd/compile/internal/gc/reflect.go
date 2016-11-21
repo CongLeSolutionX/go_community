@@ -829,9 +829,13 @@ func dcommontype(s *Sym, ot int, t *Type) int {
 		algsym = dalgsym(t)
 	}
 
+	sptrWeak := true
 	var sptr *Sym
-	tptr := ptrto(t)
-	if !t.IsPtr() && (t.Sym != nil || methods(tptr) != nil) {
+	if !t.IsPtr() {
+		tptr := ptrto(t)
+		if t.Sym != nil || methods(tptr) != nil {
+			sptrWeak = false
+		}
 		sptr = dtypesym(tptr)
 	}
 
@@ -918,10 +922,13 @@ func dcommontype(s *Sym, ot int, t *Type) int {
 
 	nsym := dname(p, "", nil, exported)
 	ot = dsymptrOffLSym(Linksym(s), ot, nsym, 0) // str
+	// ptrToThis
 	if sptr == nil {
 		ot = duint32(s, ot, 0)
+	} else if sptrWeak {
+		ot = dsymptrWeakOffLSym(Linksym(s), ot, Linksym(sptr), 0)
 	} else {
-		ot = dsymptrOffLSym(Linksym(s), ot, Linksym(sptr), 0) // ptrToThis
+		ot = dsymptrOffLSym(Linksym(s), ot, Linksym(sptr), 0)
 	}
 
 	return ot
