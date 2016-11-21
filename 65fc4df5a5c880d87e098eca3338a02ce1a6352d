@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b010f8cf_fec3dbee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-21T21:00:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b010f8cf_94a04987",
+      "revId": "65fc4df5a5c880d87e098eca3338a02ce1a6352d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10d8e46b_cdaac9ba",
         "filename": "src/reflect/type.go",
         "patchSetId": 2
@@ -83,6 +101,24 @@
       "writtenOn": "2016-11-19T19:20:10Z",
       "side": 1,
       "message": "It might be worth having a multi-insert variant of ptrTo, for internal use, so that this bit of code doesn\u0027t have to lock/copy/insert/unlock twice in a row.",
+      "revId": "65fc4df5a5c880d87e098eca3338a02ce1a6352d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b010f8cf_1ecfcf17",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2209,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-21T21:00:50Z",
+      "side": 1,
+      "message": "Since approximately nobody calls reflect.MapOf, I don\u0027t think it\u0027s worth the complexity.",
+      "parentUuid": "b010f8cf_749dd552",
       "revId": "65fc4df5a5c880d87e098eca3338a02ce1a6352d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
