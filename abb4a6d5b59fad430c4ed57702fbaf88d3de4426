@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "b010f8cf_8d814f4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-11-22T01:57:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b010f8cf_41f68671",
+      "revId": "abb4a6d5b59fad430c4ed57702fbaf88d3de4426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b010f8cf_01f08e70",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "b010f8cf_6d7e1b85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-11-22T01:57:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b010f8cf_01f08e70",
+      "revId": "abb4a6d5b59fad430c4ed57702fbaf88d3de4426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b010f8cf_61be2a64",
         "filename": "src/cmd/compile/internal/gc/obj.go",
         "patchSetId": 1
@@ -59,6 +95,24 @@
       "writtenOn": "2016-11-21T22:29:14Z",
       "side": 1,
       "message": "The case of xoff !\u003d 0 seems subtle to me, since it doesn\u0027t seem obvious what should happen in the case where the symbol does not exist--should the value be 0, or should it be xoff?.  Since the only caller passes xoff as zero anyhow, perhaps we should omit the parameter.",
+      "revId": "abb4a6d5b59fad430c4ed57702fbaf88d3de4426",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b010f8cf_0dab1fc0",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2016-11-22T01:57:51Z",
+      "side": 1,
+      "message": "Done.\n\nIt looks like we could do the same to dsymptrOffLSym, but as we\u0027re in the freeze I\u0027ll keep this CL small.",
+      "parentUuid": "b010f8cf_61be2a64",
       "revId": "abb4a6d5b59fad430c4ed57702fbaf88d3de4426",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
