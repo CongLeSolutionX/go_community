@@ -193,53 +193,74 @@ func TestParse(t *testing.T) {
 	}
 }
 
-// All parsed with ANSIC.
-var dayOutOfRangeTests = []struct {
+type dayOutOfRangeTest struct {
 	date string
 	ok   bool
+}
+
+var dayOutOfRangeTests = []struct {
+	tests  []dayOutOfRangeTest
+	format string
 }{
-	{"Thu Jan 99 21:00:57 2010", false},
-	{"Thu Jan 31 21:00:57 2010", true},
-	{"Thu Jan 32 21:00:57 2010", false},
-	{"Thu Feb 28 21:00:57 2012", true},
-	{"Thu Feb 29 21:00:57 2012", true},
-	{"Thu Feb 29 21:00:57 2010", false},
-	{"Thu Mar 31 21:00:57 2010", true},
-	{"Thu Mar 32 21:00:57 2010", false},
-	{"Thu Apr 30 21:00:57 2010", true},
-	{"Thu Apr 31 21:00:57 2010", false},
-	{"Thu May 31 21:00:57 2010", true},
-	{"Thu May 32 21:00:57 2010", false},
-	{"Thu Jun 30 21:00:57 2010", true},
-	{"Thu Jun 31 21:00:57 2010", false},
-	{"Thu Jul 31 21:00:57 2010", true},
-	{"Thu Jul 32 21:00:57 2010", false},
-	{"Thu Aug 31 21:00:57 2010", true},
-	{"Thu Aug 32 21:00:57 2010", false},
-	{"Thu Sep 30 21:00:57 2010", true},
-	{"Thu Sep 31 21:00:57 2010", false},
-	{"Thu Oct 31 21:00:57 2010", true},
-	{"Thu Oct 32 21:00:57 2010", false},
-	{"Thu Nov 30 21:00:57 2010", true},
-	{"Thu Nov 31 21:00:57 2010", false},
-	{"Thu Dec 31 21:00:57 2010", true},
-	{"Thu Dec 32 21:00:57 2010", false},
+	{
+		format: "02.01.2006",
+		tests: []dayOutOfRangeTest{
+			{"01.01.1970", true},
+			{"00.01.1970", false},
+			{"29.02.1970", false},
+			{"99.04.2006", false},
+			{"99.04.2006", false},
+		},
+	},
+	{
+		format: ANSIC,
+		tests: []dayOutOfRangeTest{
+			{"Thu Jan 99 21:00:57 2010", false},
+			{"Thu Jan 31 21:00:57 2010", true},
+			{"Thu Jan 32 21:00:57 2010", false},
+			{"Thu Feb 28 21:00:57 2012", true},
+			{"Thu Feb 29 21:00:57 2012", true},
+			{"Thu Feb 29 21:00:57 2010", false},
+			{"Thu Mar 31 21:00:57 2010", true},
+			{"Thu Mar 32 21:00:57 2010", false},
+			{"Thu Apr 30 21:00:57 2010", true},
+			{"Thu Apr 31 21:00:57 2010", false},
+			{"Thu May 31 21:00:57 2010", true},
+			{"Thu May 32 21:00:57 2010", false},
+			{"Thu Jun 30 21:00:57 2010", true},
+			{"Thu Jun 31 21:00:57 2010", false},
+			{"Thu Jul 31 21:00:57 2010", true},
+			{"Thu Jul 32 21:00:57 2010", false},
+			{"Thu Aug 31 21:00:57 2010", true},
+			{"Thu Aug 32 21:00:57 2010", false},
+			{"Thu Sep 30 21:00:57 2010", true},
+			{"Thu Sep 31 21:00:57 2010", false},
+			{"Thu Oct 31 21:00:57 2010", true},
+			{"Thu Oct 32 21:00:57 2010", false},
+			{"Thu Nov 30 21:00:57 2010", true},
+			{"Thu Nov 31 21:00:57 2010", false},
+			{"Thu Dec 31 21:00:57 2010", true},
+			{"Thu Dec 32 21:00:57 2010", false},
+		},
+	},
 }
 
 func TestParseDayOutOfRange(t *testing.T) {
-	for _, test := range dayOutOfRangeTests {
-		_, err := Parse(ANSIC, test.date)
-		switch {
-		case test.ok && err == nil:
-			// OK
-		case !test.ok && err != nil:
-			if !strings.Contains(err.Error(), "day out of range") {
-				t.Errorf("%q: expected 'day' error, got %v", test.date, err)
+	for _, group := range dayOutOfRangeTests {
+		for _, test := range group.tests {
+			_, err := Parse(group.format, test.date)
+			switch {
+			case test.ok && err == nil:
+				// OK
+			case !test.ok && err != nil:
+				if !strings.Contains(err.Error(), "day out of range") {
+					t.Errorf("%q: expected 'day' error, got %v", test.date, err)
+				}
+			case test.ok && err != nil:
+				t.Errorf("%q: unexpected error: %v", test.date, err)
+			case !test.ok && err == nil:
+				t.Errorf("%q: expected 'day' error, got none", test.date)
 			}
-		case test.ok && err != nil:
-			t.Errorf("%q: unexpected error: %v", test.date, err)
-		case !test.ok && err == nil:
-			t.Errorf("%q: expected 'day' error, got none", test.date)
 		}
 	}
 }
