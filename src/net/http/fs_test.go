@@ -1093,7 +1093,7 @@ func TestLinuxSendfile(t *testing.T) {
 	case "mips64":
 		// TODO: minimize this set once golang.org/issue/18008
 		// is understood.
-		syscalls = "network,file"
+		syscalls = "all"
 	}
 
 	var buf bytes.Buffer
