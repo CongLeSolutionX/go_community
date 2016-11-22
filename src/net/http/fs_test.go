@@ -1091,9 +1091,7 @@ func TestLinuxSendfile(t *testing.T) {
 		// and will error out if we specify that with `-e trace='.
 		syscalls = "sendfile"
 	case "mips64":
-		// TODO: minimize this set once golang.org/issue/18008
-		// is understood.
-		syscalls = "network,file"
+		t.Skip("TODO: update this test to be robust against various versions of strace on mips64. See golang.org/issue/33430")
 	}
 
 	var buf bytes.Buffer
@@ -1120,7 +1118,7 @@ func TestLinuxSendfile(t *testing.T) {
 	Post(fmt.Sprintf("http://%s/quit", ln.Addr()), "", nil)
 	child.Wait()
 
-	rx := regexp.MustCompile(`sendfile(64)?\(\d+,\s*\d+,\s*NULL,\s*\d+`)
+	rx := regexp.MustCompile(`sendfile(64)?\(`)
 	out := buf.String()
 	if !rx.MatchString(out) {
 		t.Errorf("no sendfile system call found in:\n%s", out)
