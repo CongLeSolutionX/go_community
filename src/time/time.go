@@ -790,6 +790,10 @@ func daysIn(m Month, year int) int {
 	return int(daysBefore[m] - daysBefore[m-1])
 }
 
+func dayOutOfRange(day int, month Month, year int) bool {
+	return day < 1 || day > daysIn(Month(month), year)
+}
+
 // Provided by package runtime.
 func now() (sec int64, nsec int32)
 
