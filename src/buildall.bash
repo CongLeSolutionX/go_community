@@ -36,7 +36,10 @@ fi
 GOROOT="$(cd .. && pwd)"
 
 # put linux, nacl first in the target list to get all the architectures up front.
-targets="$((../bin/go tool dist list | sed -n 's/^\(.*\)\/\(.*\)/\1-\2/p'; echo linux-386-387 linux-arm-arm5) | sort | egrep -v android-arm | egrep "$pattern" | egrep 'linux|nacl')
+targets="$({
+    ../bin/go tool dist list | sed -n 's/^\(.*\)\/\(.*\)/\1-\2/p'
+    echo linux-386-387 linux-arm-arm5
+} | sort | egrep -v android-arm | egrep "$pattern" | egrep 'linux|nacl')
 $(../bin/go tool dist list | sed -n 's/^\(.*\)\/\(.*\)/\1-\2/p' | egrep -v 'android-arm|darwin-arm' | egrep "$pattern" | egrep -v 'linux|nacl')"
 
 failed=false
