@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b07d5855_855884a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-23T16:52:07Z",
+      "side": 1,
+      "message": "s/Explains/Document/",
+      "revId": "8abd84a4961ef970c7d55cff0bdf9bf5cbd06460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07d5855_655b80a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-23T16:52:07Z",
+      "side": 1,
+      "message": "Add period at end of sentence",
+      "revId": "8abd84a4961ef970c7d55cff0bdf9bf5cbd06460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07d5855_454e7cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-23T16:52:07Z",
+      "side": 1,
+      "message": "I think this actually \"Fixes #18019\".",
+      "revId": "8abd84a4961ef970c7d55cff0bdf9bf5cbd06460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b07d5855_c548ccd0",
+        "filename": "src/net/http/header.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-11-23T16:52:07Z",
+      "side": 1,
+      "message": "I don\u0027t think that somebody reading this will necessarily know what it means to be canonicalized.  I think we need to refer to net/textproto.CanonicalMIMEHeaderKey.  Same in net/mail.",
+      "revId": "8abd84a4961ef970c7d55cff0bdf9bf5cbd06460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
