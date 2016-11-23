@@ -23,6 +23,7 @@ func (h MIMEHeader) Set(key, value string) {
 }
 
 // Get gets the first value associated with the given key.
+// Note that key is case insensitive as it is canonicalized.
 // If there are no values associated with the key, Get returns "".
 // Get is a convenience method. For more complex queries,
 // access the map directly.

@@ -107,6 +107,7 @@ func ParseDate(date string) (time.Time, error) {
 type Header map[string][]string
 
 // Get gets the first value associated with the given key.
+// Note that key is case insensitive as it is canonicalized.
 // If there are no values associated with the key, Get returns "".
 func (h Header) Get(key string) string {
 	return textproto.MIMEHeader(h).Get(key)
