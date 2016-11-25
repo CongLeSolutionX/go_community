@@ -449,27 +449,31 @@ func Kevent(kq int, changes, events []Kevent_t, timeout *Timespec) (n int, err e
 
 //sys	sysctl(mib []_C_int, old *byte, oldlen *uintptr, new *byte, newlen uintptr) (err error) = SYS___SYSCTL
 
-func Sysctl(name string) (value string, err error) {
+func SysctlBytes(name string) (value []byte, err error) {
 	// Translate name to mib number.
 	mib, err := nametomib(name)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	// Find size.
 	n := uintptr(0)
 	if err = sysctl(mib, nil, &n, nil, 0); err != nil {
-		return "", err
+		return nil, err
 	}
 	if n == 0 {
-		return "", nil
+		return value, nil
 	}
 
 	// Read into buffer of that size.
-	buf := make([]byte, n)
-	if err = sysctl(mib, &buf[0], &n, nil, 0); err != nil {
-		return "", err
-	}
+	value = make([]byte, n)
+	err = sysctl(mib, &value[0], &n, nil, 0)
+	return value, err
+}
+
+func Sysctl(name string) (value string, err error) {
+	buf := SysctlBytes(name)
+	n := len(buf)
 
 	// Throw away terminating NUL.
 	if n > 0 && buf[n-1] == '\x00' {
