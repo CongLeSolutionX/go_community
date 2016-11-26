@@ -118,6 +118,7 @@ func dirList(w ResponseWriter, f File) {
 //
 // If the caller has set w's ETag header, ServeContent uses it to
 // handle requests using If-Match, If-None-Match, or If-Range.
+// The ETag should be a quoted string as specified in RFC 7232, section 2.3.
 //
 // Note that *os.File implements the io.ReadSeeker interface.
 func ServeContent(w ResponseWriter, req *Request, name string, modtime time.Time, content io.ReadSeeker) {
