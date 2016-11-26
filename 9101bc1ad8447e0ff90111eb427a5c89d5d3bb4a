@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d8afbd9_04cfd8ba",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-26T20:15:51Z",
+      "side": 1,
+      "message": "Or a weak entity tag, no? \n\nMaybe just:\n\n// If the caller has set w\u0027s ETag header formatted per RFC 7232 section 2.3, ServeContent uses it to ...",
+      "revId": "9101bc1ad8447e0ff90111eb427a5c89d5d3bb4a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
