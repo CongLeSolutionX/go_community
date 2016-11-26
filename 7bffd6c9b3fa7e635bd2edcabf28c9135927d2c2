@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d8afbd9_24c8dcb2",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-26T20:12:47Z",
+      "side": 1,
+      "message": "I realize now that this is the first docs that imply that the provided ctx is used beyond the lifetime of the BeginContext call, which isn\u0027t very explicit.\n\nMaybe this sentence can be more explicit, and be mentioned earlier.\n\nBut what about the precedence between Tx.PrepareContext and this curried context? Does that need to be documented?\n\nOr should we add CommitContext and RollbackContext and stop currying the ctx?",
+      "revId": "7bffd6c9b3fa7e635bd2edcabf28c9135927d2c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
