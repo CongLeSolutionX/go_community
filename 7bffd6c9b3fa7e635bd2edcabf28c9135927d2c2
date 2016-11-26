@@ -16,6 +16,24 @@
       "revId": "7bffd6c9b3fa7e635bd2edcabf28c9135927d2c2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d8afbd9_24a1bcdc",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2016-11-26T22:20:59Z",
+      "side": 1,
+      "message": "Addressing comments in reverse order:\n\n\u003e should we add CommitContext and RollbackContext and stop currying the ctx?\n\nThis will change the semantics. As it is currently written a function that begins a transaction then panics without a defer to rollback will still rollback when the ctx is closed. This is also how the Rows is written which also curries ctx.Done chan. I\u0027d like to preserve these semantics.\n\n\u003e But what about the precedence between Tx.PrepareContext and this curried context? Does that need to be documented?\n\nI could be wrong, but I think it is already called out sufficiently in the Tx.PrepareContext docs. There isn\u0027t really a precedence, except if the Tx is closed then it won\u0027t prepare. We could certainly add in a combined ctx, if Tx.ctx or prepare(ctx) closes, then cancel prepare, but I don\u0027t think that would be a win.\n\n\u003e I realize now that this is the first docs that imply that the provided ctx is used beyond the lifetime of the BeginContext call, which isn\u0027t very explicit.\n\u003e Maybe this sentence can be more explicit, and be mentioned earlier.\n\nI\u0027ll work on making this more explicit.",
+      "parentUuid": "8d8afbd9_24c8dcb2",
+      "revId": "7bffd6c9b3fa7e635bd2edcabf28c9135927d2c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
