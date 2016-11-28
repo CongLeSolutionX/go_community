@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d8afbd9_c72fb2e2",
+        "filename": "src/net/http/header.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-28T05:19:07Z",
+      "side": 1,
+      "message": "Why is this sentence \"Note that\" but the next two sentences aren\u0027t?\n\nAlso, this sentence is a bit confusing, suggesting (with one possible reading) that the caller must call CanonicalMIMEHeaderKey on key before calling this function.\n\nI\u0027d say \"canonicalized\" instead of \"canonically encoded\".\n\nMaybe:\n\n   // Get gets the first value associated with the given key.\n   // It is case insensitive; textproto.CanonicalMIMEHeaderKey is used\n   // to canonicalize the provided key.\n   // If there are no values associated with the key, Get returns \"\".\n   // To access multiple values of a key, or to use non-canonical keys,\n   // access the map directly.",
+      "revId": "fe0db38f214ffb8d2c754538f78c3ed2a3c42a62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
