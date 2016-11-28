@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "8d8afbd9_c7b1f22a",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-11-28T15:48:45Z",
+      "side": 1,
+      "message": "It\u0027s certainly possible that there is more than one len or cap still around.  I could keep a slice if it mattered (which I don\u0027t think it does in typical cases).  I\u0027ll leave a TODO.",
+      "parentUuid": "702a0062_fcc8f10d",
+      "revId": "59d4210e9c901cfcde201da6dba5f5ddb417ac58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_bcce7918",
         "filename": "src/cmd/compile/internal/ssa/prove.go",
         "patchSetId": 3
@@ -42,6 +60,24 @@
         "endLine": 600,
         "endChar": 36
       },
+      "revId": "59d4210e9c901cfcde201da6dba5f5ddb417ac58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d8afbd9_8711aa3d",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-11-28T15:48:45Z",
+      "side": 1,
+      "message": "I\u0027m not sure how this comment applies to \"r\u0026lt \u003d\u003d 0\".  That\u0027s there just because if we start with e.g. \"len(s) \u003c\u003d x\", we can\u0027t derive anything about the relation between cap(s) and x.  There is no contradiction involved.\n\nIf this is a more generically-targeted comment, then I can see what you mean.  But I\u0027m not sure this CL particularly aggravates the situation.  We\u0027re adding facts that the programmer could add himself with explicit code.\nI guess we should either ensure that we never record a contradiction, or make sure that we handle contradictions gracefully.  I guess I prefer the latter but I don\u0027t have a strong opinion.",
+      "parentUuid": "702a0062_bcce7918",
       "revId": "59d4210e9c901cfcde201da6dba5f5ddb417ac58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
