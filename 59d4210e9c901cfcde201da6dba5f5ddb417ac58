@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702a0062_fcc8f10d",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-11-28T15:02:29Z",
+      "side": 1,
+      "message": "How sure are we that there\u0027s only one, and do we care?\nI\u0027m thinking about the case where slicelen(a) in B1 and slicelen(a) in B2,\nand neither dominates; do we ensure that this will CSE to a single expression.\nI recall that we now intend to, but initially did not.\n\nWe might want to document that assumption and how much we care.\n\nRelated, we might want to devise some tests of this that aren\u0027t straight-line code.",
+      "range": {
+        "startLine": 478,
+        "startChar": 4,
+        "endLine": 478,
+        "endChar": 29
+      },
+      "revId": "59d4210e9c901cfcde201da6dba5f5ddb417ac58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_bcce7918",
+        "filename": "src/cmd/compile/internal/ssa/prove.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-11-28T15:02:29Z",
+      "side": 1,
+      "message": "Are we better off just keeping the first fact we found, rather than recording a clear contradiction? This happens for actually-unreachable code, we\u0027ve had at least one report on funny diagnostics because of this.\n\nAnd either way, we might want to mention what\u0027s up, so the next person to stumble through here doesn\u0027t have a few minutes of puzzlement before going \"oh yeah, unreachable code can derive contradictions\".",
+      "range": {
+        "startLine": 600,
+        "startChar": 27,
+        "endLine": 600,
+        "endChar": 36
+      },
+      "revId": "59d4210e9c901cfcde201da6dba5f5ddb417ac58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
