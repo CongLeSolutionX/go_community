@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d8afbd9_55790c33",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1291,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-28T19:03:45Z",
+      "side": 1,
+      "message": "roll back (verb)\n\n\"will attempt to roll back\"?  If the context is canceled, the driver may not be able to speak to its database if it only has a dead context, no? Or I guess it can at least close its TCP connection or whatever handle it has (which doesn\u0027t require a context) and that ought to be enough to tell the peer that we\u0027re dead. But you say it\u0027s undefined later, so \"attempt to\" here seems consistent.\n\n// The provided context is used until the transaction is committed or rolled back.\n// If the context is canceled, the sql package attempts to roll back\n// the transaction. Tx.Commit will return an error if the context provided to\n// BeginContext is canceled.\n\nOr something?\n\nMaybe we don\u0027t even need the \"attempt\" wording and can just require that drivers have a way to roll back if the context expires.",
+      "revId": "584b5f2bdb31b89e82ffa30aa478ecf0b2d32f74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d8afbd9_157b842c",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-28T19:03:45Z",
+      "side": 1,
+      "message": "If the context is canceled, the final ...\n\n(simplify it a bit, and be consistent)",
+      "revId": "584b5f2bdb31b89e82ffa30aa478ecf0b2d32f74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d8afbd9_b58738f9",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-28T19:03:45Z",
+      "side": 1,
+      "message": "typo",
+      "revId": "584b5f2bdb31b89e82ffa30aa478ecf0b2d32f74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d8afbd9_95e6b4cd",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-28T19:03:45Z",
+      "side": 1,
+      "message": "check that the context is still valid?\n\n   select {\n   default:\n   case \u003c-ctx.Done():\n       return errSomething\n    }",
+      "revId": "584b5f2bdb31b89e82ffa30aa478ecf0b2d32f74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
