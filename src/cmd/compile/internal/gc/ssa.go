@@ -64,7 +64,6 @@ func buildssa(fn *Node) *ssa.Func {
 	s.config = initssa()
 	s.f = s.config.NewFunc()
 	s.f.Name = name
-	s.exitCode = fn.Func.Exit
 	s.panics = map[funcLine]*ssa.Block{}
 	s.config.DebugTest = s.config.DebugHashMatch("GOSSAHASH", name)
 
@@ -137,8 +136,43 @@ func buildssa(fn *Node) *ssa.Func {
 
 	// fallthrough to exit
 	if s.curBlock != nil {
+		b := s.endBlock()
+		b.AddEdgeTo(s.regularExit())
+	}
+
+	// Generate exit code.
+	if s.exitBlock != nil {
 		s.pushLine(fn.Func.Endlineno)
-		s.exit()
+		s.startBlock(s.exitBlock)
+		if hasdefer {
+			s.rtcall(Deferreturn, true, nil)
+		}
+
+		// Run exit code. Typically, this code copies heap-allocated PPARAMOUT
+		// variables back to the stack.
+		s.stmtList(fn.Func.Exit)
+
+		// Store SSAable PPARAMOUT variables back to stack locations.
+		for _, n := range s.returns {
+			addr := s.decladdrs[n]
+			val := s.variable(n, n.Type)
+			s.vars[&memVar] = s.newValue1A(ssa.OpVarDef, ssa.TypeMem, n, s.mem())
+			s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, n.Type.Size(), addr, val, s.mem())
+			// TODO: if val is ever spilled, we'd like to use the
+			// PPARAMOUT slot for spilling it. That won't happen
+			// currently.
+		}
+
+		// Do actual return.
+		m := s.mem()
+		b := s.endBlock()
+		b.SetControl(m)
+		if s.exitJmpSym != nil {
+			b.Kind = ssa.BlockRetJmp
+			b.Aux = s.exitJmpSym
+		} else {
+			b.Kind = ssa.BlockRet
+		}
 		s.popLine()
 	}
 
@@ -170,9 +204,6 @@ func buildssa(fn *Node) *ssa.Func {
 
 	s.insertPhis()
 
-	// Don't carry reference this around longer than necessary
-	s.exitCode = Nodes{}
-
 	// Main call to ssa package to compile function
 	ssa.Compile(s.f)
 
@@ -192,9 +223,10 @@ type state struct {
 
 	// gotos that jump forward; required for deferred checkgoto calls
 	fwdGotos []*Node
-	// Code that must precede any return
-	// (e.g., copying value of heap-escaped paramout back to true paramout)
-	exitCode Nodes
+
+	// block containing exit code
+	exitBlock  *ssa.Block
+	exitJmpSym *Sym
 
 	// unlabeled break and continue statement tracking
 	breakTo    *ssa.Block // current target for plain break statement
@@ -243,6 +275,25 @@ type state struct {
 	cgoUnsafeArgs bool
 	noWB          bool
 	WBLineno      int32 // line number of first write barrier. 0=no write barriers
+}
+
+func (s *state) regularExit() *ssa.Block {
+	if s.exitJmpSym != nil {
+		s.Fatalf("both regular and jump returns")
+	}
+	if s.exitBlock == nil {
+		s.exitBlock = s.f.NewBlock(ssa.BlockPlain)
+	}
+	return s.exitBlock
+}
+
+func (s *state) jumpExit(sym *Sym) *ssa.Block {
+	if s.exitBlock != nil {
+		s.Fatalf("jump return must be the only return in a function")
+	}
+	s.exitBlock = s.f.NewBlock(ssa.BlockPlain)
+	s.exitJmpSym = sym
+	return s.exitBlock
 }
 
 type funcLine struct {
@@ -786,13 +837,12 @@ func (s *state) stmt(n *Node) {
 
 	case ORETURN:
 		s.stmtList(n.List)
-		s.exit()
+		b := s.endBlock()
+		b.AddEdgeTo(s.regularExit())
 	case ORETJMP:
 		s.stmtList(n.List)
-		b := s.exit()
-		b.Kind = ssa.BlockRetJmp // override BlockRet
-		b.Aux = n.Left.Sym
-
+		b := s.endBlock()
+		b.AddEdgeTo(s.jumpExit(n.Left.Sym))
 	case OCONTINUE, OBREAK:
 		var op string
 		var to *ssa.Block
@@ -961,37 +1011,6 @@ func (s *state) stmt(n *Node) {
 	default:
 		s.Fatalf("unhandled stmt %v", n.Op)
 	}
-}
-
-// exit processes any code that needs to be generated just before returning.
-// It returns a BlockRet block that ends the control flow. Its control value
-// will be set to the final memory state.
-func (s *state) exit() *ssa.Block {
-	if hasdefer {
-		s.rtcall(Deferreturn, true, nil)
-	}
-
-	// Run exit code. Typically, this code copies heap-allocated PPARAMOUT
-	// variables back to the stack.
-	s.stmtList(s.exitCode)
-
-	// Store SSAable PPARAMOUT variables back to stack locations.
-	for _, n := range s.returns {
-		addr := s.decladdrs[n]
-		val := s.variable(n, n.Type)
-		s.vars[&memVar] = s.newValue1A(ssa.OpVarDef, ssa.TypeMem, n, s.mem())
-		s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, n.Type.Size(), addr, val, s.mem())
-		// TODO: if val is ever spilled, we'd like to use the
-		// PPARAMOUT slot for spilling it. That won't happen
-		// currently.
-	}
-
-	// Do actual return.
-	m := s.mem()
-	b := s.endBlock()
-	b.Kind = ssa.BlockRet
-	b.SetControl(m)
-	return b
 }
 
 type opAndType struct {
@@ -3023,11 +3042,7 @@ func (s *state) call(n *Node, k callKind) *ssa.Value {
 		b.SetControl(call)
 		bNext := s.f.NewBlock(ssa.BlockPlain)
 		b.AddEdgeTo(bNext)
-		// Add recover edge to exit code.
-		r := s.f.NewBlock(ssa.BlockPlain)
-		s.startBlock(r)
-		s.exit()
-		b.AddEdgeTo(r)
+		b.AddEdgeTo(s.regularExit())
 		b.Likely = ssa.BranchLikely
 		s.startBlock(bNext)
 	}
