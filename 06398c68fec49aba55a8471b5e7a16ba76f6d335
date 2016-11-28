@@ -16,6 +16,24 @@
       "revId": "06398c68fec49aba55a8471b5e7a16ba76f6d335",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d8afbd9_c76252ec",
+        "filename": "test/prove.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-11-28T14:57:32Z",
+      "side": 1,
+      "message": "I guess what I mean is \"currently, but no guarantee\".",
+      "parentUuid": "702a0062_3c4e09df",
+      "revId": "06398c68fec49aba55a8471b5e7a16ba76f6d335",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
