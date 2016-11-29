@@ -16,6 +16,24 @@
       "revId": "0b92b93428a39dd36c754f1d6eb78bf9b7fdddeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_7e6f8e15",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1442,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2016-11-29T17:12:20Z",
+      "side": 1,
+      "message": "No, the goroutine started when the tran started will take care of that. I want the caller of commit to get the ctx.Err() msg so they are aware of what happened when they tried to commit it.",
+      "parentUuid": "702a0062_ddcec770",
+      "revId": "0b92b93428a39dd36c754f1d6eb78bf9b7fdddeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
