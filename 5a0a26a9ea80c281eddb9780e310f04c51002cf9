@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "702a0062_7289850c",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2016-11-29T03:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_efed9209",
+      "revId": "5a0a26a9ea80c281eddb9780e310f04c51002cf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_8f089609",
         "filename": "src/cmd/go/pkg.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-29T02:35:41Z",
       "side": 1,
       "message": "Just write\n    if len(importPos) \u003d\u003d 0 {\nor even better write it the way it already is in the existing code:\n    if len(importPos) \u003e 0 {\n        pos :\u003d importPos[0]\n        pos.Filename \u003d shortPath(pos.Filename)\n        p.Error.Pos \u003d pos.String()\n    }\n    return p",
+      "revId": "5a0a26a9ea80c281eddb9780e310f04c51002cf9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_9286f9f9",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2016-11-29T03:03:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_8f089609",
       "revId": "5a0a26a9ea80c281eddb9780e310f04c51002cf9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
