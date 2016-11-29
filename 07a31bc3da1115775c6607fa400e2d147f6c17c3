@@ -22,6 +22,30 @@
       "revId": "07a31bc3da1115775c6607fa400e2d147f6c17c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_03f9d6cf",
+        "filename": "src/crypto/x509/verify.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2016-11-29T22:34:12Z",
+      "side": 1,
+      "message": "I\u0027m not sufficiently convinced that it\u0027s /not/ needed and thus included it. There are lots of oddities in the Web PKI, like multiple versions of root certificates and cycles in the issuance graph. This seems like a worthwhile hedge with low cost.",
+      "parentUuid": "b010f8cf_de326523",
+      "range": {
+        "startLine": 352,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 3
+      },
+      "revId": "07a31bc3da1115775c6607fa400e2d147f6c17c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
