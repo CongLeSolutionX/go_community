@@ -3399,7 +3399,7 @@ func typecheckas2(n *Node) {
 	}
 
 mismatch:
-	yyerror("assignment count mismatch: %d = %d", cl, cr)
+	yyerror("assignment count mismatch\n\thave %d values from %.v\n\twant %d values for %.v", cr, n.Rlist, cl, n.List)
 
 	// second half of dance
 out:
