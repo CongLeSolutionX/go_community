@@ -34,6 +34,23 @@
       "revId": "0b92b93428a39dd36c754f1d6eb78bf9b7fdddeb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_3ef0b61f",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-29T17:20:50Z",
+      "side": 1,
+      "message": "this screams flaky to me. We have some very slow builders.\n\nInstead, use something like net/http\u0027s:\n\nfunc waitCondition(waitFor, checkEvery time.Duration, fn func() bool) bool {\n        deadline :\u003d time.Now().Add(waitFor)\n        for time.Now().Before(deadline) {\n                if fn() {\n                        return true\n                }\n                time.Sleep(checkEvery)\n        }\n        return false\n}\n\n\nAnd then write:\n\n    var numFree int\n    if !waitUntilCondition(5 * time.Second, 5 * time.Millisecond, func() bool {\n          numFree \u003d db.numFreeConns()\n          return numFreeConns \u003d\u003d 0\n    }) {\n        t.Fatalf(\"free conns after hitting EOF \u003d %d; want 0\", numFree)\n    }",
+      "revId": "0b92b93428a39dd36c754f1d6eb78bf9b7fdddeb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
