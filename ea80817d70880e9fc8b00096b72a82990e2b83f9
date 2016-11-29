@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702a0062_001aac98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-29T21:15:47Z",
+      "side": 1,
+      "message": "lowercase remove",
+      "revId": "ea80817d70880e9fc8b00096b72a82990e2b83f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_0001cc20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-29T21:15:47Z",
+      "side": 1,
+      "message": "drop \"to stderr\" (it might not be stderr if ErrorLog is set).",
+      "revId": "ea80817d70880e9fc8b00096b72a82990e2b83f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_2025f0bf",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1726,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-29T21:15:47Z",
+      "side": 1,
+      "message": "what about this one? I guess it\u0027s whitelisted since we did it before? It\u0027s still user input.",
+      "revId": "ea80817d70880e9fc8b00096b72a82990e2b83f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
