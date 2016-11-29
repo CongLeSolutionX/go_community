@@ -3399,7 +3399,7 @@ func typecheckas2(n *Node) {
 	}
 
 mismatch:
-	yyerror("assignment count mismatch: %d = %d", cl, cr)
+	yyerror("assignment count mismatch: %v are %d variables, but %v provides %d values", n.List, cl, n.Rlist, cr)
 
 	// second half of dance
 out:
