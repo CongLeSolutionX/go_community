@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702a0062_c2bd069d",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-29T00:32:44Z",
+      "side": 1,
+      "message": "it\u0027s invalid to call Err() before receiving from Done.",
+      "revId": "001c65bb8677a29ec61fe80fb5a20658377e390d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
