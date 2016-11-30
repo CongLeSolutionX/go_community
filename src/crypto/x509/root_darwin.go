@@ -6,7 +6,11 @@
 
 package x509
 
-import "os/exec"
+import (
+	"bytes"
+	"encoding/pem"
+	"os/exec"
+)
 
 func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate, err error) {
 	return nil, nil
@@ -20,6 +24,27 @@ func execSecurityRoots() (*CertPool, error) {
 	}
 
 	roots := NewCertPool()
-	roots.AppendCertsFromPEM(data)
+	for len(data) > 0 {
+		var block *pem.Block
+		block, data = pem.Decode(data)
+		if block == nil {
+			break
+		}
+		if block.Type != "CERTIFICATE" || len(block.Headers) != 0 {
+			continue
+		}
+
+		cmd := exec.Command("/usr/bin/security", "verify-cert", "-c", "/dev/stdin", "-l", "-q")
+		cmd.Stdin = bytes.NewReader(pem.EncodeToMemory(block))
+		if err := cmd.Run(); err == nil {
+			// Non-zero exit means untrusted
+			cert, err := ParseCertificate(block.Bytes)
+			if err != nil {
+				continue
+			}
+
+			roots.AddCert(cert)
+		}
+	}
 	return roots, nil
 }
