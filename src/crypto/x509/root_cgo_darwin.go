@@ -93,21 +93,61 @@ int FetchPEMRoots(CFDataRef *pemRoots) {
 		return -1;
 	}
 
+	// kSecTrustSettingsResult is defined as CFSTR("kSecTrustSettingsResult"),
+	// but the Go linker's internal linking mode can't handle CFSTR relocations.
+	// Create our own dynamic string instead and release it below.
+	CFStringRef policy = CFStringCreateWithCString(NULL, "kSecTrustSettingsResult", kCFStringEncodingUTF8);
+
 	CFMutableDataRef combinedData = CFDataCreateMutable(kCFAllocatorDefault, 0);
 	for (int i = 0; i < numDomains; i++) {
 		CFArrayRef certs = NULL;
-		// Only get certificates from domain that are trusted
 		OSStatus err = SecTrustSettingsCopyCertificates(domains[i], &certs);
 		if (err != noErr) {
 			continue;
 		}
 
-		int numCerts = CFArrayGetCount(certs);
+		CFIndex numCerts = CFArrayGetCount(certs);
 		for (int j = 0; j < numCerts; j++) {
 			CFDataRef data = NULL;
 			CFErrorRef errRef = NULL;
+			CFArrayRef trustSettings = NULL;
 			SecCertificateRef cert = (SecCertificateRef)CFArrayGetValueAtIndex(certs, j);
 			if (cert == NULL) {
+				continue;
+			}
+			// We only want trusted certs.
+			// Trust may be stored in any of the domains. According to Apple's
+			// SecTrustServer.c, "user trust settings overrule admin trust settings",
+			// so take the last trust settings array we find.
+			for (int k = 0; k < numDomains; k++) {
+				CFArrayRef domainTrustSettings = NULL;
+				err = SecTrustSettingsCopyTrustSettings(cert, domains[k], &domainTrustSettings);
+				if (err == errSecSuccess && domainTrustSettings != NULL) {
+					if (trustSettings) {
+						CFRelease(trustSettings);
+					}
+					trustSettings = domainTrustSettings;
+				}
+			}
+			if (trustSettings == NULL) {
+				// "this certificate must be verified to a known trusted certificate"; aka not a root.
+				continue;
+			}
+			int skip = 0;
+			for (CFIndex k = 0; k < CFArrayGetCount(trustSettings); k++) {
+				CFNumberRef cfNum;
+				CFDictionaryRef tSetting = (CFDictionaryRef)CFArrayGetValueAtIndex(trustSettings, k);
+				if (CFDictionaryGetValueIfPresent(tSetting, policy, (const void**)&cfNum)){
+					SInt32 result = 0;
+					CFNumberGetValue(cfNum, kCFNumberSInt32Type, &result);
+					// TODO: The rest of the dictionary specifies conditions for evaluation.
+					if (result == kSecTrustSettingsResultDeny) {
+						skip = 1;
+					}
+				}
+			}
+			CFRelease(trustSettings);
+			if (skip != 0) { // User doesn't trust this cert
 				continue;
 			}
 			// We only want to add Root CAs, so make sure Subject and Issuer Name match
@@ -144,6 +184,7 @@ int FetchPEMRoots(CFDataRef *pemRoots) {
 		}
 		CFRelease(certs);
 	}
+	CFRelease(policy);
 	*pemRoots = combinedData;
 	return 0;
 }
