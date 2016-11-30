@@ -289,8 +289,10 @@ On Unix, the value is a colon-separated string.
 On Windows, the value is a semicolon-separated string.
 On Plan 9, the value is a list.
 
-GOPATH must be set to get, build and install packages outside the
-standard Go tree.
+If the environment variable is unset,
+GOPATH defaults to a subdirectory named "go" in the
+user's home directory (for example, $HOME/go on Unix).
+Run "go env GOPATH" to see the current GOPATH.
 
 Each directory listed in GOPATH must have a prescribed structure:
 
