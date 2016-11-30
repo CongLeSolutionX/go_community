@@ -6,10 +6,74 @@
 
 package x509
 
-import "os/exec"
+import (
+	"bytes"
+	"encoding/pem"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"os/exec"
+	"strconv"
+	"sync"
+	"syscall"
+)
 
 func (c *Certificate) systemVerify(opts *VerifyOptions) (chains [][]*Certificate, err error) {
 	return nil, nil
+}
+
+// needsTmpFiles reports whether the OS is <= 10.11 (which requires real
+// files as arguments to the security command).
+var needsTmpFiles = func() bool {
+	release, err := syscall.Sysctl("kern.osrelease")
+	if err != nil {
+		return true
+	}
+	for i, c := range release {
+		if c == '.' {
+			release = release[:i]
+			break
+		}
+	}
+	major, err := strconv.Atoi(release)
+	if err != nil {
+		return true
+	}
+	return major <= 15
+}()
+
+func verifyCertWithSystem(block *pem.Block, add func(*Certificate)) {
+	data := pem.EncodeToMemory(block)
+	var cmd *exec.Cmd
+	if needsTmpFiles {
+		f, err := ioutil.TempFile("", "cert")
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "can't create temporary file for cert: %v", err)
+			return
+		}
+		defer os.Remove(f.Name())
+		if _, err := f.Write(data); err != nil {
+			fmt.Fprintf(os.Stderr, "can't write temporary file for cert: %v", err)
+			return
+		}
+		if err := f.Close(); err != nil {
+			fmt.Fprintf(os.Stderr, "can't write temporary file for cert: %v", err)
+			return
+		}
+		cmd = exec.Command("/usr/bin/security", "verify-cert", "-c", f.Name(), "-l")
+	} else {
+		cmd = exec.Command("/usr/bin/security", "verify-cert", "-c", "/dev/stdin", "-l")
+		cmd.Stdin = bytes.NewReader(data)
+	}
+	if cmd.Run() == nil {
+		// Non-zero exit means untrusted
+		cert, err := ParseCertificate(block.Bytes)
+		if err != nil {
+			return
+		}
+
+		add(cert)
+	}
 }
 
 func execSecurityRoots() (*CertPool, error) {
@@ -19,7 +83,38 @@ func execSecurityRoots() (*CertPool, error) {
 		return nil, err
 	}
 
-	roots := NewCertPool()
-	roots.AppendCertsFromPEM(data)
+	var (
+		mu    sync.Mutex
+		roots = NewCertPool()
+	)
+	add := func(cert *Certificate) {
+		mu.Lock()
+		defer mu.Unlock()
+		roots.AddCert(cert)
+	}
+	blockCh := make(chan *pem.Block)
+	var wg sync.WaitGroup
+	for i := 0; i < 4; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for block := range blockCh {
+				verifyCertWithSystem(block, add)
+			}
+		}()
+	}
+	for len(data) > 0 {
+		var block *pem.Block
+		block, data = pem.Decode(data)
+		if block == nil {
+			break
+		}
+		if block.Type != "CERTIFICATE" || len(block.Headers) != 0 {
+			continue
+		}
+		blockCh <- block
+	}
+	close(blockCh)
+	wg.Wait()
 	return roots, nil
 }
