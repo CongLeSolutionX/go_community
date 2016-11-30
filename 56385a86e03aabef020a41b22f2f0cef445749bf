@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "702a0062_caa34380",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-30T22:45:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_a7156805",
+      "revId": "56385a86e03aabef020a41b22f2f0cef445749bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_27ded82d",
         "filename": "src/crypto/x509/root_darwin.go",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "702a0062_0a871bf8",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-30T22:45:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_27ded82d",
+      "revId": "56385a86e03aabef020a41b22f2f0cef445749bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_87ddc42f",
         "filename": "src/crypto/x509/root_darwin.go",
         "patchSetId": 1
@@ -64,6 +100,24 @@
       "writtenOn": "2016-11-30T22:27:20Z",
       "side": 1,
       "message": "and then you can check the return value of this from the main goroutine",
+      "revId": "56385a86e03aabef020a41b22f2f0cef445749bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_2a921f39",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-11-30T22:45:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_87ddc42f",
       "revId": "56385a86e03aabef020a41b22f2f0cef445749bf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
