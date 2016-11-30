@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702a0062_c7641ccb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T22:22:18Z",
+      "side": 1,
+      "message": "Be clear on tense. Be explicit that this CL fixes the problem and it\u0027s not a TODO for the future.\n\n; this changes Go to use those when ...\n\nMore importantly, it\u0027s just consistent with the tense we normally use.",
+      "revId": "56385a86e03aabef020a41b22f2f0cef445749bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
