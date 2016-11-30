@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702a0062_87c86445",
+        "filename": "doc/install-source.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T21:42:06Z",
+      "side": 1,
+      "message": "More often /usr/local/go but this is fine too.",
+      "revId": "74628a8b9f102bddd5078ee426efe0fd57033115",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_47be6c99",
+        "filename": "doc/install.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T21:42:06Z",
+      "side": 1,
+      "message": "LGTM",
+      "revId": "74628a8b9f102bddd5078ee426efe0fd57033115",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_a7ad6868",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T21:42:06Z",
+      "side": 1,
+      "message": "good find.",
+      "revId": "74628a8b9f102bddd5078ee426efe0fd57033115",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
