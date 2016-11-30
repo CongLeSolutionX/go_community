@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "702a0062_843062b2",
+        "filename": "doc/articles/go_command.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-30T21:38:43Z",
+      "side": 1,
+      "message": "Happy to drop the comment.",
+      "parentUuid": "702a0062_a6880d42",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_46f3d1ed",
         "filename": "doc/articles/go_command.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2016-11-30T20:21:31Z",
       "side": 1,
       "message": "drop \"src/\". According to line 173 we\u0027re already in the src directory.",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_44fcaa97",
+        "filename": "doc/articles/go_command.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-30T21:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_46f3d1ed",
       "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "702a0062_24ded62d",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-30T21:38:43Z",
+      "side": 1,
+      "message": "I changed the command to \u0027cd src/github.com/username\u0027. That\u0027s good enough for a FAQ answer.",
+      "parentUuid": "702a0062_c6c0a139",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_c61c2130",
         "filename": "doc/install.html",
         "patchSetId": 2
@@ -82,6 +136,24 @@
       "writtenOn": "2016-11-30T20:21:31Z",
       "side": 1,
       "message": "trailing whitespace if you care.",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_a4f2c6b6",
+        "filename": "doc/install.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-30T21:38:43Z",
+      "side": 1,
+      "message": "Done, because you cared. :-)",
+      "parentUuid": "702a0062_c61c2130",
       "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "702a0062_04eab2bc",
+        "filename": "doc/install.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-30T21:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_663c5585",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_86394996",
         "filename": "doc/install.html",
         "patchSetId": 2
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "2d82efcd_f9edb345",
+        "filename": "doc/install.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-30T21:38:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_86394996",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_860869db",
         "filename": "src/cmd/go/help.go",
         "patchSetId": 2
@@ -133,6 +241,24 @@
       "writtenOn": "2016-11-30T20:21:31Z",
       "side": 1,
       "message": "No Windows mention at least? I can understand omitting Plan 9.",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d82efcd_f92a938c",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-11-30T21:38:43Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "702a0062_860869db",
       "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
