@@ -22,7 +22,7 @@ func parseFile(filename string) {
 	}
 	defer src.Close()
 
-	p := noder{baseline: lexlineno}
+	p := noder{baseline: uint(lexlineno)}
 	file, _ := syntax.Parse(src, p.error, p.pragma, 0) // errors are tracked via p.error
 
 	p.file(file)
@@ -40,8 +40,8 @@ func parseFile(filename string) {
 
 // noder transforms package syntax's AST into a Nod tree.
 type noder struct {
-	baseline  int32
-	linknames []int // tracks //go:linkname lines
+	baseline  uint
+	linknames []uint // tracks //go:linkname lines
 }
 
 func (p *noder) file(file *syntax.File) {
@@ -50,7 +50,7 @@ func (p *noder) file(file *syntax.File) {
 
 	xtop = append(xtop, p.decls(file.DeclList)...)
 
-	lexlineno = p.baseline + int32(file.Lines) - 1
+	lexlineno = int32(p.baseline + file.Lines - 1)
 	lineno = lexlineno
 }
 
@@ -231,7 +231,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 		yyerror("can only use //go:noescape with external func implementations")
 	}
 	f.Func.Pragma = pragma
-	lineno = p.baseline + int32(fun.EndLine) - 1
+	lineno = int32(p.baseline + fun.EndLine - 1)
 	f.Func.Endlineno = lineno
 
 	funcbody(f)
@@ -357,14 +357,14 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 			l[i] = p.wrapname(expr.ElemList[i], e)
 		}
 		n.List.Set(l)
-		lineno = p.baseline + int32(expr.EndLine) - 1
+		lineno = int32(p.baseline + expr.EndLine - 1)
 		return n
 	case *syntax.KeyValueExpr:
 		return p.nod(expr, OKEY, p.expr(expr.Key), p.wrapname(expr.Value, p.expr(expr.Value)))
 	case *syntax.FuncLit:
 		closurehdr(p.typeExpr(expr.Type))
 		body := p.stmts(expr.Body)
-		lineno = p.baseline + int32(expr.EndLine) - 1
+		lineno = int32(p.baseline + expr.EndLine - 1)
 		return p.setlineno(expr, closurebody(body))
 	case *syntax.ParenExpr:
 		return p.nod(expr, OPAREN, p.expr(expr.X), nil)
@@ -986,12 +986,12 @@ func (p *noder) nod(orig syntax.Node, op Op, left, right *Node) *Node {
 }
 
 func (p *noder) setlineno(src syntax.Node, dst *Node) *Node {
-	l := int32(src.Line())
+	l := src.Pos().Line()
 	if l == 0 {
 		// TODO(mdempsky): Shouldn't happen. Fix package syntax.
 		return dst
 	}
-	dst.Lineno = p.baseline + l - 1
+	dst.Lineno = int32(p.baseline + l - 1)
 	return dst
 }
 
@@ -999,27 +999,27 @@ func (p *noder) lineno(n syntax.Node) {
 	if n == nil {
 		return
 	}
-	l := int32(n.Line())
+	l := n.Pos().Line()
 	if l == 0 {
 		// TODO(mdempsky): Shouldn't happen. Fix package syntax.
 		return
 	}
-	lineno = p.baseline + l - 1
+	lineno = int32(p.baseline + l - 1)
 }
 
 func (p *noder) error(err error) {
 	line := p.baseline
 	var msg string
 	if err, ok := err.(syntax.Error); ok {
-		line += int32(err.Line) - 1
+		line += err.Line - 1
 		msg = err.Msg
 	} else {
 		msg = err.Error()
 	}
-	yyerrorl(line, "%s", msg)
+	yyerrorl(int32(line), "%s", msg)
 }
 
-func (p *noder) pragma(pos, line int, text string) syntax.Pragma {
+func (p *noder) pragma(line uint, text string) syntax.Pragma {
 	switch {
 	case strings.HasPrefix(text, "line "):
 		// Want to use LastIndexByte below but it's not defined in Go1.4 and bootstrap fails.
@@ -1033,13 +1033,13 @@ func (p *noder) pragma(pos, line int, text string) syntax.Pragma {
 			break
 		}
 		if n > 1e8 {
-			p.error(syntax.Error{Pos: pos, Line: line, Msg: "line number out of range"})
+			p.error(syntax.Error{Line: line, Msg: "line number out of range"})
 			errorexit()
 		}
 		if n <= 0 {
 			break
 		}
-		lexlineno = p.baseline + int32(line)
+		lexlineno = int32(p.baseline + line)
 		linehistupdate(text[5:i], n)
 
 	case strings.HasPrefix(text, "go:linkname "):
@@ -1049,7 +1049,7 @@ func (p *noder) pragma(pos, line int, text string) syntax.Pragma {
 
 		f := strings.Fields(text)
 		if len(f) != 3 {
-			p.error(syntax.Error{Pos: pos, Line: line, Msg: "usage: //go:linkname localname linkname"})
+			p.error(syntax.Error{Line: line, Msg: "usage: //go:linkname localname linkname"})
 			break
 		}
 		lookup(f[1]).Linkname = f[2]
