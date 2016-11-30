@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702a0062_a6880d42",
+        "filename": "doc/articles/go_command.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T20:21:31Z",
+      "side": 1,
+      "message": "Unfortunately there\u0027s no succinct and portable way to tell people how to get just the first element of their GOPATH:\n\n$ GOPATH\u003d/foo:/bar go env GOPATH\n/foo:/bar",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_46f3d1ed",
+        "filename": "doc/articles/go_command.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T20:21:31Z",
+      "side": 1,
+      "message": "drop \"src/\". According to line 173 we\u0027re already in the src directory.",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_8612291a",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T20:21:31Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we should have \"go env -1 GOPATH\" where the -1 flag means \"first, only one\"",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_c61c2130",
+        "filename": "doc/install.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T20:21:31Z",
+      "side": 1,
+      "message": "trailing whitespace if you care.",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_663c5585",
+        "filename": "doc/install.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T20:21:31Z",
+      "side": 1,
+      "message": "s/the that/that/",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_86394996",
+        "filename": "doc/install.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T20:21:31Z",
+      "side": 1,
+      "message": "\"executable binary\" seems redundant. Drop one of the words?",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_860869db",
+        "filename": "src/cmd/go/help.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-11-30T20:21:31Z",
+      "side": 1,
+      "message": "No Windows mention at least? I can understand omitting Plan 9.",
+      "revId": "d7a4ec7659ff649d311c1688894387573ecb6a1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
