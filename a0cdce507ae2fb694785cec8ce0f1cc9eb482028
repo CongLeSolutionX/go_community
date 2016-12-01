@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adffbf6a_c7593c79",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2016-12-01T17:32:40Z",
+      "side": 1,
+      "message": "Just have this function return a bool, reporting whether the cert is valid to use or not?\n\nor return a *Certificate (non-nil if valid).",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 69
+      },
+      "revId": "a0cdce507ae2fb694785cec8ce0f1cc9eb482028",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
