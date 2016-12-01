@@ -698,6 +698,44 @@ func traceback1(pc, sp, lr uintptr, gp *g, flags uint) {
 }
 
 func callers(skip int, pcbuf []uintptr) int {
+	if framepointer_enabled {
+		// walk the frames using fp
+		// TODO: handle cgo entry/exit
+		// TODO: this loop depends on the stack not being copied out from under it.
+		// Currently ok, but won't be if we preempt at loop backedges.
+		fp := getcallerfp(unsafe.Pointer(&skip))
+		n := 0
+		skip--
+		for n < len(pcbuf) {
+			println("FP", hex(fp))
+			pc := *(*uintptr)(unsafe.Pointer(fp + 8)) // TODO: amd64 only
+			println("PC", hex(pc))
+			if pc == 0 {
+				break // TODO: remove?
+			}
+			if pc == funcPC(goexit)+sys.PCQuantum {
+				break
+			}
+			if skip > 0 {
+				skip--
+			} else {
+				pcbuf[n] = pc
+				n++
+			}
+			fp = *(*uintptr)(unsafe.Pointer(fp)) // TODO: amd64 only
+			if fp == 0 {
+				break
+			}
+			if fp < 1000 {
+				println("N", n)
+				for i := 0; i < n; i++ {
+					println(hex(pcbuf[i]))
+				}
+				//break // TODO: remove
+			}
+		}
+		return n
+	}
 	sp := getcallersp(unsafe.Pointer(&skip))
 	pc := getcallerpc(unsafe.Pointer(&skip))
 	gp := getg()

@@ -217,6 +217,12 @@ func getcallersp(argp unsafe.Pointer) uintptr {
 	return uintptr(argp) - sys.MinFrameSize
 }
 
+//go:nosplit
+func getcallerfp(argp unsafe.Pointer) uintptr {
+	// TODO: amd64 only.  How to do this for other architectures?
+	return *(*uintptr)(add(argp, 1<<64-16))
+}
+
 //go:noescape
 func asmcgocall(fn, arg unsafe.Pointer) int32
 
