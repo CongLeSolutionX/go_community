@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "702a0062_cd351d38",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-12-01T16:03:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_4d14cdba",
+      "revId": "eb76a77c9efb2b7e0ef4de257b84a3b5290fde36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_edce6144",
         "filename": "src/crypto/x509/root_darwin.go",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "702a0062_ad38e931",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-12-01T16:03:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_edce6144",
+      "revId": "eb76a77c9efb2b7e0ef4de257b84a3b5290fde36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "702a0062_2d0f99a8",
         "filename": "src/crypto/x509/root_darwin.go",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2016-12-01T14:50:58Z",
       "side": 1,
       "message": "This code is going to run at startup in every program, but it\u0027s only needed when cgo is not in use. Please make it a real function and use once.Do:\n\nvar versionCache struct {\n    sync.Once\n    major int\n}\n\nfunc needsTmpFiles() bool {\n    versionCache.Do(func() {\n        ...\n        versionCache.major \u003d major\n    })\n    return versionCache.major \u003c\u003d 15\n}\n\nThis way, nothing runs at init. In cgo programs, nothing runs ever.",
+      "revId": "eb76a77c9efb2b7e0ef4de257b84a3b5290fde36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_8d4325af",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-12-01T16:03:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "702a0062_2d0f99a8",
       "revId": "eb76a77c9efb2b7e0ef4de257b84a3b5290fde36",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
