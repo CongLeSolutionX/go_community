@@ -1477,6 +1477,41 @@ var oneBitCount = [256]uint8{
 	4, 5, 5, 6, 5, 6, 6, 7,
 	5, 6, 6, 7, 6, 7, 7, 8}
 
+// countRecovered runs through the mark bits in a span and counts the number of objects
+// recovered by ROC.
+func (s *mspan) countRecovered() uintptr {
+	count := uintptr(0)
+	maxIndex := s.freeindex / 8
+	minIndex := s.startindex / 8
+	if minIndex == maxIndex {
+		for ii := s.startindex; ii < s.freeindex; ii++ {
+			if !s.isIndexMarked(ii) {
+				count++
+			}
+		}
+		return count
+	}
+
+	if bitsInFirstByte := s.startindex % 8; bitsInFirstByte != 0 {
+		mrkBits := *addb(s.allocBits, minIndex)
+		mask := ^uint8((1 << bitsInFirstByte) - 1)
+		bits := mrkBits & mask
+		count += uintptr(oneBitCount[bits])
+		minIndex++
+	}
+	for i := minIndex; i < maxIndex; i++ {
+		mrkBits := *addb(s.allocBits, i)
+		count += uintptr(oneBitCount[mrkBits])
+	}
+	if bitsInLastByte := s.freeindex % 8; bitsInLastByte != 0 {
+		mrkBits := *addb(s.allocBits, maxIndex)
+		mask := uint8((1 << bitsInLastByte) - 1)
+		bits := mrkBits & mask
+		count += uintptr(oneBitCount[bits])
+	}
+	return (s.freeindex) - s.startindex - count
+}
+
 // countFree runs through the mark bits in a span and counts the number of free objects
 // in the span.
 // TODO:(rlh) Use popcount intrinsic.

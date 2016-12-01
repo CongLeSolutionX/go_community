@@ -289,8 +289,8 @@ func (s *mspan) sweep(preserve bool) bool {
 		throw("nfree>s.nelems")
 	}
 
-	nalloc := s.nelems - nfree // number marked as allocated by recent GC, based on s.gcmarkbits.
-
+	nalloc := s.nelems - nfree      // number marked as allocated by recent GC, based on s.gcmarkbits.
+	nfreed := s.allocCount - nalloc // This is the number of objects this GC cycle has freed.
 	if nalloc > s.allocCount {
 		println("runtime:mgcsweep.go:310 nelems=", s.nelems, " nfree=", nfree, " nalloc=", nalloc, " should not be > allocCount=", s.allocCount,
 			"\n     gcphase=", atomic.Load(&gcphase), "s.sweepgen=", s.sweepgen, "s.freeindex=", s.freeindex,
@@ -323,7 +323,7 @@ func (s *mspan) sweep(preserve bool) bool {
 	// But we need to set it before we make the span available for allocation
 	// (return it to heap or mcentral), because allocation code assumes that a
 	// span is already swept if available for allocation.
-	if freeToHeap || nfree == 0 {
+	if freeToHeap || nfreed == 0 {
 		// The span must be in our exclusive ownership until we update sweepgen,
 		// check for potential races.
 		if s.state != mSpanInUse || s.sweepgen != sweepgen-1 {
@@ -336,8 +336,8 @@ func (s *mspan) sweep(preserve bool) bool {
 		atomic.Store(&s.sweepgen, sweepgen)
 	}
 
-	if nfree > 0 && spc.sizeclass() != 0 {
-		c.local_nsmallfree[spc.sizeclass()] += uintptr(nfree)
+	if nfreed > 0 && spc.sizeclass() != 0 {
+		c.local_nsmallfree[spc.sizeclass()] += uintptr(nfreed)
 		res = mheap_.central[spc].mcentral.freeSpan(s, preserve)
 		// MCentral_FreeSpan updates sweepgen
 	} else if freeToHeap {
