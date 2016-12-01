@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "702a0062_8dc88545",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-12-01T14:14:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adffbf6a_dbd8ff82",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adffbf6a_3bbe6b09",
         "filename": "src/crypto/x509/root_cgo_darwin.go",
         "patchSetId": 5
@@ -65,6 +83,24 @@
       "writtenOn": "2016-12-01T02:37:13Z",
       "side": 1,
       "message": "Security.framework is subtle in how it does this.\n\nThe logic is (pseudo-code) expressed more as:\n\nfor (user, system, admin as trust domains) {\n  // copy trust settings for cert hash\n  for (trust policies in trust settings dict) {\n    if (policy matches cert validation params) {\n      // copy result *if present*\n      if (result !\u003d kSecTrustSettingsResultUnspecified)\n         return result\n      // Otherwise, copy the allowed error(s)\n    }\n  }\n}\n\nHere\u0027s why I highlight this: An untrusted certificate that had squelched errors (e.g. allowed errors) may not have a result, or may have it set as kSecTrustSettingsResultUnspecified, and you would end up trusting it.\n\nA more conservative approach would be:\nfor (each cert from SecTrustSettingsCopyCertificates-sorted-and-deduped) {\n  include \u003d false;\n  for (user, system, admin as trust domains) {\n    SecTrustSettingsCopyTrustDomain(cert, domain, settings);\n    for (each policy in trust settings) {\n      if (basicPolicyMatch) {\n        if (result \u003d\u003d trust || result \u003d\u003d trustasroot) {\n          include \u003d true;\n        }\n        break;\n      }\n    }\n  }\n  if (include) AppendToPEM(cert)\n}\n\n\nThe reason I highlight this is that you would end up treating as root certs certs which are restricted to a particular application or a particular policy. A conservative (naive) implementation of basicPolicyMatch would be:\n\n- no kSecTrustSettingsPolicyKey (meaning: applies to all policies)\n- no kSecTrustSettingsApplication (meaning: applies to all applications)\n- no kSecTrustSEttingsPolicyString (meaning: interpreted per policy, but generally means \u0027no per-host policies\u0027)\n- [ignore allowedErr, that\u0027s an additive thing]\n- has a kSecTrustSettingsResult\n\n\nIf you want to restrict to root certs, kSecTrustSettingResultTrustRoot will enforce they\u0027re self-signed (if returned from CopyTrustSettings, meaning params were validated). Otherwise, kSecTrustSettingResultTrustAsRoot will also allow manually-specified trust anchors.",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_6dc35129",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2016-12-01T14:14:17Z",
+      "side": 1,
+      "message": "So... all of the system roots appear to have an empty list as a policy (which is interpreted as kSecTrustSettingResultTrustRoot). Keychain Access doesn\u0027t let you create a more complicated policy than just always trust/never trust globally or per-use.\n\nSo how does a more complicated policy come into existence? Do you have a sample?\n\nShould it be \"empty list or non-empty list with a dictionary matching your conditions\"?",
+      "parentUuid": "adffbf6a_3bbe6b09",
       "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
