@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adffbf6a_f886a9a4",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-01T01:13:30Z",
+      "side": 1,
+      "message": "s/returns true if/reports whether/ (per Go style)",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adffbf6a_18756dec",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-01T01:13:30Z",
+      "side": 1,
+      "message": "conventionally this is named \"mu\", and you put them before the things they guard.\n\nLike:\n\nvar (\n    mu sync.Mutex\n    roots \u003d NewCertPool()\n)\n\n... would be clear that mu guards roots without a comment.",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_0a6d5b1b",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-01T01:13:30Z",
+      "side": 1,
+      "message": "don\u0027t do this just for the defer scope.\n\nI\u0027d make a new named func. This is getting too long and indented as-is.",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adffbf6a_587ff5c9",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-01T01:13:30Z",
+      "side": 1,
+      "message": "just err instead of terr.",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adffbf6a_b8638132",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-01T01:13:30Z",
+      "side": 1,
+      "message": "probably worth logging so people can see why their TLS stopped working",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adffbf6a_5855353d",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-01T01:13:30Z",
+      "side": 1,
+      "message": "probably not worth the closure, but... if you\u0027re moving it to a func anyway, you can pass the closure to the new named func. So then it\u0027s useful.",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
