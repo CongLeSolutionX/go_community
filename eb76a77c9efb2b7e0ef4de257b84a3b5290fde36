@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "702a0062_4d14cdba",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-12-01T14:50:58Z",
+      "side": 1,
+      "message": "Add a comment here:\n\n// This code is only used when compiling without cgo.\n// It is here, instead of root_nocgo_darwin.go, so that tests can check it\n// even if the tests are run with cgo enabled.\n// The linker will not include these unused functions in binaries built with cgo enabled.\n\n(and then a blank line before the next comment).",
+      "revId": "eb76a77c9efb2b7e0ef4de257b84a3b5290fde36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_edce6144",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-12-01T14:50:58Z",
+      "side": 1,
+      "message": "Please reorder these functions down below their use. The file as written is in the usual backwards C language order, where function F calls G but G appears in the file before F to avoid needing to write a prototype. Go does not exert that pressure to write your program upside down, so we typically don\u0027t. Instead, write the file so that you know how the function is used before you get to it:\n\nfunc execSecurityRoots\nfunc verifyCertWithSystem\nfunc needsTmpFiles",
+      "revId": "eb76a77c9efb2b7e0ef4de257b84a3b5290fde36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_2d0f99a8",
+        "filename": "src/crypto/x509/root_darwin.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-12-01T14:50:58Z",
+      "side": 1,
+      "message": "This code is going to run at startup in every program, but it\u0027s only needed when cgo is not in use. Please make it a real function and use once.Do:\n\nvar versionCache struct {\n    sync.Once\n    major int\n}\n\nfunc needsTmpFiles() bool {\n    versionCache.Do(func() {\n        ...\n        versionCache.major \u003d major\n    })\n    return versionCache.major \u003c\u003d 15\n}\n\nThis way, nothing runs at init. In cgo programs, nothing runs ever.",
+      "revId": "eb76a77c9efb2b7e0ef4de257b84a3b5290fde36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
