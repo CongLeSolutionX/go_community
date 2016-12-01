@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "adffbf6a_4749cc30",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 16276
+      },
+      "writtenOn": "2016-12-01T17:51:53Z",
+      "side": 1,
+      "message": "Keychain Settings doesn\u0027t, but both securityd and SecTrustSettingsSetTrustSettings do.\n\nIn particular, Safari uses the latter, when accepting a certificate error and storing it, to create a SecTrustSettings policy that has\n\n- Policy Str (which is the serialized form of the SSL policy - aka the domain it\u0027s for and whether as server/client)\n- Allowed errors\n- kSecTrust*Unspecified (because it\u0027s simply recording which errors are OK to ignore, not saying to always trust the cert)\n\nAt least when I implemented compat with this policy in Chrome, Safari didn\u0027t set an application ID, so the \u0027allowed errors\u0027 affected all users.\n\nSafari does this by using SFCertificateTrustPanel, which takes the \u0027Trust\u0027 settings to create a serialized policy set of exceptions from the SecTrustRef passed in (and it\u0027s associated errors), but any other application can do so as well.",
+      "parentUuid": "702a0062_6dc35129",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adffbf6a_f886a9a4",
         "filename": "src/crypto/x509/root_darwin.go",
         "patchSetId": 5
