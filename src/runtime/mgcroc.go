@@ -276,6 +276,7 @@ func (c *mcache) recycleNormal() {
 	recoveredBytes := int64(0)
 	// Count of the number of bytes recovered by ROC that are returned from the mcache.
 	heapLiveRecovered := int64(0)
+	nfreed := uintptr(0) // total number of object freed by this routine.
 	for i := range c.alloc {
 		if c.alloc[i] == &emptymspan {
 			continue
@@ -306,6 +307,14 @@ func (c *mcache) recycleNormal() {
 				throw("recycleG encounters span that should not be incache")
 			}
 
+			for ii := s.startindex; ii < s.freeindex; ii++ {
+				if s.isFree(ii) {
+					nfreed++
+				}
+			}
+
+			// no race since we "own" this mcache
+			c.local_nsmallfree[s.spanclass.sizeclass()] += uintptr(nfreed)
 			// As an optimization move s.startindex past all objects that are now public
 			for ii := s.startindex; ii < s.freeindex; ii++ {
 				if s.isFree(ii) {
@@ -587,6 +596,21 @@ func publishStackBlock(b0, n0 uintptr, ptrmask *uint8) {
 // end of publishStack routines
 
 // Code below this point is for debugging and deserves only light review.
+
+func (s *mspan) countAllocCount() uintptr {
+	count := s.freeindex
+	for i := count; i < s.nelems; i++ {
+		if !s.isFree(i) {
+			count++
+		}
+	}
+	return count
+}
+
+func (s *mspan) verifyAllocCount() bool {
+	count := s.countAllocCount()
+	return count == s.allocCount
+}
 
 var afterFirstStartg = false
 

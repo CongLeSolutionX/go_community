@@ -600,9 +600,10 @@ func TestArrayHash(t *testing.T) {
 		}
 	}
 	if n := testing.AllocsPerRun(10, f); n > 6 {
-		// RLH ROC HACK DO NOT FIRE THIS BUT IT NEEDS TO BE DEBUGGED. t.Errorf("too many allocs %f - hash not balanced", n)
+		t.Errorf("too many allocs %f - hash not balanced", n)
 	}
 }
+
 func TestStructHash(t *testing.T) {
 	// See the comment in TestArrayHash.
 	f := func() {
