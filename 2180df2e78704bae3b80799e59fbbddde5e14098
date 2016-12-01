@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "adffbf6a_dbd8ff82",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-01T02:39:36Z",
+      "side": 1,
+      "message": "No, also 32-bit. We only ship 64-bit binaries these days, but we still support 386.\n\nAnd crap, that reminds me I still need to re-enabled the 32-bit mac builders (https://github.com/golang/go/issues/17009) after we changed our Mac builder infrastructure recently.",
+      "parentUuid": "adffbf6a_18ac4dd4",
+      "revId": "2180df2e78704bae3b80799e59fbbddde5e14098",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adffbf6a_3bbe6b09",
         "filename": "src/crypto/x509/root_cgo_darwin.go",
         "patchSetId": 5
