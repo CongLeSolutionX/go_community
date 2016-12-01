@@ -28,8 +28,8 @@ type parser struct {
 
 type parserError string // for error recovery if no error handler was installed
 
-func (p *parser) init(src io.Reader, errh ErrorHandler, pragh PragmaHandler) {
-	p.scanner.init(src, errh, pragh)
+func (p *parser) init(filename string, src io.Reader, errh ErrorHandler, pragh PragmaHandler) {
+	p.scanner.init(filename, src, errh, pragh)
 
 	p.fnest = 0
 	p.xnest = 0
