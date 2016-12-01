@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "adffbf6a_6790509e",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 16276
+      },
+      "writtenOn": "2016-12-01T17:51:53Z",
+      "side": 1,
+      "message": "I only mention this because of the inner loop introduced in 118-131, but it does mean you\u0027re going to do additional lookups that may be unnecessary.\n\nFor example, if a certificate is present in the System keychain (as a trust), but the login keychain (as a trust), you\u0027ll end up processing it twice, and scanning the other trust domains six times, rather than 3.\n\nHowever, as I was just told this is time sensitive, perhaps that optimization should be saved for a subsequent update, because it\u0027s annoying to dedupe a CFArrayRef efficiently (otherwise, I\u0027d suggest appending all the certs from all domains to a processing queue, and then filter through each domain)\n\nAlternatively, as mentioned over IM, SecTrustCopyAnchorCertificates() will return the union of the trust domains, and then you can filter them based on trust settings (effectively, lines 109-183)",
+      "revId": "a0cdce507ae2fb694785cec8ce0f1cc9eb482028",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adffbf6a_c7593c79",
         "filename": "src/crypto/x509/root_darwin.go",
         "patchSetId": 9
