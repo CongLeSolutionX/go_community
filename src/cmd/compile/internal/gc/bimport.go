@@ -1166,7 +1166,10 @@ func (p *importer) sym() *Sym {
 	if name != "_" {
 		pkg = p.pkg()
 	}
-	return pkg.Lookup(name)
+	linkname := p.string()
+	sym := pkg.Lookup(name)
+	sym.Linkname = linkname
+	return sym
 }
 
 func (p *importer) bool() bool {
