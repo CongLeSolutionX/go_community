@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d4003d4_9f8c1319",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 6825
+      },
+      "writtenOn": "2016-12-02T22:52:30Z",
+      "side": 1,
+      "message": "This change introduced a bug where t.goarch is incorrectly compared against \"windows\", which was correctly compared in the previous version of the code against t.goos.",
+      "range": {
+        "startLine": 156,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 5
+      },
+      "revId": "7736cbafd994873519372980e9eb802c37e4c8c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
