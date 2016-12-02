@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad109fcf_70e968f9",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1593,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-12-02T22:13:53Z",
+      "side": 1,
+      "message": "This will add a string (at best one byte, at worst the length of the string + 1 byte or so) to each sym, whether needed or not. This surely will blow up export data and possibly impact import and thus compile speed.\n\nAlso, this is clearly a format change making all other export datas incompatible and basically requiring all packages to be re-built.\n\nThis needs to be done more carefully:\n1) We should only write this information when needed (if we can tell from the context we don\u0027t need special bits in most cases)\n2) Either way, this needs a format version change so we are compatible with old files\n3) We need tests, incl. measurements showing impact (or no impact) on compilation performance and export data size.",
+      "revId": "4a3e20e92c85b9494e8ccc199ac0dd3325c81178",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
