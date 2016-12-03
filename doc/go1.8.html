@@ -448,6 +448,14 @@ version of gccgo.
   type has been more thoroughly documented.
 </p>
 
+<h3 id="concurrent_map_iter_write">Better Concurrent <code>map</code> Misuse Detection</h3>
+
+<p> <!-- CL 24749 -->
+  The runtime's <a href="/doc/go1.6#runtime">best effort detection of concurrent
+  misuse of <code>map</code>s</a> now also detects concurrent iteration and write,
+  and will print a diagnosis crash the program if such misuse is detected.
+</p>
+
 <h2 id="performance">Performance</h2>
 
 <p>
