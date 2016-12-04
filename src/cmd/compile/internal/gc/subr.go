@@ -838,11 +838,18 @@ func assignop(src *Type, dst *Type, why *string) Op {
 		}
 	}
 
-	// 6. rule about untyped constants - already converted by defaultlit.
-
-	// 7. Any typed value can be assigned to the blank identifier.
+	// 6. Any typed value can be assigned to the blank identifier.
 	if dst.Etype == TBLANK {
 		return OCONVNOP
+	}
+
+	// 7. rule about untyped constants - already converted by defaultlit.
+
+	// 8. uintptr can be created from an integer if it hasn't yet already been
+	// for example when declaring global variables and not inside of a function.
+	// See Issue golang.org/issues/13263.
+	if dst.Etype == TUINTPTR && src.IsInteger() {
+		return OCONV
 	}
 
 	return 0
