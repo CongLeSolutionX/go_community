@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad109fcf_5f11cf16",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-04T01:36:45Z",
+      "side": 1,
+      "message": "I don\u0027t like the fact that this allocation is in a loop (once per block).  Lift out the allocation to the top and clear the set here.\n\nMaybe you could reuse wbs?  It doesn\u0027t look live here.",
+      "revId": "9af3736e45a2d05e46a7d7e6184620b60934799a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad109fcf_ff48832f",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-04T01:36:45Z",
+      "side": 1,
+      "message": "How about w.resetArgs?",
+      "revId": "9af3736e45a2d05e46a7d7e6184620b60934799a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
