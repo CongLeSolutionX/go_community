@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad109fcf_f47425f1",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-05T16:33:52Z",
+      "side": 1,
+      "message": "This \"and\" feels weird too early in the list of new things.\n\nCan you rewrite and use a bit more English instead of just listing new symbols like I did?\n\nSay what these things are for?",
+      "revId": "8b63a610294531476e3155b658ae7d8dabacaae1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
