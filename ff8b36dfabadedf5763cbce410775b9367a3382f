@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdaf93ab_a1431ab0",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-05T04:00:42Z",
+      "side": 1,
+      "message": "It seems that the problem is not only for uintptr.\n\nvar (\n\tx uint\n\ty \u003d x\n\tz \u003d uint64(y)\n)\n\nOn 64-bit machine, this also doesn\u0027t work.",
+      "range": {
+        "startLine": 851,
+        "startChar": 17,
+        "endLine": 851,
+        "endChar": 25
+      },
+      "revId": "ff8b36dfabadedf5763cbce410775b9367a3382f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
