@@ -7,6 +7,7 @@ package ssa
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"regexp"
 	"runtime"
@@ -26,6 +27,8 @@ func Compile(f *Func) {
 	if f.Log() {
 		f.Logf("compiling %s\n", f.Name)
 	}
+
+	rnd := rand.New(rand.NewSource(time.Now().Unix()))
 
 	// hook to print function & phase if panic happens
 	phaseName := "init"
@@ -62,6 +65,17 @@ func Compile(f *Func) {
 		var mStart runtime.MemStats
 		if logMemStats || p.mem {
 			runtime.ReadMemStats(&mStart)
+		}
+
+		if true && !f.scheduled {
+			// Test that we don't depend on the value order, by randomizing
+			// the order of values in each block.
+			for _, b := range f.Blocks {
+				for i := 0; i < len(b.Values)-1; i++ {
+					j := i + rnd.Intn(len(b.Values)-i)
+					b.Values[i], b.Values[j] = b.Values[j], b.Values[i]
+				}
+			}
 		}
 
 		tStart := time.Now()
