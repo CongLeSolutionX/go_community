@@ -11,6 +11,8 @@ import "unsafe"
 //
 // mcaches are allocated from non-GC'd memory, so any heap pointers
 // must be specially handled.
+//
+//go:notinheap
 type mcache struct {
 	// The following members are accessed on every malloc,
 	// so they are grouped here for better caching.
@@ -76,8 +78,12 @@ func allocmcache() *mcache {
 	lock(&mheap_.lock)
 	c := (*mcache)(mheap_.cachealloc.alloc())
 	unlock(&mheap_.lock)
+<<<<<<< HEAD   (f9f6c9 [dev.garbage] Merge branch 'master' into dev.garbage)
 	memclr(unsafe.Pointer(c), unsafe.Sizeof(*c))
 	for i := range c.alloc {
+=======
+	for i := 0; i < _NumSizeClasses; i++ {
+>>>>>>> BRANCH (41908a api: promote next.txt to go1.8.txt, update go tool)
 		c.alloc[i] = &emptymspan
 	}
 	c.next_sample = nextSample()
