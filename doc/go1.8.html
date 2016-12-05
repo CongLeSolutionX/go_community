@@ -885,11 +885,13 @@ crypto/x509: return error for missing SerialNumber (CL 27238)
     <p> <!-- CL 22720, CL 27212, CL 22181, CL 22332, CL 22336, Issue 15345 -->
       The package has been fleshed out and is now used by <a href="/cmd/link/">the Go linker</a>.
       New are
-      <a href="/pkg/debug/pe/#Reloc"><code>Reloc</code></a>,
-      <a href="/pkg/debug/pe/#Section"><code>Section</code></a>,
+      <a href="/pkg/debug/pe/#Reloc"><code>Reloc</code></a>
+      and
       <a href="/pkg/debug/pe/#StringTable"><code>StringTable</code></a>,
-      the method
-      <a href="/pkg/debug/pe/#COFFSymbol.FullName"><code>COFFSymbol.FullName</code></a>,
+      the
+      <a href="/pkg/debug/pe/#Section.Relocs"><code>Section.Relocs</code></a> field,
+      the
+      <a href="/pkg/debug/pe/#COFFSymbol.FullName"><code>COFFSymbol.FullName</code></a> method,
       and
       <a href="/pkg/debug/pe/#File"><code>File</code></a>
       fields
