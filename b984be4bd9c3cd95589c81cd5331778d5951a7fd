@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ad109fcf_6a54cc17",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-12-05T20:26:09Z",
+      "side": 1,
+      "message": "Is there a reason to swap rules 6 and 7? If not, would you mind reverting that?",
+      "revId": "b984be4bd9c3cd95589c81cd5331778d5951a7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad109fcf_0aa790f4",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-12-05T20:26:09Z",
+      "side": 1,
+      "message": "I believe dst.IsInteger() should cover dst.Etype \u003d\u003d TUINTPTR too.\n\nHowever, I think this change is too intrusive. It seems like it will make any integer type assignable to any other, which is wrong. E.g.,\n\n    type T int\n    type U uint\n\n    var x T\n    var y U\n\n    x \u003d y\n\nis not valid, but I think this change will allow it.",
+      "revId": "b984be4bd9c3cd95589c81cd5331778d5951a7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdaf93ab_64364046",
         "filename": "test/fixedbugs/issue13263.go",
         "patchSetId": 3
@@ -13,6 +47,23 @@
       "writtenOn": "2016-12-05T20:21:03Z",
       "side": 1,
       "message": "drop the parentheses on type (also below)",
+      "revId": "b984be4bd9c3cd95589c81cd5331778d5951a7fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad109fcf_679e4551",
+        "filename": "test/fixedbugs/issue13263.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-12-05T20:26:09Z",
+      "side": 1,
+      "message": "Are the extra parentheses necessary to trigger the issue? I would think just \"uintptr(b)\" would be fine.\n\nIf the parentheses are necessary, we should call that out in a comment.",
       "revId": "b984be4bd9c3cd95589c81cd5331778d5951a7fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
