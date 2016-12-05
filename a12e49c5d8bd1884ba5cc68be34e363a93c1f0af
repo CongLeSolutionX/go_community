@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad109fcf_e756b5eb",
+        "filename": "src/crypto/tls/handshake_client.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-05T19:09:21Z",
+      "side": 1,
+      "message": "We already depend on strings. Just say the high-level thing you mean:\n\n     name \u003d strings.TrimRight(name, \".\")\n\nThis isn\u0027t performance-sensitive to avoid a call.",
+      "revId": "a12e49c5d8bd1884ba5cc68be34e363a93c1f0af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad109fcf_a760bdb8",
+        "filename": "src/crypto/tls/handshake_messages_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-05T19:09:21Z",
+      "side": 1,
+      "message": "same. strings.TrimRight.",
+      "revId": "a12e49c5d8bd1884ba5cc68be34e363a93c1f0af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
