@@ -50,6 +50,24 @@
       "revId": "03a8fce027082df074d23895dbbc2c91121aee1b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24f349_5c221119",
+        "filename": "src/cmd/go/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-06T20:56:24Z",
+      "side": 1,
+      "message": "All the tests pass!  :)\n\n(sigh)",
+      "parentUuid": "cd24f349_7ca90d58",
+      "revId": "03a8fce027082df074d23895dbbc2c91121aee1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
