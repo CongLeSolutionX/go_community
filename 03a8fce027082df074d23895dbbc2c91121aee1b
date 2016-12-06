@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd24f349_7cd26dee",
+        "filename": "src/cmd/go/terminal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-06T20:53:25Z",
+      "side": 1,
+      "message": "If I understand this correctly, this test will never run when invoked by all.bash.  Should we add something to cmd/dist/test.go to run just this test, so that it inherits the terminal from the process running all.bash?",
+      "revId": "03a8fce027082df074d23895dbbc2c91121aee1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24f349_39988760",
+        "filename": "src/cmd/go/terminal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-06T20:53:25Z",
+      "side": 1,
+      "message": "This should normally do\n    defer tg.cleanup()",
+      "revId": "03a8fce027082df074d23895dbbc2c91121aee1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24f349_7ca90d58",
+        "filename": "src/cmd/go/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-06T20:53:25Z",
+      "side": 1,
+      "message": "Something is wrong here.  If the test times out, the messages will be written to buf and will then appear in out.  But if testStreamOutput is true, nothing ever prints buf or out to the terminal.",
+      "revId": "03a8fce027082df074d23895dbbc2c91121aee1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
