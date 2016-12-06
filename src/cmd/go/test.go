@@ -13,7 +13,6 @@ import (
 	"go/doc"
 	"go/parser"
 	"go/token"
-	"io"
 	"os"
 	"os/exec"
 	"path"
@@ -1122,12 +1121,8 @@ func (b *builder) runTest(a *action) error {
 	cmd.Env = envForDir(cmd.Dir, origEnv)
 	var buf bytes.Buffer
 	if testStreamOutput {
-		// The only way to keep the ordering of the messages and still
-		// intercept its contents. os/exec will share the same Pipe for
-		// both Stdout and Stderr when running the test program.
-		mw := io.MultiWriter(os.Stdout, &buf)
-		cmd.Stdout = mw
-		cmd.Stderr = mw
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
 	} else {
 		cmd.Stdout = &buf
 		cmd.Stderr = &buf
