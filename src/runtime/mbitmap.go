@@ -1367,7 +1367,6 @@ func publishDebug(ptr uintptr) {
 			if b == 0 {
 				continue // nil
 			}
-
 			bBase, _, s, _ := heapBitsForObject(b, 0, 0)
 			xxs := spanOf(bBase)
 			if s != xxs {
@@ -1394,6 +1393,7 @@ func publishDebug(ptr uintptr) {
 					// pointer sized objects are always pointers.
 					workbuf.push(bBase)
 				}
+
 				if !s.spanclass.noscan() {
 					workbuf.push(bBase)
 				} else {
