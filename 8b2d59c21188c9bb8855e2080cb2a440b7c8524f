@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad109fcf_78edc3d2",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-06T05:06:43Z",
+      "side": 1,
+      "message": "You can remove this comma now.",
+      "range": {
+        "startLine": 119,
+        "startChar": 56,
+        "endLine": 119,
+        "endChar": 57
+      },
+      "revId": "8b2d59c21188c9bb8855e2080cb2a440b7c8524f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
