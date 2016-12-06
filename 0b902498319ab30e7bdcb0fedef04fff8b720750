@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd24f349_f64a1e9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-06T18:22:32Z",
+      "side": 1,
+      "message": "This is a good point.  Currently on a nil panic the compiler just makes sure that the memory state at the panic is correct.  It does not enforce any ordering between two nil panics that might occur at the same memory state.\nI lean toward that being a reasonable if somewhat surprising behavior.  It does make nil check removal testing harder.",
+      "parentUuid": "cdaf93ab_2fe0110b",
+      "revId": "0b902498319ab30e7bdcb0fedef04fff8b720750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d4003d4_62f17824",
         "filename": "src/cmd/compile/internal/ssa/compile.go",
         "patchSetId": 1
