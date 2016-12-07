@@ -16,6 +16,24 @@
       "revId": "f417efc3b28a54ef85967e7977ff87231d065374",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24f349_ffde6a2b",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-07T15:27:45Z",
+      "side": 1,
+      "message": "I can\u0027t, because they do require locking (or at least atomic access), and they required it even before this CL.  I added a comment saying that.",
+      "parentUuid": "6db5c743_d0dfbcf3",
+      "revId": "f417efc3b28a54ef85967e7977ff87231d065374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
