@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6db5c743_d0dfbcf3",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-07T07:21:11Z",
+      "side": 1,
+      "message": "Could you document, why there is no locking needed for writing these global variables?",
+      "revId": "f417efc3b28a54ef85967e7977ff87231d065374",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
