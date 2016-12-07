@@ -4,10 +4,10 @@
 
 package ssa
 
-import "fmt"
-
-// A Lineno represents a source line number.
-type Lineno int32
+import (
+	"cmd/internal/src"
+	"fmt"
+)
 
 // Block represents a basic block in the control flow graph of a function.
 type Block struct {
@@ -16,7 +16,7 @@ type Block struct {
 	ID ID
 
 	// Line number for block's control operation
-	Line Lineno
+	Line src.Lineno
 
 	// The kind of block this is.
 	Kind BlockKind

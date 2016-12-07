@@ -4,13 +4,15 @@
 
 package ssa
 
+import "cmd/internal/src"
+
 // from http://research.swtch.com/sparse
 // in turn, from Briggs and Torczon
 
 type sparseEntry struct {
 	key ID
 	val int32
-	aux Lineno
+	aux src.Lineno
 }
 
 type sparseMap struct {
@@ -43,7 +45,7 @@ func (s *sparseMap) get(k ID) int32 {
 	return -1
 }
 
-func (s *sparseMap) set(k ID, v int32, a Lineno) {
+func (s *sparseMap) set(k ID, v int32, a src.Lineno) {
 	i := s.sparse[k]
 	if i < int32(len(s.dense)) && s.dense[i].key == k {
 		s.dense[i].val = v

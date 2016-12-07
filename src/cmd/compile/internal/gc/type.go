@@ -11,6 +11,7 @@ package gc
 
 import (
 	"cmd/compile/internal/ssa"
+	"cmd/internal/src"
 	"fmt"
 )
 
@@ -149,9 +150,9 @@ type Type struct {
 	sliceOf *Type
 	ptrTo   *Type
 
-	Sym    *Sym   // symbol containing name, for named types
-	Vargen int32  // unique name for OTYPE/ONAME
-	Lineno Lineno // line at which this type was declared, implicitly or explicitly
+	Sym    *Sym       // symbol containing name, for named types
+	Vargen int32      // unique name for OTYPE/ONAME
+	Lineno src.Lineno // line at which this type was declared, implicitly or explicitly
 
 	Etype      EType // kind of type
 	Noalg      bool  // suppress hash and eq algorithm generation
@@ -181,8 +182,8 @@ func (t *Type) MapType() *MapType {
 
 // ForwardType contains Type fields specific to forward types.
 type ForwardType struct {
-	Copyto      []*Node // where to copy the eventual value to
-	Embedlineno Lineno  // first use of this type as an embedded type
+	Copyto      []*Node    // where to copy the eventual value to
+	Embedlineno src.Lineno // first use of this type as an embedded type
 }
 
 // ForwardType returns t's extra forward-type-specific fields.

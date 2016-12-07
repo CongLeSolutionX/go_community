@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/compile/internal/ssa"
+	"cmd/internal/src"
 	"container/heap"
 	"fmt"
 )
@@ -466,7 +467,7 @@ loop:
 		// Find variable value on each predecessor.
 		args = args[:0]
 		for _, e := range b.Preds {
-			args = append(args, s.lookupVarOutgoing(e.Block(), v.Type, var_, Lineno(v.Line)))
+			args = append(args, s.lookupVarOutgoing(e.Block(), v.Type, var_, v.Line))
 		}
 
 		// Decide if we need a phi or not. We need a phi if there
@@ -499,7 +500,7 @@ loop:
 }
 
 // lookupVarOutgoing finds the variable's value at the end of block b.
-func (s *simplePhiState) lookupVarOutgoing(b *ssa.Block, t ssa.Type, var_ *Node, line Lineno) *ssa.Value {
+func (s *simplePhiState) lookupVarOutgoing(b *ssa.Block, t ssa.Type, var_ *Node, line src.Lineno) *ssa.Value {
 	for {
 		if v := s.defvars[b.ID][var_]; v != nil {
 			return v
@@ -513,7 +514,7 @@ func (s *simplePhiState) lookupVarOutgoing(b *ssa.Block, t ssa.Type, var_ *Node,
 		b = b.Preds[0].Block()
 	}
 	// Generate a FwdRef for the variable and return that.
-	v := b.NewValue0A(ssa.Lineno(line), ssa.OpFwdRef, t, var_)
+	v := b.NewValue0A(line, ssa.OpFwdRef, t, var_)
 	s.defvars[b.ID][var_] = v
 	s.s.addNamedValue(var_, v)
 	s.fwdrefs = append(s.fwdrefs, v)
