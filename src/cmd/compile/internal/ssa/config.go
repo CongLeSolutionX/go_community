@@ -88,10 +88,10 @@ type Logger interface {
 	Log() bool
 
 	// Fatal reports a compiler error and exits.
-	Fatalf(line int32, msg string, args ...interface{})
+	Fatalf(line Lineno, msg string, args ...interface{})
 
 	// Warnl writes compiler messages in the form expected by "errorcheck" tests
-	Warnl(line int32, fmt_ string, args ...interface{})
+	Warnl(line Lineno, fmt_ string, args ...interface{})
 
 	// Fowards the Debug flags from gc
 	Debug_checknil() bool
@@ -120,7 +120,7 @@ type Frontend interface {
 	SplitInt64(LocalSlot) (LocalSlot, LocalSlot) // returns (hi, lo)
 
 	// Line returns a string describing the given line number.
-	Line(int32) string
+	Line(Lineno) string
 
 	// AllocFrame assigns frame offsets to all live auto variables.
 	AllocFrame(f *Func)
@@ -338,12 +338,12 @@ func (c *Config) NewFunc() *Func {
 	return f
 }
 
-func (c *Config) Logf(msg string, args ...interface{})               { c.fe.Logf(msg, args...) }
-func (c *Config) Log() bool                                          { return c.fe.Log() }
-func (c *Config) Fatalf(line int32, msg string, args ...interface{}) { c.fe.Fatalf(line, msg, args...) }
-func (c *Config) Warnl(line int32, msg string, args ...interface{})  { c.fe.Warnl(line, msg, args...) }
-func (c *Config) Debug_checknil() bool                               { return c.fe.Debug_checknil() }
-func (c *Config) Debug_wb() bool                                     { return c.fe.Debug_wb() }
+func (c *Config) Logf(msg string, args ...interface{})                { c.fe.Logf(msg, args...) }
+func (c *Config) Log() bool                                           { return c.fe.Log() }
+func (c *Config) Fatalf(line Lineno, msg string, args ...interface{}) { c.fe.Fatalf(line, msg, args...) }
+func (c *Config) Warnl(line Lineno, msg string, args ...interface{})  { c.fe.Warnl(line, msg, args...) }
+func (c *Config) Debug_checknil() bool                                { return c.fe.Debug_checknil() }
+func (c *Config) Debug_wb() bool                                      { return c.fe.Debug_wb() }
 
 func (c *Config) logDebugHashMatch(evname, name string) {
 	file := c.logfiles[evname]

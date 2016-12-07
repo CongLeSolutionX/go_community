@@ -1014,13 +1014,13 @@ func (subst *inlsubst) node(n *Node) *Node {
 }
 
 // Plaster over linenumbers
-func setlnolist(ll Nodes, lno int32) {
+func setlnolist(ll Nodes, lno Lineno) {
 	for _, n := range ll.Slice() {
 		setlno(n, lno)
 	}
 }
 
-func setlno(n *Node, lno int32) {
+func setlno(n *Node, lno Lineno) {
 	if n == nil {
 		return
 	}

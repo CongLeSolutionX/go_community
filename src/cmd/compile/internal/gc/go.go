@@ -16,6 +16,10 @@ const (
 	MaxStackVarSize = 10 * 1024 * 1024
 )
 
+// A Lineno represents a line number.
+// Ideally we want this to be: type Lineno = ssa.Lineno.
+type Lineno int32
+
 type Pkg struct {
 	Name     string // package name, e.g. "sys"
 	Path     string // string literal used in import statement, e.g. "runtime/internal/sys"
@@ -45,7 +49,7 @@ type Sym struct {
 	Name       string // object name
 	Def        *Node  // definition: ONAME OTYPE OPACK or OLITERAL
 	Block      int32  // blocknumber to catch redeclaration
-	Lastlineno int32  // last declaration for diagnostic
+	Lastlineno Lineno // last declaration for diagnostic
 
 	Label   *Node // corresponding label (ephemeral)
 	Origpkg *Pkg  // original package for . import

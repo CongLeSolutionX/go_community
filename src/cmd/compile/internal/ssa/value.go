@@ -37,7 +37,7 @@ type Value struct {
 	Block *Block
 
 	// Source line number
-	Line int32
+	Line Lineno
 
 	// Use count. Each appearance in Value.Args and Block.Control counts once.
 	Uses int32

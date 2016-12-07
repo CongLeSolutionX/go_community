@@ -42,7 +42,7 @@ type Node struct {
 	// Possibly still more uses. If you find any, document them.
 	Xoffset int64
 
-	Lineno int32
+	Lineno Lineno
 
 	Esc uint16 // EscXXX
 
@@ -308,8 +308,8 @@ type Func struct {
 
 	Label int32 // largest auto-generated label in this function
 
-	Endlineno int32
-	WBLineno  int32 // line number of first write barrier
+	Endlineno Lineno
+	WBLineno  Lineno // line number of first write barrier
 
 	Pragma          Pragma // go:xxx function annotations
 	Dupok           bool   // duplicate definitions ok

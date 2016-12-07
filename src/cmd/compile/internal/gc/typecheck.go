@@ -3499,7 +3499,7 @@ func domethod(n *Node) {
 
 type mapqueueval struct {
 	n   *Node
-	lno int32
+	lno Lineno
 }
 
 // tracks the line numbers at which forward types are first used as map keys
