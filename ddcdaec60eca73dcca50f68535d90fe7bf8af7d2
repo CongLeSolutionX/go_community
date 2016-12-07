@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "cd24f349_15d0e7b6",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-12-07T18:40:50Z",
+      "side": 1,
+      "message": "I might be simpler, or it might not.\n\nIf we have the Lineno type in a separate package, we will need additional imports all over the place, and the Lineno type will be used via a qualified identifier. There\u0027s definitively more textual change needed.",
+      "parentUuid": "6d894777_331bd237",
+      "revId": "ddcdaec60eca73dcca50f68535d90fe7bf8af7d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d894777_13700e86",
         "filename": "src/cmd/compile/internal/gc/gsubr.go",
         "patchSetId": 2
