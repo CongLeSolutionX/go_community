@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd24f349_f5a1ab47",
+        "filename": "src/cmd/compile/internal/gc/go.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-12-07T18:34:37Z",
+      "side": 1,
+      "message": "I agree with all points.\n\nI just think it\u0027s easier to do this incrementally. In a next CL I was planning to move the Lineno type out (which is mostly a global rename that can be done automatically, and introduction of necessary import).\n\nI simply prefer to work in small incremental steps.\n\nIf you like me to produce the other CLs first, I can do that.",
+      "parentUuid": "6d894777_53145608",
+      "revId": "ddcdaec60eca73dcca50f68535d90fe7bf8af7d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d894777_13700e86",
         "filename": "src/cmd/compile/internal/gc/gsubr.go",
         "patchSetId": 2
