@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6d894777_d3bda60c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2016-12-07T15:29:21Z",
+      "side": 1,
+      "message": "It\u0027s good that the memory state at the panic is correct. I wonder if we care that the line number is correct too. If people have p\u003dq and *p and then *q and the compiler reorders, they might be confused about why *q is panicking when *p did not. I think we could be justified in saying that the line number is not guaranteed; we just need to make sure we know we\u0027re saying that.\n\nFor the test, can you do something like call a extern (body-less) function between the two checks? If p is a local then hopefully the fact that it is non-nil will be remembered across the call.",
+      "parentUuid": "cd24f349_f64a1e9d",
+      "revId": "0b902498319ab30e7bdcb0fedef04fff8b720750",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d4003d4_62f17824",
         "filename": "src/cmd/compile/internal/ssa/compile.go",
         "patchSetId": 1
