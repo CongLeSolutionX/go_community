@@ -8,6 +8,7 @@ import (
 	"cmd/compile/internal/ssa"
 	"cmd/internal/bio"
 	"cmd/internal/obj"
+	"cmd/internal/src"
 )
 
 const (
@@ -15,10 +16,6 @@ const (
 	BADWIDTH        = -1000000000
 	MaxStackVarSize = 10 * 1024 * 1024
 )
-
-// A Lineno represents a line number.
-// Ideally we want this to be: type Lineno = ssa.Lineno.
-type Lineno int32
 
 type Pkg struct {
 	Name     string // package name, e.g. "sys"
@@ -46,10 +43,10 @@ type Sym struct {
 
 	// saved and restored by dcopy
 	Pkg        *Pkg
-	Name       string // object name
-	Def        *Node  // definition: ONAME OTYPE OPACK or OLITERAL
-	Block      int32  // blocknumber to catch redeclaration
-	Lastlineno Lineno // last declaration for diagnostic
+	Name       string     // object name
+	Def        *Node      // definition: ONAME OTYPE OPACK or OLITERAL
+	Block      int32      // blocknumber to catch redeclaration
+	Lastlineno src.Lineno // last declaration for diagnostic
 
 	Label   *Node // corresponding label (ephemeral)
 	Origpkg *Pkg  // original package for . import

@@ -5,13 +5,13 @@
 package gc
 
 import (
+	"cmd/compile/internal/syntax"
+	"cmd/internal/src"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
 	"unicode/utf8"
-
-	"cmd/compile/internal/syntax"
 )
 
 func parseFile(filename string) {
@@ -40,7 +40,7 @@ func parseFile(filename string) {
 
 // noder transforms package syntax's AST into a Nod tree.
 type noder struct {
-	baseline  Lineno
+	baseline  src.Lineno
 	linknames []int // tracks //go:linkname lines
 }
 
@@ -50,7 +50,7 @@ func (p *noder) file(file *syntax.File) {
 
 	xtop = append(xtop, p.decls(file.DeclList)...)
 
-	lexlineno = p.baseline + Lineno(file.Lines) - 1
+	lexlineno = p.baseline + src.Lineno(file.Lines) - 1
 	lineno = lexlineno
 }
 
@@ -231,7 +231,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 		yyerror("can only use //go:noescape with external func implementations")
 	}
 	f.Func.Pragma = pragma
-	lineno = p.baseline + Lineno(fun.EndLine) - 1
+	lineno = p.baseline + src.Lineno(fun.EndLine) - 1
 	f.Func.Endlineno = lineno
 
 	funcbody(f)
@@ -357,14 +357,14 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 			l[i] = p.wrapname(expr.ElemList[i], e)
 		}
 		n.List.Set(l)
-		lineno = p.baseline + Lineno(expr.EndLine) - 1
+		lineno = p.baseline + src.Lineno(expr.EndLine) - 1
 		return n
 	case *syntax.KeyValueExpr:
 		return p.nod(expr, OKEY, p.expr(expr.Key), p.wrapname(expr.Value, p.expr(expr.Value)))
 	case *syntax.FuncLit:
 		closurehdr(p.typeExpr(expr.Type))
 		body := p.stmts(expr.Body)
-		lineno = p.baseline + Lineno(expr.EndLine) - 1
+		lineno = p.baseline + src.Lineno(expr.EndLine) - 1
 		return p.setlineno(expr, closurebody(body))
 	case *syntax.ParenExpr:
 		return p.nod(expr, OPAREN, p.expr(expr.X), nil)
@@ -985,8 +985,8 @@ func (p *noder) nod(orig syntax.Node, op Op, left, right *Node) *Node {
 	return p.setlineno(orig, nod(op, left, right))
 }
 
-func (p *noder) setlineno(src syntax.Node, dst *Node) *Node {
-	l := Lineno(src.Line())
+func (p *noder) setlineno(src_ syntax.Node, dst *Node) *Node {
+	l := src.Lineno(src_.Line())
 	if l == 0 {
 		// TODO(mdempsky): Shouldn't happen. Fix package syntax.
 		return dst
@@ -999,7 +999,7 @@ func (p *noder) lineno(n syntax.Node) {
 	if n == nil {
 		return
 	}
-	l := Lineno(n.Line())
+	l := src.Lineno(n.Line())
 	if l == 0 {
 		// TODO(mdempsky): Shouldn't happen. Fix package syntax.
 		return
@@ -1011,7 +1011,7 @@ func (p *noder) error(err error) {
 	line := p.baseline
 	var msg string
 	if err, ok := err.(syntax.Error); ok {
-		line += Lineno(err.Line) - 1
+		line += src.Lineno(err.Line) - 1
 		msg = err.Msg
 	} else {
 		msg = err.Error()
@@ -1039,7 +1039,7 @@ func (p *noder) pragma(pos, line int, text string) syntax.Pragma {
 		if n <= 0 {
 			break
 		}
-		lexlineno = p.baseline + Lineno(line)
+		lexlineno = p.baseline + src.Lineno(line)
 		linehistupdate(text[5:i], n)
 
 	case strings.HasPrefix(text, "go:linkname "):
