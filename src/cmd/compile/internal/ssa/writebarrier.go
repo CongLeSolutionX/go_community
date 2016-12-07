@@ -237,7 +237,7 @@ func writebarrier(f *Func) {
 
 // wbcall emits write barrier runtime call in b, returns memory.
 // if valIsVolatile, it moves val into temp space before making the call.
-func wbcall(line int32, b *Block, fn interface{}, typ interface{}, ptr, val, mem, sp, sb *Value, valIsVolatile bool) *Value {
+func wbcall(line Lineno, b *Block, fn interface{}, typ interface{}, ptr, val, mem, sp, sb *Value, valIsVolatile bool) *Value {
 	config := b.Func.Config
 
 	var tmp GCNode

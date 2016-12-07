@@ -1253,7 +1253,7 @@ func livenessepilogue(lv *Liveness) {
 						if !n.Name.Needzero {
 							n.Name.Needzero = true
 							if debuglive >= 1 {
-								Warnl(p.Lineno, "%v: %L is ambiguously live", Curfn.Func.Nname, n)
+								Warnl(Lineno(p.Lineno), "%v: %L is ambiguously live", Curfn.Func.Nname, n)
 							}
 						}
 					}
@@ -1344,7 +1344,7 @@ func livenessepilogue(lv *Liveness) {
 						}
 						n := lv.vars[j]
 						if n.Class != PPARAM {
-							yyerrorl(p.Lineno, "internal error: %v %L recorded as live on entry, p.Pc=%v", Curfn.Func.Nname, n, p.Pc)
+							yyerrorl(Lineno(p.Lineno), "internal error: %v %L recorded as live on entry, p.Pc=%v", Curfn.Func.Nname, n, p.Pc)
 						}
 					}
 				}

@@ -180,9 +180,9 @@ func pickReg(r regMask) register {
 }
 
 type use struct {
-	dist int32 // distance from start of the block to a use of a value
-	line int32 // line number of the use
-	next *use  // linked list of uses of a value in nondecreasing dist order
+	dist int32  // distance from start of the block to a use of a value
+	line Lineno // line number of the use
+	next *use   // linked list of uses of a value in nondecreasing dist order
 }
 
 type valState struct {
@@ -287,8 +287,8 @@ type endReg struct {
 
 type startReg struct {
 	r    register
-	vid  ID    // pre-regalloc value needed in this register
-	line int32 // line number of use of this register
+	vid  ID     // pre-regalloc value needed in this register
+	line Lineno // line number of use of this register
 }
 
 // freeReg frees up register r. Any current user of r is kicked out.
@@ -410,7 +410,7 @@ func (s *regAllocState) allocReg(mask regMask, v *Value) register {
 // allocated register is marked nospill so the assignment cannot be
 // undone until the caller allows it by clearing nospill. Returns a
 // *Value which is either v or a copy of v allocated to the chosen register.
-func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, line int32) *Value {
+func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, line Lineno) *Value {
 	vi := &s.values[v.ID]
 
 	// Check if v is already in a requested register.
@@ -617,7 +617,7 @@ func (s *regAllocState) init(f *Func) {
 
 // Adds a use record for id at distance dist from the start of the block.
 // All calls to addUse must happen with nonincreasing dist.
-func (s *regAllocState) addUse(id ID, dist int32, line int32) {
+func (s *regAllocState) addUse(id ID, dist int32, line Lineno) {
 	r := s.freeUseRecords
 	if r != nil {
 		s.freeUseRecords = r.next
@@ -1881,14 +1881,14 @@ type contentRecord struct {
 	vid   ID     // pre-regalloc value
 	c     *Value // cached value
 	final bool   // this is a satisfied destination
-	line  int32  // line number of use of the value
+	line  Lineno // line number of use of the value
 }
 
 type dstRecord struct {
 	loc    Location // register or stack slot
 	vid    ID       // pre-regalloc value it should contain
 	splice **Value  // place to store reference to the generating instruction
-	line   int32    // line number of use of this location
+	line   Lineno   // line number of use of this location
 }
 
 // setup initializes the edge state for shuffling.
@@ -2017,7 +2017,7 @@ func (e *edgeState) process() {
 
 // processDest generates code to put value vid into location loc. Returns true
 // if progress was made.
-func (e *edgeState) processDest(loc Location, vid ID, splice **Value, line int32) bool {
+func (e *edgeState) processDest(loc Location, vid ID, splice **Value, line Lineno) bool {
 	occupant := e.contents[loc]
 	if occupant.vid == vid {
 		// Value is already in the correct place.
@@ -2139,7 +2139,7 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value, line int32
 }
 
 // set changes the contents of location loc to hold the given value and its cached representative.
-func (e *edgeState) set(loc Location, vid ID, c *Value, final bool, line int32) {
+func (e *edgeState) set(loc Location, vid ID, c *Value, final bool, line Lineno) {
 	e.s.f.setHome(c, loc)
 	e.erase(loc)
 	e.contents[loc] = contentRecord{vid, c, final, line}
@@ -2290,9 +2290,9 @@ func (v *Value) rematerializeable() bool {
 }
 
 type liveInfo struct {
-	ID   ID    // ID of value
-	dist int32 // # of instructions before next use
-	line int32 // line number of next use
+	ID   ID     // ID of value
+	dist int32  // # of instructions before next use
+	line Lineno // line number of next use
 }
 
 // dblock contains information about desired & avoid registers at the end of a block.

@@ -676,7 +676,7 @@ func evconst(n *Node) {
 
 	nr := n.Right
 	var rv Val
-	var lno int32
+	var lno Lineno
 	var wr EType
 	var v Val
 	var norig *Node

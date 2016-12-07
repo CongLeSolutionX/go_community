@@ -13,10 +13,10 @@ import (
 
 // lexlineno is the line number _after_ the most recently read rune.
 // In particular, it's advanced (or rewound) as newlines are read (or unread).
-var lexlineno int32
+var lexlineno Lineno
 
 // lineno is the line number at the start of the most recently lexed token.
-var lineno int32
+var lineno Lineno
 
 func isSpace(c rune) bool {
 	return c == ' ' || c == '\t' || c == '\n' || c == '\r'

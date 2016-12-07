@@ -92,7 +92,7 @@ func genshift(as obj.As, r0, r1, r int16, typ int64, s int64) *obj.Prog {
 }
 
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
-	s.SetLineno(v.Line)
+	s.SetLineno(gc.Lineno(v.Line))
 	switch v.Op {
 	case ssa.OpInitMem:
 		// memory arg needs no code
@@ -691,7 +691,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = arm64.REGTMP
 		if gc.Debug_checknil != 0 && v.Line > 1 { // v.Line==1 in generated wrappers
-			gc.Warnl(v.Line, "generated nil check")
+			gc.Warnl(gc.Lineno(v.Line), "generated nil check")
 		}
 	case ssa.OpVarDef:
 		gc.Gvardef(v.Aux.(*gc.Node))
@@ -768,7 +768,7 @@ var blockJump = map[ssa.BlockKind]struct {
 }
 
 func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
-	s.SetLineno(b.Line)
+	s.SetLineno(gc.Lineno(b.Line))
 
 	switch b.Kind {
 	case ssa.BlockPlain:
