@@ -311,7 +311,7 @@ func compile(fn *Node) {
 		assertI2I2 = Sysfunc("assertI2I2")
 	}
 
-	defer func(lno int32) {
+	defer func(lno Lineno) {
 		lineno = lno
 	}(setlineno(fn))
 

@@ -618,6 +618,7 @@ var knownFormats = map[string]string{
 	"cmd/compile/internal/gc.EType %v":                "",
 	"cmd/compile/internal/gc.Level %d":                "",
 	"cmd/compile/internal/gc.Level %v":                "",
+	"cmd/compile/internal/gc.Lineno %d":               "",
 	"cmd/compile/internal/gc.Node %#v":                "",
 	"cmd/compile/internal/gc.Nodes %#v":               "",
 	"cmd/compile/internal/gc.Nodes %+v":               "",

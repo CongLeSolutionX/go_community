@@ -114,7 +114,7 @@ func opregreg(op obj.As, dest, src int16) *obj.Prog {
 }
 
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
-	s.SetLineno(v.Line)
+	s.SetLineno(gc.Lineno(v.Line))
 
 	if gc.Thearch.Use387 {
 		if ssaGenValue387(s, v) {
@@ -789,7 +789,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Reg = v.Args[0].Reg()
 		gc.AddAux(&p.To, v)
 		if gc.Debug_checknil != 0 && v.Line > 1 { // v.Line==1 in generated wrappers
-			gc.Warnl(v.Line, "generated nil check")
+			gc.Warnl(gc.Lineno(v.Line), "generated nil check")
 		}
 	case ssa.Op386FCHS:
 		v.Fatalf("FCHS in non-387 mode")
@@ -825,7 +825,7 @@ var nefJumps = [2][2]gc.FloatingEQNEJump{
 }
 
 func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
-	s.SetLineno(b.Line)
+	s.SetLineno(gc.Lineno(b.Line))
 
 	if gc.Thearch.Use387 {
 		// Empty the 387's FP stack before the block ends.

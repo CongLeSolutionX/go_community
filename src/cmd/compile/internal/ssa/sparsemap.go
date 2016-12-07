@@ -10,7 +10,7 @@ package ssa
 type sparseEntry struct {
 	key ID
 	val int32
-	aux int32
+	aux Lineno
 }
 
 type sparseMap struct {
@@ -43,7 +43,7 @@ func (s *sparseMap) get(k ID) int32 {
 	return -1
 }
 
-func (s *sparseMap) set(k ID, v, a int32) {
+func (s *sparseMap) set(k ID, v int32, a Lineno) {
 	i := s.sparse[k]
 	if i < int32(len(s.dense)) && s.dense[i].key == k {
 		s.dense[i].val = v
