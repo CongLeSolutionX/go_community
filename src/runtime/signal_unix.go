@@ -171,6 +171,20 @@ func sigignore(sig uint32) {
 }
 
 func resetcpuprofiler(hz int32) {
+	// Enable the SIGPROF signal handler if necessary.
+	// This is needed for -buildmode=c-archive/c-shared.
+	t := &sigtable[_SIGPROF]
+	if hz != 0 {
+		if t.flags&_SigHandling == 0 {
+			t.flags |= _SigHandling
+			fwdSig[_SIGPROF] = getsig(_SIGPROF)
+			setsig(_SIGPROF, funcPC(sighandler))
+		}
+	} else if t.flags&_SigHandling != 0 && !sigInstallGoHandler(_SIGPROF) {
+		t.flags &^= _SigHandling
+		setsig(_SIGPROF, fwdSig[_SIGPROF])
+	}
+
 	var it itimerval
 	if hz == 0 {
 		setitimer(_ITIMER_PROF, &it, nil)
