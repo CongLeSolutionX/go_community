@@ -30,7 +30,7 @@ func TestSystemRoots(t *testing.T) {
 		// 150 here, since this is just a sanity check, and the
 		// exact number will vary over time.
 		t.Logf("got %d roots", len(tt.certs))
-		if want, have := 150, len(tt.certs); have < want {
+		if want, have := 100, len(tt.certs); have < want {
 			t.Fatalf("want at least %d system roots, have %d", want, have)
 		}
 	}
