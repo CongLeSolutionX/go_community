@@ -26,11 +26,13 @@ func TestSystemRoots(t *testing.T) {
 		if tt == nil {
 			t.Fatal("no system roots")
 		}
-		// On Mavericks, there are 212 bundled certs; require only
-		// 150 here, since this is just a sanity check, and the
-		// exact number will vary over time.
+		// On Mavericks, there are 212 bundled certs, at least at
+		// at one point in time on one machine. (corp laptop?)
+		// Other OS X users report 135, 142, 145...
+		// Let's try requiring at least 100, since this is
+		// just a sanity check.
 		t.Logf("got %d roots", len(tt.certs))
-		if want, have := 150, len(tt.certs); have < want {
+		if want, have := 100, len(tt.certs); have < want {
 			t.Fatalf("want at least %d system roots, have %d", want, have)
 		}
 	}
