@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd24f349_ad8a116b",
+        "filename": "src/cmd/go/testdata/testterminal18153/terminal_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-07T01:01:55Z",
+      "side": 1,
+      "message": "Perhaps a comment explaining that this is run by cmd/dist/test.go, not by any test in cmd/go.",
+      "revId": "ebea2a2d2c279aa8d6d74b8d589882ff4df6d9e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
