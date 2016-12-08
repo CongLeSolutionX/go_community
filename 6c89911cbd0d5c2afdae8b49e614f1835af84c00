@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd24f349_3ad063b7",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-12-08T21:29:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad341fbf_aacf0f14",
+      "revId": "6c89911cbd0d5c2afdae8b49e614f1835af84c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad341fbf_6ad6f7af",
         "filename": "src/cmd/compile/internal/gc/racewalk.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-08T21:07:24Z",
       "side": 1,
       "message": "src.MakePos(0) is more future-proof.",
+      "revId": "6c89911cbd0d5c2afdae8b49e614f1835af84c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24f349_1a7007fc",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-12-08T21:29:31Z",
+      "side": 1,
+      "message": "Agreed. I\u0027ll fix this in a separate CL.",
+      "parentUuid": "ad341fbf_6ad6f7af",
       "revId": "6c89911cbd0d5c2afdae8b49e614f1835af84c00",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
