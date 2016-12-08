@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd24f349_7f61ed16",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-08T20:14:39Z",
+      "side": 1,
+      "message": "Yes. I\u0027ll add a comment. We never retry requests on freshly-obtained conns, both because they should never fail, and to have a recursion base case to stop infinite loops of conn retries.",
+      "parentUuid": "2d7aef68_f61ca0e2",
+      "revId": "b8d6ff6dd2eaf070d34a7914540872ca27c47cef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d7aef68_562c7407",
         "filename": "src/net/http/client_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-08T19:34:15Z",
       "side": 1,
       "message": "How does this verify that the POST isn\u0027t retried? e.g., wouldn\u0027t the test pass if c.Post retried internally, but failed both times when reading req.Body? I expected to see a counter in the server followed by a check that count\u003d\u003d1 at the end of the test.\n\nThe original CL says \"If the server failed on us before we even tried to write any bytes, it\u0027s safe to retry the request on a new connection, regardless of the HTTP method/idempotence.\" From that description, it sounds like we shouldn\u0027t need to replay the request body unless the HTTP library buffers the request body before sending any bytes on the wire -- does it do that?\n\nAlso, I sort-of expected to see the test inject a server failure rather than a body ready failure, since the point is to retry on server failure. Can you break the underlying net.Conn before calling c.Post, rather than injecting an error into the req.Body?",
+      "revId": "b8d6ff6dd2eaf070d34a7914540872ca27c47cef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24f349_bf054533",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1778,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-08T20:14:39Z",
+      "side": 1,
+      "message": "This was from the original Docker bug report. This is the error given by Go 1.7.\n\nI\u0027ll add a comment and also add a more explicit io.ReadCloser body that counts the number of Read calls on it. There should be only one. Previously there were two.",
+      "parentUuid": "2d7aef68_562c7407",
       "revId": "b8d6ff6dd2eaf070d34a7914540872ca27c47cef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
