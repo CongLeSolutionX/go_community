@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d7aef68_f61ca0e2",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-12-08T19:34:15Z",
+      "side": 1,
+      "message": "Is this request necessary for the test (to start a TCP connection)?",
+      "revId": "b8d6ff6dd2eaf070d34a7914540872ca27c47cef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d7aef68_562c7407",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1778,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2016-12-08T19:34:15Z",
+      "side": 1,
+      "message": "How does this verify that the POST isn\u0027t retried? e.g., wouldn\u0027t the test pass if c.Post retried internally, but failed both times when reading req.Body? I expected to see a counter in the server followed by a check that count\u003d\u003d1 at the end of the test.\n\nThe original CL says \"If the server failed on us before we even tried to write any bytes, it\u0027s safe to retry the request on a new connection, regardless of the HTTP method/idempotence.\" From that description, it sounds like we shouldn\u0027t need to replay the request body unless the HTTP library buffers the request body before sending any bytes on the wire -- does it do that?\n\nAlso, I sort-of expected to see the test inject a server failure rather than a body ready failure, since the point is to retry on server failure. Can you break the underlying net.Conn before calling c.Post, rather than injecting an error into the req.Body?",
+      "revId": "b8d6ff6dd2eaf070d34a7914540872ca27c47cef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
