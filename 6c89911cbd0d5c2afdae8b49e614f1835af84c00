@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad341fbf_aacf0f14",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2016-12-08T21:07:24Z",
+      "side": 1,
+      "message": "Update comment here too, or don\u0027t update it anywhere.",
+      "revId": "6c89911cbd0d5c2afdae8b49e614f1835af84c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad341fbf_6ad6f7af",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2016-12-08T21:07:24Z",
+      "side": 1,
+      "message": "src.MakePos(0) is more future-proof.",
+      "revId": "6c89911cbd0d5c2afdae8b49e614f1835af84c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
