@@ -1738,3 +1738,42 @@ func TestClientRedirectTypes(t *testing.T) {
 		res.Body.Close()
 	}
 }
+
+// Issue 18239: make sure the Transport doesn't retry requests with bodies.
+// (Especially if Request.GetBody is not defined.)
+func TestTransportBodyReadError(t *testing.T) {
+	setParallel(t)
+	defer afterTest(t)
+	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		if r.URL.Path == "/ping" {
+			return
+		}
+		buf := make([]byte, 1)
+		n, err := r.Body.Read(buf)
+		w.Header().Set("X-Body-Read", fmt.Sprintf("%v, %v", n, err))
+	}))
+	defer ts.Close()
+	tr := &Transport{}
+	defer tr.CloseIdleConnections()
+	c := &Client{Transport: tr}
+
+	res, err := c.Get(ts.URL + "/ping")
+	if err != nil {
+		t.Fatal(err)
+	}
+	res.Body.Close()
+
+	r, w := io.Pipe()
+	errClose := errors.New("some error")
+	w.CloseWithError(errClose)
+
+	_, err = c.Post(ts.URL+"/test", "", r)
+	wantErr := &url.Error{
+		Op:  "Post",
+		URL: ts.URL + "/test",
+		Err: errClose,
+	}
+	if !reflect.DeepEqual(err, wantErr) {
+		t.Errorf("Got error: %#v; want %#v", err, wantErr)
+	}
+}
