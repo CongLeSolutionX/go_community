@@ -16,6 +16,24 @@
       "revId": "2ffe5381e85d09535e781e911eb250e7afb2b997",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd24f349_fafbcb03",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-12-08T21:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad341fbf_2a8a3faa",
+      "revId": "2ffe5381e85d09535e781e911eb250e7afb2b997",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
