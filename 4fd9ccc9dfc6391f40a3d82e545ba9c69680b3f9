@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a427b4d_f55ef02e",
+        "filename": "src/cmd/link/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2016-12-09T03:00:46Z",
+      "side": 1,
+      "message": "nit: \"will be\" or \"are\".",
+      "revId": "4fd9ccc9dfc6391f40a3d82e545ba9c69680b3f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
