@@ -24,6 +24,8 @@ type labelContextKey struct{}
 // labelMap is the representation of the label set held in the context type.
 // This is an initial implementation, but it will be replaced with something
 // that admits incremental immutable modification more efficiently.
+// TODO(matloob): This should probably be replaced with a proflabel.Labels
+// linked list.
 type labelMap map[string]string
 
 // WithLabels returns a new context.Context with the given labels added.
