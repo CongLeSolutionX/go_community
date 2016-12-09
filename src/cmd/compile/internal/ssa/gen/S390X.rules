@@ -200,9 +200,6 @@
 (Lsh8x16 <t> x y)  -> (ANDW (SLW <t> x y) (SUBEWcarrymask <t> (CMPWUconst (MOVHZreg y) [31])))
 (Lsh8x8  <t> x y)  -> (ANDW (SLW <t> x y) (SUBEWcarrymask <t> (CMPWUconst (MOVBZreg y) [31])))
 
-(Lrot64 <t> x [c]) -> (RLLGconst <t> [c&63] x)
-(Lrot32 <t> x [c]) -> (RLLconst <t> [c&31] x)
-
 (Rsh64Ux64 <t> x y) -> (AND (SRD <t> x y) (SUBEcarrymask <t> (CMPUconst y [63])))
 (Rsh64Ux32 <t> x y) -> (AND (SRD <t> x y) (SUBEcarrymask <t> (CMPWUconst y [63])))
 (Rsh64Ux16 <t> x y) -> (AND (SRD <t> x y) (SUBEcarrymask <t> (CMPWUconst (MOVHZreg y) [63])))
@@ -517,6 +514,17 @@
 (SLD x (ANDconst [63] y)) -> (SLD x y)
 (SRW x (ANDWconst [63] y)) -> (SRW x y)
 (SRD x (ANDconst [63] y)) -> (SRD x y)
+
+// Rotate generation
+( OR (SLDconst x [c]) (SRDconst x [64-c])) -> (RLLGconst [c&63] x)
+(XOR (SLDconst x [c]) (SRDconst x [64-c])) -> (RLLGconst [c&63] x)
+( OR (SRDconst x [c]) (SLDconst x [64-c])) -> (RLLGconst [(64-c)&63] x)
+(XOR (SRDconst x [c]) (SLDconst x [64-c])) -> (RLLGconst [(64-c)&63] x)
+
+( ORW (SLWconst x [c]) (SRWconst x [32-c])) -> (RLLconst [c&31] x)
+(XORW (SLWconst x [c]) (SRWconst x [32-c])) -> (RLLconst [c&31] x)
+( ORW (SRWconst x [c]) (SLWconst x [32-c])) -> (RLLconst [(32-c)&31] x)
+(XORW (SRWconst x [c]) (SLWconst x [32-c])) -> (RLLconst [(32-c)&31] x)
 
 (CMP x (MOVDconst [c])) && is32Bit(c) -> (CMPconst x [c])
 (CMP (MOVDconst [c]) x) && is32Bit(c) -> (InvertFlags (CMPconst x [c]))
