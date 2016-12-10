@@ -7,20 +7,25 @@ package lex
 import (
 	"io"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/scanner"
 	"unicode"
+
+	"cmd/asm/internal/flags"
+	"cmd/internal/obj"
+	"cmd/internal/src"
 )
 
 // A Tokenizer is a simple wrapping of text/scanner.Scanner, configured
 // for our purposes and made a TokenReader. It forms the lowest level,
 // turning text from readers into tokens.
 type Tokenizer struct {
-	tok      ScanToken
-	s        *scanner.Scanner
-	line     int
-	fileName string
-	file     *os.File // If non-nil, file descriptor to close.
+	tok  ScanToken
+	s    *scanner.Scanner
+	base *src.PosBase
+	line int
+	file *os.File // If non-nil, file descriptor to close.
 }
 
 func NewTokenizer(name string, r io.Reader, file *os.File) *Tokenizer {
@@ -37,14 +42,23 @@ func NewTokenizer(name string, r io.Reader, file *os.File) *Tokenizer {
 		scanner.ScanComments
 	s.Position.Filename = name
 	s.IsIdentRune = isIdentRune
-	if file != nil {
-		linkCtxt.LineHist.Push(histLine, name)
+	// Determine directory for relative file paths.
+	// This is a copy of the code in obj.Linknew;
+	// we could get it also from an obj.Link.Pathname
+	// but we don't have a link context here. Easier
+	// to do the work here than passing around a context.
+	var dir string
+	dir, _ = os.Getwd()
+	if dir == "" {
+		dir = "/???"
 	}
+	dir = filepath.ToSlash(dir)
+
 	return &Tokenizer{
-		s:        &s,
-		line:     1,
-		fileName: name,
-		file:     file,
+		s:    &s,
+		base: src.NewFileBase(name, obj.AbsFile(dir, name, *flags.TrimPath)),
+		line: 1,
+		file: file,
 	}
 }
 
@@ -79,8 +93,12 @@ func (t *Tokenizer) Text() string {
 	return t.s.TokenText()
 }
 
-func (t *Tokenizer) File() string {
-	return t.fileName
+func (t *Tokenizer) Base() *src.PosBase {
+	return t.base
+}
+
+func (t *Tokenizer) SetBase(base *src.PosBase) {
+	t.base = base
 }
 
 func (t *Tokenizer) Line() int {
@@ -89,11 +107,6 @@ func (t *Tokenizer) Line() int {
 
 func (t *Tokenizer) Col() int {
 	return t.s.Pos().Column
-}
-
-func (t *Tokenizer) SetPos(line int, file string) {
-	t.line = line
-	t.fileName = file
 }
 
 func (t *Tokenizer) Next() ScanToken {
@@ -105,15 +118,11 @@ func (t *Tokenizer) Next() ScanToken {
 		}
 		length := strings.Count(s.TokenText(), "\n")
 		t.line += length
-		histLine += length
 		// TODO: If we ever have //go: comments in assembly, will need to keep them here.
 		// For now, just discard all comments.
 	}
 	switch t.tok {
 	case '\n':
-		if t.file != nil {
-			histLine++
-		}
 		t.line++
 	case '-':
 		if s.Peek() == '>' {
@@ -146,7 +155,5 @@ func (t *Tokenizer) Next() ScanToken {
 func (t *Tokenizer) Close() {
 	if t.file != nil {
 		t.file.Close()
-		// It's an open file, so pop the line history.
-		linkCtxt.LineHist.Pop(histLine)
 	}
 }

@@ -51,8 +51,9 @@ func Linknew(arch *LinkArch) *Link {
 	buf = filepath.ToSlash(buf)
 	ctxt.Pathname = buf
 
-	ctxt.LineHist.GOROOT = GOROOT
-	ctxt.LineHist.Dir = ctxt.Pathname
+	// LineHist is not used anymore
+	// ctxt.LineHist.GOROOT = GOROOT
+	// ctxt.LineHist.Dir = ctxt.Pathname
 
 	ctxt.Headtype.Set(GOOS)
 	if ctxt.Headtype < 0 {
