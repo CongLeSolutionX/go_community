@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a427b4d_c751f4f2",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-12T22:43:16Z",
+      "side": 1,
+      "message": "\u003ccode\u003egcc\u003c/code\u003e-generated",
+      "revId": "0ea6292feb86e57fd76c19dc9a1b1b11fdde7612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a427b4d_476504c7",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-12T22:43:16Z",
+      "side": 1,
+      "message": "The new foo and bar provide access....\n\nBut it doesn\u0027t say what foo and bar are. Types? Funcs? Fields?",
+      "revId": "0ea6292feb86e57fd76c19dc9a1b1b11fdde7612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a427b4d_c778d46c",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-12T22:43:16Z",
+      "side": 1,
+      "message": "The new",
+      "revId": "0ea6292feb86e57fd76c19dc9a1b1b11fdde7612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a427b4d_a77dd05b",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-12T22:43:16Z",
+      "side": 1,
+      "message": "to the COFF\n\nor\n\nto COFF symbol tables.",
+      "revId": "0ea6292feb86e57fd76c19dc9a1b1b11fdde7612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
