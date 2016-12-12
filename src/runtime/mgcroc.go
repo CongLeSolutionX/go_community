@@ -48,35 +48,7 @@ func (c *mcache) startG() {
 	_g_.rocvalid = isGCoff()      // ROC optimizations are invalidated if a GC is in process.
 	_g_.rocgcnum = memstats.numgc // thread safe since it is only modified in mark termination which is STW
 
-	for i := range c.alloc {
-		s := c.alloc[i]
-		if s != &emptymspan {
-			s.startindex = s.freeindex
-			// Since we are only remembering the last goroutine
-			// we need to undo the nextUsedSpan list.
-			next := s.nextUsedSpan
-			s.nextUsedSpan = nil
-			for s = next; s != nil; s = next {
-				s.startindex = s.freeindex
-				// The write barrier uses this to see if a slot is between
-				// startindex and freeindex. If so it is in the current
-				// rollback eligible area and is local if its allocation
-				// bit is not set.
-				if s.allocated() != s.nelems {
-					// Only the first span (c.alloc[i]) should have free objects.
-					throw("s.alloced() should != s.nelems")
-				}
-				next = s.nextUsedSpan
-				s.nextUsedSpan = nil
-				// Note that this does not release the span in c.alloc[i] which remains in the mcache.
-				mheap_.central[i].mcentral.releaseROCSpan(s) // nextUsedSpan is nil since this can be reused immediately
-			}
-		}
-	}
-
-	// clean up tiny logic
-	c.tiny = 0
-	c.tinyoffset = 0
+	c.publishMCache(false)
 	if _g_.rocvalid {
 		_g_.rocvalid = isGCoff()
 	}
@@ -97,59 +69,72 @@ func (c *mcache) publishG() {
 	}
 	mp := acquirem()
 	_g_ := getg().m.curg
+	c.publishMCache(true)
+	if _g_ != nil {
+		_g_.rocvalid = true
+	}
+	releasem(mp)
+}
+
+// publishMCache publishes the spans associated with macache c.
+// This can be alled without an associated g, for example
+// when a syscall is blocked and the p is being retaken.
+func (c *mcache) publishMCache(rollbackStat bool) {
 	for i := range c.alloc {
-		if c.alloc[i] == &emptymspan {
-			continue
-		}
-		if !c.alloc[i].incache {
-			println("runtime: i=", i, "gcphase=", gcphase, "mheap_.sweepgen=", mheap_.sweepgen, "c.alloc[i].sweepgen=", c.alloc[i].sweepgen)
-			throw("c.alloc[i].incache should be true")
-		}
-		next := c.alloc[i]
-		for s := next; s != nil; s = next {
-			next = s.nextUsedSpan
+		s := c.alloc[i]
+		if s != &emptymspan {
+			if !c.alloc[i].incache {
+				throw("c.alloc[i].incache should be true")
+			}
+			s.startindex = s.freeindex
+			// Spans that were filled and are no longer being used for allocation
+			// are released. The current span in c.alloc[i] that is still being used for
+			// allocation is not released.
+			next := s.nextUsedSpan
 			s.nextUsedSpan = nil
-			if s == &emptymspan {
-				throw("s == &emptymspan")
+			// Skip past the first (current) span in c.alloc[i] and release the rest.
+			if rollbackStat {
+				s.abortRollbackCount++ // Save some statistics
 			}
-			if s.elemsize == 0 {
-				throw("s.elemsize == 0")
-			}
-			if s != c.alloc[i] {
+			for s = next; s != nil; s = next {
 				if s.incache {
 					// only the first span is considered in an mcache
-					throw("publishG encounters span that should not be marked incache")
+					throw("span incorrectly marked incache")
 				}
+				// If a slot is between startindex and freeindex and its allocation
+				// bit is not set it is considered local by the write barrier. Make
+				// all such slots public by moving startindex to freeindex.
+				s.startindex = s.freeindex
 				if s.freeindex != s.nelems {
 					throw("s.freeindex != s.nelems and span is on ROC used list.")
 				}
-				s.startindex = s.freeindex
-				mheap_.central[i].mcentral.releaseROCSpan(s) // empty free list so leave s on empty list....
-			} else {
-				// This is the active span in the mcache.
-				s.startindex = s.freeindex
+				next = s.nextUsedSpan
+				s.nextUsedSpan = nil
+				// Note that this does not release the span in c.alloc[i] which remains in the mcache.
+				mheap_.central[i].mcentral.releaseROCSpan(s) // nextUsedSpan is nil since this can be reused immediately
+				if rollbackStat {
+					s.abortRollbackCount++ // Save some statistics
+				}
 			}
-			s.abortRollbackCount++ // Save some statistics
 		}
 	}
 	// publish all the largeAllocSpans
 	for s := c.largeAllocSpans; s != nil; s, s.nextUsedSpan = s.nextUsedSpan, nil {
-		// aborting rollback so just release the spans after adjusting allocCount to s.nelems.
 		if s.freeindex != s.nelems {
 			throw("s.freeindex != s.nelems and span is on ROC incache used largeAllocSpan list.")
 		}
+		if s.allocCount != s.nelems {
+			throw(" s.allocCount != s.nelems and span is on ROC incache used largeAllocSpan list.")
+		}
 		s.startindex = s.freeindex
-		s.allocCount = s.nelems
-		s.abortRollbackCount++ // Save some statistics
+		if rollbackStat {
+			s.abortRollbackCount++ // Save some statistics
+		}
 	}
 	c.largeAllocSpans = nil
-	if _g_ != nil {
-		_g_.rocvalid = true
-	}
 	// clean up tiny logic
 	c.tiny = 0
 	c.tinyoffset = 0
-	releasem(mp)
 }
 
 // Keeps track of the total number of bytes ROC recovers.
