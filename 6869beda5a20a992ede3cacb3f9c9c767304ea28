@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a427b4d_db09c90e",
+        "filename": "src/cmd/go/get.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T05:53:27Z",
+      "side": 1,
+      "message": "This condition should have a comment--the old code said \"We pass useVendor here because p.load does not vendor-expand TestImports and XTestImports.\" and the corresponding comment could go here.",
+      "revId": "6869beda5a20a992ede3cacb3f9c9c767304ea28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
