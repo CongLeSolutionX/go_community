@@ -12,6 +12,26 @@ import (
 	"testing"
 )
 
+var validTests = []struct {
+	data []byte
+	ok   bool
+}{
+	{[]byte(`foo`), false},
+	{[]byte(`}{`), false},
+	{[]byte(`{]`), false},
+	{[]byte(`{}`), true},
+	{[]byte(`{"foo":"bar"}`), true},
+	{[]byte(`{"foo":"bar","bar":{"baz":["qux"]}}`), true},
+}
+
+func TestValid(t *testing.T) {
+	for _, tt := range validTests {
+		if ok := Valid(tt.data); ok != tt.ok {
+			t.Errorf("Valid(%#q) = %v, want %v", string(tt.data), ok, tt.ok)
+		}
+	}
+}
+
 // Tests of simple examples.
 
 type example struct {

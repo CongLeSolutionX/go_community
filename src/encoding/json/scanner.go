@@ -15,6 +15,11 @@ package json
 
 import "strconv"
 
+// Valid verifies that data is valid JSON-encoded data.
+func Valid(data []byte) bool {
+	return checkValid(data, &scanner{}) == nil
+}
+
 // checkValid verifies that data is valid JSON-encoded data.
 // scan is passed in for use by checkValid to avoid an allocation.
 func checkValid(data []byte, scan *scanner) error {
