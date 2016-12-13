@@ -961,7 +961,7 @@ func gcStart(mode gcMode, forceTrigger bool) {
 	// another thread.
 	useStartSema := mode == gcBackgroundMode
 	if useStartSema {
-		semacquire(&work.startSema, 0)
+		semacquire(&work.startSema)
 		// Re-check transition condition under transition lock.
 		if !gcShouldStart(forceTrigger) {
 			semrelease(&work.startSema)
@@ -985,7 +985,7 @@ func gcStart(mode gcMode, forceTrigger bool) {
 	}
 
 	// Ok, we're doing it!  Stop everybody else
-	semacquire(&worldsema, 0)
+	semacquire(&worldsema)
 
 	if trace.enabled {
 		traceGCStart()
@@ -1106,7 +1106,7 @@ func gcStart(mode gcMode, forceTrigger bool) {
 // by mark termination.
 func gcMarkDone() {
 top:
-	semacquire(&work.markDoneSema, 0)
+	semacquire(&work.markDoneSema)
 
 	// Re-check transition condition under transition lock.
 	if !(gcphase == _GCmark && work.nwait == work.nproc && !gcMarkWorkAvailable(nil)) {
