@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a756307_0846e7c4",
+        "filename": "src/cmd/link/internal/ld/config.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:41:56Z",
+      "side": 1,
+      "message": "FYI: I updated the issue title of #14449 to also mention 32-bit MIPS.",
+      "range": {
+        "startLine": 187,
+        "startChar": 57,
+        "endLine": 187,
+        "endChar": 61
+      },
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_8839f734",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:41:56Z",
+      "side": 1,
+      "message": "Period at end of sentence.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_08c8a70f",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:41:56Z",
+      "side": 1,
+      "message": "I feel like the two cases are a bit easier to read if written on one line.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_48c29fef",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:41:56Z",
+      "side": 1,
+      "message": "Cases on one line.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_a8b15392",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:41:56Z",
+      "side": 1,
+      "message": "I suggest adding parentheses to clarify the operator precedence here for the reader.",
+      "range": {
+        "startLine": 96,
+        "startChar": 38,
+        "endLine": 96,
+        "endChar": 45
+      },
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_68c75bfe",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:41:56Z",
+      "side": 1,
+      "message": "Cases on one line.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_88665743",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:41:56Z",
+      "side": 1,
+      "message": "Should we do overflow checking here?",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_6882fb9e",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:41:56Z",
+      "side": 1,
+      "message": "Cases on one line.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
