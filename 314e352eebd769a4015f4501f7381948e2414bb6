@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a427b4d_7b69bd35",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-13T03:30:52Z",
+      "side": 1,
+      "message": "tables\n\n(\"access to COFF string table\") is missing an article. But using the plural avoids the need for an article. Plus relocations is already plural.",
+      "revId": "314e352eebd769a4015f4501f7381948e2414bb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
