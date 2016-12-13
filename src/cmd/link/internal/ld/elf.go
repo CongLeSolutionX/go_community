@@ -936,7 +936,8 @@ func Elfinit(ctxt *Link) {
 		fallthrough
 	case sys.AMD64, sys.ARM64, sys.MIPS64:
 		if SysArch.Family == sys.MIPS64 {
-			ehdr.flags = 0x20000000 /* MIPS 3 */
+			// Marking ELF object as CPIC to make external linker happy
+			ehdr.flags = 0x20000004 /* MIPS 3 CPIC*/
 		}
 		elf64 = true
 
@@ -962,7 +963,7 @@ func Elfinit(ctxt *Link) {
 				ehdr.flags = 0x5000002 // has entry point, Version5 EABI
 			}
 		} else if SysArch.Family == sys.MIPS {
-			ehdr.flags = 0x50000000 /* MIPS 32 */
+			ehdr.flags = 0x50001004 /* MIPS 32 CPIC O32*/
 		}
 		fallthrough
 	default:
