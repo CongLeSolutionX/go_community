@@ -20,7 +20,7 @@ import (
 func HammerSemaphore(s *uint32, loops int, cdone chan bool) {
 	for i := 0; i < loops; i++ {
 		Runtime_Semacquire(s)
-		Runtime_Semrelease(s)
+		Runtime_Semrelease(s, false)
 	}
 	cdone <- true
 }
