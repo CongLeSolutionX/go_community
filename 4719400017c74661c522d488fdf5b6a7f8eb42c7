@@ -22,6 +22,30 @@
       "revId": "4719400017c74661c522d488fdf5b6a7f8eb42c7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dabcabd0_93dbfcd6",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-12-13T17:33:03Z",
+      "side": 1,
+      "message": "Yes, I will explanation and comments.\n\nFor this particular case, yes, starving can be set by another goroutine. One goroutines switches mutes to starving mode, and then a chain of waiters is unblocked with handoff protocols (already have mutex pre-locked for them).",
+      "parentUuid": "5aa6fbc4_af04f97f",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 102,
+        "endChar": 28
+      },
+      "revId": "4719400017c74661c522d488fdf5b6a7f8eb42c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
