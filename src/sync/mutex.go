@@ -37,7 +37,10 @@ type Locker interface {
 const (
 	mutexLocked = 1 << iota // mutex is locked
 	mutexWoken
+	mutexStarving
 	mutexWaiterShift = iota
+
+	starvationThresholdNs = 1e6
 )
 
 // Lock locks m.
@@ -52,41 +55,66 @@ func (m *Mutex) Lock() {
 		return
 	}
 
+	var waitStartTime int64
+	queueLifo := false
+	starving := false
 	awoke := false
 	iter := 0
+	old := m.state
 	for {
-		old := m.state
-		new := old | mutexLocked
-		if old&mutexLocked != 0 {
-			if runtime_canSpin(iter) {
-				// Active spinning makes sense.
-				// Try to set mutexWoken flag to inform Unlock
-				// to not wake other blocked goroutines.
-				if !awoke && old&mutexWoken == 0 && old>>mutexWaiterShift != 0 &&
-					atomic.CompareAndSwapInt32(&m.state, old, old|mutexWoken) {
-					awoke = true
-				}
-				runtime_doSpin()
-				iter++
-				continue
+		if old&mutexLocked != 0 && old&mutexStarving == 0 && runtime_canSpin(iter) {
+			// Active spinning makes sense.
+			// Try to set mutexWoken flag to inform Unlock
+			// to not wake other blocked goroutines.
+			if !awoke && old&mutexWoken == 0 && old>>mutexWaiterShift != 0 &&
+				atomic.CompareAndSwapInt32(&m.state, old, old|mutexWoken) {
+				awoke = true
 			}
-			new = old + 1<<mutexWaiterShift
+			runtime_doSpin()
+			iter++
+			old = m.state
+			continue
+		}
+		new := old
+		if old&mutexStarving == 0 {
+			new |= mutexLocked
+		}
+		if old&(mutexLocked|mutexStarving) != 0 {
+			new += 1 << mutexWaiterShift
+		}
+		if starving && old&mutexLocked != 0 {
+			new |= mutexStarving
 		}
 		if awoke {
 			// The goroutine has been woken from sleep,
 			// so we need to reset the flag in either case.
 			if new&mutexWoken == 0 {
-				throw("sync: inconsistent mutex state")
+				panic("sync: inconsistent mutex state")
 			}
 			new &^= mutexWoken
 		}
 		if atomic.CompareAndSwapInt32(&m.state, old, new) {
-			if old&mutexLocked == 0 {
+			if old&(mutexLocked|mutexStarving) == 0 {
 				break
 			}
-			runtime_SemacquireMutex(&m.sema)
+			runtime_SemacquireMutex(&m.sema, queueLifo)
+			old = m.state
+			if old&mutexStarving != 0 {
+				if old>>mutexWaiterShift == 0 || waitStartTime == 0 || runtime_nanotime()-waitStartTime < starvationThresholdNs {
+					atomic.AddInt32(&m.state, -mutexStarving)
+				}
+				break
+			}
+			if waitStartTime == 0 {
+				waitStartTime = runtime_nanotime()
+			} else {
+				starving = runtime_nanotime()-waitStartTime > starvationThresholdNs
+			}
+			queueLifo = true
 			awoke = true
 			iter = 0
+		} else {
+			old = m.state
 		}
 	}
 
@@ -110,22 +138,33 @@ func (m *Mutex) Unlock() {
 	// Fast path: drop lock bit.
 	new := atomic.AddInt32(&m.state, -mutexLocked)
 	if (new+mutexLocked)&mutexLocked == 0 {
-		throw("sync: unlock of unlocked mutex")
+		panic("sync: unlock of unlocked mutex")
 	}
 
 	old := new
-	for {
-		// If there are no waiters or a goroutine has already
-		// been woken or grabbed the lock, no need to wake anyone.
-		if old>>mutexWaiterShift == 0 || old&(mutexLocked|mutexWoken) != 0 {
-			return
+	if old&mutexStarving == 0 {
+		for {
+			// If there are no waiters or a goroutine has already
+			// been woken or grabbed the lock, no need to wake anyone.
+			if old>>mutexWaiterShift == 0 || old&(mutexLocked|mutexWoken|mutexStarving) != 0 {
+				return
+			}
+			// Grab the right to wake someone.
+			new = (old - 1<<mutexWaiterShift) | mutexWoken
+			if atomic.CompareAndSwapInt32(&m.state, old, new) {
+				runtime_Semrelease(&m.sema, false)
+				return
+			}
+			old = m.state
 		}
-		// Grab the right to wake someone.
-		new = (old - 1<<mutexWaiterShift) | mutexWoken
-		if atomic.CompareAndSwapInt32(&m.state, old, new) {
-			runtime_Semrelease(&m.sema)
-			return
+	} else {
+		for {
+			new = (old - 1<<mutexWaiterShift) | mutexLocked
+			if atomic.CompareAndSwapInt32(&m.state, old, new) {
+				runtime_Semrelease(&m.sema, true)
+				return
+			}
+			old = m.state
 		}
-		old = m.state
 	}
 }
