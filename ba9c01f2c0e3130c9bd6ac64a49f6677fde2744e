@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a756307_a83cf3f2",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:52:12Z",
+      "side": 1,
+      "message": "Change space after \"AND\" to tab.",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_e8e8ab37",
+        "filename": "src/runtime/cgo/gcc_linux_mipsx.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:52:12Z",
+      "side": 1,
+      "message": "This should call _cgo_try_pthread_create, not pthread_create.",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_a829539d",
+        "filename": "src/runtime/rt0_linux_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-13T22:52:12Z",
+      "side": 1,
+      "message": "Tabs, not spaces, after instruction opcode.",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
