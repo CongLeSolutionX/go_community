@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a427b4d_a0737153",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-13T20:30:44Z",
+      "side": 1,
+      "message": "missing word.",
+      "revId": "efee552ec17ec283c2e3f3a4a7028fe2aac258d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
