@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a756307_45752aa7",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-13T21:58:41Z",
+      "side": 1,
+      "message": "I\u0027d delete this and move it to the field.\n\n   // Isolation is the transaction isolation level.\n   // If zero, the driver or database\u0027s default level is used.\n   Isolation IsolationLevel",
+      "revId": "6b72a9f93cee583bd95c1a2283fc018c03ac7395",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_a55b3e3d",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1314,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-13T21:58:41Z",
+      "side": 1,
+      "message": "comma after support\n\nThe last sentence doesn\u0027t inspire confidence.\n\nI\u0027d just delete it. At the end of the day, you have to trust your database driver \u0026 database \u0026 know how they work.\n\nIf you want, add some words after the package doc part that says \"Drivers that do not support ...\".",
+      "revId": "6b72a9f93cee583bd95c1a2283fc018c03ac7395",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
