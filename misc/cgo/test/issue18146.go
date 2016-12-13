@@ -33,6 +33,11 @@ func test18146(t *testing.T) {
 		attempts = 100
 	}
 
+	// Relax expectations from mips/mips64
+	if runtime.GOARCH == "mips" || runtime.GOARCH == "mips64" {
+		attempts = 40
+	}
+
 	if os.Getenv("test18146") == "exec" {
 		runtime.GOMAXPROCS(1)
 		for n := threads; n > 0; n-- {
