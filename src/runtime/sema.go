@@ -44,22 +44,22 @@ var semtable [semTabSize]struct {
 
 //go:linkname sync_runtime_Semacquire sync.runtime_Semacquire
 func sync_runtime_Semacquire(addr *uint32) {
-	semacquire(addr, semaBlockProfile)
+	semacquire1(addr, false, semaBlockProfile)
 }
 
 //go:linkname net_runtime_Semacquire net.runtime_Semacquire
 func net_runtime_Semacquire(addr *uint32) {
-	semacquire(addr, semaBlockProfile)
+	semacquire1(addr, false, semaBlockProfile)
 }
 
 //go:linkname sync_runtime_Semrelease sync.runtime_Semrelease
-func sync_runtime_Semrelease(addr *uint32) {
-	semrelease(addr)
+func sync_runtime_Semrelease(addr *uint32, handoff bool) {
+	semrelease1(addr, handoff)
 }
 
 //go:linkname sync_runtime_SemacquireMutex sync.runtime_SemacquireMutex
-func sync_runtime_SemacquireMutex(addr *uint32) {
-	semacquire(addr, semaBlockProfile|semaMutexProfile)
+func sync_runtime_SemacquireMutex(addr *uint32, lifo bool) {
+	semacquire1(addr, lifo, semaBlockProfile|semaMutexProfile)
 }
 
 //go:linkname net_runtime_Semrelease net.runtime_Semrelease
@@ -82,7 +82,11 @@ const (
 )
 
 // Called from runtime.
-func semacquire(addr *uint32, profile semaProfileFlags) {
+func semacquire(addr *uint32) {
+	semacquire1(addr, false, 0)
+}
+
+func semacquire1(addr *uint32, lifo bool, profile semaProfileFlags) {
 	gp := getg()
 	if gp != gp.m.curg {
 		throw("semacquire not on the G stack")
@@ -104,6 +108,7 @@ func semacquire(addr *uint32, profile semaProfileFlags) {
 	t0 := int64(0)
 	s.releasetime = 0
 	s.acquiretime = 0
+	s.ticket = 0
 	if profile&semaBlockProfile != 0 && blockprofilerate > 0 {
 		t0 = cputicks()
 		s.releasetime = -1
@@ -126,9 +131,9 @@ func semacquire(addr *uint32, profile semaProfileFlags) {
 		}
 		// Any semrelease after the cansemacquire knows we're waiting
 		// (we set nwait above), so go to sleep.
-		root.queue(addr, s)
+		root.queue(addr, s, lifo)
 		goparkunlock(&root.lock, "semacquire", traceEvGoBlockSync, 4)
-		if cansemacquire(addr) {
+		if s.ticket != 0 || cansemacquire(addr) {
 			break
 		}
 	}
@@ -139,6 +144,10 @@ func semacquire(addr *uint32, profile semaProfileFlags) {
 }
 
 func semrelease(addr *uint32) {
+	semrelease1(addr, false)
+}
+
+func semrelease1(addr *uint32, handoff bool) {
 	root := semroot(addr)
 	atomic.Xadd(addr, 1)
 
@@ -178,6 +187,12 @@ func semrelease(addr *uint32) {
 	}
 	unlock(&root.lock)
 	if s != nil { // May be slow, so unlock first
+		if handoff && cansemacquire(addr) {
+			if s.ticket != 0 {
+				throw("bad")
+			}
+			s.ticket = 1
+		}
 		readyWithTime(s, 5)
 	}
 }
@@ -198,17 +213,28 @@ func cansemacquire(addr *uint32) bool {
 	}
 }
 
-func (root *semaRoot) queue(addr *uint32, s *sudog) {
+func (root *semaRoot) queue(addr *uint32, s *sudog, lifo bool) {
 	s.g = getg()
 	s.elem = unsafe.Pointer(addr)
-	s.next = nil
-	s.prev = root.tail
-	if root.tail != nil {
-		root.tail.next = s
-	} else {
+	if lifo {
+		s.next = root.head
+		s.prev = nil
+		if root.head != nil {
+			root.head.prev = s
+		} else {
+			root.tail = s
+		}
 		root.head = s
+	} else {
+		s.next = nil
+		s.prev = root.tail
+		if root.tail != nil {
+			root.tail.next = s
+		} else {
+			root.head = s
+		}
+		root.tail = s
 	}
-	root.tail = s
 }
 
 func (root *semaRoot) dequeue(s *sudog) {
@@ -381,4 +407,9 @@ func notifyListCheck(sz uintptr) {
 		print("runtime: bad notifyList size - sync=", sz, " runtime=", unsafe.Sizeof(notifyList{}), "\n")
 		throw("bad notifyList size")
 	}
+}
+
+//go:linkname sync_nanotime sync.runtime_nanotime
+func sync_nanotime() int64 {
+	return nanotime()
 }
