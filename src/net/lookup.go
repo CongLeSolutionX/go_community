@@ -63,7 +63,10 @@ func lookupProtocolMap(name string) (int, error) {
 	return proto, nil
 }
 
-const maxServiceLength = len("mobility-header") + 10 // with room to grow
+// We assume that a service name basically conforms to RFC 6335 and
+// can interwork with DNS service discovery, but also accept a name
+// longer than 15 characters for the exisiting non-conforming names.
+const maxServiceLength = 15 + 10 // with room to grow
 
 func lookupPortMap(network, service string) (port int, error error) {
 	switch network {
