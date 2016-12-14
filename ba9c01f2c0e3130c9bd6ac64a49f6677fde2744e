@@ -19,6 +19,137 @@
     },
     {
       "key": {
+        "uuid": "5a0b5ba9_6753f287",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T15:09:19Z",
+      "side": 1,
+      "message": "AND $^7 looks better to me.",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a0b5ba9_e745a2b8",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T15:09:19Z",
+      "side": 1,
+      "message": "(..., , uintptr ctxt)\nIt takes 4 args.",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a0b5ba9_2734da36",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T15:09:19Z",
+      "side": 1,
+      "message": "remove this space",
+      "range": {
+        "startLine": 924,
+        "startChar": 11,
+        "endLine": 924,
+        "endChar": 12
+      },
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a0b5ba9_0731d646",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T15:09:19Z",
+      "side": 1,
+      "message": "add a comment that this call frame does not save LR",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a9f3f7a_20126a78",
+        "filename": "src/runtime/cgo/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T15:09:19Z",
+      "side": 1,
+      "message": "This doesn\u0027t sound clear to me. Maybe something like\n\"O32 ABI allows us to smash 16 bytes argument area of caller frame\"?",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a0b5ba9_c7a5fe53",
+        "filename": "src/runtime/cgo/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T15:09:19Z",
+      "side": 1,
+      "message": "4*14 + 8*6 - 16 is clearer",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a0b5ba9_a7aa0a22",
+        "filename": "src/runtime/cgo/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T15:09:19Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_e8e8ab37",
         "filename": "src/runtime/cgo/gcc_linux_mipsx.c",
         "patchSetId": 1
@@ -36,6 +167,23 @@
     },
     {
       "key": {
+        "uuid": "7a9f3f7a_00fe46f7",
+        "filename": "src/runtime/cgo/gcc_mipsx.S",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T15:09:19Z",
+      "side": 1,
+      "message": "sw",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_a829539d",
         "filename": "src/runtime/rt0_linux_mipsx.s",
         "patchSetId": 1
@@ -47,6 +195,23 @@
       "writtenOn": "2016-12-13T22:52:12Z",
       "side": 1,
       "message": "Tabs, not spaces, after instruction opcode.",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a9f3f7a_a0255ad2",
+        "filename": "src/runtime/rt0_linux_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T15:09:19Z",
+      "side": 1,
+      "message": "In external linking, libc jumps to here? If so, add a comment for the calling convention.",
       "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
