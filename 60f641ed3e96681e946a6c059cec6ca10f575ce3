@@ -59,6 +59,24 @@
     },
     {
       "key": {
+        "uuid": "5aa6fbc4_724596b4",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "Ok, removed.",
+      "parentUuid": "1a756307_942cb2ae",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a9f3f7a_0017666f",
         "filename": "src/cmd/link/internal/ld/elf.go",
         "patchSetId": 1
@@ -70,6 +88,24 @@
       "writtenOn": "2016-12-14T13:39:00Z",
       "side": 1,
       "message": "Why is it necessary?",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aa6fbc4_12460ac5",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "This is to prevent host linker warning \u0027linking abicalls files with non-abicalls files\u0027.",
+      "parentUuid": "7a9f3f7a_0017666f",
       "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -93,6 +129,24 @@
     },
     {
       "key": {
+        "uuid": "dabcabd0_f6d7be4d",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_543a3ada",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_08c8a70f",
         "filename": "src/cmd/link/internal/mips/asm.go",
         "patchSetId": 1
@@ -104,6 +158,24 @@
       "writtenOn": "2016-12-13T22:41:56Z",
       "side": 1,
       "message": "I feel like the two cases are a bit easier to read if written on one line.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aa1ffa9_f009800e",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_08c8a70f",
       "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -127,6 +199,24 @@
     },
     {
       "key": {
+        "uuid": "5aa6fbc4_f230a644",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_9485925e",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_48c29fef",
         "filename": "src/cmd/link/internal/mips/asm.go",
         "patchSetId": 1
@@ -138,6 +228,24 @@
       "writtenOn": "2016-12-13T22:41:56Z",
       "side": 1,
       "message": "Cases on one line.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3aca276f_b9553b3b",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_48c29fef",
       "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -167,6 +275,30 @@
     },
     {
       "key": {
+        "uuid": "7aa1ffa9_30fb08c8",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_a8b15392",
+      "range": {
+        "startLine": 96,
+        "startChar": 38,
+        "endLine": 96,
+        "endChar": 45
+      },
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_68c75bfe",
         "filename": "src/cmd/link/internal/mips/asm.go",
         "patchSetId": 1
@@ -178,6 +310,24 @@
       "writtenOn": "2016-12-13T22:41:56Z",
       "side": 1,
       "message": "Cases on one line.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5aa6fbc4_12a1aa47",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_68c75bfe",
       "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -219,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "3a8f873f_aeecf7dc",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "Added checks below.",
+      "parentUuid": "1a756307_34977e97",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_6882fb9e",
         "filename": "src/cmd/link/internal/mips/asm.go",
         "patchSetId": 1
@@ -230,6 +398,24 @@
       "writtenOn": "2016-12-13T22:41:56Z",
       "side": 1,
       "message": "Cases on one line.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba9b777b_f58332eb",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:16:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_6882fb9e",
       "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
