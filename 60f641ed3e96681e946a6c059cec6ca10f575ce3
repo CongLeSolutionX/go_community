@@ -42,6 +42,57 @@
     },
     {
       "key": {
+        "uuid": "1a756307_942cb2ae",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T13:39:00Z",
+      "side": 1,
+      "message": "I don\u0027t understand this. Why is it necessary?\nAnyway, this is for MIPS64. Should be a separate CL.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a9f3f7a_0017666f",
+        "filename": "src/cmd/link/internal/ld/elf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T13:39:00Z",
+      "side": 1,
+      "message": "Why is it necessary?",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_543a3ada",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T13:39:00Z",
+      "side": 1,
+      "message": "nit:\nif r.Size !\u003d 4 {\n    return -1\n}\nld..Thearch.Lput(...)",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_08c8a70f",
         "filename": "src/cmd/link/internal/mips/asm.go",
         "patchSetId": 1
@@ -53,6 +104,23 @@
       "writtenOn": "2016-12-13T22:41:56Z",
       "side": 1,
       "message": "I feel like the two cases are a bit easier to read if written on one line.",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_9485925e",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T13:39:00Z",
+      "side": 1,
+      "message": "ctxt arg is not used. You can remove it.",
       "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -127,6 +195,24 @@
       "writtenOn": "2016-12-13T22:41:56Z",
       "side": 1,
       "message": "Should we do overflow checking here?",
+      "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_34977e97",
+        "filename": "src/cmd/link/internal/mips/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-14T13:39:00Z",
+      "side": 1,
+      "message": "Yeah, I think we should. We don\u0027t want it silently generate wrong code.",
+      "parentUuid": "1a756307_88665743",
       "revId": "60f641ed3e96681e946a6c059cec6ca10f575ce3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
