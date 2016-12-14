@@ -36,6 +36,42 @@
     },
     {
       "key": {
+        "uuid": "da790b40_cb689567",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_a83cf3f2",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da790b40_eb6d5174",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a0b5ba9_6753f287",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a0b5ba9_e745a2b8",
         "filename": "src/runtime/asm_mipsx.s",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-12-14T15:09:19Z",
       "side": 1,
       "message": "(..., , uintptr ctxt)\nIt takes 4 args.",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da790b40_ab77493e",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a0b5ba9_e745a2b8",
       "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "da790b40_4b7d851d",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a0b5ba9_2734da36",
+      "range": {
+        "startLine": 924,
+        "startChar": 11,
+        "endLine": 924,
+        "endChar": 12
+      },
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a0b5ba9_0731d646",
         "filename": "src/runtime/asm_mipsx.s",
         "patchSetId": 1
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "1a748342_ad775d3e",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a0b5ba9_0731d646",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a9f3f7a_20126a78",
         "filename": "src/runtime/cgo/asm_mipsx.s",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2016-12-14T15:09:19Z",
       "side": 1,
       "message": "This doesn\u0027t sound clear to me. Maybe something like\n\"O32 ABI allows us to smash 16 bytes argument area of caller frame\"?",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da790b40_2b84b9f3",
+        "filename": "src/runtime/cgo/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a9f3f7a_20126a78",
       "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "3a322788_f6946022",
+        "filename": "src/runtime/cgo/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a0b5ba9_c7a5fe53",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 18
+      },
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a0b5ba9_a7aa0a22",
         "filename": "src/runtime/cgo/asm_mipsx.s",
         "patchSetId": 1
@@ -144,6 +282,24 @@
       "writtenOn": "2016-12-14T15:09:19Z",
       "side": 1,
       "message": "same here",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da790b40_cb8f3510",
+        "filename": "src/runtime/cgo/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a0b5ba9_a7aa0a22",
       "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -167,6 +323,24 @@
     },
     {
       "key": {
+        "uuid": "da790b40_eb947122",
+        "filename": "src/runtime/cgo/gcc_linux_mipsx.c",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_e8e8ab37",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a9f3f7a_00fe46f7",
         "filename": "src/runtime/cgo/gcc_mipsx.S",
         "patchSetId": 1
@@ -178,6 +352,24 @@
       "writtenOn": "2016-12-14T15:09:19Z",
       "side": 1,
       "message": "sw",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da790b40_8b892d0d",
+        "filename": "src/runtime/cgo/gcc_mipsx.S",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a9f3f7a_00fe46f7",
       "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -201,6 +393,24 @@
     },
     {
       "key": {
+        "uuid": "5a199b0d_379bb84e",
+        "filename": "src/runtime/rt0_linux_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_a829539d",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a9f3f7a_a0255ad2",
         "filename": "src/runtime/rt0_linux_mipsx.s",
         "patchSetId": 1
@@ -212,6 +422,24 @@
       "writtenOn": "2016-12-14T15:09:19Z",
       "side": 1,
       "message": "In external linking, libc jumps to here? If so, add a comment for the calling convention.",
+      "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da24ab49_139ecc3d",
+        "filename": "src/runtime/rt0_linux_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-14T20:18:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a9f3f7a_a0255ad2",
       "revId": "ba9c01f2c0e3130c9bd6ac64a49f6677fde2744e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
