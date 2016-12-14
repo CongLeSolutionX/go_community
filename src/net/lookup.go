@@ -28,6 +28,9 @@ var protocols = map[string]int{
 // services contains minimal mappings between services names and port
 // numbers for platforms that don't have a complete list of port numbers
 // (some Solaris distros, nacl, etc).
+//
+// See https://www.iana.org/assignments/service-names-port-numbers
+//
 // On Unix, this map is augmented by readServices via goLookupPort.
 var services = map[string]map[string]int{
 	"udp": {
@@ -63,6 +66,8 @@ func lookupProtocolMap(name string) (int, error) {
 	return proto, nil
 }
 
+// maxServiceLength is just for local database and should not be used
+// for DNS-based service discovery as defined in RFC 6763.
 const maxServiceLength = len("mobility-header") + 10 // with room to grow
 
 func lookupPortMap(network, service string) (port int, error error) {
