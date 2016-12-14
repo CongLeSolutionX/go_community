@@ -63,6 +63,11 @@ func lookupProtocolMap(name string) (int, error) {
 	return proto, nil
 }
 
+// We assume that a service name conforms to RFC 6335 and can
+// interwork with DNS service discovery because the service name for
+// Dial, Listen or ListenPacket function should be interoperable with
+// the service name for LookupSRV function, but also accept a name
+// longer than 15 characters for the existing non-conforming names.
 const maxServiceLength = len("mobility-header") + 10 // with room to grow
 
 func lookupPortMap(network, service string) (port int, error error) {
