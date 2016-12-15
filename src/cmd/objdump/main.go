@@ -44,6 +44,8 @@ import (
 )
 
 var symregexp = flag.String("s", "", "only dump symbols matching this regexp")
+var source = flag.Bool("S", false, "display source code intermixed with ASM, if possible")
+
 var symRE *regexp.Regexp
 
 func usage() {
@@ -88,7 +90,12 @@ func main() {
 		usage()
 	case 1:
 		// disassembly of entire object
-		dis.Print(os.Stdout, symRE, 0, ^uint64(0))
+		if *source {
+			dis.Print(os.Stdout, symRE, 0, ^uint64(0), true)
+		} else {
+			dis.Print(os.Stdout, symRE, 0, ^uint64(0), false)
+		}
+
 		os.Exit(0)
 
 	case 3:
@@ -101,7 +108,13 @@ func main() {
 		if err != nil {
 			log.Fatalf("invalid end PC: %v", err)
 		}
-		dis.Print(os.Stdout, symRE, start, end)
+
+		if *source {
+			dis.Print(os.Stdout, symRE, start, end, true)
+		} else {
+			dis.Print(os.Stdout, symRE, start, end, false)
+		}
+
 		os.Exit(0)
 	}
 }

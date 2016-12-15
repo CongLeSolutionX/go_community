@@ -160,9 +160,10 @@ func (t *objTool) Disasm(file string, start, end uint64) ([]plugin.Inst, error) 
 		return nil, err
 	}
 	var asm []plugin.Inst
-	d.Decode(start, end, nil, func(pc, size uint64, file string, line int, text string) {
+	var f objfile.DecodeFunc = func(pc, size uint64, file string, line int, text string, srcline string) {
 		asm = append(asm, plugin.Inst{Addr: pc, File: file, Line: line, Text: text})
-	})
+	}
+	d.Decode(start, end, nil, false, f)
 	return asm, nil
 }
 
