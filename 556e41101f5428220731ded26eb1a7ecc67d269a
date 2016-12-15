@@ -34,6 +34,24 @@
       "revId": "556e41101f5428220731ded26eb1a7ecc67d269a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a756307_10519724",
+        "filename": "src/runtime/sys_dragonfly_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-15T23:40:21Z",
+      "side": 1,
+      "message": "Huh, thanks, didn\u0027t know about that.",
+      "parentUuid": "1a756307_32713bf8",
+      "revId": "556e41101f5428220731ded26eb1a7ecc67d269a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
