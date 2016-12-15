@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a756307_67fbf8c6",
+        "filename": "test/nosplit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-15T17:06:21Z",
+      "side": 1,
+      "message": "gofmt",
+      "revId": "985e453fce5dc86c8bbee8c426515e4e5767de5b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
