@@ -16,6 +16,24 @@
       "revId": "c12f9264ef0ced06ff1797b78baaec2aa2d13758",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da790b40_ebcc7125",
+        "filename": "src/crypto/tls/cipher_suites.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2016-12-15T12:00:38Z",
+      "side": 1,
+      "message": "There are multiple, so not \"this\", but there is an extra \"that\" in there. Will fix. Thanks.",
+      "parentUuid": "da790b40_2bcd9949",
+      "revId": "c12f9264ef0ced06ff1797b78baaec2aa2d13758",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
