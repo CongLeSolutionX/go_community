@@ -18,6 +18,12 @@ import (
 	"strings"
 )
 
+func init() {
+	register("asmdecl",
+		"check assembly against Go declarations",
+		asmCheck)
+}
+
 // 'kind' is a kind of assembly variable.
 // The kinds 1, 2, 4, 8 stand for values of that size.
 type asmKind int
@@ -113,20 +119,16 @@ var (
 	ppc64Suff    = re(`([BHWD])(ZU|Z|U|BR)?$`)
 )
 
-func asmCheck(pkg *Package) {
-	if !vet("asmdecl") {
-		return
-	}
-
+func asmCheck(files []*File) {
 	// No work if no assembly files.
-	if !pkg.hasFileWithSuffix(".s") {
+	if !hasFileWithSuffix(files, ".s") {
 		return
 	}
 
 	// Gather declarations. knownFunc[name][arch] is func description.
 	knownFunc := make(map[string]map[string]*asmFunc)
 
-	for _, f := range pkg.files {
+	for _, f := range files {
 		if f.file != nil {
 			for _, decl := range f.file.Decls {
 				if decl, ok := decl.(*ast.FuncDecl); ok && decl.Body == nil {
@@ -137,7 +139,7 @@ func asmCheck(pkg *Package) {
 	}
 
 Files:
-	for _, f := range pkg.files {
+	for _, f := range files {
 		if !strings.HasSuffix(f.name, ".s") {
 			continue
 		}

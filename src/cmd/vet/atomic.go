@@ -12,8 +12,7 @@ import (
 func init() {
 	register("atomic",
 		"check for common mistaken usages of the sync/atomic package",
-		checkAtomicAssignment,
-		assignStmt)
+		nodeChecker(checkAtomicAssignment, (*ast.AssignStmt)(nil)))
 }
 
 // checkAtomicAssignment walks the assignment statement checking for common

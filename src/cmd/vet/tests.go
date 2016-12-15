@@ -15,8 +15,7 @@ import (
 func init() {
 	register("tests",
 		"check for common mistaken usages of tests/documentation examples",
-		checkTestFunctions,
-		funcDecl)
+		nodeChecker(checkTestFunctions, (*ast.FuncDecl)(nil)))
 }
 
 func isExampleSuffix(s string) bool {

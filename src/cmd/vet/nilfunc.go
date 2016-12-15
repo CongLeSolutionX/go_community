@@ -18,8 +18,7 @@ import (
 func init() {
 	register("nilfunc",
 		"check for comparisons between functions and nil",
-		checkNilFuncComparison,
-		binaryExpr)
+		nodeChecker(checkNilFuncComparison, (*ast.BinaryExpr)(nil)))
 }
 
 func checkNilFuncComparison(f *File, node ast.Node) {

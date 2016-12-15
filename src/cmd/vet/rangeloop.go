@@ -26,8 +26,7 @@ import "go/ast"
 func init() {
 	register("rangeloops",
 		"check that range loop variables are used correctly",
-		checkRangeLoop,
-		rangeStmt)
+		nodeChecker(checkRangeLoop, (*ast.RangeStmt)(nil)))
 }
 
 // checkRangeLoop walks the body of the provided range statement, checking if

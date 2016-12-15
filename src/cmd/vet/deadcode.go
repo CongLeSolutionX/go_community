@@ -14,8 +14,7 @@ import (
 func init() {
 	register("unreachable",
 		"check for unreachable code",
-		checkUnreachable,
-		funcDecl, funcLit)
+		nodeChecker(checkUnreachable, (*ast.FuncDecl)(nil), (*ast.FuncLit)(nil)))
 }
 
 type deadState struct {

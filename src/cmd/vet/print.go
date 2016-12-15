@@ -23,8 +23,7 @@ var printfuncs = flag.String("printfuncs", "", "comma-separated list of print fu
 func init() {
 	register("printf",
 		"check printf-like invocations",
-		checkFmtPrintfCall,
-		funcDecl, callExpr)
+		nodeChecker(checkFmtPrintfCall, (*ast.FuncDecl)(nil), (*ast.CallExpr)(nil)))
 }
 
 func initPrintFlags() {

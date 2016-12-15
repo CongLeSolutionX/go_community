@@ -16,8 +16,7 @@ import (
 func init() {
 	register("methods",
 		"check that canonically named methods are canonically defined",
-		checkCanonicalMethod,
-		funcDecl, interfaceType)
+		nodeChecker(checkCanonicalMethod, (*ast.FuncDecl)(nil), (*ast.InterfaceType)(nil)))
 }
 
 type MethodSig struct {

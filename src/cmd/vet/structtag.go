@@ -18,8 +18,7 @@ import (
 func init() {
 	register("structtags",
 		"check that struct field tags have canonical format and apply to exported fields as needed",
-		checkStructFieldTags,
-		structType)
+		nodeChecker(checkStructFieldTags, (*ast.StructType)(nil)))
 }
 
 // checkStructFieldTags checks all the field tags of a struct, including checking for duplicates.

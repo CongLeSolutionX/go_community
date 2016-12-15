@@ -19,6 +19,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"reflect"
 	"strconv"
 	"strings"
 )
@@ -38,7 +39,6 @@ var all = triStateFlag("all", unset, "enable all non-experimental checks")
 var report = map[string]*triState{
 	// Only unusual checks are written here.
 	// Most checks that operate during the AST walk are added by register.
-	"asmdecl":   triStateFlag("asmdecl", unset, "check assembly against Go declarations"),
 	"buildtags": triStateFlag("buildtags", unset, "check that +build tags are valid"),
 }
 
@@ -126,36 +126,35 @@ func setExit(err int) {
 	}
 }
 
-var (
-	// Each of these vars has a corresponding case in (*File).Visit.
-	assignStmt    *ast.AssignStmt
-	binaryExpr    *ast.BinaryExpr
-	callExpr      *ast.CallExpr
-	compositeLit  *ast.CompositeLit
-	exprStmt      *ast.ExprStmt
-	funcDecl      *ast.FuncDecl
-	funcLit       *ast.FuncLit
-	genDecl       *ast.GenDecl
-	interfaceType *ast.InterfaceType
-	rangeStmt     *ast.RangeStmt
-	returnStmt    *ast.ReturnStmt
-	structType    *ast.StructType
+// checker is the type of a function that checks a list of files.
+type checker func(files []*File)
 
-	// checkers is a two-level map.
-	// The outer level is keyed by a nil pointer, one of the AST vars above.
-	// The inner level is keyed by checker name.
-	checkers = make(map[ast.Node]map[string]func(*File, ast.Node))
-)
+var checkers = make(map[string]checker)
 
-func register(name, usage string, fn func(*File, ast.Node), types ...ast.Node) {
+func register(name, usage string, checker checker) {
 	report[name] = triStateFlag(name, unset, usage)
-	for _, typ := range types {
-		m := checkers[typ]
-		if m == nil {
-			m = make(map[string]func(*File, ast.Node))
-			checkers[typ] = m
+	checkers[name] = checker
+}
+
+// nodeChecker returns a checker that visits all the source files and
+// calls the check function for each node having one of the specified types.
+func nodeChecker(check func(*File, ast.Node), types ...ast.Node) checker {
+	return func(files []*File) {
+		for _, f := range files {
+			if f.file == nil {
+				continue
+			}
+			ast.Inspect(f.file, func(n ast.Node) bool {
+				nodeType := reflect.TypeOf(n)
+				for _, t := range types {
+					if reflect.TypeOf(t) == nodeType {
+						check(f, n)
+						break
+					}
+				}
+				return true
+			})
 		}
-		m[name] = fn
 	}
 }
 
@@ -188,9 +187,6 @@ type File struct {
 	// The objects that are receivers of a "String() string" method.
 	// This is used by the recursiveStringer method in print.go.
 	stringers map[*ast.Object]bool
-
-	// Registered checkers to run.
-	checkers map[ast.Node][]func(*File, ast.Node)
 }
 
 func main() {
@@ -300,7 +296,6 @@ type Package struct {
 	selectors map[*ast.SelectorExpr]*types.Selection
 	types     map[ast.Expr]types.TypeAndValue
 	spans     map[types.Object]Span
-	files     []*File
 	typesPkg  *types.Package
 }
 
@@ -334,7 +329,11 @@ func doPackage(directory string, names []string, basePkg *Package) *Package {
 	}
 	pkg := new(Package)
 	pkg.path = astFiles[0].Name.Name
-	pkg.files = files
+	for _, file := range files {
+		file.pkg = pkg
+		file.basePkg = basePkg
+	}
+
 	// Type check the package.
 	err := pkg.check(fs, astFiles)
 	if err != nil && *verbose {
@@ -342,23 +341,12 @@ func doPackage(directory string, names []string, basePkg *Package) *Package {
 	}
 
 	// Check.
-	chk := make(map[ast.Node][]func(*File, ast.Node))
-	for typ, set := range checkers {
-		for name, fn := range set {
-			if vet(name) {
-				chk[typ] = append(chk[typ], fn)
-			}
+	for name, check := range checkers {
+		if vet(name) {
+			check(files)
 		}
 	}
-	for _, file := range files {
-		file.pkg = pkg
-		file.basePkg = basePkg
-		file.checkers = chk
-		if file.file != nil {
-			file.walkFile(file.name, file.file)
-		}
-	}
-	asmCheck(pkg)
+
 	return pkg
 }
 
@@ -375,8 +363,8 @@ func visit(path string, f os.FileInfo, err error) error {
 	return nil
 }
 
-func (pkg *Package) hasFileWithSuffix(suffix string) bool {
-	for _, f := range pkg.files {
+func hasFileWithSuffix(files []*File, suffix string) bool {
+	for _, f := range files {
 		if strings.HasSuffix(f.name, suffix) {
 			return true
 		}
@@ -459,47 +447,6 @@ func (f *File) Warn(pos token.Pos, args ...interface{}) {
 // Warnf reports a formatted error but does not set the exit code.
 func (f *File) Warnf(pos token.Pos, format string, args ...interface{}) {
 	fmt.Fprintf(os.Stderr, "%s%s\n", f.locPrefix(pos), fmt.Sprintf(format, args...))
-}
-
-// walkFile walks the file's tree.
-func (f *File) walkFile(name string, file *ast.File) {
-	Println("Checking file", name)
-	ast.Walk(f, file)
-}
-
-// Visit implements the ast.Visitor interface.
-func (f *File) Visit(node ast.Node) ast.Visitor {
-	var key ast.Node
-	switch node.(type) {
-	case *ast.AssignStmt:
-		key = assignStmt
-	case *ast.BinaryExpr:
-		key = binaryExpr
-	case *ast.CallExpr:
-		key = callExpr
-	case *ast.CompositeLit:
-		key = compositeLit
-	case *ast.ExprStmt:
-		key = exprStmt
-	case *ast.FuncDecl:
-		key = funcDecl
-	case *ast.FuncLit:
-		key = funcLit
-	case *ast.GenDecl:
-		key = genDecl
-	case *ast.InterfaceType:
-		key = interfaceType
-	case *ast.RangeStmt:
-		key = rangeStmt
-	case *ast.ReturnStmt:
-		key = returnStmt
-	case *ast.StructType:
-		key = structType
-	}
-	for _, fn := range f.checkers[key] {
-		fn(f, node)
-	}
-	return f
 }
 
 // gofmt returns a string representation of the expression.

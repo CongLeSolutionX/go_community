@@ -20,8 +20,7 @@ import (
 func init() {
 	register("cgocall",
 		"check for types that may not be passed to cgo calls",
-		checkCgoCall,
-		callExpr)
+		nodeChecker(checkCgoCall, (*ast.CallExpr)(nil)))
 }
 
 func checkCgoCall(f *File, node ast.Node) {

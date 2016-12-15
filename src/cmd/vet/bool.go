@@ -14,8 +14,7 @@ import (
 func init() {
 	register("bool",
 		"check for mistakes involving boolean operators",
-		checkBool,
-		binaryExpr)
+		nodeChecker(checkBool, (*ast.BinaryExpr)(nil)))
 }
 
 func checkBool(f *File, n ast.Node) {

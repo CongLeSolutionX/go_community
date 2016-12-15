@@ -15,8 +15,7 @@ import (
 func init() {
 	register("unsafeptr",
 		"check for misuse of unsafe.Pointer",
-		checkUnsafePointer,
-		callExpr)
+		nodeChecker(checkUnsafePointer, (*ast.CallExpr)(nil)))
 }
 
 func checkUnsafePointer(f *File, node ast.Node) {

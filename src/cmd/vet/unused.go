@@ -26,8 +26,7 @@ var unusedStringMethodsFlag = flag.String("unusedstringmethods",
 func init() {
 	register("unusedresult",
 		"check for unused result of calls to functions in -unusedfuncs list and methods in -unusedstringmethods list",
-		checkUnusedResult,
-		exprStmt)
+		nodeChecker(checkUnusedResult, (*ast.ExprStmt)(nil)))
 }
 
 // func() string

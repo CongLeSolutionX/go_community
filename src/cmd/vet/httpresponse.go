@@ -31,7 +31,7 @@ func init() {
 
 	register("httpresponse",
 		"check errors are checked before using an http Response",
-		checkHTTPResponse, callExpr)
+		nodeChecker(checkHTTPResponse, (*ast.CallExpr)(nil)))
 }
 
 func checkHTTPResponse(f *File, node ast.Node) {

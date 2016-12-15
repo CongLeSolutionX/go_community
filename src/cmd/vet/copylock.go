@@ -17,30 +17,37 @@ import (
 func init() {
 	register("copylocks",
 		"check that locks are not passed by value",
-		checkCopyLocks,
-		funcDecl, rangeStmt, funcLit, callExpr, assignStmt, genDecl, compositeLit, returnStmt)
+		checkCopyLocks)
 }
 
 // checkCopyLocks checks whether node might
 // inadvertently copy a lock.
-func checkCopyLocks(f *File, node ast.Node) {
-	switch node := node.(type) {
-	case *ast.RangeStmt:
-		checkCopyLocksRange(f, node)
-	case *ast.FuncDecl:
-		checkCopyLocksFunc(f, node.Name.Name, node.Recv, node.Type)
-	case *ast.FuncLit:
-		checkCopyLocksFunc(f, "func", nil, node.Type)
-	case *ast.CallExpr:
-		checkCopyLocksCallExpr(f, node)
-	case *ast.AssignStmt:
-		checkCopyLocksAssign(f, node)
-	case *ast.GenDecl:
-		checkCopyLocksGenDecl(f, node)
-	case *ast.CompositeLit:
-		checkCopyLocksCompositeLit(f, node)
-	case *ast.ReturnStmt:
-		checkCopyLocksReturnStmt(f, node)
+func checkCopyLocks(files []*File) {
+	for _, f := range files {
+		if f.file == nil {
+			continue
+		}
+		ast.Inspect(f.file, func(node ast.Node) bool {
+			switch node := node.(type) {
+			case *ast.RangeStmt:
+				checkCopyLocksRange(f, node)
+			case *ast.FuncDecl:
+				checkCopyLocksFunc(f, node.Name.Name, node.Recv, node.Type)
+			case *ast.FuncLit:
+				checkCopyLocksFunc(f, "func", nil, node.Type)
+			case *ast.CallExpr:
+				checkCopyLocksCallExpr(f, node)
+			case *ast.AssignStmt:
+				checkCopyLocksAssign(f, node)
+			case *ast.GenDecl:
+				checkCopyLocksGenDecl(f, node)
+			case *ast.CompositeLit:
+				checkCopyLocksCompositeLit(f, node)
+			case *ast.ReturnStmt:
+				checkCopyLocksReturnStmt(f, node)
+			}
+			return true
+		})
 	}
 }
 

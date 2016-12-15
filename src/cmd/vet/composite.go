@@ -19,8 +19,7 @@ var compositeWhiteList = flag.Bool("compositewhitelist", true, "use composite wh
 func init() {
 	register("composites",
 		"check that composite literals used field-keyed elements",
-		checkUnkeyedLiteral,
-		compositeLit)
+		nodeChecker(checkUnkeyedLiteral, (*ast.CompositeLit)(nil)))
 }
 
 // checkUnkeyedLiteral checks if a composite literal is a struct literal with

@@ -15,8 +15,7 @@ import (
 func init() {
 	register("lostcancel",
 		"check for failure to call cancelation function returned by context.WithCancel",
-		checkLostCancel,
-		funcDecl, funcLit)
+		nodeChecker(checkLostCancel, (*ast.FuncDecl)(nil), (*ast.FuncLit)(nil)))
 }
 
 const debugLostCancel = false

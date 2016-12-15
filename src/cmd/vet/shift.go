@@ -18,8 +18,7 @@ import (
 func init() {
 	register("shift",
 		"check for useless shifts",
-		checkShift,
-		binaryExpr, assignStmt)
+		nodeChecker(checkShift, (*ast.BinaryExpr)(nil), (*ast.AssignStmt)(nil)))
 }
 
 func checkShift(f *File, node ast.Node) {

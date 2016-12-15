@@ -17,8 +17,7 @@ import (
 func init() {
 	register("assign",
 		"check for useless assignments",
-		checkAssignStmt,
-		assignStmt)
+		nodeChecker(checkAssignStmt, (*ast.AssignStmt)(nil)))
 }
 
 // TODO: should also check for assignments to struct fields inside methods
