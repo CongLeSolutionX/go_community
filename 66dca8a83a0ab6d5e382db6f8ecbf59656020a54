@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa55efac_c4f4feaf",
+        "filename": "misc/cgo/test/issue9400/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-15T16:46:50Z",
+      "side": 1,
+      "message": "remove one empty line",
+      "revId": "66dca8a83a0ab6d5e382db6f8ecbf59656020a54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
