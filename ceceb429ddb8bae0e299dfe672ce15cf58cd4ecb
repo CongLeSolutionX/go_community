@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a887374_f111c8c9",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-12-15T09:50:52Z",
+      "side": 1,
+      "message": "Changed to \"several times in a row\".",
+      "parentUuid": "1a756307_56a4f4ef",
+      "revId": "ceceb429ddb8bae0e299dfe672ce15cf58cd4ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_965bcc10",
         "filename": "src/sync/mutex.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "da790b40_6b508179",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-12-15T09:50:52Z",
+      "side": 1,
+      "message": "Done\nGood catch. In the previous version of code we almost never reach the nanotime call if starving was set on the previous iteration of the loop.\nBut in this version, we reach nanotime call second time whenever we are in starvation mode.",
+      "parentUuid": "1a756307_965bcc10",
+      "revId": "ceceb429ddb8bae0e299dfe672ce15cf58cd4ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_16c51c4a",
         "filename": "src/sync/mutex.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2016-12-15T02:11:18Z",
       "side": 1,
       "message": "s/when/when we/",
+      "revId": "ceceb429ddb8bae0e299dfe672ce15cf58cd4ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da790b40_8b684d34",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-12-15T09:50:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_16c51c4a",
       "revId": "ceceb429ddb8bae0e299dfe672ce15cf58cd4ecb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
