@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a756307_92958f1f",
+        "filename": "src/runtime/sys_dragonfly_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-15T22:40:48Z",
+      "side": 1,
+      "message": "Using negative offsets from the stack pointer looks completely wrong.  Won\u0027t these values simply be overwritten by the call to sigtrampgo?  Are you following some other example in doing this?",
+      "revId": "556e41101f5428220731ded26eb1a7ecc67d269a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
