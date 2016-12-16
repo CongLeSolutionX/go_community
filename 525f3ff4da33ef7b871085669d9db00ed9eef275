@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a9147cf_5ed015e0",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-12-16T09:45:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_196f0da9",
+      "revId": "525f3ff4da33ef7b871085669d9db00ed9eef275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_396cc9b1",
         "filename": "src/net/lookup.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "3a9147cf_7ecdd148",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-12-16T09:45:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a756307_396cc9b1",
+      "revId": "525f3ff4da33ef7b871085669d9db00ed9eef275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a756307_5978a56a",
         "filename": "src/net/lookup.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2016-12-15T04:49:54Z",
       "side": 1,
       "message": "what is 15? why not 25 then? the old code was more clear that \"mobility-header\" was the longest known service, and then we added slack.",
+      "revId": "525f3ff4da33ef7b871085669d9db00ed9eef275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a9147cf_be1119cb",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2016-12-16T09:45:38Z",
+      "side": 1,
+      "message": "added description",
+      "parentUuid": "1a756307_5978a56a",
       "revId": "525f3ff4da33ef7b871085669d9db00ed9eef275",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
