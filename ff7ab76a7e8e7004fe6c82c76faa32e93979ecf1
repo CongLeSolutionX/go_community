@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5073f1_1aa22191",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1609,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-16T15:37:04Z",
+      "side": 1,
+      "message": "only one space after \".\"",
+      "revId": "ff7ab76a7e8e7004fe6c82c76faa32e93979ecf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5073f1_3a9fe54b",
+        "filename": "src/cmd/go/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-16T15:37:04Z",
+      "side": 1,
+      "message": "trailing whitespace (and only one space after \".\")",
+      "revId": "ff7ab76a7e8e7004fe6c82c76faa32e93979ecf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
