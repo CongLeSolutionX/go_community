@@ -1839,6 +1839,7 @@ func (c *conn) serve(ctx context.Context) {
 				return
 			}
 		}
+
 		c.rwc.SetReadDeadline(time.Time{})
 	}
 }
@@ -2303,7 +2304,7 @@ type Server struct {
 	TLSConfig *tls.Config // optional TLS config, used by ListenAndServeTLS
 
 	// ReadTimeout is the maximum duration for reading the entire
-	// request, including the body.
+	// request, including the entire time spent in Handler.
 	//
 	// Because ReadTimeout does not let Handlers make per-request
 	// decisions on each request body's acceptable deadline or
