@@ -585,6 +585,50 @@ func TestHTTP2WriteDeadlineExtendedOnNewRequest(t *testing.T) {
 	}
 }
 
+// Test for https://golang.org/issue/9524.
+// It is expected that ReadTimeout should set deadline including the time spent in the Handler.
+func TestServerReadTimeoutWithCloseNotify(t *testing.T) {
+	setParallel(t)
+	defer afterTest(t)
+
+	gotCloseNotify := make(chan bool, 1)
+	// Long ServeHTTP handler.
+	ts := httptest.NewUnstartedServer(HandlerFunc(func(res ResponseWriter, req *Request) {
+		_, err := ioutil.ReadAll(req.Body)
+		if err != nil {
+			t.Fatalf("read all error: %v", err)
+		}
+
+		err = req.Body.Close()
+		if err != nil {
+			t.Fatalf("close error: %v", err)
+		}
+
+		time.Sleep(300 * time.Millisecond)
+		select {
+		case <-res.(CloseNotifier).CloseNotify():
+			gotCloseNotify <- true
+		default:
+			gotCloseNotify <- false
+		}
+	}))
+	// Timeouts just on Read.
+	ts.Config.ReadTimeout = 250 * time.Millisecond
+	ts.Start()
+	defer ts.Close()
+
+	// Hit the HTTP server successfully.
+	c := &Client{}
+	_, err := c.Get(ts.URL)
+	if err != nil {
+		t.Fatalf("http Get error: %v", err)
+	}
+
+	if !<-gotCloseNotify {
+		t.Error("should got CloseNotify (because of the Read timeout) but did not.")
+	}
+}
+
 // golang.org/issue/4741 -- setting only a write timeout that triggers
 // shouldn't cause a handler to block forever on reads (next HTTP
 // request) that will never happen.
