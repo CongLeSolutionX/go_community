@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5073f1_ae10eeff",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3405,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-18T17:30:17Z",
+      "side": 1,
+      "message": "let\u0027s use the proper term now:\n\nhttps://en.wikipedia.org/wiki/DNS_hijacking\n\nskipIfDNSHijacked",
+      "revId": "285f359ce72b53f9c232ea38b2bfdad2acf4e9bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5073f1_8e132a0c",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3410,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-18T17:30:17Z",
+      "side": 1,
+      "message": "add another period after golang, so it means the \"golang\" TLD (which doesn\u0027t exist), instead of using the DNS search suffixes from /etc/resolv.conf?",
+      "revId": "285f359ce72b53f9c232ea38b2bfdad2acf4e9bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a5073f1_cedb723a",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3414,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-18T17:30:17Z",
+      "side": 1,
+      "message": "\"skipping; test requires non-hijacking DNS server\"",
+      "revId": "285f359ce72b53f9c232ea38b2bfdad2acf4e9bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
