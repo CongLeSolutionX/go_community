@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d72d6695_8b99cd64",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-12-19T21:43:19Z",
+      "side": 1,
+      "message": "\"On\"",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 8
+      },
+      "revId": "486343e913b37884b7c5a6b986aa855f9ee7d6fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_ab9c8954",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-12-19T21:43:19Z",
+      "side": 1,
+      "message": "s/\u003c\u003d/\u003c/ Technically 4096 would not be an error.",
+      "revId": "486343e913b37884b7c5a6b986aa855f9ee7d6fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
