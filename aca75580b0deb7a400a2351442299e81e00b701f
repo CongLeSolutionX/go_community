@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d72d6695_2b453917",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-12-19T20:53:05Z",
+      "side": 1,
+      "message": "auxv",
+      "range": {
+        "startLine": 211,
+        "startChar": 29,
+        "endLine": 211,
+        "endChar": 32
+      },
+      "revId": "aca75580b0deb7a400a2351442299e81e00b701f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a5073f1_9f3a75f4",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 3
@@ -13,6 +36,23 @@
       "writtenOn": "2016-12-19T20:46:37Z",
       "side": 1,
       "message": "You should check for mmap failure.",
+      "revId": "aca75580b0deb7a400a2351442299e81e00b701f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_eb3e117a",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-12-19T20:53:05Z",
+      "side": 1,
+      "message": "This has to be n \u003c size or the mmap has to be for 2*size. Once n \u003d\u003d size, the loop body will try to mincore p + size, which is past the end of the mapping.",
       "revId": "aca75580b0deb7a400a2351442299e81e00b701f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
