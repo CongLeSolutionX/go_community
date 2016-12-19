@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5073f1_9f3a75f4",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2016-12-19T20:46:37Z",
+      "side": 1,
+      "message": "You should check for mmap failure.",
+      "revId": "aca75580b0deb7a400a2351442299e81e00b701f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
