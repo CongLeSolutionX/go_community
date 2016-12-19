@@ -208,6 +208,19 @@ func sysargs(argc int32, argv **byte) {
 		// Fall back to /proc/self/auxv.
 		fd := open(&procAuxv[0], 0 /* O_RDONLY */, 0)
 		if fd < 0 {
+			// on Android, /proc/self/aux might be unreadable, so we fallback to try using mmap
+			// to detect the physical page size.
+			// mmap should return EINVAL when offset is not a multiple of system page size.
+			var p unsafe.Pointer
+			var n uintptr
+			for n = 4096; ; n <<= 1 {
+				p = mmap(nil, n, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_PRIVATE, -1, uint32(n))
+				if uintptr(p) >= 4096 {
+					break
+				}
+			}
+			munmap(p, n)
+			physPageSize = n
 			return
 		}
 		var buf [128]uintptr
