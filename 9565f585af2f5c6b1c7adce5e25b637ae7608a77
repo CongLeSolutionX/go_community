@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_4be8859a",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-12-19T15:39:51Z",
+      "side": 1,
+      "message": "I think this whole if sysauxv(auxv[:]) \u003d\u003d 0 block is effectively restricted\nto Android.\n\nTo reach the new code, two conditions must be valid at the same time:\n1. auxv doesn\u0027t contain what we need,\n2. open(\"/proc/self/auxv\") failed.\n\nI think meeting both is very rare on Linux.",
+      "parentUuid": "9a5073f1_099e54a1",
+      "revId": "9565f585af2f5c6b1c7adce5e25b637ae7608a77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d72d6695_6bba21a4",
         "filename": "src/runtime/os_linux.go",
         "patchSetId": 1
