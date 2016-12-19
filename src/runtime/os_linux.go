@@ -208,6 +208,20 @@ func sysargs(argc int32, argv **byte) {
 		// Fall back to /proc/self/auxv.
 		fd := open(&procAuxv[0], 0 /* O_RDONLY */, 0)
 		if fd < 0 {
+			// on Android, /proc/self/aux might be unreadable, so we fallback to try using
+			// mincore to detect the physical page size.
+			// mincore should return EINVAL when address is not a multiple of system page size.
+			const size = 256 << 10 // memory region to allocate.
+			p := mmap(nil, size, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_PRIVATE, -1, 0)
+			var n uintptr
+			for n = 4 << 10; n <= size; n <<= 1 {
+				err := mincore(unsafe.Pointer(uintptr(p)+n), 1, &addrspace_vec[0])
+				if err == 0 {
+					break
+				}
+			}
+			munmap(p, size)
+			physPageSize = n
 			return
 		}
 		var buf [128]uintptr
