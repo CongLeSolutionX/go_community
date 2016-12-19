@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d72d6695_6bba21a4",
+        "filename": "src/runtime/os_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2016-12-19T14:58:31Z",
+      "side": 1,
+      "message": "my concern is whether the kernel always checks the file offset\nin this syscall. Because fd is -1, the offset is not actually needed?\n\nMy tests on linux 3.12 and 4.4 shows that kernel does enforce\nthis. Perhaps I should make the loop exit when page size is\ntoo big to set a maximum physPageSize.",
+      "range": {
+        "startLine": 217,
+        "startChar": 69,
+        "endLine": 217,
+        "endChar": 71
+      },
+      "revId": "9565f585af2f5c6b1c7adce5e25b637ae7608a77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
