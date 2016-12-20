@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37996238_fe284198",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-12-20T19:19:31Z",
+      "side": 1,
+      "message": "keep lines a little shorter for easier reviewing please. you can fold on the comma.\n\nalso s/-/through/g. prefer english over notation.",
+      "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37996238_9e357def",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-12-20T19:19:31Z",
+      "side": 1,
+      "message": "s/ (goroutine)//\nthe term is well-defined in this document.\n\nstart each sentence on a new line for easier editing and diffing.",
+      "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37996238_be32b902",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-12-20T19:19:31Z",
+      "side": 1,
+      "message": "In a \u003ccode\u003eTEXT\u003c/code\u003e directive, the frame size \u003ccode\u003e$-4\u003c/code\u003e for MIPS or\n\u003ccode\u003e$-8\u003c/code\u003e for MIPS64 instructs the linker not to save \u003ccode\u003eLR\u003c/code\u003e.",
+      "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37996238_5e41355b",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-12-20T19:19:31Z",
+      "side": 1,
+      "message": "s/described above//\ns/,/.\\nFor/",
+      "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
