@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d72d6695_31c368f5",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1889,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-20T16:38:36Z",
+      "side": 0,
+      "message": "also delete this function",
+      "range": {
+        "startLine": 1889,
+        "startChar": 22,
+        "endLine": 1889,
+        "endChar": 35
+      },
+      "revId": "51a75a01f89ee7c85e2fef6b71d7245de49a3483",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

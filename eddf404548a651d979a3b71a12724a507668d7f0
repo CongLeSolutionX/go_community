@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d72d6695_719b3003",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2016-12-20T16:38:36Z",
+      "side": 1,
+      "message": "Are we also testing negative cases where c is not in proper range? Or, since it affects correctness, it is already covered by other tests?",
+      "revId": "eddf404548a651d979a3b71a12724a507668d7f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
