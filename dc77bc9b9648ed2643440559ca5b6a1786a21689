@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37996238_1e3baddd",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-12-20T19:23:43Z",
+      "side": 1,
+      "message": "while you\u0027re here, it would be nice to show the function name in the error message if it\u0027s available. up top you could do\n\nname :\u003d \"function\"\nif id, ok :\u003d ce.Fun.(*ast.Ident); ok {\n\t\tname +\u003d id.Name\n}\n\nthen in the error\n\nf.Badf(x.Pos(), \"call of %s copies lock value: %v\", name, path)",
+      "revId": "dc77bc9b9648ed2643440559ca5b6a1786a21689",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
