@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a2c67b_9d61f31c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-12-20T17:51:00Z",
+      "side": 1,
+      "message": "@aclements, just a drive by question -- how come two successive locks?",
+      "revId": "0c942e8f2c6aeedfe672fdd0c2549ac39505cd75",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
