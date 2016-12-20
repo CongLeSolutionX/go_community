@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37996238_de546519",
+        "filename": "doc/asm.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-12-20T20:48:58Z",
+      "side": 1,
+      "message": "delete the spaces on the ends of all the folded lines (you see them illuminated in the display from gerrit)",
+      "revId": "2b981eca3e0754316ef8bb03cef4faefe6bb1deb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37996238_fe512126",
+        "filename": "doc/asm.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2016-12-20T20:48:58Z",
+      "side": 1,
+      "message": "add a blank line before this paragraph, in the style of the other sections.",
+      "revId": "2b981eca3e0754316ef8bb03cef4faefe6bb1deb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
