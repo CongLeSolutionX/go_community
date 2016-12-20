@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a2c67b_7dce771d",
+        "filename": "doc/asm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-20T17:33:47Z",
+      "side": 1,
+      "message": "Is \"GP\" used elsewhere in this doc? I think I\u0027d spell out \"General purpose\"",
+      "revId": "94a4e87cbed06d92a67e7be7502f52a466bf2c91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_5dc93b12",
+        "filename": "doc/asm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-20T17:33:47Z",
+      "side": 1,
+      "message": "Go style is to avoid Latin in docs (\"ie.\")",
+      "revId": "94a4e87cbed06d92a67e7be7502f52a466bf2c91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_bdbaaf69",
+        "filename": "doc/asm.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-20T17:33:47Z",
+      "side": 1,
+      "message": "drop \"of\"",
+      "revId": "94a4e87cbed06d92a67e7be7502f52a466bf2c91",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
