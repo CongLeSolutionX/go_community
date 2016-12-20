@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1728de81_307c86d3",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-20T19:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37996238_fe284198",
+      "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37996238_9e357def",
         "filename": "doc/asm.html",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-20T19:19:31Z",
       "side": 1,
       "message": "s/ (goroutine)//\nthe term is well-defined in this document.\n\nstart each sentence on a new line for easier editing and diffing.",
+      "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_10818a99",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-20T19:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37996238_9e357def",
       "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1728de81_f065de39",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-20T19:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37996238_be32b902",
+      "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37996238_5e41355b",
         "filename": "doc/asm.html",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2016-12-20T19:19:31Z",
       "side": 1,
       "message": "s/described above//\ns/,/.\\nFor/",
+      "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_d062e22f",
+        "filename": "doc/asm.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 856,
+      "author": {
+        "id": 15150
+      },
+      "writtenOn": "2016-12-20T19:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37996238_5e41355b",
       "revId": "e890db7432e97dc001544a259548a3811f33a7e9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
