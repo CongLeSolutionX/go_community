@@ -838,6 +838,58 @@ It is a scaled mode as on the x86, but the only scale allowed is <code>1</code>.
 
 </ul>
 
+<h3 id="mips">MIPS, MIPS64</h3>
+
+<p>
+General purpose registers are named <code>R0</code> - <code>R31</code>, floating point registers are <code>F0</code> - <code>F31</code>.
+</p>
+
+<p>
+<code>R30</code> (<code>$fp</code>) is reserved to point to <code>g</code> (goroutine). <code>R23</code> (<code>$s7</code>) is used as a temporary register.
+</p>
+
+<p>
+Most pseudo-instructions are <code>MOV(e)</code>. For example,
+</p>
+
+<ul>
+
+<li>
+<code>MOVW R1, 8(R4)</code> translates into <code>sw $at, 8($a0)</code>;
+</li>
+
+<li>
+<code>MOVW 8(R4), R1</code> becomes <code>lw $at, 8($a0)</code>;
+</li>
+
+<li>
+<code>MOVW R1, R2</code> is <code>move $v0, $at</code>.
+</li>
+
+</ul>
+
+<p>
+For mips, frame size <code>$-4</code> for the <code>TEXT</code> means that linker should not save <code>LR</code> (<code>R31</code>, <code>$ra</code>). For mips64, it is <code>$-8</code>.
+</p>
+
+<p>
+<code>SP</code> refers to the virtual stack pointer described above, for the hardware register, use <code>R29</code>.
+</p>
+Addressing modes:
+</p>
+
+<ul>
+
+<li>
+<code>16(R1)</code>: The location at <code>R1</code> plus 16.
+</li>
+
+<li>
+<code>(R1)</code>: Alias for <code>0(R1)</code>.
+</li>
+
+</ul>
+
 <h3 id="unsupported_opcodes">Unsupported opcodes</h3>
 
 <p>
