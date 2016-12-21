@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37996238_5e9375ab",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-21T00:35:39Z",
+      "side": 1,
+      "message": "I wonder if we could try and reproduce this by calling ExitProcess and CreateThread at the same time. Unfortunately I am travelling until 1/1/2017 and do not have Windows computer.",
+      "revId": "ea60aa71c3de323bb3cd09c5f232a0f4743b58ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37996238_be64f9fa",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-21T00:35:39Z",
+      "side": 1,
+      "message": "Reading ExitProcess doco and https://blogs.msdn.microsoft.com/oldnewthing/20070503-00/?p\u003d27003/, I think all threads, but one who called ExitProcess, will be dead already. But your changes won\u0027t hurt anyway.",
+      "revId": "ea60aa71c3de323bb3cd09c5f232a0f4743b58ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
