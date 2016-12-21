@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a2c67b_bb770df2",
+        "filename": "src/cmd/vet/rangeloop.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-12-21T18:26:31Z",
+      "side": 1,
+      "message": "no need to pass in ids each time - just declare vars above and use it directly (that\u0027s why we have closures; otherwise you could move appendId out)",
+      "range": {
+        "startLine": 38,
+        "startChar": 18,
+        "endLine": 38,
+        "endChar": 21
+      },
+      "revId": "6a5a0aae8dfc23b15f6af89a34487807f9e855ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_fb5ee55a",
+        "filename": "src/cmd/vet/rangeloop.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-12-21T18:26:31Z",
+      "side": 1,
+      "message": "explain why only the final statement",
+      "revId": "6a5a0aae8dfc23b15f6af89a34487807f9e855ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
