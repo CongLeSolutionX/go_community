@@ -33,6 +33,24 @@
       "revId": "ea60aa71c3de323bb3cd09c5f232a0f4743b58ff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f777cabe_142714e5",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-12-21T16:38:43Z",
+      "side": 1,
+      "message": "Well that\u0027s hair-raising. Though by that post\u0027s own admission, this is different in every version of Windows. Maybe in Windows 2003 or whatever the builders are running they don\u0027t kill the other threads immediately?",
+      "parentUuid": "37996238_be64f9fa",
+      "revId": "ea60aa71c3de323bb3cd09c5f232a0f4743b58ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
