@@ -1,0 +1,214 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a2c67b_58737f8d",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "I don\u0027t see why this needs to be a pointer to slice.  Just return a slice?\nThere\u0027s no func cache happening here.  And if there was, an empty slice would probably be fine.",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_188d0754",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "Yes, we probably need to make this iterative.",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_b827137c",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "This comment says what the field is used for, but not what it is.  Say what it is first.  Something like:\n\n// true if function is marked as nosplit.  Used by schedule check pass.",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_582cdf5d",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "Is this ever used?",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_78319bb2",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "I\u0027d rather have a separate backedgesValid boolean than playing games with nil pointers meaning something special.",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_58d7ff0d",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "edgeMemCtr",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_78dc3b2f",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "I don\u0027t understand what this comment means (or why I care).",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_b8b4f3ce",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "What does \"ForUses\" mean?  Could just drop that?\nAnd how does this differ from lastMems?  Is it just that it is cross block?",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_f8c02b3b",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "This is another recursion whose depth could be as deep as the function is big.  We need to un-recursify this.",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_38132320",
+        "filename": "src/cmd/compile/internal/ssa/sparsetree.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "Huh?\nThis needs an example.",
+      "range": {
+        "startLine": 74,
+        "startChar": 51,
+        "endLine": 74,
+        "endChar": 81
+      },
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_7803dbc2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "Maybe:\n// This function does nothing.  It exists only so that we can use the preemption check that the compiler inserts in its prologue.\n// Calls to this function are inserted by the compiler in otherwise uninterruptible loops (see ...ssa pass...).",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_b8e2b3ea",
+        "filename": "test/opt_branchlikely.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-21T17:53:20Z",
+      "side": 1,
+      "message": "What is this?  I don\u0027t see any code that would print this extra debug info.",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
