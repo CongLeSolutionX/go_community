@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_9fafc3c5",
+        "filename": "src/cmd/compile/internal/ssa/dom.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-21T20:36:17Z",
+      "side": 1,
+      "message": "I moved this into the reschedule code and removed the cache in the function, so now it is a slice.",
+      "parentUuid": "d7a2c67b_58737f8d",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a2c67b_188d0754",
         "filename": "src/cmd/compile/internal/ssa/dom.go",
         "patchSetId": 5
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_5f139b42",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-21T20:36:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7a2c67b_b827137c",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a2c67b_582cdf5d",
         "filename": "src/cmd/compile/internal/ssa/func.go",
         "patchSetId": 5
@@ -64,6 +100,24 @@
       "writtenOn": "2016-12-21T17:53:20Z",
       "side": 1,
       "message": "Is this ever used?",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f777cabe_54ffccf2",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-21T20:36:17Z",
+      "side": 1,
+      "message": "Was, but never reused, so I removed it.",
+      "parentUuid": "d7a2c67b_582cdf5d",
       "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_7f0e571e",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-21T20:36:17Z",
+      "side": 1,
+      "message": "Removed, since there\u0027s no cache-reuse of backedges yet.",
+      "parentUuid": "d7a2c67b_78319bb2",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a2c67b_58d7ff0d",
         "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
         "patchSetId": 5
@@ -98,6 +170,24 @@
       "writtenOn": "2016-12-21T17:53:20Z",
       "side": 1,
       "message": "edgeMemCtr",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_1fae337e",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-21T20:36:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7a2c67b_58d7ff0d",
       "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_5ff95ba3",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-21T20:36:17Z",
+      "side": 1,
+      "message": "It\u0027s an artifact of code that attempted to be more clever about order.\nAll gone, regular sparse tree used instead.",
+      "parentUuid": "d7a2c67b_78dc3b2f",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a2c67b_b8b4f3ce",
         "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
         "patchSetId": 5
@@ -132,6 +240,24 @@
       "writtenOn": "2016-12-21T17:53:20Z",
       "side": 1,
       "message": "What does \"ForUses\" mean?  Could just drop that?\nAnd how does this differ from lastMems?  Is it just that it is cross block?",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_1f03d3c3",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-21T20:36:17Z",
+      "side": 1,
+      "message": "memDefsAtBlockEnds?",
+      "parentUuid": "d7a2c67b_b8b4f3ce",
       "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -195,6 +321,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_5ffcbbbc",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-21T20:36:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7a2c67b_7803dbc2",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a2c67b_b8e2b3ea",
         "filename": "test/opt_branchlikely.go",
         "patchSetId": 5
@@ -206,6 +350,24 @@
       "writtenOn": "2016-12-21T17:53:20Z",
       "side": 1,
       "message": "What is this?  I don\u0027t see any code that would print this extra debug info.",
+      "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_bfd95f85",
+        "filename": "test/opt_branchlikely.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-21T20:36:17Z",
+      "side": 1,
+      "message": "This is an artifact of running the error-output updater; the old error matched a substring of what was printed.",
+      "parentUuid": "d7a2c67b_b8e2b3ea",
       "revId": "e90e81b11717d82828f465b6b7eb95bcac0deba6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
