@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_df51cb26",
+        "filename": "src/cmd/vet/rangeloop.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-12-21T18:53:12Z",
+      "side": 1,
+      "message": "Done.\n\n(This came from a Google-internal fork of this check that runs in a single pass, avoiding quadratic running time in deeply nested loops---see line 85.  Since that version was called for every ast.Ident as well, avoiding the allocation of a closure was important.  This version is only called for loop statements.)",
+      "parentUuid": "d7a2c67b_bb770df2",
+      "revId": "6a5a0aae8dfc23b15f6af89a34487807f9e855ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a2c67b_fb5ee55a",
         "filename": "src/cmd/vet/rangeloop.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
       "writtenOn": "2016-12-21T18:26:31Z",
       "side": 1,
       "message": "explain why only the final statement",
+      "revId": "6a5a0aae8dfc23b15f6af89a34487807f9e855ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_1f7993a2",
+        "filename": "src/cmd/vet/rangeloop.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2016-12-21T18:53:12Z",
+      "side": 1,
+      "message": "Done:\n\t// (We give up if there are following statements,\n\t// because it\u0027s hard to prove go isn\u0027t followed by wait,\n\t// or defer by return.)",
+      "parentUuid": "d7a2c67b_fb5ee55a",
       "revId": "6a5a0aae8dfc23b15f6af89a34487807f9e855ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
