@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d72d6695_bf1f1f20",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-12-21T21:06:39Z",
+      "side": 1,
+      "message": "return p !\u003d NoXPos? Or are there useful \"unknown\" XPos\u0027s that are not NoXPos?",
+      "revId": "181665dc79f80f4bf8a279d8ba66bed9b8750bfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_5f271b7d",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-12-21T21:06:39Z",
+      "side": 1,
+      "message": "Doc comment.",
+      "revId": "181665dc79f80f4bf8a279d8ba66bed9b8750bfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_ff15a703",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-12-21T21:06:39Z",
+      "side": 1,
+      "message": "I\u0027d rather this only return NoPos if p is NoXPos and crash if p.index is otherwise invalid.",
+      "revId": "181665dc79f80f4bf8a279d8ba66bed9b8750bfa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
