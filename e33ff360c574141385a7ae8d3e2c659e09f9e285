@@ -1,0 +1,259 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a2c67b_f6f58a63",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "So a rewrite records that we want to change values before-\u003eafter, and rewrites are all the arg slots in which before is used that we want to switch to after?\nWhat about b.Control uses?\nNeeds a comment.",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_16fb8656",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "Why *[] instead of just []?",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_369fa23a",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "TODO: insert the checks only for call-free or nosplit-call-only loops.",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_f6e34abf",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "Move this up just after the backedges() call?",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_961d36db",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "You might as well make these once outside the loop in f.Entry.  CSE will unify them all anyway, no point in making CSE do extra work.",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_7620ba10",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "I don\u0027t think you need the condition.  You\u0027re always setting invalidateCFG to true if there is at least one backedge.",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_7652fa84",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "Need to comment what x, y, h, b are.",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_b6687232",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "If b has a new phi, then a new rewrite will apply for all blocks dominated by b. (?)",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_b6ef1292",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "Could just put an \u0026 here and then rewrites wouldn\u0027t need to be a *[].",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_362a42ef",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "Tell me what addDFphis does before you tell me why it is needed.",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_d6c96e49",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "This is an old comment from dead store elimination.",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_76ae7a66",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "s/args/arg/",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_3b3b0bfa",
+        "filename": "test/fixedbugs/issue10958.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "Missing a word?  Maybe \"containing\"?",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_5b3847fa",
+        "filename": "test/fixedbugs/issue10958.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_fb16d372",
+        "filename": "test/live.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2016-12-23T18:16:12Z",
+      "side": 1,
+      "message": "Why is this necessary?",
+      "revId": "e33ff360c574141385a7ae8d3e2c659e09f9e285",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
