@@ -1586,6 +1586,22 @@ opswitch:
 		n = walkclosure(n, init)
 
 	case OCALLPART:
+
+		switch n.Left.Op {
+		default:
+			// not a composite literal method closure arg
+
+		case OSTRUCTLIT, OARRAYLIT:
+			// Conservatively introduce a temporary to avoid incomplete literal initialization
+			// TODO: detect complete initialization and skip this step, if it matters to generated code.
+			var_ := temp(n.Left.Type)
+			a := nod(OAS, var_, n.Left)
+			a = typecheck(a, Etop)
+			a = walkexpr(a, init)
+			init.Append(a)
+			n.Left = var_
+		}
+
 		n = walkpartialcall(n, init)
 	}
 
