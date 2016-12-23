@@ -22,6 +22,24 @@
       "revId": "a188f7e34581d8c57eab1d3d8624180b6d091d5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_167066b8",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-12-23T23:38:20Z",
+      "side": 1,
+      "message": "Oops, yes. Done.",
+      "parentUuid": "d72d6695_9747a7c1",
+      "revId": "a188f7e34581d8c57eab1d3d8624180b6d091d5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
