@@ -16,6 +16,23 @@
       "revId": "58797e24609c0785367d9de9967377c6743378a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_dcc98d49",
+        "filename": "test/fixedbugs/issue6772.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2016-12-24T22:33:03Z",
+      "side": 1,
+      "message": "Gotcha, thanks. Done.",
+      "revId": "58797e24609c0785367d9de9967377c6743378a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
