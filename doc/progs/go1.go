@@ -78,7 +78,7 @@ func assert(t bool) {
 func multipleAssignment() {
 	sa := []int{1, 2, 3}
 	i := 0
-	i, sa[i] = 1, 2 // sets i = 1, sa[0] = 2
+	i, sa[i] = 1, 42 // sets i = 1, sa[1] = 42
 
 	sb := []int{1, 2, 3}
 	j := 0
@@ -87,7 +87,7 @@ func multipleAssignment() {
 	sc := []int{1, 2, 3}
 	sc[0], sc[0] = 1, 2 // sets sc[0] = 1, then sc[0] = 2 (so sc[0] = 2 at end)
 
-	assert(i == 1 && sa[0] == 2)
+	assert(i == 1 && sa[1] == 42)
 	assert(j == 1 && sb[0] == 2)
 	assert(sc[0] == 2)
 }
