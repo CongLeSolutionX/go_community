@@ -54,6 +54,8 @@ func main() {
 	fmt.Fprintln(&b, "package runtime")
 	classes := makeClasses()
 
+	printComment(&b, classes)
+
 	printClasses(&b, classes)
 
 	out, err := format.Source(b.Bytes())
@@ -237,6 +239,19 @@ nextk:
 			panic("bad 64-bit multiply magic")
 		}
 	}
+}
+
+func printComment(w io.Writer, classes []class) {
+	// class  obj sz	span sz	objects
+	fmt.Fprintf(w, "// %-5s  %-6s  %-7s  %-7s\n", "class", "obj sz", "span sz", "objects")
+	for i, c := range classes {
+		if i == 0 {
+			continue
+		}
+		spanSize := c.npages * pageSize
+		fmt.Fprintf(w, "// %5d  %6d  %7d  %7d\n", i, c.size, spanSize, spanSize/c.size)
+	}
+	fmt.Fprintf(w, "\n")
 }
 
 func printClasses(w io.Writer, classes []class) {
