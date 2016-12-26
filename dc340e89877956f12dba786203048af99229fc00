@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "570a565e_8f1c75de",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2016-12-26T23:56:29Z",
+      "side": 1,
+      "message": "I\u0027m not sure but I wonder this might be flaky when calling close twice? ex: 1,2,1",
+      "revId": "dc340e89877956f12dba786203048af99229fc00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
