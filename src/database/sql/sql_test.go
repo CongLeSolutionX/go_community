@@ -2607,6 +2607,46 @@ func TestIssue6081(t *testing.T) {
 	}
 }
 
+func TestIssue18429(t *testing.T) {
+	db := newTestDB(t, "people")
+	defer closeDB(t, db)
+
+	ctx := context.Background()
+	sem := make(chan bool, 20)
+	wg := &sync.WaitGroup{}
+
+	const milliWait = 30
+
+	for range make([]struct{}, 100) {
+		sem <- true
+		wg.Add(1)
+		go func() {
+			defer func() {
+				<-sem
+				wg.Done()
+			}()
+			qwait := (time.Duration(rand.Intn(milliWait)) * time.Millisecond).String()
+
+			ctx, cancel := context.WithTimeout(ctx, time.Duration(rand.Intn(milliWait))*time.Millisecond)
+			defer cancel()
+
+			tx, err := db.BeginTx(ctx, nil)
+			if err != nil {
+				return
+			}
+			rows, err := tx.QueryContext(ctx, "WAIT|"+qwait+"|SELECT|people|name|")
+			if rows != nil {
+				rows.Close()
+			}
+			// This call will race with the context cancel rollback to complete
+			// if the rollback itself isn't guarded.
+			tx.Rollback()
+		}()
+	}
+	wg.Wait()
+	time.Sleep(milliWait * 3 * time.Millisecond)
+}
+
 func TestConcurrency(t *testing.T) {
 	doConcurrentTest(t, new(concurrentDBQueryTest))
 	doConcurrentTest(t, new(concurrentDBExecTest))
