@@ -1393,8 +1393,9 @@ type Tx struct {
 	dc  *driverConn
 	txi driver.Tx
 
-	// done transitions from 0 to 1 exactly once, on Commit
-	// or Rollback. once done, all operations fail with
+	// done transitions from 0 to 1 exactly once, on
+	// Commit or Rollback. done transitions from 1 to 2 exactly once
+	// on close. Once done, all operations fail with
 	// ErrTxDone.
 	// Use atomic operations on value when checking value.
 	done int32
@@ -1422,8 +1423,8 @@ func (tx *Tx) isDone() bool {
 var ErrTxDone = errors.New("sql: Transaction has already been committed or rolled back")
 
 func (tx *Tx) close(err error) {
-	if !atomic.CompareAndSwapInt32(&tx.done, 0, 1) {
-		panic("double close") // internal error
+	if !atomic.CompareAndSwapInt32(&tx.done, 1, 2) {
+		return
 	}
 	tx.db.putConn(tx.dc, err)
 	tx.cancel()
@@ -1449,7 +1450,7 @@ func (tx *Tx) closePrepared() {
 
 // Commit commits the transaction.
 func (tx *Tx) Commit() error {
-	if tx.isDone() {
+	if !atomic.CompareAndSwapInt32(&tx.done, 0, 1) {
 		return ErrTxDone
 	}
 	select {
@@ -1471,7 +1472,7 @@ func (tx *Tx) Commit() error {
 // rollback aborts the transaction and optionally forces the pool to discard
 // the connection.
 func (tx *Tx) rollback(discardConn bool) error {
-	if tx.isDone() {
+	if !atomic.CompareAndSwapInt32(&tx.done, 0, 1) {
 		return ErrTxDone
 	}
 	var err error
