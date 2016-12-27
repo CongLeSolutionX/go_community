@@ -230,6 +230,8 @@ func rewriteValueMIPS64(v *Value, config *Config) bool {
 		return rewriteValueMIPS64_OpLess8(v, config)
 	case OpLess8U:
 		return rewriteValueMIPS64_OpLess8U(v, config)
+	case OpLessPtr:
+		return rewriteValueMIPS64_OpLessPtr(v, config)
 	case OpLoad:
 		return rewriteValueMIPS64_OpLoad(v, config)
 	case OpLsh16x16:
@@ -2564,6 +2566,21 @@ func rewriteValueMIPS64_OpLess8U(v *Value, config *Config) bool {
 		v1 := b.NewValue0(v.Line, OpZeroExt8to64, config.fe.TypeUInt64())
 		v1.AddArg(x)
 		v.AddArg(v1)
+		return true
+	}
+}
+func rewriteValueMIPS64_OpLessPtr(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LessPtr x y)
+	// cond:
+	// result: (SGTU y x)
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpMIPS64SGTU)
+		v.AddArg(y)
+		v.AddArg(x)
 		return true
 	}
 }

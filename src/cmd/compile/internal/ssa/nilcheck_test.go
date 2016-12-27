@@ -1,8 +1,10 @@
 package ssa
 
 import (
+	"fmt"
 	"strconv"
 	"testing"
+	"unsafe"
 )
 
 func BenchmarkNilCheckDeep1(b *testing.B)     { benchmarkNilCheckDeep(b, 1) }
@@ -430,4 +432,66 @@ func TestNilcheckBug(t *testing.T) {
 	if !foundSecondCheck {
 		t.Errorf("secondCheck was eliminated, but shouldn't have")
 	}
+}
+
+func catch(t *testing.T, panicExpected bool) {
+	if r := recover(); r == nil && panicExpected {
+		t.Errorf("got no panic, expected one")
+	} else if r != nil && !panicExpected {
+		t.Errorf("got panic, expected none")
+	}
+}
+
+func TestBadInlineConversion(t *testing.T) {
+	defer catch(t, true)
+	x := 1
+	y := (*int32)(unsafe.Pointer(uintptr(x)))
+	fmt.Printf("%v\n", x)
+	fmt.Printf("%v\n", *y)
+}
+
+func TestGoodInlineConversion(t *testing.T) {
+	defer catch(t, false)
+	x := 1
+	y := (*int32)(unsafe.Pointer(&x))
+	fmt.Printf("%v\n", x)
+	fmt.Printf("%v\n", *y)
+}
+
+func deref1(x uintptr) {
+	y := (*int32)(unsafe.Pointer(x))
+	fmt.Printf("%v\n", *y)
+}
+
+func TestBadUintptr(t *testing.T) {
+	defer catch(t, true)
+	x := 1
+	deref1(uintptr(x))
+	fmt.Printf("%v\n", x)
+}
+
+func TestGoodUintptr(t *testing.T) {
+	defer catch(t, false)
+	x := 1
+	deref1(uintptr(unsafe.Pointer(&x)))
+	fmt.Printf("%v\n", x)
+}
+
+func deref2(x unsafe.Pointer) {
+	y := (*int32)(x)
+	fmt.Printf("%v\n", *y)
+}
+
+func TestBadUnsafePointer(t *testing.T) {
+	defer catch(t, true)
+	x := 1
+	deref2(unsafe.Pointer(uintptr(x)))
+	fmt.Printf("%v\n", x)
+}
+
+func TestGoodUnsafePointer(t *testing.T) {
+	defer catch(t, false)
+	x := 1
+	deref2(unsafe.Pointer(&x))
+	fmt.Printf("%v\n", x)
 }

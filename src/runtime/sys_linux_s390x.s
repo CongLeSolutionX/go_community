@@ -244,7 +244,7 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$64
 TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
 	BR	runtime·sigtramp(SB)
 
-// func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) unsafe.Pointer
+// func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) uintptr
 TEXT runtime·mmap(SB),NOSPLIT,$48-40
 	MOVD	addr+0(FP), R2
 	MOVD	n+8(FP), R3

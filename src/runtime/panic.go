@@ -42,6 +42,13 @@ func panicdivide() {
 	panic(divideError)
 }
 
+var ptrError = error(errorString("invalid pointer"))
+
+func panicptr() {
+	panicCheckMalloc(ptrError)
+	panic(ptrError)
+}
+
 var overflowError = error(errorString("integer overflow"))
 
 func panicoverflow() {

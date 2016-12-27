@@ -266,6 +266,8 @@ func rewriteValueS390X(v *Value, config *Config) bool {
 		return rewriteValueS390X_OpLess8(v, config)
 	case OpLess8U:
 		return rewriteValueS390X_OpLess8U(v, config)
+	case OpLessPtr:
+		return rewriteValueS390X_OpLessPtr(v, config)
 	case OpLoad:
 		return rewriteValueS390X_OpLoad(v, config)
 	case OpLrot32:
@@ -3213,6 +3215,29 @@ func rewriteValueS390X_OpLess8U(v *Value, config *Config) bool {
 		v4 := b.NewValue0(v.Line, OpS390XMOVBZreg, config.fe.TypeUInt64())
 		v4.AddArg(y)
 		v2.AddArg(v4)
+		v.AddArg(v2)
+		return true
+	}
+}
+func rewriteValueS390X_OpLessPtr(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LessPtr x y)
+	// cond:
+	// result: (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (CMPU x y))
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpS390XMOVDLT)
+		v0 := b.NewValue0(v.Line, OpS390XMOVDconst, config.fe.TypeUInt64())
+		v0.AuxInt = 0
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Line, OpS390XMOVDconst, config.fe.TypeUInt64())
+		v1.AuxInt = 1
+		v.AddArg(v1)
+		v2 := b.NewValue0(v.Line, OpS390XCMPU, TypeFlags)
+		v2.AddArg(x)
+		v2.AddArg(y)
 		v.AddArg(v2)
 		return true
 	}

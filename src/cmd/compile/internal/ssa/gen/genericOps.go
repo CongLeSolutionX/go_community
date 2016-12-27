@@ -205,6 +205,7 @@ var genericOps = []opData{
 	{name: "Less32U", argLength: 2, typ: "Bool"},
 	{name: "Less64", argLength: 2, typ: "Bool"},
 	{name: "Less64U", argLength: 2, typ: "Bool"},
+	{name: "LessPtr", argLength: 2, typ: "Bool"},
 	{name: "Less32F", argLength: 2, typ: "Bool"},
 	{name: "Less64F", argLength: 2, typ: "Bool"},
 
@@ -367,6 +368,7 @@ var genericOps = []opData{
 	{name: "IsInBounds", argLength: 2, typ: "Bool"},      // 0 <= arg0 < arg1. arg1 is guaranteed >= 0.
 	{name: "IsSliceInBounds", argLength: 2, typ: "Bool"}, // 0 <= arg0 <= arg1. arg1 is guaranteed >= 0.
 	{name: "NilCheck", argLength: 2, typ: "Void"},        // arg0=ptr, arg1=mem. Panics if arg0 is nil. Returns void.
+	{name: "IsPtrValid", argLength: 1, typ: "Bool"},      // 0 < arg0 <= minZeroPage
 
 	// Pseudo-ops
 	{name: "GetG", argLength: 1}, // runtime.getg() (read g pointer). arg0=mem

@@ -254,6 +254,7 @@
 (Less32U x y) -> (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (CMPWU x y))
 (Less16U x y) -> (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVHZreg x) (MOVHZreg y)))
 (Less8U  x y) -> (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVBZreg x) (MOVBZreg y)))
+(LessPtr x y) -> (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (CMPU x y))
 // Use SETG with reversed operands to dodge NaN case.
 (Less64F x y) -> (MOVDGTnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMP y x))
 (Less32F x y) -> (MOVDGTnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMPS y x))

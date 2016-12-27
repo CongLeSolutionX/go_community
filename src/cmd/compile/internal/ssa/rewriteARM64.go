@@ -468,6 +468,8 @@ func rewriteValueARM64(v *Value, config *Config) bool {
 		return rewriteValueARM64_OpLess8(v, config)
 	case OpLess8U:
 		return rewriteValueARM64_OpLess8U(v, config)
+	case OpLessPtr:
+		return rewriteValueARM64_OpLessPtr(v, config)
 	case OpLoad:
 		return rewriteValueARM64_OpLoad(v, config)
 	case OpLrot16:
@@ -11167,6 +11169,23 @@ func rewriteValueARM64_OpLess8U(v *Value, config *Config) bool {
 		v2 := b.NewValue0(v.Line, OpZeroExt8to32, config.fe.TypeUInt32())
 		v2.AddArg(y)
 		v0.AddArg(v2)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValueARM64_OpLessPtr(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LessPtr x y)
+	// cond:
+	// result: (LessThanU (CMP x y))
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpARM64LessThanU)
+		v0 := b.NewValue0(v.Line, OpARM64CMP, TypeFlags)
+		v0.AddArg(x)
+		v0.AddArg(y)
 		v.AddArg(v0)
 		return true
 	}

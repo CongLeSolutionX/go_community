@@ -131,7 +131,10 @@ func nilcheckelim(f *Func) {
 	}
 }
 
-// All platforms are guaranteed to fault if we load/store to anything smaller than this address.
+// All platforms are guaranteed to fault if we load/store to anything smaller
+// than this address. Note that this value must conform to the value used to
+// implement InvalidPtrCheck in the generated rules. This should also conform
+// to literal checks done in gc/ssa.go.
 const minZeroPage = 4096
 
 // nilcheckelim2 eliminates unnecessary nil checks.

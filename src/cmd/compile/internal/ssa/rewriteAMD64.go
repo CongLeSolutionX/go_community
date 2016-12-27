@@ -544,6 +544,8 @@ func rewriteValueAMD64(v *Value, config *Config) bool {
 		return rewriteValueAMD64_OpLess8(v, config)
 	case OpLess8U:
 		return rewriteValueAMD64_OpLess8U(v, config)
+	case OpLessPtr:
+		return rewriteValueAMD64_OpLessPtr(v, config)
 	case OpLoad:
 		return rewriteValueAMD64_OpLoad(v, config)
 	case OpLrot16:
@@ -16823,6 +16825,43 @@ func rewriteValueAMD64_OpLess8U(v *Value, config *Config) bool {
 		v.AddArg(v0)
 		return true
 	}
+}
+func rewriteValueAMD64_OpLessPtr(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LessPtr x y)
+	// cond: config.PtrSize == 8
+	// result: (SETB (CMPQ x y))
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		if !(config.PtrSize == 8) {
+			break
+		}
+		v.reset(OpAMD64SETB)
+		v0 := b.NewValue0(v.Line, OpAMD64CMPQ, TypeFlags)
+		v0.AddArg(x)
+		v0.AddArg(y)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (LessPtr x y)
+	// cond: config.PtrSize == 4
+	// result: (SETB (CMPL x y))
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		if !(config.PtrSize == 4) {
+			break
+		}
+		v.reset(OpAMD64SETB)
+		v0 := b.NewValue0(v.Line, OpAMD64CMPL, TypeFlags)
+		v0.AddArg(x)
+		v0.AddArg(y)
+		v.AddArg(v0)
+		return true
+	}
+	return false
 }
 func rewriteValueAMD64_OpLoad(v *Value, config *Config) bool {
 	b := v.Block

@@ -11,11 +11,11 @@ import "unsafe"
 //go:nosplit
 func sysAlloc(n uintptr, sysStat *uint64) unsafe.Pointer {
 	v := mmap(nil, n, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_PRIVATE, -1, 0)
-	if uintptr(v) < 4096 {
+	if v < 4096 {
 		return nil
 	}
 	mSysStatInc(sysStat, n)
-	return v
+	return unsafe.Pointer(v)
 }
 
 func sysUnused(v unsafe.Pointer, n uintptr) {
@@ -41,10 +41,10 @@ func sysFault(v unsafe.Pointer, n uintptr) {
 func sysReserve(v unsafe.Pointer, n uintptr, reserved *bool) unsafe.Pointer {
 	*reserved = true
 	p := mmap(v, n, _PROT_NONE, _MAP_ANON|_MAP_PRIVATE, -1, 0)
-	if uintptr(p) < 4096 {
+	if p < 4096 {
 		return nil
 	}
-	return p
+	return unsafe.Pointer(p)
 }
 
 const (
@@ -54,10 +54,10 @@ const (
 func sysMap(v unsafe.Pointer, n uintptr, reserved bool, sysStat *uint64) {
 	mSysStatInc(sysStat, n)
 	p := mmap(v, n, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_FIXED|_MAP_PRIVATE, -1, 0)
-	if uintptr(p) == _ENOMEM {
+	if p == _ENOMEM {
 		throw("runtime: out of memory")
 	}
-	if p != v {
+	if p != uintptr(v) {
 		throw("runtime: cannot map pages in arena address space")
 	}
 }

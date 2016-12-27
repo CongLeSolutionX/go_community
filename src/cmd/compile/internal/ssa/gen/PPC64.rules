@@ -306,6 +306,7 @@
 (Less16U x y) -> (LessThan (CMPWU (ZeroExt16to32 x) (ZeroExt16to32 y)))
 (Less32U x y) -> (LessThan (CMPWU x y))
 (Less64U x y) -> (LessThan (CMPU x y))
+(LessPtr x y) -> (LessThan (CMPU x y))
 
 (Leq8 x y)  -> (LessEqual (CMPW (SignExt8to32 x) (SignExt8to32 y)))
 (Leq16 x y) -> (LessEqual (CMPW (SignExt16to32 x) (SignExt16to32 y)))

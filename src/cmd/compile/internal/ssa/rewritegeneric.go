@@ -114,6 +114,8 @@ func rewriteValuegeneric(v *Value, config *Config) bool {
 		return rewriteValuegeneric_OpIMake(v, config)
 	case OpIsInBounds:
 		return rewriteValuegeneric_OpIsInBounds(v, config)
+	case OpIsPtrValid:
+		return rewriteValuegeneric_OpIsPtrValid(v, config)
 	case OpIsSliceInBounds:
 		return rewriteValuegeneric_OpIsSliceInBounds(v, config)
 	case OpLeq16:
@@ -3406,6 +3408,62 @@ func rewriteValuegeneric_OpIsInBounds(v *Value, config *Config) bool {
 		return true
 	}
 	return false
+}
+func rewriteValuegeneric_OpIsPtrValid(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (IsPtrValid (Const32 [0]))
+	// cond:
+	// result: (ConstBool [1])
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpConst32 {
+			break
+		}
+		if v_0.AuxInt != 0 {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = 1
+		return true
+	}
+	// match: (IsPtrValid (Const64 [0]))
+	// cond:
+	// result: (ConstBool [1])
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpConst64 {
+			break
+		}
+		if v_0.AuxInt != 0 {
+			break
+		}
+		v.reset(OpConstBool)
+		v.AuxInt = 1
+		return true
+	}
+	// match: (IsPtrValid <t> x)
+	// cond:
+	// result: (Not (AndB (IsNonNil x) (LessPtr x (OffPtr <t> (ConstNil) [4096]))))
+	for {
+		t := v.Type
+		x := v.Args[0]
+		v.reset(OpNot)
+		v0 := b.NewValue0(v.Line, OpAndB, config.fe.TypeBool())
+		v1 := b.NewValue0(v.Line, OpIsNonNil, config.fe.TypeBool())
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Line, OpLessPtr, config.fe.TypeBool())
+		v2.AddArg(x)
+		v3 := b.NewValue0(v.Line, OpOffPtr, t)
+		v3.AuxInt = 4096
+		v4 := b.NewValue0(v.Line, OpConstNil, config.fe.TypeBytePtr())
+		v3.AddArg(v4)
+		v2.AddArg(v3)
+		v0.AddArg(v2)
+		v.AddArg(v0)
+		return true
+	}
 }
 func rewriteValuegeneric_OpIsSliceInBounds(v *Value, config *Config) bool {
 	b := v.Block

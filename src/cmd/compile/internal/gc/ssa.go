@@ -1470,6 +1470,12 @@ func (s *state) expr(n *Node) *ssa.Value {
 		switch u := n.Val().U.(type) {
 		case *Mpint:
 			i := u.Int64()
+			// Check that the literal conforms to valid pointer
+			// checks. This number should match the minZero page
+			// used in generation.
+			if n.Type.IsPtr() && n.Type.Elem() != nil && i > 0 && i < 4096 {
+				s.Error("bad pointer literal %d", i)
+			}
 			switch n.Type.Size() {
 			case 1:
 				return s.constInt8(n.Type, int8(i))
@@ -1546,7 +1552,13 @@ func (s *state) expr(n *Node) *ssa.Value {
 		// as not-pointers or vice-versa because of copy
 		// elision.
 		if to.IsPtrShaped() != from.IsPtrShaped() {
-			return s.newValue2(ssa.OpConvert, to, x, s.mem())
+			v := s.newValue2(ssa.OpConvert, to, x, s.mem())
+			if to.IsPtrShaped() {
+				// Ensure that the pointer being converted is sane.
+				// This will cover the uintptr -> unsafe.Pointer case.
+				s.ptrCheck(v)
+			}
+			return v
 		}
 
 		v := s.newValue1(ssa.OpCopy, to, x) // ensure that v has the right type
@@ -3303,6 +3315,22 @@ func (s *state) sliceBoundsCheck(idx, len *ssa.Value) {
 	// bounds check
 	cmp := s.newValue2(ssa.OpIsSliceInBounds, Types[TBOOL], idx, len)
 	s.check(cmp, panicslice)
+}
+
+// ptrCheck checks the value of an unsafe pointer conversion. This is distinct
+// from a nil check, because nil is a perfectly legal value. Instead, it checks
+// for a non-nil pointer into the zero page, which the runtime dictates must be
+// unmapped.
+func (s *state) ptrCheck(ptr *ssa.Value) {
+	// The runtime makes heavy use of unsafe pointer arithmetic internally
+	// (computing hash buckets, etc.). Assume that package is trustworthy
+	// in the normal case, and only enable the checks when we're compiling
+	// a race detector or msan build (and want the extra precautions).
+	if compiling_runtime && !flag_race && !flag_msan {
+		return
+	}
+	cmp := s.newValue1(ssa.OpIsPtrValid, Types[TBOOL], ptr)
+	s.check(cmp, panicptr)
 }
 
 // If cmp (a bool) is false, panic using the given function.

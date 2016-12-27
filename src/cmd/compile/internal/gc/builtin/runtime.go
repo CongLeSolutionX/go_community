@@ -16,6 +16,7 @@ func newobject(typ *byte) *any
 func panicindex()
 func panicslice()
 func panicdivide()
+func panicptr()
 func throwinit()
 func panicwrap(string, string, string)
 

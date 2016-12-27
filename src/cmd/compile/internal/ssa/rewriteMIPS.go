@@ -208,6 +208,8 @@ func rewriteValueMIPS(v *Value, config *Config) bool {
 		return rewriteValueMIPS_OpLess8(v, config)
 	case OpLess8U:
 		return rewriteValueMIPS_OpLess8U(v, config)
+	case OpLessPtr:
+		return rewriteValueMIPS_OpLessPtr(v, config)
 	case OpLoad:
 		return rewriteValueMIPS_OpLoad(v, config)
 	case OpLsh16x16:
@@ -2364,6 +2366,21 @@ func rewriteValueMIPS_OpLess8U(v *Value, config *Config) bool {
 		v1 := b.NewValue0(v.Line, OpZeroExt8to32, config.fe.TypeUInt32())
 		v1.AddArg(x)
 		v.AddArg(v1)
+		return true
+	}
+}
+func rewriteValueMIPS_OpLessPtr(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LessPtr x y)
+	// cond:
+	// result: (SGTU y x)
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpMIPSSGTU)
+		v.AddArg(y)
+		v.AddArg(x)
 		return true
 	}
 }

@@ -215,6 +215,7 @@
 (Less8U x y)  -> (SGTU (ZeroExt8to32 y) (ZeroExt8to32 x))
 (Less16U x y) -> (SGTU (ZeroExt16to32 y) (ZeroExt16to32 x))
 (Less32U x y) -> (SGTU y x)
+(LessPtr x y) -> (SGTU y x)
 
 (Leq8 x y)  -> (XORconst [1] (SGT (SignExt8to32 x) (SignExt8to32 y)))
 (Leq16 x y) -> (XORconst [1] (SGT (SignExt16to32 x) (SignExt16to32 y)))

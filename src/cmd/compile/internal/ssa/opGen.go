@@ -1700,6 +1700,7 @@ const (
 	OpLess32U
 	OpLess64
 	OpLess64U
+	OpLessPtr
 	OpLess32F
 	OpLess64F
 	OpLeq8
@@ -1817,6 +1818,7 @@ const (
 	OpIsInBounds
 	OpIsSliceInBounds
 	OpNilCheck
+	OpIsPtrValid
 	OpGetG
 	OpGetClosurePtr
 	OpPtrIndex
@@ -20480,6 +20482,11 @@ var opcodeTable = [...]opInfo{
 		generic: true,
 	},
 	{
+		name:    "LessPtr",
+		argLen:  2,
+		generic: true,
+	},
+	{
 		name:    "Less32F",
 		argLen:  2,
 		generic: true,
@@ -21090,6 +21097,11 @@ var opcodeTable = [...]opInfo{
 	{
 		name:    "NilCheck",
 		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "IsPtrValid",
+		argLen:  1,
 		generic: true,
 	},
 	{

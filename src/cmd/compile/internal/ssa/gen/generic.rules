@@ -1017,3 +1017,8 @@
 	&& c == config.ctxt.FixedFrameSize() + config.RegSize // offset of return value
 	&& warnRule(config.Debug_checknil() && int(v.Line) > 1, v, "removed nil check")
 	-> (Invalid)
+
+// IsPtrValid must be kept consistent with minZeroPage (see comment there).
+(IsPtrValid (Const32 [0])) -> (ConstBool [1])
+(IsPtrValid (Const64 [0])) -> (ConstBool [1])
+(IsPtrValid <t> x) -> (Not (AndB (IsNonNil x) (LessPtr x (OffPtr <t> (ConstNil) [4096]))))

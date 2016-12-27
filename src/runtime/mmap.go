@@ -16,4 +16,4 @@ import "unsafe"
 // We only pass the lower 32 bits of file offset to the
 // assembly routine; the higher bits (if required), should be provided
 // by the assembly routine as 0.
-func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) unsafe.Pointer
+func mmap(addr unsafe.Pointer, n uintptr, prot, flags, fd int32, off uint32) uintptr

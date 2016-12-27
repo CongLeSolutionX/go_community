@@ -17,15 +17,8 @@ import (
 // See the uses of ENOMEM in sysMap in those files.
 func TestMmapErrorSign(t *testing.T) {
 	p := runtime.Mmap(nil, ^uintptr(0)&^(runtime.GetPhysPageSize()-1), 0, runtime.MAP_ANON|runtime.MAP_PRIVATE, -1, 0)
-
-	// The runtime.mmap function is nosplit, but t.Errorf is not.
-	// Reset the pointer so that we don't get an "invalid stack
-	// pointer" error from t.Errorf if we call it.
-	v := uintptr(p)
-	p = nil
-
-	if v != runtime.ENOMEM {
-		t.Errorf("mmap = %v, want %v", v, runtime.ENOMEM)
+	if p != runtime.ENOMEM {
+		t.Errorf("mmap = %v, want %v", p, runtime.ENOMEM)
 	}
 }
 
@@ -41,13 +34,13 @@ func TestPhysPageSize(t *testing.T) {
 	}
 
 	// Mmap should fail at a half page into the buffer.
-	err := uintptr(runtime.Mmap(unsafe.Pointer(uintptr(b)+ps/2), ps, 0, runtime.MAP_ANON|runtime.MAP_PRIVATE|runtime.MAP_FIXED, -1, 0))
+	err := uintptr(runtime.Mmap(unsafe.Pointer(b+ps/2), ps, 0, runtime.MAP_ANON|runtime.MAP_PRIVATE|runtime.MAP_FIXED, -1, 0))
 	if err >= 4096 {
 		t.Errorf("Mmap should have failed with half-page alignment %d, but succeeded: %v", ps/2, err)
 	}
 
 	// Mmap should succeed at a full page into the buffer.
-	err = uintptr(runtime.Mmap(unsafe.Pointer(uintptr(b)+ps), ps, 0, runtime.MAP_ANON|runtime.MAP_PRIVATE|runtime.MAP_FIXED, -1, 0))
+	err = uintptr(runtime.Mmap(unsafe.Pointer(b+ps), ps, 0, runtime.MAP_ANON|runtime.MAP_PRIVATE|runtime.MAP_FIXED, -1, 0))
 	if err < 4096 {
 		t.Errorf("Mmap at full-page alignment %d failed: %v", ps, err)
 	}

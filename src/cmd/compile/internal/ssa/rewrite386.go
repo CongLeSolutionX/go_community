@@ -388,6 +388,8 @@ func rewriteValue386(v *Value, config *Config) bool {
 		return rewriteValue386_OpLess8(v, config)
 	case OpLess8U:
 		return rewriteValue386_OpLess8U(v, config)
+	case OpLessPtr:
+		return rewriteValue386_OpLessPtr(v, config)
 	case OpLoad:
 		return rewriteValue386_OpLoad(v, config)
 	case OpLrot16:
@@ -10405,6 +10407,23 @@ func rewriteValue386_OpLess8U(v *Value, config *Config) bool {
 		y := v.Args[1]
 		v.reset(Op386SETB)
 		v0 := b.NewValue0(v.Line, Op386CMPB, TypeFlags)
+		v0.AddArg(x)
+		v0.AddArg(y)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValue386_OpLessPtr(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (LessPtr x y)
+	// cond:
+	// result: (SETB (CMPL x y))
+	for {
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(Op386SETB)
+		v0 := b.NewValue0(v.Line, Op386CMPL, TypeFlags)
 		v0.AddArg(x)
 		v0.AddArg(y)
 		v.AddArg(v0)

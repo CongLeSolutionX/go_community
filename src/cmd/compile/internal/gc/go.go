@@ -374,6 +374,7 @@ var (
 	panicindex,
 	panicslice,
 	panicdivide,
+	panicptr,
 	growslice,
 	panicdottype,
 	panicnildottype,

@@ -213,12 +213,12 @@ func sysargs(argc int32, argv **byte) {
 			// mincore should return EINVAL when address is not a multiple of system page size.
 			const size = 256 << 10 // size of memory region to allocate
 			p := mmap(nil, size, _PROT_READ|_PROT_WRITE, _MAP_ANON|_MAP_PRIVATE, -1, 0)
-			if uintptr(p) < 4096 {
+			if p < 4096 {
 				return
 			}
 			var n uintptr
 			for n = 4 << 10; n < size; n <<= 1 {
-				err := mincore(unsafe.Pointer(uintptr(p)+n), 1, &addrspace_vec[0])
+				err := mincore(unsafe.Pointer(p+n), 1, &addrspace_vec[0])
 				if err == 0 {
 					physPageSize = n
 					break
@@ -227,7 +227,7 @@ func sysargs(argc int32, argv **byte) {
 			if physPageSize == 0 {
 				physPageSize = size
 			}
-			munmap(p, size)
+			munmap(unsafe.Pointer(p), size)
 			return
 		}
 		var buf [128]uintptr

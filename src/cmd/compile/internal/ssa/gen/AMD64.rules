@@ -229,6 +229,8 @@
 (Less32U x y) -> (SETB (CMPL x y))
 (Less16U x y) -> (SETB (CMPW x y))
 (Less8U  x y) -> (SETB (CMPB x y))
+(LessPtr x y) && config.PtrSize == 8 -> (SETB (CMPQ x y))
+(LessPtr x y) && config.PtrSize == 4 -> (SETB (CMPL x y))
 // Use SETGF with reversed operands to dodge NaN case
 (Less64F x y) -> (SETGF (UCOMISD y x))
 (Less32F x y) -> (SETGF (UCOMISS y x))
