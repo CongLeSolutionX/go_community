@@ -16,6 +16,24 @@
       "revId": "dc340e89877956f12dba786203048af99229fc00",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_533b4b2a",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2016-12-27T00:59:18Z",
+      "side": 1,
+      "message": "Because the other calls call compare and swap from 0 to 1, and this calls from 1 to 2, it can never go backwards or be repeated.\n\nThe main issue is that the tx.done wasn\u0027t getting set on rollback and commit, but in close. tx.close is only called from rollback and commit. As such, the compare and swap in tx.close is strictly not needed and maybe should be removed now that commit and rollback do the cas.",
+      "parentUuid": "570a565e_8f1c75de",
+      "revId": "dc340e89877956f12dba786203048af99229fc00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
