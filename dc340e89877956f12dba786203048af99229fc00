@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d7a2c67b_e6fab750",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1397,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-27T16:49:04Z",
+      "side": 1,
+      "message": "this has gotten a little complex. I wonder if it\u0027s time for a mutex and more explicitly-named state fields.\n\nIf you prefer to keep this for now, that\u0027s okay, but please add a test, and maybe a bit more doc here, saying what close means. (\"when the close method is called via Foo, Bar, or baz condition\").\n\nThis raises the question of why it doesn\u0027t just go from 0 to 2, or why more work isn\u0027t just done in the 0 to 1 transition.",
+      "revId": "dc340e89877956f12dba786203048af99229fc00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "570a565e_8f1c75de",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 1
