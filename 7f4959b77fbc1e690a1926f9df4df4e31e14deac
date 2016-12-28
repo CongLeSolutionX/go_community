@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1728de81_56fa6a52",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-28T13:14:29Z",
+      "side": 1,
+      "message": "Could this consistency helper be in a different CL? It doesn\u0027t look related.",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17237e9f_69632d59",
+        "filename": "src/cmd/compile/internal/ssa/likelyadjust.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-28T13:14:29Z",
+      "side": 1,
+      "message": "Beautiful cleanup and maybe even speedup. Could this be in a different CL? It doesn\u0027t look related.",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_76f56662",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-28T13:14:29Z",
+      "side": 1,
+      "message": "tofixBackedges :\u003d make([]edgeMemCtr, 0, len(backedges))\n\nin order to pre-allocate them.",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_d6053a7d",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-28T13:14:29Z",
+      "side": 1,
+      "message": "You could un-indent one brace level, if you invert the condition.\n\nif v \u003d\u003d y {\n          continue\n}\n\nand then un-indent everything below.",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_96ffb23b",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-28T13:14:29Z",
+      "side": 1,
+      "message": "Also possible to un-indent here\n\nif w !\u003d x {\n         continue\n}\n\nand then un-indent the append below.",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_765e8694",
+        "filename": "src/cmd/compile/internal/ssa/sparsetree.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-28T13:14:29Z",
+      "side": 1,
+      "message": "Could this be in a different CL? It doesn\u0027t look related.",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_3668fe30",
+        "filename": "test/run.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-28T13:14:29Z",
+      "side": 1,
+      "message": "Why limit it to seconds? Go\u0027s time.Duration syntax might be more flexible here and in line with \"go test -timeout\".",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_f651567f",
+        "filename": "test/run.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-28T13:14:29Z",
+      "side": 1,
+      "message": "Please add a comment along the lines of \"Cannot use exec.CommandContext here, since it needs to be compatible with Go 1.4\" so nobody tries to optimize this without reason.",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_d64e5adf",
+        "filename": "test/run.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 5021
+      },
+      "writtenOn": "2016-12-28T13:14:29Z",
+      "side": 1,
+      "message": "Maybe adding this mechanism could be another CL?",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
