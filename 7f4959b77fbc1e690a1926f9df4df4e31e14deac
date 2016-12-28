@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_a82da2c5",
+        "filename": "src/cmd/compile/internal/ssa/compile.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-28T16:13:21Z",
+      "side": 1,
+      "message": "it\u0027s no longer related -- an earlier version of the CL carried information between passes, but that was judged to be risky.\nso, removed.",
+      "parentUuid": "1728de81_56fa6a52",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17237e9f_69632d59",
         "filename": "src/cmd/compile/internal/ssa/likelyadjust.go",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2016-12-28T13:14:29Z",
       "side": 1,
       "message": "Beautiful cleanup and maybe even speedup. Could this be in a different CL? It doesn\u0027t look related.",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_8849c6ac",
+        "filename": "src/cmd/compile/internal/ssa/likelyadjust.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-28T16:13:21Z",
+      "side": 1,
+      "message": "It was related, before I decided that this version of the CL (for GOEXPERIMENT use only) should not attempt to be clever about blocks containing calls.\n\nThis also won\u0027t work for the clever version, because that will need to consult export data for each call to see if it is split or not.\n\nRemoved.",
+      "parentUuid": "17237e9f_69632d59",
       "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_28589270",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-28T16:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1728de81_d6053a7d",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1728de81_96ffb23b",
         "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
         "patchSetId": 11
@@ -81,6 +135,24 @@
       "writtenOn": "2016-12-28T13:14:29Z",
       "side": 1,
       "message": "Also possible to un-indent here\n\nif w !\u003d x {\n         continue\n}\n\nand then un-indent the append below.",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_0855d639",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-28T16:13:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1728de81_96ffb23b",
       "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_a8448295",
+        "filename": "src/cmd/compile/internal/ssa/sparsetree.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-28T16:13:21Z",
+      "side": 1,
+      "message": "This is for debugging output in the new code.",
+      "parentUuid": "1728de81_765e8694",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1728de81_3668fe30",
         "filename": "test/run.go",
         "patchSetId": 11
@@ -115,6 +205,24 @@
       "writtenOn": "2016-12-28T13:14:29Z",
       "side": 1,
       "message": "Why limit it to seconds? Go\u0027s time.Duration syntax might be more flexible here and in line with \"go test -timeout\".",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_e8884ab3",
+        "filename": "test/run.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-28T16:13:21Z",
+      "side": 1,
+      "message": "I didn\u0027t want to add more than I needed, and any duration more precise than seconds is likely to be nonsense for tests run across a variety of platforms, and any duration longer than a single minute is completely inappropriate for these tests (which are supposed to pass or fail quickly).  Does anyone else has strong opinions here?",
+      "parentUuid": "1728de81_3668fe30",
       "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "d72d6695_e8616a1b",
+        "filename": "test/run.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-28T16:13:21Z",
+      "side": 1,
+      "message": "Does it need to be compatible with exec.CommandContext?\nWe\u0027re not running new tests with 1.4; they\u0027d never pass.",
+      "parentUuid": "1728de81_f651567f",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1728de81_d64e5adf",
         "filename": "test/run.go",
         "patchSetId": 11
@@ -149,6 +275,24 @@
       "writtenOn": "2016-12-28T13:14:29Z",
       "side": 1,
       "message": "Maybe adding this mechanism could be another CL?",
+      "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d72d6695_088cb6c5",
+        "filename": "test/run.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 707,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2016-12-28T16:13:21Z",
+      "side": 1,
+      "message": "This is necessary for clean failure of the new test for this CL; if it is just a \"run\" test, the timeout process-killer takes out the top-level \"go run\" but leaves the infinite looping a.exe still running.",
+      "parentUuid": "1728de81_d64e5adf",
       "revId": "7f4959b77fbc1e690a1926f9df4df4e31e14deac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
