@@ -128,6 +128,11 @@ func dirname(path string) string {
 	return vol + dir
 }
 
+func init() {
+	// Initialize exec_posix.go's fixLongPath_.
+	fixLongPath_ = fixLongPath
+}
+
 // fixLongPath returns the extended-length (\\?\-prefixed) form of
 // path when needed, in order to avoid the default 260 character file
 // path limit imposed by Windows. If path is not easily converted to
