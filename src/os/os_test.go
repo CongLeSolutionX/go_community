@@ -1701,7 +1701,20 @@ func TestReadAtEOF(t *testing.T) {
 	}
 }
 
+func testLongPath_Helper(t *testing.T) {
+	slurp, err := ioutil.ReadFile("foo.txt")
+	if err != nil {
+		t.Fatal(err)
+	}
+	Stdout.Write(slurp)
+	Exit(0)
+}
+
 func TestLongPath(t *testing.T) {
+	if Getenv("GO_TEST_HELPER") == "LONGPATH_HELPER" {
+		testLongPath_Helper(t)
+		return
+	}
 	tmpdir := newDir("TestLongPath", t)
 	defer func(d string) {
 		if err := RemoveAll(d); err != nil {
@@ -1710,7 +1723,7 @@ func TestLongPath(t *testing.T) {
 	}(tmpdir)
 
 	// Test the boundary of 247 and fewer bytes (normal) and 248 and more bytes (adjusted).
-	sizes := []int{247, 248, 249, 400}
+	sizes := []int{247, 248, 249, 259, 260, 300, 400}
 	for len(tmpdir) < 400 {
 		tmpdir += "/dir3456789"
 	}
@@ -1727,6 +1740,32 @@ func TestLongPath(t *testing.T) {
 			if err := ioutil.WriteFile(sizedTempDir+"/foo.txt", data, 0644); err != nil {
 				t.Fatalf("ioutil.WriteFile() failed: %v", err)
 			}
+
+			if exe, err := Executable(); err == nil {
+				longExe := filepath.Join(sizedTempDir, filepath.Base(exe))
+				if err := copyFile(longExe, exe); err != nil {
+					t.Fatal(err)
+				}
+				if runtime.GOOS != "windows" {
+					if err := Chmod(longExe, 0755); err != nil {
+						t.Fatal(err)
+					}
+				}
+				cmd := osexec.Command(longExe, "-test.run=^TestLongPath$")
+				cmd.Dir = sizedTempDir
+				cmd.Env = append(Environ(), "GO_TEST_HELPER=LONGPATH_HELPER")
+				out, err := cmd.CombinedOutput()
+				if err != nil {
+					t.Errorf("exec: %v, %s", err, out)
+				} else if !bytes.Equal(out, data) {
+					t.Errorf("exec output = %q; want %q", out, data)
+				}
+			} else {
+				if runtime.GOOS == "windows" { // the OS we really want to test for Issue 18468
+					t.Errorf("Executable failed on %s: %v", runtime.GOOS, err)
+				}
+			}
+
 			if err := Rename(sizedTempDir+"/foo.txt", sizedTempDir+"/bar.txt"); err != nil {
 				t.Fatalf("Rename failed: %v", err)
 			}
@@ -1925,4 +1964,22 @@ func TestRemoveAllRace(t *testing.T) {
 	}
 	close(hold) // let workers race to remove root
 	wg.Wait()
+}
+
+func copyFile(dst, src string) error {
+	df, err := Create(dst)
+	if err != nil {
+		return err
+	}
+	sf, err := Open(src)
+	if err != nil {
+		df.Close()
+		return err
+	}
+	defer sf.Close()
+	if _, err := io.Copy(df, sf); err != nil {
+		df.Close()
+		return err
+	}
+	return df.Close()
 }

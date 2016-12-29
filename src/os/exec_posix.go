@@ -7,6 +7,7 @@
 package os
 
 import (
+	"runtime"
 	"syscall"
 )
 
@@ -18,16 +19,33 @@ var (
 	Kill      Signal = syscall.SIGKILL
 )
 
+// fixLongPath_ is set to fixLongPath on Windows by path_windows.go:init.
+// It is nil elsewhere.
+var fixLongPath_ func(string) string
+
 func startProcess(name string, argv []string, attr *ProcAttr) (p *Process, err error) {
+	if attr == nil {
+		panic("nil attr")
+	}
+
 	// If there is no SysProcAttr (ie. no Chroot or changed
 	// UID/GID), double-check existence of the directory we want
 	// to chdir into. We can make the error clearer this way.
-	if attr != nil && attr.Sys == nil && attr.Dir != "" {
+	if attr.Sys == nil && attr.Dir != "" {
 		if _, err := Stat(attr.Dir); err != nil {
 			pe := err.(*PathError)
 			pe.Op = "chdir"
 			return nil, pe
 		}
+	}
+
+	if runtime.GOOS == "windows" {
+		// XXX This causes "The system cannot find the path specified".
+		// I guess Windows doesn't like UNC paths there:
+		// attr.Dir = fixLongPath_(attr.Dir)
+
+		// XXX But this gets things going further:
+		name = fixLongPath_(name)
 	}
 
 	sysattr := &syscall.ProcAttr{
