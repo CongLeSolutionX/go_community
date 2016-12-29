@@ -4270,6 +4270,12 @@ func (sc *http2serverConn) processHeaders(f *http2MetaHeadersFrame) error {
 		return st.processTrailerHeaders(f)
 	}
 
+	if d := sc.hs.WriteTimeout; d != 0 {
+		defer func() {
+			sc.conn.SetWriteDeadline(time.Now().Add(d))
+		}()
+	}
+
 	if id <= sc.maxClientStreamID {
 		return http2ConnectionError(http2ErrCodeProtocol)
 	}
