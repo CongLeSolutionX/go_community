@@ -22,6 +22,30 @@
       "revId": "e22a9190fcbb72945f48c9299a06fb972d1d4e84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_3f6be9d1",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2016-12-29T17:54:48Z",
+      "side": 1,
+      "message": "The only place where this function is used is as argument to syntax.Parse (line 26 in this file). syntax.Parse doesn\u0027t have access to lineno, it has its own positions, but it uses callbacks for error and pragma handling. In both cases we compute the actual line number as needed (for error see lines 1010ff.).\n\nAfter we\u0027re done with parsing, the gc nodes are created, and lineno is set up again for each node.\n\nThat is, this should be safe.\n\nYes, there is a plan to get rid of these globals. For one, the new syntax package already doesn\u0027t use globals anymore for line numbers. The dev.inline branch has a series of CLs that replace the existing lineno business with more flexible source positions. One global (lexlineno) is gone. lineno is more pervasive, but we also plan to get rid of it rather sooner than later.",
+      "parentUuid": "d72d6695_a3a02545",
+      "range": {
+        "startLine": 1058,
+        "startChar": 2,
+        "endLine": 1058,
+        "endChar": 8
+      },
+      "revId": "e22a9190fcbb72945f48c9299a06fb972d1d4e84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
