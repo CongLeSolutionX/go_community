@@ -826,9 +826,8 @@ func importfile(f *Val, indent []byte) {
 		yyerror("cannot import unsafe package %q", importpkg.Path)
 	}
 
-	// assume files move (get installed)
-	// so don't record the full path.
-	linehistpragma(file[len(file)-len(path_)-2:]) // acts as #pragma lib
+	// assume files move (get installed) so don't record the full path.
+	Ctxt.AddImport(file[len(file)-len(path_)-2:])
 
 	// In the importfile, if we find:
 	// $$\n  (textual format): not supported anymore

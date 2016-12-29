@@ -56,10 +56,6 @@ func Linknew(arch *LinkArch) *Link {
 	ctxt.Version = HistVersion
 	ctxt.Pathname = Pathname()
 
-	// LineHist is not used anymore
-	// ctxt.LineHist.GOROOT = GOROOT
-	// ctxt.LineHist.Dir = ctxt.Pathname
-
 	ctxt.Headtype.Set(GOOS)
 	if ctxt.Headtype < 0 {
 		log.Fatalf("unknown goos %s", GOOS)
