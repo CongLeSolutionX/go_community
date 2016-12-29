@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "d7a2c67b_5fcfc517",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-29T16:54:21Z",
+      "side": 1,
+      "message": "It might be easier (and best) to keep the test here.\n\nWhy don\u0027t you make this CL just about the test for now, with the test disabled (t.Skp() at the top) for now.\n\nShow me a failing test, and then we\u0027ll enable the test (delete the t.Skip line) when we re-bundle the http2 code in a subsequent commit.",
+      "parentUuid": "d7a2c67b_fc955fcd",
+      "revId": "2e81a96ecaf22de7fd6571193aaa31be1dac53e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7a2c67b_fcc31ff1",
         "filename": "src/net/http/h2_bundle.go",
         "patchSetId": 1
@@ -100,6 +118,24 @@
       "side": 1,
       "message": "The write deadline is set on the underlying connection in net/http.conn.serve() before http2 takes over. Are you saying the deadline on the net conn should be cleared (or never set) and write timeouts be tracked separately for http2?\n\nShould the write timeout be enforced per stream?",
       "parentUuid": "d7a2c67b_fcc31ff1",
+      "revId": "2e81a96ecaf22de7fd6571193aaa31be1dac53e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_ffc311f1",
+        "filename": "src/net/http/h2_bundle.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4273,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-29T16:54:21Z",
+      "side": 1,
+      "message": "For now, since we\u0027re so late into Go 1.8, let\u0027s just make http2 disable the WriteTimeout entirely when needed, and then ignore it for the lifetime of the connection as if it weren\u0027t set.\n\nThat\u0027s better than killing the conn.\n\nFor Go 1.9, we can track it per stream.",
+      "parentUuid": "d7a2c67b_bc41277a",
       "revId": "2e81a96ecaf22de7fd6571193aaa31be1dac53e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
