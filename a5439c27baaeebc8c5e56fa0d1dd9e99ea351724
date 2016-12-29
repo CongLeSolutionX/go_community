@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a2c67b_b90859dc",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-29T02:27:31Z",
+      "side": 1,
+      "message": "magic literal 2. Is that len(\": \") or... ?",
+      "revId": "a5439c27baaeebc8c5e56fa0d1dd9e99ea351724",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
