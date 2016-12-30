@@ -600,6 +600,104 @@ func TestHTTP2WriteDeadlineExtendedOnNewRequest(t *testing.T) {
 	}
 }
 
+// Test that the HTTP/2 server RSTs stream on slow write.
+func TestHTTP2WriteDeadlineEnforcedPerStream(t *testing.T) {
+	t.Skip("disabled until Issue 18437 is fixed")
+	if testing.Short() {
+		t.Skip("skipping in short mode")
+	}
+	setParallel(t)
+	defer afterTest(t)
+	reqNum := 0
+	ts := httptest.NewUnstartedServer(HandlerFunc(func(res ResponseWriter, req *Request) {
+		reqNum++
+		if reqNum == 1 {
+			return // first request succeeds
+		}
+		time.Sleep(150 * time.Millisecond) // second request timesout
+	}))
+	ts.Config.WriteTimeout = 100 * time.Millisecond
+	ts.TLS = &tls.Config{NextProtos: []string{"h2"}}
+	ts.StartTLS()
+	defer ts.Close()
+
+	c := ts.Client()
+	if err := ExportHttp2ConfigureTransport(c.Transport.(*Transport)); err != nil {
+		t.Fatal(err)
+	}
+
+	req, err := NewRequest("GET", ts.URL, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	r, err := c.Do(req)
+	if err != nil {
+		t.Fatalf("http2 Get #1: %v", err)
+	}
+	r.Body.Close()
+	if r.ProtoMajor != 2 {
+		t.Fatalf("http2 Get expected HTTP/2.0, got %q", r.Proto)
+	}
+
+	req, err = NewRequest("GET", ts.URL, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	r, err = c.Do(req)
+	if err == nil {
+		r.Body.Close()
+		if r.ProtoMajor != 2 {
+			t.Errorf("http2 Get expected HTTP/2.0, got %q", r.Proto)
+		}
+		t.Fatalf("http2 Get #2 expected error, got nil")
+	}
+	expected := "stream ID 3; INTERNAL_ERROR" // client IDs are odd, second stream should be 3
+	if !strings.Contains(err.Error(), expected) {
+		t.Fatalf("http2 Get #2: expected error to contain %q, got %q", expected, err)
+	}
+}
+
+// Test that the HTTP/2 server does not send RST when WriteDeadline not set.
+func TestHTTP2NoWriteDeadline(t *testing.T) {
+	t.Skip("disabled until Issue 18437 is fixed")
+	if testing.Short() {
+		t.Skip("skipping in short mode")
+	}
+	setParallel(t)
+	defer afterTest(t)
+	reqNum := 0
+	ts := httptest.NewUnstartedServer(HandlerFunc(func(res ResponseWriter, req *Request) {
+		reqNum++
+		if reqNum == 1 {
+			return // first request succeeds
+		}
+		time.Sleep(150 * time.Millisecond) // second request timesout
+	}))
+	ts.TLS = &tls.Config{NextProtos: []string{"h2"}}
+	ts.StartTLS()
+	defer ts.Close()
+
+	c := ts.Client()
+	if err := ExportHttp2ConfigureTransport(c.Transport.(*Transport)); err != nil {
+		t.Fatal(err)
+	}
+
+	for i := 0; i < 2; i++ {
+		req, err := NewRequest("GET", ts.URL, nil)
+		if err != nil {
+			t.Fatal(err)
+		}
+		r, err := c.Do(req)
+		if err != nil {
+			t.Fatalf("http2 Get #%d: %v", i, err)
+		}
+		r.Body.Close()
+		if r.ProtoMajor != 2 {
+			t.Fatalf("http2 Get expected HTTP/2.0, got %q", r.Proto)
+		}
+	}
+}
+
 // golang.org/issue/4741 -- setting only a write timeout that triggers
 // shouldn't cause a handler to block forever on reads (next HTTP
 // request) that will never happen.
