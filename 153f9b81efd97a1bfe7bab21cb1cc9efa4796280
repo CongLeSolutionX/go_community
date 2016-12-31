@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "771e7aa7_0849a7aa",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-31T04:11:15Z",
+      "side": 1,
+      "message": "What does _ in fixLongPath_ stands?",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "771e7aa7_684e63b4",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-31T04:11:15Z",
+      "side": 1,
+      "message": "Is it OK to introduce panic here?",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "771e7aa7_a857bb42",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-31T04:11:15Z",
+      "side": 1,
+      "message": "Your new test fails for me:\n```\nc:\\Users\\Alex\\dev\\go\\src\\os\u003ego test -v -run\u003dLongPath\n\u003d\u003d\u003d RUN   TestLongPath\n\u003d\u003d\u003d RUN   TestLongPath/length\u003d247\n\u003d\u003d\u003d RUN   TestLongPath/length\u003d248\n\u003d\u003d\u003d RUN   TestLongPath/length\u003d249\n\u003d\u003d\u003d RUN   TestLongPath/length\u003d259\n\u003d\u003d\u003d RUN   TestLongPath/length\u003d260\n\u003d\u003d\u003d RUN   TestLongPath/length\u003d300\n\u003d\u003d\u003d RUN   TestLongPath/length\u003d400\n--- FAIL: TestLongPath (1.02s)\n    --- PASS: TestLongPath/length\u003d247 (0.26s)\n    --- PASS: TestLongPath/length\u003d248 (0.19s)\n    --- PASS: TestLongPath/length\u003d249 (0.51s)\n    --- FAIL: TestLongPath/length\u003d259 (0.01s)\n        os_test.go:1759: exec: fork/exec \\\\?\\C:\\Users\\Alex\\AppData\\Local\\Temp\\_Go_TestLongPath054296383\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dx\\os.test.exe: The directory name is invalid.,\n    --- FAIL: TestLongPath/length\u003d260 (0.01s)\n        os_test.go:1759: exec: fork/exec \\\\?\\C:\\Users\\Alex\\AppData\\Local\\Temp\\_Go_TestLongPath054296383\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dix\\os.test.exe: The directory name is invalid.,\n    --- FAIL: TestLongPath/length\u003d300 (0.01s)\n        os_test.go:1759: exec: fork/exec \\\\?\\C:\\Users\\Alex\\AppData\\Local\\Temp\\_Go_TestLongPath054296383\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir345678x\\os.test.exe: The directory name is invalid.,\n    --- FAIL: TestLongPath/length\u003d400 (0.01s)\n        os_test.go:1759: exec: fork/exec \\\\?\\C:\\Users\\Alex\\AppData\\Local\\Temp\\_Go_TestLongPath054296383\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789\\dir3456789x\\os.test.exe: The directory name is invalid.,\n\u003d\u003d\u003d RUN   TestFixLongPath\n--- PASS: TestFixLongPath (0.00s)\nFAIL\nexit status 1\nFAIL    os      1.125s\n\nc:\\Users\\Alex\\dev\\go\\src\\os\u003e\n```\n\nYou should handle attr.Dir here too.\n\nIn fact, if attr.Dir is set, you would have to adjust `name` too. syscall.StartProcess joins attr.Dir and `name`, if `name` is relative, so you would have to do that here instead (or copy fixLongPath into syscall).",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "771e7aa7_48539f58",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-31T04:11:15Z",
+      "side": 1,
+      "message": "Why cannot you just call fixLongPath instead? fixLongPath will return original path on non-windows. You can also remove lines 42 and 49, and all fixLongPath_ related code then.\n\nThis will obviously fail if `name` contains relative path. But that, I guess, is broken for other code in os.",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "771e7aa7_28446b94",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1759,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-31T04:11:15Z",
+      "side": 1,
+      "message": "Why t.Errorf here? You use t.Fatal everywhere else.\n\nPerhaps you should not indent code starting from line 1745. It makes this already long function even more complicated.",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "771e7aa7_c885cf9b",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1764,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-31T04:11:15Z",
+      "side": 1,
+      "message": "I do not see why it is OK for Executable call return error for non-windows OS.",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "771e7aa7_e88893b3",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1973,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-31T04:11:15Z",
+      "side": 1,
+      "message": "If you add\ndefer df.Close()\nafter line 1973, you should be able to remove all other calls into df.Close(). No?",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
