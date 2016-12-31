@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "d7a2c67b_f3d7ca0b",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-31T05:18:37Z",
+      "side": 1,
+      "message": "Nothing. I just didn\u0027t want to make a misc_notwindows.go with +build !windows to define a dummy fixLongPath func so this would compile on unix systems (this file is \"posix\" .... a mix of windows and unix)",
+      "parentUuid": "771e7aa7_0849a7aa",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "771e7aa7_684e63b4",
         "filename": "src/os/exec_posix.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
       "writtenOn": "2016-12-31T04:11:15Z",
       "side": 1,
       "message": "Is it OK to introduce panic here?",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_33dec22b",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-31T05:18:37Z",
+      "side": 1,
+      "message": "Yes. It was already implicit. Now it\u0027s explicit.",
+      "parentUuid": "771e7aa7_684e63b4",
       "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "d7a2c67b_13ddc62a",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-31T05:18:37Z",
+      "side": 1,
+      "message": "I know it fails. That\u0027s what the commit message says.\n\nThis is marked DO NOT SUBMIT because it doesn\u0027t work. The bug says somebody can take this over.",
+      "parentUuid": "771e7aa7_a857bb42",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "771e7aa7_48539f58",
         "filename": "src/os/exec_posix.go",
         "patchSetId": 2
@@ -70,6 +124,24 @@
       "writtenOn": "2016-12-31T04:11:15Z",
       "side": 1,
       "message": "Why cannot you just call fixLongPath instead? fixLongPath will return original path on non-windows. You can also remove lines 42 and 49, and all fixLongPath_ related code then.\n\nThis will obviously fail if `name` contains relative path. But that, I guess, is broken for other code in os.",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_b3f152b4",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2016-12-31T05:18:37Z",
+      "side": 1,
+      "message": "Feel free to take this over.",
+      "parentUuid": "771e7aa7_48539f58",
       "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
