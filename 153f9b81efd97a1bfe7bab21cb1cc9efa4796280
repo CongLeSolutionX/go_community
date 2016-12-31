@@ -148,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "771e7aa7_c85e6f5b",
+        "filename": "src/os/exec_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2016-12-31T06:57:40Z",
+      "side": 1,
+      "message": "I do not feel strong about fixing this. I still believe long paths on windows are broken in (sometimes) unfixable ways. We are just slowly painting ourselves into the corner.\n\nI will put this on my long TODO list. Hopefully someone else will beat me to it.",
+      "parentUuid": "d7a2c67b_b3f152b4",
+      "revId": "153f9b81efd97a1bfe7bab21cb1cc9efa4796280",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "771e7aa7_28446b94",
         "filename": "src/os/os_test.go",
         "patchSetId": 2
