@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1728de81_d6041aca",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-01-01T14:58:04Z",
+      "side": 1,
+      "message": "\"various context\"?",
+      "revId": "78b7b6ea8eb13d58595dae66322bb781342d4e89",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
