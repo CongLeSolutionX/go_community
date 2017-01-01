@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1728de81_1603c2c3",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-01-01T14:56:34Z",
+      "side": 1,
+      "message": "I thought the style was to always start with the name, like \"PosTable tracks...\".",
+      "revId": "f0f77935335b12787781e752c69778423e587917",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
