@@ -16,6 +16,24 @@
       "revId": "f0f77935335b12787781e752c69778423e587917",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_a28fbdbb",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-01-02T05:58:44Z",
+      "side": 1,
+      "message": "It\u0027s also OK style to use an indefinite article, as in this comment.  For example, https://golang.org/pkg/bytes/#Buffer .",
+      "parentUuid": "1728de81_1603c2c3",
+      "revId": "f0f77935335b12787781e752c69778423e587917",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
