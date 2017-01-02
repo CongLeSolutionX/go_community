@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7a2c67b_e273758b",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2610,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-02T18:29:01Z",
+      "side": 1,
+      "message": "can you put a little comment above this, explaining a bit both about what it\u0027s testing and how?",
+      "revId": "ebdc7c8ae9a35b3be501068629fb9ca6d8ec1e90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_427fe951",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2616,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-02T18:29:01Z",
+      "side": 1,
+      "message": "var wg sync.WaitGroup    ?",
+      "revId": "ebdc7c8ae9a35b3be501068629fb9ca6d8ec1e90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7a2c67b_826ba198",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2620,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-02T18:29:01Z",
+      "side": 1,
+      "message": "this isn\u0027t how you idiomatically iterate over numbers in Go.\n\nWe only do this as a joke (https://godoc.org/github.com/bradfitz/iter)",
+      "revId": "ebdc7c8ae9a35b3be501068629fb9ca6d8ec1e90",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
