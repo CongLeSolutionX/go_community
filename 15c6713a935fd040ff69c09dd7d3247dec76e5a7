@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1728de81_212556d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2017-01-03T15:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aa6fbc4_0f734507",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "15c6713a935fd040ff69c09dd7d3247dec76e5a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aa6fbc4_0f17c56f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2016-12-13T21:23:27Z",
       "side": 1,
       "message": "Maybe better \"Given the test cases:\" or something similar.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "15c6713a935fd040ff69c09dd7d3247dec76e5a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_010a5a44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2017-01-03T15:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aa6fbc4_0f17c56f",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1728de81_e1062e40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2017-01-03T15:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aa6fbc4_2f7809e1",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 28
+      },
+      "revId": "15c6713a935fd040ff69c09dd7d3247dec76e5a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5aa6fbc4_ef36010f",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2016-12-13T21:23:27Z",
       "side": 1,
       "message": "to distinguish the error message from the variable names it seems better to use multiple lines. We can use %.v to generate comma separated node lists.\n\nyyerror(\"assignment count mismatch\\n\\thave %d values from %.v\\n\\twant %d values for %.v\", cr, n.Rlist, cl, n.List)\n\nWe could also just print the types on a have and want line similar to the \"not enough arguments in call\" error by adding some support to print the types of a list of nodes in fmt.go:1761.",
+      "range": {
+        "startLine": 3402,
+        "startChar": 37,
+        "endLine": 3402,
+        "endChar": 39
+      },
+      "revId": "15c6713a935fd040ff69c09dd7d3247dec76e5a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1728de81_412062c2",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3402,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2017-01-03T15:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5aa6fbc4_ef36010f",
       "range": {
         "startLine": 3402,
         "startChar": 37,
