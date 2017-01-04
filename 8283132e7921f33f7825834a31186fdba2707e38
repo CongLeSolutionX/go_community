@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7e3a6ee_d5fe3cb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-01-04T21:02:56Z",
+      "side": 1,
+      "message": "cmd/go: leave a copy of the executable for -mutexprofile\n\n(change is to cmd/go; no capitalization; no period; active voice)",
+      "revId": "8283132e7921f33f7825834a31186fdba2707e38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
