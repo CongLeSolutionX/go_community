@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7e3a6ee_6f4119aa",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2252,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-01-04T18:07:46Z",
+      "side": 1,
+      "message": "Other tests write\n    testdata :\u003d filepath.Join(tg.pwd(), \"testdata\")\nthough in this case that would have to be in the loop where you have a tg.",
+      "range": {
+        "startLine": 2251,
+        "startChar": 1,
+        "endLine": 2252,
+        "endChar": 42
+      },
+      "revId": "3619babf212d8132699d2a01e6dc66a1e9488ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_8f4665c1",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2259,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-01-04T18:07:46Z",
+      "side": 1,
+      "message": "These directories are not in the CL.",
+      "range": {
+        "startLine": 2259,
+        "startChar": 34,
+        "endLine": 2259,
+        "endChar": 49
+      },
+      "revId": "3619babf212d8132699d2a01e6dc66a1e9488ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_6faaf923",
+        "filename": "src/cmd/go/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-01-04T18:07:46Z",
+      "side": 1,
+      "message": "No need to test for runtime here, as it is tested for above.",
+      "range": {
+        "startLine": 959,
+        "startChar": 51,
+        "endLine": 959,
+        "endChar": 95
+      },
+      "revId": "3619babf212d8132699d2a01e6dc66a1e9488ad7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
