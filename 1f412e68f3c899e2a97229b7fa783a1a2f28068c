@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7e3a6ee_8f1d854d",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-04T18:41:38Z",
+      "side": 1,
+      "message": "missing a word here? contention of?",
+      "range": {
+        "startLine": 635,
+        "startChar": 66,
+        "endLine": 635,
+        "endChar": 76
+      },
+      "revId": "1f412e68f3c899e2a97229b7fa783a1a2f28068c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
