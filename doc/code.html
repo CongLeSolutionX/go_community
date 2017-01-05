@@ -160,10 +160,56 @@ $ <b>export GOPATH=$(go env GOPATH)</b>
 </pre>
 
 <p>
-To learn more about setting up the <code>GOPATH</code> environment variable,
+To learn more about the <code>GOPATH</code> environment variable,
 please see
-<a href="/cmd/go/#hdr-GOPATH_environment_variable"><code>'go help gopath'</code></a>
+<a href="/cmd/go/#hdr-GOPATH_environment_variable"><code>'go help gopath'</code></a>.
 </p>
+
+If you would like to use a custom location as your workplace,
+you can set the <code>GOPATH</code>.
+
+<h4 id="GOPATH-unix">Setting GOPATH to a custom value on Unix</h4>
+
+<p>
+Create a workspace directory and set <code>GOPATH</code> accordingly.
+Your workspace can be located wherever you like,
+but we'll use <code>$HOME/work</code> in this example.
+</p>
+
+<pre>
+$ <b>mkdir $HOME/work</b>
+</pre>
+
+Edit your <code>.bash_profile</code> to add the following line:
+
+<pre>
+export GOPATH=$HOME/work
+</pre>
+
+Then, source your <code>~/.bash_profile</code>.
+
+<pre>
+$ <b>source ~/.bash_profile</b>
+</pre>
+
+<h4 id="GOPATH-windows">Setting GOPATH to a custom value on Windows</h4>
+
+<p>
+Create a folder and set <code>GOPATH</code> accordingly.
+Your workspace can be located wherever you like,
+but we'll use <code>C:\work</code> in this example.
+</p>
+
+<ul>
+<li>Create folder at <code>C:\work</code>.</li>
+<li>Right click on "Start" and click on "Control Panel". Select "System and Security", then click on "System".</li>
+<li>From the menu on the left, select the "Advanced systems settings".</li>
+<li>Click the "Environment Variables button at the bottom.</li>
+<li>Click "New" from the "User variables" section.</li>
+<li>Type <code>GOPATH</code> into the "Variable name" field.</li>
+<li>Type <code>C:\work</code> into the "Variable value" field.</li>
+<li>Click OK.</li>
+</ul>
 
 <h3 id="ImportPaths">Import paths</h3>
 
