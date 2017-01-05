@@ -160,10 +160,44 @@ $ <b>export GOPATH=$(go env GOPATH)</b>
 </pre>
 
 <p>
-To learn more about setting up the <code>GOPATH</code> environment variable,
+To learn more about the <code>GOPATH</code> environment variable,
 please see
-<a href="/cmd/go/#hdr-GOPATH_environment_variable"><code>'go help gopath'</code></a>
+<a href="/cmd/go/#hdr-GOPATH_environment_variable"><code>'go help gopath'</code></a>.
 </p>
+
+If you would like to use a custom location as your workplace,
+you can set the <code>GOPATH</code>.
+
+<h4 id="GOPATH-unix">Setting GOPATH to a custom value on Unix</h4>
+
+<p>
+Create a workspace directory and set <code>GOPATH</code> accordingly.
+Your workspace can be located wherever you like,
+but we'll use <code>$HOME/work</code> in this example.
+</p>
+
+<pre>
+$ <b>mkdir $HOME/work</b>
+$ <b>export GOPATH=$HOME/work</b>
+</pre>
+
+<h4 id="GOPATH-windows">Setting GOPATH to a custom value on Windows</h4>
+
+<p>
+Create a folder and set <code>GOPATH</code> accordingly.
+Your workspace can be located wherever you like,
+but we'll use <code>C:\work</code> in this example.
+</p>
+
+<ul>
+<li>Create folder at <code>C:\work</code>.</li>
+<li>Select Start, select Control Panel. Double click System and select the Advanced tab.</li>
+<li>Click the Environment Variables button at the bottom.</li>
+<li>Click New from the System variables section.</li>
+<li>Type <code>GOPATH</code> into the variable name field.</li>
+<li>Type <code>C:\work</code> into the variable value field.</li>
+<li>Click OK and your <code>GOPATH</code> will be set to <code>C:\work</code>.</li>
+</ul>
 
 <h3 id="ImportPaths">Import paths</h3>
 
