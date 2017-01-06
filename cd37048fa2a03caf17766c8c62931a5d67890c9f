@@ -22,6 +22,24 @@
       "revId": "cd37048fa2a03caf17766c8c62931a5d67890c9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97884e74_b1aee033",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-06T18:22:13Z",
+      "side": 1,
+      "message": "This was getting a little long, so I broke it into two sentences:\n\n//    c. GC performs root marking jobs. This includes scanning all\n//    stacks, shading all globals, and shading any heap pointers in\n//    off-heap runtime data structures. Scanning a stack stops a\n//    goroutine, shades any pointers found on its stack, and then\n//    resumes the goroutine.",
+      "parentUuid": "97884e74_71ab9854",
+      "revId": "cd37048fa2a03caf17766c8c62931a5d67890c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
