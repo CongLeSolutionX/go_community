@@ -34,15 +34,16 @@ import (
 //
 var pkgDeps = map[string][]string{
 	// L0 is the lowest level, core, nearly unavoidable packages.
-	"errors":                  {},
-	"io":                      {"errors", "sync"},
-	"runtime":                 {"unsafe", "runtime/internal/atomic", "runtime/internal/sys"},
-	"runtime/internal/sys":    {},
-	"runtime/internal/atomic": {"unsafe", "runtime/internal/sys"},
-	"internal/race":           {"runtime", "unsafe"},
-	"sync":                    {"internal/race", "runtime", "sync/atomic", "unsafe"},
-	"sync/atomic":             {"unsafe"},
-	"unsafe":                  {},
+	"errors":                     {},
+	"io":                         {"errors", "sync"},
+	"runtime":                    {"unsafe", "runtime/internal/atomic", "runtime/internal/proflabel", "runtime/internal/sys"},
+	"runtime/internal/sys":       {},
+	"runtime/internal/atomic":    {"unsafe", "runtime/internal/sys"},
+	"runtime/internal/proflabel": {"unsafe"},
+	"internal/race":              {"runtime", "unsafe"},
+	"sync":                       {"internal/race", "runtime", "sync/atomic", "unsafe"},
+	"sync/atomic":                {"unsafe"},
+	"unsafe":                     {},
 
 	"L0": {
 		"errors",
@@ -175,7 +176,7 @@ var pkgDeps = map[string][]string{
 	"regexp/syntax":                     {"L2"},
 	"runtime/debug":                     {"L2", "fmt", "io/ioutil", "os", "time"},
 	"runtime/pprof/internal/protopprof": {"L2", "fmt", "internal/pprof/profile", "os", "time"},
-	"runtime/pprof":                     {"L2", "context", "fmt", "internal/pprof/profile", "os", "runtime/pprof/internal/protopprof", "text/tabwriter", "time"},
+	"runtime/pprof":                     {"L2", "context", "fmt", "internal/pprof/profile", "os", "runtime/internal/proflabel", "runtime/pprof/internal/protopprof", "text/tabwriter", "time"},
 	"runtime/trace":                     {"L0"},
 	"text/tabwriter":                    {"L2"},
 
