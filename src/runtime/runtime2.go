@@ -6,6 +6,7 @@ package runtime
 
 import (
 	"runtime/internal/atomic"
+	"runtime/internal/proflabel"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -380,6 +381,8 @@ type g struct {
 	racectx        uintptr
 	waiting        *sudog    // sudog structures this g is waiting on (that have a valid elem ptr); in lock order
 	cgoCtxt        []uintptr // cgo traceback context
+
+	labels *proflabel.Labels
 
 	// Per-G GC state
 
