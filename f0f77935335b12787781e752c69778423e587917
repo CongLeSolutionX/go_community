@@ -34,6 +34,23 @@
       "revId": "f0f77935335b12787781e752c69778423e587917",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97884e74_d16924d9",
+        "filename": "src/cmd/internal/src/xpos.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-06T22:23:44Z",
+      "side": 1,
+      "message": "It\u0027s not clear from this in what way it updates t. Perhaps\n\n// XPos returns the corresponding XPos for the given pos,\n// adding pos to t if necessary.\n\n?",
+      "revId": "f0f77935335b12787781e752c69778423e587917",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
