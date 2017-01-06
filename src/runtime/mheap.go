@@ -15,8 +15,13 @@ import (
 )
 
 // minPhysPageSize is a lower-bound on the physical page size. The
-// true physical page size may be larger than this. In contrast,
-// sys.PhysPageSize is an upper-bound on the physical page size.
+// true physical page size (physPageSize) may be larger than this.
+//
+// This is also considered the smallest possible legal pointer. We
+// assume the first page frame is never mapped, but avoid assuming
+// anything about any other page frame.
+//
+// This should agree with minZeroPage in the compiler.
 const minPhysPageSize = 4096
 
 // Main malloc heap.
