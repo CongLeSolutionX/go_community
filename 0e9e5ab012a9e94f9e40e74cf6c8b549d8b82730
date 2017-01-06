@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7e3a6ee_2ae8c8f5",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-06T23:17:34Z",
+      "side": 1,
+      "message": "Let\u0027s ditch the #fragment. There\u0027s no need for it, and we don\u0027t have much control over it. And it makes it longer.\n\nAlso, we can link to a specific page that\u0027s only about GOPATH rather than trying to be a generic page about all Go environment variables, which I\u0027m afraid that page will turn into given its name.\n\n  // See https://golang.org/wiki/SettingGOPATH.\n\nOr:\n\n  // See https://golang.org/wiki/SettingGOPATH to set a custom GOPATH.",
+      "revId": "0e9e5ab012a9e94f9e40e74cf6c8b549d8b82730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
