@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d7e3a6ee_366117bc",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1476,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-06T18:46:44Z",
+      "side": 1,
+      "message": "I see. It\u0027s probably because of \"tmp.Right.Type \u003d Types[Tptr]\" in range.go for handling range statements over slices.\n\nI guess the proper fix there would be to emit \"hp \u003d (*T)(uintptr(hp) + width)\".",
+      "parentUuid": "d7e3a6ee_56d783a9",
+      "range": {
+        "startLine": 1476,
+        "startChar": 24,
+        "endLine": 1476,
+        "endChar": 44
+      },
+      "revId": "cdaa11e1d2adac214453c9f9a3ed34d668baa69f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7e3a6ee_2270f6f3",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 1
