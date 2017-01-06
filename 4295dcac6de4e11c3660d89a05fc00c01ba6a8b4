@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7e3a6ee_8a4b9c2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-06T23:21:56Z",
+      "side": 1,
+      "message": "Saying \"This new ReadMemStats\" scared me briefly into thinking you were introducing new API.\n\nI suppose you just meant \"This new version of ...\"",
+      "revId": "4295dcac6de4e11c3660d89a05fc00c01ba6a8b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
