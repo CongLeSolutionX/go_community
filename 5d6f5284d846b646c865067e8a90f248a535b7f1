@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97884e74_f19f88eb",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-06T19:10:26Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "5d6f5284d846b646c865067e8a90f248a535b7f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
