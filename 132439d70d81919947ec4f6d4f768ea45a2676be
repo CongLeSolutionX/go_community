@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d7e3a6ee_59d174e3",
+        "filename": "doc/code.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-01-06T19:13:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7e3a6ee_f9c96049",
+      "revId": "132439d70d81919947ec4f6d4f768ea45a2676be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7e3a6ee_b9bfd890",
         "filename": "doc/code.html",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-01-06T19:09:08Z",
       "side": 1,
       "message": "this is a very short and boring link target.  No need to mention \"wiki\" at all. And we can remove \"you must\" and \"to learn how to\".\n\nHow about:\n\n\u003e To use a custom workspace location, \u003ca\u003eset the \u003ccode\u003eGOPATH\u003c/code\u003e environment variable\u003c/a\u003e.",
+      "revId": "132439d70d81919947ec4f6d4f768ea45a2676be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_592a54ef",
+        "filename": "doc/code.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-01-06T19:13:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7e3a6ee_b9bfd890",
       "revId": "132439d70d81919947ec4f6d4f768ea45a2676be",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
