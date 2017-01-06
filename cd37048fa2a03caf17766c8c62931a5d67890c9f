@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97884e74_71ab9854",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-01-06T16:25:00Z",
+      "side": 1,
+      "message": "This includes stopping each goroutine one at a time, scanning its stack, shading any pointers found on the stack, and then restarting the goroutine;",
+      "range": {
+        "startLine": 47,
+        "startChar": 40,
+        "endLine": 49,
+        "endChar": 15
+      },
+      "revId": "cd37048fa2a03caf17766c8c62931a5d67890c9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
