@@ -22,6 +22,24 @@
       "revId": "8fc8c29a40961e9faa0ff9eedfbccef5995cb92b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_21d718ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-06T01:57:58Z",
+      "side": 1,
+      "message": "yes, we try to start with a lowercase verb, but I generally only ask people to change it if there\u0027s something else in the CL to change already. It\u0027s not worth changing on its own.",
+      "parentUuid": "77067aa0_086d671c",
+      "revId": "8fc8c29a40961e9faa0ff9eedfbccef5995cb92b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
