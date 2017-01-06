@@ -2343,6 +2343,7 @@ func goexit0(gp *g) {
 	gp.writebuf = nil
 	gp.waitreason = ""
 	gp.param = nil
+	gp.labels = nil
 
 	// Note that gp's stack scan is now "valid" because it has no
 	// stack. We could dequeueRescan, but that takes a lock and
@@ -2920,6 +2921,7 @@ func newproc1(fn *funcval, argp *uint8, narg int32, nret int32, callerpc uintptr
 	gostartcallfn(&newg.sched, fn)
 	newg.gopc = callerpc
 	newg.startpc = fn.fn
+	newg.labels = _g_.labels
 	if isSystemGoroutine(newg) {
 		atomic.Xadd(&sched.ngsys, +1)
 	}
