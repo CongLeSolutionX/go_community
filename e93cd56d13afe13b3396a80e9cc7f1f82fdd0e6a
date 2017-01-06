@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7e3a6ee_16ab4054",
+        "filename": "doc/code.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-06T00:39:24Z",
+      "side": 1,
+      "message": "this only teaches them how to set it temporarily, though. Is there a good resource we can link to instead for persistent environment variables?\n\nBecause teaching a user to endure this tedium of setting it each time they start writing Go is no good.",
+      "revId": "e93cd56d13afe13b3396a80e9cc7f1f82fdd0e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_7691e431",
+        "filename": "doc/code.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-06T00:39:24Z",
+      "side": 1,
+      "message": "is this particular to the version of Windows? which?\n\nEvery time I use Windows everything is in a new place.",
+      "revId": "e93cd56d13afe13b3396a80e9cc7f1f82fdd0e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_96967029",
+        "filename": "doc/code.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-06T00:39:24Z",
+      "side": 1,
+      "message": "different font style for the names of things to be clicked?",
+      "range": {
+        "startLine": 195,
+        "startChar": 18,
+        "endLine": 195,
+        "endChar": 19
+      },
+      "revId": "e93cd56d13afe13b3396a80e9cc7f1f82fdd0e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_16a26080",
+        "filename": "doc/code.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-06T00:39:24Z",
+      "side": 1,
+      "message": "Click \"New\" from the \"System variables\" (or is it \"System Variables\"?)",
+      "revId": "e93cd56d13afe13b3396a80e9cc7f1f82fdd0e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_76bac4a3",
+        "filename": "doc/code.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-06T00:39:24Z",
+      "side": 1,
+      "message": "Just \"Click OK\" is fine.\n\nThe rest is redundant.",
+      "revId": "e93cd56d13afe13b3396a80e9cc7f1f82fdd0e6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
