@@ -2,6 +2,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "97884e74_d167e493",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-06T16:46:48Z",
+      "side": 1,
+      "message": "I\u0027m having trouble parsing this sentence.",
+      "revId": "1a08a84e064f4e974777534b7bfb253e917fb2df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97884e74_71d4f8d5",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-06T16:46:48Z",
+      "side": 1,
+      "message": "inside the gp.waiting sudog list",
+      "range": {
+        "startLine": 426,
+        "startChar": 24,
+        "endLine": 426,
+        "endChar": 53
+      },
+      "revId": "1a08a84e064f4e974777534b7bfb253e917fb2df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97884e74_11d1ece4",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-06T16:46:48Z",
+      "side": 1,
+      "message": "The comment hasn\u0027t mentioned a first readying yet. Perhaps\n\nTwo concurrent goroutines attempting to complete one of our (still linked in) select cases might race with this adjustment, causing one to see the selectdone pointer to the old stack and one to see the selectdone pointer to the new stack. This can cause both CASes to succeed, leading to both goroutines readying us. Then things break. The best break is that the second ready sees ...",
+      "range": {
+        "startLine": 432,
+        "startChar": 15,
+        "endLine": 432,
+        "endChar": 23
+      },
+      "revId": "1a08a84e064f4e974777534b7bfb253e917fb2df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97884e74_31ce7046",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-06T16:46:48Z",
+      "side": 1,
+      "message": "Can this also cause a race on sudog.elem? E.g., a send could see the adjusted sudog.elem, write through that pointer, and then the stack memmove overwrites that slot? The systemstack fixes this, but I don\u0027t think either of these alternate solutions do.",
+      "revId": "1a08a84e064f4e974777534b7bfb253e917fb2df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7e3a6ee_3c0f3be3",
         "filename": "src/runtime/select.go",
         "patchSetId": 2
