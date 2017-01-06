@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "97884e74_91407ca8",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-01-06T18:00:20Z",
+      "side": 1,
+      "message": "As long as the cas is correct, there will be no use of sudog.elem at this point - someone else already woke us up. But yes, I should probably pull this paragraph. I started the \"done in sudog\" fix last night and found that it really doesn\u0027t simplify much because of sudog.elem and wanting to keep the channels locked for as short a time as possible.",
+      "parentUuid": "97884e74_31ce7046",
+      "revId": "1a08a84e064f4e974777534b7bfb253e917fb2df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7e3a6ee_3c0f3be3",
         "filename": "src/runtime/select.go",
         "patchSetId": 2
