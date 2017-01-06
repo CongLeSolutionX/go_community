@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7e3a6ee_817e2c54",
+        "filename": "doc/code.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-01-06T03:12:41Z",
+      "side": 1,
+      "message": "workspace",
+      "range": {
+        "startLine": 168,
+        "startChar": 51,
+        "endLine": 168,
+        "endChar": 61
+      },
+      "revId": "77c4d96b3a4b3de74b151a87dfb8a471c1f9684b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_e18c505a",
+        "filename": "doc/code.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-01-06T03:12:41Z",
+      "side": 1,
+      "message": "Reword this.\n\n\"To use a custom location as your workspace, you must set GOPATH.\"",
+      "revId": "77c4d96b3a4b3de74b151a87dfb8a471c1f9684b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_c13114b5",
+        "filename": "doc/code.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-01-06T03:12:41Z",
+      "side": 1,
+      "message": "drop \"custom\"\n\n\u003ch4\u003eSetting GOPATH on Unix\u003c/h4\u003e",
+      "range": {
+        "startLine": 171,
+        "startChar": 41,
+        "endLine": 171,
+        "endChar": 53
+      },
+      "revId": "77c4d96b3a4b3de74b151a87dfb8a471c1f9684b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_8150ecd6",
+        "filename": "doc/code.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-01-06T03:12:41Z",
+      "side": 1,
+      "message": "This is missing the old text:\n\nNote that this must not be the same path as your Go installation. (Another common setup is to set GOPATH\u003d$HOME.)",
+      "revId": "77c4d96b3a4b3de74b151a87dfb8a471c1f9684b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_e13e107a",
+        "filename": "doc/code.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-01-06T03:12:41Z",
+      "side": 1,
+      "message": "Wrap these sections in toggles, so that users can choose Unix or Windows.",
+      "revId": "77c4d96b3a4b3de74b151a87dfb8a471c1f9684b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
