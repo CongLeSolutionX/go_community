@@ -16,6 +16,24 @@
       "revId": "051dfed3fb02a321dc81133507a4f7b92679fa18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_8c41fc5e",
+        "filename": "src/net/addrselect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-06T20:47:56Z",
+      "side": 1,
+      "message": "Added \"[but see below]\" since this is otherwise a quote from the RFC.",
+      "parentUuid": "d7e3a6ee_4ced3445",
+      "revId": "051dfed3fb02a321dc81133507a4f7b92679fa18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
