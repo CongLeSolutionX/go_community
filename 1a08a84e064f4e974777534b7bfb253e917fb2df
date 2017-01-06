@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97884e74_112a4cef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-01-06T17:58:00Z",
+      "side": 1,
+      "message": "The context is: We know that one goroutine (not the one selecting) woke up the select, so it must have won the cas on the old stack. \n\nCan you suggest a way to reword the text in the CL?",
+      "parentUuid": "97884e74_d167e493",
+      "revId": "1a08a84e064f4e974777534b7bfb253e917fb2df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97884e74_71d4f8d5",
         "filename": "src/runtime/select.go",
         "patchSetId": 2
@@ -53,6 +71,30 @@
       "writtenOn": "2017-01-06T16:46:48Z",
       "side": 1,
       "message": "The comment hasn\u0027t mentioned a first readying yet. Perhaps\n\nTwo concurrent goroutines attempting to complete one of our (still linked in) select cases might race with this adjustment, causing one to see the selectdone pointer to the old stack and one to see the selectdone pointer to the new stack. This can cause both CASes to succeed, leading to both goroutines readying us. Then things break. The best break is that the second ready sees ...",
+      "range": {
+        "startLine": 432,
+        "startChar": 15,
+        "endLine": 432,
+        "endChar": 23
+      },
+      "revId": "1a08a84e064f4e974777534b7bfb253e917fb2df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97884e74_31275028",
+        "filename": "src/runtime/select.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-01-06T17:58:00Z",
+      "side": 1,
+      "message": "There aren\u0027t two concurrent goroutines here. One has already woken us up. The second one is looking now. They could in theory be the same goroutine.",
+      "parentUuid": "97884e74_11d1ece4",
       "range": {
         "startLine": 432,
         "startChar": 15,
