@@ -16,6 +16,24 @@
       "revId": "d9dc2fff10808ddebd6f2c8695fdb258a5e83879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7e3a6ee_ff169bc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-07T17:57:18Z",
+      "side": 1,
+      "message": "Yeah, this is a convention recognized only in Gerrit comments.\n\nI don\u0027t think dev.golang.org even respects them in the body of the commit message. Maybe it should?",
+      "parentUuid": "37f5e2fe_de1a45e3",
+      "revId": "d9dc2fff10808ddebd6f2c8695fdb258a5e83879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
