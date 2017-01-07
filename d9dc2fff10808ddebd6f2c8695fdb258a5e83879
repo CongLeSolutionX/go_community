@@ -52,6 +52,24 @@
       "revId": "d9dc2fff10808ddebd6f2c8695fdb258a5e83879",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97884e74_34365ea1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-07T21:18:33Z",
+      "side": 1,
+      "message": "dev.golang.org does respect them in the commit message. The problem with putting them in Gerrit comments is that you have to re-comment on every new PS, whereas in the commit message it\u0027s sticky until I rebase it after the release (otherwise, yes, it would appear in the commit message; but I have to rebase it anyway).",
+      "parentUuid": "171b7e2a_358f10be",
+      "revId": "d9dc2fff10808ddebd6f2c8695fdb258a5e83879",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
