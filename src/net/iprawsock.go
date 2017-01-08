@@ -200,13 +200,16 @@ func (c *IPConn) WriteMsgIP(b, oob []byte, addr *IPAddr) (n, oobn int, err error
 
 func newIPConn(fd *netFD) *IPConn { return &IPConn{conn{fd}} }
 
-// DialIP connects to the remote address raddr on the network protocol
-// netProto, which must be "ip", "ip4", or "ip6" followed by a colon
-// and a protocol number or name.
-func DialIP(netProto string, laddr, raddr *IPAddr) (*IPConn, error) {
-	c, err := dialIP(context.Background(), netProto, laddr, raddr)
+// DialIP acts like Dial for IP networks.
+//
+// If laddr is nil, a local address is automatically chosen.
+//
+// See func Dial for a description of the network, laddr and raddr
+// parameters.
+func DialIP(network string, laddr, raddr *IPAddr) (*IPConn, error) {
+	c, err := dialIP(context.Background(), network, laddr, raddr)
 	if err != nil {
-		return nil, &OpError{Op: "dial", Net: netProto, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
+		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
 	}
 	return c, nil
 }

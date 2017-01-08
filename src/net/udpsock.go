@@ -193,21 +193,24 @@ func (c *UDPConn) WriteMsgUDP(b, oob []byte, addr *UDPAddr) (n, oobn int, err er
 
 func newUDPConn(fd *netFD) *UDPConn { return &UDPConn{conn{fd}} }
 
-// DialUDP connects to the remote address raddr on the network net,
-// which must be "udp", "udp4", or "udp6".  If laddr is not nil, it is
-// used as the local address for the connection.
-func DialUDP(net string, laddr, raddr *UDPAddr) (*UDPConn, error) {
-	switch net {
+// DialUDP acts like Dial for UDP networks.
+//
+// If laddr is nil, a local address is automatically chosen.
+//
+// See func Dial for a description of the network, laddr and raddr
+// parameters.
+func DialUDP(network string, laddr, raddr *UDPAddr) (*UDPConn, error) {
+	switch network {
 	case "udp", "udp4", "udp6":
 	default:
-		return nil, &OpError{Op: "dial", Net: net, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: UnknownNetworkError(net)}
+		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: UnknownNetworkError(network)}
 	}
 	if raddr == nil {
-		return nil, &OpError{Op: "dial", Net: net, Source: laddr.opAddr(), Addr: nil, Err: errMissingAddress}
+		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: nil, Err: errMissingAddress}
 	}
-	c, err := dialUDP(context.Background(), net, laddr, raddr)
+	c, err := dialUDP(context.Background(), network, laddr, raddr)
 	if err != nil {
-		return nil, &OpError{Op: "dial", Net: net, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
+		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
 	}
 	return c, nil
 }

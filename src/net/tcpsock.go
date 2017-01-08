@@ -190,21 +190,24 @@ func newTCPConn(fd *netFD) *TCPConn {
 	return c
 }
 
-// DialTCP connects to the remote address raddr on the network net,
-// which must be "tcp", "tcp4", or "tcp6".  If laddr is not nil, it is
-// used as the local address for the connection.
-func DialTCP(net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
-	switch net {
+// DialTCP acts like Dial for TCP networks.
+//
+// If laddr is nil, a local address is automatically chosen.
+//
+// See func Dial for a description of the network, laddr and raddr
+// parameters.
+func DialTCP(network string, laddr, raddr *TCPAddr) (*TCPConn, error) {
+	switch network {
 	case "tcp", "tcp4", "tcp6":
 	default:
-		return nil, &OpError{Op: "dial", Net: net, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: UnknownNetworkError(net)}
+		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: UnknownNetworkError(network)}
 	}
 	if raddr == nil {
-		return nil, &OpError{Op: "dial", Net: net, Source: laddr.opAddr(), Addr: nil, Err: errMissingAddress}
+		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: nil, Err: errMissingAddress}
 	}
-	c, err := dialTCP(context.Background(), net, laddr, raddr)
+	c, err := dialTCP(context.Background(), network, laddr, raddr)
 	if err != nil {
-		return nil, &OpError{Op: "dial", Net: net, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
+		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
 	}
 	return c, nil
 }
