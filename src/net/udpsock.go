@@ -53,24 +53,22 @@ func (a *UDPAddr) opAddr() Addr {
 	return a
 }
 
-// ResolveUDPAddr parses addr as a UDP address of the form "host:port"
-// or "[ipv6-host%zone]:port" and resolves a pair of domain name and
-// port name on the network net, which must be "udp", "udp4" or
-// "udp6".  A literal address or host name for IPv6 must be enclosed
-// in square brackets, as in "[::1]:80", "[ipv6-host]:http" or
-// "[ipv6-host%zone]:80".
+// ResolveUDPAddr resolves an address of UDP end point.
 //
-// Resolving a hostname is not recommended because this returns at most
+// Resolving a name is not recommended because this returns at most
 // one of its IP addresses.
-func ResolveUDPAddr(net, addr string) (*UDPAddr, error) {
-	switch net {
+//
+// See func Dial for a description of the network and address
+// parameters.
+func ResolveUDPAddr(network, address string) (*UDPAddr, error) {
+	switch network {
 	case "udp", "udp4", "udp6":
 	case "": // a hint wildcard for Go 1.0 undocumented behavior
-		net = "udp"
+		network = "udp"
 	default:
-		return nil, UnknownNetworkError(net)
+		return nil, UnknownNetworkError(network)
 	}
-	addrs, err := DefaultResolver.internetAddrList(context.Background(), net, addr)
+	addrs, err := DefaultResolver.internetAddrList(context.Background(), network, address)
 	if err != nil {
 		return nil, err
 	}
