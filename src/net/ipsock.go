@@ -125,8 +125,7 @@ func ipv6only(addr IPAddr) bool {
 // "host%zone:port", "[host]:port" or "[host%zone]:port" into host or
 // host%zone and port.
 //
-// A literal IPv6 address in hostport must be enclosed in square
-// brackets, as in "[::1]:80", "[::1%lo0]:80".
+// See func Dial for a description of the host and port parameters.
 func SplitHostPort(hostport string) (host, port string, err error) {
 	const (
 		missingPort   = "missing port in address"
@@ -196,6 +195,8 @@ func splitHostZone(s string) (host, zone string) {
 // JoinHostPort combines host and port into a network address of the
 // form "host:port" or "host%zone:port", if host is a literal IPv6
 // address, "[host]:port" or [host%zone]:port.
+//
+// See func Dial for a description of the host and port parameters.
 func JoinHostPort(host, port string) string {
 	// We assume that host is a literal IPv6 address if host has
 	// colons.
