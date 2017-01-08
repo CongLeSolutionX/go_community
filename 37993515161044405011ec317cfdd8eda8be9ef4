@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7e3a6ee_42aed865",
+        "filename": "src/cmd/go/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1534,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-01-08T07:03:32Z",
+      "side": 1,
+      "message": "This needs a comment.",
+      "revId": "37993515161044405011ec317cfdd8eda8be9ef4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
