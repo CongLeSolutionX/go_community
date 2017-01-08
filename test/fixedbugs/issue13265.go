@@ -1,0 +1,18 @@
+// errorcheck -0 -race
+
+// Copyright 2016 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+// Issue 13265: nil pointer deref.
+
+package p
+
+var a []*int
+var s []chan int
+var c chan int
+
+func F() {
+	for ; false; a[<-s[<-c]] = nil {
+	}
+}
