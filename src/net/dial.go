@@ -23,12 +23,12 @@ type Dialer struct {
 	//
 	// The default is no timeout.
 	//
-	// When dialing a name with multiple IP addresses, the timeout
-	// may be divided between them.
+	// When using TCP and dialing a name with multiple IP
+	// addresses, the timeout may be divided between them.
 	//
 	// With or without a timeout, the operating system may impose
-	// its own earlier timeout. For instance, TCP timeouts are
-	// often around 3 minutes.
+	// its own earlier timeout. For instance, TCP timeouts for
+	// connection establishment are often around 3 minutes.
 	Timeout time.Duration
 
 	// Deadline is the absolute point in time after which dials
@@ -43,10 +43,11 @@ type Dialer struct {
 	// If nil, a local address is automatically chosen.
 	LocalAddr Addr
 
-	// DualStack enables RFC 6555-compliant "Happy Eyeballs" dialing
-	// when the network is "tcp" and the destination is a host name
-	// with both IPv4 and IPv6 addresses. This allows a client to
-	// tolerate networks where one address family is silently broken.
+	// DualStack enables RFC 6555-compliant "Happy Eyeballs"
+	// dialing when the network is "tcp" and the host in the
+	// address parameter resolves to both IPv4 and IPv6 addresses.
+	// This allows a client to tolerate networks where one address
+	// family is silently broken.
 	DualStack bool
 
 	// FallbackDelay specifies the length of time to wait before
@@ -239,46 +240,66 @@ func (r *Resolver) resolveAddrList(ctx context.Context, op, network, addr string
 	return naddrs, nil
 }
 
-// Dial connects to the address on the named network.
+// Dial connects to an address on a named network.
 //
 // Known networks are "tcp", "tcp4" (IPv4-only), "tcp6" (IPv6-only),
 // "udp", "udp4" (IPv4-only), "udp6" (IPv6-only), "ip", "ip4"
 // (IPv4-only), "ip6" (IPv6-only), "unix", "unixgram" and
 // "unixpacket".
 //
-// For TCP and UDP networks, addresses have the form host:port.
-// If host is a literal IPv6 address it must be enclosed
-// in square brackets as in "[::1]:80" or "[ipv6-host%zone]:80".
-// The functions JoinHostPort and SplitHostPort manipulate addresses
-// in this form.
-// If the host is empty, as in ":80", the local system is assumed.
+// For TCP and UDP networks, the address has the form "host:port".
+// The host must be a name that can be resolved to IP addresses or a
+// literal IP address.
+// The port must be a service name or a literal port number.
+// If the host is a literal IPv6 address it must be enclosed in square
+// brackets, as in "[2001:db8::1]:80" or "[fe80::1%zone]:80".
+// The zone specifies the scope of the literal IPv6 address as defined
+// in RFC 4007.
+// The functions JoinHostPort and SplitHostPort manipulate a pair of
+// host and port in this form.
+// When using TCP, and the host resolves to multiple IP addresses,
+// Dial will try each IP address in order until one succeeds.
 //
 // Examples:
-//	Dial("tcp", "192.0.2.1:80")
 //	Dial("tcp", "golang.org:http")
-//	Dial("tcp", "[2001:db8::1]:http")
-//	Dial("tcp", "[fe80::1%lo0]:80")
+//	Dial("tcp", "192.0.2.1:http")
+//	Dial("tcp", "198.51.100.1:80")
+//	Dial("udp", "[2001:db8::1]:domain")
+//	Dial("udp", "[fe80::1%lo0]:53")
 //	Dial("tcp", ":80")
 //
 // For IP networks, the network must be "ip", "ip4" or "ip6" followed
-// by a colon and a protocol number or name and the addr must be a
-// literal IP address.
+// by a colon and a protocol name or a literal protocol number, and
+// the address has the form "host". The host must be a literal IP
+// address or a literal IPv6 address with zone.
+// It depends on each operating system how the operating system
+// behaves with a non-well known protocol number such as "0" or "255".
 //
 // Examples:
 //	Dial("ip4:1", "192.0.2.1")
 //	Dial("ip6:ipv6-icmp", "2001:db8::1")
+//	Dial("ip6:58", "fe80::1%lo0")
+//
+// For TCP, UDP and IP networks, if the host is empty or a literal
+// unspecified IP address, as in ":80", "0.0.0.0:80", "[::]:80", "",
+// "0.0.0.0" or "::", the local system is assumed.
 //
 // For Unix networks, the address must be a file system path.
-//
-// If the host is resolved to multiple addresses,
-// Dial will try each address in order until one succeeds.
 func Dial(network, address string) (Conn, error) {
 	var d Dialer
 	return d.Dial(network, address)
 }
 
 // DialTimeout acts like Dial but takes a timeout.
+//
 // The timeout includes name resolution, if required.
+// When using TCP, and the host in the address parameter resolves to
+// multiple IP addresses, the timeout is spread over each consecutive
+// dial, such that each is given an appropriate fraction of the time
+// to connect.
+//
+// See func Dial for a description of the network and address
+// parameters.
 func DialTimeout(network, address string, timeout time.Duration) (Conn, error) {
 	d := Dialer{Timeout: timeout}
 	return d.Dial(network, address)
@@ -290,7 +311,7 @@ type dialParam struct {
 	network, address string
 }
 
-// Dial connects to the address on the named network.
+// Dial connects to an address on a named network.
 //
 // See func Dial for a description of the network and address
 // parameters.
@@ -298,18 +319,18 @@ func (d *Dialer) Dial(network, address string) (Conn, error) {
 	return d.DialContext(context.Background(), network, address)
 }
 
-// DialContext connects to the address on the named network using
-// the provided context.
+// DialContext connects to an address on a named network using the
+// provided context.
 //
 // The provided Context must be non-nil. If the context expires before
 // the connection is complete, an error is returned. Once successfully
 // connected, any expiration of the context will not affect the
 // connection.
 //
-// When using TCP, and the host in the address parameter resolves to multiple
-// network addresses, any dial timeout (from d.Timeout or ctx) is spread
-// over each consecutive dial, such that each is given an appropriate
-// fraction of the time to connect.
+// When using TCP, and the host in the address parameter resolves to
+// multiple IP addresses, any dial timeout (from d.Timeout or ctx) is
+// spread over each consecutive dial, such that each is given an
+// appropriate fraction of the time to connect.
 // For example, if a host has 4 IP addresses and the timeout is 1 minute,
 // the connect to each single address will be given 15 seconds to complete
 // before trying the next one.
