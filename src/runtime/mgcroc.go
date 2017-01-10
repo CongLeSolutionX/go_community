@@ -294,22 +294,16 @@ func (c *mcache) recycleNormal() {
 				throw("recycleG encounters span that should not be incache")
 			}
 
-			for ii := s.startindex; ii < s.freeindex; ii++ {
-				if s.isFree(ii) {
-					nfreed++
-				}
-			}
-
+			nfreed += s.countRecovered()
 			// no race since we "own" this mcache
 			c.local_nsmallfree[s.spanclass.sizeclass()] += uintptr(nfreed)
 			// As an optimization move s.startindex past all objects that are now public
 			for ii := s.startindex; ii < s.freeindex; ii++ {
-				if s.isFree(ii) {
+				if !s.isIndexMarked(ii) {
 					break
 				}
 				s.startindex++ // no sense in rolling back over public objects, set startindex and then freeindex to first free object.
 			}
-
 			oldAllocCount := s.allocCount
 
 			s.smashDebugHelper() // this increases the chance of triggering a bug
@@ -345,10 +339,12 @@ func (c *mcache) recycleNormal() {
 				mheap_.central[i].mcentral.releaseROCSpan(s)
 				// Not not count recovered bytes still remaining in the mcache.
 				heapLiveRecovered += int64(recycled) * int64(s.elemsize)
+			} else {
+				atomic.Xadd64(&memstats.heap_live, -heapLiveRecovered)
+				// releaseROCSpan adjusts this for non-largeAllocSpans but not for those c.alloc[i] spans.
 			}
 		}
 	}
-
 	// Large objects, one per span.
 	// abort rollback of largeAllocSpans
 	for s := c.largeAllocSpans; s != nil; s, s.nextUsedSpan = s.nextUsedSpan, nil {
@@ -373,7 +369,7 @@ func (c *mcache) recycleNormal() {
 	}
 
 	if debug.gcroc == 2 {
-		atomic.Xadd64(&rocData.recoveredBytes, int64(recoveredBytes)) // TBD make available, perhaps as part of gctrace=2
+		atomic.Xadd64(&rocData.recoveredBytes, int64(recoveredBytes))
 	}
 
 	c.largeAllocSpans = nil
