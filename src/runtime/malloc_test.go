@@ -31,7 +31,7 @@ func TestMemStats(t *testing.T) {
 		t.Fatalf("Zero value: %+v", *st)
 	}
 
-	if st.Alloc > 1e10 || st.TotalAlloc > 1e11 || st.Sys > 1e10 || st.Lookups > 1e10 ||
+	if st.Alloc > 1e10 || st.TotalAlloc > 1e12 || st.Sys > 1e10 || st.Lookups > 1e10 ||
 		st.Mallocs > 1e10 || st.Frees > 1e10 || st.HeapAlloc > 1e10 || st.HeapSys > 1e10 ||
 		st.HeapIdle > 1e10 || st.HeapInuse > 1e10 || st.HeapObjects > 1e10 || st.StackInuse > 1e10 ||
 		st.StackSys > 1e10 || st.MSpanInuse > 1e10 || st.MSpanSys > 1e10 || st.MCacheInuse > 1e10 ||
