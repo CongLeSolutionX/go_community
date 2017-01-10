@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97820e81_6468e4ce",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-10T21:37:31Z",
+      "side": 1,
+      "message": "This line confused me at first because \"any type\" really means \"any TypeName of basic type\".",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 69
+      },
+      "revId": "25fa84be56898fea1fe1a86cdddd9869244580dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
