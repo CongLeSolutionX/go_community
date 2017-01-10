@@ -287,17 +287,18 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-8
 	MOVQ	g(CX), AX	// AX = g
 	MOVQ	g_m(AX), BX	// BX = m
 
-	MOVQ	m_gsignal(BX), DX	// DX = gsignal
-	CMPQ	AX, DX
-	JEQ	noswitch
-
 	MOVQ	m_g0(BX), DX	// DX = g0
-	CMPQ	AX, DX
-	JEQ	noswitch
 
 	MOVQ	m_curg(BX), R8
 	CMPQ	AX, R8
 	JEQ	switch
+
+	CMPQ	AX, DX
+	JEQ	noswitch
+
+	MOVQ	m_gsignal(BX), SI	// SI = gsignal
+	CMPQ	AX, SI
+	JEQ	noswitch
 	
 	// Bad: g is not gsignal, not g0, not curg. What is it?
 	MOVQ	$runtime·badsystemstack(SB), AX
