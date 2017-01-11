@@ -40,6 +40,24 @@
       "revId": "b6048b6eeb5338be77875f6523ea7b44d73fc9d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d8490b_914ebcd0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-11T01:30:17Z",
+      "side": 1,
+      "message": "I\u0027m also sympathetic to that position but it does seem to me at least that \u0027embedded type\u0027 more clearly expresses what\u0027s going on (ignoring historic use of terminology).\n\nFor instance, just looking below, when using \u0027embedded field\u0027 we have to still refer to the type of the field, while when using \u0027embedded type\u0027 we know much more directly that we are talking about a type. In other words, using \u0027embedded type\u0027 simplified the language in the spec.\n\nMore generally, we have various examples of embedded types in the spec and what we enumerate in those examples is the actual types. Thus talking about a type rather than a field seems quite a bit clearer.\n\nI\u0027d suggest that before we get stuck here, let\u0027s see how the subsequent CLs shape up. We can make a final decision when we have complete coverage of type aliases in the spec.\n\nI\u0027m ok with a tentative +1 (unless there\u0027s bigger issues with this change) and I will wait with submission until the end.",
+      "parentUuid": "77ce7af1_0863e735",
+      "revId": "b6048b6eeb5338be77875f6523ea7b44d73fc9d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
