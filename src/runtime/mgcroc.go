@@ -52,7 +52,7 @@ func (c *mcache) startG() {
 	if _g_.rocvalid {
 		_g_.rocvalid = isGCoff()
 	}
-	c.rocgoid = _g_.goid // To support debugging.
+	c.rocGoid = _g_.goid
 	releasem(mp)
 }
 
@@ -135,6 +135,7 @@ func (c *mcache) publishMCache(rollbackStat bool) {
 	// clean up tiny logic
 	c.tiny = 0
 	c.tinyoffset = 0
+	atomic.Xadd64(&c.rocEpoch, 1)
 }
 
 // Keeps track of the total number of bytes ROC recovers.
@@ -214,17 +215,15 @@ func (c *mcache) recycleG() {
 
 		systemstack(c.publishG)
 		if _g_ != nil {
-			_g_.rocvalid = false    // reset in startG
-			_g_.rocgcnum = 0xbadbad // reset in startG
+			_g_.rocvalid = true // reset in true since all reachable objects are not public.
 		}
 		return
 	}
-	// This is broken... and needs to be debugged.
-	if c.rocgoid != _g_.goid {
-		println("runtime: c.rocgoid=", c.rocgoid, "_g_.goid=", _g_.goid,
-			"\n          getg().goid=", getg().goid, "getg().m.mcache.rocgoid=", getg().m.mcache.rocgoid, "c=", c,
+	if c.rocGoid != _g_.goid {
+		println("runtime: c.rocGoid=", c.rocGoid, "_g_.goid=", _g_.goid,
+			"\n          getg().goid=", getg().goid, "getg().m.mcache.rocGoid=", getg().m.mcache.rocGoid, "c=", c,
 			"\n          getg().m.curg.goid=", getg().m.curg.goid)
-		throw("c.rocgoid != _g_.goid")
+		throw("c.rocGoid != _g_.goid")
 	}
 
 	// Count of the number of bytes recovered using ROC

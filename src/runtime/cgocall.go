@@ -148,7 +148,10 @@ func cgocall(fn, arg unsafe.Pointer) int32 {
 	endcgo(mp)
 
 	if writeBarrier.roc {
-		getg().m.p.ptr().mcache.startG()
+		// systemstack enforces the nosplit
+		systemstack(func() {
+			getg().m.curg.m.p.ptr().mcache.startG()
+		})
 	}
 	return errno
 }
