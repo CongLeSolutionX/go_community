@@ -393,6 +393,15 @@ type g struct {
 	rocvalid bool // if true and if mstats.gcnum matches rocgcnum then we can rollback
 	rocgcnum uint32
 
+	// reenterSyscall records the current mcache associated with this g along
+	// with that mcache's rocEpoch. If the goroutine can not reacquire the
+	// P before it is used for another G then it can continue using the mcache.
+	// If however the groutine wakes up and finds itself running on another P
+	// then it needs to wait until the rocEpoch has been incremented. This ensures
+	// that all objects that were private in the previous ROC epoch are now public.
+	rocMCache *mcache
+	rocEpoch  uint64
+
 	// Per-G gcController state
 
 	// gcAssistBytes is this G's GC assist credit in terms of
