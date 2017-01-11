@@ -34,7 +34,6 @@ type mcache struct {
 	tiny             uintptr
 	tinyoffset       uintptr
 	local_tinyallocs uintptr // number of tiny allocs not counted in other stats
-	rocgoid          int64   // The goid associated with the last roc checkpoint
 
 	// The rest is not accessed on every malloc.
 	alloc           [numSpanClasses]*mspan // spans to allocate from, indexed by spanClass
@@ -46,6 +45,18 @@ type mcache struct {
 	local_largefree  uintptr                  // bytes freed for large objects (>maxsmallsize)
 	local_nlargefree uintptr                  // number of frees for large objects (>maxsmallsize)
 	local_nsmallfree [_NumSizeClasses]uintptr // number of frees for small objects (<=maxsmallsize)
+
+	// Each mcache is in a rocEpoch that corresponds to this mcache's associations with a
+	// specific G. Before an mcache can leave an epoch it must ensure that all reachable
+	// local objects associated with previous epoch's G have been made public. Incrementing
+	// rocEpoch indicates that this has been done.
+	// When a syscall is returned from if the G can reacquire the same mcache and P
+	// and the mcache has the same rocEpoch as when the syscall was made then the G can simply
+	// continue to use the mcache. On the otherhand if the mcache (and P) have been retaken
+	// by another G then the the G returning from the syscall must wait for the rocEpoch to be
+	// > than when the syscall was initiated.
+	rocEpoch uint64
+	rocGoid  int64 // The goid associated with this mcache
 }
 
 // A gclink is a node in a linked list of blocks, like mlink,
