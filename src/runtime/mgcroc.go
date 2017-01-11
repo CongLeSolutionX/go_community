@@ -52,7 +52,7 @@ func (c *mcache) startG() {
 	if _g_.rocvalid {
 		_g_.rocvalid = isGCoff()
 	}
-	c.rocgoid = _g_.goid // To support debugging.
+	c.rocGoid = _g_.goid
 	releasem(mp)
 	afterFirstStartg = true
 }
@@ -141,6 +141,7 @@ func (c *mcache) publishMCache(rollbackStat bool) {
 	// clean up tiny logic
 	c.tiny = 0
 	c.tinyoffset = 0
+	atomic.Xadd64(&c.rocEpoch, 1)
 }
 
 // recycleG recycles spans that were used for allocation in the
@@ -246,17 +247,16 @@ func (c *mcache) recycleNormal() {
 
 		systemstack(c.publishG)
 		if _g_ != nil {
-			_g_.rocvalid = false // reset in startG
-			_g_.rocgcnum = 42411 // reset in startG
+			_g_.rocvalid = true // reset in true since all reachable objects are not public.
 		}
 		return
 	}
 	// This is broken... and needs to be debugged.
-	if c.rocgoid != _g_.goid {
-		println("c.rocgoid=", c.rocgoid, "_g_.goid=", _g_.goid,
-			"\ngetg().goid=", getg().goid, "getg().m.mcache.rocgoid=", getg().m.mcache.rocgoid, "c=", c,
+	if c.rocGoid != _g_.goid {
+		println("runtime: c.rocG.goid=", c.rocGoid, "_g_.goid=", _g_.goid,
+			"\ngetg().goid=", getg().goid, "getg().m.mcache.rocGoid=", getg().m.mcache.rocGoid, "c=", c,
 			"\ngetg().m.curg.goid=", getg().m.curg.goid)
-		throw("c.rocgoid != _g_.goid")
+		throw("c.rocGoid != _g_.goid")
 	}
 
 	// Count of the number of bytes recovered using ROC
@@ -621,10 +621,15 @@ func CheckRocGoids() {
 	if c == nil {
 		return
 	}
-	if gp.goid != c.rocgoid {
-		println("CheckRocGoids:mgcroc.go:55 getg().goid=", getg().goid, "getg().m.curg.goid=", getg().m.curg.goid,
-			"\ngetg().m.mcache.rocgoid=", getg().m.mcache.rocgoid)
-		throw("checkRocGoids fails")
+	// This still hits right in marktermination after gcphas is changed.
+	if gp.goid != c.rocGoid && gcphase == _GCoff {
+		getgGoid := getg().goid
+		systemstack(func() {
+			println("runtime: getg().goid=", getgGoid, "getg().m.curg.goid=", getg().m.curg.goid,
+				"\ngetg().m.mcache.rocGoid=", getg().m.mcache.rocGoid, "_g_.m.p=", hex(uintptr(_g_.m.p)),
+				"gcphase == GCOff", gcphase == _GCoff)
+			throw("checkRocGoids fails")
+		})
 	}
 }
 
