@@ -9,12 +9,19 @@ import (
 	"testing"
 )
 
-// Per golang.org/issue/14937, check that every .gz file
-// in the tree has a zero mtime.
+// TestGZIPFilesHaveZeroMTimes checks that every .gz file in the tree
+// has a zero MTIME. This is a requirement for the Debian maintainers
+// to be able to have deterministic packages.
+//
+// See http://golang.org/issue/14937
 func TestGZIPFilesHaveZeroMTimes(t *testing.T) {
-	if testing.Short() && testenv.Builder() == "" {
-		t.Skip("skipping in short mode")
+	// To avoid false positive due to spurious untracked-gzip files that
+	// may be in the user's GOROOT, we only run this test on the builders,
+	// which should have clean checkout of the tree.
+	if testenv.Builder() == "" {
+		t.Skip("skipping test on non-builder")
 	}
+	t.Fatal("MAKE SURE BUILDERS ARE RUNNING THIS TEST!!!")
 	goroot, err := filepath.EvalSymlinks(runtime.GOROOT())
 	if err != nil {
 		t.Fatal("error evaluating GOROOT: ", err)
