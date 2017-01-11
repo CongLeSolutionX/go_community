@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97820e81_ea8cbb8b",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2017-01-11T23:49:59Z",
+      "side": 1,
+      "message": "use \u0026s[cap(s)-1] \u003d\u003d \u0026arr[len(arr)-1] idiom to detect aliases? (assuming we don\u0027t use three indices slicing\non valstorage.)",
+      "revId": "9e3c99d94769d4d79ed81caaef8837f878cfd422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
