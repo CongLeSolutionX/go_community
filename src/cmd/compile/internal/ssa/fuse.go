@@ -121,7 +121,13 @@ func fuseBlockPlain(b *Block) bool {
 	// move all of b's values to c.
 	for _, v := range b.Values {
 		v.Block = c
-		c.Values = append(c.Values, v)
+	}
+	// Use whichever value slice is larger, in the hopes of avoiding growth.
+	// See golang.org/issue/18602.
+	if cap(c.Values) >= cap(b.Values) {
+		c.Values = append(c.Values, b.Values...)
+	} else {
+		c.Values = append(b.Values, c.Values...)
 	}
 
 	// replace b->c edge with preds(b) -> c
