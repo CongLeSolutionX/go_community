@@ -22,6 +22,24 @@
       "revId": "b6048b6eeb5338be77875f6523ea7b44d73fc9d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77ce7af1_0863e735",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-01-11T01:13:24Z",
+      "side": 1,
+      "message": "Although I am OK with \"embedded type\", I am sympathetic to Matthew\u0027s position. For me what matters most is consistency, combined with what works best with the rest of the spec and the changes to come.",
+      "parentUuid": "e3e9cd6a_986482ca",
+      "revId": "b6048b6eeb5338be77875f6523ea7b44d73fc9d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
