@@ -27,7 +27,7 @@ type Node struct {
 	// func
 	Func *Func
 
-	// ONAME
+	// ONAME, OTYPE, OPACK, OLABEL, some OLITERAL
 	Name *Name
 
 	Sym *Sym        // various
@@ -59,8 +59,8 @@ type Node struct {
 	Noescape  bool  // func arguments do not escape; TODO(rsc): move Noescape to Func struct (see CL 7360)
 	Walkdef   uint8 // tracks state during typecheckdef; 2 == loop detected
 	Typecheck uint8 // tracks state during typechecking; 2 == loop detected
-	Local     bool
-	IsStatic  bool // whether this Node will be converted to purely static data
+	Local     bool  // type created in this file (see also Type.Local); TODO(gri): move this into flags
+	IsStatic  bool  // whether this Node will be converted to purely static data
 	Initorder uint8
 	Used      bool // for variable/label declared and not used error
 	Isddd     bool // is the argument variadic
@@ -180,7 +180,7 @@ func (n *Node) SetIota(x int64) {
 	n.Xoffset = x
 }
 
-// Name holds Node fields used only by named nodes (ONAME, OPACK, OLABEL, some OLITERAL).
+// Name holds Node fields used only by named nodes (ONAME, OTYPE, OPACK, OLABEL, some OLITERAL).
 type Name struct {
 	Pack      *Node  // real package for import . names
 	Pkg       *Pkg   // pkg for OPACK nodes
@@ -382,7 +382,7 @@ const (
 	ODCLFUNC  // func f() or func (r) f()
 	ODCLFIELD // struct field, interface field, or func/method argument/return value.
 	ODCLCONST // const pi = 3.14
-	ODCLTYPE  // type Int int
+	ODCLTYPE  // type Int int or type Int = int
 
 	ODELETE    // delete(Left, Right)
 	ODOT       // Left.Sym (Left is of struct type)

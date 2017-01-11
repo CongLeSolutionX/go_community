@@ -695,10 +695,10 @@ func typedcl0(s *Sym) *Node {
 
 // node n, which was returned by typedcl0
 // is being declared to have uncompiled type t.
-// return the ODCLTYPE node to use.
-func typedcl1(n *Node, t *Node, local bool) *Node {
+// returns the ODCLTYPE node to use.
+func typedcl1(n *Node, t *Node) *Node {
 	n.Name.Param.Ntype = t
-	n.Local = local
+	n.Local = true
 	return nod(ODCLTYPE, n, nil)
 }
 
