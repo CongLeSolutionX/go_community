@@ -101,6 +101,9 @@ func dumpdclstack() {
 }
 
 func testdclstack() {
+	if debug_dclstack == 0 {
+		return
+	}
 	for d := dclstack; d != nil; d = d.Link {
 		if d.Name == "" {
 			if nerrors != 0 {
