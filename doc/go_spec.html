@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of November 18, 2016",
+	"Subtitle": "Version of January 10, 2017",
 	"Path": "/ref/spec"
 }-->
 
@@ -738,7 +738,7 @@ The method set of any other type <code>T</code> consists of all
 The method set of the corresponding <a href="#Pointer_types">pointer type</a> <code>*T</code>
 is the set of all methods declared with receiver <code>*T</code> or <code>T</code>
 (that is, it also contains the method set of <code>T</code>).
-Further rules apply to structs containing anonymous fields, as described
+Further rules apply to structs containing embedded types, as described
 in the section on <a href="#Struct_types">struct types</a>.
 Any other type has an empty method set.
 In a method set, each method must have a
@@ -947,16 +947,16 @@ Moreover, the inner slices must be initialized individually.
 <p>
 A struct is a sequence of named elements, called fields, each of which has a
 name and a type. Field names may be specified explicitly (IdentifierList) or
-implicitly (AnonymousField).
+implicitly (EmbeddedType).
 Within a struct, non-<a href="#Blank_identifier">blank</a> field names must
 be <a href="#Uniqueness_of_identifiers">unique</a>.
 </p>
 
 <pre class="ebnf">
-StructType     = "struct" "{" { FieldDecl ";" } "}" .
-FieldDecl      = (IdentifierList Type | AnonymousField) [ Tag ] .
-AnonymousField = [ "*" ] TypeName .
-Tag            = string_lit .
+StructType   = "struct" "{" { FieldDecl ";" } "}" .
+FieldDecl    = (IdentifierList Type | EmbeddedType) [ Tag ] .
+EmbeddedType = [ "*" ] TypeName .
+Tag          = string_lit .
 </pre>
 
 <pre>
@@ -974,8 +974,7 @@ struct {
 </pre>
 
 <p>
-A field declared with a type but no explicit field name is an <i>anonymous field</i>,
-also called an <i>embedded</i> field or an embedding of the type in the struct.
+A field declared with a type but no explicit field name is called an <i>embedded type</i>.
 An embedded type must be specified as
 a type name <code>T</code> or as a pointer to a non-interface type name <code>*T</code>,
 and <code>T</code> itself may not be
@@ -983,7 +982,7 @@ a pointer type. The unqualified type name acts as the field name.
 </p>
 
 <pre>
-// A struct with four anonymous fields of type T1, *T2, P.T3 and *P.T4
+// A struct with four embedded types T1, *T2, P.T3 and *P.T4
 struct {
 	T1        // field name is T1
 	*T2       // field name is T2
@@ -1000,15 +999,15 @@ in a struct type:
 
 <pre>
 struct {
-	T     // conflicts with anonymous field *T and *P.T
-	*T    // conflicts with anonymous field T and *P.T
-	*P.T  // conflicts with anonymous field T and *T
+	T     // conflicts with embedded type *T and *P.T
+	*T    // conflicts with embedded type T and *P.T
+	*P.T  // conflicts with embedded type T and *T
 }
 </pre>
 
 <p>
 A field or <a href="#Method_declarations">method</a> <code>f</code> of an
-anonymous field in a struct <code>x</code> is called <i>promoted</i> if
+embedded type in a struct <code>x</code> is called <i>promoted</i> if
 <code>x.f</code> is a legal <a href="#Selectors">selector</a> that denotes
 that field or method <code>f</code>.
 </p>
@@ -1025,7 +1024,7 @@ promoted methods are included in the method set of the struct as follows:
 </p>
 <ul>
 	<li>
-	If <code>S</code> contains an anonymous field <code>T</code>,
+	If <code>S</code> contains an embedded type <code>T</code>,
 	the <a href="#Method_sets">method sets</a> of <code>S</code>
 	and <code>*S</code> both include promoted methods with receiver
 	<code>T</code>. The method set of <code>*S</code> also
@@ -1033,7 +1032,7 @@ promoted methods are included in the method set of the struct as follows:
 	</li>
 
 	<li>
-	If <code>S</code> contains an anonymous field <code>*T</code>,
+	If <code>S</code> contains an embedded type <code>*T</code>,
 	the method sets of <code>S</code> and <code>*S</code> both
 	include promoted methods with receiver <code>T</code> or
 	<code>*T</code>.
@@ -1434,8 +1433,7 @@ literal structure and corresponding components have identical types. In detail:
 	<li>Two struct types are identical if they have the same sequence of fields,
 	    and if corresponding fields have the same names, and identical types,
 	    and identical tags.
-	    Two anonymous fields are considered to have the same name. Lower-case field
-	    names from different packages are always different.</li>
+	    Lower-case field names from different packages are always different.</li>
 
 	<li>Two pointer types are identical if they have identical base types.</li>
 
@@ -1891,7 +1889,7 @@ type NewMutex Mutex
 type PtrMutex *Mutex
 
 // The method set of *PrintableMutex contains the methods
-// Lock and Unlock bound to its anonymous field Mutex.
+// Lock and Unlock bound to its embedded type Mutex.
 type PrintableMutex struct {
 	Mutex
 }
@@ -2492,13 +2490,13 @@ If <code>x</code> is a package name, see the section on
 A selector <code>f</code> may denote a field or method <code>f</code> of
 a type <code>T</code>, or it may refer
 to a field or method <code>f</code> of a nested
-<a href="#Struct_types">anonymous field</a> of <code>T</code>.
-The number of anonymous fields traversed
+<a href="#Struct_types">embedded type</a> of <code>T</code>.
+The number of embedded types traversed
 to reach <code>f</code> is called its <i>depth</i> in <code>T</code>.
 The depth of a field or method <code>f</code>
 declared in <code>T</code> is zero.
 The depth of a field or method <code>f</code> declared in
-an anonymous field <code>A</code> in <code>T</code> is the
+an embedded type <code>A</code> in <code>T</code> is the
 depth of <code>f</code> in <code>A</code> plus one.
 </p>
 
@@ -6354,7 +6352,7 @@ as if <code>v</code> was declared via <code>var v = x</code>.
 The function <code>Offsetof</code> takes a (possibly parenthesized) <a href="#Selectors">selector</a>
 <code>s.f</code>, denoting a field <code>f</code> of the struct denoted by <code>s</code>
 or <code>*s</code>, and returns the field offset in bytes relative to the struct's address.
-If <code>f</code> is an <a href="#Struct_types">embedded field</a>, it must be reachable
+If <code>f</code> is an <a href="#Struct_types">embedded type</a>, it must be reachable
 without pointer indirections through fields of the struct.
 For a struct <code>s</code> with field <code>f</code>:
 </p>
