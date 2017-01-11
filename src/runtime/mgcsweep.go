@@ -73,6 +73,11 @@ func bgsweep(c chan int) {
 	}
 }
 
+var sweepSpanTombstoneBlank mspan
+var sweepSpanTombstone = &sweepSpanTombstoneBlank
+
+const tombStoneLogicImplemented = false
+
 // sweeps one span
 // returns number of pages returned to heap, or ^uintptr(0) if there is nothing to sweep
 //go:nowritebarrier
@@ -93,13 +98,25 @@ func sweepone() uintptr {
 			}
 			return ^uintptr(0)
 		}
+		if tombStoneLogicImplemented && s == sweepSpanTombstone {
+			continue
+		}
 		if s.state != mSpanInUse {
 			// This can happen if direct sweeping already
 			// swept this span, but in that case the sweep
 			// generation should always be up-to-date.
 			if s.sweepgen != sg {
-				print("runtime: bad span s.state=", s.state, " s.sweepgen=", s.sweepgen, " sweepgen=", sg, "\n")
-				throw("non in-use span in unswept list")
+				// TBD RLH implement tombstone logic, not only will it restore this
+				// test but it will also speed ROC sweeping up.
+				if tombStoneLogicImplemented {
+
+					// The tombstone logic should make this not happen.
+					//					dlog().string("sweepone:mgcsweep:102 about to abort with s.base()= ").hex(s.base()).string(" s.state= ").
+					//						string(mSpanStateNames[s.state]).end()
+					print("runtime: bad span s.state=", mSpanStateNames[s.state], " s.unusedsince=", s.unusedsince, " s.sweepgen=", s.sweepgen, " sweepgen=", sg,
+						" s=", s, " s.base()=", hex(s.base()), " mheap_.sweepgen=", mheap_.sweepgen, "\n")
+					throw("non in-use span in unswept list")
+				}
 			}
 			continue
 		}
