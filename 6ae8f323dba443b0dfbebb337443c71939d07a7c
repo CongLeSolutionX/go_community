@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3d8490b_5aa4e949",
+        "filename": "src/compress/gzip/issue14937_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-11T16:38:33Z",
+      "side": 1,
+      "message": "user\u0027s GOROOT (Issue 18604), we only",
+      "revId": "6ae8f323dba443b0dfbebb337443c71939d07a7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
