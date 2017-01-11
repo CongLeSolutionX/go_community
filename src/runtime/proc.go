@@ -1738,6 +1738,33 @@ func startm(_p_ *p, spinning bool) {
 // Always runs without a P, so write barriers are not allowed.
 //go:nowritebarrierrec
 func handoffp(_p_ *p) {
+	if writeBarrier.roc {
+		// At this point _p_ can no longer be used by the goroutine that
+		// That goroutine may however have found another P
+		// to run on. ROC needs to orchestrate a handshake that ensure that
+		// the ROC epoch associated with this _p_ has completed making
+		// current private object public before the goroutine can run on
+		// the other P.
+		// If this is not done then the goroutine could assume that objects
+		// in this P's mcache are private, place a private object in one, and
+		// then the publish of these spans will turn the object public thus
+		// creating a public to private object that could be seen by
+		// an arbitrary goroutine. Not good.
+
+		if _p_.mcache != nil {
+			_p_.mcache.publishMCache(true)
+			// At this point all the object associated with the mcache are now
+			// published which means that the goroutine previously associated with
+			// this P can now be resumed.
+		}
+		if _p_.m != 0 && _p_.m.ptr().curg != nil {
+			// All objects associated with _p_.m.curg are now public.
+			// Let the curg know that it can resume from the syscall.
+			if _p_.m.ptr().curg.rocEpoch == _p_.mcache.rocEpoch {
+				atomic.Xadd64(&_p_.mcache.rocEpoch, int64(1))
+			}
+		}
+	}
 	// handoffp must start an M in any situation where
 	// findrunnable would return a G to run on _p_.
 
@@ -2295,6 +2322,7 @@ func dropg(recycle bool) {
 			} else {
 				_g_.m.mcache.publishG()
 			}
+			_g_.m.mcache.rocGoid = 0
 		}
 		releasem(mp)
 	}
@@ -2523,6 +2551,17 @@ func reentersyscall(pc, sp uintptr) {
 	_g_.stackguard0 = stackPreempt
 	_g_.throwsplit = true
 
+	if writeBarrier.roc {
+		// Record the associated mcache and its current rocEpoch in this g.
+		// Record the current _g_ in the mcache.
+		// Before this _g_ can be resumed on another P the mcache rocEpoch must be
+		// greater than the one recorded here to ensure that any all private objects
+		// have been made public.
+		_g_.rocEpoch = _g_.m.mcache.rocEpoch
+		_g_.rocMCache = _g_.m.mcache
+		_g_.m.mcache.rocGoid = _g_.goid
+	}
+
 	// Leave SP around for GC and traceback.
 	save(pc, sp)
 	_g_.syscallsp = sp
@@ -2578,6 +2617,10 @@ func entersyscallRocRecycle() {
 	}
 	_g_ := getg().m.curg
 	// The g may get preempted so we need to publish all local objects.
+	c := _g_.m.mcache
+	c.rocGoid = _g_.goid // Why not just save the g.
+	_ = atomic.Xadd64(&c.rocEpoch, 1)
+
 	if gcphase == _GCoff {
 		publishStack(_g_)
 		if _g_.m.mcache != nil {
@@ -2591,9 +2634,16 @@ func entersyscallRocRecycle() {
 // Standard syscall entry used by the go syscall library and normal cgo calls.
 //go:nosplit
 func entersyscall(dummy int32) {
-	// The g may get preempted so we need to publish all local objects and abort the ROC epoch.
+	_g_ := getg() // This will always be the Go stack.
 	if writeBarrier.roc {
-		systemstack(entersyscallRocRecycle)
+		// Record the associated mcache and its current rocEpoch in this g.
+		// Record the current _g_ in the mcache.
+		// Before this _g_ can be resumed on another P the mcache rocEpoch must be
+		// greater than the one recorded here to ensure that any all private objects
+		// have been made public.
+		_g_.rocEpoch = _g_.m.mcache.rocEpoch
+		_g_.rocMCache = _g_.m.mcache
+		_g_.m.mcache.rocGoid = _g_.goid
 	}
 	reentersyscall(getcallerpc(unsafe.Pointer(&dummy)), getcallersp(unsafe.Pointer(&dummy)))
 }
@@ -2630,6 +2680,11 @@ func entersyscall_gcwait() {
 func entersyscallblock(dummy int32) {
 	_g_ := getg()
 
+	// recycleG since we are headed for a handoffp below and recycling seems more
+	// productive that simply mcache.publishMCache.
+	if writeBarrier.roc {
+		systemstack(entersyscallRocRecycle)
+	}
 	_g_.m.locks++ // see comment in entersyscall
 	_g_.throwsplit = true
 	_g_.stackguard0 = stackPreempt // see comment in entersyscall
@@ -2660,7 +2715,7 @@ func entersyscallblock(dummy int32) {
 		})
 	}
 
-	systemstack(entersyscallblock_handoff)
+	systemstack(entersyscallblock_handoff) // Does an immediate handoff. Might as well recycle the G.
 
 	// Resave for traceback during blocked call.
 	save(getcallerpc(unsafe.Pointer(&dummy)), getcallersp(unsafe.Pointer(&dummy)))
@@ -2668,6 +2723,7 @@ func entersyscallblock(dummy int32) {
 	_g_.m.locks--
 }
 
+// ROC has recycled this mcache so there is nothing more for ROC to do.
 func entersyscallblock_handoff() {
 	if trace.enabled {
 		traceGoSysCall()
@@ -2701,6 +2757,7 @@ func exitsyscall(dummy int32) {
 	_g_.waitsince = 0
 	oldp := _g_.m.p.ptr()
 	if exitsyscallfast() {
+		// ROC this may not have gotten the original P back
 		if _g_.m.mcache == nil {
 			throw("lost mcache")
 		}
@@ -2713,6 +2770,8 @@ func exitsyscall(dummy int32) {
 		_g_.m.p.ptr().syscalltick++
 		if writeBarrier.roc {
 			systemstack(func() {
+				// startG is not needed if this is the same P and no intervening g has run on it.
+				// and the cas below works, that said exitsyscallfast could return another P.
 				_g_.m.mcache.startG()
 			})
 		}
@@ -2777,14 +2836,29 @@ func exitsyscallfast() bool {
 		_g_.m.p = 0
 		return false
 	}
-
 	// Try to re-acquire the last P.
-	if _g_.m.p != 0 && _g_.m.p.ptr().status == _Psyscall && atomic.Cas(&_g_.m.p.ptr().status, _Psyscall, _Prunning) {
+	if _g_.m.p != 0 && _g_.m.p.ptr().status == _Psyscall &&
+		atomic.Cas(&_g_.m.p.ptr().status, _Psyscall, _Prunning) {
 		// There's a cpu for us, so we can run.
+		// Furthermore it is the same one we owned when we did the syscall.
+		// so we can keep using its mcache without a restartG or a publishG.
 		exitsyscallfast_reacquired()
 		return true
 	}
 
+	if writeBarrier.roc {
+		// This _g_ has lost the associated mcache but it must ensure that
+		// the mcache has published all of its local objects before it can
+		// resume on another p. This is done by waiting for the rocEpoch
+		// of the mcache to be greater than the rocEpoch when the syscall
+		// was entered.
+		systemstack(func() {
+			if _g_.rocMCache != nil {
+				for atomic.Load64(&_g_.rocMCache.rocEpoch) == _g_.rocEpoch {
+				}
+			}
+		})
+	}
 	// Try to get any other idle P.
 	oldp := _g_.m.p.ptr()
 	_g_.m.mcache = nil
@@ -2840,6 +2914,10 @@ func exitsyscallfast_reacquired() {
 	}
 }
 
+// exitsyscallfast_pidle tries to get a free p to run the goroutine whose
+// syscall is being returned from. ROC must ensure that the goroutine
+// does not run until there is a handshake between this P's mcache and P that
+// the goroutine has abandoned.
 func exitsyscallfast_pidle() bool {
 	lock(&sched.lock)
 	_p_ := pidleget()
@@ -3621,6 +3699,14 @@ func procresize(nprocs int32) *p {
 			} else {
 				pp.mcache = allocmcache()
 			}
+		} else {
+			// Since this P is about to be eliminated make sure any local objects
+			// are published and the rocEpoch moves on allowing the _g_ to continue
+			// after it returns from the syscall.
+			if writeBarrier.roc {
+				pp.mcache.publishMCache(true)
+				pp.mcache.rocEpoch++
+			}
 		}
 		if raceenabled && pp.racectx == 0 {
 			if old == 0 && i == 0 {
@@ -3641,6 +3727,15 @@ func procresize(nprocs int32) *p {
 				// and then scheduled again to keep the trace sane.
 				traceGoSched()
 				traceProcStop(p)
+			}
+		}
+		// Since this P is about to be eliminated make sure any local objects
+		// are published and the rocEpoch moves on allowing the _g_ to continue
+		// after it returns from the syscall.
+		if writeBarrier.roc {
+			if p.mcache != nil {
+				p.mcache.publishMCache(true)
+				p.mcache.rocEpoch++
 			}
 		}
 		// move all runnable goroutines to the global queue
@@ -3790,6 +3885,15 @@ func releasep() *p {
 	}
 	if trace.enabled {
 		traceProcStop(_g_.m.p.ptr())
+	}
+	// Since this P is about to be eliminated make sure any local objects
+	// are published and the rocEpoch moves on allowing the _g_ to continue
+	// after it returns from the syscall.
+	if writeBarrier.roc {
+		if _p_.mcache != nil {
+			_p_.mcache.publishMCache(true)
+			_p_.mcache.rocEpoch++
+		}
 	}
 	_g_.m.p = 0
 	_g_.m.mcache = nil
@@ -4029,6 +4133,27 @@ func retake(now int64) uint32 {
 			// increment nmidle and report deadlock.
 			incidlelocked(-1)
 			if atomic.Cas(&_p_.status, s, _Pidle) {
+				if writeBarrier.roc {
+					// At this point _p_ can no longer be used by the goroutine that
+					// did the syscall. That goroutine may however have found another P
+					// to run on. ROC needs to orchestrate a handshake that ensure that
+					// the ROC epoch associated with this _p_ has completed making
+					// current private object public before the goroutine can run on
+					// the other P.
+					// I this is not done then the goroutine could assume that objects
+					// in this P's mcache are private, place a private object in one, and
+					// then the publish of these spans will turn the object public thus
+					// creating a public to private object that could be seen by
+					// an arbitrary goroutine.
+					_p_.mcache.publishMCache(true) // Perhaps this could be done in handoffp??
+
+					// At this point all the object associated with the mcache are now
+					// published which means that the goroutine previously associated with
+					// this P can now be resumed.
+					//
+					// The handshake that is used to allow the goroutine to continues is
+					// accomplished by ....
+				}
 				if trace.enabled {
 					traceGoSysBlock(_p_)
 					traceProcStop(_p_)
