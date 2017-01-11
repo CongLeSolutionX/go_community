@@ -3578,8 +3578,6 @@ func typecheckdeftype(n *Node) {
 
 	// copy new type and clear fields
 	// that don't come along.
-	// anything zeroed here must be zeroed in
-	// typedcl2 too.
 	copytype(n, t)
 
 ret:
@@ -3758,12 +3756,29 @@ func typecheckdef(n *Node) *Node {
 		n.Name.Defn = typecheck(n.Name.Defn, Etop) // fills in n->type
 
 	case OTYPE:
+		if n.Sym.Flags&SymAlias != 0 {
+			// Type alias declaration: Simply use the rhs type - no need
+			// to create a new type.
+			// If we have a syntax error, n.Name.Param.Ntype may be nil.
+			if n.Name.Param.Ntype != nil {
+				n.Name.Param.Ntype = typecheck(n.Name.Param.Ntype, Etype)
+				n.Type = n.Name.Param.Ntype.Type
+				if n.Type == nil {
+					n.Diag = true
+					goto ret
+				}
+				n.Sym.Def = n.Name.Param.Ntype
+			}
+			break
+		}
+
+		// regular type declaration
 		if Curfn != nil {
 			defercheckwidth()
 		}
 		n.Walkdef = 1
 		n.Type = typ(TFORW)
-		n.Type.Sym = n.Sym
+		n.Type.Sym = n.Sym // TODO(gri) this also happens in typecheckdeftype(n) - where should it happen?
 		nerrors0 := nerrors
 		typecheckdeftype(n)
 		if n.Type.Etype == TFORW && nerrors > nerrors0 {
@@ -3771,7 +3786,6 @@ func typecheckdef(n *Node) *Node {
 			// but it was reported. Silence future errors.
 			n.Type.Broke = true
 		}
-
 		if Curfn != nil {
 			resumecheckwidth()
 		}

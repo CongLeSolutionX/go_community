@@ -45,7 +45,7 @@ func exportsym(n *Node) {
 		fmt.Printf("export symbol %v\n", n.Sym)
 	}
 
-	// Ensure original object is on exportlist before aliases.
+	// Ensure original types are on exportlist before type aliases.
 	if n.Sym.Flags&SymAlias != 0 {
 		exportlist = append(exportlist, n.Sym.Def)
 	}
@@ -345,6 +345,28 @@ func importvar(s *Sym, t *Type) {
 
 	if Debug['E'] != 0 {
 		fmt.Printf("import var %v %L\n", s, t)
+	}
+}
+
+// importalias declares symbol s as an imported type alias with type t.
+func importalias(s *Sym, t *Type) {
+	importsym(s, OTYPE)
+	if s.Def != nil && s.Def.Op == OTYPE {
+		if eqtype(t, s.Def.Type) {
+			return
+		}
+		yyerror("inconsistent definition for type alias %v during import\n\t%v (in %q)\n\t%v (in %q)", s, s.Def.Type, s.Importdef.Path, t, importpkg.Path)
+	}
+
+	n := newname(s)
+	n.Op = OTYPE
+	s.Importdef = importpkg
+	s.Flags |= SymAlias
+	n.Type = t
+	declare(n, PEXTERN)
+
+	if Debug['E'] != 0 {
+		fmt.Printf("import type %v = %L\n", s, t)
 	}
 }
 

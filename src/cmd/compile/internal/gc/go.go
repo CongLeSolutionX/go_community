@@ -63,7 +63,7 @@ const (
 	SymSiggen
 	SymAsm
 	SymAlgGen
-	SymAlias // alias, original is Sym.Def.Sym
+	SymAlias // type alias, original is Sym.Def.Sym
 )
 
 // The Class of a variable/function describes the "storage class"
@@ -87,7 +87,7 @@ const (
 // of the compilers arrays.
 //
 // typedef	struct
-// {					// must not move anything
+// {				// must not move anything
 // 	uchar	array[8];	// pointer to data
 // 	uchar	nel[4];		// number of elements
 // 	uchar	cap[4];		// allocated number of elements
@@ -104,7 +104,7 @@ var sizeof_Array int // runtime sizeof(Array)
 // of the compilers strings.
 //
 // typedef	struct
-// {					// must not move anything
+// {				// must not move anything
 // 	uchar	array[8];	// pointer to data
 // 	uchar	nel[4];		// number of elements
 // } String;
