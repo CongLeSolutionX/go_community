@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c3d8490b_45cddc3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-12T19:54:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3d8490b_df799d97",
+      "revId": "c021e476e69dd17aee4791f99ad3dc79a5c91907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3d8490b_3ff1c91e",
         "filename": "src/cmd/compile/internal/gc/noder.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c3d8490b_a5036885",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-12T19:54:36Z",
+      "side": 1,
+      "message": "Changed to \"release\" per offline discussion.",
+      "parentUuid": "c3d8490b_3ff1c91e",
+      "revId": "c021e476e69dd17aee4791f99ad3dc79a5c91907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3d8490b_ffa4a1f4",
         "filename": "src/cmd/compile/internal/gc/noder.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-01-12T17:56:38Z",
       "side": 1,
       "message": "do we not get here if there are errors? (otherwise we may want an if around it)",
+      "revId": "c021e476e69dd17aee4791f99ad3dc79a5c91907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d8490b_4514fcba",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-12T19:54:36Z",
+      "side": 1,
+      "message": "Good catch. Moved back to parseFiles to avoid this.",
+      "parentUuid": "c3d8490b_ffa4a1f4",
       "revId": "c021e476e69dd17aee4791f99ad3dc79a5c91907",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
