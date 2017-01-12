@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3d8490b_e8b2a5d1",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-12T21:30:12Z",
+      "side": 1,
+      "message": "is this the first go statement in the compiler/linker?\n\ncongrats.",
+      "revId": "5978e95622c652e4ae258268439f86b70699fdbf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
