@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3d8490b_df799d97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-12T17:56:38Z",
+      "side": 1,
+      "message": "s/Noding/Conversion to Nodes/",
+      "revId": "c021e476e69dd17aee4791f99ad3dc79a5c91907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d8490b_3ff1c91e",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-12T17:56:38Z",
+      "side": 1,
+      "message": "s/free/unlink/ (?)\n\nnot convinced it\u0027s better though",
+      "revId": "c021e476e69dd17aee4791f99ad3dc79a5c91907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d8490b_ffa4a1f4",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-12T17:56:38Z",
+      "side": 1,
+      "message": "do we not get here if there are errors? (otherwise we may want an if around it)",
+      "revId": "c021e476e69dd17aee4791f99ad3dc79a5c91907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
