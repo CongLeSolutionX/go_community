@@ -16,6 +16,24 @@
       "revId": "0a85cfcbb49bb5b154508176cfb429e38aecfaac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d8490b_62d6d6d8",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-01-12T18:38:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3d8490b_1f45e604",
+      "revId": "0a85cfcbb49bb5b154508176cfb429e38aecfaac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
