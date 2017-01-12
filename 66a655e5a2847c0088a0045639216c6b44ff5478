@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "830ad15b_2f674990",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2017-01-12T07:17:12Z",
+      "side": 1,
+      "message": "range d.hashPrev[:] ?\n\nanyway, this should use a comment, as it\u0027s non-trivial at all.\n\nI\u0027m even thinking whether this warrants a vet check.",
+      "revId": "66a655e5a2847c0088a0045639216c6b44ff5478",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
