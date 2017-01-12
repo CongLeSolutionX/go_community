@@ -16,6 +16,24 @@
       "revId": "66a655e5a2847c0088a0045639216c6b44ff5478",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d8490b_6985602e",
+        "filename": "src/compress/flate/deflate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-01-12T07:19:53Z",
+      "side": 1,
+      "message": "Done\n\nWas thinking the same thing: https://golang.org/issue/18626",
+      "parentUuid": "830ad15b_2f674990",
+      "revId": "66a655e5a2847c0088a0045639216c6b44ff5478",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
