@@ -71,6 +71,7 @@ var tests = []test{
 			`const MultiLineConst = ...`,                                   // Multi line constant.
 			`var MultiLineVar = map\[struct{ ... }\]struct{ ... }{ ... }`,  // Multi line variable.
 			`func MultiLineFunc\(x interface{ ... }\) \(r struct{ ... }\)`, // Multi line function.
+			`var LongLine = newLongLine\(("someArgument[1-4]", ){4}...\)`,  // Long list of arguments.
 		},
 		[]string{
 			`const internalConstant = 2`,        // No internal constants.
@@ -89,6 +90,7 @@ var tests = []test{
 			`unexportedTypedConstant`,           // No unexported typed constant.
 			`Field`,                             // No fields.
 			`Method`,                            // No methods.
+			`someArgument[5-8]`,                 // No truncated arguments.
 		},
 	},
 	// Package dump -u
