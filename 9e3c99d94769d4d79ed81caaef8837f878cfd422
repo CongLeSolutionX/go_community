@@ -16,6 +16,24 @@
       "revId": "9e3c99d94769d4d79ed81caaef8837f878cfd422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d8490b_9fed5608",
+        "filename": "src/cmd/compile/internal/ssa/fuse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-01-12T16:17:47Z",
+      "side": 1,
+      "message": "I initially wrote something like that, but then worried about later silently introducing bugs with full slice expressions.\n\nThis is simple and robust, the reasoning is--to my mind--easier to follow (b.Values can\u0027t alias b.valstorage if it doesn\u0027t fit), and optimizing the append doesn\u0027t really matter much when b.Values is small.",
+      "parentUuid": "97820e81_ea8cbb8b",
+      "revId": "9e3c99d94769d4d79ed81caaef8837f878cfd422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
