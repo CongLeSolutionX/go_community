@@ -16,6 +16,24 @@
       "revId": "37993515161044405011ec317cfdd8eda8be9ef4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3d8490b_9f6a36c5",
+        "filename": "src/cmd/go/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1534,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-01-12T15:50:34Z",
+      "side": 1,
+      "message": "Sorry, I missed this comment. CL 35123.",
+      "parentUuid": "d7e3a6ee_42aed865",
+      "revId": "37993515161044405011ec317cfdd8eda8be9ef4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
