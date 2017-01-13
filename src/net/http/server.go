@@ -293,6 +293,11 @@ func (c *conn) hijackLocked() (rwc net.Conn, buf *bufio.ReadWriter, err error) {
 	rwc.SetDeadline(time.Time{})
 
 	buf = bufio.NewReadWriter(c.bufr, bufio.NewWriter(rwc))
+	if c.r.hasByte {
+		if _, err := c.bufr.Peek(c.bufr.Buffered() + 1); err != nil {
+			return nil, nil, fmt.Errorf("unexpected Peek failure reading buffered byte: %v", err)
+		}
+	}
 	c.setState(rwc, StateHijacked)
 	return
 }

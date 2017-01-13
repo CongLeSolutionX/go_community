@@ -5173,3 +5173,58 @@ func TestServerDuplicateBackgroundRead(t *testing.T) {
 	}
 	wg.Wait()
 }
+
+func TestServerHijackGetsBackgroundByte(t *testing.T) {
+	setParallel(t)
+	defer afterTest(t)
+	done := make(chan struct{})
+	inHandler := make(chan bool, 1)
+	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		defer close(done)
+		inHandler <- true
+		select {
+		case <-w.(CloseNotifier).CloseNotify():
+		case <-time.After(5 * time.Second):
+			t.Error("timeout")
+			return
+		}
+
+		conn, buf, err := w.(Hijacker).Hijack()
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		defer conn.Close()
+		n := buf.Reader.Buffered()
+		if n != 1 {
+			t.Errorf("buffered data = %d; want 1", n)
+		}
+		peek, err := buf.Reader.Peek(3)
+		if string(peek) != "foo" || err != nil {
+			t.Errorf("Peek = %q, %v; want foo, nil", peek, err)
+		}
+	}))
+	defer ts.Close()
+
+	cn, err := net.Dial("tcp", ts.Listener.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer cn.Close()
+	if _, err := cn.Write([]byte("GET / HTTP/1.1\r\nHost: e.com\r\n\r\n")); err != nil {
+		t.Fatal(err)
+	}
+	<-inHandler
+	if _, err := cn.Write([]byte("foo")); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := cn.(*net.TCPConn).CloseWrite(); err != nil {
+		t.Fatal(err)
+	}
+	select {
+	case <-done:
+	case <-time.After(2 * time.Second):
+		t.Error("timeout")
+	}
+}
