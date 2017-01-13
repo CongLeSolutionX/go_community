@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23c0454e_9d99479f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-01-13T22:07:22Z",
+      "side": 1,
+      "message": "s/BBuffered/Buffered/",
+      "range": {
+        "startLine": 12,
+        "startChar": 46,
+        "endLine": 12,
+        "endChar": 55
+      },
+      "revId": "c2e110bd38e36d725eae179916da8b359d3639b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c0454e_dd181f31",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5199,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-01-13T22:07:22Z",
+      "side": 1,
+      "message": "Isn\u0027t this racy? Both 0 or 1 are valid results.",
+      "range": {
+        "startLine": 5199,
+        "startChar": 2,
+        "endLine": 5199,
+        "endChar": 13
+      },
+      "revId": "c2e110bd38e36d725eae179916da8b359d3639b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c0454e_fd9a3b5d",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-01-13T22:07:22Z",
+      "side": 1,
+      "message": "Please update this regarding behavior of bufio.ReadWriter, which was never documented to begin with...",
+      "range": {
+        "startLine": 177,
+        "startChar": 1,
+        "endLine": 177,
+        "endChar": 46
+      },
+      "revId": "c2e110bd38e36d725eae179916da8b359d3639b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
