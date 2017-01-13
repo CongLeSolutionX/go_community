@@ -22,6 +22,30 @@
       "revId": "b2a3b54b9520ce869d79ac8bce836a540ba45d09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c0454e_e379bc97",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-01-13T23:45:43Z",
+      "side": 1,
+      "message": "This is shady, but I believe the implementation of bufio.Reader guarantees that this wont happen. Calling Read, ReadByte, or Discard on the bufio.Reader guarantees that at least one byte is removed from the internal buffer.\n\nI haven\u0027t thoroughly look into what happens for the other methods and whether the http code even calls them.\n\nIt\u0027s definitely worth investigating more.",
+      "parentUuid": "23c0454e_e3161c72",
+      "range": {
+        "startLine": 300,
+        "startChar": 27,
+        "endLine": 300,
+        "endChar": 48
+      },
+      "revId": "b2a3b54b9520ce869d79ac8bce836a540ba45d09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
