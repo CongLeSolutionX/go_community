@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package buildid
 
 import (
 	"bytes"
@@ -25,7 +25,7 @@ func readAligned4(r io.Reader, sz int32) ([]byte, error) {
 	return data, nil
 }
 
-func readELFNote(filename, name string, typ int32) ([]byte, error) {
+func ReadELFNote(filename, name string, typ int32) ([]byte, error) {
 	f, err := elf.Open(filename)
 	if err != nil {
 		return nil, err
@@ -155,7 +155,7 @@ func readMachoGoBuildID(filename string, f *os.File, data []byte) (buildid strin
 	// If the data we want has already been read, don't worry about Mach-O parsing.
 	// This is both an optimization and a hedge against the Mach-O parsing failing
 	// in the future due to, for example, the name of the __text section changing.
-	if b, err := readRawGoBuildID(filename, data); b != "" && err == nil {
+	if b, err := ReadRawGoBuildID(filename, data); b != "" && err == nil {
 		return b, err
 	}
 
@@ -183,5 +183,5 @@ func readMachoGoBuildID(filename string, f *os.File, data []byte) (buildid strin
 		return "", err
 	}
 
-	return readRawGoBuildID(filename, buf)
+	return ReadRawGoBuildID(filename, buf)
 }
