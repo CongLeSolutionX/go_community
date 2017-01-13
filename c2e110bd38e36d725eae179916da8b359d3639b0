@@ -25,6 +25,24 @@
     },
     {
       "key": {
+        "uuid": "23c0454e_a84403b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-13T22:09:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23c0454e_9d99479f",
+      "revId": "c2e110bd38e36d725eae179916da8b359d3639b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23c0454e_dd181f31",
         "filename": "src/net/http/serve_test.go",
         "patchSetId": 1
@@ -48,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "23c0454e_a8fde346",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5199,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-13T22:09:23Z",
+      "side": 1,
+      "message": "No, I\u0027m relying on the fact that CloseNotify is woken up when it sees a byte (line 5186).\n\nI ran this test thousands of times in race and non-race mode.",
+      "parentUuid": "23c0454e_dd181f31",
+      "revId": "c2e110bd38e36d725eae179916da8b359d3639b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23c0454e_fd9a3b5d",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
@@ -65,6 +101,24 @@
         "endLine": 177,
         "endChar": 46
       },
+      "revId": "c2e110bd38e36d725eae179916da8b359d3639b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c0454e_685bcb97",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-13T22:09:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23c0454e_fd9a3b5d",
       "revId": "c2e110bd38e36d725eae179916da8b359d3639b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
