@@ -46,6 +46,24 @@
       "revId": "b2a3b54b9520ce869d79ac8bce836a540ba45d09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c0454e_2ea47b49",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-14T00:36:23Z",
+      "side": 1,
+      "message": "I don\u0027t see how.\n\nLet\u0027s say the buffer is 4KB (which I believe it is):\n\nThe first reads while reading the header can only fill it to 4KB, but parsing the header (at least dozens of bytes) will bring it to under 4KB by dozens of bytes at least.\n\nIn-between requests while not anticipating anything, we read at most 1 byte. (this \"background read\" byte)\n\nThe only other read possibility is reading the request body, but in that case this background read byte is never read.\n\nSo I think even in the worst case we\u0027ll have dozens of bytes.\n\nThat worst case would be the client sending in one Write:\n\n\"GET / HTTP/1.1\\r\\nHost: x\\r\\n\\r\\n\" (the minimum request size) followed by a large pipelined request that will fill up the 4KB up: \"POST / HTTP/1.1\\r\\nHost: x\\r\\n\\r\\nxxxxxxxxxxxxxxx\"\n\nNow the buffer is full of 4KB of those two requests, we read off the first request (the GET), and then background read a byte (find \u0027P\u0027), and have room for it.\n\nBut I\u0027ll add a test.\n\n(also, technically my example violates HTTP/1.1, since a POST isn\u0027t allowed to be pipelined, not that any client uses pipelining, but it could be a gigantic GET request with a 4KB url parameter)",
+      "parentUuid": "23c0454e_e3161c72",
+      "revId": "b2a3b54b9520ce869d79ac8bce836a540ba45d09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
