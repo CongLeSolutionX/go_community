@@ -16,6 +16,24 @@
       "revId": "a5c6d1ec4b421435cb8a936e04d9ab8ebf54d379",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c0454e_29af1541",
+        "filename": "test/alias3.dir/b.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-14T01:51:52Z",
+      "side": 1,
+      "message": "good question - I suspect so. It seems unrelated to aliases. Though doing the same var decls in a main package will lead to errors at compile time (missing func body).\n\nFixed for this test.",
+      "parentUuid": "23c0454e_8912e9cf",
+      "revId": "a5c6d1ec4b421435cb8a936e04d9ab8ebf54d379",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
