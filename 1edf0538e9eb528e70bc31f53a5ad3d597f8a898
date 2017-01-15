@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "23c0454e_7ed37e0e",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-15T06:14:09Z",
+      "side": 1,
+      "message": "change to \"cannot have dynamic type\".",
+      "range": {
+        "startLine": 166,
+        "startChar": 49,
+        "endLine": 166,
+        "endChar": 67
+      },
+      "revId": "1edf0538e9eb528e70bc31f53a5ad3d597f8a898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c0454e_5ecec267",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-15T06:14:09Z",
+      "side": 1,
+      "message": "nit: space before (",
+      "range": {
+        "startLine": 167,
+        "startChar": 9,
+        "endLine": 167,
+        "endChar": 11
+      },
+      "revId": "1edf0538e9eb528e70bc31f53a5ad3d597f8a898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23c0454e_feef8ec7",
         "filename": "test/switch6.go",
         "patchSetId": 2
