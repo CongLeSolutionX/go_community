@@ -51,6 +51,24 @@
       "revId": "4e95a452338377bd5e3b5bf95d2ce50481b62591",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c0454e_d196436b",
+        "filename": "test/fixedbugs/issue18661.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-01-16T02:10:35Z",
+      "side": 1,
+      "message": "the difference is that it captures the original bug repro, perhaps there could be a difference(there isn\u0027t one with an assigned value\nvs directly compared. IMO it just makes it clear that the original bug is properly fixed.",
+      "parentUuid": "23c0454e_31e857f6",
+      "revId": "4e95a452338377bd5e3b5bf95d2ce50481b62591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
