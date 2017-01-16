@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "23c0454e_b4a1b587",
+        "filename": "test/fixedbugs/issue18661.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-01-16T05:24:18Z",
+      "side": 1,
+      "message": "Done.\n\nIt\u0027s like we\u0027re living in the future.",
+      "parentUuid": "23c0454e_11fc3bbd",
+      "revId": "4e95a452338377bd5e3b5bf95d2ce50481b62591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23c0454e_3eb026e7",
         "filename": "test/fixedbugs/issue18661.go",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "the difference is that it captures the original bug repro, perhaps there could be a difference(there isn\u0027t one with an assigned value\nvs directly compared. IMO it just makes it clear that the original bug is properly fixed.",
       "parentUuid": "23c0454e_31e857f6",
+      "revId": "4e95a452338377bd5e3b5bf95d2ce50481b62591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23c0454e_14998959",
+        "filename": "test/fixedbugs/issue18661.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-01-16T05:24:18Z",
+      "side": 1,
+      "message": "Sure, added the original as well. Doesn\u0027t hurt. (And I guess theoretically gc could evaluate the top level boolean at compile time?)",
+      "parentUuid": "23c0454e_d196436b",
       "revId": "4e95a452338377bd5e3b5bf95d2ce50481b62591",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
