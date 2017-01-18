@@ -161,10 +161,9 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 		}
 	}
 
-	if ptr == 0 {
+	if ptr == uintptr(0) {
 		return
 	}
-
 	// ROC: publish local ptrs being written into public slots.
 	if writeBarrier.roc {
 		if isPublicToLocal(uintptr(unsafe.Pointer(slot)), ptr) {
@@ -197,13 +196,23 @@ func writebarrierptr_prewrite1(dst *uintptr, src uintptr) {
 		releasem(mp)
 		return
 	}
-	systemstack(func() {
+	// Doing the conditional here looks like a 5% win on the go1 benchmarks with ROC on.
+	thisG := getg()
+	if thisG == mp.curg {
+		systemstack(func() {
+			if mp.p == 0 && memstats.enablegc && !mp.inwb && inheap(src) {
+				throw("writebarrierptr_prewrite1 called with mp.p == nil")
+			}
+			mp.inwb = true
+			gcmarkwb_m(dst, src)
+		})
+	} else {
 		if mp.p == 0 && memstats.enablegc && !mp.inwb && inheap(src) {
 			throw("writebarrierptr_prewrite1 called with mp.p == nil")
 		}
 		mp.inwb = true
 		gcmarkwb_m(dst, src)
-	})
+	}
 	mp.inwb = false
 	releasem(mp)
 }
