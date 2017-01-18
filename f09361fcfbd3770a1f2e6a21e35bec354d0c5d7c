@@ -22,6 +22,29 @@
       "revId": "f09361fcfbd3770a1f2e6a21e35bec354d0c5d7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "432ff922_b5c3401b",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2017-01-18T00:09:38Z",
+      "side": 1,
+      "message": "Thanks. This is indeed much better.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 91
+      },
+      "revId": "f09361fcfbd3770a1f2e6a21e35bec354d0c5d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
