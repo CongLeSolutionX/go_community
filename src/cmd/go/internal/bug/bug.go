@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-package main
+package bug
 
 import (
 	"bytes"
@@ -22,7 +22,7 @@ import (
 	"cmd/go/internal/web"
 )
 
-var cmdBug = &base.Command{
+var CmdBug = &base.Command{
 	Run:       runBug,
 	UsageLine: "bug",
 	Short:     "start a bug report",
@@ -33,7 +33,7 @@ The report includes useful system information.
 }
 
 func init() {
-	cmdBug.Flag.BoolVar(&cfg.BuildV, "v", false, "")
+	CmdBug.Flag.BoolVar(&cfg.BuildV, "v", false, "")
 }
 
 func runBug(cmd *base.Command, args []string) {
