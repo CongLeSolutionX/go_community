@@ -3622,3 +3622,20 @@ func InstrumentInit() {
 		cfg.BuildContext.BuildTags = append(cfg.BuildContext.BuildTags, "msan")
 	}
 }
+
+var ExecCmd []string // -exec flag, for run and test
+
+func FindExecCmd() []string {
+	if ExecCmd != nil {
+		return ExecCmd
+	}
+	ExecCmd = []string{} // avoid work the second time
+	if cfg.Goos == runtime.GOOS && cfg.Goarch == runtime.GOARCH {
+		return ExecCmd
+	}
+	path, err := exec.LookPath(fmt.Sprintf("go_%s_%s_exec", cfg.Goos, cfg.Goarch))
+	if err == nil {
+		ExecCmd = []string{path}
+	}
+	return ExecCmd
+}
