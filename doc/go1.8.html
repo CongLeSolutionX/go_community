@@ -94,6 +94,8 @@ On OpenBSD, Go now requires OpenBSD 5.9 or later. <!-- CL 34093 -->
 The Plan 9 port's networking support is now much more complete
 and matches the behavior of Unix and Windows with respect to deadlines
 and cancelation.
+A <a href="http://9legacy.org/9legacy/patch/9-tcp-close.diff">change</a> to the Plan 9 kernel
+is now required, so a TCP connection can be gracefully closed, while waking up the readers.
 </p>
 
 <p>
