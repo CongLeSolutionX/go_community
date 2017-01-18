@@ -2976,11 +2976,6 @@ func (tools gccgoToolchain) link(b *builder, root *action, out string, allaction
 			if fc == "" {
 				fc = "gfortran"
 			}
-			// support gfortran out of the box and let others pass the correct link options
-			// via CGO_LDFLAGS
-			if strings.Contains(fc, "gfortran") {
-				ldflags = append(ldflags, "-lgfortran")
-			}
 		}
 	}
 
@@ -3149,13 +3144,13 @@ func (b *builder) ccompilerCmd(envvar, defcmd, objdir string) []string {
 	a = append(a, "-fmessage-length=0")
 
 	// Tell gcc not to include the work directory in object files.
-	if b.gccSupportsFlag("-fdebug-prefix-map=a=b") {
+	if b.gccSupportsFlag(envvar, defcmd, "-fdebug-prefix-map=a=b") {
 		a = append(a, "-fdebug-prefix-map="+b.work+"=/tmp/go-build")
 	}
 
 	// Tell gcc not to include flags in object files, which defeats the
 	// point of -fdebug-prefix-map above.
-	if b.gccSupportsFlag("-gno-record-gcc-switches") {
+	if b.gccSupportsFlag(envvar, defcmd, "-gno-record-gcc-switches") {
 		a = append(a, "-gno-record-gcc-switches")
 	}
 
@@ -3165,7 +3160,6 @@ func (b *builder) ccompilerCmd(envvar, defcmd, objdir string) []string {
 	if goos == "darwin" {
 		a = append(a, "-fno-common")
 	}
-
 	return a
 }
 
@@ -3173,14 +3167,15 @@ func (b *builder) ccompilerCmd(envvar, defcmd, objdir string) []string {
 // -no-pie must be passed when doing a partial link with -Wl,-r. But -no-pie is
 // not supported by all compilers.
 func (b *builder) gccSupportsNoPie() bool {
-	return b.gccSupportsFlag("-no-pie")
+	return b.gccSupportsFlag("CC", defaultCC, "-no-pie")
 }
 
 // gccSupportsFlag checks to see if the compiler supports a flag.
-func (b *builder) gccSupportsFlag(flag string) bool {
+func (b *builder) gccSupportsFlag(envvar, defcmd, flag string) bool {
 	b.exec.Lock()
 	defer b.exec.Unlock()
-	if b, ok := b.flagCache[flag]; ok {
+	cCmd := strings.Join(envList(envvar, defcmd), " ") // Get compiler command
+	if b, ok := b.flagCache[cCmd+flag]; ok {
 		return b
 	}
 	if b.flagCache == nil {
@@ -3190,7 +3185,7 @@ func (b *builder) gccSupportsFlag(flag string) bool {
 		}
 		b.flagCache = make(map[string]bool)
 	}
-	cmdArgs := append(envList("CC", defaultCC), flag, "-c", "trivial.c")
+	cmdArgs := []string{cCmd, flag, "-c", "trivial.c"}
 	if buildN || buildX {
 		b.showcmd(b.work, "%s", joinUnambiguously(cmdArgs))
 		if buildN {
@@ -3202,7 +3197,7 @@ func (b *builder) gccSupportsFlag(flag string) bool {
 	cmd.Env = mergeEnvLists([]string{"LC_ALL=C"}, envForDir(cmd.Dir, os.Environ()))
 	out, err := cmd.CombinedOutput()
 	supported := err == nil && !bytes.Contains(out, []byte("unrecognized"))
-	b.flagCache[flag] = supported
+	b.flagCache[cCmd+flag] = supported
 	return supported
 }
 
