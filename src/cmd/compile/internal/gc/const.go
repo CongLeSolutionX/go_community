@@ -4,7 +4,10 @@
 
 package gc
 
-import "strings"
+import (
+	"math/big"
+	"strings"
+)
 
 // Ctype describes the constant kind of an "ideal" (untyped) constant.
 type Ctype int8
@@ -444,12 +447,54 @@ func toint(v Val) Val {
 	case *Mpflt:
 		i := new(Mpint)
 		if i.SetFloat(u) < 0 {
-			msg := "constant %v truncated to integer"
-			// provide better error message if SetFloat failed because f was too large
+			// SetFloat may fail for two reasons:
+			//   1. u is an integer constant that overflows int
+			//   2. u is a floating point constant
+			//
+			// In the second case, in order to print a sensible error
+			// message, we must distinguish between a floating point
+			// constant that should be included in the error message
+			// and a floating point constant that cannot be reasonably
+			// formatted for inclusion in an error message.
+			//
+			// For example, in:
+			//
+			//   const a int = 1.1
+			//   const b int = 1 + 1e-100
+			//
+			// a is in the former group, while b is in the latter,
+			// since the floating point value resulting from the
+			// evaluation of the rhs of the assignment (1.00...01) is
+			// too long to be fully printed in an error message, and
+			// cannot be shortened without making the error message
+			// misleading (rounding or truncating it would result in a
+			// "1", which looks like an integer constant, and it makes
+			// little sense in an error message about an invalid
+			// floating point expression).
+			//
+			// To fix this problem, we try to format the float value
+			// using fconv (which is used by the error reporting
+			// mechanism to format float arguments), and then parse
+			// the resulting string back to a big.Float. If the result
+			// is an integer, we assume that u is a float value that
+			// cannot be reasonably be formatted as a string, and we
+			// emit an error message that does not include its string
+			// representation.
 			if u.Val.IsInt() {
-				msg = "constant %v overflows integer"
+				msg := "constant %v overflows integer"
+				yyerror(msg, fconv(u, FmtSharp))
+			} else {
+				fstr := fconv(u, FmtSharp)
+				var t big.Float
+				t.Parse(fstr, 10)
+				if t.IsInt() {
+					msg := "invalid floating-point constant expression in integer context"
+					yyerror(msg)
+				} else {
+					msg := "constant %v truncated to integer"
+					yyerror(msg, fstr)
+				}
 			}
-			yyerror(msg, fconv(u, FmtSharp))
 		}
 		v.U = i
 
