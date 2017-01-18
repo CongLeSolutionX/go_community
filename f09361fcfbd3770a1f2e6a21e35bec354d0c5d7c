@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a39fd578_ef8a2d42",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-18T00:05:18Z",
+      "side": 1,
+      "message": "Linking to a patch is kinda gross, especially over http instead of https.\n\nLet\u0027s link to a wiki page instead:\n\n   https://golang.org/wiki/Plan9\n\nThe Plan 9 port\u0027s networking support is now much more complete\nand matches the behavior of Unix and Windows with respect to deadlines\nand cancelation. For Plan9 kernel requirements, see the\n\u003ca href\u003d\"https://golang.org/wiki/Plan9\"\u003ePlan9 wiki page\u003c/a\u003e.\n\nAnd then we can try to clean up the wiki page over time, tracking the status of that patch in the various kernels.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 91
+      },
+      "revId": "f09361fcfbd3770a1f2e6a21e35bec354d0c5d7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
