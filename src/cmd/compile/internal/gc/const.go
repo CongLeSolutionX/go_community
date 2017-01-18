@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/internal/src"
+	"math/big"
 	"strings"
 )
 
@@ -456,12 +457,30 @@ func toint(v Val) Val {
 	case *Mpflt:
 		i := new(Mpint)
 		if i.SetFloat(u) < 0 {
-			msg := "constant %v truncated to integer"
-			// provide better error message if SetFloat failed because f was too large
 			if u.Val.IsInt() {
-				msg = "constant %v overflows integer"
+				msg := "constant %v overflows integer"
+				yyerror(msg, fconv(u, FmtSharp))
+			} else {
+				// The cast of u to int failed (because u is actually
+				// a float); so we need to print an error message.
+				// Unfortunately some float values cannot be
+				// reasonably formatted for inclusion in an error
+				// message (example: 1 + 1e-100), so first we try to
+				// format the float; if the truncation resulted in
+				// something that looks like an integer we omit the
+				// value from the error message.
+				// (See Issue #11371).
+				fstr := fconv(u, FmtSharp)
+				var t big.Float
+				t.Parse(fstr, 10)
+				if t.IsInt() {
+					msg := "invalid floating-point constant expression in integer context"
+					yyerror(msg)
+				} else {
+					msg := "constant %v truncated to integer"
+					yyerror(msg, fstr)
+				}
 			}
-			yyerror(msg, fconv(u, FmtSharp))
 		}
 		v.U = i
 
