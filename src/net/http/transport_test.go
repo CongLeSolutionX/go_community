@@ -16,6 +16,7 @@ import (
 	"context"
 	"crypto/rand"
 	"crypto/tls"
+	"encoding/binary"
 	"errors"
 	"fmt"
 	"internal/nettrace"
@@ -940,6 +941,74 @@ func TestTransportExpect100Continue(t *testing.T) {
 		if v.sent != sent {
 			t.Errorf("test %d: sent body should be %d but sent %d. (%s)", i, v.sent, sent, v.path)
 		}
+	}
+}
+
+func TestSocks5Proxy(t *testing.T) {
+	defer afterTest(t)
+	ch := make(chan string, 1)
+	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		ch <- "real server"
+	}))
+	defer ts.Close()
+	l, err := net.Listen("tcp", ":0")
+	if err != nil {
+		t.Fatalf("socks5 proxy Listen(): %v", err)
+	}
+	defer l.Close()
+	go func() {
+		s, err := l.Accept()
+		if err != nil {
+			t.Fatalf("socks5 proxy Accept(): %v", err)
+		}
+		defer s.Close()
+		var buf [18]byte
+		if _, err := io.ReadFull(s, buf[:3]); err != nil {
+			t.Fatalf("socks5 proxy initial read: %v", err)
+		}
+		if want := []byte{5, 1, 0}; !bytes.Equal(buf[:3], want) {
+			t.Fatalf("socks5 proxy initial read: got %v, want %v", buf[:3], want)
+		}
+		if _, err := s.Write([]byte{5, 0}); err != nil {
+			t.Fatalf("socks5 proxy initial write: %v", err)
+		}
+		if _, err := io.ReadFull(s, buf[:4]); err != nil {
+			t.Fatalf("socks5 proxy second read: %v", err)
+		}
+		if want := []byte{5, 1, 0}; !bytes.Equal(buf[:3], want) {
+			t.Fatalf("socks5 proxy second read: got %v, want %v", buf[:3], want)
+		}
+		var ipLen int
+		switch buf[3] {
+		case 1:
+			ipLen = 4
+		case 4:
+			ipLen = 16
+		default:
+			t.Fatalf("socks5 proxy second read: unexpected address type %v", buf[4])
+		}
+		if _, err := io.ReadFull(s, buf[:ipLen+2]); err != nil {
+			t.Fatalf("socks5 proxy address read: %v", err)
+		}
+		ip := net.IP(buf[:ipLen])
+		port := binary.BigEndian.Uint16(buf[ipLen:])
+		ch <- fmt.Sprintf("proxy for %s:%d", ip, port)
+	}()
+
+	pu, err := url.Parse("socks5://" + l.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	c := &Client{Transport: &Transport{Proxy: ProxyURL(pu)}}
+	c.Head(ts.URL)
+	got := <-ch
+	tsu, err := url.Parse(ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := "proxy for " + tsu.Host
+	if got != want {
+		t.Errorf("want %q, got %q", want, got)
 	}
 }
 
@@ -2160,6 +2229,7 @@ var proxyFromEnvTests = []proxyFromEnvTest{
 	{env: "https://cache.corp.example.com", want: "https://cache.corp.example.com"},
 	{env: "http://127.0.0.1:8080", want: "http://127.0.0.1:8080"},
 	{env: "https://127.0.0.1:8080", want: "https://127.0.0.1:8080"},
+	{env: "socks5://127.0.0.1", want: "socks5://127.0.0.1"},
 
 	// Don't use secure for http
 	{req: "http://insecure.tld/", env: "http.proxy.tld", httpsenv: "secure.proxy.tld", want: "http://http.proxy.tld"},
