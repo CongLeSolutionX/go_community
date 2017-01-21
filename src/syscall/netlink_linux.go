@@ -113,15 +113,26 @@ type NetlinkMessage struct {
 
 // ParseNetlinkMessage parses b as an array of netlink messages and
 // returns the slice containing the NetlinkMessage structures.
+// A parse failure returns a non-nil error and a slice containing
+// all messages parsed up to the failure.
 func ParseNetlinkMessage(b []byte) ([]NetlinkMessage, error) {
 	var msgs []NetlinkMessage
+
+	if b == nil || len(b) == 0 {
+		return nil, nil
+	} else if len(b) < NLMSG_HDRLEN {
+		return nil, EINVAL
+	}
 	for len(b) >= NLMSG_HDRLEN {
 		h, dbuf, dlen, err := netlinkMessageHeaderAndData(b)
 		if err != nil {
-			return nil, err
+			return msgs, err
 		}
 		m := NetlinkMessage{Header: *h, Data: dbuf[:int(h.Len)-NLMSG_HDRLEN]}
 		msgs = append(msgs, m)
+		if dlen > len(b) {
+			break
+		}
 		b = b[dlen:]
 	}
 	return msgs, nil
@@ -129,11 +140,11 @@ func ParseNetlinkMessage(b []byte) ([]NetlinkMessage, error) {
 
 func netlinkMessageHeaderAndData(b []byte) (*NlMsghdr, []byte, int, error) {
 	h := (*NlMsghdr)(unsafe.Pointer(&b[0]))
-	l := nlmAlignOf(int(h.Len))
-	if int(h.Len) < NLMSG_HDRLEN || l > len(b) {
+	l := int(h.Len)
+	if l < NLMSG_HDRLEN || l > len(b) {
 		return nil, nil, 0, EINVAL
 	}
-	return h, b[NLMSG_HDRLEN:], l, nil
+	return h, b[NLMSG_HDRLEN:], nlmAlignOf(l), nil
 }
 
 // NetlinkRouteAttr represents a netlink route attribute.
