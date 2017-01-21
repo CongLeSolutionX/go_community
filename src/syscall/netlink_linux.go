@@ -115,6 +115,9 @@ type NetlinkMessage struct {
 // returns the slice containing the NetlinkMessage structures.
 func ParseNetlinkMessage(b []byte) ([]NetlinkMessage, error) {
 	var msgs []NetlinkMessage
+	if len(b) < NLMSG_HDRLEN {
+		return nil, EINVAL
+	}
 	for len(b) >= NLMSG_HDRLEN {
 		h, dbuf, dlen, err := netlinkMessageHeaderAndData(b)
 		if err != nil {
@@ -122,6 +125,9 @@ func ParseNetlinkMessage(b []byte) ([]NetlinkMessage, error) {
 		}
 		m := NetlinkMessage{Header: *h, Data: dbuf[:int(h.Len)-NLMSG_HDRLEN]}
 		msgs = append(msgs, m)
+		if dlen > len(b) {
+			break
+		}
 		b = b[dlen:]
 	}
 	return msgs, nil
@@ -129,11 +135,11 @@ func ParseNetlinkMessage(b []byte) ([]NetlinkMessage, error) {
 
 func netlinkMessageHeaderAndData(b []byte) (*NlMsghdr, []byte, int, error) {
 	h := (*NlMsghdr)(unsafe.Pointer(&b[0]))
-	l := nlmAlignOf(int(h.Len))
-	if int(h.Len) < NLMSG_HDRLEN || l > len(b) {
+	l := int(h.Len)
+	if l < NLMSG_HDRLEN || l > len(b) {
 		return nil, nil, 0, EINVAL
 	}
-	return h, b[NLMSG_HDRLEN:], l, nil
+	return h, b[NLMSG_HDRLEN:], nlmAlignOf(l), nil
 }
 
 // NetlinkRouteAttr represents a netlink route attribute.
