@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0847de68_9ba57fa5",
+        "filename": "src/archive/zip/struct.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-22T00:18:26Z",
+      "side": 1,
+      "message": "why\u0027d you remove https? https seems to work.",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 9
+      },
+      "revId": "ef02a73b30fdba7f965080cb75d9735b22dee369",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
