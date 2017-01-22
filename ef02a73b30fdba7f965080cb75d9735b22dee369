@@ -22,6 +22,30 @@
       "revId": "ef02a73b30fdba7f965080cb75d9735b22dee369",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "883caef3_48e393eb",
+        "filename": "src/archive/zip/struct.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 16458
+      },
+      "writtenOn": "2017-01-22T00:40:48Z",
+      "side": 1,
+      "message": "The link in the spec is using HTTP. Should I change it to HTTPS?",
+      "parentUuid": "0847de68_9ba57fa5",
+      "range": {
+        "startLine": 8,
+        "startChar": 5,
+        "endLine": 8,
+        "endChar": 9
+      },
+      "revId": "ef02a73b30fdba7f965080cb75d9735b22dee369",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
