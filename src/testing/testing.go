@@ -1024,13 +1024,6 @@ func startAlarm() {
 	}
 }
 
-// stopAlarm turns off the alarm.
-func stopAlarm() {
-	if *timeout > 0 {
-		timer.Stop()
-	}
-}
-
 func parseCpuList() {
 	for _, val := range strings.Split(*cpuListStr, ",") {
 		val = strings.TrimSpace(val)
