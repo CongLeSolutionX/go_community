@@ -16,6 +16,23 @@
       "revId": "d6ef0ae7c3498a148701d3eaf9193c6a5d3f7403",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0847de68_217d3ed0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-01-23T03:59:12Z",
+      "side": 1,
+      "message": "We usually update the date for each spec change.",
+      "revId": "d6ef0ae7c3498a148701d3eaf9193c6a5d3f7403",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
