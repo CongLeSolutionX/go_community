@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0847de68_c1a42a4a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1436,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-23T05:00:29Z",
+      "side": 0,
+      "message": "This is incorrect. Type identity has not changed and tags do matter.\n\nThey are only ignored if for explicit conversions, and there is language for that in the Conversions section. See lines 3845ff.",
+      "revId": "4cce27a3fa0cc1f13afa6ffa358efa07144e00ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
