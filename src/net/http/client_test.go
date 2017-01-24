@@ -435,6 +435,10 @@ func testRedirectsByMethod(t *testing.T, method string, table []redirectTest, wa
 		fmt.Fprintf(&log.Buffer, "%s %s %q\n", r.Method, r.RequestURI, slurp)
 		log.Unlock()
 		urlQuery := r.URL.Query()
+		if r.Method == "GET" && r.Header.Get("Content-Length") != "" {
+			Error(w, fmt.Sprintf("GET with Content-Length/Body"), StatusBadRequest)
+			return
+		}
 		if v := urlQuery.Get("code"); v != "" {
 			location := ts.URL
 			if final := urlQuery.Get("next"); final != "" {
