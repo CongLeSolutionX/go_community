@@ -22,6 +22,23 @@
       "revId": "682b9324ea486d258d3e3bb6526ee8cba136789c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e61598be_5c95289e",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-01-24T18:27:18Z",
+      "side": 1,
+      "message": "OK, dropped the bit about GOROOT_BOOTSTRAP here.",
+      "revId": "682b9324ea486d258d3e3bb6526ee8cba136789c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
