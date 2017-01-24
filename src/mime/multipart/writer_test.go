@@ -94,6 +94,8 @@ func TestWriterSetBoundary(t *testing.T) {
 		{strings.Repeat("x", 71), false},
 		{"bad!ascii!", false},
 		{"my-separator", true},
+		{"with space", true},
+		{"badspace ", false},
 	}
 	for i, tt := range tests {
 		err := w.SetBoundary(tt.b)
