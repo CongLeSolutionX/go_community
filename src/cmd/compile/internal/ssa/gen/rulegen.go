@@ -153,6 +153,11 @@ func genRules(arch arch) {
 	fmt.Fprintln(w)
 	fmt.Fprintln(w, "package ssa")
 	fmt.Fprintln(w, "import \"math\"")
+	if arch.extraPkgs != nil {
+		for _, v := range arch.extraPkgs {
+			fmt.Fprintln(w, "import \""+v+"\"")
+		}
+	}
 	fmt.Fprintln(w, "var _ = math.MinInt8 // in case not otherwise used")
 
 	// Main rewrite routine is a switch on v.Op.

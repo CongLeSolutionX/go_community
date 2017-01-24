@@ -33,6 +33,7 @@ type arch struct {
 	framepointerreg int8
 	linkreg         int8
 	generic         bool
+	extraPkgs       []string
 }
 
 type opData struct {

@@ -65,6 +65,7 @@ var progtable = [arm.ALAST & obj.AMask]gc.ProgInfo{
 	arm.ASRL & obj.AMask:    {Flags: gc.SizeL | gc.LeftRead | gc.RegRead | gc.RightWrite},
 	arm.ASUB & obj.AMask:    {Flags: gc.SizeL | gc.LeftRead | gc.RegRead | gc.RightWrite},
 	arm.ACLZ & obj.AMask:    {Flags: gc.SizeL | gc.LeftRead | gc.RightWrite},
+	arm.ARBIT & obj.AMask:   {Flags: gc.SizeL | gc.LeftRead | gc.RightWrite},
 	arm.ATEQ & obj.AMask:    {Flags: gc.SizeL | gc.LeftRead | gc.RightRead},
 	arm.ATST & obj.AMask:    {Flags: gc.SizeL | gc.LeftRead | gc.RightRead},
 

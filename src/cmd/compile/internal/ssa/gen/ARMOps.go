@@ -195,6 +195,8 @@ func init() {
 
 		{name: "CLZ", argLength: 1, reg: gp11, asm: "CLZ"}, // count leading zero
 
+		{name: "RBIT", argLength: 1, reg: gp11, asm: "RBIT"}, // bit-reverse word
+
 		// shifts
 		{name: "SLL", argLength: 2, reg: gp21, asm: "SLL"},                    // arg0 << arg1, shift amount is mod 256
 		{name: "SLLconst", argLength: 1, reg: gp11, asm: "SLL", aux: "Int32"}, // arg0 << auxInt
@@ -527,5 +529,6 @@ func init() {
 		fpregmask:       fp,
 		framepointerreg: -1, // not used
 		linkreg:         int8(num["R14"]),
+		extraPkgs:       []string{"cmd/internal/obj"},
 	})
 }

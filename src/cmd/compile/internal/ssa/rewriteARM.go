@@ -4,6 +4,7 @@
 package ssa
 
 import "math"
+import "cmd/internal/obj"
 
 var _ = math.MinInt8 // in case not otherwise used
 func rewriteValueARM(v *Value, config *Config) bool {
@@ -13096,11 +13097,14 @@ func rewriteValueARM_OpCtz32(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
 	// match: (Ctz32 <t> x)
-	// cond:
+	// cond: obj.GOARM<=6
 	// result: (RSBconst [32] (CLZ <t> (SUBconst <t> (AND <t> x (RSBconst <t> [0] x)) [1])))
 	for {
 		t := v.Type
 		x := v.Args[0]
+		if !(obj.GOARM <= 6) {
+			break
+		}
 		v.reset(OpARMRSBconst)
 		v.AuxInt = 32
 		v0 := b.NewValue0(v.Line, OpARMCLZ, t)
@@ -13117,6 +13121,23 @@ func rewriteValueARM_OpCtz32(v *Value, config *Config) bool {
 		v.AddArg(v0)
 		return true
 	}
+	// match: (Ctz32 <t> x)
+	// cond: obj.GOARM==7
+	// result: (CLZ <t> (RBIT <t> x))
+	for {
+		t := v.Type
+		x := v.Args[0]
+		if !(obj.GOARM == 7) {
+			break
+		}
+		v.reset(OpARMCLZ)
+		v.Type = t
+		v0 := b.NewValue0(v.Line, OpARMRBIT, t)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	return false
 }
 func rewriteValueARM_OpCvt32Fto32(v *Value, config *Config) bool {
 	b := v.Block

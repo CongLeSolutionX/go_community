@@ -685,6 +685,7 @@ const (
 	OpARMNEGD
 	OpARMSQRTD
 	OpARMCLZ
+	OpARMRBIT
 	OpARMSLL
 	OpARMSLLconst
 	OpARMSRL
@@ -8059,6 +8060,19 @@ var opcodeTable = [...]opInfo{
 		name:   "CLZ",
 		argLen: 1,
 		asm:    arm.ACLZ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 22527}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 g R12 R14
+			},
+			outputs: []outputInfo{
+				{0, 21503}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12 R14
+			},
+		},
+	},
+	{
+		name:   "RBIT",
+		argLen: 1,
+		asm:    arm.ARBIT,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 22527}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 g R12 R14
