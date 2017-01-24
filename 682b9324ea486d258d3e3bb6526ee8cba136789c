@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c87306cf_e8987b09",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-01-24T18:23:30Z",
+      "side": 1,
+      "message": "I don\u0027t think this is clear; if the user is building from source, they would probably want to unpack the tarball somewhere, and then set the environment variable there; the way it\u0027s written, it looks like there should be a pre-existing GOROOT_BOOTSTRAP (and just above it says to set that variable to the directory containing the final Go version that you want to build, which is even more confusing).",
+      "range": {
+        "startLine": 150,
+        "startChar": 34,
+        "endLine": 150,
+        "endChar": 70
+      },
+      "revId": "682b9324ea486d258d3e3bb6526ee8cba136789c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
