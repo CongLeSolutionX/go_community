@@ -90,7 +90,10 @@
 
 // count trailing zero
 // 32 - CLZ(x&-x - 1)
-(Ctz32 <t> x) -> (RSBconst [32] (CLZ <t> (SUBconst <t> (AND <t> x (RSBconst <t> [0] x)) [1])))
+(Ctz32 <t> x) && obj.GOARM<=6 -> (RSBconst [32] (CLZ <t> (SUBconst <t> (AND <t> x (RSBconst <t> [0] x)) [1])))
+
+// count trailing zero
+(Ctz32 <t> x) && obj.GOARM==7 -> (CLZ <t> (RBIT <t> x))
 
 // byte swap
 // let (a, b, c, d) be the bytes of x from high to low
