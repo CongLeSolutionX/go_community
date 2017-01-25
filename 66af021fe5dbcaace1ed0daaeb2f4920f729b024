@@ -16,6 +16,23 @@
       "revId": "66af021fe5dbcaace1ed0daaeb2f4920f729b024",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8804be9_edf85b05",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2806,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-01-25T18:52:13Z",
+      "side": 1,
+      "message": "I originally did that, but the call site can say \u0027field 4\u0027 when reporting the error, which may be important extra context. We don\u0027t have that context here.",
+      "revId": "66af021fe5dbcaace1ed0daaeb2f4920f729b024",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
