@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7678203_37fa16bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-25T19:29:44Z",
+      "side": 1,
+      "message": "I think this wording will cause Github to close the issue. If that\u0027s what you want.\n\nIf not:\n\nUpdate #18784 (maybe fixes it)",
+      "revId": "7387389884355080e4f1e0b81d758be38184c9d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
