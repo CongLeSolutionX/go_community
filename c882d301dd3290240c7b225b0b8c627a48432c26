@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "6ae55083_58972ced",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-25T18:22:28Z",
+      "side": 1,
+      "message": "Also, many comments refer to \"embedded\" fields, but the field name refers to anonymous fields. Would be nice to be consistent. (My preference would be \"embedded\" because clearly there are names now.)",
+      "revId": "c882d301dd3290240c7b225b0b8c627a48432c26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "476b5202_ea9fe43f",
         "filename": "src/reflect/type.go",
         "patchSetId": 7
