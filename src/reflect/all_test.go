@@ -5984,3 +5984,20 @@ func TestUnaddressableField(t *testing.T) {
 		lv.Set(rv)
 	})
 }
+
+type Talias1 struct {
+	byte
+	uint8
+	int
+	int32
+	rune
+}
+
+func TestAliasNames(t *testing.T) {
+	t1 := Talias1{byte: 1, uint8: 2, int: 3, int32: 4, rune: 5}
+	out := fmt.Sprintf("%#v", t1)
+	want := "reflect_test.Talias1{byte:0x1, uint8:0x2, int:3, int32:4, rune:5}"
+	if out != want {
+		t.Errorf("Talias1 print:\nhave: %s\nwant: %s", out, want)
+	}
+}
