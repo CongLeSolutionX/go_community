@@ -134,6 +134,7 @@ func testGdbPython(t *testing.T, cgo bool) {
 	args := []string{"-nx", "-q", "--batch", "-iex",
 		fmt.Sprintf("add-auto-load-safe-path %s/src/runtime", runtime.GOROOT()),
 		"-ex", "set startup-with-shell off",
+		"-ex", "set auto-load libthread-db off", // issue 18784
 		"-ex", "info auto-load python-scripts",
 		"-ex", "set python print-stack full",
 		"-ex", "br fmt.Println",
