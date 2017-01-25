@@ -33,6 +33,8 @@ const (
 //go:cgo_import_dynamic runtime._GetThreadContext GetThreadContext%2 "kernel32.dll"
 //go:cgo_import_dynamic runtime._LoadLibraryW LoadLibraryW%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._LoadLibraryA LoadLibraryA%1 "kernel32.dll"
+//go:cgo_import_dynamic runtime._QueryPerformanceCounter QueryPerformanceCounter%1 "kernel32.dll"
+//go:cgo_import_dynamic runtime._QueryPerformanceFrequency QueryPerformanceFrequency%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._ResumeThread ResumeThread%1 "kernel32.dll"
 //go:cgo_import_dynamic runtime._SetConsoleCtrlHandler SetConsoleCtrlHandler%2 "kernel32.dll"
 //go:cgo_import_dynamic runtime._SetErrorMode SetErrorMode%1 "kernel32.dll"
@@ -76,6 +78,8 @@ var (
 	_GetThreadContext,
 	_LoadLibraryW,
 	_LoadLibraryA,
+	_QueryPerformanceCounter,
+	_QueryPerformanceFrequency,
 	_ResumeThread,
 	_SetConsoleCtrlHandler,
 	_SetErrorMode,
@@ -290,6 +294,77 @@ func osinit() {
 	// equivalent threads that all do a mix of GUI, IO, computations, etc.
 	// In such context dynamic priority boosting does nothing but harm, so we turn it off.
 	stdcall2(_SetProcessPriorityBoost, currentProcess, 1)
+
+	check_timers()
+}
+
+//go:nosplit
+var _unixnano func() int64
+
+//go:nosplit
+var _nanotime func() int64
+
+//go:nosplit
+func unixnano() int64 {
+	return _unixnano()
+}
+
+//go:nosplit
+func nanotime() int64 {
+	return _nanotime()
+}
+
+var systime_qpc_frequency int32
+var systime_qpc_counter_start int64
+var qpc_base_nano_system, qpc_base_nano_interrupt int64
+var qpc_multiplier int64
+
+//go:nosplit
+func check_timers() {
+	_unixnano = unixnano_mm
+	_nanotime = nanotime_mm
+
+	// wine will actually have a zero nanotime, since it is a time since boot, and starting the process is actually a boot
+	if unixnano() != 0 && nanotime() != 0 {
+		// users will wait for 2 usecs at start to detect that system doesn't update page containg INTERRUPT_TIME,
+		// which means fast time is not supported on wine
+		// we can not simply fallback to Sleep() syscall, since its time is not monotonic,
+		// instead we use QueryPerformanceCounter family of syscalls to implement monotonic timer
+		// https://msdn.microsoft.com/en-us/library/windows/desktop/dn553408(v=vs.85).aspx
+		t1 := nanotime()
+		usleep(2)
+		t2 := nanotime()
+		if t1 != t2 {
+			return
+		}
+	}
+
+	qpc_base_nano_system = unixnano_mm()
+	qpc_base_nano_interrupt = nanotime_mm()
+
+	_unixnano = unixnano_qpc
+	_nanotime = nanotime_qpc
+
+	var tmp int64
+	stdcall1(_QueryPerformanceFrequency, uintptr(unsafe.Pointer(&tmp)))
+	// this should not overflow, it is a number of ticks of the performance counter per second,
+	// its resolution is at most 10 per usecond (on wine, even smaller on real hardware), so it will be at most 10 millions here,
+	// panic if overflows
+	if tmp == 0 {
+		panic("QueryPerformanceFrequency syscall returned zero, running on unsupported hardware")
+	}
+	if tmp > (1<<31 - 1) {
+		panic("QueryPerformanceFrequency overflow 32 bit divider, check nosplit discussion to proceed")
+	}
+	systime_qpc_frequency = int32(tmp)
+	stdcall1(_QueryPerformanceCounter, uintptr(unsafe.Pointer(&systime_qpc_counter_start)))
+
+	// since we are suppose to run this time calls only on WINE, it does not lose precision,
+	// since wine's timer is kind of emulated at 10 Mhz, so it will be a nice round multiplier of 100
+	// but for general purpose system (like 3.3 Mhz timer on i7) it will not be very precise
+	// we have to do it this way (or similar), since multiplying QPC counter by 100 millions overflows
+	// int64 and resulted time will always be invalid
+	qpc_multiplier = int64(timediv(1000000000, systime_qpc_frequency, nil))
 }
 
 //go:nosplit
@@ -591,7 +666,7 @@ const (
 )
 
 //go:nosplit
-func systime(addr uintptr) int64 {
+func systime_mm(addr uintptr) int64 {
 	timeaddr := (*_KSYSTEM_TIME)(unsafe.Pointer(addr))
 
 	var t _KSYSTEM_TIME
@@ -607,6 +682,7 @@ func systime(addr uintptr) int64 {
 			osyield()
 		}
 	}
+
 	systemstack(func() {
 		throw("interrupt/system time is changing too fast")
 	})
@@ -614,13 +690,41 @@ func systime(addr uintptr) int64 {
 }
 
 //go:nosplit
-func unixnano() int64 {
-	return (systime(_SYSTEM_TIME) - 116444736000000000) * 100
+func unixnano_mm() int64 {
+	return (systime_mm(_SYSTEM_TIME) - 116444736000000000) * 100
 }
 
 //go:nosplit
-func nanotime() int64 {
-	return systime(_INTERRUPT_TIME) * 100
+func nanotime_mm() int64 {
+	return systime_mm(_INTERRUPT_TIME) * 100
+}
+
+//go:nosplit
+func systime_qpc() int64 {
+	var counter int64 = 0
+	stdcall1(_QueryPerformanceCounter, uintptr(unsafe.Pointer(&counter)))
+
+	// returns number of nanoseconds
+	return (counter - systime_qpc_counter_start) * qpc_multiplier
+}
+
+//go:nosplit
+func unixnano_qpc() int64 {
+	// returns number of nanoseconds since Unix Epoch
+	return qpc_base_nano_system + systime_qpc()
+}
+
+//go:nosplit
+func nanotime_qpc() int64 {
+	// returns number of nanoseconds since boot
+	return qpc_base_nano_interrupt + systime_qpc()
+}
+
+func SystimeQPCTest() bool {
+	t1 := unixnano_qpc()
+	usleep(5)
+	t2 := unixnano_qpc()
+	return t1 != t2
 }
 
 // Calling stdcall on os stack.
