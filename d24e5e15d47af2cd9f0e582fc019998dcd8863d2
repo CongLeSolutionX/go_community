@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "68a0bf48_0445e05c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-01-25T14:57:27Z",
+      "side": 1,
+      "message": "Has this person signed the CLA?",
+      "revId": "d24e5e15d47af2cd9f0e582fc019998dcd8863d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7610b0d1_c9110e07",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 1
