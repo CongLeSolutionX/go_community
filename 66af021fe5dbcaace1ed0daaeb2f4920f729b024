@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41d74d0e_48b45f34",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2806,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-25T18:07:49Z",
+      "side": 1,
+      "message": "should the field.Name !\u003d \"\" check be done here so we\u0027re sure Name[0] exists? seems better than doing at the call site",
+      "revId": "66af021fe5dbcaace1ed0daaeb2f4920f729b024",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
