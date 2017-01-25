@@ -4141,12 +4141,12 @@ func TestStructOfExportRules(t *testing.T) {
 		exported  bool
 	}{
 		{
-			field:     StructField{Name: "S1", Anonymous: true, Type: TypeOf(S1{})},
-			exported:  true,
+			field:    StructField{Name: "S1", Anonymous: true, Type: TypeOf(S1{})},
+			exported: true,
 		},
 		{
-			field:     StructField{Name: "S1", Anonymous: true, Type: TypeOf((*S1)(nil))},
-			exported:  false,
+			field:    StructField{Name: "S1", Anonymous: true, Type: TypeOf((*S1)(nil))},
+			exported: false,
 		},
 		{
 			field:     StructField{Name: "s2", Anonymous: true, Type: TypeOf(s2{})},
@@ -4194,16 +4194,16 @@ func TestStructOfExportRules(t *testing.T) {
 			exported:  true,
 		},
 		{
-			field:     StructField{Name: "S", Type: TypeOf((*S1)(nil))},
-			exported:  true,
+			field:    StructField{Name: "S", Type: TypeOf((*S1)(nil))},
+			exported: true,
 		},
 		{
-			field:     StructField{Name: "S", Type: TypeOf(s2{})},
-			exported:  true,
+			field:    StructField{Name: "S", Type: TypeOf(s2{})},
+			exported: true,
 		},
 		{
-			field:     StructField{Name: "S", Type: TypeOf((*s2)(nil))},
-			exported:  true,
+			field:    StructField{Name: "S", Type: TypeOf((*s2)(nil))},
+			exported: true,
 		},
 		{
 			field:     StructField{Name: "s", Type: TypeOf(S1{})},
@@ -4246,12 +4246,12 @@ func TestStructOfExportRules(t *testing.T) {
 			mustPanic: true,
 		},
 		{
-			field:     StructField{Name: "Φ", Type: TypeOf(0)},
-			exported:  true,
+			field:    StructField{Name: "Φ", Type: TypeOf(0)},
+			exported: true,
 		},
 		{
-			field:     StructField{Name: "φ", Type: TypeOf(0)},
-			exported:  false,
+			field:    StructField{Name: "φ", Type: TypeOf(0)},
+			exported: false,
 		},
 	}
 
@@ -5983,4 +5983,21 @@ func TestUnaddressableField(t *testing.T) {
 	shouldPanic(func() {
 		lv.Set(rv)
 	})
+}
+
+type Talias1 struct {
+	byte
+	uint8
+	int
+	int32
+	rune
+}
+
+func TestAliasNames(t *testing.T) {
+	t1 := Talias1{byte: 1, uint8: 2, int: 3, int32: 4, rune: 5}
+	out := fmt.Sprintf("%#v", t1)
+	want := "reflect_test.Talias1{byte:0x1, uint8:0x2, int:3, int32:4, rune:5}"
+	if out != want {
+		t.Errorf("Talias1 print:\nhave: %s\nwant: %s", out, want)
+	}
 }
