@@ -23,3 +23,10 @@ func NumberOfProcessors() int32 {
 func LoadLibraryExStatus() (useEx, haveEx, haveFlags bool) {
 	return useLoadLibraryEx, _LoadLibraryExW != nil, _AddDllDirectory != nil
 }
+
+func SystimeQPCTest() bool {
+	t1 := unixnano_qpc()
+	usleep(5)
+	t2 := unixnano_qpc()
+	return t1 != t2
+}
