@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "01d85013_828f3067",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-01-25T18:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 420,
+        "startChar": 23,
+        "endLine": 420,
+        "endChar": 56
+      },
+      "revId": "c882d301dd3290240c7b225b0b8c627a48432c26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6ae55083_58972ced",
         "filename": "src/reflect/type.go",
         "patchSetId": 7
@@ -42,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "9954b63f_4d332d19",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-01-25T18:52:41Z",
+      "side": 1,
+      "message": "Yes, unfortunately both the spec and the exported reflect API use anonymous, and they\u0027re both a little hard to change. I agree that in retrospect I wish we\u0027d used embedded.",
+      "revId": "c882d301dd3290240c7b225b0b8c627a48432c26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "476b5202_ea9fe43f",
         "filename": "src/reflect/type.go",
         "patchSetId": 7
@@ -53,6 +93,29 @@
       "writtenOn": "2017-01-25T18:14:01Z",
       "side": 1,
       "message": "This comment is now incorrect.",
+      "range": {
+        "startLine": 1329,
+        "startChar": 5,
+        "endLine": 1329,
+        "endChar": 29
+      },
+      "revId": "c882d301dd3290240c7b225b0b8c627a48432c26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc13d907_826a6aa9",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1329,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-01-25T18:52:41Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 1329,
         "startChar": 5,
