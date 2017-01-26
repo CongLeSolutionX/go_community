@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1b5be6a_20528c28",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-01-26T17:34:32Z",
+      "side": 1,
+      "message": "The time package fix is test-only. I\u0027m not sure whether to mention it. Probably ok either way.",
+      "revId": "6defcdb7cc226caad5b2f9c5261e7613c340d48f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
