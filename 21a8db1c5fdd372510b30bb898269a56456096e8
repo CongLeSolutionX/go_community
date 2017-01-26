@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11b0efed_9b8f0adf",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-01-26T20:01:26Z",
+      "side": 1,
+      "message": "I would be happier if the sentences started with a capital letter, as they do in English, and did so consistently. Some of these start \"go1.X\", others \"Go 1.X\". If you apply the second form throughout, both requests are satisfied.",
+      "revId": "21a8db1c5fdd372510b30bb898269a56456096e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
