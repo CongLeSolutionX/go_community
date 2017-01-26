@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e934926_f25b3b2d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "s/via/using/\n\nUse \u0027via\u0027 only for the sense of \"from A to C passing through B\u0027.",
+      "range": {
+        "startLine": 689,
+        "startChar": 38,
+        "endLine": 689,
+        "endChar": 41
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2446f41a_8c164d3f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 703,
+        "startChar": 21,
+        "endLine": 703,
+        "endChar": 24
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80f0496f_a45ef5bc",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "And again.",
+      "range": {
+        "startLine": 712,
+        "startChar": 46,
+        "endLine": 712,
+        "endChar": 49
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d7ffddd_33d8eb1e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "s/is is/it is/",
+      "range": {
+        "startLine": 1430,
+        "startChar": 5,
+        "endLine": 1430,
+        "endChar": 10
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "153dac1b_78d13d67",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1435,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "Not strictly true.  It\u0027s the only type you can declare methods on, but struct{T} may have methods.",
+      "range": {
+        "startLine": 1435,
+        "startChar": 71,
+        "endLine": 1435,
+        "endChar": 81
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2af76be4_f3c27b8d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1436,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "s/An/A/",
+      "range": {
+        "startLine": 1436,
+        "startChar": 0,
+        "endLine": 1436,
+        "endChar": 2
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b6dafab_5b8c318a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "Is this the first use of \"derive\"?  Might be worth saying that this is a relationship with an underlying type.  C++ uses derivation to mean something completely different; make sure we don\u0027t suggest that meaning here.",
+      "range": {
+        "startLine": 1437,
+        "startChar": 24,
+        "endLine": 1437,
+        "endChar": 31
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a268d660_b5c1ec91",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "\"bound to\": this sounds like a technical term, but it\u0027s not really defined anywhere.",
+      "range": {
+        "startLine": 1455,
+        "startChar": 19,
+        "endLine": 1455,
+        "endChar": 27
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f53b290c_83962311",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1465,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "s/be derived from/have as its underlying type/ or somesuch",
+      "range": {
+        "startLine": 1465,
+        "startChar": 19,
+        "endLine": 1465,
+        "endChar": 34
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "576c5548_df28db17",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1604,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "s/an/a/\n\naudit globally",
+      "range": {
+        "startLine": 1604,
+        "startChar": 60,
+        "endLine": 1604,
+        "endChar": 62
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "001fee79_04d6590b",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1969,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-01-26T23:41:15Z",
+      "side": 1,
+      "message": "\"unchanged\" isn\u0027t quite right, since no type actually changes.",
+      "range": {
+        "startLine": 1969,
+        "startChar": 23,
+        "endLine": 1969,
+        "endChar": 34
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
