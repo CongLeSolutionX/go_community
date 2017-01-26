@@ -16,6 +16,23 @@
       "revId": "1396db1543430e5e90d6bc142bbb103f09907e2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "842af064_d09cc30e",
+        "filename": "test/fixedbugs/issue18640.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-26T18:26:22Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "1396db1543430e5e90d6bc142bbb103f09907e2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
