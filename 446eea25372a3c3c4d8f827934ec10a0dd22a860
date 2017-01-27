@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "612f33a2_7c205125",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-27T20:39:53Z",
+      "side": 1,
+      "message": "This is preexisting, but \"A type determines the set of values [...] specific to values of that type.\" seems odd to me.",
+      "range": {
+        "startLine": 688,
+        "startChar": 0,
+        "endLine": 689,
+        "endChar": 13
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2446f41a_8c164d3f",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
@@ -186,6 +209,29 @@
     },
     {
       "key": {
+        "uuid": "ec9fb0dd_48c56365",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-27T20:39:53Z",
+      "side": 1,
+      "message": "\"associated with\" is the language used in \"Method declarations\".\n\nAlternatively, \"promoted from\" would work.",
+      "range": {
+        "startLine": 1455,
+        "startChar": 19,
+        "endLine": 1455,
+        "endChar": 27
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f53b290c_83962311",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
@@ -206,6 +252,29 @@
       "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9796fb32_b763a0d3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-27T20:39:53Z",
+      "side": 1,
+      "message": "Again preexisting, but this seems circular too. Type literals are one kind of unbranded type, so this reads to me \"type literals are identical if they are identical\".\n\nMaybe something like:\n\n\"Two unbranded types are identical if their \u003ca\u003eunderlying\u003c/a\u003e type literals are structurally equivalent; that is, they have the same literal structure and corresponding components have identical types.\"",
+      "range": {
+        "startLine": 1498,
+        "startChar": 56,
+        "endLine": 1499,
+        "endChar": 66
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
