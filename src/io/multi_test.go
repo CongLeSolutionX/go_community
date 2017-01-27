@@ -242,7 +242,10 @@ func TestMultiReaderFreesExhaustedReaders(t *testing.T) {
 	{
 		buf1 := bytes.NewReader([]byte("foo"))
 		buf2 := bytes.NewReader([]byte("bar"))
-		mr = MultiReader(buf1, buf2)
+		readers := []Reader{buf1, buf2}
+		mr = MultiReader(readers...)
+		// Make sure we don't have a reference on our own stack (Issue 18819).
+		readers[0] = nil
 		runtime.SetFinalizer(buf1, func(*bytes.Reader) {
 			close(closed)
 		})
