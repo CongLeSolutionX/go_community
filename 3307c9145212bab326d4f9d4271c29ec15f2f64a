@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44b6ade3_af9f7a0b",
+        "filename": "src/io/multi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-28T15:40:55Z",
+      "side": 1,
+      "message": "This feels like it may be plastering over a real bug, possible in the liveness analysis (when combined with inlining). Why is it that -l\u003d3 causes us to keep around buf1?",
+      "revId": "3307c9145212bab326d4f9d4271c29ec15f2f64a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
