@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "002afbeb_eb5d33ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-01-28T10:28:09Z",
+      "side": 1,
+      "message": "Patch is provided by Anton Tiurin who signed CLA otherwise it is impossible to commit into gerrit.\n\nI would like to sign this CLA, but your google account system refuses to send confirmation sms, so I had to work it out somehow.\n\nI would not mind if anyone rewrites this patch or fixes this bug any other way, but this is only beginning, more patches will be submitted when ready, since network stack has also bugs under wine.",
+      "revId": "d24e5e15d47af2cd9f0e582fc019998dcd8863d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7610b0d1_c9110e07",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 1
@@ -81,6 +98,23 @@
       "writtenOn": "2017-01-25T14:56:51Z",
       "side": 1,
       "message": "May as well initialize the global variables rather than doing it here.",
+      "revId": "d24e5e15d47af2cd9f0e582fc019998dcd8863d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b429aab_79043598",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-01-28T10:28:09Z",
+      "side": 1,
+      "message": "No, it can not be initialized globally because of recursive dependencies",
       "revId": "d24e5e15d47af2cd9f0e582fc019998dcd8863d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -155,6 +189,23 @@
     },
     {
       "key": {
+        "uuid": "b6328dac_ed675793",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-01-28T10:28:09Z",
+      "side": 1,
+      "message": "This is not about wine, but non-working time subsystem.\nI would not be surprised if this also happens on reactos or somewhere else.\n\n2 us delay is not detectable compared to calls like LoadLibrary() above, although in real life those 2us convert into millisecond or so, which is still hidden in the noise.",
+      "revId": "d24e5e15d47af2cd9f0e582fc019998dcd8863d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8281693_4f9c13a5",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 1
@@ -183,6 +234,23 @@
       "writtenOn": "2017-01-25T14:56:51Z",
       "side": 1,
       "message": "t.Error, not t.Fatal.\nGo convention is to avoid using \"()\" to refer to a function.",
+      "revId": "d24e5e15d47af2cd9f0e582fc019998dcd8863d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18701b96_49998980",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-01-28T10:28:09Z",
+      "side": 1,
+      "message": "All other error paths in this file use t.Fatal(), I do not mind changing it to t.Error(), but it will be inconsistent",
       "revId": "d24e5e15d47af2cd9f0e582fc019998dcd8863d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
