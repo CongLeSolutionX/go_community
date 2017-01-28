@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3b1282b_ea15b6cb",
+        "filename": "doc/go1.8.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-01-28T20:20:58Z",
+      "side": 1,
+      "message": "you can link to specific fields as of Go 1.8, so #TxOptions.ReadOnly\n\nAnd maybe above too?",
+      "range": {
+        "startLine": 866,
+        "startChar": 44,
+        "endLine": 866,
+        "endChar": 54
+      },
+      "revId": "86c9a05ef330106d20f171c52790419350d699d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
