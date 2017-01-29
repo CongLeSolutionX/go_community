@@ -159,11 +159,15 @@ var supportedSignatureAlgorithms = []signatureAndHash{
 
 // ConnectionState records basic TLS details about the connection.
 type ConnectionState struct {
-	Version                     uint16                // TLS version used by the connection (e.g. VersionTLS12)
-	HandshakeComplete           bool                  // TLS handshake is complete
-	DidResume                   bool                  // connection resumes a previous TLS connection
-	CipherSuite                 uint16                // cipher suite in use (TLS_RSA_WITH_RC4_128_SHA, ...)
-	NegotiatedProtocol          string                // negotiated next protocol (from Config.NextProtos)
+	Version           uint16 // TLS version used by the connection (e.g. VersionTLS12)
+	HandshakeComplete bool   // TLS handshake is complete
+	DidResume         bool   // connection resumes a previous TLS connection
+	CipherSuite       uint16 // cipher suite in use (TLS_RSA_WITH_RC4_128_SHA, ...)
+
+	// Negotiated next protocol (from Config.NextProtos)
+	// For server side NPN (not ALPN), this is not guaranteed to be a protocol from Config.NextProtos
+	// as the client may have selected a protocol that the server did not advertise.
+	NegotiatedProtocol          string
 	NegotiatedProtocolIsMutual  bool                  // negotiated protocol was advertised by server
 	ServerName                  string                // server name requested by client, if any (server side only)
 	PeerCertificates            []*x509.Certificate   // certificate chain presented by remote peer
