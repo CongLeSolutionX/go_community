@@ -33,6 +33,23 @@
       "revId": "3307c9145212bab326d4f9d4271c29ec15f2f64a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "699dfe42_405b42a9",
+        "filename": "src/io/multi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-30T21:26:38Z",
+      "side": 1,
+      "message": "Okay. Just add a comment explaining that we\u0027re doing something funny to work around an issue in liveness analysis.",
+      "revId": "3307c9145212bab326d4f9d4271c29ec15f2f64a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
