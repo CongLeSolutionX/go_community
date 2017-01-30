@@ -48,6 +48,52 @@
     },
     {
       "key": {
+        "uuid": "45ba3d6e_56ad3113",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 689,
+        "startChar": 38,
+        "endLine": 689,
+        "endChar": 41
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16649a55_626f7b76",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "reformulated",
+      "range": {
+        "startLine": 688,
+        "startChar": 0,
+        "endLine": 689,
+        "endChar": 13
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2446f41a_8c164d3f",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
@@ -59,6 +105,29 @@
       "writtenOn": "2017-01-26T23:41:15Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 703,
+        "startChar": 21,
+        "endLine": 703,
+        "endChar": 24
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e26d33ff_3b76484c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 703,
         "startChar": 21,
@@ -94,6 +163,29 @@
     },
     {
       "key": {
+        "uuid": "9d43ac4a_256eae65",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 712,
+        "startChar": 46,
+        "endLine": 712,
+        "endChar": 49
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d7ffddd_33d8eb1e",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
@@ -105,6 +197,29 @@
       "writtenOn": "2017-01-26T23:41:15Z",
       "side": 1,
       "message": "s/is is/it is/",
+      "range": {
+        "startLine": 1430,
+        "startChar": 5,
+        "endLine": 1430,
+        "endChar": 10
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9c42e92_a1574b23",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 1430,
         "startChar": 5,
@@ -140,6 +255,29 @@
     },
     {
       "key": {
+        "uuid": "11c3154a_2bd4687f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1435,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "reformulated",
+      "range": {
+        "startLine": 1435,
+        "startChar": 71,
+        "endLine": 1435,
+        "endChar": 81
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2af76be4_f3c27b8d",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
@@ -163,6 +301,29 @@
     },
     {
       "key": {
+        "uuid": "81d7c22c_d0a0f78e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1436,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 1436,
+        "startChar": 0,
+        "endLine": 1436,
+        "endChar": 2
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b6dafab_5b8c318a",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
@@ -174,6 +335,29 @@
       "writtenOn": "2017-01-26T23:41:15Z",
       "side": 1,
       "message": "Is this the first use of \"derive\"?  Might be worth saying that this is a relationship with an underlying type.  C++ uses derivation to mean something completely different; make sure we don\u0027t suggest that meaning here.",
+      "range": {
+        "startLine": 1437,
+        "startChar": 24,
+        "endLine": 1437,
+        "endChar": 31
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10e2586e_c9026cec",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1437,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "replaced with \"created from\"",
       "range": {
         "startLine": 1437,
         "startChar": 24,
@@ -232,6 +416,52 @@
     },
     {
       "key": {
+        "uuid": "eac5a3a4_bb3cf682",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "replaced with \"associated with\"",
+      "range": {
+        "startLine": 1455,
+        "startChar": 19,
+        "endLine": 1455,
+        "endChar": 27
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "795379df_c98b8046",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 1455,
+        "startChar": 19,
+        "endLine": 1455,
+        "endChar": 27
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f53b290c_83962311",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
@@ -243,6 +473,29 @@
       "writtenOn": "2017-01-26T23:41:15Z",
       "side": 1,
       "message": "s/be derived from/have as its underlying type/ or somesuch",
+      "range": {
+        "startLine": 1465,
+        "startChar": 19,
+        "endLine": 1465,
+        "endChar": 34
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e32b8101_92b59bd5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1465,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "Done",
       "range": {
         "startLine": 1465,
         "startChar": 19,
@@ -278,6 +531,29 @@
     },
     {
       "key": {
+        "uuid": "c83e8644_bca03be3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 1498,
+        "startChar": 56,
+        "endLine": 1499,
+        "endChar": 66
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576c5548_df28db17",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
@@ -301,6 +577,29 @@
     },
     {
       "key": {
+        "uuid": "05fc8900_30a6339f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1604,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "Done",
+      "range": {
+        "startLine": 1604,
+        "startChar": 60,
+        "endLine": 1604,
+        "endChar": 62
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "001fee79_04d6590b",
         "filename": "doc/go_spec.html",
         "patchSetId": 3
@@ -312,6 +611,29 @@
       "writtenOn": "2017-01-26T23:41:15Z",
       "side": 1,
       "message": "\"unchanged\" isn\u0027t quite right, since no type actually changes.",
+      "range": {
+        "startLine": 1969,
+        "startChar": 23,
+        "endLine": 1969,
+        "endChar": 34
+      },
+      "revId": "446eea25372a3c3c4d8f827934ec10a0dd22a860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0de19d8_34ee24ac",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1969,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-01-30T23:12:19Z",
+      "side": 1,
+      "message": "removed (unchanged)",
       "range": {
         "startLine": 1969,
         "startChar": 23,
