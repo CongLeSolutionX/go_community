@@ -16,6 +16,23 @@
       "revId": "3307c9145212bab326d4f9d4271c29ec15f2f64a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acbce07a_4ebedfd6",
+        "filename": "src/io/multi_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-01-30T15:11:01Z",
+      "side": 1,
+      "message": "If you drop line 248 the rewritten test will fail even without inlining, because there is an underlying array whose address has been taken, and liveness analysis cannot keep track of where it went (it went into the readers slice header), so the array is marked live for the rest of the function.\n\nClearing the buf1 entry from the array at line 248 makes that not a problem for this test. This test is about the mr returned from MultiReader not holding onto buf1. This test is not about a temporary array that happens not to work great with liveness analysis.",
+      "revId": "3307c9145212bab326d4f9d4271c29ec15f2f64a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
