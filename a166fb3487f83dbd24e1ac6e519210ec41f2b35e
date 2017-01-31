@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57e9a144_bee2e403",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-31T17:28:03Z",
+      "side": 1,
+      "message": "deferreturn",
+      "range": {
+        "startLine": 1201,
+        "startChar": 27,
+        "endLine": 1201,
+        "endChar": 39
+      },
+      "revId": "a166fb3487f83dbd24e1ac6e519210ec41f2b35e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
