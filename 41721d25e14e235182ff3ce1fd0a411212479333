@@ -22,6 +22,29 @@
       "revId": "41721d25e14e235182ff3ce1fd0a411212479333",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "964c5532_ca6e2f7a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1436,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-01-31T15:42:19Z",
+      "side": 1,
+      "message": "(Old comment? It\u0027s \"non-exported\" in PS7.)",
+      "range": {
+        "startLine": 1436,
+        "startChar": 5,
+        "endLine": 1436,
+        "endChar": 16
+      },
+      "revId": "41721d25e14e235182ff3ce1fd0a411212479333",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
