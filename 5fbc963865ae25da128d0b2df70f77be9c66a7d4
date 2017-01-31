@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39c3a779_53528f5a",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-01-31T19:35:55Z",
+      "side": 1,
+      "message": "I can\u0027t figure out if this condition is exclusive with the next one. I hope it is! Can we force it to be?\n\nswitch {\ncase n.Class \u003d\u003d PPARAMOUT: \n   ...\ncase n.IsOutputParamHeapAddr():\n   ...\n}\n\nor reverse those if there\u0027s overlap and the second is better than the first.\n\nWhat I\u0027m concerned about is that if the variable is on the heap then it\u0027s important that we do not mark the non-heap copy live unconditionally.",
+      "revId": "5fbc963865ae25da128d0b2df70f77be9c66a7d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
