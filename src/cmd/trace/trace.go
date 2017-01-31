@@ -288,6 +288,13 @@ const (
 	gStateCount
 )
 
+type gInfo struct {
+	state      gState
+	name       string
+	start      *trace.Event
+	markAssist *trace.Event
+}
+
 type ViewerData struct {
 	Events   []*ViewerEvent         `json:"traceEvents"`
 	Frames   map[string]ViewerFrame `json:"stackFrames"`
@@ -337,35 +344,41 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 	ctx.data.Frames = make(map[string]ViewerFrame)
 	ctx.data.TimeUnit = "ns"
 	maxProc := 0
-	gnames := make(map[uint64]string)
-	gstates := make(map[uint64]gState)
+	ginfos := make(map[uint64]*gInfo)
+
 	// Since we make many calls to setGState, we record a sticky
 	// error in setGStateErr and check it after every event.
 	var setGStateErr error
 	setGState := func(ev *trace.Event, g uint64, oldState, newState gState) {
-		if oldState == gWaiting && gstates[g] == gWaitingGC {
-			// For checking, gWaiting counts as any gWaiting*.
-			oldState = gstates[g]
+		if _, ok := ginfos[g]; !ok {
+			ginfos[g] = &gInfo{}
 		}
-		if gstates[g] != oldState && setGStateErr == nil {
+		info := ginfos[g]
+
+		if oldState == gWaiting && info.state == gWaitingGC {
+			// For checking, gWaiting counts as any gWaiting*.
+			oldState = info.state
+		}
+		if info.state != oldState && setGStateErr == nil {
 			setGStateErr = fmt.Errorf("expected G %d to be in state %d, but got state %d", g, oldState, newState)
 		}
-		ctx.gstates[gstates[g]]--
+		ctx.gstates[info.state]--
 		ctx.gstates[newState]++
-		gstates[g] = newState
+		info.state = newState
 	}
 	for _, ev := range ctx.events {
 		// Handle state transitions before we filter out events.
 		switch ev.Type {
 		case trace.EvGoStart, trace.EvGoStartLabel:
 			setGState(ev, ev.G, gRunnable, gRunning)
-			if _, ok := gnames[ev.G]; !ok {
+			if ginfos[ev.G].name == "" {
 				if len(ev.Stk) > 0 {
-					gnames[ev.G] = fmt.Sprintf("G%v %s", ev.G, ev.Stk[0].Fn)
+					ginfos[ev.G].name = fmt.Sprintf("G%v %s", ev.G, ev.Stk[0].Fn)
 				} else {
-					gnames[ev.G] = fmt.Sprintf("G%v", ev.G)
+					ginfos[ev.G].name = fmt.Sprintf("G%v", ev.G)
 				}
 			}
+			ginfos[ev.G].start = ev
 		case trace.EvProcStart:
 			ctx.threadStats.prunning++
 		case trace.EvProcStop:
@@ -392,6 +405,10 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			setGState(ev, ev.G, gRunning, gWaiting)
 		case trace.EvGoBlockGC:
 			setGState(ev, ev.G, gRunning, gWaitingGC)
+		case trace.EvGCMarkAssistStart:
+			ginfos[ev.G].markAssist = ev
+		case trace.EvGCMarkAssistDone:
+			ginfos[ev.G].markAssist = nil
 		case trace.EvGoWaiting:
 			setGState(ev, ev.G, gRunnable, gWaiting)
 		case trace.EvGoInSyscall:
@@ -444,13 +461,31 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			}
 			ctx.emitSlice(ev, "MARK TERMINATION")
 		case trace.EvGCScanDone:
+		case trace.EvGCMarkAssistStart:
+			markFinish := ev.Link
+			goFinish := ginfos[ev.G].start.Link
+			fakeMarkStart := *ev
+			if markFinish.Ts > goFinish.Ts {
+				fakeMarkStart.Link = goFinish
+			}
+			ctx.emitSlice(&fakeMarkStart, "MARK ASSIST")
 		case trace.EvGCSweepStart:
 			ctx.emitSlice(ev, "SWEEP")
-		case trace.EvGCSweepDone:
-		case trace.EvGoStart:
-			ctx.emitSlice(ev, gnames[ev.G])
-		case trace.EvGoStartLabel:
-			ctx.emitSlice(ev, ev.SArgs[0])
+		case trace.EvGoStart, trace.EvGoStartLabel:
+			if ev.Type == trace.EvGoStartLabel {
+				ctx.emitSlice(ev, ev.SArgs[0])
+			} else {
+				ctx.emitSlice(ev, ginfos[ev.G].name)
+			}
+			if ginfos[ev.G].markAssist != nil {
+				markFinish := ginfos[ev.G].markAssist.Link
+				goFinish := ev.Link
+				fakeMarkStart := *ev
+				if markFinish.Ts < goFinish.Ts {
+					fakeMarkStart.Link = markFinish
+				}
+				ctx.emitSlice(&fakeMarkStart, "MARK ASSIST")
+			}
 		case trace.EvGoCreate:
 			ctx.emitArrow(ev, "go")
 		case trace.EvGoUnblock:
@@ -493,11 +528,11 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 	}
 
 	if ctx.gtrace && ctx.gs != nil {
-		for k, v := range gnames {
+		for k, v := range ginfos {
 			if !ctx.gs[k] {
 				continue
 			}
-			ctx.emit(&ViewerEvent{Name: "thread_name", Phase: "M", Pid: 0, Tid: k, Arg: &NameArg{v}})
+			ctx.emit(&ViewerEvent{Name: "thread_name", Phase: "M", Pid: 0, Tid: k, Arg: &NameArg{v.name}})
 		}
 		ctx.emit(&ViewerEvent{Name: "thread_sort_index", Phase: "M", Pid: 0, Tid: ctx.maing, Arg: &SortIndexArg{-2}})
 		ctx.emit(&ViewerEvent{Name: "thread_sort_index", Phase: "M", Pid: 0, Tid: 0, Arg: &SortIndexArg{-1}})
