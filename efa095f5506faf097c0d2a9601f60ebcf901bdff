@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71c03d1e_6bd49c78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-01T22:25:14Z",
+      "side": 1,
+      "message": "I don\u0027t see why this is \"exportable.\u0027  Seems like this should be more like\n\ncmd/cgo: support floating point #define macros\n\nand change the paragraph below, too.",
+      "revId": "efa095f5506faf097c0d2a9601f60ebcf901bdff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dea311d0_2dc1003a",
+        "filename": "misc/cgo/test/issue18720.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-01T22:25:14Z",
+      "side": 1,
+      "message": "This new file needs a copyright header.\n\nOr, probably better, you could just uncomment the float case in issue6612.go and drop this file entirely.",
+      "revId": "efa095f5506faf097c0d2a9601f60ebcf901bdff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

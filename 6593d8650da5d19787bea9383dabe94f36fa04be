@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abd5d57c_a3987b9e",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-01T22:25:14Z",
+      "side": 0,
+      "message": "I don\u0027t understand why it is correct to only append to needType for struct/union/enum.  Why not for a function type?",
+      "revId": "6593d8650da5d19787bea9383dabe94f36fa04be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
