@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e9cf16a_5a63455e",
+        "filename": "src/cmd/doc/testdata/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-01T19:33:58Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to be used in any of the new code, unless I\u0027m missing something.",
+      "revId": "42c185155f120d4c9f9d860637485d41e01fe503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
