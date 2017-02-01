@@ -44,6 +44,23 @@ func ExampleURL() {
 	// Output: https://google.com/search?q=golang
 }
 
+func ExampleParse() {
+	u, err := url.Parse("https://golang.org")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(u)
+
+	u, err = url.Parse("//192.168.1.1/foo/bar")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(u)
+	// Output:
+	// https://golang.org
+	// //192.168.1.1/foo/bar
+}
+
 func ExampleURL_roundtrip() {
 	// Parse + String preserve the original encoding.
 	u, err := url.Parse("https://example.com/foo%2fbar")
