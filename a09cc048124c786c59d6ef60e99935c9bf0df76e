@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3734e6d1_aef43b9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-01T23:54:05Z",
+      "side": 1,
+      "message": "sure this is a complete fix? seems like the bug is about more.",
+      "revId": "a09cc048124c786c59d6ef60e99935c9bf0df76e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
