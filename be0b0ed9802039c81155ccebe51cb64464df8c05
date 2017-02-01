@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "ed9e729a_5a4112b3",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-01T20:37:14Z",
+      "side": 1,
+      "message": "Ah! Makes sense. I think a comment linking this to issue 15550 would be super helpful. (Also, any reason not to check in a test for issue 15550?)",
+      "revId": "be0b0ed9802039c81155ccebe51cb64464df8c05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16ea3615_3266a030",
         "filename": "src/cmd/compile/internal/gc/noder.go",
         "patchSetId": 3
@@ -64,6 +81,23 @@
       "writtenOn": "2017-02-01T20:25:25Z",
       "side": 1,
       "message": "Yeah, I was playing with something like that too, but didn\u0027t come up with anything that seemed clearly better. I was also a little worried about moving yyerror linenos around, so decided to leave as is.\n\nBut I\u0027ll continue thinking about it. I plan on cleaning up variter too, which uses a somewhat similar idiom to this.",
+      "revId": "be0b0ed9802039c81155ccebe51cb64464df8c05",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "056bc35a_069b3f5c",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-01T20:37:14Z",
+      "side": 1,
+      "message": "Ack",
       "revId": "be0b0ed9802039c81155ccebe51cb64464df8c05",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
