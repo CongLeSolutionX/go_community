@@ -1124,7 +1124,7 @@ func (p *noder) pragma(pos src.Pos, text string) syntax.Pragma {
 		p.linknames = append(p.linknames, linkname{pos, f[1], f[2]})
 
 	case strings.HasPrefix(text, "go:cgo_"):
-		// TODO(gri): lineno = p.baseline + int32(line) - 1 // pragcgo may call yyerror
+		lineno = Ctxt.PosTable.XPos(pos) // pragcgo may call yyerror
 		p.pragcgobuf += pragcgo(text)
 		fallthrough // because of //go:cgo_unsafe_args
 	default:
@@ -1135,7 +1135,7 @@ func (p *noder) pragma(pos src.Pos, text string) syntax.Pragma {
 		prag := pragmaValue(verb)
 		const runtimePragmas = Systemstack | Nowritebarrier | Nowritebarrierrec | Yeswritebarrierrec
 		if !compiling_runtime && prag&runtimePragmas != 0 {
-			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("//go:%s only allowed in runtime", verb)})
+			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("//%s only allowed in runtime", verb)})
 		}
 		return prag
 	}
