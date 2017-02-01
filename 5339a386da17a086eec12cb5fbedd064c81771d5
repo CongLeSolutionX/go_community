@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84d17102_770d5e57",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-02-01T21:55:21Z",
+      "side": 1,
+      "message": "FYI, the line number change for the notinheap error is because I changed this from nod to p.nod.",
+      "revId": "5339a386da17a086eec12cb5fbedd064c81771d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
