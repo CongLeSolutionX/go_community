@@ -56,9 +56,7 @@ func (p *noder) file(file *syntax.File) {
 }
 
 func (p *noder) decls(decls []syntax.Decl) (l []*Node) {
-	var lastConstGroup *syntax.Group
-	var lastConstRHS []*Node
-	var iotaVal int64
+	var cs constState
 
 	for _, decl := range decls {
 		p.lineno(decl)
@@ -70,23 +68,7 @@ func (p *noder) decls(decls []syntax.Decl) (l []*Node) {
 			l = append(l, p.varDecl(decl)...)
 
 		case *syntax.ConstDecl:
-			// Tricky to handle golang.org/issue/15550 correctly.
-
-			if decl.Group == nil || decl.Group != lastConstGroup {
-				iotaVal = 0
-				lastConstRHS = nil
-			}
-
-			lastconst = lastConstRHS
-
-			l = append(l, p.constDecl(decl, iotaVal)...)
-
-			lastConstRHS = lastconst
-			lastconst = nil
-
-			iotaVal++
-
-			lastConstGroup = decl.Group
+			l = append(l, p.constDecl(decl, &cs)...)
 
 		case *syntax.TypeDecl:
 			l = append(l, p.typeDecl(decl))
@@ -161,16 +143,64 @@ func (p *noder) varDecl(decl *syntax.VarDecl) []*Node {
 	return variter(names, typ, exprs)
 }
 
-func (p *noder) constDecl(decl *syntax.ConstDecl, iotaVal int64) []*Node {
+type constState struct {
+	lastGroup  *syntax.Group
+	lastType   *Node
+	lastValues []*Node
+	iotaVal    int64
+}
+
+func (p *noder) constDecl(decl *syntax.ConstDecl, cs *constState) []*Node {
+	if decl.Group == nil || decl.Group != cs.lastGroup {
+		*cs = constState{}
+	}
+
 	names := p.declNames(decl.NameList)
 	typ := p.typeExprOrNil(decl.Type)
 
-	var exprs []*Node
+	var values []*Node
 	if decl.Values != nil {
-		exprs = p.exprList(decl.Values)
+		values = p.exprList(decl.Values)
+
+		cs.lastGroup = decl.Group
+		cs.lastType = typ
+		cs.lastValues = values
+	} else {
+		if typ != nil {
+			yyerror("const declaration cannot have type without expression")
+		}
+		typ = cs.lastType
+		values = cs.lastValues
 	}
 
-	return constiter(names, typ, exprs, iotaVal)
+	var nn []*Node
+	for i, n := range names {
+		if i >= len(values) {
+			yyerror("missing value in const declaration")
+			break
+		}
+		v := values[i]
+		if decl.Values == nil {
+			v = treecopy(v, n.Lineno)
+		}
+
+		n.Op = OLITERAL
+		declare(n, dclcontext)
+
+		n.Name.Param.Ntype = typ
+		n.Name.Defn = v
+		n.SetIota(cs.iotaVal)
+
+		nn = append(nn, nod(ODCLCONST, n, nil))
+	}
+
+	if len(values) > len(names) {
+		yyerror("extra expression in const declaration")
+	}
+
+	cs.iotaVal++
+
+	return nn
 }
 
 func (p *noder) typeDecl(decl *syntax.TypeDecl) *Node {
