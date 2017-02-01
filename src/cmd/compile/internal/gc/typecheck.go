@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/internal/obj"
+	"cmd/internal/src"
 	"fmt"
 	"math"
 	"strings"
@@ -171,9 +172,14 @@ func typecheck(n *Node, top int) *Node {
 				yyerror("%v is not a type", n)
 				break
 			}
+<<<<<<< HEAD   (c47df7 all: merge dev.typealias into master)
 			var trace string
 			sprint_depchain(&trace, typecheck_tcstack, n, n)
 			yyerrorl(n.Lineno, "constant definition loop%s", trace)
+=======
+			sprint_depchain(&fmt_, typecheck_tcstack, n, n)
+			yyerrorl(n.Pos, "constant definition loop%s", fmt_)
+>>>>>>> BRANCH (ec6315 [dev.inline] cmd/compile: parse source files concurrently)
 		}
 
 		if nsavederrors+nerrors == 0 {
@@ -421,7 +427,7 @@ OpSwitch:
 		if alg == ANOEQ {
 			if bad.Etype == TFORW {
 				// queue check for map until all the types are done settling.
-				mapqueue = append(mapqueue, mapqueueval{l, n.Lineno})
+				mapqueue = append(mapqueue, mapqueueval{l, n.Pos})
 			} else if bad.Etype != TANY {
 				// no need to queue, key is already bad
 				yyerror("invalid map key type %v", l.Type)
@@ -3513,7 +3519,7 @@ func domethod(n *Node) {
 
 type mapqueueval struct {
 	n   *Node
-	lno int32
+	lno src.XPos
 }
 
 // tracks the line numbers at which forward types are first used as map keys
@@ -3561,7 +3567,7 @@ func copytype(n *Node, t *Type) {
 	// Double-check use of type as embedded type.
 	lno := lineno
 
-	if embedlineno != 0 {
+	if embedlineno.IsKnown() {
 		lineno = embedlineno
 		if t.IsPtr() || t.IsUnsafePtr() {
 			yyerror("embedded type cannot be a pointer")
@@ -3640,8 +3646,8 @@ func typecheckdef(n *Node) *Node {
 	if n.Op == ONONAME {
 		if !n.Diag {
 			n.Diag = true
-			if n.Lineno != 0 {
-				lineno = n.Lineno
+			if n.Pos.IsKnown() {
+				lineno = n.Pos
 			}
 
 			// Note: adderrorname looks for this string and
@@ -3695,7 +3701,7 @@ func typecheckdef(n *Node) *Node {
 		e := n.Name.Defn
 		n.Name.Defn = nil
 		if e == nil {
-			lineno = n.Lineno
+			lineno = n.Pos
 			Dump("typecheckdef nil defn", n)
 			yyerror("xxx")
 		}

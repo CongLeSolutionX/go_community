@@ -6,6 +6,7 @@ package gc
 
 import (
 	"cmd/internal/obj"
+	"cmd/internal/src"
 	"fmt"
 	"sort"
 	"strings"
@@ -113,7 +114,7 @@ func testdclstack() {
 
 // redeclare emits a diagnostic about symbol s being redeclared somewhere.
 func redeclare(s *Sym, where string) {
-	if s.Lastlineno == 0 {
+	if !s.Lastlineno.IsKnown() {
 		var tmp string
 		if s.Origpkg != nil {
 			tmp = s.Origpkg.Path
@@ -162,7 +163,7 @@ func declare(n *Node, ctxt Class) {
 		// named OLITERAL needs Name; most OLITERALs don't.
 		n.Name = new(Name)
 	}
-	n.Lineno = lineno
+	n.Pos = lineno
 	s := n.Sym
 
 	// kludgy: typecheckok means we're past parsing. Eg genwrapper may declare out of package names later.
@@ -287,14 +288,14 @@ func variter(vl []*Node, t *Node, el []*Node) []*Node {
 // declare constants from grammar
 // new_name_list [[type] = expr_list]
 func constiter(vl []*Node, t *Node, cl []*Node) []*Node {
-	lno := int32(0) // default is to leave line number alone in listtreecopy
+	var lno src.XPos // default is to leave line number alone in listtreecopy
 	if len(cl) == 0 {
 		if t != nil {
 			yyerror("const declaration cannot have type without expression")
 		}
 		cl = lastconst
 		t = lasttype
-		lno = vl[0].Lineno
+		lno = vl[0].Pos
 	} else {
 		lastconst = cl
 		lasttype = t
@@ -467,13 +468,13 @@ func colasdefn(left []*Node, defn *Node) {
 			continue
 		}
 		if !colasname(n) {
-			yyerrorl(defn.Lineno, "non-name %v on left side of :=", n)
+			yyerrorl(defn.Pos, "non-name %v on left side of :=", n)
 			nerr++
 			continue
 		}
 
 		if n.Sym.Flags&SymUniq == 0 {
-			yyerrorl(defn.Lineno, "%v repeated on left side of :=", n.Sym)
+			yyerrorl(defn.Pos, "%v repeated on left side of :=", n.Sym)
 			n.Diag = true
 			nerr++
 			continue
@@ -493,7 +494,7 @@ func colasdefn(left []*Node, defn *Node) {
 	}
 
 	if nnew == 0 && nerr == 0 {
-		yyerrorl(defn.Lineno, "no new variables on left side of :=")
+		yyerrorl(defn.Pos, "no new variables on left side of :=")
 	}
 }
 
@@ -724,14 +725,14 @@ func checkembeddedtype(t *Type) {
 
 	if t.IsPtr() || t.IsUnsafePtr() {
 		yyerror("embedded type cannot be a pointer")
-	} else if t.Etype == TFORW && t.ForwardType().Embedlineno == 0 {
+	} else if t.Etype == TFORW && !t.ForwardType().Embedlineno.IsKnown() {
 		t.ForwardType().Embedlineno = lineno
 	}
 }
 
 func structfield(n *Node) *Field {
 	lno := lineno
-	lineno = n.Lineno
+	lineno = n.Pos
 
 	if n.Op != ODCLFIELD {
 		Fatalf("structfield: oops %v\n", n)
@@ -789,7 +790,7 @@ func checkdupfields(what string, ts ...*Type) {
 				continue
 			}
 			if seen[f.Sym] {
-				lineno = f.Nname.Lineno
+				lineno = f.Nname.Pos
 				yyerror("duplicate %s %s", what, f.Sym.Name)
 				continue
 			}
@@ -870,7 +871,7 @@ func tofunargsfield(fields []*Field, funarg Funarg) *Type {
 
 func interfacefield(n *Node) *Field {
 	lno := lineno
-	lineno = n.Lineno
+	lineno = n.Pos
 
 	if n.Op != ODCLFIELD {
 		Fatalf("interfacefield: oops %v\n", n)
@@ -1352,7 +1353,7 @@ type nowritebarrierrecChecker struct {
 type nowritebarrierrecCall struct {
 	target *Node
 	depth  int
-	lineno int32
+	lineno src.XPos
 }
 
 func checknowritebarrierrec() {
@@ -1362,8 +1363,8 @@ func checknowritebarrierrec() {
 	visitBottomUp(xtop, func(list []*Node, recursive bool) {
 		// Functions with write barriers have depth 0.
 		for _, n := range list {
-			if n.Func.WBLineno != 0 && n.Func.Pragma&Yeswritebarrierrec == 0 {
-				c.best[n] = nowritebarrierrecCall{target: nil, depth: 0, lineno: n.Func.WBLineno}
+			if n.Func.WBPos.IsKnown() && n.Func.Pragma&Yeswritebarrierrec == 0 {
+				c.best[n] = nowritebarrierrecCall{target: nil, depth: 0, lineno: n.Func.WBPos}
 			}
 		}
 
@@ -1380,7 +1381,7 @@ func checknowritebarrierrec() {
 					// yeswritebarrierrec function.
 					continue
 				}
-				if n.Func.WBLineno == 0 {
+				if !n.Func.WBPos.IsKnown() {
 					c.curfn = n
 					c.visitcodelist(n.Nbody)
 				}
@@ -1408,7 +1409,7 @@ func checknowritebarrierrec() {
 				call = c.best[n]
 			}
 			err = fmt.Sprintf("write barrier prohibited by caller; %v%s", n.Func.Nname, err)
-			yyerrorl(n.Func.WBLineno, err)
+			yyerrorl(n.Func.WBPos, err)
 		}
 	})
 }
@@ -1454,6 +1455,6 @@ func (c *nowritebarrierrecChecker) visitcall(n *Node) {
 	if ok && fnbest.depth+1 >= best.depth {
 		return
 	}
-	c.best[c.curfn] = nowritebarrierrecCall{target: defn, depth: fnbest.depth + 1, lineno: n.Lineno}
+	c.best[c.curfn] = nowritebarrierrecCall{target: defn, depth: fnbest.depth + 1, lineno: n.Pos}
 	c.stable = false
 }

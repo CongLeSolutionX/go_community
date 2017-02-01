@@ -5,7 +5,11 @@
 package ssa
 
 import (
+<<<<<<< HEAD   (c47df7 all: merge dev.typealias into master)
 	"cmd/internal/obj"
+=======
+	"cmd/internal/src"
+>>>>>>> BRANCH (ec6315 [dev.inline] cmd/compile: parse source files concurrently)
 	"fmt"
 	"log"
 	"os"
@@ -129,7 +133,7 @@ func (f *Func) dumpFile(phaseName string) {
 
 	fi, err := os.Create(fname)
 	if err != nil {
-		f.Config.Warnl(0, "Unable to create after-phase dump file %s", fname)
+		f.Config.Warnl(src.NoXPos, "Unable to create after-phase dump file %s", fname)
 		return
 	}
 
