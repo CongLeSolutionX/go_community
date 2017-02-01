@@ -33,6 +33,23 @@
       "revId": "42c185155f120d4c9f9d860637485d41e01fe503",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e9c8dd_261701b1",
+        "filename": "src/cmd/doc/testdata/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-01T19:47:08Z",
+      "side": 1,
+      "message": "Ah, I see. No worries. Just wasn\u0027t obvious why it was added in the diff.  I see now.",
+      "revId": "42c185155f120d4c9f9d860637485d41e01fe503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
