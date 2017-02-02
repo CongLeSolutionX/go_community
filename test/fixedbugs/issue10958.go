@@ -1,4 +1,4 @@
-// +build !nacl,disabled
+// +build !nacl
 // buildrun -t 10  -gcflags=-d=ssa/insert_resched_checks/on,ssa/check/on
 
 // Copyright 2016 The Go Authors. All rights reserved.
@@ -74,6 +74,7 @@ func standinacorner3() {
 }
 
 func main() {
+	// runtime.GOMAXPROCS(4) // With just 1, tends to hang with CL disabled.
 	go standinacorner1()
 	go standinacorner2(0)
 	go standinacorner3()

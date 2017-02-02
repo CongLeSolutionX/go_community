@@ -1094,9 +1094,9 @@ func (p *importer) node() *Node {
 		popdcl()
 		return n
 
-	case OFOR:
+	case OFOR, OFORUNTIL:
 		markdcl()
-		n := npos(p.pos(), nod(OFOR, nil, nil))
+		n := npos(p.pos(), nod(op, nil, nil))
 		n.Ninit.Set(p.stmtList())
 		n.Left, n.Right = p.exprsOrNil()
 		n.Nbody.Set(p.stmtList())
