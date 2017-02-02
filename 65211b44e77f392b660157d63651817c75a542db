@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65b8cc89_b3e38f07",
+        "filename": "src/net/url/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-02T16:29:55Z",
+      "side": 1,
+      "message": "this isn\u0027t an example; it\u0027s a unit test.\n\nthis is the wrong style for public-facing docs.",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "65211b44e77f392b660157d63651817c75a542db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
