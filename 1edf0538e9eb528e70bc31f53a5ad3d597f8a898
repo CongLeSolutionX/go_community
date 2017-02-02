@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "2b1e99c1_acbffbce",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-02T05:54:25Z",
+      "side": 1,
+      "message": "Thank you, done.",
+      "revId": "1edf0538e9eb528e70bc31f53a5ad3d597f8a898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23c0454e_5ecec267",
         "filename": "src/cmd/compile/internal/gc/swt.go",
         "patchSetId": 2
@@ -48,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "21006b27_ee9fbaf1",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-02T05:54:25Z",
+      "side": 1,
+      "message": "Good catch, thanks, done.",
+      "revId": "1edf0538e9eb528e70bc31f53a5ad3d597f8a898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23c0454e_feef8ec7",
         "filename": "test/switch6.go",
         "patchSetId": 2
@@ -59,6 +93,23 @@
       "writtenOn": "2017-01-15T06:10:58Z",
       "side": 1,
       "message": "This error message seems backwards: the problem is actually that X does not implement I.",
+      "revId": "1edf0538e9eb528e70bc31f53a5ad3d597f8a898",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35ee9252_704127e9",
+        "filename": "test/switch6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-02T05:54:25Z",
+      "side": 1,
+      "message": "Thanks for spotting it, I\u0027ve fixed up the error message. Done.",
       "revId": "1edf0538e9eb528e70bc31f53a5ad3d597f8a898",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
