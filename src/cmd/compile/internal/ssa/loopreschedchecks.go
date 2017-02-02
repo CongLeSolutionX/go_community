@@ -4,7 +4,10 @@
 
 package ssa
 
-import "fmt"
+import (
+	"cmd/internal/src"
+	"fmt"
+)
 
 // an edgeMemCtr records a backedge, together with the memory and
 // counter phi functions at the target of the backedge that must
@@ -109,7 +112,7 @@ func insertLoopReschedChecks(f *Func) {
 	}
 
 	// Set up counter.  There are no phis etc pre-existing for it.
-	counter0 := f.Entry.NewValue0I(f.Entry.Pos, OpConst32, f.Config.fe.TypeInt32(), initialRescheduleCounterValue)
+	counter0 := f.Entry.NewValue0I(src.NoXPos, OpConst32, f.Config.fe.TypeInt32(), initialRescheduleCounterValue)
 	ctrDefsAtBlockEnds := make([]*Value, f.NumBlocks()) // For each block, def visible at its end, if that def will be used.
 
 	// There's a minor difference between memDefsAtBlockEnds and ctrDefsAtBlockEnds;
@@ -205,8 +208,8 @@ func insertLoopReschedChecks(f *Func) {
 		}
 	}
 
-	zero := f.Entry.NewValue0I(f.Entry.Pos, OpConst32, f.Config.fe.TypeInt32(), 0)
-	one := f.Entry.NewValue0I(f.Entry.Pos, OpConst32, f.Config.fe.TypeInt32(), 1)
+	zero := f.Entry.NewValue0I(src.NoXPos, OpConst32, f.Config.fe.TypeInt32(), 0)
+	one := f.Entry.NewValue0I(src.NoXPos, OpConst32, f.Config.fe.TypeInt32(), 1)
 
 	// Rewrite backedges to include reschedule checks.
 	for _, emc := range tofixBackedges {

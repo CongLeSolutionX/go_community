@@ -12,6 +12,7 @@ import (
 	"cmd/compile/internal/ssa"
 	"cmd/internal/obj"
 	"cmd/internal/obj/x86"
+	"cmd/internal/src"
 )
 
 // markMoves marks any MOVXconst ops that need to avoid clobbering flags.
@@ -147,7 +148,14 @@ func duff(size int64) (int64, int64) {
 }
 
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
-	s.SetPos(v.Pos)
+	switch v.Op {
+	default:
+		if v.Pos != src.NoXPos {
+			s.SetPos(v.Pos)
+		}
+	case ssa.OpPhi, ssa.OpCopy, ssa.OpLoadReg, ssa.OpStoreReg: // reuse old line number
+		// TODO should this be src.NoXPos instead?
+	}
 	switch v.Op {
 	case ssa.OpAMD64ADDQ, ssa.OpAMD64ADDL:
 		r := v.Reg()
