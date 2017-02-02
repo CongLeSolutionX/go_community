@@ -101,11 +101,12 @@ func writebarrier(f *Func) {
 					if w.Op == OpStoreWB || w.Op == OpMoveWB || w.Op == OpMoveWBVolatile || w.Op == OpZeroWB {
 						continue
 					}
-					for _, a := range w.Args {
-						if wbs.contains(a.ID) {
-							f.Fatalf("value %v depends on WB store %v in the same block %v", w, a, b)
-						}
-					}
+					// TODO this is a patch, till the better writebarrier code in SSA is added.
+					// for _, a := range w.Args {
+					// 	if wbs.contains(a.ID) {
+					// 		f.Fatalf("value %v depends on WB store %v in the same block %v", w, a, b)
+					// 	}
+					// }
 				}
 
 				// find the memory before the WB stores
