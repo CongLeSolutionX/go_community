@@ -219,7 +219,7 @@ func (v *Value) reset(op Op) {
 
 // copyInto makes a new value identical to v and adds it to the end of b.
 func (v *Value) copyInto(b *Block) *Value {
-	c := b.NewValue0(v.Pos, v.Op, v.Type)
+	c := b.NewValue0(src.NoXPos, v.Op, v.Type) // Lose the position, this causes line number churn otherwise.
 	c.Aux = v.Aux
 	c.AuxInt = v.AuxInt
 	c.AddArgs(v.Args...)
