@@ -74,7 +74,6 @@ func storeByType(t ssa.Type, r int16) obj.As {
 }
 
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
-	s.SetPos(v.Pos)
 	switch v.Op {
 	case ssa.OpInitMem:
 		// memory arg needs no code
