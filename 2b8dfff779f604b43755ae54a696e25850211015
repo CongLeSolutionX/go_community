@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b0391f1_9e9d72b7",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-02T20:03:41Z",
+      "side": 1,
+      "message": "// to retain compatibility with earlier versions of Go.\n\n?",
+      "range": {
+        "startLine": 313,
+        "startChar": 10,
+        "endLine": 313,
+        "endChar": 16
+      },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20d78a6a_c4928e20",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-02T20:03:41Z",
+      "side": 1,
+      "message": "is it possible to avoid \"typically\"? It invites more questions, like what hte exceptions are.",
+      "range": {
+        "startLine": 323,
+        "startChar": 50,
+        "endLine": 323,
+        "endChar": 60
+      },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b124228_faa65029",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-02T20:03:41Z",
+      "side": 1,
+      "message": "I feel like this construction is a bit abnormal for Go docs.\n\nIt sounds like, \"If the host happens to be part of the URL\", but you mean more like, \"To parse the host out of the URL, \"\n\nMaybe you can back up and where you mention the scheme, say that if the input string starts with a scheme or //, then the authority is parsed. (Or I guess we don\u0027t ever say authority. That\u0027s fine. The \"host\". Even though it includes the userinfo@ part.)",
+      "range": {
+        "startLine": 324,
+        "startChar": 16,
+        "endLine": 324,
+        "endChar": 50
+      },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
