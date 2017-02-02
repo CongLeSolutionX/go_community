@@ -147,7 +147,7 @@ func duff(size int64) (int64, int64) {
 }
 
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
-	s.SetPos(v.Pos)
+	s.DebugFriendlySetPosFrom(v)
 	switch v.Op {
 	case ssa.OpAMD64ADDQ, ssa.OpAMD64ADDL:
 		r := v.Reg()

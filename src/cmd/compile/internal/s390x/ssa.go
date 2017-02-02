@@ -156,7 +156,7 @@ func opregregimm(op obj.As, dest, src int16, off int64) *obj.Prog {
 }
 
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
-	s.SetPos(v.Pos)
+	s.DebugFriendlySetPosFrom(v)
 	switch v.Op {
 	case ssa.OpS390XSLD, ssa.OpS390XSLW,
 		ssa.OpS390XSRD, ssa.OpS390XSRW,

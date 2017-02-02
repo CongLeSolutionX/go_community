@@ -4382,6 +4382,24 @@ func (s *SSAGenState) SetPos(pos src.XPos) {
 	lineno = pos
 }
 
+// DebugFriendlySetPos sets the position subject to heuristics
+// that reduce "jumpy" line number churn when debugging.
+// Roughly, any instruction without an assigned line number.
+func (s *SSAGenState) DebugFriendlySetPosFrom(v *ssa.Value) {
+	// The two choices here are either to leave lineno unchanged,
+	// or to explicitly set it to src.NoXPos.  Leaving it unchanged
+	// (reusing the preceding line number) produces slightly better-
+	// looking assembly language output from the compiler; the debug
+	// information appears to be the same.
+	switch v.Op {
+	default:
+		if v.Pos != src.NoXPos {
+			s.SetPos(v.Pos)
+		}
+	case ssa.OpPhi, ssa.OpCopy, ssa.OpLoadReg, ssa.OpStoreReg:
+	}
+}
+
 // genssa appends entries to ptxt for each instruction in f.
 // gcargs and gclocals are filled in with pointer maps for the frame.
 func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {

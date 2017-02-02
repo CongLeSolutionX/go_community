@@ -114,7 +114,7 @@ func opregreg(op obj.As, dest, src int16) *obj.Prog {
 }
 
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
-	s.SetPos(v.Pos)
+	s.DebugFriendlySetPosFrom(v)
 
 	if gc.Thearch.Use387 {
 		if ssaGenValue387(s, v) {
