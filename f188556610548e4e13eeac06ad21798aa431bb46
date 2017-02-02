@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5187fc0_683b5553",
+        "filename": "src/net/url/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-02T08:19:48Z",
+      "side": 1,
+      "message": "The problem with simply printing the URL is that it doesn\u0027t show whether the URL was parsed into correct fields that a user expected.\n\nFor example, \"192.168.1.1/foo/bar\" is a valid URL, but \"192.168.1.1\" will not be parsed into the Host field. The String method on a URL does not signify this distinction.",
+      "range": {
+        "startLine": 58,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "f188556610548e4e13eeac06ad21798aa431bb46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
