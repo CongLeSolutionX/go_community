@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2ff9a1c_0859fe3f",
+        "filename": "src/cmd/go/internal/get/discovery.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-02-02T17:15:42Z",
+      "side": 1,
+      "message": "package docs",
+      "revId": "ef50a90f0ea0db5a419bbab092ffd6fe29706aa2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
