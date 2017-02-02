@@ -1473,8 +1473,8 @@ func (p *exporter) stmt(n *Node) {
 		p.stmtList(n.Nbody)
 		p.stmtList(n.Rlist)
 
-	case OFOR:
-		p.op(OFOR)
+	case OFOR, OFORUNTIL:
+		p.op(op)
 		p.stmtList(n.Ninit)
 		p.exprsOrNil(n.Left, n.Right)
 		p.stmtList(n.Nbody)

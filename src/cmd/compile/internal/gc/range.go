@@ -133,7 +133,7 @@ out:
 	decldepth--
 }
 
-func walkrange(n *Node) {
+func walkrange(n *Node) *Node {
 	// variable name conventions:
 	//	ohv1, hv1, hv2: hidden (old) val 1, 2
 	//	ha, hit: hidden aggregate, iterator
@@ -156,6 +156,10 @@ func walkrange(n *Node) {
 		v2 = n.List.Second()
 	}
 
+	var ifGuard *Node
+
+	translatedLoopOp := OFOR
+
 	// n.List has no meaning anymore, clear it
 	// to avoid erroneous processing by racewalk.
 	n.List.Set(nil)
@@ -169,7 +173,7 @@ func walkrange(n *Node) {
 	case TARRAY, TSLICE:
 		if memclrrange(n, v1, v2, a) {
 			lineno = lno
-			return
+			return n
 		}
 
 		// orderstmt arranged for a copy of the array/slice variable if needed.
@@ -181,6 +185,10 @@ func walkrange(n *Node) {
 
 		init = append(init, nod(OAS, hv1, nil))
 		init = append(init, nod(OAS, hn, nod(OLEN, ha, nil)))
+
+		// if Ninit; Left { Nbody } else { Rlist }
+		// for Ninit; Left; Right { Nbody }
+
 		if v2 != nil {
 			hp = temp(ptrto(n.Type.Elem()))
 			tmp := nod(OINDEX, ha, nodintconst(0))
@@ -194,7 +202,11 @@ func walkrange(n *Node) {
 			body = nil
 		} else if v2 == nil {
 			body = []*Node{nod(OAS, v1, hv1)}
-		} else {
+		} else { // for i,a := range thing { body }
+			ifGuard = nod(OIF, nil, nil)
+			ifGuard.Left = nod(OLT, hv1, hn)
+			translatedLoopOp = OFORUNTIL
+
 			a := nod(OAS2, nil, nil)
 			a.List.Set([]*Node{v1, v2})
 			a.Rlist.Set([]*Node{hv1, nod(OIND, hp, nil)})
@@ -347,17 +359,34 @@ func walkrange(n *Node) {
 		}
 	}
 
-	n.Op = OFOR
+	n.Op = translatedLoopOp
 	typecheckslice(init, Etop)
-	n.Ninit.Append(init...)
-	typecheckslice(n.Left.Ninit.Slice(), Etop)
+
+	if ifGuard != nil {
+		ifGuard.Ninit.Append(init...)
+		typecheckslice(ifGuard.Left.Ninit.Slice(), Etop)
+		ifGuard.Left = typecheck(ifGuard.Left, Erv)
+	} else {
+		n.Ninit.Append(init...)
+	}
+
+	if n.Left != nil {
+		typecheckslice(n.Left.Ninit.Slice(), Etop)
+	}
 	n.Left = typecheck(n.Left, Erv)
 	n.Right = typecheck(n.Right, Etop)
 	typecheckslice(body, Etop)
 	n.Nbody.Prepend(body...)
+
+	if ifGuard != nil {
+		ifGuard.Nbody.Set1(n)
+		n = ifGuard
+	}
+
 	n = walkstmt(n)
 
 	lineno = lno
+	return n
 }
 
 // Lower n into runtime·memclr if possible, for
