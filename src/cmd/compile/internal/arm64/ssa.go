@@ -92,7 +92,6 @@ func genshift(as obj.As, r0, r1, r int16, typ int64, s int64) *obj.Prog {
 }
 
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
-	s.SetPos(v.Pos)
 	switch v.Op {
 	case ssa.OpInitMem:
 		// memory arg needs no code
