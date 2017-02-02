@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3d25eed_03f50e37",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-02T21:28:13Z",
+      "side": 1,
+      "message": "Maybe you can only clear up to len(f.RegAlloc)?  Like values and blocks above.  That way we don\u0027t have to zero 2000 entries when we only used 10 of them.",
+      "revId": "01e274f499eca76ec93b672824f123970389727a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
