@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "958e7aae_346dec86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-02-02T00:28:57Z",
+      "side": 1,
+      "message": "Done",
+      "revId": "efa095f5506faf097c0d2a9601f60ebcf901bdff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dea311d0_2dc1003a",
         "filename": "misc/cgo/test/issue18720.go",
         "patchSetId": 3
@@ -30,6 +47,23 @@
       "writtenOn": "2017-02-01T22:25:14Z",
       "side": 1,
       "message": "This new file needs a copyright header.\n\nOr, probably better, you could just uncomment the float case in issue6612.go and drop this file entirely.",
+      "revId": "efa095f5506faf097c0d2a9601f60ebcf901bdff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44bcfde1_c8556e67",
+        "filename": "misc/cgo/test/issue18720.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-02-02T00:28:57Z",
+      "side": 1,
+      "message": "Done",
       "revId": "efa095f5506faf097c0d2a9601f60ebcf901bdff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
