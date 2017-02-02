@@ -121,11 +121,17 @@ We will discuss the distinction <a href="#PackageNames">later</a>.
 <p>
 The <code>GOPATH</code> environment variable specifies the location of your
 workspace. It defaults to a directory named <code>go</code> inside your home directory,
-so <code>$HOME/go</code> on Unix,
-<code>$home/go</code> on Plan 9,
-and <code>%USERPROFILE%\go</code> (usually <code>C:\Users\YourName\go</code>) on Windows.
-If you would like to work in a different location, you will need to set
-<code>GOPATH</code> to the path to that directory.
+so <code>GOPATH</code> is
+
+<ul>
+<li><code>$HOME/go</code> on Unix,</li>
+<li><code>$home/go</code> on Plan 9,</li>
+<li><code>%USERPROFILE%\go</code> (usually <code>C:\Users\YourName\go</code>) on Windows.</li>
+</ul>
+
+If you would like to work in a different location, you will need to
+<a href="https://github.com/golang/go/wiki/SettingGOPATH">set <code>GOPATH</code></a>
+to the path to that directory.
 (Another common setup is to set <code>GOPATH=$HOME</code>.)
 Note that <code>GOPATH</code> must <b>not</b> be the
 same path as your Go installation.
