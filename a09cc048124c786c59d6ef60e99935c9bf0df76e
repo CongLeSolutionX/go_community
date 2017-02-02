@@ -16,6 +16,23 @@
       "revId": "a09cc048124c786c59d6ef60e99935c9bf0df76e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d21401df_7c920889",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-02T04:02:40Z",
+      "side": 1,
+      "message": "Fixed the commit message, this is a partial fix.",
+      "revId": "a09cc048124c786c59d6ef60e99935c9bf0df76e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
