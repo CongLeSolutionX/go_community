@@ -309,9 +309,12 @@ func escape(s string, mode encoding) string {
 }
 
 // A URL represents a parsed URL (technically, a URI reference).
+// The format format generally follows RFC 3986, except for rare exceptions
+// due to legacy reasons.
+//
 // The general form represented is:
 //
-//	scheme://[userinfo@]host/path[?query][#fragment]
+//	[scheme:][//[userinfo@]host]/path[?query][#fragment]
 //
 // URLs that do not start with a slash after the scheme are interpreted as:
 //
