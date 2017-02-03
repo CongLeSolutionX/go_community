@@ -34,12 +34,12 @@ func writebarrier(f *Func) {
 		hasStore := false
 		for _, v := range b.Values {
 			switch v.Op {
-			case OpStoreWB, OpMoveWB, OpMoveWBVolatile, OpZeroWB:
+			case OpStoreWB, OpMoveWB, OpZeroWB:
 				if IsStackAddr(v.Args[0]) {
 					switch v.Op {
 					case OpStoreWB:
 						v.Op = OpStore
-					case OpMoveWB, OpMoveWBVolatile:
+					case OpMoveWB:
 						v.Op = OpMove
 						v.Aux = nil
 					case OpZeroWB:
@@ -99,7 +99,7 @@ func writebarrier(f *Func) {
 		values := b.Values
 		for i := len(values) - 1; i >= 0; i-- {
 			w := values[i]
-			if w.Op == OpStoreWB || w.Op == OpMoveWB || w.Op == OpMoveWBVolatile || w.Op == OpZeroWB {
+			if w.Op == OpStoreWB || w.Op == OpMoveWB || w.Op == OpZeroWB {
 				if last == nil {
 					last = w
 					end = i + 1
@@ -153,7 +153,7 @@ func writebarrier(f *Func) {
 			var val *Value
 			ptr := w.Args[0]
 			siz := w.AuxInt
-			typ := w.Aux // only non-nil for MoveWB, MoveWBVolatile, ZeroWB
+			typ := w.Aux // only non-nil for MoveWB, ZeroWB
 			pos = w.Pos
 
 			var op Op
@@ -163,7 +163,7 @@ func writebarrier(f *Func) {
 				op = OpStore
 				fn = writebarrierptr
 				val = w.Args[1]
-			case OpMoveWB, OpMoveWBVolatile:
+			case OpMoveWB:
 				op = OpMove
 				fn = typedmemmove
 				val = w.Args[1]
@@ -173,7 +173,8 @@ func writebarrier(f *Func) {
 			}
 
 			// then block: emit write barrier call
-			memThen = wbcall(pos, bThen, fn, typ, ptr, val, memThen, sp, sb, w.Op == OpMoveWBVolatile)
+			volatile := w.Op == OpMoveWB && isVolatile(val)
+			memThen = wbcall(pos, bThen, fn, typ, ptr, val, memThen, sp, sb, volatile)
 
 			// else block: normal store
 			if op == OpZero {
@@ -217,7 +218,7 @@ func writebarrier(f *Func) {
 
 		// if we have more stores in this block, do this block again
 		for _, w := range b.Values {
-			if w.Op == OpStoreWB || w.Op == OpMoveWB || w.Op == OpMoveWBVolatile || w.Op == OpZeroWB {
+			if w.Op == OpStoreWB || w.Op == OpMoveWB || w.Op == OpZeroWB {
 				goto again
 			}
 		}
@@ -296,4 +297,13 @@ func IsStackAddr(v *Value) bool {
 		return v.Args[0].Op == OpSP
 	}
 	return false
+}
+
+// isVolatile returns whether v is a pointer to argument region on stack which
+// will be clobbered by a function call.
+func isVolatile(v *Value) bool {
+	for v.Op == OpOffPtr || v.Op == OpAddPtr || v.Op == OpPtrIndex || v.Op == OpCopy {
+		v = v.Args[0]
+	}
+	return v.Op == OpSP
 }

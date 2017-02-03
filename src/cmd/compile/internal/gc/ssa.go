@@ -561,8 +561,8 @@ func (s *state) stmt(n *Node) {
 			deref = true
 			res = res.Args[0]
 		}
-		s.assign(n.List.First(), res, needwritebarrier(n.List.First(), n.Rlist.First()), deref, n.Pos, 0, false)
-		s.assign(n.List.Second(), resok, false, false, n.Pos, 0, false)
+		s.assign(n.List.First(), res, needwritebarrier(n.List.First(), n.Rlist.First()), deref, n.Pos, 0)
+		s.assign(n.List.Second(), resok, false, false, n.Pos, 0)
 		return
 
 	case OAS2FUNC:
@@ -577,8 +577,8 @@ func (s *state) stmt(n *Node) {
 		// This is future-proofing against non-scalar 2-result intrinsics.
 		// Currently we only have scalar ones, which result in no write barrier.
 		fakeret := &Node{Op: OINDREGSP}
-		s.assign(n.List.First(), v1, needwritebarrier(n.List.First(), fakeret), false, n.Pos, 0, false)
-		s.assign(n.List.Second(), v2, needwritebarrier(n.List.Second(), fakeret), false, n.Pos, 0, false)
+		s.assign(n.List.First(), v1, needwritebarrier(n.List.First(), fakeret), false, n.Pos, 0)
+		s.assign(n.List.Second(), v2, needwritebarrier(n.List.Second(), fakeret), false, n.Pos, 0)
 		return
 
 	case ODCL:
@@ -703,14 +703,13 @@ func (s *state) stmt(n *Node) {
 			}
 		}
 		var r *ssa.Value
-		var isVolatile bool
 		needwb := n.Right != nil && needwritebarrier(n.Left, n.Right)
 		deref := !canSSAType(t)
 		if deref {
 			if rhs == nil {
 				r = nil // Signal assign to use OpZero.
 			} else {
-				r, isVolatile = s.addr(rhs, false)
+				r = s.addr(rhs, false)
 			}
 		} else {
 			if rhs == nil {
@@ -762,7 +761,7 @@ func (s *state) stmt(n *Node) {
 			}
 		}
 
-		s.assign(n.Left, r, needwb, deref, n.Pos, skip, isVolatile)
+		s.assign(n.Left, r, needwb, deref, n.Pos, skip)
 
 	case OIF:
 		bThen := s.f.NewBlock(ssa.BlockPlain)
@@ -1448,10 +1447,10 @@ func (s *state) expr(n *Node) *ssa.Value {
 		if s.canSSA(n) {
 			return s.variable(n, n.Type)
 		}
-		addr, _ := s.addr(n, false)
+		addr := s.addr(n, false)
 		return s.newValue2(ssa.OpLoad, n.Type, addr, s.mem())
 	case OCLOSUREVAR:
-		addr, _ := s.addr(n, false)
+		addr := s.addr(n, false)
 		return s.newValue2(ssa.OpLoad, n.Type, addr, s.mem())
 	case OLITERAL:
 		switch u := n.Val().U.(type) {
@@ -1941,9 +1940,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 		return s.expr(n.Left)
 
 	case OADDR:
-		a, _ := s.addr(n.Left, n.Bounded)
-		// Note we know the volatile result is false because you can't write &f() in Go.
-		return a
+		return s.addr(n.Left, n.Bounded)
 
 	case OINDREGSP:
 		addr := s.entryNewValue1I(ssa.OpOffPtr, ptrto(n.Type), n.Xoffset, s.sp)
@@ -1968,7 +1965,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			}
 			return s.zeroVal(n.Type)
 		}
-		p, _ := s.addr(n, false)
+		p := s.addr(n, false)
 		return s.newValue2(ssa.OpLoad, n.Type, p, s.mem())
 
 	case ODOTPTR:
@@ -2001,7 +1998,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 			}
 			return s.newValue2(ssa.OpLoad, Types[TUINT8], ptr, s.mem())
 		case n.Left.Type.IsSlice():
-			p, _ := s.addr(n, false)
+			p := s.addr(n, false)
 			return s.newValue2(ssa.OpLoad, n.Left.Type.Elem(), p, s.mem())
 		case n.Left.Type.IsArray():
 			if bound := n.Left.Type.NumElem(); bound <= 1 {
@@ -2020,7 +2017,7 @@ func (s *state) expr(n *Node) *ssa.Value {
 				s.boundsCheck(i, s.constInt(Types[TINT], bound))
 				return s.newValue1I(ssa.OpArraySelect, n.Type, 0, a)
 			}
-			p, _ := s.addr(n, false)
+			p := s.addr(n, false)
 			return s.newValue2(ssa.OpLoad, n.Left.Type.Elem(), p, s.mem())
 		default:
 			s.Fatalf("bad type for index %v", n.Left.Type)
@@ -2172,7 +2169,7 @@ func (s *state) append(n *Node, inplace bool) *ssa.Value {
 
 	var slice, addr *ssa.Value
 	if inplace {
-		addr, _ = s.addr(sn, false)
+		addr = s.addr(sn, false)
 		slice = s.newValue2(ssa.OpLoad, n.Type, addr, s.mem())
 	} else {
 		slice = s.expr(sn)
@@ -2249,19 +2246,17 @@ func (s *state) append(n *Node, inplace bool) *ssa.Value {
 	// Evaluate args
 	type argRec struct {
 		// if store is true, we're appending the value v.  If false, we're appending the
-		// value at *v.  If store==false, isVolatile reports whether the source
-		// is in the outargs section of the stack frame.
-		v          *ssa.Value
-		store      bool
-		isVolatile bool
+		// value at *v.
+		v     *ssa.Value
+		store bool
 	}
 	args := make([]argRec, 0, nargs)
 	for _, n := range n.List.Slice()[1:] {
 		if canSSAType(n.Type) {
 			args = append(args, argRec{v: s.expr(n), store: true})
 		} else {
-			v, isVolatile := s.addr(n, false)
-			args = append(args, argRec{v: v, isVolatile: isVolatile})
+			v := s.addr(n, false)
+			args = append(args, argRec{v: v})
 		}
 	}
 
@@ -2283,7 +2278,7 @@ func (s *state) append(n *Node, inplace bool) *ssa.Value {
 			}
 		} else {
 			if haspointers(et) {
-				s.insertWBmove(et, addr, arg.v, n.Pos, arg.isVolatile)
+				s.insertWBmove(et, addr, arg.v, n.Pos)
 			} else {
 				s.vars[&memVar] = s.newValue3I(ssa.OpMove, ssa.TypeMem, sizeAlignAuxInt(et), addr, arg.v, s.mem())
 			}
@@ -2357,10 +2352,9 @@ const (
 // Right has already been evaluated to ssa, left has not.
 // If deref is true, then we do left = *right instead (and right has already been nil-checked).
 // If deref is true and right == nil, just do left = 0.
-// If deref is true, rightIsVolatile reports whether right points to volatile (clobbered by a call) storage.
 // Include a write barrier if wb is true.
 // skip indicates assignments (at the top level) that can be avoided.
-func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XPos, skip skipMask, rightIsVolatile bool) {
+func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XPos, skip skipMask) {
 	if left.Op == ONAME && isblank(left) {
 		return
 	}
@@ -2401,7 +2395,7 @@ func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XP
 			}
 
 			// Recursively assign the new value we've made to the base of the dot op.
-			s.assign(left.Left, new, false, false, line, 0, rightIsVolatile)
+			s.assign(left.Left, new, false, false, line, 0)
 			// TODO: do we need to update named values here?
 			return
 		}
@@ -2426,7 +2420,7 @@ func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XP
 			i = s.extendIndex(i, panicindex)
 			s.boundsCheck(i, s.constInt(Types[TINT], 1))
 			v := s.newValue1(ssa.OpArrayMake1, t, right)
-			s.assign(left.Left, v, false, false, line, 0, rightIsVolatile)
+			s.assign(left.Left, v, false, false, line, 0)
 			return
 		}
 		// Update variable assignment.
@@ -2435,14 +2429,14 @@ func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XP
 		return
 	}
 	// Left is not ssa-able. Compute its address.
-	addr, _ := s.addr(left, false)
+	addr := s.addr(left, false)
 	if left.Op == ONAME && skip == 0 {
 		s.vars[&memVar] = s.newValue1A(ssa.OpVarDef, ssa.TypeMem, left, s.mem())
 	}
 	if deref {
 		// Treat as a mem->mem move.
 		if wb && !ssa.IsStackAddr(addr) {
-			s.insertWBmove(t, addr, right, line, rightIsVolatile)
+			s.insertWBmove(t, addr, right, line)
 			return
 		}
 		if right == nil {
@@ -3080,12 +3074,10 @@ func (s *state) lookupSymbol(n *Node, sym interface{}) interface{} {
 }
 
 // addr converts the address of the expression n to SSA, adds it to s and returns the SSA result.
-// Also returns a bool reporting whether the returned value is "volatile", that is it
-// points to the outargs section and thus the referent will be clobbered by any call.
 // The value that the returned Value represents is guaranteed to be non-nil.
 // If bounded is true then this address does not require a nil check for its operand
 // even if that would otherwise be implied.
-func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
+func (s *state) addr(n *Node, bounded bool) *ssa.Value {
 	t := ptrto(n.Type)
 	switch n.Op {
 	case ONAME:
@@ -3098,36 +3090,36 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
 			if n.Xoffset != 0 {
 				v = s.entryNewValue1I(ssa.OpOffPtr, v.Type, n.Xoffset, v)
 			}
-			return v, false
+			return v
 		case PPARAM:
 			// parameter slot
 			v := s.decladdrs[n]
 			if v != nil {
-				return v, false
+				return v
 			}
 			if n == nodfp {
 				// Special arg that points to the frame pointer (Used by ORECOVER).
 				aux := s.lookupSymbol(n, &ssa.ArgSymbol{Typ: n.Type, Node: n})
-				return s.entryNewValue1A(ssa.OpAddr, t, aux, s.sp), false
+				return s.entryNewValue1A(ssa.OpAddr, t, aux, s.sp)
 			}
 			s.Fatalf("addr of undeclared ONAME %v. declared: %v", n, s.decladdrs)
-			return nil, false
+			return nil
 		case PAUTO:
 			aux := s.lookupSymbol(n, &ssa.AutoSymbol{Typ: n.Type, Node: n})
-			return s.newValue1A(ssa.OpAddr, t, aux, s.sp), false
+			return s.newValue1A(ssa.OpAddr, t, aux, s.sp)
 		case PPARAMOUT: // Same as PAUTO -- cannot generate LEA early.
 			// ensure that we reuse symbols for out parameters so
 			// that cse works on their addresses
 			aux := s.lookupSymbol(n, &ssa.ArgSymbol{Typ: n.Type, Node: n})
-			return s.newValue1A(ssa.OpAddr, t, aux, s.sp), false
+			return s.newValue1A(ssa.OpAddr, t, aux, s.sp)
 		default:
 			s.Fatalf("variable address class %v not implemented", classnames[n.Class])
-			return nil, false
+			return nil
 		}
 	case OINDREGSP:
 		// indirect off REGSP
 		// used for storing/loading arguments/returns to/from callees
-		return s.entryNewValue1I(ssa.OpOffPtr, t, n.Xoffset, s.sp), true
+		return s.entryNewValue1I(ssa.OpOffPtr, t, n.Xoffset, s.sp)
 	case OINDEX:
 		if n.Left.Type.IsSlice() {
 			a := s.expr(n.Left)
@@ -3138,33 +3130,33 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
 				s.boundsCheck(i, len)
 			}
 			p := s.newValue1(ssa.OpSlicePtr, t, a)
-			return s.newValue2(ssa.OpPtrIndex, t, p, i), false
+			return s.newValue2(ssa.OpPtrIndex, t, p, i)
 		} else { // array
-			a, isVolatile := s.addr(n.Left, bounded)
+			a := s.addr(n.Left, bounded)
 			i := s.expr(n.Right)
 			i = s.extendIndex(i, panicindex)
 			len := s.constInt(Types[TINT], n.Left.Type.NumElem())
 			if !n.Bounded {
 				s.boundsCheck(i, len)
 			}
-			return s.newValue2(ssa.OpPtrIndex, ptrto(n.Left.Type.Elem()), a, i), isVolatile
+			return s.newValue2(ssa.OpPtrIndex, ptrto(n.Left.Type.Elem()), a, i)
 		}
 	case OIND:
-		return s.exprPtr(n.Left, bounded, n.Pos), false
+		return s.exprPtr(n.Left, bounded, n.Pos)
 	case ODOT:
-		p, isVolatile := s.addr(n.Left, bounded)
-		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset, p), isVolatile
+		p := s.addr(n.Left, bounded)
+		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset, p)
 	case ODOTPTR:
 		p := s.exprPtr(n.Left, bounded, n.Pos)
-		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset, p), false
+		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset, p)
 	case OCLOSUREVAR:
 		return s.newValue1I(ssa.OpOffPtr, t, n.Xoffset,
-			s.entryNewValue0(ssa.OpGetClosurePtr, ptrto(Types[TUINT8]))), false
+			s.entryNewValue0(ssa.OpGetClosurePtr, ptrto(Types[TUINT8])))
 	case OCONVNOP:
-		addr, isVolatile := s.addr(n.Left, bounded)
-		return s.newValue1(ssa.OpCopy, t, addr), isVolatile // ensure that addr has the right type
+		addr := s.addr(n.Left, bounded)
+		return s.newValue1(ssa.OpCopy, t, addr) // ensure that addr has the right type
 	case OCALLFUNC, OCALLINTER, OCALLMETH:
-		return s.call(n, callNormal), true
+		return s.call(n, callNormal)
 	case ODOTTYPE:
 		v, _ := s.dottype(n, false)
 		if v.Op != ssa.OpLoad {
@@ -3173,10 +3165,10 @@ func (s *state) addr(n *Node, bounded bool) (*ssa.Value, bool) {
 		if v.Args[1] != s.mem() {
 			s.Fatalf("memory no longer live from dottype load")
 		}
-		return v.Args[0], false
+		return v.Args[0]
 	default:
 		s.Fatalf("unhandled addr %v", n.Op)
-		return nil, false
+		return nil
 	}
 }
 
@@ -3414,7 +3406,7 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*Type, args ...*ssa
 // insertWBmove inserts the assignment *left = *right including a write barrier.
 // t is the type being assigned.
 // If right == nil, then we're zeroing *left.
-func (s *state) insertWBmove(t *Type, left, right *ssa.Value, line src.XPos, rightIsVolatile bool) {
+func (s *state) insertWBmove(t *Type, left, right *ssa.Value, line src.XPos) {
 	// if writeBarrier.enabled {
 	//   typedmemmove(&t, left, right)
 	// } else {
@@ -3440,13 +3432,7 @@ func (s *state) insertWBmove(t *Type, left, right *ssa.Value, line src.XPos, rig
 	if right == nil {
 		val = s.newValue2I(ssa.OpZeroWB, ssa.TypeMem, sizeAlignAuxInt(t), left, s.mem())
 	} else {
-		var op ssa.Op
-		if rightIsVolatile {
-			op = ssa.OpMoveWBVolatile
-		} else {
-			op = ssa.OpMoveWB
-		}
-		val = s.newValue3I(op, ssa.TypeMem, sizeAlignAuxInt(t), left, right, s.mem())
+		val = s.newValue3I(ssa.OpMoveWB, ssa.TypeMem, sizeAlignAuxInt(t), left, right, s.mem())
 	}
 	val.Aux = &ssa.ExternSymbol{Typ: Types[TUINTPTR], Sym: Linksym(typenamesym(t))}
 	s.vars[&memVar] = val
@@ -4153,7 +4139,7 @@ func (s *state) dottype(n *Node, commaok bool) (res, resok *ssa.Value) {
 		// unSSAable type, use temporary.
 		// TODO: get rid of some of these temporaries.
 		tmp = temp(n.Type)
-		addr, _ = s.addr(tmp, false)
+		addr = s.addr(tmp, false)
 		s.vars[&memVar] = s.newValue1A(ssa.OpVarDef, ssa.TypeMem, tmp, s.mem())
 	}
 
