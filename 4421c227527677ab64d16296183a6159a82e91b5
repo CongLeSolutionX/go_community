@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "4d4f9357_488dddd1",
+        "filename": "src/cmd/go/internal/web/http.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-03T18:26:30Z",
+      "side": 1,
+      "message": "Done, in security.go (because that one has no build tags).",
+      "parentUuid": "f4f6f5da_bb1264e9",
+      "revId": "4421c227527677ab64d16296183a6159a82e91b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3ade4ac_f3b0f4a1",
         "filename": "src/cmd/go/vcs_test.go",
         "patchSetId": 1
