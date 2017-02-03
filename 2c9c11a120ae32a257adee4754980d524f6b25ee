@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1851073c_67ad3c8d",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-03T03:11:55Z",
+      "side": 1,
+      "message": "Wish I could.  mkbuiltin.go doesn\u0027t do the right thing if I put actual types here.",
+      "parentUuid": "e7985dd3_8b3db52d",
+      "revId": "2c9c11a120ae32a257adee4754980d524f6b25ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "03661f06_9455059b",
         "filename": "src/cmd/compile/internal/gc/reflect.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-02T18:49:17Z",
       "side": 1,
       "message": "Not new code, but s/unused/padding/ here for clarity? Or add \"// padding\"?",
+      "revId": "2c9c11a120ae32a257adee4754980d524f6b25ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1da7af4e_f0d8650c",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-03T03:11:55Z",
+      "side": 1,
+      "message": "I think \"unused\" is better.  \"padding\" implies that it\u0027s needed to keep the two fields on either side of it apart.  That\u0027s not the case here - \"unused\" is just stating that those two bytes are not currently used for anything.\n\nThe runtime is conflicted about which to use, I see instances of both.",
+      "parentUuid": "03661f06_9455059b",
       "revId": "2c9c11a120ae32a257adee4754980d524f6b25ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
