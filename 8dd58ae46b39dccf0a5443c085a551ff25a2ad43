@@ -16,6 +16,24 @@
       "revId": "8dd58ae46b39dccf0a5443c085a551ff25a2ad43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b71bb7c_0e4137ee",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-02-03T00:49:28Z",
+      "side": 1,
+      "message": "s/Gopher/Gopher image/ ?",
+      "parentUuid": "c527e237_368093a3",
+      "revId": "8dd58ae46b39dccf0a5443c085a551ff25a2ad43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
