@@ -52,6 +52,24 @@
       "revId": "8dd58ae46b39dccf0a5443c085a551ff25a2ad43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2030318c_f9b387b0",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7440
+      },
+      "writtenOn": "2017-02-03T00:53:52Z",
+      "side": 1,
+      "message": "Small isn\u0027t possible on GitHub - they strip the HTML tags. There\u0027s no Markdown for small text. (I italicised it for a similar effect.)",
+      "parentUuid": "d2360656_7d3b2fed",
+      "revId": "8dd58ae46b39dccf0a5443c085a551ff25a2ad43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
