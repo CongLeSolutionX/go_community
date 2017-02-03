@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7753e24e_9f53b02a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1865,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-02-03T23:15:28Z",
+      "side": 1,
+      "message": "s/Alias/alias/\n\n(Use lower case after a colon unless it\u0027s a complete sentence.)",
+      "range": {
+        "startLine": 1865,
+        "startChar": 37,
+        "endLine": 1865,
+        "endChar": 38
+      },
+      "revId": "20b8356def6c9ddb836f5564250ff6c4439beffd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2756b70_e4cbf8d4",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1899,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-02-03T23:15:28Z",
+      "side": 1,
+      "message": "\"newly\" suggests temporality where there is none.\n\nPerhaps:\n\n\"A type definition creates a distinct type with the same \u003ca href\u003d\"#Types\"\u003eunderlying type\u003c/a\u003e and\noperations as the given type, and binds an identifier to it.\"",
+      "range": {
+        "startLine": 1899,
+        "startChar": 43,
+        "endLine": 1899,
+        "endChar": 56
+      },
+      "revId": "20b8356def6c9ddb836f5564250ff6c4439beffd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
