@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "69ab3253_e4d4f5ad",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-03T01:04:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f2df6db_6317c29c",
+      "revId": "67eba12452d19d403b758ee097facc3a2d846323",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd6b43b3_a3b5fefd",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-03T00:47:58Z",
       "side": 1,
       "message": "where is this grammar introduced?",
+      "revId": "67eba12452d19d403b758ee097facc3a2d846323",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "793b667f_12e649f7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-03T01:04:58Z",
+      "side": 1,
+      "message": "It\u0027s introduced with type declarations, which are mentioned just above (line 115), with link.\n\nWe had the examples below for a long time, same situation.",
+      "parentUuid": "dd6b43b3_a3b5fefd",
       "revId": "67eba12452d19d403b758ee097facc3a2d846323",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
