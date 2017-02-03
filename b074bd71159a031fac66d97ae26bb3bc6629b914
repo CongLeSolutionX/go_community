@@ -16,6 +16,24 @@
       "revId": "b074bd71159a031fac66d97ae26bb3bc6629b914",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7385039_fb835732",
+        "filename": "src/cmd/go/bug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-03T18:25:26Z",
+      "side": 1,
+      "message": "Done in followup.",
+      "parentUuid": "d9ed8dcc_d06c1523",
+      "revId": "b074bd71159a031fac66d97ae26bb3bc6629b914",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
