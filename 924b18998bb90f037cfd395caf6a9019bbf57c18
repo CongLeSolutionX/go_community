@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b5889b36_bb7e12db",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-04T21:22:39Z",
+      "side": 1,
+      "message": "They could, and they would be wrong.  People assuming something about the implementation that isn\u0027t described in the API is not a problem that\u0027s going away any time soon.\nIt would be ok for them to do %N.  If they profile and determine that it is a hot spot in their program, they will figure out it is ok to remove their %N.",
+      "parentUuid": "28b4c241_b52a798f",
+      "revId": "924b18998bb90f037cfd395caf6a9019bbf57c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad5a4a3e_55a7f1b1",
         "filename": "src/math/bits/bits.go",
         "patchSetId": 2
