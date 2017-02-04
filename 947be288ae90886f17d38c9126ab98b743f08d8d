@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e0f9a19_b1904f27",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 5154
+      },
+      "writtenOn": "2017-02-04T17:08:03Z",
+      "side": 1,
+      "message": "B0 inserted twice?",
+      "revId": "947be288ae90886f17d38c9126ab98b743f08d8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
