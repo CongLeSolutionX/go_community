@@ -16,6 +16,24 @@
       "revId": "947be288ae90886f17d38c9126ab98b743f08d8d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71dd429a_810321d0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-04T20:26:42Z",
+      "side": 1,
+      "message": "It\u0027s been there before (T0 and T0) and it\u0027s on purpose: The idea is to show that a type is equal to itself (which is not necessarily true for all things: for instance, a float NaN is never equal to itself).\n\nBut this has come up before and it seems to confuse people. Maybe we should remove this example.\n\nIf we do, let\u0027s do this in a separate CL.",
+      "parentUuid": "1e0f9a19_b1904f27",
+      "revId": "947be288ae90886f17d38c9126ab98b743f08d8d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
