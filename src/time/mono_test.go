@@ -233,6 +233,8 @@ func TestMonotonicOverflow(t *testing.T) {
 
 func TestMonotonicString(t *testing.T) {
 	t1 := Now()
+	t.Logf("Now() = %v", t1)
+
 	re := regexp.MustCompile(` m=\+[0-9]+\.[0-9]{9}$`)
 	if !re.MatchString(t1.String()) {
 		t.Errorf("Now().String() = %q, want match for /%s/", t1.String(), re)
