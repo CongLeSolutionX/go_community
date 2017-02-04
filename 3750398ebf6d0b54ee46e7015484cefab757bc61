@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b40acd76_18b86021",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1784,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-04T01:18:59Z",
+      "side": 1,
+      "message": "total hack here, but I\u0027d welcome some feedback on how to reliably detect the\ntoken/expression that was consumed right after the if statement.",
+      "revId": "3750398ebf6d0b54ee46e7015484cefab757bc61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
