@@ -1,4 +1,4 @@
-// +build amd64
+// +build !386,!arm,!mips,!mipsle
 // compile
 
 // Copyright 2013 The Go Authors. All rights reserved.
