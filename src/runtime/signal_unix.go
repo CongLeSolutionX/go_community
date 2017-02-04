@@ -7,6 +7,7 @@
 package runtime
 
 import (
+	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -31,9 +32,10 @@ const (
 // Stores the signal handlers registered before Go installed its own.
 // These signal handlers will be invoked in cases where Go doesn't want to
 // handle a particular signal (e.g., signal occurred on a non-Go thread).
-// See sigfwdgo() for more information on when the signals are forwarded.
+// See sigfwdgo for more information on when the signals are forwarded.
 //
-// Signal forwarding is currently available only on Darwin and Linux.
+// This is read by the signal handler; accesses should use
+// atomic.Loaduintptr and atomic.Storeuintptr.
 var fwdSig [_NSIG]uintptr
 
 // channels for synchronizing signal mask updates with the signal mask
@@ -76,12 +78,14 @@ func initsig(preinit bool) {
 		if t.flags == 0 || t.flags&_SigDefault != 0 {
 			continue
 		}
-		fwdSig[i] = getsig(i)
+
+		handler := getsig(i)
+		atomic.Storeuintptr(&fwdSig[i], handler)
 
 		if !sigInstallGoHandler(i) {
 			// Even if we are not installing a signal handler,
 			// set SA_ONSTACK if necessary.
-			if fwdSig[i] != _SIG_DFL && fwdSig[i] != _SIG_IGN {
+			if handler != _SIG_DFL && handler != _SIG_IGN {
 				setsigstack(i)
 			}
 			continue
@@ -100,7 +104,7 @@ func sigInstallGoHandler(sig uint32) bool {
 	// Even these signals can be fetched using the os/signal package.
 	switch sig {
 	case _SIGHUP, _SIGINT:
-		if fwdSig[sig] == _SIG_IGN {
+		if atomic.Loaduintptr(&fwdSig[sig]) == _SIG_IGN {
 			return false
 		}
 	}
@@ -131,7 +135,7 @@ func sigenable(sig uint32) {
 		<-maskUpdatedChan
 		if t.flags&_SigHandling == 0 {
 			t.flags |= _SigHandling
-			fwdSig[sig] = getsig(sig)
+			atomic.Storeuintptr(&fwdSig[sig], getsig(sig))
 			setsig(sig, funcPC(sighandler))
 		}
 	}
@@ -153,7 +157,7 @@ func sigdisable(sig uint32) {
 		// we should remove the one we installed.
 		if !sigInstallGoHandler(sig) {
 			t.flags &^= _SigHandling
-			setsig(sig, fwdSig[sig])
+			setsig(sig, atomic.Loaduintptr(&fwdSig[sig]))
 		}
 	}
 }
@@ -348,7 +352,7 @@ func raisebadsignal(sig uint32, c *sigctxt) {
 	if sig >= _NSIG {
 		handler = _SIG_DFL
 	} else {
-		handler = fwdSig[sig]
+		handler = atomic.Loaduintptr(&fwdSig[sig])
 	}
 
 	// Reset the signal handler and raise the signal.
@@ -490,7 +494,7 @@ func sigfwdgo(sig uint32, info *siginfo, ctx unsafe.Pointer) bool {
 	if sig >= uint32(len(sigtable)) {
 		return false
 	}
-	fwdFn := fwdSig[sig]
+	fwdFn := atomic.Loaduintptr(&fwdSig[sig])
 
 	if !signalsOK {
 		// The only way we can get here is if we are in a
@@ -505,27 +509,27 @@ func sigfwdgo(sig uint32, info *siginfo, ctx unsafe.Pointer) bool {
 		return true
 	}
 
-	flags := sigtable[sig].flags
-
 	// If there is no handler to forward to, no need to forward.
 	if fwdFn == _SIG_DFL {
 		return false
 	}
 
-	// If we aren't handling the signal, forward it.
-	if flags&_SigHandling == 0 {
-		sigfwd(fwdFn, sig, info, ctx)
-		return true
-	}
-
-	c := &sigctxt{info, ctx}
-	// Only forward synchronous signals and SIGPIPE.
-	// Unfortunately, user generated SIGPIPEs will also be forwarded, because si_code
-	// is set to _SI_USER even for a SIGPIPE raised from a write to a closed socket
-	// or pipe.
-	if (c.sigcode() == _SI_USER || flags&_SigPanic == 0) && sig != _SIGPIPE {
+	switch sig {
+	case _SIGBUS, _SIGSEGV, _SIGFPE:
+		// Don't forward a user-generated signal.
+		c := &sigctxt{info, ctx}
+		if c.sigcode() == _SI_USER {
+			return false
+		}
+	case _SIGPIPE:
+		// Unfortunately, user generated SIGPIPEs will also be
+		// forwarded, because si_code is set to _SI_USER even for a
+		// SIGPIPE raised from a write to a closed socket or pipe.
+	default:
+		// Only forward synchronous signals and SIGPIPE.
 		return false
 	}
+
 	// Determine if the signal occurred inside Go code. We test that:
 	//   (1) we were in a goroutine (i.e., m.curg != nil), and
 	//   (2) we weren't in CGO.
@@ -533,10 +537,12 @@ func sigfwdgo(sig uint32, info *siginfo, ctx unsafe.Pointer) bool {
 	if g != nil && g.m != nil && g.m.curg != nil && !g.m.incgo {
 		return false
 	}
+
 	// Signal not handled by Go, forward it.
 	if fwdFn != _SIG_IGN {
 		sigfwd(fwdFn, sig, info, ctx)
 	}
+
 	return true
 }
 
