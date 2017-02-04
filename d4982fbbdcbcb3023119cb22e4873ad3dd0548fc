@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1fd8bdc_a1ab4b3f",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-04T00:10:54Z",
+      "side": 1,
+      "message": "I think LogN for Log8, Log16, Log32, Log64 are awkward and a little confusing\nhttps://golang.org/pkg/math/#Log, I initially thought Log8 would compute the logarithm\nof the argument to the base 8\nTraditionally there are Log10, Log2(which is Log).\n\nPerhaps we exclude LogN or just keep it at Log?",
+      "revId": "d4982fbbdcbcb3023119cb22e4873ad3dd0548fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
