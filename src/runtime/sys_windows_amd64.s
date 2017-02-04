@@ -465,10 +465,53 @@ TEXT runtime·switchtothread(SB),NOSPLIT|NOFRAME,$0
 	MOVQ	32(SP), SP
 	RET
 
-// func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB),NOSPLIT,$8-12
-	CALL	runtime·unixnano(SB)
-	MOVQ	0(SP), AX
+#define _INTERRUPT_TIME 0x7ffe0008
+#define _SYSTEM_TIME 0x7ffe0014
+#define time_lo 0
+#define time_hi1 4
+#define time_hi2 8
+
+TEXT runtime·nanotime(SB),NOSPLIT,$0-8
+	MOVQ	$_INTERRUPT_TIME, DI
+loop:
+	MOVL	time_hi1(DI), AX
+	MOVL	time_lo(DI), BX
+	MOVL	time_hi2(DI), CX
+	CMPL	AX, CX
+	JNE	loop
+	SHLQ	$32, CX
+	ORQ	BX, CX
+	IMULQ	$100, CX
+	SUBQ	runtime·startNano(SB), CX
+	MOVQ	CX, ret+0(FP)
+	RET
+
+TEXT time·now(SB),NOSPLIT,$0-24
+	MOVQ	$_INTERRUPT_TIME, DI
+loop:
+	MOVL	time_hi1(DI), AX
+	MOVL	time_lo(DI), BX
+	MOVL	time_hi2(DI), CX
+	CMPL	AX, CX
+	JNE	loop
+	SHLQ	$32, AX
+	ORQ	BX, AX
+	IMULQ	$100, AX
+	SUBQ	runtime·startNano(SB), AX
+	MOVQ	AX, mono+16(FP)
+
+	MOVQ	$_SYSTEM_TIME, DI
+wall:
+	MOVL	time_hi1(DI), AX
+	MOVL	time_lo(DI), BX
+	MOVL	time_hi2(DI), CX
+	CMPL	AX, CX
+	JNE	wall
+	SHLQ	$32, AX
+	ORQ	BX, AX
+	MOVQ	$116444736000000000, DI
+	SUBQ	DI, AX
+	IMULQ	$100, AX
 
 	// generated code for
 	//	func f(x uint64) (uint64, uint64) { return x/1000000000, x%100000000 }
@@ -484,4 +527,3 @@ TEXT runtime·walltime(SB),NOSPLIT,$8-12
 	SUBQ	DX, CX
 	MOVL	CX, nsec+8(FP)
 	RET
-
