@@ -16,6 +16,29 @@
       "revId": "313861859308426f7f8e183b3b7809382c3c4017",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f568b969_5c707f2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-02-04T14:36:33Z",
+      "side": 1,
+      "message": "Please show the two versions one under the other, as this layout requires a very large display; formatting breaks under GitHub, Gerrit, my terminal, etc.",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 23
+      },
+      "revId": "313861859308426f7f8e183b3b7809382c3c4017",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
