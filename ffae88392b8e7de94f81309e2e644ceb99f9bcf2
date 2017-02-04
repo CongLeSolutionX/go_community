@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "776e4664_c2bd41ea",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-02-04T20:29:19Z",
+      "side": 1,
+      "message": "Ok, I will move timer checking and these 2 syscalls into loadOptionalSyscalls()",
+      "parentUuid": "2fb56e70_70eb15d5",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "895f799b_6f62d1a6",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 4
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "26a9586d_9ed5a41b",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-02-04T20:29:19Z",
+      "side": 1,
+      "message": "No, I strongly disagree with searching for wine symbols and doing some conditional logic on them. It is not wine that doesn\u0027t implement \"correct\" mapping of the timing page, but golang which uses undocumented behaviour of windows.\n\nIn the ideal world golang should be using these QPC methods first to implement monotonic timings, but fortunately for windows users, there is a quick hack with mapped page which works.\n\nProbably it will never change and will always exist, but this does not tolerate architectural changes which involve per-os(-version) hacks.",
+      "parentUuid": "5c863a5c_626f8c40",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96b83c3f_88eb471b",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 4
@@ -64,6 +100,24 @@
       "writtenOn": "2017-02-04T07:23:34Z",
       "side": 1,
       "message": "Why not name this variable unixnano instead? You won\u0027t need unixnano function then. Unless I am mistaken.\n\nYou can even initialize this variable with _systime_mm.\n\nYou can also set unixnano to unixnano_qpc during the test, if you like. And run some time measuring code or something, so we can actually test your WINE code end to end on Windows.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04976712_b13436f4",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-02-04T20:29:19Z",
+      "side": 1,
+      "message": "Some external code uses it as function, I though it is more clear not to change code outside of this file",
+      "parentUuid": "96b83c3f_88eb471b",
       "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -138,6 +192,24 @@
     },
     {
       "key": {
+        "uuid": "c4ed72ea_1233f58a",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-02-04T20:29:19Z",
+      "side": 1,
+      "message": "ok :/",
+      "parentUuid": "ddc32273_7b792338",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecfab526_83175cd0",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 4
@@ -149,6 +221,24 @@
       "writtenOn": "2017-02-04T07:23:34Z",
       "side": 1,
       "message": "s/panic/throw/\n\nI do not think you could use panic here.\nSame everywhere.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c07d783_698f3b78",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-02-04T20:29:19Z",
+      "side": 1,
+      "message": "Ok",
+      "parentUuid": "ecfab526_83175cd0",
       "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
