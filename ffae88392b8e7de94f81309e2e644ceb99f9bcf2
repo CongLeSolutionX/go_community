@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fb56e70_70eb15d5",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-04T07:23:34Z",
+      "side": 1,
+      "message": "Do not load this function unconditionally. No Windows user will use it, just yourself using WINE. Load it in loadOptionalSyscalls, but only if running WINE.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "895f799b_6f62d1a6",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-04T07:23:34Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c863a5c_626f8c40",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-04T07:23:34Z",
+      "side": 1,
+      "message": "Move this into loadOptionalSyscalls.\n\nSearch for wine_get_version functoin in ntdll.dll. If found then load both QueryPerformanceCounter and QueryPerformanceFrequency, and set unixnano and nanotime variables accordingly.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96b83c3f_88eb471b",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-04T07:23:34Z",
+      "side": 1,
+      "message": "Why not name this variable unixnano instead? You won\u0027t need unixnano function then. Unless I am mistaken.\n\nYou can even initialize this variable with _systime_mm.\n\nYou can also set unixnano to unixnano_qpc during the test, if you like. And run some time measuring code or something, so we can actually test your WINE code end to end on Windows.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5675623f_f1458762",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-04T07:23:34Z",
+      "side": 1,
+      "message": "Same\n\ns/_nanotime/nanotime/",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95382ec1_175bfd65",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-04T07:23:34Z",
+      "side": 1,
+      "message": "Should not need this function.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ff53848_1c0060f1",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-04T07:23:34Z",
+      "side": 1,
+      "message": "Should not need this function.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddc32273_7b792338",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-04T07:23:34Z",
+      "side": 1,
+      "message": "Please, no underscore in names. Everywhere. No runtime code uses names with underscores.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecfab526_83175cd0",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-04T07:23:34Z",
+      "side": 1,
+      "message": "s/panic/throw/\n\nI do not think you could use panic here.\nSame everywhere.",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
