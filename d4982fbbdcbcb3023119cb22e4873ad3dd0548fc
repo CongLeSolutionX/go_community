@@ -16,6 +16,24 @@
       "revId": "d4982fbbdcbcb3023119cb22e4873ad3dd0548fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da1a010b_7bde702e",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-04T00:16:34Z",
+      "side": 1,
+      "message": "I agree with the counter argument from the issue tracker that being in the `bits` package implies that this is base-2. The fact that the package name will likely be included in actual use will underline this further (e.g. `bits.Log32(x)`).",
+      "parentUuid": "d1fd8bdc_a1ab4b3f",
+      "revId": "d4982fbbdcbcb3023119cb22e4873ad3dd0548fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
