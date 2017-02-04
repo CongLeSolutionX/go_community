@@ -52,6 +52,24 @@
       "revId": "d4982fbbdcbcb3023119cb22e4873ad3dd0548fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "092cfcbd_1e7aea40",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-04T00:34:59Z",
+      "side": 1,
+      "message": "Gotcha, I guess I was jumping in after seeing a notification on my phone without much context.\nSure, given that it is in the bits package, then we are only dealing with Log2.",
+      "parentUuid": "d80c3c1c_bb07cdaa",
+      "revId": "d4982fbbdcbcb3023119cb22e4873ad3dd0548fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
