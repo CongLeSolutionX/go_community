@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aad285d0_2b8409cc",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-05T01:11:20Z",
+      "side": 1,
+      "message": "Do not need start these with underscore.\nAnd also try make them shorter, if possible.\nMaybe\n\ns/_SystimeQPCFrequency/qpcFrequency/\n\nAlso adding some documentation will not hurt.",
+      "revId": "2d9ee4e56f32b7a7c21119ae582fb10463ab3fec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89cca942_960f303c",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-05T01:11:20Z",
+      "side": 1,
+      "message": "Maybe\ns/_SystimeQPCStart/qpcStart/",
+      "range": {
+        "startLine": 313,
+        "startChar": 4,
+        "endLine": 313,
+        "endChar": 20
+      },
+      "revId": "2d9ee4e56f32b7a7c21119ae582fb10463ab3fec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0afe584f_29e13e18",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-05T01:11:20Z",
+      "side": 1,
+      "message": "Maybe\n\ns/_QPCBaseNanoSystem/unixnanoQPCBase/\n\nand\n\ns/_QPCBaseNanoInterrupt/nanotimeQPCBase/",
+      "revId": "2d9ee4e56f32b7a7c21119ae582fb10463ab3fec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7d268430_917f700e",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-05T01:11:20Z",
+      "side": 1,
+      "message": "Maybe\n\ns/_QPCMultiplier/qpcMultiplier/",
+      "revId": "2d9ee4e56f32b7a7c21119ae582fb10463ab3fec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc357f7b_866ff7c8",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-05T01:11:20Z",
+      "side": 1,
+      "message": "s/systimeMM/systimeMemoryMapped/\n\nbecause no one will know what MM stands for.\nAlternatively add function documentation.\n\nSame for other ...MM functions.",
+      "range": {
+        "startLine": 670,
+        "startChar": 5,
+        "endLine": 670,
+        "endChar": 14
+      },
+      "revId": "2d9ee4e56f32b7a7c21119ae582fb10463ab3fec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
