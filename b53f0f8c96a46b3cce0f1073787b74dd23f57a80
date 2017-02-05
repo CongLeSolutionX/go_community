@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6950403_b7ef3f36",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-05T22:47:34Z",
+      "side": 0,
+      "message": "Is this effectively just hard-coding the signals that have _SigPanic set? That doesn\u0027t seem so great. Maybe we should separate static flags from dynamic flags?",
+      "revId": "b53f0f8c96a46b3cce0f1073787b74dd23f57a80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
