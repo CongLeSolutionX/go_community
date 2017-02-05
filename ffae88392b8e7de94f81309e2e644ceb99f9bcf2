@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "47d4febd_e0699947",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-05T01:11:20Z",
+      "side": 1,
+      "message": "This CL is about making time work on WINE. This CL is not about changing the way time is managed on real Windows. If you want to change Windows time code, you should do it in a different CL / issue.\n\nSo I do not want Windows users to be affected by changing code - in term of introducing new bugs and making it less performant. I think my approach of detecting WINE by looking for wine_get_version function in ntdll.dll is less risky.\n\nPS: I remember we tried QPC to measure time, but had problems. (You can search for CL / issues history for details). What we have seems to work fine on every Windows we tried. It is simple and fast.",
+      "parentUuid": "26a9586d_9ed5a41b",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96b83c3f_88eb471b",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 4
@@ -118,6 +136,24 @@
       "side": 1,
       "message": "Some external code uses it as function, I though it is more clear not to change code outside of this file",
       "parentUuid": "96b83c3f_88eb471b",
+      "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfde1fd6_78b748d4",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-05T01:11:20Z",
+      "side": 1,
+      "message": "Can you provide more details. Which \"external code\" you are referring to?",
+      "parentUuid": "04976712_b13436f4",
       "revId": "ffae88392b8e7de94f81309e2e644ceb99f9bcf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
