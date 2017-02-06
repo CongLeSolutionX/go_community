@@ -314,8 +314,8 @@ func TestQueryContext(t *testing.T) {
 		index++
 	}
 	err = rows.Err()
-	if err != nil {
-		t.Fatalf("Err: %v", err)
+	if err != ctx.Err() {
+		t.Fatalf("error mismatch, got %v want %v", err, ctx.Err())
 	}
 	want := []row{
 		{age: 1, name: "Alice"},
