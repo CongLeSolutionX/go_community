@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21918f97_3f141b99",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-02-06T23:23:33Z",
+      "side": 1,
+      "message": "Why does it fail in NACL?",
+      "range": {
+        "startLine": 520,
+        "startChar": 43,
+        "endLine": 520,
+        "endChar": 55
+      },
+      "revId": "3739c212c606af292fc9e2c17c995f92b2a081dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
