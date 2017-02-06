@@ -28,22 +28,30 @@
 //            if err != nil {
 //                log.Fatal("could not create CPU profile: ", err)
 //            }
+//            defer f.Close()
 //            if err := pprof.StartCPUProfile(f); err != nil {
 //                log.Fatal("could not start CPU profile: ", err)
 //            }
 //            defer pprof.StopCPUProfile()
 //        }
-//        ...
+//
+//        var memprofileFile *os.File
 //        if *memprofile != "" {
 //            f, err := os.Create(*memprofile)
 //            if err != nil {
 //                log.Fatal("could not create memory profile: ", err)
 //            }
+//            memprofileFile = f
+//        }
+//
+//        // ... rest of the program ....
+//
+//        if memprofileFile != nil {
 //            runtime.GC() // get up-to-date statistics
-//            if err := pprof.WriteHeapProfile(f); err != nil {
+//            if err := pprof.WriteHeapProfile(memprofileFile); err != nil {
 //                log.Fatal("could not write memory profile: ", err)
 //            }
-//            f.Close()
+//            memprofileFile.Close()
 //        }
 //    }
 //
