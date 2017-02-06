@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d4c299af_b9328900",
+        "filename": "src/runtime/internal/proflabel/proflabel.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-06T16:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3811f88_73c637f6",
+      "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "094f0fc4_bf465341",
         "filename": "src/runtime/internal/proflabel/proflabel.go",
         "patchSetId": 8
@@ -48,6 +66,24 @@
       "writtenOn": "2017-02-06T16:02:44Z",
       "side": 1,
       "message": "// for go:linkname\n\nexcept now you can delete this line instead (see below).",
+      "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da2f4f19_432acd46",
+        "filename": "src/runtime/internal/proflabel/proflabel.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-06T16:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "094f0fc4_bf465341",
       "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "41144467_5acbcfc7",
+        "filename": "src/runtime/internal/proflabel/proflabel.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-06T16:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "440b42c0_c49d9dcc",
+      "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0b013cf_6d7f1aa1",
         "filename": "src/runtime/internal/proflabel/proflabel.go",
         "patchSetId": 8
@@ -82,6 +136,24 @@
       "writtenOn": "2017-02-06T16:02:44Z",
       "side": 1,
       "message": "Pulling symbols out of runtime like this is discouraged / wrong / breaks inlining. Please move these go:linkname comments into package runtime.",
+      "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fec3dede_d6b04ffa",
+        "filename": "src/runtime/internal/proflabel/proflabel.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-06T16:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0b013cf_6d7f1aa1",
       "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "7b558b44_44e24878",
+        "filename": "src/runtime/internal/proflabel/proflabel_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-06T16:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2530f787_4f6441d1",
+      "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "227d5155_c2188607",
         "filename": "src/runtime/pprof/goroutine_label_test.go",
         "patchSetId": 8
@@ -116,6 +206,24 @@
       "writtenOn": "2017-02-06T15:59:44Z",
       "side": 1,
       "message": "copyright notice",
+      "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9ba8bc4_fe92aaf1",
+        "filename": "src/runtime/pprof/goroutine_label_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-06T16:28:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "227d5155_c2188607",
       "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
