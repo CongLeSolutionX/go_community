@@ -206,16 +206,6 @@ func BenchmarkMul(b *testing.B) {
 	}
 }
 
-func TestNLZ(t *testing.T) {
-	var x Word = _B >> 1
-	for i := 0; i <= _W; i++ {
-		if int(nlz(x)) != i {
-			t.Errorf("failed at %x: got %d want %d", x, nlz(x), i)
-		}
-		x >>= 1
-	}
-}
-
 type shiftTest struct {
 	in    nat
 	shift uint
