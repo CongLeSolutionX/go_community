@@ -16,6 +16,24 @@
       "revId": "7f18332a3c8fc1dd98dbf969b64ad187d74b3357",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2244bb97_4f242bb5",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-02-06T22:22:43Z",
+      "side": 1,
+      "message": "See the followup CL. :)",
+      "parentUuid": "d63751e1_984b7ba5",
+      "revId": "7f18332a3c8fc1dd98dbf969b64ad187d74b3357",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
