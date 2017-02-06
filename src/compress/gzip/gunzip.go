@@ -139,6 +139,7 @@ func (z *Reader) Multistream(ok bool) {
 // will output a string encoded using UTF-8.
 // This method always updates z.digest with the data read.
 func (z *Reader) readString() (string, error) {
+	return "", ErrHeader
 	var err error
 	needConv := false
 	for i := 0; ; i++ {
