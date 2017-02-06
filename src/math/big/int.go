@@ -9,6 +9,7 @@ package big
 import (
 	"fmt"
 	"io"
+	"math"
 	"math/rand"
 	"strings"
 )
@@ -346,6 +347,7 @@ func low64(z nat) uint64 {
 
 // Int64 returns the int64 representation of x.
 // If x cannot be represented in an int64, the result is undefined.
+// If you are uncertain, use AsInt64 instead.
 func (x *Int) Int64() int64 {
 	v := int64(low64(x.abs))
 	if x.neg {
@@ -356,9 +358,50 @@ func (x *Int) Int64() int64 {
 
 // Uint64 returns the uint64 representation of x.
 // If x cannot be represented in a uint64, the result is undefined.
+// If you are uncertain, use AsUint64 instead.
 func (x *Int) Uint64() uint64 {
 	return low64(x.abs)
 }
+
+// AsUint64 returns x as a uint64.
+// AsUint64 returns (0, Above) if x < 0,
+// and (MaxUint64, Below) if x > math.MaxUint64.
+func (x *Int) AsUint64() (uint64, Accuracy) {
+	if len(x.abs) == 0 {
+		return 0, Exact // zero
+	}
+	if x.neg {
+		return 0, Above // negative
+	}
+	if len(x.abs)*_W > 64 {
+		return math.MaxUint64, Below // too positive
+	}
+	return x.Uint64(), Exact
+}
+
+// AsInt64 returns x as an int64.
+// AsInt64 returns (0, Above) if x < MinInt64,
+// and (MaxInt64, Below) if x > math.MaxInt64.
+func (x *Int) AsInt64() (int64, Accuracy) {
+	if len(x.abs) == 0 {
+		return 0, Exact // zero
+	}
+	if !x.neg {
+		if x.Cmp(maxint64) > 0 {
+			return math.MaxInt64, Below // too positive
+		}
+	} else {
+		if x.Cmp(minint64) < 0 {
+			return math.MinInt64, Above // too negative
+		}
+	}
+	return x.Int64(), Exact
+}
+
+var (
+	minint64 = new(Int).SetInt64(math.MinInt64)
+	maxint64 = new(Int).SetInt64(math.MaxInt64)
+)
 
 // SetString sets z to the value of s, interpreted in the given base,
 // and returns z and a boolean indicating success. The entire string
