@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad2df150_454c20e1",
+        "filename": "src/runtime/pprof/goroutine_label.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-06T20:11:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "655ca827_f44906f2",
+      "revId": "e30df38a03275e72b9e7e2cd8d941f0f9ca5c46f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdab0bd7_851120e9",
         "filename": "src/runtime/pprof/goroutine_label.go",
         "patchSetId": 12
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-06T19:36:40Z",
       "side": 1,
       "message": "I talked to Austin. Let\u0027s go with unsafe.Pointer in the g struct and here and everywhere else. When we get to pulling these out for the profile data export, that will be half as many words to remember, and nothing publicly sees these, right? I don\u0027t think so.\n\nFor now you may need to change the context key from type labelMap to type *labelMap, so that you can convert it to unsafe.Pointer. That\u0027s fine, we don\u0027t expect to have a map for the long term anyway.",
+      "revId": "e30df38a03275e72b9e7e2cd8d941f0f9ca5c46f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51f47f67_9ac4560f",
+        "filename": "src/runtime/pprof/goroutine_label.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-06T20:11:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdab0bd7_851120e9",
       "revId": "e30df38a03275e72b9e7e2cd8d941f0f9ca5c46f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
