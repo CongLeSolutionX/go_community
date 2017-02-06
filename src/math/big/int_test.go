@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"encoding/hex"
 	"fmt"
+	"math"
 	"math/rand"
 	"strings"
 	"testing"
@@ -1493,5 +1494,35 @@ func BenchmarkSqrt(b *testing.B) {
 	t := new(Int)
 	for i := 0; i < b.N; i++ {
 		t.Sqrt(n)
+	}
+}
+
+// TestAsInt64 exercises the Int.AsInt64 and Int.AsUint64 methods.
+func TestAsInt64(t *testing.T) {
+	one := NewInt(1)
+
+	for _, test := range []struct {
+		i          *Int
+		wantInt64  string
+		wantUint64 string
+	}{
+		{new(Int).Sub(NewInt(math.MinInt64), one), "-9223372036854775808 Above", "0 Above"},
+		{NewInt(math.MinInt64), "-9223372036854775808 Exact", "0 Above"},
+		{NewInt(-1), "-1 Exact", "0 Above"},
+		{NewInt(0), "0 Exact", "0 Exact"},
+		{NewInt(1), "1 Exact", "1 Exact"},
+		{NewInt(math.MaxInt64), "9223372036854775807 Exact", "9223372036854775807 Exact"},
+		{NewInt(0).SetUint64(math.MaxUint64), "9223372036854775807 Below", "18446744073709551615 Exact"},
+		{new(Int).Add(new(Int).SetUint64(math.MaxUint64), one), "9223372036854775807 Below", "18446744073709551615 Below"},
+	} {
+		gotInt64 := fmt.Sprint(test.i.AsInt64())
+		if gotInt64 != test.wantInt64 {
+			t.Errorf("(%s).Int64() = %s, want %s", test.i, gotInt64, test.wantInt64)
+		}
+
+		gotUint64 := fmt.Sprint(test.i.AsUint64())
+		if gotUint64 != test.wantUint64 {
+			t.Errorf("(%s).Uint64() = %s, want %s", test.i, gotUint64, test.wantUint64)
+		}
 	}
 }
