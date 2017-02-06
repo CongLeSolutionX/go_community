@@ -16,6 +16,24 @@
       "revId": "b53f0f8c96a46b3cce0f1073787b74dd23f57a80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dfc138f_4d0d1d52",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-06T04:57:28Z",
+      "side": 0,
+      "message": "I was planning to do that in follow-ups, but I\u0027ll merge them into this CL.",
+      "parentUuid": "f6950403_b7ef3f36",
+      "revId": "b53f0f8c96a46b3cce0f1073787b74dd23f57a80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
