@@ -440,6 +440,37 @@ func f(t *T) {
 `,
 		[]string{"\tROLL\t[$]7,"},
 	},
+	// Bit test ops on amd64, issue 18943.
+	{"amd64", "linux", `
+func f(a, b uint64) int {
+	if a&(1<<(b&63)) != 0 {
+		return 1
+	}
+	return -1
+}
+`,
+		[]string{"\tBTQ\t"},
+	},
+	{"amd64", "linux", `
+func f(a, b uint64) bool { return a&(1<<(b&63)) != 0 }
+`,
+		[]string{"\tBTQ\t"},
+	},
+	{"amd64", "linux", `
+func f(a uint64) int {
+	if a&(1<<30) != 0 {
+		return 1
+	}
+	return -1
+}
+`,
+		[]string{"\tBTQ\t\\$30"},
+	},
+	{"amd64", "linux", `
+func f(a uint64) bool { return a&(1<<30) != 0 }
+`,
+		[]string{"\tBTQ\t\\$30"},
+	},
 }
 
 // mergeEnvLists merges the two environment lists such that

@@ -515,6 +515,17 @@
 (NE (TESTB (SETA  cmp) (SETA  cmp)) yes no) -> (UGT cmp yes no)
 (NE (TESTB (SETAE cmp) (SETAE cmp)) yes no) -> (UGE cmp yes no)
 
+// Recognize bit tests: a&(1<<b) != 0 for b suitably bounded
+// Note that ULT and SETB check the carry flag; they are identical to CS and SETCS.
+(NE (TESTL (SHLL (MOVLconst [1]) x) y)) && !config.nacl -> (ULT (BTL x y))
+(NE (TESTQ (SHLQ (MOVQconst [1]) x) y)) && !config.nacl -> (ULT (BTQ x y))
+(NE (TESTLconst [c] x)) && isPowerOfTwo(c) && log2(c) < 32 && !config.nacl -> (ULT (BTLconst [log2(c)] x))
+(NE (TESTQconst [c] x)) && isPowerOfTwo(c) && log2(c) < 64 && !config.nacl -> (ULT (BTQconst [log2(c)] x))
+(SETNE (TESTL (SHLL (MOVLconst [1]) x) y)) && !config.nacl -> (SETB (BTL x y))
+(SETNE (TESTQ (SHLQ (MOVQconst [1]) x) y)) && !config.nacl -> (SETB (BTQ x y))
+(SETNE (TESTLconst [c] x)) && isPowerOfTwo(c) && log2(c) < 32 && !config.nacl -> (SETB (BTLconst [log2(c)] x))
+(SETNE (TESTQconst [c] x)) && isPowerOfTwo(c) && log2(c) < 64 && !config.nacl -> (SETB (BTQconst [log2(c)] x))
+
 // Special case for floating point - LF/LEF not generated
 (NE (TESTB (SETGF  cmp) (SETGF  cmp)) yes no) -> (UGT  cmp yes no)
 (NE (TESTB (SETGEF cmp) (SETGEF cmp)) yes no) -> (UGE  cmp yes no)
