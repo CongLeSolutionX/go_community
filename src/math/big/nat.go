@@ -9,6 +9,7 @@
 package big
 
 import (
+	"math/bits"
 	"math/rand"
 	"sync"
 )
@@ -590,7 +591,7 @@ func (z nat) divLarge(u, uIn, v nat) (q, r nat) {
 
 	// D1.
 	var v1p *nat
-	shift := nlz(v[n-1])
+	shift := uint(bits.LeadingZeros(v[n-1]))
 	if shift > 0 {
 		// do not modify v, it may be used by another goroutine simultaneously
 		v1p = getNat(n)
@@ -968,7 +969,7 @@ func (z nat) expNN(x, y, m nat) nat {
 	}
 
 	v := y[len(y)-1] // v > 0 because y is normalized and y > 0
-	shift := nlz(v) + 1
+	shift := uint(bits.LeadingZeros(v)) + 1
 	v <<= shift
 	var q nat
 

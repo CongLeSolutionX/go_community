@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"math/bits"
 	"strings"
 	"testing"
 )
@@ -22,7 +23,7 @@ func itoa(x nat, base int) []byte {
 	}
 
 	// allocate buffer for conversion
-	i := x.bitLen()/log2(Word(base)) + 1 // +1: round up
+	i := x.bitLen()/bits.Log(Word(base)) + 1 // +1: round up
 	s := make([]byte, i)
 
 	// don't destroy x
