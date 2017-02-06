@@ -14,6 +14,7 @@ package big
 import (
 	"fmt"
 	"math"
+	"math/bits"
 )
 
 const debugFloat = false // enable for debugging
@@ -498,7 +499,7 @@ func (z *Float) setBits64(neg bool, x uint64) *Float {
 	}
 	// x != 0
 	z.form = finite
-	s := nlz64(x)
+	s := uint(bits.LeadingZeros64(x))
 	z.mant = z.mant.setUint64(x << s)
 	z.exp = int32(64 - s) // always fits
 	if z.prec < 64 {
@@ -565,9 +566,9 @@ func fnorm(m nat) int64 {
 	if debugFloat && (len(m) == 0 || m[len(m)-1] == 0) {
 		panic("msw of mantissa is 0")
 	}
-	s := nlz(m[len(m)-1])
+	s := bits.LeadingZeros(uint(m[len(m)-1]))
 	if s > 0 {
-		c := shlVU(m, m, s)
+		c := shlVU(m, m, uint(s))
 		if debugFloat && c != 0 {
 			panic("nlz or shlVU incorrect")
 		}

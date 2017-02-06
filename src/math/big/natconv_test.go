@@ -8,9 +8,14 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"math/bits"
 	"strings"
 	"testing"
 )
+
+func log2(x int) int {
+	return bits.Len(uint(x)) - 1
+}
 
 func itoa(x nat, base int) []byte {
 	// special cases
@@ -22,7 +27,7 @@ func itoa(x nat, base int) []byte {
 	}
 
 	// allocate buffer for conversion
-	i := x.bitLen()/log2(Word(base)) + 1 // +1: round up
+	i := x.bitLen()/log2(base) + 1 // +1: round up
 	s := make([]byte, i)
 
 	// don't destroy x
