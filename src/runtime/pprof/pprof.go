@@ -201,13 +201,15 @@ func NewProfile(name string) *Profile {
 }
 
 // Lookup returns the profile with the given name, or nil if no such profile exists.
+//
+// Name should be either the name of a predefined profile or a user-defined one.
 func Lookup(name string) *Profile {
 	lockProfiles()
 	defer unlockProfiles()
 	return profiles.m[name]
 }
 
-// Profiles returns a slice of all the known profiles, sorted by name.
+// Profiles returns a slice of all the known profiles, predefined and user-defined, sorted by name.
 func Profiles() []*Profile {
 	lockProfiles()
 	defer unlockProfiles()
