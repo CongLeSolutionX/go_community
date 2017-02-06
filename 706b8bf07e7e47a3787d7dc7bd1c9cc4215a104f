@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "063d5cf2_7c43f300",
+        "filename": "src/math/big/arith.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-06T23:02:56Z",
+      "side": 1,
+      "message": "type alias here seems gratuitous.\n\nwhy not just change the underlying type? (which is already a Go 1 API violation, but bit less)\n\nthis breaks fmt.Sprintf(\"%T\", big.Word(0)) \u003d\u003d \"big.Word\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "706b8bf07e7e47a3787d7dc7bd1c9cc4215a104f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
