@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c581537d_73635cc3",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-06T22:05:56Z",
+      "side": 1,
+      "message": "comments for the fields",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd6a99f6_d627493b",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-06T22:05:56Z",
+      "side": 1,
+      "message": "It\u0027s complex enough so deserves comments (what you described in the commit message). How about moving this a separate function (mayEmitMarkAssist?)?\n\ncase traceEvGoStart:\n   ctx.emitSlice(...)\n   ctx.mayEmitMarkAssist(...)\ncase traceEvGoStartLabel:\n   ctx.emitSlice(...)\n   ctx.mayEmitMarkAssist(...)",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 488,
+        "endChar": 4
+      },
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c6c078e_2b5f7fea",
+        "filename": "src/cmd/trace/trace_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-06T22:05:56Z",
+      "side": 1,
+      "message": "skip the comment",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcef9df1_0058e7d4",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-06T22:05:56Z",
+      "side": 1,
+      "message": "add an entry for the markassist event",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
