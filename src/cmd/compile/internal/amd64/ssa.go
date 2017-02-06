@@ -471,7 +471,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpAMD64CMPQ, ssa.OpAMD64CMPL, ssa.OpAMD64CMPW, ssa.OpAMD64CMPB,
-		ssa.OpAMD64TESTQ, ssa.OpAMD64TESTL, ssa.OpAMD64TESTW, ssa.OpAMD64TESTB:
+		ssa.OpAMD64TESTQ, ssa.OpAMD64TESTL, ssa.OpAMD64TESTW, ssa.OpAMD64TESTB,
+		ssa.OpAMD64BTL, ssa.OpAMD64BTQ:
 		opregreg(v.Op.Asm(), v.Args[1].Reg(), v.Args[0].Reg())
 	case ssa.OpAMD64UCOMISS, ssa.OpAMD64UCOMISD:
 		// Go assembler has swapped operands for UCOMISx relative to CMP,
@@ -483,7 +484,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Reg = v.Args[0].Reg()
 		p.To.Type = obj.TYPE_CONST
 		p.To.Offset = v.AuxInt
-	case ssa.OpAMD64TESTQconst, ssa.OpAMD64TESTLconst, ssa.OpAMD64TESTWconst, ssa.OpAMD64TESTBconst:
+	case ssa.OpAMD64TESTQconst, ssa.OpAMD64TESTLconst, ssa.OpAMD64TESTWconst, ssa.OpAMD64TESTBconst,
+		ssa.OpAMD64BTLconst, ssa.OpAMD64BTQconst:
 		p := gc.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt
@@ -817,7 +819,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpAMD64SETGF, ssa.OpAMD64SETGEF,
 		ssa.OpAMD64SETB, ssa.OpAMD64SETBE,
 		ssa.OpAMD64SETORD, ssa.OpAMD64SETNAN,
-		ssa.OpAMD64SETA, ssa.OpAMD64SETAE:
+		ssa.OpAMD64SETA, ssa.OpAMD64SETAE,
+		ssa.OpAMD64SETCC, ssa.OpAMD64SETCS:
 		p := gc.Prog(v.Op.Asm())
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
@@ -950,6 +953,8 @@ var blockJump = [...]struct {
 	ssa.BlockAMD64ULE: {x86.AJLS, x86.AJHI},
 	ssa.BlockAMD64ORD: {x86.AJPC, x86.AJPS},
 	ssa.BlockAMD64NAN: {x86.AJPS, x86.AJPC},
+	ssa.BlockAMD64CS:  {x86.AJCS, x86.AJCC},
+	ssa.BlockAMD64CC:  {x86.AJCC, x86.AJCS},
 }
 
 var eqfJumps = [2][2]gc.FloatingEQNEJump{
@@ -1008,7 +1013,8 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		ssa.BlockAMD64LT, ssa.BlockAMD64GE,
 		ssa.BlockAMD64LE, ssa.BlockAMD64GT,
 		ssa.BlockAMD64ULT, ssa.BlockAMD64UGT,
-		ssa.BlockAMD64ULE, ssa.BlockAMD64UGE:
+		ssa.BlockAMD64ULE, ssa.BlockAMD64UGE,
+		ssa.BlockAMD64CS, ssa.BlockAMD64CC:
 		jmp := blockJump[b.Kind]
 		likely := b.Likely
 		var p *obj.Prog

@@ -45,6 +45,8 @@ const (
 	BlockAMD64NEF
 	BlockAMD64ORD
 	BlockAMD64NAN
+	BlockAMD64CS
+	BlockAMD64CC
 
 	BlockARMEQ
 	BlockARMNE
@@ -151,6 +153,8 @@ var blockString = [...]string{
 	BlockAMD64NEF: "NEF",
 	BlockAMD64ORD: "ORD",
 	BlockAMD64NAN: "NAN",
+	BlockAMD64CS:  "CS",
+	BlockAMD64CC:  "CC",
 
 	BlockARMEQ:  "EQ",
 	BlockARMNE:  "NE",
@@ -484,6 +488,10 @@ const (
 	OpAMD64CMPBconst
 	OpAMD64UCOMISS
 	OpAMD64UCOMISD
+	OpAMD64BTL
+	OpAMD64BTQ
+	OpAMD64BTLconst
+	OpAMD64BTQconst
 	OpAMD64TESTQ
 	OpAMD64TESTL
 	OpAMD64TESTW
@@ -539,6 +547,8 @@ const (
 	OpAMD64SETBE
 	OpAMD64SETA
 	OpAMD64SETAE
+	OpAMD64SETCC
+	OpAMD64SETCS
 	OpAMD64SETEQF
 	OpAMD64SETNEF
 	OpAMD64SETORD
@@ -5406,6 +5416,50 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:   "BTL",
+		argLen: 2,
+		asm:    x86.ABTL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+				{1, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+			},
+		},
+	},
+	{
+		name:   "BTQ",
+		argLen: 2,
+		asm:    x86.ABTQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+				{1, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+			},
+		},
+	},
+	{
+		name:    "BTLconst",
+		auxType: auxInt8,
+		argLen:  1,
+		asm:     x86.ABTL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+			},
+		},
+	},
+	{
+		name:    "BTQconst",
+		auxType: auxInt8,
+		argLen:  1,
+		asm:     x86.ABTQ,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+			},
+		},
+	},
+	{
 		name:   "TESTQ",
 		argLen: 2,
 		asm:    x86.ATESTQ,
@@ -6152,6 +6206,26 @@ var opcodeTable = [...]opInfo{
 		name:   "SETAE",
 		argLen: 1,
 		asm:    x86.ASETCC,
+		reg: regInfo{
+			outputs: []outputInfo{
+				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+			},
+		},
+	},
+	{
+		name:   "SETCC",
+		argLen: 1,
+		asm:    x86.ASETCC,
+		reg: regInfo{
+			outputs: []outputInfo{
+				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+			},
+		},
+	},
+	{
+		name:   "SETCS",
+		argLen: 1,
+		asm:    x86.ASETCS,
 		reg: regInfo{
 			outputs: []outputInfo{
 				{0, 65519}, // AX CX DX BX BP SI DI R8 R9 R10 R11 R12 R13 R14 R15

@@ -241,6 +241,11 @@ func init() {
 		{name: "UCOMISS", argLength: 2, reg: fp2flags, asm: "UCOMISS", typ: "Flags"}, // arg0 compare to arg1, f32
 		{name: "UCOMISD", argLength: 2, reg: fp2flags, asm: "UCOMISD", typ: "Flags"}, // arg0 compare to arg1, f64
 
+		{name: "BTL", argLength: 2, reg: gp2flags, asm: "BTL", typ: "Flags"}, // test whether bit arg0 in arg1 is set
+		{name: "BTQ", argLength: 2, reg: gp2flags, asm: "BTQ", typ: "Flags"},
+		{name: "BTLconst", argLength: 1, reg: gp1flags, asm: "BTL", typ: "Flags", aux: "Int8"}, // test whether bit auxint in arg0 is set
+		{name: "BTQconst", argLength: 1, reg: gp1flags, asm: "BTQ", typ: "Flags", aux: "Int8"},
+
 		{name: "TESTQ", argLength: 2, reg: gp2flags, asm: "TESTQ", typ: "Flags"},                    // (arg0 & arg1) compare to 0
 		{name: "TESTL", argLength: 2, reg: gp2flags, asm: "TESTL", typ: "Flags"},                    // (arg0 & arg1) compare to 0
 		{name: "TESTW", argLength: 2, reg: gp2flags, asm: "TESTW", typ: "Flags"},                    // (arg0 & arg1) compare to 0
@@ -316,6 +321,8 @@ func init() {
 		{name: "SETBE", argLength: 1, reg: readflags, asm: "SETLS"}, // extract unsigned <= condition from arg0
 		{name: "SETA", argLength: 1, reg: readflags, asm: "SETHI"},  // extract unsigned > condition from arg0
 		{name: "SETAE", argLength: 1, reg: readflags, asm: "SETCC"}, // extract unsigned >= condition from arg0
+		{name: "SETCC", argLength: 1, reg: readflags, asm: "SETCC"}, // extract carry flag clear condition from arg0
+		{name: "SETCS", argLength: 1, reg: readflags, asm: "SETCS"}, // extract carry flag set condition from arg0
 		// Need different opcodes for floating point conditions because
 		// any comparison involving a NaN is always FALSE and thus
 		// the patterns for inverting conditions cannot be used.
@@ -582,6 +589,8 @@ func init() {
 		{name: "NEF"},
 		{name: "ORD"}, // FP, ordered comparison (parity zero)
 		{name: "NAN"}, // FP, unordered comparison (parity one)
+		{name: "CS"},  // CS: carry flag set
+		{name: "CC"},  // CC: carry flag clear
 	}
 
 	archs = append(archs, arch{

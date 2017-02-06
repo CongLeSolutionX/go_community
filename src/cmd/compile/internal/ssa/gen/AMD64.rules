@@ -455,6 +455,8 @@
 (If (SETBE cmp) yes no) -> (ULE cmp yes no)
 (If (SETA  cmp) yes no) -> (UGT cmp yes no)
 (If (SETAE cmp) yes no) -> (UGE cmp yes no)
+(If (SETCS cmp) yes no) -> (CS  cmp yes no)
+(If (SETCC cmp) yes no) -> (CC  cmp yes no)
 
 // Special case for floating point - LF/LEF not generated
 (If (SETGF  cmp) yes no) -> (UGT  cmp yes no)
@@ -514,6 +516,18 @@
 (NE (TESTB (SETBE cmp) (SETBE cmp)) yes no) -> (ULE cmp yes no)
 (NE (TESTB (SETA  cmp) (SETA  cmp)) yes no) -> (UGT cmp yes no)
 (NE (TESTB (SETAE cmp) (SETAE cmp)) yes no) -> (UGE cmp yes no)
+(NE (TESTB (SETCS cmp) (SETCS cmp)) yes no) -> (CS  cmp yes no)
+(NE (TESTB (SETCC cmp) (SETCC cmp)) yes no) -> (CC  cmp yes no)
+
+// Recognize bit tests: a&(1<<b) != 0 for b suitably bounded
+(NE (TESTL (SHLL (MOVLconst [1]) x) y)) -> (CS (BTL x y))
+(NE (TESTQ (SHLQ (MOVQconst [1]) x) y)) -> (CS (BTQ x y))
+(NE (TESTLconst [c] x)) && isPowerOfTwo(c) && log2(c) < 32 -> (CS (BTLconst [log2(c)] x))
+(NE (TESTQconst [c] x)) && isPowerOfTwo(c) && log2(c) < 64 -> (CS (BTQconst [log2(c)] x))
+(SETNE (TESTL (SHLL (MOVLconst [1]) x) y)) -> (SETCS (BTL x y))
+(SETNE (TESTQ (SHLQ (MOVQconst [1]) x) y)) -> (SETCS (BTQ x y))
+(SETNE (TESTLconst [c] x)) && isPowerOfTwo(c) && log2(c) < 32 -> (SETCS (BTLconst [log2(c)] x))
+(SETNE (TESTQconst [c] x)) && isPowerOfTwo(c) && log2(c) < 64 -> (SETCS (BTQconst [log2(c)] x))
 
 // Special case for floating point - LF/LEF not generated
 (NE (TESTB (SETGF  cmp) (SETGF  cmp)) yes no) -> (UGT  cmp yes no)
@@ -775,6 +789,8 @@
 (SETAE (InvertFlags x)) -> (SETBE x)
 (SETEQ (InvertFlags x)) -> (SETEQ x)
 (SETNE (InvertFlags x)) -> (SETNE x)
+(SETCS (InvertFlags x)) -> (SETCC x)
+(SETCC (InvertFlags x)) -> (SETCS x)
 
 // sign extended loads
 // Note: The combined instruction must end up in the same block
