@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e85d54de_e8f3c40d",
+        "filename": "src/runtime/internal/proflabel/proflabel.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-06T16:56:04Z",
+      "side": 1,
+      "message": "This package need not exist. It introduces complexity that is better avoided. The routines in runtime can be defined to use unsafe.Pointer or interface{} instead of proflabel.Labels.",
+      "revId": "62bb406dcbb9406f5faa7fc2202c3b5c7beeb17b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5b32226_cb8be9d6",
+        "filename": "src/runtime/pprof/goroutine_label.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-06T16:56:04Z",
+      "side": 1,
+      "message": "SetGoroutineLabels sets the current goroutine\u0027s labels to match ctx.",
+      "revId": "62bb406dcbb9406f5faa7fc2202c3b5c7beeb17b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8676642_9320d537",
+        "filename": "src/runtime/pprof/goroutine_label.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-06T16:56:04Z",
+      "side": 1,
+      "message": "Probably instead you want to attach the labelMap to the goroutine, no?",
+      "revId": "62bb406dcbb9406f5faa7fc2202c3b5c7beeb17b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5174461a_d6393fcc",
+        "filename": "src/runtime/pprof/label.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-06T16:56:04Z",
+      "side": 1,
+      "message": "The previous line already has a TODO (without saying TODO) to make this more efficient. A linked list is less efficient.",
+      "revId": "62bb406dcbb9406f5faa7fc2202c3b5c7beeb17b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
