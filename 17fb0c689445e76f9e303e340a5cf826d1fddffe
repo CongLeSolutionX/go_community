@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66748c4a_864fb9f9",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-06T20:45:37Z",
+      "side": 1,
+      "message": "Should traceStackPCS and traceWriteStack be combined? I can\u0027t think of a reason you\u0027d call one without the other.",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76391022_f6a5fd9c",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-06T20:45:37Z",
+      "side": 1,
+      "message": "Doesn\u0027t traceWriteStack return uint64? I think this and the cast on 235 are unnecessary.",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "687eb05a_a66d0f08",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-06T20:45:37Z",
+      "side": 1,
+      "message": "This is enough copied code (and a lot of comments left behind) that I would be worried about it rotting. Perhaps extract a helper function?",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "446a57a4_dd63b359",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-06T20:45:37Z",
+      "side": 1,
+      "message": "surely not stdout?",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f492eb6_8c0c6be3",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-06T20:45:37Z",
+      "side": 1,
+      "message": "Should be traceStackPCs since it\u0027s a plural.",
+      "range": {
+        "startLine": 717,
+        "startChar": 5,
+        "endLine": 717,
+        "endChar": 18
+      },
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc011794_1903089e",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-06T20:45:37Z",
+      "side": 1,
+      "message": "Consider moving this out to the trace? Generally if I see a lock inside a type I expect it to be concurrency-safe, and this clearly isn\u0027t.",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
