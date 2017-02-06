@@ -55,6 +55,60 @@
     },
     {
       "key": {
+        "uuid": "9b0d5ae1_74bff4be",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-06T00:26:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e31f8ce_6bb34a22",
+      "revId": "924b18998bb90f037cfd395caf6a9019bbf57c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2cc3990_60a6dd31",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-06T00:26:40Z",
+      "side": 1,
+      "message": "ACK but Keith\u0027s point makes sense and simplifies the documentation.\nChanged n to k to avoid confusion with (capital) N.",
+      "parentUuid": "28b4c241_b52a798f",
+      "revId": "924b18998bb90f037cfd395caf6a9019bbf57c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56760cf5_e6c47073",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-06T00:26:40Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "b5889b36_bb7e12db",
+      "revId": "924b18998bb90f037cfd395caf6a9019bbf57c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad5a4a3e_55a7f1b1",
         "filename": "src/math/bits/bits.go",
         "patchSetId": 2
@@ -66,6 +120,30 @@
       "writtenOn": "2017-02-04T09:51:05Z",
       "side": 1,
       "message": "This kind of separation between high-level and impl functions seem to imply that the operations performed here (e.g.: 8-n%8) will always be performed, even in a high-performance contest. Most CPUs are able to rotate right with a single opcode, so leaving this kind of parameter cleaning in the high-level implementation that is always executed seems inefficient to me.",
+      "range": {
+        "startLine": 41,
+        "startChar": 53,
+        "endLine": 41,
+        "endChar": 84
+      },
+      "revId": "924b18998bb90f037cfd395caf6a9019bbf57c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6376121b_d0472436",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-06T00:26:40Z",
+      "side": 1,
+      "message": "We\u0027re talking about the API at the moment, not the implementation.\n\nThe implementation is here so can test this, and it is fine. Over time we will replace this with optimized versions.",
+      "parentUuid": "ad5a4a3e_55a7f1b1",
       "range": {
         "startLine": 41,
         "startChar": 53,
@@ -137,6 +215,24 @@
       "side": 1,
       "message": "Well, dcba is a ByteSwap32 and badc is two ByteSwap16. I might have been doing bit stuff for too long, but a 16-bit byteswap is a different thing from a 32-bit byteswap, and the package offers both functions. Also on x86 it\u0027s called \"bswap\". I don\u0027t think the solution to the possible ambiguity for people not familiar with these bit-level manipulations is to come up with a made up name.\n\nAnother possibility is to use EndianSwapN. I think it\u0027s clear to everybody that EndianSwap32(abcd) -\u003e dbcda. Still better than ReverseBytes IMO.",
       "parentUuid": "db4924a0_d2475d04",
+      "revId": "924b18998bb90f037cfd395caf6a9019bbf57c18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "067beae5_6ea1bc7b",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-06T00:26:40Z",
+      "side": 1,
+      "message": "Please do this discussion on the issue, not in the CL thanks. Also, the documentation is quite clear:\n\n\"ReverseBytesN returns the value of x with its bytes in reversed order.\"\n\nI\u0027m not sure there\u0027s much room for confusion.",
+      "parentUuid": "a8939dbf_007b92b1",
       "revId": "924b18998bb90f037cfd395caf6a9019bbf57c18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
