@@ -95,15 +95,9 @@ import (
 //
 // A Profile's methods can be called from multiple goroutines simultaneously.
 //
-// Each Profile has a unique name. A few profiles are predefined:
+// Each Profile has a unique name.
 //
-//	goroutine    - stack traces of all current goroutines
-//	heap         - a sampling of all heap allocations
-//	threadcreate - stack traces that led to the creation of new OS threads
-//	block        - stack traces that led to blocking on synchronization primitives
-//	mutex        - stack traces of holders of contended mutexes
-//
-// These predefined profiles maintain themselves and panic on an explicit
+// Predefined profiles maintain themselves and panic on an explicit
 // Add or Remove method call.
 //
 // The heap profile reports statistics as of the most recently completed
@@ -208,6 +202,14 @@ func Lookup(name string) *Profile {
 }
 
 // Profiles returns a slice of all the known profiles, sorted by name.
+//
+// A few profiles are predefined:
+//
+//	goroutine    - stack traces of all current goroutines
+//	heap         - a sampling of all heap allocations
+//	threadcreate - stack traces that led to the creation of new OS threads
+//	block        - stack traces that led to blocking on synchronization primitives
+//	mutex        - stack traces of holders of contended mutexes
 func Profiles() []*Profile {
 	lockProfiles()
 	defer unlockProfiles()
