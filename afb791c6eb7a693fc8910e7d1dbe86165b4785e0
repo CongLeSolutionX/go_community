@@ -16,6 +16,24 @@
       "revId": "afb791c6eb7a693fc8910e7d1dbe86165b4785e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81faa8e0_6c68b2ae",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-06T20:06:46Z",
+      "side": 1,
+      "message": "And having said that, I think I will remove them. Updated CL in a moment.\n\nThat\u0027ll also give me another shot to see whether the nacl failure was a flake.",
+      "parentUuid": "95a58be7_9b7dbd42",
+      "revId": "afb791c6eb7a693fc8910e7d1dbe86165b4785e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
