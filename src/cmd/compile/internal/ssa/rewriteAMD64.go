@@ -14119,6 +14119,102 @@ func rewriteValueAMD64_OpAMD64SETLE(v *Value, config *Config) bool {
 func rewriteValueAMD64_OpAMD64SETNE(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
+	// match: (SETNE (TESTL (SHLL (MOVLconst [1]) x) y))
+	// cond:
+	// result: (SETB (BTL x y))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64TESTL {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpAMD64SHLL {
+			break
+		}
+		v_0_0_0 := v_0_0.Args[0]
+		if v_0_0_0.Op != OpAMD64MOVLconst {
+			break
+		}
+		if v_0_0_0.AuxInt != 1 {
+			break
+		}
+		x := v_0_0.Args[1]
+		y := v_0.Args[1]
+		v.reset(OpAMD64SETB)
+		v0 := b.NewValue0(v.Pos, OpAMD64BTL, TypeFlags)
+		v0.AddArg(x)
+		v0.AddArg(y)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SETNE (TESTQ (SHLQ (MOVQconst [1]) x) y))
+	// cond:
+	// result: (SETB (BTQ x y))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64TESTQ {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpAMD64SHLQ {
+			break
+		}
+		v_0_0_0 := v_0_0.Args[0]
+		if v_0_0_0.Op != OpAMD64MOVQconst {
+			break
+		}
+		if v_0_0_0.AuxInt != 1 {
+			break
+		}
+		x := v_0_0.Args[1]
+		y := v_0.Args[1]
+		v.reset(OpAMD64SETB)
+		v0 := b.NewValue0(v.Pos, OpAMD64BTQ, TypeFlags)
+		v0.AddArg(x)
+		v0.AddArg(y)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SETNE (TESTLconst [c] x))
+	// cond: isPowerOfTwo(c) && log2(c) < 32
+	// result: (SETB (BTLconst [log2(c)] x))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64TESTLconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v_0.Args[0]
+		if !(isPowerOfTwo(c) && log2(c) < 32) {
+			break
+		}
+		v.reset(OpAMD64SETB)
+		v0 := b.NewValue0(v.Pos, OpAMD64BTLconst, TypeFlags)
+		v0.AuxInt = log2(c)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SETNE (TESTQconst [c] x))
+	// cond: isPowerOfTwo(c) && log2(c) < 64
+	// result: (SETB (BTQconst [log2(c)] x))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64TESTQconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v_0.Args[0]
+		if !(isPowerOfTwo(c) && log2(c) < 64) {
+			break
+		}
+		v.reset(OpAMD64SETB)
+		v0 := b.NewValue0(v.Pos, OpAMD64BTQconst, TypeFlags)
+		v0.AuxInt = log2(c)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
 	// match: (SETNE (InvertFlags x))
 	// cond:
 	// result: (SETNE x)
@@ -22027,6 +22123,102 @@ func rewriteBlockAMD64(b *Block, config *Config) bool {
 			b.SetControl(cmp)
 			_ = yes
 			_ = no
+			return true
+		}
+		// match: (NE (TESTL (SHLL (MOVLconst [1]) x) y))
+		// cond:
+		// result: (ULT (BTL x y))
+		for {
+			v := b.Control
+			if v.Op != OpAMD64TESTL {
+				break
+			}
+			v_0 := v.Args[0]
+			if v_0.Op != OpAMD64SHLL {
+				break
+			}
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpAMD64MOVLconst {
+				break
+			}
+			if v_0_0.AuxInt != 1 {
+				break
+			}
+			x := v_0.Args[1]
+			y := v.Args[1]
+			b.Kind = BlockAMD64ULT
+			v0 := b.NewValue0(v.Pos, OpAMD64BTL, TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.SetControl(v0)
+			return true
+		}
+		// match: (NE (TESTQ (SHLQ (MOVQconst [1]) x) y))
+		// cond:
+		// result: (ULT (BTQ x y))
+		for {
+			v := b.Control
+			if v.Op != OpAMD64TESTQ {
+				break
+			}
+			v_0 := v.Args[0]
+			if v_0.Op != OpAMD64SHLQ {
+				break
+			}
+			v_0_0 := v_0.Args[0]
+			if v_0_0.Op != OpAMD64MOVQconst {
+				break
+			}
+			if v_0_0.AuxInt != 1 {
+				break
+			}
+			x := v_0.Args[1]
+			y := v.Args[1]
+			b.Kind = BlockAMD64ULT
+			v0 := b.NewValue0(v.Pos, OpAMD64BTQ, TypeFlags)
+			v0.AddArg(x)
+			v0.AddArg(y)
+			b.SetControl(v0)
+			return true
+		}
+		// match: (NE (TESTLconst [c] x))
+		// cond: isPowerOfTwo(c) && log2(c) < 32
+		// result: (ULT (BTLconst [log2(c)] x))
+		for {
+			v := b.Control
+			if v.Op != OpAMD64TESTLconst {
+				break
+			}
+			c := v.AuxInt
+			x := v.Args[0]
+			if !(isPowerOfTwo(c) && log2(c) < 32) {
+				break
+			}
+			b.Kind = BlockAMD64ULT
+			v0 := b.NewValue0(v.Pos, OpAMD64BTLconst, TypeFlags)
+			v0.AuxInt = log2(c)
+			v0.AddArg(x)
+			b.SetControl(v0)
+			return true
+		}
+		// match: (NE (TESTQconst [c] x))
+		// cond: isPowerOfTwo(c) && log2(c) < 64
+		// result: (ULT (BTQconst [log2(c)] x))
+		for {
+			v := b.Control
+			if v.Op != OpAMD64TESTQconst {
+				break
+			}
+			c := v.AuxInt
+			x := v.Args[0]
+			if !(isPowerOfTwo(c) && log2(c) < 64) {
+				break
+			}
+			b.Kind = BlockAMD64ULT
+			v0 := b.NewValue0(v.Pos, OpAMD64BTQconst, TypeFlags)
+			v0.AuxInt = log2(c)
+			v0.AddArg(x)
+			b.SetControl(v0)
 			return true
 		}
 		// match: (NE (TESTB (SETGF  cmp) (SETGF  cmp)) yes no)
