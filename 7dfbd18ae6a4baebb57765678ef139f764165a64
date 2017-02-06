@@ -16,6 +16,24 @@
       "revId": "7dfbd18ae6a4baebb57765678ef139f764165a64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8510fa3c_b00bbc70",
+        "filename": "src/math/bits/bits_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-06T18:16:09Z",
+      "side": 1,
+      "message": "No particular reason except that I thought that we don\u0027t really care about creating a new type here and the name is just here so I don\u0027t need to repeat the struct. Either way is fine. Also, it\u0027s just a test and it\u0027s not exported.",
+      "parentUuid": "ea8cba03_970dbd82",
+      "revId": "7dfbd18ae6a4baebb57765678ef139f764165a64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
