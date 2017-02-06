@@ -2077,8 +2077,9 @@ type Rows struct {
 	closed    int32
 	cancel    func() // called when Rows is closed, may be nil.
 	lastcols  []driver.Value
-	lasterr   error       // non-nil only if closed is true
-	closeStmt *driverStmt // if non-nil, statement to Close on close
+	lasterr   error        // non-nil only if closed is 1
+	closeerr  atomic.Value // non-nil only if closed is 1
+	closeStmt *driverStmt  // if non-nil, statement to Close on close
 }
 
 func (rs *Rows) initContextClose(ctx context.Context) {
@@ -2089,7 +2090,7 @@ func (rs *Rows) initContextClose(ctx context.Context) {
 // awaitDone blocks until the rows are closed or the context canceled.
 func (rs *Rows) awaitDone(ctx context.Context) {
 	<-ctx.Done()
-	rs.Close()
+	rs.close(ctx.Err())
 }
 
 // Next prepares the next result row for reading with the Scan method. It
@@ -2157,6 +2158,10 @@ func (rs *Rows) NextResultSet() bool {
 // Err returns the error, if any, that was encountered during iteration.
 // Err may be called after an explicit or implicit Close.
 func (rs *Rows) Err() error {
+	err := rs.closeerr.Load()
+	if err != nil {
+		return err.(error)
+	}
 	if rs.lasterr == io.EOF {
 		return nil
 	}
@@ -2360,11 +2365,18 @@ func (rs *Rows) isClosed() bool {
 // the Rows are closed automatically and it will suffice to check the
 // result of Err. Close is idempotent and does not affect the result of Err.
 func (rs *Rows) Close() error {
+	return rs.close(nil)
+}
+
+func (rs *Rows) close(err error) error {
 	if !atomic.CompareAndSwapInt32(&rs.closed, 0, 1) {
 		return nil
 	}
+	if err != nil {
+		rs.closeerr.Store(err)
+	}
 
-	err := rs.rowsi.Close()
+	err = rs.rowsi.Close()
 	if fn := rowsCloseHook(); fn != nil {
 		fn(rs, &err)
 	}
