@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a72e431_9236197a",
+        "filename": "src/runtime/internal/proflabel/proflabel.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-06T15:59:44Z",
+      "side": 1,
+      "message": "copyright notice",
+      "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2530f787_4f6441d1",
+        "filename": "src/runtime/internal/proflabel/proflabel_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-06T15:59:44Z",
+      "side": 1,
+      "message": "copyright notice",
+      "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "227d5155_c2188607",
+        "filename": "src/runtime/pprof/goroutine_label_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-06T15:59:44Z",
+      "side": 1,
+      "message": "copyright notice",
+      "revId": "694f02491338fb61f1384dfc8763bf822bc70970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
