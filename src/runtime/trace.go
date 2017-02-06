@@ -93,6 +93,10 @@ const (
 	// Such wakeups happen on buffered channels and sync.Mutex,
 	// but are generally not interesting for end user.
 	traceFutileWakeup byte = 128
+	// Maximum size of a event is event type, length, sequence, timestamp,
+	// stack id and two additional params.
+	traceMaxEventSize   = 2 + 5*traceBytesPerNumber
+	traceCacheTableSize = 1 << 13
 )
 
 // trace is global tracing context.
@@ -114,16 +118,12 @@ var trace struct {
 	empty         traceBufPtr // stack of empty buffers
 	fullHead      traceBufPtr // queue of full buffers
 	fullTail      traceBufPtr
-	reader        guintptr        // goroutine that called ReadTrace, or nil
-	stackTab      traceStackTable // maps stack traces to unique ids
+	reader        guintptr // goroutine that called ReadTrace, or nil
 
-	// Dictionary for traceEvString.
-	//
-	// Currently this is used only at trace setup and for
-	// func/file:line info after tracing session, so we assume
-	// single-threaded access.
-	strings   map[string]uint64
-	stringSeq uint64
+	// tables containing the hashes of stacks or strings that have been sent to
+	// the buffer.
+	stringCache traceCacheTable
+	stackCache  traceCacheTable
 
 	// markWorkerLabels maps gcMarkWorkerMode to string ID.
 	markWorkerLabels [len(gcMarkWorkerModeStrings)]uint64
@@ -196,10 +196,31 @@ func StartTrace() error {
 	_g_ := getg()
 	_g_.m.startingtrace = true
 
+	// Acquire a buffer to write our initial events, it will always be nil.
+	mp, pid, bufp := traceAcquireBuffer()
+	buf := (*bufp).ptr()
+	if buf == nil {
+		buf = traceFlush(0).ptr()
+		(*bufp).set(buf)
+	}
+
+	// Create a batch event for this pid so we may send the worker labels.
+	ticks := uint64(cputicks()) / traceTickDiv
+	buf.lastTicks = ticks
+	buf.byte(traceEvBatch | 1<<traceArgCountShift)
+	buf.varint(uint64(pid))
+	buf.varint(ticks)
+
+	// Register runtime goroutine labels and the initial stack first. The string
+	// ids will correlate idx:idx+1 to the gcMarkWorkerMode int values.
+	for i, label := range gcMarkWorkerModeStrings[:] {
+		trace.markWorkerLabels[i], buf = traceWriteString(buf, label)
+	}
+
 	// Obtain current stack ID to use in all traceEvGoCreate events below.
-	mp := acquirem()
-	stkBuf := make([]uintptr, traceStackSize)
-	stackID := traceStackID(mp, stkBuf, 2)
+	var stackID uint64
+	stackPCS := traceStackPCs(mp, buf.stk[:], 2)
+	stackID, buf = traceWriteStack(buf, stackPCS)
 	releasem(mp)
 
 	for _, gp := range allgs {
@@ -207,9 +228,11 @@ func StartTrace() error {
 		if status != _Gdead {
 			gp.traceseq = 0
 			gp.tracelastp = getg().m.p
+
 			// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
-			id := trace.stackTab.put([]uintptr{gp.startpc + sys.PCQuantum})
-			traceEvent(traceEvGoCreate, -1, uint64(gp.goid), uint64(id), stackID)
+			var goStackID uint64
+			goStackID, buf = traceWriteStack(buf, []uintptr{gp.startpc + sys.PCQuantum})
+			traceEvent(traceEvGoCreate, -1, uint64(gp.goid), goStackID, stackID)
 		}
 		if status == _Gwaiting {
 			// traceEvGoWaiting is implied to have seq=1.
@@ -233,26 +256,11 @@ func StartTrace() error {
 	trace.timeStart = nanotime()
 	trace.headerWritten = false
 	trace.footerWritten = false
-	trace.strings = make(map[string]uint64)
-	trace.stringSeq = 0
 	trace.seqGC = 0
 	_g_.m.startingtrace = false
 	trace.enabled = true
 
-	// Register runtime goroutine labels.
-	_, pid, bufp := traceAcquireBuffer()
-	buf := (*bufp).ptr()
-	if buf == nil {
-		buf = traceFlush(0).ptr()
-		(*bufp).set(buf)
-	}
-	for i, label := range gcMarkWorkerModeStrings[:] {
-		trace.markWorkerLabels[i], buf = traceString(buf, label)
-	}
-	traceReleaseBuffer(pid)
-
 	unlock(&trace.bufLock)
-
 	startTheWorld()
 	return nil
 }
@@ -340,7 +348,10 @@ func StopTrace() {
 		trace.empty = buf.ptr().link
 		sysFree(unsafe.Pointer(buf), unsafe.Sizeof(*buf.ptr()), &memstats.other_sys)
 	}
-	trace.strings = nil
+	trace.stringCache.mem.drop()
+	trace.stackCache.mem.drop()
+	trace.stringCache = traceCacheTable{}
+	trace.stackCache = traceCacheTable{}
 	trace.shutdown = false
 	unlock(&trace.lock)
 }
@@ -410,9 +421,6 @@ func ReadTrace() []byte {
 			data = append(data, traceEvTimerGoroutine|0<<traceArgCountShift)
 			data = traceAppend(data, uint64(timers.gp.goid))
 		}
-		// This will emit a bunch of full buffers, we will pick them up
-		// on the next iteration.
-		trace.stackTab.dump()
 		return data
 	}
 	// Done.
@@ -509,9 +517,9 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 		traceReleaseBuffer(pid)
 		return
 	}
+
 	buf := (*bufp).ptr()
-	const maxSize = 2 + 5*traceBytesPerNumber // event type, length, sequence, timestamp, stack id and two add params
-	if buf == nil || len(buf.arr)-buf.pos < maxSize {
+	if buf == nil || len(buf.arr)-buf.pos < traceMaxEventSize {
 		buf = traceFlush(traceBufPtrOf(buf)).ptr()
 		(*bufp).set(buf)
 	}
@@ -525,10 +533,17 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 		tickDiff = 0
 	}
 	buf.lastTicks = ticks
+
+	var stackID uint64
 	narg := byte(len(args))
 	if skip >= 0 {
 		narg++
+		if skip > 0 {
+			stackPCS := traceStackPCs(mp, buf.stk[:], skip)
+			stackID, buf = traceWriteStack(buf, stackPCS)
+		}
 	}
+
 	// We have only 2 bits for number of arguments.
 	// If number is >= 3, then the event type is followed by event length in bytes.
 	if narg > 3 {
@@ -546,13 +561,12 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 	for _, a := range args {
 		buf.varint(a)
 	}
-	if skip == 0 {
-		buf.varint(0)
-	} else if skip > 0 {
-		buf.varint(traceStackID(mp, buf.stk[:], skip))
+	if skip >= 0 {
+		buf.varint(stackID)
 	}
+
 	evSize := buf.pos - startPos
-	if evSize > maxSize {
+	if evSize > traceMaxEventSize {
 		throw("invalid length of trace event")
 	}
 	if lenp != nil {
@@ -562,7 +576,145 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 	traceReleaseBuffer(pid)
 }
 
-func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
+// traceEventStack is like traceEvent but for EvStack.
+func traceEventStack(ev byte, pcs []uintptr) uint64 {
+	mp, pid, bufp := traceAcquireBuffer()
+	if !trace.enabled && !mp.startingtrace {
+		traceReleaseBuffer(pid)
+		return 0
+	}
+
+	buf := (*bufp).ptr()
+	if buf == nil || len(buf.arr)-buf.pos < traceMaxEventSize {
+		buf = traceFlush(traceBufPtrOf(buf)).ptr()
+		(*bufp).set(buf)
+	}
+	stackID, buf := traceWriteStack(buf, pcs)
+	traceReleaseBuffer(pid)
+	return stackID
+}
+
+// traceWriteStack will return the existing stackID and buffer if a stack has
+// already been sent. Otherwise it will generate a new stack event as well as
+// all dependent string events growing the buffer as needed.
+func traceWriteStack(buf *traceBuf, pcs []uintptr) (uint64, *traceBuf) {
+	if len(pcs) == 0 {
+		return 0, buf
+	}
+
+	// Lookup is done without a lock first.
+	hash := memhash(unsafe.Pointer(&pcs[0]), 0, uintptr(len(pcs))*unsafe.Sizeof(pcs[0]))
+	if entry := trace.stackCache.find(hash); entry != nil {
+		return entry.seq, buf
+	}
+
+	// Acquire a lock and check the cache again.
+	lock(&trace.stackCache.lock)
+	if entry := trace.stackCache.find(hash); entry != nil {
+		unlock(&trace.stackCache.lock)
+		return entry.seq, buf
+	}
+
+	// Add the entry to the hash table, this should never throw unless oom. Once
+	// added a entry is not mutated.
+	entry := trace.stackCache.add(hash)
+	if entry == nil {
+		throw("trace: out of memory")
+	}
+
+	var tmp [(2 + 4*traceStackSize) * traceBytesPerNumber]byte
+	tmpbuf := tmp[:0]
+	tmpbuf = traceAppend(tmpbuf, uint64(entry.seq))
+	tmpbuf = traceAppend(tmpbuf, uint64(len(pcs)))
+	for _, pc := range pcs {
+
+		// Pass buf to write dependent frame & string events as we build the stack.
+		var frame traceFrame
+		frame, buf = traceWriteFrame(buf, pc)
+		tmpbuf = traceAppend(tmpbuf, uint64(pc))
+		tmpbuf = traceAppend(tmpbuf, uint64(frame.funcID))
+		tmpbuf = traceAppend(tmpbuf, uint64(frame.fileID))
+		tmpbuf = traceAppend(tmpbuf, uint64(frame.line))
+	}
+
+	// Write the tmp buffer to our traceBuf. We may need to flush first for a
+	// larger stack that results in many new strings.
+	stackSize := 1 + traceBytesPerNumber + len(tmpbuf)
+	if len(buf.arr)-buf.pos < stackSize {
+		buf = traceFlush(traceBufPtrOf(buf)).ptr()
+	}
+	buf.byte(traceEvStack | 3<<traceArgCountShift)
+	buf.varint(uint64(len(tmpbuf)))
+	buf.pos += copy(buf.arr[buf.pos:], tmpbuf)
+
+	unlock(&trace.stackCache.lock)
+	return entry.seq, buf
+}
+
+// traceWriteFrame will write create a trace frame and write the dependent
+// string events to buf, growing it as needed.
+func traceWriteFrame(buf *traceBuf, pc uintptr) (traceFrame, *traceBuf) {
+	var frame traceFrame
+	f := findfunc(pc)
+	if f == nil {
+		return frame, buf
+	}
+
+	fn := funcname(f)
+	const maxLen = 1 << 10
+	if len(fn) > maxLen {
+		fn = fn[len(fn)-maxLen:]
+	}
+
+	frame.funcID, buf = traceWriteString(buf, fn)
+	file, line := funcline(f, pc-sys.PCQuantum)
+	frame.line = uint64(line)
+	if len(file) > maxLen {
+		file = file[len(file)-maxLen:]
+	}
+	frame.fileID, buf = traceWriteString(buf, file)
+	return frame, buf
+}
+
+// traceWriteString will return the existing stringID and buffer if a string has
+// already been sent. Otherwise it will generate a new string event, growing
+// the buffer as needed.
+func traceWriteString(buf *traceBuf, s string) (uint64, *traceBuf) {
+	if s == "" {
+		return 0, buf
+	}
+
+	hash := memhash(stringStructOf(&s).str, 0, uintptr(stringStructOf(&s).len))
+	if entry := trace.stringCache.find(hash); entry != nil {
+		return entry.seq, buf
+	}
+
+	lock(&trace.stringCache.lock)
+	if entry := trace.stringCache.find(hash); entry != nil {
+		unlock(&trace.stringCache.lock)
+		return entry.seq, buf
+	}
+
+	entry := trace.stringCache.add(hash)
+	if entry == nil {
+		throw("trace: out of memory")
+	}
+
+	size := 1 + 2*traceBytesPerNumber + len(s)
+	if len(buf.arr)-buf.pos < size {
+		buf = traceFlush(traceBufPtrOf(buf)).ptr()
+	}
+	buf.byte(traceEvString)
+	buf.varint(entry.seq)
+	buf.varint(uint64(len(s)))
+	buf.pos += copy(buf.arr[buf.pos:], s)
+
+	unlock(&trace.stringCache.lock)
+	return entry.seq, buf
+}
+
+// traceStackPCs returns a slice of pcs without storing the result in the cache.
+func traceStackPCs(mp *m, buf []uintptr, skip int) []uintptr {
 	_g_ := getg()
 	gp := mp.curg
 	var nstk int
@@ -583,8 +735,7 @@ func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
 	if nstk > 0 && gp.goid == 1 {
 		nstk-- // skip runtime.main
 	}
-	id := trace.stackTab.put(buf[:nstk])
-	return uint64(id)
+	return buf[:nstk]
 }
 
 // traceAcquireBuffer returns trace buffer to use and, if necessary, locks it.
@@ -634,29 +785,6 @@ func traceFlush(buf traceBufPtr) traceBufPtr {
 	return buf
 }
 
-func traceString(buf *traceBuf, s string) (uint64, *traceBuf) {
-	if s == "" {
-		return 0, buf
-	}
-	if id, ok := trace.strings[s]; ok {
-		return id, buf
-	}
-
-	trace.stringSeq++
-	id := trace.stringSeq
-	trace.strings[s] = id
-
-	size := 1 + 2*traceBytesPerNumber + len(s)
-	if len(buf.arr)-buf.pos < size {
-		buf = traceFlush(traceBufPtrOf(buf)).ptr()
-	}
-	buf.byte(traceEvString)
-	buf.varint(id)
-	buf.varint(uint64(len(s)))
-	buf.pos += copy(buf.arr[buf.pos:], s)
-	return id, buf
-}
-
 // traceAppend appends v to buf in little-endian-base-128 encoding.
 func traceAppend(buf []byte, v uint64) []byte {
 	for ; v >= 0x80; v >>= 7 {
@@ -684,159 +812,10 @@ func (buf *traceBuf) byte(v byte) {
 	buf.pos++
 }
 
-// traceStackTable maps stack traces (arrays of PC's) to unique uint32 ids.
-// It is lock-free for reading.
-type traceStackTable struct {
-	lock mutex
-	seq  uint32
-	mem  traceAlloc
-	tab  [1 << 13]traceStackPtr
-}
-
-// traceStack is a single stack in traceStackTable.
-type traceStack struct {
-	link traceStackPtr
-	hash uintptr
-	id   uint32
-	n    int
-	stk  [0]uintptr // real type [n]uintptr
-}
-
-type traceStackPtr uintptr
-
-func (tp traceStackPtr) ptr() *traceStack { return (*traceStack)(unsafe.Pointer(tp)) }
-
-// stack returns slice of PCs.
-func (ts *traceStack) stack() []uintptr {
-	return (*[traceStackSize]uintptr)(unsafe.Pointer(&ts.stk))[:ts.n]
-}
-
-// put returns a unique id for the stack trace pcs and caches it in the table,
-// if it sees the trace for the first time.
-func (tab *traceStackTable) put(pcs []uintptr) uint32 {
-	if len(pcs) == 0 {
-		return 0
-	}
-	hash := memhash(unsafe.Pointer(&pcs[0]), 0, uintptr(len(pcs))*unsafe.Sizeof(pcs[0]))
-	// First, search the hashtable w/o the mutex.
-	if id := tab.find(pcs, hash); id != 0 {
-		return id
-	}
-	// Now, double check under the mutex.
-	lock(&tab.lock)
-	if id := tab.find(pcs, hash); id != 0 {
-		unlock(&tab.lock)
-		return id
-	}
-	// Create new record.
-	tab.seq++
-	stk := tab.newStack(len(pcs))
-	stk.hash = hash
-	stk.id = tab.seq
-	stk.n = len(pcs)
-	stkpc := stk.stack()
-	for i, pc := range pcs {
-		stkpc[i] = pc
-	}
-	part := int(hash % uintptr(len(tab.tab)))
-	stk.link = tab.tab[part]
-	atomicstorep(unsafe.Pointer(&tab.tab[part]), unsafe.Pointer(stk))
-	unlock(&tab.lock)
-	return stk.id
-}
-
-// find checks if the stack trace pcs is already present in the table.
-func (tab *traceStackTable) find(pcs []uintptr, hash uintptr) uint32 {
-	part := int(hash % uintptr(len(tab.tab)))
-Search:
-	for stk := tab.tab[part].ptr(); stk != nil; stk = stk.link.ptr() {
-		if stk.hash == hash && stk.n == len(pcs) {
-			for i, stkpc := range stk.stack() {
-				if stkpc != pcs[i] {
-					continue Search
-				}
-			}
-			return stk.id
-		}
-	}
-	return 0
-}
-
-// newStack allocates a new stack of size n.
-func (tab *traceStackTable) newStack(n int) *traceStack {
-	return (*traceStack)(tab.mem.alloc(unsafe.Sizeof(traceStack{}) + uintptr(n)*sys.PtrSize))
-}
-
-// dump writes all previously cached stacks to trace buffers,
-// releases all memory and resets state.
-func (tab *traceStackTable) dump() {
-	frames := make(map[uintptr]traceFrame)
-	var tmp [(2 + 4*traceStackSize) * traceBytesPerNumber]byte
-	buf := traceFlush(0).ptr()
-	for _, stk := range tab.tab {
-		stk := stk.ptr()
-		for ; stk != nil; stk = stk.link.ptr() {
-			tmpbuf := tmp[:0]
-			tmpbuf = traceAppend(tmpbuf, uint64(stk.id))
-			tmpbuf = traceAppend(tmpbuf, uint64(stk.n))
-			for _, pc := range stk.stack() {
-				var frame traceFrame
-				frame, buf = traceFrameForPC(buf, frames, pc)
-				tmpbuf = traceAppend(tmpbuf, uint64(pc))
-				tmpbuf = traceAppend(tmpbuf, uint64(frame.funcID))
-				tmpbuf = traceAppend(tmpbuf, uint64(frame.fileID))
-				tmpbuf = traceAppend(tmpbuf, uint64(frame.line))
-			}
-			// Now copy to the buffer.
-			size := 1 + traceBytesPerNumber + len(tmpbuf)
-			if len(buf.arr)-buf.pos < size {
-				buf = traceFlush(traceBufPtrOf(buf)).ptr()
-			}
-			buf.byte(traceEvStack | 3<<traceArgCountShift)
-			buf.varint(uint64(len(tmpbuf)))
-			buf.pos += copy(buf.arr[buf.pos:], tmpbuf)
-		}
-	}
-
-	lock(&trace.lock)
-	traceFullQueue(traceBufPtrOf(buf))
-	unlock(&trace.lock)
-
-	tab.mem.drop()
-	*tab = traceStackTable{}
-}
-
 type traceFrame struct {
 	funcID uint64
 	fileID uint64
 	line   uint64
-}
-
-func traceFrameForPC(buf *traceBuf, frames map[uintptr]traceFrame, pc uintptr) (traceFrame, *traceBuf) {
-	if frame, ok := frames[pc]; ok {
-		return frame, buf
-	}
-
-	var frame traceFrame
-	f := findfunc(pc)
-	if f == nil {
-		frames[pc] = frame
-		return frame, buf
-	}
-
-	fn := funcname(f)
-	const maxLen = 1 << 10
-	if len(fn) > maxLen {
-		fn = fn[len(fn)-maxLen:]
-	}
-	frame.funcID, buf = traceString(buf, fn)
-	file, line := funcline(f, pc-sys.PCQuantum)
-	frame.line = uint64(line)
-	if len(file) > maxLen {
-		file = file[len(file)-maxLen:]
-	}
-	frame.fileID, buf = traceString(buf, file)
-	return frame, buf
 }
 
 // traceAlloc is a non-thread-safe region allocator.
@@ -893,6 +872,55 @@ func (a *traceAlloc) drop() {
 	}
 }
 
+// traceCacheTable is used to cache the previously sent string & stack events
+// to minimize trace output. The lock must be obtained at the call site before
+// calls to add(), concurrent reads are safe due to atomicstorep for linking.
+type traceCacheTable struct {
+	lock mutex
+	seq  uint64
+	mem  traceAlloc
+	tab  [traceCacheTableSize]traceCacheEntryPtr
+}
+
+func (ct *traceCacheTable) newCacheEntry() *traceCacheEntry {
+	return (*traceCacheEntry)(ct.mem.alloc(unsafe.Sizeof(traceCacheEntry{})))
+}
+
+func (ct *traceCacheTable) add(hash uintptr) *traceCacheEntry {
+	ct.seq++
+	seq := ct.seq
+	part := int(hash % uintptr(len(ct.tab)))
+
+	entry := ct.newCacheEntry()
+	entry.seq = seq
+	entry.hash = hash
+	entry.link = ct.tab[part]
+	atomicstorep(unsafe.Pointer(&ct.tab[part]), unsafe.Pointer(entry))
+	return entry
+}
+
+func (ct *traceCacheTable) find(hash uintptr) *traceCacheEntry {
+	part := int(hash % uintptr(len(ct.tab)))
+	for entry := ct.tab[part].ptr(); entry != nil; entry = entry.link.ptr() {
+		if entry.hash == hash {
+			return entry
+		}
+	}
+	return nil
+}
+
+// traceCacheEntry is a cache entry, it always has a hash and sequence but link
+// and val may be zero values.
+type traceCacheEntry struct {
+	link      traceCacheEntryPtr
+	hash, val uintptr
+	seq       uint64
+}
+
+type traceCacheEntryPtr uintptr
+
+func (tc traceCacheEntryPtr) ptr() *traceCacheEntry { return (*traceCacheEntry)(unsafe.Pointer(tc)) }
+
 // The following functions write specific events to trace.
 
 func traceGomaxprocs(procs int32) {
@@ -943,7 +971,7 @@ func traceGoCreate(newg *g, pc uintptr) {
 	newg.traceseq = 0
 	newg.tracelastp = getg().m.p
 	// +PCQuantum because traceFrameForPC expects return PCs and subtracts PCQuantum.
-	id := trace.stackTab.put([]uintptr{pc + sys.PCQuantum})
+	id := traceEventStack(traceEvGoCreate, []uintptr{pc + sys.PCQuantum})
 	traceEvent(traceEvGoCreate, 2, uint64(newg.goid), uint64(id))
 }
 
