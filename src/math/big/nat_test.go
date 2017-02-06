@@ -206,16 +206,6 @@ func BenchmarkMul(b *testing.B) {
 	}
 }
 
-func TestNLZ(t *testing.T) {
-	var x Word = _B >> 1
-	for i := 0; i <= _W; i++ {
-		if int(nlz(x)) != i {
-			t.Errorf("failed at %x: got %d want %d", x, nlz(x), i)
-		}
-		x >>= 1
-	}
-}
-
 type shiftTest struct {
 	in    nat
 	shift uint
@@ -300,36 +290,6 @@ func TestModW(t *testing.T) {
 	}
 	if _W >= 64 {
 		runModWTests(t, modWTests64)
-	}
-}
-
-func TestTrailingZeroBits(t *testing.T) {
-	// test 0 case explicitly
-	if n := trailingZeroBits(0); n != 0 {
-		t.Errorf("got trailingZeroBits(0) = %d; want 0", n)
-	}
-
-	x := Word(1)
-	for i := uint(0); i < _W; i++ {
-		n := trailingZeroBits(x)
-		if n != i {
-			t.Errorf("got trailingZeroBits(%#x) = %d; want %d", x, n, i%_W)
-		}
-		x <<= 1
-	}
-
-	// test 0 case explicitly
-	if n := nat(nil).trailingZeroBits(); n != 0 {
-		t.Errorf("got nat(nil).trailingZeroBits() = %d; want 0", n)
-	}
-
-	y := nat(nil).set(natOne)
-	for i := uint(0); i <= 3*_W; i++ {
-		n := y.trailingZeroBits()
-		if n != i {
-			t.Errorf("got 0x%s.trailingZeroBits() = %d; want %d", y.utoa(16), n, i)
-		}
-		y = y.shl(y, 1)
 	}
 }
 

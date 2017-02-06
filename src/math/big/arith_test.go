@@ -408,7 +408,6 @@ func testWordBitLen(t *testing.T, fname string, f func(Word) int) {
 
 func TestWordBitLen(t *testing.T) {
 	testWordBitLen(t, "bitLen", bitLen)
-	testWordBitLen(t, "bitLen_g", bitLen_g)
 }
 
 // runs b.N iterations of bitLen called on a Word containing (1 << nbits)-1.
