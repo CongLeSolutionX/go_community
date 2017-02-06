@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "2e96e49f_1d1cea5c",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-06T22:38:59Z",
+      "side": 1,
+      "message": "Is it safe to call traceWriteStack or other buf mutator functions from traceEvent after this point?",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "687eb05a_a66d0f08",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
