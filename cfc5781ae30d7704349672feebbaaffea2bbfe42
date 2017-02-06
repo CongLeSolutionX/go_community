@@ -16,6 +16,24 @@
       "revId": "cfc5781ae30d7704349672feebbaaffea2bbfe42",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9368c353_d6e9446b",
+        "filename": "doc/progs/go1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2017-02-06T20:04:56Z",
+      "side": 1,
+      "message": "I see. Just to make sure I understand correctly, OAS2 is currently WAI (i.e Righ to left is fine for it), but {OAS2MAPR, OAS2FUNC, OAS2RECV, OAS2DOTTYPE} should have left-to-right. Correct?\n\n(I will upload the revised patch by EOD today)",
+      "parentUuid": "6d4609c8_3c6dd3b1",
+      "revId": "cfc5781ae30d7704349672feebbaaffea2bbfe42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
