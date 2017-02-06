@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c0a6d71_377ce8ee",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-06T19:31:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff2fc52e_5afdb23a",
+      "revId": "7dfbd18ae6a4baebb57765678ef139f764165a64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "691d978e_cd9d48ac",
         "filename": "src/math/bits/bits_impl.go",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-06T19:00:31Z",
       "side": 1,
       "message": "uint64(1)\u003c\u003c64 looks wrong.",
+      "revId": "7dfbd18ae6a4baebb57765678ef139f764165a64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4fcf007_ef3e3819",
+        "filename": "src/math/bits/bits_impl.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-06T19:31:43Z",
+      "side": 1,
+      "message": "It may look wrong, but it\u0027s correct :-)\n\nThat said, I replaced this with a faster routine.",
+      "parentUuid": "691d978e_cd9d48ac",
       "revId": "7dfbd18ae6a4baebb57765678ef139f764165a64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
