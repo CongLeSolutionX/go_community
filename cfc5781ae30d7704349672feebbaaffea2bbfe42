@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d4609c8_3c6dd3b1",
+        "filename": "doc/progs/go1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-06T19:52:13Z",
+      "side": 1,
+      "message": "Why is this changing? From the check below it makes it sound like you (and now the compiler) believe that\n\ni, sa[i] \u003d 1, 42\n\nshould be like\n\ni \u003d 1\nsa[1] \u003d 42\n\nbut that\u0027s wrong. The whole point of the parallel assignment is that they happen in parallel: the i in sa[i] is the i before the assignment. So the second effect should be sa[0] \u003d 42, not sa[1] \u003d 42.",
+      "revId": "cfc5781ae30d7704349672feebbaaffea2bbfe42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
