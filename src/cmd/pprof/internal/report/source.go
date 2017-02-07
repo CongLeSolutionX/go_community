@@ -212,11 +212,23 @@ func assemblyPerSourceLine(objSyms []*objSymbol, rs nodes, src string, obj plugi
 	srcBase := filepath.Base(src)
 	anodes := annotateAssembly(insns, rs, o.base)
 	var lineno = 0
+	var prevline = 0
 	for _, an := range anodes {
 		if filepath.Base(an.info.file) == srcBase {
 			lineno = an.info.lineno
 		}
 		if lineno != 0 {
+			if lineno != prevline && len(assembly[lineno]) > 0 {
+				// Place a separator between
+				// non-contiguous instructions.
+				sep := node{
+					info: nodeInfo{
+						name: "⋮",
+					},
+				}
+				assembly[lineno] = append(assembly[lineno], &sep)
+			}
+			prevline = lineno
 			assembly[lineno] = append(assembly[lineno], an)
 		}
 	}
@@ -283,6 +295,11 @@ func printFunctionSourceLine(w io.Writer, fn *node, assembly nodes, rpt *Report)
 		template.HTMLEscapeString(fn.info.name))
 	fmt.Fprint(w, "<span class=asm>")
 	for _, an := range assembly {
+		if an.info.address == 0 && an.info.name == "⋮" {
+			fmt.Fprintf(w, " %8s %30s\n", "", an.info.name)
+			continue
+		}
+
 		var fileline string
 		class := "disasmloc"
 		if an.info.file != "" {
