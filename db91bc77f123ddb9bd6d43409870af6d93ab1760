@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c89cfe30_2014ee10",
+        "filename": "src/html/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2017-02-07T18:42:53Z",
+      "side": 1,
+      "message": "This is fine, but the intention is that no modifications to the template are finalized until Parse is called; Funcs isn\u0027t a special case in this matter. Can you rewrite this as:\n\n\"The return value is the template, so call can be chained. If functions are added to an already parsed template, it must be re-parsed in order to use the function.\"\n\nor something of that form?",
+      "range": {
+        "startLine": 330,
+        "startChar": 49,
+        "endLine": 331,
+        "endChar": 52
+      },
+      "revId": "db91bc77f123ddb9bd6d43409870af6d93ab1760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fd31bc1_9dce4a06",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5130
+      },
+      "writtenOn": "2017-02-07T18:42:53Z",
+      "side": 1,
+      "message": "Same.",
+      "range": {
+        "startLine": 165,
+        "startChar": 26,
+        "endLine": 166,
+        "endChar": 25
+      },
+      "revId": "db91bc77f123ddb9bd6d43409870af6d93ab1760",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
