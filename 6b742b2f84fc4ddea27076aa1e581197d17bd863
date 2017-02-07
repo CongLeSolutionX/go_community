@@ -16,6 +16,24 @@
       "revId": "6b742b2f84fc4ddea27076aa1e581197d17bd863",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df87fc6c_93be3fd5",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1705,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-07T18:45:17Z",
+      "side": 0,
+      "message": "If git doesn\u0027t exist, tons of the tests here fail (pretty much every one that mentions \u0027go get\u0027, and there are many beyond this one). I don\u0027t know why this specific test case and a few others have the check. It didn\u0027t seem worth preserving without understanding more. I suspect it got added once (perhaps for a test that didn\u0027t also do MustHaveExternalNetwork?) and then got cargo-culted a few more times.",
+      "parentUuid": "4990e618_c5ce1867",
+      "revId": "6b742b2f84fc4ddea27076aa1e581197d17bd863",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
