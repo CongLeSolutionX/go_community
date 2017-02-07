@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af9df06c_f05bd5cc",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-07T19:34:26Z",
+      "side": 1,
+      "message": "Why $64?  This function doesn\u0027t seem to use any stack space.",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59cd2e95_f43826bc",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-07T19:34:26Z",
+      "side": 1,
+      "message": "1e9 (current code says x%1e8 which can\u0027t be intentional)",
+      "range": {
+        "startLine": 194,
+        "startChar": 49,
+        "endLine": 194,
+        "endChar": 59
+      },
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f6799af_31fdcae0",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-07T19:34:26Z",
+      "side": 1,
+      "message": "gccgo generates\n\nMOVQ AX, CX\nMOVQ $19342813113834067, AX\nSHRQ $9, CX\nMULQ CX\nSHRQ $11, CX\n\nwhich saves one instruction.",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07524125_13402e2e",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-07T19:34:26Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95c1fcd4_079be7fc",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-07T19:34:26Z",
+      "side": 1,
+      "message": "Trailing whitespace.",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2958f8e8_811803d6",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-07T19:34:26Z",
+      "side": 1,
+      "message": "Empty line with just tab, below as well.",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f931193_12971878",
+        "filename": "src/runtime/timeasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-07T19:34:26Z",
+      "side": 1,
+      "message": "Should include darwin,386, I think.  Or revert changes to sys_darwin_386.s.",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f55c90fc_8375df12",
+        "filename": "src/runtime/timestub.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-07T19:34:26Z",
+      "side": 1,
+      "message": "! darwin !386",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
