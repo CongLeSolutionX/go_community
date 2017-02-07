@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "cb9c70f8_366689bc",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-07T23:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c581537d_73635cc3",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43348bb6_40a118d5",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "b73c5100_60a9ee47",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-07T23:16:29Z",
+      "side": 1,
+      "message": "Okay. I kinda backed into it but could certainly have split it out.",
+      "parentUuid": "43348bb6_40a118d5",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "671b67a5_55e49c98",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 1
@@ -67,6 +103,24 @@
       "revId": "232ae4021c52e729ca245b116e7bde188223be67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71f22dff_e6a9b970",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-07T23:16:29Z",
+      "side": 1,
+      "message": "Sure, done. I had also considered reading the info at the beginning of each loop, at line 370, but I was nervous that it would be too easy to get confused between the two goroutines in the case of EvGoCreate.",
+      "parentUuid": "671b67a5_55e49c98",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "c05bca2f_66564fc6",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-07T23:16:29Z",
+      "side": 1,
+      "message": "Added some comments. I left the blocks combined, because I think in practice any logic associated with EvGoStart will be necessary for EvGoStartLabel too. Someone can always split it up later if I\u0027m wrong.",
+      "parentUuid": "cd6a99f6_d627493b",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c6c078e_2b5f7fea",
         "filename": "src/cmd/trace/trace_test.go",
         "patchSetId": 1
@@ -110,6 +182,24 @@
     },
     {
       "key": {
+        "uuid": "3854e7f8_5077a4fe",
+        "filename": "src/cmd/trace/trace_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-07T23:16:29Z",
+      "side": 1,
+      "message": "Whoops, copy and paste error.",
+      "parentUuid": "2c6c078e_2b5f7fea",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcef9df1_0058e7d4",
         "filename": "src/internal/trace/parser.go",
         "patchSetId": 1
@@ -121,6 +211,24 @@
       "writtenOn": "2017-02-06T22:05:56Z",
       "side": 1,
       "message": "add an entry for the markassist event",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea8d3267_8003881b",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-07T23:16:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcef9df1_0058e7d4",
       "revId": "232ae4021c52e729ca245b116e7bde188223be67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
