@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3af703db_734514ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 16286
+      },
+      "writtenOn": "2017-02-07T10:53:44Z",
+      "side": 1,
+      "message": "I\u0027ve originally included prologue/epilogue to get idea of how full code looks like and how internals change compares \u0026 corresponds with entry/exit code.\n\nThis information was relevant to beginner (me), but probably you are right, so I will omit it.",
+      "parentUuid": "6a6722e6_744f4ea9",
+      "revId": "313861859308426f7f8e183b3b7809382c3c4017",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f568b969_5c707f2d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -30,6 +48,30 @@
       "writtenOn": "2017-02-04T14:36:33Z",
       "side": 1,
       "message": "Please show the two versions one under the other, as this layout requires a very large display; formatting breaks under GitHub, Gerrit, my terminal, etc.",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 23
+      },
+      "revId": "313861859308426f7f8e183b3b7809382c3c4017",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f16e235_bb8384b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 16286
+      },
+      "writtenOn": "2017-02-07T10:53:44Z",
+      "side": 1,
+      "message": "Thanks for feedback.\n\nI thought Go project does not put itself into punch cards limits and https://lab.nexedi.com/kirr/go/commit/31386185 shows ok on my 1024x600 atom netbook, but ok, I will change the description as you suggest.",
+      "parentUuid": "f568b969_5c707f2d",
       "range": {
         "startLine": 44,
         "startChar": 1,
