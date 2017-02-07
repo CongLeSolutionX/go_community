@@ -22,6 +22,30 @@
       "revId": "325b9210991031dfeb70b04641cb070aa27f42cb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48fbc4f8_f3901952",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-02-07T23:36:53Z",
+      "side": 1,
+      "message": "Done.\n\nThough it looks like the compiler is already smart enough to remove these allocations: -benchmem shows 1 allocation per loop",
+      "parentUuid": "1d94efe0_05ac8f37",
+      "range": {
+        "startLine": 1462,
+        "startChar": 24,
+        "endLine": 1462,
+        "endChar": 35
+      },
+      "revId": "325b9210991031dfeb70b04641cb070aa27f42cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
