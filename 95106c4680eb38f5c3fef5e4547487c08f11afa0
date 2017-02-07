@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc7b6b9_59f38e15",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-07T00:33:48Z",
+      "side": 1,
+      "message": "I guess you can\u0027t use sort.SliceStable here for bootstrapping, eh?",
+      "range": {
+        "startLine": 595,
+        "startChar": 2,
+        "endLine": 595,
+        "endChar": 13
+      },
+      "revId": "95106c4680eb38f5c3fef5e4547487c08f11afa0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
