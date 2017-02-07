@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d94efe0_05ac8f37",
+        "filename": "src/bytes/bytes_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-07T23:27:46Z",
+      "side": 1,
+      "message": "move all these allocations outside the loop? and the 3 below?",
+      "range": {
+        "startLine": 1462,
+        "startChar": 24,
+        "endLine": 1462,
+        "endChar": 35
+      },
+      "revId": "325b9210991031dfeb70b04641cb070aa27f42cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
