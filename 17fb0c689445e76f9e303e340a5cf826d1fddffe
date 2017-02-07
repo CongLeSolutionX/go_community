@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c0ecc051_378f85ff",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 16105
+      },
+      "writtenOn": "2017-02-07T06:20:22Z",
+      "side": 1,
+      "message": "traceStackPCS is always followed by a traceWriteStack, but traceWriteStack is not always preceded by traceStackPCS. (Line #234)",
+      "parentUuid": "66748c4a_864fb9f9",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76391022_f6a5fd9c",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
@@ -30,6 +48,23 @@
       "writtenOn": "2017-02-06T20:45:37Z",
       "side": 1,
       "message": "Doesn\u0027t traceWriteStack return uint64? I think this and the cast on 235 are unnecessary.",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b7872e_c2725b75",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 16105
+      },
+      "writtenOn": "2017-02-07T06:20:22Z",
+      "side": 1,
+      "message": "Good catch, fixed.",
       "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "afb95e10_b73fe446",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 16105
+      },
+      "writtenOn": "2017-02-07T06:20:22Z",
+      "side": 1,
+      "message": "I originally had the same question and I would have to defer to Dmitry for an authoritative answer, but based on my understanding of the code as long as all the traceWrite* functions play by the same rules this is okay. Which mostly just means that each traceWrite* function must ensure they do not overflow the buffer.",
+      "parentUuid": "2e96e49f_1d1cea5c",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "687eb05a_a66d0f08",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
@@ -70,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "bd2e1950_eb2ffb3b",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 16105
+      },
+      "writtenOn": "2017-02-07T06:20:22Z",
+      "side": 1,
+      "message": "I agree, there is a good bit of duplicate code that could be cleaned up now that I have a better understanding of the code. I would be happy to do some general abstraction/cleanup in a separate commit. This function is a bit of an oddball but I am not sure how I can remove it reasonably without touching a few more places (or having the same duplication somewhere else).",
+      "parentUuid": "687eb05a_a66d0f08",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "446a57a4_dd63b359",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
@@ -81,6 +152,24 @@
       "writtenOn": "2017-02-06T20:45:37Z",
       "side": 1,
       "message": "surely not stdout?",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8150a667_3ef35b5c",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 16105
+      },
+      "writtenOn": "2017-02-07T06:20:22Z",
+      "side": 1,
+      "message": "Lol, no idea why I wrote stdout, that\u0027s funny. Fixed.",
+      "parentUuid": "446a57a4_dd63b359",
       "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -110,6 +199,30 @@
     },
     {
       "key": {
+        "uuid": "1b18e34e_ea5ca4a0",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 16105
+      },
+      "writtenOn": "2017-02-07T06:20:22Z",
+      "side": 1,
+      "message": "I agree, fixed.",
+      "parentUuid": "8f492eb6_8c0c6be3",
+      "range": {
+        "startLine": 717,
+        "startChar": 5,
+        "endLine": 717,
+        "endChar": 18
+      },
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc011794_1903089e",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
@@ -121,6 +234,24 @@
       "writtenOn": "2017-02-06T20:45:37Z",
       "side": 1,
       "message": "Consider moving this out to the trace? Generally if I see a lock inside a type I expect it to be concurrency-safe, and this clearly isn\u0027t.",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3df5ba7_732d7c16",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 16105
+      },
+      "writtenOn": "2017-02-07T06:20:22Z",
+      "side": 1,
+      "message": "I am adding a comment for now- feel free to override me here as I don\u0027t feel strongly about it. If I don\u0027t have the lock on the struct I\u0027ll need two more members on the struct, traceStackLock \u0026 traceStringLock. A small note here is that the struct is safe for concurrent reads, though the call site must obtain lock before calls to add().",
+      "parentUuid": "bc011794_1903089e",
       "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
