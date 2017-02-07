@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "832060be_31d031f1",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 1,
+      "message": "Please copy comments from original code.\n\n// Described in http://www.dcl.hpi.uni-potsdam.de/research/WRK/2007/08/getting-os-information-the-kuser_shared_data-structure/\n\nor similar. What we are doing here is not well documented on the Web.",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3a393bb_a47aa7a2",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 1,
+      "message": "Same. Copy the comment.\n\n// these fields must be read in that order (see URL above)",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88f767b2_b87f3973",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 1,
+      "message": "// these fields must be read in that order (see URL above)",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f031a309_9fe78879",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 1,
+      "message": "// these fields must be read in that order (see URL above)",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a805a05a_ac091631",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 1,
+      "message": "// Described in http://www.dcl.hpi.uni-potsdam.de/research/WRK/2007/08/getting-os-information-the-kuser_shared_data-structure/",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6732a39_3048169f",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 1,
+      "message": "// these fields must be read in that order (see URL above)",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3a500aa_0aae28a3",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 1,
+      "message": "// these fields must be read in that order (see URL above)",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e4447df_1bad396f",
+        "filename": "src/runtime/sys_windows_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 1,
+      "message": "// these fields must be read in that order (see URL above)",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d88b640_cd26d8e6",
+        "filename": "src/time/mono_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 1,
+      "message": "Do you really want to keep that?",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}

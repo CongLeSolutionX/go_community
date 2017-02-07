@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5316e51_78bbfe99",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-07T22:57:40Z",
+      "side": 0,
+      "message": "That was one of my favorite pieces of code.",
+      "revId": "8cf1766930269ea09a4234cc42570abcf425355f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
