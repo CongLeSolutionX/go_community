@@ -1432,6 +1432,55 @@ func BenchmarkTrimSpace(b *testing.B) {
 	}
 }
 
+func makeBenchInputHard() []byte {
+	tokens := [...]string{
+		"<a>", "<p>", "<b>", "<strong>",
+		"</a>", "</p>", "</b>", "</strong>",
+		"hello", "world",
+	}
+	x := make([]byte, 0, 1<<20)
+	for {
+		i := rand.Intn(len(tokens))
+		if len(x)+len(tokens[i]) >= 1<<20 {
+			break
+		}
+		x = append(x, tokens[i]...)
+	}
+	return x
+}
+
+var benchInputHard = makeBenchInputHard()
+
+func BenchmarkSplitEmptySeparator(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Split(benchInputHard, nil)
+	}
+}
+
+func BenchmarkSplitSingleByteSeparator(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Split(benchInputHard, []byte("/"))
+	}
+}
+
+func BenchmarkSplitMultiByteSeparator(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Split(benchInputHard, []byte("hello"))
+	}
+}
+
+func BenchmarkSplitNSingleByteSeparator(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		SplitN(benchInputHard, []byte("/"), 10)
+	}
+}
+
+func BenchmarkSplitNMultiByteSeparator(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		SplitN(benchInputHard, []byte("hello"), 10)
+	}
+}
+
 func BenchmarkRepeat(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		Repeat([]byte("-"), 80)
