@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c491b218_13345240",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-07T15:08:28Z",
+      "side": 1,
+      "message": "Why did you choose to use append?  I would expect it to be a tiny bit faster to use direct slice assignment as in the original code.",
+      "revId": "b6f5f4dbf160ef1908bf8af493d8bc988e82df19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
