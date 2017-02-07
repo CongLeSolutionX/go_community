@@ -229,20 +229,30 @@ func genSplit(s, sep []byte, sepSave, n int) [][]byte {
 	if n < 0 {
 		n = Count(s, sep) + 1
 	}
-	c := sep[0]
-	start := 0
-	a := make([][]byte, n)
-	na := 0
-	for i := 0; i+len(sep) <= len(s) && na+1 < n; i++ {
-		if s[i] == c && (len(sep) == 1 || Equal(s[i:i+len(sep)], sep)) {
-			a[na] = s[start : i+sepSave]
-			na++
-			start = i + len(sep)
-			i += len(sep) - 1
+
+	a := make([][]byte, 0, n)
+	n--
+	if len(sep) == 1 {
+		c := sep[0]
+		for len(a) < n {
+			i := IndexByte(s, c)
+			if i < 0 {
+				break
+			}
+			a = append(a, s[:i+sepSave])
+			s = s[i+1:]
+		}
+	} else {
+		for len(a) < n {
+			i := Index(s, sep)
+			if i < 0 {
+				break
+			}
+			a = append(a, s[:i+sepSave])
+			s = s[i+len(sep):]
 		}
 	}
-	a[na] = s[start:]
-	return a[0 : na+1]
+	return append(a, s)
 }
 
 // SplitN slices s into subslices separated by sep and returns a slice of
