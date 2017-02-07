@@ -294,7 +294,7 @@ func printFunctionSourceLine(w io.Writer, fn *node, assembly nodes, rpt *Report)
 		fmt.Fprintf(w, " %8s %10s %10s %8x: %-48s <span class=%s>%s</span>\n", "",
 			valueOrDot(an.flat, rpt), valueOrDot(an.cum, rpt),
 			an.info.address,
-			template.HTMLEscapeString(an.info.name),
+			template.HTMLEscapeString(strings.Replace(an.info.name, "\t", " ", -1)),
 			class,
 			template.HTMLEscapeString(fileline))
 	}
