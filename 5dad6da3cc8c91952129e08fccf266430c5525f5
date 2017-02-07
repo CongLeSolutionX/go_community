@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b6af058f_bd48e2d1",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-07T21:15:56Z",
+      "side": 1,
+      "message": "It was debugging, but the 32 is needed for the systime fallback: SP is used as \u0026tv in gettimeofday(\u0026tv, ...). Added comment to make that clearer.",
+      "parentUuid": "af9df06c_f05bd5cc",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "59cd2e95_f43826bc",
         "filename": "src/runtime/sys_darwin_amd64.s",
         "patchSetId": 1
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "b03a471f_6e0b31ae",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-07T21:15:56Z",
+      "side": 1,
+      "message": "Done, slightly adapted.",
+      "parentUuid": "7f6799af_31fdcae0",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "07524125_13402e2e",
         "filename": "src/runtime/sys_windows_386.s",
         "patchSetId": 1
@@ -70,6 +106,24 @@
       "writtenOn": "2017-02-07T19:34:26Z",
       "side": 1,
       "message": "Trailing whitespace.",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27aef5eb_ba99d656",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-07T21:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07524125_13402e2e",
       "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -93,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "b48339cf_829a4554",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-07T21:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95c1fcd4_079be7fc",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2958f8e8_811803d6",
         "filename": "src/runtime/sys_windows_386.s",
         "patchSetId": 1
@@ -104,6 +176,24 @@
       "writtenOn": "2017-02-07T19:34:26Z",
       "side": 1,
       "message": "Empty line with just tab, below as well.",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad2ca22_8a103f98",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-07T21:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2958f8e8_811803d6",
       "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -127,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "3715eae3_47841988",
+        "filename": "src/runtime/timeasm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-07T21:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f931193_12971878",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f55c90fc_8375df12",
         "filename": "src/runtime/timestub.go",
         "patchSetId": 1
@@ -138,6 +246,24 @@
       "writtenOn": "2017-02-07T19:34:26Z",
       "side": 1,
       "message": "! darwin !386",
+      "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "354cb029_8dfc22e7",
+        "filename": "src/runtime/timestub.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-07T21:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f55c90fc_8375df12",
       "revId": "5dad6da3cc8c91952129e08fccf266430c5525f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
