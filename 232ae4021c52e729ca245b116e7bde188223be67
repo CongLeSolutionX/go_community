@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "43348bb6_40a118d5",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-07T16:43:30Z",
+      "side": 1,
+      "message": "This is probably not worth the trouble now, but it would have been nice if this were two CLs: one to combine gnames and gstates into ginfos and a second to add the mark-assist events.",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "671b67a5_55e49c98",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-07T16:43:30Z",
+      "side": 1,
+      "message": "While it\u0027s probably okay to initialize ginfos only in setGState, it makes me a little squeamish to assume that a state change will always happen before any other access to ginfos. How about adding something like\n\ngetGInfo :\u003d func(g uint64) *gInfo {\n    info, ok :\u003d ginfos[g]\n    if !ok {\n        info :\u003d \u0026gInfo{}\n        ginfos[g] \u003d info\n    }\n    return info\n}\n\nAnd then using that wherever you currently directly lookup in ginfos?",
+      "revId": "232ae4021c52e729ca245b116e7bde188223be67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cd6a99f6_d627493b",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 1
