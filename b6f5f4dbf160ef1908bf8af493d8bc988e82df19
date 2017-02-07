@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "93e49586_f9187de3",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-02-07T21:02:53Z",
+      "side": 1,
+      "message": "Because append looks cleaner :)\n\nSubstituted it with direct slice assignment - this improved bytes.Split* performance a bit.",
+      "parentUuid": "c491b218_13345240",
+      "revId": "b6f5f4dbf160ef1908bf8af493d8bc988e82df19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c49b8fa_b5b9c137",
         "filename": "src/strings/strings.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-07T17:21:17Z",
       "side": 1,
       "message": "I\u0027ve tried replacing this with unconditional use of Index and got no perf changes vs your version:\nSplit1-8  37.7ms ± 4%  37.8ms ± 2%    ~     (p\u003d0.529 n\u003d10+10)\nSplit2-8  3.06ms ± 0%  2.97ms ±12%  -3.00%   (p\u003d0.034 n\u003d8+10)\nSplit3-8  1.14ms ± 1%  1.14ms ± 2%    ~     (p\u003d0.971 n\u003d10+10)",
+      "revId": "b6f5f4dbf160ef1908bf8af493d8bc988e82df19",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e4a5a01_34e5cb62",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-02-07T21:02:53Z",
+      "side": 1,
+      "message": "Confirmed and removed IndexByte branch.",
+      "parentUuid": "0c49b8fa_b5b9c137",
       "revId": "b6f5f4dbf160ef1908bf8af493d8bc988e82df19",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
