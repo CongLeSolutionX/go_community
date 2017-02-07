@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7249628_157b7d7a",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-07T00:11:21Z",
+      "side": 1,
+      "message": "I\u0027m not convinced that BitLen() is faster than using Cmp.\n\nBut moreover, this being the implementation, there\u0027s much more quick ways to make the right decision here. For one, we don\u0027t need to call Sign which does too much work.\n\nSecondly, we can directly look at the length of the nat slice.",
+      "revId": "c6886f2bf3d826d7f1acef71b0d1a0b49909f566",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5f38df1_77e16587",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-07T00:11:21Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 385,
+        "startChar": 11,
+        "endLine": 385,
+        "endChar": 15
+      },
+      "revId": "c6886f2bf3d826d7f1acef71b0d1a0b49909f566",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
