@@ -52,6 +52,24 @@
       "revId": "cfc5781ae30d7704349672feebbaaffea2bbfe42",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "daffa7f0_ef2ffedd",
+        "filename": "doc/progs/go1.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2017-02-07T00:59:33Z",
+      "side": 1,
+      "message": "okay. Undone the changes related to OAS2 node.\n\nKept OAS2MAPR and OAS2DOTTYPE as `a \u003d t1; ok \u003d t2`, because while trying to rewrite them to `a, ok \u003d t1, t2;`, I kept running into [1].\n\nNote that, we have to do `conv()` there [2] or else we run into #8475. I think that error [1] is because with OAS2 node, CONVOP doesn\u0027t work. Is it supposed to work? (Also, OAS2RECV is also handled that way, which makes me think may be it is not supposed to work)\n\n[1]: https://gist.github.com/dhananjay92/7a93afee1a6b1728aac7172eb0de92fd#gistcomment-1990183\n[2]: https://gist.github.com/dhananjay92/7a93afee1a6b1728aac7172eb0de92fd#file-order-go-L22",
+      "parentUuid": "7f8b9aa4_48022155",
+      "revId": "cfc5781ae30d7704349672feebbaaffea2bbfe42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
