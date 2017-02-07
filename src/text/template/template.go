@@ -162,7 +162,8 @@ func (t *Template) Delims(left, right string) *Template {
 // It panics if a value in the map is not a function with appropriate return
 // type or if the name cannot be used syntactically as a function in a template.
 // It is legal to overwrite elements of the map. The return value is the template,
-// so calls can be chained.
+// so calls can be chained but it has to precede the Parse call so the template
+// can use the functions.
 func (t *Template) Funcs(funcMap FuncMap) *Template {
 	t.init()
 	t.muFuncs.Lock()
