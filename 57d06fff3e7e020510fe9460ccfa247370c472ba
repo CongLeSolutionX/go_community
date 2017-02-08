@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7c5be3d_5ec7e4ab",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-02-08T00:10:26Z",
+      "side": 1,
+      "message": "@davecheney suggested me:\n\n\u003e buildContext.GOPATH is not a file path, it\u0027s a list of file paths, this will break weirdly for people that have more than one gopath entry.\n\nat https://go-review.googlesource.com/#/c/36074/.\n\nSo, filepath.Clean(gopath) is wrong.",
+      "revId": "57d06fff3e7e020510fe9460ccfa247370c472ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
