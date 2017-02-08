@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05a6db23_b1f85b26",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-08T18:11:17Z",
+      "side": 1,
+      "message": "if traceWriteString has a buffer management logic like traceEvent (including the traceEvBatch record write), I don\u0027t think we need to duplicate this code here.",
+      "revId": "a7810b8618c02791bca66901c63cf628f998f80a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbe98c3e_fc780358",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-08T18:11:17Z",
+      "side": 1,
+      "message": "can we wrap this in a traceCacheTable.reset() method that does mem.drop and cleanup?",
+      "revId": "a7810b8618c02791bca66901c63cf628f998f80a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "695dff61_73f02c3e",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-08T18:11:17Z",
+      "side": 1,
+      "message": "This check is unnecessary because this doesn\u0027t write data to buf, and traceWriteStack has its own check.",
+      "revId": "a7810b8618c02791bca66901c63cf628f998f80a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74c6b0a3_1acf60be",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-08T18:11:17Z",
+      "side": 1,
+      "message": "No need to write traceEvBatch record? I am afraid the next events that assume precedent traceEvBatch will cause confusion. Dmitry may know better though.",
+      "revId": "a7810b8618c02791bca66901c63cf628f998f80a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81b96392_67562601",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-08T18:11:17Z",
+      "side": 1,
+      "message": "how reliable is this hash function? What happens when there is collision?\n\nIn previous traceStackTable.find, there is a measure for collision, but I cannot find it in the current code.",
+      "revId": "a7810b8618c02791bca66901c63cf628f998f80a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
