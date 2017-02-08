@@ -7,5 +7,20 @@
 package sha512
 
 //go:noescape
+func blockAVX2(dig *digest, p []byte)
 
-func block(dig *digest, p []byte)
+//go:noescape
+func blockAMD64(dig *digest, p []byte)
+
+//go:noescape
+func checkAVX2() bool
+
+var hasAVX2 = checkAVX2()
+
+func block(dig *digest, p []byte) {
+	if hasAVX2 {
+		blockAVX2(dig, p)
+	} else {
+		blockAMD64(dig, p)
+	}
+}
