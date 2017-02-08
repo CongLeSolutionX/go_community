@@ -106,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "ff41cb00_43806a55",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-08T18:11:17Z",
+      "side": 1,
+      "message": "definitely not ok. Most of trace* write functions (except traceString, etc) were proxies to traceEvent function. Here it checks if the buf has a room for the event record, and it starts a new buffer otherwise. Then, later in line 543, traceWriteStack is called and may grow the buffer more. Then, without rechecking the capacity of the buf, it attempts to write to buf. I think deferring the check later (after traceWriteStack) will be ok.",
+      "parentUuid": "afb95e10_b73fe446",
+      "revId": "17fb0c689445e76f9e303e340a5cf826d1fddffe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "687eb05a_a66d0f08",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
