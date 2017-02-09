@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1cfa65f_8dced031",
+        "filename": "src/syscall/mksyscall.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T18:28:19Z",
+      "side": 1,
+      "message": "why is this explicitly passed in? It seems like it could be inferred automatically from $GOOS and $GOARCH already present in the environment.\n\nBut oh well. This works.\n\nI\u0027d like to replace all this with Go + go:generate and Docker containers (for hermetically reproducible output) one day anyway.",
+      "revId": "1127b9c88fd59f2abb2aea4ae74ff721fc08f03e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
