@@ -783,6 +783,43 @@ func (d Duration) Hours() float64 {
 	return float64(hour) + float64(nsec)/(60*60*1e9)
 }
 
+// Truncate returns the result of rounding d toward zero to a multiple of m.
+// If m <= 0, Truncate returns d unchanged.
+func (d Duration) Truncate(m Duration) Duration {
+	if m <= 0 {
+		return d
+	}
+	return d - (d % m)
+}
+
+// Round returns the result of rounding d to the nearest multiple of m.
+// The rounding behavior for halfway values is to round away from zero.
+// If m <= 0, or if the result would otherwise overflow,
+// Round returns d unchanged.
+func (d Duration) Round(m Duration) Duration {
+	if m <= 0 {
+		return d
+	}
+	r := d % m
+	if r < 0 {
+		r = -r
+		if r+r < m {
+			return d + r
+		}
+		if d1 := d - m + r; d1 < d {
+			return d1
+		}
+		return d // overflow
+	}
+	if r+r < m {
+		return d - r
+	}
+	if d1 := d + m - r; d1 > d {
+		return d1
+	}
+	return d // overflow
+}
+
 // Add returns the time t+d.
 func (t Time) Add(d Duration) Time {
 	dsec := int64(d / 1e9)
