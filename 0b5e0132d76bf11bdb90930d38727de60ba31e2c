@@ -22,6 +22,30 @@
       "revId": "0b5e0132d76bf11bdb90930d38727de60ba31e2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12a677e6_08a95a48",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-09T03:49:41Z",
+      "side": 1,
+      "message": "I think you\u0027re right. I originally expected\n\ndb.mu.Unlock()\nif ok { \n   db.putConn(ret.conn, ret.err)\n}\n\nand I didn\u0027t notice that putConnDBLocked is not just putConn with the db already locked.\n\nDaniel, can you send a followup CL and test on the master branch? We\u0027ll still cherry-pick this as is and then add the followup.",
+      "parentUuid": "68bf9b8f_a081a9ae",
+      "range": {
+        "startLine": 946,
+        "startChar": 5,
+        "endLine": 946,
+        "endChar": 42
+      },
+      "revId": "0b5e0132d76bf11bdb90930d38727de60ba31e2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
