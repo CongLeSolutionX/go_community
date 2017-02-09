@@ -17,6 +17,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net"
+	"net/http/httptrace"
 	"net/textproto"
 	"net/url"
 	"os"
@@ -396,6 +397,7 @@ type response struct {
 	conn             *conn
 	req              *Request // request for this response
 	reqBody          io.ReadCloser
+	trace            *httptrace.ServerTrace
 	cancelCtx        context.CancelFunc // when ServeHTTP exits
 	wroteHeader      bool               // reply header has been (logically) written
 	wroteContinue    bool               // 100 Continue response was written
@@ -985,6 +987,7 @@ func (c *conn) readRequest(ctx context.Context) (w *response, err error) {
 	w = &response{
 		conn:          c,
 		cancelCtx:     cancelCtx,
+		trace:         c.server.Trace,
 		req:           req,
 		reqBody:       req.Body,
 		handlerHeader: make(Header),
@@ -1068,6 +1071,10 @@ func (w *response) WriteHeader(code int) {
 			w.conn.server.logf("http: invalid Content-Length of %q", cl)
 			w.handlerHeader.Del("Content-Length")
 		}
+	}
+
+	if w.trace != nil {
+		w.trace.WroteHeader(code)
 	}
 }
 
@@ -2314,9 +2321,10 @@ func Serve(l net.Listener, handler Handler) error {
 // A Server defines parameters for running an HTTP server.
 // The zero value for Server is a valid configuration.
 type Server struct {
-	Addr      string      // TCP address to listen on, ":http" if empty
-	Handler   Handler     // handler to invoke, http.DefaultServeMux if nil
-	TLSConfig *tls.Config // optional TLS config, used by ListenAndServeTLS
+	Addr      string                 // TCP address to listen on, ":http" if empty
+	Handler   Handler                // handler to invoke, http.DefaultServeMux if nil
+	TLSConfig *tls.Config            // optional TLS config, used by ListenAndServeTLS
+	Trace     *httptrace.ServerTrace // optional ServerTrace
 
 	// ReadTimeout is the maximum duration for reading the entire
 	// request, including the body.

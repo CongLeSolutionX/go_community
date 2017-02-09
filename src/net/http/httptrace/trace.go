@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Package httptrace provides mechanisms to trace the events within
-// HTTP client requests.
+// HTTP client requests and server responses.
 package httptrace
 
 import (
@@ -240,4 +240,13 @@ type GotConnInfo struct {
 	// IdleTime reports how long the connection was previously
 	// idle, if WasIdle is true.
 	IdleTime time.Duration
+}
+
+// ServerTrace is a set of hooks to run at various stages of an incoming
+// HTTP request. Any particular hook may be nil. Functions may be
+// called concurrently from different goroutines.
+type ServerTrace struct {
+	// WroteHeader is called after an HTTP handler calls the
+	// ResponseWriter.WriteHeader() method.
+	WroteHeader func(code int)
 }

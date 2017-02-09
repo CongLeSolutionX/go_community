@@ -23,6 +23,7 @@ import (
 	"net"
 	. "net/http"
 	"net/http/httptest"
+	"net/http/httptrace"
 	"net/http/httputil"
 	"net/http/internal"
 	"net/url"
@@ -5347,5 +5348,45 @@ func TestServerValidatesMethod(t *testing.T) {
 		if res.StatusCode != tt.want {
 			t.Errorf("For %s, Status = %d; want %d", tt.method, res.StatusCode, tt.want)
 		}
+	}
+}
+
+func TestServerTrace_h1(t *testing.T) { testServerTrace(t, false) }
+func TestServerTrace_h2(t *testing.T) {
+	t.Skip("h2 support not implemented")
+	testServerTrace(t, true)
+}
+
+func testServerTrace(t *testing.T, h2 bool) {
+	h := HandlerFunc(func(w ResponseWriter, r *Request) {
+		w.WriteHeader(204)
+	})
+
+	ch := make(chan struct{})
+
+	opt := func(ts *httptest.Server) {
+		ts.Config.Trace = &httptrace.ServerTrace{
+			WroteHeader: func(code int) {
+				if code != 204 {
+					t.Errorf("expected status code 204, got %d", code)
+				}
+				close(ch)
+			},
+		}
+	}
+
+	cst := newClientServerTest(t, h2, h, opt)
+	defer cst.close()
+
+	_, err := cst.c.Get(cst.ts.URL)
+	if err != nil {
+		t.Errorf("unexpected client error: %s", err)
+	}
+
+	select {
+	case <-ch:
+
+	default:
+		t.Errorf("trace WroteHeader never called")
 	}
 }
