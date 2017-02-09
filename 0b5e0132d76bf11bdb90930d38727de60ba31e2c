@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68bf9b8f_a081a9ae",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T03:41:38Z",
+      "side": 1,
+      "message": "if this returns false (e.g. because line 1067 numOpen \u003e maxOpen), and ret.err \u003d\u003d nil, who closes this dc?\n\nThe other main caller of this, (*DB).putConn, does:\n\n        added :\u003d db.putConnDBLocked(dc, nil)\n        db.mu.Unlock()\n\n        if !added {\n                dc.Close()\n        }\n\n\nIt looks like this potentially leaks those driver conns.",
+      "range": {
+        "startLine": 946,
+        "startChar": 5,
+        "endLine": 946,
+        "endChar": 42
+      },
+      "revId": "0b5e0132d76bf11bdb90930d38727de60ba31e2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
