@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb2b26d2_ecfad6d0",
+        "filename": "src/crypto/sha512/sha512block_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5055
+      },
+      "writtenOn": "2017-02-09T03:05:21Z",
+      "side": 1,
+      "message": "The round constant is already available as \"var _K []uint64\" in sha512block.go.\n\nI\u0027d prefer to consolidate the constants so that there is only one copy in the package.",
+      "range": {
+        "startLine": 308,
+        "startChar": 5,
+        "endLine": 308,
+        "endChar": 9
+      },
+      "revId": "9c0126a5bf8784390e815f90110ca71ab5368e26",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
