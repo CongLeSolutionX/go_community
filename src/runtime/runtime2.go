@@ -376,8 +376,6 @@ type g struct {
 	waiting        *sudog    // sudog structures this g is waiting on (that have a valid elem ptr); in lock order
 	cgoCtxt        []uintptr // cgo traceback context
 
-	labels unsafe.Pointer // profiler labels
-
 	// Per-G GC state
 
 	// gcAssistBytes is this G's GC assist credit in terms of
