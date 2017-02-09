@@ -56,6 +56,30 @@
       "revId": "95faea561b8940662cec3ae138a5084cfa19efe9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afc0fabe_864d7ad2",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-09T21:00:49Z",
+      "side": 1,
+      "message": "I\u0027ve just gone through and confirmed all the headers. \nI changed only one of the, formerly \"help\" which seemed to have little to do with help. I can revert that if desired.",
+      "parentUuid": "a525ea6a_f415b0c9",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 13
+      },
+      "revId": "95faea561b8940662cec3ae138a5084cfa19efe9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
