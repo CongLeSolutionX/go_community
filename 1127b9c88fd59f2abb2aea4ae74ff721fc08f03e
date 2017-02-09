@@ -16,6 +16,24 @@
       "revId": "1127b9c88fd59f2abb2aea4ae74ff721fc08f03e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bb643f1_86fd3ad2",
+        "filename": "src/syscall/mksyscall.pl",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2017-02-09T22:19:32Z",
+      "side": 1,
+      "message": "I tried GOOS and GOARCH; that doesn\u0027t work with the -syscalls mode of mkall.sh.  +1 for replacing this all with Go.\n\nI\u0027ll mirror this over to x/sys/unix tomorrow.",
+      "parentUuid": "a1cfa65f_8dced031",
+      "revId": "1127b9c88fd59f2abb2aea4ae74ff721fc08f03e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
