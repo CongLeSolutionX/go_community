@@ -33,6 +33,34 @@ import (
 // An empty Dir is treated as ".".
 type Dir string
 
+// getPathError will try to find an os.IsPermission or os.IsNotExist error up the tree
+// for the given path and return it, returning the original error if unsuccessful.
+// In the case that a parent path is a file, os.ErrNotExist is returned instead.
+func getPathError(originalErr error, fullName string) error {
+	var s os.FileInfo
+	var err error
+	parent := filepath.Dir(fullName)
+	for parent != fullName {
+		s, err = os.Stat(parent)
+		fullName = parent
+		parent = filepath.Dir(fullName)
+
+		if err != nil {
+			if os.IsNotExist(err) || os.IsPermission(err) {
+				return err
+			}
+			continue
+		}
+		if s.IsDir() {
+			return originalErr
+		}
+
+		return os.ErrNotExist
+	}
+
+	return originalErr
+}
+
 func (d Dir) Open(name string) (File, error) {
 	if filepath.Separator != '/' && strings.ContainsRune(name, filepath.Separator) {
 		return nil, errors.New("http: invalid character in file path")
@@ -41,9 +69,16 @@ func (d Dir) Open(name string) (File, error) {
 	if dir == "" {
 		dir = "."
 	}
-	f, err := os.Open(filepath.Join(dir, filepath.FromSlash(path.Clean("/"+name))))
+	fullName := filepath.Join(dir, filepath.FromSlash(path.Clean("/"+name)))
+	f, err := os.Open(fullName)
 	if err != nil {
-		return nil, err
+		if os.IsNotExist(err) || os.IsPermission(err) {
+			return nil, err
+		}
+
+		// Some errors are ambiguous that really mean a file doesn't
+		// exist. To determine that, we need to search up the tree.
+		return nil, getPathError(err, fullName)
 	}
 	return f, nil
 }

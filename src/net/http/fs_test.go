@@ -1161,6 +1161,34 @@ func TestLinuxSendfileChild(*testing.T) {
 	}
 }
 
+// Issue 18984
+func TestFileServerNotDirError(t *testing.T) {
+	defer afterTest(t)
+	ts := httptest.NewServer(FileServer(Dir("testdata")))
+	defer ts.Close()
+
+	res, err := Get(ts.URL + "/index.html/not-a-file")
+	if err != nil {
+		t.Fatal(err)
+	}
+	res.Body.Close()
+	if res.StatusCode != 404 {
+		t.Errorf("wanted 404 not found status code; got: %d", res.StatusCode)
+	}
+}
+func TestDirOpenNotDirError(t *testing.T) {
+	dir := Dir("testdata")
+	_, err := dir.Open("/index.html/not-a-file")
+	if !os.IsNotExist(err) {
+		t.Errorf("wanted os.IsNotExist(err) to be true, but got false")
+	}
+
+	_, err = dir.Open("/index.html/not-a-dir/not-a-file")
+	if !os.IsNotExist(err) {
+		t.Errorf("wanted os.IsNotExist(err) to be true, but got false")
+	}
+}
+
 func TestFileServerCleanPath(t *testing.T) {
 	tests := []struct {
 		path     string
