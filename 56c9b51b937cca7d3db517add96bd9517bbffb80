@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ff0ef42_1f4724ea",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 3911,
+      "author": {
+        "id": 7850
+      },
+      "writtenOn": "2017-02-09T16:00:40Z",
+      "side": 1,
+      "message": "Does this use of \"unnamed pointer types\" need updating to \"undefined pointer types\" or whatever the correct terminology is now?",
+      "revId": "56c9b51b937cca7d3db517add96bd9517bbffb80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
