@@ -21,9 +21,11 @@ import (
 // RemoveAll removes all exported variables.
 // This is for tests only.
 func RemoveAll() {
-	mutex.Lock()
-	defer mutex.Unlock()
-	vars = make(map[string]Var)
+	varKeysMu.Lock()
+	defer varKeysMu.Unlock()
+	for _, k := range varKeys {
+		vars.Delete(k)
+	}
 	varKeys = nil
 }
 
