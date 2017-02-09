@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55a54bc1_61994a45",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T03:34:25Z",
+      "side": 1,
+      "message": "// Issue 18984: tests that (brief summary on a single line)",
+      "revId": "84f9e9e0d73574916c9512dba2df1a5affd506c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c68300e_ed9b548d",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T03:34:25Z",
+      "side": 1,
+      "message": "Go style is got first, then want.\n\n\"StatusCode \u003d %v; want 404\"",
+      "revId": "84f9e9e0d73574916c9512dba2df1a5affd506c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07fb3381_23d19cfa",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T03:34:25Z",
+      "side": 1,
+      "message": "blank line before this.\n\nor just combine it with the Test above that already has the Issue NNN comment.",
+      "revId": "84f9e9e0d73574916c9512dba2df1a5affd506c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "696e62d4_20ce556a",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T03:34:25Z",
+      "side": 1,
+      "message": "want first again. Also, you\u0027re already in an error path, but never said what err is.",
+      "revId": "84f9e9e0d73574916c9512dba2df1a5affd506c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c3c1bd9_6c8c7824",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T03:34:25Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "84f9e9e0d73574916c9512dba2df1a5affd506c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
