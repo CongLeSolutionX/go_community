@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4e61cc1_6e2cd10a",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T02:14:09Z",
+      "side": 1,
+      "message": "delete these, and just use \":\u003d\" on line 48?",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 45,
+        "endChar": 14
+      },
+      "revId": "0db01d5c3e1a30ae008a12affea6b4556c3dd3bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53e630b5_91ded524",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T02:14:09Z",
+      "side": 1,
+      "message": "this \"s\" is conventionally called \"fi\"",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "0db01d5c3e1a30ae008a12affea6b4556c3dd3bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6ddaa77_5479caf2",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T02:14:09Z",
+      "side": 1,
+      "message": "if you\u0027re mutating the original name, you might as well rename the variable to be just \"name\" instead of fullName.\n\nBut I think I\u0027d make the flow control simpler, like:\n\n    for {\n          up :\u003d filepath.Dir(name)\n          if up \u003d\u003d name {\n                 // Already at the top.\n                 return originalErr\n          }\n          name \u003d up\n          fi, err :\u003d os.Stat(name)\n          ....\n    }\n}",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "0db01d5c3e1a30ae008a12affea6b4556c3dd3bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8acfbc62_2216e194",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T02:14:09Z",
+      "side": 1,
+      "message": "why this line?",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 62,
+        "endChar": 23
+      },
+      "revId": "0db01d5c3e1a30ae008a12affea6b4556c3dd3bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
