@@ -301,6 +301,10 @@ func TestGoroutineSwitch(t *testing.T) {
 		// Read profile to look for entries for runtime.gogo with an attempt at a traceback.
 		// The special entry
 		parseProfile(t, prof.Bytes(), func(count uintptr, stk []uintptr) {
+			if len(stk) == 0 {
+				return
+			}
+
 			// An entry with two frames with 'System' in its top frame
 			// exists to record a PC without a traceback. Those are okay.
 			if len(stk) == 2 {

@@ -370,6 +370,8 @@ type g struct {
 	traceseq       uint64   // trace event sequencer
 	tracelastp     puintptr // last P emitted an event for this goroutine
 	lockedm        *m
+	labels         unsafe.Pointer // profiler labels
+	labelsLock     uint32         // lock for profiler labels
 	sig            uint32
 	writebuf       []byte
 	sigcode0       uintptr
@@ -380,8 +382,6 @@ type g struct {
 	racectx        uintptr
 	waiting        *sudog    // sudog structures this g is waiting on (that have a valid elem ptr); in lock order
 	cgoCtxt        []uintptr // cgo traceback context
-
-	labels unsafe.Pointer // profiler labels
 
 	// Per-G GC state
 
