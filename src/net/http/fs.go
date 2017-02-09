@@ -33,6 +33,35 @@ import (
 // An empty Dir is treated as ".".
 type Dir string
 
+// mapDirOpenError maps the provided non-nil error from opening name
+// to a possibly better non-nil error. In particular, it turns OS-specific errors
+// about opening files in non-directories into os.ErrNotExist. See Issue 18984.
+func mapDirOpenError(originalErr error, name string) error {
+	if os.IsNotExist(originalErr) || os.IsPermission(originalErr) {
+		return originalErr
+	}
+
+	for {
+		up := filepath.Dir(name)
+		if up == name {
+			return originalErr
+		}
+		name = up
+		fi, err := os.Stat(name)
+		if err != nil {
+			if os.IsNotExist(err) || os.IsPermission(err) {
+				return err
+			}
+			continue
+		}
+		if fi.IsDir() {
+			return originalErr
+		}
+
+		return os.ErrNotExist
+	}
+}
+
 func (d Dir) Open(name string) (File, error) {
 	if filepath.Separator != '/' && strings.ContainsRune(name, filepath.Separator) {
 		return nil, errors.New("http: invalid character in file path")
@@ -41,9 +70,10 @@ func (d Dir) Open(name string) (File, error) {
 	if dir == "" {
 		dir = "."
 	}
-	f, err := os.Open(filepath.Join(dir, filepath.FromSlash(path.Clean("/"+name))))
+	fullName := filepath.Join(dir, filepath.FromSlash(path.Clean("/"+name)))
+	f, err := os.Open(fullName)
 	if err != nil {
-		return nil, err
+		return nil, mapDirOpenError(err, fullName)
 	}
 	return f, nil
 }
