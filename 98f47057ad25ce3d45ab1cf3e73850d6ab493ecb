@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27015cf3_d8a625e1",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-09T04:44:35Z",
+      "side": 1,
+      "message": "Add a comment that says \"the caller should order the right-hand side of the assignment before calling orderas2\".",
+      "revId": "98f47057ad25ce3d45ab1cf3e73850d6ab493ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57b42db4_ada072cf",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-09T04:44:35Z",
+      "side": 1,
+      "message": "More for my own education than anything else, but why do we need okas here?\nokas does a type cast before the assignment.  But we\u0027re not doing that for the first return value.\n(Maybe okas is correct and we need some sort of cast for the first return value?)",
+      "revId": "98f47057ad25ce3d45ab1cf3e73850d6ab493ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4b11cb4_25b1707e",
+        "filename": "test/reorder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-09T04:44:35Z",
+      "side": 1,
+      "message": "Only one send is necessary.",
+      "revId": "98f47057ad25ce3d45ab1cf3e73850d6ab493ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
