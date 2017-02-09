@@ -364,6 +364,7 @@ type g struct {
 	traceseq       uint64   // trace event sequencer
 	tracelastp     puintptr // last P emitted an event for this goroutine
 	lockedm        *m
+	labels         unsafe.Pointer // profiler labels
 	sig            uint32
 	writebuf       []byte
 	sigcode0       uintptr
