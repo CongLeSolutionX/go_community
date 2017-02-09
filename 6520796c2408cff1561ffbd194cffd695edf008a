@@ -33,6 +33,24 @@
       "revId": "6520796c2408cff1561ffbd194cffd695edf008a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49ff9558_0c4d0a83",
+        "filename": "src/syscall/zsyscall_darwin_amd64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2017-02-09T16:54:17Z",
+      "side": 1,
+      "message": "Forgot a call to git add between commits! Will fix.",
+      "parentUuid": "d9041815_a8d89f0d",
+      "revId": "6520796c2408cff1561ffbd194cffd695edf008a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
