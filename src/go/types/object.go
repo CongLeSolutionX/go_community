@@ -170,6 +170,9 @@ func (obj *TypeName) IsAlias() bool {
 		// a different name than the name of the basic type it refers to.
 		// Additionaly, we need to look for "byte" and "rune" because they
 		// are aliases but have the same names (for better error messages).
+		if obj.pkg == Unsafe {
+			return false
+		}
 		return obj.pkg != nil || t.name != obj.name || t == universeByte || t == universeRune
 	case *Named:
 		return obj != t.obj

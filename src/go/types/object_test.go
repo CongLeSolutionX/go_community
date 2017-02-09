@@ -19,6 +19,7 @@ func TestIsAlias(t *testing.T) {
 			check(obj, name == "byte" || name == "rune")
 		}
 	}
+	check(Unsafe.Scope().Lookup("Pointer").(*TypeName), false)
 
 	// various other types
 	pkg := NewPackage("p", "p")
