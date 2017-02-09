@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b6b8168f_3eaf6692",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2017-02-09T16:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27015cf3_d8a625e1",
+      "revId": "98f47057ad25ce3d45ab1cf3e73850d6ab493ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57b42db4_ada072cf",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-09T04:44:35Z",
       "side": 1,
       "message": "More for my own education than anything else, but why do we need okas here?\nokas does a type cast before the assignment.  But we\u0027re not doing that for the first return value.\n(Maybe okas is correct and we need some sort of cast for the first return value?)",
+      "revId": "98f47057ad25ce3d45ab1cf3e73850d6ab493ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e5eba8b_7987b613",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2017-02-09T16:45:19Z",
+      "side": 1,
+      "message": "As I understand it from #8475, the second return value (ok) can be an untyped bool. So we have to type-cast it into bool while assiging from autotmp (which is bool). Without okas() here, test/.../issue8475.go fails.\n\nAnother option might be to create ok-temp as untyped bool. Is that possible to do?",
+      "parentUuid": "57b42db4_ada072cf",
       "revId": "98f47057ad25ce3d45ab1cf3e73850d6ab493ecb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -65,6 +101,24 @@
       "side": 1,
       "message": "And lose the semicolons.  C instincts die hard...",
       "parentUuid": "e4b11cb4_25b1707e",
+      "revId": "98f47057ad25ce3d45ab1cf3e73850d6ab493ecb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "230487b6_3e9232b7",
+        "filename": "test/reorder.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2017-02-09T16:45:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ab77eb4_08387f2d",
       "revId": "98f47057ad25ce3d45ab1cf3e73850d6ab493ecb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
