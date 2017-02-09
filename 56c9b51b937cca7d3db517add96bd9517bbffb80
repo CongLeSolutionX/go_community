@@ -16,6 +16,24 @@
       "revId": "56c9b51b937cca7d3db517add96bd9517bbffb80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd67b4fb_bf7f6ac4",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 3911,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-09T16:35:49Z",
+      "side": 1,
+      "message": "Yes, indeed. Thanks for pointing that out (no pun intended :-) !\n\nWill look into it today.",
+      "parentUuid": "8ff0ef42_1f4724ea",
+      "revId": "56c9b51b937cca7d3db517add96bd9517bbffb80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
