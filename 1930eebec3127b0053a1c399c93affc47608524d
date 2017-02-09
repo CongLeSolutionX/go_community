@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e21d8fc1_1a082440",
+        "filename": "src/syscall/mkall.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-09T17:32:58Z",
+      "side": 1,
+      "message": "this is a mix of spaces \u0026 tabs. Switch to just tabs to match the file.",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 93,
+        "endChar": 8
+      },
+      "revId": "1930eebec3127b0053a1c399c93affc47608524d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
