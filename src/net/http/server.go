@@ -1408,10 +1408,7 @@ func foreachHeaderElement(v string, fn func(string)) {
 // map keyed by struct of two fields. This map's max size is bounded
 // by 2*len(statusText), two protocol types for each known official
 // status code in the statusText map.
-var (
-	statusMu    sync.RWMutex
-	statusLines = make(map[int]string)
-)
+var statusLines sync.Map // map[int]string
 
 // statusLine returns a response Status-Line (RFC 2616 Section 6.1)
 // for the given request and response status code.
@@ -1422,11 +1419,8 @@ func statusLine(req *Request, code int) string {
 	if !proto11 {
 		key = -key
 	}
-	statusMu.RLock()
-	line, ok := statusLines[key]
-	statusMu.RUnlock()
-	if ok {
-		return line
+	if li, ok := statusLines.Load(key); ok {
+		return li.(string)
 	}
 
 	// Slow path:
@@ -1439,11 +1433,10 @@ func statusLine(req *Request, code int) string {
 	if !ok {
 		text = "status code " + codestring
 	}
-	line = proto + " " + codestring + " " + text + "\r\n"
+	line := proto + " " + codestring + " " + text + "\r\n"
 	if ok {
-		statusMu.Lock()
-		defer statusMu.Unlock()
-		statusLines[key] = line
+		li, _ := statusLines.LoadOrStore(key, line)
+		line = li.(string)
 	}
 	return line
 }
@@ -2118,9 +2111,9 @@ func RedirectHandler(url string, code int) Handler {
 // redirecting any request containing . or .. elements or repeated slashes
 // to an equivalent, cleaner URL.
 type ServeMux struct {
-	mu    sync.RWMutex
-	m     map[string]muxEntry
-	hosts bool // whether any patterns contain hostnames
+	mu       sync.Mutex // Guards Stores of m and hosts; atomic Loads do not require lock.
+	m        sync.Map   // map[string]muxEntry
+	hasHosts int32      // atomic; nonzero if any patterns contain hostnames
 }
 
 type muxEntry struct {
@@ -2171,16 +2164,19 @@ func cleanPath(p string) string {
 // Most-specific (longest) pattern wins
 func (mux *ServeMux) match(path string) (h Handler, pattern string) {
 	var n = 0
-	for k, v := range mux.m {
+	mux.m.Range(func(ki, vi interface{}) bool {
+		k := ki.(string)
 		if !pathMatch(k, path) {
-			continue
+			return true
 		}
 		if h == nil || len(k) > n {
 			n = len(k)
+			v := vi.(muxEntry)
 			h = v.h
 			pattern = v.pattern
 		}
-	}
+		return true
+	})
 	return
 }
 
@@ -2212,11 +2208,8 @@ func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string) {
 // handler is the main implementation of Handler.
 // The path is known to be in canonical form, except for CONNECT methods.
 func (mux *ServeMux) handler(host, path string) (h Handler, pattern string) {
-	mux.mu.RLock()
-	defer mux.mu.RUnlock()
-
 	// Host-specific pattern takes precedence over generic ones
-	if mux.hosts {
+	if atomic.LoadInt32(&mux.hasHosts) != 0 {
 		h, pattern = mux.match(host + path)
 	}
 	if h == nil {
@@ -2254,24 +2247,24 @@ func (mux *ServeMux) Handle(pattern string, handler Handler) {
 	if handler == nil {
 		panic("http: nil handler")
 	}
-	if mux.m[pattern].explicit {
+	if e, ok := mux.m.Load(pattern); ok && e.(muxEntry).explicit {
 		panic("http: multiple registrations for " + pattern)
 	}
 
-	if mux.m == nil {
-		mux.m = make(map[string]muxEntry)
-	}
-	mux.m[pattern] = muxEntry{explicit: true, h: handler, pattern: pattern}
-
+	mux.m.Store(pattern, muxEntry{explicit: true, h: handler, pattern: pattern})
 	if pattern[0] != '/' {
-		mux.hosts = true
+		atomic.StoreInt32(&mux.hasHosts, 1)
 	}
 
 	// Helpful behavior:
 	// If pattern is /tree/, insert an implicit permanent redirect for /tree.
 	// It can be overridden by an explicit registration.
 	n := len(pattern)
-	if n > 0 && pattern[n-1] == '/' && !mux.m[pattern[0:n-1]].explicit {
+	if n == 0 || pattern[n-1] != '/' {
+		return
+	}
+	e, ok := mux.m.Load(pattern[0 : n-1])
+	if !ok || !e.(muxEntry).explicit {
 		// If pattern contains a host name, strip it and use remaining
 		// path for redirect.
 		path := pattern
@@ -2281,7 +2274,7 @@ func (mux *ServeMux) Handle(pattern string, handler Handler) {
 			path = pattern[strings.Index(pattern, "/"):]
 		}
 		url := &url.URL{Path: path}
-		mux.m[pattern[0:n-1]] = muxEntry{h: RedirectHandler(url.String(), StatusMovedPermanently), pattern: pattern}
+		mux.m.Store(pattern[0:n-1], muxEntry{h: RedirectHandler(url.String(), StatusMovedPermanently), pattern: pattern})
 	}
 }
 
