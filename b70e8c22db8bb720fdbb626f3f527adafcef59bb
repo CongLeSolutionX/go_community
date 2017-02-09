@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "071d805f_86dd5c80",
+        "filename": "doc/contribute.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-09T21:00:49Z",
+      "side": 1,
+      "message": "@bradfitz:\nThis is the only one I changed for the anchors. I can change it back it seemed to be pretty incorrect to me though which is why I changed it.",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 82
+      },
+      "revId": "b70e8c22db8bb720fdbb626f3f527adafcef59bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
