@@ -29,10 +29,7 @@ import (
 	"time"
 )
 
-var (
-	driversMu sync.RWMutex
-	drivers   = make(map[string]driver.Driver)
-)
+var drivers sync.Map // map[string]driver.Driver
 
 // nowFunc returns the current time; it's overridden in tests.
 var nowFunc = time.Now
@@ -41,32 +38,28 @@ var nowFunc = time.Now
 // If Register is called twice with the same name or if driver is nil,
 // it panics.
 func Register(name string, driver driver.Driver) {
-	driversMu.Lock()
-	defer driversMu.Unlock()
 	if driver == nil {
 		panic("sql: Register driver is nil")
 	}
-	if _, dup := drivers[name]; dup {
+	if _, dup := drivers.LoadOrStore(name, driver); dup {
 		panic("sql: Register called twice for driver " + name)
 	}
-	drivers[name] = driver
 }
 
 func unregisterAllDrivers() {
-	driversMu.Lock()
-	defer driversMu.Unlock()
 	// For tests.
-	drivers = make(map[string]driver.Driver)
+	for _, name := range Drivers() {
+		drivers.Delete(name)
+	}
 }
 
 // Drivers returns a sorted list of the names of the registered drivers.
 func Drivers() []string {
-	driversMu.RLock()
-	defer driversMu.RUnlock()
 	var list []string
-	for name := range drivers {
-		list = append(list, name)
-	}
+	drivers.Range(func(name, _ interface{}) bool {
+		list = append(list, name.(string))
+		return true
+	})
 	sort.Strings(list)
 	return list
 }
@@ -565,14 +558,12 @@ var connectionRequestQueueSize = 1000000
 // function should be called just once. It is rarely necessary to
 // close a DB.
 func Open(driverName, dataSourceName string) (*DB, error) {
-	driversMu.RLock()
-	driveri, ok := drivers[driverName]
-	driversMu.RUnlock()
+	driveri, ok := drivers.Load(driverName)
 	if !ok {
 		return nil, fmt.Errorf("sql: unknown driver %q (forgotten import?)", driverName)
 	}
 	db := &DB{
-		driver:   driveri,
+		driver:   driveri.(driver.Driver),
 		dsn:      dataSourceName,
 		openerCh: make(chan struct{}, connectionRequestQueueSize),
 		lastPut:  make(map[*driverConn]string),

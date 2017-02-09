@@ -19,9 +19,11 @@ import (
 // RemoveAll removes all exported variables.
 // This is for tests only.
 func RemoveAll() {
-	mutex.Lock()
-	defer mutex.Unlock()
-	vars = make(map[string]Var)
+	varKeysMu.Lock()
+	defer varKeysMu.Unlock()
+	for _, k := range varKeys {
+		vars.Delete(k)
+	}
 	varKeys = nil
 }
 
@@ -132,19 +134,14 @@ func BenchmarkFloatSet(b *testing.B) {
 func TestString(t *testing.T) {
 	RemoveAll()
 	name := NewString("my-name")
-	if name.s != "" {
-		t.Errorf("name.s = %q, want \"\"", name.s)
+	if name.Value() != "" {
+		t.Errorf("name.Value() = %q, want \"\"", name.s)
 	}
 
 	name.Set("Mike")
-	if name.s != "Mike" {
-		t.Errorf("name.s = %q, want \"Mike\"", name.s)
-	}
-
 	if s, want := name.String(), `"Mike"`; s != want {
 		t.Errorf("from %q, name.String() = %q, want %q", name.s, s, want)
 	}
-
 	if s, want := name.Value(), "Mike"; s != want {
 		t.Errorf("from %q, name.Value() = %q, want %q", name.s, s, want)
 	}
@@ -174,13 +171,13 @@ func TestMapCounter(t *testing.T) {
 	colors.Add("red", 2)
 	colors.Add("blue", 4)
 	colors.AddFloat(`green "midori"`, 4.125)
-	if x := colors.m["red"].(*Int).i; x != 3 {
+	if x := colors.Get("red").(*Int).i; x != 3 {
 		t.Errorf("colors.m[\"red\"] = %v, want 3", x)
 	}
-	if x := colors.m["blue"].(*Int).i; x != 4 {
+	if x := colors.Get("blue").(*Int).i; x != 4 {
 		t.Errorf("colors.m[\"blue\"] = %v, want 4", x)
 	}
-	if x := colors.m[`green "midori"`].(*Float).Value(); x != 4.125 {
+	if x := colors.Get(`green "midori"`).(*Float).Value(); x != 4.125 {
 		t.Errorf("colors.m[`green \"midori\"] = %v, want 4.125", x)
 	}
 
