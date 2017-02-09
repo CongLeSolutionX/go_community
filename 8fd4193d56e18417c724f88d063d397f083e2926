@@ -16,6 +16,24 @@
       "revId": "8fd4193d56e18417c724f88d063d397f083e2926",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecf25dc6_ca1d7cae",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-09T06:29:37Z",
+      "side": 1,
+      "message": "setProcessCPUProfiler is called once when the profiling timer changes, from setcpuprofilerate_m.  That function also calls setThreadCPUProfiler for the thread that calls setcpuprofilerate_m.  setProcessCPUProfiler is a new function that did not previously exist.\n\nsetThreadCPUProfiler is then called from execute, when _g_.m.profilehz !\u003d hz.  The effect is that as m\u0027s go through execute each one has the profiling timer turned on or off.  This is a simple rename of the old function resetcpuprofiler.  It\u0027s thread-specific in the sense that it does thread-specific operations, namely calling setitimer.  To be honest I\u0027m not sure that setitimer is always thread-specific, but this code is not changing except for the different function name.",
+      "parentUuid": "fd09b50d_b3c4f6d0",
+      "revId": "8fd4193d56e18417c724f88d063d397f083e2926",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
