@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75d919d2_306784cd",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-09T01:40:12Z",
+      "side": 1,
+      "message": "What I wrote was wrong for all negative numbers, but it was attempting to be right for -1\u003c\u003c63, which this code is not. I think if you replace these three lines in your new version with \n\nm2 :\u003d uint64(t.ext)\nsign :\u003d byte(\u0027+\u0027)\nif t.ext \u003c 0 {\n\nthen everything will be OK. Note the uint64 conversion on the first line. Please also add a test for mono\u003d-1\u003c\u003c63. Thanks.",
+      "range": {
+        "startLine": 436,
+        "startChar": 0,
+        "endLine": 438,
+        "endChar": 13
+      },
+      "revId": "57b50544ecb3861c2643eea0e4a09289ec601e97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
