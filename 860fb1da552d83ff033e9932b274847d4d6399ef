@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6ad1a08b_57fa452c",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-09T14:35:32Z",
+      "side": 1,
+      "message": "I added a longer comment here in lieu of repeated comments below:\n\n// See http://www.dcl.hpi.uni-potsdam.de/research/WRK/2007/08/getting-os-information-the-kuser_shared_data-structure/\n// Must read hi1, then lo, then hi2. The snapshot is valid if hi1 \u003d\u003d hi2.",
+      "parentUuid": "832060be_31d031f1",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3a393bb_a47aa7a2",
         "filename": "src/runtime/sys_windows_386.s",
         "patchSetId": 2
@@ -149,6 +167,24 @@
       "writtenOn": "2017-02-07T22:57:40Z",
       "side": 1,
       "message": "Do you really want to keep that?",
+      "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "120b433a_8018cdb7",
+        "filename": "src/time/mono_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-09T14:35:32Z",
+      "side": 1,
+      "message": "Yes. It\u0027s very nice to be able to run \u0027go test time -v -run MonotonicString\u0027 and just sanity check that the time is right, even when using a gomote.",
+      "parentUuid": "9d88b640_cd26d8e6",
       "revId": "860fb1da552d83ff033e9932b274847d4d6399ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
