@@ -472,3 +472,28 @@ func (f *File) Chown(uid, gid int) error {
 func TempDir() string {
 	return "/tmp"
 }
+
+// Chdir changes the current working directory to the file,
+// which must be a directory.
+// If there is an error, it will be of type *PathError.
+func (f *File) Chdir() error {
+	if err := f.checkValid("chdir"); err != nil {
+		return err
+	}
+	if e := syscall.Fchdir(f.fd); e != nil {
+		return &PathError{"chdir", f.name, e}
+	}
+	return nil
+}
+
+// checkValid checks whether f is valid for use.
+// If not, it returns an appropriate error, perhaps incorporating the operation name op.
+func (f *File) checkValid(op string) error {
+	if f == nil {
+		return ErrInvalid
+	}
+	if f.fd == badFd {
+		return &PathError{op, f.name, ErrClosed}
+	}
+	return nil
+}
