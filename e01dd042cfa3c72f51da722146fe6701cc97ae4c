@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45e71697_4d12ba1e",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-10T17:14:41Z",
+      "side": 1,
+      "message": "Should these be called label for consistency with the other code? I made the mistake of using \u0027tag\u0027 and \u0027label\u0027 interchangably in my docs.",
+      "range": {
+        "startLine": 18,
+        "startChar": 64,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
