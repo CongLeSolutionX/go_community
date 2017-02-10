@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "909c7a5d_b9876358",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T20:19:52Z",
+      "side": 1,
+      "message": "Need a better message than this.",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "247c9d55_0f4bfe8c",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T20:19:52Z",
+      "side": 1,
+      "message": "How much of the speedup here is because of doing LIFO on the second and subsequent queueings, versus the starvation mode? This seems like a big part of the win, and I\u0027m just curious how much it is.",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dce571b5_5686aa97",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T20:19:52Z",
+      "side": 1,
+      "message": "runtime_SemacquireMutex returned, but I don\u0027t see why m.state isn\u0027t still changing underfoot.\nIn particular, isn\u0027t it possible that we return from runtime_SemacquireMutex with m.state not having the mutexStarving bit set, and then at the same time another goroutine has just decided it is starving and sets the bit, racing against the \u0027old \u003d m.state\u0027 read? In that case, the behavior here will depend on the outcome of the race, which seems wrong.",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
