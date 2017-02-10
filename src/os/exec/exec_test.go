@@ -369,8 +369,13 @@ var testedAlreadyLeaked = false
 
 // basefds returns the number of expected file descriptors
 // to be present in a process at start.
+// stdin, stdout, stderr, epoll/kqueue
 func basefds() uintptr {
-	return os.Stderr.Fd() + 1
+	if runtime.GOOS == "freebsd" {
+		// Issue 19093.
+		return os.Stderr.Fd() + 1
+	}
+	return os.Stderr.Fd() + 2
 }
 
 func closeUnexpectedFds(t *testing.T, m string) {
