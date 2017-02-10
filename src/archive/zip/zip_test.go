@@ -676,8 +676,14 @@ func TestZeroLengthHeader(t *testing.T) {
 // Just benchmarking how fast the Zip64 test above is. Not related to
 // our zip performance, since the test above disabled CRC32 and flate.
 func BenchmarkZip64Test(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		testZip64(b, 1<<26)
+	for _, size := range []int64{1 << 12, 1 << 20, 1 << 26} {
+		b.Run(fmt.Sprint(size), func(b *testing.B) {
+			b.RunParallel(func(pb *testing.PB) {
+				for pb.Next() {
+					testZip64(b, size)
+				}
+			})
+		})
 	}
 }
 
