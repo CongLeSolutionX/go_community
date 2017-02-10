@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "71f21ac5_9df5340d",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T16:43:18Z",
+      "side": 1,
+      "message": "A URL represents a parsed URL (technically, a URI reference),\nas defined in RFC 3986.\n\nthere\u0027s no need to make qualifications.",
+      "parentUuid": "7b0391f1_9e9d72b7",
+      "range": {
+        "startLine": 313,
+        "startChar": 10,
+        "endLine": 313,
+        "endChar": 16
+      },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20d78a6a_c4928e20",
         "filename": "src/net/url/url.go",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-02T20:03:41Z",
       "side": 1,
       "message": "is it possible to avoid \"typically\"? It invites more questions, like what hte exceptions are.",
+      "range": {
+        "startLine": 323,
+        "startChar": 50,
+        "endLine": 323,
+        "endChar": 60
+      },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ec9935d_63d8e973",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T16:43:18Z",
+      "side": 1,
+      "message": "I\u0027m not even sure you need this paragraph. It should be clear from the general form change you made above, and regardless this doc comment is about the URL type, not about the details of parsing.\n\nThis feels like scar tissue documentation. If this belongs anywhere, it could go in Parse\u0027s doc comment instead of here.",
+      "parentUuid": "20d78a6a_c4928e20",
       "range": {
         "startLine": 323,
         "startChar": 50,
@@ -65,6 +113,74 @@
         "endLine": 324,
         "endChar": 50
       },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ea160ff_bb3a3318",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T16:43:18Z",
+      "side": 1,
+      "message": "I don\u0027t know what \"If URL decoding was performed while parsing means\". Was there something wrong with using the old text, just dropping the paragraph break and the mention of Go 1.5?\n\nIn general these docs are carefully considered: small changes are better than wholesale rewrites unless you make the rationale very clear.",
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89c82bee_9f99370e",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T16:43:18Z",
+      "side": 1,
+      "message": "This does not seem to be true. Revert.",
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fb14814_49788a9f",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T16:43:18Z",
+      "side": 1,
+      "message": "This is not true either. Revert.",
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f90d0ad1_cfd66e7a",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T16:43:18Z",
+      "side": 1,
+      "message": "Why is this quote now in fixed-width font? What was wrong with the old presentation? The separate paragraph seems fine but the old text seems better.",
       "revId": "2b8dfff779f604b43755ae54a696e25850211015",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
