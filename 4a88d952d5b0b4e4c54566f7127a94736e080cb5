@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae9a3ad2_2b4b39d1",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-10T19:46:07Z",
+      "side": 1,
+      "message": "I\u0027m a little confused about the naming convention here.\n\nI\u0027d expect runtime_pprof_runtime_getprofile to be linknamed to runtime/pprof.runtime_getprofile",
+      "range": {
+        "startLine": 186,
+        "startChar": 1,
+        "endLine": 186,
+        "endChar": 72
+      },
+      "revId": "4a88d952d5b0b4e4c54566f7127a94736e080cb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
