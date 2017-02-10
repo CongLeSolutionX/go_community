@@ -181,12 +181,10 @@ func testReadFile(t *testing.T, f *File, wt *WriteTest) {
 }
 
 func BenchmarkCompressedZipGarbage(b *testing.B) {
-	b.ReportAllocs()
-	var buf bytes.Buffer
 	bigBuf := bytes.Repeat([]byte("a"), 1<<20)
-	for i := 0; i <= b.N; i++ {
-		buf.Reset()
-		zw := NewWriter(&buf)
+
+	runOnce := func(buf *bytes.Buffer) {
+		zw := NewWriter(buf)
 		for j := 0; j < 3; j++ {
 			w, _ := zw.CreateHeader(&FileHeader{
 				Name:   "foo",
@@ -195,11 +193,20 @@ func BenchmarkCompressedZipGarbage(b *testing.B) {
 			w.Write(bigBuf)
 		}
 		zw.Close()
-		if i == 0 {
-			// Reset the timer after the first time through.
-			// This effectively discards the very large initial flate setup cost,
-			// as well as the initialization of bigBuf.
-			b.ResetTimer()
-		}
+		buf.Reset()
 	}
+
+	b.ReportAllocs()
+	// Run once and then reset the timer.
+	// This effectively discards the very large initial flate setup cost,
+	// as well as the initialization of bigBuf.
+	runOnce(&bytes.Buffer{})
+	b.ResetTimer()
+
+	b.RunParallel(func(pb *testing.PB) {
+		var buf bytes.Buffer
+		for pb.Next() {
+			runOnce(&buf)
+		}
+	})
 }
