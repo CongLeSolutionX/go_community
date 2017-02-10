@@ -73,6 +73,233 @@
     },
     {
       "key": {
+        "uuid": "72a2f3e0_a8721f1e",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "This seems rather complicated.\n\nWould it be simpler to put the overflow record directly in the buffer? Go into overflow as soon as you try to write a record that would leave less than 2+hdrsize+1 bytes available in the buffer, and write the overflow record directly to the buffer at that point. Set a flag (accessed only by the writer) indicating there\u0027s an overflow record. Leave w pointing at the beginning of the overflow record so readers don\u0027t see it as it changes. When later writes fail to get more space, update the record in place. When a write can get enough space for both the overflow record and the record it wants to write, update w to expose the overflow record to the reader and clear the flag. This reuses the existing ring synchronization and adds just a single flag that\u0027s only written and read by the writer.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80e32d3b_10c12b14",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "Consider introducing a named type for this packed representation and making these methods (plus perhaps load and store methods that wrap the atomic load/store with the right casts).",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e75041e_58d064ee",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "Comment that this clears flags in x.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61ac2f93_555ea961",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "Given that the profTag wraps around at 1\u003c\u003c30, I think this is wrong if br and bw are on different sides of a wrap-around. Suppose len(b.tags) is 16, br is logically 1\u003c\u003c30 - 1 and bw is logically 1\u003c\u003c30 + 15. Using the logical values, the room is 0, but using the values mod 1\u003c\u003c30, the distance is 1073741824.\n\nYou could fix this by taking the whole thing mod 1\u003c\u003c30 before doing the comparison.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45a09ac5_9bd92374",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "Same comment (at least where uintptr isn\u0027t itself 32 bits).",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b38f65_7b71d6c3",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "If it matters, this could be a shift since len(b.data) is a power of two.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff8de0af_b12a3c2d",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "This comment did not enlighten me; I didn\u0027t understand what this was doing until I saw the later comment about records being contiguous. Perhaps I was confused because I would expect you to increase the want to cover the trailing fragment, rather than decreasing the available space.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80f189e8_6915a777",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ecfd05_8ff00783",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "Same",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b11d7cbc_4effc52e",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "Arguably it\u0027s the job of the signal handler to be nowritebarrierrec, since write itself isn\u0027t imposing this restriction.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b97a8c2_1f6f8507",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "tagPtr?",
+      "range": {
+        "startLine": 216,
+        "startChar": 24,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1e07545_e61ebe6a",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "This loop is wrong. It never goes around and the code doesn\u0027t agree with the comment. Why not just\n\noverflow \u003d atomic.Xadd64(\u0026b.overflow, +1) - 1\nif uint32(overflow) \u003d\u003d 0 {\n    // .. Store overflowTime and overflow ..\n}",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8568947_9cacf5a0",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "Do you need to prevent the low 32 bits from overflowing into the high 32 bits here? I suppose if that happens the overflow record is toast anyway.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b241417_1b0772e4",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -114,6 +341,74 @@
         "endLine": 277,
         "endChar": 34
       },
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e680cb25_ca0baf0a",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "Same overflow problem.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96534c22_fc2297ae",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "It took me a while to remember why b.w could have changed (or why any of this cas loop was necessary). Would be worth a comment mentioning that the flags in w may have changed.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2ce880d_d514bfd5",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "panic or throw? (I\u0027m not sure how this gets exposed to user code.)",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "820c8a0a_87dc3751",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-10T21:18:54Z",
+      "side": 1,
+      "message": "I haven\u0027t reviewed this yet.",
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
