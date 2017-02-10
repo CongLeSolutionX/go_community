@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "d3304595_1853d095",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T20:29:22Z",
+      "side": 1,
+      "message": "Answering my question: starvation is still very important. My lockskew benchmark basically never gets a lock unless it can use the starvation flag to break in.",
+      "parentUuid": "247c9d55_0f4bfe8c",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dce571b5_5686aa97",
         "filename": "src/sync/mutex.go",
         "patchSetId": 5
@@ -50,6 +68,23 @@
       "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5972c4c_86c3f7d0",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T20:29:22Z",
+      "side": 1,
+      "message": "I\u0027m extra-confused here. If \"we are still accounted as waiter\", as noted above, then how can old\u003e\u003emutexWaiterShift ever be 0? We\u0027re about to subtract 1\u003c\u003cmutexWaiterShift, so I hope it\u0027s not 0 already.\n\nMaybe this could be clearer if runtime_SemacquireMutex returned a bool indicating whether this is a handoff?",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
