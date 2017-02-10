@@ -93,6 +93,30 @@
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0779b9c5_82b3ee7b",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-10T20:46:03Z",
+      "side": 1,
+      "message": "It\u0027s a good question. I forgot to put the locking operations into the followup CL that started using this code. They are supposed to go around updates to g.labels. However, I\u0027m not convinced that\u0027s right. We can leave this detail for a followup CL. This few lines of code is by far the most subtle in the entire CL.",
+      "parentUuid": "3b241417_1b0772e4",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 277,
+        "endChar": 34
+      },
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
