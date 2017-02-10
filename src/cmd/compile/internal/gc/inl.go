@@ -204,6 +204,7 @@ func ishairy(n *Node, budget *int32, reason *string) bool {
 			*budget -= fn.InlCost
 			break
 		}
+		// commented out so this builds
 		if isIntrinsicCall(n) {
 			*budget--
 			break
