@@ -70,6 +70,29 @@
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b241417_1b0772e4",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 10033
+      },
+      "writtenOn": "2017-02-10T17:35:33Z",
+      "side": 1,
+      "message": "Another naive question: I don\u0027t understand the code here. Who is this code competing against for the lock?",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 277,
+        "endChar": 34
+      },
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
