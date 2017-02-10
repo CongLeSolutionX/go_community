@@ -17,6 +17,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"runtime"
+	"runtime/debug"
 	"sort"
 	"strings"
 	"sync"
@@ -112,7 +113,7 @@ func size(name string, t *testing.T) int64 {
 			break
 		}
 		if e != nil {
-			t.Fatal("read failed:", err)
+			t.Fatal("read failed:", e)
 		}
 	}
 	return int64(len)
@@ -1938,5 +1939,43 @@ func TestRemoveAllRace(t *testing.T) {
 		}()
 	}
 	close(hold) // let workers race to remove root
+	wg.Wait()
+}
+
+// Test that reading from a pipe doesn't use up a thread.
+func TestPipeThreads(t *testing.T) {
+	r, w, err := Pipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	const threads = 100
+
+	defer debug.SetMaxThreads(debug.SetMaxThreads(threads / 2))
+
+	var wg sync.WaitGroup
+	wg.Add(threads)
+	c := make(chan bool, threads)
+	for i := 0; i < threads; i++ {
+		go func() {
+			defer wg.Done()
+			var b [1]byte
+			c <- true
+			r.Read(b[:])
+		}()
+	}
+
+	for i := 0; i < threads; i++ {
+		<-c
+	}
+
+	for i := 0; i < threads; i++ {
+		runtime.Gosched()
+	}
+
+	// If we are still alive, it means that the 100 goroutines did
+	// not require 100 threads.
+
+	w.Write(bytes.Repeat([]byte{0}, threads))
 	wg.Wait()
 }
