@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8da0aff4_11247375",
+        "filename": "src/go/types/object.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-02-10T19:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dc012f0_9686628b",
+      "revId": "7c226cc9791c5b7d0cf656892eaaf8354533fd0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ef59aee_c8ab99ec",
         "filename": "src/go/types/object_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-09T22:50:45Z",
       "side": 1,
       "message": "move this up before line 17 and after line 16 to be symmetric to the IsAlias implementation",
+      "revId": "7c226cc9791c5b7d0cf656892eaaf8354533fd0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebab3ec3_5b5d0cb9",
+        "filename": "src/go/types/object_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-02-10T19:57:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ef59aee_c8ab99ec",
       "revId": "7c226cc9791c5b7d0cf656892eaaf8354533fd0b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
