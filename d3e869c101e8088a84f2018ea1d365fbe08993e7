@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4b6b459_26b4d49c",
+        "filename": "src/archive/zip/writer_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-10T18:41:43Z",
+      "side": 1,
+      "message": "the problem with keeping this name but changing the implementation is that rest results are now not comparable between releases.\n\nMaybe you can keep this one and add a new parallel version, or at least rename this so people aren\u0027t tempted to compare apples and oranges?",
+      "range": {
+        "startLine": 183,
+        "startChar": 5,
+        "endLine": 183,
+        "endChar": 34
+      },
+      "revId": "d3e869c101e8088a84f2018ea1d365fbe08993e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "901c6a2b_830afcfb",
+        "filename": "src/archive/zip/zip_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-10T18:41:43Z",
+      "side": 1,
+      "message": "likewise?\n\nBut here I\u0027d definitely keep the old one too.",
+      "range": {
+        "startLine": 678,
+        "startChar": 5,
+        "endLine": 678,
+        "endChar": 23
+      },
+      "revId": "d3e869c101e8088a84f2018ea1d365fbe08993e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
