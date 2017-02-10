@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d30f68c8_e299c431",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-10T14:36:18Z",
+      "side": 1,
+      "message": "comment needed. alternatively, move some comment for addNonGo to here.",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 6
+      },
+      "revId": "2c0b21e861f66ac3c22be61b80062fb192e73804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91ea89b5_ae7d1a14",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-10T14:36:18Z",
+      "side": 1,
+      "message": "cpuprof.log !\u003d nil",
+      "range": {
+        "startLine": 94,
+        "startChar": 30,
+        "endLine": 94,
+        "endChar": 37
+      },
+      "revId": "2c0b21e861f66ac3c22be61b80062fb192e73804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4afa749e_3eaf49c2",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-02-10T14:36:18Z",
+      "side": 1,
+      "message": "how is it computed? len of extra is currently only 512.",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 113,
+        "endChar": 30
+      },
+      "revId": "2c0b21e861f66ac3c22be61b80062fb192e73804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
