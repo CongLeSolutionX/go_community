@@ -1176,22 +1176,30 @@ func TestFileServerNotDirError(t *testing.T) {
 		t.Errorf("StatusCode = %v; want 404", res.StatusCode)
 	}
 
-	dir := Dir("testdata")
-	_, err = dir.Open("/index.html/not-a-file")
-	if err == nil {
-		t.Fatal("err == nil; want != nil")
-	}
-	if !os.IsNotExist(err) {
-		t.Errorf("err = %v; os.IsNotExist(err) = %v; want true", err, os.IsNotExist(err))
-	}
+	test := func(dir Dir) {
+		_, err = dir.Open("/index.html/not-a-file")
+		if err == nil {
+			t.Fatal("err == nil; want != nil")
+		}
+		if !os.IsNotExist(err) {
+			t.Errorf("err = %v; os.IsNotExist(err) = %v; want true", err, os.IsNotExist(err))
+		}
 
-	_, err = dir.Open("/index.html/not-a-dir/not-a-file")
-	if err == nil {
-		t.Fatal("err == nil; want != nil")
+		_, err = dir.Open("/index.html/not-a-dir/not-a-file")
+		if err == nil {
+			t.Fatal("err == nil; want != nil")
+		}
+		if !os.IsNotExist(err) {
+			t.Errorf("err = %v; os.IsNotExist(err) = %v; want true", err, os.IsNotExist(err))
+		}
 	}
-	if !os.IsNotExist(err) {
-		t.Errorf("err = %v; os.IsNotExist(err) = %v; want true", err, os.IsNotExist(err))
+	test(Dir("testdata"))
+
+	absPath, err := filepath.Abs("testdata")
+	if err != nil {
+		t.Fatal("get abs path:", err)
 	}
+	test(Dir(absPath))
 }
 
 func TestFileServerCleanPath(t *testing.T) {
