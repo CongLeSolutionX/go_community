@@ -62,6 +62,23 @@
       "revId": "124e486726187b2e32f21346b6e462b69779adad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d333c3e1_1c16bac5",
+        "filename": "test/fixedbugs/issue19040.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-11T22:30:16Z",
+      "side": 1,
+      "message": "glad we finally have a test for panicwrap somewhere in the tree",
+      "revId": "124e486726187b2e32f21346b6e462b69779adad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
