@@ -92,6 +92,32 @@ func printany(i interface{}) {
 }
 
 // called from generated code
-func panicwrap(pkg, typ, meth string) {
+func panicwrap() {
+	pc := make([]uintptr, 1)
+	n := Callers(2, pc)
+	if n == 0 {
+		throw("panicwrap: Callers failed")
+	}
+	frames := CallersFrames(pc)
+	frame, _ := frames.Next()
+	name := frame.Function
+	// name is something like "main.(*T).F".
+	// We want to extract pkg ("main"), typ ("T"), and meth ("F").
+	// Do it by finding the parens.
+	var i int
+	for i = 0; i < len(name) && name[i] != '('; i++ {
+	}
+	pkg := name[:i-1]
+	if i+2 >= len(name) || name[i-1:i+2] != ".(*" {
+		throw("panicwrap: unexpected string after package name: " + frame.Function)
+	}
+	name = name[i+2:]
+	for i = 0; i < len(name) && name[i] != ')'; i++ {
+	}
+	if i+2 >= len(name) || name[i:i+2] != ")." {
+		throw("panicwrap: unexpected string after type name: " + frame.Function)
+	}
+	typ := name[:i]
+	meth := name[i+2:]
 	panic(plainError("value method " + pkg + "." + typ + "." + meth + " called using nil *" + typ + " pointer"))
 }
