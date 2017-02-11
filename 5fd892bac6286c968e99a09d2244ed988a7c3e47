@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "705d4be6_ce81f82c",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-02-11T02:01:19Z",
+      "side": 1,
+      "message": "what\u0027s the reason for setting O_NONBLOCK in Open()? It needs to be unset if the fd is not epoll-compatible, and can cause the EWOULDBLOCK that you handle below. Wouldn\u0027t be easier to open without O_NONBLOCK and turn it on later if the fd supports epoll?",
+      "range": {
+        "startLine": 128,
+        "startChar": 1,
+        "endLine": 128,
+        "endChar": 35
+      },
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f61c42cf_3621a7bc",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-02-11T02:01:19Z",
+      "side": 1,
+      "message": "it\u0027s not immediately visible why you need a KeepAlive here, the Read() above seems like a normal call, not something like a syscall.Read. Maybe a comment?",
+      "range": {
+        "startLine": 217,
+        "startChar": 1,
+        "endLine": 217,
+        "endChar": 21
+      },
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
