@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03ab0923_78e0459a",
+        "filename": "src/runtime/error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-11T22:27:56Z",
+      "side": 1,
+      "message": "it differs on gccgo, though, iirc? but gccgo can just do this differently probably.",
+      "range": {
+        "startLine": 104,
+        "startChar": 26,
+        "endLine": 104,
+        "endChar": 41
+      },
+      "revId": "124e486726187b2e32f21346b6e462b69779adad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fc41216_81667f31",
+        "filename": "src/runtime/error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-11T22:27:56Z",
+      "side": 1,
+      "message": "might as well use bytes.IndexByte which is already defined in the runtime package.\n\n(not for speed, but code clarity)",
+      "range": {
+        "startLine": 108,
+        "startChar": 1,
+        "endLine": 108,
+        "endChar": 50
+      },
+      "revId": "124e486726187b2e32f21346b6e462b69779adad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aed2c53_9c895108",
+        "filename": "src/runtime/error.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-11T22:27:56Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "124e486726187b2e32f21346b6e462b69779adad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
