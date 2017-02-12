@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "b4be4ba0_d823dce1",
+        "filename": "src/os/dir_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-12T15:34:15Z",
+      "side": 1,
+      "message": "It looks like fixCount is no longer being called; it\u0027s not here and it\u0027s not in f.pfd.ReadDirent. Could you put it somewhere please? Even if syscall is right today, I\u0027d rather not depend on that.",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bc57f66_a3873e18",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-12T15:34:15Z",
+      "side": 1,
+      "message": "It will be interesting to see what breaks.",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6b56324_13d5b10d",
+        "filename": "src/os/file.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-12T15:34:15Z",
+      "side": 1,
+      "message": "There\u0027s already an EOF check above. Does f.read no longer return nil at EOF? In any event, it seems like either this code should go away or the code above should go away.",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f786a3a1_bc7328d2",
+        "filename": "src/os/file.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-12T15:34:15Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "705d4be6_ce81f82c",
         "filename": "src/os/file_unix.go",
         "patchSetId": 5
@@ -25,6 +93,23 @@
     },
     {
       "key": {
+        "uuid": "a575ae8e_13590b3d",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-12T15:34:15Z",
+      "side": 1,
+      "message": "I usually write these\n\nif err :\u003d syscall.SetNonblock(r, true); err \u003d\u003d nil {\n\nto make clear why \u0027\u003d\u003d nil\u0027 is a good thing.",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f61c42cf_3621a7bc",
         "filename": "src/os/file_unix.go",
         "patchSetId": 5
@@ -42,6 +127,47 @@
         "endLine": 217,
         "endChar": 21
       },
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a9a5117_a00e6860",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-12T15:34:15Z",
+      "side": 1,
+      "message": "It\u0027s needed to keep f alive, because f has a finalizer, during the call to f.pfd.Read(b). In that inner call, only pfd is mentioned, not f. FWIW, it\u0027s not obvious what the comment would say beyond \u0027keep f alive\u0027.",
+      "parentUuid": "f61c42cf_3621a7bc",
+      "range": {
+        "startLine": 217,
+        "startChar": 1,
+        "endLine": 217,
+        "endChar": 21
+      },
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dee903e_11bcff36",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-12T15:34:15Z",
+      "side": 1,
+      "message": "This is subtle - it looks like a potential missed wakeup but is not because the scheduler tries ever 10ms or whatever it is - but I don\u0027t have a good suggestion for a comment. If you can think of one, please add one. Otherwise it\u0027s fine.\n\nI also wonder if not polling when there\u0027s nothing to poll increases the overall latency of the I/O in this case. If only one goroutine is doing I/O, does this now mean that a block must always wait until the next poll attempt after the goroutine goes back to sleep? It\u0027s worth keeping in mind in any case.",
       "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
