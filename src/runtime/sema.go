@@ -204,8 +204,12 @@ func cansemacquire(addr *uint32) bool {
 func (root *semaRoot) queue(addr *uint32, s *sudog) {
 	s.g = getg()
 	s.elem = unsafe.Pointer(addr)
+	s.next = nil
+	s.prev = nil
 
-	for t := root.head; t != nil; t = t.next {
+	var last *sudog
+	pt := &root.head
+	for t := *pt; t != nil; t = *pt {
 		if t.elem == unsafe.Pointer(addr) {
 			// Already have addr in list; add s to end of per-addr list.
 			if t.waittail == nil {
@@ -217,17 +221,32 @@ func (root *semaRoot) queue(addr *uint32, s *sudog) {
 			s.waitlink = nil
 			return
 		}
+		last = t
+		if uintptr(unsafe.Pointer(addr)) < uintptr(t.elem) {
+			pt = &t.prev
+		} else {
+			pt = &t.next
+		}
 	}
 
-	// Add s as new entry in list of unique addrs.
+	// Add s as new leaf in tree of unique addrs.
+	s.ticket = fastrand()
+	s.prev = nil
 	s.next = nil
-	s.prev = root.tail
-	if root.tail != nil {
-		root.tail.next = s
-	} else {
-		root.head = s
+	s.parent = last
+	*pt = s
+
+	// Rotate up into tree according to ticket (priority).
+	for s.parent != nil && s.parent.ticket > s.ticket {
+		if s.parent.prev == s {
+			root.rotateRight(s.parent)
+		} else {
+			if s.parent.next != s {
+				panic("semaRoot queue")
+			}
+			root.rotateLeft(s.parent)
+		}
 	}
-	root.tail = s
 }
 
 // dequeue searches for and finds the first goroutine
@@ -235,10 +254,16 @@ func (root *semaRoot) queue(addr *uint32, s *sudog) {
 // If the sudog was being profiled, dequeue returns the time
 // at which it was woken up as now. Otherwise now is 0.
 func (root *semaRoot) dequeue(addr *uint32) (found *sudog, now int64) {
-	s := root.head
-	for ; s != nil; s = s.next {
+	ps := &root.head
+	s := *ps
+	for ; s != nil; s = *ps {
 		if s.elem == unsafe.Pointer(addr) {
 			goto Found
+		}
+		if uintptr(unsafe.Pointer(addr)) < uintptr(s.elem) {
+			ps = &s.prev
+		} else {
+			ps = &s.next
 		}
 	}
 	return nil, 0
@@ -249,18 +274,17 @@ Found:
 		now = cputicks()
 	}
 	if t := s.waitlink; t != nil {
-		// Substitute t, also waiting on addr, for s in root list of unique addrs.
+		// Substitute t, also waiting on addr, for s in root tree of unique addrs.
+		*ps = t
+		t.ticket = s.ticket
+		t.parent = s.parent
 		t.prev = s.prev
-		t.next = s.next
 		if t.prev != nil {
-			t.prev.next = t
-		} else {
-			root.head = t
+			t.prev.parent = t
 		}
+		t.next = s.next
 		if t.next != nil {
-			t.next.prev = t
-		} else {
-			root.tail = t
+			t.next.parent = t
 		}
 		if t.waitlink != nil {
 			t.waittail = s.waittail
@@ -271,22 +295,102 @@ Found:
 		s.waitlink = nil
 		s.waittail = nil
 	} else {
-		// Remove s from list.
-		if s.next != nil {
-			s.next.prev = s.prev
-		} else {
-			root.tail = s.prev
+		// Rotate s down to be leaf of tree for removal, respecting priorities.
+		for s.next != nil || s.prev != nil {
+			if s.next == nil || s.prev != nil && s.prev.ticket < s.next.ticket {
+				root.rotateRight(s)
+			} else {
+				root.rotateLeft(s)
+			}
 		}
-		if s.prev != nil {
-			s.prev.next = s.next
+		// Remove s, now a leaf.
+		if s.parent != nil {
+			if s.parent.prev == s {
+				s.parent.prev = nil
+			} else {
+				s.parent.next = nil
+			}
 		} else {
-			root.head = s.next
+			root.head = nil
 		}
 	}
+	s.parent = nil
 	s.elem = nil
 	s.next = nil
 	s.prev = nil
 	return s, now
+}
+
+// rotateLeft rotates the tree rooted node x.
+// turning (x a (y b c)) into (y (x a b) c).
+func (root *semaRoot) rotateLeft(x *sudog) {
+	// p -> (x a (y b c))
+	p := x.parent
+	a, y := x.prev, x.next
+	b, c := y.prev, y.next
+
+	y.prev = x
+	x.parent = y
+	y.next = c
+	if c != nil {
+		c.parent = y
+	}
+	x.prev = a
+	if a != nil {
+		a.parent = x
+	}
+	x.next = b
+	if b != nil {
+		b.parent = x
+	}
+
+	y.parent = p
+	if p == nil {
+		root.head = y
+	} else if p.prev == x {
+		p.prev = y
+	} else {
+		if p.next != x {
+			throw("semaRoot rotateRight")
+		}
+		p.next = y
+	}
+}
+
+// rotateRight rotates the tree rooted node y.
+// turning (y (x a b) c) into (x a (y b c)).
+func (root *semaRoot) rotateRight(y *sudog) {
+	// p -> (y (x a b) c)
+	p := y.parent
+	x, c := y.prev, y.next
+	a, b := x.prev, x.next
+
+	x.prev = a
+	if a != nil {
+		a.parent = x
+	}
+	x.next = y
+	y.parent = x
+	y.prev = b
+	if b != nil {
+		b.parent = y
+	}
+	y.next = c
+	if c != nil {
+		c.parent = y
+	}
+
+	x.parent = p
+	if p == nil {
+		root.head = x
+	} else if p.prev == y {
+		p.prev = x
+	} else {
+		if p.next != y {
+			throw("semaRoot rotateRight")
+		}
+		p.next = x
+	}
 }
 
 // notifyList is a ticket-based notification list used to implement sync.Cond.
@@ -413,10 +517,22 @@ func notifyListNotifyOne(l *notifyList) {
 		return
 	}
 
-	// Update the next notify ticket number, and try to find the G that
-	// needs to be notified. If it hasn't made it to the list yet we won't
-	// find it, but it won't park itself once it sees the new notify number.
+	// Update the next notify ticket number.
 	atomic.Store(&l.notify, t+1)
+
+	// Try to find the g that needs to be notified.
+	// If it hasn't made it to the list yet we won't find it,
+	// but it won't park itself once it sees the new notify number.
+	//
+	// This scan looks linear but essentially always stops quickly.
+	// Because g's queue separately from taking numbers,
+	// there may be minor reorderings in the list, but we
+	// expect the g we're looking for to be near the front.
+	// The g has others in front of it on the list only to the
+	// extent that it lost the race, so the iteration will not
+	// be too long. This applies even when the g is missing:
+	// it hasn't yet gotten to sleep and has lost the race to
+	// the (few) other g's that we find on the list.
 	for p, s := (*sudog)(nil), l.head; s != nil; p, s = s, s.next {
 		if s.ticket == t {
 			n := s.next
