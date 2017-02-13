@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8e146f6_036a1448",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-02-13T22:19:37Z",
+      "side": 1,
+      "message": "New work cannot be submitted as in merged, but does this also mean that a new CL cannot be opened? \n\nSome people may read \"submitted\" that way.",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "501e612e_db7d7cc7",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-02-13T22:19:37Z",
+      "side": 1,
+      "message": "s/docs/documentation/\n\nRemove \"Go\" in \"This Go should\"",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33655bb9_c3f31a62",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-02-13T22:19:37Z",
+      "side": 1,
+      "message": "\"are copyright the year\" sounds a bit awkward to me.",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d31fc9fe_fb8d8fee",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-02-13T22:19:37Z",
+      "side": 1,
+      "message": "The linked page explains writing and testing code outside of the Go tree (GOPATH, etc.). Is it appropriate here?",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d702276_6d1fd4fa",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-02-13T22:19:37Z",
+      "side": 1,
+      "message": "s/inspite/despite/",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74bb18d2_79da963e",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-02-13T22:19:37Z",
+      "side": 1,
+      "message": "s/url/URL/",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2614dafc_1e94d7c7",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-02-13T22:19:37Z",
+      "side": 1,
+      "message": "missing some punctuation after \"This process repeats\"?",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e764e6b6_e8282230",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-02-13T22:19:37Z",
+      "side": 1,
+      "message": "s/Github/GitHub/",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
