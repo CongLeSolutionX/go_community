@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d1ee721_d8de0dc4",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-13T23:32:47Z",
+      "side": 1,
+      "message": "I figured you\u0027d just do one exec and change \"{{.Stale}}\" to \"{{.Stale}}/{{.StaleReason}}\" and instead look for strings.HasPrefix(out, \"false\").\n\nBut this works too.",
+      "revId": "e900a76910f0b5ad1ef11a4f260dd34efa3fe4ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
