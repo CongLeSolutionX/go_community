@@ -171,6 +171,23 @@
       "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78e4e61e_2504ea2e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2118,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-13T18:22:49Z",
+      "side": 1,
+      "message": "Consider adding a check for netpollWaiters here, too.",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
