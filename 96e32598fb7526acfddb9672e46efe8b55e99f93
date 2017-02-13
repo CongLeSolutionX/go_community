@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "738e4bf4_602f0068",
+        "filename": "src/syscall/asm.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-13T19:41:15Z",
+      "side": 1,
+      "message": "say why if you keep this.\n\nBut I assume this is just for testing and you\u0027ll fix cmd/go instead if trybots are happy.",
+      "revId": "96e32598fb7526acfddb9672e46efe8b55e99f93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
