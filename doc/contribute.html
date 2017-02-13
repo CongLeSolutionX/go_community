@@ -277,7 +277,7 @@ to learn more about its commands.
 You can also read the <a href="https://godoc.org/golang.org/x/review/git-codereview">command documentation</a>.
 </p>
 
-<h3 id="master">Switch to the master branch</h3>
+<h3 id="master">Contributing to the main Go tree</h3>
 
 <p>
 Most Go installations use a release branch, but new changes should
@@ -295,6 +295,23 @@ $ git sync
 <p>
 (In Git terms, <code>git</code> <code>sync</code> runs
 <code>git</code> <code>pull</code> <code>-r</code>.)
+</p>
+
+<h3 id="subrepos">Contributing to subrepositories (golang.org/x/...)</h3>
+
+<p>
+If you are contributing a change to a subrepository, check out the
+Go package using <code>go get</code>. For example, to contribute
+to <code>golang.org/x/oauth2</code>, check out the code by running:
+</p>
+
+<pre>
+$ go get -d golang.org/x/oauth2/...
+</pre>
+
+<p>
+Then, change your directory to the package's source directory
+(<code>$GOPATH/src/golang.org/x/oauth2</code>).
 </p>
 
 <h3 id="change">Make a change</h3>
