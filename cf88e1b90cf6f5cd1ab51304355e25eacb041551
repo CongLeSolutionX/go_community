@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8b44ed43_a4d3bd50",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-02-13T13:03:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "909c7a5d_b9876358",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "247c9d55_0f4bfe8c",
         "filename": "src/sync/mutex.go",
         "patchSetId": 5
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "fc8cb376_f79fcd96",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-02-13T13:03:51Z",
+      "side": 1,
+      "message": "Yes, both parts are important.",
+      "parentUuid": "d3304595_1853d095",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dce571b5_5686aa97",
         "filename": "src/sync/mutex.go",
         "patchSetId": 5
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "3bbc462f_8f005586",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-02-13T13:03:51Z",
+      "side": 1,
+      "message": "We can have at most 1 goroutine at a time here.\nIn normal mode it is ensured by mutexWoken flag, and in starvation mode by the starvation flag.\nIf this property breaks, tests would explode as we will have 2 threads acquire the mutex at the same time (if old\u0026mutexStarving !\u003d 0 we assume that we own the mutex without any further checks).",
+      "parentUuid": "dce571b5_5686aa97",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5972c4c_86c3f7d0",
         "filename": "src/sync/mutex.go",
         "patchSetId": 5
@@ -82,6 +136,24 @@
       "writtenOn": "2017-02-10T20:29:22Z",
       "side": 1,
       "message": "I\u0027m extra-confused here. If \"we are still accounted as waiter\", as noted above, then how can old\u003e\u003emutexWaiterShift ever be 0? We\u0027re about to subtract 1\u003c\u003cmutexWaiterShift, so I hope it\u0027s not 0 already.\n\nMaybe this could be clearer if runtime_SemacquireMutex returned a bool indicating whether this is a handoff?",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39dfb785_c4dd2b2e",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-02-13T13:03:51Z",
+      "side": 1,
+      "message": "Good point.\nThis is probably a leftover from older version where Unlock decremented mutexWaiterShift. Now it must be \"old\u003e\u003emutexWaiterShift \u003d\u003d 1\". Namely, want to leave starvation mode as soon as possible.",
+      "parentUuid": "a5972c4c_86c3f7d0",
       "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
