@@ -14,11 +14,11 @@ import (
 
 // Writev wraps the writev system call.
 func (fd *FD) Writev(v *[][]byte) (int64, error) {
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
-	if err := fd.pd.prepareWrite(); err != nil {
+	defer fd.WriteUnlock()
+	if err := fd.PrepareWrite(); err != nil {
 		return 0, err
 	}
 

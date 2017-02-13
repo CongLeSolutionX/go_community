@@ -60,21 +60,21 @@ func (fd *FD) Close() error {
 	}
 	// Unblock any I/O.  Once it all unblocks and returns,
 	// so that it cannot be referring to fd.sysfd anymore,
-	// the final decref will close fd.sysfd. This should happen
+	// the final Decref will close fd.sysfd. This should happen
 	// fairly quickly, since all the I/O is non-blocking, and any
 	// attempts to block in the pollDesc will return ErrClosing.
 	fd.pd.evict()
-	// The call to decref will call destroy if there are no other
+	// The call to Decref will call destroy if there are no other
 	// references.
-	return fd.decref()
+	return fd.Decref()
 }
 
 // Shutdown wraps the shutdown call.
 func (fd *FD) Shutdown(how int) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Shutdown(fd.Sysfd, how)
 }
 
@@ -87,10 +87,10 @@ const maxRW = 1 << 30
 
 // Read implements io.Reader.
 func (fd *FD) Read(p []byte) (int, error) {
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return 0, err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 	if len(p) == 0 {
 		// If the caller wanted a zero byte read, return immediately
 		// without trying (but after acquiring the readLock).
@@ -122,10 +122,10 @@ func (fd *FD) Read(p []byte) (int, error) {
 
 // Pread wraps the pread system call.
 func (fd *FD) Pread(p []byte, off int64) (int, error) {
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return 0, err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 	if err := fd.pd.prepareRead(); err != nil {
 		return 0, err
 	}
@@ -149,10 +149,10 @@ func (fd *FD) Pread(p []byte, off int64) (int, error) {
 
 // RecvFrom wraps the recvfrom network call.
 func (fd *FD) RecvFrom(p []byte) (int, syscall.Sockaddr, error) {
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return 0, nil, err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 	if err := fd.pd.prepareRead(); err != nil {
 		return 0, nil, err
 	}
@@ -173,10 +173,10 @@ func (fd *FD) RecvFrom(p []byte) (int, syscall.Sockaddr, error) {
 
 // ReadMsg wraps the recvmsg network call.
 func (fd *FD) ReadMsg(p []byte, oob []byte) (int, int, int, syscall.Sockaddr, error) {
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return 0, 0, 0, nil, err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 	if err := fd.pd.prepareRead(); err != nil {
 		return 0, 0, 0, nil, err
 	}
@@ -197,10 +197,10 @@ func (fd *FD) ReadMsg(p []byte, oob []byte) (int, int, int, syscall.Sockaddr, er
 
 // Write implements io.Writer.
 func (fd *FD) Write(p []byte) (int, error) {
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 	if err := fd.pd.prepareWrite(); err != nil {
 		return 0, err
 	}
@@ -233,10 +233,10 @@ func (fd *FD) Write(p []byte) (int, error) {
 
 // Pwrite wraps the pwrite system call.
 func (fd *FD) Pwrite(p []byte, off int64) (int, error) {
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 	if err := fd.pd.prepareWrite(); err != nil {
 		return 0, err
 	}
@@ -269,10 +269,10 @@ func (fd *FD) Pwrite(p []byte, off int64) (int, error) {
 
 // WriteTo wraps the sendto network call.
 func (fd *FD) WriteTo(p []byte, sa syscall.Sockaddr) (int, error) {
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 	if err := fd.pd.prepareWrite(); err != nil {
 		return 0, err
 	}
@@ -292,10 +292,10 @@ func (fd *FD) WriteTo(p []byte, sa syscall.Sockaddr) (int, error) {
 
 // WriteMsg wraps the sendmsg network call.
 func (fd *FD) WriteMsg(p []byte, oob []byte, sa syscall.Sockaddr) (int, int, error) {
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 	if err := fd.pd.prepareWrite(); err != nil {
 		return 0, 0, err
 	}
@@ -313,17 +313,12 @@ func (fd *FD) WriteMsg(p []byte, oob []byte, sa syscall.Sockaddr) (int, int, err
 	}
 }
 
-// WaitWrite waits until data can be written to fd.
-func (fd *FD) WaitWrite() error {
-	return fd.pd.waitWrite()
-}
-
 // Accept wraps the accept network call.
 func (fd *FD) Accept() (int, syscall.Sockaddr, string, error) {
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return -1, nil, "", err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 
 	if err := fd.pd.prepareRead(); err != nil {
 		return -1, nil, "", err
@@ -350,10 +345,10 @@ func (fd *FD) Accept() (int, syscall.Sockaddr, string, error) {
 
 // Seek wraps syscall.Seek.
 func (fd *FD) Seek(offset int64, whence int) (int64, error) {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return 0, err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Seek(fd.Sysfd, offset, whence)
 }
 
@@ -361,10 +356,10 @@ func (fd *FD) Seek(offset int64, whence int) (int64, error) {
 // We treat this like an ordinary system call rather than a call
 // that tries to fill the buffer.
 func (fd *FD) ReadDirent(buf []byte) (int, error) {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return 0, err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	for {
 		n, err := syscall.ReadDirent(fd.Sysfd, buf)
 		if err != nil {
@@ -382,18 +377,48 @@ func (fd *FD) ReadDirent(buf []byte) (int, error) {
 
 // Fchdir wraps syscall.Fchdir.
 func (fd *FD) Fchdir() error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Fchdir(fd.Sysfd)
 }
 
 // Fstat wraps syscall.Fstat
 func (fd *FD) Fstat(s *syscall.Stat_t) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Fstat(fd.Sysfd, s)
+}
+
+// PrepareRead advices the underlying network poller of readiness for
+// reading.
+//
+// PrepareRead must be used with bare system calls.
+func (fd *FD) PrepareRead() error {
+	return fd.pd.prepareRead()
+}
+
+// PrepareWrite advices the underlying network poller of readiness for
+// writing.
+//
+// PrepareWrite must be used with bare system calls.
+func (fd *FD) PrepareWrite() error {
+	return fd.pd.prepareWrite()
+}
+
+// WaitRead waits until data can be read from fd.
+//
+// WaitRead must be used with bare system calls.
+func (fd *FD) WaitRead() error {
+	return fd.pd.waitRead()
+}
+
+// WaitWrite waits until data can be written to fd.
+//
+// WaitWrite must be used with bare system calls.
+func (fd *FD) WaitWrite() error {
+	return fd.pd.waitWrite()
 }

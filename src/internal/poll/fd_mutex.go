@@ -194,56 +194,68 @@ func (mu *fdMutex) rwunlock(read bool) bool {
 func runtime_Semacquire(sema *uint32)
 func runtime_Semrelease(sema *uint32)
 
-// incref adds a reference to fd.
+// Incref adds a reference to fd.
 // It returns an error when fd cannot be used.
-func (fd *FD) incref() error {
+//
+// Incref must be used with bare system calls.
+func (fd *FD) Incref() error {
 	if !fd.fdmu.incref() {
 		return ErrClosing
 	}
 	return nil
 }
 
-// decref removes a reference from fd.
+// Decref removes a reference from fd.
 // It also closes fd when the state of fd is set to closed and there
 // is no remaining reference.
-func (fd *FD) decref() error {
+//
+// Decref must be used with bare system calls.
+func (fd *FD) Decref() error {
 	if fd.fdmu.decref() {
 		return fd.destroy()
 	}
 	return nil
 }
 
-// readLock adds a reference to fd and locks fd for reading.
+// ReadLock adds a reference to fd and locks fd for reading.
 // It returns an error when fd cannot be used for reading.
-func (fd *FD) readLock() error {
+//
+// ReadLock must be used with bare system calls.
+func (fd *FD) ReadLock() error {
 	if !fd.fdmu.rwlock(true) {
 		return ErrClosing
 	}
 	return nil
 }
 
-// readUnlock removes a reference from fd and unlocks fd for reading.
+// ReadUnlock removes a reference from fd and unlocks fd for reading.
 // It also closes fd when the state of fd is set to closed and there
 // is no remaining reference.
-func (fd *FD) readUnlock() {
+//
+// ReadUnlock must be used with bare system calls.
+func (fd *FD) ReadUnlock() {
 	if fd.fdmu.rwunlock(true) {
 		fd.destroy()
 	}
 }
 
-// writeLock adds a reference to fd and locks fd for writing.
+// WriteLock adds a reference to fd and locks fd for writing.
 // It returns an error when fd cannot be used for writing.
-func (fd *FD) writeLock() error {
+//
+// WriteLock must be used with bare system calls.
+func (fd *FD) WriteLock() error {
 	if !fd.fdmu.rwlock(false) {
 		return ErrClosing
 	}
 	return nil
 }
 
-// writeUnlock removes a reference from fd and unlocks fd for writing.
+// WriteUnlock removes a reference from fd and unlocks fd for writing.
 // It also closes fd when the state of fd is set to closed and there
 // is no remaining reference.
-func (fd *FD) writeUnlock() {
+//
+// WriteUnlock must be used with bare system calls.
+func (fd *FD) WriteUnlock() {
 	if fd.fdmu.rwunlock(false) {
 		fd.destroy()
 	}

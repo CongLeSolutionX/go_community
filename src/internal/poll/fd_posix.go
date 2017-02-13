@@ -22,36 +22,36 @@ func (fd *FD) eofError(n int, err error) error {
 
 // Fchmod wraps syscall.Fchmod.
 func (fd *FD) Fchmod(mode uint32) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Fchmod(fd.Sysfd, mode)
 }
 
 // Fchown wraps syscall.Fchown.
 func (fd *FD) Fchown(uid, gid int) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Fchown(fd.Sysfd, uid, gid)
 }
 
 // Ftruncate wraps syscall.Ftruncate.
 func (fd *FD) Ftruncate(size int64) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Ftruncate(fd.Sysfd, size)
 }
 
 // Fsync wraps syscall.Fsync.
 func (fd *FD) Fsync() error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Fsync(fd.Sysfd)
 }

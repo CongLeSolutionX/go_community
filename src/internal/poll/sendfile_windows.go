@@ -8,10 +8,10 @@ import "syscall"
 
 // SendFile wraps the TransmitFile call.
 func SendFile(fd *FD, src syscall.Handle, n int64) (int64, error) {
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 
 	o := &fd.wop
 	o.qty = uint32(n)

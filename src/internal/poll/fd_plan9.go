@@ -54,10 +54,10 @@ func (fd *FD) Read(fn func([]byte) (int, error), b []byte) (int, error) {
 	if fd.rtimedout.isSet() {
 		return 0, ErrTimeout
 	}
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return 0, err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 	if len(b) == 0 {
 		return 0, nil
 	}
@@ -77,10 +77,10 @@ func (fd *FD) Write(fn func([]byte) (int, error), b []byte) (int, error) {
 	if fd.wtimedout.isSet() {
 		return 0, ErrTimeout
 	}
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 	fd.waio = newAsyncIO(fn, b)
 	n, err := fd.waio.Wait()
 	fd.waio = nil
@@ -90,14 +90,17 @@ func (fd *FD) Write(fn func([]byte) (int, error), b []byte) (int, error) {
 	return n, err
 }
 
+// SetDeadline sets the read and write deadlines associated with fd.
 func (fd *FD) SetDeadline(t time.Time) error {
 	return setDeadlineImpl(fd, t, 'r'+'w')
 }
 
+// SetReadDeadline sets the read deadline associated with fd.
 func (fd *FD) SetReadDeadline(t time.Time) error {
 	return setDeadlineImpl(fd, t, 'r')
 }
 
+// SetWriteDeadline sets the write deadline associated with fd.
 func (fd *FD) SetWriteDeadline(t time.Time) error {
 	return setDeadlineImpl(fd, t, 'w')
 }
@@ -161,16 +164,6 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 	return nil
 }
 
-// On Plan 9 only, expose the locking for the net code.
-
-func (fd *FD) ReadLock() error {
-	return fd.readLock()
-}
-
-func (fd *FD) ReadUnlock() {
-	fd.readUnlock()
-}
-
 func isHangup(err error) bool {
 	return err != nil && stringsHasSuffix(err.Error(), "Hangup")
 }
@@ -179,6 +172,8 @@ func isInterrupted(err error) bool {
 	return err != nil && stringsHasSuffix(err.Error(), "interrupted")
 }
 
+// PollDescriptor returns the descriptor being used by the poller,
+// or ^uintptr(0) if there isn't one. This is only used for testing.
 func PollDescriptor() uintptr {
 	return ^uintptr(0)
 }

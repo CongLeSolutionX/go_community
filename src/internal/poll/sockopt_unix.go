@@ -10,9 +10,9 @@ import "syscall"
 
 // SetsockoptByte wraps the setsockopt network call with a byte argument.
 func (fd *FD) SetsockoptByte(level, name int, arg byte) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.SetsockoptByte(fd.Sysfd, level, name, arg)
 }

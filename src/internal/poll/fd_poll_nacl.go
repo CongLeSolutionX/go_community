@@ -49,18 +49,17 @@ func (pd *pollDesc) waitWrite() error { return pd.wait('w') }
 
 func (pd *pollDesc) waitCanceled(mode int) {}
 
-func (pd *pollDesc) waitCanceledRead() {}
-
-func (pd *pollDesc) waitCanceledWrite() {}
-
+// SetDeadline sets the read and write deadlines associated with fd.
 func (fd *FD) SetDeadline(t time.Time) error {
 	return setDeadlineImpl(fd, t, 'r'+'w')
 }
 
+// SetReadDeadline sets the read deadline associated with fd.
 func (fd *FD) SetReadDeadline(t time.Time) error {
 	return setDeadlineImpl(fd, t, 'r')
 }
 
+// SetWriteDeadline sets the write deadline associated with fd.
 func (fd *FD) SetWriteDeadline(t time.Time) error {
 	return setDeadlineImpl(fd, t, 'w')
 }
@@ -70,7 +69,7 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 	if t.IsZero() {
 		d = 0
 	}
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
 	switch mode {
@@ -82,10 +81,12 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 		syscall.SetReadDeadline(fd.Sysfd, d)
 		syscall.SetWriteDeadline(fd.Sysfd, d)
 	}
-	fd.decref()
+	fd.Decref()
 	return nil
 }
 
+// PollDescriptor returns the descriptor being used by the poller,
+// or ^uintptr(0) if there isn't one. This is only used for testing.
 func PollDescriptor() uintptr {
 	return ^uintptr(0)
 }

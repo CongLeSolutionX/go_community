@@ -382,22 +382,22 @@ func (fd *FD) Close() error {
 	}
 	// unblock pending reader and writer
 	fd.pd.evict()
-	return fd.decref()
+	return fd.Decref()
 }
 
 func (fd *FD) Shutdown(how int) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Shutdown(fd.Sysfd, how)
 }
 
 func (fd *FD) Read(buf []byte) (int, error) {
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return 0, err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 
 	var n int
 	var err error
@@ -504,10 +504,10 @@ func (fd *FD) readConsole(b []byte) (int, error) {
 }
 
 func (fd *FD) Pread(b []byte, off int64) (int, error) {
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return 0, err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 
 	fd.l.Lock()
 	defer fd.l.Unlock()
@@ -538,10 +538,10 @@ func (fd *FD) RecvFrom(buf []byte) (int, syscall.Sockaddr, error) {
 	if len(buf) == 0 {
 		return 0, nil, nil
 	}
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return 0, nil, err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 	o := &fd.rop
 	o.InitBuf(buf)
 	n, err := rsrv.ExecIO(o, "WSARecvFrom", func(o *operation) error {
@@ -560,10 +560,10 @@ func (fd *FD) RecvFrom(buf []byte) (int, syscall.Sockaddr, error) {
 }
 
 func (fd *FD) Write(buf []byte) (int, error) {
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 
 	var n int
 	var err error
@@ -635,10 +635,10 @@ func (fd *FD) writeConsole(b []byte) (int, error) {
 }
 
 func (fd *FD) Pwrite(b []byte, off int64) (int, error) {
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 
 	fd.l.Lock()
 	defer fd.l.Unlock()
@@ -663,10 +663,10 @@ func (fd *FD) Writev(buf *[][]byte) (int64, error) {
 	if len(*buf) == 0 {
 		return 0, nil
 	}
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 	if race.Enabled {
 		race.ReleaseMerge(unsafe.Pointer(&ioSync))
 	}
@@ -685,10 +685,10 @@ func (fd *FD) WriteTo(buf []byte, sa syscall.Sockaddr) (int, error) {
 	if len(buf) == 0 {
 		return 0, nil
 	}
-	if err := fd.writeLock(); err != nil {
+	if err := fd.WriteLock(); err != nil {
 		return 0, err
 	}
-	defer fd.writeUnlock()
+	defer fd.WriteUnlock()
 	o := &fd.wop
 	o.InitBuf(buf)
 	o.sa = sa
@@ -735,10 +735,10 @@ func (fd *FD) acceptOne(s syscall.Handle, rawsa []syscall.RawSockaddrAny, o *ope
 // Accept handles accepting a socket. The sysSocket parameter is used
 // to allocate the net socket.
 func (fd *FD) Accept(sysSocket func() (syscall.Handle, error)) (syscall.Handle, []syscall.RawSockaddrAny, uint32, string, error) {
-	if err := fd.readLock(); err != nil {
+	if err := fd.ReadLock(); err != nil {
 		return syscall.InvalidHandle, nil, 0, "", err
 	}
-	defer fd.readUnlock()
+	defer fd.ReadUnlock()
 
 	o := &fd.rop
 	var rawsa [2]syscall.RawSockaddrAny
@@ -772,10 +772,10 @@ func (fd *FD) Accept(sysSocket func() (syscall.Handle, error)) (syscall.Handle, 
 }
 
 func (fd *FD) Seek(offset int64, whence int) (int64, error) {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return 0, err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 
 	fd.l.Lock()
 	defer fd.l.Unlock()
@@ -785,34 +785,34 @@ func (fd *FD) Seek(offset int64, whence int) (int64, error) {
 
 // FindNextFile wraps syscall.FindNextFile.
 func (fd *FD) FindNextFile(data *syscall.Win32finddata) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.FindNextFile(fd.Sysfd, data)
 }
 
 // Fchdir wraps syscall.Fchdir.
 func (fd *FD) Fchdir() error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.Fchdir(fd.Sysfd)
 }
 
 func (fd *FD) GetFileType() (uint32, error) {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return 0, err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.GetFileType(fd.Sysfd)
 }
 
 func (fd *FD) GetFileInformationByHandle(data *syscall.ByHandleFileInformation) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.GetFileInformationByHandle(fd.Sysfd, data)
 }

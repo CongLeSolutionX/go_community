@@ -4,15 +4,13 @@
 
 package poll
 
-import (
-	"syscall"
-)
+import "syscall"
 
 // SetsockoptIPMreqn wraps the setsockopt network call with a IPMreqn argument.
 func (fd *FD) SetsockoptIPMreqn(level, name int, mreq *syscall.IPMreqn) error {
-	if err := fd.incref(); err != nil {
+	if err := fd.Incref(); err != nil {
 		return err
 	}
-	defer fd.decref()
+	defer fd.Decref()
 	return syscall.SetsockoptIPMreqn(fd.Sysfd, level, name, mreq)
 }
