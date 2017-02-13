@@ -150,12 +150,13 @@ var pkgDeps = map[string][]string{
 		"syscall",
 	},
 
-	"internal/poll": {"L0", "internal/race", "syscall", "time", "unicode/utf16", "unicode/utf8"},
-	"os":            {"L1", "os", "syscall", "time", "internal/poll", "internal/syscall/windows"},
-	"path/filepath": {"L2", "os", "syscall"},
-	"io/ioutil":     {"L2", "os", "path/filepath", "time"},
-	"os/exec":       {"L2", "os", "context", "path/filepath", "syscall"},
-	"os/signal":     {"L2", "os", "syscall"},
+	"internal/socket": {"L0", "internal/syscall/windows/sysdll", "syscall"},
+	"internal/poll":   {"L0", "internal/race", "syscall", "time", "unicode/utf16", "unicode/utf8"},
+	"os":              {"L1", "os", "syscall", "time", "internal/poll", "internal/syscall/windows"},
+	"path/filepath":   {"L2", "os", "syscall"},
+	"io/ioutil":       {"L2", "os", "path/filepath", "time"},
+	"os/exec":         {"L2", "os", "context", "path/filepath", "syscall"},
+	"os/signal":       {"L2", "os", "syscall"},
 
 	// OS enables basic operating system functionality,
 	// but not direct use of package syscall, nor os/signal.
