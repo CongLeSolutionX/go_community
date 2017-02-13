@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee2e1ac_c77be0e0",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2810,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-13T15:54:13Z",
+      "side": 1,
+      "message": "The old code was waiting for numOpenConns() \u003d\u003d 0.\nWhy is this code waiting for rows.closed instead?",
+      "revId": "b0fc6ebb66a01bb921c5afd405544ff124bd039e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
