@@ -16,6 +16,24 @@
       "revId": "b0fc6ebb66a01bb921c5afd405544ff124bd039e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c93dfbb4_eaef3d5c",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2810,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-02-13T17:20:55Z",
+      "side": 1,
+      "message": "The wait for numOpen now happens in closeDB. We wait for the rows to close to clean up here . Required to clean up open implicit stmts.\n\nThere could be another unrelated bug where closing the database in certain states won\u0027t close all statements before closing the connection. If I remove \"cancel(); waitForRowsClose(...);\" I get \"Error closing fakeConn: can\u0027t close; dangling statement(s)\" sometimes.\n\nI\u0027ve filed https://github.com/golang/go/issues/19058 to remind me to look into this more.",
+      "parentUuid": "eee2e1ac_c77be0e0",
+      "revId": "b0fc6ebb66a01bb921c5afd405544ff124bd039e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
