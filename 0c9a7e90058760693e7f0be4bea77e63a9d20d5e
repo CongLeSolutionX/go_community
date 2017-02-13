@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ab038b26_3c3eb458",
+        "filename": "src/time/time.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 792,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-13T14:40:34Z",
+      "side": 1,
+      "message": "Please drop unnecessary parens. Gofmt will make it clear by formatting as\n\nreturn d - d%m",
+      "revId": "0c9a7e90058760693e7f0be4bea77e63a9d20d5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ccf48ad2_b4931c76",
         "filename": "src/time/time.go",
         "patchSetId": 3
@@ -19,6 +36,47 @@
         "endLine": 797,
         "endChar": 55
       },
+      "revId": "0c9a7e90058760693e7f0be4bea77e63a9d20d5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc379dd7_5ed561ad",
+        "filename": "src/time/time.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-13T14:40:34Z",
+      "side": 1,
+      "message": "Let\u0027s clamp to min/max to match t.Sub(u). Thanks.\n\n// If the result exceeds the maximum (or minimum)\n// value that can be stored in a Duration, \n// Round returns the maximum (or minimum) duration.\n// If m \u003c\u003d 0, Round returns d unchanged.",
+      "parentUuid": "ccf48ad2_b4931c76",
+      "range": {
+        "startLine": 797,
+        "startChar": 17,
+        "endLine": 797,
+        "endChar": 55
+      },
+      "revId": "0c9a7e90058760693e7f0be4bea77e63a9d20d5e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f6ea519_d3d7b77a",
+        "filename": "src/time/time.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-13T14:40:34Z",
+      "side": 1,
+      "message": "add end-of-line comment\n\n// equivalently, d \u003c 0",
       "revId": "0c9a7e90058760693e7f0be4bea77e63a9d20d5e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
