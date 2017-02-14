@@ -50,6 +50,8 @@ func rewriteValueMIPS(v *Value, config *Config) bool {
 		return rewriteValueMIPS_OpAtomicStore32(v, config)
 	case OpAtomicStorePtrNoWB:
 		return rewriteValueMIPS_OpAtomicStorePtrNoWB(v, config)
+	case OpAvg32u:
+		return rewriteValueMIPS_OpAvg32u(v, config)
 	case OpClosureCall:
 		return rewriteValueMIPS_OpClosureCall(v, config)
 	case OpCom16:
@@ -988,6 +990,39 @@ func rewriteValueMIPS_OpAtomicStorePtrNoWB(v *Value, config *Config) bool {
 		v.AddArg(ptr)
 		v.AddArg(val)
 		v.AddArg(mem)
+		return true
+	}
+}
+func rewriteValueMIPS_OpAvg32u(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (Avg32u <t> x y)
+	// cond:
+	// result: (ADD (ADD <t> (SRLconst <t> x [1]) (SRLconst <t> y [1])) (AND <t> (AND <t> x y) (MOVWconst [1])))
+	for {
+		t := v.Type
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpMIPSADD)
+		v0 := b.NewValue0(v.Pos, OpMIPSADD, t)
+		v1 := b.NewValue0(v.Pos, OpMIPSSRLconst, t)
+		v1.AuxInt = 1
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpMIPSSRLconst, t)
+		v2.AuxInt = 1
+		v2.AddArg(y)
+		v0.AddArg(v2)
+		v.AddArg(v0)
+		v3 := b.NewValue0(v.Pos, OpMIPSAND, t)
+		v4 := b.NewValue0(v.Pos, OpMIPSAND, t)
+		v4.AddArg(x)
+		v4.AddArg(y)
+		v3.AddArg(v4)
+		v5 := b.NewValue0(v.Pos, OpMIPSMOVWconst, config.fe.TypeUInt32())
+		v5.AuxInt = 1
+		v3.AddArg(v5)
+		v.AddArg(v3)
 		return true
 	}
 }

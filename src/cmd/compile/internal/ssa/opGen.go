@@ -273,6 +273,7 @@ const (
 	Op386HMULWU
 	Op386HMULBU
 	Op386MULLQU
+	Op386AVGLU
 	Op386DIVL
 	Op386DIVW
 	Op386DIVLU
@@ -1594,6 +1595,7 @@ const (
 	OpHmul64u
 	OpMul32uhilo
 	OpMul64uhilo
+	OpAvg32u
 	OpAvg64u
 	OpDiv8
 	OpDiv8u
@@ -2543,6 +2545,22 @@ var opcodeTable = [...]opInfo{
 			outputs: []outputInfo{
 				{0, 4}, // DX
 				{1, 1}, // AX
+			},
+		},
+	},
+	{
+		name:         "AVGLU",
+		argLen:       2,
+		commutative:  true,
+		resultInArg0: true,
+		clobberFlags: true,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 239}, // AX CX DX BX BP SI DI
+				{1, 239}, // AX CX DX BX BP SI DI
+			},
+			outputs: []outputInfo{
+				{0, 239}, // AX CX DX BX BP SI DI
 			},
 		},
 	},
@@ -19949,6 +19967,11 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "Mul64uhilo",
+		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "Avg32u",
 		argLen:  2,
 		generic: true,
 	},
