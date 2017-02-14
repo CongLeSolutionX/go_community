@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f01b8c4_7f26586b",
+        "filename": "src/net/http/fs_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-14T03:36:03Z",
+      "side": 1,
+      "message": "the two callers of this won\u0027t fail nicely in unique ways if one fails, so it won\u0027t be obvious which case needs to debugged\n\nThat is https://github.com/golang/go/wiki/CodeReviewComments#useful-test-failures\n\nI would just use a Subtest here (https://golang.org/pkg/testing/#T.Run) rather than modifying all 4 of your failure lines to include the context.",
+      "range": {
+        "startLine": 1179,
+        "startChar": 1,
+        "endLine": 1179,
+        "endChar": 6
+      },
+      "revId": "bb07f88771885f4c761946bba0122478f54d34a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
