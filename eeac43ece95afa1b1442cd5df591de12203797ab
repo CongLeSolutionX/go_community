@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0c0e386_350070c1",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1638,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-02-14T08:22:10Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 1638,
+        "startChar": 33,
+        "endLine": 1638,
+        "endChar": 40
+      },
+      "revId": "eeac43ece95afa1b1442cd5df591de12203797ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
