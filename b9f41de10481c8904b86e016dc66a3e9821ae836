@@ -16,6 +16,24 @@
       "revId": "b9f41de10481c8904b86e016dc66a3e9821ae836",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "381b2d77_99edc7bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 16286
+      },
+      "writtenOn": "2017-02-14T19:19:11Z",
+      "side": 1,
+      "message": "Indeed, thanks for noticing.",
+      "parentUuid": "2715dd3f_5f3a8d0a",
+      "revId": "b9f41de10481c8904b86e016dc66a3e9821ae836",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
