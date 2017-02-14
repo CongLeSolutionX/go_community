@@ -958,6 +958,11 @@ func growWork(t *maptype, h *hmap, bucket uintptr) {
 	}
 }
 
+func bucketEvacuated(t *maptype, h *hmap, bucket uintptr) bool {
+	b := (*bmap)(add(h.oldbuckets, bucket*uintptr(t.bucketsize)))
+	return evacuated(b)
+}
+
 func evacuate(t *maptype, h *hmap, oldbucket uintptr) {
 	b := (*bmap)(add(h.oldbuckets, oldbucket*uintptr(t.bucketsize)))
 	newbit := h.noldbuckets()
@@ -1098,7 +1103,10 @@ func evacuate(t *maptype, h *hmap, oldbucket uintptr) {
 	// Advance evacuation mark
 	if oldbucket == h.nevacuate {
 		h.nevacuate = oldbucket + 1
-		if oldbucket+1 == newbit { // newbit == # of oldbuckets
+		for h.nevacuate != newbit && bucketEvacuated(t, h, h.nevacuate) {
+			h.nevacuate++
+		}
+		if h.nevacuate == newbit { // newbit == # of oldbuckets
 			// Growing is all done. Free old main bucket array.
 			h.oldbuckets = nil
 			// Can discard old overflow buckets as well.
