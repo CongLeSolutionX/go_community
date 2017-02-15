@@ -22,6 +22,167 @@
       "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19a11ae2_fa1e0297",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-02-15T23:02:52Z",
+      "side": 1,
+      "message": "A small comment about where this is used might be helpful.",
+      "range": {
+        "startLine": 289,
+        "startChar": 1,
+        "endLine": 289,
+        "endChar": 19
+      },
+      "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "548bb71e_d8b0cead",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-02-15T23:02:52Z",
+      "side": 1,
+      "message": "s/rooted node x./rooted at node x,/",
+      "range": {
+        "startLine": 324,
+        "startChar": 31,
+        "endLine": 324,
+        "endChar": 45
+      },
+      "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa548b0b_08272a17",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-02-15T23:02:52Z",
+      "side": 1,
+      "message": "rotateLeft",
+      "range": {
+        "startLine": 354,
+        "startChar": 19,
+        "endLine": 354,
+        "endChar": 30
+      },
+      "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a71736db_6a0d8f5a",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-02-15T23:02:52Z",
+      "side": 1,
+      "message": "s/rooted node y./rooted at node y,/",
+      "range": {
+        "startLine": 360,
+        "startChar": 32,
+        "endLine": 360,
+        "endChar": 46
+      },
+      "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "478662d4_a348b8a0",
+        "filename": "test/locklinear.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-02-15T23:02:52Z",
+      "side": 1,
+      "message": "Why is this a test/ file rather than being a runtime/sync package test? (I\u0027ve wondered this in the past too; I\u0027m not sure of when tests belong in one or the other.)",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 0
+      },
+      "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b165600a_5c08c2b1",
+        "filename": "test/locklinear.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-02-15T23:02:52Z",
+      "side": 1,
+      "message": "debugging?",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 3
+      },
+      "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56e9c316_42acf92d",
+        "filename": "test/locklinear.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-02-15T23:02:52Z",
+      "side": 1,
+      "message": "debugging?",
+      "range": {
+        "startLine": 44,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 4
+      },
+      "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
