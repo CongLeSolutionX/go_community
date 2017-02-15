@@ -2885,7 +2885,7 @@ func typecheckcomplit(n *Node) *Node {
 		if n.List.Len() != 0 {
 			setlineno(n.List.First())
 		}
-		yyerror("missing type in composite literal")
+		yyerrorl(n.Pos, "missing type in composite literal")
 		n.Type = nil
 		return n
 	}
