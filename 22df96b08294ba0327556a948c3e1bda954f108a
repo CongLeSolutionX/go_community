@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c384b1b_8d1d8bd1",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-15T22:35:23Z",
+      "side": 1,
+      "message": "Please add a comment summarizing this rewrite, like\n\n// (x + y) / 2 -\u003e (x / 2) + (y / 2) + (x \u0026 y \u0026 1)\n\n(stolen from https://github.com/riscv/riscv-go/blob/riscvdev/src/cmd/compile/internal/ssa/gen/RISCV.rules#L64)",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4078187_c91e864d",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-15T22:35:23Z",
+      "side": 1,
+      "message": "This is still true, right?\n\nI\u0027m inclined to uncomment them anyway.",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44bdba36_6737c65d",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-15T22:35:23Z",
+      "side": 1,
+      "message": "Are the rest of the SSA rules prepared to handle Inf const floats? And the lowering rules for all the architectures?",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a07f205_1a8cbaf4",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-15T22:35:23Z",
+      "side": 1,
+      "message": "I had to parse -1\u003c\u003c7 a couple of times for operator precedence. Maybe instead -int8(c) !\u003d int8(c)? Or -int8(c) \u003e 0? Or add constants for minInt8 and friends to rewrite.go and use here?",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aae9556b_8cd1253b",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1170,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-15T22:35:23Z",
+      "side": 1,
+      "message": "Yet again I find myself wanting some way to express \"Do this for all widths NN\", like\n\n(ModNN \u003ct\u003e x (ConstNN [c])) \u0026\u0026 x.Op !\u003d OpConstNN \u0026\u0026 (c \u003e 0 || c \u003d\u003d -1\u003c\u003c(NN-1)) -\u003e etc etc\n\nand having it expand to all rules.\n\nOr probably more useful and less magical, set up an easy and agreed-upon way to add scripts to generate and insert rules...somewhat like how the test framework has \"run\" and \"runoutput\" modes. The generated rules could be checked in, or not.\n\nMy eyes hurt checking this CL for typos, and I\u0027m sure yours hurt writing it.",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
