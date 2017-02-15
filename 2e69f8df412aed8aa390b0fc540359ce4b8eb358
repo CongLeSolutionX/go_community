@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ee7724dc_43eac637",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:58:00Z",
+      "side": 1,
+      "message": "Changed and simplified.",
+      "parentUuid": "5a7c5274_5b653eba",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "2e69f8df412aed8aa390b0fc540359ce4b8eb358",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a16ac5e5_659a21be",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c6c51632_28de7a97",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a16ac5e5_659a21be",
+      "revId": "2e69f8df412aed8aa390b0fc540359ce4b8eb358",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4150639f_a0432bd0",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2017-02-09T22:26:27Z",
       "side": 1,
       "message": "Might as well leave the TODO. We probably should use an intrinsic. :)",
+      "revId": "2e69f8df412aed8aa390b0fc540359ce4b8eb358",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bce580f5_b5b793e9",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1202,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:58:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4150639f_a0432bd0",
       "revId": "2e69f8df412aed8aa390b0fc540359ce4b8eb358",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
