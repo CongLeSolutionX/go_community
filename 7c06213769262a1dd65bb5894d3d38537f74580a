@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "42a1440f_2fe1b8e3",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de58c222_a3343b22",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a393e3fc_52fa5587",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-09T22:23:14Z",
       "side": 1,
       "message": "Same",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59d48cc8_dd648cb3",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a393e3fc_52fa5587",
       "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "65c78050_a0548141",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25057c39_e565c145",
+      "range": {
+        "startLine": 184,
+        "startChar": 19,
+        "endLine": 184,
+        "endChar": 25
+      },
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "21015d50_c66240a5",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2017-02-09T22:23:14Z",
       "side": 1,
       "message": "Again, I think this should be folded into writeBarrier.needed.",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "940921f5_10675148",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21015d50_c66240a5",
       "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "41aadc23_59edd8e7",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b90da87_2ada57e7",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfca99fb_b832a612",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 2
@@ -104,6 +200,24 @@
       "writtenOn": "2017-02-09T22:23:14Z",
       "side": 1,
       "message": "This is a statement about the implementation, not the interface, so it doesn\u0027t belong here. You could say \"... to dst from src, publishing src if necessary.\"",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66155368_a83e86cc",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfca99fb_b832a612",
       "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "6ea7bfec_b65710b4",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "bulkBarrierPreWrite, called above subsumes the call to heapBitsBulkPublish so the call has been elided.",
+      "parentUuid": "8d7b3828_7b64ecf6",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60e0dc61_cb11eaad",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 2
@@ -138,6 +270,24 @@
       "writtenOn": "2017-02-09T22:23:14Z",
       "side": 1,
       "message": "Same",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "567e2625_eedaffd2",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60e0dc61_cb11eaad",
       "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -161,6 +311,24 @@
     },
     {
       "key": {
+        "uuid": "bfeea175_11d2a1a1",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a681775e_e4cc8ca7",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38b8aacf_18b1a241",
         "filename": "src/runtime/mbarrier.go",
         "patchSetId": 2
@@ -178,6 +346,24 @@
     },
     {
       "key": {
+        "uuid": "b92d2134_102a5de6",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38b8aacf_18b1a241",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e40e7d3f_c925169a",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 2
@@ -189,6 +375,24 @@
       "writtenOn": "2017-02-09T22:23:14Z",
       "side": 1,
       "message": "If you do writeBarrier.needed \u003d ... || writeBarrier.roc, a lot of checks will be simpler. I don\u0027t think there are any downsides to that.",
+      "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56885f8a_028cd101",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:48Z",
+      "side": 1,
+      "message": "I added writeBarrier.mark to indicate that we do marking and rolled writeBarrier.roc into writeBarrier.needed.",
+      "parentUuid": "e40e7d3f_c925169a",
       "revId": "7c06213769262a1dd65bb5894d3d38537f74580a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
