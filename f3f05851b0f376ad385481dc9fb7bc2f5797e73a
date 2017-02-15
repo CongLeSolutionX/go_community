@@ -22,6 +22,30 @@
       "revId": "f3f05851b0f376ad385481dc9fb7bc2f5797e73a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7614572a_96776d7a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-02-15T16:38:11Z",
+      "side": 1,
+      "message": "\u003e indeed, this is an allocation each time for the integer-\u003einterface{}.\n\nIt may be an allocation, but it should be on the stack.\n\n(The escape analysis for Load is pretty trivial, and the fact that mime.TestLookupMallocs still passes suggests that merely calling Load doesn\u0027t induce any additional heap allocations.)\n\nIf the slower benchmarks in net/http are more than just noise, I would expect that it\u0027s due to the Range call in (*ServeMux).match, not the Load here.",
+      "parentUuid": "7a086030_64e63493",
+      "range": {
+        "startLine": 1422,
+        "startChar": 30,
+        "endLine": 1422,
+        "endChar": 35
+      },
+      "revId": "f3f05851b0f376ad385481dc9fb7bc2f5797e73a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
