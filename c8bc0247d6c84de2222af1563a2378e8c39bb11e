@@ -2,6 +2,184 @@
   "comments": [
     {
       "key": {
+        "uuid": "4f2a570d_847936e3",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-15T23:59:11Z",
+      "side": 1,
+      "message": "typo: prerequisites",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9383101b_5826b2e9",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-15T23:59:11Z",
+      "side": 1,
+      "message": "for each? I don\u0027t think this is worth calling out. Using more than 1 is uncommon.",
+      "range": {
+        "startLine": 18,
+        "startChar": 64,
+        "endLine": 19,
+        "endChar": 40
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7d6d5a5_0ef15dc1",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-15T23:59:11Z",
+      "side": 1,
+      "message": "long title",
+      "range": {
+        "startLine": 23,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 74
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e7ce60a_20c8b8bf",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-15T23:59:11Z",
+      "side": 1,
+      "message": "we avoid making subjective statements about things being easy",
+      "range": {
+        "startLine": 25,
+        "startChar": 50,
+        "endLine": 25,
+        "endChar": 65
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f713981f_b82f309b",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-15T23:59:11Z",
+      "side": 1,
+      "message": "this is the first mention of a Google Account. The previous sentence talked about email addresses. You didn\u0027t connect the dots.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 67
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c94ad375_bf236693",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-15T23:59:11Z",
+      "side": 1,
+      "message": "not a single word",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 24
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bec8275c_26452db9",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-15T23:59:11Z",
+      "side": 1,
+      "message": "delete \"locally prior to proceeding\". Adds nothing.",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 65
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9371feb_44a9b5cf",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-15T23:59:11Z",
+      "side": 1,
+      "message": "Log in is the verb; login is a noun",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 18
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8e146f6_036a1448",
         "filename": "doc/contribute.html",
         "patchSetId": 4
