@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3b0bd922_de55b4dc",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8786cfa7_7a37490e",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "232342fb_ecb925c7",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-09T21:17:34Z",
       "side": 1,
       "message": "There\u0027s no point in making this nosplit if it\u0027s also systemstack, since the system stack can\u0027t grow anyway. (Actually, I\u0027m not sure what happens when you combine these... go:systemstack is implemented by tweaking the split stack prologue, but nosplit removes the prologue...)\n\nPlease add to the comment why this has to run on the system stack.",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90b74345_ed2ffa1a",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "232342fb_ecb925c7",
       "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "45b2f73e_7bda15b7",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55fc1d84_bcb43159",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9158c588_973cf3f8",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2017-02-09T21:17:34Z",
       "side": 1,
       "message": "I\u0027m surprised the inStack/inBss/inData tests aren\u0027t here, since those can only be satisfied if !inheap(obj) is true. (I know you experimented with this a lot, so maybe the way you have it turned out to be optimal?)",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72e94991_7a9b2949",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "In a later CL these tests are combined as you suggest.",
+      "parentUuid": "9158c588_973cf3f8",
       "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "d6405047_dc2b67cf",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Returning false here is fine. obj (aka ptr) is not inBss, inData, or on the stack. obj can be nil or live in a place that the GC doesn\u0027t know about such as a span with state !\u003d mSpanInuse. This explicit test will be eliminated when this is optimized in a later CL.",
+      "parentUuid": "680a30cf_6fddf88f",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d35134bf_12bfb375",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2017-02-09T21:17:34Z",
       "side": 1,
       "message": "isPublic is required to run on the system stack (apparently), so it couldn\u0027t increase the stack size if it wanted to. A throw here should be fine.",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bee366f_bc94f93b",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "I vaguely remember that throws hinder inlining but with Dave\u0027s inline this isn\u0027t a problem going forward so I am reverting to the throw.",
+      "parentUuid": "d35134bf_12bfb375",
       "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "9ad740d6_877b5807",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bddc9e91_276de62b",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25830d7b_307acaf8",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2017-02-09T21:17:34Z",
       "side": 1,
       "message": "Why change this? The addb is much more readable and will get inlined to this.",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "523d56ca_882de99e",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Apparently addb does not interfere with inlining so I\u0027 reverting.",
+      "parentUuid": "25830d7b_307acaf8",
       "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "4d6c3766_b344d25e",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Apparently addb does not interfere with inlining so I\u0027 reverting.",
+      "parentUuid": "793983cc_29a1f72f",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93b67155_71316002",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2017-02-09T21:17:34Z",
       "side": 1,
       "message": "Following Go documentation convention, perhaps:\n\n// startindex is the object index where the owner G started allocating in this span.\n//\n// This is used in conjunction with nextUsedSpan to implement ROC checkpoints and recycles.\nspanindex uintptr\n\n// nextUsedSpan links together all spans that have the same span class and owner G.\nnextUsedSpan *mspan",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39fe7b0b_fa7a9559",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "93b67155_71316002",
       "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "2a71eac9_06c2ae90",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bd322b3_483a939d",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f29ec160_f96128a8",
         "filename": "src/runtime/stack.go",
         "patchSetId": 2
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "46f2d331_b3c8409a",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1231,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "It is not desired. That said the routine is being deprecated in favor of the more explicit inStack which is explicit about what stack is being checked. isPublic is being modified to explicitly check getg().m.curg.stack as well as getg().stack.",
+      "parentUuid": "f29ec160_f96128a8",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99cde2c1_51f67aad",
         "filename": "src/runtime/stack.go",
         "patchSetId": 2
@@ -217,6 +433,24 @@
       "writtenOn": "2017-02-09T21:17:34Z",
       "side": 1,
       "message": "Convention: s.lo \u003c\u003d p \u0026\u0026 p \u003c hi (too bad Go doesn\u0027t have s.lo \u003c\u003d p \u003c hi, but this is close)",
+      "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6dc56a8_8f9c4ca4",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1236,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99cde2c1_51f67aad",
       "revId": "f8676ac0657fe0a09144151115dbe54c940d387a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
