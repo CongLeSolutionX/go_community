@@ -136,6 +136,7 @@ func init() {
 		{name: "RSB", argLength: 2, reg: gp21, asm: "RSB"},                        // arg1 - arg0
 		{name: "RSBconst", argLength: 1, reg: gp11, asm: "RSB", aux: "Int32"},     // auxInt - arg0
 		{name: "MUL", argLength: 2, reg: gp21, asm: "MUL", commutative: true},     // arg0 * arg1
+		{name: "MULBB", argLength: 2, reg: gp21, asm: "MULBB", commutative: true}, // 16-bit * 16-bit
 		{name: "HMUL", argLength: 2, reg: gp21, asm: "MULL", commutative: true},   // (arg0 * arg1) >> 32, signed
 		{name: "HMULU", argLength: 2, reg: gp21, asm: "MULLU", commutative: true}, // (arg0 * arg1) >> 32, unsigned
 
@@ -171,6 +172,7 @@ func init() {
 
 		{name: "MULLU", argLength: 2, reg: gp22, asm: "MULLU", commutative: true}, // arg0 * arg1, high 32 bits in out0, low 32 bits in out1
 		{name: "MULA", argLength: 3, reg: gp31, asm: "MULA"},                      // arg0 * arg1 + arg2
+		{name: "MULABB", argLength: 3, reg: gp31, asm: "MULABB"},                  // (16-bit arg0) * (16-bit arg1) + (32-bit arg2)
 
 		{name: "ADDF", argLength: 2, reg: fp21, asm: "ADDF", commutative: true}, // arg0 + arg1
 		{name: "ADDD", argLength: 2, reg: fp21, asm: "ADDD", commutative: true}, // arg0 + arg1
