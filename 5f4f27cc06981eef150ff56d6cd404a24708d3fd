@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "de9bde66_587974d6",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "303774bc_cc94be7a",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb4b8db5_9ea43c7b",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "// obj must point to the heap, but may be an interior pointer.\n\nAlso, consider naming it ptr since it may not point to the beginning of an object.",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d3ee93f_a43d3302",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb4b8db5_9ea43c7b",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "2dfcceeb_5f83d57f",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6b1634f_b43b7092",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dde9f178_752bac5a",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "Same comment about how it doesn\u0027t make sense to combine nosplit and systemstack.",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46947cf3_f8e2b7a9",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dde9f178_752bac5a",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "f48ed3e3_056a7ad2",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "removed the entire conditional since if we end up here we need whatever information we can get.",
+      "parentUuid": "91af5fc5_34d1e03d",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "475c6f1d_4d79a25d",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "Remove blank line",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "248e33e4_2efe6d29",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "475c6f1d_4d79a25d",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "28bcdf6d_26686b63",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0aeee795_88cef939",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d57905d_613a47aa",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -132,6 +258,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "Definitely remove. :)",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff4c0a4b_6705378c",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d57905d_613a47aa",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "cdaa3632_b1abb2b5",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9fb56e2_19e7f534",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ff059ee_ae8f5f7d",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -166,6 +328,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "Don\u0027t combine nosplit and systemstack.",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdd4c85d_e8b6ef3c",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ff059ee_ae8f5f7d",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -189,6 +369,24 @@
     },
     {
       "key": {
+        "uuid": "242a5eb6_1670054e",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f189281_888deee8",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "03eb3864_4ac49298",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -200,6 +398,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "Since these may be interior pointers, consider using \"ptr\" instead.",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eedc4fe8_b2aa6719",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03eb3864_4ac49298",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -229,6 +445,30 @@
     },
     {
       "key": {
+        "uuid": "e5b70f33_b94286ec",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c63db698_adcc5d74",
+      "range": {
+        "startLine": 666,
+        "startChar": 15,
+        "endLine": 666,
+        "endChar": 19
+      },
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe85b7c5_70c309ea",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -246,6 +486,24 @@
     },
     {
       "key": {
+        "uuid": "ac1cfb61_408b1e99",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Nice, \nDone",
+      "parentUuid": "fe85b7c5_70c309ea",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1794a22b_4c4303d8",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -257,6 +515,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "This is a fairly expensive way to test if b contains pointers. Instead:\n\nspan :\u003d spanOf(b)  // (you already have this above)\nif span.spanclass.noscan() {\n    continue\n}",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cd69f4e_75c855b1",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Cleaned up as you requested.",
+      "parentUuid": "1794a22b_4c4303d8",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -286,6 +562,30 @@
     },
     {
       "key": {
+        "uuid": "90f909f8_11a4b23c",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "I removed this routine and will use bulkBarrierPreWrite.",
+      "parentUuid": "5c16f58f_8a30c0db",
+      "range": {
+        "startLine": 746,
+        "startChar": 21,
+        "endLine": 746,
+        "endChar": 27
+      },
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3969a04b_e39f5127",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -297,6 +597,30 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "bitmap",
+      "range": {
+        "startLine": 749,
+        "startChar": 8,
+        "endLine": 749,
+        "endChar": 15
+      },
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee95e704_b8e7dca2",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "I removed this routine and will use bulkBarrierPreWrite. This comment is not in bulkBarrierPreWrite.",
+      "parentUuid": "3969a04b_e39f5127",
       "range": {
         "startLine": 749,
         "startChar": 8,
@@ -344,6 +668,42 @@
     },
     {
       "key": {
+        "uuid": "408834f4_2efaee61",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "I removed this routine so this is no longer an issue.",
+      "parentUuid": "3813ccf0_7bf6bf6c",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d1b117a_5b6b8526",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 756,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Agreed. I removed this routine and will use bulkBarrierPreWrite.",
+      "parentUuid": "76429ea4_efd78d9e",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c73c248_ac09be94",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -355,6 +715,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "It seems like writeBarrier.needed should just always be set if debug.gcroc \u003e 0, so this check could just be if !writeBarrier.needed { ... }",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2ac3dcb_7aeab373",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 762,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "I removed this routine and will use bulkBarrierPreWrite.",
+      "parentUuid": "4c73c248_ac09be94",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -378,6 +756,24 @@
     },
     {
       "key": {
+        "uuid": "43987241_e0519b17",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "writeBarrier.needed is used by the master GC to toggle whether we are in a GC or not. debug.gcroc indicates whether we need a roc GC in addition to the normal GC. I believe that this change should actually be its own CL so I\u0027m not changing this now.",
+      "parentUuid": "352e52db_9f8142a7",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "704fc12c_c78ba5cb",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -389,6 +785,30 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "ensure",
+      "range": {
+        "startLine": 1010,
+        "startChar": 28,
+        "endLine": 1010,
+        "endChar": 34
+      },
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95a04e14_6f82d4ca",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "704fc12c_c78ba5cb",
       "range": {
         "startLine": 1010,
         "startChar": 28,
@@ -424,6 +844,30 @@
     },
     {
       "key": {
+        "uuid": "c6d3d13d_05db39f0",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1021,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "That is correct. It is when writes to stacks of other goroutines are done that we need to publish.",
+      "parentUuid": "8bebbfc7_3015d165",
+      "range": {
+        "startLine": 1020,
+        "startChar": 31,
+        "endLine": 1021,
+        "endChar": 25
+      },
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4161e67_a2987804",
         "filename": "src/runtime/mbitmap.go",
         "patchSetId": 2
@@ -435,6 +879,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "Can\u0027t use both nosplit and systemstack.",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "827c4dbe_f324b26f",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1032,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4161e67_a2987804",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -458,6 +920,24 @@
     },
     {
       "key": {
+        "uuid": "b9d378c0_ea7a3954",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c65a9af6_87ee0f50",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10c8c973_0a50f8bd",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 2
@@ -475,6 +955,24 @@
     },
     {
       "key": {
+        "uuid": "8a7a3d3a_8962735c",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c8c973_0a50f8bd",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2718838c_b63b73d8",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 2
@@ -486,6 +984,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "I\u0027m not sure what the point of this comment is. It seems redundant with the documentation on push and pop themselves.\n\nIf you want to keep this, it should go with the comment on publishWork so go doc can find it.",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcdcb682_c5add546",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Moved above to the publishWork documentation.",
+      "parentUuid": "2718838c_b63b73d8",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -515,6 +1031,30 @@
     },
     {
       "key": {
+        "uuid": "08824093_4f3ccea5",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Actual it is traced and the references are published.",
+      "parentUuid": "45d6a0bc_9f4eab48",
+      "range": {
+        "startLine": 466,
+        "startChar": 53,
+        "endLine": 466,
+        "endChar": 61
+      },
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2846c928_f423d39e",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 2
@@ -526,6 +1066,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "This noescape stuff isn\u0027t necessary any more, so you can just name the receiver w and use it.",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "632b8230_58b03336",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Nice.",
+      "parentUuid": "2846c928_f423d39e",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -549,6 +1107,24 @@
     },
     {
       "key": {
+        "uuid": "f6a58e8d_2f495387",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37de4a20_35544f6d",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfc0b0f0_3892c262",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 2
@@ -566,6 +1142,24 @@
     },
     {
       "key": {
+        "uuid": "cc62bcf8_4bbf2901",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "\u003e No need to init since you\u0027re just going to return 0.",
+      "parentUuid": "cfc0b0f0_3892c262",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2976d6eb_5217a543",
         "filename": "src/runtime/mgcwork.go",
         "patchSetId": 2
@@ -577,6 +1171,24 @@
       "writtenOn": "2017-02-09T22:07:01Z",
       "side": 1,
       "message": "I was worried that there was a race here where fullbufs could go empty, but then I realized that you\u0027re never actually accessing fullbufs concurrently.",
+      "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5e5f988_08c63d04",
+        "filename": "src/runtime/mgcwork.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-02-15T20:57:29Z",
+      "side": 1,
+      "message": "Correct.",
+      "parentUuid": "2976d6eb_5217a543",
       "revId": "5f4f27cc06981eef150ff56d6cd404a24708d3fd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
