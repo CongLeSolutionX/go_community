@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "201c7858_2bb24403",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-15T15:14:30Z",
+      "side": 1,
+      "message": "This line should be something like\n\ncmd/compile: simplify 16-bit multiplicationk on ARM",
+      "revId": "635ed38507996e38423439fca6b23556a43ffdf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
