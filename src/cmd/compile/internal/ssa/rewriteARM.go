@@ -276,6 +276,10 @@ func rewriteValueARM(v *Value, config *Config) bool {
 		return rewriteValueARM_OpARMSLL(v, config)
 	case OpARMSLLconst:
 		return rewriteValueARM_OpARMSLLconst(v, config)
+	case OpARMSMULABB:
+		return rewriteValueARM_OpARMSMULABB(v, config)
+	case OpARMSMULBB:
+		return rewriteValueARM_OpARMSMULBB(v, config)
 	case OpARMSRA:
 		return rewriteValueARM_OpARMSRA(v, config)
 	case OpARMSRAcond:
@@ -1604,6 +1608,40 @@ func rewriteValueARM_OpARMADD(v *Value, config *Config) bool {
 		x := v_1.Args[0]
 		y := v_1.Args[1]
 		v.reset(OpARMMULA)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(a)
+		return true
+	}
+	// match: (ADD (SMULBB x y) a)
+	// cond:
+	// result: (SMULABB x y a)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMSMULBB {
+			break
+		}
+		x := v_0.Args[0]
+		y := v_0.Args[1]
+		a := v.Args[1]
+		v.reset(OpARMSMULABB)
+		v.AddArg(x)
+		v.AddArg(y)
+		v.AddArg(a)
+		return true
+	}
+	// match: (ADD a (SMULBB x y))
+	// cond:
+	// result: (SMULABB x y a)
+	for {
+		a := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMSMULBB {
+			break
+		}
+		x := v_1.Args[0]
+		y := v_1.Args[1]
+		v.reset(OpARMSMULABB)
 		v.AddArg(x)
 		v.AddArg(y)
 		v.AddArg(a)
@@ -10826,6 +10864,856 @@ func rewriteValueARM_OpARMSLLconst(v *Value, config *Config) bool {
 	}
 	return false
 }
+func rewriteValueARM_OpARMSMULABB(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (SMULABB x (MOVWconst [c]) a)
+	// cond: int16(c) == -1
+	// result: (SUB a x)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		a := v.Args[2]
+		if !(int16(c) == -1) {
+			break
+		}
+		v.reset(OpARMSUB)
+		v.AddArg(a)
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULABB _ (MOVWconst [0]) a)
+	// cond:
+	// result: a
+	for {
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		if v_1.AuxInt != 0 {
+			break
+		}
+		a := v.Args[2]
+		v.reset(OpCopy)
+		v.Type = a.Type
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB x (MOVWconst [1]) a)
+	// cond:
+	// result: (ADD x a)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		if v_1.AuxInt != 1 {
+			break
+		}
+		a := v.Args[2]
+		v.reset(OpARMADD)
+		v.AddArg(x)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB x (MOVWconst [c]) a)
+	// cond: isPowerOfTwo(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c)] x) a)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		a := v.Args[2]
+		if !(isPowerOfTwo(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB x (MOVWconst [c]) a)
+	// cond: isPowerOfTwo(c-1) && int16(c) >= 3
+	// result: (ADD (ADDshiftLL <x.Type> x x [log2(c-1)]) a)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		a := v.Args[2]
+		if !(isPowerOfTwo(c-1) && int16(c) >= 3) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v0.AuxInt = log2(c - 1)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB x (MOVWconst [c]) a)
+	// cond: isPowerOfTwo(c+1) && int16(c) >= 7
+	// result: (ADD (RSBshiftLL <x.Type> x x [log2(c+1)]) a)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		a := v.Args[2]
+		if !(isPowerOfTwo(c+1) && int16(c) >= 7) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
+		v0.AuxInt = log2(c + 1)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB x (MOVWconst [c]) a)
+	// cond: c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c/3)] (ADDshiftLL <x.Type> x x [1])) a)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		a := v.Args[2]
+		if !(c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c / 3)
+		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v1.AuxInt = 1
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB x (MOVWconst [c]) a)
+	// cond: c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c/5)] (ADDshiftLL <x.Type> x x [2])) a)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		a := v.Args[2]
+		if !(c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c / 5)
+		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v1.AuxInt = 2
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB x (MOVWconst [c]) a)
+	// cond: c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c/7)] (RSBshiftLL <x.Type> x x [3])) a)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		a := v.Args[2]
+		if !(c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c / 7)
+		v1 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
+		v1.AuxInt = 3
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB x (MOVWconst [c]) a)
+	// cond: c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c/9)] (ADDshiftLL <x.Type> x x [3])) a)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		a := v.Args[2]
+		if !(c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c / 9)
+		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v1.AuxInt = 3
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [c]) x a)
+	// cond: int16(c) == -1
+	// result: (SUB a x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		a := v.Args[2]
+		if !(int16(c) == -1) {
+			break
+		}
+		v.reset(OpARMSUB)
+		v.AddArg(a)
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [0]) _ a)
+	// cond:
+	// result: a
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		if v_0.AuxInt != 0 {
+			break
+		}
+		a := v.Args[2]
+		v.reset(OpCopy)
+		v.Type = a.Type
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [1]) x a)
+	// cond:
+	// result: (ADD x a)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		if v_0.AuxInt != 1 {
+			break
+		}
+		x := v.Args[1]
+		a := v.Args[2]
+		v.reset(OpARMADD)
+		v.AddArg(x)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [c]) x a)
+	// cond: isPowerOfTwo(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c)] x) a)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		a := v.Args[2]
+		if !(isPowerOfTwo(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [c]) x a)
+	// cond: isPowerOfTwo(c-1) && int16(c) >= 3
+	// result: (ADD (ADDshiftLL <x.Type> x x [log2(c-1)]) a)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		a := v.Args[2]
+		if !(isPowerOfTwo(c-1) && int16(c) >= 3) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v0.AuxInt = log2(c - 1)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [c]) x a)
+	// cond: isPowerOfTwo(c+1) && int16(c) >= 7
+	// result: (ADD (RSBshiftLL <x.Type> x x [log2(c+1)]) a)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		a := v.Args[2]
+		if !(isPowerOfTwo(c+1) && int16(c) >= 7) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
+		v0.AuxInt = log2(c + 1)
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [c]) x a)
+	// cond: c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c/3)] (ADDshiftLL <x.Type> x x [1])) a)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		a := v.Args[2]
+		if !(c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c / 3)
+		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v1.AuxInt = 1
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [c]) x a)
+	// cond: c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c/5)] (ADDshiftLL <x.Type> x x [2])) a)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		a := v.Args[2]
+		if !(c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c / 5)
+		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v1.AuxInt = 2
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [c]) x a)
+	// cond: c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c/7)] (RSBshiftLL <x.Type> x x [3])) a)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		a := v.Args[2]
+		if !(c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c / 7)
+		v1 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
+		v1.AuxInt = 3
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	// match: (SMULABB (MOVWconst [c]) x a)
+	// cond: c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c)
+	// result: (ADD (SLLconst <x.Type> [log2(c/9)] (ADDshiftLL <x.Type> x x [3])) a)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		a := v.Args[2]
+		if !(c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMADD)
+		v0 := b.NewValue0(v.Pos, OpARMSLLconst, x.Type)
+		v0.AuxInt = log2(c / 9)
+		v1 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v1.AuxInt = 3
+		v1.AddArg(x)
+		v1.AddArg(x)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		v.AddArg(a)
+		return true
+	}
+	return false
+}
+func rewriteValueARM_OpARMSMULBB(v *Value, config *Config) bool {
+	b := v.Block
+	_ = b
+	// match: (SMULBB x (MOVWconst [c]))
+	// cond: int16(c) == -1
+	// result: (RSBconst [0] x)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(int16(c) == -1) {
+			break
+		}
+		v.reset(OpARMRSBconst)
+		v.AuxInt = 0
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB _ (MOVWconst [0]))
+	// cond:
+	// result: (MOVWconst [0])
+	for {
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		if v_1.AuxInt != 0 {
+			break
+		}
+		v.reset(OpARMMOVWconst)
+		v.AuxInt = 0
+		return true
+	}
+	// match: (SMULBB x (MOVWconst [1]))
+	// cond:
+	// result: x
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		if v_1.AuxInt != 1 {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB x (MOVWconst [c]))
+	// cond: isPowerOfTwo(c)
+	// result: (SLLconst [log2(c)] x)
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(isPowerOfTwo(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c)
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB x (MOVWconst [c]))
+	// cond: isPowerOfTwo(c-1) && int16(c) >= 3
+	// result: (ADDshiftLL x x [log2(c-1)])
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(isPowerOfTwo(c-1) && int16(c) >= 3) {
+			break
+		}
+		v.reset(OpARMADDshiftLL)
+		v.AuxInt = log2(c - 1)
+		v.AddArg(x)
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB x (MOVWconst [c]))
+	// cond: isPowerOfTwo(c+1) && int16(c) >= 7
+	// result: (RSBshiftLL x x [log2(c+1)])
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(isPowerOfTwo(c+1) && int16(c) >= 7) {
+			break
+		}
+		v.reset(OpARMRSBshiftLL)
+		v.AuxInt = log2(c + 1)
+		v.AddArg(x)
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB x (MOVWconst [c]))
+	// cond: c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c)
+	// result: (SLLconst [log2(c/3)] (ADDshiftLL <x.Type> x x [1]))
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c / 3)
+		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v0.AuxInt = 1
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SMULBB x (MOVWconst [c]))
+	// cond: c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c)
+	// result: (SLLconst [log2(c/5)] (ADDshiftLL <x.Type> x x [2]))
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c / 5)
+		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v0.AuxInt = 2
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SMULBB x (MOVWconst [c]))
+	// cond: c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c)
+	// result: (SLLconst [log2(c/7)] (RSBshiftLL <x.Type> x x [3]))
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c / 7)
+		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
+		v0.AuxInt = 3
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SMULBB x (MOVWconst [c]))
+	// cond: c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c)
+	// result: (SLLconst [log2(c/9)] (ADDshiftLL <x.Type> x x [3]))
+	for {
+		x := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_1.AuxInt
+		if !(c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c / 9)
+		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v0.AuxInt = 3
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SMULBB (MOVWconst [c]) x)
+	// cond: int16(c) == -1
+	// result: (RSBconst [0] x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		if !(int16(c) == -1) {
+			break
+		}
+		v.reset(OpARMRSBconst)
+		v.AuxInt = 0
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB (MOVWconst [0]) _)
+	// cond:
+	// result: (MOVWconst [0])
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		if v_0.AuxInt != 0 {
+			break
+		}
+		v.reset(OpARMMOVWconst)
+		v.AuxInt = 0
+		return true
+	}
+	// match: (SMULBB (MOVWconst [1]) x)
+	// cond:
+	// result: x
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		if v_0.AuxInt != 1 {
+			break
+		}
+		x := v.Args[1]
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB (MOVWconst [c]) x)
+	// cond: isPowerOfTwo(c)
+	// result: (SLLconst [log2(c)] x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		if !(isPowerOfTwo(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c)
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB (MOVWconst [c]) x)
+	// cond: isPowerOfTwo(c-1) && int16(c) >= 3
+	// result: (ADDshiftLL x x [log2(c-1)])
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		if !(isPowerOfTwo(c-1) && int16(c) >= 3) {
+			break
+		}
+		v.reset(OpARMADDshiftLL)
+		v.AuxInt = log2(c - 1)
+		v.AddArg(x)
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB (MOVWconst [c]) x)
+	// cond: isPowerOfTwo(c+1) && int16(c) >= 7
+	// result: (RSBshiftLL x x [log2(c+1)])
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		if !(isPowerOfTwo(c+1) && int16(c) >= 7) {
+			break
+		}
+		v.reset(OpARMRSBshiftLL)
+		v.AuxInt = log2(c + 1)
+		v.AddArg(x)
+		v.AddArg(x)
+		return true
+	}
+	// match: (SMULBB (MOVWconst [c]) x)
+	// cond: c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c)
+	// result: (SLLconst [log2(c/3)] (ADDshiftLL <x.Type> x x [1]))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		if !(c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c / 3)
+		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v0.AuxInt = 1
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SMULBB (MOVWconst [c]) x)
+	// cond: c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c)
+	// result: (SLLconst [log2(c/5)] (ADDshiftLL <x.Type> x x [2]))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		if !(c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c / 5)
+		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v0.AuxInt = 2
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SMULBB (MOVWconst [c]) x)
+	// cond: c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c)
+	// result: (SLLconst [log2(c/7)] (RSBshiftLL <x.Type> x x [3]))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		if !(c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c / 7)
+		v0 := b.NewValue0(v.Pos, OpARMRSBshiftLL, x.Type)
+		v0.AuxInt = 3
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	// match: (SMULBB (MOVWconst [c]) x)
+	// cond: c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c)
+	// result: (SLLconst [log2(c/9)] (ADDshiftLL <x.Type> x x [3]))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0.AuxInt
+		x := v.Args[1]
+		if !(c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c)) {
+			break
+		}
+		v.reset(OpARMSLLconst)
+		v.AuxInt = log2(c / 9)
+		v0 := b.NewValue0(v.Pos, OpARMADDshiftLL, x.Type)
+		v0.AuxInt = 3
+		v0.AddArg(x)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		return true
+	}
+	return false
+}
 func rewriteValueARM_OpARMSRA(v *Value, config *Config) bool {
 	b := v.Block
 	_ = b
@@ -15352,11 +16240,11 @@ func rewriteValueARM_OpMul16(v *Value, config *Config) bool {
 	_ = b
 	// match: (Mul16 x y)
 	// cond:
-	// result: (MUL x y)
+	// result: (SMULBB x y)
 	for {
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARMMUL)
+		v.reset(OpARMSMULBB)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
@@ -15427,11 +16315,11 @@ func rewriteValueARM_OpMul8(v *Value, config *Config) bool {
 	_ = b
 	// match: (Mul8 x y)
 	// cond:
-	// result: (MUL x y)
+	// result: (SMULBB x y)
 	for {
 		x := v.Args[0]
 		y := v.Args[1]
-		v.reset(OpARMMUL)
+		v.reset(OpARMSMULBB)
 		v.AddArg(x)
 		v.AddArg(y)
 		return true
