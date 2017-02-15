@@ -22,6 +22,30 @@
       "revId": "7eadc95f0b0509b792dc784ccd08625eb7015610",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3cee9405_41f7ba16",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-15T06:42:12Z",
+      "side": 1,
+      "message": "s.line and s.col are set at the start of a token. Comments are treated like tokens in that respect. See line 67.",
+      "parentUuid": "88858a26_318f0694",
+      "range": {
+        "startLine": 566,
+        "startChar": 4,
+        "endLine": 566,
+        "endChar": 14
+      },
+      "revId": "7eadc95f0b0509b792dc784ccd08625eb7015610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
