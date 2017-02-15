@@ -16,6 +16,24 @@
       "revId": "d14772336876c39449fb25d8babbf475e1dbffba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48dd1ff8_dd5dc09d",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-15T23:51:55Z",
+      "side": 1,
+      "message": "I don\u0027t believe it can. Only the acquiretime for still-pending sudogs can be adjusted, and s has been dequeued.",
+      "parentUuid": "ae0e2542_c95e2bc5",
+      "revId": "d14772336876c39449fb25d8babbf475e1dbffba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
