@@ -660,6 +660,7 @@ const (
 	OpARMRSB
 	OpARMRSBconst
 	OpARMMUL
+	OpARMMULBB
 	OpARMHMUL
 	OpARMHMULU
 	OpARMCALLudiv
@@ -675,6 +676,7 @@ const (
 	OpARMRSCconst
 	OpARMMULLU
 	OpARMMULA
+	OpARMMULABB
 	OpARMADDF
 	OpARMADDD
 	OpARMSUBF
@@ -7922,6 +7924,21 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:        "MULBB",
+		argLen:      2,
+		commutative: true,
+		asm:         arm.AMULBB,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 22527}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 g R12 R14
+				{1, 22527}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 g R12 R14
+			},
+			outputs: []outputInfo{
+				{0, 21503}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12 R14
+			},
+		},
+	},
+	{
 		name:        "HMUL",
 		argLen:      2,
 		commutative: true,
@@ -8136,6 +8153,21 @@ var opcodeTable = [...]opInfo{
 		name:   "MULA",
 		argLen: 3,
 		asm:    arm.AMULA,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 21503}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12 R14
+				{1, 21503}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12 R14
+				{2, 21503}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12 R14
+			},
+			outputs: []outputInfo{
+				{0, 21503}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12 R14
+			},
+		},
+	},
+	{
+		name:   "MULABB",
+		argLen: 3,
+		asm:    arm.AMULABB,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 21503}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12 R14

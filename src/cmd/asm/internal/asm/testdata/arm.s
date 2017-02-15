@@ -945,6 +945,12 @@ jmp_label_3:
 	SLL	R5, R7               // 1775a0e1
 	SLL.S	R5, R7               // 1775b0e1
 
+// MULBB r1, r2, r3: (r1 & 0xffff) * (r2 & 0xffff) -> r3
+	MULBB	R1, R2, R3           // 82f163e1
+
+// MULABB r1, r2, r3, r4: (r1 & 0xffff) * (r2 & 0xffff) + r3 -> r4
+	MULABB	R1, R2, R3, R4       // 823104e1
+
 //
 // END
 //

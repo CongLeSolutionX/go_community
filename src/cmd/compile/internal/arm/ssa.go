@@ -177,6 +177,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARMXOR,
 		ssa.OpARMBIC,
 		ssa.OpARMMUL,
+		ssa.OpARMMULBB,
 		ssa.OpARMADDF,
 		ssa.OpARMADDD,
 		ssa.OpARMSUBF,
@@ -194,6 +195,7 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.Reg = r1
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
+
 	case ssa.OpARMADDS,
 		ssa.OpARMSUBS:
 		r := v.Reg0()
@@ -409,6 +411,14 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REGREG2
 		p.To.Reg = v.Reg()                   // result
 		p.To.Offset = int64(v.Args[2].Reg()) // addend
+	case ssa.OpARMMULABB:
+		p := s.Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = v.Args[0].Reg()
+		p.Reg = v.Args[1].Reg()
+		p.To.Type = obj.TYPE_REGREG2
+		p.To.Reg = v.Args[2].Reg()   // addend
+		p.To.Offset = int64(v.Reg()) // result
 	case ssa.OpARMMOVWconst:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_CONST

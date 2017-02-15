@@ -23,8 +23,8 @@
 (Sub32withcarry x y c) -> (SBC x y c)
 
 (Mul32 x y) -> (MUL x y)
-(Mul16 x y) -> (MUL x y)
-(Mul8 x y) -> (MUL x y)
+(Mul16 x y) -> (MULBB x y)
+(Mul8 x y) -> (MULBB x y)
 (Mul32F x y) -> (MULF x y)
 (Mul64F x y) -> (MULD x y)
 
@@ -573,6 +573,28 @@
 (MUL (MOVWconst [c]) x) && c%7 == 0 && isPowerOfTwo(c/7) && is32Bit(c) -> (SLLconst [log2(c/7)] (RSBshiftLL <x.Type> x x [3]))
 (MUL (MOVWconst [c]) x) && c%9 == 0 && isPowerOfTwo(c/9) && is32Bit(c) -> (SLLconst [log2(c/9)] (ADDshiftLL <x.Type> x x [3]))
 
+(MULBB x (MOVWconst [c])) && int16(c) == -1 -> (RSBconst [0] x)
+(MULBB _ (MOVWconst [0])) -> (MOVWconst [0])
+(MULBB x (MOVWconst [1])) -> x
+(MULBB x (MOVWconst [c])) && isPowerOfTwo(c) -> (SLLconst [log2(c)] x)
+(MULBB x (MOVWconst [c])) && isPowerOfTwo(c-1) && int16(c) >= 3 -> (ADDshiftLL x x [log2(c-1)])
+(MULBB x (MOVWconst [c])) && isPowerOfTwo(c+1) && int16(c) >= 7 -> (RSBshiftLL x x [log2(c+1)])
+(MULBB x (MOVWconst [c])) && c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c) -> (SLLconst [log2(c/3)] (ADDshiftLL <x.Type> x x [1]))
+(MULBB x (MOVWconst [c])) && c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c) -> (SLLconst [log2(c/5)] (ADDshiftLL <x.Type> x x [2]))
+(MULBB x (MOVWconst [c])) && c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c) -> (SLLconst [log2(c/7)] (RSBshiftLL <x.Type> x x [3]))
+(MULBB x (MOVWconst [c])) && c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c) -> (SLLconst [log2(c/9)] (ADDshiftLL <x.Type> x x [3]))
+
+(MULBB (MOVWconst [c]) x) && int16(c) == -1 -> (RSBconst [0] x)
+(MULBB (MOVWconst [0]) _) -> (MOVWconst [0])
+(MULBB (MOVWconst [1]) x) -> x
+(MULBB (MOVWconst [c]) x) && isPowerOfTwo(c) -> (SLLconst [log2(c)] x)
+(MULBB (MOVWconst [c]) x) && isPowerOfTwo(c-1) && int16(c) >= 3 -> (ADDshiftLL x x [log2(c-1)])
+(MULBB (MOVWconst [c]) x) && isPowerOfTwo(c+1) && int16(c) >= 7 -> (RSBshiftLL x x [log2(c+1)])
+(MULBB (MOVWconst [c]) x) && c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c) -> (SLLconst [log2(c/3)] (ADDshiftLL <x.Type> x x [1]))
+(MULBB (MOVWconst [c]) x) && c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c) -> (SLLconst [log2(c/5)] (ADDshiftLL <x.Type> x x [2]))
+(MULBB (MOVWconst [c]) x) && c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c) -> (SLLconst [log2(c/7)] (RSBshiftLL <x.Type> x x [3]))
+(MULBB (MOVWconst [c]) x) && c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c) -> (SLLconst [log2(c/9)] (ADDshiftLL <x.Type> x x [3]))
+
 (MULA x (MOVWconst [c]) a) && int32(c) == -1 -> (SUB a x)
 (MULA _ (MOVWconst [0]) a) -> a
 (MULA x (MOVWconst [1]) a) -> (ADD x a)
@@ -594,6 +616,28 @@
 (MULA (MOVWconst [c]) x a) && c%5 == 0 && isPowerOfTwo(c/5) && is32Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/5)] (ADDshiftLL <x.Type> x x [2])) a)
 (MULA (MOVWconst [c]) x a) && c%7 == 0 && isPowerOfTwo(c/7) && is32Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/7)] (RSBshiftLL <x.Type> x x [3])) a)
 (MULA (MOVWconst [c]) x a) && c%9 == 0 && isPowerOfTwo(c/9) && is32Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/9)] (ADDshiftLL <x.Type> x x [3])) a)
+
+(MULABB x (MOVWconst [c]) a) && int16(c) == -1 -> (SUB a x)
+(MULABB _ (MOVWconst [0]) a) -> a
+(MULABB x (MOVWconst [1]) a) -> (ADD x a)
+(MULABB x (MOVWconst [c]) a) && isPowerOfTwo(c) -> (ADD (SLLconst <x.Type> [log2(c)] x) a)
+(MULABB x (MOVWconst [c]) a) && isPowerOfTwo(c-1) && int16(c) >= 3 -> (ADD (ADDshiftLL <x.Type> x x [log2(c-1)]) a)
+(MULABB x (MOVWconst [c]) a) && isPowerOfTwo(c+1) && int16(c) >= 7 -> (ADD (RSBshiftLL <x.Type> x x [log2(c+1)]) a)
+(MULABB x (MOVWconst [c]) a) && c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/3)] (ADDshiftLL <x.Type> x x [1])) a)
+(MULABB x (MOVWconst [c]) a) && c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/5)] (ADDshiftLL <x.Type> x x [2])) a)
+(MULABB x (MOVWconst [c]) a) && c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/7)] (RSBshiftLL <x.Type> x x [3])) a)
+(MULABB x (MOVWconst [c]) a) && c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/9)] (ADDshiftLL <x.Type> x x [3])) a)
+
+(MULABB (MOVWconst [c]) x a) && int16(c) == -1 -> (SUB a x)
+(MULABB (MOVWconst [0]) _ a) -> a
+(MULABB (MOVWconst [1]) x a) -> (ADD x a)
+(MULABB (MOVWconst [c]) x a) && isPowerOfTwo(c) -> (ADD (SLLconst <x.Type> [log2(c)] x) a)
+(MULABB (MOVWconst [c]) x a) && isPowerOfTwo(c-1) && int16(c) >= 3 -> (ADD (ADDshiftLL <x.Type> x x [log2(c-1)]) a)
+(MULABB (MOVWconst [c]) x a) && isPowerOfTwo(c+1) && int16(c) >= 7 -> (ADD (RSBshiftLL <x.Type> x x [log2(c+1)]) a)
+(MULABB (MOVWconst [c]) x a) && c%3 == 0 && isPowerOfTwo(c/3) && is16Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/3)] (ADDshiftLL <x.Type> x x [1])) a)
+(MULABB (MOVWconst [c]) x a) && c%5 == 0 && isPowerOfTwo(c/5) && is16Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/5)] (ADDshiftLL <x.Type> x x [2])) a)
+(MULABB (MOVWconst [c]) x a) && c%7 == 0 && isPowerOfTwo(c/7) && is16Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/7)] (RSBshiftLL <x.Type> x x [3])) a)
+(MULABB (MOVWconst [c]) x a) && c%9 == 0 && isPowerOfTwo(c/9) && is16Bit(c) -> (ADD (SLLconst <x.Type> [log2(c/9)] (ADDshiftLL <x.Type> x x [3])) a)
 
 // div by constant
 (Select0 (CALLudiv x (MOVWconst [1]))) -> x
@@ -816,7 +860,9 @@
 (SRLconst [c] (MOVWconst [d])) -> (MOVWconst [int64(uint32(d)>>uint64(c))])
 (SRAconst [c] (MOVWconst [d])) -> (MOVWconst [int64(int32(d)>>uint64(c))])
 (MUL (MOVWconst [c]) (MOVWconst [d])) -> (MOVWconst [int64(int32(c*d))])
+(MULBB (MOVWconst [c]) (MOVWconst [d])) -> (MOVWconst [int64(int32(int32(int16(c&0xffff))*int32(int16(d&0xffff))))])
 (MULA (MOVWconst [c]) (MOVWconst [d]) a) -> (ADDconst [int64(int32(c*d))] a)
+(MULABB (MOVWconst [c]) (MOVWconst [d]) a) -> (ADDconst [int64(int32(int16(c&0xffff))*int32(int16(d&0xffff)))] a)
 (Select0 (CALLudiv (MOVWconst [c]) (MOVWconst [d]))) -> (MOVWconst [int64(uint32(c)/uint32(d))])
 (Select1 (CALLudiv (MOVWconst [c]) (MOVWconst [d]))) -> (MOVWconst [int64(uint32(c)%uint32(d))])
 (ANDconst [c] (MOVWconst [d])) -> (MOVWconst [c&d])
@@ -1218,6 +1264,8 @@
 
 (ADD (MUL x y) a) -> (MULA x y a)
 (ADD a (MUL x y)) -> (MULA x y a)
+(ADD (MULBB x y) a) -> (MULABB x y a)
+(ADD a (MULBB x y)) -> (MULABB x y a)
 
 (AND x (MVN y)) -> (BIC x y)
 (AND (MVN y) x) -> (BIC x y)
