@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4ded4dd_695aa1c9",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-15T22:51:26Z",
+      "side": 1,
+      "message": "Now that there\u0027s only one line, I think it would read better to invert this condition.\nif n.Class \u003d\u003d PPARAM \u0026\u0026 s.canSSA(n) { s.vars[n] \u003d ... }",
+      "revId": "a41e1c474f3d3ea773ac33f59475bc7bb93e29dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
