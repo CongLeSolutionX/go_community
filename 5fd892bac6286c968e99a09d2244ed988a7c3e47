@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a8d04f7_bea16fcd",
+        "filename": "src/os/dir_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-15T05:10:41Z",
+      "side": 1,
+      "message": "This is now handled in f.pfd.ReadDirent, which now does an EAGAIN loop like the other Read methods.",
+      "parentUuid": "b4be4ba0_d823dce1",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1bc57f66_a3873e18",
         "filename": "src/os/exec/exec_test.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-12T15:34:15Z",
       "side": 1,
       "message": "It will be interesting to see what breaks.",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9132cf90_5bc11019",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-15T05:10:41Z",
+      "side": 1,
+      "message": "As the CL has progressed things did indeed break.  I\u0027ve now added a function poll.PollDescriptor that returns the epoll/kqueue file descriptor, and I explicitly skip it as appropriate below.",
+      "parentUuid": "1bc57f66_a3873e18",
       "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "ffeca37d_dedcdd25",
+        "filename": "src/os/file.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-15T05:10:41Z",
+      "side": 1,
+      "message": "I took away the code above.",
+      "parentUuid": "d6b56324_13d5b10d",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f786a3a1_bc7328d2",
         "filename": "src/os/file.go",
         "patchSetId": 5
@@ -67,6 +121,24 @@
       "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af6736c5_9a645097",
+        "filename": "src/os/file.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-15T05:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f786a3a1_bc7328d2",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "29938874_93e64b5f",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-15T05:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "705d4be6_ce81f82c",
+      "range": {
+        "startLine": 128,
+        "startChar": 1,
+        "endLine": 128,
+        "endChar": 35
+      },
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a575ae8e_13590b3d",
         "filename": "src/os/file_unix.go",
         "patchSetId": 5
@@ -107,6 +203,24 @@
       "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "755b9a6a_48bfa490",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-15T05:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a575ae8e_13590b3d",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "b4976a78_3ea88cb8",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-15T05:10:41Z",
+      "side": 1,
+      "message": "I added a comment.\n\nThis only affects the blocking check done in findrunnable when a thread has nothing else to do and there is no other thread doing a blocking wait on the poller.  This does not affect the check done in sysmon.  If a goroutine adds itself to the poller, then its thread will go on to find something else to do.  If there is nothing else to do, the thread will block in the poller.  I guess latency could increase slightly if there are spare threads, a goroutine sees no data and adds itself to the poller, then that thread finds some other goroutine to run (not a likely case since there are spare threads), then data arrives.  In the old case there might have been a thread blocked in the poller, but now we might have to wait for the other goroutine to block or for the sysmon thread to kick in.  If there are no spare threads the behavior is the same as before.  If no goroutine becomes ready at just the right moment, the thread that queued the goroutine in the poller will block waiting for the poller.",
+      "parentUuid": "3dee903e_11bcff36",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78e4e61e_2504ea2e",
         "filename": "src/runtime/proc.go",
         "patchSetId": 5
@@ -188,6 +320,24 @@
       "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2281f035_9f17d966",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2118,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-15T05:10:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78e4e61e_2504ea2e",
+      "revId": "5fd892bac6286c968e99a09d2244ed988a7c3e47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
