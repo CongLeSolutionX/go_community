@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95f1045a_0a71cca7",
+        "filename": "src/os/file_unix.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-02-15T03:10:06Z",
+      "side": 1,
+      "message": "Do the rules for readability apply to method receivers as well. Using runtime.KeepAlive all over the place in this CL feels very close to manual memory management; except we\u0027re defensively programming against the finaliser.\n\nThis isn\u0027t a problem with this CL, but the general pattern of having to spray runtime.KeepAlive all over the place to _prevent_ a finaliser running feels like the tip of a larger iceberg.",
+      "revId": "ffc43207ce5c3373be884734570acc1d81803270",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
