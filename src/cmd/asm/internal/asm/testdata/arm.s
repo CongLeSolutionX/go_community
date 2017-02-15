@@ -281,6 +281,12 @@ TEXT	foo(SB), 7, $0
 	CMPF F1, F2
 	CMPD F1, F2
 
+// SMULBB r1, r2, r3: (r1 & 0xffff) * (r2 & 0xffff) . r3
+	SMULBB	R1, R2, R3	// 82f163e1
+
+// SMULABB r1, r2, r3, r4: (r1 & 0xffff) * (r2 & 0xffff) + r3 . r4
+	SMULABB	R1, R2, R3, R4	// 823104e1
+
 //
 // END
 //
