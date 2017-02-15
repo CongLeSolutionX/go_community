@@ -4,14 +4,9 @@
 
 #include "textflag.h"
 
-TEXT ·Dim(SB),NOSPLIT,$0
-	JMP ·dim(SB)
-
-TEXT ·Max(SB),NOSPLIT,$0
-	JMP ·max(SB)
-
-TEXT ·Min(SB),NOSPLIT,$0
-	JMP ·min(SB)
-
+// func Abs(x float64) float64	
 TEXT ·Abs(SB),NOSPLIT,$0
-	JMP ·abs(SB)
+	MOVD   x+0(FP),F0
+	ABSD  F0,F0
+	MOVD  F0,ret+8(FP)
+	RET

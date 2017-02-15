@@ -46,6 +46,10 @@ isDimNaN:
 	MOVQ    AX, ret+16(FP)
 	RET
 
+// func ·Abs(x, y float64) float64
+TEXT ·Abs(SB),NOSPLIT,$0
+	JMP ·abs(SB)
+
 // func ·Max(x, y float64) float64
 TEXT ·Max(SB),NOSPLIT,$0
 	// +Inf special cases

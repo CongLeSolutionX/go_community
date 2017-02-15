@@ -10,6 +10,9 @@ TEXT ·Asin(SB),NOSPLIT,$0
 TEXT ·Acos(SB),NOSPLIT,$0
 	BR ·acos(SB)
 
+TEXT ·Abs(SB),NOSPLIT,$0
+	BR ·abs(SB)
+
 TEXT ·Atan2(SB),NOSPLIT,$0
 	BR ·atan2(SB)
 

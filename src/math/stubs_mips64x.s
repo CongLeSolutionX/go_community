@@ -9,6 +9,9 @@
 TEXT ·Asin(SB),NOSPLIT,$0
 	JMP ·asin(SB)
 
+TEXT ·Abs(SB),NOSPLIT,$0
+	JMP ·abs(SB)
+
 TEXT ·Acos(SB),NOSPLIT,$0
 	JMP ·acos(SB)
 

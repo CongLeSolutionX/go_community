@@ -4,12 +4,14 @@
 
 package math
 
+func Abs(x float64) float64
+
 // Abs returns the absolute value of x.
 //
 // Special cases are:
 //	Abs(±Inf) = +Inf
 //	Abs(NaN) = NaN
-func Abs(x float64) float64 {
+func abs(x float64) float64 {
 	// TODO: once golang.org/issue/13095 is fixed, change this to:
 	// return Float64frombits(Float64bits(x) &^ (1 << 63))
 	// But for now, this generates better code and can also be inlined:
