@@ -129,15 +129,16 @@ func init() {
 	)
 	ops := []opData{
 		// binary ops
-		{name: "ADD", argLength: 2, reg: gp21, asm: "ADD", commutative: true},     // arg0 + arg1
-		{name: "ADDconst", argLength: 1, reg: gp11sp, asm: "ADD", aux: "Int32"},   // arg0 + auxInt
-		{name: "SUB", argLength: 2, reg: gp21, asm: "SUB"},                        // arg0 - arg1
-		{name: "SUBconst", argLength: 1, reg: gp11, asm: "SUB", aux: "Int32"},     // arg0 - auxInt
-		{name: "RSB", argLength: 2, reg: gp21, asm: "RSB"},                        // arg1 - arg0
-		{name: "RSBconst", argLength: 1, reg: gp11, asm: "RSB", aux: "Int32"},     // auxInt - arg0
-		{name: "MUL", argLength: 2, reg: gp21, asm: "MUL", commutative: true},     // arg0 * arg1
-		{name: "HMUL", argLength: 2, reg: gp21, asm: "MULL", commutative: true},   // (arg0 * arg1) >> 32, signed
-		{name: "HMULU", argLength: 2, reg: gp21, asm: "MULLU", commutative: true}, // (arg0 * arg1) >> 32, unsigned
+		{name: "ADD", argLength: 2, reg: gp21, asm: "ADD", commutative: true},      // arg0 + arg1
+		{name: "ADDconst", argLength: 1, reg: gp11sp, asm: "ADD", aux: "Int32"},    // arg0 + auxInt
+		{name: "SUB", argLength: 2, reg: gp21, asm: "SUB"},                         // arg0 - arg1
+		{name: "SUBconst", argLength: 1, reg: gp11, asm: "SUB", aux: "Int32"},      // arg0 - auxInt
+		{name: "RSB", argLength: 2, reg: gp21, asm: "RSB"},                         // arg1 - arg0
+		{name: "RSBconst", argLength: 1, reg: gp11, asm: "RSB", aux: "Int32"},      // auxInt - arg0
+		{name: "MUL", argLength: 2, reg: gp21, asm: "MUL", commutative: true},      // arg0 * arg1
+		{name: "SMULBB", argLength: 2, reg: gp21, asm: "SMULBB", commutative: true},// 16-bit * 16-bit
+		{name: "HMUL", argLength: 2, reg: gp21, asm: "MULL", commutative: true},    // (arg0 * arg1) >> 32, signed
+		{name: "HMULU", argLength: 2, reg: gp21, asm: "MULLU", commutative: true},  // (arg0 * arg1) >> 32, unsigned
 
 		// udiv runtime call for soft division
 		// output0 = arg0/arg1, output1 = arg0%arg1
@@ -167,6 +168,7 @@ func init() {
 
 		{name: "MULLU", argLength: 2, reg: gp22, asm: "MULLU", commutative: true}, // arg0 * arg1, high 32 bits in out0, low 32 bits in out1
 		{name: "MULA", argLength: 3, reg: gp31, asm: "MULA"},                      // arg0 * arg1 + arg2
+		{name: "SMULABB", argLength: 3, reg: gp31, asm: "SMULABB"},                // (16-bit arg0) * (16-bit arg1) + (32-bit arg2)
 
 		{name: "ADDF", argLength: 2, reg: fp21, asm: "ADDF", commutative: true}, // arg0 + arg1
 		{name: "ADDD", argLength: 2, reg: fp21, asm: "ADDD", commutative: true}, // arg0 + arg1
