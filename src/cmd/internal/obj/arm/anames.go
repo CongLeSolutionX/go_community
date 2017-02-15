@@ -67,6 +67,7 @@ var Anames = []string{
 	"MULU",
 	"DIVU",
 	"MUL",
+	"SMULBB",
 	"DIV",
 	"MOD",
 	"MODU",
