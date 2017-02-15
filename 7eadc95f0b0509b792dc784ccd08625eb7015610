@@ -46,6 +46,30 @@
       "revId": "7eadc95f0b0509b792dc784ccd08625eb7015610",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7c54e3b_6149f7d6",
+        "filename": "src/cmd/compile/internal/syntax/scanner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-02-15T06:44:53Z",
+      "side": 1,
+      "message": "Ohh, I was looking at source.col and source.getr. I somehow missed that scanner.col is shadowing it here.",
+      "parentUuid": "3cee9405_41f7ba16",
+      "range": {
+        "startLine": 566,
+        "startChar": 4,
+        "endLine": 566,
+        "endChar": 14
+      },
+      "revId": "7eadc95f0b0509b792dc784ccd08625eb7015610",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
