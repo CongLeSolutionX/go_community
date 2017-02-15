@@ -4212,59 +4212,51 @@ func (s *state) dottype(n *Node, commaok bool) (res, resok *ssa.Value) {
 
 // checkgoto checks that a goto from from to to does not
 // jump into a block or jump over variable declarations.
-// It is a copy of checkgoto in the pre-SSA backend,
-// modified only for line number handling.
-// TODO: document how this works and why it is designed the way it is.
 func (s *state) checkgoto(from *Node, to *Node) {
+	if from.Op != OGOTO || to.Op != OLABEL {
+		Fatalf("bad from/to in checkgoto: %v -> %v", from, to)
+	}
+
 	if from.Sym == to.Sym {
 		return
 	}
 
-	nf := 0
-	for fs := from.Sym; fs != nil; fs = fs.Link {
-		nf++
-	}
-	nt := 0
-	for fs := to.Sym; fs != nil; fs = fs.Link {
-		nt++
-	}
-	fs := from.Sym
-	for ; nf > nt; nf-- {
-		fs = fs.Link
-	}
-	if fs != to.Sym {
-		// decide what to complain about.
-		// prefer to complain about 'into block' over declarations,
-		// so scan backward to find most recent block or else dcl.
-		var block *Sym
-
-		var dcl *Sym
-		ts := to.Sym
-		for ; nt > nf; nt-- {
-			if ts.Pkg == nil {
+	// Find the innermost block and most recent variable
+	// declaration at the label.
+	var block, dcl *Sym
+	for ts := to.Sym; (block == nil || dcl == nil) && ts != nil; ts = ts.Link {
+		switch {
+		case ts.Pkg == nil:
+			if block == nil {
 				block = ts
-			} else {
+			}
+		case true:
+			// TODO(mdempsky): Fix case; ts might indicate
+			// a type or constant declaration (#8042).
+			if dcl == nil {
 				dcl = ts
 			}
-			ts = ts.Link
 		}
+	}
 
-		for ts != fs {
-			if ts.Pkg == nil {
-				block = ts
-			} else {
-				dcl = ts
-			}
-			ts = ts.Link
-			fs = fs.Link
+	// Clear out block/dcl if they're in scope at the goto
+	// statement.
+	for fs := from.Sym; (block != nil || dcl != nil) && fs != nil; fs = fs.Link {
+		switch fs {
+		case block:
+			block = nil
+		case dcl:
+			dcl = nil
 		}
+	}
 
-		lno := from.Left.Pos
-		if block != nil {
-			yyerrorl(lno, "goto %v jumps into block starting at %v", from.Left.Sym, linestr(block.Lastlineno))
-		} else {
-			yyerrorl(lno, "goto %v jumps over declaration of %v at %v", from.Left.Sym, dcl, linestr(dcl.Lastlineno))
-		}
+	// Prefer to complain about 'into block' over declarations.
+	lno := from.Left.Pos
+	switch {
+	case block != nil:
+		yyerrorl(lno, "goto %v jumps into block starting at %v", from.Left.Sym, linestr(block.Lastlineno))
+	case dcl != nil:
+		yyerrorl(lno, "goto %v jumps over declaration of %v at %v", from.Left.Sym, dcl, linestr(block.Lastlineno))
 	}
 }
 
