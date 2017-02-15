@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c5b632f_374df52e",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-02-15T01:03:45Z",
+      "side": 1,
+      "message": "We actually don\u0027t even tell people which repo to check out here.\n\nWe should probably have a \"git clone https://go.googlesource.com/go\"\n\nFeel free to not do that in this CL (should file an issue?)",
+      "revId": "84dd78b524a8bc01b8fb1d0d04d921483e5c3f0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c76d5948_b3272649",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-02-15T01:03:45Z",
+      "side": 1,
+      "message": "We call these subrepositories.\n\nMaybe this heading?\n\nContributing to subrepositories (golang.org/x/...)",
+      "range": {
+        "startLine": 300,
+        "startChar": 33,
+        "endLine": 300,
+        "endChar": 35
+      },
+      "revId": "84dd78b524a8bc01b8fb1d0d04d921483e5c3f0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f673c7df_1c9e322d",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-02-15T01:03:45Z",
+      "side": 1,
+      "message": "x isn\u0027t a package itself",
+      "range": {
+        "startLine": 303,
+        "startChar": 66,
+        "endLine": 303,
+        "endChar": 73
+      },
+      "revId": "84dd78b524a8bc01b8fb1d0d04d921483e5c3f0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
