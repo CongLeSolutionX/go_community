@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b8ec4c9d_62bb3ffc",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-15T03:45:09Z",
+      "side": 1,
+      "message": "We make them check during the installation from source step which is not highlighted on this doc. I will create another CL for that.",
+      "parentUuid": "1c5b632f_374df52e",
+      "revId": "84dd78b524a8bc01b8fb1d0d04d921483e5c3f0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c76d5948_b3272649",
         "filename": "doc/contribute.html",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "5eefad4b_eaeeefef",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-15T03:45:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c76d5948_b3272649",
+      "range": {
+        "startLine": 300,
+        "startChar": 33,
+        "endLine": 300,
+        "endChar": 35
+      },
+      "revId": "84dd78b524a8bc01b8fb1d0d04d921483e5c3f0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f673c7df_1c9e322d",
         "filename": "doc/contribute.html",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2017-02-15T01:03:45Z",
       "side": 1,
       "message": "x isn\u0027t a package itself",
+      "range": {
+        "startLine": 303,
+        "startChar": 66,
+        "endLine": 303,
+        "endChar": 73
+      },
+      "revId": "84dd78b524a8bc01b8fb1d0d04d921483e5c3f0b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b51f2710_862d7597",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-15T03:45:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f673c7df_1c9e322d",
       "range": {
         "startLine": 303,
         "startChar": 66,
