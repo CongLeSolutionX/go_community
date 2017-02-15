@@ -161,6 +161,10 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 	return nil
 }
 
+func PollDescriptor() uintptr {
+	return ^uintptr(0)
+}
+
 // On Plan 9 only, expose the locking for the net code.
 
 func (fd *FD) ReadLock() error {
