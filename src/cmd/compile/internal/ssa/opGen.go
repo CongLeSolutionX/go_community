@@ -649,6 +649,7 @@ const (
 	OpARMRSB
 	OpARMRSBconst
 	OpARMMUL
+	OpARMSMULBB
 	OpARMHMUL
 	OpARMHMULU
 	OpARMUDIVrtcall
@@ -7549,6 +7550,21 @@ var opcodeTable = [...]opInfo{
 		argLen:      2,
 		commutative: true,
 		asm:         arm.AMUL,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 22527}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 g R12 R14
+				{1, 22527}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 g R12 R14
+			},
+			outputs: []outputInfo{
+				{0, 21503}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 R12 R14
+			},
+		},
+	},
+	{
+		name:        "SMULBB",
+		argLen:      2,
+		commutative: true,
+		asm:         arm.ASMULBB,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 22527}, // R0 R1 R2 R3 R4 R5 R6 R7 R8 R9 g R12 R14
