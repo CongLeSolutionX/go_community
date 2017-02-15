@@ -239,7 +239,6 @@ var optab = []Optab{
 	{AMOVWF, C_REG, C_NONE, C_FREG, 87, 8, 0, 0, 0},
 	{AMOVW, C_REG, C_NONE, C_FREG, 88, 4, 0, 0, 0},
 	{AMOVW, C_FREG, C_NONE, C_REG, 89, 4, 0, 0, 0},
-	{ATST, C_REG, C_NONE, C_NONE, 90, 4, 0, 0, 0},
 	{ALDREXD, C_SOREG, C_NONE, C_REG, 91, 4, 0, 0, 0},
 	{ASTREXD, C_SOREG, C_REG, C_REG, 92, 4, 0, 0, 0},
 	{APLD, C_SOREG, C_NONE, C_NONE, 95, 4, 0, 0, 0},
@@ -247,7 +246,6 @@ var optab = []Optab{
 	{ACLZ, C_REG, C_NONE, C_REG, 97, 4, 0, 0, 0},
 	{AMULWT, C_REG, C_REG, C_REG, 98, 4, 0, 0, 0},
 	{AMULAWT, C_REG, C_REG, C_REGREG2, 99, 4, 0, 0, 0},
-	{obj.AUSEFIELD, C_ADDR, C_NONE, C_NONE, 0, 0, 0, 0, 0},
 	{obj.APCDATA, C_LCON, C_NONE, C_LCON, 0, 0, 0, 0, 0},
 	{obj.AFUNCDATA, C_LCON, C_NONE, C_ADDR, 0, 0, 0, 0, 0},
 	{obj.ANOP, C_NONE, C_NONE, C_NONE, 0, 0, 0, 0, 0},
@@ -609,7 +607,7 @@ func span5(ctxt *obj.Link, cursym *obj.LSym) {
 			}
 		}
 
-		if m == 0 && (p.As != obj.AFUNCDATA && p.As != obj.APCDATA && p.As != ADATABUNDLEEND && p.As != obj.ANOP && p.As != obj.AUSEFIELD) {
+		if m == 0 && (p.As != obj.AFUNCDATA && p.As != obj.APCDATA && p.As != ADATABUNDLEEND && p.As != obj.ANOP) {
 			ctxt.Diag("zero-width instruction\n%v", p)
 			continue
 		}
@@ -647,7 +645,7 @@ func span5(ctxt *obj.Link, cursym *obj.LSym) {
 	var opc int32
 	var out [6 + 3]uint32
 	for {
-		if ctxt.Debugvlog != 0 {
+		if ctxt.Debugvlog {
 			ctxt.Logf("%5.2f span1\n", obj.Cputime())
 		}
 		bflag = 0
@@ -705,7 +703,7 @@ func span5(ctxt *obj.Link, cursym *obj.LSym) {
 			if m/4 > len(out) {
 				ctxt.Diag("instruction size too large: %d > %d", m/4, len(out))
 			}
-			if m == 0 && (p.As != obj.AFUNCDATA && p.As != obj.APCDATA && p.As != ADATABUNDLEEND && p.As != obj.ANOP && p.As != obj.AUSEFIELD) {
+			if m == 0 && (p.As != obj.AFUNCDATA && p.As != obj.APCDATA && p.As != ADATABUNDLEEND && p.As != obj.ANOP) {
 				if p.As == obj.ATEXT {
 					ctxt.Autosize = int32(p.To.Offset + 4)
 					continue
@@ -1355,6 +1353,7 @@ func buildop(ctxt *obj.Link) {
 		case ACMP:
 			opset(ATEQ, r0)
 			opset(ACMN, r0)
+			opset(ATST, r0)
 
 		case AMVN:
 			break
@@ -1410,8 +1409,7 @@ func buildop(ctxt *obj.Link) {
 			AWORD,
 			AMOVM,
 			ARFE,
-			obj.ATEXT,
-			obj.AUSEFIELD:
+			obj.ATEXT:
 			break
 
 		case AADDF:
@@ -1450,9 +1448,11 @@ func buildop(ctxt *obj.Link) {
 
 		case AMULWT:
 			opset(AMULWB, r0)
+			opset(AMULBB, r0)
 
 		case AMULAWT:
 			opset(AMULAWB, r0)
+			opset(AMULABB, r0)
 
 		case AMULA,
 			ALDREX,
@@ -2289,11 +2289,6 @@ func asmout(ctxt *obj.Link, p *obj.Prog, o *Optab, out []uint32) {
 		o1 |= (uint32(p.From.Reg) & 15) << 16
 		o1 |= (uint32(p.To.Reg) & 15) << 12
 
-	case 90: /* tst reg  */
-		o1 = oprrr(ctxt, -ACMP, int(p.Scond))
-
-		o1 |= (uint32(p.From.Reg) & 15) << 16
-
 	case 91: /* ldrexd oreg,reg */
 		aclass(ctxt, &p.From)
 
@@ -2570,11 +2565,17 @@ func oprrr(ctxt *obj.Link, a obj.As, sc int) uint32 {
 	case AMULWB:
 		return o&(0xf<<28) | 0x12<<20 | 0xa<<4
 
+	case AMULBB:
+		return o&(0xf<<28) | 0x16<<20 | 0xf<<12 | 0x8<<4
+
 	case AMULAWT:
 		return o&(0xf<<28) | 0x12<<20 | 0xc<<4
 
 	case AMULAWB:
 		return o&(0xf<<28) | 0x12<<20 | 0x8<<4
+
+	case AMULABB:
+		return o&(0xf<<28) | 0x10<<20 | 0x8<<4
 
 	case ABL: // BLX REG
 		return o&(0xf<<28) | 0x12fff3<<4
