@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "eb4718b9_8920f553",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T20:50:36Z",
+      "side": 1,
+      "message": "I retract this statement. I forgot that this was package bits.",
+      "parentUuid": "f85decde_9935fc12",
+      "revId": "eb31e7769e3fc9b1219d46cf140f5229ddb1d9d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3f7474d_2df3a537",
         "filename": "src/math/bits/bits.go",
         "patchSetId": 11
