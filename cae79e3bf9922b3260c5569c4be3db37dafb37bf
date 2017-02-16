@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ed3e071_901a7d91",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T00:46:15Z",
+      "side": 1,
+      "message": "Don\u0027t we need a SYNC here somewhere?  The assembly code in runtime/internal/atomic has one.\n\nAt a higher level, maybe And8 and Or8 as used in the runtime don\u0027t require any barriers.  I\u0027ll ask Austin.",
+      "revId": "cae79e3bf9922b3260c5569c4be3db37dafb37bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b751b73_2b3f52be",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T00:46:15Z",
+      "side": 1,
+      "message": "I don\u0027t understand what this comparison and branch are about.",
+      "revId": "cae79e3bf9922b3260c5569c4be3db37dafb37bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f33fb5bc_029bb8a8",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T00:46:15Z",
+      "side": 1,
+      "message": "AtomicStorePtrNoWB could rewrite to LoweredAtomicStore64 also?",
+      "revId": "cae79e3bf9922b3260c5569c4be3db37dafb37bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd8388b_3cd418af",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T00:46:15Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this load overwrite the value we\u0027re trying to add?",
+      "revId": "cae79e3bf9922b3260c5569c4be3db37dafb37bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
