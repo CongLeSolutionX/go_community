@@ -597,6 +597,8 @@
 (Select1 (UDIVrtcall _ (MOVWconst [1]))) -> (MOVWconst [0])
 (Select0 (UDIVrtcall x (MOVWconst [c]))) && isPowerOfTwo(c) -> (SRLconst [log2(c)] x)
 (Select1 (UDIVrtcall x (MOVWconst [c]))) && isPowerOfTwo(c) -> (ANDconst [c-1] x)
+(Select0 (UDIVrtcall x (MOVWconst [c]))) && !isPowerOfTwo(c) && c > 1 -> (SRLconst [log2(c)] (HMULU <config.fe.TypeUInt32()> x (MOVWconst [int64(((uint64(1) << (uint32(32) + uint32(log2(c)))) / uint64(c) + uint64(1)))])))
+(Select1 (UDIVrtcall x (MOVWconst [c]))) && !isPowerOfTwo(c) && c > 1 -> (SUB x (MUL <config.fe.TypeUInt32()> (MOVWconst [c]) (SRLconst <config.fe.TypeUInt32()> [log2(c)] (HMULU <config.fe.TypeUInt32()> x (MOVWconst [int64(((uint64(1) << (uint32(32) + uint32(log2(c)))) / uint64(c) + uint64(1)))])))))
 
 // constant comparisons
 (CMPconst (MOVWconst [x]) [y]) && int32(x)==int32(y) -> (FlagEQ)
