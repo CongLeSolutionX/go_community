@@ -553,8 +553,8 @@ func (s *state) stmt(n *Node) {
 			deref = true
 			res = res.Args[0]
 		}
-		s.assign(n.List.First(), res, needwritebarrier(n.List.First()), deref, n.Pos, 0, false)
-		s.assign(n.List.Second(), resok, false, false, n.Pos, 0, false)
+		s.assign(n.List.First(), res, needwritebarrier(n.List.First()), deref, 0, false)
+		s.assign(n.List.Second(), resok, false, false, 0, false)
 		return
 
 	case OAS2FUNC:
@@ -565,8 +565,8 @@ func (s *state) stmt(n *Node) {
 		v := s.intrinsicCall(n.Rlist.First())
 		v1 := s.newValue1(ssa.OpSelect0, n.List.First().Type, v)
 		v2 := s.newValue1(ssa.OpSelect1, n.List.Second().Type, v)
-		s.assign(n.List.First(), v1, needwritebarrier(n.List.First()), false, n.Pos, 0, false)
-		s.assign(n.List.Second(), v2, needwritebarrier(n.List.Second()), false, n.Pos, 0, false)
+		s.assign(n.List.First(), v1, needwritebarrier(n.List.First()), false, 0, false)
+		s.assign(n.List.Second(), v2, needwritebarrier(n.List.Second()), false, 0, false)
 		return
 
 	case ODCL:
@@ -707,15 +707,6 @@ func (s *state) stmt(n *Node) {
 				r = s.expr(rhs)
 			}
 		}
-		if rhs != nil && rhs.Op == OAPPEND && needwritebarrier(n.Left) {
-			// The frontend gets rid of the write barrier to enable the special OAPPEND
-			// handling above, but since this is not a special case, we need it.
-			// TODO: just add a ptr graying to the end of growslice?
-			// TODO: check whether we need to provide special handling and a write barrier
-			// for ODOTTYPE and ORECV also.
-			// They get similar wb-removal treatment in walk.go:OAS.
-			needwb = true
-		}
 		if needwb && Debug_wb > 1 {
 			Warnl(n.Pos, "marking %v for barrier", n.Left)
 		}
@@ -750,7 +741,7 @@ func (s *state) stmt(n *Node) {
 			}
 		}
 
-		s.assign(n.Left, r, needwb, deref, n.Pos, skip, isVolatile)
+		s.assign(n.Left, r, needwb, deref, skip, isVolatile)
 
 	case OIF:
 		bThen := s.f.NewBlock(ssa.BlockPlain)
@@ -2210,7 +2201,7 @@ func (s *state) append(n *Node, inplace bool) *ssa.Value {
 		if ssa.IsStackAddr(addr) {
 			s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, pt.Size(), addr, r[0], s.mem())
 		} else {
-			s.insertWBstore(pt, addr, r[0], n.Pos, 0)
+			s.insertWBstore(pt, addr, r[0], 0)
 		}
 		// load the value we just stored to avoid having to spill it
 		s.vars[&ptrVar] = s.newValue2(ssa.OpLoad, pt, addr, s.mem())
@@ -2265,13 +2256,13 @@ func (s *state) append(n *Node, inplace bool) *ssa.Value {
 		addr := s.newValue2(ssa.OpPtrIndex, pt, p2, s.constInt(Types[TINT], int64(i)))
 		if arg.store {
 			if haspointers(et) {
-				s.insertWBstore(et, addr, arg.v, n.Pos, 0)
+				s.insertWBstore(et, addr, arg.v, 0)
 			} else {
 				s.vars[&memVar] = s.newValue3I(ssa.OpStore, ssa.TypeMem, et.Size(), addr, arg.v, s.mem())
 			}
 		} else {
 			if haspointers(et) {
-				s.insertWBmove(et, addr, arg.v, n.Pos, arg.isVolatile)
+				s.insertWBmove(et, addr, arg.v, arg.isVolatile)
 			} else {
 				s.vars[&memVar] = s.newValue3I(ssa.OpMove, ssa.TypeMem, sizeAlignAuxInt(et), addr, arg.v, s.mem())
 			}
@@ -2348,7 +2339,7 @@ const (
 // If deref is true, rightIsVolatile reports whether right points to volatile (clobbered by a call) storage.
 // Include a write barrier if wb is true.
 // skip indicates assignments (at the top level) that can be avoided.
-func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XPos, skip skipMask, rightIsVolatile bool) {
+func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, skip skipMask, rightIsVolatile bool) {
 	if left.Op == ONAME && isblank(left) {
 		return
 	}
@@ -2389,7 +2380,7 @@ func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XP
 			}
 
 			// Recursively assign the new value we've made to the base of the dot op.
-			s.assign(left.Left, new, false, false, line, 0, rightIsVolatile)
+			s.assign(left.Left, new, false, false, 0, rightIsVolatile)
 			// TODO: do we need to update named values here?
 			return
 		}
@@ -2414,7 +2405,7 @@ func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XP
 			i = s.extendIndex(i, panicindex)
 			s.boundsCheck(i, s.constInt(Types[TINT], 1))
 			v := s.newValue1(ssa.OpArrayMake1, t, right)
-			s.assign(left.Left, v, false, false, line, 0, rightIsVolatile)
+			s.assign(left.Left, v, false, false, 0, rightIsVolatile)
 			return
 		}
 		// Update variable assignment.
@@ -2430,7 +2421,7 @@ func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XP
 	if deref {
 		// Treat as a mem->mem move.
 		if wb && !ssa.IsStackAddr(addr) {
-			s.insertWBmove(t, addr, right, line, rightIsVolatile)
+			s.insertWBmove(t, addr, right, rightIsVolatile)
 			return
 		}
 		if right == nil {
@@ -2448,7 +2439,7 @@ func (s *state) assign(left *Node, right *ssa.Value, wb, deref bool, line src.XP
 			s.storeTypeScalars(t, addr, right, skip)
 			return
 		}
-		s.insertWBstore(t, addr, right, line, skip)
+		s.insertWBstore(t, addr, right, skip)
 		return
 	}
 	if skip != 0 {
@@ -3402,7 +3393,7 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*Type, args ...*ssa
 // insertWBmove inserts the assignment *left = *right including a write barrier.
 // t is the type being assigned.
 // If right == nil, then we're zeroing *left.
-func (s *state) insertWBmove(t *Type, left, right *ssa.Value, line src.XPos, rightIsVolatile bool) {
+func (s *state) insertWBmove(t *Type, left, right *ssa.Value, rightIsVolatile bool) {
 	// if writeBarrier.enabled {
 	//   typedmemmove(&t, left, right)
 	// } else {
@@ -3450,7 +3441,7 @@ func (s *state) insertWBmove(t *Type, left, right *ssa.Value, line src.XPos, rig
 
 // insertWBstore inserts the assignment *left = right including a write barrier.
 // t is the type being assigned.
-func (s *state) insertWBstore(t *Type, left, right *ssa.Value, line src.XPos, skip skipMask) {
+func (s *state) insertWBstore(t *Type, left, right *ssa.Value, skip skipMask) {
 	// store scalar fields
 	// if writeBarrier.enabled {
 	//   writebarrierptr for pointer fields
