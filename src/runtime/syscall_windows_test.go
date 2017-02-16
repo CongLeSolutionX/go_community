@@ -933,6 +933,12 @@ func TestLoadLibraryEx(t *testing.T) {
 		have, flags)
 }
 
+func TimeSystimeTest(t *testing.T) {
+	if !runtime.SystimeQPCTest() {
+		t.Error("runtime.systimeQPC has stalled")
+	}
+}
+
 var (
 	modwinmm    = syscall.NewLazyDLL("winmm.dll")
 	modkernel32 = syscall.NewLazyDLL("kernel32.dll")
