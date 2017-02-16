@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "1af773a5_856c267e",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Yes, that would work. I\u0027ve implemented variants on this, but it means that if writes are bursty with long idle periods, there\u0027s no bound on how long it might take for a reader to observe the overflow record. This way guarantees that every write is observed as soon as the corresponding read is ready for it. It\u0027s a little more work but I think it covers a broader range of scenarios. These buffers are intended to support various kinds of continuous profiling where that scenario might legitimately arise.",
+      "parentUuid": "72a2f3e0_a8721f1e",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80e32d3b_10c12b14",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -101,6 +119,24 @@
       "writtenOn": "2017-02-10T21:18:54Z",
       "side": 1,
       "message": "Consider introducing a named type for this packed representation and making these methods (plus perhaps load and store methods that wrap the atomic load/store with the right casts).",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d461ef7_1a9a8455",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80e32d3b_10c12b14",
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -124,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "4faa2ef9_23d73974",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e75041e_58d064ee",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61ac2f93_555ea961",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -135,6 +189,24 @@
       "writtenOn": "2017-02-10T21:18:54Z",
       "side": 1,
       "message": "Given that the profTag wraps around at 1\u003c\u003c30, I think this is wrong if br and bw are on different sides of a wrap-around. Suppose len(b.tags) is 16, br is logically 1\u003c\u003c30 - 1 and bw is logically 1\u003c\u003c30 + 15. Using the logical values, the room is 0, but using the values mod 1\u003c\u003c30, the distance is 1073741824.\n\nYou could fix this by taking the whole thing mod 1\u003c\u003c30 before doing the comparison.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "473c64bb_29e4d165",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Done. Thanks very much for catching this.",
+      "parentUuid": "61ac2f93_555ea961",
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -158,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "c9afb611_94fdabb3",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45a09ac5_9bd92374",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23b38f65_7b71d6c3",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -169,6 +259,24 @@
       "writtenOn": "2017-02-10T21:18:54Z",
       "side": 1,
       "message": "If it matters, this could be a shift since len(b.data) is a power of two.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad9d736e_68e27d30",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Yes. I\u0027m not sure it matters, though; left as is.",
+      "parentUuid": "23b38f65_7b71d6c3",
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -192,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "62fad87c_f9b85db2",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Expanded comment.",
+      "parentUuid": "ff8de0af_b12a3c2d",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80f189e8_6915a777",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -203,6 +329,24 @@
       "writtenOn": "2017-02-10T21:18:54Z",
       "side": 1,
       "message": "Same.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b50cd87_2d926cf9",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80f189e8_6915a777",
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -226,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "7fe1716f_6eb3fda9",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31ecfd05_8ff00783",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b11d7cbc_4effc52e",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -237,6 +399,24 @@
       "writtenOn": "2017-02-10T21:18:54Z",
       "side": 1,
       "message": "Arguably it\u0027s the job of the signal handler to be nowritebarrierrec, since write itself isn\u0027t imposing this restriction.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a46ae0a_d8824074",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "OK, and it is. Will leave the comment but drop the go:nowritebarrierrec?",
+      "parentUuid": "b11d7cbc_4effc52e",
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -266,6 +446,30 @@
     },
     {
       "key": {
+        "uuid": "bb1bb316_3d822536",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b97a8c2_1f6f8507",
+      "range": {
+        "startLine": 216,
+        "startChar": 24,
+        "endLine": 216,
+        "endChar": 30
+      },
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1e07545_e61ebe6a",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -283,6 +487,24 @@
     },
     {
       "key": {
+        "uuid": "ae3aff54_b15681a3",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "We need to set overflowTime before incrementing overflow from 0. That way the reader knows if it sees overflow \u003e 0 then the time is already set. Thanks for catching the bad logic. Rewrote to be a little clearer, I hope.",
+      "parentUuid": "e1e07545_e61ebe6a",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8568947_9cacf5a0",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -294,6 +516,24 @@
       "writtenOn": "2017-02-10T21:18:54Z",
       "side": 1,
       "message": "Do you need to prevent the low 32 bits from overflowing into the high 32 bits here? I suppose if that happens the overflow record is toast anyway.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1543a490_19f4f535",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Avoided that now, though I don\u0027t think it matters much.",
+      "parentUuid": "a8568947_9cacf5a0",
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -347,6 +587,30 @@
     },
     {
       "key": {
+        "uuid": "f9ebacee_2e24140c",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Fixed. There is no tagLock anymore.",
+      "parentUuid": "0779b9c5_82b3ee7b",
+      "range": {
+        "startLine": 277,
+        "startChar": 2,
+        "endLine": 277,
+        "endChar": 34
+      },
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e680cb25_ca0baf0a",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -358,6 +622,24 @@
       "writtenOn": "2017-02-10T21:18:54Z",
       "side": 1,
       "message": "Same overflow problem.",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a5147c7_526e2351",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e680cb25_ca0baf0a",
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -381,6 +663,24 @@
     },
     {
       "key": {
+        "uuid": "8d041ca5_2fc2cd71",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96534c22_fc2297ae",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2ce880d_d514bfd5",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 4
@@ -392,6 +692,24 @@
       "writtenOn": "2017-02-10T21:18:54Z",
       "side": 1,
       "message": "panic or throw? (I\u0027m not sure how this gets exposed to user code.)",
+      "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "063b7075_b8558ba2",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T19:23:46Z",
+      "side": 1,
+      "message": "Changed all to throw. None should happen, and some might leave the system in a bad state.",
+      "parentUuid": "b2ce880d_d514bfd5",
       "revId": "e01dd042cfa3c72f51da722146fe6701cc97ae4c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
