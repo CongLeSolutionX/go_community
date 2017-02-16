@@ -16,6 +16,24 @@
       "revId": "cb862fc8797a8bad8ad31fd7707ffc58b2ad57cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "260b4d72_0a0687cb",
+        "filename": "src/math/bits/bits_impl.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-16T18:29:20Z",
+      "side": 1,
+      "message": "There\u0027s fairly detailed explanation in the comment in ntz64.\n\nAdded additional comment here and moved constants up.",
+      "parentUuid": "1e4966a7_0892f3b1",
+      "revId": "cb862fc8797a8bad8ad31fd7707ffc58b2ad57cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
