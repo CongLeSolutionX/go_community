@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "783296eb_d2f36380",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T20:37:41Z",
+      "side": 1,
+      "message": "FWIW, these comments make sense when you\u0027re reading the file, but many people consume the docs from \u0027go doc\u0027 or godoc, and if you run\n\ngo doc bits.LeadingZeros8\n\nit will show no doc at all. It is probably better to be long-winded here (once the text is finalized) and copy and paste for each function. Then you don\u0027t need the text about N too.\n\nApplies throughout the file.",
+      "revId": "eb31e7769e3fc9b1219d46cf140f5229ddb1d9d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f85decde_9935fc12",
         "filename": "src/math/bits/bits.go",
         "patchSetId": 11
