@@ -16448,6 +16448,33 @@ func rewriteValueARM_OpSelect0(v *Value, config *Config) bool {
 		v.AddArg(x)
 		return true
 	}
+	// match: (Select0 (UDIVrtcall x (MOVWconst [c])))
+	// cond: !isPowerOfTwo(c) && c > 1
+	// result: (SRLconst [log2(c)] (HMULU <config.fe.TypeUInt32()> x (MOVWconst [int64(((uint64(1) << (uint32(32) + uint32(log2(c)))) / uint64(c) + uint64(1)))])))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMUDIVrtcall {
+			break
+		}
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0_1.AuxInt
+		if !(!isPowerOfTwo(c) && c > 1) {
+			break
+		}
+		v.reset(OpARMSRLconst)
+		v.AuxInt = log2(c)
+		v0 := b.NewValue0(v.Pos, OpARMHMULU, config.fe.TypeUInt32())
+		v0.AddArg(x)
+		v1 := b.NewValue0(v.Pos, OpARMMOVWconst, config.fe.TypeUInt32())
+		v1.AuxInt = int64(((uint64(1)<<(uint32(32)+uint32(log2(c))))/uint64(c) + uint64(1)))
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		return true
+	}
 	// match: (Select0 (UDIVrtcall (MOVWconst [c]) (MOVWconst [d])))
 	// cond:
 	// result: (MOVWconst [int64(uint32(c)/uint32(d))])
@@ -16514,6 +16541,41 @@ func rewriteValueARM_OpSelect1(v *Value, config *Config) bool {
 		v.reset(OpARMANDconst)
 		v.AuxInt = c - 1
 		v.AddArg(x)
+		return true
+	}
+	// match: (Select1 (UDIVrtcall x (MOVWconst [c])))
+	// cond: !isPowerOfTwo(c) && c > 1
+	// result: (SUB x (MUL <config.fe.TypeUInt32()> (MOVWconst [c]) (SRLconst <config.fe.TypeUInt32()> [log2(c)] (HMULU <config.fe.TypeUInt32()> x (MOVWconst [int64(((uint64(1) << (uint32(32) + uint32(log2(c)))) / uint64(c) + uint64(1)))])))))
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARMUDIVrtcall {
+			break
+		}
+		x := v_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpARMMOVWconst {
+			break
+		}
+		c := v_0_1.AuxInt
+		if !(!isPowerOfTwo(c) && c > 1) {
+			break
+		}
+		v.reset(OpARMSUB)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpARMMUL, config.fe.TypeUInt32())
+		v1 := b.NewValue0(v.Pos, OpARMMOVWconst, config.fe.TypeUInt32())
+		v1.AuxInt = c
+		v0.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpARMSRLconst, config.fe.TypeUInt32())
+		v2.AuxInt = log2(c)
+		v3 := b.NewValue0(v.Pos, OpARMHMULU, config.fe.TypeUInt32())
+		v3.AddArg(x)
+		v4 := b.NewValue0(v.Pos, OpARMMOVWconst, config.fe.TypeUInt32())
+		v4.AuxInt = int64(((uint64(1)<<(uint32(32)+uint32(log2(c))))/uint64(c) + uint64(1)))
+		v3.AddArg(v4)
+		v2.AddArg(v3)
+		v0.AddArg(v2)
+		v.AddArg(v0)
 		return true
 	}
 	// match: (Select1 (UDIVrtcall (MOVWconst [c]) (MOVWconst [d])))
