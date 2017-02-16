@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e4966a7_0892f3b1",
+        "filename": "src/math/bits/bits_impl.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-16T12:38:08Z",
+      "side": 1,
+      "message": "Forgive my inexperience in this area, but I think it\u0027d be helpful to provide a short comment with a reference explaining these deBruijn* constants and tables.\n\nA cursory Google search reveals: https://en.wikipedia.org/wiki/De_Bruijn_sequence.",
+      "revId": "cb862fc8797a8bad8ad31fd7707ffc58b2ad57cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
