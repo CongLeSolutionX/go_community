@@ -2096,9 +2096,9 @@ func RedirectHandler(url string, code int) Handler {
 // redirecting any request containing . or .. elements or repeated slashes
 // to an equivalent, cleaner URL.
 type ServeMux struct {
-	mu    sync.RWMutex
-	m     map[string]muxEntry
-	hosts bool // whether any patterns contain hostnames
+	mu       sync.Mutex // Guards Stores of m and hosts; atomic Loads do not require lock.
+	m        sync.Map   // map[string]muxEntry
+	hasHosts int32      // atomic; nonzero if any patterns contain hostnames
 }
 
 type muxEntry struct {
@@ -2162,23 +2162,27 @@ func stripHostPort(h string) string {
 // Most-specific (longest) pattern wins.
 func (mux *ServeMux) match(path string) (h Handler, pattern string) {
 	// Check for exact match first.
-	v, ok := mux.m[path]
+	vi, ok := mux.m.Load(path)
 	if ok {
+		v := vi.(muxEntry)
 		return v.h, v.pattern
 	}
 
 	// Check for longest valid match.
 	var n = 0
-	for k, v := range mux.m {
+	mux.m.Range(func(ki, vi interface{}) bool {
+		k := ki.(string)
 		if !pathMatch(k, path) {
-			continue
+			return true
 		}
 		if h == nil || len(k) > n {
 			n = len(k)
+			v := vi.(muxEntry)
 			h = v.h
 			pattern = v.pattern
 		}
-	}
+		return true
+	})
 	return
 }
 
@@ -2221,11 +2225,8 @@ func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string) {
 // handler is the main implementation of Handler.
 // The path is known to be in canonical form, except for CONNECT methods.
 func (mux *ServeMux) handler(host, path string) (h Handler, pattern string) {
-	mux.mu.RLock()
-	defer mux.mu.RUnlock()
-
 	// Host-specific pattern takes precedence over generic ones
-	if mux.hosts {
+	if atomic.LoadInt32(&mux.hasHosts) != 0 {
 		h, pattern = mux.match(host + path)
 	}
 	if h == nil {
@@ -2263,24 +2264,24 @@ func (mux *ServeMux) Handle(pattern string, handler Handler) {
 	if handler == nil {
 		panic("http: nil handler")
 	}
-	if mux.m[pattern].explicit {
+	if e, ok := mux.m.Load(pattern); ok && e.(muxEntry).explicit {
 		panic("http: multiple registrations for " + pattern)
 	}
 
-	if mux.m == nil {
-		mux.m = make(map[string]muxEntry)
-	}
-	mux.m[pattern] = muxEntry{explicit: true, h: handler, pattern: pattern}
-
+	mux.m.Store(pattern, muxEntry{explicit: true, h: handler, pattern: pattern})
 	if pattern[0] != '/' {
-		mux.hosts = true
+		atomic.StoreInt32(&mux.hasHosts, 1)
 	}
 
 	// Helpful behavior:
 	// If pattern is /tree/, insert an implicit permanent redirect for /tree.
 	// It can be overridden by an explicit registration.
 	n := len(pattern)
-	if n > 0 && pattern[n-1] == '/' && !mux.m[pattern[0:n-1]].explicit {
+	if n == 0 || pattern[n-1] != '/' {
+		return
+	}
+	e, ok := mux.m.Load(pattern[0 : n-1])
+	if !ok || !e.(muxEntry).explicit {
 		// If pattern contains a host name, strip it and use remaining
 		// path for redirect.
 		path := pattern
@@ -2290,7 +2291,7 @@ func (mux *ServeMux) Handle(pattern string, handler Handler) {
 			path = pattern[strings.Index(pattern, "/"):]
 		}
 		url := &url.URL{Path: path}
-		mux.m[pattern[0:n-1]] = muxEntry{h: RedirectHandler(url.String(), StatusMovedPermanently), pattern: pattern}
+		mux.m.Store(pattern[0:n-1], muxEntry{h: RedirectHandler(url.String(), StatusMovedPermanently), pattern: pattern})
 	}
 }
 
