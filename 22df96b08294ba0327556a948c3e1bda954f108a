@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "062a72a7_27b937fc",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T21:39:59Z",
+      "side": 1,
+      "message": "Added comments.  I redid these ops to assume that x\u003e\u003dy so that we can use less ops on all the non-x86 archs.",
+      "parentUuid": "9c384b1b_8d1d8bd1",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4078187_c91e864d",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-15T22:35:23Z",
       "side": 1,
       "message": "This is still true, right?\n\nI\u0027m inclined to uncomment them anyway.",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13f8d58c_08a762a0",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T21:39:59Z",
+      "side": 1,
+      "message": "Yes, we can uncomment them.  I don\u0027t think they are quite right for the minint cases, though.\nSeperate CL.",
+      "parentUuid": "f4078187_c91e864d",
       "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "76e02295_75faf3be",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T21:39:59Z",
+      "side": 1,
+      "message": "Yes, I think so.  We can generate Inf and Nan with the Add/Mul constant folding we already have.  DIvides do make that easier, though.  I checked all the rules involving Const32f/Const64f and its lowerings and they seem ok to me.  The only thing done with the float in the auxint is to do one of these constant folding rules, compare it with a constant like f2i(1), or copy it into a Prog.From.Val.",
+      "parentUuid": "44bdba36_6737c65d",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a07f205_1a8cbaf4",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2017-02-15T22:35:23Z",
       "side": 1,
       "message": "I had to parse -1\u003c\u003c7 a couple of times for operator precedence. Maybe instead -int8(c) !\u003d int8(c)? Or -int8(c) \u003e 0? Or add constants for minInt8 and friends to rewrite.go and use here?",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "752eaa51_e3c8d8d1",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T21:39:59Z",
+      "side": 1,
+      "message": "-(1\u003c\u003c7) \u003d\u003d (-1)\u003c\u003c7 so I wasn\u0027t too worried about the precedence.  I\u0027m hesitant to use -int8(c) !\u003d int8(c) because that implies there is some set of c which are bad.  c !\u003d X makes it clear there is just one bad apple.  I could add minInt8 constants if that would help.",
+      "parentUuid": "0a07f205_1a8cbaf4",
       "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
