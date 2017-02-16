@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf226300_78cb349e",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T22:34:53Z",
+      "side": 1,
+      "message": "s/reg2/out/",
+      "range": {
+        "startLine": 263,
+        "startChar": 14,
+        "endLine": 263,
+        "endChar": 18
+      },
+      "revId": "a8be0db6ed023ec0fcf8ca798d8eb024cb542b0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7c2a08d_632f2310",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T22:34:53Z",
+      "side": 1,
+      "message": "This pseudocode doesn\u0027t match the code below.  I think you want (after the BNE)\n\nISYNC\nMOVB $1, Rout\nJMP     end\nMOVB  $0, Rout\nend:",
+      "revId": "a8be0db6ed023ec0fcf8ca798d8eb024cb542b0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e235808c_4244c02b",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T22:34:53Z",
+      "side": 1,
+      "message": "What is this?  I don\u0027t see RegTo2 set for other instances of STDCCC",
+      "range": {
+        "startLine": 428,
+        "startChar": 2,
+        "endLine": 428,
+        "endChar": 26
+      },
+      "revId": "a8be0db6ed023ec0fcf8ca798d8eb024cb542b0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe18fba2_fda6c662",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T22:34:53Z",
+      "side": 1,
+      "message": "Do we also need an ISYNC here?  I\u0027m not sure what memory semantics on a failed CAS are.  In any case, a comment is worthwhile.\nAlso, is it ok to leave the LDAR unpaired?  That\u0027s happening on this branch.",
+      "revId": "a8be0db6ed023ec0fcf8ca798d8eb024cb542b0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78008877_3480dac9",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T22:34:53Z",
+      "side": 1,
+      "message": "I think a bunch of these ops need clobberFlags: true",
+      "revId": "a8be0db6ed023ec0fcf8ca798d8eb024cb542b0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beea1022_f6eae48d",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-16T22:34:53Z",
+      "side": 1,
+      "message": "s/Rarg1/Rout/",
+      "range": {
+        "startLine": 363,
+        "startChar": 27,
+        "endLine": 363,
+        "endChar": 32
+      },
+      "revId": "a8be0db6ed023ec0fcf8ca798d8eb024cb542b0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
