@@ -48,6 +48,40 @@
     },
     {
       "key": {
+        "uuid": "12c7a919_2dcbd026",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-16T00:54:10Z",
+      "side": 1,
+      "message": "I suggest a comment explaining why you are using fastrand here.",
+      "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c0324ef_f3ac63bd",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-16T00:54:10Z",
+      "side": 1,
+      "message": "prev and next were already set to nil at the start of the method.",
+      "revId": "54681ea0250ab8dcad99a9504c6317f95ef59f43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "548bb71e_d8b0cead",
         "filename": "src/runtime/sema.go",
         "patchSetId": 1
