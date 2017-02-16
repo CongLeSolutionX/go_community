@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "9bfb7564_5db0e76a",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T20:35:40Z",
+      "side": 1,
+      "message": "It would be nice not to expose this expression in docs.\n\nconst UintSize \u003d uintSize // 32 or 64\n\nconst uintSize \u003d 32 \u003c\u003c ...",
+      "revId": "eb31e7769e3fc9b1219d46cf140f5229ddb1d9d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f85decde_9935fc12",
+        "filename": "src/math/bits/bits.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-16T20:35:40Z",
+      "side": 1,
+      "message": "I think these should be ReverseBits by analogy with ReverseBytes.\nOtherwise people might remember vaguely that ReverseBytes exists and read or call \"Reverse\" as \"ReverseBytes\".",
+      "revId": "eb31e7769e3fc9b1219d46cf140f5229ddb1d9d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3f7474d_2df3a537",
         "filename": "src/math/bits/bits.go",
         "patchSetId": 11
