@@ -709,9 +709,8 @@ type Pcdata struct {
 }
 
 // symbol version, incremented each time a file is loaded.
-// version==1 is reserved for savehist.
 const (
-	HistVersion = 1
+	HistVersion = 0
 )
 
 // Link holds the context for writing object code from a compiler
