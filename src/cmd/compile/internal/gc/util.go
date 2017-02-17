@@ -10,6 +10,7 @@ import (
 	"runtime/pprof"
 )
 
+// returns the outermost line string
 func (n *Node) Line() string {
 	return linestr(n.Pos)
 }
