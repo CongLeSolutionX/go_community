@@ -22,6 +22,30 @@
       "revId": "b53f0f8c96a46b3cce0f1073787b74dd23f57a80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11794398_92e8df28",
+        "filename": "src/math/pow10.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-02-17T19:37:26Z",
+      "side": 0,
+      "message": "Thats how i got interested in this function in the first place.\nNot needed to have everyone execute the init and load the tables for a rarely used function :)\nMaking it faster and with better precision is a bonus so that there should be no tradeoff between the old and new version in that regard.",
+      "parentUuid": "bc60d2db_b384ce7a",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 13
+      },
+      "revId": "b53f0f8c96a46b3cce0f1073787b74dd23f57a80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
