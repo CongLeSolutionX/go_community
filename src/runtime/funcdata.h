@@ -11,9 +11,11 @@
 // symtab.go also contains a copy of these constants.
 
 #define PCDATA_StackMapIndex 0
+#define PCDATA_InlTreeIndex 1
 
 #define FUNCDATA_ArgsPointerMaps 0 /* garbage collector blocks */
 #define FUNCDATA_LocalsPointerMaps 1
+#define FUNCDATA_InlTree 2
 
 // Pseudo-assembly statements.
 
