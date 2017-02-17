@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "e29031ab_ef497751",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-17T06:13:23Z",
+      "side": 1,
+      "message": "I\u0027d prefer minInt8 constants, but it is a weak preference.",
+      "parentUuid": "752eaa51_e3c8d8d1",
+      "revId": "22df96b08294ba0327556a948c3e1bda954f108a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aae9556b_8cd1253b",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 2
