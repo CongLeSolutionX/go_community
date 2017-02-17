@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "94983156_bd3a4574",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-02-17T04:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5e85f7e_f869dc3d",
+      "range": {
+        "startLine": 35,
+        "startChar": 30,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "ae51bc6822c3bb84cf3a3d1667050cb7546cfb7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48be27b1_f9bb86e4",
         "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "ae51bc6822c3bb84cf3a3d1667050cb7546cfb7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c512d291_28ad20d2",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-02-17T04:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48be27b1_f9bb86e4",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 15
+      },
+      "revId": "ae51bc6822c3bb84cf3a3d1667050cb7546cfb7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "486f1471_32fe47bd",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-02-17T04:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ab8dfbd_13168c85",
+      "range": {
+        "startLine": 84,
+        "startChar": 15,
+        "endLine": 84,
+        "endChar": 24
+      },
+      "revId": "ae51bc6822c3bb84cf3a3d1667050cb7546cfb7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9537105_f82dbe0d",
         "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "ae51bc6822c3bb84cf3a3d1667050cb7546cfb7f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "243157bf_eb9c6029",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-02-17T04:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9537105_f82dbe0d",
+      "range": {
+        "startLine": 152,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 28
+      },
+      "revId": "ae51bc6822c3bb84cf3a3d1667050cb7546cfb7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
