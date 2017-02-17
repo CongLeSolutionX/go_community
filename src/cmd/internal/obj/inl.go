@@ -57,3 +57,10 @@ func (ctxt *Link) OutermostPos(xpos src.XPos) src.Pos {
 	}
 	return ctxt.PosTable.Pos(outerxpos)
 }
+
+func dumpInlTree(ctxt *Link, nodes []InlinedCall) {
+	for i, call := range nodes {
+		pos := ctxt.PosTable.Pos(call.Pos)
+		ctxt.Logf("%0d | %0d | %s (%s)\n", i, call.Parent, call.Func, pos)
+	}
+}
