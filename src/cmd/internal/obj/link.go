@@ -721,7 +721,7 @@ type Link struct {
 	Debugasm      int32
 	Debugvlog     int32
 	Debugdivmod   int32
-	Debugpcln     int32
+	Debugpcln     string
 	Flag_shared   bool
 	Flag_dynlink  bool
 	Flag_optimize bool
