@@ -65,3 +65,21 @@ func TestSize(t *testing.T) {
 		t.Errorf("size = %v; want 8", unsafe.Sizeof(p))
 	}
 }
+
+func TestSetBase(t *testing.T) {
+	var tab PosTable
+	b1 := NewFileBase("b1", "b1")
+	origPos := MakePos(b1, 42, 7)
+	xpos := tab.XPos(origPos)
+
+	pos := tab.Pos(xpos)
+	newbase := NewInliningBase(b1)
+	newbase.SetInlIndex(2)
+	pos.SetBase(newbase)
+	xpos = tab.XPos(pos)
+
+	pos = tab.Pos(xpos)
+	if inl := pos.Base().InlIndex(); inl != 2 {
+		t.Fatalf("got inl index: %d", inl)
+	}
+}
