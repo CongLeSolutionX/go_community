@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "177c3fa0_acc01ac6",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "Remove all trailing whitespace.",
+      "range": {
+        "startLine": 6,
+        "startChar": 69,
+        "endLine": 6,
+        "endChar": 70
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35b3a182_39310fe8",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "anchor links on the website are lower case.\n\nid\u003d\"contributor\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f2a570d_847936e3",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -157,6 +203,29 @@
     },
     {
       "key": {
+        "uuid": "abd71743_e4eba287",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "If you are referring to the command, escape git, \u003ccode\u003egit\u003c/code\u003e. Else capitalize, \"Git\".",
+      "range": {
+        "startLine": 27,
+        "startChar": 24,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9371feb_44a9b5cf",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -174,6 +243,115 @@
         "endLine": 39,
         "endChar": 18
       },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fb1e00e_fa14ec0e",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "This add nothing, they don\u0027t have to know that they are being redirected. They should only know that they need to sign in with the same account.",
+      "range": {
+        "startLine": 73,
+        "startChar": 39,
+        "endLine": 74,
+        "endChar": 19
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98af1586_6041f40f",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "This adds nothing.\n\nSay something like \n\nSign in using the same Google Account you used above and you will be registered.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 28
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc98ccd7_1f517d12",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "Remove this. They don\u0027t have to know about it.\n\nCONTRIBUTORS file are updated once a while.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 4
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2023b0c_a57fde41",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "signed?",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 23
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ba9ff2_938fb2d4",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "Can\u0027t you just say,\n\nIf you have signed a Google CLA to contribute to another Google project before, you don\u0027t have to sign it again.",
       "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -214,6 +392,69 @@
     },
     {
       "key": {
+        "uuid": "bb709b6e_936e2b5a",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "They dont have to do anything here, these files are auto generated.",
+      "range": {
+        "startLine": 347,
+        "startChar": 0,
+        "endLine": 354,
+        "endChar": 4
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "706d811c_121193b7",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "they don\u0027t have to know about this, skip this.",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19385d32_462fee6b",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "New files",
+      "range": {
+        "startLine": 363,
+        "startChar": 3,
+        "endLine": 363,
+        "endChar": 7
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33655bb9_c3f31a62",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -225,6 +466,109 @@
       "writtenOn": "2017-02-13T22:19:37Z",
       "side": 1,
       "message": "\"are copyright the year\" sounds a bit awkward to me.",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81455669_ddf7fefc",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "Remove this, say only new files need to have a license header.",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4fb59e7_6f3bb1dd",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "I cannot follow here. Do you mean git change is similar to git commit.\n\ngit change, only checks a new local branch.",
+      "range": {
+        "startLine": 391,
+        "startChar": 6,
+        "endLine": 391,
+        "endChar": 16
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d407f88d_5747099d",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "This is a normal commit. Let\u0027s not confuse the users saying it is similar to a normal commit.",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 412,
+        "endChar": 26
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f84888ac_4d0cd4ae",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "Should this go into the troubleshooting section?\n\nWe expect people to have experience with git, I am not sure we should mention $EDITOR in the main guide.",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12c9e11b_8ca570ce",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "Why not just Testing?",
+      "range": {
+        "startLine": 518,
+        "startChar": 25,
+        "endLine": 518,
+        "endChar": 30
+      },
       "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -248,6 +592,138 @@
     },
     {
       "key": {
+        "uuid": "03170f88_84000b27",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "This guide is not targeted at Go contributors but Go users.",
+      "range": {
+        "startLine": 521,
+        "startChar": 16,
+        "endLine": 521,
+        "endChar": 25
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7267a3f0_a85bc096",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "Aren\u0027t we already in the go directory?",
+      "range": {
+        "startLine": 527,
+        "startChar": 5,
+        "endLine": 527,
+        "endChar": 7
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2a40890_0ff2ca1e",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "After running for a while, the command should output:\n\n\u003cpre\u003e\nALL TESTS PASSED.\n\u003c/pre\u003e",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2724e5e6_c366795b",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "Don\u0027t use Submit but Mail.\n\nSubmit is the terminology for merging.",
+      "range": {
+        "startLine": 540,
+        "startChar": 14,
+        "endLine": 540,
+        "endChar": 20
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89402cd0_ff546c34",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "mail.",
+      "range": {
+        "startLine": 543,
+        "startChar": 26,
+        "endLine": 543,
+        "endChar": 32
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1099d9b2_f9673e45",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "I\u0027d instead say, mailing a change will open a change list on the server.",
+      "range": {
+        "startLine": 544,
+        "startChar": 0,
+        "endLine": 544,
+        "endChar": 38
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d702276_6d1fd4fa",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -259,6 +735,46 @@
       "writtenOn": "2017-02-13T22:19:37Z",
       "side": 1,
       "message": "s/inspite/despite/",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78d7ec6_f64ec100",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "mail also mails the CL to the codereviews mailing list. It is literally mailing a change.",
+      "range": {
+        "startLine": 545,
+        "startChar": 45,
+        "endLine": 545,
+        "endChar": 49
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a352aad_b57bb412",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "I\u0027d keep -r and -cc here, mentioning that they should be used if the contributor knows who should be the reviewer.\n\nIf they don\u0027t, they can skip this section.",
       "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -310,6 +826,52 @@
       "writtenOn": "2017-02-13T22:19:37Z",
       "side": 1,
       "message": "s/Github/GitHub/",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a9543c7_69a3adec",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "Please use \"Submit\".\n\nWe use Gerrit, it is Gerrit\u0027s terminology we should use. Changes are cherrypicked and applied to master. Merging means git merging to me.",
+      "range": {
+        "startLine": 828,
+        "startChar": 16,
+        "endLine": 828,
+        "endChar": 21
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17ee098c_38f8a321",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-02-17T23:49:23Z",
+      "side": 1,
+      "message": "No, this page is not open to everyone. Each item needs to be debated and needs consensus before being contributed.\n\nWe should suggest that they should ask golang-dev@ if they see anything significantly missing from the document.",
+      "range": {
+        "startLine": 851,
+        "startChar": 68,
+        "endLine": 852,
+        "endChar": 56
+      },
       "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
