@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a67e51c_ed116e31",
+        "filename": "src/math/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3066,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-02-17T07:57:52Z",
+      "side": 1,
+      "message": "Will add sinks so the compiler does not optimize away the benchmarks for other bechmarks in math in an extra CL.",
+      "range": {
+        "startLine": 3066,
+        "startChar": 2,
+        "endLine": 3066,
+        "endChar": 19
+      },
+      "revId": "4388d3e4b3682007ca7f84ab985eeff97f0a04d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
