@@ -63,6 +63,9 @@ func (p Pos) Filename() string { return p.base.Pos().RelFilename() }
 // Base returns the position base.
 func (p Pos) Base() *PosBase { return p.base }
 
+// SetBase sets the position base.
+func (p *Pos) SetBase(base *PosBase) { p.base = base }
+
 // RelFilename returns the filename recorded with the position's base.
 func (p Pos) RelFilename() string { return p.base.Filename() }
 
@@ -115,13 +118,14 @@ type PosBase struct {
 	filename    string // file name used to open source file, for error messages
 	absFilename string // absolute file name, for PC-Line tables
 	line        uint   // relative line number at pos
+	inl         int32  // inlining index
 }
 
 // NewFileBase returns a new *PosBase for a file with the given (relative and
 // absolute) filenames.
 func NewFileBase(filename, absFilename string) *PosBase {
 	if filename != "" {
-		base := &PosBase{filename: filename, absFilename: absFilename}
+		base := &PosBase{filename: filename, absFilename: absFilename, inl: -1}
 		base.pos = MakePos(base, 0, 0)
 		return base
 	}
@@ -132,7 +136,26 @@ func NewFileBase(filename, absFilename string) *PosBase {
 //      //line filename:line
 // at position pos.
 func NewLinePragmaBase(pos Pos, filename string, line uint) *PosBase {
-	return &PosBase{pos, filename, filename, line - 1}
+	return &PosBase{pos, filename, filename, line - 1, -1}
+}
+
+func NewInliningBase(oldbase *PosBase) *PosBase {
+	if oldbase == nil {
+		base := &PosBase{inl: -1}
+		base.pos = MakePos(base, 0, 0)
+		return base
+	}
+	base := &PosBase{
+		pos:         oldbase.pos,
+		filename:    oldbase.filename,
+		absFilename: oldbase.absFilename,
+		line:        oldbase.line,
+		inl:         oldbase.inl,
+	}
+	if oldbase == oldbase.pos.base {
+		base.pos.base = base
+	}
+	return base
 }
 
 var noPos Pos
@@ -171,6 +194,14 @@ func (b *PosBase) Line() uint {
 		return b.line
 	}
 	return 0
+}
+
+func (b *PosBase) InlIndex() int32 {
+	return b.inl
+}
+
+func (b *PosBase) SetInlIndex(inl int32) {
+	b.inl = inl
 }
 
 // ----------------------------------------------------------------------------

@@ -240,10 +240,19 @@ type FuncInfo struct {
 	Pcsp        Pcdata
 	Pcfile      Pcdata
 	Pcline      Pcdata
+	Pcinline    Pcdata
 	Pcdata      []Pcdata
 	Funcdata    []*Symbol
 	Funcdataoff []int64
 	File        []*Symbol
+	InlTree     []InlinedCall
+}
+
+type InlinedCall struct {
+	Parent int32
+	File   *Symbol
+	Line   int32
+	Func   *Symbol
 }
 
 type Pcdata struct {

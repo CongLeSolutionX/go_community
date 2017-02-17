@@ -169,6 +169,55 @@ func pctofileline(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg
 	return int32(i)
 }
 
+type pcinlineState struct {
+	globalToLocal map[int32]int32
+	localTree     []InlinedCall
+}
+
+func (s *pcinlineState) addbranch(ctxt *Link, globalIndex int32) int32 {
+	if globalIndex == -1 {
+		return -1
+	}
+
+	localIndex, ok := s.globalToLocal[globalIndex]
+	if ok {
+		return localIndex
+	}
+
+	// TODO(lazard): Use one node for multiple calls of the same
+	// function on the same line (e.g., f(x) + f(y)), since
+	// tracebacks don't include column information.
+	call := ctxt.InlTree.nodes[globalIndex]
+	call.Parent = s.addbranch(ctxt, call.Parent)
+	localIndex = int32(len(s.localTree))
+	s.localTree = append(s.localTree, call)
+	s.globalToLocal[globalIndex] = localIndex
+	return localIndex
+}
+
+func pctoinline(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg interface{}) int32 {
+	if phase == 1 {
+		return oldval
+	}
+
+	posBase := ctxt.PosTable.Pos(p.Pos).Base()
+	if posBase == nil {
+		return -1
+	}
+
+	globalIndex := posBase.InlIndex()
+	if globalIndex == -1 {
+		return -1
+	}
+
+	s := arg.(*pcinlineState)
+	if s.globalToLocal == nil {
+		s.globalToLocal = make(map[int32]int32)
+	}
+
+	return s.addbranch(ctxt, globalIndex)
+}
+
 // pctospadj computes the sp adjustment in effect.
 // It is oldval plus any adjustment made by p itself.
 // The adjustment by p takes effect only after p, so we
@@ -237,6 +286,10 @@ func linkpcln(ctxt *Link, cursym *LSym) {
 	funcpctab(ctxt, &pcln.Pcsp, cursym, "pctospadj", pctospadj, nil)
 	funcpctab(ctxt, &pcln.Pcfile, cursym, "pctofile", pctofileline, pcln)
 	funcpctab(ctxt, &pcln.Pcline, cursym, "pctoline", pctofileline, nil)
+
+	pcinlineState := new(pcinlineState)
+	funcpctab(ctxt, &pcln.Pcinline, cursym, "pctoinline", pctoinline, pcinlineState)
+	pcln.InlTree = pcinlineState.localTree
 
 	// tabulate which pc and func data we have.
 	havepc := make([]uint32, (npcdata+31)/32)

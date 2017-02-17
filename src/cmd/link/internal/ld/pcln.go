@@ -108,18 +108,22 @@ func ftabaddstring(ctxt *Link, ftab *Symbol, s string) int32 {
 	return start
 }
 
+func numberfile(ctxt *Link, file *Symbol) {
+	if file.Type != obj.SFILEPATH {
+		ctxt.Filesyms = append(ctxt.Filesyms, file)
+		file.Value = int64(len(ctxt.Filesyms))
+		file.Type = obj.SFILEPATH
+		file.Name = expandGoroot(file.Name)
+	}
+}
+
 func renumberfiles(ctxt *Link, files []*Symbol, d *Pcdata) {
 	var f *Symbol
 
 	// Give files numbers.
 	for i := 0; i < len(files); i++ {
 		f = files[i]
-		if f.Type != obj.SFILEPATH {
-			ctxt.Filesyms = append(ctxt.Filesyms, f)
-			f.Value = int64(len(ctxt.Filesyms))
-			f.Type = obj.SFILEPATH
-			f.Name = expandGoroot(f.Name)
-		}
+		numberfile(ctxt, f)
 	}
 
 	newval := int32(-1)
@@ -226,6 +230,8 @@ func (ctxt *Link) pclntab() {
 	setuintxx(ctxt, ftab, 8, uint64(nfunc), int64(SysArch.PtrSize))
 	pclntabPclntabOffset = int32(8 + SysArch.PtrSize)
 
+	funcnameoff := make(map[string]int32)
+
 	nfunc = 0
 	var last *Symbol
 	for _, s := range ctxt.Textp {
@@ -240,6 +246,23 @@ func (ctxt *Link) pclntab() {
 
 		if pclntabFirstFunc == nil {
 			pclntabFirstFunc = s
+		}
+
+		if len(pcln.InlTree) > 0 {
+			if len(pcln.Pcdata) <= obj.PCDATA_InlTreeIndex {
+				pcdata := make([]Pcdata, obj.PCDATA_InlTreeIndex+1)
+				copy(pcdata, pcln.Pcdata)
+				pcln.Pcdata = pcdata
+			}
+
+			if len(pcln.Funcdataoff) <= obj.FUNCDATA_InlTree {
+				funcdata := make([]*Symbol, obj.FUNCDATA_InlTree+1)
+				funcdataoff := make([]int64, obj.FUNCDATA_InlTree+1)
+				copy(funcdata, pcln.Funcdata)
+				copy(funcdataoff, pcln.Funcdataoff)
+				pcln.Funcdata = funcdata
+				pcln.Funcdataoff = funcdataoff
+			}
 		}
 
 		funcstart := int32(len(ftab.P))
@@ -264,7 +287,12 @@ func (ctxt *Link) pclntab() {
 		off = int32(setaddr(ctxt, ftab, int64(off), s))
 
 		// name int32
-		off = int32(setuint32(ctxt, ftab, int64(off), uint32(ftabaddstring(ctxt, ftab, s.Name))))
+		nameoff, ok := funcnameoff[s.Name]
+		if !ok {
+			nameoff = ftabaddstring(ctxt, ftab, s.Name)
+			funcnameoff[s.Name] = nameoff
+		}
+		off = int32(setuint32(ctxt, ftab, int64(off), uint32(nameoff)))
 
 		// args int32
 		// TODO: Move into funcinfo.
@@ -293,6 +321,38 @@ func (ctxt *Link) pclntab() {
 					}
 				}
 			}
+		}
+
+		if len(pcln.InlTree) > 0 {
+			buf := make([]byte, len(pcln.InlTree)*16)
+			for i, call := range pcln.InlTree {
+				if call.File.Value == 0 {
+					// Usually doesn't happen since the file shows up in the Pcfile table.
+
+					// Two inlined calls might overlap exactly so that only the innermost
+					// file appears in the Pcfile table. In that case, we assign the
+					// outer file a number.
+					numberfile(ctxt, call.File)
+				}
+				ctxt.Arch.ByteOrder.PutUint32(buf[i*16:], uint32(call.Parent))
+				ctxt.Arch.ByteOrder.PutUint32(buf[i*16+4:], uint32(call.File.Value))
+				ctxt.Arch.ByteOrder.PutUint32(buf[i*16+8:], uint32(call.Line))
+
+				nameoff, ok := funcnameoff[call.Func.Name]
+				if !ok {
+					nameoff = ftabaddstring(ctxt, ftab, call.Func.Name)
+					funcnameoff[call.Func.Name] = nameoff
+				}
+				ctxt.Arch.ByteOrder.PutUint32(buf[i*16+12:], uint32(nameoff))
+			}
+			inlTreeSym := ctxt.Syms.Lookup("inltree."+s.Name, 0)
+			inlTreeSym.P = buf
+			inlTreeSym.Size = int64(len(buf))
+			inlTreeSym.Type = obj.SRODATA
+			inlTreeSym.Attr |= AttrReachable | AttrDuplicateOK
+
+			pcln.Funcdata[obj.FUNCDATA_InlTree] = inlTreeSym
+			pcln.Pcdata[obj.PCDATA_InlTreeIndex] = pcln.Pcinline
 		}
 
 		// pcdata
