@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e5233f27_0114c410",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "I got myself confused. This function is OK though I think. Added a comment.",
+      "parentUuid": "8de6d230_d66e7b16",
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3696d650_836745f1",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 6
@@ -30,6 +48,30 @@
       "writtenOn": "2017-02-17T20:33:14Z",
       "side": 1,
       "message": "This is trimming the data argument to 30 bits, but the data field can still overflow into 32 bits. Did you mean uint64((uint32(x)+uint32(data))\u003c\u003c2\u003e\u003e2)?",
+      "range": {
+        "startLine": 147,
+        "startChar": 66,
+        "endLine": 147,
+        "endChar": 102
+      },
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4acc4ee_e89e3eea",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "I think I just meant uint64(uint32(x)+uint32(data)).",
+      "parentUuid": "3696d650_836745f1",
       "range": {
         "startLine": 147,
         "startChar": 66,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "78f9ec62_3e8aa9f2",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13697f69_6e21b357",
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db1ad584_1d831c17",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 6
@@ -70,6 +130,24 @@
       "writtenOn": "2017-02-17T20:33:14Z",
       "side": 1,
       "message": "Remove comment about tagLock",
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c2c81a7_23c2595c",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db1ad584_1d831c17",
       "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "b0b7ab1c_646c2323",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "That\u0027s true of just about every field in the g, though.\nChanged wording to\n\"Since no other goroutine writes to gp.labels while gp is running,\"",
+      "parentUuid": "821ef5e5_85cc8bf3",
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b21e3a1_29e14a24",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 6
@@ -104,6 +200,24 @@
       "writtenOn": "2017-02-17T20:33:14Z",
       "side": 1,
       "message": "Add a comment to wherever we overwrite gp.labels that it depends on the deletion barrier to mark the old labels since the signal handler can\u0027t have a barrier.",
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afb16c5d_ea9e0977",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "I added a comment to the deletion barrier instead.",
+      "parentUuid": "4b21e3a1_29e14a24",
       "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "1e81e1b2_6f3a4655",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "777abda1_da2ac37e",
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a8002b1_52083e2b",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 6
@@ -138,6 +270,30 @@
       "writtenOn": "2017-02-17T20:33:14Z",
       "side": 1,
       "message": "b.w?",
+      "range": {
+        "startLine": 485,
+        "startChar": 52,
+        "endLine": 485,
+        "endChar": 55
+      },
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1748c179_f4a691c2",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a8002b1_52083e2b",
       "range": {
         "startLine": 485,
         "startChar": 52,
@@ -173,6 +329,30 @@
     },
     {
       "key": {
+        "uuid": "33fa4868_94391314",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ccb4fda_c7b7cdf8",
+      "range": {
+        "startLine": 508,
+        "startChar": 47,
+        "endLine": 508,
+        "endChar": 53
+      },
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e8be34f_e1de22b7",
         "filename": "src/runtime/profbuf.go",
         "patchSetId": 6
@@ -190,6 +370,24 @@
     },
     {
       "key": {
+        "uuid": "a7ac7fde_17ce41fa",
+        "filename": "src/runtime/profbuf.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8be34f_e1de22b7",
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3af04145_93b7be0f",
         "filename": "src/runtime/profbuf_test.go",
         "patchSetId": 6
@@ -201,6 +399,24 @@
       "writtenOn": "2017-02-17T20:33:14Z",
       "side": 1,
       "message": "Consider adding a test specifically for the ring wraparound behavior. E.g., test round-tripping of a record that has to be wrapped to the beginning of the ring; test when there are fewer tags than data records left before wraparound.",
+      "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93b1d627_04f72d9c",
+        "filename": "src/runtime/profbuf_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T21:03:23Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3af04145_93b7be0f",
       "revId": "8163e7ee72de784bdae7dcf5aa417c29a29825e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
