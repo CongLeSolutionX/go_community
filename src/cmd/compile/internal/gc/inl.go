@@ -977,7 +977,7 @@ func (subst *inlsubst) node(n *Node) *Node {
 		}
 		return n
 
-	case OLITERAL, OTYPE:
+	case OTYPE:
 		return n
 
 		// Since we don't handle bodies with closures, this return is guaranteed to belong to the current inlined function.
