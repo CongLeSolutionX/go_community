@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "1b2f4bbe_51c46f77",
+        "filename": "src/sync/mutex.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T16:32:02Z",
+      "side": 1,
+      "message": "I still don\u0027t see it. I agree that if this were wrong then locks would break badly, which is why I brought it up. I\u0027ll trust you for now.",
+      "parentUuid": "3bbc462f_8f005586",
+      "revId": "cf88e1b90cf6f5cd1ab51304355e25eacb041551",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5972c4c_86c3f7d0",
         "filename": "src/sync/mutex.go",
         "patchSetId": 5
