@@ -602,6 +602,23 @@ func funcname(f *_func) string {
 	return gostringnocopy(cfuncname(f))
 }
 
+func funcnameFromNameoff(f *_func, nameoff int32) string {
+	datap := findmoduledatap(f.entry) // inefficient
+	if datap == nil {
+		return ""
+	}
+	cstr := &datap.pclntable[nameoff]
+	return gostringnocopy(cstr)
+}
+
+func filename(f *_func, fileno int32) string {
+	datap := findmoduledatap(f.entry) // inefficient
+	if datap == nil {
+		return "?"
+	}
+	return gostringnocopy(&datap.pclntable[datap.filetab[fileno]])
+}
+
 func funcline1(f *_func, targetpc uintptr, strict bool) (file string, line int32) {
 	datap := findmoduledatap(f.entry) // inefficient
 	if datap == nil {
@@ -696,4 +713,11 @@ func stackmapdata(stkmap *stackmap, n int32) bitvector {
 		throw("stackmapdata: index out of range")
 	}
 	return bitvector{stkmap.nbit, (*byte)(add(unsafe.Pointer(&stkmap.bytedata), uintptr(n*((stkmap.nbit+7)/8))))}
+}
+
+type inlinedCall struct {
+	Parent int32
+	File   int32
+	Line   int32
+	Func   int32
 }
