@@ -52,6 +52,24 @@
       "revId": "82a97dc15dfde73285953ac2c9e95dae26a1ecba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0547d8ef_8433a2f1",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T18:52:19Z",
+      "side": 1,
+      "message": "The main complication is that there is no fixed head that sticks around. The head is just the first item in the list. When there\u0027s no item in the list at all, there\u0027s nothing left.",
+      "parentUuid": "3950b84b_1dc170a1",
+      "revId": "82a97dc15dfde73285953ac2c9e95dae26a1ecba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
