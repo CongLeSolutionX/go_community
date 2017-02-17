@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a06303a5_688fa400",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-02-17T17:32:20Z",
+      "side": 1,
+      "message": "We only reach here if \"kind \u003d\u003d initKindStatic\". Consequently, because of line 744, we know islit must be true (otherwise we would have continued at line 745). That means isliteral(value) must be true.",
+      "revId": "fe11ef87704f3bdab799061a4d643f9afa6b5af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26cd94e9_fb9bd2be",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 3
@@ -16,6 +33,58 @@
       "revId": "fe11ef87704f3bdab799061a4d643f9afa6b5af7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2be42c2e_c1bc2716",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-02-17T17:32:20Z",
+      "side": 1,
+      "message": "Reverted to using gdata.",
+      "parentUuid": "26cd94e9_fb9bd2be",
+      "revId": "fe11ef87704f3bdab799061a4d643f9afa6b5af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd885118_83886192",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-02-17T17:32:20Z",
+      "side": 1,
+      "message": "We\u0027re guarded here by the isliteral(index) check at line 961.",
+      "revId": "fe11ef87704f3bdab799061a4d643f9afa6b5af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ff936bc_26c2a816",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-02-17T17:32:20Z",
+      "side": 1,
+      "message": "We\u0027re guarded here by the isliteral(value) check at line 961.",
+      "revId": "fe11ef87704f3bdab799061a4d643f9afa6b5af7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
