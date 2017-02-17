@@ -16,6 +16,24 @@
       "revId": "82a97dc15dfde73285953ac2c9e95dae26a1ecba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e112f18_df509948",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-17T16:32:02Z",
+      "side": 1,
+      "message": "I\u0027ll fix it up. I agree this is not great. It\u0027s also stale since I have a new CL that replaced this. But I don\u0027t think additions and removals can be completely if-less.",
+      "parentUuid": "281acb52_d6442c6e",
+      "revId": "82a97dc15dfde73285953ac2c9e95dae26a1ecba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
