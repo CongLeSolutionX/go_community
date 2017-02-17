@@ -63,6 +63,30 @@
       "revId": "3739c212c606af292fc9e2c17c995f92b2a081dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76cd1c71_9bce5a08",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-17T21:00:25Z",
+      "side": 1,
+      "message": "Those checks get inserted earlier, and then removed by other rules if possible, at which point these rules can kick in. There\u0027s no attempt made to insert BT instructions in this CL if we can\u0027t prove that the shift is bounded. Figuring this bit out was one of the slow parts of getting this CL going in the first place.",
+      "parentUuid": "fb72cf65_1cd225b3",
+      "range": {
+        "startLine": 520,
+        "startChar": 59,
+        "endLine": 520,
+        "endChar": 74
+      },
+      "revId": "3739c212c606af292fc9e2c17c995f92b2a081dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
