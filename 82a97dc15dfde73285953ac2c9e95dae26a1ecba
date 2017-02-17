@@ -34,6 +34,24 @@
       "revId": "82a97dc15dfde73285953ac2c9e95dae26a1ecba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3950b84b_1dc170a1",
+        "filename": "src/runtime/sema.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-02-17T17:45:23Z",
+      "side": 1,
+      "message": "Is there anything special about this list?\nIt is generally done as (completely if-less):\nhttps://play.golang.org/p/OK6NF1pfrP\nIt should be possible to shrink head to 1 pointer by making it pointing to a doubly-linked ring of nodes. I think that\u0027s what we need for Mutex-embed wait list.\nI don\u0027t know if it fits with your new code, though.",
+      "parentUuid": "6e112f18_df509948",
+      "revId": "82a97dc15dfde73285953ac2c9e95dae26a1ecba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
