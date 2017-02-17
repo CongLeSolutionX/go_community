@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f6ba9d50_fc2a5cb8",
+        "filename": "src/math/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2792,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-17T23:55:12Z",
+      "side": 1,
+      "message": "Make it exported (this is a test, so no API change) - that way we\u0027re sure the compiler can\u0027t do anything about it (even if would do entire package analysis). Also, add a comment explaining why it\u0027s here.\n\nOk do to in next CL.",
+      "range": {
+        "startLine": 2792,
+        "startChar": 4,
+        "endLine": 2792,
+        "endChar": 8
+      },
+      "revId": "4388d3e4b3682007ca7f84ab985eeff97f0a04d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a67e51c_ed116e31",
         "filename": "src/math/all_test.go",
         "patchSetId": 3
