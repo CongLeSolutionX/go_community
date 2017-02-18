@@ -119,6 +119,10 @@ func tracebackdefers(gp *g, callback func(*stkframe, unsafe.Pointer) bool, v uns
 // collector (callback != nil).  A little clunky to merge these, but avoids
 // duplicating the code and all its subtlety.
 func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max int, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) int {
+	// print("max ===> ")
+	// println(max)
+	// println("<===> ")
+
 	if goexitPC == 0 {
 		throw("gentraceback before goexitPC initialization")
 	}
@@ -332,6 +336,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			}
 		}
 		if printing {
+			// Goal: Print Top and bottom
 			if (flags&_TraceRuntimeFrames) != 0 || showframe(f, gp, nprint == 0) {
 				// Print during crash.
 				//	main(0x1, 0x2, 0x3)
@@ -624,23 +629,42 @@ func traceback1(pc, sp, lr uintptr, gp *g, flags uint) {
 		printCgoTraceback(&cgoCallers)
 	}
 
-	var n int
 	if readgstatus(gp)&^_Gscan == _Gsyscall {
 		// Override registers if blocked in system call.
 		pc = gp.syscallpc
 		sp = gp.syscallsp
 		flags &^= _TraceTrap
 	}
+
+	// We'd like to print the top n frames and the bottom n frames.
+	// See golang.org/issue/7181.
+	// Abritrarily using maxFrameCount of _TracebackMaxFrames/3
+	maxFrameCount := _TracebackMaxFrames / 3
+
+	ntop := 0
+	nbottom := _TracebackMaxFrames - maxFrameCount
+
+	// Print the top frames.
+	n := printTraceback(pc, sp, lr, gp, ntop, nil, maxFrameCount, nil, nil, flags)
+	if n == maxFrameCount {
+		print("\n... ")
+		print("(")
+		print(nbottom - (ntop + maxFrameCount))
+		print(" stack frames omitted)\n\n")
+	}
+	// Print the bottom frames.
+	printTraceback(pc, sp, lr, gp, nbottom, nil, maxFrameCount, nil, nil, flags)
+}
+
+func printTraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max int, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) int {
 	// Print traceback. By default, omits runtime frames.
 	// If that means we print nothing at all, repeat forcing all frames printed.
-	n = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags)
+	n := gentraceback(pc0, sp0, lr0, gp, skip, pcbuf, max, callback, v, flags)
 	if n == 0 && (flags&_TraceRuntimeFrames) == 0 {
-		n = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags|_TraceRuntimeFrames)
-	}
-	if n == _TracebackMaxFrames {
-		print("...additional frames elided...\n")
+		n = gentraceback(pc0, sp0, lr0, gp, skip, pcbuf, max, callback, v, flags|_TraceRuntimeFrames)
 	}
 	printcreatedby(gp)
+	return n
 }
 
 func callers(skip int, pcbuf []uintptr) int {
