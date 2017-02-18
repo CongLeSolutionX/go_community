@@ -132,6 +132,11 @@ func skipPleaseUseCallersFrames()
 // and max > 1, pcbuf[1] will be runtime.skipPleaseUseCallersFrames+N where
 // N indicates the number of logical frames to skip in pcbuf[0].
 func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max int, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) int {
+	printing := pcbuf == nil && callback == nil
+	return _gentraceback(pc0, sp0, lr0, gp, skip, pcbuf, max, printing, callback, v, flags)
+}
+
+func _gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max int, printing bool, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) int {
 	if skip > 0 && callback != nil {
 		throw("gentraceback callback cannot be used with non-zero skip")
 	}
@@ -182,7 +187,6 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 	}
 	waspanic := false
 	cgoCtxt := gp.cgoCtxt
-	printing := pcbuf == nil && callback == nil
 	_defer := gp._defer
 
 	for _defer != nil && _defer.sp == _NoArgs {
@@ -385,8 +389,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			}
 		}
 
-		if printing {
-			// assume skip=0 for printing
+		if printing && (skip <= 0 || n >= skip) {
 			if (flags&_TraceRuntimeFrames) != 0 || showframe(f, gp, nprint == 0) {
 				// Print during crash.
 				//	main(0x1, 0x2, 0x3)
@@ -693,23 +696,52 @@ func traceback1(pc, sp, lr uintptr, gp *g, flags uint) {
 		printCgoTraceback(&cgoCallers)
 	}
 
-	var n int
 	if readgstatus(gp)&^_Gscan == _Gsyscall {
 		// Override registers if blocked in system call.
 		pc = gp.syscallpc
 		sp = gp.syscallsp
 		flags &^= _TraceTrap
 	}
-	// Print traceback. By default, omits runtime frames.
-	// If that means we print nothing at all, repeat forcing all frames printed.
-	n = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags)
-	if n == 0 && (flags&_TraceRuntimeFrames) == 0 {
-		n = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags|_TraceRuntimeFrames)
-	}
-	if n == _TracebackMaxFrames {
-		print("...additional frames elided...\n")
+
+	// We'd like to print:
+	//  * top nMaxFramesPerPrint frames
+	//  * bottom nMaxFramesPerPrint frames.
+	// See golang.org/issue/7181.
+	nMaxFramesPerPrint := _TracebackMaxFrames / 2
+	nFrames := frameCount(pc, sp, lr, gp, flags)
+	nBottomSkip := nFrames - nMaxFramesPerPrint
+	nelide := nBottomSkip - nMaxFramesPerPrint
+	if nFrames <= 2*nMaxFramesPerPrint || float32(nelide)/float32(nMaxFramesPerPrint) <= 0.3 {
+		// No point in separately printing top and bottom frames.
+		_ = printTraceback(pc, sp, lr, gp, 0, nil, nFrames, nil, nil, flags)
+	} else {
+		// Print the top frames first.
+		_ = printTraceback(pc, sp, lr, gp, 0, nil, nMaxFramesPerPrint, nil, nil, flags)
+
+		// Print the omitted frames message.
+		print("\n... (")
+		println(nelide, "stack frames omitted)\n")
+
+		// Now print the bottom frames.
+		// TODO: currently gentraceback isn't skipping frames when
+		// printing, so pass in the max number of frames. We'll need to fix this.
+		_ = printTraceback(pc, sp, lr, gp, nBottomSkip, nil, nFrames, nil, nil, flags)
 	}
 	printcreatedby(gp)
+}
+
+func frameCount(pc0, sp0, lr0 uintptr, gp *g, flags uint) int {
+	return _gentraceback(pc0, sp0, lr0, gp, 0, nil, 1<<31-1, false, nil, nil, flags)
+}
+
+func printTraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max int, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) int {
+	// Print traceback. By default, omits runtime frames.
+	// If that means we print nothing at all, repeat forcing all frames printed.
+	n := gentraceback(pc0, sp0, lr0, gp, skip, pcbuf, max, callback, v, flags)
+	if n == 0 && (flags&_TraceRuntimeFrames) == 0 {
+		n = gentraceback(pc0, sp0, lr0, gp, skip, pcbuf, max, callback, v, flags|_TraceRuntimeFrames)
+	}
+	return n
 }
 
 func callers(skip int, pcbuf []uintptr) int {
