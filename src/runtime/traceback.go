@@ -84,6 +84,11 @@ const sizeofSkipFunction = 256
 // and max > 1, pcbuf[1] will be runtime.skipPleaseUseCallersFrames+N where
 // N indicates the number of logical frames to skip in pcbuf[0].
 func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max int, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) int {
+	printing := pcbuf == nil && callback == nil
+	return ggentraceback(pc0, sp0, lr0, gp, skip, pcbuf, max, printing, callback, v, flags)
+}
+
+func ggentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max int, printing bool, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) int {
 	if skip > 0 && callback != nil {
 		throw("gentraceback callback cannot be used with non-zero skip")
 	}
@@ -135,7 +140,6 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 	}
 	waspanic := false
 	cgoCtxt := gp.cgoCtxt
-	printing := pcbuf == nil && callback == nil
 
 	// If the PC is zero, it's likely a nil function call.
 	// Start in the caller's frame.
@@ -324,7 +328,11 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			}
 		}
 
-		if pcbuf != nil {
+		if pcbuf == nil && skip > 0 {
+			// In this case we are printing and we still need to count
+			// the number of frames. See https://golang.org/issues/24628.
+			skip--
+		} else if pcbuf != nil {
 			pc := frame.pc
 			// backup to CALL instruction to read inlining info (same logic as below)
 			tracepc := pc
@@ -380,9 +388,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			n-- // offset n++ below
 		}
 
-		if printing {
-			// assume skip=0 for printing.
-			//
+		if printing && skip <= 0 {
 			// Never elide wrappers if we haven't printed
 			// any frames. And don't elide wrappers that
 			// called panic rather than the wrapped
@@ -712,30 +718,60 @@ func traceback1(pc, sp, lr uintptr, gp *g, flags uint) {
 		printCgoTraceback(&cgoCallers)
 	}
 
-	var n int
 	if readgstatus(gp)&^_Gscan == _Gsyscall {
 		// Override registers if blocked in system call.
 		pc = gp.syscallpc
 		sp = gp.syscallsp
 		flags &^= _TraceTrap
 	}
-	// Print traceback. By default, omits runtime frames.
-	// If that means we print nothing at all, repeat forcing all frames printed.
-	n = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags)
-	if n == 0 && (flags&_TraceRuntimeFrames) == 0 {
-		n = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags|_TraceRuntimeFrames)
-	}
-	if n == _TracebackMaxFrames {
-		print("...additional frames elided...\n")
+
+	printtraceback(pc, sp, lr, gp, nil, nil, nil, flags)
+	if gp.ancestors != nil {
+		for _, ancestor := range *gp.ancestors {
+			printAncestorTraceback(ancestor)
+		}
 	}
 	printcreatedby(gp)
+}
 
-	if gp.ancestors == nil {
+func countframes(pc0, sp0, lr0 uintptr, gp *g, flags uint) int {
+	return ggentraceback(pc0, sp0, lr0, gp, 0, nil, 1<<31-1, false, nil, nil, flags)
+}
+
+func printtraceback(pc, sp, lr uintptr, gp *g, pcbuf *uintptr, callback func(*stkframe, unsafe.Pointer) bool, v unsafe.Pointer, flags uint) {
+	// Figure out the stack size in order to print the bottom max(nMaxFramesPerPrint) frames.
+	//
+	// TODO(odeke-em, iant, khr): perhaps investigate and revise the solution in
+	//  https://go-review.googlesource.com/c/go/+/37222/9/src/runtime/traceback.go
+	// so that we'll always only need 1 stack walk, instead of 2 as in this worst case.
+	totalframes := countframes(pc, sp, lr, gp, flags)
+
+	if totalframes <= _TracebackMaxFrames {
+		// The common case, in which the traceback has less than nMaxFramesPerPrint
+		// By default, omits runtime frames.
+		// If that means we print nothing at all, repeat forcing all frames printed.
+		n := gentraceback(pc, sp, lr, gp, 0, pcbuf, totalframes, callback, v, flags)
+		if n == 0 && (flags&_TraceRuntimeFrames) == 0 {
+			_ = gentraceback(pc, sp, lr, gp, 0, pcbuf, totalframes, callback, v, flags|_TraceRuntimeFrames)
+		}
 		return
 	}
-	for _, ancestor := range *gp.ancestors {
-		printAncestorTraceback(ancestor)
+
+	// We'd like to print:
+	//  * top nMaxFramesPerPrint frames
+	//  * bottom nMaxFramesPerPrint frames.
+	// See https://golang.org/issue/7181.
+	nMaxFramesPerPrint := _TracebackMaxFrames / 2
+	max := nMaxFramesPerPrint
+	nTop := gentraceback(pc, sp, lr, gp, 0, pcbuf, max, callback, v, flags)
+
+	// Calculate the number of stack frames to elide since we
+	// are printing top and bottom each of nMaxFramesPerPrint.
+	if elide := totalframes - (nTop + nMaxFramesPerPrint); elide > 0 {
+		print("\n... (")
+		println(elide, "stack frames omitted)\n")
 	}
+	_ = gentraceback(pc, sp, lr, gp, totalframes+1-nMaxFramesPerPrint, nil, 1<<31-1 /* max int32 as the biggest frame number */, nil, nil, flags)
 }
 
 // printAncestorTraceback prints the traceback of the given ancestor.
