@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "58bb2025_fa0f8e52",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-18T01:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0edff422_a1ba8839",
+      "revId": "4bd0cab99c6984137b694f521f760041dcd02c47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "461a2414_59e58669",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-02-17T22:48:33Z",
       "side": 1,
       "message": "This idiom is typical:\n\n    newbase :\u003d s.bases[oldbase]\n    if newbase \u003d\u003d nil {\n        newbase \u003d src.NewInliningBase(oldbase)\n        newbase.SetInlIndex(s.newInlIndex)\n        s.bases[oldbase] \u003d newbase\n    }\n    s.SetBase(newbase)\n\nI\u0027d also consider extracting this if body out as a separate method \u0027rewrite\u0027 (or whatever) so that it\u0027s just:\n\n    if n.Op !\u003d ONAME || !n.Pos.IsKnown() {\n        n.Pos \u003d s.rewrite(n.Pos)\n    }",
+      "range": {
+        "startLine": 1060,
+        "startChar": 0,
+        "endLine": 1068,
+        "endChar": 3
+      },
+      "revId": "4bd0cab99c6984137b694f521f760041dcd02c47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "838ad335_257c9b6e",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-18T01:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "461a2414_59e58669",
       "range": {
         "startLine": 1060,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "1c16a52a_1bc8775b",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-18T01:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dc4ed0e_e39ab571",
+      "range": {
+        "startLine": 13,
+        "startChar": 3,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "4bd0cab99c6984137b694f521f760041dcd02c47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84824aac_03ca7df1",
         "filename": "src/cmd/internal/obj/inl.go",
         "patchSetId": 1
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "3ff72607_dabdc379",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-18T01:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84824aac_03ca7df1",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "4bd0cab99c6984137b694f521f760041dcd02c47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84de92ac_5280cded",
         "filename": "src/cmd/internal/obj/inl.go",
         "patchSetId": 1
@@ -99,6 +189,30 @@
       "writtenOn": "2017-02-17T22:48:33Z",
       "side": 1,
       "message": "Maybe make a method of *Link?",
+      "range": {
+        "startLine": 26,
+        "startChar": 5,
+        "endLine": 26,
+        "endChar": 18
+      },
+      "revId": "4bd0cab99c6984137b694f521f760041dcd02c47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "448f0621_437d2810",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-18T01:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84de92ac_5280cded",
       "range": {
         "startLine": 26,
         "startChar": 5,
@@ -156,6 +270,24 @@
       "writtenOn": "2017-02-17T22:48:33Z",
       "side": 1,
       "message": "FYI, make([]T, 0) returns a non-nil slice, but doesn\u0027t actually allocate any memory.",
+      "revId": "4bd0cab99c6984137b694f521f760041dcd02c47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d344994b_5b1eeff3",
+        "filename": "src/cmd/link/internal/ld/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-18T01:30:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73cd859a_867d517d",
       "revId": "4bd0cab99c6984137b694f521f760041dcd02c47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
