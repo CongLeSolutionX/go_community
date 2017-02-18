@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "712920b1_ff80569b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-18T19:30:42Z",
+      "side": 1,
+      "message": "probably macOS unless it\u0027s a new OS I haven\u0027t heard about",
+      "revId": "6ba63147a9d09581b4c38b7c179891a135c07666",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
