@@ -214,6 +214,14 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 
 	var cache pcvalueCache
 
+	// Logic for printing
+	// 1. First n/2 frames ni <= n/2
+	// 2. On encountering ni >= n/2 --> put in circular buffer
+	maxMid := max / 2
+	circbuf := make([]*frameSave, maxMid)
+	circbufHead := 0
+	circular := false
+
 	n := 0
 	for n < max {
 		// Typically:
@@ -396,53 +404,27 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			name := funcname(f)
 			nextElideWrapper := elideWrapperCalling(name)
 			if (flags&_TraceRuntimeFrames) != 0 || showframe(f, gp, nprint == 0, elideWrapper && nprint != 0) {
-				// Print during crash.
-				//	main(0x1, 0x2, 0x3)
-				//		/home/rsc/go/src/runtime/x.go:23 +0xf
-				//
-				tracepc := frame.pc // back up to CALL instruction for funcline.
-				if (n > 0 || flags&_TraceTrap == 0) && frame.pc > f.entry && !waspanic {
-					tracepc--
+				fsav := &frameSave{
+					f:        f,
+					level:    level,
+					frame:    frame,
+					flags:    flags,
+					gp:       gp,
+					g:        g,
+					n:        n,
+					waspanic: waspanic,
 				}
-				file, line := funcline(f, tracepc)
-				inldata := funcdata(f, _FUNCDATA_InlTree)
-				if inldata != nil {
-					inltree := (*[1 << 20]inlinedCall)(inldata)
-					ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, nil)
-					for ix != -1 {
-						name := funcnameFromNameoff(f, inltree[ix].func_)
-						print(name, "(...)\n")
-						print("\t", file, ":", line, "\n")
-
-						file = funcfile(f, inltree[ix].file)
-						line = inltree[ix].line
-						ix = inltree[ix].parent
+				if nprint <= maxMid {
+					printFrame(fsav)
+				} else {
+					// Adding FIFO style, first in first out
+					circbuf[circbufHead] = fsav
+					circbufHead += 1
+					if circbufHead >= maxMid {
+						circular = true
+						circbufHead %= maxMid
 					}
 				}
-				if name == "runtime.gopanic" {
-					name = "panic"
-				}
-				print(name, "(")
-				argp := (*[100]uintptr)(unsafe.Pointer(frame.argp))
-				for i := uintptr(0); i < frame.arglen/sys.PtrSize; i++ {
-					if i >= 10 {
-						print(", ...")
-						break
-					}
-					if i != 0 {
-						print(", ")
-					}
-					print(hex(argp[i]))
-				}
-				print(")\n")
-				print("\t", file, ":", line)
-				if frame.pc > f.entry {
-					print(" +", hex(frame.pc-f.entry))
-				}
-				if g.m.throwing > 0 && gp == g.m.curg || level >= 2 {
-					print(" fp=", hex(frame.fp), " sp=", hex(frame.sp), " pc=", hex(frame.pc))
-				}
-				print("\n")
 				nprint++
 			}
 			elideWrapper = nextElideWrapper
@@ -498,6 +480,26 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 
 	if printing {
 		n = nprint
+	}
+
+	if !circular {
+		for _, fsav := range circbuf {
+			printFrame(fsav)
+		}
+	} else {
+		print(n-maxMid, "...additional frames elided...\n")
+		// We now want to print from
+		// first in to the last in
+		max := len(circbuf)
+		start := circbufHead % max
+
+		// From the top frame to the bottom
+		for i := start; i < max; i++ {
+			printFrame(circbuf[i])
+		}
+		for i := 0; i < start; i++ {
+			printFrame(circbuf[i])
+		}
 	}
 
 	// If callback != nil, we're being called to gather stack information during
@@ -701,21 +703,22 @@ func traceback1(pc, sp, lr uintptr, gp *g, flags uint) {
 		printCgoTraceback(&cgoCallers)
 	}
 
-	var n int
 	if readgstatus(gp)&^_Gscan == _Gsyscall {
 		// Override registers if blocked in system call.
 		pc = gp.syscallpc
 		sp = gp.syscallsp
 		flags &^= _TraceTrap
 	}
+
+	// We'd like to print:
+	//  * top nMaxFramesPerPrint frames
+	//  * bottom nMaxFramesPerPrint frames.
+	// See golang.org/issue/7181.
+	n := gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags)
 	// Print traceback. By default, omits runtime frames.
 	// If that means we print nothing at all, repeat forcing all frames printed.
-	n = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags)
 	if n == 0 && (flags&_TraceRuntimeFrames) == 0 {
-		n = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags|_TraceRuntimeFrames)
-	}
-	if n == _TracebackMaxFrames {
-		print("...additional frames elided...\n")
+		_ = gentraceback(pc, sp, lr, gp, 0, nil, _TracebackMaxFrames, nil, nil, flags|_TraceRuntimeFrames)
 	}
 	printcreatedby(gp)
 }
@@ -1181,4 +1184,77 @@ func cgoContextPCs(ctxt uintptr, buf []uintptr) {
 		msanwrite(unsafe.Pointer(&arg), unsafe.Sizeof(arg))
 	}
 	call(cgoTraceback, noescape(unsafe.Pointer(&arg)))
+}
+
+// Printing stack frames
+type frameSave struct {
+	f     funcInfo
+	n     int
+	frame stkframe
+	gp, g *g
+	flags uint
+	level int32
+
+	waspanic bool
+}
+
+func printFrame(fsav *frameSave) {
+	f, flags := fsav.f, fsav.flags
+	n, g, gp := fsav.n, fsav.g, fsav.gp
+	frame := fsav.frame
+	level := fsav.level
+	waspanic := fsav.waspanic
+
+	// Never elide wrappers if we haven't printed
+	// any frames. And don't elide wrappers that
+	// called panic rather than the wrapped
+	// function. Otherwise, leave them out.
+	name := funcname(f)
+	// Print during crash.
+	//	main(0x1, 0x2, 0x3)
+	//		/home/rsc/go/src/runtime/x.go:23 +0xf
+	//
+	tracepc := frame.pc // back up to CALL instruction for funcline.
+	if (n > 0 || flags&_TraceTrap == 0) && frame.pc > f.entry && !waspanic {
+		tracepc--
+	}
+	file, line := funcline(f, tracepc)
+	inldata := funcdata(f, _FUNCDATA_InlTree)
+	if inldata != nil {
+		inltree := (*[1 << 20]inlinedCall)(inldata)
+		ix := pcdatavalue(f, _PCDATA_InlTreeIndex, tracepc, nil)
+		for ix != -1 {
+			name := funcnameFromNameoff(f, inltree[ix].func_)
+			print(name, "(...)\n")
+			print("\t", file, ":", line, "\n")
+
+			file = funcfile(f, inltree[ix].file)
+			line = inltree[ix].line
+			ix = inltree[ix].parent
+		}
+	}
+	if name == "runtime.gopanic" {
+		name = "panic"
+	}
+	print(name, "(")
+	argp := (*[100]uintptr)(unsafe.Pointer(frame.argp))
+	for i := uintptr(0); i < frame.arglen/sys.PtrSize; i++ {
+		if i >= 10 {
+			print(", ...")
+			break
+		}
+		if i != 0 {
+			print(", ")
+		}
+		print(hex(argp[i]))
+	}
+	print(")\n")
+	print("\t", file, ":", line)
+	if frame.pc > f.entry {
+		print(" +", hex(frame.pc-f.entry))
+	}
+	if g.m.throwing > 0 && gp == g.m.curg || level >= 2 {
+		print(" fp=", hex(frame.fp), " sp=", hex(frame.sp), " pc=", hex(frame.pc))
+	}
+	print("\n")
 }
