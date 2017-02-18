@@ -231,6 +231,31 @@ func TestStackOverflow(t *testing.T) {
 	}
 }
 
+func TestStackOverflowTopAndBottomTraces(t *testing.T) {
+	output := runTestProg(t, "testprog", "StackOverflowTopAndBottomTraces")
+	want := []string{
+		"runtime: goroutine stack exceeds 10000-byte limit",
+		"fatal error: stack overflow",
+		"runtime stack:",
+		"runtime.throw",
+		"runtime.newstack",
+		"runtime.morestack",
+		"...",
+		"stack frames omitted",
+		"main.main()",
+		"runtime.main()",
+		"runtime.goexit()",
+	}
+	for _, w := range want {
+		idx := strings.Index(output, w)
+		if idx < 0 {
+			t.Errorf("stack traces do not contain: %q", w)
+		} else {
+			output = output[idx+len(w):]
+		}
+	}
+}
+
 func TestThreadExhaustion(t *testing.T) {
 	output := runTestProg(t, "testprog", "ThreadExhaustion")
 	want := "runtime: program exceeds 10-thread limit\nfatal error: thread exhaustion"
