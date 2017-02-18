@@ -20,6 +20,7 @@ func init() {
 	register("LockedDeadlock2", LockedDeadlock2)
 	register("GoexitDeadlock", GoexitDeadlock)
 	register("StackOverflow", StackOverflow)
+	register("StackOverflowTopAndBottomTraces", StackOverflowTopAndBottomTraces)
 	register("ThreadExhaustion", ThreadExhaustion)
 	register("RecursivePanic", RecursivePanic)
 	register("GoexitExit", GoexitExit)
@@ -78,6 +79,18 @@ func StackOverflow() {
 	}
 	debug.SetMaxStack(1474560)
 	f()
+}
+
+func StackOverflowTopAndBottomTraces() {
+	var fi, gi func()
+	fi = func() {
+		gi()
+	}
+	gi = func() {
+		fi()
+	}
+	debug.SetMaxStack(10000)
+	fi()
 }
 
 func ThreadExhaustion() {
