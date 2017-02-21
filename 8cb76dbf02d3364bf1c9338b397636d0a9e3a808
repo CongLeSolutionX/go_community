@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "165b45df_d38a18c6",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T04:07:08Z",
+      "side": 1,
+      "message": "This is a pretty generic name. funcfile?",
+      "revId": "8cb76dbf02d3364bf1c9338b397636d0a9e3a808",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ee09ff7_3d78baa4",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 718,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T04:07:08Z",
+      "side": 1,
+      "message": "Doc comment. Especially that this is the encoding of entries in the FUNCDATA_InlTree table. Would also be good to briefly document the fields, in particular what you should do to turn each int32 into something useful.",
+      "revId": "8cb76dbf02d3364bf1c9338b397636d0a9e3a808",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1d1e149_e06eddb4",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T04:07:08Z",
+      "side": 1,
+      "message": "Make these unexported so we don\u0027t generate needless reflection data for the runtime.",
+      "revId": "8cb76dbf02d3364bf1c9338b397636d0a9e3a808",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
