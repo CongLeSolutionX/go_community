@@ -34,6 +34,24 @@
       "revId": "dfebecd79c53f82f54691a0e392915d6aacdcb1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4abf2254_c742b93d",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-02-21T21:41:18Z",
+      "side": 1,
+      "message": "We can add --full-time as long as we revert it later.",
+      "parentUuid": "11c00ad8_a4c08955",
+      "revId": "dfebecd79c53f82f54691a0e392915d6aacdcb1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
