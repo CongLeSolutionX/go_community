@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "25477453_fa5b904a",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6831fa73_dfe90fe6",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28165f73_025a28ef",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 3
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "612c231c_c85c0ec5",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28165f73_025a28ef",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "034d4baf_33622dc2",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 3
@@ -67,6 +103,24 @@
       "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c327669e_a1b01afe",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "034d4baf_33622dc2",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -104,6 +158,24 @@
     },
     {
       "key": {
+        "uuid": "55484795_ebe7bae0",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "570e0748_a09b5822",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0d11274_de1fdfca",
         "filename": "src/cmd/internal/obj/funcdata.go",
         "patchSetId": 3
@@ -115,6 +187,24 @@
       "writtenOn": "2017-02-21T02:02:25Z",
       "side": 1,
       "message": "Wow, these comments are.. a little out of date. I sent a CL to clean this up. There will be a (trivial) merge conflict.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a7d6fcd_02d66ddb",
+        "filename": "src/cmd/internal/obj/funcdata.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f0d11274_de1fdfca",
       "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -135,6 +225,24 @@
       "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08395f50_6b131474",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a91e244_e2d3a349",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -189,6 +297,24 @@
     },
     {
       "key": {
+        "uuid": "7c384c0a_7bf45d66",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57165221_480d0ff9",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f082bac_c5de7b4a",
         "filename": "src/cmd/internal/obj/link.go",
         "patchSetId": 3
@@ -206,6 +332,24 @@
     },
     {
       "key": {
+        "uuid": "c2a1ff95_4762d4b2",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f082bac_c5de7b4a",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a976d4a7_5a1bf3db",
         "filename": "src/cmd/internal/obj/pcln.go",
         "patchSetId": 3
@@ -220,6 +364,24 @@
       "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af4b5b4c_a2a64658",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a976d4a7_5a1bf3db",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -263,6 +425,48 @@
     },
     {
       "key": {
+        "uuid": "8be813c6_aa6bcf48",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9a8109e_bece2ba7",
+      "range": {
+        "startLine": 177,
+        "startChar": 24,
+        "endLine": 177,
+        "endChar": 33
+      },
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f4cf674_912513a4",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7407c0d7_42ea3934",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca69afa6_bf051d60",
         "filename": "src/cmd/internal/obj/pcln.go",
         "patchSetId": 3
@@ -277,6 +481,24 @@
       "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb24fd7d_3a546fc1",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca69afa6_bf051d60",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -348,6 +570,24 @@
     },
     {
       "key": {
+        "uuid": "424a5481_090f1fde",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9037fb35_fa55727c",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5dbb5f6_d215b8bc",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 3
@@ -362,6 +602,24 @@
       "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79c93c5a_923dfe63",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5dbb5f6_d215b8bc",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -396,6 +654,24 @@
       "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19e280ba_300260d0",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T20:32:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9444b9b7_b933d45c",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
