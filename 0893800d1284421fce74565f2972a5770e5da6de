@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9bb289f_5a541391",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2703,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-21T23:20:32Z",
+      "side": 1,
+      "message": "In any of the three cases below, callOrOpMismatchMessage is called with the same arguments. It seems simpler and less messy to just compute the string here and then use it directly.",
+      "revId": "0893800d1284421fce74565f2972a5770e5da6de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "928e9700_7c62f8fe",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2731,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-21T23:20:32Z",
+      "side": 1,
+      "message": "get rid of this in favor of doing it in place per comment above",
+      "revId": "0893800d1284421fce74565f2972a5770e5da6de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
