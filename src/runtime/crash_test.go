@@ -170,6 +170,19 @@ func checkStaleRuntime(t *testing.T) {
 				t.Logf("go list -f {{.StaleReason}} failed: %v", err)
 			}
 			t.Logf("go list -f {{.StaleReason}} runtime:\n%s", out)
+			fp := filepath.Join(runtime.GOROOT(), "pkg", "linux_ppc64le", "runtime.a")
+			out, err = testEnv(exec.Command("stat", "--printf=%n %y\n", fp)).CombinedOutput()
+			t.Logf("%s", out)
+			fp = filepath.Join(runtime.GOROOT(), "pkg", "linux_ppc64le", "runtime", "internal", "sys.a")
+			out, err = testEnv(exec.Command("stat", "--printf=%n %y\n", fp)).CombinedOutput()
+			t.Logf("%s", out)
+			fp = filepath.Join(runtime.GOROOT(), "pkg", "linux_ppc64le", "runtime", "internal", "atomic.a")
+			out, err = testEnv(exec.Command("stat", "--printf=%n %y\n", fp)).CombinedOutput()
+			t.Logf("%s", out)
+			fp = filepath.Join(runtime.GOROOT(), "src", "runtime", "internal", "sys", "arch.go")
+			out, err = testEnv(exec.Command("stat", "--printf=%n %y\n", fp)).CombinedOutput()
+			t.Logf("%s", out)
+
 			staleRuntimeErr = fmt.Errorf("Stale runtime.a. Run 'go install runtime'.")
 		}
 	})
