@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6f428da2_d2c36df7",
+        "filename": "src/math/pow10.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-02-21T23:52:23Z",
+      "side": 1,
+      "message": "It is 3 comparisons in current and in the proposed variant\nsince 0 \u003c\u003d n \u0026\u0026 n \u003c\u003d 308 gets optimized to uint(n) \u003c\u003d 308\nThe current has the benefit of having the common cases first.",
+      "parentUuid": "251a5943_d1a9eb3f",
+      "revId": "b139a760dd8428e866e0f24992c9be502bf1d3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f686caf0_24c4573a",
         "filename": "src/math/pow10.go",
         "patchSetId": 4
