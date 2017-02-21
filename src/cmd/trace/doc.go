@@ -26,5 +26,9 @@ Supported profile types are:
 
 Then, you can use the pprof tool to analyze the profile:
 	go tool pprof TYPE.pprof
+
+Note that while the various profiles pages (goroutines analysis,
+network blocking profile, etc..) work on every browser, the trace
+viewer itself ('view trace') requires Chrome/Chromium.
 */
 package main

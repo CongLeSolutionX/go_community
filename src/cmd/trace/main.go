@@ -42,6 +42,10 @@ Supported profile types are:
 Flags:
 	-http=addr: HTTP service address (e.g., ':6060')
 	-pprof=type: print a pprof-like profile instead
+
+Note that while the various profiles pages (goroutines analysis,
+network blocking profile, etc..) work on every browser, the trace
+viewer itself ('view trace') requires Chrome/Chromium.
 `
 
 var (
