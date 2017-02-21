@@ -16,6 +16,24 @@
       "revId": "dfebecd79c53f82f54691a0e392915d6aacdcb1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11c00ad8_a4c08955",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-02-21T21:28:43Z",
+      "side": 1,
+      "message": "Is that enough precison?",
+      "parentUuid": "fbad7cfe_e646c0e2",
+      "revId": "dfebecd79c53f82f54691a0e392915d6aacdcb1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
