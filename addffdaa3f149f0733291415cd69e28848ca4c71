@@ -1,0 +1,401 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b55eebf5_051d6feb",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Just out of curiosity (not saying you should do this), would it make sense to rewrite the position information in inlsubst rather than as a separate pass?",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6831fa73_dfe90fe6",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Update this comment since setlno doesn\u0027t exist any more.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28165f73_025a28ef",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "// Rewrite the line information for the inlined AST.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "034d4baf_33622dc2",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1038,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Since this is new code, best to stick with Go comment conventions.\n\n// setPos is a visitor to update position info with a new inlining index.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65a422ae_53b04516",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Consider passing s.newInlIndex directly to src.NewInliningBase and removing the SetInlIndex method. AFAICT, NewInliningBase is always used together with SetInlIndex, and NewInliningBase currently has basically nothing to do with inlining. OTOH, it would be natural for it to set the inlining index since that\u0027s why you\u0027re creating a new base.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "570e0748_a09b5822",
+        "filename": "src/cmd/compile/internal/gc/util.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "This isn\u0027t very clear if you\u0027re not actively thinking about inlining. Maybe something like\n\n// Line returns n\u0027s position as a string. If n has been inlined, it uses the outermost position where n has been inlined.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d11274_de1fdfca",
+        "filename": "src/cmd/internal/obj/funcdata.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Wow, these comments are.. a little out of date. I sent a CL to clean this up. There will be a (trivial) merge conflict.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a91e244_e2d3a349",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Add doc comments on these types and funcs.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cb6901d_2af70e45",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Consider introducing a named type for inline tree indexes.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5e26d86_e0cf92f3",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Just thinking out loud here: would it simplify anything to do uniquifying here rather than unconditionally assigning a new index? For example, would this unify some of the logic when obj is extracting the local inline trees? (Obviously you\u0027d still need the walk, but it could take an InlTree and build a new InlTree.)",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57165221_480d0ff9",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "outerxpos :\u003d xpos? (Too bad Go has so many ways of saying this...)",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f082bac_c5de7b4a",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Consider using the InlTree type.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a976d4a7_5a1bf3db",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Doc comment",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9a8109e_bece2ba7",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "addBranch",
+      "range": {
+        "startLine": 177,
+        "startChar": 24,
+        "endLine": 177,
+        "endChar": 33
+      },
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7407c0d7_42ea3934",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Doc comment",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca69afa6_bf051d60",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "The arg stuff is left over from C. Rather than further perpetuating it, consider making pctoinline a method of pcinlineState and passing it to funcpctab using a method expression (and just use nil for arg).",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "529d2efc_30f8cf53",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Doc comment.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90ada6b4_0d5ee86c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Might as well add a doc comment.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cc448ca_2b636d30",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Add a little closure to do the lookup in funcnameoff and use it in the two places you current open code this. E.g.,\n\nnameToOff :\u003d func(name string) int32 {\n  ...\n}",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9037fb35_fa55727c",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "// Create inlining pcdata table.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5dbb5f6_d215b8bc",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "// Create inline tree funcdata.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf8ad307_705571a2",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Rather than using slightly different conditional logic than numberfile to decide whether or not to call numberfile, just call numberfile unconditionally (and tweak the comment to say that it\u0027s usually but not always already numbered).",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9444b9b7_b933d45c",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:02:25Z",
+      "side": 1,
+      "message": "Put on the same line or split all of the conditions to different lines.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
