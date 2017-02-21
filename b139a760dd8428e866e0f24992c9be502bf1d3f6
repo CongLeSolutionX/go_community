@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "251a5943_d1a9eb3f",
+        "filename": "src/math/pow10.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-21T23:14:35Z",
+      "side": 1,
+      "message": "you are testing against 0 and 308 twice: once here, and once below. change to:\n\nif n \u003e 308 {\n  return Inf(1)\n}\n// n \u003c\u003d 308\n\nif n \u003e\u003d 0 {\n   return pow10postab32[n/32] *  pow10tab[n%32]\n}\n// n \u003c 0\n\nif n \u003e -324 {\n   return return pow10negtab32[-n/32] / pow10tab[-n%32]\n}\n// n \u003c\u003d -324\n\nreturn 0",
+      "revId": "b139a760dd8428e866e0f24992c9be502bf1d3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f686caf0_24c4573a",
+        "filename": "src/math/pow10.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-21T23:14:35Z",
+      "side": 1,
+      "message": "here you use \u003e (not \u003e\u003d) but in the comment below you use \u003c (not \u003c\u003d). which one is it?",
+      "revId": "b139a760dd8428e866e0f24992c9be502bf1d3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
