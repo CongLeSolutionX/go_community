@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d7ba2e3_5a84e70c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-21T02:09:07Z",
+      "side": 1,
+      "message": "Add a mention of why we currently don\u0027t copy them.",
+      "revId": "bebb503b67fda492161dd0a325d5967d5f230d1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
