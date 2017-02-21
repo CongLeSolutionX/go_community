@@ -70,6 +70,24 @@
       "revId": "24ad6eb314a211b6e20b514601903cafe72b24c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c32d751_a3a80fdf",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-02-21T18:24:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51b08139_f485f6a5",
+      "revId": "24ad6eb314a211b6e20b514601903cafe72b24c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
