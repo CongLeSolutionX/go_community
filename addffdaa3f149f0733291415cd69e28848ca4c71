@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "412d9fbc_47a4c094",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T21:26:46Z",
+      "side": 1,
+      "message": "That\u0027s doable but inlsubst misses some AST nodes like the newly created OINLCALL node and the ninit nodes. I\u0027m inclined to leave it as-is.",
+      "parentUuid": "b55eebf5_051d6feb",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6831fa73_dfe90fe6",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 3
@@ -274,6 +292,24 @@
       "writtenOn": "2017-02-21T02:02:25Z",
       "side": 1,
       "message": "Just thinking out loud here: would it simplify anything to do uniquifying here rather than unconditionally assigning a new index? For example, would this unify some of the logic when obj is extracting the local inline trees? (Obviously you\u0027d still need the walk, but it could take an InlTree and build a new InlTree.)",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a122da8_4901a257",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-21T21:26:46Z",
+      "side": 1,
+      "message": "I think this makes sense if we decide to merge multiple calls to the same function on the same line (f(x) + f(y)) into one node. So far I\u0027ve been treating these calls distinctly (in case we ever want to include column numbers in tracebacks). Otherwise, I think the call to Add in gc/inl.go needs to assign a new index unconditionally.",
+      "parentUuid": "f5e26d86_e0cf92f3",
       "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
