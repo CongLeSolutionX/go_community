@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7b92d32_c26f0329",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-02-22T02:26:10Z",
+      "side": 1,
+      "message": "Not really sure this is the best name -- technically every instruction (except NOP) has effect. \"hasSideEffects\" is ok, not too long. What do you think?",
+      "revId": "cd1865517d36b35463537a4db9a718fcb0a36f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b670a3c_0701cc7f",
+        "filename": "test/fixedbugs/issue19182.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-02-22T02:26:10Z",
+      "side": 1,
+      "message": "panic after Printf",
+      "revId": "cd1865517d36b35463537a4db9a718fcb0a36f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
