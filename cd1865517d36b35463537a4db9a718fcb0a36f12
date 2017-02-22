@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d26fab26_19748254",
+        "filename": "src/cmd/compile/internal/ssa/op.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-02-22T15:15:00Z",
+      "side": 1,
+      "message": "I am happy with hasSideEffects, and will make that change.",
+      "parentUuid": "a7b92d32_c26f0329",
+      "revId": "cd1865517d36b35463537a4db9a718fcb0a36f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b670a3c_0701cc7f",
         "filename": "test/fixedbugs/issue19182.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-22T02:26:10Z",
       "side": 1,
       "message": "panic after Printf",
+      "revId": "cd1865517d36b35463537a4db9a718fcb0a36f12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cda66d7_f20b6dfb",
+        "filename": "test/fixedbugs/issue19182.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-02-22T15:15:00Z",
+      "side": 1,
+      "message": "The test fails if it prints anything at all, there\u0027s no need to also panic.\n(I checked with an unfixed \"go\").",
+      "parentUuid": "7b670a3c_0701cc7f",
       "revId": "cd1865517d36b35463537a4db9a718fcb0a36f12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
