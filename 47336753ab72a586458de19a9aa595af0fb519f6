@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d33c1cf_9b9b1c75",
+        "filename": "src/math/pow10.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T17:49:01Z",
+      "side": 1,
+      "message": "PS: The reason is that the compiler doesn\u0027t track ranges of integers at the moment.",
+      "parentUuid": "00020183_9448b005",
+      "revId": "47336753ab72a586458de19a9aa595af0fb519f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd694fa5_67ccc63d",
         "filename": "src/math/pow10.go",
         "patchSetId": 6
