@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "4e1fb6b2_15694a9e",
+        "filename": "src/math/pow10.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-02-22T00:03:25Z",
+      "side": 1,
+      "message": "not changed yet. let me know if you still like the Inf(1) first variant better even if it does not save any comparisons in the generated code.",
+      "parentUuid": "251a5943_d1a9eb3f",
+      "revId": "b139a760dd8428e866e0f24992c9be502bf1d3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f686caf0_24c4573a",
         "filename": "src/math/pow10.go",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "writtenOn": "2017-02-21T23:14:35Z",
       "side": 1,
       "message": "here you use \u003e (not \u003e\u003d) but in the comment below you use \u003c (not \u003c\u003d). which one is it?",
+      "revId": "b139a760dd8428e866e0f24992c9be502bf1d3f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c0d91a5_64922fa5",
+        "filename": "src/math/pow10.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-02-22T00:03:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f686caf0_24c4573a",
       "revId": "b139a760dd8428e866e0f24992c9be502bf1d3f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
