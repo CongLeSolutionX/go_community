@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f131622e_4d07f31f",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-22T20:59:18Z",
+      "side": 1,
+      "message": "Given that this constant is effectively unused now, I would just remove it and pass 0 where it\u0027s currently used.",
+      "revId": "dfb7f9af40a498984709462d5587c84031174192",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
