@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d68af2c9_a24b9cf0",
+        "filename": "src/math/pow10.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-02-22T18:05:50Z",
+      "side": 1,
+      "message": "Good point, looks like it produces better instructions. However it seems like the non uint version also uses shifts and masks already, just more of them.",
+      "parentUuid": "00020183_9448b005",
+      "revId": "47336753ab72a586458de19a9aa595af0fb519f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd694fa5_67ccc63d",
         "filename": "src/math/pow10.go",
         "patchSetId": 6
