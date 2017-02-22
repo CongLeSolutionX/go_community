@@ -25,6 +25,8 @@ func encodeMemProfile(mr []runtime.MemProfileRecord, rate int64, t time.Time) *p
 		TimeNanos: int64(t.UnixNano()),
 	}
 
+	liveLabel := map[string][]string{"gc": {"live"}}
+	deadLabel := map[string][]string{"gc": {"dead"}}
 	locs := make(map[uintptr]*profile.Location)
 	for _, r := range mr {
 		stack := r.Stack()
@@ -44,10 +46,17 @@ func encodeMemProfile(mr []runtime.MemProfileRecord, rate int64, t time.Time) *p
 
 		ao, ab := scaleHeapSample(r.AllocObjects, r.AllocBytes, rate)
 		uo, ub := scaleHeapSample(r.InUseObjects(), r.InUseBytes(), rate)
+		do, db := scaleHeapSample(r.DeadObjects, r.DeadBytes, rate)
 
 		p.Sample = append(p.Sample, &profile.Sample{
 			Value:    []int64{ao, ab, uo, ub},
 			Location: sloc,
+			Label:    liveLabel,
+		})
+		p.Sample = append(p.Sample, &profile.Sample{
+			Value:    []int64{0, 0, do, db},
+			Location: sloc,
+			Label:    deadLabel,
 		})
 	}
 	if runtime.GOOS == "linux" {

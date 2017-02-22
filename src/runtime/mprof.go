@@ -74,6 +74,14 @@ type memRecord struct {
 	alloc_bytes uintptr
 	free_bytes  uintptr
 
+	// dead and dead_bytes record the objects and bytes that were
+	// freed by the last full GC cycle. This is a "garbage
+	// profile". Combined with the allocations that survived the
+	// last GC cycle, these explain the peak memory usage of the
+	// last cycle.
+	dead       uintptr
+	dead_bytes uintptr
+
 	// changes between next-to-last GC and last GC
 	prev_allocs      uintptr
 	prev_frees       uintptr
@@ -219,6 +227,9 @@ func mprof_GC() {
 		mp.frees += mp.prev_frees
 		mp.alloc_bytes += mp.prev_alloc_bytes
 		mp.free_bytes += mp.prev_free_bytes
+
+		mp.dead = mp.prev_frees
+		mp.dead_bytes = mp.prev_free_bytes
 
 		mp.prev_allocs = mp.recent_allocs
 		mp.prev_frees = mp.recent_frees
@@ -396,6 +407,7 @@ var MemProfileRate int = 512 * 1024
 type MemProfileRecord struct {
 	AllocBytes, FreeBytes     int64       // number of bytes allocated, freed
 	AllocObjects, FreeObjects int64       // number of objects allocated, freed
+	DeadBytes, DeadObjects    int64       // number of dead bytes/objects collected by previous cycle
 	Stack0                    [32]uintptr // stack trace for this record; ends at first 0 entry
 }
 
@@ -486,8 +498,10 @@ func record(r *MemProfileRecord, b *bucket) {
 	mp := b.mp()
 	r.AllocBytes = int64(mp.alloc_bytes)
 	r.FreeBytes = int64(mp.free_bytes)
+	r.DeadBytes = int64(mp.dead_bytes)
 	r.AllocObjects = int64(mp.allocs)
 	r.FreeObjects = int64(mp.frees)
+	r.DeadObjects = int64(mp.dead)
 	if raceenabled {
 		racewriterangepc(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0), getcallerpc(unsafe.Pointer(&r)), funcPC(MemProfile))
 	}
