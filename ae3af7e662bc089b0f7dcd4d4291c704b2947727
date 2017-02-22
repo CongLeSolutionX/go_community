@@ -1,0 +1,397 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f892af0_c003b2d9",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "use ints for indices",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f0a13f_4c05c4f0",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "Is it a collection or a list? Does it matter? Explain if order matters or what is is. Should say that this for a single (non-inlined) call site (if it is so).\n\n2nd sentence could be clearer - the Parent field is an index, not a (tree) node.",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6fb2486_f93ba60a",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "does it need to be int32? (certainly doesn\u0027t matter for space) - just use int",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 13
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "394e5ae7_104f3f25",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "s/unconditionally//\n\n(there doesn\u0027t seem to be a conditional variant)",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bd0fbe34_c2e7e2db",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "use int\u0027s for indices",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4739996_36a7840b",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "for ix \u003e\u003d 0 { ...\n\nkeep it positive :-)\n\nMore generally, I am not a fan of explicit comparisons against -1: The fact that it\u0027s -1 is not relevant, it\u0027s simply a signal that we don\u0027t have a valid value (index in this case) - it could be any invalid value. In this case it could be any value \u003c 0. My preference for APIs like this is to state that (using index as an example) a valid index is \u003e\u003d 0; and a negative value indicates the absence of a valid index. The consequence is that code that checks for indices either tests for index \u003e\u003d 0 (positive test) or index \u003c 0 (negative test). It doesn\u0027t constrain the design space unnecessarily (no need to pin the \u0027invalid value\u0027 to -1, it\u0027s sufficient to describe the valid value range).\n\n(There\u0027s a minor side benefit that tests against 0 tend to produce less machine code than tests against non-zero (-1) values - and sometimes the test is not even needed.)",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 8
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb908fbf_fd9c3a6b",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "better comment, please. pcinlineState is just a type - it doesn\u0027t create anything by itself",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fede1e6d_d6a275d8",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "s/or/or to/",
+      "range": {
+        "startLine": 173,
+        "startChar": 26,
+        "endLine": 173,
+        "endChar": 27
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9671bd32_a8a40e0c",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "I\u0027d change this into a suggestion rather than a TODO. Multiple calls of the same function on the same line are not very common, so the savings may not be significant. Also, who knows, maybe at some point tracebacks will contain precise position information.",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3af09887_3b1cbb93",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "General comment: How about passing indices as \u0027int\u0027 rather than \u0027int32\u0027? It only matters when encoding them. I doubt that it\u0027s going to blow up data structures too much.",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d331858_80ab9199",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "missing doc string",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e41ab48_28fba1f2",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "perhaps add to comment where the details can be found?\n\n// inlining index (see ...)\n\nAlternatively, consider removing meaning (connection to inlining) from this field altogether and just call it index. There may be other uses. So:\nThen this could just become: index, and the methods below would be\n\nNewIndexBase\nIndex\nSetIndex\n\nThat would disentangle the changes here from inlining. (my preference)",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 121,
+        "endChar": 4
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d278f66_99c1d361",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "missing doc string for NewInliningBase",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f9e4e17_1776aa5e",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "not a fan of the name oldbase as it repeats base which is already in the type - how about just: old (or current) ?",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b613710a_00aceaf6",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "copy :\u003d old\nbase :\u003d \u0026copy",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9a94579_00c1d0c0",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "missing doc string\nalso, above you call the function NewInliningBase - should call this InliningIndex",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84007ad2_7e5a93c0",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "missing doc string\ncall it SetInliningIndex",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25e2215f_4522a0e8",
+        "filename": "src/cmd/internal/src/xpos_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "again, no need to repeat Pos - this is not Java... :-) just use \u0027orig\u0027 - it\u0027s obvious enough:\n\norig :\u003d MakePos...",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56c3ed0f_a02d2890",
+        "filename": "src/cmd/internal/src/xpos_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "ditto: new :\u003d ...",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 76,
+        "endChar": 8
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "564bcb6c_80b0bd15",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "missing doc string\n\n(this is new code, please document thoroughly - another reader will have to decipher this again - also the fields)",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18d85fc0_261e1815",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T19:15:32Z",
+      "side": 1,
+      "message": "Is there other places where we use ByteOrder specific encoding? Can\u0027t this be platform-independent?",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
