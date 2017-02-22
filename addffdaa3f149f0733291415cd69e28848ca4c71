@@ -177,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "f741f3a2_1626c168",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1073,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-22T20:24:01Z",
+      "side": 1,
+      "message": "Just \"Copy\" seems enough. Ok with me.",
+      "parentUuid": "94397ba0_0a440ac9",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "570e0748_a09b5822",
         "filename": "src/cmd/compile/internal/gc/util.go",
         "patchSetId": 3
