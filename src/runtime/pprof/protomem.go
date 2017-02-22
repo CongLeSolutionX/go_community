@@ -53,6 +53,7 @@ func encodeMemProfile(mr []runtime.MemProfileRecord, rate int64, t time.Time) *p
 	if runtime.GOOS == "linux" {
 		addMappings(p)
 	}
+	symbolize(p)
 	return p
 }
 

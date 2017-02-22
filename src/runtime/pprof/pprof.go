@@ -411,6 +411,7 @@ func printCountProfile(w io.Writer, debug int, name string, p countProfile) erro
 			Value:    []int64{int64(c)},
 		})
 	}
+	symbolize(prof)
 	return prof.Write(w)
 }
 
