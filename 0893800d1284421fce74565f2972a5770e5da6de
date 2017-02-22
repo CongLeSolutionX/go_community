@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7619ad47_19894e93",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2703,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-22T00:04:31Z",
+      "side": 1,
+      "message": "Nice. Done, thank you!",
+      "parentUuid": "c9bb289f_5a541391",
+      "revId": "0893800d1284421fce74565f2972a5770e5da6de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "928e9700_7c62f8fe",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-21T23:20:32Z",
       "side": 1,
       "message": "get rid of this in favor of doing it in place per comment above",
+      "revId": "0893800d1284421fce74565f2972a5770e5da6de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b2fe06d_0f26ca7d",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2731,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-22T00:04:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "928e9700_7c62f8fe",
       "revId": "0893800d1284421fce74565f2972a5770e5da6de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
