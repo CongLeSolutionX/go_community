@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed8f893d_0b5506c3",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-22T21:16:23Z",
+      "side": 1,
+      "message": "We shouldn\u0027t add a new top-level flag for this. It would be much better to put it in the debugtab at the top so it hangs off the existing -d flag. That currently doesn\u0027t accept strings, but I would argue that you\u0027re overloading this anyway with the special \"pctoinline\" value. Instead, I would say leave the existing PC-value table debugging code as is (we can improve that separately if desired) and make a separate int-typed debug flag to enable dumping of the inline tree.",
+      "revId": "0ccaff2ebee907e76c34fecfb6cd2a14819b729e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
