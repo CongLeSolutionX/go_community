@@ -427,6 +427,8 @@ var passes = [...]pass{
 	{name: "writebarrier", fn: writebarrier, required: true}, // expand write barrier ops
 	{name: "insert resched checks", fn: insertLoopReschedChecks,
 		disabled: objabi.Preemptibleloops_enabled == 0}, // insert resched checks in loops.
+	{name: "early tighten", fn: tighten},                          // move values closer to their uses
+	{name: "early hoistloopiv", fn: hoistloopiv, disabled: false}, // TODO study interaction with tighten; early simplifies hoisting loads.
 	{name: "lower", fn: lower, required: true},
 	{name: "lowered deadcode for cse", fn: deadcode}, // deadcode immediately before CSE avoids CSE making dead values live again
 	{name: "lowered cse", fn: cse},
@@ -439,6 +441,7 @@ var passes = [...]pass{
 	{name: "late deadcode", fn: deadcode},
 	{name: "critical", fn: critical, required: true}, // remove critical edges
 	{name: "phi tighten", fn: phiTighten},            // place rematerializable phi args near uses to reduce value lifetimes
+	{name: "late hoistloopiv", fn: hoistloopiv, disabled: false},
 	{name: "likelyadjust", fn: likelyadjust},
 	{name: "layout", fn: layout, required: true},     // schedule blocks
 	{name: "schedule", fn: schedule, required: true}, // schedule values

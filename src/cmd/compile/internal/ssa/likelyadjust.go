@@ -12,9 +12,10 @@ type loop struct {
 	header *Block // The header node of this (reducible) loop
 	outer  *loop  // loop containing this loop
 
-	// By default, children, exits, and depth are not initialized.
+	// By default, children, exits, blocks, and depth are not initialized.
 	children []*loop  // loops nested directly within this loop. Initialized by assembleChildren().
 	exits    []*Block // exits records blocks reached by exits from this loop. Initialized by findExits().
+	blocks   []*Block // blocks records blocks in this loop (but not within nested loops)
 
 	// Next three fields used by regalloc and/or
 	// aid in computation of inner-ness and list of blocks.
@@ -70,7 +71,7 @@ type loopnest struct {
 	hasIrreducible bool // TODO current treatment of irreducible loops is very flaky, if accurate loops are needed, must punt at function level.
 
 	// Record which of the lazily initialized fields have actually been initialized.
-	initializedChildren, initializedDepth, initializedExits bool
+	initializedChildren, initializedDepth, initializedExits, initializedBlocks bool
 }
 
 func min8(a, b int8) int8 {
@@ -279,13 +280,13 @@ func loopnestfor(f *Func) *loopnest {
 	visited := make([]bool, f.NumBlocks())
 	sawIrred := false
 
-	if f.pass.debug > 2 {
+	if f.pass.debug > 3 {
 		fmt.Printf("loop finding in %s\n", f.Name)
 	}
 
 	// Reducible-loop-nest-finding.
 	for _, b := range po {
-		if f.pass != nil && f.pass.debug > 3 {
+		if f.pass != nil && f.pass.debug > 4 {
 			fmt.Printf("loop finding at %s\n", b)
 		}
 
@@ -306,7 +307,7 @@ func loopnestfor(f *Func) *loopnest {
 			l := b2l[bb.ID]
 
 			if sdom.IsAncestorEq(bb, b) { // Found a loop header
-				if f.pass != nil && f.pass.debug > 4 {
+				if f.pass != nil && f.pass.debug > 5 {
 					fmt.Printf("loop finding    succ %s of %s is header\n", bb.String(), b.String())
 				}
 				if l == nil {
@@ -316,7 +317,7 @@ func loopnestfor(f *Func) *loopnest {
 				}
 			} else if !visited[bb.ID] { // Found an irreducible loop
 				sawIrred = true
-				if f.pass != nil && f.pass.debug > 4 {
+				if f.pass != nil && f.pass.debug > 5 {
 					fmt.Printf("loop finding    succ %s of %s is IRRED, in %s\n", bb.String(), b.String(), f.Name)
 				}
 			} else if l != nil {
@@ -327,7 +328,7 @@ func loopnestfor(f *Func) *loopnest {
 				if !sdom.IsAncestorEq(l.header, b) {
 					l = l.nearestOuterLoop(sdom, b)
 				}
-				if f.pass != nil && f.pass.debug > 4 {
+				if f.pass != nil && f.pass.debug > 5 {
 					if l == nil {
 						fmt.Printf("loop finding    succ %s of %s has no loop\n", bb.String(), b.String())
 					} else {
@@ -335,7 +336,7 @@ func loopnestfor(f *Func) *loopnest {
 					}
 				}
 			} else { // No loop
-				if f.pass != nil && f.pass.debug > 4 {
+				if f.pass != nil && f.pass.debug > 5 {
 					fmt.Printf("loop finding    succ %s of %s has no loop\n", bb.String(), b.String())
 				}
 
@@ -452,7 +453,7 @@ func loopnestfor(f *Func) *loopnest {
 		}
 	}
 
-	if f.pass != nil && f.pass.debug > 1 && len(loops) > 0 {
+	if f.pass != nil && f.pass.debug > 2 && len(loops) > 0 {
 		fmt.Printf("Loops in %s:\n", f.Name)
 		for _, l := range loops {
 			fmt.Printf("%s, b=", l.LongString())
@@ -558,6 +559,32 @@ func recordIfExit(l, sl *loop, b *Block) bool {
 		}
 	}
 	return false
+}
+
+// findBlocks initializes the per-loop lists of blocks.
+// The blocks are in a postorder.
+func (ln *loopnest) findBlocks() {
+	if ln.initializedBlocks {
+		return
+	}
+	for _, l := range ln.loops {
+		l.blocks = make([]*Block, 0, l.nBlocks)
+	}
+
+	b2l := ln.b2l
+	for _, b := range ln.po {
+		l := b2l[b.ID]
+		if l != nil {
+			l.blocks = append(l.blocks, b)
+		}
+	}
+	ln.initializedBlocks = true
+}
+
+func (ln *loopnest) setB2L(i ID, l *loop) {
+	for ; int(i) >= len(ln.b2l); ln.b2l = append(ln.b2l, nil) {
+	}
+	ln.b2l[int(i)] = l
 }
 
 func (l *loop) setDepth(d int16) {
