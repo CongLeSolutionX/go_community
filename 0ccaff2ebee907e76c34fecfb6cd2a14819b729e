@@ -34,6 +34,24 @@
       "revId": "0ccaff2ebee907e76c34fecfb6cd2a14819b729e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13ede07e_c2910d5e",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-23T17:12:18Z",
+      "side": 1,
+      "message": "pctoinline is the only one of these that I see (which is why I suggested the boolean-valued -d flag). Are the others in a different CL?\n\nThe disadvantage of adding a flag is that 1) there are already way too many flags and 2) these flags all show up in go tool compile -h which means they should generally be user-focused, not compiler-developer-focused. The proliferation of debugging flags is why we added -d for developer-focused flags.\n\nI\u0027ve got a CL to add support for string-valued -d flags. Should I send that?",
+      "parentUuid": "169bbba2_c5571bd6",
+      "revId": "0ccaff2ebee907e76c34fecfb6cd2a14819b729e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
