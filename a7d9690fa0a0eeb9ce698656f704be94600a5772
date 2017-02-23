@@ -294,6 +294,24 @@
       "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "449573e7_b2d54d9f",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-23T23:34:42Z",
+      "side": 1,
+      "message": "I don\u0027t understand your objection. This entire function is writing out platform-dependent encodings (setuint32, etc.) meant to be consumed as runtime data structures.",
+      "parentUuid": "46c2d06e_7afa9b2e",
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
