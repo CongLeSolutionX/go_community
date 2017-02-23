@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e7cc491f_76bb73ba",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:10:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "412d9fbc_47a4c094",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6831fa73_dfe90fe6",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 3
@@ -283,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "8d936326_7c6643f4",
+        "filename": "src/cmd/internal/obj/funcdata.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:10:35Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "5a7d6fcd_02d66ddb",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a91e244_e2d3a349",
         "filename": "src/cmd/internal/obj/inl.go",
         "patchSetId": 3
@@ -329,6 +365,24 @@
       "writtenOn": "2017-02-21T02:02:25Z",
       "side": 1,
       "message": "Consider introducing a named type for inline tree indexes.",
+      "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d50e6da0_ade0690a",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:10:35Z",
+      "side": 1,
+      "message": "Is there a compelling reason?",
+      "parentUuid": "5cb6901d_2af70e45",
       "revId": "addffdaa3f149f0733291415cd69e28848ca4c71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
