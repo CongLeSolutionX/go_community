@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ae59f38c_6533f9d8",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f892af0_c003b2d9",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8f0a13f_4c05c4f0",
         "filename": "src/cmd/internal/obj/inl.go",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2017-02-22T19:15:32Z",
       "side": 1,
       "message": "Is it a collection or a list? Does it matter? Explain if order matters or what is is. Should say that this for a single (non-inlined) call site (if it is so).\n\n2nd sentence could be clearer - the Parent field is an index, not a (tree) node.",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6243e486_15d23b9e",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Does the comment make more sense now?",
+      "parentUuid": "b8f0a13f_4c05c4f0",
       "range": {
         "startLine": 9,
         "startChar": 45,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "6949daa9_569c585b",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6fb2486_f93ba60a",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 13
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "394e5ae7_104f3f25",
         "filename": "src/cmd/internal/obj/inl.go",
         "patchSetId": 4
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "a8283ab2_28bdecef",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "394e5ae7_104f3f25",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd0fbe34_c2e7e2db",
         "filename": "src/cmd/internal/obj/inl.go",
         "patchSetId": 4
@@ -93,6 +177,24 @@
       "writtenOn": "2017-02-22T19:15:32Z",
       "side": 1,
       "message": "use int\u0027s for indices",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbc3230a_b8f7c172",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd0fbe34_c2e7e2db",
       "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "dea62577_da5ab5d4",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4739996_36a7840b",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 8
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb908fbf_fd9c3a6b",
         "filename": "src/cmd/internal/obj/pcln.go",
         "patchSetId": 4
@@ -133,6 +259,24 @@
       "writtenOn": "2017-02-22T19:15:32Z",
       "side": 1,
       "message": "better comment, please. pcinlineState is just a type - it doesn\u0027t create anything by itself",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d84eda8_c890bf18",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb908fbf_fd9c3a6b",
       "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "7fab81b8_c1d8c282",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fede1e6d_d6a275d8",
+      "range": {
+        "startLine": 173,
+        "startChar": 26,
+        "endLine": 173,
+        "endChar": 27
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9671bd32_a8a40e0c",
         "filename": "src/cmd/internal/obj/pcln.go",
         "patchSetId": 4
@@ -173,6 +341,24 @@
       "writtenOn": "2017-02-22T19:15:32Z",
       "side": 1,
       "message": "I\u0027d change this into a suggestion rather than a TODO. Multiple calls of the same function on the same line are not very common, so the savings may not be significant. Also, who knows, maybe at some point tracebacks will contain precise position information.",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44069472_19fc626d",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9671bd32_a8a40e0c",
       "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -196,6 +382,24 @@
     },
     {
       "key": {
+        "uuid": "e5adb9ba_1bae5900",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3af09887_3b1cbb93",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d331858_80ab9199",
         "filename": "src/cmd/internal/obj/pcln.go",
         "patchSetId": 4
@@ -207,6 +411,24 @@
       "writtenOn": "2017-02-22T19:15:32Z",
       "side": 1,
       "message": "missing doc string",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cf732d5_6e70452b",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d331858_80ab9199",
       "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -236,6 +458,30 @@
     },
     {
       "key": {
+        "uuid": "ce362b82_dd73cc5e",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e41ab48_28fba1f2",
+      "range": {
+        "startLine": 121,
+        "startChar": 1,
+        "endLine": 121,
+        "endChar": 4
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d278f66_99c1d361",
         "filename": "src/cmd/internal/src/pos.go",
         "patchSetId": 4
@@ -247,6 +493,24 @@
       "writtenOn": "2017-02-22T19:15:32Z",
       "side": 1,
       "message": "missing doc string for NewInliningBase",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb259d13_44140e34",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d278f66_99c1d361",
       "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -270,6 +534,24 @@
     },
     {
       "key": {
+        "uuid": "3254ee70_c686be8b",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f9e4e17_1776aa5e",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b613710a_00aceaf6",
         "filename": "src/cmd/internal/src/pos.go",
         "patchSetId": 4
@@ -281,6 +563,24 @@
       "writtenOn": "2017-02-22T19:15:32Z",
       "side": 1,
       "message": "copy :\u003d old\nbase :\u003d \u0026copy",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b0d45dc_8347c70c",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b613710a_00aceaf6",
       "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -304,6 +604,24 @@
     },
     {
       "key": {
+        "uuid": "48f2d303_b5a2e8dd",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9a94579_00c1d0c0",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84007ad2_7e5a93c0",
         "filename": "src/cmd/internal/src/pos.go",
         "patchSetId": 4
@@ -321,6 +639,24 @@
     },
     {
       "key": {
+        "uuid": "a7b73e85_52f7569e",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Removed this method.",
+      "parentUuid": "84007ad2_7e5a93c0",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25e2215f_4522a0e8",
         "filename": "src/cmd/internal/src/xpos_test.go",
         "patchSetId": 4
@@ -332,6 +668,24 @@
       "writtenOn": "2017-02-22T19:15:32Z",
       "side": 1,
       "message": "again, no need to repeat Pos - this is not Java... :-) just use \u0027orig\u0027 - it\u0027s obvious enough:\n\norig :\u003d MakePos...",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9dc5994f_ebcb32ab",
+        "filename": "src/cmd/internal/src/xpos_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e2215f_4522a0e8",
       "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -361,6 +715,30 @@
     },
     {
       "key": {
+        "uuid": "0c62f23e_874b7b56",
+        "filename": "src/cmd/internal/src/xpos_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56c3ed0f_a02d2890",
+      "range": {
+        "startLine": 76,
+        "startChar": 1,
+        "endLine": 76,
+        "endChar": 8
+      },
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "564bcb6c_80b0bd15",
         "filename": "src/cmd/link/internal/ld/link.go",
         "patchSetId": 4
@@ -378,6 +756,24 @@
     },
     {
       "key": {
+        "uuid": "c9fc5d36_1d7bd69f",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "564bcb6c_80b0bd15",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18d85fc0_261e1815",
         "filename": "src/cmd/link/internal/ld/pcln.go",
         "patchSetId": 4
@@ -389,6 +785,24 @@
       "writtenOn": "2017-02-22T19:15:32Z",
       "side": 1,
       "message": "Is there other places where we use ByteOrder specific encoding? Can\u0027t this be platform-independent?",
+      "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2c58309_ffd25d93",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T20:06:09Z",
+      "side": 1,
+      "message": "I don\u0027t have a strong opinion either way.",
+      "parentUuid": "18d85fc0_261e1815",
       "revId": "ae3af7e662bc089b0f7dcd4d4291c704b2947727",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
