@@ -16,6 +16,24 @@
       "revId": "0ccaff2ebee907e76c34fecfb6cd2a14819b729e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "169bbba2_c5571bd6",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T16:49:51Z",
+      "side": 1,
+      "message": "The -pcln flag can take pctospadj, pctofile, pctoline, or pctoinline as an argument.  We could even let -pcln take multiple tables as arguments: -pcln pctofile,pctoline.  I suppose we could get the same functionality with -d, but that would require more code and globals.  What\u0027s the downside of adding another flag?",
+      "parentUuid": "ed8f893d_0b5506c3",
+      "revId": "0ccaff2ebee907e76c34fecfb6cd2a14819b729e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
