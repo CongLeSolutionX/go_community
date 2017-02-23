@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a84bdd62_3e65674d",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-23T15:16:34Z",
+      "side": 1,
+      "message": "The first few sentences of this paragraph need to be updated.",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eba90c33_a89ea7f8",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-23T15:16:34Z",
+      "side": 1,
+      "message": "It seems just as important that this coordinate with other add/addNonGo\u0027s",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c9f517c_6734b0d0",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-23T15:16:34Z",
+      "side": 1,
+      "message": "It took me a while to realize that prof.lock and cpuprof.lock were very different locks. Would be nice if we could make this clearer. (It doesn\u0027t help that SetCPUProfileRate grabs cpuprof.lock and setcpuprofilerate grabs prof.lock.)",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1356feb_8ee0f3a6",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-23T15:16:34Z",
+      "side": 1,
+      "message": "Doc comment, for us.",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64ffddc5_07c1a42e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 3351,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-23T15:16:34Z",
+      "side": 1,
+      "message": "Update doc comment (what\u0027s fn?)",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
