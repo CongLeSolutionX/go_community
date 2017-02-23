@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5c25f82_522cf48c",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-23T20:04:55Z",
+      "side": 1,
+      "message": "This comment likely applied to a global that has been removed from the source code. It certainly doesn\u0027t apply to a constant (can\u0027t increment the constant). Delete.",
+      "revId": "ce7a69c5fbe93616c59921b02de89e9a26f5084f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9be75381_d03a262b",
+        "filename": "src/cmd/internal/obj/link.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-23T20:04:55Z",
+      "side": 1,
+      "message": "Using 0 makes it look like an ordinary symbol, and I think we wanted it to be clearly not. But maybe the name is good enough for that?",
+      "revId": "ce7a69c5fbe93616c59921b02de89e9a26f5084f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
