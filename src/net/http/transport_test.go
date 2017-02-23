@@ -2859,6 +2859,34 @@ func TestTransportResponseCancelRace(t *testing.T) {
 	res.Body.Close()
 }
 
+// Test for issue 19248
+func TestNonLowerCaseGzip(t *testing.T) {
+	defer afterTest(t)
+
+	encodedString := "aaaa"
+	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		conn, _, _ := w.(Hijacker).Hijack()
+		conn.Write([]byte("HTTP/1.1 200 OK\r\nContent-Encoding:GZIP\r\nContent-Length: 28\r\n\r\n"))
+		conn.Write([]byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x4a\x4c\x4c\x4c\x04\x04\x00\x00\xff\xff\x45\xe5\x98\xad\x04\x00\x00\x00"))
+		conn.Close()
+	}))
+	defer ts.Close()
+
+	res, err := Get(ts.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if string(body) != encodedString {
+		t.Fatalf("Expected body %q, got: %q\n", encodedString, string(body))
+	}
+}
+
 func TestTransportDialCancelRace(t *testing.T) {
 	defer afterTest(t)
 
