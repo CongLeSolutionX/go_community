@@ -312,6 +312,24 @@
       "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff61d1b_db6206e1",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-23T23:45:03Z",
+      "side": 1,
+      "message": "Never mind - sorry for being dim. I see now that the setuintxx functions also use platform-specific encoding.",
+      "parentUuid": "449573e7_b2d54d9f",
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
