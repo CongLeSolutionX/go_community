@@ -6810,7 +6810,7 @@ func (rl *http2clientConnReadLoop) handleResponse(cs *http2clientStream, f *http
 	res.Body = http2transportResponseBody{cs}
 	go cs.awaitRequestCancel(cs.req)
 
-	if cs.requestedGzip && res.Header.Get("Content-Encoding") == "gzip" {
+	if cs.requestedGzip && strings.ToLower(res.Header.Get("Content-Encoding")) == "gzip" {
 		res.Header.Del("Content-Encoding")
 		res.Header.Del("Content-Length")
 		res.ContentLength = -1

@@ -1579,7 +1579,7 @@ func (pc *persistConn) readLoop() {
 		}
 
 		resp.Body = body
-		if rc.addedGzip && resp.Header.Get("Content-Encoding") == "gzip" {
+		if rc.addedGzip && strings.ToLower(resp.Header.Get("Content-Encoding")) == "gzip" {
 			resp.Body = &gzipReader{body: body}
 			resp.Header.Del("Content-Encoding")
 			resp.Header.Del("Content-Length")
