@@ -116,6 +116,30 @@
     },
     {
       "key": {
+        "uuid": "7cc47c58_f5c0a945",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T22:50:23Z",
+      "side": 1,
+      "message": "The result can\u0027t be int: funcpctab expects int32.",
+      "parentUuid": "9f331efb_0185ca3a",
+      "range": {
+        "startLine": 206,
+        "startChar": 111,
+        "endLine": 206,
+        "endChar": 116
+      },
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e64398f0_d9def676",
         "filename": "src/cmd/internal/obj/pcln.go",
         "patchSetId": 5
@@ -234,6 +258,24 @@
       "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79b40c46_c55149a5",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-23T22:50:23Z",
+      "side": 1,
+      "message": "Actually, I think this has to be platform-specific given how the runtime decodes this table.\n\nIf I use a VarInt encoding, then the linker would have to rewrite the PC-value table. I\u0027d rather not do that now unless it seems like the space savings is necessary.",
+      "parentUuid": "df9e92e7_ca9adeee",
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
