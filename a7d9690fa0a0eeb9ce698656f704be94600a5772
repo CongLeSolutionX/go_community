@@ -276,6 +276,24 @@
       "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46c2d06e_7afa9b2e",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-23T22:57:31Z",
+      "side": 1,
+      "message": "What about all the other data written here? I don\u0027t see any platform-specific encoding. Once you do that, code forever will have to deal with the platform. Cross-anything won\u0027t work.",
+      "parentUuid": "79b40c46_c55149a5",
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
