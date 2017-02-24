@@ -297,6 +297,7 @@ func osinit() {
 }
 
 func nanotime_memory_mapped() int64
+
 var _nanotime func() int64
 
 //go:nosplit
@@ -306,7 +307,6 @@ func nanotime() int64 {
 
 var qpcFrequency int32
 var qpcStart int64
-var nanotimeQPCBase int64
 var qpcMultiplier int64
 
 type _KSYSTEM_TIME struct {
@@ -343,6 +343,7 @@ func systimeMemoryMapped(addr uintptr) int64 {
 }
 
 func now_memory_mapped() (sec int64, nsec int32, mono int64)
+
 var _timeNow func() (sec int64, nsec int32, mono int64)
 var timeNowQPCBase int64
 
@@ -352,7 +353,7 @@ func timeNow() (sec int64, nsec int32, mono int64) {
 }
 
 //go:nosplit
-func systimeQPC() int64 {
+func nanotimeQPC() int64 {
 	var counter int64 = 0
 	stdcall1(_QueryPerformanceCounter, uintptr(unsafe.Pointer(&counter)))
 
@@ -361,16 +362,11 @@ func systimeQPC() int64 {
 }
 
 //go:nosplit
-func nanotimeQPC() int64 {
-	// returns number of nanoseconds since boot
-	return nanotimeQPCBase + systimeQPC()
-}
-
-//go:nosplit
 func timeNowQPC() (sec int64, nsec int32, mono int64) {
-	ns := nanotimeQPC() + timeNowQPCBase
+	mono = nanotimeQPC()
+	ns := mono + timeNowQPCBase
 	sec = ns / 1000000000
-	nsec = int32(ns - sec * 1000000000)
+	nsec = int32(ns - sec*1000000000)
 
 	return
 }
@@ -400,7 +396,6 @@ func checkTimers(k32 uintptr) {
 	// We can not simply fallback to Sleep() syscall, since its time is not monotonic,
 	// instead we use QueryPerformanceCounter family of syscalls to implement monotonic timer
 	// https://msdn.microsoft.com/en-us/library/windows/desktop/dn553408(v=vs.85).aspx
-	nanotimeQPCBase = 0
 
 	// nanoseconds since Unix Epoch
 	timeNowQPCBase = (systimeMemoryMapped(_SYSTEM_TIME) - 116444736000000000) * 100
