@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6cf76ea8_24d4f2d0",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-24T15:34:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a84bdd62_3e65674d",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eba90c33_a89ea7f8",
         "filename": "src/runtime/cpuprof.go",
         "patchSetId": 11
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-23T15:16:34Z",
       "side": 1,
       "message": "It seems just as important that this coordinate with other add/addNonGo\u0027s",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99437883_11122f90",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-24T15:34:13Z",
+      "side": 1,
+      "message": "I think there\u0027s only one SIGPROF handler running at a given time. Updated:\n\n\t// Simple cas-lock to coordinate with SetCPUProfileRate.\n\t// (Other calls to add or addNonGo should be blocked out\n\t// by the fact that only one SIGPROF can be handled by the\n\t// process at a time. If not, this lock will serialize those too.)",
+      "parentUuid": "eba90c33_a89ea7f8",
       "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "30d7d98d_1ba7af06",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-24T15:34:13Z",
+      "side": 1,
+      "message": "I renamed prof.lock to prof.signalLock.",
+      "parentUuid": "8c9f517c_6734b0d0",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c1356feb_8ee0f3a6",
         "filename": "src/runtime/cpuprof.go",
         "patchSetId": 11
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "e191b25a_4d39faa0",
+        "filename": "src/runtime/cpuprof.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-24T15:34:13Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c1356feb_8ee0f3a6",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64ffddc5_07c1a42e",
         "filename": "src/runtime/proc.go",
         "patchSetId": 11
@@ -81,6 +153,24 @@
       "writtenOn": "2017-02-23T15:16:34Z",
       "side": 1,
       "message": "Update doc comment (what\u0027s fn?)",
+      "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8a64cc5_c4ac8b04",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 3351,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-24T15:34:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64ffddc5_07c1a42e",
       "revId": "9a1a2c7d015202471c0ce1b5a1ccb7c619051275",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
