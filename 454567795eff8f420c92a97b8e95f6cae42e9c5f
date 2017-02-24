@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5261e472_5df7bd86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-24T03:36:17Z",
+      "side": 1,
+      "message": "see the git log for the normal format of our commit messages\n\nthis would be:\n\n   net: add FooFunc to override DNS servers\n\n   Fixes #nnnn\n\nNotably, package name, lowercase verb, mention any new API symbols, reference a bug.",
+      "revId": "454567795eff8f420c92a97b8e95f6cae42e9c5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5f76e9a_3fe78b5a",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-24T03:36:17Z",
+      "side": 1,
+      "message": "this is not Go\u0027s canonical case for abbreviations.\n\nsentence doesn\u0027t end in a period.",
+      "revId": "454567795eff8f420c92a97b8e95f6cae42e9c5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1934d74a_adc91163",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-24T03:36:17Z",
+      "side": 1,
+      "message": "not gofmt\u0027d",
+      "revId": "454567795eff8f420c92a97b8e95f6cae42e9c5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
