@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "75d3ba9a_2bbf0d08",
+        "filename": "src/net/pipe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T10:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9e8d91a_65b30458",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 16,
+        "endChar": 13
+      },
+      "revId": "950d1e448c4f3c3be4abe7a9d21f62e5ea260111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "954ca61d_b4128ca5",
         "filename": "src/net/pipe.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-24T03:25:57Z",
       "side": 1,
       "message": "s/Set/set/; start with lowercase even it\u0027s a method for unexposed types for better reading; as you know, this package (over)uses embedding.",
+      "range": {
+        "startLine": 28,
+        "startChar": 19,
+        "endLine": 28,
+        "endChar": 22
+      },
+      "revId": "950d1e448c4f3c3be4abe7a9d21f62e5ea260111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6caadb3_362d51e3",
+        "filename": "src/net/pipe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T10:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "954ca61d_b4128ca5",
       "range": {
         "startLine": 28,
         "startChar": 19,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0a66ae89_579826b4",
+        "filename": "src/net/pipe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T10:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b8e155e_75f5d81c",
+      "range": {
+        "startLine": 74,
+        "startChar": 19,
+        "endLine": 74,
+        "endChar": 25
+      },
+      "revId": "950d1e448c4f3c3be4abe7a9d21f62e5ea260111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9cda8fa_0374fd25",
         "filename": "src/net/pipe.go",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2017-02-24T03:25:57Z",
       "side": 1,
       "message": "isn\u0027t it better to return an OpError instead of pipeError, the same as File{Conn,PacketConn,Listener} ?",
+      "range": {
+        "startLine": 101,
+        "startChar": 1,
+        "endLine": 101,
+        "endChar": 12
+      },
+      "revId": "950d1e448c4f3c3be4abe7a9d21f62e5ea260111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d953db0_02244c48",
+        "filename": "src/net/pipe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T10:25:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9cda8fa_0374fd25",
       "range": {
         "startLine": 101,
         "startChar": 1,
