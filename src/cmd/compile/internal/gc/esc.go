@@ -1451,7 +1451,7 @@ func (e *EscState) initEscRetval(call *Node, fntype *Type) {
 		e.nodeEscState(ret).Loopdepth = e.loopdepth
 		ret.SetUsed(true)
 		ret.Pos = call.Pos
-		cE.Retval.Append(ret)
+		cE.Retval.AppendNode(ret)
 	}
 }
 
@@ -1576,7 +1576,7 @@ func (e *EscState) esccall(call *Node, parent *Node) {
 				args = args[1:]
 
 			case PPARAMOUT:
-				cE.Retval.Append(n)
+				cE.Retval.AppendNode(n)
 			}
 		}
 

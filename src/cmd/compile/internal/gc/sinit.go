@@ -592,7 +592,7 @@ func litas(l *Node, r *Node, init *Nodes) {
 	a := nod(OAS, l, r)
 	a = typecheck(a, Etop)
 	a = walkexpr(a, init)
-	init.Append(a)
+	init.AppendNode(a)
 }
 
 // initGenType is a bitmap indicating the types of generation that will occur for a static value.
@@ -755,7 +755,7 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 		case initKindDynamic, initKindLocalCode:
 			a = orderstmtinplace(a)
 			a = walkstmt(a)
-			init.Append(a)
+			init.AppendNode(a)
 		default:
 			Fatalf("fixedlit: bad kind %d", kind)
 		}
@@ -839,7 +839,7 @@ func slicelit(ctxt initContext, n *Node, var_ *Node, init *Nodes) {
 		if vstat == nil {
 			a = nod(OAS, x, nil)
 			a = typecheck(a, Etop)
-			init.Append(a) // zero new temp
+			init.AppendNode(a) // zero new temp
 		}
 
 		a = nod(OADDR, x, nil)
@@ -848,7 +848,7 @@ func slicelit(ctxt initContext, n *Node, var_ *Node, init *Nodes) {
 		if vstat == nil {
 			a = nod(OAS, temp(t), nil)
 			a = typecheck(a, Etop)
-			init.Append(a) // zero new temp
+			init.AppendNode(a) // zero new temp
 			a = a.Left
 		}
 
@@ -861,7 +861,7 @@ func slicelit(ctxt initContext, n *Node, var_ *Node, init *Nodes) {
 	a = nod(OAS, vauto, a)
 	a = typecheck(a, Etop)
 	a = walkexpr(a, init)
-	init.Append(a)
+	init.AppendNode(a)
 
 	if vstat != nil {
 		// copy static to heap (4)
@@ -870,7 +870,7 @@ func slicelit(ctxt initContext, n *Node, var_ *Node, init *Nodes) {
 		a = nod(OAS, a, vstat)
 		a = typecheck(a, Etop)
 		a = walkexpr(a, init)
-		init.Append(a)
+		init.AppendNode(a)
 	}
 
 	// put dynamics into array (5)
@@ -907,7 +907,7 @@ func slicelit(ctxt initContext, n *Node, var_ *Node, init *Nodes) {
 		a = typecheck(a, Etop)
 		a = orderstmtinplace(a)
 		a = walkstmt(a)
-		init.Append(a)
+		init.AppendNode(a)
 	}
 
 	// make slice out of heap (6)
@@ -916,7 +916,7 @@ func slicelit(ctxt initContext, n *Node, var_ *Node, init *Nodes) {
 	a = typecheck(a, Etop)
 	a = orderstmtinplace(a)
 	a = walkstmt(a)
-	init.Append(a)
+	init.AppendNode(a)
 }
 
 func maplit(n *Node, m *Node, init *Nodes) {
@@ -1006,7 +1006,7 @@ func maplit(n *Node, m *Node, init *Nodes) {
 
 		loop = typecheck(loop, Etop)
 		loop = walkstmt(loop)
-		init.Append(loop)
+		init.AppendNode(loop)
 	}
 
 	// put in dynamic entries one-at-a-time
@@ -1033,19 +1033,19 @@ func maplit(n *Node, m *Node, init *Nodes) {
 		a = nod(OAS, key, index)
 		a = typecheck(a, Etop)
 		a = walkstmt(a)
-		init.Append(a)
+		init.AppendNode(a)
 
 		setlineno(value)
 		a = nod(OAS, val, value)
 		a = typecheck(a, Etop)
 		a = walkstmt(a)
-		init.Append(a)
+		init.AppendNode(a)
 
 		setlineno(val)
 		a = nod(OAS, nod(OINDEX, m, key), val)
 		a = typecheck(a, Etop)
 		a = walkstmt(a)
-		init.Append(a)
+		init.AppendNode(a)
 
 		if nerr != nerrors {
 			break
@@ -1055,10 +1055,10 @@ func maplit(n *Node, m *Node, init *Nodes) {
 	if key != nil {
 		a = nod(OVARKILL, key, nil)
 		a = typecheck(a, Etop)
-		init.Append(a)
+		init.AppendNode(a)
 		a = nod(OVARKILL, val, nil)
 		a = typecheck(a, Etop)
-		init.Append(a)
+		init.AppendNode(a)
 	}
 }
 
@@ -1076,7 +1076,7 @@ func anylit(n *Node, var_ *Node, init *Nodes) {
 		var r *Node
 		if n.Right != nil {
 			// n.Right is stack temporary used as backing store.
-			init.Append(nod(OAS, n.Right, nil)) // zero backing store, just in case (#18410)
+			init.AppendNode(nod(OAS, n.Right, nil)) // zero backing store, just in case (#18410)
 			r = nod(OADDR, n.Right, nil)
 			r = typecheck(r, Erv)
 		} else {
@@ -1090,7 +1090,7 @@ func anylit(n *Node, var_ *Node, init *Nodes) {
 		a := nod(OAS, var_, r)
 
 		a = typecheck(a, Etop)
-		init.Append(a)
+		init.AppendNode(a)
 
 		var_ = nod(OIND, var_, nil)
 		var_ = typecheck(var_, Erv|Easgn)
@@ -1117,7 +1117,7 @@ func anylit(n *Node, var_ *Node, init *Nodes) {
 
 			a = typecheck(a, Etop)
 			a = walkexpr(a, init)
-			init.Append(a)
+			init.AppendNode(a)
 
 			// add expressions to automatic
 			fixedlit(inInitFunction, initKindDynamic, n, var_, init)
@@ -1135,7 +1135,7 @@ func anylit(n *Node, var_ *Node, init *Nodes) {
 			a := nod(OAS, var_, nil)
 			a = typecheck(a, Etop)
 			a = walkexpr(a, init)
-			init.Append(a)
+			init.AppendNode(a)
 		}
 
 		fixedlit(inInitFunction, initKindLocalCode, n, var_, init)

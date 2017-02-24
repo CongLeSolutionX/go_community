@@ -847,13 +847,13 @@ func orderstmt(n *Node, order *Order) {
 						if r.Colas() {
 							tmp2 = nod(ODCL, tmp1, nil)
 							tmp2 = typecheck(tmp2, Etop)
-							n2.Ninit.Append(tmp2)
+							n2.Ninit.AppendNode(tmp2)
 						}
 
 						r.Left = ordertemp(r.Right.Left.Type.Elem(), order, haspointers(r.Right.Left.Type.Elem()))
 						tmp2 = nod(OAS, tmp1, r.Left)
 						tmp2 = typecheck(tmp2, Etop)
-						n2.Ninit.Append(tmp2)
+						n2.Ninit.AppendNode(tmp2)
 					}
 
 					if r.List.Len() != 0 && isblank(r.List.First()) {
@@ -864,13 +864,13 @@ func orderstmt(n *Node, order *Order) {
 						if r.Colas() {
 							tmp2 = nod(ODCL, tmp1, nil)
 							tmp2 = typecheck(tmp2, Etop)
-							n2.Ninit.Append(tmp2)
+							n2.Ninit.AppendNode(tmp2)
 						}
 
 						r.List.Set1(ordertemp(Types[TBOOL], order, false))
 						tmp2 = okas(tmp1, r.List.First())
 						tmp2 = typecheck(tmp2, Etop)
-						n2.Ninit.Append(tmp2)
+						n2.Ninit.AppendNode(tmp2)
 					}
 					n2.Ninit.Set(orderblock(n2.Ninit))
 

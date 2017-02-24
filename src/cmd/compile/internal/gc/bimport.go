@@ -1003,7 +1003,7 @@ func (p *importer) node() *Node {
 
 	case OMAKEMAP, OMAKECHAN, OMAKESLICE:
 		n := npos(p.pos(), builtinCall(OMAKE))
-		n.List.Append(typenod(p.typ()))
+		n.List.AppendNode(typenod(p.typ()))
 		n.List.Append(p.exprList()...)
 		return n
 

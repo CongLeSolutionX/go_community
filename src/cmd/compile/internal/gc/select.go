@@ -299,10 +299,10 @@ func walkselect(sel *Node) {
 		}
 
 		// selv is no longer alive after use.
-		r.Nbody.Append(nod(OVARKILL, selv, nil))
+		r.Nbody.AppendNode(nod(OVARKILL, selv, nil))
 
 		r.Nbody.AppendNodes(&cas.Nbody)
-		r.Nbody.Append(nod(OBREAK, nil, nil))
+		r.Nbody.AppendNode(nod(OBREAK, nil, nil))
 		init = append(init, r)
 	}
 
