@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa271d02_57b3e804",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2868,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-24T06:30:28Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary. Please see below my comment on us updating the gzip code.",
+      "revId": "70f0d9e0370bad5ece8cef66a136287b7c54bc93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "294869ef_f8e523e4",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2869,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-24T06:30:28Z",
+      "side": 1,
+      "message": "We need to test out that gzip content encoding is case insensitive so multiple cases, how about let\u0027s update the entire test\nto something like this:\n\nfunc TestCaseInsensitiveGzipContentEncoding(t *testing.T) {\n        // Test that we can handle case insensitive gzip content-encoding.\n        // See Issue 19248.\n        defer afterTest(t)\n\n        tests :\u003d []string{\n                0: \"gzip\",\n                1: \"GZIP\",\n                2: \"GZip\",\n                3: \"GZiP\",\n                4: \"gZIP\",\n        }\n\n        gzipEncodingsChan :\u003d make(chan string, 1)\n        defer close(gzipEncodingsChan)\n\n        message :\u003d \"Hello Gopher!\"\n        ts :\u003d httptest.NewServer(HandlerFunc(func(rw ResponseWriter, r *Request) {\n                encoding :\u003d \u003c-gzipEncodingsChan\n                rw.Header().Set(\"Content-Encoding\", encoding)\n                gz :\u003d gzip.NewWriter(rw)\n                gz.Write([]byte(message))\n                gz.Close()\n        }))\n        defer ts.Close()\n\n        for i, encoding :\u003d range tests {\n                gzipEncodingsChan \u003c- encoding\n\n                res, err :\u003d Get(ts.URL)\n                if err !\u003d nil {\n                        t.Errorf(\"#%d: err: %v\", i, err)\n                        continue\n                }\n\n                body, err :\u003d ioutil.ReadAll(res.Body)\n                if err !\u003d nil {\n                        t.Errorf(\"#%d: err: %v\", i, err)\n                        continue\n                }\n\n                got, want :\u003d string(body), message\n                if got !\u003d want {\n                        t.Errorf(\"#%d: got %q, want: %q\\n\", i, got, want)\n                }\n        }\n}\n\nThis way we can enumerate of a couple of combinations and we can avoid hardcoding the response.",
+      "revId": "70f0d9e0370bad5ece8cef66a136287b7c54bc93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cec5e50f_10d953bc",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2870,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-02-24T06:30:28Z",
+      "side": 1,
+      "message": "Hmm, hard coded gzip data makes it harder to inspect and update tests.\nLet\u0027s make a proper gzip writer with the ResponseWriter as the destination so something like this:\nLet\u0027s first write the header\nw.Header().Set(\"Content-Encoding\", \"GZIP\")\ngz :\u003d gzip.NewWriter(w)\ngz.Write([]byte(body))",
+      "revId": "70f0d9e0370bad5ece8cef66a136287b7c54bc93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
