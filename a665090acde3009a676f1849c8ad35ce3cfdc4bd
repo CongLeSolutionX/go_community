@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cea877d7_0e6d5513",
+        "filename": "src/crypto/tls/conn_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-02-24T02:02:04Z",
+      "side": 1,
+      "message": "for what purpose?",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 29
+      },
+      "revId": "a665090acde3009a676f1849c8ad35ce3cfdc4bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
