@@ -213,7 +213,7 @@ var pkgDeps = map[string][]string{
 
 	// Go type checking.
 	"go/constant":               {"L4", "go/token", "math/big"},
-	"go/importer":               {"L4", "go/internal/gcimporter", "go/internal/gccgoimporter", "go/types"},
+	"go/importer":               {"L4", "go/build", "go/internal/gccgoimporter", "go/internal/gcimporter", "go/internal/srcimporter", "go/token", "go/types"},
 	"go/internal/gcimporter":    {"L4", "OS", "go/build", "go/constant", "go/token", "go/types", "text/scanner"},
 	"go/internal/gccgoimporter": {"L4", "OS", "debug/elf", "go/constant", "go/token", "go/types", "text/scanner"},
 	"go/types":                  {"L4", "GOPARSER", "container/heap", "go/constant"},
