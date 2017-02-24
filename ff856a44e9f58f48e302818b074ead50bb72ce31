@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14e9b211_447e3b6f",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-24T18:52:13Z",
+      "side": 1,
+      "message": "I think this body can be simplified to just:\n\nouterxpos :\u003d xpos\nfor ix :\u003d pos.Base().InliningIndex(); ix \u003e\u003d 0; {\n\tcall :\u003d ctxt.InlTree.nodes[ix]\n\tix \u003d call.Parent\n\touterxpos \u003d call.Pos\n}\nreturn ctxt.PosTable.Pos(outerxpos)",
+      "revId": "ff856a44e9f58f48e302818b074ead50bb72ce31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1dd21cb_a9648c64",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-24T18:52:13Z",
+      "side": 1,
+      "message": "this is still not using setuint32 per austin\u0027s suggestion",
+      "range": {
+        "startLine": 343,
+        "startChar": 14,
+        "endLine": 343,
+        "endChar": 23
+      },
+      "revId": "ff856a44e9f58f48e302818b074ead50bb72ce31",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
