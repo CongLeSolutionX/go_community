@@ -683,14 +683,14 @@ func walkpartialcall(n *Node, init *Nodes) *Node {
 	}
 
 	typ := nod(OTSTRUCT, nil, nil)
-	typ.List.Set1(nod(ODCLFIELD, newname(lookup("F")), typenod(Types[TUINTPTR])))
-	typ.List.Append(nod(ODCLFIELD, newname(lookup("R")), typenod(n.Left.Type)))
+	typ.List.Set2(
+		nod(ODCLFIELD, newname(lookup("F")), typenod(Types[TUINTPTR])),
+		nod(ODCLFIELD, newname(lookup("R")), typenod(n.Left.Type)))
 
 	clos := nod(OCOMPLIT, nil, nod(OIND, typ, nil))
 	clos.Esc = n.Esc
 	clos.Right.Implicit = true
-	clos.List.Set1(nod(OCFUNC, n.Func.Nname, nil))
-	clos.List.Append(n.Left)
+	clos.List.Set2(nod(OCFUNC, n.Func.Nname, nil), n.Left)
 
 	// Force type conversion from *struct to the func type.
 	clos = nod(OCONVNOP, clos, nil)

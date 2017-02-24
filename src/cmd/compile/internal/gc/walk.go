@@ -3013,8 +3013,7 @@ func eqfor(t *Type, needsize *int) *Node {
 		n := newname(sym)
 		n.Class = PFUNC
 		ntype := nod(OTFUNC, nil, nil)
-		ntype.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))))
-		ntype.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))))
+		ntype.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))), nod(ODCLFIELD, nil, typenod(ptrto(t))))
 		ntype.Rlist.Append(nod(ODCLFIELD, nil, typenod(Types[TBOOL])))
 		ntype = typecheck(ntype, Etype)
 		n.Type = ntype.Type
@@ -3130,8 +3129,7 @@ func walkcompare(n *Node, init *Nodes) *Node {
 
 		var needsize int
 		call := nod(OCALL, eqfor(t, &needsize), nil)
-		call.List.Append(pl)
-		call.List.Append(pr)
+		call.List.Append(pl, pr)
 		if needsize != 0 {
 			call.List.Append(nodintconst(t.Width))
 		}

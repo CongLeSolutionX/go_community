@@ -1834,9 +1834,10 @@ func hashmem(t *Type) *Node {
 	n := newname(sym)
 	n.Class = PFUNC
 	tfn := nod(OTFUNC, nil, nil)
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))))
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
+	tfn.List.Append(
+		nod(ODCLFIELD, nil, typenod(ptrto(t))),
+		nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])),
+		nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
 	tfn.Rlist.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
 	tfn = typecheck(tfn, Etype)
 	n.Type = tfn.Type

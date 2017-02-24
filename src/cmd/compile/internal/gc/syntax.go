@@ -606,8 +606,11 @@ func (n *Nodes) Append(a ...*Node) {
 	if len(a) == 0 {
 		return
 	}
+
 	if n.slice == nil {
-		n.slice = &a
+		s := make([]*Node, len(a))
+		copy(s, a)
+		n.slice = &s
 	} else {
 		*n.slice = append(*n.slice, a...)
 	}

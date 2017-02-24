@@ -238,8 +238,7 @@ func genhash(sym *Sym, t *Type) {
 		nx.Bounded = true
 		na := nod(OADDR, nx, nil)
 		na.Etype = 1 // no escape to heap
-		call.List.Append(na)
-		call.List.Append(nh)
+		call.List.Append(na, nh)
 		n.Nbody.Append(nod(OAS, nh, call))
 
 		fn.Nbody.Append(n)
@@ -263,8 +262,7 @@ func genhash(sym *Sym, t *Type) {
 				nx := nodSym(OXDOT, np, f.Sym) // TODO: fields from other packages?
 				na := nod(OADDR, nx, nil)
 				na.Etype = 1 // no escape to heap
-				call.List.Append(na)
-				call.List.Append(nh)
+				call.List.Append(na, nh)
 				fn.Nbody.Append(nod(OAS, nh, call))
 				i++
 				continue
@@ -279,9 +277,7 @@ func genhash(sym *Sym, t *Type) {
 			nx := nodSym(OXDOT, np, f.Sym) // TODO: fields from other packages?
 			na := nod(OADDR, nx, nil)
 			na.Etype = 1 // no escape to heap
-			call.List.Append(na)
-			call.List.Append(nh)
-			call.List.Append(nodintconst(size))
+			call.List.Append(na, nh, nodintconst(size))
 			fn.Nbody.Append(nod(OAS, nh, call))
 
 			i = next
@@ -349,8 +345,7 @@ func hashfor(t *Type) *Node {
 	n := newname(sym)
 	n.Class = PFUNC
 	tfn := nod(OTFUNC, nil, nil)
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))))
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
+	tfn.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))), nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
 	tfn.Rlist.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
 	tfn = typecheck(tfn, Etype)
 	n.Type = tfn.Type
@@ -540,8 +535,7 @@ func eqmem(p *Node, q *Node, field *Sym, size int64) *Node {
 
 	fn, needsize := eqmemfunc(size, nx.Type.Elem())
 	call := nod(OCALL, fn, nil)
-	call.List.Append(nx)
-	call.List.Append(ny)
+	call.List.Append(nx, ny)
 	if needsize {
 		call.List.Append(nodintconst(size))
 	}
