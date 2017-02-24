@@ -386,7 +386,7 @@ func oldname(s *Sym) *Node {
 			n.Name.Param.Innermost = c
 
 			c.Xoffset = 0
-			Curfn.Func.Cvars.Append(c)
+			Curfn.Func.Cvars.AppendNode(c)
 		}
 
 		// return ref to closure var, not original
@@ -444,7 +444,7 @@ func colasdefn(left []*Node, defn *Node) {
 		n = newname(n.Sym)
 		declare(n, dclcontext)
 		n.Name.Defn = defn
-		defn.Ninit.Append(nod(ODCL, n, nil))
+		defn.Ninit.AppendNode(nod(ODCL, n, nil))
 		left[i] = n
 	}
 
