@@ -11,6 +11,7 @@ import (
 	"runtime"
 	"testing"
 	"unicode/utf8"
+	"unsafe"
 )
 
 const N = 10000      // make this bigger for a larger (and slower) test
@@ -511,6 +512,16 @@ func TestBufferGrowth(t *testing.T) {
 	// so set our error threshold at 3x.
 	if cap1 > cap0*3 {
 		t.Errorf("buffer cap = %d; too big (grew from %d)", cap1, cap0)
+	}
+}
+
+func TestBufferTypeSize(t *testing.T) {
+	bs := uintptr(64) // 32bit systems: Buffer should be 64 bytes long.
+	if unsafe.Sizeof(&Buffer{}) == 8 {
+		bs = 128 // 64bit systems: Buffer should be 128 bytes long.
+	}
+	if unsafe.Sizeof(Buffer{}) != bs {
+		t.Errorf("type Buffer size %d, expected %d", unsafe.Sizeof(Buffer{}), bs)
 	}
 }
 
