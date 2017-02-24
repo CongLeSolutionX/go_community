@@ -76,6 +76,29 @@
     },
     {
       "key": {
+        "uuid": "d8f7bda3_4f08b56b",
+        "filename": "src/cmd/internal/obj/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-24T00:05:21Z",
+      "side": 1,
+      "message": "ctxt",
+      "range": {
+        "startLine": 179,
+        "startChar": 60,
+        "endLine": 179,
+        "endChar": 64
+      },
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db39c317_58525aff",
         "filename": "src/cmd/internal/obj/pcln.go",
         "patchSetId": 5
@@ -197,6 +220,24 @@
       "writtenOn": "2017-02-23T22:25:57Z",
       "side": 1,
       "message": "There\u0027s nothing in this code that ties PosBases to inlining except the comment and the fact that the field is called \"inl\". It seems like an extra decision to tie the two together even though there\u0027s no need.\n\nIf you make this just an index, then there\u0027s no need to make the connection in this package. The index may be used elsewhere for something else.\n\nThe factory method could be called NewIndexBase, the accessor Index, and the field index. Seems cleaner to me.",
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b393328_11244590",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-24T00:05:21Z",
+      "side": 1,
+      "message": "Replacing this with a generic index feels like premature abstraction to me. If it\u0027s a generic index, then when you have a particular Pos object you have to figure out what the index means for that particular Pos object. Right now that\u0027s trivial, since it\u0027s documented right here, even if it\u0027s only meaningful to the compiler. If we find some other use for an index in PosBase that\u0027s completely disjoint from uses that need an inlining index, we can easily revisit this.",
+      "parentUuid": "7c890a35_74785448",
       "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -327,6 +368,24 @@
       "side": 1,
       "message": "Never mind - sorry for being dim. I see now that the setuintxx functions also use platform-specific encoding.",
       "parentUuid": "449573e7_b2d54d9f",
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f10570d_739a3078",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-24T00:05:21Z",
+      "side": 1,
+      "message": "Though this code should probably be using setuint* for consistency with the rest of this function.",
+      "parentUuid": "3ff61d1b_db6206e1",
       "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
