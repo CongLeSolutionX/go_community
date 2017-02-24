@@ -740,7 +740,7 @@ opswitch:
 			n.Rlist.Set1(r)
 			break
 		}
-		init.Append(r)
+		init.AppendNode(r)
 
 		ll := ascompatet(n.Op, n.List, r.Type)
 		n = liststmt(ll)
@@ -820,7 +820,7 @@ opswitch:
 			var_.NonNil = true // mapaccess always returns a non-nil pointer
 			n.List.SetFirst(var_)
 			n = walkexpr(n, init)
-			init.Append(n)
+			init.AppendNode(n)
 			n = nod(OAS, a, nod(OIND, var_, nil))
 		}
 
@@ -895,7 +895,7 @@ opswitch:
 		case !n.Left.Type.IsInterface() && n.Esc == EscNone && n.Left.Type.Width <= 1024:
 			// n.Left does not escape. Use a stack temporary initialized to n.Left.
 			value = temp(n.Left.Type)
-			init.Append(typecheck(nod(OAS, value, n.Left), Etop))
+			init.AppendNode(typecheck(nod(OAS, value, n.Left), Etop))
 		}
 
 		if value != nil {
@@ -923,16 +923,16 @@ opswitch:
 		if n.Type.IsEmptyInterface() && n.Left.Type.IsInterface() && !n.Left.Type.IsEmptyInterface() {
 			// Evaluate the input interface.
 			c := temp(n.Left.Type)
-			init.Append(nod(OAS, c, n.Left))
+			init.AppendNode(nod(OAS, c, n.Left))
 
 			// Get the itab out of the interface.
 			tmp := temp(ptrto(Types[TUINT8]))
-			init.Append(nod(OAS, tmp, typecheck(nod(OITAB, c, nil), Erv)))
+			init.AppendNode(nod(OAS, tmp, typecheck(nod(OITAB, c, nil), Erv)))
 
 			// Get the type out of the itab.
 			nif := nod(OIF, typecheck(nod(ONE, tmp, nodnil()), Erv), nil)
 			nif.Nbody.Set1(nod(OAS, tmp, itabType(tmp)))
-			init.Append(nif)
+			init.AppendNode(nif)
 
 			// Build the result.
 			e := nod(OEFACE, tmp, ifaceData(c, ptrto(Types[TUINT8])))
@@ -1222,7 +1222,7 @@ opswitch:
 			r := temp(n.Type.Elem())
 			r = nod(OAS, r, nil) // zero temp
 			r = typecheck(r, Etop)
-			init.Append(r)
+			init.AppendNode(r)
 			r = nod(OADDR, r.Left, nil)
 			r = typecheck(r, Erv)
 			n = r
@@ -1360,7 +1360,7 @@ opswitch:
 
 			a = nod(OAS, var_, nil) // zero temp
 			a = typecheck(a, Etop)
-			init.Append(a)
+			init.AppendNode(a)
 			a = nod(OADDR, var_, nil)
 
 			// Allocate one bucket on stack.
@@ -1370,7 +1370,7 @@ opswitch:
 
 			r = nod(OAS, var_, nil) // zero temp
 			r = typecheck(r, Etop)
-			init.Append(r)
+			init.AppendNode(r)
 			r = nod(OADDR, var_, nil)
 		}
 
@@ -1396,7 +1396,7 @@ opswitch:
 			var_ := temp(t)
 			a := nod(OAS, var_, nil) // zero temp
 			a = typecheck(a, Etop)
-			init.Append(a)
+			init.AppendNode(a)
 			r := nod(OSLICE, var_, nil) // arr[:l]
 			r.SetSliceBounds(nil, l, nil)
 			r = conv(r, n.Type) // in case n.Type is named.
@@ -1710,7 +1710,7 @@ func ascompatet(op Op, nl Nodes, nr *Type) []*Node {
 			tmp = typecheck(tmp, Erv)
 			a := nod(OAS, l, tmp)
 			a = convas(a, &mm)
-			mm.Append(a)
+			mm.AppendNode(a)
 			l = tmp
 		}
 
@@ -1722,7 +1722,7 @@ func ascompatet(op Op, nl Nodes, nr *Type) []*Node {
 			ullmanOverflow = true
 		}
 
-		nn.Append(a)
+		nn.AppendNode(a)
 		r = saver.Next()
 	}
 
@@ -1793,7 +1793,7 @@ func ascompatte(call *Node, isddd bool, lhs *Type, rhs []*Node, fp int, init *No
 		a.Rlist.Set(rhs)
 		a = typecheck(a, Etop)
 		a = walkstmt(a)
-		init.Append(a)
+		init.AppendNode(a)
 
 		rhs = tmps
 	}
@@ -1915,7 +1915,7 @@ func walkprint(nn *Node, init *Nodes) *Node {
 		}
 
 		r = nod(OCALL, on, nil)
-		r.List.Append(n)
+		r.List.AppendNode(n)
 		calls = append(calls, r)
 	}
 
@@ -2900,7 +2900,7 @@ func copyany(n *Node, init *Nodes, runtimecall bool) *Node {
 	nif := nod(OIF, nil, nil)
 
 	nif.Left = nod(OGT, nlen, nod(OLEN, nr, nil))
-	nif.Nbody.Append(nod(OAS, nlen, nod(OLEN, nr, nil)))
+	nif.Nbody.AppendNode(nod(OAS, nlen, nod(OLEN, nr, nil)))
 	l = append(l, nif)
 
 	// Call memmove.
@@ -2934,9 +2934,9 @@ func eqfor(t *Type, needsize *int) *Node {
 		n := newname(sym)
 		n.Class = PFUNC
 		ntype := nod(OTFUNC, nil, nil)
-		ntype.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))))
-		ntype.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))))
-		ntype.Rlist.Append(nod(ODCLFIELD, nil, typenod(Types[TBOOL])))
+		ntype.List.AppendNode(nod(ODCLFIELD, nil, typenod(ptrto(t))))
+		ntype.List.AppendNode(nod(ODCLFIELD, nil, typenod(ptrto(t))))
+		ntype.Rlist.AppendNode(nod(ODCLFIELD, nil, typenod(Types[TBOOL])))
 		ntype = typecheck(ntype, Etype)
 		n.Type = ntype.Type
 		*needsize = 0
@@ -3041,20 +3041,20 @@ func walkcompare(n *Node, init *Nodes) *Node {
 		al := nod(OAS, pl, nod(OADDR, cmpl, nil))
 		al.Right.Etype = 1 // addr does not escape
 		al = typecheck(al, Etop)
-		init.Append(al)
+		init.AppendNode(al)
 
 		pr := temp(ptrto(t))
 		ar := nod(OAS, pr, nod(OADDR, cmpr, nil))
 		ar.Right.Etype = 1 // addr does not escape
 		ar = typecheck(ar, Etop)
-		init.Append(ar)
+		init.AppendNode(ar)
 
 		var needsize int
 		call := nod(OCALL, eqfor(t, &needsize), nil)
-		call.List.Append(pl)
-		call.List.Append(pr)
+		call.List.AppendNode(pl)
+		call.List.AppendNode(pr)
 		if needsize != 0 {
-			call.List.Append(nodintconst(t.Width))
+			call.List.AppendNode(nodintconst(t.Width))
 		}
 		res := call
 		if n.Op != OEQ {
@@ -3536,7 +3536,7 @@ func walkprintfunc(n *Node, init *Nodes) *Node {
 		buf = fmt.Sprintf("a%d", num)
 		num++
 		a = nod(ODCLFIELD, newname(lookup(buf)), typenod(n1.Type))
-		t.List.Append(a)
+		t.List.AppendNode(a)
 		printargs = append(printargs, a.Left)
 	}
 
