@@ -46,6 +46,30 @@
       "revId": "a665090acde3009a676f1849c8ad35ce3cfdc4bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd7f64b4_d5de21e5",
+        "filename": "src/crypto/tls/conn_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-02-24T02:17:00Z",
+      "side": 1,
+      "message": "i think it\u0027s fine to represent the returned error as it is because the docs on io.ReadFull says so, and you can simply write like the following:\n\nif err !\u003d nil || n !\u003d length {\n        t.Errorf(\"io.ReadFull \u003d %d, %v\", n, err)\n}",
+      "parentUuid": "51a4b650_6c0ef66b",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 29
+      },
+      "revId": "a665090acde3009a676f1849c8ad35ce3cfdc4bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
