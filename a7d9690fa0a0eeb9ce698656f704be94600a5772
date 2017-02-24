@@ -244,6 +244,24 @@
     },
     {
       "key": {
+        "uuid": "354a63bf_c36d8b4b",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-02-24T01:31:09Z",
+      "side": 1,
+      "message": "What happens when you use the index for something else, but also want to assign an inlining index to the PosBase?\n\nI think it makes sense to make the connection in this package since inlining is closely tied to line info. In particular, the inlining index is what distinguishes two src.Pos with the same file and line number but that are in completely different parts of the AST.",
+      "parentUuid": "1b393328_11244590",
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "116a5e39_a3281e02",
         "filename": "src/cmd/internal/src/pos.go",
         "patchSetId": 5
