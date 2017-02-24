@@ -33,6 +33,17 @@ type dnsConfig struct {
 	soffset    uint32        // used by serverOffset
 }
 
+func addDNSServer(servers []string, server string) {
+	// One more check: make sure server name is
+	// just an IP address. Otherwise we need DNS
+	// to look it up.
+	if parseIPv4(server) != nil {
+		servers = append(servers, JoinHostPort(server, "53"))
+	} else if ip, _ := parseIPv6(server, true); ip != nil {
+		servers = append(servers, JoinHostPort(server, "53"))
+	}
+}
+
 // See resolv.conf(5) on a Linux machine.
 func dnsReadConfig(filename string) *dnsConfig {
 	conf := &dnsConfig{
@@ -68,14 +79,7 @@ func dnsReadConfig(filename string) *dnsConfig {
 		switch f[0] {
 		case "nameserver": // add one name server
 			if len(f) > 1 && len(conf.servers) < 3 { // small, but the standard limit
-				// One more check: make sure server name is
-				// just an IP address. Otherwise we need DNS
-				// to look it up.
-				if parseIPv4(f[1]) != nil {
-					conf.servers = append(conf.servers, JoinHostPort(f[1], "53"))
-				} else if ip, _ := parseIPv6(f[1], true); ip != nil {
-					conf.servers = append(conf.servers, JoinHostPort(f[1], "53"))
-				}
+				addDNSServer(conf.servers, f[1])
 			}
 
 		case "domain": // set search path to just this domain
@@ -136,6 +140,19 @@ func dnsReadConfig(filename string) *dnsConfig {
 		conf.search = dnsDefaultSearch()
 	}
 	return conf
+}
+
+// SetDNSServers overrides the system servers with the supplied ones.
+func SetDNSServers(newServers []string) {
+	conf := systemConf().resolv
+	conf.servers = []string{}
+
+	for _, server := range newServers {
+		addDNSServer(conf.servers, server)
+		if len(conf.servers) >= 3 {
+			return
+		}
+	}
 }
 
 // serverOffset returns an offset that can be used to determine
