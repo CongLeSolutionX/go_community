@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6349f6d0_207192e6",
+        "filename": "src/vendor/golang_org/x/net/nettest/conntest_go16.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-24T19:09:09Z",
+      "side": 1,
+      "message": "You can omit the go16 and go17 files.\n\nI imagine in the future we will have a good tool to do this automatically, so let\u0027s just assume the good tool will do this omission later also.",
+      "revId": "118ed3ada1a2bf617be6c2d58aceedf760f49ec2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
