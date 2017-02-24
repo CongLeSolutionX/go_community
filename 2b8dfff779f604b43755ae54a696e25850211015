@@ -49,6 +49,54 @@
     },
     {
       "key": {
+        "uuid": "6436a3b9_43025eab",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T02:12:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b0391f1_9e9d72b7",
+      "range": {
+        "startLine": 313,
+        "startChar": 10,
+        "endLine": 313,
+        "endChar": 16
+      },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4be4544f_cfd4f694",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T02:12:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71f21ac5_9df5340d",
+      "range": {
+        "startLine": 313,
+        "startChar": 10,
+        "endLine": 313,
+        "endChar": 16
+      },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20d78a6a_c4928e20",
         "filename": "src/net/url/url.go",
         "patchSetId": 7
@@ -96,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "3188a9d8_28717cd8",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T02:12:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ec9935d_63d8e973",
+      "range": {
+        "startLine": 323,
+        "startChar": 50,
+        "endLine": 323,
+        "endChar": 60
+      },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b124228_faa65029",
         "filename": "src/net/url/url.go",
         "patchSetId": 7
@@ -107,6 +179,30 @@
       "writtenOn": "2017-02-02T20:03:41Z",
       "side": 1,
       "message": "I feel like this construction is a bit abnormal for Go docs.\n\nIt sounds like, \"If the host happens to be part of the URL\", but you mean more like, \"To parse the host out of the URL, \"\n\nMaybe you can back up and where you mention the scheme, say that if the input string starts with a scheme or //, then the authority is parsed. (Or I guess we don\u0027t ever say authority. That\u0027s fine. The \"host\". Even though it includes the userinfo@ part.)",
+      "range": {
+        "startLine": 324,
+        "startChar": 16,
+        "endLine": 324,
+        "endChar": 50
+      },
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f270a360_03ee491d",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T02:12:37Z",
+      "side": 1,
+      "message": "Irrelevant after deletion suggestion by @rsc.",
+      "parentUuid": "7b124228_faa65029",
       "range": {
         "startLine": 324,
         "startChar": 16,
@@ -136,6 +232,24 @@
     },
     {
       "key": {
+        "uuid": "e93344cd_51a9d7f5",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T02:12:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ea160ff_bb3a3318",
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89c82bee_9f99370e",
         "filename": "src/net/url/url.go",
         "patchSetId": 7
@@ -153,6 +267,24 @@
     },
     {
       "key": {
+        "uuid": "03edba85_b3e17431",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T02:12:37Z",
+      "side": 1,
+      "message": "Reverted.",
+      "parentUuid": "89c82bee_9f99370e",
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fb14814_49788a9f",
         "filename": "src/net/url/url.go",
         "patchSetId": 7
@@ -164,6 +296,24 @@
       "writtenOn": "2017-02-10T16:43:18Z",
       "side": 1,
       "message": "This is not true either. Revert.",
+      "revId": "2b8dfff779f604b43755ae54a696e25850211015",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1d61d05_184cdc19",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-24T02:12:37Z",
+      "side": 1,
+      "message": "Reverted.",
+      "parentUuid": "4fb14814_49788a9f",
       "revId": "2b8dfff779f604b43755ae54a696e25850211015",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
