@@ -413,7 +413,7 @@ func memclrrange(n, v1, v2, a *Node) bool {
 	tmp = nod(OADDR, tmp, nil)
 	tmp = nod(OCONVNOP, tmp, nil)
 	tmp.Type = ptrto(Types[TUINT8])
-	n.Nbody.Append(nod(OAS, hp, tmp))
+	n.Nbody.Append1(nod(OAS, hp, tmp))
 
 	// hn = len(a) * sizeof(elem(a))
 	hn := temp(Types[TUINTPTR])
@@ -421,7 +421,7 @@ func memclrrange(n, v1, v2, a *Node) bool {
 	tmp = nod(OLEN, a, nil)
 	tmp = nod(OMUL, tmp, nodintconst(elemsize))
 	tmp = conv(tmp, Types[TUINTPTR])
-	n.Nbody.Append(nod(OAS, hn, tmp))
+	n.Nbody.Append1(nod(OAS, hn, tmp))
 
 	var fn *Node
 	if haspointers(a.Type.Elem()) {
@@ -432,12 +432,12 @@ func memclrrange(n, v1, v2, a *Node) bool {
 		fn = mkcall("memclrNoHeapPointers", nil, nil, hp, hn)
 	}
 
-	n.Nbody.Append(fn)
+	n.Nbody.Append1(fn)
 
 	// i = len(a) - 1
 	v1 = nod(OAS, v1, nod(OSUB, nod(OLEN, a, nil), nodintconst(1)))
 
-	n.Nbody.Append(v1)
+	n.Nbody.Append1(v1)
 
 	n.Left = typecheck(n.Left, Erv)
 	typecheckslice(n.Nbody.Slice(), Etop)

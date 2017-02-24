@@ -613,6 +613,36 @@ func (n *Nodes) Append(a ...*Node) {
 	}
 }
 
+// Append1 appends n1 to Nodes.
+// If a slice is passed in, this will take ownership of it.
+func (n *Nodes) Append1(n1 *Node) {
+	if n.slice == nil {
+		n.slice = &[]*Node{n1}
+	} else {
+		*n.slice = append(*n.slice, n1)
+	}
+}
+
+// Append2 appends n1 and n2 to Nodes.
+// If a slice is passed in, this will take ownership of it.
+func (n *Nodes) Append2(n1, n2 *Node) {
+	if n.slice == nil {
+		n.slice = &[]*Node{n1, n2}
+	} else {
+		*n.slice = append(*n.slice, n1, n2)
+	}
+}
+
+// Append3 appends n1, n2 and n3 to Nodes.
+// If a slice is passed in, this will take ownership of it.
+func (n *Nodes) Append3(n1, n2, n3 *Node) {
+	if n.slice == nil {
+		n.slice = &[]*Node{n1, n2, n3}
+	} else {
+		*n.slice = append(*n.slice, n1, n2, n3)
+	}
+}
+
 // Prepend prepends entries to Nodes.
 // If a slice is passed in, this will take ownership of it.
 func (n *Nodes) Prepend(a ...*Node) {

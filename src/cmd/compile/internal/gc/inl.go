@@ -623,7 +623,7 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 		if ln.Op == ONAME {
 			inlvars[ln] = typecheck(inlvar(ln), Erv)
 			if ln.Class == PPARAM || ln.Name.Param.Stackcopy != nil && ln.Name.Param.Stackcopy.Class == PPARAM {
-				ninit.Append(nod(ODCL, inlvars[ln], nil))
+				ninit.Append1(nod(ODCL, inlvars[ln], nil))
 			}
 		}
 	}
@@ -641,7 +641,7 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 			i++
 		}
 
-		ninit.Append(nod(ODCL, m, nil))
+		ninit.Append1(nod(ODCL, m, nil))
 		retvars = append(retvars, m)
 	}
 
@@ -662,7 +662,7 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 		as := nod(OAS, tinlvar(t, inlvars), n.Left.Left)
 		if as != nil {
 			as = typecheck(as, Etop)
-			ninit.Append(as)
+			ninit.Append1(as)
 		}
 	}
 
@@ -725,7 +725,7 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 		if t == nil {
 			Fatalf("method call unknown receiver type: %+v", n)
 		}
-		as.List.Append(tinlvar(t, inlvars))
+		as.List.Append1(tinlvar(t, inlvars))
 		li++
 	}
 
@@ -743,13 +743,13 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 				for i = 0; i < varargcount && li < n.List.Len(); i++ {
 					m = argvar(varargtype, i)
 					varargs = append(varargs, m)
-					as.List.Append(m)
+					as.List.Append1(m)
 				}
 
 				break
 			}
 
-			as.List.Append(tinlvar(t, inlvars))
+			as.List.Append1(tinlvar(t, inlvars))
 		}
 	} else {
 		// match arguments except final variadic (unless the call is dotted itself)
@@ -761,7 +761,7 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 			if variadic && t.Isddd {
 				break
 			}
-			as.List.Append(tinlvar(t, inlvars))
+			as.List.Append1(tinlvar(t, inlvars))
 			t = it.Next()
 			li++
 		}
@@ -773,7 +773,7 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 			for i = 0; i < varargcount && li < n.List.Len(); i++ {
 				m = argvar(varargtype, i)
 				varargs = append(varargs, m)
-				as.List.Append(m)
+				as.List.Append1(m)
 				li++
 			}
 
@@ -789,7 +789,7 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 
 	if as.Rlist.Len() != 0 {
 		as = typecheck(as, Etop)
-		ninit.Append(as)
+		ninit.Append1(as)
 	}
 
 	// turn the variadic args into a slice.
@@ -805,14 +805,14 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 		}
 
 		as = typecheck(as, Etop)
-		ninit.Append(as)
+		ninit.Append1(as)
 	}
 
 	// zero the outparams
 	for _, n := range retvars {
 		as = nod(OAS, n, nil)
 		as = typecheck(as, Etop)
-		ninit.Append(as)
+		ninit.Append1(as)
 	}
 
 	retlabel := autolabel(".i")
@@ -984,11 +984,11 @@ func (subst *inlsubst) node(n *Node) *Node {
 			// Otherwise OINLCALL.Rlist will be the same list,
 			// and later walk and typecheck may clobber it.
 			for _, n := range subst.retvars {
-				as.List.Append(n)
+				as.List.Append1(n)
 			}
 			as.Rlist.Set(subst.list(n.List))
 			as = typecheck(as, Etop)
-			m.Ninit.Append(as)
+			m.Ninit.Append1(as)
 		}
 
 		typecheckslice(m.Ninit.Slice(), Etop)

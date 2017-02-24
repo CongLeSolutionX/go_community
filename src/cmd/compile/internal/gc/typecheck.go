@@ -740,7 +740,7 @@ OpSwitch:
 				if r.Op == OADDSTR {
 					n.List.AppendNodes(&r.List)
 				} else {
-					n.List.Append(r)
+					n.List.Append1(r)
 				}
 				n.Left = nil
 				n.Right = nil

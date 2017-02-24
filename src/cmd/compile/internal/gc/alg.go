@@ -199,13 +199,13 @@ func genhash(sym *Sym, t *Type) {
 	fn.Func.Nname.Name.Param.Ntype = tfn
 
 	n := nod(ODCLFIELD, newname(lookup("p")), typenod(ptrto(t)))
-	tfn.List.Append(n)
+	tfn.List.Append1(n)
 	np := n.Left
 	n = nod(ODCLFIELD, newname(lookup("h")), typenod(Types[TUINTPTR]))
-	tfn.List.Append(n)
+	tfn.List.Append1(n)
 	nh := n.Left
 	n = nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])) // return value
-	tfn.Rlist.Append(n)
+	tfn.Rlist.Append1(n)
 
 	funchdr(fn)
 	fn.Func.Nname.Name.Param.Ntype = typecheck(fn.Func.Nname.Name.Param.Ntype, Etype)
@@ -238,11 +238,10 @@ func genhash(sym *Sym, t *Type) {
 		nx.Bounded = true
 		na := nod(OADDR, nx, nil)
 		na.Etype = 1 // no escape to heap
-		call.List.Append(na)
-		call.List.Append(nh)
-		n.Nbody.Append(nod(OAS, nh, call))
+		call.List.Append2(na, nh)
+		n.Nbody.Append1(nod(OAS, nh, call))
 
-		fn.Nbody.Append(n)
+		fn.Nbody.Append1(n)
 
 	case TSTRUCT:
 		// Walk the struct using memhash for runs of AMEM
@@ -263,9 +262,8 @@ func genhash(sym *Sym, t *Type) {
 				nx := nodSym(OXDOT, np, f.Sym) // TODO: fields from other packages?
 				na := nod(OADDR, nx, nil)
 				na.Etype = 1 // no escape to heap
-				call.List.Append(na)
-				call.List.Append(nh)
-				fn.Nbody.Append(nod(OAS, nh, call))
+				call.List.Append2(na, nh)
+				fn.Nbody.Append1(nod(OAS, nh, call))
 				i++
 				continue
 			}
@@ -279,18 +277,16 @@ func genhash(sym *Sym, t *Type) {
 			nx := nodSym(OXDOT, np, f.Sym) // TODO: fields from other packages?
 			na := nod(OADDR, nx, nil)
 			na.Etype = 1 // no escape to heap
-			call.List.Append(na)
-			call.List.Append(nh)
-			call.List.Append(nodintconst(size))
-			fn.Nbody.Append(nod(OAS, nh, call))
+			call.List.Append3(na, nh, nodintconst(size))
+			fn.Nbody.Append1(nod(OAS, nh, call))
 
 			i = next
 		}
 	}
 
 	r := nod(ORETURN, nil, nil)
-	r.List.Append(nh)
-	fn.Nbody.Append(r)
+	r.List.Append1(nh)
+	fn.Nbody.Append1(r)
 
 	if Debug['r'] != 0 {
 		dumplist("genhash body", fn.Nbody)
@@ -349,9 +345,8 @@ func hashfor(t *Type) *Node {
 	n := newname(sym)
 	n.Class = PFUNC
 	tfn := nod(OTFUNC, nil, nil)
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))))
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
-	tfn.Rlist.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
+	tfn.List.Append2(nod(ODCLFIELD, nil, typenod(ptrto(t))), nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
+	tfn.Rlist.Append1(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
 	tfn = typecheck(tfn, Etype)
 	n.Type = tfn.Type
 	return n
@@ -377,13 +372,13 @@ func geneq(sym *Sym, t *Type) {
 	fn.Func.Nname.Name.Param.Ntype = tfn
 
 	n := nod(ODCLFIELD, newname(lookup("p")), typenod(ptrto(t)))
-	tfn.List.Append(n)
+	tfn.List.Append1(n)
 	np := n.Left
 	n = nod(ODCLFIELD, newname(lookup("q")), typenod(ptrto(t)))
-	tfn.List.Append(n)
+	tfn.List.Append1(n)
 	nq := n.Left
 	n = nod(ODCLFIELD, nil, typenod(Types[TBOOL]))
-	tfn.Rlist.Append(n)
+	tfn.Rlist.Append1(n)
 
 	funchdr(fn)
 	fn.Func.Nname.Name.Param.Ntype = typecheck(fn.Func.Nname.Name.Param.Ntype, Etype)
@@ -420,15 +415,15 @@ func geneq(sym *Sym, t *Type) {
 		nif := nod(OIF, nil, nil)
 		nif.Left = nod(ONE, nx, ny)
 		r := nod(ORETURN, nil, nil)
-		r.List.Append(nodbool(false))
-		nif.Nbody.Append(r)
-		nrange.Nbody.Append(nif)
-		fn.Nbody.Append(nrange)
+		r.List.Append1(nodbool(false))
+		nif.Nbody.Append1(r)
+		nrange.Nbody.Append1(nif)
+		fn.Nbody.Append1(nrange)
 
 		// return true
 		ret := nod(ORETURN, nil, nil)
-		ret.List.Append(nodbool(true))
-		fn.Nbody.Append(ret)
+		ret.List.Append1(nodbool(true))
+		fn.Nbody.Append1(ret)
 
 	case TSTRUCT:
 		var cond *Node
@@ -480,8 +475,8 @@ func geneq(sym *Sym, t *Type) {
 		}
 
 		ret := nod(ORETURN, nil, nil)
-		ret.List.Append(cond)
-		fn.Nbody.Append(ret)
+		ret.List.Append1(cond)
+		fn.Nbody.Append1(ret)
 	}
 
 	if Debug['r'] != 0 {
@@ -540,10 +535,9 @@ func eqmem(p *Node, q *Node, field *Sym, size int64) *Node {
 
 	fn, needsize := eqmemfunc(size, nx.Type.Elem())
 	call := nod(OCALL, fn, nil)
-	call.List.Append(nx)
-	call.List.Append(ny)
+	call.List.Append2(nx, ny)
 	if needsize {
-		call.List.Append(nodintconst(size))
+		call.List.Append1(nodintconst(size))
 	}
 
 	return call

@@ -37,14 +37,14 @@ func closurehdr(ntype *Node) {
 		if name != nil {
 			name.Isddd = a.Isddd
 		}
-		ntype.List.Append(a)
+		ntype.List.Append1(a)
 	}
 	for _, n2 := range n.Rlist.Slice() {
 		name := n2.Left
 		if name != nil {
 			name = newname(name.Sym)
 		}
-		ntype.Rlist.Append(nod(ODCLFIELD, name, n2.Right))
+		ntype.Rlist.Append1(nod(ODCLFIELD, name, n2.Right))
 	}
 }
 
@@ -292,7 +292,7 @@ func capturevars(xfunc *Node) {
 		}
 
 		outer = typecheck(outer, Erv)
-		func_.Func.Enter.Append(outer)
+		func_.Func.Enter.Append1(outer)
 	}
 
 	lineno = lno
@@ -487,7 +487,7 @@ func walkclosure(func_ *Node, init *Nodes) *Node {
 		if !v.Name.Byval {
 			typ1 = nod(OIND, typ1, nil)
 		}
-		typ.List.Append(nod(ODCLFIELD, newname(v.Sym), typ1))
+		typ.List.Append1(nod(ODCLFIELD, newname(v.Sym), typ1))
 	}
 
 	clos := nod(OCOMPLIT, nil, nod(OIND, typ, nil))
@@ -683,14 +683,14 @@ func walkpartialcall(n *Node, init *Nodes) *Node {
 	}
 
 	typ := nod(OTSTRUCT, nil, nil)
-	typ.List.Set1(nod(ODCLFIELD, newname(lookup("F")), typenod(Types[TUINTPTR])))
-	typ.List.Append(nod(ODCLFIELD, newname(lookup("R")), typenod(n.Left.Type)))
+	typ.List.Set2(
+		nod(ODCLFIELD, newname(lookup("F")), typenod(Types[TUINTPTR])),
+		nod(ODCLFIELD, newname(lookup("R")), typenod(n.Left.Type)))
 
 	clos := nod(OCOMPLIT, nil, nod(OIND, typ, nil))
 	clos.Esc = n.Esc
 	clos.Right.Implicit = true
-	clos.List.Set1(nod(OCFUNC, n.Func.Nname, nil))
-	clos.List.Append(n.Left)
+	clos.List.Set2(nod(OCFUNC, n.Func.Nname, nil), n.Left)
 
 	// Force type conversion from *struct to the func type.
 	clos = nod(OCONVNOP, clos, nil)

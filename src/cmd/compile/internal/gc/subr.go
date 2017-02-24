@@ -1348,7 +1348,7 @@ func copyexpr(n *Node, t *Type, init *Nodes) *Node {
 	a := nod(OAS, l, n)
 	a = typecheck(a, Etop)
 	a = walkexpr(a, init)
-	init.Append(a)
+	init.Append1(a)
 	return l
 }
 
@@ -1762,7 +1762,7 @@ func genwrapper(rcvr *Type, method *Field, newnam *Sym, iface int) {
 		n.Left = nod(OEQ, this.Left, nodnil())
 		call := nod(OCALL, syslook("panicwrap"), nil)
 		n.Nbody.Set1(call)
-		fn.Nbody.Append(n)
+		fn.Nbody.Append1(n)
 	}
 
 	dot := adddot(nodSym(OXDOT, this.Left, method.Sym))
@@ -1783,10 +1783,10 @@ func genwrapper(rcvr *Type, method *Field, newnam *Sym, iface int) {
 		}
 		as := nod(OAS, this.Left, nod(OCONVNOP, dot, nil))
 		as.Right.Type = rcvr
-		fn.Nbody.Append(as)
+		fn.Nbody.Append1(as)
 		n := nod(ORETJMP, nil, nil)
 		n.Left = newname(methodsym(method.Sym, methodrcvr, 0))
-		fn.Nbody.Append(n)
+		fn.Nbody.Append1(n)
 		// When tail-calling, we can't use a frame pointer.
 		fn.Func.NoFramePointer = true
 	} else {
@@ -1800,7 +1800,7 @@ func genwrapper(rcvr *Type, method *Field, newnam *Sym, iface int) {
 			call = n
 		}
 
-		fn.Nbody.Append(call)
+		fn.Nbody.Append1(call)
 	}
 
 	if false && Debug['r'] != 0 {
@@ -1834,10 +1834,11 @@ func hashmem(t *Type) *Node {
 	n := newname(sym)
 	n.Class = PFUNC
 	tfn := nod(OTFUNC, nil, nil)
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(ptrto(t))))
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
-	tfn.List.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
-	tfn.Rlist.Append(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
+	tfn.List.Append3(
+		nod(ODCLFIELD, nil, typenod(ptrto(t))),
+		nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])),
+		nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
+	tfn.Rlist.Append1(nod(ODCLFIELD, nil, typenod(Types[TUINTPTR])))
 	tfn = typecheck(tfn, Etype)
 	n.Type = tfn.Type
 	return n
@@ -2093,7 +2094,7 @@ func checknil(x *Node, init *Nodes) {
 
 	n := nod(OCHECKNIL, x, nil)
 	n.Typecheck = 1
-	init.Append(n)
+	init.Append1(n)
 }
 
 // Can this type be stored directly in an interface word?
