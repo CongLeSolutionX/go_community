@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd13d306_6fd52ea8",
+        "filename": "src/net/pipe.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-24T19:11:57Z",
+      "side": 1,
+      "message": "is it the case now that a user using net.Conn would have two goroutines running forever unless they called Close?\n\nThey can\u0027t just make a net.Pipe and Write on one and Read on other and go on with their day.\n\nI wonder if we should worry about making all goroutines go away if there\u0027s no outstanding read or write call blocked.",
+      "range": {
+        "startLine": 137,
+        "startChar": 1,
+        "endLine": 138,
+        "endChar": 17
+      },
+      "revId": "06638afa1ad389490c1ff8ef87247e7739faa7c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
