@@ -262,6 +262,24 @@
     },
     {
       "key": {
+        "uuid": "3bafa77f_bafc818a",
+        "filename": "src/cmd/internal/src/pos.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-02-24T04:10:41Z",
+      "side": 1,
+      "message": "ok - I\u0027m just trying to see if one could disentangle the somewhat low-level position information from the higher-level inlining stuff - fine to leave as is",
+      "parentUuid": "354a63bf_c36d8b4b",
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "116a5e39_a3281e02",
         "filename": "src/cmd/internal/src/pos.go",
         "patchSetId": 5
