@@ -72,7 +72,7 @@ func instrument(fn *Node) {
 		nd := mkcall("racefuncenter", nil, nil, &nodpc)
 		fn.Func.Enter.Prepend(nd)
 		nd = mkcall("racefuncexit", nil, nil)
-		fn.Func.Exit.Append(nd)
+		fn.Func.Exit.AppendNode(nd)
 		fn.Func.Dcl = append(fn.Func.Dcl, &nodpc)
 	}
 
@@ -524,7 +524,7 @@ func callinstr(np **Node, init *Nodes, wr int, skip int) bool {
 			f = mkcall(name, nil, init, uintptraddr(n))
 		}
 
-		init.Append(f)
+		init.AppendNode(f)
 		return true
 	}
 
@@ -576,7 +576,7 @@ func detachexpr(n *Node, init *Nodes) *Node {
 	as := nod(OAS, l, addr)
 	as = typecheck(as, Etop)
 	as = walkexpr(as, init)
-	init.Append(as)
+	init.AppendNode(as)
 	ind := nod(OIND, l, nil)
 	ind = typecheck(ind, Erv)
 	ind = walkexpr(ind, init)
