@@ -440,7 +440,7 @@ TEXT runtime·switchtothread(SB),NOSPLIT,$0
 #define time_hi1 4
 #define time_hi2 8
 
-TEXT runtime·nanotime(SB),NOSPLIT,$0-8
+TEXT runtime·nanotime_memory_mapped(SB),NOSPLIT,$0-8
 loop:
 	MOVL	(_INTERRUPT_TIME+time_hi1), AX
 	MOVL	(_INTERRUPT_TIME+time_lo), CX
@@ -460,7 +460,7 @@ loop:
 	MOVL	DX, ret_hi+4(FP)
 	RET
 
-TEXT time·now(SB),NOSPLIT,$0-20
+TEXT runtime·now_memory_mapped(SB),NOSPLIT,$0-20
 loop:
 	MOVL	(_INTERRUPT_TIME+time_hi1), AX
 	MOVL	(_INTERRUPT_TIME+time_lo), CX

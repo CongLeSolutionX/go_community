@@ -473,7 +473,7 @@ TEXT runtime·switchtothread(SB),NOSPLIT|NOFRAME,$0
 #define time_hi1 4
 #define time_hi2 8
 
-TEXT runtime·nanotime(SB),NOSPLIT,$0-8
+TEXT runtime·nanotime_memory_mapped(SB),NOSPLIT,$0-8
 	MOVQ	$_INTERRUPT_TIME, DI
 loop:
 	MOVL	time_hi1(DI), AX
@@ -488,7 +488,7 @@ loop:
 	MOVQ	CX, ret+0(FP)
 	RET
 
-TEXT time·now(SB),NOSPLIT,$0-24
+TEXT runtime·now_memory_mapped(SB),NOSPLIT,$0-24
 	MOVQ	$_INTERRUPT_TIME, DI
 loop:
 	MOVL	time_hi1(DI), AX
