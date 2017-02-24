@@ -240,7 +240,7 @@ func eqslice(x, y []uintptr) bool {
 	return true
 }
 
-func mprof_GC() {
+func mprof_flushLocked(flushRecent bool) {
 	for b := mbuckets; b != nil; b = b.allnext {
 		mp := b.mp()
 		mp.allocs += mp.prev_allocs
@@ -248,22 +248,42 @@ func mprof_GC() {
 		mp.alloc_bytes += mp.prev_alloc_bytes
 		mp.free_bytes += mp.prev_free_bytes
 
-		mp.prev_allocs = mp.recent_allocs
-		mp.prev_frees = mp.recent_frees
-		mp.prev_alloc_bytes = mp.recent_alloc_bytes
-		mp.prev_free_bytes = mp.recent_free_bytes
+		if flushRecent {
+			mp.prev_allocs = mp.recent_allocs
+			mp.prev_frees = mp.recent_frees
+			mp.prev_alloc_bytes = mp.recent_alloc_bytes
+			mp.prev_free_bytes = mp.recent_free_bytes
 
-		mp.recent_allocs = 0
-		mp.recent_frees = 0
-		mp.recent_alloc_bytes = 0
-		mp.recent_free_bytes = 0
+			mp.recent_allocs = 0
+			mp.recent_frees = 0
+			mp.recent_alloc_bytes = 0
+			mp.recent_free_bytes = 0
+		} else {
+			mp.prev_allocs = 0
+			mp.prev_frees = 0
+			mp.prev_alloc_bytes = 0
+			mp.prev_free_bytes = 0
+		}
 	}
 }
 
 // Record that a gc just happened: all the 'recent' statistics are now real.
 func mProf_GC() {
 	lock(&proflock)
-	mprof_GC()
+	mprof_flushLocked(true)
+	unlock(&proflock)
+}
+
+// mProf_postSweep records that all sweep frees for this GC cycle have
+// completed. This has the effect of publishing the heap profile
+// snapshot as of the last mark termination.
+func mProf_postSweep() {
+	lock(&proflock)
+	// Flush prev stats to the current stats so everything as of
+	// the last mark termination becomes visible. *Don't* flush
+	// the recent stats, since we're still accumulating those for
+	// the next mark termination.
+	mprof_flushLocked(false)
 	unlock(&proflock)
 }
 
@@ -484,8 +504,8 @@ func MemProfile(p []MemProfileRecord, inuseZero bool) (n int, ok bool) {
 		// has not yet happened. In order to allow profiling when
 		// garbage collection is disabled from the beginning of execution,
 		// accumulate stats as if a GC just happened, and recount buckets.
-		mprof_GC()
-		mprof_GC()
+		mprof_flushLocked(true)
+		mprof_flushLocked(true)
 		n = 0
 		for b := mbuckets; b != nil; b = b.allnext {
 			mp := b.mp()
