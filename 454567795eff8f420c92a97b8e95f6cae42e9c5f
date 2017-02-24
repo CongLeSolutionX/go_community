@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c3130269_58da6d7f",
+        "filename": "src/net/dnsconfig_unix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 17340
+      },
+      "writtenOn": "2017-02-24T15:44:05Z",
+      "side": 1,
+      "message": "SetDNSServers",
+      "parentUuid": "3b0b99c0_2ce7b303",
+      "revId": "454567795eff8f420c92a97b8e95f6cae42e9c5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1934d74a_adc91163",
         "filename": "src/net/dnsconfig_unix.go",
         "patchSetId": 2
