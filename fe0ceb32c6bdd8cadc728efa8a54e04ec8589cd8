@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50e7da38_1dae3d7a",
+        "filename": "src/cmd/compile/internal/gc/closure.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-02-25T14:31:22Z",
+      "side": 1,
+      "message": "I will combine these and others uses of AppendNode into existing Set/Set1/Set2 ... in a followup patch.",
+      "range": {
+        "startLine": 687,
+        "startChar": 1,
+        "endLine": 687,
+        "endChar": 20
+      },
+      "revId": "fe0ceb32c6bdd8cadc728efa8a54e04ec8589cd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15d33249_b3fa110a",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-02-25T14:31:22Z",
+      "side": 1,
+      "message": "This should get a better name and then there is also less likelihood of confusion with AppendNode. I saw at least one use of AppendNodes which redundantly set the Slice explicitly nil afterwards.\n\nAny suggestions for a better Name are welcome. We could use the unused function MoveNodes here from above and delete the old MoveNodes.",
+      "range": {
+        "startLine": 635,
+        "startChar": 16,
+        "endLine": 635,
+        "endChar": 27
+      },
+      "revId": "fe0ceb32c6bdd8cadc728efa8a54e04ec8589cd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
