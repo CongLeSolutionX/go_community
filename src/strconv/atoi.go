@@ -67,6 +67,13 @@ func ParseUint(s string, base int, bitSize int) (uint64, error) {
 			}
 			base = 16
 			i = 2
+		case s[0] == '0' && len(s) > 1 && (s[1] == 'b' || s[1] == 'B'):
+			if len(s) < 3 {
+				err = ErrSyntax
+				goto Error
+			}
+			base = 2
+			i = 2
 		case s[0] == '0':
 			base = 8
 			i = 1
