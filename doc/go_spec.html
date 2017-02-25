@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of February 9, 2017",
+	"Subtitle": "Version of February 24, 2017",
 	"Path": "/ref/spec"
 }-->
 
@@ -121,6 +121,7 @@ letter        = unicode_letter | "_" .
 decimal_digit = "0" … "9" .
 octal_digit   = "0" … "7" .
 hex_digit     = "0" … "9" | "A" … "F" | "a" … "f" .
+binary_digit  = "0" | "1" .
 </pre>
 
 <h2 id="Lexical_elements">Lexical elements</h2>
@@ -274,20 +275,22 @@ The following character sequences represent <a href="#Operators">operators</a>, 
 An integer literal is a sequence of digits representing an
 <a href="#Constants">integer constant</a>.
 An optional prefix sets a non-decimal base: <code>0</code> for octal, <code>0x</code> or
-<code>0X</code> for hexadecimal.  In hexadecimal literals, letters
-<code>a-f</code> and <code>A-F</code> represent values 10 through 15.
+<code>0X</code> for hexadecimal, <code>0b</code> or <code>0B</code> for binary.  In hexadecimal
+literals, letters <code>a-f</code> and <code>A-F</code> represent values 10 through 15.
 </p>
 <pre class="ebnf">
-int_lit     = decimal_lit | octal_lit | hex_lit .
+int_lit     = decimal_lit | octal_lit | hex_lit | binary_lit .
 decimal_lit = ( "1" … "9" ) { decimal_digit } .
 octal_lit   = "0" { octal_digit } .
 hex_lit     = "0" ( "x" | "X" ) hex_digit { hex_digit } .
+binary_lit  = "0" ( "b" | "B" ) binary_digit { binary_digit } .
 </pre>
 
 <pre>
 42
 0600
 0xBadFace
+0b101010
 170141183460469231731687303715884105727
 </pre>
 
