@@ -18,9 +18,13 @@ func main() {
 		0x0 +
 		0x123 +
 		0X0 +
-		0X123
-	if s != 788 {
-		print("s is ", s, "; should be 788\n")
+		0X123 +
+		0b0 +
+		0b101 +
+		0B0 +
+		0B101
+	if s != 798 {
+		print("s is ", s, "; should be 798\n")
 		os.Exit(1)
 	}
 }
