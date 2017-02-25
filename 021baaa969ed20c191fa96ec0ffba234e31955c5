@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8c37d48_45844caa",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-25T00:02:05Z",
+      "side": 1,
+      "message": "oh, this is specifically about the http mode? this paragraph doesn\u0027t make that clear.",
+      "range": {
+        "startLine": 46,
+        "startChar": 44,
+        "endLine": 46,
+        "endChar": 63
+      },
+      "revId": "021baaa969ed20c191fa96ec0ffba234e31955c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6b50f64_1f165ea7",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-25T00:02:05Z",
+      "side": 1,
+      "message": "we avoid Latin in Go docs. And also it would be three dots for ellipsis if we used those.\n\nBut I think this parenthetical could go. It doesn\u0027t add much. Maybe you don\u0027t even need to talk about the \"various profiles pages\".  (profile singular, too? two plurals in a row is a little weird, even if they\u0027re about profiles)",
+      "range": {
+        "startLine": 47,
+        "startChar": 26,
+        "endLine": 47,
+        "endChar": 32
+      },
+      "revId": "021baaa969ed20c191fa96ec0ffba234e31955c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1a03579_3b0dde17",
+        "filename": "src/cmd/trace/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-25T00:02:05Z",
+      "side": 1,
+      "message": "it\u0027s not clear that this isn\u0027t a subcommand.",
+      "range": {
+        "startLine": 48,
+        "startChar": 15,
+        "endLine": 48,
+        "endChar": 27
+      },
+      "revId": "021baaa969ed20c191fa96ec0ffba234e31955c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
