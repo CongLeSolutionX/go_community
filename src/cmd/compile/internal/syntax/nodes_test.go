@@ -67,6 +67,7 @@ var exprs = []test{
 
 	{"BasicLit", `@0`},
 	{"BasicLit", `@0x123`},
+	{"BasicLit", `@0b010`},
 	{"BasicLit", `@3.1415`},
 	{"BasicLit", `@.2718`},
 	{"BasicLit", `@1i`},

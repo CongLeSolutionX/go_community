@@ -404,6 +404,19 @@ func (s *scanner) number(c rune) {
 				}
 				goto done
 			}
+			if c == 'b' || c == 'B' {
+				// binary
+				c = s.getr()
+				hasBit := false
+				for c == '0' || c == '1' {
+					c = s.getr()
+					hasBit = true
+				}
+				if !hasBit {
+					s.error("malformed binary constant")
+				}
+				goto done
+			}
 
 			// decimal 0, octal, or float
 			has8or9 := false

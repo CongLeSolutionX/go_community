@@ -140,6 +140,8 @@ var sampleTokens = [...]struct {
 	{_Literal, "01234567", 0, 0},
 	{_Literal, "0x0", 0, 0},
 	{_Literal, "0xcafebabe", 0, 0},
+	{_Literal, "0b0", 0, 0},
+	{_Literal, "0B1001", 0, 0},
 	{_Literal, "0.", 0, 0},
 	{_Literal, "0.e0", 0, 0},
 	{_Literal, "0.e-1", 0, 0},
@@ -284,6 +286,7 @@ func TestScanErrors(t *testing.T) {
 		{"x + ~y", "bitwise complement operator is ^", 1, 4},
 		{"foo$bar = 0", "invalid character U+0024 '$'", 1, 3},
 		{"const x = 0xyz", "malformed hex constant", 1, 12},
+		{"const b = 0b42", "malformed binary constant", 1, 12},
 		{"0123456789", "malformed octal constant", 1, 10},
 		{"0123456789. /* foobar", "comment not terminated", 1, 12},   // valid float constant
 		{"0123456789e0 /*\nfoobar", "comment not terminated", 1, 13}, // valid float constant
