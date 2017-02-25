@@ -59,6 +59,7 @@ var tokens = [...]elt{
 	{token.INT, "123456789012345678890", literal},
 	{token.INT, "01234567", literal},
 	{token.INT, "0xcafebabe", literal},
+	{token.INT, "0b1101", literal},
 	{token.FLOAT, "0.", literal},
 	{token.FLOAT, ".0", literal},
 	{token.FLOAT, "3.14159265", literal},
@@ -721,6 +722,8 @@ var errors = []struct {
 	{"07800000009", token.INT, 0, "07800000009", "illegal octal number"},
 	{"0x", token.INT, 0, "0x", "illegal hexadecimal number"},
 	{"0X", token.INT, 0, "0X", "illegal hexadecimal number"},
+	{"0b", token.INT, 0, "0b", "illegal binary number"},
+	{"0B", token.INT, 0, "0B", "illegal binary number"},
 	{"\"abc\x00def\"", token.STRING, 4, "\"abc\x00def\"", "illegal character NUL"},
 	{"\"abc\x80def\"", token.STRING, 4, "\"abc\x80def\"", "illegal UTF-8 encoding"},
 	{"\ufeff\ufeff", token.ILLEGAL, 3, "\ufeff\ufeff", "illegal byte order mark"},                        // only first BOM is ignored

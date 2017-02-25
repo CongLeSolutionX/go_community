@@ -312,6 +312,14 @@ func (s *Scanner) scanNumber(seenDecimalPoint bool) (token.Token, string) {
 				// only scanned "0x" or "0X"
 				s.error(offs, "illegal hexadecimal number")
 			}
+		} else if s.ch == 'b' || s.ch == 'B' {
+			// binary int
+			s.next()
+			s.scanMantissa(2)
+			if s.offset-offs <= 2 {
+				// only scanned "0b" or "0B"
+				s.error(offs, "illegal binary number")
+			}
 		} else {
 			// octal int or float
 			seenDecimalDigit := false
