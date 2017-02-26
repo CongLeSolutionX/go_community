@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "490b030e_b192f5d2",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2017-02-26T21:24:07Z",
+      "side": 1,
+      "message": "This comment is now a bit out of date.",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 73
+      },
+      "revId": "eb4d5ce04996285d4820b07b8bfbbbdeeaaf97b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d92f1df6_cb53a377",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2017-02-26T21:24:07Z",
+      "side": 1,
+      "message": "This now does a redundant call to findmoduledatap but I don\u0027t suppose we care?",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 21
+      },
+      "revId": "eb4d5ce04996285d4820b07b8bfbbbdeeaaf97b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
