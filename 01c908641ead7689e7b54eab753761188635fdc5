@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8b6fad0_5980de2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T22:06:14Z",
+      "side": 1,
+      "message": "wrong commit message format and body (no bug referene)",
+      "revId": "01c908641ead7689e7b54eab753761188635fdc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ec294dc_d07e6e18",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T22:06:14Z",
+      "side": 1,
+      "message": "there\u0027s an implementation of this in serve_test.go already named oneConnListener.\n\nBut even the test one is bad in that it\u0027s not concurrent safe.\n\nSee https://golang.org/pkg/net/#Listener\n\nIf you do this, I\u0027d name it oneConnListener and make it be backed by a 1-buffered chan net.Conn instead. \n\nThen do a select with a read+default case to see whether the conn can be returned.",
+      "range": {
+        "startLine": 972,
+        "startChar": 0,
+        "endLine": 973,
+        "endChar": 0
+      },
+      "revId": "01c908641ead7689e7b54eab753761188635fdc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
