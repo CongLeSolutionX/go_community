@@ -34,6 +34,40 @@
       "revId": "577c7cae6e070e354de128953d504704d2b881ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "381ecc23_75197369",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2017-02-27T17:00:20Z",
+      "side": 1,
+      "message": "If /etc/group contains\n\n    match:*::root\nI\u0027m not sure whether we should report \"\" as a valid Gid, or report that there was no match. I chose the latter, but happy to change.",
+      "revId": "577c7cae6e070e354de128953d504704d2b881ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3842308c_00bdc162",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2017-02-27T17:00:20Z",
+      "side": 1,
+      "message": "Some of the \"/etc\"-parsing code in the net package guards the load with a sync.Once. I am guessing that we don\u0027t want that here since the contents of /etc/group may change while the program is in progress (versus a file like /etc/services).",
+      "revId": "577c7cae6e070e354de128953d504704d2b881ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
