@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "92d6ae28_bb349aa9",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-27T22:36:24Z",
+      "side": 1,
+      "message": "Currently, this is no high-level mention of RFC 3986 on the godoc. I believe it is better to mention it than not, but @rsc rejected my qualifier: \", except for rare exceptions to retain compatibility with earlier versions of Go.\"\n\n* Downside of not adding it: people complain when we break their invalid use of URLs when we make it more RFC compliant\n* Downside of adding it: people complain that we are not 100% compliant with the RFC.\n\nI guess people complain either way.\n\n\n(removed it for now. trivial for a future CL to add the RFC mention).",
+      "parentUuid": "57d020db_79e3c547",
+      "range": {
+        "startLine": 312,
+        "startChar": 3,
+        "endLine": 312,
+        "endChar": 26
+      },
+      "revId": "59335eecf566e72ebc895f12d08b84802427c0ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c4e58f41_79825422",
         "filename": "src/net/url/url.go",
         "patchSetId": 8
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "61deb3c7_2be67f28",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-27T22:36:24Z",
+      "side": 1,
+      "message": "Wikipedia puts the / in a [/] to indicate that it is optional. I\u0027ll do the same here.",
+      "parentUuid": "c4e58f41_79825422",
+      "range": {
+        "startLine": 316,
+        "startChar": 31,
+        "endLine": 316,
+        "endChar": 32
+      },
+      "revId": "59335eecf566e72ebc895f12d08b84802427c0ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8a17870_9a5eb318",
         "filename": "src/net/url/url.go",
         "patchSetId": 8
@@ -59,6 +107,24 @@
       "writtenOn": "2017-02-27T22:19:26Z",
       "side": 1,
       "message": "Typo:\n\nGoogle says:\n\nDefinition of hierarch: One who has rule or authority in holy things; an ecclesiastical ruler or potentate; a chief priest; a chief prelate, an archbishop.\nHierarchal - relating to a hierarch.\nHierarchical - relating to a hierarchy.",
+      "revId": "59335eecf566e72ebc895f12d08b84802427c0ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0194b1d7_c67f1e34",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-27T22:36:24Z",
+      "side": 1,
+      "message": "TIL.",
+      "parentUuid": "e8a17870_9a5eb318",
       "revId": "59335eecf566e72ebc895f12d08b84802427c0ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
