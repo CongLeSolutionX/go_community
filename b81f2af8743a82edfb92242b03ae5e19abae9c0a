@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04cc7fca_5cfc67a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-27T14:37:04Z",
+      "side": 1,
+      "message": "s/This fixes/Fixes/",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03e164c2_f8bee8f9",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-27T14:37:04Z",
+      "side": 1,
+      "message": "This is putting an extra function AND an indirect call on the critical path of fetching the time, hurting people using real Windows, all to work around a WINE bug. This is not the right tradeoff. Please revert this part of the change: nanotime must remain a direct call to an assembly function.\n\nHowever, the beginning of the assembly function can do something like\n\n    CMPB runtime·useQPCTime(SB), $0\n    JNE ok\n    JMP runtime·nanotimeQPC(SB)\nok:\n\nwith declarations here:\n\n    var useQPCTime bool\n\n    func nanotimeQPC() int64 { ... }\n\nThat will not incur as much overhead and will keep Windows more like the rest of the systems as far as nanotime being a direct assembly call.\n\nThe same applies to time.now. It should stay a direct assembly function but it can check useQPCTime too.",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "316d9d09_8b8a9e0c",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-27T14:37:04Z",
+      "side": 1,
+      "message": "Seems to be unused. Delete.",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48476935_96fa4389",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-27T14:37:04Z",
+      "side": 1,
+      "message": "I believe this, the constants, and systimeMemoryMapped can be deleted. See below.",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5e95016_27535ee0",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-27T14:37:04Z",
+      "side": 1,
+      "message": "This was in the old Go 1.7 code too, but I don\u0027t see how that is possible. Does this happen in Wine somehow? It seems useless to check for in a real system. Interrupts just don\u0027t happen that fast.",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cc2cd66_a818bc49",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-27T14:37:04Z",
+      "side": 1,
+      "message": "This comment adds nothing to the name \"nanotimeQPC\". Also there\u0027s nothing here about nanoseconds in the code so the comment doesn\u0027t even explain any questions the reader might have. Can delete and delete the blank line above, making the whole thing a bit shorter and easier to skim.",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c69fb530_ed1f74c4",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-27T14:37:04Z",
+      "side": 1,
+      "message": "Delete blank line.",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d9efdf8a_02febfe0",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-27T14:37:04Z",
+      "side": 1,
+      "message": "This function should begin:\n\n    t1 :\u003d nanotime()\n    usleep(2)\n    if nanotime() !\u003d t1 {\n        return\n    }\n\n    // Otherwise, expect that we\u0027re on Wine with bad timers.\n    // Fall back to QueryPerformanceCounter-based timers.\n\nThere\u0027s no point to the nanotime() !\u003d 0 optimization, since that is only optimizing Wine, which is not the common case. The above also makes clear that the expected behavior is for everything to be OK, and that all systems do call usleep(2).",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bed6eeb_16f4d96d",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-02-27T14:37:04Z",
+      "side": 1,
+      "message": "I believe the rest of this function can be simplified to:\n\n    // We assume this is Wine and that the performance frequency\n    // (ticks per second) is a power of ten at most 1e9, so that \n    // counter * (1e9 / freq) is an accurate conversion to nanoseconds.\n    // On real hardware the conversion is not exact.\n    var freq int64\n    stdcall1(_QueryPerformanceFrequency, uintptr(unsafe.Pointer(\u0026freq)))\n    if freq \u003d\u003d 0 || freq \u003e 1e9 {\n        throw(\"QueryPerformanceFrequency out of range\")\n    }\n    qpcMultiplier \u003d int64(timediv(1e9, int32(freq), nil))\n    stdcall1(_QueryPerformanceCounter, uintptr(unsafe.Pointer(\u0026qpcStart)))\n\n    sec, nsec, _ :\u003d time_now()\n    timeNowQPCBase \u003d sec*1e9 + nsec\n\n    useQPCTime \u003d true",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
