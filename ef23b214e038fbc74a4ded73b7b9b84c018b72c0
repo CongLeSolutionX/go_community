@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c148db83_b9388a8e",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2017-02-27T22:07:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7617817b_b58372d3",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 8
+      },
+      "revId": "ef23b214e038fbc74a4ded73b7b9b84c018b72c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f8c5516_65fd9601",
         "filename": "src/os/user/lookup_unix.go",
         "patchSetId": 10
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1a28212d_7ba4df74",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2017-02-27T22:07:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f8c5516_65fd9601",
+      "range": {
+        "startLine": 26,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 48
+      },
+      "revId": "ef23b214e038fbc74a4ded73b7b9b84c018b72c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bad81d6_1272c95c",
         "filename": "src/os/user/lookup_unix.go",
         "patchSetId": 10
@@ -68,6 +116,30 @@
       "revId": "ef23b214e038fbc74a4ded73b7b9b84c018b72c0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5b56dc9_4f540f0b",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2017-02-27T22:07:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bad81d6_1272c95c",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 50
+      },
+      "revId": "ef23b214e038fbc74a4ded73b7b9b84c018b72c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
