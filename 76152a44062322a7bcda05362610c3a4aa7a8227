@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a0be036_ded936f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-27T21:41:58Z",
+      "side": 1,
+      "message": "\"sockets\" or perhaps \"a socket\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 24,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "76152a44062322a7bcda05362610c3a4aa7a8227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a4e3518_8e5194eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-27T21:41:58Z",
+      "side": 1,
+      "message": "*sockets",
+      "revId": "76152a44062322a7bcda05362610c3a4aa7a8227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "076dcdb3_9bf7ea5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-27T21:41:58Z",
+      "side": 1,
+      "message": "*package",
+      "range": {
+        "startLine": 26,
+        "startChar": 38,
+        "endLine": 26,
+        "endChar": 45
+      },
+      "revId": "76152a44062322a7bcda05362610c3a4aa7a8227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d50c8713_c6a495f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-27T21:41:58Z",
+      "side": 1,
+      "message": "s/,/and/",
+      "range": {
+        "startLine": 28,
+        "startChar": 41,
+        "endLine": 28,
+        "endChar": 42
+      },
+      "revId": "76152a44062322a7bcda05362610c3a4aa7a8227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22ce633d_a05b4027",
+        "filename": "src/internal/socket/socket_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-27T21:41:58Z",
+      "side": 1,
+      "message": "*unnamed",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 23
+      },
+      "revId": "76152a44062322a7bcda05362610c3a4aa7a8227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbec0f9d_e7f3e2b1",
+        "filename": "src/internal/socket/socket_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-27T21:41:58Z",
+      "side": 1,
+      "message": "t.Skipf (?)",
+      "revId": "76152a44062322a7bcda05362610c3a4aa7a8227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08bdfcd0_5bbf0693",
+        "filename": "src/internal/socket/socket_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-27T21:41:58Z",
+      "side": 1,
+      "message": "t.Skipf (?)",
+      "revId": "76152a44062322a7bcda05362610c3a4aa7a8227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f89ebde_2216d2e1",
+        "filename": "src/internal/socket/socket_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-27T21:41:58Z",
+      "side": 1,
+      "message": "*got",
+      "range": {
+        "startLine": 73,
+        "startChar": 12,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "76152a44062322a7bcda05362610c3a4aa7a8227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c04a9761_138905f8",
+        "filename": "src/internal/socket/sys_stub.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-02-27T21:41:58Z",
+      "side": 1,
+      "message": "I know the stdlib isn\u0027t always consistent about this, but should this be:\n\nerrors.New(\"socket: not implemented\") ?\n\nSeems like it might help identify where an error came from.",
+      "revId": "76152a44062322a7bcda05362610c3a4aa7a8227",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
