@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b27b1416_6b4e4e23",
+        "filename": "src/os/user/cgo_lookup_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2017-02-27T16:49:38Z",
+      "side": 1,
+      "message": "I added this in response to a trybot failure; I don\u0027t have a nacl device, but it seems like this should be here? \n\nThis seems to suggest linking against glibc is possible on nacl: https://developer.chrome.com/native-client/devguide/devcycle/dynamic-loading",
+      "revId": "577c7cae6e070e354de128953d504704d2b881ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
