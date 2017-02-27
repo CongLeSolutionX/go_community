@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7617817b_b58372d3",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T19:15:35Z",
+      "side": 1,
+      "message": "bs",
+      "range": {
+        "startLine": 24,
+        "startChar": 1,
+        "endLine": 24,
+        "endChar": 8
+      },
+      "revId": "ef23b214e038fbc74a4ded73b7b9b84c018b72c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f8c5516_65fd9601",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T19:15:35Z",
+      "side": 1,
+      "message": "this allocates, as does your strings.SplitN on line 32.\n\nMaybe you should do a quick filter to discards lines before doing anything that allocates.\n\nBefore the for loop:\n\n     substr :\u003d []byte(\":\" + id)\n\nThen after:\n\n     lineBytes :\u003d bs.Bytes()\n     if !bytes.Contains(lineBytes, substr) || bytes.Count(lineBytes, colon) \u003c 3 {\n           contiune\n     }\n\nAnd package level:\n\n var colon \u003d []byte(\":\")",
+      "range": {
+        "startLine": 26,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 48
+      },
+      "revId": "ef23b214e038fbc74a4ded73b7b9b84c018b72c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bad81d6_1272c95c",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T19:15:35Z",
+      "side": 1,
+      "message": "same sort of thing",
+      "range": {
+        "startLine": 48,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 50
+      },
+      "revId": "ef23b214e038fbc74a4ded73b7b9b84c018b72c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a76709c_92e0492f",
+        "filename": "src/os/user/lookup_unix.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T19:15:35Z",
+      "side": 1,
+      "message": "if you already depend on the strings package, why not use it?\n\nif it must be ascii space (must it?), say so here.",
+      "revId": "ef23b214e038fbc74a4ded73b7b9b84c018b72c0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
