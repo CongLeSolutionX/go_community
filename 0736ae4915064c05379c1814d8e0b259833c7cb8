@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a9c9358_86b05938",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-27T23:31:59Z",
+      "side": 1,
+      "message": "\", or \u003c 0\"",
+      "revId": "0736ae4915064c05379c1814d8e0b259833c7cb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63de778d_05e5e418",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-27T23:31:59Z",
+      "side": 1,
+      "message": "\"line number of call site\"?",
+      "revId": "0736ae4915064c05379c1814d8e0b259833c7cb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e94b7532_a358112a",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-02-27T23:31:59Z",
+      "side": 1,
+      "message": "\"... for name of called function\"",
+      "revId": "0736ae4915064c05379c1814d8e0b259833c7cb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
