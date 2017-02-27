@@ -16,6 +16,24 @@
       "revId": "577c7cae6e070e354de128953d504704d2b881ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d598b6c4_a47868e3",
+        "filename": "src/os/user/cgo_lookup_unix.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T16:54:10Z",
+      "side": 1,
+      "message": "I don\u0027t think we want nacl here.\n\nAt least, this line will do nothing, because nacl doesn\u0027t have cgo, so the next line will omit cgo.\n\n(Btw, there\u0027s no such thing as a nacl device. Nobody has one. You just need to download the nacl runtime and run it on Linux or Mac with the right magic incantations.)",
+      "parentUuid": "b27b1416_6b4e4e23",
+      "revId": "577c7cae6e070e354de128953d504704d2b881ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
