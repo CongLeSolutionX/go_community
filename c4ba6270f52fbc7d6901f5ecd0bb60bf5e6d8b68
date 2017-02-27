@@ -16,6 +16,24 @@
       "revId": "c4ba6270f52fbc7d6901f5ecd0bb60bf5e6d8b68",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc6f3bef_e96e520e",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-02-27T19:12:12Z",
+      "side": 1,
+      "message": "My intuition is we want something like:\n\n    case OLITERAL, OTYPE:\n      // If n is a package-scope constant or type,\n      // we can continue using it in the inline copy.\n      if n.Sym !\u003d nil \u0026\u0026 n.Sym.Def \u003d\u003d n {\n        return n\n      }\n\n(We then also either need a fallthrough to go to the default case, or just pull the default case out of the switch statement.)\n\nA similar check should go in setlno to not clobber the line number for package-scope constants/types.",
+      "parentUuid": "f27da541_2c44aff7",
+      "revId": "c4ba6270f52fbc7d6901f5ecd0bb60bf5e6d8b68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
