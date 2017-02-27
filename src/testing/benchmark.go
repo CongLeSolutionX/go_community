@@ -281,20 +281,21 @@ func (b *B) launch() {
 
 	// Run the benchmark for at least the specified amount of time.
 	d := b.benchTime
-	for n := 1; !b.failed && b.duration < d && n < 1e9; {
-		last := n
-		// Predict required iterations.
-		n = int(d.Nanoseconds())
+	for last := 0; !b.failed && b.duration < d && last < 1e9; {
+		// Run at least one more than last time.
+		next := last + 1
+
 		if nsop := b.nsPerOp(); nsop != 0 {
-			n /= int(nsop)
+			guess := int(d.Nanoseconds()) / int(nsop)
+			// Run more iterations than we think we'll need (1.2x).
+			// Don't grow too fast in case we had timing errors previously.
+			next = max(min(guess+guess/5, 100*last), next)
 		}
-		// Run more iterations than we think we'll need (1.2x).
-		// Don't grow too fast in case we had timing errors previously.
-		// Be sure to run at least one more than last time.
-		n = max(min(n+n/5, 100*last), last+1)
+
 		// Round up to something easy to read.
-		n = roundUp(n)
-		b.runN(n)
+		next = roundUp(next)
+		b.runN(next)
+		last = next
 	}
 	b.result = BenchmarkResult{b.N, b.duration, b.bytes, b.netAllocs, b.netBytes}
 }
