@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57d020db_79e3c547",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T22:19:26Z",
+      "side": 1,
+      "message": "mentioning this RFC runs counter to my https://go-review.googlesource.com/22859",
+      "range": {
+        "startLine": 312,
+        "startChar": 3,
+        "endLine": 312,
+        "endChar": 26
+      },
+      "revId": "59335eecf566e72ebc895f12d08b84802427c0ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4e58f41_79825422",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T22:19:26Z",
+      "side": 1,
+      "message": "your new format implies that \"foo/bar/baz\" is invalid as it lacks the leading \"/\", but we treat that foo as a path element too, which is why it can\u0027t contain a colon anymore.",
+      "range": {
+        "startLine": 316,
+        "startChar": 31,
+        "endLine": 316,
+        "endChar": 32
+      },
+      "revId": "59335eecf566e72ebc895f12d08b84802427c0ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8a17870_9a5eb318",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T22:19:26Z",
+      "side": 1,
+      "message": "Typo:\n\nGoogle says:\n\nDefinition of hierarch: One who has rule or authority in holy things; an ecclesiastical ruler or potentate; a chief priest; a chief prelate, an archbishop.\nHierarchal - relating to a hierarch.\nHierarchical - relating to a hierarchy.",
+      "revId": "59335eecf566e72ebc895f12d08b84802427c0ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
