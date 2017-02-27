@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "630077fa_36348896",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-27T21:36:15Z",
+      "side": 1,
+      "message": "They were there to satisfy my alignment OCD. But: Done. :)",
+      "parentUuid": "434e0f9b_4b8dc89f",
+      "revId": "92a403a06b3221ca8873c912baae228a005d806f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d20e1c6f_dc045d67",
         "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2017-02-27T21:28:47Z",
       "side": 1,
       "message": "Could we handle the 0 case as well by doing\n(Neg32F (Const32F [c])) -\u003e (Const32F [c ^ 0x8000000000000000])\n?\nNot sure what that would do for NaN.  I think it would work for everything else.",
+      "revId": "92a403a06b3221ca8873c912baae228a005d806f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7463dc3_e79a31f9",
+        "filename": "src/cmd/compile/internal/ssa/gen/generic.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-27T21:36:15Z",
+      "side": 1,
+      "message": "I\u0027d rather just leave them alone. We go out of our way to avoid touching them in mpfloat.go:\n\nfunc (a *Mpflt) Neg() {\n\t// avoid -0\n\tif a.Val.Sign() !\u003d 0 {\n\t\ta.Val.Neg(\u0026a.Val)\n\t}\n}",
+      "parentUuid": "d20e1c6f_dc045d67",
       "revId": "92a403a06b3221ca8873c912baae228a005d806f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
