@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0787e85_8780be94",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-27T21:40:19Z",
+      "side": 1,
+      "message": "What about the commutative rules, like\n(EQ (TESTL y (SHLL (MOVLconst [1]) x)))",
+      "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c277048a_b86fc2ab",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-27T21:40:19Z",
+      "side": 1,
+      "message": "We could in addition write BTQconst down to BTLconst if c \u003c32.  I suspect BTL is one less byte to encode.",
+      "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "836f33e0_c135d876",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-27T21:40:19Z",
+      "side": 1,
+      "message": "s/arg0/arg0%32/\nand %64 below.",
+      "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ec1b6d5_bd2e634d",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-27T21:40:19Z",
+      "side": 1,
+      "message": "0 \u003c\u003d auxint \u003c 32\nand 64 below",
+      "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
