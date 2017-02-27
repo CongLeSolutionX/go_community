@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d0cecf1_98f93d83",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-02-27T22:48:34Z",
+      "side": 1,
+      "message": "the \"the\" makes it sounds like there\u0027s always a leading slash and then the \"may\" makes it sounds like it can be randomly omitted.\n\nmaybe:\n\n// path (relative paths may omit leading slash)\n\n?",
+      "range": {
+        "startLine": 333,
+        "startChar": 40,
+        "endLine": 333,
+        "endChar": 43
+      },
+      "revId": "fcffe7a5d5f26be3480af1652d81b545718e8c32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
