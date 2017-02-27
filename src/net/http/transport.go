@@ -969,6 +969,17 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (*persistC
 	}
 }
 
+type dialOnce struct{ c net.Conn }
+
+func (d *dialOnce) Dial(_, _ string) (net.Conn, error) {
+	if d.c == nil {
+		panic("dialOnce: no connection")
+	}
+	c := d.c
+	d.c = nil
+	return c, nil
+}
+
 func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistConn, error) {
 	pconn := &persistConn{
 		t:             t,
@@ -1033,7 +1044,12 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 			auth.User = u.Username()
 			auth.Password, _ = u.Password()
 		}
-		if err := proxy.SOCKS5Connect(conn, cm.addr(), auth, cm.targetAddr); err != nil {
+		p, err := proxy.SOCKS5("", cm.addr(), auth, &dialOnce{conn})
+		if err != nil {
+			conn.Close()
+			return nil, err
+		}
+		if _, err := p.Dial("tcp", cm.targetAddr); err != nil {
 			conn.Close()
 			return nil, err
 		}
