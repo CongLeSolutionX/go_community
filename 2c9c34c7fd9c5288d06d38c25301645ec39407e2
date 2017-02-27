@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb69f669_d5ba4c91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-27T21:23:36Z",
+      "side": 1,
+      "message": "What is this here?  I was expecting to get all the way down to main.main.\nThe whole point of #7181 is to put these ellipses in the middle of the stack trace instead of (not in addition to) the end.",
+      "revId": "2c9c34c7fd9c5288d06d38c25301645ec39407e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cb9c10f_d919ac06",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-27T21:23:36Z",
+      "side": 1,
+      "message": "Also check that we get things like main.StackOverflow and main.main in the trace?",
+      "revId": "2c9c34c7fd9c5288d06d38c25301645ec39407e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37c86154_7c6155d1",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-02-27T21:23:36Z",
+      "side": 1,
+      "message": "I don\u0027t see how this prints the bottom frames.  Your skip count needs to somehow incorporate the actual number of frames on the stack.\n\nIn any case, this code should be inside the if above.  No point calling printTraceback again if the first printTraceback returned everything.",
+      "revId": "2c9c34c7fd9c5288d06d38c25301645ec39407e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
