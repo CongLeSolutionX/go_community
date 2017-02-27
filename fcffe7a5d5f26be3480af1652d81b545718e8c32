@@ -22,6 +22,30 @@
       "revId": "fcffe7a5d5f26be3480af1652d81b545718e8c32",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4241b295_7d64d8c0",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-02-27T22:50:09Z",
+      "side": 1,
+      "message": "SGTM.\n\nI wish gerrit had the ability to make code suggestion so that all I have to do is click \"Accept suggestion\".",
+      "parentUuid": "9d0cecf1_98f93d83",
+      "range": {
+        "startLine": 333,
+        "startChar": 40,
+        "endLine": 333,
+        "endChar": 43
+      },
+      "revId": "fcffe7a5d5f26be3480af1652d81b545718e8c32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
