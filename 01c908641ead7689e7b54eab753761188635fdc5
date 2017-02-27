@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a5dd2667_8f0a9e77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 12938
+      },
+      "writtenOn": "2017-02-27T23:06:54Z",
+      "side": 1,
+      "message": "Not intended as a separate commit; this should be merged into https://go-review.googlesource.com/#/c/35488/ if we decide we like it (the SOCKS5Connect() way looks more straightforward to me).",
+      "parentUuid": "e8b6fad0_5980de2a",
+      "revId": "01c908641ead7689e7b54eab753761188635fdc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ec294dc_d07e6e18",
         "filename": "src/net/http/transport.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2017-02-27T22:06:14Z",
       "side": 1,
       "message": "there\u0027s an implementation of this in serve_test.go already named oneConnListener.\n\nBut even the test one is bad in that it\u0027s not concurrent safe.\n\nSee https://golang.org/pkg/net/#Listener\n\nIf you do this, I\u0027d name it oneConnListener and make it be backed by a 1-buffered chan net.Conn instead. \n\nThen do a select with a read+default case to see whether the conn can be returned.",
+      "range": {
+        "startLine": 972,
+        "startChar": 0,
+        "endLine": 973,
+        "endChar": 0
+      },
+      "revId": "01c908641ead7689e7b54eab753761188635fdc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6739ae0_fd44805e",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 12938
+      },
+      "writtenOn": "2017-02-27T23:06:54Z",
+      "side": 1,
+      "message": "\u003e there\u0027s an implementation of this in serve_test.go already named\n \u003e oneConnListener.\n \u003e \n \u003e But even the test one is bad in that it\u0027s not concurrent safe.\n \u003e \n \u003e See https://golang.org/pkg/net/#Listener\n \u003e \n \u003e If you do this, I\u0027d name it oneConnListener and make it be backed\n \u003e by a 1-buffered chan net.Conn instead.\n\nI don\u0027t quite follow - what we need here is a proxy.Dialer, not a net.Listener.\n\n \u003e Then do a select with a read+default case to see whether the conn\n \u003e can be returned.\n\nDone.",
+      "parentUuid": "8ec294dc_d07e6e18",
       "range": {
         "startLine": 972,
         "startChar": 0,
