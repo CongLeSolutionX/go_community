@@ -16,6 +16,24 @@
       "revId": "acb2840d7973b5c54863e34380e7c18189ef0451",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbd7d5c5_9f1c9834",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-02-28T20:21:15Z",
+      "side": 1,
+      "message": "I agree that it\u0027ll fix the problem, but isn\u0027t it better to not require the weird call pattern?",
+      "parentUuid": "ee68f502_319629e6",
+      "revId": "acb2840d7973b5c54863e34380e7c18189ef0451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
