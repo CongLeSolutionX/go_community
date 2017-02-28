@@ -118,7 +118,7 @@ func (tcs *testConnSet) check(t *testing.T) {
 				tcs.mu.Lock()
 				continue
 			}
-			t.Errorf("TCP connection #%d, %p (of %d total) was not closed", i+1, c, len(tcs.list))
+			t.Error("TCP connection #%d, %p (of %d total) was not closed", i+1, c, len(tcs.list))
 		}
 	}
 }
