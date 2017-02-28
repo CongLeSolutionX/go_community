@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee68f502_319629e6",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2017-02-28T09:46:17Z",
+      "side": 1,
+      "message": "I think the easiest change is to just change this line with:\n\tif b.run1() {\n\t\tb.run()\n\t}\n\treturn b.result\n\nand drop the rest (but keep the tests of course). This is also the most analogous to other places.",
+      "revId": "acb2840d7973b5c54863e34380e7c18189ef0451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
