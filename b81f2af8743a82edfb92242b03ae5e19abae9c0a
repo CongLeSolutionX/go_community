@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "ca34c2dc_78d7505e",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-02-28T04:12:09Z",
+      "side": 1,
+      "message": "Maybe replace\n\ncheckTimers(k32)\n\nwith\n\nif windowsFindfunc(n32, []byte(\"wine_get_version\\000\")) \u003d\u003d 0 {\n\t// running on Wine\n\tinitWine(k32)\n}\n\nand replace\n\ns/checkTimers/initWine/\n\ndown below. So Windows users don\u0027t even have to look at initWine function.",
+      "revId": "b81f2af8743a82edfb92242b03ae5e19abae9c0a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03e164c2_f8bee8f9",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 7
