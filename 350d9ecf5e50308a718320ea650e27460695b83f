@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "943d6d2e_5fbb4df6",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-28T22:24:59Z",
+      "side": 1,
+      "message": "Added order normalization rules.",
+      "parentUuid": "c0787e85_8780be94",
+      "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c277048a_b86fc2ab",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aba9f681_740d0bd4",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-28T22:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c277048a_b86fc2ab",
+      "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "105c9655_9f3ecfb5",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-28T22:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "836f33e0_c135d876",
+      "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ec1b6d5_bd2e634d",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82479318_d62ab6ee",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-02-28T22:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ec1b6d5_bd2e634d",
+      "revId": "350d9ecf5e50308a718320ea650e27460695b83f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
