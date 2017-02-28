@@ -34,6 +34,24 @@
       "revId": "acb2840d7973b5c54863e34380e7c18189ef0451",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a74d58f0_a299f9af",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2017-02-28T21:17:03Z",
+      "side": 1,
+      "message": "Even if weird, I prefer to keep things consistent: Run uses the same pattern.",
+      "parentUuid": "dbd7d5c5_9f1c9834",
+      "revId": "acb2840d7973b5c54863e34380e7c18189ef0451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
