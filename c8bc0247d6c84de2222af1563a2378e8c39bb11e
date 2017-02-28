@@ -1374,6 +1374,30 @@
     },
     {
       "key": {
+        "uuid": "677eb79b_724af2f5",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 5010
+      },
+      "writtenOn": "2017-02-28T22:17:03Z",
+      "side": 1,
+      "message": "\"Mail\" is the right word here, because \"Submit\" is another term of art. Please stick to \"mail\". If you need another verb, use \"send\". \n\nPlease refer to Gerrit changes as \"changes\", not \"submissions\", and Git commits as \"commits\".\nContributors prepare and mail changes that are then reviewed and submitted by an approver, so they become commits in the repo.",
+      "parentUuid": "e9cb3efb_6621a0ad",
+      "range": {
+        "startLine": 540,
+        "startChar": 14,
+        "endLine": 540,
+        "endChar": 20
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "89402cd0_ff546c34",
         "filename": "doc/contribute.html",
         "patchSetId": 4
