@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6cb6b6db_ff0e1ade",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "177c3fa0_acc01ac6",
+      "range": {
+        "startLine": 6,
+        "startChar": 69,
+        "endLine": 6,
+        "endChar": 70
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "35b3a182_39310fe8",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "anchor links on the website are lower case.\n\nid\u003d\"contributor\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40b839dd_b72deca1",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35b3a182_39310fe8",
       "range": {
         "startLine": 12,
         "startChar": 8,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "e6628b42_743f0c67",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f2a570d_847936e3",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9383101b_5826b2e9",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "78619c2e_a156ef8a",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9383101b_5826b2e9",
+      "range": {
+        "startLine": 18,
+        "startChar": 64,
+        "endLine": 19,
+        "endChar": 40
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d7d6d5a5_0ef15dc1",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -99,6 +189,30 @@
       "writtenOn": "2017-02-15T23:59:11Z",
       "side": 1,
       "message": "long title",
+      "range": {
+        "startLine": 23,
+        "startChar": 14,
+        "endLine": 23,
+        "endChar": 74
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0de9f7ff_16362ca5",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7d6d5a5_0ef15dc1",
       "range": {
         "startLine": 23,
         "startChar": 14,
@@ -157,6 +271,54 @@
     },
     {
       "key": {
+        "uuid": "92a37e38_f85658ed",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e7ce60a_20c8b8bf",
+      "range": {
+        "startLine": 25,
+        "startChar": 50,
+        "endLine": 25,
+        "endChar": 65
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f332d162_928302f1",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f713981f_b82f309b",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 67
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c94ad375_bf236693",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -168,6 +330,30 @@
       "writtenOn": "2017-02-15T23:59:11Z",
       "side": 1,
       "message": "not a single word",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 24
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a78ce1a1_92358dfe",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c94ad375_bf236693",
       "range": {
         "startLine": 26,
         "startChar": 14,
@@ -226,6 +412,54 @@
     },
     {
       "key": {
+        "uuid": "03fdcfe7_a173d5e0",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bec8275c_26452db9",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 65
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae6a1734_b752b1b8",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abd71743_e4eba287",
+      "range": {
+        "startLine": 27,
+        "startChar": 24,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9371feb_44a9b5cf",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -237,6 +471,30 @@
       "writtenOn": "2017-02-15T23:59:11Z",
       "side": 1,
       "message": "Log in is the verb; login is a noun",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 18
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "942d5648_5959aceb",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9371feb_44a9b5cf",
       "range": {
         "startLine": 39,
         "startChar": 13,
@@ -272,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "b8b3f09a_3d5ed0cf",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fb1e00e_fa14ec0e",
+      "range": {
+        "startLine": 73,
+        "startChar": 39,
+        "endLine": 74,
+        "endChar": 19
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98af1586_6041f40f",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -283,6 +565,30 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "This adds nothing.\n\nSay something like \n\nSign in using the same Google Account you used above and you will be registered.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 28
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8041ca9d_532b69f8",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Agree, it\u0027s in the current text. I\u0027ve removed it now.",
+      "parentUuid": "98af1586_6041f40f",
       "range": {
         "startLine": 75,
         "startChar": 0,
@@ -318,6 +624,30 @@
     },
     {
       "key": {
+        "uuid": "88abfc6b_e36a7be4",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc98ccd7_1f517d12",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 4
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2023b0c_a57fde41",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -329,6 +659,54 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "signed?",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 23
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73fc85af_d2aad6b0",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Technically it\u0027s not \"signed\", just agreed. Completed would be sufficient in either case.",
+      "parentUuid": "c2023b0c_a57fde41",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 23
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e8b5529_3f2ecbb5",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Technically speaking they are agreeing, not \"signing\" the CLA. Completed would be sufficient in either case.",
+      "parentUuid": "c2023b0c_a57fde41",
       "range": {
         "startLine": 89,
         "startChar": 14,
@@ -358,6 +736,24 @@
     },
     {
       "key": {
+        "uuid": "6ab98a9e_fb0a25a7",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "I could, but I think this more precise wording is important when talking about legal agreements. \n\nIt isn\u0027t \"you\", it\u0027s \"the copyright holder for your contribution\". Other than that the two sentences are pretty much the same.",
+      "parentUuid": "51ba9ff2_938fb2d4",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8e146f6_036a1448",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -375,6 +771,24 @@
     },
     {
       "key": {
+        "uuid": "410827e2_04108246",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8e146f6_036a1448",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "501e612e_db7d7cc7",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -386,6 +800,24 @@
       "writtenOn": "2017-02-13T22:19:37Z",
       "side": 1,
       "message": "s/docs/documentation/\n\nRemove \"Go\" in \"This Go should\"",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54485a0f_f387f83b",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "501e612e_db7d7cc7",
       "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -415,6 +847,30 @@
     },
     {
       "key": {
+        "uuid": "eb009260_9f78e2b5",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb709b6e_936e2b5a",
+      "range": {
+        "startLine": 347,
+        "startChar": 0,
+        "endLine": 354,
+        "endChar": 4
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "706d811c_121193b7",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -432,6 +888,24 @@
     },
     {
       "key": {
+        "uuid": "cb2d5e0a_a6c00c4f",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "706d811c_121193b7",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19385d32_462fee6b",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -443,6 +917,30 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "New files",
+      "range": {
+        "startLine": 363,
+        "startChar": 3,
+        "endLine": 363,
+        "endChar": 7
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c1d7cf1_269e24ec",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19385d32_462fee6b",
       "range": {
         "startLine": 363,
         "startChar": 3,
@@ -489,6 +987,24 @@
     },
     {
       "key": {
+        "uuid": "cd8c4a7f_694f786f",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "It might sound awkward but it\u0027s the correct usage of the word \"copyright\".\n\nI believe this statement is important as it clarifies the need to extend the copyright to multiple years as is often the case for continuously added to works. Typically there would be a need to add a new date for each year a contribution is made in. We are instead anchoring to the creation year.",
+      "parentUuid": "81455669_ddf7fefc",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4fb59e7_6f3bb1dd",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -500,6 +1016,30 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "I cannot follow here. Do you mean git change is similar to git commit.\n\ngit change, only checks a new local branch.",
+      "range": {
+        "startLine": 391,
+        "startChar": 6,
+        "endLine": 391,
+        "endChar": 16
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80ffbcdb_3dc6f9b3",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4fb59e7_6f3bb1dd",
       "range": {
         "startLine": 391,
         "startChar": 6,
@@ -535,6 +1075,30 @@
     },
     {
       "key": {
+        "uuid": "1f738441_9ebcc823",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d407f88d_5747099d",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 412,
+        "endChar": 26
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f84888ac_4d0cd4ae",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -552,6 +1116,24 @@
     },
     {
       "key": {
+        "uuid": "956ec6d8_ee896f71",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Absolutely. I personally ran into this and it took me a good while to track down. Russ considered it a bug and expressed he didn\u0027t know this happened to people. This happens to all Mac machines if they use `/usr/bin/vim` as their editor (which is a default on some machines). The fix is to change it to `/bin/vim`. I\u0027m sure there are other issues as well.",
+      "parentUuid": "f84888ac_4d0cd4ae",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12c9e11b_8ca570ce",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -563,6 +1145,30 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "Why not just Testing?",
+      "range": {
+        "startLine": 518,
+        "startChar": 25,
+        "endLine": 518,
+        "endChar": 30
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ad372a3_7aab5239",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "No good reason. That is the existing title.",
+      "parentUuid": "12c9e11b_8ca570ce",
       "range": {
         "startLine": 518,
         "startChar": 25,
@@ -615,6 +1221,30 @@
     },
     {
       "key": {
+        "uuid": "e86bf3ee_3a729acf",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "This is the exact same link and text that is there today and \nI\u0027d like to leave this for now as writing the guide to writing and testing code for Go contributors doesn\u0027t exist today and is out of the scope for this change.",
+      "parentUuid": "03170f88_84000b27",
+      "range": {
+        "startLine": 521,
+        "startChar": 16,
+        "endLine": 521,
+        "endChar": 25
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7267a3f0_a85bc096",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -626,6 +1256,30 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "Aren\u0027t we already in the go directory?",
+      "range": {
+        "startLine": 527,
+        "startChar": 5,
+        "endLine": 527,
+        "endChar": 7
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b6dcedd_85a914be",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Perhaps. It depends if they jump to this location in the page or are working through it top down. This is the exact same text that is there today. I propose keeping it as is for now. I don\u0027t think it would confuse anyone and provides context.",
+      "parentUuid": "7267a3f0_a85bc096",
       "range": {
         "startLine": 527,
         "startChar": 5,
@@ -655,6 +1309,24 @@
     },
     {
       "key": {
+        "uuid": "6d990725_d05ebf92",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2a40890_0ff2ca1e",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2724e5e6_c366795b",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -666,6 +1338,30 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "Don\u0027t use Submit but Mail.\n\nSubmit is the terminology for merging.",
+      "range": {
+        "startLine": 540,
+        "startChar": 14,
+        "endLine": 540,
+        "endChar": 20
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9cb3efb_6621a0ad",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "I disagree with this. I think \"mail\" is quite confusing here. It doesn\u0027t mail anything here. Nothing is transmitted via smtp by this command. It quite literally sends a change log to Gerrit. Gerrit may in turn choose to send an email to a mailing list. \n\nSimilarly in the github flow you \"push\" a change to github. Github then sends notifications (email) to anyone who has subscribed. \n\nI\u0027m ok with a different verb. Submit seemed correct to me and it\u0027s pretty generic. You submit a form, you submit your comments, you submit your review... etc. I don\u0027t connote it with merging anymore than anything else.",
+      "parentUuid": "2724e5e6_c366795b",
       "range": {
         "startLine": 540,
         "startChar": 14,
@@ -724,6 +1420,30 @@
     },
     {
       "key": {
+        "uuid": "e049cd57_50197e8a",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Addressed above.",
+      "parentUuid": "1099d9b2_f9673e45",
+      "range": {
+        "startLine": 544,
+        "startChar": 0,
+        "endLine": 544,
+        "endChar": 38
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d702276_6d1fd4fa",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -764,6 +1484,30 @@
     },
     {
       "key": {
+        "uuid": "45165a3c_f63091c1",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "It doesn\u0027t mail anything. It submits a CL via a git push and the gerrit server mails the codereviews mailing list.",
+      "parentUuid": "f78d7ec6_f64ec100",
+      "range": {
+        "startLine": 545,
+        "startChar": 45,
+        "endLine": 545,
+        "endChar": 49
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a352aad_b57bb412",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -775,6 +1519,24 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "I\u0027d keep -r and -cc here, mentioning that they should be used if the contributor knows who should be the reviewer.\n\nIf they don\u0027t, they can skip this section.",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30ceca3e_fb821a4c",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "I think it\u0027s just confusing to most people. We don\u0027t explain any of the other options. This one applies to a relatively small number of people.\n\nIt\u0027s also the case that this is very accessible via the gerrit interface. Effectively we are highlighting an optimization for a small number of people at the expense of confusing nearly everyone.",
+      "parentUuid": "3a352aad_b57bb412",
       "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -798,6 +1560,24 @@
     },
     {
       "key": {
+        "uuid": "aa297b5f_35c53271",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74bb18d2_79da963e",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2614dafc_1e94d7c7",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -815,6 +1595,24 @@
     },
     {
       "key": {
+        "uuid": "26e3ae40_65756afc",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 677,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2614dafc_1e94d7c7",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e764e6b6_e8282230",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -826,6 +1624,24 @@
       "writtenOn": "2017-02-13T22:19:37Z",
       "side": 1,
       "message": "s/Github/GitHub/",
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16948e80_05683d9a",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e764e6b6_e8282230",
       "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -855,6 +1671,30 @@
     },
     {
       "key": {
+        "uuid": "e9cf156a_9df0190c",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "Agree. I\u0027ve changed the text to \"Apply the change\" which is literally what is happening here. THe change log is being applied on to the master branch.",
+      "parentUuid": "6a9543c7_69a3adec",
+      "range": {
+        "startLine": 828,
+        "startChar": 16,
+        "endLine": 828,
+        "endChar": 21
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "17ee098c_38f8a321",
         "filename": "doc/contribute.html",
         "patchSetId": 4
@@ -866,6 +1706,30 @@
       "writtenOn": "2017-02-17T23:49:23Z",
       "side": 1,
       "message": "No, this page is not open to everyone. Each item needs to be debated and needs consensus before being contributed.\n\nWe should suggest that they should ask golang-dev@ if they see anything significantly missing from the document.",
+      "range": {
+        "startLine": 851,
+        "startChar": 68,
+        "endLine": 852,
+        "endChar": 56
+      },
+      "revId": "c8bc0247d6c84de2222af1563a2378e8c39bb11e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f1b4606_2e3bec23",
+        "filename": "doc/contribute.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-02-28T19:24:21Z",
+      "side": 1,
+      "message": "To be fair, this text has been on this page for at least the last 4 years. I don\u0027t believe we\u0027ve been overwhelmed with submissions. I\u0027m inclined to keep it in the spirit of welcoming new contributors.",
+      "parentUuid": "17ee098c_38f8a321",
       "range": {
         "startLine": 851,
         "startChar": 68,
