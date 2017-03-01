@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3975100_d0901b94",
+        "filename": "src/cmd/internal/obj/arm/obj5.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-01T21:28:15Z",
+      "side": 1,
+      "message": "Nit: make whitespace consistent with lines above.",
+      "revId": "bb123109ee2ae500b3a6b9f42f36f2203d6832b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a78645ee_03178beb",
+        "filename": "src/cmd/internal/obj/arm/obj5.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-01T21:28:15Z",
+      "side": 1,
+      "message": "Nit: delete this line to make this block consistent with the others.",
+      "revId": "bb123109ee2ae500b3a6b9f42f36f2203d6832b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54790c5a_7a0e5c8e",
+        "filename": "src/cmd/internal/obj/arm/obj5.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-01T21:28:15Z",
+      "side": 1,
+      "message": "To aid readability and refactorability, please give the MOVW a name other than p, and use it here (and in the next line...which is an illustration of the troubles of having everything be named p).",
+      "revId": "bb123109ee2ae500b3a6b9f42f36f2203d6832b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
