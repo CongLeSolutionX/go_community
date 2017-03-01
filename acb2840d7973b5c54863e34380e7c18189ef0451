@@ -70,6 +70,24 @@
       "revId": "acb2840d7973b5c54863e34380e7c18189ef0451",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39edf0b3_667090c0",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2017-03-01T11:06:12Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "63f8b48f_408401f1",
+      "revId": "acb2840d7973b5c54863e34380e7c18189ef0451",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
