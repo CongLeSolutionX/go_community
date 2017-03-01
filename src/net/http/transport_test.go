@@ -1016,6 +1016,7 @@ func TestSocks5Proxy(t *testing.T) {
 		t.Fatal(err)
 	}
 	c := &Client{Transport: &Transport{Proxy: ProxyURL(pu)}}
+	t.Logf("url: %q proxy: %q", ts.URL, pu)
 	if _, err := c.Head(ts.URL); err != nil {
 		t.Error(err)
 	}
