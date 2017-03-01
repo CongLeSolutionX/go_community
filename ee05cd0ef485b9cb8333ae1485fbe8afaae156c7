@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a7ed304_25c4d4a3",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-01T22:26:48Z",
+      "side": 1,
+      "message": "I would still compute the offset explicitly as i*16, i*16+4, etc. and ignore the return value since you\u0027re building up a real array, but either way is fine.",
+      "revId": "ee05cd0ef485b9cb8333ae1485fbe8afaae156c7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
