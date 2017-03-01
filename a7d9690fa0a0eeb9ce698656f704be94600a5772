@@ -641,6 +641,24 @@
       "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb5dc0ad_d055d5b6",
+        "filename": "src/cmd/link/internal/ld/pcln.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-03-01T21:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f10570d_739a3078",
+      "revId": "a7d9690fa0a0eeb9ce698656f704be94600a5772",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
