@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ffc2de7_4bf433ae",
+        "filename": "src/os/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-01T01:51:58Z",
+      "side": 1,
+      "message": "It\u0027s always best to check the error return of f.Close for a file opened for writing.  We should model that here.",
+      "revId": "af30edf4ece73599d33058de3f08ce94db91ea39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
