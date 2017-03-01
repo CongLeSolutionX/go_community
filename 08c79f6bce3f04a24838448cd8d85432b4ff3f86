@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b76e72b1_8728b2ae",
+        "filename": "src/go/internal/srcimporter/srcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-03-01T19:05:03Z",
+      "side": 1,
+      "message": "Flip this condition and handle the error first.",
+      "revId": "08c79f6bce3f04a24838448cd8d85432b4ff3f86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
