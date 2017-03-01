@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f69ab80_d5338c80",
+        "filename": "src/runtime/mbarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-03-01T20:28:07Z",
+      "side": 1,
+      "message": "I think another approach to test might be: create an array of up to X pointers (e.g.: 32), and pass it to a writebarrierptr_prewriteN() every time is full or when you\u0027re done.",
+      "revId": "b2158c228c742a93b7facabe283617777126b9a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
