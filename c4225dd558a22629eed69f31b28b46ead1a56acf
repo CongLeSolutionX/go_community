@@ -19,6 +19,75 @@
     },
     {
       "key": {
+        "uuid": "564f2060_a074d468",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-03-01T21:43:33Z",
+      "side": 1,
+      "message": "b.Len() is not needed, b.Len() !\u003d 0 just states there are no bytes left in the filled part of the buffer (len !\u003d cap).",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 24
+      },
+      "revId": "c4225dd558a22629eed69f31b28b46ead1a56acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e63ada1_ad95a11f",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-03-01T21:43:33Z",
+      "side": 1,
+      "message": "b.off+l \u003d\u003d len(b.buf)  by Definition of l:\u003db.Len()",
+      "range": {
+        "startLine": 124,
+        "startChar": 17,
+        "endLine": 124,
+        "endChar": 24
+      },
+      "revId": "c4225dd558a22629eed69f31b28b46ead1a56acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c19efd3_b7a62b71",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-03-01T21:43:33Z",
+      "side": 1,
+      "message": "return len(b.buf) from before the re-slicing",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 18
+      },
+      "revId": "c4225dd558a22629eed69f31b28b46ead1a56acf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b89037a_5a23021f",
         "filename": "src/bytes/buffer_test.go",
         "patchSetId": 2
