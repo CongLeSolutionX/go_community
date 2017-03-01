@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd57eda7_9928bafd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-01T17:37:21Z",
+      "side": 1,
+      "message": "can you start with the conventional verb?\n\ne.g anything like:\n\n   cmd/compile: make atomics be intrinsics on ppc64x\n   cmd/compile: compile atomic ops into intrinsics on ppc64x\n   cmd/compile: intrinsify atomics on ppc64x",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "f70abda44a16d9bfd1a8ef79d5abeb8bea62239e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
