@@ -206,7 +206,11 @@ func (check *Checker) collectObjects() {
 							}
 							if err != nil {
 								check.errorf(s.Path.Pos(), "could not import %s (%s)", path, err)
-								continue
+								if imp == nil {
+									continue
+								}
+								// otherwise, continue to use the package as best as we can
+								imp.fake = true // avoid follow-up lookup failures
 							}
 						}
 

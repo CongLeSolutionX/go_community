@@ -57,10 +57,9 @@ func (err Error) Error() string {
 // vendored packages. See https://golang.org/s/go15vendor.
 // If possible, external implementations should implement ImporterFrom.
 type Importer interface {
-	// Import returns the imported package for the given import
-	// path, or an error if the package couldn't be imported.
-	// Two calls to Import with the same path return the same
-	// package.
+	// Import returns the imported package for the given import path.
+	// The semantics is like for ImporterFrom.ImportFrom except that
+	// srcDir and mode are ignored (since they are not present).
 	Import(path string) (*Package, error)
 }
 
@@ -79,9 +78,14 @@ type ImporterFrom interface {
 	Importer
 
 	// ImportFrom returns the imported package for the given import
-	// path when imported by the package in srcDir, or an error
-	// if the package couldn't be imported. The mode value must
-	// be 0; it is reserved for future use.
+	// path when imported by the package in srcDir.
+	// If the import failed, besides returning an error, ImportFrom
+	// is encouraged to cache and return a package anyway, if one
+	// was created. This will reduce package inconsistencies and
+	// follow-on type checker errors due to the missing package.
+	// In all cases, the returned package should be marked Complete
+	// so that future imports will simply return the cached package.
+	// The mode value must be 0; it is reserved for future use.
 	// Two calls to ImportFrom with the same path and srcDir return
 	// the same package.
 	ImportFrom(path, srcDir string, mode ImportMode) (*Package, error)

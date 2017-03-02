@@ -1295,3 +1295,58 @@ func f(x int) { y := x; print(y) }
 		}
 	}
 }
+
+// TestFailedImport tests that we don't get follow-on errors
+// elsewhere in a package due to failing to import a package.
+func TestFailedImport(t *testing.T) {
+	// TODO(gri) enable (uncomment) once #16088 is fixed
+
+	// 	testenv.MustHaveGoBuild(t)
+
+	// 	const src = `
+	// package p
+
+	// import "foo" // should only see an error here
+
+	// const c = foo.C
+	// type T = foo.T
+	// var v T = c
+	// func f(x T) T { return foo.F(x) }
+	// `
+	// 	fset := token.NewFileSet()
+	// 	f, err := parser.ParseFile(fset, "src", src, 0)
+	// 	if err != nil {
+	// 		t.Fatal(err)
+	// 	}
+	// 	files := []*ast.File{f}
+
+	// 	// type-check using all possible importers
+	// 	for _, compiler := range []string{"gc", "gccgo", "source"} {
+	// 		errcount := 0
+	// 		conf := Config{
+	// 			Error: func(err error) {
+	// 				// we should only see the import error
+	// 				if errcount > 0 || !strings.Contains(err.Error(), "could not import foo") {
+	// 					t.Errorf("for %s importer, got unexpected error: %v", compiler, err)
+	// 				}
+	// 				errcount++
+	// 			},
+	// 			Importer: importer.For(compiler, nil),
+	// 		}
+
+	// 		pkg, _ := conf.Check("p", fset, files, nil)
+	// 		if pkg == nil {
+	// 			t.Errorf("for %s importer, type-checking failed to return a package", compiler)
+	// 			continue
+	// 		}
+
+	// 		imports := pkg.Imports()
+	// 		if len(imports) != 1 {
+	// 			t.Errorf("for %s importer, got %d imports, want 1", compiler, len(imports))
+	// 			continue
+	// 		}
+	// 		if imp := imports[0].Name(); imp != "foo" {
+	// 			t.Errorf(`for %s importer, got %q, want "foo"`, compiler, imp)
+	// 		}
+	// 	}
+}
