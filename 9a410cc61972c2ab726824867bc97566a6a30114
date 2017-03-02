@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8f038d0_3f3f330f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-02T18:29:15Z",
+      "side": 1,
+      "message": "of course it can also fail if the RHS is not a number of a complex value (mention for completeness)",
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ef52547_05cc8fa0",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-02T18:29:15Z",
+      "side": 1,
+      "message": "SetFloat appears to be returning 0 on success and -1 on failure (probably for historic reasons). We should fix that. I suggest:\n\n- return true upon success\n- return false otherwise\n\nWe could encode the fact that the value was too large in the receiver (i) by setting the Ovfl flag.\n\nAlternatively, we could return 3 values, indicating success (0), overflow (-1) or truncation (-2). Perhaps this is slightly simpler.\n\nThen we don\u0027t need an extra IsInt call.",
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a31aa1d2_ee10f059",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-02T18:29:15Z",
+      "side": 1,
+      "message": "- please use the msg string directly (no need for extra variable) - will simplify live of format checker\n\n- also, this is really an implementation restriction: SetFloat fails because we don\u0027t want to deal with int values over a certain size. Perhaps better to say: \"integer too large\" (similar to \"shift count too large)",
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "241d79f9_628c6fbf",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-02T18:29:15Z",
+      "side": 1,
+      "message": "The main difference here is that in one case you print the value and in the other you don\u0027t. That\u0027s fine. But we can still use the same error message. Let\u0027s stick with \"constant truncated...\".\n\nJust don\u0027t print the value if we can\u0027t print it reasonably. Seems simpler and clearer.",
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4551cf0_b2dd600f",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-02T18:29:15Z",
+      "side": 1,
+      "message": "seems like here we could have the same issue - handle both consistently",
+      "range": {
+        "startLine": 489,
+        "startChar": 7,
+        "endLine": 489,
+        "endChar": 15
+      },
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
