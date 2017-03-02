@@ -53,6 +53,10 @@ type Config struct {
 	blocks [200]Block
 	locs   [2000]Location
 
+	// Reusable slices for deadcode passes.
+	live      []bool
+	reachable []bool
+
 	// Reusable stackAllocState.
 	// See stackalloc.go's {new,put}StackAllocState.
 	stackAllocState *stackAllocState

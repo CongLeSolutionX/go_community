@@ -13,7 +13,15 @@ func findlive(f *Func) (reachable []bool, live []bool) {
 
 // reachableBlocks returns the reachable blocks in f.
 func reachableBlocks(f *Func) []bool {
-	reachable := make([]bool, f.NumBlocks())
+	if n := f.NumBlocks(); cap(f.Config.reachable) < n {
+		f.Config.reachable = make([]bool, n)
+	} else {
+		f.Config.reachable = f.Config.reachable[:n]
+		for i := range f.Config.reachable {
+			f.Config.reachable[i] = false
+		}
+	}
+	reachable := f.Config.reachable
 	reachable[f.Entry.ID] = true
 	p := []*Block{f.Entry} // stack-like worklist
 	for len(p) > 0 {
@@ -39,7 +47,15 @@ func reachableBlocks(f *Func) []bool {
 // liveValues returns the live values in f.
 // reachable is a map from block ID to whether the block is reachable.
 func liveValues(f *Func, reachable []bool) []bool {
-	live := make([]bool, f.NumValues())
+	if n := f.NumValues(); cap(f.Config.live) < n {
+		f.Config.live = make([]bool, n)
+	} else {
+		f.Config.live = f.Config.live[:n]
+		for i := range f.Config.live {
+			f.Config.live[i] = false
+		}
+	}
+	live := f.Config.live
 
 	// After regalloc, consider all values to be live.
 	// See the comment at the top of regalloc.go and in deadcode for details.
