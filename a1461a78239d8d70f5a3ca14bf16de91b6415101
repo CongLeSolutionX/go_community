@@ -2,6 +2,360 @@
   "comments": [
     {
       "key": {
+        "uuid": "d3968fec_3b0e1364",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "keep all the anchor links lower case and use hypens if there are more than one words.\n\nid\u003d\"contributor\"\n\nid\u003d\"which-cla\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1004bd6e_461452e7",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "Remove the white space.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 5
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ddba2b7_74d2b227",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "The UI says \"Sign In\", what about using the same terminology?",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6e77a8c_3f89a580",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "Whitespace",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 5
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01c6dd52_9fcf5784",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "I feel like this is TMI but it is your call.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 4
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "840e7ee9_eb5ac154",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "Register with Gerrit",
+      "range": {
+        "startLine": 66,
+        "startChar": 12,
+        "endLine": 66,
+        "endChar": 36
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84f79644_29954aa8",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f6d975c_9854242f",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d85c755_aec88d98",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f34c01f0_2be46409",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a6b344c_8076e72f",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "488fa866_6c4ef5e1",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74150cd0_020b5938",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c88d9f7_c8e698b0",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62ea87c0_a11f0710",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1c9a354_bbe03feb",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "This sounds like it might be ok to check it under GOPATH but it is best not to do it.\n\nIf can be strongly suggesting that it should be checked outside.",
+      "range": {
+        "startLine": 306,
+        "startChar": 46,
+        "endLine": 307,
+        "endChar": 23
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f45fe66b_e4e4cfa8",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9531821_641de2e1",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "Aren\u0027t we already in the go directory?",
+      "range": {
+        "startLine": 538,
+        "startChar": 5,
+        "endLine": 538,
+        "endChar": 7
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82e98e83_cdf724ea",
         "filename": "doc/contribute.html",
         "patchSetId": 8
@@ -30,6 +384,92 @@
       "writtenOn": "2017-03-01T20:05:12Z",
       "side": 1,
       "message": "typo: \u0027reviewer\u0027",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c391eac_0a6e8f78",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "trailing whitespace",
+      "range": {
+        "startLine": 649,
+        "startChar": 54,
+        "endLine": 649,
+        "endChar": 55
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b9f3330_6a10ac30",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82ff2ff2_432a42d8",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "This would be attaching more commits to a pull request.\n\nA pull request over a pull request \u003d someone else is sending a patch set your CL.",
+      "range": {
+        "startLine": 827,
+        "startChar": 30,
+        "endLine": 827,
+        "endChar": 49
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4c65f11_253f9fde",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-02T01:41:43Z",
+      "side": 1,
+      "message": "What\u0027s wrong with \"submit\"?\n\nWe are adding unnecessary terminology. In Gerrit UI, it is called \"submitting\". Let\u0027s stick to the terminology that already exists.",
+      "range": {
+        "startLine": 843,
+        "startChar": 16,
+        "endLine": 843,
+        "endChar": 21
+      },
       "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
