@@ -510,6 +510,7 @@ func TestEarlySignalHandler(t *testing.T) {
 	}
 	if out, err := exec.Command(ccArgs[0], ccArgs[1:]...).CombinedOutput(); err != nil {
 		t.Logf("%s", out)
+		checkOldConstructorAttribute(t, out)
 		t.Fatal(err)
 	}
 
@@ -777,6 +778,7 @@ func TestOsSignal(t *testing.T) {
 	}
 	if out, err := exec.Command(ccArgs[0], ccArgs[1:]...).CombinedOutput(); err != nil {
 		t.Logf("%s", out)
+		checkOldConstructorAttribute(t, out)
 		t.Fatal(err)
 	}
 
@@ -815,6 +817,7 @@ func TestSigaltstack(t *testing.T) {
 	}
 	if out, err := exec.Command(ccArgs[0], ccArgs[1:]...).CombinedOutput(); err != nil {
 		t.Logf("%s", out)
+		checkOldConstructorAttribute(t, out)
 		t.Fatal(err)
 	}
 
@@ -1236,5 +1239,15 @@ func TestPreemption(t *testing.T) {
 	t.Logf("%v\n%s", cmd.Args, sb)
 	if err != nil {
 		t.Error(err)
+	}
+}
+
+// checkOldConstructorAttribute checks for systems using old compilers
+// that do not support constructor priorities, and skips the test in
+// that case. Constructor priorities were added in GCC 4.3, and some
+// BSD systems are locked into GCC 4.2, the last GPLv2 version.
+func checkOldConstructorAttribute(t *testing.T, out []byte) {
+	if bytes.Contains(out, []byte("wrong number of arguments specified for 'constructor' attribute")) {
+		t.Skip("C compiler does not support constructor priorities")
 	}
 }
