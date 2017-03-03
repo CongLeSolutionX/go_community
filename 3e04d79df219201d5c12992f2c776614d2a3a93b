@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a0e99f2_c6210684",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-03T22:27:20Z",
+      "side": 1,
+      "message": "Can we use\n\nn.SetHasCall(true)\nreturn\n\ninstead of\n\nb \u003d true\ngoto out\n\nthroughout here? Then we don\u0027t need b at all. Separate CL ok.",
+      "revId": "3e04d79df219201d5c12992f2c776614d2a3a93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
