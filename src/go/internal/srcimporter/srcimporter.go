@@ -14,6 +14,7 @@ import (
 	"go/token"
 	"go/types"
 	"path/filepath"
+	"strings"
 	"sync"
 )
 
@@ -60,12 +61,17 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 		panic("non-zero import mode")
 	}
 
+	var pkg *types.Package
+	var filenames []string
+	var files []*ast.File
+	var conf types.Config
+
 	// determine package path (do vendor resolution)
 	var bp *build.Package
 	var err error
 	switch {
 	default:
-		if abs, err := p.absPath(srcDir); err == nil { // see issue #14282
+		if abs, err1 := p.absPath(srcDir); err1 == nil { // see issue #14282
 			srcDir = abs
 		}
 		bp, err = p.ctxt.Import(path, srcDir, build.FindOnly)
@@ -73,12 +79,18 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 	case build.IsLocalImport(path):
 		// "./x" -> "srcDir/x"
 		bp, err = p.ctxt.ImportDir(filepath.Join(srcDir, path), build.FindOnly)
+		// TODO(gri) We should be smarter here: there may be no relative
+		// package directory, only a relative package (which would have
+		// to consist of a single .go file because we can't know more).
+		// Thus, in case of error, check if there's a path.go file instead.
 
 	case p.isAbsPath(path):
-		return nil, fmt.Errorf("invalid absolute import path %q", path)
+		err = fmt.Errorf("invalid absolute import path %q", path)
+		goto failed
 	}
 	if err != nil {
-		return nil, err // err may be *build.NoGoError - return as is
+		// err may be *build.NoGoError - return as is
+		goto failed
 	}
 
 	// package unsafe is known to the type checker
@@ -87,16 +99,19 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 	}
 
 	// no need to re-import if the package was imported completely before
-	pkg := p.packages[bp.ImportPath]
+	pkg = p.packages[bp.ImportPath]
 	if pkg != nil {
 		if pkg == &importing {
-			return nil, fmt.Errorf("import cycle through package %q", bp.ImportPath)
+			err = fmt.Errorf("import cycle through package %q", bp.ImportPath)
+			goto failed
 		}
 		if !pkg.Complete() {
-			// package exists but is not complete - we cannot handle this
+			// Package exists but is not complete - we cannot handle this
 			// at the moment since the source importer replaces the package
-			// wholesale rather than augmenting it (see #19337 for details)
-			return nil, fmt.Errorf("reimported partially imported package %q", bp.ImportPath)
+			// wholesale rather than augmenting it (see #19337 for details).
+			// Return the package instead with an error, but leave it
+			// incomplete since this is a legitimate partial package.
+			return pkg, fmt.Errorf("reimported partially imported package %q", bp.ImportPath)
 		}
 		return pkg, nil
 	}
@@ -115,19 +130,20 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 	// collect package files
 	bp, err = p.ctxt.ImportDir(bp.Dir, 0)
 	if err != nil {
-		return nil, err // err may be *build.NoGoError - return as is
+		// err may be *build.NoGoError - return as is
+		goto failed
 	}
-	var filenames []string
+	//var filenames []string
 	filenames = append(filenames, bp.GoFiles...)
 	filenames = append(filenames, bp.CgoFiles...)
 
-	files, err := p.parseFiles(bp.Dir, filenames)
+	files, err = p.parseFiles(bp.Dir, filenames)
 	if err != nil {
-		return nil, err
+		goto failed
 	}
 
 	// type-check package files
-	conf := types.Config{
+	conf = types.Config{
 		IgnoreFuncBodies: true,
 		FakeImportC:      true,
 		Importer:         p,
@@ -135,11 +151,35 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 	}
 	pkg, err = conf.Check(bp.ImportPath, p.fset, files, nil)
 	if err != nil {
-		return nil, fmt.Errorf("type-checking package %q failed (%v)", bp.ImportPath, err)
+		err = fmt.Errorf("type-checking package %q failed (%v)", bp.ImportPath, err)
+		// use package but report error
+		if pkg == nil {
+			panic("type-checking returned nil package")
+		}
+	}
+	p.packages[bp.ImportPath] = pkg
+	return pkg, err
+
+failed:
+	// return a sensible empty package together with the error
+	// use the best possible package path
+	if bp != nil && bp.ImportPath != "" {
+		path = bp.ImportPath
 	}
 
+	// come up with a sensible package name
+	name := path
+	if i := len(name); i > 0 && name[i-1] == '/' {
+		name = name[:i-1]
+	}
+	if i := strings.LastIndex(name, "/"); i >= 0 {
+		name = name[i+1:]
+	}
+
+	pkg = types.NewPackage(path, name)
+	pkg.MarkComplete()
 	p.packages[bp.ImportPath] = pkg
-	return pkg, nil
+	return pkg, err
 }
 
 func (p *Importer) parseFiles(dir string, filenames []string) ([]*ast.File, error) {
