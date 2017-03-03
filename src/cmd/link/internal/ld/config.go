@@ -26,6 +26,9 @@ const (
 	BuildModePlugin
 )
 
+// Set sets mode based on the build mode. It returns an error for an
+// unsupported build mode. If you add a new supported mode here, you
+// should probably change tester.supportedBuildmode in cmd/dist/test.go.
 func (mode *BuildMode) Set(s string) error {
 	badmode := func() error {
 		return fmt.Errorf("buildmode %s not supported on %s/%s", s, buildcfg.GOOS, buildcfg.GOARCH)
@@ -54,14 +57,8 @@ func (mode *BuildMode) Set(s string) error {
 		}
 		*mode = BuildModePIE
 	case "c-archive":
-		switch buildcfg.GOOS {
-		case "aix", "darwin", "ios", "linux":
-		case "freebsd":
-			switch buildcfg.GOARCH {
-			case "amd64":
-			default:
-				return badmode()
-			}
+		switch objabi.GOOS {
+		case "aix", "android", "darwin", "dragonfly", "freebsd", "illumos", "ios", "linux", "netbsd", "openbsd", "solaris":
 		case "windows":
 			switch buildcfg.GOARCH {
 			case "amd64", "386", "arm", "arm64":
