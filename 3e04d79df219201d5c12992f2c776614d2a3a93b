@@ -16,6 +16,24 @@
       "revId": "3e04d79df219201d5c12992f2c776614d2a3a93b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3da26b3_cc8cf02f",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-03T22:35:17Z",
+      "side": 1,
+      "message": "We could. It\u0027s not obvious to me that way is any better though. It\u0027s about as many lines of code, and it means many more function calls are scattered around.\n\nI suppose another way of writing it is:\n\n    b :\u003d true\n    if ... {\n        goto out\n    }\n    if ... {\n        goto out\n    }\n    ...\n    b \u003d false // didn\u0027t find any\n  out:\n    n.SetHasCaller(b)\n\nWhich actually would save some LOC. Shrug.\n\nHappy to review a CL if you feel strongly enough to prepare one. :)",
+      "parentUuid": "2a0e99f2_c6210684",
+      "revId": "3e04d79df219201d5c12992f2c776614d2a3a93b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
