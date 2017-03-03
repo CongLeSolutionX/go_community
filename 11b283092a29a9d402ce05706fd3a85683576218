@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db53cd19_6b2a47f5",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 0,
+      "message": "I think you still want this line",
+      "revId": "11b283092a29a9d402ce05706fd3a85683576218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

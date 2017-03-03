@@ -1,0 +1,197 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3730a42b_2564674e",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "comment // not actual syntax",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c6e1599_f4a3f3be",
+        "filename": "src/cmd/compile/internal/gc/range.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "add a comment that the result must be assigned back to n",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7d27559_01385ebe",
+        "filename": "src/cmd/compile/internal/gc/range.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "Not sure this comment is really helpful: at least Rlist is not present here.\nMaybe better describe what transformation is happening here?",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d3b33f_120ef124",
+        "filename": "src/cmd/compile/internal/gc/range.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "Do we need this condition? It seems n.Left cannot be nil.",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1ec0b17_b5b548ad",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "properly",
+      "range": {
+        "startLine": 51,
+        "startChar": 36,
+        "endLine": 51,
+        "endChar": 43
+      },
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2db8b6a3_71eac19b",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "update numbering",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc2dfed0_38095041",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "I think you want to remove this before submission.",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86eb6d41_e93471bf",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "two \"instead\" make it hard to read.",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b26ec2b_d3f19953",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "OpOffPtr with auxint\u003d2*pt.Size() is better",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f723f345_d5df97c3",
+        "filename": "test/fixedbugs/issue10958.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "Why this CL doesn\u0027t make infinite loop yield?",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63ecc833_4218ee33",
+        "filename": "test/loopbce.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-03T16:26:15Z",
+      "side": 1,
+      "message": "Does this CL have any real effects on the interaction with loopbce?",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
