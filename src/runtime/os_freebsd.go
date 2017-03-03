@@ -321,7 +321,13 @@ func setsig(i uint32, fn uintptr) {
 //go:nosplit
 //go:nowritebarrierrec
 func setsigstack(i uint32) {
-	throw("setsigstack")
+	var sa sigactiont
+	sigaction(i, nil, &sa)
+	if sa.sa_flags&_SA_ONSTACK != 0 {
+		return
+	}
+	sa.sa_flags |= _SA_ONSTACK
+	sigaction(i, &sa, nil)
 }
 
 //go:nosplit

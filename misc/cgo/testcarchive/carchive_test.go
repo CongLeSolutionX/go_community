@@ -6,6 +6,7 @@ package carchive_test
 
 import (
 	"bufio"
+	"bytes"
 	"debug/elf"
 	"fmt"
 	"io/ioutil"
@@ -210,6 +211,7 @@ func TestEarlySignalHandler(t *testing.T) {
 	ccArgs := append(cc, "-o", "testp"+exeSuffix, "main2.c", "libgo2.a")
 	if out, err := exec.Command(ccArgs[0], ccArgs[1:]...).CombinedOutput(); err != nil {
 		t.Logf("%s", out)
+		checkOldConstructorAttribute(t, out)
 		t.Fatal(err)
 	}
 
@@ -388,6 +390,7 @@ func TestOsSignal(t *testing.T) {
 	ccArgs := append(cc, "-o", "testp"+exeSuffix, "main3.c", "libgo3.a")
 	if out, err := exec.Command(ccArgs[0], ccArgs[1:]...).CombinedOutput(); err != nil {
 		t.Logf("%s", out)
+		checkOldConstructorAttribute(t, out)
 		t.Fatal(err)
 	}
 
@@ -420,6 +423,7 @@ func TestSigaltstack(t *testing.T) {
 	ccArgs := append(cc, "-o", "testp"+exeSuffix, "main4.c", "libgo4.a")
 	if out, err := exec.Command(ccArgs[0], ccArgs[1:]...).CombinedOutput(); err != nil {
 		t.Logf("%s", out)
+		checkOldConstructorAttribute(t, out)
 		t.Fatal(err)
 	}
 
@@ -619,4 +623,14 @@ func TestCompileWithoutShared(t *testing.T) {
 	out, err = exec.Command(binArgs[0], binArgs[1:]...).CombinedOutput()
 	t.Logf("%s", out)
 	expectSignal(t, err, syscall.SIGPIPE)
+}
+
+// checkOldConstructorAttribute checks for systems using old compilers
+// that do not support constructor priorities, and skips the test in
+// that case. Constructor priorities were added in GCC 4.3, and some
+// BSD systems are locked into GCC 4.2, the last GCC released under GPLv2.
+func checkOldConstructorAttribute(t *testing.T, out []byte) {
+	if bytes.Contains(out, []byte("wrong number of arguments specified for 'constructor' attribute")) {
+		t.Skip("C compiler does not support constructor priorities")
+	}
 }
