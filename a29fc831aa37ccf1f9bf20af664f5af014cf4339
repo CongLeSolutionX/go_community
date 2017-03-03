@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "951671a6_cfd0aee2",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-03-03T04:28:53Z",
+      "side": 1,
+      "message": "usedForce -\u003e userForced",
+      "revId": "a29fc831aa37ccf1f9bf20af664f5af014cf4339",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
