@@ -179,6 +179,30 @@ func newosproc(mp *m) {
 	}
 }
 
+// Version of newosproc that doesn't require a valid G.
+//go:nosplit
+func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
+	stk := sysAlloc(stacksize, &memstats.stacks_sys)
+	if stk == nil {
+		write(2, unsafe.Pointer(&failallocatestack[0]), int32(len(failallocatestack)))
+		exit(1)
+	}
+
+	var attr pthreadattr
+	pthread_attr_init(&attr)
+	pthread_attr_setstack(&attr, uintptr(stk), uint64(stacksize))
+	pthread_attr_setdetachstate(&attr, _PTHREAD_CREATE_DETACHED)
+
+	ret := pthread_create(nil, &attr, uintptr(fn), nil)
+	if ret != 0 {
+		write(2, unsafe.Pointer(&failthreadcreate[0]), int32(len(failthreadcreate)))
+		exit(1)
+	}
+}
+
+var failallocatestack = []byte("runtime: failed to allocate stack for the new OS thread\n")
+var failthreadcreate = []byte("runtime: failed to create new OS thread\n")
+
 func exitThread(wait *uint32) {
 	// We should never reach exitThread on Solaris because we let
 	// libc clean up threads.
@@ -197,6 +221,15 @@ func getRandomData(r []byte) {
 
 func goenvs() {
 	goenvs_unix()
+}
+
+// Called to do synchronous initialization of Go code built with
+// -buildmode=c-archive or -buildmode=c-shared.
+// None of the Go runtime is initialized.
+//go:nosplit
+//go:nowritebarrierrec
+func libpreinit() {
+	initsig(true)
 }
 
 // Called to initialize a new m (including the bootstrap m).
