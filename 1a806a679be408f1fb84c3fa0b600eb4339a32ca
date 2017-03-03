@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ecb277c_f856f2e2",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-03T18:33:11Z",
+      "side": 1,
+      "message": "I think this should just be \u0027if n.Sym !\u003d nil { return n }\u0027.\nIf anything is looking at the line number of an n with n.Sym !\u003d nil, that\u0027s wrong and should be fixed elsewhere.\n\nMaybe add a third comment line:\n// Otherwise make a copy so we can update the line number.",
+      "revId": "1a806a679be408f1fb84c3fa0b600eb4339a32ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
