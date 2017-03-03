@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c16a4be_b3078c4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-03T20:22:45Z",
+      "side": 1,
+      "message": "\"to avoid conflicts with non-file name symbols\"?",
+      "revId": "0d5620658d4ccc4f86aad7eb8811e5f7fa1831ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
