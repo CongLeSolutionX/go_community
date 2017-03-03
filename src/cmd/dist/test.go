@@ -746,6 +746,10 @@ func (t *tester) internalLink() bool {
 	return true
 }
 
+// supportedBuildMode returns whether a build mode ("c-archive",
+// "c-shared", ...) works on the current target. This should mostly
+// match cmd/link/internal/ld/config.go, modulo specific targets that
+// currently have bugs.
 func (t *tester) supportedBuildmode(mode string) bool {
 	pair := t.goos + "-" + t.goarch
 	switch mode {
@@ -753,10 +757,14 @@ func (t *tester) supportedBuildmode(mode string) bool {
 		if !t.extLink() {
 			return false
 		}
-		switch pair {
-		case "darwin-386", "darwin-amd64", "darwin-arm", "darwin-arm64",
-			"linux-amd64", "linux-386", "windows-amd64", "windows-386":
+		switch t.goos {
+		case "darwin", "dragonfly", "freebsd", "linux", "netbsd", "openbsd", "solaris":
 			return true
+		case "windows":
+			switch t.goarch {
+			case "amd64", "386":
+				return true
+			}
 		}
 		return false
 	case "c-shared":
