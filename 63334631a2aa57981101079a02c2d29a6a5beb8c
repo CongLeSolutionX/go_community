@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c634f7fe_88593afe",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-03T21:51:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e13a4249_40c543f0",
+      "revId": "63334631a2aa57981101079a02c2d29a6a5beb8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e5643b7_74cb0c51",
         "filename": "src/runtime/mstats.go",
         "patchSetId": 4
@@ -30,6 +48,30 @@
       "writtenOn": "2017-03-03T21:37:16Z",
       "side": 1,
       "message": "Add a comment that this is valid only because this is done when the world is stopped.",
+      "range": {
+        "startLine": 536,
+        "startChar": 0,
+        "endLine": 537,
+        "endChar": 29
+      },
+      "revId": "63334631a2aa57981101079a02c2d29a6a5beb8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d858532c_b4d36cfa",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-03T21:51:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e5643b7_74cb0c51",
       "range": {
         "startLine": 536,
         "startChar": 0,
