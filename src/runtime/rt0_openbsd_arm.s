@@ -8,4 +8,7 @@ TEXT _rt0_arm_openbsd(SB),NOSPLIT,$0
 	B	_rt0_arm(SB)
 
 TEXT _rt0_arm_openbsd_lib(SB),NOSPLIT,$0
+	// OpenBSD does not pass argc/argv to DT_INIT_ARRAY functions.
+	MOVW	$0, R0
+	MOVW	R0, R1
 	B	_rt0_arm_lib(SB)
