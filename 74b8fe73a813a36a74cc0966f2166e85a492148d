@@ -16,6 +16,24 @@
       "revId": "74b8fe73a813a36a74cc0966f2166e85a492148d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27fe1eae_2f7cc06f",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-03-03T20:01:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f0c065e_45760ab3",
+      "revId": "74b8fe73a813a36a74cc0966f2166e85a492148d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
