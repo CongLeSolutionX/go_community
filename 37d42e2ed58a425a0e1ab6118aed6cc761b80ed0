@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "adb0f5e8_856228f0",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-03-03T19:53:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96175932_33b26b19",
+      "revId": "37d42e2ed58a425a0e1ab6118aed6cc761b80ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfc48fa9_44a800df",
         "filename": "src/cmd/internal/obj/inl.go",
         "patchSetId": 10
@@ -54,6 +72,30 @@
       "side": 1,
       "message": "Your intuition is right. \"Outermost\" means where everything got inlined to, so wherever the call to \"f\" appeared in this example. It would be good to define that better here (obviously can be done in a follow-up). Perhaps something like:\n\n// OutermostPos returns the outermost position corresponding to xpos, which is where xpos was ultimately inlined to.\n\nIf the example at the top is expanded more, it might be useful to reference InlTree here and give a concrete example from it.",
       "parentUuid": "dfc48fa9_44a800df",
+      "range": {
+        "startLine": 50,
+        "startChar": 28,
+        "endLine": 50,
+        "endChar": 37
+      },
+      "revId": "37d42e2ed58a425a0e1ab6118aed6cc761b80ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a64a9a1_7217e336",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-03-03T19:53:14Z",
+      "side": 1,
+      "message": "Does this example make sense?",
+      "parentUuid": "f0e3beb4_bc0419b3",
       "range": {
         "startLine": 50,
         "startChar": 28,
