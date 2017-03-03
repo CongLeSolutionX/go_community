@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7518c363_24bed7a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-03-03T21:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f4ffef3_066ed4d7",
+      "revId": "e98863511f9a289469ebfd3b2640a524b6ebce25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65849adc_a4b89d6a",
         "filename": "test/inline_literal.go",
         "patchSetId": 11
@@ -33,6 +51,24 @@
       "revId": "e98863511f9a289469ebfd3b2640a524b6ebce25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d765cae9_094feaa3",
+        "filename": "test/inline_literal.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 16260
+      },
+      "writtenOn": "2017-03-03T21:06:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65849adc_a4b89d6a",
+      "revId": "e98863511f9a289469ebfd3b2640a524b6ebce25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
