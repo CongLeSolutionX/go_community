@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48f73ee8_d5bae395",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-03-03T11:03:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8f038d0_3f3f330f",
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ef52547_05cc8fa0",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-02T18:29:15Z",
       "side": 1,
       "message": "SetFloat appears to be returning 0 on success and -1 on failure (probably for historic reasons). We should fix that. I suggest:\n\n- return true upon success\n- return false otherwise\n\nWe could encode the fact that the value was too large in the receiver (i) by setting the Ovfl flag.\n\nAlternatively, we could return 3 values, indicating success (0), overflow (-1) or truncation (-2). Perhaps this is slightly simpler.\n\nThen we don\u0027t need an extra IsInt call.",
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be4de6d9_2e60b84c",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-03-03T11:03:25Z",
+      "side": 1,
+      "message": "Done. \n\nSince it wa only used here, I changed SetFloat so that it returns\na bool (and sets Ovf if necessary).",
+      "parentUuid": "8ef52547_05cc8fa0",
       "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "717dacc2_9af888a9",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-03-03T11:03:25Z",
+      "side": 1,
+      "message": "Done.\n\nNote that I had to change several test cases unrelated to this issue\nthat were matching on the old error message.",
+      "parentUuid": "a31aa1d2_ee10f059",
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "241d79f9_628c6fbf",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 3
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "e3732a9d_7b73b2b7",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-03-03T11:03:25Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "241d79f9_628c6fbf",
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4551cf0_b2dd600f",
         "filename": "src/cmd/compile/internal/gc/const.go",
         "patchSetId": 3
@@ -81,6 +153,30 @@
       "writtenOn": "2017-03-02T18:29:15Z",
       "side": 1,
       "message": "seems like here we could have the same issue - handle both consistently",
+      "range": {
+        "startLine": 489,
+        "startChar": 7,
+        "endLine": 489,
+        "endChar": 15
+      },
+      "revId": "9a410cc61972c2ab726824867bc97566a6a30114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22156bc4_665f9a14",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-03-03T11:03:25Z",
+      "side": 1,
+      "message": "I don\u0027t think this part can print a confusing error message, because we always use \n\"%v%vi\" so even for a cmplx with a zero imaginary part, e.g.\n\nconst c int \u003d (1 + 1e-100) + 0i\n\nnow we print:\n\n\"constant 1+0i truncated to int\" \n\nwhich makes clear that the problem is the fact that we have a complex number, \nand in the error message will always look like a complex value so this path does\nnot have the problem described in the linked issue.",
+      "parentUuid": "c4551cf0_b2dd600f",
       "range": {
         "startLine": 489,
         "startChar": 7,
