@@ -151,6 +151,29 @@ func newosproc(mp *m) {
 	sigprocmask(_SIG_SETMASK, &oset, nil)
 }
 
+// Version of newosproc that doesn't require a valid G.
+//go:nosplit
+func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
+	stk := sysAlloc(stacksize, &memstats.stacks_sys)
+	if stk == nil {
+		write(2, unsafe.Pointer(&failallocatestack[0]), int32(len(failallocatestack)))
+		exit(1)
+	}
+
+	params := lwpparams{
+		start_func: uintptr(fn),
+		arg:        nil,
+		stack:      uintptr(stk),
+		tid1:       nil,
+		tid2:       nil,
+	}
+
+	// TODO: Check for error.
+	lwp_create(&params)
+}
+
+var failallocatestack = []byte("runtime: failed to allocate stack for the new OS thread\n")
+
 func osinit() {
 	ncpu = getncpu()
 	if physPageSize == 0 {
@@ -170,6 +193,15 @@ func getRandomData(r []byte) {
 
 func goenvs() {
 	goenvs_unix()
+}
+
+// Called to do synchronous initialization of Go code built with
+// -buildmode=c-archive or -buildmode=c-shared.
+// None of the Go runtime is initialized.
+//go:nosplit
+//go:nowritebarrierrec
+func libpreinit() {
+	initsig(true)
 }
 
 // Called to initialize a new m (including the bootstrap m).
@@ -219,7 +251,13 @@ func setsig(i uint32, fn uintptr) {
 //go:nosplit
 //go:nowritebarrierrec
 func setsigstack(i uint32) {
-	throw("setsigstack")
+	var sa sigactiont
+	sigaction(i, nil, &sa)
+	if sa.sa_flags&_SA_ONSTACK != 0 {
+		return
+	}
+	sa.sa_flags |= _SA_ONSTACK
+	sigaction(i, &sa, nil)
 }
 
 //go:nosplit

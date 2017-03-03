@@ -8,7 +8,12 @@ TEXT _rt0_386_openbsd(SB),NOSPLIT,$0
 	JMP	_rt0_386(SB)
 
 TEXT _rt0_386_openbsd_lib(SB),NOSPLIT,$0
-	JMP	_rt0_386_lib(SB)
+	// OpenBSD does not pass argc/argv to DT_INIT_ARRAY functions.
+	PUSHL	$0
+	PUSHL	$0
+	CALL	_rt0_386_lib(SB)
+	ADDL	$8, SP
+	RET
 
 TEXT main(SB),NOSPLIT,$0
 	// Remove the return address from the stack.
