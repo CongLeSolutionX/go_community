@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "96175932_33b26b19",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-03T18:52:46Z",
+      "side": 1,
+      "message": "It would be nice to have a little more detail from the example. In particular, it\u0027s easy to miss that it actually starts with f()\u0027s *caller*, not f. An example with a little code would also let you give concrete Pos values. E.g.,\n\n// The compiler maintains a global inlining tree and adds a node to it\n// every time a function is inlined. For example, suppose f() calls g()\n// and g has two calls to h(), and that f, g, and h are inlineable:\n//\n//  1 func main() {\n//  2     f()\n//  3 }\n//  4 func f() {\n//  5     g()\n//  6 }\n//  7 func g() {\n//  8     h()\n//  9     h()\n// 10 }\n//\n// Assuming the global tree starts empty, inlining will produce the\n// following tree:\n//\n//   []InlinedCall{\n//     {Parent: -1, Func: \"f\", Pos: \u003cline 2\u003e},\n//     {Parent:  0, Func: \"g\", Pos: \u003cline 5\u003e},\n//     {Parent:  1, Func: \"h\", Pos: \u003cline 8\u003e},\n//     {Parent:  1, Func: \"h\", Pos: \u003cline 9\u003e},\n//   }\n//\n// The nodes of h inlined into main will have inlining indexes 2 and 3.\n//\n// Eventually, the compiler extracts a per-function inlining tree from\n// the global inlining tree (see pcln.go).",
+      "revId": "37d42e2ed58a425a0e1ab6118aed6cc761b80ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfc48fa9_44a800df",
         "filename": "src/cmd/internal/obj/inl.go",
         "patchSetId": 10
@@ -13,6 +30,30 @@
       "writtenOn": "2017-03-03T17:54:50Z",
       "side": 1,
       "message": "nit: What does \"outermost\" mean here? Is it defined somewhere?\n\nIntuitively, for the inlining tree example above, I think of f as enclosing g, which in turn encloses both h calls. In that mental model, I would think f is always the outermost position.\n\nHowever, I suspect OutermostPos would actually prefer returning g or h?",
+      "range": {
+        "startLine": 50,
+        "startChar": 28,
+        "endLine": 50,
+        "endChar": 37
+      },
+      "revId": "37d42e2ed58a425a0e1ab6118aed6cc761b80ed0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e3beb4_bc0419b3",
+        "filename": "src/cmd/internal/obj/inl.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-03T18:52:46Z",
+      "side": 1,
+      "message": "Your intuition is right. \"Outermost\" means where everything got inlined to, so wherever the call to \"f\" appeared in this example. It would be good to define that better here (obviously can be done in a follow-up). Perhaps something like:\n\n// OutermostPos returns the outermost position corresponding to xpos, which is where xpos was ultimately inlined to.\n\nIf the example at the top is expanded more, it might be useful to reference InlTree here and give a concrete example from it.",
+      "parentUuid": "dfc48fa9_44a800df",
       "range": {
         "startLine": 50,
         "startChar": 28,
