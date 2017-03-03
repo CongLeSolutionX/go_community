@@ -209,6 +209,31 @@ func newosproc(mp *m) {
 	}
 }
 
+// Version of newosproc that doesn't require a valid G.
+//go:nosplit
+func newosproc0(stacksize uintptr, fn unsafe.Pointer) {
+	stk := sysAlloc(stacksize, &memstats.stacks_sys)
+	if stk == nil {
+		write(2, unsafe.Pointer(&failallocatestack[0]), int32(len(failallocatestack)))
+		exit(1)
+	}
+
+	var uc ucontextt
+	getcontext(unsafe.Pointer(&uc))
+	uc.uc_flags = _UC_SIGMASK | _UC_CPU
+	uc.uc_link = nil
+	lwp_mcontext_init(&uc.uc_mcontext, stk, nil, nil, uintptr(fn))
+
+	ret := lwp_create(unsafe.Pointer(&uc), _LWP_DETACHED, nil)
+	if ret < 0 {
+		write(2, unsafe.Pointer(&failthreadcreate[0]), int32(len(failthreadcreate)))
+		exit(1)
+	}
+}
+
+var failallocatestack = []byte("runtime: failed to allocate stack for the new OS thread\n")
+var failthreadcreate = []byte("runtime: failed to create new OS thread\n")
+
 // netbsdMStart is the function call that starts executing a newly
 // created thread. On NetBSD, a new thread inherits the signal stack
 // of the creating thread. That confuses minit, so we remove that
@@ -242,6 +267,15 @@ func getRandomData(r []byte) {
 
 func goenvs() {
 	goenvs_unix()
+}
+
+// Called to do synchronous initialization of Go code built with
+// -buildmode=c-archive or -buildmode=c-shared.
+// None of the Go runtime is initialized.
+//go:nosplit
+//go:nowritebarrierrec
+func libpreinit() {
+	initsig(true)
 }
 
 // Called to initialize a new m (including the bootstrap m).
@@ -300,7 +334,13 @@ func setsig(i uint32, fn uintptr) {
 //go:nosplit
 //go:nowritebarrierrec
 func setsigstack(i uint32) {
-	throw("setsigstack")
+	var sa sigactiont
+	sigaction(i, nil, &sa)
+	if sa.sa_flags&_SA_ONSTACK != 0 {
+		return
+	}
+	sa.sa_flags |= _SA_ONSTACK
+	sigaction(i, &sa, nil)
 }
 
 //go:nosplit
