@@ -753,9 +753,8 @@ func (t *tester) supportedBuildmode(mode string) bool {
 		if !t.extLink() {
 			return false
 		}
-		switch pair {
-		case "darwin-386", "darwin-amd64", "darwin-arm", "darwin-arm64",
-			"linux-amd64", "linux-386", "windows-amd64", "windows-386":
+		switch t.goos {
+		case "darwin", "dragonfly", "freebsd", "linux", "netbsd", "openbsd", "solaris", "windows":
 			return true
 		}
 		return false
