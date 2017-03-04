@@ -382,11 +382,34 @@ func (p *addrParser) consumeAddrSpec() (spec string, err error) {
 	return localPart + "@" + domain, nil
 }
 
+// isEncodedWord reports whether the word is "encoded-word" defined in rfc2047 or not.
+func isEncodedWord(word string) bool {
+	// rfc2047 2. Syntax of encoded-words
+	// encoded-word = "=?" charset "?" encoding "?" encoded-text "?="
+	// charset = token
+	// encoding = token
+	// token = 1*<Any CHAR except SPACE, CTLs, and especials>
+	// especials = "(" / ")" / "<" / ">" / "@" / "," / ";" / ":" / "
+	//             <"> / "/" / "[" / "]" / "?" / "." / "="
+	// encoded-text = 1*<Any printable ASCII character other than "?"
+	//                   or SPACE>
+	//                ; (but see "Use of encoded-words in message
+	//                ; headers", section 5)
+	if len(word) < 9 {
+		return false
+	}
+	if word[:2] == "=?" && word[len(word)-2:] == "?=" && strings.Count(word, "?") == 4 {
+		return true
+	}
+	return false
+}
+
 // consumePhrase parses the RFC 5322 phrase at the start of p.
 func (p *addrParser) consumePhrase() (phrase string, err error) {
 	debug.Printf("consumePhrase: [%s]", p.s)
 	// phrase = 1*word
 	var words []string
+	var isPrevEncoded bool
 	for {
 		// word = atom / quoted-string
 		var word string
@@ -394,6 +417,7 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 		if p.empty() {
 			return "", errors.New("mail: missing phrase")
 		}
+		isEncoded := false
 		if p.peek() == '"' {
 			// quoted-string
 			word, err = p.consumeQuotedString()
@@ -403,7 +427,10 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 			// than what RFC 5322 specifies.
 			word, err = p.consumeAtom(true, true)
 			if err == nil {
-				word, err = p.decodeRFC2047Word(word)
+				if isEncodedWord(word) {
+					word, err = p.decodeRFC2047Word(word)
+					isEncoded = true
+				}
 			}
 		}
 
@@ -411,7 +438,12 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 			break
 		}
 		debug.Printf("consumePhrase: consumed %q", word)
-		words = append(words, word)
+		if isPrevEncoded && isEncoded {
+			words[len(words)-1] += word
+		} else {
+			words = append(words, word)
+		}
+		isPrevEncoded = isEncoded
 	}
 	// Ignore any error if we got at least one word.
 	if err != nil && len(words) == 0 {
