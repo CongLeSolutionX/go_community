@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f427b29_44468e91",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3810,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-05T15:18:29Z",
+      "side": 1,
+      "message": "I don\u0027t see anything Windows-specific about this test.  It should work everywhere.",
+      "revId": "200d42833f5e73611e4816acdd3d6ab9ac924367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b82f3c0a_a168d6cd",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3847,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-05T15:18:29Z",
+      "side": 1,
+      "message": "You should call tg.creatingTemp(exe).",
+      "revId": "200d42833f5e73611e4816acdd3d6ab9ac924367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81e426a5_e3598abb",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1044,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-05T15:18:29Z",
+      "side": 1,
+      "message": "I think we should do this in all cases.  I don\u0027t think we need to check Linkmode here.",
+      "revId": "200d42833f5e73611e4816acdd3d6ab9ac924367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
