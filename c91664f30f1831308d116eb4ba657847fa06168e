@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "122e3241_caac4004",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-05T21:30:55Z",
+      "side": 1,
+      "message": "I\u0027m still kinda against this. It\u0027s verbose and seems redundant. The Append(a ...*Node) _should_ be just as optimized.\n\nCould you try modifying the old Append with a len(a) \u003d\u003d 1 special case, though?\n\nNote that append from empty to a slice of 1 element sets capacity 2. (https://play.golang.org/p/ogs-dMo0aL)\n\nDid you try something like:\n\nfunc (n *Nodes) Append(a ...*Node) {\n\tif n.slice \u003d\u003d nil {\n                s :\u003d make([]*Node, len(a), cap(a))\n                copy(s, a)\n\t\tn.slice \u003d \u0026s\n                return                \n\t}\n\t*n.slice \u003d append(*n.slice, a...)\n}\n\n?",
+      "range": {
+        "startLine": 646,
+        "startChar": 16,
+        "endLine": 646,
+        "endChar": 38
+      },
+      "revId": "c91664f30f1831308d116eb4ba657847fa06168e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
