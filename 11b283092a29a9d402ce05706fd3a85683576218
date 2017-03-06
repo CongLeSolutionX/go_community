@@ -16,6 +16,24 @@
       "revId": "11b283092a29a9d402ce05706fd3a85683576218",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adf5d023_61e4ae73",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-06T23:00:54Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "db53cd19_6b2a47f5",
+      "revId": "11b283092a29a9d402ce05706fd3a85683576218",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

@@ -93,6 +93,30 @@
     },
     {
       "key": {
+        "uuid": "b9468d3e_a96fee53",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-06T23:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1ec0b17_b5b548ad",
+      "range": {
+        "startLine": 51,
+        "startChar": 36,
+        "endLine": 51,
+        "endChar": 43
+      },
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2db8b6a3_71eac19b",
         "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
         "patchSetId": 6
@@ -107,6 +131,24 @@
       "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d83496fe_50bb55c6",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-06T23:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2db8b6a3_71eac19b",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -127,6 +169,24 @@
     },
     {
       "key": {
+        "uuid": "c1635147_e3e4d5aa",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-06T23:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc2dfed0_38095041",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86eb6d41_e93471bf",
         "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
         "patchSetId": 6
@@ -141,6 +201,24 @@
       "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "078d69c7_7fbbe1ab",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-06T23:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86eb6d41_e93471bf",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -161,6 +239,24 @@
     },
     {
       "key": {
+        "uuid": "a737003d_9798fb1c",
+        "filename": "src/cmd/compile/internal/ssa/loopreschedchecks.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-06T23:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b26ec2b_d3f19953",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f723f345_d5df97c3",
         "filename": "test/fixedbugs/issue10958.go",
         "patchSetId": 6
@@ -178,6 +274,24 @@
     },
     {
       "key": {
+        "uuid": "8850829f_06a2cb01",
+        "filename": "test/fixedbugs/issue10958.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-06T23:00:54Z",
+      "side": 1,
+      "message": "I was apparently mistaken; it seems to pass GoBots without.\nI\u0027ll keep an eye on the build dashboard.",
+      "parentUuid": "f723f345_d5df97c3",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "63ecc833_4218ee33",
         "filename": "test/loopbce.go",
         "patchSetId": 6
@@ -189,6 +303,24 @@
       "writtenOn": "2017-03-03T16:26:15Z",
       "side": 1,
       "message": "Does this CL have any real effects on the interaction with loopbce?",
+      "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a8f5e10_9992101b",
+        "filename": "test/loopbce.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-06T23:00:54Z",
+      "side": 1,
+      "message": "I am not 100% sure; it seems to change the pattern for one test, but existing benchmarks don\u0027t run slower.",
+      "parentUuid": "63ecc833_4218ee33",
       "revId": "a419efe96ab7c91fbcea8b6058ba537361c0bd1c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
