@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5af8ecd_0204a364",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-06T18:05:35Z",
+      "side": 1,
+      "message": "The intent of this change is to keep the existing ids, not to clean them up. I\u0027ve kept all existing ids as they are prior to the change. In the new ids I\u0027ve added and tried to do so according to the format I thought was the most prevalent in this document. \n\nUpon seeing this note, I then went through all of the documentation and discovered that there is a lot of inconsistency of id naming across our docs.\n\nAcross the docs which have about 950 ids:\n~175 use Initial upper case\n~775 use initial lower case\n~350 use \"_\" as the word separator\n~12 use \"-\" as the word separator\n~20 use camelCase\n\nThe most prevalent patterns are lower initial case and using \"_\" as the word separator. I will adjust all of my additional ones to use this format and suggest that we adopt this as the standard.\n\nUsing \"-\" is appropriate when referencing a compound word or a command like `git-codereview`, but is almost never used otherwise.\n\nMost of the time the ids also keep the entire string lowercase. There are a few instances where each word is initial caps. \nThere are also a few instances where terms like \"Go\" or \"Google\" are initial caps but other words aren\u0027t. \n\nThe cases where even proper nouns like \"Go\" and \"Google\" are kept lowercase are about 4x as common. (76 vs 17). \n\nI think it\u0027s much simpler if we keep the entire string lowercase. This does beg the question about acronyms and abbreviations. Should CLA be \"CLA\" or \"cla\". I don\u0027t have a strong preference here. I\u0027ve lowered them in my adjustments here to be consistent with the one place that already used \"cla\".",
+      "parentUuid": "d3968fec_3b0e1364",
+      "range": {
+        "startLine": 12,
+        "startChar": 8,
+        "endLine": 12,
+        "endChar": 19
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1004bd6e_461452e7",
         "filename": "doc/contribute.html",
         "patchSetId": 8
@@ -316,6 +340,30 @@
     },
     {
       "key": {
+        "uuid": "bcaf8d37_60803e32",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-06T18:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1c9a354_bbe03feb",
+      "range": {
+        "startLine": 306,
+        "startChar": 46,
+        "endLine": 307,
+        "endChar": 23
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f45fe66b_e4e4cfa8",
         "filename": "doc/contribute.html",
         "patchSetId": 8
@@ -356,6 +404,30 @@
     },
     {
       "key": {
+        "uuid": "5db3a095_6c5d1920",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-06T18:05:35Z",
+      "side": 1,
+      "message": "It depends if they have jumped to this section or are reading top to bottom. I think it provides good context and doesn\u0027t add confusion.",
+      "parentUuid": "d9531821_641de2e1",
+      "range": {
+        "startLine": 538,
+        "startChar": 5,
+        "endLine": 538,
+        "endChar": 7
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82e98e83_cdf724ea",
         "filename": "doc/contribute.html",
         "patchSetId": 8
@@ -373,6 +445,24 @@
     },
     {
       "key": {
+        "uuid": "55a40517_f9d2b168",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-06T18:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82e98e83_cdf724ea",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "663f8993_0fdaf7d7",
         "filename": "doc/contribute.html",
         "patchSetId": 8
@@ -384,6 +474,24 @@
       "writtenOn": "2017-03-01T20:05:12Z",
       "side": 1,
       "message": "typo: \u0027reviewer\u0027",
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f31c4b74_28ef8a57",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-06T18:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "663f8993_0fdaf7d7",
       "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -453,6 +561,30 @@
     },
     {
       "key": {
+        "uuid": "628808a6_5396f41e",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-06T18:05:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82ff2ff2_432a42d8",
+      "range": {
+        "startLine": 827,
+        "startChar": 30,
+        "endLine": 827,
+        "endChar": 49
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4c65f11_253f9fde",
         "filename": "doc/contribute.html",
         "patchSetId": 8
@@ -464,6 +596,30 @@
       "writtenOn": "2017-03-02T01:41:43Z",
       "side": 1,
       "message": "What\u0027s wrong with \"submit\"?\n\nWe are adding unnecessary terminology. In Gerrit UI, it is called \"submitting\". Let\u0027s stick to the terminology that already exists.",
+      "range": {
+        "startLine": 843,
+        "startChar": 16,
+        "endLine": 843,
+        "endChar": 21
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eabf356_6742a784",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-06T18:05:35Z",
+      "side": 1,
+      "message": "This isn\u0027t adding terminology, it\u0027s bridging the action of submitting into a general act (concept) of applying the change. By using a general concept to introduce the action it makes this more accessible to new people.\n\nAll users of source control in every system are familiar with the concept of applying a change. The term submitting is specific only to Gerrit (to my knowledge).",
+      "parentUuid": "f4c65f11_253f9fde",
       "range": {
         "startLine": 843,
         "startChar": 16,
