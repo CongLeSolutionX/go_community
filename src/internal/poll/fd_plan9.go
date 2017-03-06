@@ -190,3 +190,14 @@ func isInterrupted(err error) bool {
 func PollDescriptor() uintptr {
 	return ^uintptr(0)
 }
+
+// Call calls the user-defined function fn for non-IO operation.
+func (fd *FD) Call(fn func(uintptr) error) error {
+	return errors.New("not implemented")
+}
+
+// Run starts IO operation associated with the user-defined function
+// fn.
+func (fd *FD) Run(op Op, fn func(uintptr) (bool, error)) error {
+	return errors.New("not implemented")
+}

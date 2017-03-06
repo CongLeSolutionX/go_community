@@ -816,3 +816,14 @@ func (fd *FD) GetFileInformationByHandle(data *syscall.ByHandleFileInformation) 
 	defer fd.decref()
 	return syscall.GetFileInformationByHandle(fd.Sysfd, data)
 }
+
+// Call calls the user-defined function fn for non-IO operation.
+func (fd *FD) Call(fn func(uintptr) error) error {
+	return errors.New("not implemented")
+}
+
+// Run starts IO operation associated with the user-defined function
+// fn.
+func (fd *FD) Run(op Op, fn func(uintptr) (bool, error)) error {
+	return errors.New("not implemented")
+}

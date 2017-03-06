@@ -40,3 +40,11 @@ func consume(v *[][]byte, n int64) {
 
 // TestHookDidWritev is a hook for testing writev.
 var TestHookDidWritev = func(wrote int) {}
+
+// Op represents a type of polled IO operation.
+type Op int
+
+const (
+	ReadOp Op = iota
+	WriteOp
+)

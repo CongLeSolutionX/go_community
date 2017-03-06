@@ -399,3 +399,52 @@ func (fd *FD) Fstat(s *syscall.Stat_t) error {
 func (fd *FD) WaitWrite() error {
 	return fd.pd.waitWrite()
 }
+
+// Call calls the user-defined function fn for non-IO operation.
+func (fd *FD) Call(fn func(uintptr) error) error {
+	if err := fd.incref(); err != nil {
+		return err
+	}
+	defer fd.decref()
+	return fn(uintptr(fd.Sysfd))
+}
+
+// Run starts IO operation associated with the user-defined function
+// fn.
+func (fd *FD) Run(op Op, fn func(uintptr) (bool, error)) error {
+	switch op {
+	case ReadOp:
+		if err := fd.readLock(); err != nil {
+			return err
+		}
+		defer fd.readUnlock()
+		if err := fd.pd.prepareRead(); err != nil {
+			return err
+		}
+	case WriteOp:
+		if err := fd.writeLock(); err != nil {
+			return err
+		}
+		defer fd.writeUnlock()
+		if err := fd.pd.prepareWrite(); err != nil {
+			return err
+		}
+	default:
+		return syscall.EINVAL
+	}
+	for {
+		iocomp, err := fn(uintptr(fd.Sysfd))
+		if iocomp {
+			return err
+		}
+		if op == ReadOp {
+			if err := fd.pd.waitRead(); err != nil {
+				return err
+			}
+		} else {
+			if err := fd.pd.waitWrite(); err != nil {
+				return err
+			}
+		}
+	}
+}
