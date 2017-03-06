@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80eb54b2_dd44dbd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-03-06T14:01:57Z",
+      "side": 1,
+      "message": "s/chane/change/",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "d92264fd4fc64040e530eb960f263607ea2fa1f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df874907_c74c5cdd",
+        "filename": "src/internal/poll/fd_mutex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-03-06T14:01:57Z",
+      "side": 1,
+      "message": "IMHO not needed and more importantly not consistent with previous comments.",
+      "range": {
+        "startLine": 197,
+        "startChar": 3,
+        "endLine": 197,
+        "endChar": 44
+      },
+      "revId": "d92264fd4fc64040e530eb960f263607ea2fa1f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
