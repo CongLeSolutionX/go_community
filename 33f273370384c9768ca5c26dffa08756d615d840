@@ -16,6 +16,24 @@
       "revId": "33f273370384c9768ca5c26dffa08756d615d840",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ac44655_23bd5514",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-03-06T23:31:40Z",
+      "side": 1,
+      "message": "WordDecoder.Decode doesn\u0027t distinguish error types.\nIn my opinion,\nhttps://github.com/golang/go/blob/9cb2ee0ff2efb3ec281718c6e301db695f9a0870/src/mime/encodedword.go#L30 is recoverable.\nhttps://github.com/golang/go/blob/9cb2ee0ff2efb3ec281718c6e301db695f9a0870/src/mime/encodedword.go#L334-L343 are not recoverable.\n\nCurrent code squash these errors. So I was planning to change it.\nIf errInvalidWord is exported, that\u0027s ideal though.\n\nBut it\u0027s not directly related to the issue. So, done.",
+      "parentUuid": "d4b1b461_5e9a9dc0",
+      "revId": "33f273370384c9768ca5c26dffa08756d615d840",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
