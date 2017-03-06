@@ -629,6 +629,30 @@
       "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c73f8679_063a7663",
+        "filename": "doc/contribute.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 843,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-03-06T18:19:36Z",
+      "side": 1,
+      "message": "Submit is not a Gerrit-specific term.\n\nSubmitting is a synonym of committing in VCS land, see https://en.wikipedia.org/wiki/Version_control#Common_vocabulary (e.g. p4 submit).\n\nApplying a change says less to VCS users, changes are committed, checked in, or submitted.",
+      "parentUuid": "8eabf356_6742a784",
+      "range": {
+        "startLine": 843,
+        "startChar": 16,
+        "endLine": 843,
+        "endChar": 21
+      },
+      "revId": "a1461a78239d8d70f5a3ca14bf16de91b6415101",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
