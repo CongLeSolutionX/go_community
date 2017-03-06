@@ -194,7 +194,7 @@ func (mu *fdMutex) rwunlock(read bool) bool {
 func runtime_Semacquire(sema *uint32)
 func runtime_Semrelease(sema *uint32)
 
-// incref adds a reference to fd.
+// The method incref adds a reference to fd.
 // It returns an error when fd cannot be used.
 func (fd *FD) incref() error {
 	if !fd.fdmu.incref() {
@@ -203,7 +203,7 @@ func (fd *FD) incref() error {
 	return nil
 }
 
-// decref removes a reference from fd.
+// The method decref removes a reference from fd.
 // It also closes fd when the state of fd is set to closed and there
 // is no remaining reference.
 func (fd *FD) decref() error {
@@ -213,7 +213,8 @@ func (fd *FD) decref() error {
 	return nil
 }
 
-// readLock adds a reference to fd and locks fd for reading.
+// The method readLock adds a reference to fd and locks fd for
+// reading.
 // It returns an error when fd cannot be used for reading.
 func (fd *FD) readLock() error {
 	if !fd.fdmu.rwlock(true) {
@@ -222,7 +223,8 @@ func (fd *FD) readLock() error {
 	return nil
 }
 
-// readUnlock removes a reference from fd and unlocks fd for reading.
+// The method readUnlock removes a reference from fd and unlocks fd
+// for reading.
 // It also closes fd when the state of fd is set to closed and there
 // is no remaining reference.
 func (fd *FD) readUnlock() {
@@ -231,7 +233,8 @@ func (fd *FD) readUnlock() {
 	}
 }
 
-// writeLock adds a reference to fd and locks fd for writing.
+// The method writeLock adds a reference to fd and locks fd for
+// writing.
 // It returns an error when fd cannot be used for writing.
 func (fd *FD) writeLock() error {
 	if !fd.fdmu.rwlock(false) {
@@ -240,7 +243,8 @@ func (fd *FD) writeLock() error {
 	return nil
 }
 
-// writeUnlock removes a reference from fd and unlocks fd for writing.
+// The method writeUnlock removes a reference from fd and unlocks fd
+// for writing.
 // It also closes fd when the state of fd is set to closed and there
 // is no remaining reference.
 func (fd *FD) writeUnlock() {
