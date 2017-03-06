@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "edab4a3c_f5431248",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3810,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-06T03:54:22Z",
+      "side": 1,
+      "message": "Good point, but let\u0027s at least run the test when GOARCH \u003d\u003d \"386\" or \"amd64\".  It shouldn\u0027t be GOOS-specific.  I think this is worth testing to ensure that the same problem doesn\u0027t occur elsewhere.",
+      "parentUuid": "889eebee_e4f1fbe5",
+      "revId": "200d42833f5e73611e4816acdd3d6ab9ac924367",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b82f3c0a_a168d6cd",
         "filename": "src/cmd/go/go_test.go",
         "patchSetId": 1
