@@ -268,9 +268,17 @@ func walkselectcases(cases *Nodes) []*Node {
 		init = append(init, cas.Ninit.Slice()...)
 		cas.Ninit.Set(nil)
 
-		s := bytePtrToIndex(selv, int64(i))
+		// Keep in sync with runtime/select.go.
+		const (
+			caseNil = iota
+			caseRecv
+			caseSend
+			caseDefault
+		)
 
-		var x *Node
+		var c, elem, receivedp *Node
+		var kind int64 = caseDefault
+
 		if n := cas.Left; n != nil {
 			init = append(init, n.Ninit.Slice()...)
 
@@ -278,21 +286,56 @@ func walkselectcases(cases *Nodes) []*Node {
 			default:
 				Fatalf("select %v", n.Op)
 			case OSEND:
-				// selectsend(sel *byte, hchan *chan any, elem *any)
-				x = mkcall1(chanfn("selectsend", 2, n.Left.Type), nil, nil, s, n.Left, n.Right)
+				kind = caseSend
+				c = n.Left
+				elem = n.Right
 			case OSELRECV:
-				// selectrecv(sel *byte, hchan *chan any, elem *any, received *bool)
-				x = mkcall1(chanfn("selectrecv", 2, n.Right.Left.Type), nil, nil, s, n.Right.Left, n.Left, nodnil())
+				kind = caseRecv
+				c = n.Right.Left
+				elem = n.Left
 			case OSELRECV2:
-				// selectrecv(sel *byte, hchan *chan any, elem *any, received *bool)
-				x = mkcall1(chanfn("selectrecv", 2, n.Right.Left.Type), nil, nil, s, n.Right.Left, n.Left, n.List.First())
+				kind = caseRecv
+				c = n.Right.Left
+				elem = n.Left
+				receivedp = n.List.First()
 			}
-		} else {
-			// selectdefault(sel *byte)
-			x = mkcall("selectdefault", nil, nil, s)
 		}
 
-		init = append(init, x)
+		r = nod(OAS, nodSym(ODOT, nod(OINDEX, selv, nodintconst(int64(i))), lookup("kind")), nodintconst(kind))
+		r = typecheck(r, Etop)
+		init = append(init, r)
+
+		if c != nil {
+			c = nod(OCONVNOP, c, nil)
+			c.Type = Types[TUNSAFEPTR]
+
+			r = nod(OAS, nodSym(ODOT, nod(OINDEX, selv, nodintconst(int64(i))), lookup("c")), c)
+			r = typecheck(r, Etop)
+			init = append(init, r)
+		}
+		if elem != nil {
+			elem = nod(OCONVNOP, elem, nil)
+			elem.Type = Types[TUNSAFEPTR]
+
+			r = nod(OAS, nodSym(ODOT, nod(OINDEX, selv, nodintconst(int64(i))), lookup("elem")), elem)
+			r = typecheck(r, Etop)
+			init = append(init, r)
+		}
+		if receivedp != nil {
+			receivedp = nod(OCONVNOP, receivedp, nil)
+			receivedp.Type = ptrto(Types[TBOOL])
+
+			r = nod(OAS, nodSym(ODOT, nod(OINDEX, selv, nodintconst(int64(i))), lookup("receivedp")), receivedp)
+			r = typecheck(r, Etop)
+			init = append(init, r)
+		}
+
+		// TODO(mdempsky): There should be a cleaner way to
+		// handle this.
+		if instrumenting {
+			r = mkcall("selectsetpc", nil, nil, bytePtrToIndex(selv, int64(i)))
+			init = append(init, r)
+		}
 	}
 
 	// run the select
@@ -337,11 +380,11 @@ var scase *types.Type
 func scasetype() *types.Type {
 	if scase == nil {
 		scase = tostruct([]*Node{
+			namedfield("c", types.Types[TUNSAFEPTR]),
 			namedfield("elem", types.NewPtr(types.Types[TUINT8])),
-			namedfield("chan", types.NewPtr(types.Types[TUINT8])),
-			namedfield("pc", types.Types[TUINTPTR]),
-			namedfield("kind", types.Types[TUINT16]),
 			namedfield("receivedp", types.NewPtr(types.Types[TUINT8])),
+			namedfield("kind", types.Types[TUINT16]),
+			namedfield("pc", types.Types[TUINTPTR]),
 			namedfield("releasetime", types.Types[TUINT64]),
 		})
 		scase.SetNoalg(true)
