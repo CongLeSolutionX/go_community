@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8a3468d9_a53d5216",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-07T22:51:18Z",
+      "side": 1,
+      "message": "I was unaware of this. I just used a formatter to keep the lines at reasonable lengths. It has the property of moving the beginning of sentences up to fill the space on partially used lines.\n\nI\u0027ve gone through and added newlines as appropriate.",
+      "parentUuid": "0ef0eb86_c4046aa8",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b681ecf3_5bff9cca",
         "filename": "doc/contribute.html",
         "patchSetId": 10
@@ -39,6 +57,30 @@
       "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcf6afe1_eb8fc04c",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-07T22:51:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b681ecf3_5bff9cca",
+      "range": {
+        "startLine": 82,
+        "startChar": 27,
+        "endLine": 82,
+        "endChar": 54
+      },
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "cc45616f_20e623a2",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-07T22:51:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18f314b6_136fc670",
+      "range": {
+        "startLine": 117,
+        "startChar": 64,
+        "endLine": 117,
+        "endChar": 65
+      },
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21054085_bc817cbd",
         "filename": "doc/contribute.html",
         "patchSetId": 10
@@ -76,6 +142,30 @@
       "writtenOn": "2017-03-07T22:10:39Z",
       "side": 1,
       "message": "send email to where?  To golang-dev?",
+      "range": {
+        "startLine": 118,
+        "startChar": 72,
+        "endLine": 118,
+        "endChar": 77
+      },
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69539fcf_12e4a991",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-07T22:51:18Z",
+      "side": 1,
+      "message": "This entire block of text has been here for a long time. I agree this statement is awful and should be clarified. I\u0027ve correct it to say email golang-dev. I suppose this is better than email in the abstract.",
+      "parentUuid": "21054085_bc817cbd",
       "range": {
         "startLine": 118,
         "startChar": 72,
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "b8949cbb_d069a899",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-07T22:51:18Z",
+      "side": 1,
+      "message": "I\u0027ve eliminated the top block. It\u0027s not accurate and it\u0027s also redundant with the text I\u0027ve moved the remaining block adjacent to at the beginning of the document.",
+      "parentUuid": "cb582325_23cab418",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aee92537_7a4e613d",
         "filename": "doc/contribute.html",
         "patchSetId": 10
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "3cdf6d8f_20ff0d27",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-07T22:51:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aee92537_7a4e613d",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2eb6c008_a9dc5cb0",
         "filename": "doc/contribute.html",
         "patchSetId": 10
@@ -133,6 +259,24 @@
       "writtenOn": "2017-03-07T22:10:39Z",
       "side": 1,
       "message": "This doesn\u0027t seem like an h4, more like an h2.",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5044f977_4bdf7fbb",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-07T22:51:18Z",
+      "side": 1,
+      "message": "I\u0027ve moved it to an H3. It, the sections above, and the sections below are all the heading \"Making a Change\"",
+      "parentUuid": "2eb6c008_a9dc5cb0",
       "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -156,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "a47df408_a14ad9fb",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-07T22:51:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb611083_95cb738f",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58405ce0_562d82f2",
         "filename": "doc/contribute.html",
         "patchSetId": 10
@@ -170,6 +332,24 @@
       "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06facb4f_0e2e7422",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-03-07T22:51:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58405ce0_562d82f2",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
