@@ -26,28 +26,49 @@
 
 // Spilling
 //
-// For every value, we generate a spill immediately after the value itself.
-//     x = Op y z    : AX
-//     x2 = StoreReg x
-// While AX still holds x, any uses of x will use that value. When AX is needed
-// for another value, we simply reuse AX.  Spill code has already been generated
-// so there is no code generated at "spill" time. When x is referenced
-// subsequently, we issue a load to restore x to a register using x2 as
-//  its argument:
-//    x3 = Restore x2 : CX
-// x3 can then be used wherever x is referenced again.
-// If the spill (x2) is never used, it will be removed at the end of regalloc.
+// During the normal course of the allocator, we might throw a still-live
+// value out of all registers. When that value is subsequently used, we must
+// load it from a slot on the stack. We must also issue an instruction to
+// initialize that stack location with a copy of v.
+//
+// pre-regalloc:
+//   (1) v = Op ...
+//   (2) x = Op ...
+//   (3) ... = Op v ...
+//
+// post-regalloc:
+//   (1) v = Op ...    : AX // computes v, store result in AX
+//       s = StoreReg v     // spill v to a stack slot
+//   (2) x = Op ...    : AX // some other op uses AX
+//       c = LoadReg s : CX // restore v from stack slot
+//   (3) ... = Op c ...     // use the restored value
+//
+// Allocation occurs normally until we reach (3) and we realize we have
+// a use of v and it isn't in any register. At that point, we allocate
+// a spill (a StoreReg) for v. We can't determine the correct place for
+// the spill at this point, so we allocate the spill as blockless initially.
+// The restore is then generated to load v back into a register so it can
+// be used. Subsequent uses of v will use the restored value c instead.
+//
+// What remains is the question of where to schedule the spill.
+// During allocation, we keep track of the dominator of all restores of v.
+// The spill of v must dominate that block. The spill must also be issued at
+// a point where v is still in a register.
+//
+// To find the right place, start at b, the block which dominates all restores.
+//  - If b is v.Block, then issue the spill right after v.
+//    It is known to be in a register at that point, and dominates any restores.
+//  - Otherwise, if v is in a register at the start of b,
+//    put the spill of v at the start of b.
+//  - Otherwise, set b = immediate dominator of b, and repeat.
+// TODO: do this faster.
 //
 // Phi values are special, as always. We define two kinds of phis, those
 // where the merge happens in a register (a "register" phi) and those where
 // the merge happens in a stack location (a "stack" phi).
 //
 // A register phi must have the phi and all of its inputs allocated to the
-// same register. Register phis are spilled similarly to regular ops:
-//     b1: y = ... : AX        b2: z = ... : AX
-//         goto b3                 goto b3
-//     b3: x = phi(y, z) : AX
-//         x2 = StoreReg x
+// same register. Register phis are spilled similarly to regular ops.
 //
 // A stack phi must have the phi and all of its inputs allocated to the same
 // stack location. Stack phis start out life already spilled - each phi
@@ -90,18 +111,6 @@
 // of x3 not dominated by the definition of x3, and the CX->BX copy
 // will have no use (so don't run deadcode after regalloc!).
 // TODO: maybe we should introduce these extra phis?
-
-// Additional not-quite-SSA output occurs when spills are sunk out
-// of loops to the targets of exit edges from the loop.  Before sinking,
-// there is one spill site (one StoreReg) targeting stack slot X, after
-// sinking there may be multiple spill sites targeting stack slot X,
-// with no phi functions at any join points reachable by the multiple
-// spill sites.  In addition, uses of the spill from copies of the original
-// will not name the copy in their reference; instead they will name
-// the original, though both will have the same spill location.  The
-// first sunk spill will be the original, but moved, to an exit block,
-// thus ensuring that there is a definition somewhere corresponding to
-// the original spill's uses.
 
 package ssa
 
@@ -186,14 +195,14 @@ type use struct {
 	next *use     // linked list of uses of a value in nondecreasing dist order
 }
 
+// A valState records the register allocation state for a (pre-regalloc) value.
 type valState struct {
 	regs              regMask // the set of registers holding a Value (usually just one)
 	uses              *use    // list of uses in this block
-	spill             *Value  // spilled copy of the Value
-	spillUsed         bool
-	spillUsedShuffle  bool // true if used in shuffling, after ordinary uses
-	needReg           bool // cached value of !v.Type.IsMemory() && !v.Type.IsVoid() && !.v.Type.IsFlags()
-	rematerializeable bool // cached value of v.rematerializeable()
+	spill             *Value  // spilled copy of the Value (if any)
+	restoreSubtree    *Block  // block that dominates all restores
+	needReg           bool    // cached value of !v.Type.IsMemory() && !v.Type.IsVoid() && !.v.Type.IsFlags()
+	rematerializeable bool    // cached value of v.rematerializeable()
 }
 
 type regState struct {
@@ -204,6 +213,11 @@ type regState struct {
 
 type regAllocState struct {
 	f *Func
+
+	// dominator information.
+	// TODO: replace with O(1) ancestor algorithm.
+	postnum []int
+	idom    []*Block
 
 	registers   []Register
 	numRegs     register
@@ -269,15 +283,6 @@ type regAllocState struct {
 	copies map[*Value]bool
 
 	loopnest *loopnest
-}
-
-type spillToSink struct {
-	spill *Value // Spill instruction to move (a StoreReg)
-	dests int32  // Bitmask indicating exit blocks from loop in which spill/val is defined. 1<<i set means val is live into loop.exitBlocks[i]
-}
-
-func (sts *spillToSink) spilledValue() *Value {
-	return sts.spill.Args[0]
 }
 
 type endReg struct {
@@ -405,6 +410,29 @@ func (s *regAllocState) allocReg(mask regMask, v *Value) register {
 	return r
 }
 
+// makeSpill returns a Value which represents the spilled value of v.
+// b is the block in which the spill is used.
+func (s *regAllocState) makeSpill(v *Value, b *Block) *Value {
+	vi := &s.values[v.ID]
+	if vi.spill != nil {
+		if vi.spill.Block == nil {
+			// Final block not known - keep track of subtree where restores reside.
+			//vi.restoreSubtree = intersect(vi.restoreSubtree, b, s.postnum, s.idom)
+			vi.restoreSubtree = s.lca(vi.restoreSubtree, b)
+		}
+		return vi.spill
+	}
+	// Make a spill for v. We don't know where we want
+	// to put it yet, so we leave it blockless for now.
+	spill := s.f.newValueNoBlock(OpStoreReg, v.Type, v.Pos)
+	// We also don't know what the spill's arg will be.
+	// Leave it argless for now.
+	s.setOrig(spill, v)
+	vi.spill = spill
+	vi.restoreSubtree = b
+	return spill
+}
+
 // allocValToReg allocates v to a register selected from regMask and
 // returns the register copy of v. Any previous user is kicked out and spilled
 // (if necessary). Load code is added at the current pc. If nospill is set the
@@ -442,17 +470,12 @@ func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, pos 
 		// Rematerialize instead of loading from the spill location.
 		c = v.copyInto(s.curBlock)
 	} else {
-		switch {
 		// Load v from its spill location.
-		case vi.spill != nil:
-			if s.f.pass.debug > logSpills {
-				s.f.Config.Warnl(vi.spill.Pos, "load spill for %v from %v", v, vi.spill)
-			}
-			c = s.curBlock.NewValue1(pos, OpLoadReg, v.Type, vi.spill)
-			vi.spillUsed = true
-		default:
-			s.f.Fatalf("attempt to load unspilled value %v", v.LongString())
+		spill := s.makeSpill(v, s.curBlock)
+		if s.f.pass.debug > logSpills {
+			s.f.Config.Warnl(vi.spill.Pos, "load spill for %v from %v", v, spill)
 		}
+		c = s.curBlock.NewValue1(pos, OpLoadReg, v.Type, spill)
 	}
 	s.setOrig(c, v)
 	s.assignReg(r, v, c)
@@ -615,6 +638,13 @@ func (s *regAllocState) init(f *Func) {
 	s.endRegs = make([][]endReg, f.NumBlocks())
 	s.startRegs = make([][]startReg, f.NumBlocks())
 	s.spillLive = make([][]ID, f.NumBlocks())
+
+	postorder := f.postorder()
+	s.postnum = make([]int, f.NumBlocks())
+	for i, b := range postorder {
+		s.postnum[b.ID] = i
+	}
+	s.idom = f.Idom()
 }
 
 // Adds a use record for id at distance dist from the start of the block.
@@ -688,22 +718,6 @@ func (s *regAllocState) compatRegs(t Type) regMask {
 	return m & s.allocatable
 }
 
-// loopForBlock returns the loop containing block b,
-// provided that the loop is "interesting" for purposes
-// of improving register allocation (= is inner, and does
-// not contain a call)
-func (s *regAllocState) loopForBlock(b *Block) *loop {
-	loop := s.loopnest.b2l[b.ID]
-
-	// Minor for-the-time-being optimization: nothing happens
-	// unless a loop is both inner and call-free, therefore
-	// don't bother with other loops.
-	if loop != nil && (loop.containsCall || !loop.isInner) {
-		loop = nil
-	}
-	return loop
-}
-
 func (s *regAllocState) regalloc(f *Func) {
 	liveSet := f.newSparseSet(f.NumValues())
 	defer f.retSparseSet(liveSet)
@@ -711,14 +725,6 @@ func (s *regAllocState) regalloc(f *Func) {
 	var phis []*Value
 	var phiRegs []register
 	var args []*Value
-
-	// statistics
-	var nSpills int               // # of spills remaining
-	var nSpillsInner int          // # of spills remaining in inner loops
-	var nSpillsSunk int           // # of sunk spills remaining
-	var nSpillsChanged int        // # of sunk spills lost because of register use change
-	var nSpillsSunkUnused int     // # of spills not sunk because they were removed completely
-	var nSpillsNotSunkLateUse int // # of spills not sunk because of very late use (in shuffle)
 
 	// Data structure used for computing desired registers.
 	var desired desiredState
@@ -734,24 +740,8 @@ func (s *regAllocState) regalloc(f *Func) {
 		f.Fatalf("entry block must be first")
 	}
 
-	// Get loop nest so that spills in inner loops can be
-	// tracked.  When the last block of a loop is processed,
-	// attempt to move spills out of the loop.
-	s.loopnest.findExits()
-
-	// Spills are moved from one block's slice of values to another's.
-	// This confuses register allocation if it occurs before it is
-	// complete, so candidates are recorded, then rechecked and
-	// moved after all allocation (register and stack) is complete.
-	// Because movement is only within a stack slot's lifetime, it
-	// is safe to do this.
-	var toSink []spillToSink
-	// Will be used to figure out live inputs to exit blocks of inner loops.
-	entryCandidates := newSparseMap(f.NumValues())
-
 	for _, b := range f.Blocks {
 		s.curBlock = b
-		loop := s.loopForBlock(b)
 
 		// Initialize liveSet and uses fields for this block.
 		// Walk backwards through the block doing liveness analysis.
@@ -945,22 +935,11 @@ func (s *regAllocState) regalloc(f *Func) {
 				if r == noRegister {
 					// stack-based phi
 					// Spills will be inserted in all the predecessors below.
-					s.values[v.ID].spill = v        // v starts life spilled
-					s.values[v.ID].spillUsed = true // use is guaranteed
+					s.values[v.ID].spill = v // v starts life spilled
 					continue
 				}
 				// register-based phi
 				s.assignReg(r, v, v)
-				// Spill the phi in case we need to restore it later.
-				spill := b.NewValue1(v.Pos, OpStoreReg, v.Type, v)
-				s.setOrig(spill, v)
-				s.values[v.ID].spill = spill
-				s.values[v.ID].spillUsed = false
-				if loop != nil {
-					loop.spills = append(loop.spills, v)
-					nSpillsInner++
-				}
-				nSpills++
 			}
 
 			// Save the starting state for use by merge edges.
@@ -1100,7 +1079,6 @@ func (s *regAllocState) regalloc(f *Func) {
 				// any register here. We just set up the spill pointer to
 				// point at itself and any later user will restore it to use it.
 				s.values[v.ID].spill = v
-				s.values[v.ID].spillUsed = true // use is guaranteed
 				b.Values = append(b.Values, v)
 				s.advanceUses(v)
 				continue
@@ -1109,7 +1087,7 @@ func (s *regAllocState) regalloc(f *Func) {
 				// Make sure the argument to v is still live here.
 				s.advanceUses(v)
 				vi := &s.values[v.Args[0].ID]
-				if vi.spillUsed {
+				if vi.spill != nil {
 					// Use the spill location.
 					v.SetArg(0, vi.spill)
 				} else {
@@ -1373,28 +1351,7 @@ func (s *regAllocState) regalloc(f *Func) {
 			}
 			b.Values = append(b.Values, v)
 
-			// Issue a spill for this value. We issue spills unconditionally,
-			// then at the end of regalloc delete the ones we never use.
-			// TODO: schedule the spill at a point that dominates all restores.
-			// The restore may be off in an unlikely branch somewhere and it
-			// would be better to have the spill in that unlikely branch as well.
-			// v := ...
-			// if unlikely {
-			//     f()
-			// }
-			// It would be good to have both spill and restore inside the IF.
 		issueSpill:
-			if s.values[v.ID].needReg {
-				spill := b.NewValue1(v.Pos, OpStoreReg, v.Type, v)
-				s.setOrig(spill, v)
-				s.values[v.ID].spill = spill
-				s.values[v.ID].spillUsed = false
-				if loop != nil {
-					loop.spills = append(loop.spills, v)
-					nSpillsInner++
-				}
-				nSpills++
-			}
 		}
 
 		// Load control value into reg.
@@ -1504,90 +1461,23 @@ func (s *regAllocState) regalloc(f *Func) {
 		}
 
 		// If a value is live at the end of the block and
-		// isn't in a register, remember that its spill location
-		// is live. We need to remember this information so that
+		// isn't in a register, generate a use for the spill location.
+		// We need to remember this information so that
 		// the liveness analysis in stackalloc is correct.
 		for _, e := range s.live[b.ID] {
-			if s.values[e.ID].regs != 0 {
+			vi := &s.values[e.ID]
+			if vi.regs != 0 {
 				// in a register, we'll use that source for the merge.
 				continue
 			}
-			spill := s.values[e.ID].spill
-			if spill == nil {
-				// rematerializeable values will have spill==nil.
+			if vi.rematerializeable {
+				// we'll rematerialize during the merge.
 				continue
 			}
+			//fmt.Printf("live-at-end spill for %s at %s\n", s.orig[e.ID], b)
+			spill := s.makeSpill(s.orig[e.ID], b)
 			s.spillLive[b.ID] = append(s.spillLive[b.ID], spill.ID)
-			s.values[e.ID].spillUsed = true
 		}
-
-		// Keep track of values that are spilled in the loop, but whose spill
-		// is not used in the loop.  It may be possible to move ("sink") the
-		// spill out of the loop into one or more exit blocks.
-		if loop != nil {
-			loop.scratch++                    // increment count of blocks in this loop that have been processed
-			if loop.scratch == loop.nBlocks { // just processed last block of loop, if it is an inner loop.
-				// This check is redundant with code at the top of the loop.
-				// This is definitive; the one at the top of the loop is an optimization.
-				if loop.isInner && // Common case, easier, most likely to be profitable
-					!loop.containsCall && // Calls force spills, also lead to puzzling spill info.
-					len(loop.exits) <= 32 { // Almost no inner loops have more than 32 exits,
-					// and this allows use of a bitvector and a sparseMap.
-
-					// TODO: exit calculation is messed up for non-inner loops
-					// because of multilevel exits that are not part of the "exit"
-					// count.
-
-					// Compute the set of spill-movement candidates live at entry to exit blocks.
-					// isLoopSpillCandidate filters for
-					// (1) defined in appropriate loop
-					// (2) needs a register
-					// (3) spill not already used (in the loop)
-					// Condition (3) === "in a register at all loop exits"
-
-					entryCandidates.clear()
-
-					for whichExit, ss := range loop.exits {
-						// Start with live at end.
-						for _, li := range s.live[ss.ID] {
-							if s.isLoopSpillCandidate(loop, s.orig[li.ID]) {
-								// s.live contains original IDs, use s.orig above to map back to *Value
-								entryCandidates.setBit(li.ID, uint(whichExit))
-							}
-						}
-						// Control can also be live.
-						if ss.Control != nil && s.orig[ss.Control.ID] != nil && s.isLoopSpillCandidate(loop, s.orig[ss.Control.ID]) {
-							entryCandidates.setBit(s.orig[ss.Control.ID].ID, uint(whichExit))
-						}
-						// Walk backwards, filling in locally live values, removing those defined.
-						for i := len(ss.Values) - 1; i >= 0; i-- {
-							v := ss.Values[i]
-							vorig := s.orig[v.ID]
-							if vorig != nil {
-								entryCandidates.remove(vorig.ID) // Cannot be an issue, only keeps the sets smaller.
-							}
-							for _, a := range v.Args {
-								aorig := s.orig[a.ID]
-								if aorig != nil && s.isLoopSpillCandidate(loop, aorig) {
-									entryCandidates.setBit(aorig.ID, uint(whichExit))
-								}
-							}
-						}
-					}
-
-					for _, e := range loop.spills {
-						whichblocks := entryCandidates.get(e.ID)
-						oldSpill := s.values[e.ID].spill
-						if whichblocks != 0 && whichblocks != -1 { // -1 = not in map.
-							toSink = append(toSink, spillToSink{spill: oldSpill, dests: whichblocks})
-						}
-					}
-
-				} // loop is inner etc
-				loop.scratch = 0 // Don't leave a mess, just in case.
-				loop.spills = nil
-			} // if scratch == nBlocks
-		} // if loop is not nil
 
 		// Clear any final uses.
 		// All that is left should be the pseudo-uses added for values which
@@ -1606,50 +1496,101 @@ func (s *regAllocState) regalloc(f *Func) {
 		}
 	}
 
-	// Erase any spills we never used
+	// Decide where the spills we generated will go.
 	for i := range s.values {
 		vi := s.values[i]
-		if vi.spillUsed {
-			if s.f.pass.debug > logSpills && vi.spill.Op != OpArg {
-				s.f.Config.Warnl(vi.spill.Pos, "spilled value at %v remains", vi.spill)
-			}
-			continue
-		}
 		spill := vi.spill
 		if spill == nil {
-			// Constants, SP, SB, ...
 			continue
 		}
-		loop := s.loopForBlock(spill.Block)
-		if loop != nil {
-			nSpillsInner--
+		if spill.Block != nil {
+			// Some spills are already fully set up,
+			// like OpArgs and stack-based phis.
+			continue
+		}
+		v := s.orig[i]
+		var vdepth int16
+		if l := s.loopnest.b2l[v.Block.ID]; l != nil {
+			vdepth = l.depth
 		}
 
-		spill.Args[0].Uses--
-		f.freeValue(spill)
-		nSpills--
-	}
+		// Start at the location which dominates all the restores.
+		b := vi.restoreSubtree
 
-	for _, b := range f.Blocks {
-		i := 0
-		for _, v := range b.Values {
-			if v.Op == OpInvalid {
+	findloop:
+		// TODO: do all of this faster
+		for {
+			// If we're putting the spill of v in the same block
+			// as v, put the spill right after v.
+			if b == v.Block {
+				var j int
+				for j = range b.Values {
+					if b.Values[j] == v {
+						break
+					}
+				}
+				if v.Op == OpPhi {
+					// Actually, put it after all the phis
+					nphi := 0
+					for _, w := range b.Values {
+						if w.Op == OpPhi {
+							nphi++
+						}
+					}
+					j = nphi - 1
+				}
+				spill.AddArg(v)
+				spill.Block = b
+				b.Values = append(b.Values, nil)
+				copy(b.Values[j+2:], b.Values[j+1:])
+				b.Values[j+1] = spill
+				break findloop
+			}
+
+			if l := s.loopnest.b2l[b.ID]; l != nil && l.depth > vdepth {
+				// don't push the spill into a loop
+				b = s.idom[b.ID]
 				continue
 			}
-			b.Values[i] = v
-			i++
-		}
-		b.Values = b.Values[:i]
-		// TODO: zero b.Values[i:], recycle Values
-		// Not important now because this is the last phase that manipulates Values
-	}
 
-	// Must clear these out before any potential recycling, though that's
-	// not currently implemented.
-	for i, ts := range toSink {
-		vsp := ts.spill
-		if vsp.Op == OpInvalid { // This spill was completely eliminated
-			toSink[i].spill = nil
+			// If v is in a register at the start of b, put
+			// the spill here (after the phis).
+			// It is easier to use the end-of-block info in b's
+			// predecessor than the start-of-block info for b.
+			// It doesn't matter which predecessor we use.
+			var phiRegMask regMask
+			for _, w := range b.Values {
+				if w.Op != OpPhi {
+					break
+				}
+				if r, ok := s.f.getHome(w.ID).(*Register); ok {
+					phiRegMask |= regMask(1) << uint(r.num)
+				}
+			}
+			for _, e := range s.endRegs[b.Preds[s.primary[b.ID]].b.ID] {
+				if phiRegMask>>e.r&1 != 0 {
+					// Phis overwrite the register from the pred block.
+					continue
+				}
+				if e.v == v {
+					// Complete the spill.  Now we know what
+					// argument it takes and into which block it should go.
+					spill.AddArg(e.c)
+					spill.Block = b
+					nphi := 0
+					for _, w := range b.Values {
+						if w.Op == OpPhi {
+							nphi++
+						}
+					}
+					b.Values = append(b.Values, nil)
+					copy(b.Values[nphi+1:], b.Values[nphi:])
+					b.Values[nphi] = spill
+					break findloop
+				}
+			}
+			// Not in a register here. Repeat up the dominator tree.
+			b = s.idom[b.ID]
 		}
 	}
 
@@ -1659,114 +1600,6 @@ func (s *regAllocState) regalloc(f *Func) {
 
 	// Fix up all merge edges.
 	s.shuffle(stacklive)
-
-	// Insert moved spills (that have not been marked invalid above)
-	// at start of appropriate block and remove the originals from their
-	// location within loops.  Notice that this can break SSA form;
-	// if a spill is sunk to multiple exits, there will be no phi for that
-	// spill at a join point downstream of those two exits, though the
-	// two spills will target the same stack slot.  Notice also that this
-	// takes place after stack allocation, so the stack allocator does
-	// not need to process these malformed flow graphs.
-sinking:
-	for _, ts := range toSink {
-		vsp := ts.spill
-		if vsp == nil { // This spill was completely eliminated
-			nSpillsSunkUnused++
-			continue sinking
-		}
-		e := ts.spilledValue()
-		if s.values[e.ID].spillUsedShuffle {
-			nSpillsNotSunkLateUse++
-			continue sinking
-		}
-
-		// move spills to a better (outside of loop) block.
-		// This would be costly if it occurred very often, but it doesn't.
-		b := vsp.Block
-		loop := s.loopnest.b2l[b.ID]
-		dests := ts.dests
-
-		// Pre-check to be sure that spilled value is still in expected register on all exits where live.
-	check_val_still_in_reg:
-		for i := uint(0); i < 32 && dests != 0; i++ {
-
-			if dests&(1<<i) == 0 {
-				continue
-			}
-			dests ^= 1 << i
-			d := loop.exits[i]
-			if len(d.Preds) > 1 {
-				panic("Should be impossible given critical edges removed")
-			}
-			p := d.Preds[0].b // block in loop exiting to d.
-
-			endregs := s.endRegs[p.ID]
-			for _, regrec := range endregs {
-				if regrec.v == e && regrec.r != noRegister && regrec.c == e { // TODO: regrec.c != e implies different spill possible.
-					continue check_val_still_in_reg
-				}
-			}
-			// If here, the register assignment was lost down at least one exit and it can't be sunk
-			if s.f.pass.debug > moveSpills {
-				s.f.Config.Warnl(e.Pos, "lost register assignment for spill %v in %v at exit %v to %v",
-					vsp, b, p, d)
-			}
-			nSpillsChanged++
-			continue sinking
-		}
-
-		nSpillsSunk++
-		nSpillsInner--
-		// don't update nSpills, since spill is only moved, and if it is duplicated, the spills-on-a-path is not increased.
-
-		dests = ts.dests
-
-		// remove vsp from b.Values
-		i := 0
-		for _, w := range b.Values {
-			if vsp == w {
-				continue
-			}
-			b.Values[i] = w
-			i++
-		}
-		b.Values = b.Values[:i]
-
-		first := true
-		for i := uint(0); i < 32 && dests != 0; i++ {
-
-			if dests&(1<<i) == 0 {
-				continue
-			}
-
-			dests ^= 1 << i
-
-			d := loop.exits[i]
-			vspnew := vsp // reuse original for first sunk spill, saves tracking down and renaming uses
-			if !first {   // any sunk spills after first must make a copy
-				vspnew = d.NewValue1(e.Pos, OpStoreReg, e.Type, e)
-				f.setHome(vspnew, f.getHome(vsp.ID)) // copy stack home
-				if s.f.pass.debug > moveSpills {
-					s.f.Config.Warnl(e.Pos, "copied spill %v in %v for %v to %v in %v",
-						vsp, b, e, vspnew, d)
-				}
-			} else {
-				first = false
-				vspnew.Block = d
-				d.Values = append(d.Values, vspnew)
-				if s.f.pass.debug > moveSpills {
-					s.f.Config.Warnl(e.Pos, "moved spill %v in %v for %v to %v in %v",
-						vsp, b, e, vspnew, d)
-				}
-			}
-
-			// shuffle vspnew to the beginning of its block
-			copy(d.Values[1:], d.Values[0:len(d.Values)-1])
-			d.Values[0] = vspnew
-
-		}
-	}
 
 	// Erase any copies we never used.
 	// Also, an unused copy might be the only use of another copy,
@@ -1800,38 +1633,6 @@ sinking:
 		}
 		b.Values = b.Values[:i]
 	}
-
-	if f.pass.stats > 0 {
-		f.LogStat("spills_info",
-			nSpills, "spills", nSpillsInner, "inner_spills_remaining", nSpillsSunk, "inner_spills_sunk", nSpillsSunkUnused, "inner_spills_unused", nSpillsNotSunkLateUse, "inner_spills_shuffled", nSpillsChanged, "inner_spills_changed")
-	}
-}
-
-// isLoopSpillCandidate indicates whether the spill for v satisfies preliminary
-// spill-sinking conditions just after the last block of loop has been processed.
-// In particular:
-//   v needs a register.
-//   v's spill is not (YET) used.
-//   v's definition is within loop.
-// The spill may be used in the future, either by an outright use
-// in the code, or by shuffling code inserted after stack allocation.
-// Outright uses cause sinking; shuffling (within the loop) inhibits it.
-func (s *regAllocState) isLoopSpillCandidate(loop *loop, v *Value) bool {
-	return s.values[v.ID].needReg && !s.values[v.ID].spillUsed && s.loopnest.b2l[v.Block.ID] == loop
-}
-
-// lateSpillUse notes a late (after stack allocation) use of the spill of value with ID vid.
-// This will inhibit spill sinking.
-func (s *regAllocState) lateSpillUse(vid ID) {
-	// TODO investigate why this is necessary.
-	// It appears that an outside-the-loop use of
-	// an otherwise sinkable spill makes the spill
-	// a candidate for shuffling, when it would not
-	// otherwise have been the case (spillUsed was not
-	// true when isLoopSpillCandidate was called, yet
-	// it was shuffled).  Such shuffling cuts the amount
-	// of spill sinking by more than half (in make.bash)
-	s.values[vid].spillUsedShuffle = true
 }
 
 // shuffle fixes up all the merge edges (those going into blocks of indegree > 1).
@@ -1919,6 +1720,13 @@ func (e *edgeState) setup(idx int, srcReg []endReg, dstReg []startReg, stacklive
 	for _, spillID := range stacklive {
 		v := e.s.orig[spillID]
 		spill := e.s.values[v.ID].spill
+		if !e.s.dom(spill.Block, e.p) {
+			// Spills were placed that only dominate the uses found
+			// during the first regalloc pass. The edge fixup code
+			// can't use a spill location if the spill doesn't dominate
+			// the edge.
+			continue
+		}
 		e.set(e.s.f.getHome(spillID), v.ID, spill, false, src.NoXPos) // don't care the position of the source
 	}
 
@@ -2010,8 +1818,8 @@ func (e *edgeState) process() {
 		if _, isReg := loc.(*Register); isReg {
 			c = e.p.NewValue1(d.pos, OpCopy, c.Type, c)
 		} else {
-			e.s.lateSpillUse(vid)
 			c = e.p.NewValue1(d.pos, OpLoadReg, c.Type, c)
+			fmt.Printf("break cycle loadreg %s\n", c)
 		}
 		e.set(r, vid, c, false, d.pos)
 	}
@@ -2028,9 +1836,6 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value, pos src.XP
 			(*splice).Uses--
 			*splice = occupant.c
 			occupant.c.Uses++
-			if occupant.c.Op == OpStoreReg {
-				e.s.lateSpillUse(vid)
-			}
 		}
 		// Note: if splice==nil then c will appear dead. This is
 		// non-SSA formed code, so be careful after this pass not to run
@@ -2106,7 +1911,6 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value, pos src.XP
 			}
 		} else {
 			if dstReg {
-				e.s.lateSpillUse(vid)
 				x = e.p.NewValue1(pos, OpLoadReg, c.Type, c)
 			} else {
 				// mem->mem. Use temp register.
@@ -2124,7 +1928,6 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value, pos src.XP
 				e.erase(loc)
 
 				r := e.findRegFor(c.Type)
-				e.s.lateSpillUse(vid)
 				t := e.p.NewValue1(pos, OpLoadReg, c.Type, c)
 				e.set(r, vid, t, false, pos)
 				x = e.p.NewValue1(pos, OpStoreReg, loc.(LocalSlot).Type, t)
@@ -2626,4 +2429,31 @@ func (d *desiredState) merge(x *desiredState) {
 	for _, e := range x.entries {
 		d.addList(e.ID, e.regs)
 	}
+}
+
+func (s *regAllocState) lca(b, c *Block) *Block {
+	nb := 0
+	for x := b; x != s.f.Entry; x = s.idom[x.ID] {
+		nb++
+	}
+	nc := 0
+	for x := c; x != s.f.Entry; x = s.idom[x.ID] {
+		nc++
+	}
+	for nb < nc {
+		c = s.idom[c.ID]
+		nc--
+	}
+	for nb > nc {
+		b = s.idom[b.ID]
+		nb--
+	}
+	for b != c {
+		b = s.idom[b.ID]
+		c = s.idom[c.ID]
+	}
+	return b
+}
+func (s *regAllocState) dom(b, c *Block) bool {
+	return s.lca(b, c) == b
 }
