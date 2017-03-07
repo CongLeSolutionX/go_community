@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e9d40fa_be7be898",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-07T17:43:54Z",
+      "side": 1,
+      "message": "this sounds like an internal cleanup and not a functional change.",
+      "revId": "192b57c444193f9ec9d302eb909199f65d5f98b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed6ee88e_a450de2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-07T17:43:54Z",
+      "side": 1,
+      "message": "but then it says it fixes something and you add a new test case.\n\nSo I think you need to rewrite the subject to clarify this is a behavior change.",
+      "revId": "192b57c444193f9ec9d302eb909199f65d5f98b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
