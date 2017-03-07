@@ -310,7 +310,6 @@ func (p *addrParser) parseAddress() (addr *Address, err error) {
 	debug.Printf("parseAddress: displayName=%q", displayName)
 
 	// angle-addr = "<" addr-spec ">"
-	p.skipSpace()
 	if !p.consume('<') {
 		return nil, errors.New("mail: no angle-addr")
 	}
@@ -391,10 +390,6 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 	for {
 		// word = atom / quoted-string
 		var word string
-		p.skipSpace()
-		if p.empty() {
-			break
-		}
 		isEncoded := false
 		if p.peek() == '"' {
 			// quoted-string
@@ -408,10 +403,11 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 				word, isEncoded, err = p.decodeRFC2047Word(word)
 			}
 		}
-
 		if err != nil {
-			break
+			debug.Printf("consumePhrase: hit err: %v", err)
+			return "", fmt.Errorf("mail: missing word in phrase: %v", err)
 		}
+
 		debug.Printf("consumePhrase: consumed %q", word)
 		if isPrevEncoded && isEncoded {
 			words[len(words)-1] += word
@@ -419,11 +415,12 @@ func (p *addrParser) consumePhrase() (phrase string, err error) {
 			words = append(words, word)
 		}
 		isPrevEncoded = isEncoded
-	}
-	// Ignore any error if we got at least one word.
-	if err != nil && len(words) == 0 {
-		debug.Printf("consumePhrase: hit err: %v", err)
-		return "", fmt.Errorf("mail: missing word in phrase: %v", err)
+
+		p.skipSpace()
+
+		if p.empty() || p.peek() == '<' {
+			break
+		}
 	}
 	phrase = strings.Join(words, " ")
 	return phrase, nil
