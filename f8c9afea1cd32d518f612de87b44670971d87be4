@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a122b37_7610f4d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-07T20:45:59Z",
+      "side": 1,
+      "message": "(It\u0027s still running, but linux-* has already passed, so I anticipate it to succeed overall, and will confirm before submitting.)",
+      "revId": "f8c9afea1cd32d518f612de87b44670971d87be4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
