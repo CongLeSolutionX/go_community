@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ef0eb86_c4046aa8",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-07T22:10:39Z",
+      "side": 1,
+      "message": "I won\u0027t insist on this myself, but in general in the files in this directory we start each sentence on a new line (as is mostly true of this document before your change).  This makes it easier to understand later diffs.  It also lets us avoid discussions about how many spaces follow a period.",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b681ecf3_5bff9cca",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-07T22:10:39Z",
+      "side": 1,
+      "message": "s/who the copyright holder is/who owns the copyright to your work/",
+      "range": {
+        "startLine": 82,
+        "startChar": 27,
+        "endLine": 82,
+        "endChar": 54
+      },
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18f314b6_136fc670",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-07T22:10:39Z",
+      "side": 1,
+      "message": "This is HTML, so s/-/\u0026mdash;/ here and in the next line.",
+      "range": {
+        "startLine": 117,
+        "startChar": 64,
+        "endLine": 117,
+        "endChar": 65
+      },
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21054085_bc817cbd",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-07T22:10:39Z",
+      "side": 1,
+      "message": "send email to where?  To golang-dev?",
+      "range": {
+        "startLine": 118,
+        "startChar": 72,
+        "endLine": 118,
+        "endChar": 77
+      },
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb582325_23cab418",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-07T22:10:39Z",
+      "side": 1,
+      "message": "We\u0027re still in the \"completing the CLA\" section here.  These paragraphs, if you keep them, should be in a different section, perhaps earlier.",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aee92537_7a4e613d",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-07T22:10:39Z",
+      "side": 1,
+      "message": "You already talked about Gerrit above, so this sentence can be simplified.  And the first mention of Gerrit above should probably have this link.",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eb6c008_a9dc5cb0",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-07T22:10:39Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem like an h4, more like an h2.",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb611083_95cb738f",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-07T22:10:39Z",
+      "side": 1,
+      "message": "s/It is not necessary to/Do not/",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58405ce0_562d82f2",
+        "filename": "doc/contribute.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-07T22:10:39Z",
+      "side": 1,
+      "message": "s/it\u0027s/its/",
+      "revId": "52adcea0a2c17762aa455ead00b1733a975a55ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
