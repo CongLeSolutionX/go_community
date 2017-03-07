@@ -99,8 +99,8 @@ func walkselect(sel *Node) {
 	var init []*Node
 	var r *Node
 	var n *Node
-	var var_ *Node
 	var selv *Node
+	var order *Node
 	var chosen *Node
 	if i == 0 {
 		sel.Nbody.Set1(mkcall("block", nil, nil))
@@ -254,21 +254,24 @@ func walkselect(sel *Node) {
 
 	// generate sel-struct
 	setlineno(sel)
-	selv = temp(selecttype(int32(sel.Xoffset)))
+	selv = temp(typArray(scasetype(), sel.Xoffset))
 	r = nod(OAS, selv, nil)
 	r = typecheck(r, Etop)
 	init = append(init, r)
-	var_ = conv(conv(nod(OADDR, selv, nil), Types[TUNSAFEPTR]), ptrto(Types[TUINT8]))
-	r = mkcall("newselect", nil, nil, var_, nodintconst(selv.Type.Width), nodintconst(sel.Xoffset))
+
+	order = temp(typArray(Types[TUINT16], 2*sel.Xoffset))
+	r = nod(OAS, order, nil)
 	r = typecheck(r, Etop)
 	init = append(init, r)
 
 	// register cases
-	for _, cas := range sel.List.Slice() {
+	for i, cas := range sel.List.Slice() {
 		setlineno(cas)
 
 		init = append(init, cas.Ninit.Slice()...)
 		cas.Ninit.Set(nil)
+
+		s := bytePtrToIndex(selv, int64(i))
 
 		var x *Node
 		if n := cas.Left; n != nil {
@@ -279,17 +282,17 @@ func walkselect(sel *Node) {
 				Fatalf("select %v", n.Op)
 			case OSEND:
 				// selectsend(sel *byte, hchan *chan any, elem *any)
-				x = mkcall1(chanfn("selectsend", 2, n.Left.Type), nil, nil, var_, n.Left, n.Right)
+				x = mkcall1(chanfn("selectsend", 2, n.Left.Type), nil, nil, s, n.Left, n.Right)
 			case OSELRECV:
 				// selectrecv(sel *byte, hchan *chan any, elem *any, received *bool)
-				x = mkcall1(chanfn("selectrecv", 2, n.Right.Left.Type), nil, nil, var_, n.Right.Left, n.Left, nodnil())
+				x = mkcall1(chanfn("selectrecv", 2, n.Right.Left.Type), nil, nil, s, n.Right.Left, n.Left, nodnil())
 			case OSELRECV2:
 				// selectrecv(sel *byte, hchan *chan any, elem *any, received *bool)
-				x = mkcall1(chanfn("selectrecv", 2, n.Right.Left.Type), nil, nil, var_, n.Right.Left, n.Left, n.List.First())
+				x = mkcall1(chanfn("selectrecv", 2, n.Right.Left.Type), nil, nil, s, n.Right.Left, n.Left, n.List.First())
 			}
 		} else {
 			// selectdefault(sel *byte)
-			x = mkcall("selectdefault", nil, nil, var_)
+			x = mkcall("selectdefault", nil, nil, s)
 		}
 
 		init = append(init, x)
@@ -298,12 +301,13 @@ func walkselect(sel *Node) {
 	// run the select
 	setlineno(sel)
 	chosen = temp(Types[TINT])
-	r = nod(OAS, chosen, mkcall("selectgo", Types[TINT], nil, var_))
+	r = nod(OAS, chosen, mkcall("selectgo", Types[TINT], nil, bytePtrToIndex(selv, 0), bytePtrToIndex(order, 0), nodintconst(sel.Xoffset)))
 	r = typecheck(r, Etop)
 	init = append(init, r)
 
 	// selv is no longer alive after selectgo.
 	init = append(init, nod(OVARKILL, selv, nil))
+	init = append(init, nod(OVARKILL, order, nil))
 
 	// dispatch cases
 	for i, cas := range sel.List.Slice() {
@@ -326,36 +330,29 @@ out:
 	lineno = lno
 }
 
+// bytePtrToIndex returns a Node representing "(*byte)(&n[i])".
+func bytePtrToIndex(n *Node, i int64) *Node {
+	s := nod(OCONVNOP, nod(OADDR, nod(OINDEX, n, nodintconst(i)), nil), nil)
+	s.Type = ptrto(Types[TUINT8])
+	s = typecheck(s, Erv)
+	return s
+}
+
+var scase *Type
+
 // Keep in sync with src/runtime/select.go.
-func selecttype(size int32) *Type {
-	// TODO(dvyukov): it's possible to generate Scase only once
-	// and then cache; and also cache Select per size.
-
-	scase := nod(OTSTRUCT, nil, nil)
-	scase.List.Append(nod(ODCLFIELD, newname(lookup("elem")), typenod(ptrto(Types[TUINT8]))))
-	scase.List.Append(nod(ODCLFIELD, newname(lookup("chan")), typenod(ptrto(Types[TUINT8]))))
-	scase.List.Append(nod(ODCLFIELD, newname(lookup("pc")), typenod(Types[TUINTPTR])))
-	scase.List.Append(nod(ODCLFIELD, newname(lookup("kind")), typenod(Types[TUINT16])))
-	scase.List.Append(nod(ODCLFIELD, newname(lookup("receivedp")), typenod(ptrto(Types[TUINT8]))))
-	scase.List.Append(nod(ODCLFIELD, newname(lookup("releasetime")), typenod(Types[TUINT64])))
-	scase = typecheck(scase, Etype)
-	scase.Type.SetNoalg(true)
-	scase.Type.SetLocal(true)
-
-	sel := nod(OTSTRUCT, nil, nil)
-	sel.List.Append(nod(ODCLFIELD, newname(lookup("tcase")), typenod(Types[TUINT16])))
-	sel.List.Append(nod(ODCLFIELD, newname(lookup("ncase")), typenod(Types[TUINT16])))
-	sel.List.Append(nod(ODCLFIELD, newname(lookup("pollorder")), typenod(ptrto(Types[TUINT8]))))
-	sel.List.Append(nod(ODCLFIELD, newname(lookup("lockorder")), typenod(ptrto(Types[TUINT8]))))
-	arr := nod(OTARRAY, nodintconst(int64(size)), scase)
-	sel.List.Append(nod(ODCLFIELD, newname(lookup("scase")), arr))
-	arr = nod(OTARRAY, nodintconst(int64(size)), typenod(Types[TUINT16]))
-	sel.List.Append(nod(ODCLFIELD, newname(lookup("lockorderarr")), arr))
-	arr = nod(OTARRAY, nodintconst(int64(size)), typenod(Types[TUINT16]))
-	sel.List.Append(nod(ODCLFIELD, newname(lookup("pollorderarr")), arr))
-	sel = typecheck(sel, Etype)
-	sel.Type.SetNoalg(true)
-	sel.Type.SetLocal(true)
-
-	return sel.Type
+func scasetype() *Type {
+	if scase == nil {
+		scase = tostruct([]*Node{
+			namedfield("elem", ptrto(Types[TUINT8])),
+			namedfield("chan", ptrto(Types[TUINT8])),
+			namedfield("pc", Types[TUINTPTR]),
+			namedfield("kind", Types[TUINT16]),
+			namedfield("receivedp", ptrto(Types[TUINT8])),
+			namedfield("releasetime", Types[TUINT64]),
+		})
+		scase.SetNoalg(true)
+		scase.SetLocal(true)
+	}
+	return scase
 }
