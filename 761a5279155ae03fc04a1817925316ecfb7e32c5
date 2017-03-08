@@ -16,6 +16,24 @@
       "revId": "761a5279155ae03fc04a1817925316ecfb7e32c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "618de487_bbb979bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-08T18:52:06Z",
+      "side": 1,
+      "message": "It has to do with how the test is run and the possibility of time-out failure.\nThere was some reason that a \"buildrun\" can\u0027t work on NaCl, don\u0027t recall exactly why.",
+      "parentUuid": "dbf013dc_daff3d0e",
+      "revId": "761a5279155ae03fc04a1817925316ecfb7e32c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
