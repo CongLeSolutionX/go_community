@@ -39,6 +39,24 @@
       "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff2c02f_ae395db6",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-03-08T16:40:09Z",
+      "side": 1,
+      "message": "i\u0027m not a windows user, but as far as i understand the runtime-integrated network poller for windows in internal/poll and runtime packages may use io completion port (iocp) or registered io (rio) for io multiplexing (the existing implementation uses only iocp.) looks like both mechanisms are asynch io and need to interact with a user-defined io function to notify the result of io request to the user-defined function and to allow the user-defined function to manipulate, mainly canceling, io request.\n\nionotification can be used to exchange such stuff btw user-defined functions and the runtime-integrated network poller.",
+      "parentUuid": "cd823c5f_930df973",
+      "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
