@@ -165,6 +165,24 @@
       "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "490cf769_fd9ffed6",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-08T19:04:04Z",
+      "side": 1,
+      "message": "There is no need for an IONotification to support Windows.  The Windows code is more complex than the Unix code, but it fundamentally works the same way: the function you pass to RawConn.Read or RawConn.Write is equivalent to the function that the code in internal/poll/fd_windows.go passes to rsrv.ExecIO.  That function doesn\u0027t need an IONotification.",
+      "parentUuid": "c6b9c89c_f07ab07e",
+      "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
