@@ -81,6 +81,24 @@
       "revId": "2bd6360e3b0bda74b637ad37536b2f95f5b8574f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b99803b_90f2d332",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-08T05:24:58Z",
+      "side": 0,
+      "message": "I think that the code today will accept some strings that will be rejected by the code with your CL.  That concerns me.  This function has been out there for years, and for all I know people are using it.  If it breaks for them in 1.9, it won\u0027t make them happy to hear that it is now more correct.  So, turn your question around: why is it better to reject strings that were previously accepted?  Who is helped by that change?",
+      "parentUuid": "e3e411e7_69b5271c",
+      "revId": "2bd6360e3b0bda74b637ad37536b2f95f5b8574f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
