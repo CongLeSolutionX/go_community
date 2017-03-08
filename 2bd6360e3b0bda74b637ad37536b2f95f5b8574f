@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3316eb79_fd74234e",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-08T04:09:56Z",
+      "side": 0,
+      "message": "Not calling skipSpace here seems like a change that is not in the CL description.",
+      "range": {
+        "startLine": 394,
+        "startChar": 4,
+        "endLine": 394,
+        "endChar": 13
+      },
+      "revId": "2bd6360e3b0bda74b637ad37536b2f95f5b8574f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b1bf5ed_8604b4dc",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-08T04:09:56Z",
+      "side": 0,
+      "message": "Not ignoring an error if we got at least one word is also a change, and this may break existing users.",
+      "revId": "2bd6360e3b0bda74b637ad37536b2f95f5b8574f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
