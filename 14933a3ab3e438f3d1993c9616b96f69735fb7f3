@@ -183,6 +183,41 @@
       "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08f3f1b4_c476c37a",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-08T19:23:43Z",
+      "side": 1,
+      "message": "Mikio, you\u0027re right that I misread the internal/poll link at first. Given what Ian said, though, it sounds like we can drop IONotification from this interface. Let\u0027s do that and try to do the Windows support without it, and we can always come back and change it later in the cycle.",
+      "parentUuid": "490cf769_fd9ffed6",
+      "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "546057b0_979f1fa1",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-08T19:23:43Z",
+      "side": 1,
+      "message": "I wonder if SetReadDeadline and SetWriteDeadline belong here.",
+      "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
