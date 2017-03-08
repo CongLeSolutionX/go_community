@@ -204,6 +204,24 @@
     },
     {
       "key": {
+        "uuid": "44a2f66a_ee1d9cb8",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-03-08T22:37:47Z",
+      "side": 1,
+      "message": "I agree with what Ian and Russ said. You should go with what you need to solve problems you have. We will deal with future problems when they come.",
+      "parentUuid": "08f3f1b4_c476c37a",
+      "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "546057b0_979f1fa1",
         "filename": "src/syscall/net.go",
         "patchSetId": 1
