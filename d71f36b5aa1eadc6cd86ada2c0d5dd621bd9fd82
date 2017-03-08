@@ -39,6 +39,30 @@
       "revId": "d71f36b5aa1eadc6cd86ada2c0d5dd621bd9fd82",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a9301ac_5df99ab9",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-08T19:00:31Z",
+      "side": 1,
+      "message": "I have no idea what 892 is.\nIt\u0027s supposed to just be \"backedge.\"",
+      "parentUuid": "e7cd12b9_c69ee50f",
+      "range": {
+        "startLine": 172,
+        "startChar": 84,
+        "endLine": 172,
+        "endChar": 96
+      },
+      "revId": "d71f36b5aa1eadc6cd86ada2c0d5dd621bd9fd82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
