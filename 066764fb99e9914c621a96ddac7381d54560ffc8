@@ -39,6 +39,29 @@
       "revId": "066764fb99e9914c621a96ddac7381d54560ffc8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ddc4a3_ebcc2f78",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-03-08T19:55:13Z",
+      "side": 1,
+      "message": "starting with make([]string,0,2) seems better since there is at least one allocation at any rate. And i suspect\nhaving more than 1 field and 2 fields is not that uncommon and doesnt waste much space either ;)",
+      "range": {
+        "startLine": 334,
+        "startChar": 1,
+        "endLine": 334,
+        "endChar": 15
+      },
+      "revId": "066764fb99e9914c621a96ddac7381d54560ffc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
