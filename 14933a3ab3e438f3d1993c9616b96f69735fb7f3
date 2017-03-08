@@ -57,6 +57,24 @@
       "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc4fc413_ebda43cc",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-08T16:56:22Z",
+      "side": 1,
+      "message": "Can you point to code in x/net that needs this, so I can understand the context better?",
+      "parentUuid": "3ff2c02f_ae395db6",
+      "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
