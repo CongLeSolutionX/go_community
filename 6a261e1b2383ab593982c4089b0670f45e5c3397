@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98eb2656_01bd8ab2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-08T18:51:58Z",
+      "side": 1,
+      "message": "this bug is already fixed, so why is this CL necessary?",
+      "revId": "6a261e1b2383ab593982c4089b0670f45e5c3397",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
