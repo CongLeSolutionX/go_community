@@ -1063,6 +1063,8 @@ func BenchmarkRunningGoProgram(b *testing.B) {
 const benchmarkRunnigGoProgram = `
 package main
 
+import _ "os"
+
 func main() {
 }
 `
