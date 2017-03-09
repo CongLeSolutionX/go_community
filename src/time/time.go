@@ -1031,14 +1031,20 @@ func now() (sec int64, nsec int32, mono int64)
 func Now() Time {
 	sec, nsec, mono := now()
 	sec += unixToInternal - minWall
+	t := Time{}
 	if uint64(sec)>>33 != 0 {
-		return Time{uint64(nsec), sec + minWall, Local}
+		t = Time{uint64(nsec), sec + minWall, nil}
+	} else {
+		t = Time{hasMonotonic | uint64(sec)<<nsecShift | uint64(nsec), mono, nil}
 	}
-	return Time{hasMonotonic | uint64(sec)<<nsecShift | uint64(nsec), mono, Local}
+	t.setLoc(Local)
+	return t
 }
 
 func unixTime(sec int64, nsec int32) Time {
-	return Time{uint64(nsec), sec + unixToInternal, Local}
+	t := Time{uint64(nsec), sec + unixToInternal, nil}
+	t.setLoc(Local)
+	return t
 }
 
 // UTC returns t with the location set to UTC.
