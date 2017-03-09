@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4d3d6c9_32061e5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-09T05:30:33Z",
+      "side": 1,
+      "message": "Not sure we need this note in the CL description.",
+      "revId": "e4db71ae88fd4c1ed13490142a532f2f42b8c589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2cdb386_3764990a",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-09T05:30:33Z",
+      "side": 1,
+      "message": "// Conn is implemented by some types in the net package to provide access to the underlying file descriptor or handle.",
+      "revId": "e4db71ae88fd4c1ed13490142a532f2f42b8c589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
