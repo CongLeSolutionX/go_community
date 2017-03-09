@@ -1326,3 +1326,22 @@ func TestReadFileLimit(t *testing.T) {
 		t.Errorf("readFile(%q) error = %v; want error containing 'is too large'", zero, err)
 	}
 }
+
+func TestLocalUTC(t *testing.T) {
+	// Set the default timezone to UTC
+	local := Local
+	Local = UTC
+	defer func() {
+		Local = local
+	}()
+
+	times := []Time{
+		Now(),
+		Unix(0, Now().UnixNano()),
+	}
+	for _, tt := range times {
+		if ttUtc := tt.UTC(); tt != ttUtc {
+			t.Errorf("t.loc = %#v; want %#v", tt, ttUtc)
+		}
+	}
+}
