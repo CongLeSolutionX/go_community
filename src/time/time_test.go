@@ -1177,20 +1177,56 @@ var defaultLocTests = []struct {
 		a2, b2 := t2.MarshalBinary()
 		return bytes.Equal(a1, a2) && b1 == b2
 	}},
+	{"MarshalBinaryRoundTrip", func(t1, t2 Time) bool {
+		a1, b1 := t1.MarshalBinary()
+		d1 := Time{}
+		e1 := d1.UnmarshalBinary(a1)
+		a2, b2 := t2.MarshalBinary()
+		d2 := Time{}
+		e2 := d2.UnmarshalBinary(a2)
+		return t1 == d1 && t2 == d2 && t1 == t2 && d1 == d2 && b1 == b2 && e1 == e2
+	}},
 	{"GobEncode", func(t1, t2 Time) bool {
 		a1, b1 := t1.GobEncode()
 		a2, b2 := t2.GobEncode()
 		return bytes.Equal(a1, a2) && b1 == b2
+	}},
+	{"GobEncodeRoundTrip", func(t1, t2 Time) bool {
+		a1, b1 := t1.GobEncode()
+		d1 := Time{}
+		e1 := d1.GobDecode(a1)
+		a2, b2 := t2.GobEncode()
+		d2 := Time{}
+		e2 := d2.GobDecode(a2)
+		return t1 == d1 && t2 == d2 && t1 == t2 && d1 == d2 && b1 == b2 && e1 == e2
 	}},
 	{"MarshalJSON", func(t1, t2 Time) bool {
 		a1, b1 := t1.MarshalJSON()
 		a2, b2 := t2.MarshalJSON()
 		return bytes.Equal(a1, a2) && b1 == b2
 	}},
+	{"MarshalJSONRoundTrip", func(t1, t2 Time) bool {
+		a1, b1 := t1.MarshalJSON()
+		d1 := Time{}
+		e1 := d1.UnmarshalJSON(a1)
+		a2, b2 := t2.MarshalJSON()
+		d2 := Time{}
+		e2 := d2.UnmarshalJSON(a2)
+		return t1 == d1 && t2 == d2 && t1 == t2 && d1 == d2 && b1 == b2 && e1 == e2
+	}},
 	{"MarshalText", func(t1, t2 Time) bool {
 		a1, b1 := t1.MarshalText()
 		a2, b2 := t2.MarshalText()
 		return bytes.Equal(a1, a2) && b1 == b2
+	}},
+	{"MarshalTextRoundTrip", func(t1, t2 Time) bool {
+		a1, b1 := t1.MarshalText()
+		d1 := Time{}
+		e1 := d1.UnmarshalText(a1)
+		a2, b2 := t2.MarshalText()
+		d2 := Time{}
+		e2 := d2.UnmarshalText(a2)
+		return t1 == d1 && t2 == d2 && t1 == t2 && d1 == d2 && b1 == b2 && e1 == e2
 	}},
 
 	{"Truncate", func(t1, t2 Time) bool { return t1.Truncate(Hour).Equal(t2.Truncate(Hour)) }},
@@ -1207,6 +1243,37 @@ func TestDefaultLoc(t *testing.T) {
 		t2 := Time{}.UTC()
 		if !tt.f(t1, t2) {
 			t.Errorf("Time{} and Time{}.UTC() behave differently for %s", tt.name)
+		}
+	}
+}
+
+func TestDefaultLocNow(t *testing.T) {
+	// This test verifies that all of Time's methods behave identical on
+	// timestamps created with UTC as the local zone and explicity cast to UTC.
+	// See #19486
+	local := Local
+	Local = UTC
+	defer func() {
+		Local = local
+	}()
+
+	times := []struct {
+		name string
+		t    Time
+	}{
+		{"Now()", Now().Round(0)},
+		{"Unix(...)", Unix(0, Now().UnixNano()).Round(0)},
+	}
+	for _, t0 := range times {
+		for _, tt := range defaultLocTests {
+			// Use Round(0) to make the timestamps not use the monotonic clock
+			// because timestamps that use it will be marshaled/unmarshaled without
+			// using the monotonic clock.
+			t1 := t0.t.Round(0)
+			t2 := t0.t.UTC().Round(0)
+			if !tt.f(t1, t2) {
+				t.Errorf("%s and %s.UTC() behave differently for %s", t0.name, t0.name, tt.name)
+			}
 		}
 	}
 }
