@@ -222,6 +222,24 @@
     },
     {
       "key": {
+        "uuid": "746c8a03_6a22f7b3",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-03-09T01:59:27Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "44a2f66a_ee1d9cb8",
+      "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "546057b0_979f1fa1",
         "filename": "src/syscall/net.go",
         "patchSetId": 1
@@ -233,6 +251,24 @@
       "writtenOn": "2017-03-08T19:23:43Z",
       "side": 1,
       "message": "I wonder if SetReadDeadline and SetWriteDeadline belong here.",
+      "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "029d7f36_a719852c",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-03-09T01:59:27Z",
+      "side": 1,
+      "message": "I personally don\u0027t want to mandate a RawConn implementation to have IO deadline control, because I imagine that I probably want only goroutine yielding and IO event notification stuff when I have to use some fancy networking hardware stuff.",
+      "parentUuid": "546057b0_979f1fa1",
       "revId": "14933a3ab3e438f3d1993c9616b96f69735fb7f3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
