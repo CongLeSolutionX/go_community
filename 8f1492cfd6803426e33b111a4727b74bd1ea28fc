@@ -16,6 +16,24 @@
       "revId": "8f1492cfd6803426e33b111a4727b74bd1ea28fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e042f684_0bbf71dc",
+        "filename": "src/make.bash",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-10T20:54:44Z",
+      "side": 1,
+      "message": "I thought about that, but I don\u0027t know where or how to write it.  I don\u0027t think it makes sense for `go install cmd` to have an explicit check of this sort.  And there isn\u0027t any other Go program around.  I suppose I could add a new cmd/dist subcommand that runs `go install std cmd`, but it\u0027s nothing I really want to tackle right now.",
+      "parentUuid": "c8304210_ad141708",
+      "revId": "8f1492cfd6803426e33b111a4727b74bd1ea28fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
