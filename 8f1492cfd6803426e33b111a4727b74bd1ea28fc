@@ -34,6 +34,24 @@
       "revId": "8f1492cfd6803426e33b111a4727b74bd1ea28fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c580c20_022488dc",
+        "filename": "src/make.bash",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-10T21:27:10Z",
+      "side": 1,
+      "message": "Yeah, this is fine for now. Just thinking aloud.",
+      "parentUuid": "e042f684_0bbf71dc",
+      "revId": "8f1492cfd6803426e33b111a4727b74bd1ea28fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
