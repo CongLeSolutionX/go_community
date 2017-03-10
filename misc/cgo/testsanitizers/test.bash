@@ -15,7 +15,7 @@ if test -x "$(type -p clang)"; then
 fi
 export CC
 
-if [ "$(sysctl -n vm.overcommit_memory)" = 2 ]; then
+if [ "$(sysctl -n vm.overcommit_memory)" == 2 ]; then
   echo "skipping msan/tsan tests: vm.overcommit_memory=2" >&2
   exit 0
 fi

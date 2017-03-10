@@ -135,13 +135,13 @@ GOROOT="$GOROOT_BOOTSTRAP" GOOS="" GOARCH="" "$GOROOT_BOOTSTRAP/bin/go" build -o
 
 # -e doesn't propagate out of eval, so check success by hand.
 eval $(./cmd/dist/dist env -p || echo FAIL=true)
-if [ "$FAIL" = true ]; then
+if [ "$FAIL" == true ]; then
 	exit 1
 fi
 
 echo
 
-if [ "$1" = "--dist-tool" ]; then
+if [ "$1" == "--dist-tool" ]; then
 	# Stop after building dist tool.
 	mkdir -p "$GOTOOLDIR"
 	if [ "$2" != "" ]; then
@@ -152,7 +152,7 @@ if [ "$1" = "--dist-tool" ]; then
 fi
 
 buildall="-a"
-if [ "$1" = "--no-clean" ]; then
+if [ "$1" == "--no-clean" ]; then
 	buildall=""
 	shift
 fi

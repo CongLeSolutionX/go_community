@@ -17,7 +17,7 @@
 
 set -e
 
-if [ "$GOOS" = "" -o "$GOARCH" = "" ]; then
+if [ "$GOOS" == "" -o "$GOARCH" == "" ]; then
 	echo "usage: GOOS=os GOARCH=arch ./bootstrap.bash" >&2
 	exit 2
 fi
@@ -52,7 +52,7 @@ goarch="$(../bin/go env GOARCH)"
 # NOTE: Cannot invoke go command after this point.
 # We're about to delete all but the cross-compiled binaries.
 cd ..
-if [ "$goos" = "$gohostos" -a "$goarch" = "$gohostarch" ]; then
+if [ "$goos" == "$gohostos" -a "$goarch" == "$gohostarch" ]; then
 	# cross-compile for local system. nothing to copy.
 	# useful if you've bootstrapped yourself but want to
 	# prepare a clean toolchain for others.

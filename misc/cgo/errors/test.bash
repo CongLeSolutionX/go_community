@@ -7,7 +7,7 @@
 check() {
 	file=$1
 	line=$(grep -n 'ERROR HERE' $file | sed 's/:.*//')
-	if [ "$line" = "" ]; then
+	if [ "$line" == "" ]; then
 		echo 1>&2 misc/cgo/errors/test.bash: BUG: cannot find ERROR HERE in $file
 		exit 1
 	fi

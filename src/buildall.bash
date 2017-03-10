@@ -18,17 +18,17 @@ if [ ! -f run.bash ]; then
 fi
 
 sete=false
-if [ "$1" = "-e" ]; then
+if [ "$1" == "-e" ]; then
 	sete=true
 	shift
 fi
 
-if [ "$sete" = true ]; then
+if [ "$sete" == true ]; then
 	set -e
 fi
 
 pattern="$1"
-if [ "$pattern" = "" ]; then
+if [ "$pattern" == "" ]; then
 	pattern=.
 fi
 
@@ -65,11 +65,11 @@ do
 	export GOOS=$(echo $target | sed 's/-.*//')
 	export GOARCH=$(echo $target | sed 's/.*-//')
 	unset GO386 GOARM
-	if [ "$GOARCH" = "arm5" ]; then
+	if [ "$GOARCH" == "arm5" ]; then
 		export GOARCH=arm
 		export GOARM=5
 	fi
-	if [ "$GOARCH" = "387" ]; then
+	if [ "$GOARCH" == "387" ]; then
 		export GOARCH=386
 		export GO386=387
 	fi
@@ -81,7 +81,7 @@ do
 	fi
 done
 
-if [ "$failed" = "true" ]; then
+if [ "$failed" == "true" ]; then
 	echo "" 1>&2
 	echo "Build(s) failed." 1>&2
 	exit 1
