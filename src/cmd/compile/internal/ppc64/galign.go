@@ -20,12 +20,8 @@ func Init() {
 
 	gc.Thearch.Defframe = defframe
 	gc.Thearch.Ginsnop = ginsnop2
-	gc.Thearch.Proginfo = proginfo
 
 	gc.Thearch.SSAMarkMoves = ssaMarkMoves
 	gc.Thearch.SSAGenValue = ssaGenValue
 	gc.Thearch.SSAGenBlock = ssaGenBlock
-
-	initvariants()
-	initproginfo()
 }
