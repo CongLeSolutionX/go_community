@@ -725,6 +725,12 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 			if r.Op != OSTRUCTKEY {
 				Fatalf("fixedlit: rhs not OSTRUCTKEY: %v", r)
 			}
+			if isblanksym(r.Sym) {
+				blank := *nblank
+				blank.Class = PEXTERN
+				blank.Pos = r.Pos
+				return &blank, r.Left
+			}
 			return nodSym(ODOT, var_, r.Sym), r.Left
 		}
 	default:
@@ -1346,6 +1352,10 @@ func isvaluelit(n *Node) bool {
 }
 
 func genAsStatic(as *Node) {
+	if as.Left.Type == nil {
+		// Typechecking failure upstream. Avoid further errors.
+		return
+	}
 	var nam Node
 	if !stataddr(&nam, as.Left) || nam.Class != PEXTERN {
 		Fatalf("genAsStatic: lhs %v", as.Left)
