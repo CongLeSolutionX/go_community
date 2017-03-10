@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6edeefeb_16c3f2fc",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-10T06:44:49Z",
+      "side": 1,
+      "message": "This is ugly, but I don\u0027t see a better way. Suggestions welcome.",
+      "revId": "0401f0f85e2cd9ae2eadc512d8157d91264f63b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
