@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f719e4d_c2e3e888",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-10T19:19:17Z",
+      "side": 1,
+      "message": "The runtime package is pretty big, how about\n    runtime: remove unused ratep parameter for saveblockevent",
+      "revId": "26c08bbdb066b94ff745a2ca1acf2210466afab6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
