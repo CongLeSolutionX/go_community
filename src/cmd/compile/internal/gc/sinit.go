@@ -719,7 +719,9 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 			if r.Op != OSTRUCTKEY {
 				Fatalf("fixedlit: rhs not OSTRUCTKEY: %v", r)
 			}
-			return nodSym(ODOT, var_, r.Sym), r.Left
+			a, value := nodSym(ODOT, var_, r.Sym), r.Left
+			a.SetBlankOK(r.BlankOK())
+			return a, value
 		}
 	default:
 		Fatalf("fixedlit bad op: %v", n.Op)

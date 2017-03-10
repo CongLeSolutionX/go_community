@@ -362,6 +362,10 @@ func (n *Node) jconv(s fmt.State, flag FmtFlag) {
 		fmt.Fprintf(s, " hascall")
 	}
 
+	if c == 0 && n.BlankOK() {
+		fmt.Fprintf(s, " blankok")
+	}
+
 	if c == 0 && n.Used() {
 		fmt.Fprintf(s, " used(%v)", n.Used())
 	}

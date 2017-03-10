@@ -91,6 +91,7 @@ const (
 	nodeAddable  // addressable
 	nodeUsed     // for variable/label declared and not used error
 	nodeHasCall  // expression contains a function call
+	nodeBlankOK  // ok for this node to assign to a blank field
 )
 
 func (n *Node) HasBreak() bool              { return n.flags&nodeHasBreak != 0 }
@@ -110,6 +111,7 @@ func (n *Node) Bounded() bool               { return n.flags&nodeBounded != 0 }
 func (n *Node) Addable() bool               { return n.flags&nodeAddable != 0 }
 func (n *Node) Used() bool                  { return n.flags&nodeUsed != 0 }
 func (n *Node) HasCall() bool               { return n.flags&nodeHasCall != 0 }
+func (n *Node) BlankOK() bool               { return n.flags&nodeBlankOK != 0 }
 
 func (n *Node) SetHasBreak(b bool)              { n.flags.set(nodeHasBreak, b) }
 func (n *Node) SetIsClosureVar(b bool)          { n.flags.set(nodeIsClosureVar, b) }
@@ -128,6 +130,7 @@ func (n *Node) SetBounded(b bool)               { n.flags.set(nodeBounded, b) }
 func (n *Node) SetAddable(b bool)               { n.flags.set(nodeAddable, b) }
 func (n *Node) SetUsed(b bool)                  { n.flags.set(nodeUsed, b) }
 func (n *Node) SetHasCall(b bool)               { n.flags.set(nodeHasCall, b) }
+func (n *Node) SetBlankOK(b bool)               { n.flags.set(nodeBlankOK, b) }
 
 // Val returns the Val for the node.
 func (n *Node) Val() Val {

@@ -896,7 +896,7 @@ OpSwitch:
 			checkwidth(t)
 		}
 
-		if isblanksym(n.Sym) {
+		if isblanksym(n.Sym) && !n.BlankOK() {
 			yyerror("cannot refer to blank field or method")
 			n.Type = nil
 			return n
@@ -3070,6 +3070,7 @@ func typecheckcomplit(n *Node) *Node {
 				// No pushtype allowed here. Must name fields for that.
 				n1 = assignconv(n1, f.Type, "field value")
 				n1 = nodSym(OSTRUCTKEY, n1, f.Sym)
+				n1.SetBlankOK(true) // f.Sym might be _, but we can still assign a value to it; issue 19482.
 				n1.Xoffset = f.Offset
 				ls[i1] = n1
 				f = it.Next()
