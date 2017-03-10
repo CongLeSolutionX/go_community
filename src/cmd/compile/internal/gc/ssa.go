@@ -4355,6 +4355,8 @@ type SSAGenState struct {
 	SSEto387 map[int16]int16
 	// Some architectures require a 64-bit temporary for FP-related register shuffling. Examples include x86-387, PPC, and Sparc V8.
 	ScratchFpMem *Node
+
+	stackMapIndex map[*ssa.Value]int
 }
 
 // Pc returns the current Prog.
@@ -4369,10 +4371,15 @@ func (s *SSAGenState) SetPos(pos src.XPos) {
 
 // genssa appends entries to ptxt for each instruction in f.
 // gcargs and gclocals are filled in with pointer maps for the frame.
-func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
+func genssa(f *ssa.Func, ptxt *obj.Prog) {
 	var s SSAGenState
 
 	e := f.Config.Frontend().(*ssaExport)
+
+	// Generate GC bitmaps.
+	gcargs := makefuncdatasym("gcargs·", obj.FUNCDATA_ArgsPointerMaps)
+	gclocals := makefuncdatasym("gclocals·", obj.FUNCDATA_LocalsPointerMaps)
+	s.stackMapIndex = liveness(Curfn, f, gcargs, gclocals)
 
 	// Remember where each block starts.
 	s.bstart = make([]*obj.Prog, f.NumBlocks())
@@ -4415,14 +4422,8 @@ func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
 			case ssa.OpGetG:
 				// nothing to do when there's a g register,
 				// and checkLower complains if there's not
-			case ssa.OpVarDef:
-				Gvardef(v.Aux.(*Node))
-			case ssa.OpVarKill:
-				Gvarkill(v.Aux.(*Node))
-			case ssa.OpVarLive:
-				Gvarlive(v.Aux.(*Node))
-			case ssa.OpKeepAlive:
-				KeepAlive(v)
+			case ssa.OpVarDef, ssa.OpVarKill, ssa.OpVarLive, ssa.OpKeepAlive:
+				// nothing to do; already used by liveness
 			case ssa.OpPhi:
 				CheckLoweredPhi(v)
 
@@ -4501,17 +4502,11 @@ func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
 		}
 	}
 
-	// Generate gc bitmaps.
-	liveness(Curfn, ptxt, gcargs, gclocals)
-
 	// Add frame prologue. Zero ambiguously live variables.
 	Thearch.Defframe(ptxt)
 	if Debug['f'] != 0 {
 		frame(0)
 	}
-
-	// Remove leftover instrumentation from the instruction stream.
-	removevardef(ptxt)
 
 	f.Config.HTML.Close()
 	f.Config.HTML = nil
@@ -4700,26 +4695,6 @@ func CheckLoweredGetClosurePtr(v *ssa.Value) {
 	}
 }
 
-// KeepAlive marks the variable referenced by OpKeepAlive as live.
-// Called during ssaGenValue.
-func KeepAlive(v *ssa.Value) {
-	if v.Op != ssa.OpKeepAlive {
-		v.Fatalf("KeepAlive called with non-KeepAlive value: %v", v.LongString())
-	}
-	if !v.Args[0].Type.IsPtrShaped() {
-		v.Fatalf("keeping non-pointer alive %v", v.Args[0])
-	}
-	n, _ := AutoVar(v.Args[0])
-	if n == nil {
-		v.Fatalf("KeepAlive with non-spilled value %s %s", v, v.Args[0])
-	}
-	// Note: KeepAlive arg may be a small part of a larger variable n.  We keep the
-	// whole variable n alive at this point. (Typically, this happens when
-	// we are requested to keep the idata portion of an interface{} alive, and
-	// we end up keeping the whole interface{} alive.  That's ok.)
-	Gvarlive(n)
-}
-
 // AutoVar returns a *Node and int64 representing the auto variable and offset within it
 // where v should be spilled.
 func AutoVar(v *ssa.Value) (*Node, int64) {
@@ -4757,6 +4732,14 @@ func (s *SSAGenState) AddrScratch(a *obj.Addr) {
 }
 
 func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
+	idx, ok := s.stackMapIndex[v]
+	if !ok {
+		Fatalf("missing stack map index for %v", v.LongString())
+	}
+	p := Prog(obj.APCDATA)
+	Addrconst(&p.From, obj.PCDATA_StackMapIndex)
+	Addrconst(&p.To, int64(idx))
+
 	if sym, _ := v.Aux.(*obj.LSym); sym == Deferreturn {
 		// Deferred calls will appear to be returning to
 		// the CALL deferreturn(SB) that we are about to emit.
@@ -4769,7 +4752,7 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 		Thearch.Ginsnop()
 	}
 
-	p := Prog(obj.ACALL)
+	p = Prog(obj.ACALL)
 	if sym, ok := v.Aux.(*obj.LSym); ok {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_EXTERN
