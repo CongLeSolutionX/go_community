@@ -63,7 +63,7 @@ TEXT ·sinhAsm(SB),NOSPLIT,$0-16
 	//specail case Sinh(±Inf = ±Inf
 	FMOVD   $1.797693134862315708145274237317043567981e+308, F1
 	FCMPU   F1, F0
-	BLEU    sinhIsInf
+	BNG     sinhIsInf
 	FMOVD   $-1.797693134862315708145274237317043567981e+308, F1
 	FCMPU   F1, F0
 	BGT             sinhIsInf
@@ -73,7 +73,7 @@ TEXT ·sinhAsm(SB),NOSPLIT,$0-16
 	MOVD    sinhxinit<>+0(SB), R1
 	FMOVD   F0, F4
 	MOVD    R1, R3
-	BLTU    L19
+	BNGE    L19
 	FMOVD   F0, F2
 L2:
 	WORD    $0xED205010     //cdb %f2,.L22-.L21(%r5)

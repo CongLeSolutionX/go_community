@@ -70,7 +70,7 @@ TEXT ·sinAsm(SB),NOSPLIT,$0-16
 	FCMPU   F0, F1
 	BEQ     sinIsZero
 	WORD    $0xB3120000     //ltdbr %f0,%f0
-	BLTU    L17
+	BNGE    L17
 	FMOVD   F0, F5
 L2:
 	MOVD    $sincoss7<>+0(SB), R1
@@ -220,7 +220,7 @@ sinIsZero:
 TEXT ·cosAsm(SB),NOSPLIT,$0-16
 	FMOVD   x+0(FP), F0
 	WORD    $0xB3120000     //ltdbr %f0,%f0
-	BLTU    L35
+	BNGE    L35
 	FMOVD   F0, F1
 L21:
 	MOVD    $sincosc7<>+0(SB), R1

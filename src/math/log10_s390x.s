@@ -88,7 +88,7 @@ L1:
 
 L2:
 	WORD    $0xB3120000     //ltdbr %f0,%f0
-	BLEU    L13
+	BNG     L13
 	WORD    $0xED009080     //mdb %f0,.L20-.L19(%r9)
 	BYTE    $0x00
 	BYTE    $0x1C
@@ -102,7 +102,7 @@ L2:
 	BYTE    $0x20
 	BYTE    $0x59
 	ADDW    $0x4000000, R2
-	BLEU    L17
+	BNG     L17
 L8:
 	SRW     $8, R2, R2
 	ORW     $0x45000000, R2

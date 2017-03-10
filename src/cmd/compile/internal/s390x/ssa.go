@@ -539,10 +539,12 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Reg = v.Reg()
 	case ssa.OpS390XNOT, ssa.OpS390XNOTW:
 		v.Fatalf("NOT/NOTW generated %s", v.LongString())
-	case ssa.OpS390XMOVDEQ, ssa.OpS390XMOVDNE,
-		ssa.OpS390XMOVDLT, ssa.OpS390XMOVDLE,
-		ssa.OpS390XMOVDGT, ssa.OpS390XMOVDGE,
-		ssa.OpS390XMOVDGTnoinv, ssa.OpS390XMOVDGEnoinv:
+	case
+		ssa.OpS390XMOVDO, ssa.OpS390XMOVDGT, ssa.OpS390XMOVDNLE,
+		ssa.OpS390XMOVDLT, ssa.OpS390XMOVDNGE, ssa.OpS390XMOVDLG,
+		ssa.OpS390XMOVDNE, ssa.OpS390XMOVDEQ, ssa.OpS390XMOVDNLG,
+		ssa.OpS390XMOVDGE, ssa.OpS390XMOVDNL, ssa.OpS390XMOVDLE,
+		ssa.OpS390XMOVDNG, ssa.OpS390XMOVDNO:
 		r := v.Reg()
 		if r != v.Args[0].Reg() {
 			v.Fatalf("input[0] and output not in same register %s", v.LongString())
@@ -560,8 +562,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Reg = v.Reg()
 	case ssa.OpS390XInvertFlags:
 		v.Fatalf("InvertFlags should never make it to codegen %v", v.LongString())
-	case ssa.OpS390XFlagEQ, ssa.OpS390XFlagLT, ssa.OpS390XFlagGT:
-		v.Fatalf("Flag* ops should never make it to codegen %v", v.LongString())
+	case ssa.OpS390XFlagsConst:
+		v.Fatalf("FlagsConst should never make it to codegen %v", v.LongString())
 	case ssa.OpS390XAddTupleFirst32, ssa.OpS390XAddTupleFirst64:
 		v.Fatalf("AddTupleFirst* should never make it to codegen %v", v.LongString())
 	case ssa.OpS390XLoweredNilCheck:
@@ -787,14 +789,20 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 var blockJump = [...]struct {
 	asm, invasm obj.As
 }{
-	ssa.BlockS390XEQ:  {s390x.ABEQ, s390x.ABNE},
+	ssa.BlockS390XO:   {s390x.ABO, s390x.ABNO},
+	ssa.BlockS390XGT:  {s390x.ABGT, s390x.ABNG},
+	ssa.BlockS390XNLE: {s390x.ABNLE, s390x.ABLE},
+	ssa.BlockS390XLT:  {s390x.ABLT, s390x.ABNL},
+	ssa.BlockS390XNGE: {s390x.ABNGE, s390x.ABGE},
+	ssa.BlockS390XLG:  {s390x.ABLG, s390x.ABNLG},
 	ssa.BlockS390XNE:  {s390x.ABNE, s390x.ABEQ},
-	ssa.BlockS390XLT:  {s390x.ABLT, s390x.ABGE},
-	ssa.BlockS390XGE:  {s390x.ABGE, s390x.ABLT},
-	ssa.BlockS390XLE:  {s390x.ABLE, s390x.ABGT},
-	ssa.BlockS390XGT:  {s390x.ABGT, s390x.ABLE},
-	ssa.BlockS390XGTF: {s390x.ABGT, s390x.ABLEU},
-	ssa.BlockS390XGEF: {s390x.ABGE, s390x.ABLTU},
+	ssa.BlockS390XEQ:  {s390x.ABEQ, s390x.ABNE},
+	ssa.BlockS390XNLG: {s390x.ABNLG, s390x.ABLG},
+	ssa.BlockS390XGE:  {s390x.ABGE, s390x.ABNGE},
+	ssa.BlockS390XNL:  {s390x.ABNL, s390x.ABLT},
+	ssa.BlockS390XLE:  {s390x.ABLE, s390x.ABNLE},
+	ssa.BlockS390XNG:  {s390x.ABNG, s390x.ABGT},
+	ssa.BlockS390XNO:  {s390x.ABNO, s390x.ABO},
 }
 
 func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
@@ -833,10 +841,11 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = b.Aux.(*obj.LSym)
-	case ssa.BlockS390XEQ, ssa.BlockS390XNE,
-		ssa.BlockS390XLT, ssa.BlockS390XGE,
-		ssa.BlockS390XLE, ssa.BlockS390XGT,
-		ssa.BlockS390XGEF, ssa.BlockS390XGTF:
+	case ssa.BlockS390XO, ssa.BlockS390XGT, ssa.BlockS390XNLE,
+		ssa.BlockS390XLT, ssa.BlockS390XNGE, ssa.BlockS390XLG,
+		ssa.BlockS390XEQ, ssa.BlockS390XNE, ssa.BlockS390XNLG,
+		ssa.BlockS390XGE, ssa.BlockS390XNL, ssa.BlockS390XLE,
+		ssa.BlockS390XNG, ssa.BlockS390XNO:
 		jmp := blockJump[b.Kind]
 		likely := b.Likely
 		var p *obj.Prog

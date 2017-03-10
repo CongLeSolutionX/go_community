@@ -67,7 +67,7 @@ TEXT ·coshAsm(SB),NOSPLIT,$0-16
 	WORD    $0xB3120000     //ltdbr %f0,%f0
 	MOVD    $0x4086000000000000, R2
 	MOVD    $0x4086000000000000, R3
-	BLTU    L19
+	BNGE    L19
 	FMOVD   F0, F4
 L2:
 	WORD    $0xED409018     //cdb %f4,.L24-.L23(%r9)

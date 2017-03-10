@@ -297,18 +297,26 @@ func init() {
 		{name: "SUBEWcarrymask", argLength: 1, reg: flagsgp, asm: "SUBE"}, // (int32)(-1) if carry is set, 0 if carry is clear.
 		// Note: 32-bits subtraction is not implemented in S390X. Temporarily use SUBE (64-bits).
 
-		{name: "MOVDEQ", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDEQ"}, // extract == condition from arg0
-		{name: "MOVDNE", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDNE"}, // extract != condition from arg0
-		{name: "MOVDLT", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDLT"}, // extract signed < condition from arg0
-		{name: "MOVDLE", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDLE"}, // extract signed <= condition from arg0
-		{name: "MOVDGT", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDGT"}, // extract signed > condition from arg0
-		{name: "MOVDGE", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDGE"}, // extract signed >= condition from arg0
-
-		// Different rules for floating point conditions because
-		// any comparison involving a NaN is always false and thus
-		// the patterns for inverting conditions cannot be used.
-		{name: "MOVDGTnoinv", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDGT"}, // extract floating > condition from arg0
-		{name: "MOVDGEnoinv", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDGE"}, // extract floating >= condition from arg0
+		// conditional moves
+		// flags:
+		//   eq = equal
+		//   lt = less than
+		//   gt = greater than
+		//   ov = overflow (or unordered)
+		{name: "MOVDO", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDO"},     // if ov             then arg1 else arg0
+		{name: "MOVDGT", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDGT"},   // if gt             then arg1 else arg0
+		{name: "MOVDNLE", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDNLE"}, // if gt || ov       then arg1 else arg0
+		{name: "MOVDLT", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDLT"},   // if lt             then arg1 else arg0
+		{name: "MOVDNGE", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDNGE"}, // if lt || ov       then arg1 else arg0
+		{name: "MOVDLG", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDLG"},   // if lt || gt       then arg1 else arg0
+		{name: "MOVDNE", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDNE"},   // if lt || gt || ov then arg1 else arg0
+		{name: "MOVDEQ", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDEQ"},   // if eq             then arg1 else arg0
+		{name: "MOVDNLG", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDNLG"}, // if eq || ov       then arg1 else arg0
+		{name: "MOVDGE", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDGE"},   // if eq || gt       then arg1 else arg0
+		{name: "MOVDNL", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDNL"},   // if eq || gt || ov then arg1 else arg0
+		{name: "MOVDLE", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDLE"},   // if eq || lt       then arg1 else arg0
+		{name: "MOVDNG", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDNG"},   // if eq || lt || ov then arg1 else arg0
+		{name: "MOVDNO", argLength: 3, reg: gp2flags1, resultInArg0: true, asm: "MOVDNO"},   // if eq || lt || gt then arg1 else arg0
 
 		{name: "MOVBreg", argLength: 1, reg: gp11sp, asm: "MOVB", typ: "Int64"},    // sign extend arg0 from int8 to int64
 		{name: "MOVBZreg", argLength: 1, reg: gp11sp, asm: "MOVBZ", typ: "UInt64"}, // zero extend arg0 from int8 to int64
@@ -418,16 +426,10 @@ func init() {
 		// arg0=ptr/int arg1=mem, output=int/ptr
 		{name: "MOVDconvert", argLength: 2, reg: gp11sp, asm: "MOVD"},
 
-		// Constant flag values. For any comparison, there are 5 possible
-		// outcomes: the three from the signed total order (<,==,>) and the
-		// three from the unsigned total order. The == cases overlap.
-		// Note: there's a sixth "unordered" outcome for floating-point
-		// comparisons, but we don't use such a beast yet.
-		// These ops are for temporary use by rewrite rules. They
-		// cannot appear in the generated assembly.
-		{name: "FlagEQ"}, // equal
-		{name: "FlagLT"}, // <
-		{name: "FlagGT"}, // >
+		// Constant flag values. Represent constant condition codes.
+		// From left to right bits represent equals, less than, greater than
+		// and overflow (unordered).
+		{name: "FlagsConst", aux: "Int8"},
 
 		// Atomic loads. These are just normal loads but return <value,memory> tuples
 		// so they can be properly ordered with other loads.
@@ -612,14 +614,20 @@ func init() {
 	}
 
 	var S390Xblocks = []blockData{
-		{name: "EQ"},
-		{name: "NE"},
-		{name: "LT"},
-		{name: "LE"},
-		{name: "GT"},
-		{name: "GE"},
-		{name: "GTF"}, // FP comparison
-		{name: "GEF"}, // FP comparison
+		{name: "O"},   // overflow
+		{name: "GT"},  // greater than
+		{name: "NLE"}, // not less than and not equal
+		{name: "LT"},  // less than
+		{name: "NGE"}, // not greater than and not equal
+		{name: "LG"},  // less than or greater than
+		{name: "NE"},  // not equal
+		{name: "EQ"},  // equal
+		{name: "NLG"}, // not less than and not greater than
+		{name: "GE"},  // greater than or equal
+		{name: "NL"},  // not less than
+		{name: "LE"},  // less than or equal
+		{name: "NG"},  // not greater than
+		{name: "NO"},  // no overflow
 	}
 
 	archs = append(archs, arch{
