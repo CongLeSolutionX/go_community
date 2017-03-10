@@ -13,12 +13,20 @@ TEXT main·foo(SB),7,$16-0 // TEXT main.foo(SB), 7, $16-0
 	MOVDBR	R1, R2                // b90f0021
 	MOVWBR	R3, R4                // b91f0043
 
-	MOVDEQ	R0, R1                // b9e28010
-	MOVDGE	R2, R3                // b9e2a032
+	MOVDO	R12, R14              // b9e210ec
 	MOVDGT	R4, R5                // b9e22054
-	MOVDLE	R6, R7                // b9e2c076
+	MOVDNLE	R1, R2                // b9e23021
 	MOVDLT	R8, R9                // b9e24098
+	MOVDNGE	R3, R4                // b9e25043
+	MOVDLG	R5, R6                // b9e26065
 	MOVDNE	R10, R11              // b9e270ba
+	MOVDEQ	R0, R1                // b9e28010
+	MOVDNLG	R7, R8                // b9e29087
+	MOVDGE	R2, R3                // b9e2a032
+	MOVDNL	R9, R10               // b9e2b0a9
+	MOVDLE	R6, R7                // b9e2c076
+	MOVDNG	R11, R12              // b9e2d0cb
+	MOVDNO	R0, R15               // b9e2e0f0
 
 	MOVD	(R15), R1             // e310f0000004
 	MOVW	(R15), R2             // e320f0000014
@@ -205,14 +213,20 @@ TEXT main·foo(SB),7,$16-0 // TEXT main.foo(SB), 7, $16-0
 	CMPWU	R1, R2                 // 1512
 	CMPWU	R3, $4294967295        // c23fffffffff
 
+	BO	0(PC)                  // a7140000
+	BGT	0(PC)                  // a7240000
+	BNLE	0(PC)                  // a7340000
+	BLT	0(PC)                  // a7440000
+	BNGE	0(PC)                  // a7540000
+	BLG	0(PC)                  // a7640000
 	BNE	0(PC)                  // a7740000
 	BEQ	0(PC)                  // a7840000
-	BLT	0(PC)                  // a7440000
-	BLE	0(PC)                  // a7c40000
-	BGT	0(PC)                  // a7240000
+	BNLG	0(PC)                  // a7940000
 	BGE	0(PC)                  // a7a40000
-	BLTU	0(PC)                  // a7540000
-	BLEU	0(PC)                  // a7d40000
+	BNL	0(PC)                  // a7b40000
+	BLE	0(PC)                  // a7c40000
+	BNG	0(PC)                  // a7d40000
+	BNO	0(PC)                  // a7e40000
 
 	CMPBNE	R1, R2, 0(PC)          // ec1200007064
 	CMPBEQ	R3, R4, 0(PC)          // ec3400008064

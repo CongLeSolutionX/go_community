@@ -244,12 +244,20 @@ const (
 	AMOVDBR
 
 	// conditional moves
-	AMOVDEQ
-	AMOVDGE
+	AMOVDO
 	AMOVDGT
-	AMOVDLE
+	AMOVDNLE
 	AMOVDLT
+	AMOVDNGE
+	AMOVDLG
 	AMOVDNE
+	AMOVDEQ
+	AMOVDNLG
+	AMOVDGE
+	AMOVDNL
+	AMOVDLE
+	AMOVDNG
+	AMOVDNO
 
 	// find leftmost one
 	AFLOGR
@@ -339,16 +347,21 @@ const (
 	// branch
 	ABC
 	ABCL
-	ABEQ
-	ABGE
+	ABO
 	ABGT
-	ABLE
+	ABNLE
 	ABLT
-	ABLEU
-	ABLTU
+	ABNGE
+	ABLG
 	ABNE
-	ABVC
-	ABVS
+	ABEQ
+	ABNLG
+	ABGE
+	ABNL
+	ABLE
+	ABNG
+	ABNO
+	ABVS // alias for BO
 	ASYSCALL
 
 	// compare and branch

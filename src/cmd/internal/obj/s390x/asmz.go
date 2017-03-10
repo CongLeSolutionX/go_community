@@ -839,15 +839,20 @@ func buildop(ctxt *obj.Link) {
 		case ALMG:
 			opset(ALMY, r)
 		case ABEQ:
-			opset(ABGE, r)
-			opset(ABGT, r)
-			opset(ABLE, r)
-			opset(ABLT, r)
-			opset(ABNE, r)
-			opset(ABVC, r)
+			opset(ABO, r)
 			opset(ABVS, r)
-			opset(ABLEU, r)
-			opset(ABLTU, r)
+			opset(ABGT, r)
+			opset(ABNLE, r)
+			opset(ABLT, r)
+			opset(ABNGE, r)
+			opset(ABLG, r)
+			opset(ABNE, r)
+			opset(ABNLG, r)
+			opset(ABGE, r)
+			opset(ABNL, r)
+			opset(ABLE, r)
+			opset(ABNG, r)
+			opset(ABNO, r)
 		case ABR:
 			opset(ABL, r)
 		case ABC:
@@ -936,11 +941,19 @@ func buildop(ctxt *obj.Link) {
 			opset(ACMPUBLT, r)
 			opset(ACMPUBNE, r)
 		case AMOVDEQ:
-			opset(AMOVDGE, r)
+			opset(AMOVDO, r)
 			opset(AMOVDGT, r)
-			opset(AMOVDLE, r)
+			opset(AMOVDNLE, r)
 			opset(AMOVDLT, r)
+			opset(AMOVDNGE, r)
+			opset(AMOVDLG, r)
 			opset(AMOVDNE, r)
+			opset(AMOVDNLG, r)
+			opset(AMOVDGE, r)
+			opset(AMOVDNL, r)
+			opset(AMOVDLE, r)
+			opset(AMOVDNG, r)
+			opset(AMOVDNO, r)
 		case AVL:
 			opset(AVLLEZB, r)
 			opset(AVLLEZH, r)
@@ -2524,26 +2537,34 @@ func addcallreloc(ctxt *obj.Link, sym *obj.LSym, add int64) *obj.Reloc {
 
 func branchMask(ctxt *obj.Link, p *obj.Prog) uint32 {
 	switch p.As {
-	case ABEQ, ACMPBEQ, ACMPUBEQ, AMOVDEQ:
-		return 0x8
-	case ABGE, ACMPBGE, ACMPUBGE, AMOVDGE:
-		return 0xA
-	case ABGT, ACMPBGT, ACMPUBGT, AMOVDGT:
+	case ABO, AMOVDO, ABVS: // overflow
+		return 0x1
+	case ABGT, ACMPBGT, ACMPUBGT, AMOVDGT: // greater than
 		return 0x2
-	case ABLE, ACMPBLE, ACMPUBLE, AMOVDLE:
-		return 0xC
-	case ABLT, ACMPBLT, ACMPUBLT, AMOVDLT:
+	case ABNLE, AMOVDNLE: // not less than and not equal
+		return 0x3
+	case ABLT, ACMPBLT, ACMPUBLT, AMOVDLT: // less than
 		return 0x4
-	case ABNE, ACMPBNE, ACMPUBNE, AMOVDNE:
-		return 0x7
-	case ABLEU: // LE or unordered
-		return 0xD
-	case ABLTU: // LT or unordered
+	case ABNGE, AMOVDNGE: // not greater than and not equal
 		return 0x5
-	case ABVC:
-		return 0x0 // needs extra instruction
-	case ABVS:
-		return 0x1 // unordered
+	case ABLG, AMOVDLG: // less than or greater than
+		return 0x6
+	case ABNE, ACMPBNE, ACMPUBNE, AMOVDNE: // not equal
+		return 0x7
+	case ABEQ, ACMPBEQ, ACMPUBEQ, AMOVDEQ: // equal
+		return 0x8
+	case ABNLG, AMOVDNLG: // not less than and not greater than
+		return 0x9
+	case ABGE, ACMPBGE, ACMPUBGE, AMOVDGE: // greater than or equal
+		return 0xa
+	case ABNL, AMOVDNL: // not less than
+		return 0xb
+	case ABLE, ACMPBLE, ACMPUBLE, AMOVDLE: // less than or equal
+		return 0xc
+	case ABNG, AMOVDNG: // not greater than
+		return 0xd
+	case ABNO, AMOVDNO: // no overflow
+		return 0xe
 	}
 	ctxt.Diag("unknown conditional branch %v", p.As)
 	return 0xF

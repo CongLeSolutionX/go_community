@@ -251,9 +251,8 @@
 (Less32U x y) -> (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (CMPWU x y))
 (Less16U x y) -> (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVHZreg x) (MOVHZreg y)))
 (Less8U  x y) -> (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVBZreg x) (MOVBZreg y)))
-// Use SETG with reversed operands to dodge NaN case.
-(Less64F x y) -> (MOVDGTnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMP y x))
-(Less32F x y) -> (MOVDGTnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMPS y x))
+(Less64F x y) -> (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (FCMP x y))
+(Less32F x y) -> (MOVDLT (MOVDconst [0]) (MOVDconst [1]) (FCMPS x y))
 
 (Leq64  x y) -> (MOVDLE (MOVDconst [0]) (MOVDconst [1]) (CMP x y))
 (Leq32  x y) -> (MOVDLE (MOVDconst [0]) (MOVDconst [1]) (CMPW x y))
@@ -263,9 +262,8 @@
 (Leq32U x y) -> (MOVDLE (MOVDconst [0]) (MOVDconst [1]) (CMPWU x y))
 (Leq16U x y) -> (MOVDLE (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVHZreg x) (MOVHZreg y)))
 (Leq8U  x y) -> (MOVDLE (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVBZreg x) (MOVBZreg y)))
-// Use SETGE with reversed operands to dodge NaN case.
-(Leq64F x y) -> (MOVDGEnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMP y x))
-(Leq32F x y) -> (MOVDGEnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMPS y x))
+(Leq64F x y) -> (MOVDLE (MOVDconst [0]) (MOVDconst [1]) (FCMP x y))
+(Leq32F x y) -> (MOVDLE (MOVDconst [0]) (MOVDconst [1]) (FCMPS x y))
 
 (Greater64  x y) -> (MOVDGT (MOVDconst [0]) (MOVDconst [1]) (CMP x y))
 (Greater32  x y) -> (MOVDGT (MOVDconst [0]) (MOVDconst [1]) (CMPW x y))
@@ -275,8 +273,8 @@
 (Greater32U x y) -> (MOVDGT (MOVDconst [0]) (MOVDconst [1]) (CMPWU x y))
 (Greater16U x y) -> (MOVDGT (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVHZreg x) (MOVHZreg y)))
 (Greater8U  x y) -> (MOVDGT (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVBZreg x) (MOVBZreg y)))
-(Greater64F x y) -> (MOVDGTnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMP x y))
-(Greater32F x y) -> (MOVDGTnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMPS x y))
+(Greater64F x y) -> (MOVDGT (MOVDconst [0]) (MOVDconst [1]) (FCMP x y))
+(Greater32F x y) -> (MOVDGT (MOVDconst [0]) (MOVDconst [1]) (FCMPS x y))
 
 (Geq64  x y) -> (MOVDGE (MOVDconst [0]) (MOVDconst [1]) (CMP x y))
 (Geq32  x y) -> (MOVDGE (MOVDconst [0]) (MOVDconst [1]) (CMPW x y))
@@ -286,8 +284,8 @@
 (Geq32U x y) -> (MOVDGE (MOVDconst [0]) (MOVDconst [1]) (CMPWU x y))
 (Geq16U x y) -> (MOVDGE (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVHZreg x) (MOVHZreg y)))
 (Geq8U  x y) -> (MOVDGE (MOVDconst [0]) (MOVDconst [1]) (CMPU (MOVBZreg x) (MOVBZreg y)))
-(Geq64F x y) -> (MOVDGEnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMP x y))
-(Geq32F x y) -> (MOVDGEnoinv (MOVDconst [0]) (MOVDconst [1]) (FCMPS x y))
+(Geq64F x y) -> (MOVDGE (MOVDconst [0]) (MOVDconst [1]) (FCMP x y))
+(Geq32F x y) -> (MOVDGE (MOVDconst [0]) (MOVDconst [1]) (FCMPS x y))
 
 (Eq64  x y) -> (MOVDEQ (MOVDconst [0]) (MOVDconst [1]) (CMP x y))
 (Eq32  x y) -> (MOVDEQ (MOVDconst [0]) (MOVDconst [1]) (CMPW x y))
@@ -426,16 +424,20 @@
 (ITab (Load ptr mem)) -> (MOVDload ptr mem)
 
 // block rewrites
-(If (MOVDLT (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (LT cmp yes no)
-(If (MOVDLE (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (LE cmp yes no)
-(If (MOVDGT (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (GT cmp yes no)
-(If (MOVDGE (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (GE cmp yes no)
-(If (MOVDEQ (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (EQ cmp yes no)
-(If (MOVDNE (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (NE cmp yes no)
-
-// Special case for floating point - LF/LEF not generated.
-(If (MOVDGTnoinv (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (GTF cmp yes no)
-(If (MOVDGEnoinv (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (GEF cmp yes no)
+(If (MOVDO   (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (O   cmp yes no)
+(If (MOVDGT  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (GT  cmp yes no)
+(If (MOVDNLE (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (NLE cmp yes no)
+(If (MOVDLT  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (LT  cmp yes no)
+(If (MOVDNGE (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (NGE cmp yes no)
+(If (MOVDLG  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (LG  cmp yes no)
+(If (MOVDNE  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (NE  cmp yes no)
+(If (MOVDEQ  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (EQ  cmp yes no)
+(If (MOVDNLG (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (NLG cmp yes no)
+(If (MOVDGE  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (GE  cmp yes no)
+(If (MOVDNL  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (NL  cmp yes no)
+(If (MOVDLE  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (LE  cmp yes no)
+(If (MOVDNG  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (NG  cmp yes no)
+(If (MOVDNO  (MOVDconst [0]) (MOVDconst [1]) cmp) yes no) -> (NO  cmp yes no)
 
 (If cond yes no) -> (NE (CMPWconst [0] (MOVBZreg <config.fe.TypeBool()> cond)) yes no)
 
@@ -493,24 +495,37 @@
 
 // Fold sign extensions into conditional moves of constants.
 // Designed to remove the MOVBZreg inserted by the If lowering.
-(MOVBZreg x:(MOVDLT (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
-(MOVBZreg x:(MOVDLE (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
-(MOVBZreg x:(MOVDGT (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
-(MOVBZreg x:(MOVDGE (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
-(MOVBZreg x:(MOVDEQ (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
-(MOVBZreg x:(MOVDNE (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
-(MOVBZreg x:(MOVDGTnoinv (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
-(MOVBZreg x:(MOVDGEnoinv (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+// TODO: remove these once we emit to TMLL instructions.
+(MOVBZreg x:(MOVDO   (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDGT  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDNLE (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDLT  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDNGE (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDLG  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDNE  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDEQ  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDNLG (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDGE  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDNL  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDLE  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDNG  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
+(MOVBZreg x:(MOVDNO  (MOVDconst [c]) (MOVDconst [d]) _)) && int64(uint8(c)) == c && int64(uint8(d)) == d -> (MOVDreg x)
 
 // Fold boolean tests into blocks.
-(NE (CMPWconst [0] (MOVDLT (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (LT cmp yes no)
-(NE (CMPWconst [0] (MOVDLE (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (LE cmp yes no)
-(NE (CMPWconst [0] (MOVDGT (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (GT cmp yes no)
-(NE (CMPWconst [0] (MOVDGE (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (GE cmp yes no)
-(NE (CMPWconst [0] (MOVDEQ (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (EQ cmp yes no)
-(NE (CMPWconst [0] (MOVDNE (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (NE cmp yes no)
-(NE (CMPWconst [0] (MOVDGTnoinv (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (GTF cmp yes no)
-(NE (CMPWconst [0] (MOVDGEnoinv (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (GEF cmp yes no)
+(NE (CMPWconst [0] (MOVDO   (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (O   cmp yes no)
+(NE (CMPWconst [0] (MOVDGT  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (GT  cmp yes no)
+(NE (CMPWconst [0] (MOVDNLE (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (NLE cmp yes no)
+(NE (CMPWconst [0] (MOVDLT  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (LT  cmp yes no)
+(NE (CMPWconst [0] (MOVDNGE (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (NGE cmp yes no)
+(NE (CMPWconst [0] (MOVDLG  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (LG  cmp yes no)
+(NE (CMPWconst [0] (MOVDNE  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (NE  cmp yes no)
+(NE (CMPWconst [0] (MOVDEQ  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (EQ  cmp yes no)
+(NE (CMPWconst [0] (MOVDNLG (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (NLG cmp yes no)
+(NE (CMPWconst [0] (MOVDGE  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (GE  cmp yes no)
+(NE (CMPWconst [0] (MOVDNL  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (NL  cmp yes no)
+(NE (CMPWconst [0] (MOVDLE  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (LE  cmp yes no)
+(NE (CMPWconst [0] (MOVDNG  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (NG  cmp yes no)
+(NE (CMPWconst [0] (MOVDNO  (MOVDconst [0]) (MOVDconst [1]) cmp)) yes no) -> (NO  cmp yes no)
 
 // Fold constants into instructions.
 (ADD x (MOVDconst [c])) && is32Bit(c) -> (ADDconst [c] x)
@@ -625,12 +640,20 @@
 (MOVDaddridx [c] {s} x (ADDconst [d] y)) && is20Bit(c+d) && y.Op != OpSB -> (MOVDaddridx [c+d] {s} x y)
 
 // reverse ordering of compare instruction
-(MOVDLT x y (InvertFlags cmp)) -> (MOVDGT x y cmp)
-(MOVDGT x y (InvertFlags cmp)) -> (MOVDLT x y cmp)
-(MOVDLE x y (InvertFlags cmp)) -> (MOVDGE x y cmp)
-(MOVDGE x y (InvertFlags cmp)) -> (MOVDLE x y cmp)
-(MOVDEQ x y (InvertFlags cmp)) -> (MOVDEQ x y cmp)
-(MOVDNE x y (InvertFlags cmp)) -> (MOVDNE x y cmp)
+(MOVDO   x y (InvertFlags cmp)) -> (MOVDO   x y cmp)
+(MOVDGT  x y (InvertFlags cmp)) -> (MOVDLT  x y cmp)
+(MOVDNLE x y (InvertFlags cmp)) -> (MOVDNGE x y cmp)
+(MOVDLT  x y (InvertFlags cmp)) -> (MOVDGT  x y cmp)
+(MOVDNGE x y (InvertFlags cmp)) -> (MOVDNLE x y cmp)
+(MOVDLG  x y (InvertFlags cmp)) -> (MOVDLG  x y cmp)
+(MOVDNE  x y (InvertFlags cmp)) -> (MOVDNE  x y cmp)
+(MOVDEQ  x y (InvertFlags cmp)) -> (MOVDEQ  x y cmp)
+(MOVDNLG x y (InvertFlags cmp)) -> (MOVDNLG x y cmp)
+(MOVDGE  x y (InvertFlags cmp)) -> (MOVDLE  x y cmp)
+(MOVDNL  x y (InvertFlags cmp)) -> (MOVDNG  x y cmp)
+(MOVDLE  x y (InvertFlags cmp)) -> (MOVDGE  x y cmp)
+(MOVDNG  x y (InvertFlags cmp)) -> (MOVDNL  x y cmp)
+(MOVDNO  x y (InvertFlags cmp)) -> (MOVDNO  x y cmp)
 
 // don't extend after proper load
 (MOVBreg x:(MOVBload _ _)) -> (MOVDreg x)
@@ -877,94 +900,113 @@
        (MOVDaddridx [off1+off2] {mergeSym(sym1,sym2)} x y)
 
 // Absorb InvertFlags into branches.
-(LT (InvertFlags cmp) yes no) -> (GT cmp yes no)
-(GT (InvertFlags cmp) yes no) -> (LT cmp yes no)
-(LE (InvertFlags cmp) yes no) -> (GE cmp yes no)
-(GE (InvertFlags cmp) yes no) -> (LE cmp yes no)
-(EQ (InvertFlags cmp) yes no) -> (EQ cmp yes no)
-(NE (InvertFlags cmp) yes no) -> (NE cmp yes no)
+(O   (InvertFlags cmp) yes no) -> (O   cmp yes no)
+(GT  (InvertFlags cmp) yes no) -> (LT  cmp yes no)
+(NLE (InvertFlags cmp) yes no) -> (NGE cmp yes no)
+(LT  (InvertFlags cmp) yes no) -> (GT  cmp yes no)
+(NGE (InvertFlags cmp) yes no) -> (NLE cmp yes no)
+(LG  (InvertFlags cmp) yes no) -> (LG  cmp yes no)
+(NE  (InvertFlags cmp) yes no) -> (NE  cmp yes no)
+(EQ  (InvertFlags cmp) yes no) -> (EQ  cmp yes no)
+(GE  (InvertFlags cmp) yes no) -> (LE  cmp yes no)
+(NL  (InvertFlags cmp) yes no) -> (NG  cmp yes no)
+(LE  (InvertFlags cmp) yes no) -> (GE  cmp yes no)
+(NG  (InvertFlags cmp) yes no) -> (NL  cmp yes no)
+(NO  (InvertFlags cmp) yes no) -> (NO  cmp yes no)
 
 // Constant comparisons.
-(CMPconst (MOVDconst [x]) [y]) && x==y -> (FlagEQ)
-(CMPconst (MOVDconst [x]) [y]) && x<y -> (FlagLT)
-(CMPconst (MOVDconst [x]) [y]) && x>y -> (FlagGT)
-(CMPUconst (MOVDconst [x]) [y]) && uint64(x)==uint64(y) -> (FlagEQ)
-(CMPUconst (MOVDconst [x]) [y]) && uint64(x)<uint64(y) -> (FlagLT)
-(CMPUconst (MOVDconst [x]) [y]) && uint64(x)>uint64(y) -> (FlagGT)
+(CMPconst (MOVDconst [x]) [y]) && x==y -> (FlagsConst [s390xFlagEQ])
+(CMPconst (MOVDconst [x]) [y]) && x<y -> (FlagsConst [s390xFlagLT])
+(CMPconst (MOVDconst [x]) [y]) && x>y -> (FlagsConst [s390xFlagGT])
+(CMPUconst (MOVDconst [x]) [y]) && uint64(x)==uint64(y) -> (FlagsConst [s390xFlagEQ])
+(CMPUconst (MOVDconst [x]) [y]) && uint64(x)<uint64(y) -> (FlagsConst [s390xFlagLT])
+(CMPUconst (MOVDconst [x]) [y]) && uint64(x)>uint64(y) -> (FlagsConst [s390xFlagGT])
 
-(CMPWconst (MOVDconst [x]) [y]) && int32(x)==int32(y) -> (FlagEQ)
-(CMPWconst (MOVDconst [x]) [y]) && int32(x)<int32(y) -> (FlagLT)
-(CMPWconst (MOVDconst [x]) [y]) && int32(x)>int32(y) -> (FlagGT)
-(CMPWUconst (MOVDconst [x]) [y]) && uint32(x)==uint32(y) -> (FlagEQ)
-(CMPWUconst (MOVDconst [x]) [y]) && uint32(x)<uint32(y) -> (FlagLT)
-(CMPWUconst (MOVDconst [x]) [y]) && uint32(x)>uint32(y) -> (FlagGT)
+(CMPWconst (MOVDconst [x]) [y]) && int32(x)==int32(y) -> (FlagsConst [s390xFlagEQ])
+(CMPWconst (MOVDconst [x]) [y]) && int32(x)<int32(y) -> (FlagsConst [s390xFlagLT])
+(CMPWconst (MOVDconst [x]) [y]) && int32(x)>int32(y) -> (FlagsConst [s390xFlagGT])
+(CMPWUconst (MOVDconst [x]) [y]) && uint32(x)==uint32(y) -> (FlagsConst [s390xFlagEQ])
+(CMPWUconst (MOVDconst [x]) [y]) && uint32(x)<uint32(y) -> (FlagsConst [s390xFlagLT])
+(CMPWUconst (MOVDconst [x]) [y]) && uint32(x)>uint32(y) -> (FlagsConst [s390xFlagGT])
 
 // Other known comparisons.
-(CMPconst (MOVBZreg _) [c]) && 0xFF < c -> (FlagLT)
-(CMPconst (MOVHZreg _) [c]) && 0xFFFF < c -> (FlagLT)
-(CMPconst (MOVWZreg _) [c]) && 0xFFFFFFFF < c -> (FlagLT)
-(CMPWconst (SRWconst _ [c]) [n]) && 0 <= n && 0 < c && c <= 32 && (1<<uint64(32-c)) <= uint64(n) -> (FlagLT)
-(CMPconst (SRDconst _ [c]) [n]) && 0 <= n && 0 < c && c <= 64 && (1<<uint64(64-c)) <= uint64(n) -> (FlagLT)
-(CMPconst (ANDconst _ [m]) [n]) && 0 <= m && m < n -> (FlagLT)
-(CMPWconst (ANDWconst _ [m]) [n]) && 0 <= int32(m) && int32(m) < int32(n) -> (FlagLT)
+(CMPconst (MOVBZreg _) [c]) && 0xFF < c -> (FlagsConst [s390xFlagLT])
+(CMPconst (MOVHZreg _) [c]) && 0xFFFF < c -> (FlagsConst [s390xFlagLT])
+(CMPconst (MOVWZreg _) [c]) && 0xFFFFFFFF < c -> (FlagsConst [s390xFlagLT])
+(CMPWconst (SRWconst _ [c]) [n]) && 0 <= n && 0 < c && c <= 32 && (1<<uint64(32-c)) <= uint64(n) -> (FlagsConst [s390xFlagLT])
+(CMPconst (SRDconst _ [c]) [n]) && 0 <= n && 0 < c && c <= 64 && (1<<uint64(64-c)) <= uint64(n) -> (FlagsConst [s390xFlagLT])
+(CMPconst (ANDconst _ [m]) [n]) && 0 <= m && m < n -> (FlagsConst [s390xFlagLT])
+(CMPWconst (ANDWconst _ [m]) [n]) && 0 <= int32(m) && int32(m) < int32(n) -> (FlagsConst [s390xFlagLT])
 
 // Absorb flag constants into SBB ops.
-(SUBEcarrymask (FlagEQ)) -> (MOVDconst [-1])
-(SUBEcarrymask (FlagLT)) -> (MOVDconst [-1])
-(SUBEcarrymask (FlagGT)) -> (MOVDconst [0])
-(SUBEWcarrymask (FlagEQ)) -> (MOVDconst [-1])
-(SUBEWcarrymask (FlagLT)) -> (MOVDconst [-1])
-(SUBEWcarrymask (FlagGT)) -> (MOVDconst [0])
+(SUBEcarrymask  (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT)) != 0 -> (MOVDconst [-1])
+(SUBEcarrymask  (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT)) == 0 -> (MOVDconst [0])
+(SUBEWcarrymask (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT)) != 0 -> (MOVDconst [-1])
+(SUBEWcarrymask (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT)) == 0 -> (MOVDconst [0])
 
 // Absorb flag constants into branches.
-(EQ (FlagEQ) yes no) -> (First nil yes no)
-(EQ (FlagLT) yes no) -> (First nil no yes)
-(EQ (FlagGT) yes no) -> (First nil no yes)
+(O  (FlagsConst [c]) yes no) && (c & s390xFlagO)  != 0 -> (First nil yes no)
+(O  (FlagsConst [c]) yes no) && (c & s390xFlagO)  == 0 -> (First nil no yes)
+(GT (FlagsConst [c]) yes no) && (c & s390xFlagGT) != 0 -> (First nil yes no)
+(GT (FlagsConst [c]) yes no) && (c & s390xFlagGT) == 0 -> (First nil no yes)
+(LT (FlagsConst [c]) yes no) && (c & s390xFlagLT) != 0 -> (First nil yes no)
+(LT (FlagsConst [c]) yes no) && (c & s390xFlagLT) == 0 -> (First nil no yes)
+(EQ (FlagsConst [c]) yes no) && (c & s390xFlagEQ) != 0 -> (First nil yes no)
+(EQ (FlagsConst [c]) yes no) && (c & s390xFlagEQ) == 0 -> (First nil no yes)
 
-(NE (FlagEQ) yes no) -> (First nil no yes)
-(NE (FlagLT) yes no) -> (First nil yes no)
-(NE (FlagGT) yes no) -> (First nil yes no)
+(GE  (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagGT)) != 0 -> (First nil yes no)
+(GE  (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagGT)) == 0 -> (First nil no yes)
+(LE  (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagLT)) != 0 -> (First nil yes no)
+(LE  (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagLT)) == 0 -> (First nil no yes)
+(LG  (FlagsConst [c]) yes no) && (c & (s390xFlagLT|s390xFlagGT)) != 0 -> (First nil yes no)
+(LG  (FlagsConst [c]) yes no) && (c & (s390xFlagLT|s390xFlagGT)) == 0 -> (First nil no yes)
+(NLG (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagO))  != 0 -> (First nil yes no)
+(NLG (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagO))  == 0 -> (First nil no yes)
+(NLE (FlagsConst [c]) yes no) && (c & (s390xFlagGT|s390xFlagO))  != 0 -> (First nil yes no)
+(NLE (FlagsConst [c]) yes no) && (c & (s390xFlagGT|s390xFlagO))  == 0 -> (First nil no yes)
+(NGE (FlagsConst [c]) yes no) && (c & (s390xFlagLT|s390xFlagO))  != 0 -> (First nil yes no)
+(NGE (FlagsConst [c]) yes no) && (c & (s390xFlagLT|s390xFlagO))  == 0 -> (First nil no yes)
 
-(LT (FlagEQ) yes no) -> (First nil no yes)
-(LT (FlagLT) yes no) -> (First nil yes no)
-(LT (FlagGT) yes no) -> (First nil no yes)
+(NE (FlagsConst [c]) yes no) && (c & (s390xFlagLT|s390xFlagGT|s390xFlagO))  != 0 -> (First nil yes no)
+(NE (FlagsConst [c]) yes no) && (c & (s390xFlagLT|s390xFlagGT|s390xFlagO))  == 0 -> (First nil no yes)
+(NL (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagGT|s390xFlagO))  != 0 -> (First nil yes no)
+(NL (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagGT|s390xFlagO))  == 0 -> (First nil no yes)
+(NG (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagLT|s390xFlagO))  != 0 -> (First nil yes no)
+(NG (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagLT|s390xFlagO))  == 0 -> (First nil no yes)
+(NO (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagLT|s390xFlagGT)) != 0 -> (First nil yes no)
+(NO (FlagsConst [c]) yes no) && (c & (s390xFlagEQ|s390xFlagLT|s390xFlagGT)) == 0 -> (First nil no yes)
 
-(LE (FlagEQ) yes no) -> (First nil yes no)
-(LE (FlagLT) yes no) -> (First nil yes no)
-(LE (FlagGT) yes no) -> (First nil no yes)
+// Absorb flag constants into conditional moves.
+(MOVDO  _  yes (FlagsConst [c])) && (c & s390xFlagO)  != 0 -> (MOVDreg yes)
+(MOVDO  no _   (FlagsConst [c])) && (c & s390xFlagO)  == 0 -> (MOVDreg no)
+(MOVDGT _  yes (FlagsConst [c])) && (c & s390xFlagGT) != 0 -> (MOVDreg yes)
+(MOVDGT no _   (FlagsConst [c])) && (c & s390xFlagGT) == 0 -> (MOVDreg no)
+(MOVDLT _  yes (FlagsConst [c])) && (c & s390xFlagLT) != 0 -> (MOVDreg yes)
+(MOVDLT no _   (FlagsConst [c])) && (c & s390xFlagLT) == 0 -> (MOVDreg no)
+(MOVDEQ _  yes (FlagsConst [c])) && (c & s390xFlagEQ) != 0 -> (MOVDreg yes)
+(MOVDEQ no _   (FlagsConst [c])) && (c & s390xFlagEQ) == 0 -> (MOVDreg no)
 
-(GT (FlagEQ) yes no) -> (First nil no yes)
-(GT (FlagLT) yes no) -> (First nil no yes)
-(GT (FlagGT) yes no) -> (First nil yes no)
+(MOVDGE  _  yes (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagGT)) != 0 -> (MOVDreg yes)
+(MOVDGE  no _   (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagGT)) == 0 -> (MOVDreg no)
+(MOVDLE  _  yes (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT)) != 0 -> (MOVDreg yes)
+(MOVDLE  no _   (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT)) == 0 -> (MOVDreg no)
+(MOVDLG  _  yes (FlagsConst [c])) && (c & (s390xFlagLT|s390xFlagGT)) != 0 -> (MOVDreg yes)
+(MOVDLG  no _   (FlagsConst [c])) && (c & (s390xFlagLT|s390xFlagGT)) == 0 -> (MOVDreg no)
+(MOVDNLG _  yes (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagO))  != 0 -> (MOVDreg yes)
+(MOVDNLG no _   (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagO))  == 0 -> (MOVDreg no)
+(MOVDNLE _  yes (FlagsConst [c])) && (c & (s390xFlagGT|s390xFlagO))  != 0 -> (MOVDreg yes)
+(MOVDNLE no _   (FlagsConst [c])) && (c & (s390xFlagGT|s390xFlagO))  == 0 -> (MOVDreg no)
+(MOVDNGE _  yes (FlagsConst [c])) && (c & (s390xFlagLT|s390xFlagO))  != 0 -> (MOVDreg yes)
+(MOVDNGE no _   (FlagsConst [c])) && (c & (s390xFlagLT|s390xFlagO))  == 0 -> (MOVDreg no)
 
-(GE (FlagEQ) yes no) -> (First nil yes no)
-(GE (FlagLT) yes no) -> (First nil no yes)
-(GE (FlagGT) yes no) -> (First nil yes no)
-
-// Absorb flag constants into SETxx ops.
-(MOVDEQ _ x (FlagEQ)) -> x
-(MOVDEQ y _ (FlagLT)) -> y
-(MOVDEQ y _ (FlagGT)) -> y
-
-(MOVDNE y _ (FlagEQ)) -> y
-(MOVDNE _ x (FlagLT)) -> x
-(MOVDNE _ x (FlagGT)) -> x
-
-(MOVDLT y _ (FlagEQ)) -> y
-(MOVDLT _ x (FlagLT)) -> x
-(MOVDLT y _ (FlagGT)) -> y
-
-(MOVDLE _ x (FlagEQ)) -> x
-(MOVDLE _ x (FlagLT)) -> x
-(MOVDLE y _ (FlagGT)) -> y
-
-(MOVDGT y _ (FlagEQ)) -> y
-(MOVDGT y _ (FlagLT)) -> y
-(MOVDGT _ x (FlagGT)) -> x
-
-(MOVDGE _ x (FlagEQ)) -> x
-(MOVDGE y _ (FlagLT)) -> y
-(MOVDGE _ x (FlagGT)) -> x
+(MOVDNE _  yes (FlagsConst [c])) && (c & (s390xFlagLT|s390xFlagGT|s390xFlagO))  != 0 -> (MOVDreg yes)
+(MOVDNE no _   (FlagsConst [c])) && (c & (s390xFlagLT|s390xFlagGT|s390xFlagO))  == 0 -> (MOVDreg no)
+(MOVDNL _  yes (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagGT|s390xFlagO))  != 0 -> (MOVDreg yes)
+(MOVDNL no _   (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagGT|s390xFlagO))  == 0 -> (MOVDreg no)
+(MOVDNG _  yes (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT|s390xFlagO))  != 0 -> (MOVDreg yes)
+(MOVDNG no _   (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT|s390xFlagO))  == 0 -> (MOVDreg no)
+(MOVDNO _  yes (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT|s390xFlagGT)) != 0 -> (MOVDreg yes)
+(MOVDNO no _   (FlagsConst [c])) && (c & (s390xFlagEQ|s390xFlagLT|s390xFlagGT)) == 0 -> (MOVDreg no)
 
 // Remove redundant *const ops
 (ADDconst [0] x) -> x
