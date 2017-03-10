@@ -69,6 +69,24 @@
       "revId": "e4db71ae88fd4c1ed13490142a532f2f42b8c589",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "150038dc_785badfc",
+        "filename": "src/syscall/net.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-10T01:20:20Z",
+      "side": 1,
+      "message": "I was thinking replace.",
+      "parentUuid": "b84c0016_7741d061",
+      "revId": "e4db71ae88fd4c1ed13490142a532f2f42b8c589",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
