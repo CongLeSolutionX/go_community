@@ -282,7 +282,7 @@ func genOp() {
 	fmt.Fprintln(w, "func (o Op) UsesScratch() bool { return opcodeTable[o].usesScratch }")
 
 	fmt.Fprintln(w, "func (o Op) SymEffect() SymEffect { return opcodeTable[o].symEffect }")
-	fmt.Fprintln(w, "func (o Op) Call() bool { return opcodeTable[o].call }")
+	fmt.Fprintln(w, "func (o Op) IsCall() bool { return opcodeTable[o].call }")
 
 	// generate registers
 	for _, a := range archs {
