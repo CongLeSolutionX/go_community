@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "172b1489_b7afb161",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-03-11T13:28:28Z",
+      "side": 1,
+      "message": "i toyed around with this earlier and the best i could find was:\n\nisSpace :\u003d int(asciiSpace[r])\t\t\nn +\u003d ^isSpace \u0026 wasSpace\nwasSpace \u003d isSpace\n\nsee my suggestion in the improved version i linked earlier https://go-review.googlesource.com/c/37959/1/src/strings/strings.go",
+      "parentUuid": "c15a28dc_0b500fe8",
+      "revId": "066764fb99e9914c621a96ddac7381d54560ffc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b8e57b3_89e7bcfa",
         "filename": "src/strings/strings.go",
         "patchSetId": 1
