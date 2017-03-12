@@ -4594,13 +4594,11 @@ func AddAux2(a *obj.Addr, v *ssa.Value, offset int64) {
 	case *ssa.ArgSymbol:
 		n := sym.Node.(*Node)
 		a.Name = obj.NAME_PARAM
-		a.Node = n
 		a.Sym = Linksym(n.Orig.Sym)
 		a.Offset += n.Xoffset
 	case *ssa.AutoSymbol:
 		n := sym.Node.(*Node)
 		a.Name = obj.NAME_AUTO
-		a.Node = n
 		a.Sym = Linksym(n.Sym)
 		a.Offset += n.Xoffset
 	default:
@@ -4708,7 +4706,6 @@ func AutoVar(v *ssa.Value) (*Node, int64) {
 func AddrAuto(a *obj.Addr, v *ssa.Value) {
 	n, off := AutoVar(v)
 	a.Type = obj.TYPE_MEM
-	a.Node = n
 	a.Sym = Linksym(n.Sym)
 	a.Reg = int16(Thearch.REGSP)
 	a.Offset = n.Xoffset + off
@@ -4725,7 +4722,6 @@ func (s *SSAGenState) AddrScratch(a *obj.Addr) {
 	}
 	a.Type = obj.TYPE_MEM
 	a.Name = obj.NAME_AUTO
-	a.Node = s.ScratchFpMem
 	a.Sym = Linksym(s.ScratchFpMem.Sym)
 	a.Reg = int16(Thearch.REGSP)
 	a.Offset = s.ScratchFpMem.Xoffset
