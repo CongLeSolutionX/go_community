@@ -33,9 +33,7 @@ package gc
 import "cmd/internal/obj"
 
 func Prog(as obj.As) *obj.Prog {
-	var p *obj.Prog
-
-	p = pc
+	p := pc
 	pc = Ctxt.NewProg()
 	Clearp(pc)
 	p.Link = pc

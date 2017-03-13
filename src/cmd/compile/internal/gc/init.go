@@ -4,19 +4,6 @@
 
 package gc
 
-// a function named init is a special case.
-// it is called by the initialization before
-// main is run. to make it unique within a
-// package and also uncallable, the name,
-// normally "pkg.init", is altered to "pkg.init.1".
-
-var renameinit_initgen int
-
-func renameinit() *Sym {
-	renameinit_initgen++
-	return lookupN("init.", renameinit_initgen)
-}
-
 // hand-craft the following initialization code
 //      var initdone· uint8                             (1)
 //      func init() {                                   (2)
