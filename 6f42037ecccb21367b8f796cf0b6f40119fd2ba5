@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "21480914_3fd7d59c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 14340
+      },
+      "writtenOn": "2017-03-13T04:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8ef1d93d_b8f754d5",
+      "revId": "6f42037ecccb21367b8f796cf0b6f40119fd2ba5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd39ce05_ef3ccd4f",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-03-13T02:29:32Z",
       "side": 1,
       "message": "I would drop this func and only provide the method.",
+      "range": {
+        "startLine": 2324,
+        "startChar": 0,
+        "endLine": 2324,
+        "endChar": 13
+      },
+      "revId": "6f42037ecccb21367b8f796cf0b6f40119fd2ba5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86eeae24_6758febd",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2324,
+      "author": {
+        "id": 14340
+      },
+      "writtenOn": "2017-03-13T04:13:51Z",
+      "side": 1,
+      "message": "Dropping the func would make the usage tedious:\n\n\tsrv :\u003d \u0026http.Server{}\n\tsrv.Handler \u003d someHandler\n\terr :\u003d srv.ServeTLS(listener, certFile, keyFile)\n\nInstead of the following:\n\n\terr :\u003d http.ServeTLS(listener, someHandler, certFile, keyFile)\n\nSame applies to http.Serve. Are you suggesting to keep the ServeTLS implementation only passively available?",
+      "parentUuid": "cd39ce05_ef3ccd4f",
       "range": {
         "startLine": 2324,
         "startChar": 0,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "813d4dde_90b246a5",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2697,
+      "author": {
+        "id": 14340
+      },
+      "writtenOn": "2017-03-13T04:13:51Z",
+      "side": 1,
+      "message": "\u003e did you rewrite these docs?\n\nNo, I assembled it from Serve and ListenAndServeTLS\u0027s. Seems appropriate enough, although duplicate phrasing.\n\n\u003e It doesn\u0027t mention the special case for empty strings as it does elsewhere.\n\nDo you mean the certFile, keyFile args being empty strings? Not sure where this case is documented. Kindly guide.",
+      "parentUuid": "e33eff3f_5d001c98",
+      "range": {
+        "startLine": 2697,
+        "startChar": 3,
+        "endLine": 2697,
+        "endChar": 32
+      },
+      "revId": "6f42037ecccb21367b8f796cf0b6f40119fd2ba5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0862641d_7bf63930",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
@@ -85,6 +151,30 @@
       "revId": "6f42037ecccb21367b8f796cf0b6f40119fd2ba5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35854570_af25c73b",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2733,
+      "author": {
+        "id": 14340
+      },
+      "writtenOn": "2017-03-13T04:13:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0862641d_7bf63930",
+      "range": {
+        "startLine": 2711,
+        "startChar": 1,
+        "endLine": 2733,
+        "endChar": 30
+      },
+      "revId": "6f42037ecccb21367b8f796cf0b6f40119fd2ba5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
