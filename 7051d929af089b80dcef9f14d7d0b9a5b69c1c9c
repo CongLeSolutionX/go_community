@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55f03b99_73c0cfc5",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-13T16:56:17Z",
+      "side": 1,
+      "message": "This is a somewhat common idiom, so it might be worth adding a symgen type like:\n\n    type symgen struct {\n        prefix string\n        n int\n    }\n\n    func (g *symgen) next() *Sym {\n        g.n++\n        return lookupN(g.prefix, g.n)\n    }\n\nDoesn\u0027t have to be in this CL though.",
+      "revId": "7051d929af089b80dcef9f14d7d0b9a5b69c1c9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "016957bc_528cc9da",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-13T16:56:17Z",
+      "side": 1,
+      "message": "I\u0027d name this \"g\" so it\u0027s obvious within noder when we\u0027re accessing global shared state.",
+      "revId": "7051d929af089b80dcef9f14d7d0b9a5b69c1c9c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
