@@ -1056,6 +1056,53 @@ func TestTransportProxy(t *testing.T) {
 	}
 }
 
+// Modified from TestTransportProxy
+func TestTransportDefaultProxy(t *testing.T) {
+	defer afterTest(t)
+	ch := make(chan string, 1)
+	ts := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		ch <- "real server"
+	}))
+	defer ts.Close()
+	proxy := httptest.NewServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		ch <- "proxy for " + r.URL.String()
+	}))
+	defer proxy.Close()
+
+	pu, err := url.Parse(proxy.URL)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dt, ok := DefaultTransport.(*Transport)
+	if !ok {
+		t.Fatal("DefaultTransport is expected to be *Transport")
+	}
+
+	// Move DefaultTransport.Proxy around (and reset) for this test
+	oldProxy := dt.Proxy
+	dt.Proxy = ProxyURL(pu)
+	defer func() {
+		dt.Proxy = oldProxy
+		dt.CloseIdleConnections()
+	}()
+
+	c := &Client{Transport: &Transport{}}
+	if _, err := c.Head(ts.URL); err != nil {
+		t.Error(err)
+	}
+	var got string
+	select {
+	case got = <-ch:
+	case <-time.After(5 * time.Second):
+		t.Fatal("timeout connecting to http proxy")
+	}
+	want := "proxy for " + ts.URL + "/"
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
+
 // Issue 16997: test transport dial preserves typed errors
 func TestTransportDialPreservesNetOpProxyError(t *testing.T) {
 	defer afterTest(t)

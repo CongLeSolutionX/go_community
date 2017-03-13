@@ -594,8 +594,16 @@ func (t *Transport) connectMethodForRequest(treq *transportRequest) (cm connectM
 	}
 	cm.targetScheme = treq.URL.Scheme
 	cm.targetAddr = canonicalAddr(treq.URL)
-	if t.Proxy != nil {
-		cm.proxyURL, err = t.Proxy(treq.Request)
+
+	proxyFn := t.Proxy
+	if proxyFn == nil {
+		if dt, ok := DefaultTransport.(*Transport); ok {
+			proxyFn = dt.Proxy
+		}
+	}
+
+	if proxyFn != nil {
+		cm.proxyURL, err = proxyFn(treq.Request)
 		if err == nil && cm.proxyURL != nil {
 			if port := cm.proxyURL.Port(); !validPort(port) {
 				return cm, fmt.Errorf("invalid proxy URL port %q", port)
