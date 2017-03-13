@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd39ce05_ef3ccd4f",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2324,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-13T02:29:32Z",
+      "side": 1,
+      "message": "I would drop this func and only provide the method.",
+      "range": {
+        "startLine": 2324,
+        "startChar": 0,
+        "endLine": 2324,
+        "endChar": 13
+      },
+      "revId": "6f42037ecccb21367b8f796cf0b6f40119fd2ba5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e33eff3f_5d001c98",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2697,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-13T02:29:32Z",
+      "side": 1,
+      "message": "did you rewrite these docs? It doesn\u0027t mention the special case for empty strings as it does elsewhere.",
+      "range": {
+        "startLine": 2697,
+        "startChar": 3,
+        "endLine": 2697,
+        "endChar": 32
+      },
+      "revId": "6f42037ecccb21367b8f796cf0b6f40119fd2ba5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0862641d_7bf63930",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2733,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-13T02:29:32Z",
+      "side": 1,
+      "message": "do we really need to duplicate all this?\n\nI had imagined a CL like this would reuse some code.",
+      "range": {
+        "startLine": 2711,
+        "startChar": 1,
+        "endLine": 2733,
+        "endChar": 30
+      },
+      "revId": "6f42037ecccb21367b8f796cf0b6f40119fd2ba5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
