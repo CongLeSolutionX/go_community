@@ -19,9 +19,13 @@ import (
 func parseFiles(filenames []string) uint {
 	var lines uint
 	var noders []*noder
+	var g global
 
 	for _, filename := range filenames {
-		p := &noder{err: make(chan syntax.Error)}
+		p := &noder{
+			global: &g,
+			err:    make(chan syntax.Error),
+		}
 		noders = append(noders, p)
 
 		go func(filename string) {
@@ -68,8 +72,24 @@ func absFilename(name string) string {
 	return obj.AbsFile(Ctxt.Pathname, name, pathPrefix)
 }
 
+// global captures package level counters
+type global struct {
+	renameinit_initgen int // tracks the sequence number for init funcs
+}
+
+// a function named init is a special case.
+// it is called by the initialization before
+// main is run. to make it unique within a
+// package and also uncallable, the name,
+// normally "pkg.init", is altered to "pkg.init.1".
+func (g *global) renameinit() *Sym {
+	g.renameinit_initgen++
+	return lookupN("init.", g.renameinit_initgen)
+}
+
 // noder transforms package syntax's AST into a Node tree.
 type noder struct {
+	*global
 	file       *syntax.File
 	linknames  []linkname
 	pragcgobuf string
@@ -338,7 +358,7 @@ func (p *noder) funcHeader(fun *syntax.FuncDecl) *Node {
 	if fun.Recv == nil {
 		// FunctionName Signature
 		if name.Name == "init" {
-			name = renameinit()
+			name = p.renameinit()
 			if t.List.Len() > 0 || t.Rlist.Len() > 0 {
 				yyerror("func init must have no arguments and no return values")
 			}
