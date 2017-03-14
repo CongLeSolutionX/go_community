@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a753392_4a312aed",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-14T19:22:00Z",
+      "side": 1,
+      "message": "Can this be just:\n\n    if isblanksym(r.Sym) {\n        return nblank, r.Left\n    }\n    return nodSym(ODOT, var_, r.Sym), r.Left\n\nand skip the BlankOK stuff?",
+      "revId": "4c30eb06e4554820335a17bbcaecbc1cc9d8814c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
