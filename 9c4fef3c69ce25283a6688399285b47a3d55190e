@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b2a2373_aa5a18ef",
+        "filename": "src/time/time_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1180,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-14T22:14:31Z",
+      "side": 1,
+      "message": "It seems to me that these new tests all pass without any change to time.go.  Can you confirm that they fail for you?  For me they seem to pass whether I set TZ\u003dUTC or not.",
+      "revId": "9c4fef3c69ce25283a6688399285b47a3d55190e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "947b45f3_43af836a",
+        "filename": "src/time/time_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-14T22:14:31Z",
+      "side": 1,
+      "message": "I don\u0027t think we should write a test that uses `Local \u003d UTC`, because I don\u0027t think any realistic program should ever do that.  Note that setting TZ\u003dUTC does not cause Local \u003d\u003d UTC to become true.",
+      "revId": "9c4fef3c69ce25283a6688399285b47a3d55190e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
