@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16000ad0_4fd09e94",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-03-14T21:49:47Z",
+      "side": 1,
+      "message": "I wasn\u0027t sure how much to worry about how wide the dominator tree was.  We can always put an i++ in the sibling loop below if you think it would be worth it.\nWe\u0027d need to add some more mechanism to do lca(leftMost,rightMost).  That\u0027s currently linear as well.",
+      "parentUuid": "24c7f4dc_e17cabf2",
+      "range": {
+        "startLine": 1578,
+        "startChar": 5,
+        "endLine": 1578,
+        "endChar": 65
+      },
+      "revId": "469ca7b85ca2c516b4ea30ed7cc4d2bd8d0df592",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cd6a13b_2a765f89",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-14T18:44:12Z",
       "side": 1,
       "message": "Would it be good to track best depth instead?  Suppose loop1 -\u003e outside loop -\u003e loop2 -- a spill location outside of either loop would be better than sinking into loop2 because it was no deeper than loop1.",
+      "range": {
+        "startLine": 1600,
+        "startChar": 45,
+        "endLine": 1600,
+        "endChar": 61
+      },
+      "revId": "469ca7b85ca2c516b4ea30ed7cc4d2bd8d0df592",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79450de5_6aec5469",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1600,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-03-14T21:49:47Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll do that.",
+      "parentUuid": "9cd6a13b_2a765f89",
       "range": {
         "startLine": 1600,
         "startChar": 45,
