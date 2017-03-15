@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "97e04a85_570b79b9",
+        "filename": "src/runtime/debuglog.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-15T17:51:51Z",
+      "side": 1,
+      "message": "Yes. Thanks for catching that.",
+      "parentUuid": "1cdb59d5_87493d41",
+      "range": {
+        "startLine": 13,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 57
+      },
+      "revId": "9d92d84df1402e910f1a50fce64f2dd8d16de701",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "488ede88_d9c12e1d",
         "filename": "src/runtime/debuglog.go",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-14T23:54:18Z",
       "side": 1,
       "message": "missing atomic.Load64()?",
+      "range": {
+        "startLine": 124,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 16
+      },
+      "revId": "9d92d84df1402e910f1a50fce64f2dd8d16de701",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e9d0750_e3612ab9",
+        "filename": "src/runtime/debuglog.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-15T17:51:51Z",
+      "side": 1,
+      "message": "Strictly speaking, this is okay in the runtime (which has a more deterministic memory model because of its coupling with the compiler) because of the CAS. But there\u0027s also no harm in using atomic.Load64 here and it makes this less obscure, so I\u0027ve changed it. Thanks.",
+      "parentUuid": "488ede88_d9c12e1d",
       "range": {
         "startLine": 124,
         "startChar": 2,
