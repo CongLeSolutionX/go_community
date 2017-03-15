@@ -34,6 +34,24 @@
       "revId": "4c30eb06e4554820335a17bbcaecbc1cc9d8814c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a92f238_2637d3ee",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-15T20:38:13Z",
+      "side": 1,
+      "message": "(FYI, I\u0027m assuming \"will revise code later\" still means within this CL. If you mean in a followup CL, let me know and I\u0027ll finish reviewing.)",
+      "parentUuid": "1293d037_ea98f46f",
+      "revId": "4c30eb06e4554820335a17bbcaecbc1cc9d8814c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
