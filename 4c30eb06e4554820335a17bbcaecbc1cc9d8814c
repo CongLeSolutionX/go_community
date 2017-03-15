@@ -16,6 +16,24 @@
       "revId": "4c30eb06e4554820335a17bbcaecbc1cc9d8814c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1293d037_ea98f46f",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-15T18:53:40Z",
+      "side": 1,
+      "message": "Need to think about whether that\u0027ll catch the cases in which the blank is explicitly mentioned (which ought to be disallowed). Adding tests for it uncovered worse problems:\n\ncompile: prepwrite: bad off\u003d-1000000000 siz\u003d8 s\u003d\"\".statictmp_1\n\nUploading new tests now, will revise code later.",
+      "parentUuid": "2a753392_4a312aed",
+      "revId": "4c30eb06e4554820335a17bbcaecbc1cc9d8814c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
