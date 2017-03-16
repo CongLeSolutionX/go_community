@@ -293,6 +293,7 @@ func makemap(t *maptype, hint int64, h *hmap, bucket unsafe.Pointer) *hmap {
 	h.oldbuckets = nil
 	h.nevacuate = 0
 	h.noverflow = 0
+	h.overflow = nil
 
 	return h
 }
@@ -873,6 +874,13 @@ next:
 	goto next
 }
 
+func mapinccap(t *maptype, h *hmap, hint int) {
+	B := h.B
+	for ; overLoadFactor(int64(hint), B); B++ {
+	}
+	doHashGrow(t, h, B-h.B)
+}
+
 func hashGrow(t *maptype, h *hmap) {
 	// If we've hit the load factor, get bigger.
 	// Otherwise, there are too many overflow buckets,
@@ -882,14 +890,18 @@ func hashGrow(t *maptype, h *hmap) {
 		bigger = 0
 		h.flags |= sameSizeGrow
 	}
+	doHashGrow(t, h, bigger)
+}
+
+func doHashGrow(t *maptype, h *hmap, B uint8) {
 	oldbuckets := h.buckets
-	newbuckets := newarray(t.bucket, 1<<(h.B+bigger))
+	newbuckets := newarray(t.bucket, 1<<(h.B+B))
 	flags := h.flags &^ (iterator | oldIterator)
 	if h.flags&iterator != 0 {
 		flags |= oldIterator
 	}
 	// commit the grow (atomic wrt gc)
-	h.B += bigger
+	h.B += B
 	h.flags = flags
 	h.oldbuckets = oldbuckets
 	h.buckets = newbuckets
@@ -1196,6 +1208,11 @@ func reflect_maplen(h *hmap) int {
 //go:linkname reflect_ismapkey reflect.ismapkey
 func reflect_ismapkey(t *_type) bool {
 	return ismapkey(t)
+}
+
+//go:linkname reflect_mapinccap reflect.mapinccap
+func reflect_mapinccap(t *maptype, h *hmap, hint int) {
+	mapinccap(t, h, hint)
 }
 
 const maxZero = 1024 // must match value in ../cmd/compile/internal/gc/walk.go

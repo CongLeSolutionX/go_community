@@ -546,12 +546,12 @@ func (dec *Decoder) decodeArray(state *decoderState, value reflect.Value, elemOp
 }
 
 // decodeIntoValue is a helper for map decoding.
-func decodeIntoValue(state *decoderState, op decOp, isPtr bool, value reflect.Value, ovfl error) reflect.Value {
-	instr := &decInstr{op, 0, nil, ovfl}
+func decodeIntoValue(state *decoderState, op decOp, isPtr bool, value reflect.Value, instr *decInstr) reflect.Value {
 	v := value
 	if isPtr {
 		v = decAlloc(value)
 	}
+
 	op(instr, state, v)
 	return value
 }
@@ -566,11 +566,14 @@ func (dec *Decoder) decodeMap(mtyp reflect.Type, state *decoderState, value refl
 		value.Set(reflect.MakeMap(mtyp))
 	}
 	n := int(state.decodeUint())
+	value.MapIncCap(mtyp, n)
 	keyIsPtr := mtyp.Key().Kind() == reflect.Ptr
 	elemIsPtr := mtyp.Elem().Kind() == reflect.Ptr
+	keyInstr := &decInstr{keyOp, 0, nil, ovfl}
+	elemInstr := &decInstr{elemOp, 0, nil, ovfl}
 	for i := 0; i < n; i++ {
-		key := decodeIntoValue(state, keyOp, keyIsPtr, allocValue(mtyp.Key()), ovfl)
-		elem := decodeIntoValue(state, elemOp, elemIsPtr, allocValue(mtyp.Elem()), ovfl)
+		key := decodeIntoValue(state, keyOp, keyIsPtr, allocValue(mtyp.Key()), keyInstr)
+		elem := decodeIntoValue(state, elemOp, elemIsPtr, allocValue(mtyp.Elem()), elemInstr)
 		value.SetMapIndex(key, elem)
 	}
 }

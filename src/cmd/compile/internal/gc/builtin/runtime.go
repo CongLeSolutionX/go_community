@@ -109,6 +109,7 @@ func mapassign_faststr(mapType *byte, hmap map[any]any, key any) (val *any)
 func mapiterinit(mapType *byte, hmap map[any]any, hiter *any)
 func mapdelete(mapType *byte, hmap map[any]any, key *any)
 func mapiternext(hiter *any)
+func mapinccap(mapType *byte, hmap map[any]any, hint int)
 
 // *byte is really *runtime.Type
 func makechan(chanType *byte, hint int64) (hchan chan any)

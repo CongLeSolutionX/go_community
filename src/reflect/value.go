@@ -2080,6 +2080,13 @@ func MakeMap(typ Type) Value {
 	return Value{typ.common(), m, flag(Map)}
 }
 
+func (v Value) MapIncCap(typ Type, hint int) {
+	if v.Kind() != Map {
+		panic("Kind must by map!")
+	}
+	mapinccap(typ.(*rtype), v.pointer(), hint)
+}
+
 // Indirect returns the value that v points to.
 // If v is a nil pointer, Indirect returns a zero Value.
 // If v is not a pointer, Indirect returns v.
@@ -2495,6 +2502,9 @@ func mapiternext(it unsafe.Pointer)
 
 //go:noescape
 func maplen(m unsafe.Pointer) int
+
+//go:noescape
+func mapinccap(t *rtype, m unsafe.Pointer, hint int)
 
 // call calls fn with a copy of the n argument bytes pointed at by arg.
 // After fn returns, reflectcall copies n-retoffset result bytes
