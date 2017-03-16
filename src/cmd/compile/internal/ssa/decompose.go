@@ -32,7 +32,7 @@ func decomposeBuiltIn(f *Func) {
 			} else {
 				elemType = f.Config.fe.TypeUInt32()
 			}
-			hiName, loName := f.Config.fe.SplitInt64(name)
+			hiName, loName := f.Config.fe.SplitInt64(f, name)
 			newNames = append(newNames, hiName, loName)
 			for _, v := range f.NamedValues[name] {
 				hi := v.Block.NewValue1(v.Pos, OpInt64Hi, elemType, v)
@@ -48,7 +48,7 @@ func decomposeBuiltIn(f *Func) {
 			} else {
 				elemType = f.Config.fe.TypeFloat32()
 			}
-			rName, iName := f.Config.fe.SplitComplex(name)
+			rName, iName := f.Config.fe.SplitComplex(f, name)
 			newNames = append(newNames, rName, iName)
 			for _, v := range f.NamedValues[name] {
 				r := v.Block.NewValue1(v.Pos, OpComplexReal, elemType, v)
@@ -60,7 +60,7 @@ func decomposeBuiltIn(f *Func) {
 		case t.IsString():
 			ptrType := f.Config.fe.TypeBytePtr()
 			lenType := f.Config.fe.TypeInt()
-			ptrName, lenName := f.Config.fe.SplitString(name)
+			ptrName, lenName := f.Config.fe.SplitString(f, name)
 			newNames = append(newNames, ptrName, lenName)
 			for _, v := range f.NamedValues[name] {
 				ptr := v.Block.NewValue1(v.Pos, OpStringPtr, ptrType, v)
@@ -72,7 +72,7 @@ func decomposeBuiltIn(f *Func) {
 		case t.IsSlice():
 			ptrType := f.Config.fe.TypeBytePtr()
 			lenType := f.Config.fe.TypeInt()
-			ptrName, lenName, capName := f.Config.fe.SplitSlice(name)
+			ptrName, lenName, capName := f.Config.fe.SplitSlice(f, name)
 			newNames = append(newNames, ptrName, lenName, capName)
 			for _, v := range f.NamedValues[name] {
 				ptr := v.Block.NewValue1(v.Pos, OpSlicePtr, ptrType, v)
@@ -85,7 +85,7 @@ func decomposeBuiltIn(f *Func) {
 			delete(f.NamedValues, name)
 		case t.IsInterface():
 			ptrType := f.Config.fe.TypeBytePtr()
-			typeName, dataName := f.Config.fe.SplitInterface(name)
+			typeName, dataName := f.Config.fe.SplitInterface(f, name)
 			newNames = append(newNames, typeName, dataName)
 			for _, v := range f.NamedValues[name] {
 				typ := v.Block.NewValue1(v.Pos, OpITab, ptrType, v)
@@ -243,7 +243,7 @@ func decomposeUser(f *Func) {
 			n := t.NumFields()
 			fnames = fnames[:0]
 			for i := 0; i < n; i++ {
-				fnames = append(fnames, f.Config.fe.SplitStruct(name, i))
+				fnames = append(fnames, f.Config.fe.SplitStruct(f, name, i))
 			}
 			for _, v := range f.NamedValues[name] {
 				for i := 0; i < n; i++ {
@@ -262,7 +262,7 @@ func decomposeUser(f *Func) {
 			if t.NumElem() != 1 {
 				f.Fatalf("array not of size 1")
 			}
-			elemName := f.Config.fe.SplitArray(name)
+			elemName := f.Config.fe.SplitArray(f, name)
 			for _, v := range f.NamedValues[name] {
 				e := v.Block.NewValue1I(v.Pos, OpArraySelect, t.ElemType(), 0, v)
 				f.NamedValues[elemName] = append(f.NamedValues[elemName], e)

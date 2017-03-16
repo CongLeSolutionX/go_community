@@ -51,33 +51,33 @@ func (DummyFrontend) StringData(s string) interface{} {
 func (DummyFrontend) Auto(t Type) GCNode {
 	return &DummyAuto{t: t, s: "aDummyAuto"}
 }
-func (d DummyFrontend) SplitString(s LocalSlot) (LocalSlot, LocalSlot) {
+func (d DummyFrontend) SplitString(f *Func, s LocalSlot) (LocalSlot, LocalSlot) {
 	return LocalSlot{s.N, d.TypeBytePtr(), s.Off}, LocalSlot{s.N, d.TypeInt(), s.Off + 8}
 }
-func (d DummyFrontend) SplitInterface(s LocalSlot) (LocalSlot, LocalSlot) {
+func (d DummyFrontend) SplitInterface(f *Func, s LocalSlot) (LocalSlot, LocalSlot) {
 	return LocalSlot{s.N, d.TypeBytePtr(), s.Off}, LocalSlot{s.N, d.TypeBytePtr(), s.Off + 8}
 }
-func (d DummyFrontend) SplitSlice(s LocalSlot) (LocalSlot, LocalSlot, LocalSlot) {
+func (d DummyFrontend) SplitSlice(f *Func, s LocalSlot) (LocalSlot, LocalSlot, LocalSlot) {
 	return LocalSlot{s.N, s.Type.ElemType().PtrTo(), s.Off},
 		LocalSlot{s.N, d.TypeInt(), s.Off + 8},
 		LocalSlot{s.N, d.TypeInt(), s.Off + 16}
 }
-func (d DummyFrontend) SplitComplex(s LocalSlot) (LocalSlot, LocalSlot) {
+func (d DummyFrontend) SplitComplex(f *Func, s LocalSlot) (LocalSlot, LocalSlot) {
 	if s.Type.Size() == 16 {
 		return LocalSlot{s.N, d.TypeFloat64(), s.Off}, LocalSlot{s.N, d.TypeFloat64(), s.Off + 8}
 	}
 	return LocalSlot{s.N, d.TypeFloat32(), s.Off}, LocalSlot{s.N, d.TypeFloat32(), s.Off + 4}
 }
-func (d DummyFrontend) SplitInt64(s LocalSlot) (LocalSlot, LocalSlot) {
+func (d DummyFrontend) SplitInt64(f *Func, s LocalSlot) (LocalSlot, LocalSlot) {
 	if s.Type.IsSigned() {
 		return LocalSlot{s.N, d.TypeInt32(), s.Off + 4}, LocalSlot{s.N, d.TypeUInt32(), s.Off}
 	}
 	return LocalSlot{s.N, d.TypeUInt32(), s.Off + 4}, LocalSlot{s.N, d.TypeUInt32(), s.Off}
 }
-func (d DummyFrontend) SplitStruct(s LocalSlot, i int) LocalSlot {
+func (d DummyFrontend) SplitStruct(f *Func, s LocalSlot, i int) LocalSlot {
 	return LocalSlot{s.N, s.Type.FieldType(i), s.Off + s.Type.FieldOff(i)}
 }
-func (d DummyFrontend) SplitArray(s LocalSlot) LocalSlot {
+func (d DummyFrontend) SplitArray(f *Func, s LocalSlot) LocalSlot {
 	return LocalSlot{s.N, s.Type.ElemType(), s.Off}
 }
 func (DummyFrontend) Line(_ src.XPos) string {
