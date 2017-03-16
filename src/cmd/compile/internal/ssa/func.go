@@ -18,7 +18,7 @@ type Func struct {
 	Config *Config  // architecture information
 	pass   *pass    // current pass information (name, options, etc.)
 	Name   string   // e.g. bytes·Compare
-	Type   Type     // type signature of the function.
+	Curfn  GCNode   // holds the Node for the current function
 	Blocks []*Block // unordered set of all basic blocks (note: not indexable by ID)
 	Entry  *Block   // the entry basic block
 	bid    idAlloc  // block ID allocator

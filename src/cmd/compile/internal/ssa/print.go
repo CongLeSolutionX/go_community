@@ -38,7 +38,7 @@ type stringFuncPrinter struct {
 func (p stringFuncPrinter) header(f *Func) {
 	fmt.Fprint(p.w, f.Name)
 	fmt.Fprint(p.w, " ")
-	fmt.Fprintln(p.w, f.Type)
+	fmt.Fprintln(p.w, f.Curfn.Typ())
 }
 
 func (p stringFuncPrinter) startBlock(b *Block, reachable bool) {

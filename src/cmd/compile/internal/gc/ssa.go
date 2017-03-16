@@ -69,6 +69,7 @@ func buildssa(fn *Node) *ssa.Func {
 	if fn.Func.Pragma&Nosplit != 0 {
 		s.f.NoSplit = true
 	}
+	s.f.Curfn = fn
 	s.exitCode = fn.Func.Exit
 	s.panics = map[funcLine]*ssa.Block{}
 	s.config.DebugTest = s.config.DebugHashMatch("GOSSAHASH", name)
@@ -4378,10 +4379,10 @@ func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
 	}
 
 	// Generate gc bitmaps.
-	liveness(Curfn, ptxt, gcargs, gclocals)
+	liveness(f.Curfn.(*Node), ptxt, gcargs, gclocals)
 
 	// Add frame prologue. Zero ambiguously live variables.
-	Thearch.Defframe(ptxt)
+	Thearch.Defframe(ptxt, f.Curfn.(*Node))
 	if Debug['f'] != 0 {
 		frame(0)
 	}
@@ -4727,21 +4728,21 @@ func (e *ssaExport) Auto(t ssa.Type) ssa.GCNode {
 	return n
 }
 
-func (e *ssaExport) SplitString(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
+func (e *ssaExport) SplitString(fn *ssa.Func, name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
 	n := name.N.(*Node)
 	ptrType := ptrto(Types[TUINT8])
 	lenType := Types[TINT]
 	if n.Class == PAUTO && !n.Addrtaken() {
 		// Split this string up into two separate variables.
-		p := e.namedAuto(n.Sym.Name+".ptr", ptrType)
-		l := e.namedAuto(n.Sym.Name+".len", lenType)
+		p := namedAuto(n.Sym.Name+".ptr", ptrType, fn.Curfn.(*Node))
+		l := namedAuto(n.Sym.Name+".len", lenType, fn.Curfn.(*Node))
 		return ssa.LocalSlot{N: p, Type: ptrType, Off: 0}, ssa.LocalSlot{N: l, Type: lenType, Off: 0}
 	}
 	// Return the two parts of the larger variable.
 	return ssa.LocalSlot{N: n, Type: ptrType, Off: name.Off}, ssa.LocalSlot{N: n, Type: lenType, Off: name.Off + int64(Widthptr)}
 }
 
-func (e *ssaExport) SplitInterface(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
+func (e *ssaExport) SplitInterface(fn *ssa.Func, name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
 	n := name.N.(*Node)
 	t := ptrto(Types[TUINT8])
 	if n.Class == PAUTO && !n.Addrtaken() {
@@ -4750,23 +4751,23 @@ func (e *ssaExport) SplitInterface(name ssa.LocalSlot) (ssa.LocalSlot, ssa.Local
 		if n.Type.IsEmptyInterface() {
 			f = ".type"
 		}
-		c := e.namedAuto(n.Sym.Name+f, t)
-		d := e.namedAuto(n.Sym.Name+".data", t)
+		c := namedAuto(n.Sym.Name+f, t, fn.Curfn.(*Node))
+		d := namedAuto(n.Sym.Name+".data", t, fn.Curfn.(*Node))
 		return ssa.LocalSlot{N: c, Type: t, Off: 0}, ssa.LocalSlot{N: d, Type: t, Off: 0}
 	}
 	// Return the two parts of the larger variable.
 	return ssa.LocalSlot{N: n, Type: t, Off: name.Off}, ssa.LocalSlot{N: n, Type: t, Off: name.Off + int64(Widthptr)}
 }
 
-func (e *ssaExport) SplitSlice(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot, ssa.LocalSlot) {
+func (e *ssaExport) SplitSlice(fn *ssa.Func, name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot, ssa.LocalSlot) {
 	n := name.N.(*Node)
 	ptrType := ptrto(name.Type.ElemType().(*Type))
 	lenType := Types[TINT]
 	if n.Class == PAUTO && !n.Addrtaken() {
 		// Split this slice up into three separate variables.
-		p := e.namedAuto(n.Sym.Name+".ptr", ptrType)
-		l := e.namedAuto(n.Sym.Name+".len", lenType)
-		c := e.namedAuto(n.Sym.Name+".cap", lenType)
+		p := namedAuto(n.Sym.Name+".ptr", ptrType, fn.Curfn.(*Node))
+		l := namedAuto(n.Sym.Name+".len", lenType, fn.Curfn.(*Node))
+		c := namedAuto(n.Sym.Name+".cap", lenType, fn.Curfn.(*Node))
 		return ssa.LocalSlot{N: p, Type: ptrType, Off: 0}, ssa.LocalSlot{N: l, Type: lenType, Off: 0}, ssa.LocalSlot{N: c, Type: lenType, Off: 0}
 	}
 	// Return the three parts of the larger variable.
@@ -4775,7 +4776,7 @@ func (e *ssaExport) SplitSlice(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot
 		ssa.LocalSlot{N: n, Type: lenType, Off: name.Off + int64(2*Widthptr)}
 }
 
-func (e *ssaExport) SplitComplex(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
+func (e *ssaExport) SplitComplex(fn *ssa.Func, name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
 	n := name.N.(*Node)
 	s := name.Type.Size() / 2
 	var t *Type
@@ -4786,15 +4787,15 @@ func (e *ssaExport) SplitComplex(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSl
 	}
 	if n.Class == PAUTO && !n.Addrtaken() {
 		// Split this complex up into two separate variables.
-		c := e.namedAuto(n.Sym.Name+".real", t)
-		d := e.namedAuto(n.Sym.Name+".imag", t)
+		c := namedAuto(n.Sym.Name+".real", t, fn.Curfn.(*Node))
+		d := namedAuto(n.Sym.Name+".imag", t, fn.Curfn.(*Node))
 		return ssa.LocalSlot{N: c, Type: t, Off: 0}, ssa.LocalSlot{N: d, Type: t, Off: 0}
 	}
 	// Return the two parts of the larger variable.
 	return ssa.LocalSlot{N: n, Type: t, Off: name.Off}, ssa.LocalSlot{N: n, Type: t, Off: name.Off + s}
 }
 
-func (e *ssaExport) SplitInt64(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
+func (e *ssaExport) SplitInt64(fn *ssa.Func, name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {
 	n := name.N.(*Node)
 	var t *Type
 	if name.Type.IsSigned() {
@@ -4804,8 +4805,8 @@ func (e *ssaExport) SplitInt64(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot
 	}
 	if n.Class == PAUTO && !n.Addrtaken() {
 		// Split this int64 up into two separate variables.
-		h := e.namedAuto(n.Sym.Name+".hi", t)
-		l := e.namedAuto(n.Sym.Name+".lo", Types[TUINT32])
+		h := namedAuto(n.Sym.Name+".hi", t, fn.Curfn.(*Node))
+		l := namedAuto(n.Sym.Name+".lo", Types[TUINT32], fn.Curfn.(*Node))
 		return ssa.LocalSlot{N: h, Type: t, Off: 0}, ssa.LocalSlot{N: l, Type: Types[TUINT32], Off: 0}
 	}
 	// Return the two parts of the larger variable.
@@ -4815,7 +4816,7 @@ func (e *ssaExport) SplitInt64(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot
 	return ssa.LocalSlot{N: n, Type: t, Off: name.Off + 4}, ssa.LocalSlot{N: n, Type: Types[TUINT32], Off: name.Off}
 }
 
-func (e *ssaExport) SplitStruct(name ssa.LocalSlot, i int) ssa.LocalSlot {
+func (e *ssaExport) SplitStruct(fn *ssa.Func, name ssa.LocalSlot, i int) ssa.LocalSlot {
 	n := name.N.(*Node)
 	st := name.Type
 	ft := st.FieldType(i)
@@ -4823,13 +4824,13 @@ func (e *ssaExport) SplitStruct(name ssa.LocalSlot, i int) ssa.LocalSlot {
 		// Note: the _ field may appear several times.  But
 		// have no fear, identically-named but distinct Autos are
 		// ok, albeit maybe confusing for a debugger.
-		x := e.namedAuto(n.Sym.Name+"."+st.FieldName(i), ft)
+		x := namedAuto(n.Sym.Name+"."+st.FieldName(i), ft, fn.Curfn.(*Node))
 		return ssa.LocalSlot{N: x, Type: ft, Off: 0}
 	}
 	return ssa.LocalSlot{N: n, Type: ft, Off: name.Off + st.FieldOff(i)}
 }
 
-func (e *ssaExport) SplitArray(name ssa.LocalSlot) ssa.LocalSlot {
+func (e *ssaExport) SplitArray(fn *ssa.Func, name ssa.LocalSlot) ssa.LocalSlot {
 	n := name.N.(*Node)
 	at := name.Type
 	if at.NumElem() != 1 {
@@ -4837,7 +4838,7 @@ func (e *ssaExport) SplitArray(name ssa.LocalSlot) ssa.LocalSlot {
 	}
 	et := at.ElemType()
 	if n.Class == PAUTO && !n.Addrtaken() {
-		x := e.namedAuto(n.Sym.Name+"[0]", et)
+		x := namedAuto(n.Sym.Name+"[0]", et, fn.Curfn.(*Node))
 		return ssa.LocalSlot{N: x, Type: et, Off: 0}
 	}
 	return ssa.LocalSlot{N: n, Type: et, Off: name.Off}
@@ -4849,7 +4850,7 @@ func (e *ssaExport) DerefItab(it *obj.LSym, offset int64) *obj.LSym {
 
 // namedAuto returns a new AUTO variable with the given name and type.
 // These are exposed to the debugger.
-func (e *ssaExport) namedAuto(name string, typ ssa.Type) ssa.GCNode {
+func namedAuto(name string, typ ssa.Type, fn *Node) ssa.GCNode {
 	t := typ.(*Type)
 	s := &Sym{Name: name, Pkg: localpkg}
 	n := nod(ONAME, nil, nil)
@@ -4861,8 +4862,8 @@ func (e *ssaExport) namedAuto(name string, typ ssa.Type) ssa.GCNode {
 	n.SetAddable(true)
 	n.Esc = EscNever
 	n.Xoffset = 0
-	n.Name.Curfn = Curfn
-	Curfn.Func.Dcl = append(Curfn.Func.Dcl, n)
+	n.Name.Curfn = fn
+	fn.Func.Dcl = append(fn.Func.Dcl, n)
 
 	dowidth(t)
 	return n
