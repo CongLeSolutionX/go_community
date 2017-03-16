@@ -243,7 +243,7 @@ func (p *parser) file() *File {
 	}
 
 	f := new(File)
-	f.pos = p.pos()
+	f.Package = p.pos()
 
 	// PackageClause
 	if !p.got(_Package) {
@@ -280,7 +280,6 @@ func (p *parser) file() *File {
 			f.DeclList = p.appendGroup(f.DeclList, p.varDecl)
 
 		case _Func:
-			p.next()
 			f.DeclList = append(f.DeclList, p.funcDecl())
 
 		default:
@@ -304,8 +303,6 @@ func (p *parser) file() *File {
 		}
 	}
 	// p.tok == _EOF
-
-	f.Lines = p.source.line
 
 	return f
 }
@@ -341,7 +338,6 @@ func (p *parser) importDecl(group *Group) Decl {
 	}
 
 	d := new(ImportDecl)
-	d.pos = p.pos()
 
 	switch p.tok {
 	case _Name:
@@ -371,7 +367,6 @@ func (p *parser) constDecl(group *Group) Decl {
 	}
 
 	d := new(ConstDecl)
-	d.pos = p.pos()
 
 	d.NameList = p.nameList(p.name())
 	if p.tok != _EOF && p.tok != _Semi && p.tok != _Rparen {
@@ -392,7 +387,6 @@ func (p *parser) typeDecl(group *Group) Decl {
 	}
 
 	d := new(TypeDecl)
-	d.pos = p.pos()
 
 	d.Name = p.name()
 	d.Alias = p.got(_Assign)
@@ -414,7 +408,6 @@ func (p *parser) varDecl(group *Group) Decl {
 	}
 
 	d := new(VarDecl)
-	d.pos = p.pos()
 
 	d.NameList = p.nameList(p.name())
 	if p.got(_Assign) {
@@ -441,7 +434,9 @@ func (p *parser) funcDecl() *FuncDecl {
 	}
 
 	f := new(FuncDecl)
-	f.pos = p.pos()
+	f.Func = p.pos()
+
+	p.want(_Func)
 
 	badRecv := false
 	if p.tok == _Lparen {
@@ -479,7 +474,7 @@ func (p *parser) funcDecl() *FuncDecl {
 	// }
 
 	f.Name = p.name()
-	f.Type = p.funcType()
+	f.Type = p.funcType(p.pos())
 	if p.got(_Lbrace) {
 		f.Body = p.funcBody()
 		f.Rbrace = p.pos()
@@ -663,11 +658,12 @@ func (p *parser) operand(keep_parens bool) Expr {
 		return p.oliteral()
 
 	case _Lparen:
-		pos := p.pos()
+		lparen := p.pos()
 		p.next()
 		p.xnest++
 		x := p.expr()
 		p.xnest--
+		rparen := p.pos()
 		p.want(_Rparen)
 
 		// Optimization: Record presence of ()'s only where needed
@@ -693,8 +689,9 @@ func (p *parser) operand(keep_parens bool) Expr {
 		// with keep_parens set.
 		if keep_parens {
 			px := new(ParenExpr)
-			px.pos = pos
+			px.Lparen = lparen
 			px.X = x
+			px.Rparen = rparen
 			x = px
 		}
 		return x
@@ -702,12 +699,12 @@ func (p *parser) operand(keep_parens bool) Expr {
 	case _Func:
 		pos := p.pos()
 		p.next()
-		t := p.funcType()
+		t := p.funcType(pos)
 		if p.got(_Lbrace) {
 			p.xnest++
 
 			f := new(FuncLit)
-			f.pos = pos
+			f.Func = pos
 			f.Type = t
 			f.Body = p.funcBody()
 			f.Rbrace = p.pos()
@@ -766,7 +763,7 @@ loop:
 			case _Name:
 				// pexpr '.' sym
 				t := new(SelectorExpr)
-				t.pos = pos
+				t.Dot = pos
 				t.X = x
 				t.Sel = p.name()
 				x = t
@@ -775,14 +772,15 @@ loop:
 				p.next()
 				if p.got(_Type) {
 					t := new(TypeSwitchGuard)
-					t.pos = pos
+					t.Dot = pos
 					t.X = x
 					x = t
 				} else {
 					t := new(AssertExpr)
-					t.pos = pos
+					t.Dot = pos
 					t.X = x
 					t.Type = p.expr()
+					t.Rparen = p.pos()
 					x = t
 				}
 				p.want(_Rparen)
@@ -799,21 +797,23 @@ loop:
 			var i Expr
 			if p.tok != _Colon {
 				i = p.expr()
-				if p.got(_Rbrack) {
+				if p.tok == _Rbrack {
 					// x[i]
 					t := new(IndexExpr)
-					t.pos = pos
+					t.Lbrack = pos
 					t.X = x
 					t.Index = i
+					t.Rbrack = p.pos()
 					x = t
 					p.xnest--
+					p.next() // consume _Rbrack
 					break
 				}
 			}
 
 			// x[i:...
 			t := new(SliceExpr)
-			t.pos = pos
+			t.Lbrack = pos
 			t.X = x
 			t.Index[0] = i
 			p.want(_Colon)
@@ -834,6 +834,7 @@ loop:
 					p.error("final index required in 3-index slice")
 				}
 			}
+			t.Rbrack = p.pos()
 			p.want(_Rbrack)
 
 			x = t
@@ -898,7 +899,7 @@ func (p *parser) complitexpr() *CompositeLit {
 	}
 
 	x := new(CompositeLit)
-	x.pos = p.pos()
+	x.Lbrace = p.pos()
 
 	p.want(_Lbrace)
 	p.xnest++
@@ -909,7 +910,7 @@ func (p *parser) complitexpr() *CompositeLit {
 		if p.tok == _Colon {
 			// key ':' value
 			l := new(KeyValueExpr)
-			l.pos = p.pos()
+			l.Colon = p.pos()
 			p.next()
 			l.Key = e
 			l.Value = p.bare_complitexpr()
@@ -985,8 +986,9 @@ func (p *parser) tryType() Expr {
 
 	case _Func:
 		// fntype
+		pos := p.pos()
 		p.next()
-		return p.funcType()
+		return p.funcType(pos)
 
 	case _Lbrack:
 		// '[' oexpr ']' ntype
@@ -997,14 +999,14 @@ func (p *parser) tryType() Expr {
 			// []T
 			p.xnest--
 			t := new(SliceType)
-			t.pos = pos
+			t.Lbrack = pos
 			t.Elem = p.type_()
 			return t
 		}
 
 		// [n]T
 		t := new(ArrayType)
-		t.pos = pos
+		t.Lbrack = pos
 		if !p.got(_DotDotDot) {
 			t.Len = p.expr()
 		}
@@ -1030,7 +1032,7 @@ func (p *parser) tryType() Expr {
 		p.next()
 		p.want(_Lbrack)
 		t := new(MapType)
-		t.pos = pos
+		t.Map = pos
 		t.Key = p.type_()
 		p.want(_Rbrack)
 		t.Value = p.type_()
@@ -1055,13 +1057,13 @@ func (p *parser) tryType() Expr {
 	return nil
 }
 
-func (p *parser) funcType() *FuncType {
+func (p *parser) funcType(Func src.Pos) *FuncType {
 	if trace {
 		defer p.trace("funcType")()
 	}
 
 	typ := new(FuncType)
-	typ.pos = p.pos()
+	typ.Func = Func
 	typ.ParamList = p.paramList()
 	typ.ResultList = p.funcResult()
 
@@ -1089,7 +1091,7 @@ func (p *parser) dotname(name *Name) Expr {
 
 	if p.tok == _Dot {
 		s := new(SelectorExpr)
-		s.pos = p.pos()
+		s.Dot = p.pos()
 		p.next()
 		s.X = name
 		s.Sel = p.name()
@@ -1105,7 +1107,7 @@ func (p *parser) structType() *StructType {
 	}
 
 	typ := new(StructType)
-	typ.pos = p.pos()
+	typ.Struct = p.pos()
 
 	p.want(_Struct)
 	p.want(_Lbrace)
@@ -1115,6 +1117,7 @@ func (p *parser) structType() *StructType {
 			break
 		}
 	}
+	typ.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return typ
@@ -1127,7 +1130,7 @@ func (p *parser) interfaceType() *InterfaceType {
 	}
 
 	typ := new(InterfaceType)
-	typ.pos = p.pos()
+	typ.Interface = p.pos()
 
 	p.want(_Interface)
 	p.want(_Lbrace)
@@ -1139,6 +1142,7 @@ func (p *parser) interfaceType() *InterfaceType {
 			break
 		}
 	}
+	typ.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return typ
@@ -1170,10 +1174,8 @@ func (p *parser) funcResult() []*Field {
 		return p.paramList()
 	}
 
-	pos := p.pos()
 	if result := p.tryType(); result != nil {
 		f := new(Field)
-		f.pos = pos
 		f.Type = result
 		return []*Field{f}
 	}
@@ -1181,7 +1183,7 @@ func (p *parser) funcResult() []*Field {
 	return nil
 }
 
-func (p *parser) addField(styp *StructType, pos src.Pos, name *Name, typ Expr, tag *BasicLit) {
+func (p *parser) addField(styp *StructType, name *Name, typ Expr, tag *BasicLit) {
 	if tag != nil {
 		for i := len(styp.FieldList) - len(styp.TagList); i > 0; i-- {
 			styp.TagList = append(styp.TagList, nil)
@@ -1190,7 +1192,6 @@ func (p *parser) addField(styp *StructType, pos src.Pos, name *Name, typ Expr, t
 	}
 
 	f := new(Field)
-	f.pos = pos
 	f.Name = name
 	f.Type = typ
 	styp.FieldList = append(styp.FieldList, f)
@@ -1216,7 +1217,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 			// embed oliteral
 			typ := p.qualifiedName(name)
 			tag := p.oliteral()
-			p.addField(styp, pos, nil, typ, tag)
+			p.addField(styp, nil, typ, tag)
 			return
 		}
 
@@ -1226,7 +1227,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 		tag := p.oliteral()
 
 		for _, name := range names {
-			p.addField(styp, name.Pos(), name, typ, tag)
+			p.addField(styp, name, typ, tag)
 		}
 
 	case _Lparen:
@@ -1238,7 +1239,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 			typ := indirect(pos, p.qualifiedName(nil))
 			p.want(_Rparen)
 			tag := p.oliteral()
-			p.addField(styp, pos, nil, typ, tag)
+			p.addField(styp, nil, typ, tag)
 			p.syntax_error("cannot parenthesize embedded type")
 
 		} else {
@@ -1246,7 +1247,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 			typ := p.qualifiedName(nil)
 			p.want(_Rparen)
 			tag := p.oliteral()
-			p.addField(styp, pos, nil, typ, tag)
+			p.addField(styp, nil, typ, tag)
 			p.syntax_error("cannot parenthesize embedded type")
 		}
 
@@ -1257,14 +1258,14 @@ func (p *parser) fieldDecl(styp *StructType) {
 			typ := indirect(pos, p.qualifiedName(nil))
 			p.want(_Rparen)
 			tag := p.oliteral()
-			p.addField(styp, pos, nil, typ, tag)
+			p.addField(styp, nil, typ, tag)
 			p.syntax_error("cannot parenthesize embedded type")
 
 		} else {
 			// '*' embed oliteral
 			typ := indirect(pos, p.qualifiedName(nil))
 			tag := p.oliteral()
-			p.addField(styp, pos, nil, typ, tag)
+			p.addField(styp, nil, typ, tag)
 		}
 
 	default:
@@ -1309,7 +1310,6 @@ func (p *parser) methodDecl() *Field {
 		}
 
 		f := new(Field)
-		f.pos = name.Pos()
 		if p.tok != _Lparen {
 			// packname
 			f.Type = p.qualifiedName(name)
@@ -1317,13 +1317,12 @@ func (p *parser) methodDecl() *Field {
 		}
 
 		f.Name = name
-		f.Type = p.funcType()
+		f.Type = p.funcType(p.pos())
 		return f
 
 	case _Lparen:
 		p.syntax_error("cannot parenthesize embedded type")
 		f := new(Field)
-		f.pos = p.pos()
 		p.next()
 		f.Type = p.qualifiedName(nil)
 		p.want(_Rparen)
@@ -1343,7 +1342,6 @@ func (p *parser) paramDecl() *Field {
 	}
 
 	f := new(Field)
-	f.pos = p.pos()
 
 	switch p.tok {
 	case _Name:
@@ -1388,7 +1386,7 @@ func (p *parser) dotsType() *DotsType {
 	}
 
 	t := new(DotsType)
-	t.pos = p.pos()
+	t.Dots = p.pos()
 
 	p.want(_DotDotDot)
 	t.Elem = p.tryType()
@@ -1502,7 +1500,7 @@ func (p *parser) simpleStmt(lhs Expr, rangeOk bool) SimpleStmt {
 		case _Arrow:
 			// lhs <- rhs
 			s := new(SendStmt)
-			s.pos = pos
+			s.Arrow = pos
 			p.next()
 			s.Chan = lhs
 			s.Value = p.expr()
@@ -1511,11 +1509,6 @@ func (p *parser) simpleStmt(lhs Expr, rangeOk bool) SimpleStmt {
 		default:
 			// expr
 			s := new(ExprStmt)
-			if lhs != nil { // be cautious (test/syntax/semi4.go)
-				s.pos = lhs.Pos()
-			} else {
-				s.pos = p.pos()
-			}
 			s.X = lhs
 			return s
 		}
@@ -1557,7 +1550,6 @@ func (p *parser) simpleStmt(lhs Expr, rangeOk bool) SimpleStmt {
 				p.error(fmt.Sprintf("invalid variable name %s in type switch", lhs))
 			}
 			s := new(ExprStmt)
-			s.pos = x.Pos()
 			s.X = x
 			return s
 		}
@@ -1575,19 +1567,19 @@ func (p *parser) simpleStmt(lhs Expr, rangeOk bool) SimpleStmt {
 
 func (p *parser) rangeClause(lhs Expr, def bool) *RangeClause {
 	r := new(RangeClause)
-	r.pos = p.pos()
-	p.next() // consume _Range
 	r.Lhs = lhs
 	r.Def = def
+	r.Range = p.pos()
+	p.next() // consume _Range
 	r.X = p.expr()
 	return r
 }
 
 func (p *parser) newAssignStmt(pos src.Pos, op Operator, lhs, rhs Expr) *AssignStmt {
 	a := new(AssignStmt)
+	a.Lhs = lhs
 	a.pos = pos
 	a.Op = op
-	a.Lhs = lhs
 	a.Rhs = rhs
 	return a
 }
@@ -1598,9 +1590,9 @@ func (p *parser) labeledStmt(label *Name) Stmt {
 	}
 
 	s := new(LabeledStmt)
-	s.pos = p.pos()
 	s.Label = label
 
+	s.Colon = p.pos()
 	p.want(_Colon)
 
 	if p.tok != _Rbrace && p.tok != _EOF {
@@ -1622,9 +1614,10 @@ func (p *parser) blockStmt() *BlockStmt {
 	}
 
 	s := new(BlockStmt)
-	s.pos = p.pos()
+	s.Lbrace = p.pos()
 	p.want(_Lbrace)
 	s.Body = p.stmtList()
+	s.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return s
@@ -1650,16 +1643,16 @@ func (p *parser) forStmt() Stmt {
 	}
 
 	s := new(ForStmt)
-	s.pos = p.pos()
+	s.For = p.pos()
 
 	s.Init, s.Cond, s.Post = p.header(_For)
-	s.Body = p.stmtBody("for clause")
+	s.Body, s.Rbrace = p.stmtBody("for clause")
 
 	return s
 }
 
 // stmtBody parses if and for statement bodies.
-func (p *parser) stmtBody(context string) []Stmt {
+func (p *parser) stmtBody(context string) ([]Stmt, src.Pos) {
 	if trace {
 		defer p.trace("stmtBody")()
 	}
@@ -1670,9 +1663,10 @@ func (p *parser) stmtBody(context string) []Stmt {
 	}
 
 	body := p.stmtList()
+	pos := p.pos()
 	p.want(_Rbrace)
 
-	return body
+	return body, pos
 }
 
 func (p *parser) header(keyword token) (init SimpleStmt, cond Expr, post SimpleStmt) {
@@ -1758,10 +1752,10 @@ func (p *parser) ifStmt() *IfStmt {
 	}
 
 	s := new(IfStmt)
-	s.pos = p.pos()
+	s.If = p.pos()
 
 	s.Init, s.Cond, _ = p.header(_If)
-	s.Then = p.stmtBody("if clause")
+	s.Then, s.Rbrace = p.stmtBody("if clause")
 
 	if p.got(_Else) {
 		switch p.tok {
@@ -1784,7 +1778,7 @@ func (p *parser) switchStmt() *SwitchStmt {
 	}
 
 	s := new(SwitchStmt)
-	s.pos = p.pos()
+	s.Switch = p.pos()
 
 	s.Init, s.Tag, _ = p.header(_Switch)
 
@@ -1795,6 +1789,7 @@ func (p *parser) switchStmt() *SwitchStmt {
 	for p.tok != _EOF && p.tok != _Rbrace {
 		s.Body = append(s.Body, p.caseClause())
 	}
+	s.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return s
@@ -1806,7 +1801,7 @@ func (p *parser) selectStmt() *SelectStmt {
 	}
 
 	s := new(SelectStmt)
-	s.pos = p.pos()
+	s.Select = p.pos()
 
 	p.want(_Select)
 	if !p.got(_Lbrace) {
@@ -1816,6 +1811,7 @@ func (p *parser) selectStmt() *SelectStmt {
 	for p.tok != _EOF && p.tok != _Rbrace {
 		s.Body = append(s.Body, p.commClause())
 	}
+	s.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return s
@@ -1827,7 +1823,7 @@ func (p *parser) caseClause() *CaseClause {
 	}
 
 	c := new(CaseClause)
-	c.pos = p.pos()
+	c.Case = p.pos()
 
 	switch p.tok {
 	case _Case:
@@ -1842,6 +1838,7 @@ func (p *parser) caseClause() *CaseClause {
 		p.advance(_Case, _Default, _Rbrace)
 	}
 
+	c.Colon = p.pos()
 	p.want(_Colon)
 	c.Body = p.stmtList()
 
@@ -1854,7 +1851,7 @@ func (p *parser) commClause() *CommClause {
 	}
 
 	c := new(CommClause)
-	c.pos = p.pos()
+	c.Case = p.pos()
 
 	switch p.tok {
 	case _Case:
@@ -1881,6 +1878,7 @@ func (p *parser) commClause() *CommClause {
 		p.advance(_Case, _Default, _Rbrace)
 	}
 
+	c.Colon = p.pos()
 	p.want(_Colon)
 	c.Body = p.stmtList()
 
@@ -1978,7 +1976,7 @@ func (p *parser) stmt() Stmt {
 
 	case _Return:
 		s := new(ReturnStmt)
-		s.pos = p.pos()
+		s.Return = p.pos()
 		p.next()
 		if p.tok != _Semi && p.tok != _Rbrace {
 			s.Results = p.exprList()
@@ -2028,8 +2026,8 @@ func (p *parser) call(fun Expr) *CallExpr {
 	// call or conversion
 	// convtype '(' expr ocomma ')'
 	c := new(CallExpr)
-	c.pos = p.pos()
 	c.Fun = fun
+	c.Lparen = p.pos()
 
 	p.want(_Lparen)
 	p.xnest++
@@ -2043,6 +2041,7 @@ func (p *parser) call(fun Expr) *CallExpr {
 	}
 
 	p.xnest--
+	c.Rparen = p.pos()
 	p.want(_Rparen)
 
 	return c
@@ -2122,7 +2121,6 @@ func (p *parser) exprList() Expr {
 			list = append(list, p.expr())
 		}
 		t := new(ListExpr)
-		t.pos = x.Pos()
 		t.ElemList = list
 		x = t
 	}

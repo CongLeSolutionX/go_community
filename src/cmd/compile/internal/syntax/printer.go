@@ -775,9 +775,9 @@ func groupFor(d Decl) (token, *Group) {
 }
 
 type printGroup struct {
-	node
 	Tok   token
 	Decls []Decl
+	Node  // for Node interface
 }
 
 func (p *printer) printDecl(list []Decl) {

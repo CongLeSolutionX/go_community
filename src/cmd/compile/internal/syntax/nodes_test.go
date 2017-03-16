@@ -21,7 +21,9 @@ type test struct {
 var decls = []test{
 	// The position of declarations is always the
 	// position of the first token of an individual
-	// declaration, independent of grouping.
+	// declaration, independent of grouping, except
+	// for function declarations.
+	// TODO(gri) make this consistent?
 	{"ImportDecl", `import @"math"`},
 	{"ImportDecl", `import @mymath "math"`},
 	{"ImportDecl", `import @. "math"`},
@@ -54,9 +56,9 @@ var decls = []test{
 	{"VarDecl", `var (@x = 0)`},
 	{"VarDecl", `var (@x, y, z = 1, 2, 3)`},
 
-	{"FuncDecl", `func @f() {}`},
-	{"FuncDecl", `func @(T) f() {}`},
-	{"FuncDecl", `func @(x T) f() {}`},
+	{"FuncDecl", `@func f() {}`},
+	{"FuncDecl", `@func (T) f() {}`},
+	{"FuncDecl", `@func (x T) f() {}`},
 }
 
 var exprs = []test{
@@ -127,7 +129,7 @@ var types = []test{
 	{"DotsType", `@...T`},
 	{"StructType", `@struct{}`},
 	{"InterfaceType", `@interface{}`},
-	{"FuncType", `func@()`},
+	{"FuncType", `@func ()`},
 	{"MapType", `@map[T]T`},
 
 	{"ChanType", `@chan T`},
@@ -137,7 +139,7 @@ var types = []test{
 
 var fields = []test{
 	{"Field", `@T`},
-	{"Field", `@(T)`},
+	// {"Field", `(@T)`}, // parser drops parentheses: positions off by +/-1
 	{"Field", `@x T`},
 	{"Field", `@x *(T)`},
 	{"Field", `@x, y, z T`},
@@ -145,29 +147,28 @@ var fields = []test{
 }
 
 var stmts = []test{
-	{"EmptyStmt", `@;`},
+	{"EmptyStmt", `@`},
 
 	{"LabeledStmt", `L@:`},
-	{"LabeledStmt", `L@: ;`},
 	{"LabeledStmt", `L@: f()`},
 
 	{"BlockStmt", `@{}`},
 
 	// The position of an ExprStmt is the position of the expression.
 	{"ExprStmt", `@<-ch`},
-	{"ExprStmt", `f@()`},
-	{"ExprStmt", `append@(s, 1, 2, 3)`},
+	{"ExprStmt", `@f()`},
+	{"ExprStmt", `@append(s, 1, 2, 3)`},
 
 	{"SendStmt", `ch @<- x`},
 
 	{"DeclStmt", `@const x = 0`},
-	{"DeclStmt", `@const (x = 0)`},
+	//{"DeclStmt", `@const (x = 0)`}, // end positions don't include group parentheses
 	{"DeclStmt", `@type T int`},
 	{"DeclStmt", `@type T = int`},
-	{"DeclStmt", `@type (T1 = int; T2 = float32)`},
+	//{"DeclStmt", `@type (T1 = int; T2 = float32)`}, // end positions don't include group parentheses
 	{"DeclStmt", `@var x = 0`},
 	{"DeclStmt", `@var x, y, z int`},
-	{"DeclStmt", `@var (a, b = 1, 2)`},
+	//{"DeclStmt", `@var (a, b = 1, 2)`}, // end positions don't include group parentheses
 
 	{"AssignStmt", `x @= y`},
 	{"AssignStmt", `a, b, x @= 1, 2, 3`},
@@ -189,44 +190,50 @@ var stmts = []test{
 
 	{"ReturnStmt", `@return`},
 	{"ReturnStmt", `@return x`},
-	{"ReturnStmt", `@return a, b, c`},
+	{"ReturnStmt", `@return a, b, a + b*f(1, 2, 3)`},
 
 	{"IfStmt", `@if cond {}`},
+	{"IfStmt", `@if cond { f() } else {}`},
+	{"IfStmt", `@if cond { f() } else { g(); h() }`},
 	{"ForStmt", `@for {}`},
-	{"SwitchStmt", `@switch {}`},
-	{"SelectStmt", `@select {}`},
+	{"ForStmt", `@for { f() }`},
+	{"SwitchStmt", `@switch { default: }`},
+	{"SwitchStmt", `@switch { default: x++ }`},
+	{"SelectStmt", `@select { default: }`},
+	{"SelectStmt", `@select { default: ch <- false }`},
 }
 
 var ranges = []test{
-	{"RangeClause", `for @range s {}`},
-	{"RangeClause", `for _, i = @range s {}`},
-	{"RangeClause", `for x, i = @range s {}`},
-	{"RangeClause", `for _, i := @range s {}`},
-	{"RangeClause", `for x, i := @range s {}`},
+	{"RangeClause", `@range s`},
+	{"RangeClause", `i = @range s`},
+	{"RangeClause", `i := @range s`},
+	{"RangeClause", `_, x = @range s`},
+	{"RangeClause", `i, x = @range s`},
+	{"RangeClause", `_, x := @range s.f`},
+	{"RangeClause", `i, x := @range f(i)`},
 }
 
 var guards = []test{
-	{"TypeSwitchGuard", `switch x@.(type) {}`},
-	{"TypeSwitchGuard", `switch x := x@.(type) {}`},
-	{"TypeSwitchGuard", `switch a = b; x@.(type) {}`},
-	{"TypeSwitchGuard", `switch a := b; x := x@.(type) {}`},
+	{"TypeSwitchGuard", `x@.(type)`},
+	{"TypeSwitchGuard", `x := x@.(type)`},
 }
 
 var cases = []test{
-	{"CaseClause", ` switch { @case x: }`},
-	{"CaseClause", ` switch { @case x, y, z: }`},
-	{"CaseClause", ` switch { @case x == 1, y == 2: }`},
-	{"CaseClause", ` switch { @default: }`},
+	{"CaseClause", `@case x:`},
+	{"CaseClause", `@case x, y, z:`},
+	{"CaseClause", `@case x == 1, y == 2:`},
+	{"CaseClause", `@default:`},
 }
 
 var comms = []test{
-	{"CommClause", `select { @case <-ch: }`},
-	{"CommClause", `select { @case x <- ch: }`},
-	{"CommClause", `select { @case x = <-ch: }`},
-	{"CommClause", `select { @case x := <-ch: }`},
-	{"CommClause", `select { @case x, ok = <-ch: }`},
-	{"CommClause", `select { @case x, ok := <-ch: }`},
-	{"CommClause", `select { @default: }`},
+	{"CommClause", `@case <-ch:`},
+	{"CommClause", `@case x <- ch:`},
+	{"CommClause", `@case x = <-ch:`},
+	{"CommClause", `@case x := <-ch:`},
+	{"CommClause", `@case x, ok = <-ch: f(1, 2, 3)`},
+	{"CommClause", `@case x, ok := <-ch: x++`},
+	{"CommClause", `@default:`},
+	{"CommClause", `@default: ch <- true`},
 }
 
 func TestPos(t *testing.T) {
@@ -252,23 +259,23 @@ func TestPos(t *testing.T) {
 		func(f *File) Node { return f.DeclList[0].(*FuncDecl).Type.ParamList[0] },
 	)
 
-	testPos(t, stmts, "package p; func _() { ", " } ",
+	testPos(t, stmts, "package p; func _() { ", "; }",
 		func(f *File) Node { return f.DeclList[0].(*FuncDecl).Body[0] },
 	)
 
-	testPos(t, ranges, "package p; func _() { ", " } ",
+	testPos(t, ranges, "package p; func _() { for ", " {} }",
 		func(f *File) Node { return f.DeclList[0].(*FuncDecl).Body[0].(*ForStmt).Init.(*RangeClause) },
 	)
 
-	testPos(t, guards, "package p; func _() { ", " } ",
+	testPos(t, guards, "package p; func _() { switch ", " {} }",
 		func(f *File) Node { return f.DeclList[0].(*FuncDecl).Body[0].(*SwitchStmt).Tag.(*TypeSwitchGuard) },
 	)
 
-	testPos(t, cases, "package p; func _() { ", " } ",
+	testPos(t, cases, "package p; func _() { switch { ", " } }",
 		func(f *File) Node { return f.DeclList[0].(*FuncDecl).Body[0].(*SwitchStmt).Body[0] },
 	)
 
-	testPos(t, comms, "package p; func _() { ", " } ",
+	testPos(t, comms, "package p; func _() { select { ", " } }",
 		func(f *File) Node { return f.DeclList[0].(*FuncDecl).Body[0].(*SelectStmt).Body[0] },
 	)
 }
@@ -278,14 +285,14 @@ func testPos(t *testing.T, list []test, prefix, suffix string, extract func(*Fil
 		// complete source, compute @ position, and strip @ from source
 		src, index := stripAt(prefix + test.snippet + suffix)
 		if index < 0 {
-			t.Errorf("missing @: %s", src)
+			t.Errorf("missing @: %s (%s)", src, test.nodetyp)
 			continue
 		}
 
 		// build syntaxt tree
 		file, err := ParseBytes(nil, []byte(src), nil, nil, 0)
 		if err != nil {
-			t.Errorf("parse error: %s: %v", src, err)
+			t.Errorf("parse error: %s: %v (%s)", src, err, test.nodetyp)
 			continue
 		}
 
@@ -296,10 +303,29 @@ func testPos(t *testing.T, list []test, prefix, suffix string, extract func(*Fil
 			continue
 		}
 
+		// verify begin position
+		// - skip declarations for now (need to rethink their begin positions)
+		if !strings.HasSuffix(test.nodetyp, "Decl") {
+			if begin := int(node.Begin().Col()); begin != len(prefix)+colbase {
+				t.Errorf("pos error: %s: begin = %d, want %d (%s)", src, begin, len(prefix)+colbase, test.nodetyp)
+				continue
+			}
+		}
+
 		// verify node position with expected position as indicated by @
-		if col := int(node.Pos().Col()); col != index+colbase {
-			t.Errorf("pos error: %s: col = %d, want %d", src, col, index+colbase)
+		if pos := int(node.Pos().Col()); pos != index+colbase {
+			t.Errorf("pos error: %s: pos = %d, want %d (%s)", src, pos, index+colbase, test.nodetyp)
 			continue
+		}
+
+		// verify end position
+		// - skip declarations for now (end positions don't include grouping parentheses)
+		// - skip fields for now (end positions don't include their types)
+		if !strings.HasSuffix(test.nodetyp, "Decl") && test.nodetyp != "Field" {
+			if end := int(node.End().Col()); end != len(prefix)+len(test.snippet) {
+				t.Errorf("pos error: %s: end = %d, want %d (%s)", src, end, len(prefix)+len(test.snippet), test.nodetyp)
+				continue
+			}
 		}
 	}
 }

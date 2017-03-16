@@ -45,7 +45,7 @@ func parseFiles(filenames []string) uint {
 		}
 
 		p.node()
-		lines += p.file.Lines
+		lines += p.file.End().Line()
 		p.file = nil // release memory
 
 		if nsyntaxerrors != 0 {
@@ -111,7 +111,7 @@ func (p *noder) node() {
 	// for fninit and set lineno to NoPos here.
 	// TODO(gri) fix this once we switched permanently to the new
 	// position information.
-	lineno = makePos(p.file.Pos().Base(), uint(p.file.Lines), 0)
+	lineno = makePos(p.file.Pos().Base(), uint(p.file.End().Line()), 0)
 
 	clearImports()
 }
