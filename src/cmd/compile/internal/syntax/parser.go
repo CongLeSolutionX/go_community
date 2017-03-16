@@ -243,7 +243,7 @@ func (p *parser) file() *File {
 	}
 
 	f := new(File)
-	f.pos = p.pos()
+	f.Package = p.pos()
 
 	// PackageClause
 	if !p.got(_Package) {
@@ -663,11 +663,12 @@ func (p *parser) operand(keep_parens bool) Expr {
 		return p.oliteral()
 
 	case _Lparen:
-		pos := p.pos()
+		lparen := p.pos()
 		p.next()
 		p.xnest++
 		x := p.expr()
 		p.xnest--
+		rparen := p.pos()
 		p.want(_Rparen)
 
 		// Optimization: Record presence of ()'s only where needed
@@ -693,8 +694,9 @@ func (p *parser) operand(keep_parens bool) Expr {
 		// with keep_parens set.
 		if keep_parens {
 			px := new(ParenExpr)
-			px.pos = pos
+			px.Lparen = lparen
 			px.X = x
+			px.Rparen = rparen
 			x = px
 		}
 		return x
@@ -805,6 +807,7 @@ loop:
 					t.pos = pos
 					t.X = x
 					t.Index = i
+					t.Rbrack = p.pos()
 					x = t
 					p.xnest--
 					break
@@ -834,6 +837,7 @@ loop:
 					p.error("final index required in 3-index slice")
 				}
 			}
+			t.Rbrack = p.pos()
 			p.want(_Rbrack)
 
 			x = t
@@ -1115,6 +1119,7 @@ func (p *parser) structType() *StructType {
 			break
 		}
 	}
+	typ.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return typ
@@ -1139,6 +1144,7 @@ func (p *parser) interfaceType() *InterfaceType {
 			break
 		}
 	}
+	typ.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return typ
@@ -1598,9 +1604,9 @@ func (p *parser) labeledStmt(label *Name) Stmt {
 	}
 
 	s := new(LabeledStmt)
-	s.pos = p.pos()
 	s.Label = label
 
+	s.Colon = p.pos()
 	p.want(_Colon)
 
 	if p.tok != _Rbrace && p.tok != _EOF {
@@ -1622,9 +1628,10 @@ func (p *parser) blockStmt() *BlockStmt {
 	}
 
 	s := new(BlockStmt)
-	s.pos = p.pos()
+	s.Lbrace = p.pos()
 	p.want(_Lbrace)
 	s.Body = p.stmtList()
+	s.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return s
@@ -1827,7 +1834,7 @@ func (p *parser) caseClause() *CaseClause {
 	}
 
 	c := new(CaseClause)
-	c.pos = p.pos()
+	c.Case = p.pos()
 
 	switch p.tok {
 	case _Case:
@@ -1842,6 +1849,7 @@ func (p *parser) caseClause() *CaseClause {
 		p.advance(_Case, _Default, _Rbrace)
 	}
 
+	c.Colon = p.pos()
 	p.want(_Colon)
 	c.Body = p.stmtList()
 
@@ -1854,7 +1862,7 @@ func (p *parser) commClause() *CommClause {
 	}
 
 	c := new(CommClause)
-	c.pos = p.pos()
+	c.Case = p.pos()
 
 	switch p.tok {
 	case _Case:
@@ -1881,6 +1889,7 @@ func (p *parser) commClause() *CommClause {
 		p.advance(_Case, _Default, _Rbrace)
 	}
 
+	c.Colon = p.pos()
 	p.want(_Colon)
 	c.Body = p.stmtList()
 

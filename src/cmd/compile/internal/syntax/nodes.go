@@ -10,6 +10,9 @@ import "cmd/internal/src"
 // Nodes
 
 type Node interface {
+	Begin() src.Pos
+	End() src.Pos
+
 	// Pos() returns the position associated with the node as follows:
 	// 1) The position of a node representing a terminal syntax production
 	//    (Name, BasicLit, etc.) is the position of the respective production
@@ -28,9 +31,9 @@ type node struct {
 	pos src.Pos
 }
 
-func (n *node) Pos() src.Pos {
-	return n.pos
-}
+func (n *node) Begin() src.Pos { panic("unreachable") }
+func (n *node) End() src.Pos   { panic("unreachable") }
+func (n *node) Pos() src.Pos   { return n.pos }
 
 func (*node) aNode() {}
 
@@ -39,6 +42,7 @@ func (*node) aNode() {}
 
 // package PkgName; DeclList[0], DeclList[1], ...
 type File struct {
+	Package  src.Pos
 	PkgName  *Name
 	DeclList []Decl
 	Lines    uint
@@ -167,7 +171,9 @@ type (
 
 	// (X)
 	ParenExpr struct {
-		X Expr
+		Lparen src.Pos
+		X      Expr
+		Rparen src.Pos
 		expr
 	}
 
@@ -180,8 +186,9 @@ type (
 
 	// X[Index]
 	IndexExpr struct {
-		X     Expr
-		Index Expr
+		X      Expr
+		Index  Expr
+		Rbrack src.Pos
 		expr
 	}
 
@@ -193,7 +200,8 @@ type (
 		// In a valid AST, this is equivalent to Index[2] != nil.
 		// TODO(mdempsky): This is only needed to report the "3-index
 		// slice of string" error when Index[2] is missing.
-		Full bool
+		Full   bool
+		Rbrack src.Pos
 		expr
 	}
 
@@ -249,6 +257,7 @@ type (
 	StructType struct {
 		FieldList []*Field
 		TagList   []*BasicLit // i >= len(TagList) || TagList[i] == nil means no tag for field i
+		Rbrace    src.Pos
 		expr
 	}
 
@@ -263,6 +272,7 @@ type (
 	// interface { MethodList[0]; MethodList[1]; ... }
 	InterfaceType struct {
 		MethodList []*Field
+		Rbrace     src.Pos
 		expr
 	}
 
@@ -321,12 +331,15 @@ type (
 
 	LabeledStmt struct {
 		Label *Name
+		Colon src.Pos
 		Stmt  Stmt
 		stmt
 	}
 
 	BlockStmt struct {
-		Body []Stmt
+		Lbrace src.Pos
+		Body   []Stmt
+		Rbrace src.Pos
 		stmt
 	}
 
@@ -353,7 +366,7 @@ type (
 
 	BranchStmt struct {
 		Tok   token // Break, Continue, Fallthrough, or Goto
-		Label *Name
+		Label *Name // nil means no explicit label
 		stmt
 	}
 
@@ -413,14 +426,18 @@ type (
 	}
 
 	CaseClause struct {
+		Case  src.Pos
 		Cases Expr // nil means default clause
+		Colon src.Pos
 		Body  []Stmt
 		node
 	}
 
 	CommClause struct {
-		Comm SimpleStmt // send or receive stmt; nil means default clause
-		Body []Stmt
+		Case  src.Pos
+		Comm  SimpleStmt // send or receive stmt; nil means default clause
+		Colon src.Pos
+		Body  []Stmt
 		node
 	}
 )
