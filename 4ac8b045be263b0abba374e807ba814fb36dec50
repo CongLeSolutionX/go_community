@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7d2d8790_e20a4c0b",
+        "filename": "doc/contribute.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-03-16T17:41:58Z",
+      "side": 1,
+      "message": ",",
+      "range": {
+        "startLine": 58,
+        "startChar": 16,
+        "endLine": 58,
+        "endChar": 17
+      },
+      "revId": "4ac8b045be263b0abba374e807ba814fb36dec50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc2c129f_8de1facd",
         "filename": "doc/contribute.html",
         "patchSetId": 11
@@ -13,6 +36,98 @@
       "writtenOn": "2017-03-15T00:52:02Z",
       "side": 1,
       "message": "s/Now install/Install/",
+      "revId": "4ac8b045be263b0abba374e807ba814fb36dec50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c44a42f7_569ba17f",
+        "filename": "doc/contribute.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-03-16T17:41:58Z",
+      "side": 1,
+      "message": ",",
+      "range": {
+        "startLine": 168,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 11
+      },
+      "revId": "4ac8b045be263b0abba374e807ba814fb36dec50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "034ef4b5_9369ada7",
+        "filename": "doc/contribute.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-03-16T17:41:58Z",
+      "side": 1,
+      "message": ",",
+      "range": {
+        "startLine": 398,
+        "startChar": 35,
+        "endLine": 398,
+        "endChar": 36
+      },
+      "revId": "4ac8b045be263b0abba374e807ba814fb36dec50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ba70031_65890549",
+        "filename": "doc/contribute.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-03-16T17:41:58Z",
+      "side": 1,
+      "message": "environment variable\n\n(also, I think this is only relevant to unix)",
+      "range": {
+        "startLine": 499,
+        "startChar": 25,
+        "endLine": 499,
+        "endChar": 26
+      },
+      "revId": "4ac8b045be263b0abba374e807ba814fb36dec50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c4f7f80_455a74c2",
+        "filename": "doc/contribute.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 7935
+      },
+      "writtenOn": "2017-03-16T17:41:58Z",
+      "side": 1,
+      "message": ",",
+      "range": {
+        "startLine": 501,
+        "startChar": 39,
+        "endLine": 501,
+        "endChar": 40
+      },
       "revId": "4ac8b045be263b0abba374e807ba814fb36dec50",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
