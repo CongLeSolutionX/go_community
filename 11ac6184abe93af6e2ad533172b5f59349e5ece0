@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6be1b956_fd4bb49e",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2733,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-16T21:47:20Z",
+      "side": 1,
+      "message": "I\u0027m surprised by this. This won\u0027t be true if the table is not in cache.",
+      "revId": "11ac6184abe93af6e2ad533172b5f59349e5ece0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
