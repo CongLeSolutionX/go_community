@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d880458a_985ab413",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4853,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-17T21:41:34Z",
+      "side": 1,
+      "message": "Now reverted back to a method. :)",
+      "parentUuid": "47da9a01_21ca0842",
+      "range": {
+        "startLine": 4853,
+        "startChar": 5,
+        "endLine": 4853,
+        "endChar": 14
+      },
+      "revId": "fe3852c13237d3406f0e583a2ab9818a976554b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60b4951c_df5313ae",
         "filename": "src/cmd/compile/internal/ssa/config.go",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2017-03-16T14:22:39Z",
       "side": 1,
       "message": "Won\u0027t we use another ssa.Func if we work with another gc.Node? Maybe another name would be better?",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 59
+      },
+      "revId": "fe3852c13237d3406f0e583a2ab9818a976554b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62ab5dbd_801cf0c8",
+        "filename": "src/cmd/compile/internal/ssa/func.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-17T21:41:34Z",
+      "side": 1,
+      "message": "This matches the same name used similarly elsewhere in the compiler, so I\u0027d like to keep it for now.",
+      "parentUuid": "b05bcbef_f44fe8ee",
       "range": {
         "startLine": 21,
         "startChar": 1,
