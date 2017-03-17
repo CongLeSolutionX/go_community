@@ -2751,6 +2751,34 @@ func init() {
 		},
 		sys.AMD64, sys.ARM64, sys.ARM, sys.S390X, sys.MIPS)
 	// LeadingZeros is handled because it trivially calls Len.
+	addF("math/bits", "OnesCount64",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue1(ssa.OpPopCount64, Types[TINT], args[0])
+		},
+		sys.AMD64)
+	addF("math/bits", "OnesCount32",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue1(ssa.OpPopCount32, Types[TINT], args[0])
+		},
+		sys.AMD64)
+	addF("math/bits", "OnesCount16",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue1(ssa.OpPopCount16, Types[TINT], args[0])
+		},
+		sys.AMD64)
+	addF("math/bits", "OnesCount8",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue1(ssa.OpPopCount8, Types[TINT], args[0])
+		},
+		sys.AMD64)
+	addF("math/bits", "OnesCount",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			if s.config.IntSize == 4 {
+				return s.newValue1(ssa.OpPopCount32, Types[TINT], args[0])
+			}
+			return s.newValue1(ssa.OpPopCount64, Types[TINT], args[0])
+		},
+		sys.AMD64)
 
 	/******** sync/atomic ********/
 
