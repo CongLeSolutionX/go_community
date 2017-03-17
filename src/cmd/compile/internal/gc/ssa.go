@@ -23,9 +23,9 @@ var ssaExp ssaExport
 var ssaCache *ssa.Cache
 
 func initssaconfig() {
-	ssaConfig = ssa.NewConfig(Thearch.LinkArch.Name, &ssaExp, Ctxt, Debug['N'] == 0)
-	if Thearch.LinkArch.Name == "386" {
-		ssaConfig.Set387(Thearch.Use387)
+	ssaConfig = ssa.NewConfig(thearch.LinkArch.Name, &ssaExp, Ctxt, Debug['N'] == 0)
+	if thearch.LinkArch.Name == "386" {
+		ssaConfig.Set387(thearch.Use387)
 	}
 	ssaCache = new(ssa.Cache)
 }
@@ -1549,18 +1549,18 @@ func (s *state) expr(n *Node) *ssa.Value {
 
 		if ft.IsFloat() || tt.IsFloat() {
 			conv, ok := fpConvOpToSSA[twoTypes{s.concreteEtype(ft), s.concreteEtype(tt)}]
-			if s.config.IntSize == 4 && Thearch.LinkArch.Name != "amd64p32" && Thearch.LinkArch.Family != sys.MIPS {
+			if s.config.IntSize == 4 && thearch.LinkArch.Name != "amd64p32" && thearch.LinkArch.Family != sys.MIPS {
 				if conv1, ok1 := fpConvOpToSSA32[twoTypes{s.concreteEtype(ft), s.concreteEtype(tt)}]; ok1 {
 					conv = conv1
 				}
 			}
-			if Thearch.LinkArch.Name == "arm64" {
+			if thearch.LinkArch.Name == "arm64" {
 				if conv1, ok1 := uint64fpConvOpToSSA[twoTypes{s.concreteEtype(ft), s.concreteEtype(tt)}]; ok1 {
 					conv = conv1
 				}
 			}
 
-			if Thearch.LinkArch.Family == sys.MIPS {
+			if thearch.LinkArch.Family == sys.MIPS {
 				if ft.Size() == 4 && ft.IsInteger() && !ft.IsSigned() {
 					// tt is float32 or float64, and ft is also unsigned
 					if tt.Size() == 4 {
@@ -2822,7 +2822,7 @@ func findIntrinsic(sym *Sym) intrinsicBuilder {
 		return nil
 	}
 	fn := sym.Name
-	return intrinsics[intrinsicKey{Thearch.LinkArch.Arch, pkg, fn}]
+	return intrinsics[intrinsicKey{thearch.LinkArch.Arch, pkg, fn}]
 }
 
 func isIntrinsicCall(n *Node) bool {
@@ -3350,7 +3350,7 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*Type, args ...*ssa
 		off += size
 	}
 	off = Rnd(off, int64(Widthptr))
-	if Thearch.LinkArch.Name == "amd64p32" {
+	if thearch.LinkArch.Name == "amd64p32" {
 		// amd64p32 wants 8-byte alignment of the start of the return values.
 		off = Rnd(off, 8)
 	}
@@ -4198,7 +4198,7 @@ func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
 		blockProgs[pc] = f.Blocks[0]
 	}
 
-	if Thearch.Use387 {
+	if thearch.Use387 {
 		s.SSEto387 = map[int16]int16{}
 	}
 
@@ -4209,7 +4209,7 @@ func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
 	for i, b := range f.Blocks {
 		s.bstart[b.ID] = pc
 		// Emit values in block
-		Thearch.SSAMarkMoves(&s, b)
+		thearch.SSAMarkMoves(&s, b)
 		for _, v := range b.Values {
 			x := pc
 			s.SetPos(v.Pos)
@@ -4239,7 +4239,7 @@ func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
 
 			default:
 				// let the backend handle it
-				Thearch.SSAGenValue(&s, v)
+				thearch.SSAGenValue(&s, v)
 			}
 
 			if logProgs {
@@ -4259,7 +4259,7 @@ func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
 		}
 		x := pc
 		s.SetPos(b.Pos)
-		Thearch.SSAGenBlock(&s, b, next)
+		thearch.SSAGenBlock(&s, b, next)
 		if logProgs {
 			for ; x != pc; x = x.Link {
 				blockProgs[x] = b
@@ -4317,7 +4317,7 @@ func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
 	liveness(Curfn, ptxt, gcargs, gclocals)
 
 	// Add frame prologue. Zero ambiguously live variables.
-	Thearch.Defframe(ptxt)
+	thearch.Defframe(ptxt)
 	if Debug['f'] != 0 {
 		frame(0)
 	}
@@ -4542,7 +4542,7 @@ func AddrAuto(a *obj.Addr, v *ssa.Value) {
 	a.Type = obj.TYPE_MEM
 	a.Node = n
 	a.Sym = Linksym(n.Sym)
-	a.Reg = int16(Thearch.REGSP)
+	a.Reg = int16(thearch.REGSP)
 	a.Offset = n.Xoffset + off
 	if n.Class == PPARAM || n.Class == PPARAMOUT {
 		a.Name = obj.NAME_PARAM
@@ -4559,7 +4559,7 @@ func (s *SSAGenState) AddrScratch(a *obj.Addr) {
 	a.Name = obj.NAME_AUTO
 	a.Node = s.ScratchFpMem
 	a.Sym = Linksym(s.ScratchFpMem.Sym)
-	a.Reg = int16(Thearch.REGSP)
+	a.Reg = int16(thearch.REGSP)
 	a.Offset = s.ScratchFpMem.Xoffset
 }
 
@@ -4573,7 +4573,7 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 		// insert an actual hardware NOP that will have the right line number.
 		// This is different from obj.ANOP, which is a virtual no-op
 		// that doesn't make it into the instruction stream.
-		Thearch.Ginsnop()
+		thearch.Ginsnop()
 	}
 
 	p := Prog(obj.ACALL)
@@ -4583,7 +4583,7 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 		p.To.Sym = sym
 	} else {
 		// TODO(mdempsky): Can these differences be eliminated?
-		switch Thearch.LinkArch.Family {
+		switch thearch.LinkArch.Family {
 		case sys.AMD64, sys.I386, sys.PPC64, sys.S390X:
 			p.To.Type = obj.TYPE_REG
 		case sys.ARM, sys.ARM64, sys.MIPS, sys.MIPS64:
@@ -4740,7 +4740,7 @@ func (e *ssaExport) SplitInt64(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot
 		return ssa.LocalSlot{N: h, Type: t, Off: 0}, ssa.LocalSlot{N: l, Type: Types[TUINT32], Off: 0}
 	}
 	// Return the two parts of the larger variable.
-	if Thearch.LinkArch.ByteOrder == binary.BigEndian {
+	if thearch.LinkArch.ByteOrder == binary.BigEndian {
 		return ssa.LocalSlot{N: n, Type: t, Off: name.Off}, ssa.LocalSlot{N: n, Type: Types[TUINT32], Off: name.Off + 4}
 	}
 	return ssa.LocalSlot{N: n, Type: t, Off: name.Off + 4}, ssa.LocalSlot{N: n, Type: Types[TUINT32], Off: name.Off}
