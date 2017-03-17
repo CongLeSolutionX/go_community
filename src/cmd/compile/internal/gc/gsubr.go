@@ -32,7 +32,7 @@ package gc
 
 import "cmd/internal/obj"
 
-func Prog(as obj.As) *obj.Prog {
+func (s *SSAGenState) Prog(as obj.As) *obj.Prog {
 	var p *obj.Prog
 
 	p = pc
@@ -279,14 +279,14 @@ func Patch(p *obj.Prog, to *obj.Prog) {
 }
 
 // Gins inserts instruction as. f is from, t is to.
-func Gins(as obj.As, f, t *Node) *obj.Prog {
+func (s *SSAGenState) Gins(as obj.As, f, t *Node) *obj.Prog {
 	switch as {
 	case obj.ATEXT, obj.AFUNCDATA:
 	default:
 		Fatalf("unhandled gins op %v", as)
 	}
 
-	p := Prog(as)
+	p := s.Prog(as)
 	Naddr(&p.From, f)
 	Naddr(&p.To, t)
 	return p
