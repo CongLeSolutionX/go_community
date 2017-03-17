@@ -4258,6 +4258,7 @@ func genssa(f *ssa.Func, ptxt *obj.Prog, gcargs, gclocals *Sym) {
 			next = f.Blocks[i+1]
 		}
 		x := pc
+		s.SetPos(b.Pos)
 		Thearch.SSAGenBlock(&s, b, next)
 		if logProgs {
 			for ; x != pc; x = x.Link {
