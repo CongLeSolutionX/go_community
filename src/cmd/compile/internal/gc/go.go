@@ -285,8 +285,6 @@ var writearchive bool
 
 var Nacl bool
 
-var pc *obj.Prog
-
 var nodfp *Node
 
 var disable_checknil int
@@ -313,8 +311,6 @@ type Arch struct {
 	// for all values in the block before SSAGenBlock.
 	SSAGenBlock func(s *SSAGenState, b, next *ssa.Block)
 }
-
-var pcloc int32
 
 var thearch Arch
 

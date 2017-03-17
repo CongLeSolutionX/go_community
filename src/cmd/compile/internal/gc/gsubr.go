@@ -35,10 +35,10 @@ import "cmd/internal/obj"
 func (s *SSAGenState) Prog(as obj.As) *obj.Prog {
 	var p *obj.Prog
 
-	p = pc
-	pc = Ctxt.NewProg()
-	s.Clearp(pc)
-	p.Link = pc
+	p = s.pc
+	s.pc = Ctxt.NewProg()
+	s.Clearp(s.pc)
+	p.Link = s.pc
 
 	if !lineno.IsKnown() && Debug['K'] != 0 {
 		Warn("prog: unknown position (line 0)")
@@ -52,8 +52,8 @@ func (s *SSAGenState) Prog(as obj.As) *obj.Prog {
 func (s *SSAGenState) Clearp(p *obj.Prog) {
 	obj.Nopout(p)
 	p.As = obj.AEND
-	p.Pc = int64(pcloc)
-	pcloc++
+	p.Pc = int64(s.pcloc)
+	s.pcloc++
 }
 
 func (s *SSAGenState) Appendpp(p *obj.Prog, as obj.As, ftype obj.AddrType, freg int16, foffset int64, ttype obj.AddrType, treg int16, toffset int64) *obj.Prog {
