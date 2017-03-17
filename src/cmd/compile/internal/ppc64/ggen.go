@@ -91,15 +91,15 @@ func zerorange(p *obj.Prog, frame int64, lo int64, hi int64) *obj.Prog {
 	return p
 }
 
-func ginsnop() {
-	p := gc.Prog(ppc64.AOR)
+func ginsnop(s *gc.SSAGenState) {
+	p := s.Prog(ppc64.AOR)
 	p.From.Type = obj.TYPE_REG
 	p.From.Reg = ppc64.REG_R0
 	p.To.Type = obj.TYPE_REG
 	p.To.Reg = ppc64.REG_R0
 }
 
-func ginsnop2() {
+func ginsnop2(s *gc.SSAGenState) {
 	// PPC64 is unusual because TWO nops are required
 	// (see gc/cgen.go, gc/plive.go -- copy of comment below)
 	//
@@ -112,15 +112,15 @@ func ginsnop2() {
 	// so that the same number of instructions are used
 	// on ppc64 in both shared and non-shared modes.
 
-	ginsnop()
+	ginsnop(s)
 	if gc.Ctxt.Flag_shared {
-		p := gc.Prog(ppc64.AMOVD)
+		p := s.Prog(ppc64.AMOVD)
 		p.From.Type = obj.TYPE_MEM
 		p.From.Offset = 24
 		p.From.Reg = ppc64.REGSP
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = ppc64.REG_R2
 	} else {
-		ginsnop()
+		ginsnop(s)
 	}
 }

@@ -104,7 +104,7 @@ func zerorange(p *obj.Prog, frame int64, lo int64, hi int64) *obj.Prog {
 	return p
 }
 
-func ginsnop() {
-	p := gc.Prog(arm64.AHINT)
+func ginsnop(s *gc.SSAGenState) {
+	p := s.Prog(arm64.AHINT)
 	p.From.Type = obj.TYPE_CONST
 }
