@@ -143,8 +143,8 @@ func zerorange(p *obj.Prog, frame int64, lo int64, hi int64) *obj.Prog {
 	return p
 }
 
-func ginsnop() {
-	p := gc.Prog(s390x.AOR)
+func ginsnop(s *gc.SSAGenState) {
+	p := s.Prog(s390x.AOR)
 	p.From.Type = obj.TYPE_REG
 	p.From.Reg = int16(s390x.REG_R0)
 	p.To.Type = obj.TYPE_REG

@@ -4248,14 +4248,28 @@ func (s *SSAGenState) SetPos(pos src.XPos) {
 }
 
 // genssa appends entries to ptxt for each instruction in f.
-func genssa(f *ssa.Func, ptxt *obj.Prog) {
+func genssa(f *ssa.Func, fnsym *obj.LSym, flags int64) {
 	var s SSAGenState
 
 	e := f.Frontend().(*ssafn)
 
-	// Generate GC bitmaps.
-	gcargs := makefuncdatasym("gcargs·", obj.FUNCDATA_ArgsPointerMaps)
-	gclocals := makefuncdatasym("gclocals·", obj.FUNCDATA_LocalsPointerMaps)
+	pc = Ctxt.NewProg()
+	Clearp(pc)
+	plist := new(obj.Plist)
+	plist.Firstpc = pc
+
+	ptxt := s.Prog(obj.ATEXT)
+	if fnsym != nil {
+		ptxt.From.Type = obj.TYPE_MEM
+		ptxt.From.Name = obj.NAME_EXTERN
+		ptxt.From.Sym = fnsym
+	}
+
+	ptxt.From3 = new(obj.Addr)
+	ptxt.From3.Offset = flags
+
+	gcargs := makefuncdatasym(&s, "gcargs·", obj.FUNCDATA_ArgsPointerMaps)
+	gclocals := makefuncdatasym(&s, "gclocals·", obj.FUNCDATA_LocalsPointerMaps)
 	s.stackMapIndex = liveness(e, f, gcargs, gclocals)
 
 	// Remember where each block starts.
@@ -4388,6 +4402,8 @@ func genssa(f *ssa.Func, ptxt *obj.Prog) {
 
 	f.HTMLWriter.Close()
 	f.HTMLWriter = nil
+
+	obj.Flushplist(Ctxt, plist) // convert from Prog list to machine code
 }
 
 type FloatingEQNEJump struct {
@@ -4395,8 +4411,8 @@ type FloatingEQNEJump struct {
 	Index int
 }
 
-func oneFPJump(b *ssa.Block, jumps *FloatingEQNEJump, likely ssa.BranchPrediction, branches []Branch) []Branch {
-	p := Prog(jumps.Jump)
+func (s *SSAGenState) oneFPJump(b *ssa.Block, jumps *FloatingEQNEJump, likely ssa.BranchPrediction, branches []Branch) []Branch {
+	p := s.Prog(jumps.Jump)
 	p.To.Type = obj.TYPE_BRANCH
 	to := jumps.Index
 	branches = append(branches, Branch{p, b.Succs[to].Block()})
@@ -4418,19 +4434,20 @@ func oneFPJump(b *ssa.Block, jumps *FloatingEQNEJump, likely ssa.BranchPredictio
 	return branches
 }
 
+// TODO(mdempsky): Make into method.
 func SSAGenFPJump(s *SSAGenState, b, next *ssa.Block, jumps *[2][2]FloatingEQNEJump) {
 	likely := b.Likely
 	switch next {
 	case b.Succs[0].Block():
-		s.Branches = oneFPJump(b, &jumps[0][0], likely, s.Branches)
-		s.Branches = oneFPJump(b, &jumps[0][1], likely, s.Branches)
+		s.Branches = s.oneFPJump(b, &jumps[0][0], likely, s.Branches)
+		s.Branches = s.oneFPJump(b, &jumps[0][1], likely, s.Branches)
 	case b.Succs[1].Block():
-		s.Branches = oneFPJump(b, &jumps[1][0], likely, s.Branches)
-		s.Branches = oneFPJump(b, &jumps[1][1], likely, s.Branches)
+		s.Branches = s.oneFPJump(b, &jumps[1][0], likely, s.Branches)
+		s.Branches = s.oneFPJump(b, &jumps[1][1], likely, s.Branches)
 	default:
-		s.Branches = oneFPJump(b, &jumps[1][0], likely, s.Branches)
-		s.Branches = oneFPJump(b, &jumps[1][1], likely, s.Branches)
-		q := Prog(obj.AJMP)
+		s.Branches = s.oneFPJump(b, &jumps[1][0], likely, s.Branches)
+		s.Branches = s.oneFPJump(b, &jumps[1][1], likely, s.Branches)
+		q := s.Prog(obj.AJMP)
 		q.To.Type = obj.TYPE_BRANCH
 		s.Branches = append(s.Branches, Branch{q, b.Succs[1].Block()})
 	}
@@ -4605,7 +4622,7 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 	if !ok {
 		Fatalf("missing stack map index for %v", v.LongString())
 	}
-	p := Prog(obj.APCDATA)
+	p := s.Prog(obj.APCDATA)
 	Addrconst(&p.From, obj.PCDATA_StackMapIndex)
 	Addrconst(&p.To, int64(idx))
 
@@ -4618,10 +4635,10 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 		// insert an actual hardware NOP that will have the right line number.
 		// This is different from obj.ANOP, which is a virtual no-op
 		// that doesn't make it into the instruction stream.
-		thearch.Ginsnop()
+		thearch.Ginsnop(s)
 	}
 
-	p = Prog(obj.ACALL)
+	p = s.Prog(obj.ACALL)
 	if sym, ok := v.Aux.(*obj.LSym); ok {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_EXTERN

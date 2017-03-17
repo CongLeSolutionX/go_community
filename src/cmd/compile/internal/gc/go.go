@@ -301,7 +301,7 @@ type Arch struct {
 	Use387   bool // should 386 backend use 387 FP instructions instead of sse2.
 
 	Defframe func(*obj.Prog, *Node, int64)
-	Ginsnop  func()
+	Ginsnop  func(*SSAGenState)
 
 	// SSAMarkMoves marks any MOVXconst ops that need to avoid clobbering flags.
 	SSAMarkMoves func(*SSAGenState, *ssa.Block)
