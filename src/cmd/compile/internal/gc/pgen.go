@@ -19,10 +19,10 @@ import (
 
 var makefuncdatasym_nsym int
 
-func makefuncdatasym(nameprefix string, funcdatakind int64) *Sym {
+func makefuncdatasym(s *SSAGenState, nameprefix string, funcdatakind int64) *Sym {
 	sym := lookupN(nameprefix, makefuncdatasym_nsym)
 	makefuncdatasym_nsym++
-	p := Prog(obj.AFUNCDATA)
+	p := s.Prog(obj.AFUNCDATA)
 	Addrconst(&p.From, funcdatakind)
 	p.To.Type = obj.TYPE_MEM
 	p.To.Name = obj.NAME_EXTERN
@@ -315,41 +315,34 @@ func compile(fn *Node) {
 		return
 	}
 
-	plist := new(obj.Plist)
-	pc = Ctxt.NewProg()
-	Clearp(pc)
-	plist.Firstpc = pc
-
 	setlineno(fn)
 
-	nam := fn.Func.Nname
-	if isblank(nam) {
-		nam = nil
+	var fnsym *obj.LSym
+	if nam := fn.Func.Nname; !isblank(nam) {
+		fnsym = Linksym(nam.Sym)
+		if fn.Func.Pragma&Systemstack != 0 {
+			fnsym.Set(obj.AttrCFunc, true)
+		}
 	}
-	ptxt := Gins(obj.ATEXT, nam, nil)
-	fnsym := ptxt.From.Sym
 
-	ptxt.From3 = new(obj.Addr)
+	var flags int64
 	if fn.Func.Dupok() {
-		ptxt.From3.Offset |= obj.DUPOK
+		flags |= obj.DUPOK
 	}
 	if fn.Func.Wrapper() {
-		ptxt.From3.Offset |= obj.WRAPPER
+		flags |= obj.WRAPPER
 	}
 	if fn.Func.NoFramePointer() {
-		ptxt.From3.Offset |= obj.NOFRAME
+		flags |= obj.NOFRAME
 	}
 	if fn.Func.Needctxt() {
-		ptxt.From3.Offset |= obj.NEEDCTXT
+		flags |= obj.NEEDCTXT
 	}
 	if fn.Func.Pragma&Nosplit != 0 {
-		ptxt.From3.Offset |= obj.NOSPLIT
+		flags |= obj.NOSPLIT
 	}
 	if fn.Func.ReflectMethod() {
-		ptxt.From3.Offset |= obj.REFLECTMETHOD
-	}
-	if fn.Func.Pragma&Systemstack != 0 {
-		ptxt.From.Sym.Set(obj.AttrCFunc, true)
+		flags |= obj.REFLECTMETHOD
 	}
 
 	// Clumsy but important.
@@ -357,14 +350,11 @@ func compile(fn *Node) {
 	// for the actual functions being considered.
 	if myimportpath == "reflect" {
 		if fn.Func.Nname.Sym.Name == "callReflect" || fn.Func.Nname.Sym.Name == "callMethod" {
-			ptxt.From3.Offset |= obj.WRAPPER
+			flags |= obj.WRAPPER
 		}
 	}
 
-	genssa(ssafn, ptxt)
-
-	obj.Flushplist(Ctxt, plist) // convert from Prog list to machine code
-	ptxt = nil                  // nil to prevent misuse; Prog may have been freed by Flushplist
+	genssa(ssafn, fnsym, flags)
 
 	fieldtrack(fnsym, fn.Func.FieldTrack)
 }
