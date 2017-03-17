@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d832026c_e8c1aff4",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-17T17:55:27Z",
+      "side": 1,
+      "message": "No need to remove. It\u0027s useful for easy comparisons. It will be optimized away.",
+      "parentUuid": "dfd07397_5c4adfdc",
+      "revId": "c686ea34ef95d42dc0dc8a28f1b78b51682494f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d52faeba_73a4260a",
         "filename": "src/strconv/itoa.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-03-17T07:37:39Z",
       "side": 1,
       "message": "some thoughts, i can bench and submit them in a later cl if you want to move forward faster:\noff :\u003d 0\nif \u003c 10 {\n  off \u003d 1\n}\nreturn smallString[i*2+off:i*2+2]\n\nShould eliminate the branch to a setcc instruction and might be faster assuming a mixture of one digit and two digit numbers.\nWill test it until tomorrow if nobody else beats me to it.\n\nalso we might worth to have a look if uint would change any index checking or just doing 256 char string and casting to uint8 for array indexes.\n\nThe string should be able to be dedublicated by the linker which is nice if we use it elsewhere.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 2
+      },
+      "revId": "c686ea34ef95d42dc0dc8a28f1b78b51682494f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee1e52f9_6e51937d",
+        "filename": "src/strconv/itoa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-17T17:55:27Z",
+      "side": 1,
+      "message": "Done. I\u0027m not sure it\u0027s faster, but I\u0027ve measured of a different machine today. There\u0027s more fluctuation due to CPU differences than other things. But I like your suggestion better (I was considering it myself, but for some reason I didn\u0027t follow it through).\n\nIf we pass in the offset, it\u0027s an easy way to get 1 or 2 digit values depending on context, which may be useful for a subsequent CL.",
+      "parentUuid": "d52faeba_73a4260a",
       "range": {
         "startLine": 58,
         "startChar": 0,
