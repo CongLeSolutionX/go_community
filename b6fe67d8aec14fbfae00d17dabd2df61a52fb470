@@ -16,6 +16,29 @@
       "revId": "b6fe67d8aec14fbfae00d17dabd2df61a52fb470",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67b07422_038b3fce",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-17T22:04:36Z",
+      "side": 1,
+      "message": "It looks like you moved the methods from Config to Func, so I think you can just call s.f.Logf, etc. here and in the next few functions?",
+      "range": {
+        "startLine": 242,
+        "startChar": 59,
+        "endLine": 242,
+        "endChar": 70
+      },
+      "revId": "b6fe67d8aec14fbfae00d17dabd2df61a52fb470",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
