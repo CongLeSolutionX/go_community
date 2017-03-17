@@ -719,6 +719,34 @@ var linuxAMD64Tests = []*asmTest{
 		}`,
 		[]string{"\tADDQ\t[A-Z]"},
 	},
+	{
+		`
+		func f60(x uint64) int {
+			return bits.OnesCount64(x)
+		}`,
+		[]string{"\tPOPCNTQ\t"},
+	},
+	{
+		`
+		func f61(x uint32) int {
+			return bits.OnesCount32(x)
+		}`,
+		[]string{"\tPOPCNTL\t"},
+	},
+	{
+		`
+		func f62(x uint16) int {
+			return bits.OnesCount16(x)
+		}`,
+		[]string{"\tPOPCNTL\t"},
+	},
+	{
+		`
+		func f63(x uint) int {
+			return bits.OnesCount(x)
+		}`,
+		[]string{"\tPOPCNTQ\t"},
+	},
 }
 
 var linux386Tests = []*asmTest{
