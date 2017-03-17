@@ -10,7 +10,7 @@ import (
 	"cmd/internal/obj/mips"
 )
 
-func defframe(ptxt *obj.Prog, fn *gc.Node, sz int64) {
+func defframe(s *gc.SSAGenState, ptxt *obj.Prog, fn *gc.Node, sz int64) {
 	// fill in argument size, stack size
 	ptxt.To.Type = obj.TYPE_TEXTSIZE
 
@@ -46,7 +46,7 @@ func defframe(ptxt *obj.Prog, fn *gc.Node, sz int64) {
 		}
 
 		// zero old range
-		p = zerorange(p, int64(frame), lo, hi)
+		p = zerorange(s, p, int64(frame), lo, hi)
 
 		// set new range
 		hi = n.Xoffset + n.Type.Width
@@ -55,22 +55,22 @@ func defframe(ptxt *obj.Prog, fn *gc.Node, sz int64) {
 	}
 
 	// zero final range
-	zerorange(p, int64(frame), lo, hi)
+	zerorange(s, p, int64(frame), lo, hi)
 }
 
-func zerorange(p *obj.Prog, frame int64, lo int64, hi int64) *obj.Prog {
+func zerorange(s *gc.SSAGenState, p *obj.Prog, frame int64, lo int64, hi int64) *obj.Prog {
 	cnt := hi - lo
 	if cnt == 0 {
 		return p
 	}
 	if cnt < int64(4*gc.Widthptr) {
 		for i := int64(0); i < cnt; i += int64(gc.Widthptr) {
-			p = gc.Appendpp(p, mips.AMOVV, obj.TYPE_REG, mips.REGZERO, 0, obj.TYPE_MEM, mips.REGSP, 8+frame+lo+i)
+			p = s.Appendpp(p, mips.AMOVV, obj.TYPE_REG, mips.REGZERO, 0, obj.TYPE_MEM, mips.REGSP, 8+frame+lo+i)
 		}
 	} else if cnt <= int64(128*gc.Widthptr) {
-		p = gc.Appendpp(p, mips.AADDV, obj.TYPE_CONST, 0, 8+frame+lo-8, obj.TYPE_REG, mips.REGRT1, 0)
+		p = s.Appendpp(p, mips.AADDV, obj.TYPE_CONST, 0, 8+frame+lo-8, obj.TYPE_REG, mips.REGRT1, 0)
 		p.Reg = mips.REGSP
-		p = gc.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_MEM, 0, 0)
+		p = s.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_MEM, 0, 0)
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = gc.Duffzero
 		p.To.Offset = 8 * (128 - cnt/int64(gc.Widthptr))
@@ -81,14 +81,14 @@ func zerorange(p *obj.Prog, frame int64, lo int64, hi int64) *obj.Prog {
 		//	MOVV	R0, (Widthptr)r1
 		//	ADDV	$Widthptr, r1
 		//	BNE		r1, r2, loop
-		p = gc.Appendpp(p, mips.AADDV, obj.TYPE_CONST, 0, 8+frame+lo-8, obj.TYPE_REG, mips.REGRT1, 0)
+		p = s.Appendpp(p, mips.AADDV, obj.TYPE_CONST, 0, 8+frame+lo-8, obj.TYPE_REG, mips.REGRT1, 0)
 		p.Reg = mips.REGSP
-		p = gc.Appendpp(p, mips.AADDV, obj.TYPE_CONST, 0, cnt, obj.TYPE_REG, mips.REGRT2, 0)
+		p = s.Appendpp(p, mips.AADDV, obj.TYPE_CONST, 0, cnt, obj.TYPE_REG, mips.REGRT2, 0)
 		p.Reg = mips.REGRT1
-		p = gc.Appendpp(p, mips.AMOVV, obj.TYPE_REG, mips.REGZERO, 0, obj.TYPE_MEM, mips.REGRT1, int64(gc.Widthptr))
+		p = s.Appendpp(p, mips.AMOVV, obj.TYPE_REG, mips.REGZERO, 0, obj.TYPE_MEM, mips.REGRT1, int64(gc.Widthptr))
 		p1 := p
-		p = gc.Appendpp(p, mips.AADDV, obj.TYPE_CONST, 0, int64(gc.Widthptr), obj.TYPE_REG, mips.REGRT1, 0)
-		p = gc.Appendpp(p, mips.ABNE, obj.TYPE_REG, mips.REGRT1, 0, obj.TYPE_BRANCH, 0, 0)
+		p = s.Appendpp(p, mips.AADDV, obj.TYPE_CONST, 0, int64(gc.Widthptr), obj.TYPE_REG, mips.REGRT1, 0)
+		p = s.Appendpp(p, mips.ABNE, obj.TYPE_REG, mips.REGRT1, 0, obj.TYPE_BRANCH, 0, 0)
 		p.Reg = mips.REGRT2
 		gc.Patch(p, p1)
 	}

@@ -4254,7 +4254,7 @@ func genssa(f *ssa.Func, fnsym *obj.LSym, flags int64) {
 	e := f.Frontend().(*ssafn)
 
 	pc = Ctxt.NewProg()
-	Clearp(pc)
+	s.Clearp(pc)
 	plist := new(obj.Plist)
 	plist.Firstpc = pc
 
@@ -4395,7 +4395,7 @@ func genssa(f *ssa.Func, fnsym *obj.LSym, flags int64) {
 	}
 
 	// Add frame prologue. Zero ambiguously live variables.
-	thearch.Defframe(ptxt, e.curfn, e.stksize+s.maxarg)
+	thearch.Defframe(&s, ptxt, e.curfn, e.stksize+s.maxarg)
 	if Debug['f'] != 0 {
 		frame(0)
 	}

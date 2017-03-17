@@ -10,7 +10,7 @@ import (
 	"cmd/internal/obj/x86"
 )
 
-func defframe(ptxt *obj.Prog, fn *gc.Node, sz int64) {
+func defframe(s *gc.SSAGenState, ptxt *obj.Prog, fn *gc.Node, sz int64) {
 	// fill in argument size, stack size
 	ptxt.To.Type = obj.TYPE_TEXTSIZE
 
@@ -44,7 +44,7 @@ func defframe(ptxt *obj.Prog, fn *gc.Node, sz int64) {
 		}
 
 		// zero old range
-		p = zerorange(p, int64(frame), lo, hi, &ax)
+		p = zerorange(s, p, int64(frame), lo, hi, &ax)
 
 		// set new range
 		hi = n.Xoffset + n.Type.Width
@@ -53,32 +53,32 @@ func defframe(ptxt *obj.Prog, fn *gc.Node, sz int64) {
 	}
 
 	// zero final range
-	zerorange(p, int64(frame), lo, hi, &ax)
+	zerorange(s, p, int64(frame), lo, hi, &ax)
 }
 
-func zerorange(p *obj.Prog, frame int64, lo int64, hi int64, ax *uint32) *obj.Prog {
+func zerorange(s *gc.SSAGenState, p *obj.Prog, frame int64, lo int64, hi int64, ax *uint32) *obj.Prog {
 	cnt := hi - lo
 	if cnt == 0 {
 		return p
 	}
 	if *ax == 0 {
-		p = gc.Appendpp(p, x86.AMOVL, obj.TYPE_CONST, 0, 0, obj.TYPE_REG, x86.REG_AX, 0)
+		p = s.Appendpp(p, x86.AMOVL, obj.TYPE_CONST, 0, 0, obj.TYPE_REG, x86.REG_AX, 0)
 		*ax = 1
 	}
 
 	if cnt <= int64(4*gc.Widthreg) {
 		for i := int64(0); i < cnt; i += int64(gc.Widthreg) {
-			p = gc.Appendpp(p, x86.AMOVL, obj.TYPE_REG, x86.REG_AX, 0, obj.TYPE_MEM, x86.REG_SP, frame+lo+i)
+			p = s.Appendpp(p, x86.AMOVL, obj.TYPE_REG, x86.REG_AX, 0, obj.TYPE_MEM, x86.REG_SP, frame+lo+i)
 		}
 	} else if !gc.Nacl && cnt <= int64(128*gc.Widthreg) {
-		p = gc.Appendpp(p, x86.ALEAL, obj.TYPE_MEM, x86.REG_SP, frame+lo, obj.TYPE_REG, x86.REG_DI, 0)
-		p = gc.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_ADDR, 0, 1*(128-cnt/int64(gc.Widthreg)))
+		p = s.Appendpp(p, x86.ALEAL, obj.TYPE_MEM, x86.REG_SP, frame+lo, obj.TYPE_REG, x86.REG_DI, 0)
+		p = s.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_ADDR, 0, 1*(128-cnt/int64(gc.Widthreg)))
 		p.To.Sym = gc.Duffzero
 	} else {
-		p = gc.Appendpp(p, x86.AMOVL, obj.TYPE_CONST, 0, cnt/int64(gc.Widthreg), obj.TYPE_REG, x86.REG_CX, 0)
-		p = gc.Appendpp(p, x86.ALEAL, obj.TYPE_MEM, x86.REG_SP, frame+lo, obj.TYPE_REG, x86.REG_DI, 0)
-		p = gc.Appendpp(p, x86.AREP, obj.TYPE_NONE, 0, 0, obj.TYPE_NONE, 0, 0)
-		p = gc.Appendpp(p, x86.ASTOSL, obj.TYPE_NONE, 0, 0, obj.TYPE_NONE, 0, 0)
+		p = s.Appendpp(p, x86.AMOVL, obj.TYPE_CONST, 0, cnt/int64(gc.Widthreg), obj.TYPE_REG, x86.REG_CX, 0)
+		p = s.Appendpp(p, x86.ALEAL, obj.TYPE_MEM, x86.REG_SP, frame+lo, obj.TYPE_REG, x86.REG_DI, 0)
+		p = s.Appendpp(p, x86.AREP, obj.TYPE_NONE, 0, 0, obj.TYPE_NONE, 0, 0)
+		p = s.Appendpp(p, x86.ASTOSL, obj.TYPE_NONE, 0, 0, obj.TYPE_NONE, 0, 0)
 	}
 
 	return p

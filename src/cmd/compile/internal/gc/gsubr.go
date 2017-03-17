@@ -37,7 +37,7 @@ func (s *SSAGenState) Prog(as obj.As) *obj.Prog {
 
 	p = pc
 	pc = Ctxt.NewProg()
-	Clearp(pc)
+	s.Clearp(pc)
 	p.Link = pc
 
 	if !lineno.IsKnown() && Debug['K'] != 0 {
@@ -49,16 +49,16 @@ func (s *SSAGenState) Prog(as obj.As) *obj.Prog {
 	return p
 }
 
-func Clearp(p *obj.Prog) {
+func (s *SSAGenState) Clearp(p *obj.Prog) {
 	obj.Nopout(p)
 	p.As = obj.AEND
 	p.Pc = int64(pcloc)
 	pcloc++
 }
 
-func Appendpp(p *obj.Prog, as obj.As, ftype obj.AddrType, freg int16, foffset int64, ttype obj.AddrType, treg int16, toffset int64) *obj.Prog {
+func (s *SSAGenState) Appendpp(p *obj.Prog, as obj.As, ftype obj.AddrType, freg int16, foffset int64, ttype obj.AddrType, treg int16, toffset int64) *obj.Prog {
 	q := Ctxt.NewProg()
-	Clearp(q)
+	s.Clearp(q)
 	q.As = as
 	q.Pos = p.Pos
 	q.From.Type = ftype

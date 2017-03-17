@@ -10,7 +10,7 @@ import (
 	"cmd/internal/obj/arm64"
 )
 
-func defframe(ptxt *obj.Prog, fn *gc.Node, sz int64) {
+func defframe(s *gc.SSAGenState, ptxt *obj.Prog, fn *gc.Node, sz int64) {
 	// fill in argument size, stack size
 	ptxt.To.Type = obj.TYPE_TEXTSIZE
 
@@ -53,7 +53,7 @@ func defframe(ptxt *obj.Prog, fn *gc.Node, sz int64) {
 		}
 
 		// zero old range
-		p = zerorange(p, int64(frame), lo, hi)
+		p = zerorange(s, p, int64(frame), lo, hi)
 
 		// set new range
 		hi = n.Xoffset + n.Type.Width
@@ -62,42 +62,42 @@ func defframe(ptxt *obj.Prog, fn *gc.Node, sz int64) {
 	}
 
 	// zero final range
-	zerorange(p, int64(frame), lo, hi)
+	zerorange(s, p, int64(frame), lo, hi)
 }
 
 var darwin = obj.GOOS == "darwin"
 
-func zerorange(p *obj.Prog, frame int64, lo int64, hi int64) *obj.Prog {
+func zerorange(s *gc.SSAGenState, p *obj.Prog, frame int64, lo int64, hi int64) *obj.Prog {
 	cnt := hi - lo
 	if cnt == 0 {
 		return p
 	}
 	if cnt < int64(4*gc.Widthptr) {
 		for i := int64(0); i < cnt; i += int64(gc.Widthptr) {
-			p = gc.Appendpp(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGZERO, 0, obj.TYPE_MEM, arm64.REGSP, 8+frame+lo+i)
+			p = s.Appendpp(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGZERO, 0, obj.TYPE_MEM, arm64.REGSP, 8+frame+lo+i)
 		}
 	} else if cnt <= int64(128*gc.Widthptr) && !darwin { // darwin ld64 cannot handle BR26 reloc with non-zero addend
-		p = gc.Appendpp(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGSP, 0, obj.TYPE_REG, arm64.REGRT1, 0)
-		p = gc.Appendpp(p, arm64.AADD, obj.TYPE_CONST, 0, 8+frame+lo-8, obj.TYPE_REG, arm64.REGRT1, 0)
+		p = s.Appendpp(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGSP, 0, obj.TYPE_REG, arm64.REGRT1, 0)
+		p = s.Appendpp(p, arm64.AADD, obj.TYPE_CONST, 0, 8+frame+lo-8, obj.TYPE_REG, arm64.REGRT1, 0)
 		p.Reg = arm64.REGRT1
-		p = gc.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_MEM, 0, 0)
+		p = s.Appendpp(p, obj.ADUFFZERO, obj.TYPE_NONE, 0, 0, obj.TYPE_MEM, 0, 0)
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = gc.Duffzero
 		p.To.Offset = 4 * (128 - cnt/int64(gc.Widthptr))
 	} else {
-		p = gc.Appendpp(p, arm64.AMOVD, obj.TYPE_CONST, 0, 8+frame+lo-8, obj.TYPE_REG, arm64.REGTMP, 0)
-		p = gc.Appendpp(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGSP, 0, obj.TYPE_REG, arm64.REGRT1, 0)
-		p = gc.Appendpp(p, arm64.AADD, obj.TYPE_REG, arm64.REGTMP, 0, obj.TYPE_REG, arm64.REGRT1, 0)
+		p = s.Appendpp(p, arm64.AMOVD, obj.TYPE_CONST, 0, 8+frame+lo-8, obj.TYPE_REG, arm64.REGTMP, 0)
+		p = s.Appendpp(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGSP, 0, obj.TYPE_REG, arm64.REGRT1, 0)
+		p = s.Appendpp(p, arm64.AADD, obj.TYPE_REG, arm64.REGTMP, 0, obj.TYPE_REG, arm64.REGRT1, 0)
 		p.Reg = arm64.REGRT1
-		p = gc.Appendpp(p, arm64.AMOVD, obj.TYPE_CONST, 0, cnt, obj.TYPE_REG, arm64.REGTMP, 0)
-		p = gc.Appendpp(p, arm64.AADD, obj.TYPE_REG, arm64.REGTMP, 0, obj.TYPE_REG, arm64.REGRT2, 0)
+		p = s.Appendpp(p, arm64.AMOVD, obj.TYPE_CONST, 0, cnt, obj.TYPE_REG, arm64.REGTMP, 0)
+		p = s.Appendpp(p, arm64.AADD, obj.TYPE_REG, arm64.REGTMP, 0, obj.TYPE_REG, arm64.REGRT2, 0)
 		p.Reg = arm64.REGRT1
-		p = gc.Appendpp(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGZERO, 0, obj.TYPE_MEM, arm64.REGRT1, int64(gc.Widthptr))
+		p = s.Appendpp(p, arm64.AMOVD, obj.TYPE_REG, arm64.REGZERO, 0, obj.TYPE_MEM, arm64.REGRT1, int64(gc.Widthptr))
 		p.Scond = arm64.C_XPRE
 		p1 := p
-		p = gc.Appendpp(p, arm64.ACMP, obj.TYPE_REG, arm64.REGRT1, 0, obj.TYPE_NONE, 0, 0)
+		p = s.Appendpp(p, arm64.ACMP, obj.TYPE_REG, arm64.REGRT1, 0, obj.TYPE_NONE, 0, 0)
 		p.Reg = arm64.REGRT2
-		p = gc.Appendpp(p, arm64.ABNE, obj.TYPE_NONE, 0, 0, obj.TYPE_BRANCH, 0, 0)
+		p = s.Appendpp(p, arm64.ABNE, obj.TYPE_NONE, 0, 0, obj.TYPE_BRANCH, 0, 0)
 		gc.Patch(p, p1)
 	}
 
