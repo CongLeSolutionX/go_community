@@ -205,19 +205,19 @@ func genRules(arch arch) {
 
 		body := buf.String()
 		hasb := strings.Contains(body, "b.")
-		hasconfig := strings.Contains(body, "config.")
+		hasconfig := strings.Contains(body, "config.") || strings.Contains(body, "config)")
 		hasfe := strings.Contains(body, "fe.")
 		fmt.Fprintf(w, "func rewriteValue%s_%s(v *Value) bool {\n", arch.name, op)
 		if hasb || hasconfig || hasfe {
 			fmt.Fprintln(w, "b := v.Block")
 			fmt.Fprintln(w, "_ = b")
 		}
-		if hasconfig || hasfe {
+		if hasconfig {
 			fmt.Fprintln(w, "config := b.Func.Config")
 			fmt.Fprintln(w, "_ = config")
 		}
 		if hasfe {
-			fmt.Fprintln(w, "fe := config.fe")
+			fmt.Fprintln(w, "fe := b.Func.fe")
 			fmt.Fprintln(w, "_ = fe")
 		}
 		fmt.Fprint(w, body)
@@ -229,7 +229,7 @@ func genRules(arch arch) {
 	fmt.Fprintf(w, "func rewriteBlock%s(b *Block) bool {\n", arch.name)
 	fmt.Fprintln(w, "config := b.Func.Config")
 	fmt.Fprintln(w, "_ = config")
-	fmt.Fprintln(w, "fe := config.fe")
+	fmt.Fprintln(w, "fe := b.Func.fe")
 	fmt.Fprintln(w, "_ = fe")
 	fmt.Fprintf(w, "switch b.Kind {\n")
 	ops = nil
