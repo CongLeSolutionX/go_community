@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5f045a2_025da120",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-18T22:53:56Z",
+      "side": 1,
+      "message": "nit: Now types too.",
+      "revId": "ce1e4fff01f3972333d7960bc71ef9c6aa87ed62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21b78a3d_f7a1ad4f",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-18T22:53:56Z",
+      "side": 1,
+      "message": "Could use \u0027types\u0027 here (from line 158 above).",
+      "range": {
+        "startLine": 179,
+        "startChar": 29,
+        "endLine": 179,
+        "endChar": 43
+      },
+      "revId": "ce1e4fff01f3972333d7960bc71ef9c6aa87ed62",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
