@@ -2073,10 +2073,15 @@ func MakeChan(typ Type, buffer int) Value {
 
 // MakeMap creates a new map of the specified type.
 func MakeMap(typ Type) Value {
+	return MakeMapCap(typ, 0)
+}
+
+// MakeMapCap creates a new map of the specified type and with initial capacity.
+func MakeMapCap(typ Type, cap int) Value {
 	if typ.Kind() != Map {
-		panic("reflect.MakeMap of non-map type")
+		panic("reflect.MakeMapCap of non-map type")
 	}
-	m := makemap(typ.(*rtype))
+	m := makemap(typ.(*rtype), cap)
 	return Value{typ.common(), m, flag(Map)}
 }
 
@@ -2471,7 +2476,7 @@ func chanrecv(t *rtype, ch unsafe.Pointer, nb bool, val unsafe.Pointer) (selecte
 func chansend(t *rtype, ch unsafe.Pointer, val unsafe.Pointer, nb bool) bool
 
 func makechan(typ *rtype, size uint64) (ch unsafe.Pointer)
-func makemap(t *rtype) (m unsafe.Pointer)
+func makemap(t *rtype, cap int) (m unsafe.Pointer)
 
 //go:noescape
 func mapaccess(t *rtype, m unsafe.Pointer, key unsafe.Pointer) (val unsafe.Pointer)
