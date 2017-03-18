@@ -5850,6 +5850,20 @@ func TestMapAlloc(t *testing.T) {
 	if allocs > 0.5 {
 		t.Errorf("allocs per map assignment: want 0 got %f", allocs)
 	}
+
+	const size = 1000
+	tmp := 0
+	val := ValueOf(&tmp).Elem()
+	allocs = testing.AllocsPerRun(size, func() {
+		mv := MakeMapWithSize(TypeOf(map[int]int{}), size)
+		for i := 0; i < size/2; i++ {
+			val.SetInt(int64(i))
+			mv.SetMapIndex(val, val)
+		}
+	})
+	if allocs > 10 {
+		t.Errorf("allocs per map assignment: want at most 10 got %f", allocs)
+	}
 }
 
 func TestChanAlloc(t *testing.T) {
