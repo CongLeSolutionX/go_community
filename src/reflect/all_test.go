@@ -954,6 +954,7 @@ func TestMap(t *testing.T) {
 	}
 	keys := mv.MapKeys()
 	newmap := MakeMap(mv.Type())
+	newmapcap := MakeMapCap(mv.Type(), 2)
 	for k, v := range m {
 		// Check that returned Keys match keys in range.
 		// These aren't required to be in the same order.
@@ -976,6 +977,7 @@ func TestMap(t *testing.T) {
 
 		// Copy into new map.
 		newmap.SetMapIndex(ValueOf(k), ValueOf(v))
+		newmapcap.SetMapIndex(ValueOf(k), ValueOf(v))
 	}
 	vv := mv.MapIndex(ValueOf("not-present"))
 	if vv.IsValid() {
@@ -983,8 +985,12 @@ func TestMap(t *testing.T) {
 	}
 
 	newm := newmap.Interface().(map[string]int)
+	newmc := newmapcap.Interface().(map[string]int)
 	if len(newm) != len(m) {
 		t.Errorf("length after copy: newm=%d, m=%d", len(newm), len(m))
+	}
+	if len(newmc) != len(m) {
+		t.Errorf("length after copy: newmc=%d, m=%d", len(newmc), len(m))
 	}
 
 	for k, v := range newm {
@@ -994,10 +1000,22 @@ func TestMap(t *testing.T) {
 		}
 	}
 
+	for k, v := range newmc {
+		mv, ok := m[k]
+		if mv != v {
+			t.Errorf("newmc[%q] = %d, but m[%q] = %d, %v", k, v, k, mv, ok)
+		}
+	}
+
 	newmap.SetMapIndex(ValueOf("a"), Value{})
+	newmapcap.SetMapIndex(ValueOf("a"), Value{})
 	v, ok := newm["a"]
 	if ok {
 		t.Errorf("newm[\"a\"] = %d after delete", v)
+	}
+	v, ok = newmc["a"]
+	if ok {
+		t.Errorf("newmc[\"a\"] = %d after delete", v)
 	}
 
 	mv = ValueOf(&m).Elem()
