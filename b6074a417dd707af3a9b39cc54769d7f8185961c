@@ -22,6 +22,30 @@
       "revId": "b6074a417dd707af3a9b39cc54769d7f8185961c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9f4e0b8_3ef91243",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-03-18T17:09:19Z",
+      "side": 0,
+      "message": "added back. needed with make but not with new then append. Seems to happen often enough.\nRedid the benchmarks. I left out timings since their are equal and slightly fluctuating.",
+      "parentUuid": "fb6e4808_a0deb01c",
+      "range": {
+        "startLine": 642,
+        "startChar": 3,
+        "endLine": 642,
+        "endChar": 17
+      },
+      "revId": "b6074a417dd707af3a9b39cc54769d7f8185961c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

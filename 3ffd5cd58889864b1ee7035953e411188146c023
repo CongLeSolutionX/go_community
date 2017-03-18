@@ -22,6 +22,30 @@
       "revId": "3ffd5cd58889864b1ee7035953e411188146c023",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "919273e8_9f67fc90",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-03-18T17:09:19Z",
+      "side": 1,
+      "message": "Indeed.",
+      "parentUuid": "6aa4f2ad_09e4c8d0",
+      "range": {
+        "startLine": 640,
+        "startChar": 3,
+        "endLine": 640,
+        "endChar": 59
+      },
+      "revId": "3ffd5cd58889864b1ee7035953e411188146c023",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
