@@ -46,6 +46,30 @@
       "revId": "0ccd11d424deff1ce0afc2d63414432712a2159f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5b8740b_5bea6861",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-03-18T17:52:06Z",
+      "side": 1,
+      "message": "But i might be wrong and slice backing arrays are effected by size classes only on a per element basis. Will have a closer look at that and when in doubt len(a) seems fine.",
+      "parentUuid": "b78918b3_31daeaa1",
+      "range": {
+        "startLine": 645,
+        "startChar": 27,
+        "endLine": 645,
+        "endChar": 35
+      },
+      "revId": "0ccd11d424deff1ce0afc2d63414432712a2159f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
