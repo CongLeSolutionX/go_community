@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "83247e00_49932f77",
+        "filename": "src/cmd/compile/internal/syntax/nodes.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-03-18T10:47:02Z",
+      "side": 1,
+      "message": "Since it\u0027s an open-ended interval, should this be \"\u003c\"? Or can Pos() really point beyond the right-most character?",
+      "range": {
+        "startLine": 29,
+        "startChar": 59,
+        "endLine": 29,
+        "endChar": 61
+      },
+      "revId": "06efc9f9270828dba73662eeee93c4ba740d6652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc29f047_116fc616",
         "filename": "src/cmd/compile/internal/syntax/nodes.go",
         "patchSetId": 2
