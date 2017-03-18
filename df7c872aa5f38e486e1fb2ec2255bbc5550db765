@@ -22,6 +22,30 @@
       "revId": "df7c872aa5f38e486e1fb2ec2255bbc5550db765",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a4493fc_05da212c",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 17532
+      },
+      "writtenOn": "2017-03-18T16:50:28Z",
+      "side": 1,
+      "message": "Done.\n\nAlso fixed the issue from go vet.",
+      "parentUuid": "ef6ba53e_51563fd1",
+      "range": {
+        "startLine": 2079,
+        "startChar": 54,
+        "endLine": 2079,
+        "endChar": 79
+      },
+      "revId": "df7c872aa5f38e486e1fb2ec2255bbc5550db765",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
