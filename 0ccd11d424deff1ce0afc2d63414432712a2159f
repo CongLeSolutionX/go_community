@@ -22,6 +22,30 @@
       "revId": "0ccd11d424deff1ce0afc2d63414432712a2159f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b78918b3_31daeaa1",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 645,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-03-18T17:41:34Z",
+      "side": 1,
+      "message": "Currently i dont think it makes much of a difference. We can make this as well len(a), i just kept it from your proposal.\nHowever i think if we set it to len(a) we might be wasting space because the cap can be bigger for the specific size class. And existing slice that was constructed by append is likely to have a cap that is at the size class limit. On the other hand we might be wasting space by setting it to cap. I do some quick statistics later to decide for either.\n\n(Side thought for a compiler optimization i just had: when we take the len and cap (or len and len or cap and cap or two constants) from existing slice of the same type i dont we need the runtime checks for len \u003c cap ... and could call malloc directly)",
+      "parentUuid": "c09948fd_5d6b3b4a",
+      "range": {
+        "startLine": 645,
+        "startChar": 27,
+        "endLine": 645,
+        "endChar": 35
+      },
+      "revId": "0ccd11d424deff1ce0afc2d63414432712a2159f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
