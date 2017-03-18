@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef6ba53e_51563fd1",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2079,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-18T16:35:00Z",
+      "side": 1,
+      "message": "this is a little awkward sounding, feeling like it\u0027s missing something. Maybe drop \"with\"?\n\nOr replace the earlier \"of\" with \"with\":\n\n    // MakeMapCap creates a new map with the specific type and initial capacity.\n\n?",
+      "range": {
+        "startLine": 2079,
+        "startChar": 54,
+        "endLine": 2079,
+        "endChar": 79
+      },
+      "revId": "df7c872aa5f38e486e1fb2ec2255bbc5550db765",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
