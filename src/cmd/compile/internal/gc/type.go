@@ -489,6 +489,19 @@ func typMap(k, v *Type) *Type {
 
 // typPtr returns the pointer type pointing to t.
 func typPtr(elem *Type) *Type {
+	return typPtrX(elem, true)
+}
+
+// typPtrNoCache returns the pointer type pointing to t,
+// but it does not cache the result.
+// typPtrNoCache is concurrency-safe, but less efficient than typPtr.
+// It is intended for use by the backend.
+func typPtrNoCache(elem *Type) *Type {
+	return typPtrX(elem, false)
+}
+
+// typPtrX implements typPtr and typPtrNoCache.
+func typPtrX(elem *Type, cache bool) *Type {
 	if elem == nil {
 		Fatalf("typPtr: pointer to elem Type is nil")
 	}
@@ -501,14 +514,16 @@ func typPtr(elem *Type) *Type {
 	}
 
 	if Tptr == 0 {
-		Fatalf("typPtr: Tptr not intialized")
+		Fatalf("typPtr: Tptr not initialized")
 	}
 
 	t := typ(Tptr)
 	t.Extra = PtrType{Elem: elem}
 	t.Width = int64(Widthptr)
 	t.Align = uint8(Widthptr)
-	elem.ptrTo = t
+	if cache {
+		elem.ptrTo = t
+	}
 	return t
 }
 
@@ -1223,7 +1238,7 @@ func (t *Type) ElemType() ssa.Type {
 	return t.Elem()
 }
 func (t *Type) PtrTo() ssa.Type {
-	return typPtr(t)
+	return typPtrNoCache(t)
 }
 
 func (t *Type) NumFields() int {
