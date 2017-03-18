@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6aa4f2ad_09e4c8d0",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 640,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-18T16:31:19Z",
+      "side": 1,
+      "message": "no longer true?",
+      "range": {
+        "startLine": 640,
+        "startChar": 3,
+        "endLine": 640,
+        "endChar": 59
+      },
+      "revId": "3ffd5cd58889864b1ee7035953e411188146c023",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
