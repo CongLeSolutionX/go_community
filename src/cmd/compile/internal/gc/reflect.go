@@ -14,6 +14,7 @@ import (
 	"os"
 	"sort"
 	"strings"
+	"sync"
 )
 
 type itabEntry struct {
@@ -32,9 +33,13 @@ type ptabEntry struct {
 }
 
 // runtime interface and reflection data structures
-var signatlist = make(map[*types.Type]bool)
-var itabs []itabEntry
-var ptabs []ptabEntry
+var (
+	signatlistmu sync.Mutex // protects signatlist
+	signatlist   = make(map[*types.Type]bool)
+
+	itabs []itabEntry
+	ptabs []ptabEntry
+)
 
 type Sig struct {
 	name   string
@@ -925,7 +930,9 @@ func typenamesym(t *types.Type) *types.Sym {
 		Fatalf("typenamesym %v", t)
 	}
 	s := typesym(t)
+	signatlistmu.Lock()
 	addsignat(t)
+	signatlistmu.Unlock()
 	return s
 }
 
