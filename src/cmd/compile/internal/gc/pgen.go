@@ -8,7 +8,6 @@ import (
 	"cmd/compile/internal/ssa"
 	"cmd/internal/dwarf"
 	"cmd/internal/obj"
-	"cmd/internal/src"
 	"cmd/internal/sys"
 	"fmt"
 	"sort"
@@ -18,10 +17,10 @@ import (
 
 var makefuncdatasym_nsym int
 
-func makefuncdatasym(nameprefix string, funcdatakind int64) *Sym {
+func makefuncdatasym(pp *Progs, nameprefix string, funcdatakind int64) *Sym {
 	sym := lookupN(nameprefix, makefuncdatasym_nsym)
 	makefuncdatasym_nsym++
-	p := Prog(obj.AFUNCDATA)
+	p := pp.Prog(obj.AFUNCDATA)
 	Addrconst(&p.From, funcdatakind)
 	p.To.Type = obj.TYPE_MEM
 	p.To.Name = obj.NAME_EXTERN
@@ -269,10 +268,6 @@ func compile(fn *Node) {
 		assertI2I2 = Sysfunc("assertI2I2")
 	}
 
-	defer func(lno src.XPos) {
-		lineno = lno
-	}(setlineno(fn))
-
 	Curfn = fn
 	dowidth(fn.Type)
 
@@ -304,23 +299,18 @@ func compile(fn *Node) {
 	}
 
 	// Build an SSA backend function.
-	ssafn := buildssa(fn)
+	pp := newProgs()
+	pp.pos = fn.Pos
+	ssafn := buildssa(fn, pp)
 	if nerrors != 0 {
 		return
 	}
-
-	plist := new(obj.Plist)
-	pc = Ctxt.NewProg()
-	Clearp(pc)
-	plist.Firstpc = pc
-
-	setlineno(fn)
 
 	nam := fn.Func.Nname
 	if isblank(nam) {
 		nam = nil
 	}
-	ptxt := Gins(obj.ATEXT, nam, nil)
+	ptxt := pp.gins(obj.ATEXT, nam, nil) // TODO: replace ptxt with pp.first everywhere?
 	fnsym := ptxt.From.Sym
 
 	ptxt.From3 = new(obj.Addr)
@@ -355,10 +345,10 @@ func compile(fn *Node) {
 		}
 	}
 
-	genssa(ssafn, ptxt)
+	genssa(ssafn, pp, ptxt)
 
-	obj.Flushplist(Ctxt, plist) // convert from Prog list to machine code
-	ptxt = nil                  // nil to prevent misuse; Prog may have been freed by Flushplist
+	obj.Flushplist(Ctxt, pp.Plist()) // convert from Prog list to machine code
+	ptxt = nil                       // nil to prevent misuse; Prog may have been freed by Flushplist
 
 	fieldtrack(fnsym, fn.Func.FieldTrack)
 }

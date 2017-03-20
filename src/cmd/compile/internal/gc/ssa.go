@@ -54,7 +54,7 @@ func initssaconfig() {
 }
 
 // buildssa builds an SSA function.
-func buildssa(fn *Node) *ssa.Func {
+func buildssa(fn *Node, pp *Progs) *ssa.Func {
 	name := fn.Func.Nname.Sym.Name
 	printssa := name == os.Getenv("GOSSAFUNC")
 	if printssa {
@@ -75,6 +75,7 @@ func buildssa(fn *Node) *ssa.Func {
 
 	fe := ssafn{
 		curfn: fn,
+		pp:    pp,
 		log:   printssa,
 	}
 
@@ -4219,6 +4220,8 @@ type Branch struct {
 
 // SSAGenState contains state needed during Prog generation.
 type SSAGenState struct {
+	pp *Progs
+
 	// Branches remembers all the branch instructions we've seen
 	// and where they would like to go.
 	Branches []Branch
@@ -4238,30 +4241,35 @@ type SSAGenState struct {
 	stackMapIndex map[*ssa.Value]int
 }
 
+func (s *SSAGenState) Prog(as obj.As) *obj.Prog {
+	return s.pp.Prog(as)
+}
+
 // Pc returns the current Prog.
 func (s *SSAGenState) Pc() *obj.Prog {
-	return pc
+	return s.pp.cur
 }
 
 // SetPos sets the current source position.
 func (s *SSAGenState) SetPos(pos src.XPos) {
-	lineno = pos
+	s.pp.pos = pos
 }
 
 // genssa appends entries to ptxt for each instruction in f.
-func genssa(f *ssa.Func, ptxt *obj.Prog) {
+// gcargs and gclocals are filled in with pointer maps for the frame.
+func genssa(f *ssa.Func, pp *Progs, ptxt *obj.Prog) {
 	var s SSAGenState
 
 	e := f.Frontend().(*ssafn)
 
 	// Generate GC bitmaps.
-	gcargs := makefuncdatasym("gcargs·", obj.FUNCDATA_ArgsPointerMaps)
-	gclocals := makefuncdatasym("gclocals·", obj.FUNCDATA_LocalsPointerMaps)
+	gcargs := makefuncdatasym(pp, "gcargs·", obj.FUNCDATA_ArgsPointerMaps)
+	gclocals := makefuncdatasym(pp, "gclocals·", obj.FUNCDATA_LocalsPointerMaps)
 	s.stackMapIndex = liveness(e, f, gcargs, gclocals)
 
 	// Remember where each block starts.
 	s.bstart = make([]*obj.Prog, f.NumBlocks())
-
+	s.pp = e.pp
 	var valueProgs map[*obj.Prog]*ssa.Value
 	var blockProgs map[*obj.Prog]*ssa.Block
 	var logProgs = e.log
@@ -4269,7 +4277,7 @@ func genssa(f *ssa.Func, ptxt *obj.Prog) {
 		valueProgs = make(map[*obj.Prog]*ssa.Value, f.NumValues())
 		blockProgs = make(map[*obj.Prog]*ssa.Block, f.NumBlocks())
 		f.Logf("genssa %s\n", f.Name)
-		blockProgs[pc] = f.Blocks[0]
+		blockProgs[s.pp.cur] = f.Blocks[0]
 	}
 
 	if thearch.Use387 {
@@ -4281,11 +4289,11 @@ func genssa(f *ssa.Func, ptxt *obj.Prog) {
 
 	// Emit basic blocks
 	for i, b := range f.Blocks {
-		s.bstart[b.ID] = pc
+		s.bstart[b.ID] = s.pp.cur
 		// Emit values in block
 		thearch.SSAMarkMoves(&s, b)
 		for _, v := range b.Values {
-			x := pc
+			x := s.pp.cur
 			s.SetPos(v.Pos)
 
 			switch v.Op {
@@ -4311,7 +4319,7 @@ func genssa(f *ssa.Func, ptxt *obj.Prog) {
 			}
 
 			if logProgs {
-				for ; x != pc; x = x.Link {
+				for ; x != s.pp.cur; x = x.Link {
 					valueProgs[x] = v
 				}
 			}
@@ -4325,11 +4333,11 @@ func genssa(f *ssa.Func, ptxt *obj.Prog) {
 			// line numbers for otherwise empty blocks.
 			next = f.Blocks[i+1]
 		}
-		x := pc
+		x := s.pp.cur
 		s.SetPos(b.Pos)
 		thearch.SSAGenBlock(&s, b, next)
 		if logProgs {
-			for ; x != pc; x = x.Link {
+			for ; x != s.pp.cur; x = x.Link {
 				blockProgs[x] = b
 			}
 		}
@@ -4382,7 +4390,7 @@ func genssa(f *ssa.Func, ptxt *obj.Prog) {
 	}
 
 	// Add frame prologue. Zero ambiguously live variables.
-	thearch.Defframe(ptxt, e.curfn, e.stksize+s.maxarg)
+	thearch.Defframe(e.pp, ptxt, e.curfn, e.stksize+s.maxarg)
 	if Debug['f'] != 0 {
 		frame(0)
 	}
@@ -4396,11 +4404,11 @@ type FloatingEQNEJump struct {
 	Index int
 }
 
-func oneFPJump(b *ssa.Block, jumps *FloatingEQNEJump, likely ssa.BranchPrediction, branches []Branch) []Branch {
-	p := Prog(jumps.Jump)
+func oneFPJump(s *SSAGenState, b *ssa.Block, jumps *FloatingEQNEJump, likely ssa.BranchPrediction) {
+	p := s.pp.Prog(jumps.Jump)
 	p.To.Type = obj.TYPE_BRANCH
 	to := jumps.Index
-	branches = append(branches, Branch{p, b.Succs[to].Block()})
+	s.Branches = append(s.Branches, Branch{p, b.Succs[to].Block()})
 	if to == 1 {
 		likely = -likely
 	}
@@ -4416,22 +4424,21 @@ func oneFPJump(b *ssa.Block, jumps *FloatingEQNEJump, likely ssa.BranchPredictio
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = 1
 	}
-	return branches
 }
 
 func SSAGenFPJump(s *SSAGenState, b, next *ssa.Block, jumps *[2][2]FloatingEQNEJump) {
 	likely := b.Likely
 	switch next {
 	case b.Succs[0].Block():
-		s.Branches = oneFPJump(b, &jumps[0][0], likely, s.Branches)
-		s.Branches = oneFPJump(b, &jumps[0][1], likely, s.Branches)
+		oneFPJump(s, b, &jumps[0][0], likely)
+		oneFPJump(s, b, &jumps[0][1], likely)
 	case b.Succs[1].Block():
-		s.Branches = oneFPJump(b, &jumps[1][0], likely, s.Branches)
-		s.Branches = oneFPJump(b, &jumps[1][1], likely, s.Branches)
+		oneFPJump(s, b, &jumps[1][0], likely)
+		oneFPJump(s, b, &jumps[1][1], likely)
 	default:
-		s.Branches = oneFPJump(b, &jumps[1][0], likely, s.Branches)
-		s.Branches = oneFPJump(b, &jumps[1][1], likely, s.Branches)
-		q := Prog(obj.AJMP)
+		oneFPJump(s, b, &jumps[1][0], likely)
+		oneFPJump(s, b, &jumps[1][1], likely)
+		q := s.pp.Prog(obj.AJMP)
 		q.To.Type = obj.TYPE_BRANCH
 		s.Branches = append(s.Branches, Branch{q, b.Succs[1].Block()})
 	}
@@ -4606,7 +4613,7 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 	if !ok {
 		Fatalf("missing stack map index for %v", v.LongString())
 	}
-	p := Prog(obj.APCDATA)
+	p := s.pp.Prog(obj.APCDATA)
 	Addrconst(&p.From, obj.PCDATA_StackMapIndex)
 	Addrconst(&p.To, int64(idx))
 
@@ -4619,10 +4626,10 @@ func (s *SSAGenState) Call(v *ssa.Value) *obj.Prog {
 		// insert an actual hardware NOP that will have the right line number.
 		// This is different from obj.ANOP, which is a virtual no-op
 		// that doesn't make it into the instruction stream.
-		thearch.Ginsnop()
+		thearch.Ginsnop(s.pp)
 	}
 
-	p = Prog(obj.ACALL)
+	p = s.pp.Prog(obj.ACALL)
 	if sym, ok := v.Aux.(*obj.LSym); ok {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_EXTERN
@@ -4675,8 +4682,9 @@ func fieldIdx(n *Node) int {
 type ssafn struct {
 	curfn      *Node
 	strings    map[string]interface{} // map from constant string to data symbols
-	stksize    int64                  // stack size for current frame
-	stkptrsize int64                  // prefix of stack containing pointers
+	pp         *Progs
+	stksize    int64 // stack size for current frame
+	stkptrsize int64 // prefix of stack containing pointers
 	log        bool
 }
 

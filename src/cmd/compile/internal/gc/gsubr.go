@@ -30,35 +30,57 @@
 
 package gc
 
-import "cmd/internal/obj"
+import (
+	"cmd/internal/obj"
+	"cmd/internal/src"
+)
 
-func Prog(as obj.As) *obj.Prog {
-	var p *obj.Prog
+// Progs helps construct a Plist.
+type Progs struct {
+	first *obj.Prog // first Prog
+	cur   *obj.Prog // current Prog
+	pc    int64     // virtual PC; count of Progs
+	pos   src.XPos  // position to use for new Progs
+	// TODO: add text?
+}
 
-	p = pc
-	pc = Ctxt.NewProg()
-	Clearp(pc)
-	p.Link = pc
+func newProgs() *Progs {
+	pp := new(Progs)
+	pp.first = Ctxt.NewProg()
+	pp.clearp(pp.first)
+	pp.cur = pp.first
+	return pp
+}
 
-	if !lineno.IsKnown() && Debug['K'] != 0 {
+func (pp *Progs) Plist() *obj.Plist {
+	return &obj.Plist{Firstpc: pp.first}
+}
+
+func (pp *Progs) Prog(as obj.As) *obj.Prog {
+	p := pp.cur
+	pp.cur = Ctxt.NewProg()
+	pp.clearp(pp.cur)
+	p.Link = pp.cur
+
+	if !pp.pos.IsKnown() && Debug['K'] != 0 {
 		Warn("prog: unknown position (line 0)")
 	}
 
 	p.As = as
-	p.Pos = lineno
+	p.Pos = pp.pos
 	return p
 }
 
-func Clearp(p *obj.Prog) {
+func (pp *Progs) clearp(p *obj.Prog) {
 	obj.Nopout(p)
 	p.As = obj.AEND
-	p.Pc = int64(pcloc)
-	pcloc++
+	p.Pc = pp.pc
+	pp.pc++
 }
 
-func Appendpp(p *obj.Prog, as obj.As, ftype obj.AddrType, freg int16, foffset int64, ttype obj.AddrType, treg int16, toffset int64) *obj.Prog {
+func (pp *Progs) Appendpp(p *obj.Prog, as obj.As, ftype obj.AddrType, freg int16, foffset int64, ttype obj.AddrType, treg int16, toffset int64) *obj.Prog {
 	q := Ctxt.NewProg()
-	Clearp(q)
+	pp.clearp(q)
 	q.As = as
 	q.Pos = p.Pos
 	q.From.Type = ftype
@@ -278,15 +300,14 @@ func Patch(p *obj.Prog, to *obj.Prog) {
 	p.To.Offset = to.Pc
 }
 
-// Gins inserts instruction as. f is from, t is to.
-func Gins(as obj.As, f, t *Node) *obj.Prog {
+// gins inserts instruction as. f is from, t is to.
+func (pp *Progs) gins(as obj.As, f, t *Node) *obj.Prog {
 	switch as {
 	case obj.ATEXT, obj.AFUNCDATA:
 	default:
 		Fatalf("unhandled gins op %v", as)
 	}
-
-	p := Prog(as)
+	p := pp.Prog(as)
 	Naddr(&p.From, f)
 	Naddr(&p.To, t)
 	return p
