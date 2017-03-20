@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1bf8e3f7_a80fd5a3",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4705,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-20T20:12:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbee6aea_4f916490",
+      "range": {
+        "startLine": 4703,
+        "startChar": 1,
+        "endLine": 4705,
+        "endChar": 2
+      },
+      "revId": "fb58c5bb2ee1eb6c718a69cb59e4f158fbbaa359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c41fbe6c_a01b63d0",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 3
@@ -69,6 +93,30 @@
       "revId": "fb58c5bb2ee1eb6c718a69cb59e4f158fbbaa359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cfb1dbf_f6c338e1",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4710,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-20T20:12:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "806e6b95_cd8c2a16",
+      "range": {
+        "startLine": 4710,
+        "startChar": 1,
+        "endLine": 4710,
+        "endChar": 57
+      },
+      "revId": "fb58c5bb2ee1eb6c718a69cb59e4f158fbbaa359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
