@@ -123,27 +123,32 @@ func dowidth(t *Type) {
 		return
 	}
 
+	lno := lineno
+	if t.nod != nil {
+		lineno = t.nod.Pos
+	}
+
 	if t.Width == -2 {
 		if !t.Broke() {
 			t.SetBroke(true)
-			yyerrorl(t.Pos, "invalid recursive type %v", t)
+			yyerror("invalid recursive type %v", t)
 		}
 
 		t.Width = 0
+		lineno = lno
 		return
 	}
 
 	// break infinite recursion if the broken recursive type
 	// is referenced again
 	if t.Broke() && t.Width == 0 {
+		lineno = lno
 		return
 	}
 
 	// defer checkwidth calls until after we're done
 	defercalc++
 
-	lno := lineno
-	lineno = t.Pos
 	t.Width = -2
 	t.Align = 0
 
