@@ -45,6 +45,30 @@
       "revId": "fb58c5bb2ee1eb6c718a69cb59e4f158fbbaa359",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "806e6b95_cd8c2a16",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4710,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-03-20T19:06:00Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure this is a non-issue.  It only affects debugger typing of string globals.\nIf you had\n  type s string\n  const q \u003d s(\"foo\")\nThen maybe the storage in the read-only section for q would want a dwarf type of \"s\", not string.\nI doubt anyone would care, and in any case certainly no one would be confused by the current behavior.\nFeel free to delete it.",
+      "parentUuid": "c41fbe6c_a01b63d0",
+      "range": {
+        "startLine": 4710,
+        "startChar": 1,
+        "endLine": 4710,
+        "endChar": 57
+      },
+      "revId": "fb58c5bb2ee1eb6c718a69cb59e4f158fbbaa359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
