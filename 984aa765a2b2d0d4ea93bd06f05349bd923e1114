@@ -16,6 +16,24 @@
       "revId": "984aa765a2b2d0d4ea93bd06f05349bd923e1114",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6a7161b3_701700a0",
+        "filename": "src/cmd/compile/internal/gc/align.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-20T20:04:03Z",
+      "side": 1,
+      "message": "Done.\n\nI was initially worried that t.nod might be nil here, but since type recursion can only happen with named types, I don\u0027t think that can happen.",
+      "parentUuid": "474cf6a8_8d525995",
+      "revId": "984aa765a2b2d0d4ea93bd06f05349bd923e1114",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
