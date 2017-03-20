@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbee6aea_4f916490",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4705,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-20T17:38:09Z",
+      "side": 1,
+      "message": "it doesn\u0027t really matter, but this could be after the read, just before you assign to strings",
+      "range": {
+        "startLine": 4703,
+        "startChar": 1,
+        "endLine": 4705,
+        "endChar": 2
+      },
+      "revId": "fb58c5bb2ee1eb6c718a69cb59e4f158fbbaa359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c41fbe6c_a01b63d0",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4710,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-20T17:38:09Z",
+      "side": 1,
+      "message": "Keith?",
+      "range": {
+        "startLine": 4710,
+        "startChar": 1,
+        "endLine": 4710,
+        "endChar": 57
+      },
+      "revId": "fb58c5bb2ee1eb6c718a69cb59e4f158fbbaa359",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
