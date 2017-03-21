@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d0abc06_4c2aedf7",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-21T05:35:55Z",
+      "side": 1,
+      "message": "interesting to see int16 but not int32. where does *int16 come up?",
+      "range": {
+        "startLine": 60,
+        "startChar": 5,
+        "endLine": 60,
+        "endChar": 52
+      },
+      "revId": "3bbcb7f8d892a902da3d25a3f4745da4fa3eac9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8c0e8ea_a8638e88",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1919,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-21T05:35:55Z",
+      "side": 1,
+      "message": "sure you got them all? and how do you prevent regressions in the future if somebody types the old name and it still compiles and \"works\"?\n\ncould you instead flip a bool between front-end and back-end time that says \"henceforth, all typPtr calls are no-cache\", and then change none of these callers?",
+      "revId": "3bbcb7f8d892a902da3d25a3f4745da4fa3eac9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
