@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67485eac_f297cb49",
+        "filename": "src/html/template/transition.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2017-03-21T16:12:19Z",
+      "side": 1,
+      "message": "tURL seems more correct, but I\u0027ll admit that I\u0027m probably not grasping all the subtleties here.",
+      "parentUuid": "de78ec73_bade3ccc",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "9e6d53bb49f1a2f8bc0440c7d12875fbb6918a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c250f3e4_39c08aed",
         "filename": "src/html/template/url.go",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "9e6d53bb49f1a2f8bc0440c7d12875fbb6918a4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "688a4421_cf200b78",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 8285
+      },
+      "writtenOn": "2017-03-21T16:12:19Z",
+      "side": 1,
+      "message": "Not bad AFAIK but different.  It would mean that all commas would get escaped in sanitized URLs, no matter what.\n\nWe can\u0027t just use URL escaper because a safe srcset attribute is not always a valid URL (it will usually contain spaces), so the escapers need to be distinct.",
+      "parentUuid": "c250f3e4_39c08aed",
+      "revId": "9e6d53bb49f1a2f8bc0440c7d12875fbb6918a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
