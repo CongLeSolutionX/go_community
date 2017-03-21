@@ -158,9 +158,10 @@ func (p *parser) syntax_error_at(pos src.Pos, msg string) {
 }
 
 // Convenience methods using the current token position.
-func (p *parser) pos() src.Pos            { return p.pos_at(p.line, p.col) }
-func (p *parser) error(msg string)        { p.error_at(p.pos(), msg) }
-func (p *parser) syntax_error(msg string) { p.syntax_error_at(p.pos(), msg) }
+func (p *parser) pos() Pos                { return MakePos(p.line, p.col) }
+func (p *parser) srcpos() src.Pos         { return p.pos_at(p.line, p.col) }
+func (p *parser) error(msg string)        { p.error_at(p.srcpos(), msg) }
+func (p *parser) syntax_error(msg string) { p.syntax_error_at(p.srcpos(), msg) }
 
 // The stopset contains keywords that start a statement.
 // They are good synchronization points in case of syntax
@@ -243,7 +244,7 @@ func (p *parser) file() *File {
 	}
 
 	f := new(File)
-	f.pos = p.pos()
+	f.pos = p.srcpos()
 
 	// PackageClause
 	if !p.got(_Package) {
@@ -341,14 +342,14 @@ func (p *parser) importDecl(group *Group) Decl {
 	}
 
 	d := new(ImportDecl)
-	d.pos = p.pos()
+	d.pos = p.srcpos()
 
 	switch p.tok {
 	case _Name:
 		d.LocalPkgName = p.name()
 	case _Dot:
 		n := new(Name)
-		n.pos = p.pos()
+		n.pos = p.srcpos()
 		n.Value = "."
 		d.LocalPkgName = n
 		p.next()
@@ -371,7 +372,7 @@ func (p *parser) constDecl(group *Group) Decl {
 	}
 
 	d := new(ConstDecl)
-	d.pos = p.pos()
+	d.pos = p.srcpos()
 
 	d.NameList = p.nameList(p.name())
 	if p.tok != _EOF && p.tok != _Semi && p.tok != _Rparen {
@@ -392,7 +393,7 @@ func (p *parser) typeDecl(group *Group) Decl {
 	}
 
 	d := new(TypeDecl)
-	d.pos = p.pos()
+	d.pos = p.srcpos()
 
 	d.Name = p.name()
 	d.Alias = p.got(_Assign)
@@ -414,7 +415,7 @@ func (p *parser) varDecl(group *Group) Decl {
 	}
 
 	d := new(VarDecl)
-	d.pos = p.pos()
+	d.pos = p.srcpos()
 
 	d.NameList = p.nameList(p.name())
 	if p.got(_Assign) {
@@ -441,7 +442,7 @@ func (p *parser) funcDecl() *FuncDecl {
 	}
 
 	f := new(FuncDecl)
-	f.pos = p.pos()
+	f.pos = p.srcpos()
 
 	badRecv := false
 	if p.tok == _Lparen {
@@ -480,7 +481,8 @@ func (p *parser) funcDecl() *FuncDecl {
 
 	f.Name = p.name()
 	f.Type = p.funcType()
-	if p.got(_Lbrace) {
+	if lbrace := p.pos(); p.got(_Lbrace) {
+		f.Lbrace = lbrace
 		f.Body = p.funcBody()
 		f.Rbrace = p.pos()
 		p.want(_Rbrace)
@@ -517,7 +519,7 @@ func (p *parser) binaryExpr(prec int) Expr {
 	x := p.unaryExpr()
 	for (p.tok == _Operator || p.tok == _Star) && p.prec > prec {
 		t := new(Operation)
-		t.pos = p.pos()
+		t.pos = p.srcpos()
 		t.Op = p.op
 		t.X = x
 		tprec := p.prec
@@ -539,7 +541,7 @@ func (p *parser) unaryExpr() Expr {
 		switch p.op {
 		case Mul, Add, Sub, Not, Xor:
 			x := new(Operation)
-			x.pos = p.pos()
+			x.pos = p.srcpos()
 			x.Op = p.op
 			p.next()
 			x.X = p.unaryExpr()
@@ -547,7 +549,7 @@ func (p *parser) unaryExpr() Expr {
 
 		case And:
 			x := new(Operation)
-			x.pos = p.pos()
+			x.pos = p.srcpos()
 			x.Op = And
 			p.next()
 			// unaryExpr may have returned a parenthesized composite literal
@@ -558,7 +560,7 @@ func (p *parser) unaryExpr() Expr {
 
 	case _Arrow:
 		// receive op (<-x) or receive-only channel (<-chan E)
-		pos := p.pos()
+		pos := p.srcpos()
 		p.next()
 
 		// If the next token is _Chan we still don't know if it is
@@ -627,7 +629,7 @@ func (p *parser) callStmt() *CallStmt {
 	}
 
 	s := new(CallStmt)
-	s.pos = p.pos()
+	s.pos = p.srcpos()
 	s.Tok = p.tok // _Defer or _Go
 	p.next()
 
@@ -663,7 +665,7 @@ func (p *parser) operand(keep_parens bool) Expr {
 		return p.oliteral()
 
 	case _Lparen:
-		pos := p.pos()
+		pos := p.srcpos()
 		p.next()
 		p.xnest++
 		x := p.expr()
@@ -700,14 +702,15 @@ func (p *parser) operand(keep_parens bool) Expr {
 		return x
 
 	case _Func:
-		pos := p.pos()
+		pos := p.srcpos()
 		p.next()
 		t := p.funcType()
-		if p.got(_Lbrace) {
+		if lbrace := p.pos(); p.got(_Lbrace) {
 			p.xnest++
 
 			f := new(FuncLit)
 			f.pos = pos
+			f.Lbrace = lbrace
 			f.Type = t
 			f.Body = p.funcBody()
 			f.Rbrace = p.pos()
@@ -758,7 +761,7 @@ func (p *parser) pexpr(keep_parens bool) Expr {
 
 loop:
 	for {
-		pos := p.pos()
+		pos := p.srcpos()
 		switch p.tok {
 		case _Dot:
 			p.next()
@@ -898,8 +901,9 @@ func (p *parser) complitexpr() *CompositeLit {
 	}
 
 	x := new(CompositeLit)
-	x.pos = p.pos()
+	x.pos = p.srcpos()
 
+	x.Lbrace = p.pos()
 	p.want(_Lbrace)
 	p.xnest++
 
@@ -909,7 +913,7 @@ func (p *parser) complitexpr() *CompositeLit {
 		if p.tok == _Colon {
 			// key ':' value
 			l := new(KeyValueExpr)
-			l.pos = p.pos()
+			l.pos = p.srcpos()
 			p.next()
 			l.Key = e
 			l.Value = p.bare_complitexpr()
@@ -966,7 +970,7 @@ func (p *parser) tryType() Expr {
 		defer p.trace("tryType")()
 	}
 
-	pos := p.pos()
+	pos := p.srcpos()
 	switch p.tok {
 	case _Star:
 		// ptrtype
@@ -1061,7 +1065,7 @@ func (p *parser) funcType() *FuncType {
 	}
 
 	typ := new(FuncType)
-	typ.pos = p.pos()
+	typ.pos = p.srcpos()
 	typ.ParamList = p.paramList()
 	typ.ResultList = p.funcResult()
 
@@ -1089,7 +1093,7 @@ func (p *parser) dotname(name *Name) Expr {
 
 	if p.tok == _Dot {
 		s := new(SelectorExpr)
-		s.pos = p.pos()
+		s.pos = p.srcpos()
 		p.next()
 		s.X = name
 		s.Sel = p.name()
@@ -1105,7 +1109,7 @@ func (p *parser) structType() *StructType {
 	}
 
 	typ := new(StructType)
-	typ.pos = p.pos()
+	typ.pos = p.srcpos()
 
 	p.want(_Struct)
 	p.want(_Lbrace)
@@ -1127,7 +1131,7 @@ func (p *parser) interfaceType() *InterfaceType {
 	}
 
 	typ := new(InterfaceType)
-	typ.pos = p.pos()
+	typ.pos = p.srcpos()
 
 	p.want(_Interface)
 	p.want(_Lbrace)
@@ -1170,7 +1174,7 @@ func (p *parser) funcResult() []*Field {
 		return p.paramList()
 	}
 
-	pos := p.pos()
+	pos := p.srcpos()
 	if result := p.tryType(); result != nil {
 		f := new(Field)
 		f.pos = pos
@@ -1208,7 +1212,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 		defer p.trace("fieldDecl")()
 	}
 
-	pos := p.pos()
+	pos := p.srcpos()
 	switch p.tok {
 	case _Name:
 		name := p.name()
@@ -1233,7 +1237,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 		p.next()
 		if p.tok == _Star {
 			// '(' '*' embed ')' oliteral
-			pos := p.pos()
+			pos := p.srcpos()
 			p.next()
 			typ := indirect(pos, p.qualifiedName(nil))
 			p.want(_Rparen)
@@ -1276,7 +1280,7 @@ func (p *parser) fieldDecl(styp *StructType) {
 func (p *parser) oliteral() *BasicLit {
 	if p.tok == _Literal {
 		b := new(BasicLit)
-		b.pos = p.pos()
+		b.pos = p.srcpos()
 		b.Value = p.lit
 		b.Kind = p.kind
 		p.next()
@@ -1323,7 +1327,7 @@ func (p *parser) methodDecl() *Field {
 	case _Lparen:
 		p.syntax_error("cannot parenthesize embedded type")
 		f := new(Field)
-		f.pos = p.pos()
+		f.pos = p.srcpos()
 		p.next()
 		f.Type = p.qualifiedName(nil)
 		p.want(_Rparen)
@@ -1343,7 +1347,7 @@ func (p *parser) paramDecl() *Field {
 	}
 
 	f := new(Field)
-	f.pos = p.pos()
+	f.pos = p.srcpos()
 
 	switch p.tok {
 	case _Name:
@@ -1388,7 +1392,7 @@ func (p *parser) dotsType() *DotsType {
 	}
 
 	t := new(DotsType)
-	t.pos = p.pos()
+	t.pos = p.srcpos()
 
 	p.want(_DotDotDot)
 	t.Elem = p.tryType()
@@ -1485,7 +1489,7 @@ func (p *parser) simpleStmt(lhs Expr, rangeOk bool) SimpleStmt {
 
 	if _, ok := lhs.(*ListExpr); !ok && p.tok != _Assign && p.tok != _Define {
 		// expr
-		pos := p.pos()
+		pos := p.srcpos()
 		switch p.tok {
 		case _AssignOp:
 			// lhs op= rhs
@@ -1514,7 +1518,7 @@ func (p *parser) simpleStmt(lhs Expr, rangeOk bool) SimpleStmt {
 			if lhs != nil { // be cautious (test/syntax/semi4.go)
 				s.pos = lhs.Pos()
 			} else {
-				s.pos = p.pos()
+				s.pos = p.srcpos()
 			}
 			s.X = lhs
 			return s
@@ -1522,7 +1526,7 @@ func (p *parser) simpleStmt(lhs Expr, rangeOk bool) SimpleStmt {
 	}
 
 	// expr_list
-	pos := p.pos()
+	pos := p.srcpos()
 	switch p.tok {
 	case _Assign:
 		p.next()
@@ -1575,7 +1579,7 @@ func (p *parser) simpleStmt(lhs Expr, rangeOk bool) SimpleStmt {
 
 func (p *parser) rangeClause(lhs Expr, def bool) *RangeClause {
 	r := new(RangeClause)
-	r.pos = p.pos()
+	r.pos = p.srcpos()
 	p.next() // consume _Range
 	r.Lhs = lhs
 	r.Def = def
@@ -1598,7 +1602,7 @@ func (p *parser) labeledStmt(label *Name) Stmt {
 	}
 
 	s := new(LabeledStmt)
-	s.pos = p.pos()
+	s.pos = p.srcpos()
 	s.Label = label
 
 	p.want(_Colon)
@@ -1622,9 +1626,10 @@ func (p *parser) blockStmt() *BlockStmt {
 	}
 
 	s := new(BlockStmt)
-	s.pos = p.pos()
+	s.pos = p.srcpos()
 	p.want(_Lbrace)
 	s.Body = p.stmtList()
+	s.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return s
@@ -1636,7 +1641,7 @@ func (p *parser) declStmt(f func(*Group) Decl) *DeclStmt {
 	}
 
 	s := new(DeclStmt)
-	s.pos = p.pos()
+	s.pos = p.srcpos()
 
 	p.next() // _Const, _Type, or _Var
 	s.DeclList = p.appendGroup(nil, f)
@@ -1650,29 +1655,30 @@ func (p *parser) forStmt() Stmt {
 	}
 
 	s := new(ForStmt)
-	s.pos = p.pos()
+	s.pos = p.srcpos()
 
 	s.Init, s.Cond, s.Post = p.header(_For)
-	s.Body = p.stmtBody("for clause")
+	s.Body, s.Lbrace, s.Rbrace = p.stmtBody("for clause")
 
 	return s
 }
 
 // stmtBody parses if and for statement bodies.
-func (p *parser) stmtBody(context string) []Stmt {
+func (p *parser) stmtBody(context string) (body []Stmt, lbrace, rbrace Pos) {
 	if trace {
 		defer p.trace("stmtBody")()
 	}
 
+	lbrace = p.pos()
 	if !p.got(_Lbrace) {
 		p.syntax_error("expecting { after " + context)
 		p.advance(_Name, _Rbrace)
 	}
-
-	body := p.stmtList()
+	body = p.stmtList()
+	rbrace = p.pos()
 	p.want(_Rbrace)
 
-	return body
+	return
 }
 
 func (p *parser) header(keyword token) (init SimpleStmt, cond Expr, post SimpleStmt) {
@@ -1708,7 +1714,7 @@ func (p *parser) header(keyword token) (init SimpleStmt, cond Expr, post SimpleS
 		lit string // valid if pos.IsKnown()
 	}
 	if p.tok == _Semi {
-		semi.pos = p.pos()
+		semi.pos = p.srcpos()
 		semi.lit = p.lit
 		p.next()
 		if keyword == _For {
@@ -1761,10 +1767,10 @@ func (p *parser) ifStmt() *IfStmt {
 	}
 
 	s := new(IfStmt)
-	s.pos = p.pos()
+	s.pos = p.srcpos()
 
 	s.Init, s.Cond, _ = p.header(_If)
-	s.Then = p.stmtBody("if clause")
+	s.Then, s.Lbrace, s.Rbrace = p.stmtBody("if clause")
 
 	if p.got(_Else) {
 		switch p.tok {
@@ -1787,7 +1793,7 @@ func (p *parser) switchStmt() *SwitchStmt {
 	}
 
 	s := new(SwitchStmt)
-	s.pos = p.pos()
+	s.pos = p.srcpos()
 
 	s.Init, s.Tag, _ = p.header(_Switch)
 
@@ -1798,6 +1804,7 @@ func (p *parser) switchStmt() *SwitchStmt {
 	for p.tok != _EOF && p.tok != _Rbrace {
 		s.Body = append(s.Body, p.caseClause())
 	}
+	s.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return s
@@ -1809,7 +1816,7 @@ func (p *parser) selectStmt() *SelectStmt {
 	}
 
 	s := new(SelectStmt)
-	s.pos = p.pos()
+	s.pos = p.srcpos()
 
 	p.want(_Select)
 	if !p.got(_Lbrace) {
@@ -1819,6 +1826,7 @@ func (p *parser) selectStmt() *SelectStmt {
 	for p.tok != _EOF && p.tok != _Rbrace {
 		s.Body = append(s.Body, p.commClause())
 	}
+	s.Rbrace = p.pos()
 	p.want(_Rbrace)
 
 	return s
@@ -1830,7 +1838,7 @@ func (p *parser) caseClause() *CaseClause {
 	}
 
 	c := new(CaseClause)
-	c.pos = p.pos()
+	c.pos = p.srcpos()
 
 	switch p.tok {
 	case _Case:
@@ -1845,6 +1853,7 @@ func (p *parser) caseClause() *CaseClause {
 		p.advance(_Case, _Default, _Rbrace)
 	}
 
+	c.Colon = p.pos()
 	p.want(_Colon)
 	c.Body = p.stmtList()
 
@@ -1857,7 +1866,7 @@ func (p *parser) commClause() *CommClause {
 	}
 
 	c := new(CommClause)
-	c.pos = p.pos()
+	c.pos = p.srcpos()
 
 	switch p.tok {
 	case _Case:
@@ -1884,6 +1893,7 @@ func (p *parser) commClause() *CommClause {
 		p.advance(_Case, _Default, _Rbrace)
 	}
 
+	c.Colon = p.pos()
 	p.want(_Colon)
 	c.Body = p.stmtList()
 
@@ -1953,14 +1963,14 @@ func (p *parser) stmt() Stmt {
 
 	case _Fallthrough:
 		s := new(BranchStmt)
-		s.pos = p.pos()
+		s.pos = p.srcpos()
 		p.next()
 		s.Tok = _Fallthrough
 		return s
 
 	case _Break, _Continue:
 		s := new(BranchStmt)
-		s.pos = p.pos()
+		s.pos = p.srcpos()
 		s.Tok = p.tok
 		p.next()
 		if p.tok == _Name {
@@ -1973,7 +1983,7 @@ func (p *parser) stmt() Stmt {
 
 	case _Goto:
 		s := new(BranchStmt)
-		s.pos = p.pos()
+		s.pos = p.srcpos()
 		s.Tok = _Goto
 		p.next()
 		s.Label = p.name()
@@ -1981,7 +1991,7 @@ func (p *parser) stmt() Stmt {
 
 	case _Return:
 		s := new(ReturnStmt)
-		s.pos = p.pos()
+		s.pos = p.srcpos()
 		p.next()
 		if p.tok != _Semi && p.tok != _Rbrace {
 			s.Results = p.exprList()
@@ -1990,7 +2000,7 @@ func (p *parser) stmt() Stmt {
 
 	case _Semi:
 		s := new(EmptyStmt)
-		s.pos = p.pos()
+		s.pos = p.srcpos()
 		return s
 	}
 
@@ -2031,7 +2041,7 @@ func (p *parser) call(fun Expr) *CallExpr {
 	// call or conversion
 	// convtype '(' expr ocomma ')'
 	c := new(CallExpr)
-	c.pos = p.pos()
+	c.pos = p.srcpos()
 	c.Fun = fun
 
 	p.want(_Lparen)
@@ -2058,7 +2068,7 @@ func (p *parser) name() *Name {
 	// no tracing to avoid overly verbose output
 
 	n := new(Name)
-	n.pos = p.pos()
+	n.pos = p.srcpos()
 
 	if p.tok == _Name {
 		n.Value = p.lit
@@ -2104,7 +2114,7 @@ func (p *parser) qualifiedName(name *Name) Expr {
 		name = p.name()
 	default:
 		name = new(Name)
-		name.pos = p.pos()
+		name.pos = p.srcpos()
 		p.syntax_error("expecting name")
 		p.advance(_Dot, _Semi, _Rbrace)
 	}

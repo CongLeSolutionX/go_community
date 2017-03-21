@@ -32,6 +32,11 @@ func (n *node) Pos() src.Pos {
 	return n.pos
 }
 
+// PosAt returns the src.Pos for a given pos of node n.
+func (n *node) PosAt(pos Pos) src.Pos {
+	return src.MakePos(n.pos.Base(), pos.Line(), pos.Col())
+}
+
 func (*node) aNode() {}
 
 // ----------------------------------------------------------------------------
@@ -100,13 +105,13 @@ type (
 	// func Receiver Name Type { Body }
 	// func Receiver Name Type
 	FuncDecl struct {
-		Attr   map[string]bool // go:attr map
-		Recv   *Field          // nil means regular function
-		Name   *Name
-		Type   *FuncType
-		Body   []Stmt  // nil means no body (forward declaration)
-		Pragma Pragma  // TODO(mdempsky): Cleaner solution.
-		Rbrace src.Pos // TODO(mdempsky): Cleaner solution.
+		Attr           map[string]bool // go:attr map
+		Recv           *Field          // nil means regular function
+		Name           *Name
+		Type           *FuncType
+		Body           []Stmt // nil means no body (forward declaration)
+		Lbrace, Rbrace Pos
+		Pragma         Pragma // TODO(mdempsky): Cleaner solution.
 		decl
 	}
 )
@@ -144,10 +149,10 @@ type (
 
 	// Type { ElemList[0], ElemList[1], ... }
 	CompositeLit struct {
-		Type     Expr // nil means no literal type
-		ElemList []Expr
-		NKeys    int     // number of elements with keys
-		Rbrace   src.Pos // TODO(mdempsky): Cleaner solution.
+		Type           Expr // nil means no literal type
+		ElemList       []Expr
+		NKeys          int // number of elements with keys
+		Lbrace, Rbrace Pos
 		expr
 	}
 
@@ -159,9 +164,9 @@ type (
 
 	// func Type { Body }
 	FuncLit struct {
-		Type   *FuncType
-		Body   []Stmt
-		Rbrace src.Pos // TODO(mdempsky): Cleaner solution.
+		Type           *FuncType
+		Body           []Stmt
+		Lbrace, Rbrace Pos
 		expr
 	}
 
@@ -326,7 +331,8 @@ type (
 	}
 
 	BlockStmt struct {
-		Body []Stmt
+		Body   []Stmt
+		Rbrace Pos
 		stmt
 	}
 
@@ -369,30 +375,34 @@ type (
 	}
 
 	IfStmt struct {
-		Init SimpleStmt
-		Cond Expr
-		Then []Stmt
-		Else Stmt // either *IfStmt or *BlockStmt
+		Init           SimpleStmt
+		Cond           Expr
+		Then           []Stmt
+		Lbrace, Rbrace Pos  // of Then branch
+		Else           Stmt // either *IfStmt or *BlockStmt
 		stmt
 	}
 
 	ForStmt struct {
-		Init SimpleStmt // incl. *RangeClause
-		Cond Expr
-		Post SimpleStmt
-		Body []Stmt
+		Init           SimpleStmt // incl. *RangeClause
+		Cond           Expr
+		Post           SimpleStmt
+		Body           []Stmt
+		Lbrace, Rbrace Pos
 		stmt
 	}
 
 	SwitchStmt struct {
-		Init SimpleStmt
-		Tag  Expr
-		Body []*CaseClause
+		Init   SimpleStmt
+		Tag    Expr
+		Body   []*CaseClause
+		Rbrace Pos
 		stmt
 	}
 
 	SelectStmt struct {
-		Body []*CommClause
+		Body   []*CommClause
+		Rbrace Pos
 		stmt
 	}
 )
@@ -415,12 +425,14 @@ type (
 	CaseClause struct {
 		Cases Expr // nil means default clause
 		Body  []Stmt
+		Colon Pos
 		node
 	}
 
 	CommClause struct {
-		Comm SimpleStmt // send or receive stmt; nil means default clause
-		Body []Stmt
+		Comm  SimpleStmt // send or receive stmt; nil means default clause
+		Body  []Stmt
+		Colon Pos
 		node
 	}
 )
