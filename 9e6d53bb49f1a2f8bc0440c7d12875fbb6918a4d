@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de78ec73_bade3ccc",
+        "filename": "src/html/template/transition.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-03-21T15:54:56Z",
+      "side": 1,
+      "message": "Why is tAttr appropriate here?",
+      "range": {
+        "startLine": 26,
+        "startChar": 25,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "9e6d53bb49f1a2f8bc0440c7d12875fbb6918a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c250f3e4_39c08aed",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-03-21T15:54:56Z",
+      "side": 1,
+      "message": "Do bad things happen if the regular urlEscaper does this and we just use the url escaper when in a srcset context?",
+      "revId": "9e6d53bb49f1a2f8bc0440c7d12875fbb6918a4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
