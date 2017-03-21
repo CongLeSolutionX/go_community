@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70a0a681_03a20df8",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-21T05:55:17Z",
+      "side": 1,
+      "message": "*int32 is above, in types.Intr32Ptr.\n\nThe question is: Where does int16 come up? And the answer is, all over the place. :) The backend takes addresses of all sorts of things...thus ***uint8.\n\nFWIW, I made this list by instrumenting make.bash and chopping away at the head until it seemed unreasonable to continue. (It also required some fixes, like canonicalizing interface{}.) Adding to the list is extremely cheap and safe. I plan to do the same exercise with a much larger corpus, but it\u0027s a lower priority.",
+      "parentUuid": "8d0abc06_4c2aedf7",
+      "range": {
+        "startLine": 60,
+        "startChar": 5,
+        "endLine": 60,
+        "endChar": 52
+      },
+      "revId": "3bbcb7f8d892a902da3d25a3f4745da4fa3eac9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8c0e8ea_a8638e88",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-03-21T05:35:55Z",
       "side": 1,
       "message": "sure you got them all? and how do you prevent regressions in the future if somebody types the old name and it still compiles and \"works\"?\n\ncould you instead flip a bool between front-end and back-end time that says \"henceforth, all typPtr calls are no-cache\", and then change none of these callers?",
+      "revId": "3bbcb7f8d892a902da3d25a3f4745da4fa3eac9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4da192c3_e5915e5b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1919,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-21T05:55:17Z",
+      "side": 1,
+      "message": "\u003e sure you got them all?\n\nI manually inspected all the search results. I\u0027m pretty sure, but not 100%.\n\n\u003e and how do you prevent regressions in the future if somebody types the old name and it still compiles and \"works\"?\n\nIn the short term, code review. In the medium term, add to that a highly concurrent race-enabled compiler on a builder.\n\n\u003e could you instead flip a bool between front-end and back-end time that says \"henceforth, all typPtr calls are no-cache\", and then change none of these callers?\n\nThat was the first thing I tried, and the race detector complained. I don\u0027t understand why and seems like a false positive. I\u0027ll give it another whirl and maybe spend some time debugging it.",
+      "parentUuid": "f8c0e8ea_a8638e88",
       "revId": "3bbcb7f8d892a902da3d25a3f4745da4fa3eac9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
