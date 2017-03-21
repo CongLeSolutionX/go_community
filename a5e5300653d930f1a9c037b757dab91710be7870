@@ -36,6 +36,23 @@
     },
     {
       "key": {
+        "uuid": "1793020f_e547a272",
+        "filename": "src/os/pipe_bsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-21T17:40:19Z",
+      "side": 1,
+      "message": "As you can see, this file is used for many platforms.\n\nYou could remove freebsd from this list and add a new file pipe_freebsd.go.\n\n(and then you won\u0027t need the +build line in pipe_freebsd.go)",
+      "revId": "a5e5300653d930f1a9c037b757dab91710be7870",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9232dfe2_688e9499",
         "filename": "src/syscall/exec_bsd.go",
         "patchSetId": 1
