@@ -765,27 +765,6 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		//   rtmp := 1
 		//   isel rt,0,rtmp,!cond // rt is target in ppc asm
 
-		if v.Block.Func.Config.OldArch {
-			p := gc.Prog(ppc64.AMOVD)
-			p.From.Type = obj.TYPE_CONST
-			p.From.Offset = 1
-			p.To.Type = obj.TYPE_REG
-			p.To.Reg = v.Reg()
-
-			pb := gc.Prog(condOps[v.Op])
-			pb.To.Type = obj.TYPE_BRANCH
-
-			p = gc.Prog(ppc64.AMOVD)
-			p.From.Type = obj.TYPE_CONST
-			p.From.Offset = 0
-			p.To.Type = obj.TYPE_REG
-			p.To.Reg = v.Reg()
-
-			p = gc.Prog(obj.ANOP)
-			gc.Patch(pb, p)
-			break
-		}
-		// Modern PPC uses ISEL
 		p := gc.Prog(ppc64.AMOVD)
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = 1
@@ -797,30 +776,6 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 	case ssa.OpPPC64FLessEqual, // These include a second branch for EQ -- dealing with NaN prevents REL= to !REL conversion
 		ssa.OpPPC64FGreaterEqual:
 
-		if v.Block.Func.Config.OldArch {
-			p := gc.Prog(ppc64.AMOVW)
-			p.From.Type = obj.TYPE_CONST
-			p.From.Offset = 1
-			p.To.Type = obj.TYPE_REG
-			p.To.Reg = v.Reg()
-
-			pb0 := gc.Prog(condOps[v.Op])
-			pb0.To.Type = obj.TYPE_BRANCH
-			pb1 := gc.Prog(ppc64.ABEQ)
-			pb1.To.Type = obj.TYPE_BRANCH
-
-			p = gc.Prog(ppc64.AMOVW)
-			p.From.Type = obj.TYPE_CONST
-			p.From.Offset = 0
-			p.To.Type = obj.TYPE_REG
-			p.To.Reg = v.Reg()
-
-			p = gc.Prog(obj.ANOP)
-			gc.Patch(pb0, p)
-			gc.Patch(pb1, p)
-			break
-		}
-		// Modern PPC uses ISEL
 		p := gc.Prog(ppc64.AMOVD)
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = 1
