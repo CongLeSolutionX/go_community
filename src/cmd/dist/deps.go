@@ -293,7 +293,6 @@ var builddeps = map[string][]string{
 		"path",                    // cmd/go/internal/test
 		"path/filepath",           // cmd/go/internal/test
 		"regexp",                  // cmd/go/internal/test
-		"runtime",                 // cmd/go/internal/test
 		"sort",                    // cmd/go/internal/test
 		"strings",                 // cmd/go/internal/test
 		"text/template",           // cmd/go/internal/test
@@ -461,8 +460,9 @@ var builddeps = map[string][]string{
 	},
 
 	"encoding/base64": {
-		"io",      // encoding/base64
-		"strconv", // encoding/base64
+		"encoding/binary", // encoding/base64
+		"io",              // encoding/base64
+		"strconv",         // encoding/base64
 	},
 
 	"encoding/binary": {
@@ -753,7 +753,8 @@ var builddeps = map[string][]string{
 	},
 
 	"path/filepath": {
-		"errors",       // path/filepath
+		"errors",                   // path/filepath
+		"internal/syscall/windows", // path/filepath
 		"os",           // path/filepath
 		"runtime",      // path/filepath
 		"sort",         // path/filepath
