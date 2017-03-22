@@ -583,7 +583,6 @@ func livenesssolve(lv *Liveness) {
 // variables at each safe point locations.
 func livenessepilogue(lv *Liveness) {
 	nvars := int32(len(lv.vars))
-	livein := bvalloc(nvars)
 	liveout := bvalloc(nvars)
 	any := bvalloc(nvars)
 	all := bvalloc(nvars)
@@ -655,9 +654,7 @@ func livenessepilogue(lv *Liveness) {
 
 			// Annotate ambiguously live variables so that they can
 			// be zeroed at function entry.
-			// livein and liveout are dead here and used as temporaries.
-			livein.Clear()
-
+			// liveout is dead here and used as a temporary.
 			liveout.AndNot(any, all)
 			if !liveout.IsEmpty() {
 				for pos := int32(0); pos < liveout.n; pos++ {
@@ -695,35 +692,28 @@ func livenessepilogue(lv *Liveness) {
 			Fatalf("livenessepilogue")
 		}
 
-		livein.Copy(be.liveout)
+		liveout.Copy(be.liveout)
 		for i := len(b.Values) - 1; i >= 0; i-- {
 			v := b.Values[i]
 
-			// Propagate liveness information
-			{
-				pos, e := lv.valueEffects(v)
-				liveout.Copy(livein)
-				if e&varkill != 0 {
-					livein.Unset(pos)
-				}
-				if e&uevar != 0 {
-					livein.Set(pos)
-				}
+			if issafepoint(v) {
+				// Found an interesting instruction, record the
+				// corresponding liveness information.
+
+				live := lv.livevars[pos]
+				live.Or(live, liveout)
+				live.Or(live, livedefer) // only for non-entry safe points
+				pos--
 			}
 
-			if !issafepoint(v) {
-				continue
+			// Update liveness information.
+			pos, e := lv.valueEffects(v)
+			if e&varkill != 0 {
+				liveout.Unset(pos)
 			}
-
-			// Found an interesting instruction, record the
-			// corresponding liveness information.
-
-			// Record live variables.
-			live := lv.livevars[pos]
-			live.Or(live, liveout)
-			live.Or(live, livedefer) // only for non-entry safe points
-
-			pos--
+			if e&uevar != 0 {
+				liveout.Set(pos)
+			}
 		}
 
 		if b == lv.f.Entry {
