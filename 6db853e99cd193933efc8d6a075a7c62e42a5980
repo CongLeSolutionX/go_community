@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8ac2d9c_3911e262",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-22T18:39:04Z",
+      "side": 1,
+      "message": "Consider keeping the braces here, or renaming pos--it\u0027s mildly confusing that pos shadows pos above, which we just decremented.",
+      "revId": "6db853e99cd193933efc8d6a075a7c62e42a5980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
