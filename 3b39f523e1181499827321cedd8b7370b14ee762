@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d0ee28_7acb5984",
+        "filename": "src/cmd/vet/lostcancel.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-03-22T17:33:43Z",
+      "side": 1,
+      "message": "No need for Latin here, but stet.",
+      "revId": "3b39f523e1181499827321cedd8b7370b14ee762",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
