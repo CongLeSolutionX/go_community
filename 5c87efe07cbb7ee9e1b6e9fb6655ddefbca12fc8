@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a69e9e1_ec6a0922",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-22T16:34:07Z",
+      "side": 1,
+      "message": "This is good, but please add which git rev of x/text this is from.",
+      "revId": "5c87efe07cbb7ee9e1b6e9fb6655ddefbca12fc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51f32808_a2d6574e",
+        "filename": "src/vendor/golang_org/x/text/unicode/norm/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-22T16:34:07Z",
+      "side": 1,
+      "message": "There is a new standard for these banners.\n\nSee https://github.com/golang/go/issues/13560#issuecomment-288457920",
+      "range": {
+        "startLine": 1,
+        "startChar": 3,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "5c87efe07cbb7ee9e1b6e9fb6655ddefbca12fc8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
