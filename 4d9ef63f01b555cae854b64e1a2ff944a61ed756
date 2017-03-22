@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d500c91f_5614cfbf",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-22T01:02:04Z",
+      "side": 1,
+      "message": "More often than not, low times like this cause flakes.\n\nCan you structure this test like https://go-review.googlesource.com/38154 so it starts with short timeouts (so the test is fast) but retries a few times with longer ones?",
+      "range": {
+        "startLine": 617,
+        "startChar": 2,
+        "endLine": 619,
+        "endChar": 39
+      },
+      "revId": "4d9ef63f01b555cae854b64e1a2ff944a61ed756",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c68f398b_02a60c9c",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-22T01:02:04Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 674,
+        "startChar": 4,
+        "endLine": 674,
+        "endChar": 44
+      },
+      "revId": "4d9ef63f01b555cae854b64e1a2ff944a61ed756",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
