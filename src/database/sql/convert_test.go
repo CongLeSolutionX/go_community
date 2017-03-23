@@ -462,7 +462,7 @@ func TestDriverArgs(t *testing.T) {
 	}
 	for i, tt := range tests {
 		ds := new(driverStmt)
-		got, err := driverArgs(ds, tt.args)
+		got, err := driverArgs(nil, ds, tt.args)
 		if err != nil {
 			t.Errorf("test[%d]: %v", i, err)
 			continue

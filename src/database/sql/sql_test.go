@@ -3064,6 +3064,89 @@ func TestConnectionLeak(t *testing.T) {
 	wg.Wait()
 }
 
+type nvcDriver struct {
+	fakeDriver
+}
+
+func (d *nvcDriver) Open(dsn string) (driver.Conn, error) {
+	c, err := d.fakeDriver.Open(dsn)
+	return &nvcConn{*c.(*fakeConn)}, err
+}
+
+type nvcConn struct {
+	fakeConn
+}
+
+type decimal struct {
+	value int
+}
+
+var _ driver.NamedValueChecker = &nvcConn{}
+
+func (*nvcConn) NamedValueCheck(nv *driver.NamedValue) error {
+	switch v := nv.Value.(type) {
+	default:
+		return errors.New("unknown NameValueCheck type")
+	case Out:
+		switch ov := v.Value.(type) {
+		default:
+			return errors.New("unkown NameValueCheck OUTPUT type")
+		case *string:
+			*ov = "from-server"
+			nv.Value = "OUT:*string"
+		}
+	case string:
+	case decimal:
+		nv.Value = fmt.Sprintf("decimal-%d", v.value)
+	}
+	return nil
+}
+
+func TestNamedValueChecker(t *testing.T) {
+	Register("NamedValueCheck", &nvcDriver{})
+	db, err := Open("NamedValueCheck", "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer db.Close()
+
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	_, err = db.ExecContext(ctx, "WIPE")
+	if err != nil {
+		t.Fatal("exec wipe", err)
+	}
+
+	_, err = db.ExecContext(ctx, "CREATE|keys|dec1=string,str1=string,out1=string")
+	if err != nil {
+		t.Fatal("exec create", err)
+	}
+
+	o1 := ""
+	_, err = db.ExecContext(ctx, "INSERT|keys|dec1=?A,str1=?,out1=?O1", Named("A", decimal{123}), "hello", Named("O1", Out{Value: &o1}))
+	if err != nil {
+		t.Fatal("exec insert", err)
+	}
+	var dec1, str1 string
+	err = db.QueryRowContext(ctx, "SELECT|keys|dec1,str1|").Scan(&dec1, &str1)
+	if err != nil {
+		t.Fatal("select", err)
+	}
+
+	list := []struct{ got, want string }{
+		{o1, "from-server"},
+		{dec1, "decimal-123"},
+		{str1, "hello"},
+	}
+
+	for index, item := range list {
+		if item.got != item.want {
+			t.Error("got %q wanted %q for index %d", item.got, item.want, index)
+		}
+	}
+}
+
 // badConn implements a bad driver.Conn, for TestBadDriver.
 // The Exec method panics.
 type badConn struct{}

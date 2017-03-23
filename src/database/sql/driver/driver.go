@@ -262,9 +262,25 @@ type StmtQueryContext interface {
 	QueryContext(ctx context.Context, args []NamedValue) (Rows, error)
 }
 
+// NamedValueChecker may be optionally implemented by Conn or Stmt. It provides
+// the driver more control to handle go and database types beyond the default
+// types allowed.
+//
+// First any available Stmt is checked for this interface.
+// Then it will check if Conn implements this interface.
+// Lastly the previous ColumnConverter is checked for if a Stmt is available.
+type NamedValueChecker interface {
+	// NamedValueCheck is called before passing arguments to the driver
+	// and is called in place of any ColumnConverter. NamedValueCheck must do type
+	// validation and conversion as appropriate for the driver.
+	NamedValueCheck(nv *NamedValue) error
+}
+
 // ColumnConverter may be optionally implemented by Stmt if the
 // statement is aware of its own columns' types and can convert from
 // any type to a driver Value.
+//
+// Deprecated: Drivers should implement NamedValueChecker.
 type ColumnConverter interface {
 	// ColumnConverter returns a ValueConverter for the provided
 	// column index. If the type of a specific column isn't known
