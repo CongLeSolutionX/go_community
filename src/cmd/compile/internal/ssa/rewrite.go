@@ -451,7 +451,7 @@ func isSamePtr(p1, p2 *Value) bool {
 }
 
 // moveSize returns the number of bytes an aligned MOV instruction moves
-func moveSize(align int64, c *Config) int64 {
+func moveSize(align uint8, c *Config) int64 {
 	switch {
 	case align%8 == 0 && c.IntSize == 8:
 		return 8

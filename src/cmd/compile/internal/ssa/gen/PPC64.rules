@@ -591,7 +591,7 @@
 // Large move uses a loop
 (Move [s] {t} dst src mem)
 	&& (s > 512 || config.noDuffDevice) || t.(Type).Alignment()%8 != 0 ->
-	(LoweredMove [t.(Type).Alignment()]
+	(LoweredMove [int64(t.(Type).Alignment())]
 		dst
 		src
 		(ADDconst <src.Type> src [s-moveSize(t.(Type).Alignment(), config)])

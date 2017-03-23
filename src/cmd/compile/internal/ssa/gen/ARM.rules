@@ -333,7 +333,7 @@
 // Large zeroing uses a loop
 (Zero [s] {t} ptr mem)
 	&& (s > 512 || config.noDuffDevice) || t.(Type).Alignment()%4 != 0 ->
-	(LoweredZero [t.(Type).Alignment()]
+	(LoweredZero [int64(t.(Type).Alignment())]
 		ptr
 		(ADDconst <ptr.Type> ptr [s-moveSize(t.(Type).Alignment(), config)])
 		(MOVWconst [0])
@@ -373,7 +373,7 @@
 // Large move uses a loop
 (Move [s] {t} dst src mem)
 	&& (s > 512 || config.noDuffDevice) || t.(Type).Alignment()%4 != 0 ->
-	(LoweredMove [t.(Type).Alignment()]
+	(LoweredMove [int64(t.(Type).Alignment())]
 		dst
 		src
 		(ADDconst <src.Type> src [s-moveSize(t.(Type).Alignment(), config)])

@@ -916,9 +916,9 @@ func (t *Type) Size() int64 {
 	return t.Width
 }
 
-func (t *Type) Alignment() int64 {
+func (t *Type) Alignment() uint8 {
 	dowidth(t)
-	return int64(t.Align)
+	return t.Align
 }
 
 func (t *Type) SimpleString() string {
