@@ -146,6 +146,7 @@ func widstruct(errtype *Type, t *Type, o int64, flag int) int64 {
 
 	// type width only includes back to first field's offset
 	t.Width = o - starto
+	t.SetWidthCalculated(true)
 
 	return o
 }
