@@ -278,6 +278,19 @@ type Scanner interface {
 	Scan(src interface{}) error
 }
 
+// Out may be used as an output value argument. It expects
+// Value to contain a pointer value.
+//
+// Drivers that support Out must implement the NamedValueChecker.
+//
+// Example usage:
+//
+//   outArg := ""
+//   _, err := db.ExecContext(ctx, "ProcName", sql.Named("Arg1", Out{Value: &outArg}))
+type Out struct {
+	Value driver.Value
+}
+
 // ErrNoRows is returned by Scan when QueryRow doesn't return a
 // row. In such a case, QueryRow returns a placeholder *Row value that
 // defers this error until a Scan.
@@ -1206,7 +1219,7 @@ func (db *DB) execDC(ctx context.Context, dc *driverConn, release func(error), q
 	}()
 	if execer, ok := dc.ci.(driver.Execer); ok {
 		var dargs []driver.NamedValue
-		dargs, err = driverArgs(nil, args)
+		dargs, err = driverArgs(dc.ci, nil, args)
 		if err != nil {
 			return nil, err
 		}
@@ -1231,7 +1244,7 @@ func (db *DB) execDC(ctx context.Context, dc *driverConn, release func(error), q
 	}
 	ds := &driverStmt{Locker: dc, si: si}
 	defer ds.Close()
-	return resultFromStatement(ctx, ds, args...)
+	return resultFromStatement(ctx, dc.ci, ds, args...)
 }
 
 // QueryContext executes a query that returns rows, typically a SELECT.
@@ -1270,7 +1283,7 @@ func (db *DB) query(ctx context.Context, query string, args []interface{}, strat
 // The connection gets released by the releaseConn function.
 func (db *DB) queryDC(ctx context.Context, dc *driverConn, releaseConn func(error), query string, args []interface{}) (*Rows, error) {
 	if queryer, ok := dc.ci.(driver.Queryer); ok {
-		dargs, err := driverArgs(nil, args)
+		dargs, err := driverArgs(dc.ci, nil, args)
 		if err != nil {
 			releaseConn(err)
 			return nil, err
@@ -1307,7 +1320,7 @@ func (db *DB) queryDC(ctx context.Context, dc *driverConn, releaseConn func(erro
 	}
 
 	ds := &driverStmt{Locker: dc, si: si}
-	rowsi, err := rowsiFromStatement(ctx, ds, args...)
+	rowsi, err := rowsiFromStatement(ctx, dc.ci, ds, args...)
 	if err != nil {
 		ds.Close()
 		releaseConn(err)
@@ -2009,7 +2022,7 @@ func (s *Stmt) ExecContext(ctx context.Context, args ...interface{}) (Result, er
 
 	var res Result
 	for i := 0; i < maxBadConnRetries; i++ {
-		_, releaseConn, ds, err := s.connStmt(ctx)
+		dc, releaseConn, ds, err := s.connStmt(ctx)
 		if err != nil {
 			if err == driver.ErrBadConn {
 				continue
@@ -2017,7 +2030,7 @@ func (s *Stmt) ExecContext(ctx context.Context, args ...interface{}) (Result, er
 			return nil, err
 		}
 
-		res, err = resultFromStatement(ctx, ds, args...)
+		res, err = resultFromStatement(ctx, dc.ci, ds, args...)
 		releaseConn(err)
 		if err != driver.ErrBadConn {
 			return res, err
@@ -2032,23 +2045,8 @@ func (s *Stmt) Exec(args ...interface{}) (Result, error) {
 	return s.ExecContext(context.Background(), args...)
 }
 
-func driverNumInput(ds *driverStmt) int {
-	ds.Lock()
-	defer ds.Unlock() // in case NumInput panics
-	return ds.si.NumInput()
-}
-
-func resultFromStatement(ctx context.Context, ds *driverStmt, args ...interface{}) (Result, error) {
-	want := driverNumInput(ds)
-
-	// -1 means the driver doesn't know how to count the number of
-	// placeholders, so we won't sanity check input here and instead let the
-	// driver deal with errors.
-	if want != -1 && len(args) != want {
-		return nil, fmt.Errorf("sql: expected %d arguments, got %d", want, len(args))
-	}
-
-	dargs, err := driverArgs(ds, args)
+func resultFromStatement(ctx context.Context, ci driver.Conn, ds *driverStmt, args ...interface{}) (Result, error) {
+	dargs, err := driverArgs(ci, ds, args)
 	if err != nil {
 		return nil, err
 	}
@@ -2174,7 +2172,7 @@ func (s *Stmt) QueryContext(ctx context.Context, args ...interface{}) (*Rows, er
 			return nil, err
 		}
 
-		rowsi, err = rowsiFromStatement(ctx, ds, args...)
+		rowsi, err = rowsiFromStatement(ctx, dc.ci, ds, args...)
 		if err == nil {
 			// Note: ownership of ci passes to the *Rows, to be freed
 			// with releaseConn.
@@ -2206,7 +2204,7 @@ func (s *Stmt) Query(args ...interface{}) (*Rows, error) {
 	return s.QueryContext(context.Background(), args...)
 }
 
-func rowsiFromStatement(ctx context.Context, ds *driverStmt, args ...interface{}) (driver.Rows, error) {
+func rowsiFromStatement(ctx context.Context, ci driver.Conn, ds *driverStmt, args ...interface{}) (driver.Rows, error) {
 	var want int
 	withLock(ds, func() {
 		want = ds.si.NumInput()
@@ -2219,7 +2217,7 @@ func rowsiFromStatement(ctx context.Context, ds *driverStmt, args ...interface{}
 		return nil, fmt.Errorf("sql: statement expects %d inputs; got %d", want, len(args))
 	}
 
-	dargs, err := driverArgs(ds, args)
+	dargs, err := driverArgs(ci, ds, args)
 	if err != nil {
 		return nil, err
 	}
