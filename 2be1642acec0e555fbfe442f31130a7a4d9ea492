@@ -22,6 +22,30 @@
       "revId": "2be1642acec0e555fbfe442f31130a7a4d9ea492",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f3ce10_a95c2ca5",
+        "filename": "src/cmd/compile/internal/gc/gsubr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-23T16:28:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d03e0ce_1aa28527",
+      "range": {
+        "startLine": 41,
+        "startChar": 1,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "2be1642acec0e555fbfe442f31130a7a4d9ea492",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
