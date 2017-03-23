@@ -166,19 +166,22 @@ const (
 	typeBroke                 // broken type definition
 	typeNoalg                 // suppress hash and eq algorithm generation
 	typeDeferwidth
+	typeWidthCalculated // width has been calculated
 )
 
-func (t *Type) Local() bool      { return t.flags&typeLocal != 0 }
-func (t *Type) NotInHeap() bool  { return t.flags&typeNotInHeap != 0 }
-func (t *Type) Broke() bool      { return t.flags&typeBroke != 0 }
-func (t *Type) Noalg() bool      { return t.flags&typeNoalg != 0 }
-func (t *Type) Deferwidth() bool { return t.flags&typeDeferwidth != 0 }
+func (t *Type) Local() bool           { return t.flags&typeLocal != 0 }
+func (t *Type) NotInHeap() bool       { return t.flags&typeNotInHeap != 0 }
+func (t *Type) Broke() bool           { return t.flags&typeBroke != 0 }
+func (t *Type) Noalg() bool           { return t.flags&typeNoalg != 0 }
+func (t *Type) Deferwidth() bool      { return t.flags&typeDeferwidth != 0 }
+func (t *Type) WidthCalculated() bool { return t.flags&typeWidthCalculated != 0 }
 
-func (t *Type) SetLocal(b bool)      { t.flags.set(typeLocal, b) }
-func (t *Type) SetNotInHeap(b bool)  { t.flags.set(typeNotInHeap, b) }
-func (t *Type) SetBroke(b bool)      { t.flags.set(typeBroke, b) }
-func (t *Type) SetNoalg(b bool)      { t.flags.set(typeNoalg, b) }
-func (t *Type) SetDeferwidth(b bool) { t.flags.set(typeDeferwidth, b) }
+func (t *Type) SetLocal(b bool)           { t.flags.set(typeLocal, b) }
+func (t *Type) SetNotInHeap(b bool)       { t.flags.set(typeNotInHeap, b) }
+func (t *Type) SetBroke(b bool)           { t.flags.set(typeBroke, b) }
+func (t *Type) SetNoalg(b bool)           { t.flags.set(typeNoalg, b) }
+func (t *Type) SetDeferwidth(b bool)      { t.flags.set(typeDeferwidth, b) }
+func (t *Type) SetWidthCalculated(b bool) { t.flags.set(typeWidthCalculated, b) }
 
 // MapType contains Type fields specific to maps.
 type MapType struct {

@@ -159,7 +159,7 @@ func dowidth(t *Type) {
 		return
 	}
 
-	if t.Width > 0 {
+	if t.WidthCalculated() {
 		if t.Align == 0 {
 			// See issue 11354
 			Fatalf("zero alignment with nonzero size %v", t)
@@ -358,6 +358,7 @@ func dowidth(t *Type) {
 		}
 		t.Align = uint8(w)
 	}
+	t.SetWidthCalculated(true)
 
 	if t.Etype == TINTER {
 		// We defer calling these functions until after
