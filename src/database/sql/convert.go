@@ -37,16 +37,81 @@ func validateNamedValueName(name string) error {
 	return fmt.Errorf("name %q does not begin with a letter", name)
 }
 
+func driverNumInput(ds *driverStmt) int {
+	ds.Lock()
+	defer ds.Unlock() // in case NumInput panics
+	return ds.si.NumInput()
+}
+
 // driverArgs converts arguments from callers of Stmt.Exec and
 // Stmt.Query into driver Values.
 //
 // The statement ds may be nil, if no statement is available.
-func driverArgs(ds *driverStmt, args []interface{}) ([]driver.NamedValue, error) {
+func driverArgs(ci driver.Conn, ds *driverStmt, args []interface{}) ([]driver.NamedValue, error) {
+	// -1 means the driver doesn't know how to count the number of
+	// placeholders, so we won't sanity check input here and instead let the
+	// driver deal with errors.
+	want := -1
+	if ds != nil {
+		want = driverNumInput(ds)
+	}
+
 	nvargs := make([]driver.NamedValue, len(args))
 	var si driver.Stmt
 	if ds != nil {
 		si = ds.si
 	}
+
+	// Bypass all default ColumnConverters and IsValue checks.
+	// With the use of driver.NamedValue, argument position and name
+	// are directly encoded. This allows drivers to accept non-default types
+	// as arguments.
+	nvc, ok := si.(driver.NamedValueChecker)
+	if !ok {
+		nvc, ok = ci.(driver.NamedValueChecker)
+	}
+	if ok {
+		var err error
+		var n int
+		for _, arg := range args {
+			nv := &nvargs[n]
+			if np, ok := arg.(NamedArg); ok {
+				if err = validateNamedValueName(np.Name); err != nil {
+					return nil, err
+				}
+				arg = np.Value
+				nv.Name = np.Name
+			}
+			nv.Value = arg
+			err = nvc.NamedValueCheck(nv)
+			if err != nil {
+				switch err {
+				case driver.ErrSkipNamedValue:
+					nvargs = nvargs[:len(nvargs)-1]
+					continue
+				case driver.ErrSkip:
+					if len(nvargs) != len(args) {
+						nvargs = make([]driver.NamedValue, len(args))
+					}
+					goto converter
+				}
+				return nil, fmt.Errorf("sql: checking argument %s type: %v", describeNamedValue(nv), err)
+			}
+			n++
+			nv.Ordinal = n
+		}
+		if want != -1 && len(nvargs) != want {
+			return nil, fmt.Errorf("sql: expected %d arguments, got %d", want, len(nvargs))
+		}
+
+		return nvargs, nil
+	}
+
+converter:
+	if want != -1 && len(args) != want {
+		return nil, fmt.Errorf("sql: expected %d arguments, got %d", want, len(args))
+	}
+
 	cc, ok := si.(driver.ColumnConverter)
 
 	// Normal path, for a driver.Stmt that is not a ColumnConverter.
