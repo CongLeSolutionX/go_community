@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "836acb65_2bfd9938",
+        "filename": "src/cmd/compile/internal/ssa/looprotate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-03-23T17:20:04Z",
+      "side": 1,
+      "message": "Removed \"inner\", this applies to all loops.",
+      "parentUuid": "6af2b460_5c1e5cc3",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "cef7819f0c444b4714b59ba8e7a9fc1dce5b26fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07146a8f_70560533",
         "filename": "src/cmd/compile/internal/ssa/looprotate.go",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "cef7819f0c444b4714b59ba8e7a9fc1dce5b26fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "645fffa7_4286ffff",
+        "filename": "src/cmd/compile/internal/ssa/looprotate.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-03-23T17:20:04Z",
+      "side": 1,
+      "message": "Of course; removed comment.",
+      "parentUuid": "07146a8f_70560533",
+      "revId": "cef7819f0c444b4714b59ba8e7a9fc1dce5b26fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
