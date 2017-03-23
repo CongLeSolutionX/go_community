@@ -41,12 +41,44 @@ func validateNamedValueName(name string) error {
 // Stmt.Query into driver Values.
 //
 // The statement ds may be nil, if no statement is available.
-func driverArgs(ds *driverStmt, args []interface{}) ([]driver.NamedValue, error) {
+func driverArgs(ci driver.Conn, ds *driverStmt, args []interface{}) ([]driver.NamedValue, error) {
 	nvargs := make([]driver.NamedValue, len(args))
 	var si driver.Stmt
 	if ds != nil {
 		si = ds.si
 	}
+
+	// Bypass all default ColumnConverters and IsValue checks.
+	// With the use of driver.NamedValue, argument position and name
+	// are directly encoded. This allows drivers to accept non-default types
+	// as arguments.
+	var ok bool
+	var nvc driver.NamedValueChecker
+	nvc, ok = si.(driver.NamedValueChecker)
+	if !ok {
+		nvc, ok = ci.(driver.NamedValueChecker)
+	}
+	if ok {
+		var err error
+		for n, arg := range args {
+			nv := &nvargs[n]
+			nv.Ordinal = n + 1
+			if np, ok := arg.(NamedArg); ok {
+				if err := validateNamedValueName(np.Name); err != nil {
+					return nil, err
+				}
+				arg = np.Value
+				nv.Name = np.Name
+			}
+			nv.Value = arg
+			err = nvc.NamedValueCheck(nv)
+			if err != nil {
+				return nil, fmt.Errorf("sql: checking argument %s type: %v", describeNamedValue(nv), err)
+			}
+		}
+		return nvargs, nil
+	}
+
 	cc, ok := si.(driver.ColumnConverter)
 
 	// Normal path, for a driver.Stmt that is not a ColumnConverter.
