@@ -4016,7 +4016,7 @@ func rewriteValuePPC64_OpMove(v *Value) bool {
 	}
 	// match: (Move [s] {t} dst src mem)
 	// cond: (s > 512 || config.noDuffDevice) || t.(Type).Alignment()%8 != 0
-	// result: (LoweredMove [t.(Type).Alignment()] 		dst 		src 		(ADDconst <src.Type> src [s-moveSize(t.(Type).Alignment(), config)]) 		mem)
+	// result: (LoweredMove [int64(t.(Type).Alignment())] 		dst 		src 		(ADDconst <src.Type> src [s-moveSize(t.(Type).Alignment(), config)]) 		mem)
 	for {
 		s := v.AuxInt
 		t := v.Aux
@@ -4027,7 +4027,7 @@ func rewriteValuePPC64_OpMove(v *Value) bool {
 			break
 		}
 		v.reset(OpPPC64LoweredMove)
-		v.AuxInt = t.(Type).Alignment()
+		v.AuxInt = int64(t.(Type).Alignment())
 		v.AddArg(dst)
 		v.AddArg(src)
 		v0 := b.NewValue0(v.Pos, OpPPC64ADDconst, src.Type)

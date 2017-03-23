@@ -9,7 +9,7 @@ import "cmd/internal/obj"
 // Stub implementation used for testing.
 type TypeImpl struct {
 	Size_   int64
-	Align   int64
+	Align   uint8
 	Boolean bool
 	Integer bool
 	Signed  bool
@@ -27,7 +27,7 @@ type TypeImpl struct {
 }
 
 func (t *TypeImpl) Size() int64            { return t.Size_ }
-func (t *TypeImpl) Alignment() int64       { return t.Align }
+func (t *TypeImpl) Alignment() uint8       { return t.Align }
 func (t *TypeImpl) IsBoolean() bool        { return t.Boolean }
 func (t *TypeImpl) IsInteger() bool        { return t.Integer }
 func (t *TypeImpl) IsSigned() bool         { return t.Signed }

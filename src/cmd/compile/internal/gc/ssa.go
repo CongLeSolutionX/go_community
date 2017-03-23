@@ -3412,7 +3412,7 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*Type, args ...*ssa
 	off := Ctxt.FixedFrameSize()
 	for _, arg := range args {
 		t := arg.Type
-		off = Rnd(off, t.Alignment())
+		off = Rnd(off, int64(t.Alignment()))
 		ptr := s.constOffPtrSP(t.PtrTo(), off)
 		size := t.Size()
 		s.vars[&memVar] = s.newValue3A(ssa.OpStore, ssa.TypeMem, t, ptr, arg, s.mem())
@@ -3443,7 +3443,7 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*Type, args ...*ssa
 	// Load results
 	res := make([]*ssa.Value, len(results))
 	for i, t := range results {
-		off = Rnd(off, t.Alignment())
+		off = Rnd(off, int64(t.Alignment()))
 		ptr := s.constOffPtrSP(typPtr(t), off)
 		res[i] = s.newValue2(ssa.OpLoad, t, ptr, s.mem())
 		off += t.Size()

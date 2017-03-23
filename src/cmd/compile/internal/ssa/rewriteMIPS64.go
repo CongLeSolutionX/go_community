@@ -6748,7 +6748,7 @@ func rewriteValueMIPS64_OpMove(v *Value) bool {
 	}
 	// match: (Move [s] {t} dst src mem)
 	// cond: s > 24 || t.(Type).Alignment()%8 != 0
-	// result: (LoweredMove [t.(Type).Alignment()] 		dst 		src 		(ADDVconst <src.Type> src [s-moveSize(t.(Type).Alignment(), config)]) 		mem)
+	// result: (LoweredMove [int64(t.(Type).Alignment())] 		dst 		src 		(ADDVconst <src.Type> src [s-moveSize(t.(Type).Alignment(), config)]) 		mem)
 	for {
 		s := v.AuxInt
 		t := v.Aux
@@ -6759,7 +6759,7 @@ func rewriteValueMIPS64_OpMove(v *Value) bool {
 			break
 		}
 		v.reset(OpMIPS64LoweredMove)
-		v.AuxInt = t.(Type).Alignment()
+		v.AuxInt = int64(t.(Type).Alignment())
 		v.AddArg(dst)
 		v.AddArg(src)
 		v0 := b.NewValue0(v.Pos, OpMIPS64ADDVconst, src.Type)
@@ -9524,7 +9524,7 @@ func rewriteValueMIPS64_OpZero(v *Value) bool {
 	}
 	// match: (Zero [s] {t} ptr mem)
 	// cond: (s > 8*128 || config.noDuffDevice) || t.(Type).Alignment()%8 != 0
-	// result: (LoweredZero [t.(Type).Alignment()] 		ptr 		(ADDVconst <ptr.Type> ptr [s-moveSize(t.(Type).Alignment(), config)]) 		mem)
+	// result: (LoweredZero [int64(t.(Type).Alignment())] 		ptr 		(ADDVconst <ptr.Type> ptr [s-moveSize(t.(Type).Alignment(), config)]) 		mem)
 	for {
 		s := v.AuxInt
 		t := v.Aux
@@ -9534,7 +9534,7 @@ func rewriteValueMIPS64_OpZero(v *Value) bool {
 			break
 		}
 		v.reset(OpMIPS64LoweredZero)
-		v.AuxInt = t.(Type).Alignment()
+		v.AuxInt = int64(t.(Type).Alignment())
 		v.AddArg(ptr)
 		v0 := b.NewValue0(v.Pos, OpMIPS64ADDVconst, ptr.Type)
 		v0.AuxInt = s - moveSize(t.(Type).Alignment(), config)
