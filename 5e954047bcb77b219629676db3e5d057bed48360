@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8ef149e_aed6c6f4",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1565,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-24T21:25:00Z",
+      "side": 0,
+      "message": "marvin\u0027s legacy is gone.",
+      "range": {
+        "startLine": 1565,
+        "startChar": 2,
+        "endLine": 1565,
+        "endChar": 45
+      },
+      "revId": "5e954047bcb77b219629676db3e5d057bed48360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
