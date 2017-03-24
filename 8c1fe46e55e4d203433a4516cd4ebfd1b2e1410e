@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f823d44_a6fdd89a",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1498,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-24T17:06:05Z",
+      "side": 1,
+      "message": "Actually, this could probably get rid of the if altogether in this case - but it\u0027s probably not worth the complexity.\n\nAlso, down the road, it would be better if the importer wouldn\u0027t even see this kind of code - we don\u0027t want to add all this logic everywhere (for instance, can this happen for a for statement that\u0027s never taken?).\n\nBut good enough for now.",
+      "revId": "8c1fe46e55e4d203433a4516cd4ebfd1b2e1410e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
