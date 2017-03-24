@@ -22,6 +22,30 @@
       "revId": "5e954047bcb77b219629676db3e5d057bed48360",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9b73acc_208ebe1b",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1565,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-03-24T21:52:46Z",
+      "side": 0,
+      "message": "I think this still occures in other places, like see below :D\nAs I remember it I did some easy clean up and the Node.EType was something I did not fully understand, so I didn\u0027t touched it.",
+      "parentUuid": "f8ef149e_aed6c6f4",
+      "range": {
+        "startLine": 1565,
+        "startChar": 2,
+        "endLine": 1565,
+        "endChar": 45
+      },
+      "revId": "5e954047bcb77b219629676db3e5d057bed48360",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
