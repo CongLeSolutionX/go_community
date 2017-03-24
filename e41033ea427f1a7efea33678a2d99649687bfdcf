@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "717256e4_a95b0684",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-03-24T00:23:11Z",
+      "side": 1,
+      "message": "Added comment.",
+      "parentUuid": "376b8d77_38bcdf04",
+      "range": {
+        "startLine": 727,
+        "startChar": 28,
+        "endLine": 727,
+        "endChar": 38
+      },
+      "revId": "e41033ea427f1a7efea33678a2d99649687bfdcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e452c8da_2dbccae4",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5e5c6a72_2f9c47f3",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-03-24T00:23:11Z",
+      "side": 1,
+      "message": "Sure. Changed to fmt.Sprintf(\"%q\", ...) everywhere.",
+      "parentUuid": "e452c8da_2dbccae4",
+      "range": {
+        "startLine": 752,
+        "startChar": 18,
+        "endLine": 752,
+        "endChar": 91
+      },
+      "revId": "e41033ea427f1a7efea33678a2d99649687bfdcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1089f42a_1ea328ec",
         "filename": "src/os/os_windows_test.go",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2017-03-21T23:29:03Z",
       "side": 1,
       "message": "maybe return JSON instead? Still readable, but will correctly encode whitespace and newlines.",
+      "range": {
+        "startLine": 775,
+        "startChar": 11,
+        "endLine": 775,
+        "endChar": 38
+      },
+      "revId": "e41033ea427f1a7efea33678a2d99649687bfdcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3637d7e5_6e8347db",
+        "filename": "src/os/os_windows_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 775,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-03-24T00:23:11Z",
+      "side": 1,
+      "message": "Changed to\n\nfmt.Printf(\"%q\", os.Args)\n\nas per your suggestion above. I don\u0027t care about newlines here (command line args cannot have newlines in it). I care about \u0027 \u0027 and \u0027\\t\u0027 only.",
+      "parentUuid": "1089f42a_1ea328ec",
       "range": {
         "startLine": 775,
         "startChar": 11,
