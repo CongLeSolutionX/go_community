@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b83e08ad_0d3d4d99",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-03-24T10:21:48Z",
+      "side": 1,
+      "message": "Can the check of AuxInt be that the top 32 bits are 0?",
+      "revId": "873ad98cb8fffbdf376427216bb3e81eecbd51e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
