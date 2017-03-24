@@ -491,7 +491,14 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Reg = v.Args[0].Reg()
 	case ssa.OpAMD64MOVLconst, ssa.OpAMD64MOVQconst:
 		x := v.Reg()
-		p := gc.Prog(v.Op.Asm())
+		asm := v.Op.Asm()
+		// For moving constants to a register that are not negative
+		// and fit into 32bits  use MOVL.
+		if 0 <= v.AuxInt && v.AuxInt <= (1<<32-1) && v.Aux == nil {
+			// The upper 32bit are zeroed automatically when using MOVL.
+			asm = x86.AMOVL
+		}
+		p := gc.Prog(asm)
 		p.From.Type = obj.TYPE_CONST
 		p.From.Offset = v.AuxInt
 		p.To.Type = obj.TYPE_REG
