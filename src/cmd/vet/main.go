@@ -134,6 +134,7 @@ var (
 	callExpr      *ast.CallExpr
 	compositeLit  *ast.CompositeLit
 	exprStmt      *ast.ExprStmt
+	ifStmt        *ast.IfStmt
 	funcDecl      *ast.FuncDecl
 	funcLit       *ast.FuncLit
 	genDecl       *ast.GenDecl
@@ -488,6 +489,8 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 		key = funcLit
 	case *ast.GenDecl:
 		key = genDecl
+	case *ast.IfStmt:
+		key = ifStmt
 	case *ast.InterfaceType:
 		key = interfaceType
 	case *ast.RangeStmt:
