@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88a81684_85fbf036",
+        "filename": "src/cmd/vet/missingerr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-03-24T18:08:40Z",
+      "side": 1,
+      "message": "The last part might be more readable like so:\n\nif lhs, ok :\u003d be.X.(*ast.Ident); ok \u0026\u0026 lhs.Name \u003d\u003d \"err\" {\n  if rhs, ok :\u003d be.Y.(*ast.Ident); ok \u0026\u0026 rhs.Name \u003d\u003d \"nil\" {\n    ...error....\n  }\n}",
+      "revId": "e589071b0165bb1bb648bffe110ca9e7c796e1ae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
