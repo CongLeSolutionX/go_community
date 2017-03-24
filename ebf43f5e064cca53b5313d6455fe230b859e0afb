@@ -16,6 +16,57 @@
       "revId": "ebf43f5e064cca53b5313d6455fe230b859e0afb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "873b3ace_b4b87995",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1571,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-24T21:57:06Z",
+      "side": 1,
+      "message": "As long as we\u0027re touching this code, can we give the variables unique names?\n\ncall :\u003d mkcall1 ...\n\nvar cmp *Node\nif ... {\n  cmp \u003d \n} else {\n  cmp \u003d \n}\n\n...\nn \u003d cmp",
+      "revId": "ebf43f5e064cca53b5313d6455fe230b859e0afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b608a757_d8218066",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-24T21:57:06Z",
+      "side": 1,
+      "message": "Elim if statement in favor of:\n\nreturn x.tab \u003d\u003d y.tab \u0026\u0026 ifaceeq(...)\n\n\nClearer, and IIRC, also better codegen.",
+      "revId": "ebf43f5e064cca53b5313d6455fe230b859e0afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83e4701d_b9de706f",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-24T21:57:06Z",
+      "side": 1,
+      "message": "Ditto.",
+      "revId": "ebf43f5e064cca53b5313d6455fe230b859e0afb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
