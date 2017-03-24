@@ -1175,19 +1175,16 @@ func funccompile(n *Node) {
 	dclcontext = PEXTERN
 }
 
-func funcsym(s *Sym) *Sym {
-	if s.Fsym != nil {
-		return s.Fsym
-	}
+func (s *Sym) funcsymname() string {
+	return s.Name + "·f"
+}
 
-	s1 := Pkglookup(s.Name+"·f", s.Pkg)
-	if !Ctxt.Flag_dynlink && s1.Def == nil {
-		s1.Def = newfuncname(s1)
-		s1.Def.Func.Shortname = s
-		funcsyms = append(funcsyms, s1.Def)
+func funcsym(s *Sym) *Sym {
+	sf, existed := s.Pkg.LookupOK(s.funcsymname())
+	if !Ctxt.Flag_dynlink && !existed {
+		funcsyms = append(funcsyms, s)
 	}
-	s.Fsym = s1
-	return s1
+	return sf
 }
 
 func makefuncsym(s *Sym) {
@@ -1199,13 +1196,7 @@ func makefuncsym(s *Sym) {
 		// not get a funcsym.
 		return
 	}
-	s1 := funcsym(s)
-	if s1.Def != nil {
-		return
-	}
-	s1.Def = newfuncname(s1)
-	s1.Def.Func.Shortname = s
-	funcsyms = append(funcsyms, s1.Def)
+	_ = funcsym(s)
 }
 
 type nowritebarrierrecChecker struct {
