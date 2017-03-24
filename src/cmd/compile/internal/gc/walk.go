@@ -1560,19 +1560,22 @@ opswitch:
 
 		n.Right = cheapexpr(n.Right, init)
 		n.Left = cheapexpr(n.Left, init)
-		fn = substArgTypes(fn, n.Right.Type, n.Left.Type)
-		r := mkcall1(fn, n.Type, init, n.Left, n.Right)
-		// TODO(marvin): Fix Node.EType type union.
-		if Op(n.Etype) == ONE {
-			r = nod(ONOT, r, nil)
-		}
+		lt := nod(OITAB, n.Left, nil)
+		rt := nod(OITAB, n.Right, nil)
+		ld := nod(OIDATA, n.Left, nil)
+		rd := nod(OIDATA, n.Right, nil)
+		ld.Type = Types[TUNSAFEPTR]
+		rd.Type = Types[TUNSAFEPTR]
+		ld.Typecheck = 1
+		rd.Typecheck = 1
+		r := mkcall1(fn, n.Type, init, lt, ld, rd)
 
 		// check itable/type before full compare.
 		// TODO(marvin): Fix Node.EType type union.
 		if Op(n.Etype) == OEQ {
-			r = nod(OANDAND, nod(OEQ, nod(OITAB, n.Left, nil), nod(OITAB, n.Right, nil)), r)
+			r = nod(OANDAND, nod(OEQ, lt, rt), r)
 		} else {
-			r = nod(OOROR, nod(ONE, nod(OITAB, n.Left, nil), nod(OITAB, n.Right, nil)), r)
+			r = nod(OOROR, nod(ONE, lt, rt), nod(ONOT, r, nil))
 		}
 		r = typecheck(r, Erv)
 		r = walkexpr(r, init)
