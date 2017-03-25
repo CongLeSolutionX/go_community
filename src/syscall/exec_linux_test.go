@@ -315,3 +315,86 @@ func TestUnshareMountNameSpace(t *testing.T) {
 		}
 	}
 }
+
+// TestUnsharePIDFeature isn't a real test. It tests for the availability
+// of the CLONE_NEWPID feature in the kernel, which can be compiled out.
+// Because CLONE_NEWPID has such a big impact on process state, we test
+// this in an independent process that immediately exits.
+func TestUnsharePIDFeature(*testing.T) {
+	if os.Getenv("GO_WANT_HELPER_PROCESS") != "1" {
+		return
+	}
+	defer os.Exit(0)
+
+	// Any error is sufficient to cause us to say NO, since over time kernels
+	// may change the error.
+	if _, _, err := syscall.RawSyscall(syscall.SYS_UNSHARE, syscall.CLONE_NEWPID, 0, 0); err != 0 {
+		fmt.Printf("No CLONE_NEWPID support")
+		os.Exit(2)
+	}
+
+	fmt.Fprintf(os.Stdout, "OK\n")
+}
+
+// TestUnsharePIDNameSpacehelper isn't a real test. It's used as a helper process
+// for TestUnsharePIDNameSpace.
+func TestUnsharePIDNameSpaceHelper(*testing.T) {
+	if os.Getenv("GO_WANT_HELPER_PROCESS") != "1" {
+		return
+	}
+	defer os.Exit(0)
+
+	if os.Getpid() != 1 {
+		fmt.Fprintf(os.Stderr, "unshare: PID is not 1")
+		os.Exit(2)
+	}
+	fmt.Fprintf(os.Stdout, "1\n")
+}
+
+// Test for Issue
+// Note that this test assumes CLONE_NEWNS mounts work. That is tested by a different test.
+func TestUnsharePIDNameSpace(t *testing.T) {
+	// Make sure we are running as root so we have permissions to use unshare
+	// and create a network namespace.
+	if os.Getuid() != 0 {
+		t.Skip("kernel prohibits unshare in unprivileged process, unless using user namespace")
+	}
+
+	// When running under the Go continuous build, skip tests for
+	// now when under Kubernetes. (where things are root but not quite)
+	// Both of these are our own environment variables.
+	// See Issue 12815.
+	if os.Getenv("GO_BUILDER_NAME") != "" && os.Getenv("IN_KUBERNETES") == "1" {
+		t.Skip("skipping test on Kubernetes-based builders; see Issue 12815")
+	}
+
+	cmd := exec.Command(os.Args[0], "-test.run=TestUnsharePIDFeature")
+	cmd.Env = []string{"GO_WANT_HELPER_PROCESS=1"}
+	o, err := cmd.CombinedOutput()
+
+	if string(o) != "OK\n" {
+		t.Skipf("Checking for CLONE_NEWPID feature: want OK\\n, got %s. Skipping test", string(o))
+	}
+
+	cmd = exec.Command(os.Args[0], "-test.run=TestUnsharePIDNameSpaceHelper")
+	cmd.Env = []string{"GO_WANT_HELPER_PROCESS=1"}
+	cmd.SysProcAttr = &syscall.SysProcAttr{Unshareflags: syscall.CLONE_NEWPID}
+
+	o, err = cmd.CombinedOutput()
+
+	// We can't use PID information from err, as that will have the real
+	// PID in it, not the PID the process gets from getpid. In the
+	// case of success, the length of the CombinedOutput is 2, and its
+	// value is "1\n". If the process ran without error, then we check
+	// the output, and if that is correct, we have correctly set up
+	// a private PID namespace.
+
+	if err != nil {
+		t.Fatalf("CLONE_NEWPID helper failed, %v", err)
+	}
+
+	if string(o) != "1\n" {
+		t.Fatalf("CLONE_NEWPID helper ran; want 1\\n, got %v", o)
+	}
+
+}
