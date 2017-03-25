@@ -44,6 +44,7 @@ type SysProcAttr struct {
 
 var (
 	none  = [...]byte{'n', 'o', 'n', 'e', 0}
+	proc  = [...]byte{'/', 'p', 'r', 'o', 'c', 0}
 	slash = [...]byte{'/', 0}
 )
 
@@ -100,6 +101,27 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	// About to call fork.
 	// No more allocation or calls of non-assembly functions.
 	runtime_BeforeFork()
+
+	// If the PID namespace is unshared, then certain limitations apply.
+	// You only get to fork once. Your pid values are not quite
+	// what you want (i.e. you want to be PID 1) until you mount
+	// /proc again -- in other words, mounting /proc after you unshare
+	// the PID space is not idempotent. That first mount changes
+	// everything. But if you are going to mount /proc, you need to unshare
+	// the mount space or you break /proc for every process outside the
+	// namespace. Unshare is another system call that's kind of dicey
+	// to use in Go. It works in some cases, but in CLONE_NEWPID it's
+	// much more sensible to add it to the Cloneflags. See Issue 19716.
+	// So the steps are:
+	// If CLONE_NEWPID was set in Unshare flags, move it to Cloneflags.
+	// Set CLONE_NEWNS in Unshareflags so any subsequent mount of /proc will be private.
+	// mount /proc again after the clone.
+	if sys.Unshareflags&CLONE_NEWPID == CLONE_NEWPID {
+		sys.Unshareflags &= ^uintptr(CLONE_NEWPID)
+		sys.Cloneflags |= CLONE_NEWPID
+		sys.Unshareflags |= CLONE_NEWNS
+	}
+
 	switch {
 	case runtime.GOARCH == "amd64" && sys.Cloneflags&CLONE_NEWUSER == 0:
 		r1, err1 = rawVforkSyscall(SYS_CLONE, uintptr(SIGCHLD|CLONE_VFORK|CLONE_VM)|sys.Cloneflags)
@@ -204,6 +226,8 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	}
 
 	// Unshare
+	// Some unshare flags do not make sense for the Go runtime. We assume
+	// those flags we moved to Cloneflags above and just use what is left here.
 	if sys.Unshareflags != 0 {
 		_, _, err1 = RawSyscall(SYS_UNSHARE, sys.Unshareflags, 0, 0)
 		if err1 != 0 {
@@ -221,6 +245,14 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 			if err1 != 0 {
 				goto childerror
 			}
+		}
+	}
+
+	// If CLONE_NEWPID is set, we need our own /proc.
+	if sys.Cloneflags&CLONE_NEWPID == CLONE_NEWPID {
+		_, _, err1 = RawSyscall6(SYS_MOUNT, uintptr(unsafe.Pointer(&none[0])), uintptr(unsafe.Pointer(&proc[0])), uintptr(unsafe.Pointer(&proc[1])), MS_MGC_VAL, 0, 0)
+		if err1 != 0 {
+			goto childerror
 		}
 	}
 
