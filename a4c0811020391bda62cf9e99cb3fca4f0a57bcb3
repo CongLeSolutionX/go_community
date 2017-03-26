@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f225d590_a94c145c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARMOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-26T19:20:49Z",
+      "side": 1,
+      "message": "no need to say word",
+      "range": {
+        "startLine": 198,
+        "startChar": 71,
+        "endLine": 198,
+        "endChar": 75
+      },
+      "revId": "a4c0811020391bda62cf9e99cb3fca4f0a57bcb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97e28cca_ee7671d1",
+        "filename": "src/cmd/compile/internal/ssa/gen/rulegen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-26T19:20:49Z",
+      "side": 1,
+      "message": "I think you can always import cmd/internal/obj. Just generate a dummy use like \"var _ \u003d obj.ANOP\" like the line below for math.",
+      "revId": "a4c0811020391bda62cf9e99cb3fca4f0a57bcb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
