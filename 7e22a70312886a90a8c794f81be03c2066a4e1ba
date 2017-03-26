@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ba59137_0aa5845a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-26T19:15:28Z",
+      "side": 1,
+      "message": "lowercase",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "7e22a70312886a90a8c794f81be03c2066a4e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "363b9531_91e1860d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-26T19:15:28Z",
+      "side": 1,
+      "message": "Do we require ARMv5TE? Is there ARMv5 machine that doesn\u0027t support this instruction?",
+      "range": {
+        "startLine": 18,
+        "startChar": 43,
+        "endLine": 18,
+        "endChar": 50
+      },
+      "revId": "7e22a70312886a90a8c794f81be03c2066a4e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e62575bb_7cf26f2e",
+        "filename": "src/cmd/compile/internal/arm/ssa.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-26T19:15:28Z",
+      "side": 1,
+      "message": "It makes more sense to use To.Reg as destination.  Can you change the assembler front end and back end to use this convention? It doesn\u0027t affect user assembly code. Just change the internal representation.",
+      "revId": "7e22a70312886a90a8c794f81be03c2066a4e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1a3fac1_6a1e7bc3",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 9
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-26T19:15:28Z",
+      "side": 1,
+      "message": "The conversions look redundant. int64(int16(c*d)) should be enough",
+      "revId": "7e22a70312886a90a8c794f81be03c2066a4e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1a38354_35983cb1",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 9
+      },
+      "lineNbr": 865,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-26T19:15:28Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "7e22a70312886a90a8c794f81be03c2066a4e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "504741e5_4fa1b701",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARMOps.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-26T19:15:28Z",
+      "side": 1,
+      "message": "this should be 16-bit arg2.",
+      "range": {
+        "startLine": 175,
+        "startChar": 113,
+        "endLine": 175,
+        "endChar": 124
+      },
+      "revId": "7e22a70312886a90a8c794f81be03c2066a4e1ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
