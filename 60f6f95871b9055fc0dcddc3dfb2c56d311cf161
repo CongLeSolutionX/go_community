@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1fe51d2_519d1f26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 16286
+      },
+      "writtenOn": "2017-03-26T16:37:18Z",
+      "side": 1,
+      "message": "I beg you pardon in advance for maybe saying something dumb, but probably what matters here is alignment, how micro-operations are scheduled and similar matter. A relevant link:\n\nhttp://stackoverflow.com/questions/18113995/performance-optimisations-of-x86-64-assembly-alignment-and-branch-prediction\n\nspecifically there is also case when instruction removal makes things run slower, but not only that.\n\nSorry once again if this is all well known already.",
+      "revId": "60f6f95871b9055fc0dcddc3dfb2c56d311cf161",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
