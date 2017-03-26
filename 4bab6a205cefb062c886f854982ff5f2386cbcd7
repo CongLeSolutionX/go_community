@@ -51,6 +51,24 @@
       "revId": "4bab6a205cefb062c886f854982ff5f2386cbcd7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "137690bc_9fa8c12d",
+        "filename": "src/cmd/compile/internal/ssa/rewriteAMD64.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 20780,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-03-26T05:01:50Z",
+      "side": 1,
+      "message": "Cool, thank you for the explanation!",
+      "parentUuid": "ffb9f5dc_9f868826",
+      "revId": "4bab6a205cefb062c886f854982ff5f2386cbcd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
