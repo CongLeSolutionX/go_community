@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab81c940_296d6066",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-03-26T04:33:53Z",
+      "side": 1,
+      "message": "Minor typo: s/must preceded/must be preceded/",
+      "revId": "4bab6a205cefb062c886f854982ff5f2386cbcd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2ca98d1_26db43e9",
+        "filename": "src/cmd/compile/internal/ssa/rewriteAMD64.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 20780,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-03-26T04:33:53Z",
+      "side": 1,
+      "message": "Just out of my ignorance(for the purpose of learning), what\u0027s the purpose of this pattern?\nb :\u003d v.Block\n_ \u003d b\ntypes :\u003d \u0026b.Func.Config.Types\n_ \u003d types\n\nb is used directly in types :\u003d \u0026b.Func.Config.Types\nand types isn\u0027t used either.",
+      "revId": "4bab6a205cefb062c886f854982ff5f2386cbcd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
