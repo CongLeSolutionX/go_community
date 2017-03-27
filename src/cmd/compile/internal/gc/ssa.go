@@ -69,7 +69,7 @@ func initssaconfig() {
 }
 
 // buildssa builds an SSA function.
-func buildssa(fn *Node) *ssa.Func {
+func buildssa(fn, scratchFPMem *Node) *ssa.Func {
 	name := fn.Func.Nname.Sym.Name
 	printssa := name == os.Getenv("GOSSAFUNC")
 	if printssa {
@@ -89,8 +89,9 @@ func buildssa(fn *Node) *ssa.Func {
 	}
 
 	fe := ssafn{
-		curfn: fn,
-		log:   printssa,
+		curfn:        fn,
+		scratchFPMem: scratchFPMem,
+		log:          printssa,
 	}
 	s.curfn = fn
 
@@ -4295,8 +4296,7 @@ func genssa(f *ssa.Func, pp *Progs) {
 		s.SSEto387 = map[int16]int16{}
 	}
 
-	s.ScratchFpMem = scratchFpMem
-	scratchFpMem = nil
+	s.ScratchFpMem = e.scratchFPMem
 
 	// Emit basic blocks
 	for i, b := range f.Blocks {
@@ -4675,11 +4675,12 @@ func fieldIdx(n *Node) int {
 // ssafn holds frontend information about a function that the backend is processing.
 // It also exports a bunch of compiler services for the ssa backend.
 type ssafn struct {
-	curfn      *Node
-	strings    map[string]interface{} // map from constant string to data symbols
-	stksize    int64                  // stack size for current frame
-	stkptrsize int64                  // prefix of stack containing pointers
-	log        bool
+	curfn        *Node
+	scratchFPMem *Node
+	strings      map[string]interface{} // map from constant string to data symbols
+	stksize      int64                  // stack size for current frame
+	stkptrsize   int64                  // prefix of stack containing pointers
+	log          bool
 }
 
 // StringData returns a symbol (a *Sym wrapped in an interface) which

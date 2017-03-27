@@ -8,7 +8,6 @@ import (
 	"cmd/compile/internal/ssa"
 	"cmd/internal/dwarf"
 	"cmd/internal/obj"
-	"cmd/internal/src"
 	"cmd/internal/sys"
 	"fmt"
 	"sort"
@@ -171,8 +170,6 @@ func (s byStackVar) Len() int           { return len(s) }
 func (s byStackVar) Less(i, j int) bool { return cmpstackvarlt(s[i], s[j]) }
 func (s byStackVar) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
 
-var scratchFpMem *Node
-
 func (s *ssafn) AllocFrame(f *ssa.Func) {
 	s.stksize = 0
 	s.stkptrsize = 0
@@ -208,9 +205,8 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 		}
 	}
 
-	if f.Config.NeedsFpScratch {
-		scratchFpMem = tempAt(src.NoXPos, s.curfn, Types[TUINT64])
-		scratchFpMem.SetUsed(scratchUsed)
+	if s.scratchFPMem != nil {
+		s.scratchFPMem.SetUsed(scratchUsed)
 	}
 
 	sort.Sort(byStackVar(fn.Dcl))
@@ -299,11 +295,16 @@ func compile(fn *Node) {
 		return
 	}
 
+	var scratchFpMem *Node
+	if ssaConfig.NeedsFpScratch {
+		scratchFpMem = temp(Types[TUINT64])
+	}
+
 	// From this point, there should be no uses of Curfn. Enforce that.
 	Curfn = nil
 
 	// Build an SSA backend function.
-	ssafn := buildssa(fn)
+	ssafn := buildssa(fn, scratchFpMem)
 	if nerrors != 0 {
 		return
 	}
