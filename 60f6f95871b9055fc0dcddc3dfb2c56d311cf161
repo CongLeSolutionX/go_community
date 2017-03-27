@@ -16,6 +16,24 @@
       "revId": "60f6f95871b9055fc0dcddc3dfb2c56d311cf161",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb625f9c_1a4bb4f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-03-27T13:47:23Z",
+      "side": 1,
+      "message": "AFAIK this is not unknown. \n\nhttps://groups.google.com/forum/#!topic/golang-nuts/dhGbgC1pAmA\nhttps://github.com/golang/go/issues/14935\nhttps://github.com/golang/go/issues/9244\n...\n\nHowever it might be the go1 benchmarks are more sensitive to this then is acknowledged and we should be more careful interpreting compiler changes on them without having automatic loop alignment.\nWould be nice if we could protect the benchmarks more against accidental loop alignment speedups/slowdowns that are byproducts of not directly related changes by implementing loop alignment to 16byte boundaries for hot loops.\n\nI do not want to imply that loop alignment is the cause of all the speed changes in this CL, but i think i also have run into alignment effects in go1 benchmarking in other CLs lately (currently still exploring what happens in https://golang.org/cl/38630/ and https://golang.org/cl/38061/ and how that effects the benchmarks).",
+      "parentUuid": "f1fe51d2_519d1f26",
+      "revId": "60f6f95871b9055fc0dcddc3dfb2c56d311cf161",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
