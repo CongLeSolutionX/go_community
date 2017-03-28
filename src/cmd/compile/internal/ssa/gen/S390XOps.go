@@ -322,6 +322,8 @@ func init() {
 
 		{name: "MOVDconst", reg: gp01, asm: "MOVD", typ: "UInt64", aux: "Int64", rematerializeable: true}, // auxint
 
+		{name: "LDGR", argLength: 1, reg: gpfp, asm: "LDGR"},     // move int64 to float64 (no conversion)
+		{name: "LGDR", argLength: 1, reg: fpgp, asm: "LGDR"},     // move int64 to float64 (no conversion)
 		{name: "CFDBRA", argLength: 1, reg: fpgp, asm: "CFDBRA"}, // convert float64 to int32
 		{name: "CGDBRA", argLength: 1, reg: fpgp, asm: "CGDBRA"}, // convert float64 to int64
 		{name: "CFEBRA", argLength: 1, reg: fpgp, asm: "CFEBRA"}, // convert float32 to int32

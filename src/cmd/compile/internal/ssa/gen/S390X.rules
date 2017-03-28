@@ -702,10 +702,17 @@
 (MOVWZreg x:(MOVWZloadidx [off] {sym} ptr idx mem)) && x.Uses == 1 && clobber(x) -> @x.Block (MOVWZloadidx <v.Type> [off] {sym} ptr idx mem)
 
 // replace load from same location as preceding store with copy
-(MOVBZload [off] {sym} ptr (MOVBstore [off2] {sym2} ptr2 x _)) && sym == sym2 && off == off2 && isSamePtr(ptr, ptr2) -> (MOVBZreg x)
-(MOVHZload [off] {sym} ptr (MOVHstore [off2] {sym2} ptr2 x _)) && sym == sym2 && off == off2 && isSamePtr(ptr, ptr2) -> (MOVHZreg x)
-(MOVWZload [off] {sym} ptr (MOVWstore [off2] {sym2} ptr2 x _)) && sym == sym2 && off == off2 && isSamePtr(ptr, ptr2) -> (MOVWZreg x)
-(MOVDload [off] {sym} ptr (MOVDstore [off2] {sym2} ptr2 x _)) && sym == sym2 && off == off2 && isSamePtr(ptr, ptr2) -> (MOVDreg x)
+(MOVDload  [off] {sym} ptr1 (MOVDstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> (MOVDreg x)
+(MOVWload  [off] {sym} ptr1 (MOVWstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> (MOVWreg x)
+(MOVHload  [off] {sym} ptr1 (MOVHstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> (MOVHreg x)
+(MOVBload  [off] {sym} ptr1 (MOVBstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> (MOVBreg x)
+(MOVWZload [off] {sym} ptr1 (MOVWstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> (MOVWZreg x)
+(MOVHZload [off] {sym} ptr1 (MOVHstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> (MOVHZreg x)
+(MOVBZload [off] {sym} ptr1 (MOVBstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> (MOVBZreg x)
+(MOVDload  [off] {sym} ptr1 (FMOVDstore [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> (LGDR x)
+(FMOVDload [off] {sym} ptr1 (MOVDstore  [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> (LDGR x)
+(FMOVDload [off] {sym} ptr1 (FMOVDstore [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> x
+(FMOVSload [off] {sym} ptr1 (FMOVSstore [off] {sym} ptr2 x _)) && isSamePtr(ptr1, ptr2) -> x
 
 // Don't extend before storing
 (MOVWstore [off] {sym} ptr (MOVWreg x) mem) -> (MOVWstore [off] {sym} ptr x mem)
