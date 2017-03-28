@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2cefd609_d9fb9c64",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-28T17:07:04Z",
+      "side": 1,
+      "message": "document that this may be nil?",
+      "revId": "0facfe13bcb0518ffb0cbc02848741d19e7c334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de0cbfff_5464a1b3",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4679,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-28T17:07:04Z",
+      "side": 1,
+      "message": "// non-nil if ...  ?",
+      "revId": "0facfe13bcb0518ffb0cbc02848741d19e7c334e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
