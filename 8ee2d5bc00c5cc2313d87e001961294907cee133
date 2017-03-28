@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32b20391_d0b337b4",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-03-28T18:23:50Z",
+      "side": 0,
+      "message": "I\u0027d intended for this to eventually become:\n\n    if scratchUsed {\n        scratchFpMem \u003d temp(...)\n        scratchFpMem.SetUsed(true)\n    }\n\nas we only allocated the temporary unconditionally for toolstash happiness.\n\nIs allocating temporaries here undesirable? It would help avoid having to thread the variable through a bit if you just changed it to\n\n    s.scratchFPMem \u003d tempAt(...)",
+      "revId": "8ee2d5bc00c5cc2313d87e001961294907cee133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
