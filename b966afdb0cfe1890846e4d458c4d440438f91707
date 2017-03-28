@@ -1,0 +1,429 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21cd7c0f_c428c5de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "Should this be \u0027Fixes #19393.\u0027?\nIf not, then \u0027For\u0027 or \u0027Updates\u0027 is shorter than \u0027Addresses issue\u0027, fwiw.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c98355d_bcc3520a",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "return t.npagesKey \u003d\u003d npages \u0026\u0026 t.spanKey \u003d\u003d s\nexcept I\u0027d delete this function entirely and just use t.spanKey \u003d\u003d s wherever this check is needed. See below.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d111c58_dd5dae3d",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "if t.npagesKey !\u003d npages {\n    return t.npagesKey \u003c npages\n}\nreturn uintptr(unsafe.Pointer(t.spanKey)) \u003c uintptr(unsafe.Pointer(s))",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b47e181_79e31235",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "The code shouldn\u0027t need both greaterThan and lessThan. I\u0027d suggest using only lessThan, since that\u0027s the usual \"one comparator\". But actually given the way this gets used in the code and the fact that often the code wants to know about whether it\u0027s the page count that mattered or only the span, it might be clearer not to have equalTo/lessThan/greaterThan at all. See commnets below.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b5e24f2_c298c6dd",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "return t.spanKey \u003d\u003d s || t.left.isSpanInTreap(s) || t.right.isSpanInTreap(s)",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6a717b3_290ecadb",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "I would have expected this function to be in mheap.go.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd6148f7_c4ef5a85",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "This special case should not be necessary. \n\nThe code below handles root.treap \u003d\u003d nil correctly, as far as I can tell. I\u0027d delete this code (lines 176-185). Then the initialization of a new node only happens once in this function, instead of twice.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca88eecf_b2d80c36",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "I will grant that greaterThan/equalTo is shorter here, but this is the only place where it would be needed after the suggestions below, so it might be better to avoid it to match the code below and then not need to define the methods at all:\n\nfor t :\u003d *pt; t !\u003d nil; t \u003d *pt {\n    last \u003d t\n    if t.npagesKey \u003c npages {\n        pt \u003d \u0026t.right\n    } else if t.npagesKey \u003e npages {\n        pt \u003d \u0026t.left\n    } else if uintptr(unsafe.Pointer(t.spanKey)) \u003c uintptr(unsafe.Pointer(span)) {\n        pt \u003d \u0026t.right\n    } else if uintptr(unsafe.Pointer(t.spanKey)) \u003e uintptr(unsafe.Pointer(span)) {\n        pt \u003d \u0026t.left\n    } else {\n        throw(\"inserting span already in treap\")\n    }\n}",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32ada7d0_9eda67b4",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "FWIW, \u0027ps\u0027 is meant to read as \u0027pointer to s\u0027 but here it is a pointer to t, so it would be pt. But the tracking of the pointer in the original was done only to be able to overwrite the reference to s/t, and that\u0027s not needed here. So ps can be deleted and this can be changed to use just t instead of *ps:\n\nfor t :\u003d root.treap; t !\u003d nil; {\n    ...\n}\nreturn nil",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9e56a31_3da24bd6",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "if t.spanKey \u003d\u003d nil {",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "622422c0_a5046813",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "Delete (unreachable).",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82793695_ffce7396",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "Using the removeNode helper suggested below, I believe this simplifies to:\n\nif t.npagesKey \u003c npages {\n    t \u003d t.right\n} else if t.left !\u003d nil \u0026\u0026 t.left.npagesKey \u003e\u003d npages {\n    t \u003d t.left\n} else {\n    s :\u003d t.spanKey\n    root.removeNode(t)\n    return s\n}",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7513fa29_145bfeb0",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "Make this a new function\n\nfunc (root *mTreap) removeNode(t *treapNode) {\n    ... code here ...\n}\n\nso that it can be used in removeSpan below.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c9e8a646_e0f19a7d",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "Better to use t here, like above, since s sounds like a span. Also like above, this simplifies a bit and the structure comes out more regular without lessThan/greaterThan/equalTo:\n\nfor t :\u003d root.treap; t !\u003d nil; {\n    if t.npagesKey \u003c npages {\n        t \u003d t.right\n    } else if t.npagesKey \u003e npages {\n        t \u003d t.left\n    } else if uintptr(unsafe.Pointer(t.spanKey)) \u003c uintptr(unsafe.Pointer(span)) {\n        t \u003d t.right\n    } else if uintptr(unsafe.Pointer(t.spanKey)) \u003e uintptr(unsafe.Pointer(span)) {\n        t \u003d t.left\n    } else {\n        root.removeNode(t)\n        return\n    }\n}",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15813c8b_72a2e7df",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "There\u0027s already a check for nil above, so you can drop the if statements here.\n\nresult :\u003d ...\nresult +\u003d ..\nresult +\u003d ...\nreturn result\n\nor just\n\nreturn scavengeTreapNode(treap, now, limit) +\n  scavengeTreap(treap.left, now, limit) +\n  scavengeTreap(treap.right, now, limit)",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76480b11_f70984b6",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "s/Large/large/",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "863a895c_7208b645",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "s/Large/large/",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c0c6dbab_41db5704",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "This comment makes it sound like the code that follows is (\"we are\") responsible for removing s from the treap. But what it appears to actually mean is that s is now removed already from the treap. \n\n// allocLarge removed s from h.freelarge for us",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17ce6615_704a0016",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "The function call is not helping here. \n\nh.freelarge.removeSpan(before)",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68b6e6a6_d7e6b75b",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "This needs a better message if it stays.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f2622227_194aad88",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "This too.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dcd3f951_c33fd3f1",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "Delete and just use h.freelarge at call sites.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a95e1af_a4b1f90a",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "Strange place for a blank line, in the middle of two related assignments.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "232ebf38_038bf3d0",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "The if is not necessary; just do the sumreleased +\u003d ... unconditionally.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb41bf03_61b6397e",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-03-28T12:33:10Z",
+      "side": 1,
+      "message": "Note that println puts spaces between all its arguments, so now that you\u0027ve modified the message you need to change this to print( not println( and then add an explicit , \"\\n\" at the end of the argument list.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
