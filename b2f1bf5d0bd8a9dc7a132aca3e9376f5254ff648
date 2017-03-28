@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b1fd354_81f6b717",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-03-28T12:35:00Z",
+      "side": 1,
+      "message": "You don\u0027t need \u003ct\u003e for this. The general rule is: the top level value doesn\u0027t need type -- it will have the same type as the original value. The values you created for intermediate results need type.",
+      "range": {
+        "startLine": 115,
+        "startChar": 9,
+        "endLine": 115,
+        "endChar": 12
+      },
+      "revId": "b2f1bf5d0bd8a9dc7a132aca3e9376f5254ff648",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
