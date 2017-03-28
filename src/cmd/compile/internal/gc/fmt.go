@@ -1263,7 +1263,7 @@ var opprec = []int{
 }
 
 func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
-	for n != nil && n.Implicit() && (n.Op == OIND || n.Op == OADDR) {
+	for n != nil && n.Implicit() && (n.Op == OIND || n.Op == OADDR || n.Op == OPAREN) {
 		n = n.Left
 	}
 
@@ -1383,14 +1383,14 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
 		mode.Fprintf(s, "%v { %v }", n.Type, n.Func.Closure.Nbody)
 
 	case OCOMPLIT:
-		ptrlit := n.Right != nil && n.Right.Implicit() && n.Right.Type != nil && n.Right.Type.IsPtr()
 		if mode == FErr {
-			if n.Right != nil && n.Right.Type != nil && !n.Implicit() {
-				if ptrlit {
-					mode.Fprintf(s, "&%v literal", n.Right.Type.Elem())
+			t := n.Right.Unwrap()
+			if t != nil && t.Type != nil && !n.Implicit() {
+				if t.Type.IsPtr() && t.Implicit() {
+					mode.Fprintf(s, "&%v literal", t.Type.Elem())
 					return
 				} else {
-					mode.Fprintf(s, "%v literal", n.Right.Type)
+					mode.Fprintf(s, "%v literal", t.Type)
 					return
 				}
 			}

@@ -179,6 +179,14 @@ func (n *Node) SetIota(x int64) {
 	n.Xoffset = x
 }
 
+// Unwrap returns n without any implicit parentheses.
+func (n *Node) Unwrap() *Node {
+	if n.Op == OPAREN && n.Implicit() {
+		return n.Left
+	}
+	return n
+}
+
 // Name holds Node fields used only by named nodes (ONAME, OTYPE, OPACK, OLABEL, some OLITERAL).
 type Name struct {
 	Pack      *Node  // real package for import . names

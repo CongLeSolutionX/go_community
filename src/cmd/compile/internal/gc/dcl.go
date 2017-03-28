@@ -392,14 +392,18 @@ func colasname(n *Node) bool {
 }
 
 func colasdefn(left []*Node, defn *Node) {
+	lno := lineno
+
 	for _, n := range left {
+		n = n.Unwrap()
 		if n.Sym != nil {
 			n.Sym.SetUniq(true)
 		}
 	}
 
 	var nnew, nerr int
-	for i, n := range left {
+	for i, n0 := range left {
+		n := n0.Unwrap()
 		if isblank(n) {
 			continue
 		}
@@ -422,16 +426,19 @@ func colasdefn(left []*Node, defn *Node) {
 		}
 
 		nnew++
+		lineno = n0.Pos // for newname and declare
 		n = newname(n.Sym)
 		declare(n, dclcontext)
 		n.Name.Defn = defn
-		defn.Ninit.Append(nod(ODCL, n, nil))
+		defn.Ninit.Append(nodl(n0.Pos, ODCL, n, nil))
 		left[i] = n
 	}
 
 	if nnew == 0 && nerr == 0 {
 		yyerrorl(defn.Pos, "no new variables on left side of :=")
 	}
+
+	lineno = lno
 }
 
 // declare the arguments in an
