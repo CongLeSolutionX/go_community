@@ -236,7 +236,7 @@ var allAsmTests = []*asmTests{
 	{
 		arch:    "s390x",
 		os:      "linux",
-		imports: []string{"encoding/binary", "math/bits"},
+		imports: []string{"encoding/binary", "math", "math/bits"},
 		tests:   linuxS390XTests,
 	},
 	{
@@ -1465,6 +1465,34 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		pos: []string{"TEXT\t.*, [$]0-8"},
+	},
+	// math tests
+	{
+		fn: `
+		func $(x float64) float64 {
+			return math.Abs(x)
+		}
+		`,
+		pos: []string{"\tLPDFR\t"},
+		neg: []string{"\tMOVD\t"}, // no integer loads/stores
+	},
+	{
+		fn: `
+		func $(x float32) float32 {
+			return float32(math.Abs(float64(x)))
+		}
+		`,
+		pos: []string{"\tLPDFR\t"},
+		neg: []string{"\tLDEBR\t", "\tLEDBR\t"}, // no float64 conversion
+	},
+	{
+		fn: `
+		func $(x float64) float64 {
+			return math.Float64frombits(math.Float64bits(x)|1<<63)
+		}
+		`,
+		pos: []string{"\tLNDFR\t"},
+		neg: []string{"\tMOVD\t"}, // no integer loads/stores
 	},
 }
 
