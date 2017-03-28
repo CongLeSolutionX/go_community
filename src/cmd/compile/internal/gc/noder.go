@@ -416,27 +416,25 @@ func (p *noder) exprs(exprs []syntax.Expr) []*Node {
 func (p *noder) expr(expr syntax.Expr) *Node {
 	p.lineno(expr)
 	switch expr := expr.(type) {
+	// Terminal expressions.
 	case nil, *syntax.BadExpr:
 		return nil
 	case *syntax.Name:
-		return p.mkname(expr)
+		return p.oldname(expr)
 	case *syntax.BasicLit:
 		return p.setlineno(expr, nodlit(p.basicLit(expr)))
 
+	// Compound expressions.
 	case *syntax.CompositeLit:
 		n := p.nod(expr, OCOMPLIT, nil, nil)
 		if expr.Type != nil {
 			n.Right = p.expr(expr.Type)
 		}
-		l := p.exprs(expr.ElemList)
-		for i, e := range l {
-			l[i] = p.wrapname(expr.ElemList[i], e)
-		}
-		n.List.Set(l)
+		n.List.Set(p.exprs(expr.ElemList))
 		lineno = Ctxt.PosTable.XPos(expr.Rbrace)
 		return n
 	case *syntax.KeyValueExpr:
-		return p.nod(expr, OKEY, p.expr(expr.Key), p.wrapname(expr.Value, p.expr(expr.Value)))
+		return p.nod(expr, OKEY, p.expr(expr.Key), p.expr(expr.Value))
 	case *syntax.FuncLit:
 		closurehdr(p.typeExpr(expr.Type))
 		body := p.stmts(expr.Body.List)
@@ -447,9 +445,9 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 	case *syntax.SelectorExpr:
 		// parser.new_dotname
 		obj := p.expr(expr.X)
-		if obj.Op == OPACK {
-			obj.SetUsed(true)
-			return oldname(restrictlookup(expr.Sel.Value, obj.Name.Pkg))
+		if x := obj.Unwrap(); x.Op == OPACK {
+			x.SetUsed(true)
+			return oldname(restrictlookup(expr.Sel.Value, x.Name.Pkg))
 		}
 		return p.setlineno(expr, nodSym(OXDOT, obj, p.name(expr.Sel)))
 	case *syntax.IndexExpr:
@@ -499,6 +497,7 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 		n.SetIsddd(expr.HasDots)
 		return n
 
+	// Type expressions.
 	case *syntax.ArrayType:
 		var len *Node
 		if expr.Len != nil {
@@ -524,6 +523,7 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 		n.Etype = EType(p.chanDir(expr.Dir))
 		return n
 
+	// Miscellaneous expressions.
 	case *syntax.TypeSwitchGuard:
 		n := p.nod(expr, OTYPESW, nil, p.expr(expr.X))
 		if expr.Lhs != nil {
@@ -672,7 +672,7 @@ func (p *noder) stmt(stmt syntax.Stmt) *Node {
 		}
 		return liststmt(l)
 	case *syntax.ExprStmt:
-		return p.wrapname(stmt, p.expr(stmt.X))
+		return p.expr(stmt.X)
 	case *syntax.SendStmt:
 		return p.nod(stmt, OSEND, p.expr(stmt.Chan), p.expr(stmt.Value))
 	case *syntax.DeclStmt:
@@ -1034,30 +1034,17 @@ func (p *noder) name(name *syntax.Name) *Sym {
 	return lookup(name.Value)
 }
 
-func (p *noder) mkname(name *syntax.Name) *Node {
-	// TODO(mdempsky): Set line number?
-	return mkname(p.name(name))
+func (p *noder) oldname(name *syntax.Name) *Node {
+	n := mkname(p.name(name))
+
+	// Wrap in OPAREN so we can track position information.
+	n = p.nod(name, OPAREN, n, nil)
+	n.SetImplicit(true)
+	return n
 }
 
 func (p *noder) newname(name *syntax.Name) *Node {
-	// TODO(mdempsky): Set line number?
 	return newname(p.name(name))
-}
-
-func (p *noder) wrapname(n syntax.Node, x *Node) *Node {
-	// These nodes do not carry line numbers.
-	// Introduce a wrapper node to give them the correct line.
-	switch x.Op {
-	case OTYPE, OLITERAL:
-		if x.Sym == nil {
-			break
-		}
-		fallthrough
-	case ONAME, ONONAME, OPACK:
-		x = p.nod(n, OPAREN, x, nil)
-		x.SetImplicit(true)
-	}
-	return x
 }
 
 func (p *noder) nod(orig syntax.Node, op Op, left, right *Node) *Node {

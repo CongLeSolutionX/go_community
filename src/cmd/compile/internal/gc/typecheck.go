@@ -2918,7 +2918,6 @@ func typecheckcomplit(n *Node) *Node {
 
 	// Save original node (including n->right)
 	norig := nod(n.Op, nil, nil)
-
 	*norig = *n
 
 	setlineno(n.Right)
@@ -3094,7 +3093,7 @@ func typecheckcomplit(n *Node) *Node {
 				setlineno(l)
 
 				if l.Op == OKEY {
-					key := l.Left
+					key := l.Left.Unwrap()
 
 					l.Op = OSTRUCTKEY
 					l.Left = l.Right
