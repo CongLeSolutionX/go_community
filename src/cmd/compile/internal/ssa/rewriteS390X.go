@@ -447,6 +447,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XADDWconst_0(v)
 	case OpS390XADDconst:
 		return rewriteValueS390X_OpS390XADDconst_0(v)
+	case OpS390XADDload:
+		return rewriteValueS390X_OpS390XADDload_0(v)
 	case OpS390XAND:
 		return rewriteValueS390X_OpS390XAND_0(v) || rewriteValueS390X_OpS390XAND_10(v)
 	case OpS390XANDW:
@@ -455,6 +457,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XANDWconst_0(v)
 	case OpS390XANDconst:
 		return rewriteValueS390X_OpS390XANDconst_0(v)
+	case OpS390XANDload:
+		return rewriteValueS390X_OpS390XANDload_0(v)
 	case OpS390XCMP:
 		return rewriteValueS390X_OpS390XCMP_0(v)
 	case OpS390XCMPU:
@@ -491,10 +495,18 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XFMOVSstore_0(v)
 	case OpS390XFMOVSstoreidx:
 		return rewriteValueS390X_OpS390XFMOVSstoreidx_0(v)
+	case OpS390XFNEG:
+		return rewriteValueS390X_OpS390XFNEG_0(v)
+	case OpS390XFNEGS:
+		return rewriteValueS390X_OpS390XFNEGS_0(v)
 	case OpS390XFSUB:
 		return rewriteValueS390X_OpS390XFSUB_0(v)
 	case OpS390XFSUBS:
 		return rewriteValueS390X_OpS390XFSUBS_0(v)
+	case OpS390XLDGR:
+		return rewriteValueS390X_OpS390XLDGR_0(v)
+	case OpS390XLEDBR:
+		return rewriteValueS390X_OpS390XLEDBR_0(v)
 	case OpS390XLoweredRound32F:
 		return rewriteValueS390X_OpS390XLoweredRound32F_0(v)
 	case OpS390XLoweredRound64F:
@@ -587,6 +599,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XMULLD_0(v)
 	case OpS390XMULLDconst:
 		return rewriteValueS390X_OpS390XMULLDconst_0(v)
+	case OpS390XMULLDload:
+		return rewriteValueS390X_OpS390XMULLDload_0(v)
 	case OpS390XMULLW:
 		return rewriteValueS390X_OpS390XMULLW_0(v)
 	case OpS390XMULLWconst:
@@ -607,6 +621,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XORWconst_0(v)
 	case OpS390XORconst:
 		return rewriteValueS390X_OpS390XORconst_0(v)
+	case OpS390XORload:
+		return rewriteValueS390X_OpS390XORload_0(v)
 	case OpS390XSLD:
 		return rewriteValueS390X_OpS390XSLD_0(v)
 	case OpS390XSLW:
@@ -639,6 +655,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XSUBWconst_0(v)
 	case OpS390XSUBconst:
 		return rewriteValueS390X_OpS390XSUBconst_0(v)
+	case OpS390XSUBload:
+		return rewriteValueS390X_OpS390XSUBload_0(v)
 	case OpS390XXOR:
 		return rewriteValueS390X_OpS390XXOR_0(v) || rewriteValueS390X_OpS390XXOR_10(v)
 	case OpS390XXORW:
@@ -647,6 +665,8 @@ func rewriteValueS390X(v *Value) bool {
 		return rewriteValueS390X_OpS390XXORWconst_0(v)
 	case OpS390XXORconst:
 		return rewriteValueS390X_OpS390XXORconst_0(v)
+	case OpS390XXORload:
+		return rewriteValueS390X_OpS390XXORload_0(v)
 	case OpSelect0:
 		return rewriteValueS390X_OpSelect0_0(v)
 	case OpSelect1:
@@ -6696,6 +6716,44 @@ func rewriteValueS390X_OpS390XADDconst_0(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueS390X_OpS390XADDload_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (ADDload <t> [off] {sym} x ptr1 (FMOVDstore [off] {sym} ptr2 y _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (ADD   x (LGDR <t> y))
+	for {
+		t := v.Type
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		ptr1 := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XFMOVDstore {
+			break
+		}
+		if v_2.AuxInt != off {
+			break
+		}
+		if v_2.Aux != sym {
+			break
+		}
+		_ = v_2.Args[2]
+		ptr2 := v_2.Args[0]
+		y := v_2.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XADD)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLGDR, t)
+		v0.AddArg(y)
+		v.AddArg(v0)
+		return true
+	}
+	return false
+}
 func rewriteValueS390X_OpS390XAND_0(v *Value) bool {
 	// match: (AND x (MOVDconst [c]))
 	// cond: is32Bit(c) && c < 0
@@ -7422,6 +7480,44 @@ func rewriteValueS390X_OpS390XANDconst_0(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueS390X_OpS390XANDload_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (ANDload <t> [off] {sym} x ptr1 (FMOVDstore [off] {sym} ptr2 y _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (AND   x (LGDR <t> y))
+	for {
+		t := v.Type
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		ptr1 := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XFMOVDstore {
+			break
+		}
+		if v_2.AuxInt != off {
+			break
+		}
+		if v_2.Aux != sym {
+			break
+		}
+		_ = v_2.Args[2]
+		ptr2 := v_2.Args[0]
+		y := v_2.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XAND)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLGDR, t)
+		v0.AddArg(y)
+		v.AddArg(v0)
+		return true
+	}
+	return false
+}
 func rewriteValueS390X_OpS390XCMP_0(v *Value) bool {
 	b := v.Block
 	_ = b
@@ -7986,6 +8082,63 @@ func rewriteValueS390X_OpS390XFADDS_0(v *Value) bool {
 	return false
 }
 func rewriteValueS390X_OpS390XFMOVDload_0(v *Value) bool {
+	// match: (FMOVDload [off] {sym} ptr1 (MOVDstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (LDGR x)
+	for {
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[1]
+		ptr1 := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVDstore {
+			break
+		}
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
+		_ = v_1.Args[2]
+		ptr2 := v_1.Args[0]
+		x := v_1.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XLDGR)
+		v.AddArg(x)
+		return true
+	}
+	// match: (FMOVDload [off] {sym} ptr1 (FMOVDstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: x
+	for {
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[1]
+		ptr1 := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFMOVDstore {
+			break
+		}
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
+		_ = v_1.Args[2]
+		ptr2 := v_1.Args[0]
+		x := v_1.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
 	// match: (FMOVDload [off1] {sym} (ADDconst [off2] ptr) mem)
 	// cond: is20Bit(off1+off2)
 	// result: (FMOVDload [off1+off2] {sym} ptr mem)
@@ -8308,6 +8461,35 @@ func rewriteValueS390X_OpS390XFMOVDstoreidx_0(v *Value) bool {
 	return false
 }
 func rewriteValueS390X_OpS390XFMOVSload_0(v *Value) bool {
+	// match: (FMOVSload [off] {sym} ptr1 (FMOVSstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: x
+	for {
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[1]
+		ptr1 := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFMOVSstore {
+			break
+		}
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
+		_ = v_1.Args[2]
+		ptr2 := v_1.Args[0]
+		x := v_1.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpCopy)
+		v.Type = x.Type
+		v.AddArg(x)
+		return true
+	}
 	// match: (FMOVSload [off1] {sym} (ADDconst [off2] ptr) mem)
 	// cond: is20Bit(off1+off2)
 	// result: (FMOVSload [off1+off2] {sym} ptr mem)
@@ -8629,6 +8811,64 @@ func rewriteValueS390X_OpS390XFMOVSstoreidx_0(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueS390X_OpS390XFNEG_0(v *Value) bool {
+	// match: (FNEG (LPDFR x))
+	// cond:
+	// result: (LNDFR x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XLPDFR {
+			break
+		}
+		x := v_0.Args[0]
+		v.reset(OpS390XLNDFR)
+		v.AddArg(x)
+		return true
+	}
+	// match: (FNEG (LNDFR x))
+	// cond:
+	// result: (LPDFR x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XLNDFR {
+			break
+		}
+		x := v_0.Args[0]
+		v.reset(OpS390XLPDFR)
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XFNEGS_0(v *Value) bool {
+	// match: (FNEGS (LPDFR x))
+	// cond:
+	// result: (LNDFR x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XLPDFR {
+			break
+		}
+		x := v_0.Args[0]
+		v.reset(OpS390XLNDFR)
+		v.AddArg(x)
+		return true
+	}
+	// match: (FNEGS (LNDFR x))
+	// cond:
+	// result: (LPDFR x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XLNDFR {
+			break
+		}
+		x := v_0.Args[0]
+		v.reset(OpS390XLPDFR)
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
 func rewriteValueS390X_OpS390XFSUB_0(v *Value) bool {
 	// match: (FSUB (FMUL y z) x)
 	// cond:
@@ -8673,6 +8913,123 @@ func rewriteValueS390X_OpS390XFSUBS_0(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueS390X_OpS390XLDGR_0(v *Value) bool {
+	// match: (LDGR (SRDconst [1] (SLDconst [1] (LGDR x))))
+	// cond:
+	// result: (LPDFR x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XSRDconst {
+			break
+		}
+		if v_0.AuxInt != 1 {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpS390XSLDconst {
+			break
+		}
+		if v_0_0.AuxInt != 1 {
+			break
+		}
+		v_0_0_0 := v_0_0.Args[0]
+		if v_0_0_0.Op != OpS390XLGDR {
+			break
+		}
+		x := v_0_0_0.Args[0]
+		v.reset(OpS390XLPDFR)
+		v.AddArg(x)
+		return true
+	}
+	// match: (LDGR (OR (MOVDconst [-1<<63]) (LGDR x)))
+	// cond:
+	// result: (LNDFR x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XOR {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpS390XMOVDconst {
+			break
+		}
+		if v_0_0.AuxInt != -1<<63 {
+			break
+		}
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpS390XLGDR {
+			break
+		}
+		x := v_0_1.Args[0]
+		v.reset(OpS390XLNDFR)
+		v.AddArg(x)
+		return true
+	}
+	// match: (LDGR (OR (LGDR x) (MOVDconst [-1<<63])))
+	// cond:
+	// result: (LNDFR x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XOR {
+			break
+		}
+		_ = v_0.Args[1]
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpS390XLGDR {
+			break
+		}
+		x := v_0_0.Args[0]
+		v_0_1 := v_0.Args[1]
+		if v_0_1.Op != OpS390XMOVDconst {
+			break
+		}
+		if v_0_1.AuxInt != -1<<63 {
+			break
+		}
+		v.reset(OpS390XLNDFR)
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XLEDBR_0(v *Value) bool {
+	// match: (LEDBR (LPDFR (LDEBR x)))
+	// cond:
+	// result: (LPDFR x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XLPDFR {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpS390XLDEBR {
+			break
+		}
+		x := v_0_0.Args[0]
+		v.reset(OpS390XLPDFR)
+		v.AddArg(x)
+		return true
+	}
+	// match: (LEDBR (LNDFR (LDEBR x)))
+	// cond:
+	// result: (LNDFR x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpS390XLNDFR {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpS390XLDEBR {
+			break
+		}
+		x := v_0_0.Args[0]
+		v.reset(OpS390XLNDFR)
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
 func rewriteValueS390X_OpS390XLoweredRound32F_0(v *Value) bool {
 	// match: (LoweredRound32F x:(FMOVSconst))
 	// cond:
@@ -8706,24 +9063,28 @@ func rewriteValueS390X_OpS390XLoweredRound64F_0(v *Value) bool {
 	return false
 }
 func rewriteValueS390X_OpS390XMOVBZload_0(v *Value) bool {
-	// match: (MOVBZload [off] {sym} ptr (MOVBstore [off2] {sym2} ptr2 x _))
-	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
+	// match: (MOVBZload [off] {sym} ptr1 (MOVBstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
 	// result: (MOVBZreg x)
 	for {
 		off := v.AuxInt
 		sym := v.Aux
 		_ = v.Args[1]
-		ptr := v.Args[0]
+		ptr1 := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpS390XMOVBstore {
 			break
 		}
-		off2 := v_1.AuxInt
-		sym2 := v_1.Aux
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)) {
+		if !(isSamePtr(ptr1, ptr2)) {
 			break
 		}
 		v.reset(OpS390XMOVBZreg)
@@ -9255,6 +9616,34 @@ func rewriteValueS390X_OpS390XMOVBZreg_10(v *Value) bool {
 	return false
 }
 func rewriteValueS390X_OpS390XMOVBload_0(v *Value) bool {
+	// match: (MOVBload [off] {sym} ptr1 (MOVBstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (MOVBreg x)
+	for {
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[1]
+		ptr1 := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVBstore {
+			break
+		}
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
+		_ = v_1.Args[2]
+		ptr2 := v_1.Args[0]
+		x := v_1.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XMOVBreg)
+		v.AddArg(x)
+		return true
+	}
 	// match: (MOVBload [off1] {sym} (ADDconst [off2] ptr) mem)
 	// cond: is20Bit(off1+off2)
 	// result: (MOVBload  [off1+off2] {sym} ptr mem)
@@ -12329,27 +12718,59 @@ func rewriteValueS390X_OpS390XMOVDaddridx_0(v *Value) bool {
 	return false
 }
 func rewriteValueS390X_OpS390XMOVDload_0(v *Value) bool {
-	// match: (MOVDload [off] {sym} ptr (MOVDstore [off2] {sym2} ptr2 x _))
-	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
+	// match: (MOVDload [off] {sym} ptr1 (MOVDstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
 	// result: (MOVDreg x)
 	for {
 		off := v.AuxInt
 		sym := v.Aux
 		_ = v.Args[1]
-		ptr := v.Args[0]
+		ptr1 := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpS390XMOVDstore {
 			break
 		}
-		off2 := v_1.AuxInt
-		sym2 := v_1.Aux
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)) {
+		if !(isSamePtr(ptr1, ptr2)) {
 			break
 		}
 		v.reset(OpS390XMOVDreg)
+		v.AddArg(x)
+		return true
+	}
+	// match: (MOVDload [off] {sym} ptr1 (FMOVDstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (LGDR x)
+	for {
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[1]
+		ptr1 := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XFMOVDstore {
+			break
+		}
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
+		_ = v_1.Args[2]
+		ptr2 := v_1.Args[0]
+		x := v_1.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XLGDR)
 		v.AddArg(x)
 		return true
 	}
@@ -14701,24 +15122,28 @@ func rewriteValueS390X_OpS390XMOVHBRstoreidx_10(v *Value) bool {
 	return false
 }
 func rewriteValueS390X_OpS390XMOVHZload_0(v *Value) bool {
-	// match: (MOVHZload [off] {sym} ptr (MOVHstore [off2] {sym2} ptr2 x _))
-	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
+	// match: (MOVHZload [off] {sym} ptr1 (MOVHstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
 	// result: (MOVHZreg x)
 	for {
 		off := v.AuxInt
 		sym := v.Aux
 		_ = v.Args[1]
-		ptr := v.Args[0]
+		ptr1 := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpS390XMOVHstore {
 			break
 		}
-		off2 := v_1.AuxInt
-		sym2 := v_1.Aux
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)) {
+		if !(isSamePtr(ptr1, ptr2)) {
 			break
 		}
 		v.reset(OpS390XMOVHZreg)
@@ -15065,6 +15490,34 @@ func rewriteValueS390X_OpS390XMOVHZreg_0(v *Value) bool {
 	return false
 }
 func rewriteValueS390X_OpS390XMOVHload_0(v *Value) bool {
+	// match: (MOVHload [off] {sym} ptr1 (MOVHstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (MOVHreg x)
+	for {
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[1]
+		ptr1 := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVHstore {
+			break
+		}
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
+		_ = v_1.Args[2]
+		ptr2 := v_1.Args[0]
+		x := v_1.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XMOVHreg)
+		v.AddArg(x)
+		return true
+	}
 	// match: (MOVHload [off1] {sym} (ADDconst [off2] ptr) mem)
 	// cond: is20Bit(off1+off2)
 	// result: (MOVHload  [off1+off2] {sym} ptr mem)
@@ -17186,24 +17639,28 @@ func rewriteValueS390X_OpS390XMOVWBRstoreidx_0(v *Value) bool {
 	return false
 }
 func rewriteValueS390X_OpS390XMOVWZload_0(v *Value) bool {
-	// match: (MOVWZload [off] {sym} ptr (MOVWstore [off2] {sym2} ptr2 x _))
-	// cond: sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)
+	// match: (MOVWZload [off] {sym} ptr1 (MOVWstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
 	// result: (MOVWZreg x)
 	for {
 		off := v.AuxInt
 		sym := v.Aux
 		_ = v.Args[1]
-		ptr := v.Args[0]
+		ptr1 := v.Args[0]
 		v_1 := v.Args[1]
 		if v_1.Op != OpS390XMOVWstore {
 			break
 		}
-		off2 := v_1.AuxInt
-		sym2 := v_1.Aux
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
 		_ = v_1.Args[2]
 		ptr2 := v_1.Args[0]
 		x := v_1.Args[1]
-		if !(sym == sym2 && off == off2 && isSamePtr(ptr, ptr2)) {
+		if !(isSamePtr(ptr1, ptr2)) {
 			break
 		}
 		v.reset(OpS390XMOVWZreg)
@@ -17575,6 +18032,34 @@ func rewriteValueS390X_OpS390XMOVWZreg_0(v *Value) bool {
 	return false
 }
 func rewriteValueS390X_OpS390XMOVWload_0(v *Value) bool {
+	// match: (MOVWload [off] {sym} ptr1 (MOVWstore [off] {sym} ptr2 x _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (MOVWreg x)
+	for {
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[1]
+		ptr1 := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpS390XMOVWstore {
+			break
+		}
+		if v_1.AuxInt != off {
+			break
+		}
+		if v_1.Aux != sym {
+			break
+		}
+		_ = v_1.Args[2]
+		ptr2 := v_1.Args[0]
+		x := v_1.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XMOVWreg)
+		v.AddArg(x)
+		return true
+	}
 	// match: (MOVWload [off1] {sym} (ADDconst [off2] ptr) mem)
 	// cond: is20Bit(off1+off2)
 	// result: (MOVWload  [off1+off2] {sym} ptr mem)
@@ -19081,6 +19566,44 @@ func rewriteValueS390X_OpS390XMULLDconst_0(v *Value) bool {
 		d := v_0.AuxInt
 		v.reset(OpS390XMOVDconst)
 		v.AuxInt = c * d
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XMULLDload_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (MULLDload <t> [off] {sym} x ptr1 (FMOVDstore [off] {sym} ptr2 y _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (MULLD x (LGDR <t> y))
+	for {
+		t := v.Type
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		ptr1 := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XFMOVDstore {
+			break
+		}
+		if v_2.AuxInt != off {
+			break
+		}
+		if v_2.Aux != sym {
+			break
+		}
+		_ = v_2.Args[2]
+		ptr2 := v_2.Args[0]
+		y := v_2.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XMULLD)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLGDR, t)
+		v0.AddArg(y)
+		v.AddArg(v0)
 		return true
 	}
 	return false
@@ -34417,6 +34940,44 @@ func rewriteValueS390X_OpS390XORconst_0(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueS390X_OpS390XORload_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (ORload <t> [off] {sym} x ptr1 (FMOVDstore [off] {sym} ptr2 y _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (OR    x (LGDR <t> y))
+	for {
+		t := v.Type
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		ptr1 := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XFMOVDstore {
+			break
+		}
+		if v_2.AuxInt != off {
+			break
+		}
+		if v_2.Aux != sym {
+			break
+		}
+		_ = v_2.Args[2]
+		ptr2 := v_2.Args[0]
+		y := v_2.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XOR)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLGDR, t)
+		v0.AddArg(y)
+		v.AddArg(v0)
+		return true
+	}
+	return false
+}
 func rewriteValueS390X_OpS390XSLD_0(v *Value) bool {
 	// match: (SLD x (MOVDconst [c]))
 	// cond:
@@ -35157,6 +35718,44 @@ func rewriteValueS390X_OpS390XSUBconst_0(v *Value) bool {
 	}
 	return false
 }
+func rewriteValueS390X_OpS390XSUBload_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (SUBload <t> [off] {sym} x ptr1 (FMOVDstore [off] {sym} ptr2 y _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (SUB   x (LGDR <t> y))
+	for {
+		t := v.Type
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		ptr1 := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XFMOVDstore {
+			break
+		}
+		if v_2.AuxInt != off {
+			break
+		}
+		if v_2.Aux != sym {
+			break
+		}
+		_ = v_2.Args[2]
+		ptr2 := v_2.Args[0]
+		y := v_2.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XSUB)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLGDR, t)
+		v0.AddArg(y)
+		v.AddArg(v0)
+		return true
+	}
+	return false
+}
 func rewriteValueS390X_OpS390XXOR_0(v *Value) bool {
 	// match: (XOR x (MOVDconst [c]))
 	// cond: isU32Bit(c)
@@ -35804,6 +36403,44 @@ func rewriteValueS390X_OpS390XXORconst_0(v *Value) bool {
 		d := v_0.AuxInt
 		v.reset(OpS390XMOVDconst)
 		v.AuxInt = c ^ d
+		return true
+	}
+	return false
+}
+func rewriteValueS390X_OpS390XXORload_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (XORload <t> [off] {sym} x ptr1 (FMOVDstore [off] {sym} ptr2 y _))
+	// cond: isSamePtr(ptr1, ptr2)
+	// result: (XOR   x (LGDR <t> y))
+	for {
+		t := v.Type
+		off := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		x := v.Args[0]
+		ptr1 := v.Args[1]
+		v_2 := v.Args[2]
+		if v_2.Op != OpS390XFMOVDstore {
+			break
+		}
+		if v_2.AuxInt != off {
+			break
+		}
+		if v_2.Aux != sym {
+			break
+		}
+		_ = v_2.Args[2]
+		ptr2 := v_2.Args[0]
+		y := v_2.Args[1]
+		if !(isSamePtr(ptr1, ptr2)) {
+			break
+		}
+		v.reset(OpS390XXOR)
+		v.AddArg(x)
+		v0 := b.NewValue0(v.Pos, OpS390XLGDR, t)
+		v0.AddArg(y)
+		v.AddArg(v0)
 		return true
 	}
 	return false
