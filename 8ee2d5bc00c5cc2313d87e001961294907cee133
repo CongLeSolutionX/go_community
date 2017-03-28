@@ -16,6 +16,24 @@
       "revId": "8ee2d5bc00c5cc2313d87e001961294907cee133",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bc7f4ea_530d3dfb",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-28T18:28:47Z",
+      "side": 0,
+      "message": "\u003e as we only allocated the temporary unconditionally for toolstash happiness.\n\nUnderstood. But at a single Node per function, it doesn\u0027t seem all that bad this way (?).\n\n\u003e Is allocating temporaries here undesirable?\n\nIt is. I had tempAt for a while but encountered races even with them. I remember thinking it was something peculiar to scratchFPMem. My memory is failing me as to the details; this was a several days ago now. I can dig it up and reproduce if you\u0027d like.",
+      "parentUuid": "32b20391_d0b337b4",
+      "revId": "8ee2d5bc00c5cc2313d87e001961294907cee133",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
