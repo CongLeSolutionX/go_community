@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f0478924_503d58e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "21cd7c0f_c428c5de",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c98355d_bcc3520a",
         "filename": "src/runtime/mgclarge.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "return t.npagesKey \u003d\u003d npages \u0026\u0026 t.spanKey \u003d\u003d s\nexcept I\u0027d delete this function entirely and just use t.spanKey \u003d\u003d s wherever this check is needed. See below.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78d3c378_04b8c34c",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4c98355d_bcc3520a",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "09d65822_5d9669ed",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5d111c58_dd5dae3d",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b47e181_79e31235",
         "filename": "src/runtime/mgclarge.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "The code shouldn\u0027t need both greaterThan and lessThan. I\u0027d suggest using only lessThan, since that\u0027s the usual \"one comparator\". But actually given the way this gets used in the code and the fact that often the code wants to know about whether it\u0027s the page count that mattered or only the span, it might be clearer not to have equalTo/lessThan/greaterThan at all. See commnets below.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce788bd3_a674a14c",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "I agree as far as this code is concerned so the change is the right one. At one point I believed that separating the comparators out would help anyone trying to change the algorithm so say first fit or reusing the treap code for some other purpose.",
+      "parentUuid": "7b47e181_79e31235",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "23ca93f0_f861b3ee",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6b5e24f2_c298c6dd",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6a717b3_290ecadb",
         "filename": "src/runtime/mgclarge.go",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "I would have expected this function to be in mheap.go.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b201640_fce133fa",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Yes this file does not use isLargeSpan.\nAck",
+      "parentUuid": "e6a717b3_290ecadb",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "616c4a24_7d7ed306",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dd6148f7_c4ef5a85",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca88eecf_b2d80c36",
         "filename": "src/runtime/mgclarge.go",
         "patchSetId": 1
@@ -138,6 +264,24 @@
     },
     {
       "key": {
+        "uuid": "e2501cc7_80a711ad",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ca88eecf_b2d80c36",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32ada7d0_9eda67b4",
         "filename": "src/runtime/mgclarge.go",
         "patchSetId": 1
@@ -149,6 +293,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "FWIW, \u0027ps\u0027 is meant to read as \u0027pointer to s\u0027 but here it is a pointer to t, so it would be pt. But the tracking of the pointer in the original was done only to be able to overwrite the reference to s/t, and that\u0027s not needed here. So ps can be deleted and this can be changed to use just t instead of *ps:\n\nfor t :\u003d root.treap; t !\u003d nil; {\n    ...\n}\nreturn nil",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2212bc87_9ac79d6b",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "32ada7d0_9eda67b4",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -172,6 +334,24 @@
     },
     {
       "key": {
+        "uuid": "30af003a_b05d8ace",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a9e56a31_3da24bd6",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "622422c0_a5046813",
         "filename": "src/runtime/mgclarge.go",
         "patchSetId": 1
@@ -183,6 +363,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "Delete (unreachable).",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "677139b9_d4316436",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "622422c0_a5046813",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -206,6 +404,24 @@
     },
     {
       "key": {
+        "uuid": "0d48b59b_24945327",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "82793695_ffce7396",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7513fa29_145bfeb0",
         "filename": "src/runtime/mgclarge.go",
         "patchSetId": 1
@@ -217,6 +433,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "Make this a new function\n\nfunc (root *mTreap) removeNode(t *treapNode) {\n    ... code here ...\n}\n\nso that it can be used in removeSpan below.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4330780c_51d0fffc",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7513fa29_145bfeb0",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -240,6 +474,24 @@
     },
     {
       "key": {
+        "uuid": "b0c7aca1_8222156f",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ended up with similar code but hoisted the t.spanKey \u003d\u003d span into the for conditional and adjusted t\u0027s scope and I am relying on a nil dereference to cause a fault if the span is not in the treap.",
+      "parentUuid": "c9e8a646_e0f19a7d",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15813c8b_72a2e7df",
         "filename": "src/runtime/mgclarge.go",
         "patchSetId": 1
@@ -251,6 +503,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "There\u0027s already a check for nil above, so you can drop the if statements here.\n\nresult :\u003d ...\nresult +\u003d ..\nresult +\u003d ...\nreturn result\n\nor just\n\nreturn scavengeTreapNode(treap, now, limit) +\n  scavengeTreap(treap.left, now, limit) +\n  scavengeTreap(treap.right, now, limit)",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c657bafc_e943d869",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "15813c8b_72a2e7df",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -274,6 +544,24 @@
     },
     {
       "key": {
+        "uuid": "57a3f1ed_602c8e45",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "76480b11_f70984b6",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "863a895c_7208b645",
         "filename": "src/runtime/mgclarge.go",
         "patchSetId": 1
@@ -285,6 +573,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "s/Large/large/",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63a92eef_8ac01238",
+        "filename": "src/runtime/mgclarge.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "863a895c_7208b645",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -308,6 +614,24 @@
     },
     {
       "key": {
+        "uuid": "6eac36fa_09f79834",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c0c6dbab_41db5704",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17ce6615_704a0016",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 1
@@ -319,6 +643,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "The function call is not helping here. \n\nh.freelarge.removeSpan(before)",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfd8a6f9_6ec194f4",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "17ce6615_704a0016",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -342,6 +684,24 @@
     },
     {
       "key": {
+        "uuid": "cc740f15_0e9c4c08",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Removed, I use throw(\"why\") as a debug aid so I remember to remove. Seems not to work all the time.",
+      "parentUuid": "68b6e6a6_d7e6b75b",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2622227_194aad88",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 1
@@ -353,6 +713,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "This too.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fe52891_95559995",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f2622227_194aad88",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -376,6 +754,24 @@
     },
     {
       "key": {
+        "uuid": "0c4749d5_513331b6",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 962,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dcd3f951_c33fd3f1",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a95e1af_a4b1f90a",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 1
@@ -387,6 +783,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "Strange place for a blank line, in the middle of two related assignments.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7718c6cc_4814a2c7",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 994,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1a95e1af_a4b1f90a",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -410,6 +824,24 @@
     },
     {
       "key": {
+        "uuid": "6ae2e268_50bfedd3",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1057,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "232ebf38_038bf3d0",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb41bf03_61b6397e",
         "filename": "src/runtime/mheap.go",
         "patchSetId": 1
@@ -421,6 +853,24 @@
       "writtenOn": "2017-03-28T12:33:10Z",
       "side": 1,
       "message": "Note that println puts spaces between all its arguments, so now that you\u0027ve modified the message you need to change this to print( not println( and then add an explicit , \"\\n\" at the end of the argument list.",
+      "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcb8688b_38836de3",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-28T21:46:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb41bf03_61b6397e",
       "revId": "b966afdb0cfe1890846e4d458c4d440438f91707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
