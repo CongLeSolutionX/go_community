@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "898f221f_fd1ad548",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-29T20:52:51Z",
+      "side": 1,
+      "message": "One could iterate over all the spans check the s.sweepgen.",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "dea3846f0524f261f422ce6e44aeec254837b811",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb1a730_a7066774",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-29T20:52:51Z",
+      "side": 1,
+      "message": "Perhaps a comment here.\n// Decrement the number of active sweepers and if this is the last one print trace information.",
+      "revId": "dea3846f0524f261f422ce6e44aeec254837b811",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
