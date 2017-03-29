@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a539121_8a8cd960",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1760,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-29T19:43:52Z",
+      "side": 1,
+      "message": "events available at the next mark termination",
+      "range": {
+        "startLine": 1760,
+        "startChar": 16,
+        "endLine": 1760,
+        "endChar": 22
+      },
+      "revId": "8b468d2bd9efbdc9cf597662dbd287d6242d8cb4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
