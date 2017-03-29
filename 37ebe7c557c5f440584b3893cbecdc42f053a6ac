@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5da7b04_74537cbd",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-03-29T20:40:18Z",
+      "side": 1,
+      "message": "I understand panicking but why doesn\u0027t this win out over memstate.enablegc \u003d\u003d false.",
+      "range": {
+        "startLine": 936,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 13
+      },
+      "revId": "37ebe7c557c5f440584b3893cbecdc42f053a6ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
