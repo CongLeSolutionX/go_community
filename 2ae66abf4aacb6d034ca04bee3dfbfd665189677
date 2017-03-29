@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5df8d2d5_d0099a81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-03-29T20:44:47Z",
+      "side": 1,
+      "message": "*against",
+      "range": {
+        "startLine": 10,
+        "startChar": 23,
+        "endLine": 10,
+        "endChar": 29
+      },
+      "revId": "2ae66abf4aacb6d034ca04bee3dfbfd665189677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f68cf13a_98e9d371",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-03-29T20:44:47Z",
+      "side": 1,
+      "message": "*completely",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "2ae66abf4aacb6d034ca04bee3dfbfd665189677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63163a41_318925db",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-03-29T20:44:47Z",
+      "side": 1,
+      "message": "Any reason why you declare the variables above instead of doing `:\u003d`?  As far as I can tell it should be equivalent and save a couple of lines.",
+      "revId": "2ae66abf4aacb6d034ca04bee3dfbfd665189677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d95facb7_f2754c57",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-03-29T20:44:47Z",
+      "side": 1,
+      "message": "Same, why not declare this with `:\u003d` on line 74?",
+      "revId": "2ae66abf4aacb6d034ca04bee3dfbfd665189677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c7d1b49_57505959",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3131,
+      "author": {
+        "id": 7860
+      },
+      "writtenOn": "2017-03-29T20:44:47Z",
+      "side": 1,
+      "message": "How about a \"var ()\" block?",
+      "revId": "2ae66abf4aacb6d034ca04bee3dfbfd665189677",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
