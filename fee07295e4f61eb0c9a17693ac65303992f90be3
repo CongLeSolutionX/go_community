@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c5a823b4_a153f7a4",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-03-30T15:44:42Z",
+      "side": 1,
+      "message": "FWIW I don\u0027t think it should matter which way round these are, so it should be ok to keep the tail as x y, right?",
+      "parentUuid": "3ad37847_09d1d85e",
+      "range": {
+        "startLine": 600,
+        "startChar": 85,
+        "endLine": 600,
+        "endChar": 89
+      },
+      "revId": "fee07295e4f61eb0c9a17693ac65303992f90be3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f59d380_0b3f825c",
         "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-30T14:54:17Z",
       "side": 1,
       "message": "A comment reminding why SB is special on this architecture would not be out of place.\nI notice something above about LARL not handling odd offsets from SB.",
+      "range": {
+        "startLine": 1780,
+        "startChar": 13,
+        "endLine": 1780,
+        "endChar": 17
+      },
+      "revId": "fee07295e4f61eb0c9a17693ac65303992f90be3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "590164e3_68e69cce",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1780,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-03-30T15:44:42Z",
+      "side": 1,
+      "message": "I don\u0027t mind adding something after this goes in if you like. Maybe a detailed comment at the top is warranted?\n\nEssentially there are two main reasons to avoid merging SB:\n- Some pseudo-instructions do not map to single machine instructions when using the SB \u0027register\u0027 because there is no form of the instruction that takes a relative offset as its memory operand.\n- Loads and stores that use relative addressing cannot handle unaligned data.\n\nWe can always work around these by inserting LARL instructions (load address relative long) in the assembler, but typically this results in worse code generation because the address can\u0027t be re-used. Inserting instructions in the assembler also means clobbering the temp register, something I\u0027d like to eventually stop the compiler doing so it can be allocated as a normal register.",
+      "parentUuid": "2f59d380_0b3f825c",
       "range": {
         "startLine": 1780,
         "startChar": 13,
