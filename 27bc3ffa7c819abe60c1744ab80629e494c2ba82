@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c43fbbf_fef4304a",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-30T18:10:05Z",
+      "side": 1,
+      "message": "I don\u0027t understand the point of this flag shuffling.  All the fields are exported.  Why not just document the right way to do it?",
+      "revId": "27bc3ffa7c819abe60c1744ab80629e494c2ba82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43ab0fd2_9a7c3660",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-30T18:10:05Z",
+      "side": 1,
+      "message": "In Go this is written using `\u0026^\u003d`.",
+      "range": {
+        "startLine": 120,
+        "startChar": 19,
+        "endLine": 120,
+        "endChar": 23
+      },
+      "revId": "27bc3ffa7c819abe60c1744ab80629e494c2ba82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
