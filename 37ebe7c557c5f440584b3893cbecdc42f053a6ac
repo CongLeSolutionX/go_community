@@ -22,6 +22,30 @@
       "revId": "37ebe7c557c5f440584b3893cbecdc42f053a6ac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19a3fdee_61248963",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-30T16:22:48Z",
+      "side": 1,
+      "message": "memstats.enablegc \u003d\u003d false means the garbage collector hasn\u0027t even been initialized yet. This is different from GOGC\u003doff. gcTriggerAlways does win over GOGC\u003doff.",
+      "parentUuid": "e5da7b04_74537cbd",
+      "range": {
+        "startLine": 936,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 13
+      },
+      "revId": "37ebe7c557c5f440584b3893cbecdc42f053a6ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
