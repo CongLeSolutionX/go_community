@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80aad6cd_b698680f",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-30T15:37:00Z",
+      "side": 0,
+      "message": "array type below seems silly, but it does seem reassuring to have a cache here for StructType so you\u0027re not calling an bounded number of field types\u0027 haspointers.\n\nthis could be an atomic Int32 instead?\n\nBut either way. If you\u0027re comfortable without the cache. I don\u0027t know how often this is called or from where.",
+      "revId": "74c70a0574c82780e9bf448d32f582b09e31be78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
