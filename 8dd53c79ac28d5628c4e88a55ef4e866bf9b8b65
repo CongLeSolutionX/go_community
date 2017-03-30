@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b41dbbdb_c8a1e3ba",
+        "filename": "src/cmd/compile/internal/gc/phi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-30T15:22:32Z",
+      "side": 1,
+      "message": "might mention the bug number (19783) and cause (oddly interleaved infinite loops) so that curious people can find it.",
+      "range": {
+        "startLine": 524,
+        "startChar": 20,
+        "endLine": 524,
+        "endChar": 22
+      },
+      "revId": "8dd53c79ac28d5628c4e88a55ef4e866bf9b8b65",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
