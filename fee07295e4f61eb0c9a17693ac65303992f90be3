@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ad37847_09d1d85e",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-30T14:54:17Z",
+      "side": 1,
+      "message": "would it be worthwhile to s/x/off and s/y/x so the tail of the rewrite does not look \"out of order\"?",
+      "range": {
+        "startLine": 600,
+        "startChar": 85,
+        "endLine": 600,
+        "endChar": 89
+      },
+      "revId": "fee07295e4f61eb0c9a17693ac65303992f90be3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f59d380_0b3f825c",
+        "filename": "src/cmd/compile/internal/ssa/gen/S390X.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1780,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-03-30T14:54:17Z",
+      "side": 1,
+      "message": "A comment reminding why SB is special on this architecture would not be out of place.\nI notice something above about LARL not handling odd offsets from SB.",
+      "range": {
+        "startLine": 1780,
+        "startChar": 13,
+        "endLine": 1780,
+        "endChar": 17
+      },
+      "revId": "fee07295e4f61eb0c9a17693ac65303992f90be3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
