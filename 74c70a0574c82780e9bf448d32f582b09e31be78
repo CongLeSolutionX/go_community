@@ -16,6 +16,24 @@
       "revId": "74c70a0574c82780e9bf448d32f582b09e31be78",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc21b4b1_612735c0",
+        "filename": "src/cmd/compile/internal/gc/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-30T18:07:34Z",
+      "side": 0,
+      "message": "atomic Int32 helps with data races, but not logical races. It\u0027d require a mutex to get the right answer.\n\nAnyway, I\u0027m comfortable without the cache. I did a quick test.\n\nI compiled a package like\n\npackage p\n\ntype S struct {\n\ti0 int\n\ti1 int\n\ti2 int\n\ti3 int\n\tp *int\n}\n\nbut with 100,000 int fields. This is the worst case scenario for no cache--you have to loop through every struct field to find the pointer at the end. Result:\n\nCompile100kStruct   545ms ± 4%   543ms ± 6%   ~     (p\u003d0.224 n\u003d29+28)\n\nReal types are much smaller than that. I think that the cache is just irrelevant.",
+      "parentUuid": "80aad6cd_b698680f",
+      "revId": "74c70a0574c82780e9bf448d32f582b09e31be78",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
