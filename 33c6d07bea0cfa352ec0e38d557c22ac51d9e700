@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a8cf7ffb_ef8fb592",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-30T15:03:35Z",
+      "side": 1,
+      "message": "Assuming you meant \"cycle C+1\", done.",
+      "parentUuid": "4af1016a_e6ed57e6",
+      "range": {
+        "startLine": 96,
+        "startChar": 11,
+        "endLine": 96,
+        "endChar": 13
+      },
+      "revId": "33c6d07bea0cfa352ec0e38d557c22ac51d9e700",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ef44c73_df235592",
         "filename": "src/runtime/mprof.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2017-03-29T19:36:04Z",
       "side": 1,
       "message": "It is not clear what a \"site\" is from this.",
+      "range": {
+        "startLine": 501,
+        "startChar": 0,
+        "endLine": 502,
+        "endChar": 8
+      },
+      "revId": "33c6d07bea0cfa352ec0e38d557c22ac51d9e700",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a382557d_419b0abd",
+        "filename": "src/runtime/mprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-30T15:03:35Z",
+      "side": 1,
+      "message": "This means the call stack of the allocation. Do you think this should be clarified? (I\u0027d rather do that in a separate CL, since this is public documentation.)",
+      "parentUuid": "8ef44c73_df235592",
       "range": {
         "startLine": 501,
         "startChar": 0,
