@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a1d67c22_1c8dbca5",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-03-31T23:47:38Z",
+      "side": 1,
+      "message": "It is unusual to have signed vs unsigned float-ish types, but if we go that route, I\u0027d like to suggest quat128 for unsigned and squat128 for signed.",
+      "parentUuid": "eb12e171_813f5ab8",
+      "revId": "063cd9cc6b7172696d60a8537355d0e36861c6d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dff3b611_82844635",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
