@@ -36,6 +36,7 @@ const (
 	Int
 	Float
 	Complex
+	Quaternion
 )
 
 // A Value represents the value of a Go constant.
@@ -65,24 +66,26 @@ type Value interface {
 const prec = 512
 
 type (
-	unknownVal struct{}
-	boolVal    bool
-	stringVal  string
-	int64Val   int64                    // Int values representable as an int64
-	intVal     struct{ val *big.Int }   // Int values not representable as an int64
-	ratVal     struct{ val *big.Rat }   // Float values representable as a fraction
-	floatVal   struct{ val *big.Float } // Float values not representable as a fraction
-	complexVal struct{ re, im Value }
+	unknownVal    struct{}
+	boolVal       bool
+	stringVal     string
+	int64Val      int64                    // Int values representable as an int64
+	intVal        struct{ val *big.Int }   // Int values not representable as an int64
+	ratVal        struct{ val *big.Rat }   // Float values representable as a fraction
+	floatVal      struct{ val *big.Float } // Float values not representable as a fraction
+	complexVal    struct{ re, im Value }
+	quaternionVal struct{ re, im, jm, km Value }
 )
 
-func (unknownVal) Kind() Kind { return Unknown }
-func (boolVal) Kind() Kind    { return Bool }
-func (stringVal) Kind() Kind  { return String }
-func (int64Val) Kind() Kind   { return Int }
-func (intVal) Kind() Kind     { return Int }
-func (ratVal) Kind() Kind     { return Float }
-func (floatVal) Kind() Kind   { return Float }
-func (complexVal) Kind() Kind { return Complex }
+func (unknownVal) Kind() Kind    { return Unknown }
+func (boolVal) Kind() Kind       { return Bool }
+func (stringVal) Kind() Kind     { return String }
+func (int64Val) Kind() Kind      { return Int }
+func (intVal) Kind() Kind        { return Int }
+func (ratVal) Kind() Kind        { return Float }
+func (floatVal) Kind() Kind      { return Float }
+func (complexVal) Kind() Kind    { return Complex }
+func (quaternionVal) Kind() Kind { return Quaternion }
 
 func (unknownVal) String() string { return "unknown" }
 func (x boolVal) String() string  { return strconv.FormatBool(bool(x)) }
@@ -158,6 +161,10 @@ func (x floatVal) String() string {
 
 func (x complexVal) String() string { return fmt.Sprintf("(%s + %si)", x.re, x.im) }
 
+func (x quaternionVal) String() string {
+	return fmt.Sprintf("(%s + %si + %sj + %sk)", x.re, x.im, x.jm, x.km)
+}
+
 func (x unknownVal) ExactString() string { return x.String() }
 func (x boolVal) ExactString() string    { return x.String() }
 func (x stringVal) ExactString() string  { return strconv.Quote(string(x)) }
@@ -178,14 +185,19 @@ func (x complexVal) ExactString() string {
 	return fmt.Sprintf("(%s + %si)", x.re.ExactString(), x.im.ExactString())
 }
 
-func (unknownVal) implementsValue() {}
-func (boolVal) implementsValue()    {}
-func (stringVal) implementsValue()  {}
-func (int64Val) implementsValue()   {}
-func (ratVal) implementsValue()     {}
-func (intVal) implementsValue()     {}
-func (floatVal) implementsValue()   {}
-func (complexVal) implementsValue() {}
+func (x quaternionVal) ExactString() string {
+	return fmt.Sprintf("(%s + %si + %sj + %sk)", x.re.ExactString(), x.im.ExactString(), x.jm.ExactString(), x.km.ExactString())
+}
+
+func (unknownVal) implementsValue()    {}
+func (boolVal) implementsValue()       {}
+func (stringVal) implementsValue()     {}
+func (int64Val) implementsValue()      {}
+func (ratVal) implementsValue()        {}
+func (intVal) implementsValue()        {}
+func (floatVal) implementsValue()      {}
+func (complexVal) implementsValue()    {}
+func (quaternionVal) implementsValue() {}
 
 func newInt() *big.Int     { return new(big.Int) }
 func newRat() *big.Rat     { return new(big.Rat) }
@@ -203,7 +215,8 @@ func rtof(x ratVal) floatVal {
 	return floatVal{a.Quo(a, b)}
 }
 
-func vtoc(x Value) complexVal { return complexVal{x, int64Val(0)} }
+func vtoc(x Value) complexVal    { return complexVal{x, int64Val(0)} }
+func vtoq(x Value) quaternionVal { return quaternionVal{x, int64Val(0), int64Val(0), int64Val(0)} }
 
 func makeInt(x *big.Int) Value {
 	if x.IsInt64() {
@@ -241,6 +254,10 @@ func makeFloat(x *big.Float) Value {
 
 func makeComplex(re, im Value) Value {
 	return complexVal{re, im}
+}
+
+func makeQuaternion(re, im, jm, km Value) Value {
+	return quaternionVal{re, im, jm, km}
 }
 
 func makeFloatFromLiteral(lit string) Value {
@@ -327,9 +344,16 @@ func MakeFromLiteral(lit string, tok token.Token, zero uint) Value {
 		}
 
 	case token.IMAG:
-		if n := len(lit); n > 0 && lit[n-1] == 'i' {
-			if im := makeFloatFromLiteral(lit[:n-1]); im != nil {
-				return makeComplex(int64Val(0), im)
+		if n := len(lit); n > 0 {
+			if f := makeFloatFromLiteral(lit[:n-1]); f != nil {
+				switch lit[n-1] {
+				case 'i':
+					return makeComplex(int64Val(0), f)
+				case 'j':
+					return makeQuaternion(int64Val(0), int64Val(0), f, int64Val(0))
+				case 'k':
+					return makeQuaternion(int64Val(0), int64Val(0), int64Val(0), f)
+				}
 			}
 		}
 
@@ -479,7 +503,8 @@ func BitLen(x Value) int {
 }
 
 // Sign returns -1, 0, or 1 depending on whether x < 0, x == 0, or x > 0;
-// x must be numeric or Unknown. For complex values x, the sign is 0 if x == 0,
+// x must be numeric or Unknown.
+// For complex and quaternion values x, the sign is 0 if x == 0,
 // otherwise it is != 0. If x is Unknown, the result is 1.
 func Sign(x Value) int {
 	switch x := x.(type) {
@@ -499,6 +524,8 @@ func Sign(x Value) int {
 		return x.val.Sign()
 	case complexVal:
 		return Sign(x.re) | Sign(x.im)
+	case quaternionVal:
+		return Sign(x.re) | Sign(x.im) | Sign(x.jm) | Sign(x.km)
 	case unknownVal:
 		return 1 // avoid spurious division by zero errors
 	default:
@@ -637,6 +664,34 @@ func MakeImag(x Value) Value {
 	}
 }
 
+// MakeJmag returns the Quaternion value x*j;
+// x must be Int, Float, or Unknown.
+// If x is Unknown, the result is Unknown.
+func MakeJmag(x Value) Value {
+	switch x.(type) {
+	case unknownVal:
+		return x
+	case int64Val, intVal, ratVal, floatVal:
+		return makeQuaternion(int64Val(0), int64Val(0), x, int64Val(0))
+	default:
+		panic(fmt.Sprintf("%v not Int or Float", x))
+	}
+}
+
+// MakeKmag returns the Quaternion value x*k;
+// x must be Int, Float, or Unknown.
+// If x is Unknown, the result is Unknown.
+func MakeKmag(x Value) Value {
+	switch x.(type) {
+	case unknownVal:
+		return x
+	case int64Val, intVal, ratVal, floatVal:
+		return makeQuaternion(int64Val(0), int64Val(0), int64Val(0), x)
+	default:
+		panic(fmt.Sprintf("%v not Int or Float", x))
+	}
+}
+
 // Real returns the real part of x, which must be a numeric or unknown value.
 // If x is Unknown, the result is Unknown.
 func Real(x Value) Value {
@@ -644,6 +699,8 @@ func Real(x Value) Value {
 	case unknownVal, int64Val, intVal, ratVal, floatVal:
 		return x
 	case complexVal:
+		return x.re
+	case quaternionVal:
 		return x.re
 	default:
 		panic(fmt.Sprintf("%v not numeric", x))
@@ -660,6 +717,38 @@ func Imag(x Value) Value {
 		return int64Val(0)
 	case complexVal:
 		return x.im
+	case quaternionVal:
+		return x.im
+	default:
+		panic(fmt.Sprintf("%v not numeric", x))
+	}
+}
+
+// Jmag returns the j-imaginary part of x, which must be a numeric or unknown value.
+// If x is Unknown, the result is Unknown.
+func Jmag(x Value) Value {
+	switch x := x.(type) {
+	case unknownVal:
+		return x
+	case int64Val, intVal, ratVal, floatVal, complexVal:
+		return int64Val(0)
+	case quaternionVal:
+		return x.jm
+	default:
+		panic(fmt.Sprintf("%v not numeric", x))
+	}
+}
+
+// Kmag returns the k-imaginary part of x, which must be a numeric or unknown value.
+// If x is Unknown, the result is Unknown.
+func Kmag(x Value) Value {
+	switch x := x.(type) {
+	case unknownVal:
+		return x
+	case int64Val, intVal, ratVal, floatVal, complexVal:
+		return int64Val(0)
+	case quaternionVal:
+		return x.km
 	default:
 		panic(fmt.Sprintf("%v not numeric", x))
 	}
@@ -713,7 +802,7 @@ func ToInt(x Value) Value {
 			}
 		}
 
-	case complexVal:
+	case complexVal, quaternionVal:
 		if re := ToFloat(x); re.Kind() == Float {
 			return ToInt(re)
 		}
@@ -733,12 +822,23 @@ func ToFloat(x Value) Value {
 	case ratVal, floatVal:
 		return x
 	case complexVal:
-		if im := ToInt(x.im); im.Kind() == Int && Sign(im) == 0 {
+		if isZero(x.im) {
 			// imaginary component is 0
 			return ToFloat(x.re)
 		}
+	case quaternionVal:
+		if isZero(x.im) && isZero(x.jm) && isZero(x.km) {
+			// imaginary components are 0
+			return ToFloat(x.re)
+		}
+
 	}
 	return unknownVal{}
+}
+
+func isZero(v Value) bool {
+	v = ToInt(v)
+	return v.Kind() == Int && Sign(v) == 0
 }
 
 // ToComplex converts x to a Complex value if x is representable as a Complex.
@@ -754,6 +854,30 @@ func ToComplex(x Value) Value {
 	case floatVal:
 		return vtoc(x)
 	case complexVal:
+		return x
+	case quaternionVal:
+		if isZero(x.jm) && isZero(x.km) {
+			return makeComplex(x.re, x.im)
+		}
+	}
+	return unknownVal{}
+}
+
+// ToQuaternion converts x to a Quaternion value if x is representable as a Quaternion.
+// Otherwise it returns an Unknown.
+func ToQuaternion(x Value) Value {
+	switch x := x.(type) {
+	case int64Val:
+		return vtoq(i64tof(x))
+	case intVal:
+		return vtoq(itof(x))
+	case ratVal:
+		return vtoq(x)
+	case floatVal:
+		return vtoq(x)
+	case complexVal:
+		return makeQuaternion(x.re, x.im, int64Val(0), int64Val(0))
+	case quaternionVal:
 		return x
 	}
 	return unknownVal{}
@@ -783,7 +907,7 @@ func UnaryOp(op token.Token, y Value, prec uint) Value {
 	switch op {
 	case token.ADD:
 		switch y.(type) {
-		case unknownVal, int64Val, intVal, ratVal, floatVal, complexVal:
+		case unknownVal, int64Val, intVal, ratVal, floatVal, complexVal, quaternionVal:
 			return y
 		}
 
@@ -806,6 +930,12 @@ func UnaryOp(op token.Token, y Value, prec uint) Value {
 			re := UnaryOp(token.SUB, y.re, 0)
 			im := UnaryOp(token.SUB, y.im, 0)
 			return makeComplex(re, im)
+		case quaternionVal:
+			re := UnaryOp(token.SUB, y.re, 0)
+			im := UnaryOp(token.SUB, y.im, 0)
+			jm := UnaryOp(token.SUB, y.jm, 0)
+			km := UnaryOp(token.SUB, y.km, 0)
+			return makeQuaternion(re, im, jm, km)
 		}
 
 	case token.XOR:
@@ -861,6 +991,8 @@ func ord(x Value) int {
 		return 5
 	case complexVal:
 		return 6
+	case quaternionVal:
+		return 7
 	}
 }
 
@@ -877,7 +1009,7 @@ func match(x, y Value) (_, _ Value) {
 	// ord(x) <= ord(y)
 
 	switch x := x.(type) {
-	case boolVal, stringVal, complexVal:
+	case boolVal, stringVal, quaternionVal:
 		return x, y
 
 	case int64Val:
@@ -892,6 +1024,8 @@ func match(x, y Value) (_, _ Value) {
 			return i64tof(x), y
 		case complexVal:
 			return vtoc(x), y
+		case quaternionVal:
+			return vtoq(x), y
 		}
 
 	case intVal:
@@ -904,6 +1038,8 @@ func match(x, y Value) (_, _ Value) {
 			return itof(x), y
 		case complexVal:
 			return vtoc(x), y
+		case quaternionVal:
+			return vtoq(x), y
 		}
 
 	case ratVal:
@@ -914,6 +1050,8 @@ func match(x, y Value) (_, _ Value) {
 			return rtof(x), y
 		case complexVal:
 			return vtoc(x), y
+		case quaternionVal:
+			return vtoq(x), y
 		}
 
 	case floatVal:
@@ -922,6 +1060,16 @@ func match(x, y Value) (_, _ Value) {
 			return x, y
 		case complexVal:
 			return vtoc(x), y
+		case quaternionVal:
+			return vtoq(x), y
+		}
+
+	case complexVal:
+		switch y := y.(type) {
+		case complexVal:
+			return x, y
+		case quaternionVal:
+			return ToQuaternion(x), y
 		}
 	}
 
@@ -1100,6 +1248,30 @@ func BinaryOp(x_ Value, op token.Token, y_ Value) Value {
 			goto Error
 		}
 		return makeComplex(re, im)
+
+	case quaternionVal:
+		y := y.(quaternionVal)
+		var re, im, jm, km Value
+		switch op {
+		case token.ADD:
+			re = add(x.re, y.re)
+			im = add(x.im, y.im)
+			jm = add(x.jm, y.jm)
+			km = add(x.km, y.km)
+		case token.SUB:
+			re = sub(x.re, y.re)
+			im = sub(x.im, y.im)
+			jm = sub(x.jm, y.jm)
+			km = sub(x.km, y.km)
+		case token.MUL:
+			re = sub(sub(sub(mul(x.re, y.re), mul(x.im, y.im)), mul(x.jm, y.jm)), mul(x.km, y.km))
+			im = sub(add(add(mul(x.re, y.im), mul(x.im, y.re)), mul(x.jm, y.km)), mul(x.km, y.jm))
+			jm = sub(add(add(mul(x.re, y.jm), mul(x.jm, y.re)), mul(x.km, y.im)), mul(x.im, y.km))
+			km = sub(add(add(mul(x.re, y.km), mul(x.km, y.re)), mul(x.im, y.jm)), mul(x.jm, y.im))
+		default:
+			goto Error
+		}
+		return makeQuaternion(re, im, jm, km)
 
 	case stringVal:
 		if op == token.ADD {

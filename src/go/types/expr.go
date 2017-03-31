@@ -310,6 +310,37 @@ func representableConst(x constant.Value, conf *Config, typ *Basic, rounded *con
 			unreachable()
 		}
 
+	case isQuaternion(typ):
+		x := constant.ToQuaternion(x)
+		if x.Kind() != constant.Quaternion {
+			return false
+		}
+		var fits func(constant.Value) bool
+		var round func(constant.Value) constant.Value
+		switch typ.kind {
+		case Quaternion128:
+			fits = fitsFloat32
+			round = roundFloat32
+		case Quaternion256:
+			fits = fitsFloat64
+			round = roundFloat64
+		case UntypedQuaternion:
+			return true
+		default:
+			unreachable()
+		}
+		if rounded == nil {
+			return fits(constant.Real(x)) && fits(constant.Imag(x)) && fits(constant.Jmag(x)) && fits(constant.Kmag(x))
+		}
+		re := round(constant.Real(x))
+		im := round(constant.Imag(x))
+		jm := round(constant.Jmag(x))
+		km := round(constant.Kmag(x))
+		if re != nil && im != nil && jm != nil && km != nil {
+			*rounded = constant.BinaryOp(constant.BinaryOp(constant.BinaryOp(re, token.ADD, constant.MakeImag(im)), token.ADD, constant.MakeJmag(jm)), token.ADD, constant.MakeKmag(km))
+			return true
+		}
+
 	case isString(typ):
 		return x.Kind() == constant.String
 

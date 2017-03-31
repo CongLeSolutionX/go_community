@@ -97,6 +97,11 @@ func (x *operand) convertibleTo(conf *Config, T Type) bool {
 		return true
 	}
 
+	// "x's type and T are both quaternion types"
+	if isQuaternion(V) && isQuaternion(T) {
+		return true
+	}
+
 	// "x is an integer or a slice of bytes or runes and T is a string type"
 	if (isInteger(V) || isBytesOrRunes(Vu)) && isString(T) {
 		return true

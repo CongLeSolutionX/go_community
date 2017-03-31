@@ -39,16 +39,19 @@ var Typ = []*Basic{
 	Float64:       {Float64, IsFloat, "float64"},
 	Complex64:     {Complex64, IsComplex, "complex64"},
 	Complex128:    {Complex128, IsComplex, "complex128"},
+	Quaternion128: {Quaternion128, IsQuaternion, "quaternion128"},
+	Quaternion256: {Quaternion256, IsQuaternion, "quaternion256"},
 	String:        {String, IsString, "string"},
 	UnsafePointer: {UnsafePointer, 0, "Pointer"},
 
-	UntypedBool:    {UntypedBool, IsBoolean | IsUntyped, "untyped bool"},
-	UntypedInt:     {UntypedInt, IsInteger | IsUntyped, "untyped int"},
-	UntypedRune:    {UntypedRune, IsInteger | IsUntyped, "untyped rune"},
-	UntypedFloat:   {UntypedFloat, IsFloat | IsUntyped, "untyped float"},
-	UntypedComplex: {UntypedComplex, IsComplex | IsUntyped, "untyped complex"},
-	UntypedString:  {UntypedString, IsString | IsUntyped, "untyped string"},
-	UntypedNil:     {UntypedNil, IsUntyped, "untyped nil"},
+	UntypedBool:       {UntypedBool, IsBoolean | IsUntyped, "untyped bool"},
+	UntypedInt:        {UntypedInt, IsInteger | IsUntyped, "untyped int"},
+	UntypedRune:       {UntypedRune, IsInteger | IsUntyped, "untyped rune"},
+	UntypedFloat:      {UntypedFloat, IsFloat | IsUntyped, "untyped float"},
+	UntypedComplex:    {UntypedComplex, IsComplex | IsUntyped, "untyped complex"},
+	UntypedQuaternion: {UntypedQuaternion, IsQuaternion | IsUntyped, "untyped quaternion"},
+	UntypedString:     {UntypedString, IsString | IsUntyped, "untyped string"},
+	UntypedNil:        {UntypedNil, IsUntyped, "untyped nil"},
 }
 
 var aliases = [...]*Basic{
@@ -105,12 +108,15 @@ const (
 	_Copy
 	_Delete
 	_Imag
+	_Jmag
+	_Kmag
 	_Len
 	_Make
 	_New
 	_Panic
 	_Print
 	_Println
+	_Quaternion
 	_Real
 	_Recover
 
@@ -130,21 +136,24 @@ var predeclaredFuncs = [...]struct {
 	variadic bool
 	kind     exprKind
 }{
-	_Append:  {"append", 1, true, expression},
-	_Cap:     {"cap", 1, false, expression},
-	_Close:   {"close", 1, false, statement},
-	_Complex: {"complex", 2, false, expression},
-	_Copy:    {"copy", 2, false, statement},
-	_Delete:  {"delete", 2, false, statement},
-	_Imag:    {"imag", 1, false, expression},
-	_Len:     {"len", 1, false, expression},
-	_Make:    {"make", 1, true, expression},
-	_New:     {"new", 1, false, expression},
-	_Panic:   {"panic", 1, false, statement},
-	_Print:   {"print", 0, true, statement},
-	_Println: {"println", 0, true, statement},
-	_Real:    {"real", 1, false, expression},
-	_Recover: {"recover", 0, false, statement},
+	_Append:     {"append", 1, true, expression},
+	_Cap:        {"cap", 1, false, expression},
+	_Close:      {"close", 1, false, statement},
+	_Complex:    {"complex", 2, false, expression},
+	_Copy:       {"copy", 2, false, statement},
+	_Delete:     {"delete", 2, false, statement},
+	_Imag:       {"imag", 1, false, expression},
+	_Jmag:       {"jmag", 1, false, expression},
+	_Kmag:       {"kmag", 1, false, expression},
+	_Len:        {"len", 1, false, expression},
+	_Make:       {"make", 1, true, expression},
+	_New:        {"new", 1, false, expression},
+	_Panic:      {"panic", 1, false, statement},
+	_Print:      {"print", 0, true, statement},
+	_Println:    {"println", 0, true, statement},
+	_Quaternion: {"quaternion", 4, false, expression},
+	_Real:       {"real", 1, false, expression},
+	_Recover:    {"recover", 0, false, statement},
 
 	_Alignof:  {"Alignof", 1, false, expression},
 	_Offsetof: {"Offsetof", 1, false, expression},

@@ -79,9 +79,12 @@ func (s *StdSizes) Alignof(T Type) int64 {
 	if a < 1 {
 		return 1
 	}
-	// complex{64,128} are aligned like [2]float{32,64}.
-	if isComplex(T) {
+	// complex{64,128} and quaternion{128,256} are aligned like float{32,64}.
+	switch {
+	case isComplex(T):
 		a /= 2
+	case isQuaternion(T):
+		a /= 4
 	}
 	if a > s.MaxAlign {
 		return s.MaxAlign
@@ -102,19 +105,21 @@ func (s *StdSizes) Offsetsof(fields []*Var) []int64 {
 }
 
 var basicSizes = [...]byte{
-	Bool:       1,
-	Int8:       1,
-	Int16:      2,
-	Int32:      4,
-	Int64:      8,
-	Uint8:      1,
-	Uint16:     2,
-	Uint32:     4,
-	Uint64:     8,
-	Float32:    4,
-	Float64:    8,
-	Complex64:  8,
-	Complex128: 16,
+	Bool:          1,
+	Int8:          1,
+	Int16:         2,
+	Int32:         4,
+	Int64:         8,
+	Uint8:         1,
+	Uint16:        2,
+	Uint32:        4,
+	Uint64:        8,
+	Float32:       4,
+	Float64:       8,
+	Complex64:     8,
+	Complex128:    16,
+	Quaternion128: 16,
+	Quaternion256: 32,
 }
 
 func (s *StdSizes) Sizeof(T Type) int64 {

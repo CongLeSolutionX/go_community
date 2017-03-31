@@ -173,7 +173,14 @@ func (x *operand) setConst(tok token.Token, lit string) {
 	case token.FLOAT:
 		kind = UntypedFloat
 	case token.IMAG:
-		kind = UntypedComplex
+		switch lit[len(lit)-1] {
+		case 'i':
+			kind = UntypedComplex
+		case 'j', 'k':
+			kind = UntypedQuaternion
+		default:
+			unreachable()
+		}
 	case token.CHAR:
 		kind = UntypedRune
 	case token.STRING:

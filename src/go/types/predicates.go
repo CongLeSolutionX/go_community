@@ -41,6 +41,11 @@ func isComplex(typ Type) bool {
 	return ok && t.info&IsComplex != 0
 }
 
+func isQuaternion(typ Type) bool {
+	t, ok := typ.Underlying().(*Basic)
+	return ok && t.info&IsQuaternion != 0
+}
+
 func isNumeric(typ Type) bool {
 	t, ok := typ.Underlying().(*Basic)
 	return ok && t.info&IsNumeric != 0

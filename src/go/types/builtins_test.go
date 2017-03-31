@@ -59,8 +59,24 @@ var builtinCalls = []struct {
 	{"imag", `_ = imag(1i)`, `invalid type`}, // constant
 	{"imag", `var c complex64; _ = imag(c)`, `func(complex64) float32`},
 	{"imag", `var c complex128; _ = imag(c)`, `func(complex128) float64`},
+	{"imag", `var q quaternion128; _ = imag(q)`, `func(quaternion128) float32`},
+	{"imag", `var q quaternion256; _ = imag(q)`, `func(quaternion256) float64`},
 	{"imag", `type C64 complex64; var c C64; _ = imag(c)`, `func(p.C64) float32`},
 	{"imag", `type C128 complex128; var c C128; _ = imag(c)`, `func(p.C128) float64`},
+	{"imag", `type Q128 quaternion128; var q Q128; _ = imag(q)`, `func(p.Q128) float32`},
+	{"imag", `type Q256 quaternion256; var q Q256; _ = imag(q)`, `func(p.Q256) float64`},
+
+	{"jmag", `_ = jmag(1i)`, `invalid type`}, // constant
+	{"jmag", `var q quaternion128; _ = jmag(q)`, `func(quaternion128) float32`},
+	{"jmag", `var q quaternion256; _ = jmag(q)`, `func(quaternion256) float64`},
+	{"jmag", `type Q128 quaternion128; var q Q128; _ = jmag(q)`, `func(p.Q128) float32`},
+	{"jmag", `type Q256 quaternion256; var q Q256; _ = jmag(q)`, `func(p.Q256) float64`},
+
+	{"kmag", `_ = kmag(1i)`, `invalid type`}, // constant
+	{"kmag", `var q quaternion128; _ = kmag(q)`, `func(quaternion128) float32`},
+	{"kmag", `var q quaternion256; _ = kmag(q)`, `func(quaternion256) float64`},
+	{"kmag", `type Q128 quaternion128; var q Q128; _ = kmag(q)`, `func(p.Q128) float32`},
+	{"kmag", `type Q256 quaternion256; var q Q256; _ = kmag(q)`, `func(p.Q256) float64`},
 
 	{"real", `_ = real(1i)`, `invalid type`}, // constant
 	{"real", `var c complex64; _ = real(c)`, `func(complex64) float32`},
@@ -84,6 +100,12 @@ var builtinCalls = []struct {
 	{"println", `println()`, `func()`},
 	{"println", `println(0)`, `func(int)`},
 	{"println", `println(1, 2.0, "foo", true)`, `func(int, float64, string, bool)`},
+
+	{"quaternion", `_ = quaternion(1, 0, 0, 0)`, `invalid type`}, // constant
+	{"quaternion", `var re float32; _ = quaternion(re, 1.0, 0, 0)`, `func(float32, float32, float32, float32) quaternion128`},
+	{"quaternion", `var im float64; _ = quaternion(1, im, 0, 0)`, `func(float64, float64, float64, float64) quaternion256`},
+	{"quaternion", `type F32 float32; var re, im F32; _ = quaternion(re, im, 0, 0)`, `func(p.F32, p.F32, p.F32, p.F32) quaternion128`},
+	{"quaternion", `type F64 float64; var re, im F64; _ = quaternion(re, im, 0, 0)`, `func(p.F64, p.F64, p.F64, p.F64) quaternion256`},
 
 	{"recover", `recover()`, `func() interface{}`},
 	{"recover", `_ = recover()`, `func() interface{}`},

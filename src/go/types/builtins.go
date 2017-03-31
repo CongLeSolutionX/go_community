@@ -235,7 +235,7 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 			//    because shifts of floats are not permitted)
 			if x.mode == constant_ && y.mode == constant_ {
 				toFloat := func(x *operand) {
-					if isNumeric(x.typ) && constant.Sign(constant.Imag(x.val)) == 0 {
+					if isNumeric(x.typ) && constant.Sign(constant.Imag(x.val)) == 0 && constant.Sign(constant.Jmag(x.val)) == 0 && constant.Sign(constant.Kmag(x.val)) == 0 {
 						x.typ = Typ[UntypedFloat]
 					}
 				}
@@ -351,8 +351,10 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 			check.recordBuiltinType(call.Fun, makeSig(nil, m, m.key))
 		}
 
-	case _Imag, _Real:
+	case _Imag, _Jmag, _Kmag, _Real:
 		// imag(complexT) floatT
+		// jmag(quaternionT) floatT
+		// kmag(quaternionT) floatT
 		// real(complexT) floatT
 
 		// convert or check untyped argument
@@ -361,14 +363,14 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 				// an untyped constant number can alway be considered
 				// as a complex constant
 				if isNumeric(x.typ) {
-					x.typ = Typ[UntypedComplex]
+					x.typ = Typ[UntypedQuaternion]
 				}
 			} else {
 				// an untyped non-constant argument may appear if
 				// it contains a (yet untyped non-constant) shift
 				// expression: convert it to complex128 which will
 				// result in an error (shift of complex value)
-				check.convertUntyped(x, Typ[Complex128])
+				check.convertUntyped(x, Typ[Quaternion128])
 				// x should be invalid now, but be conservative and check
 				if x.mode == invalid {
 					return
@@ -377,17 +379,30 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 		}
 
 		// the argument must be of complex type
-		if !isComplex(x.typ) {
-			check.invalidArg(x.pos(), "argument has type %s, expected complex type", x.typ)
-			return
+		switch id {
+		case _Real, _Imag:
+			if !isComplex(x.typ) && !isQuaternion(x.typ) {
+				check.invalidArg(x.pos(), "argument has type %s, expected complex type", x.typ)
+				return
+			}
+		case _Jmag, _Kmag:
+			if !isQuaternion(x.typ) {
+				check.invalidArg(x.pos(), "argument has type %s, expected quaternion type", x.typ)
+				return
+			}
 		}
 
 		// if the argument is a constant, the result is a constant
 		if x.mode == constant_ {
-			if id == _Real {
+			switch id {
+			case _Real:
 				x.val = constant.Real(x.val)
-			} else {
+			case _Imag:
 				x.val = constant.Imag(x.val)
+			case _Jmag:
+				x.val = constant.Jmag(x.val)
+			case _Kmag:
+				x.val = constant.Kmag(x.val)
 			}
 		} else {
 			x.mode = value
@@ -396,11 +411,11 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 		// determine result type
 		var res BasicKind
 		switch x.typ.Underlying().(*Basic).kind {
-		case Complex64:
+		case Complex64, Quaternion128:
 			res = Float32
-		case Complex128:
+		case Complex128, Quaternion256:
 			res = Float64
-		case UntypedComplex:
+		case UntypedComplex, UntypedQuaternion:
 			res = UntypedFloat
 		default:
 			unreachable()
@@ -504,6 +519,111 @@ func (check *Checker) builtin(x *operand, call *ast.CallExpr, id builtinId) (_ b
 		if check.Types != nil {
 			check.recordBuiltinType(call.Fun, makeSig(nil, params...))
 		}
+
+	case _Quaternion:
+		// func quaternion(x, y, z, w floatT) quaternionT
+		var y, z, w operand
+		arg(&y, 1)
+		arg(&z, 2)
+		arg(&w, 3)
+		if y.mode == invalid || z.mode == invalid || w.mode == invalid {
+			return
+		}
+
+		// convert or check untyped arguments
+		var typ Type
+		for _, t := range [...]Type{x.typ, y.typ, z.typ, w.typ} {
+			if !isUntyped(t) {
+				typ = t
+				break
+			}
+		}
+		if typ != nil {
+			// convert untyped to typ
+			for _, o := range [...]*operand{x, &y, &z, &w} {
+				if isUntyped(o.typ) {
+					check.convertUntyped(o, typ)
+				}
+			}
+		} else {
+			// all are untyped =>
+			// 1) if both are constants, convert them to untyped
+			//    floating-point numbers if possible,
+			// 2) if one of them is not constant (possible because
+			//    it contains a shift that is yet untyped), convert
+			//    both of them to float64 since they must have the
+			//    same type to succeed (this will result in an error
+			//    because shifts of floats are not permitted)
+			if x.mode == constant_ && y.mode == constant_ {
+				toFloat := func(x *operand) {
+					if isNumeric(x.typ) && constant.Sign(constant.Imag(x.val)) == 0 && constant.Sign(constant.Jmag(x.val)) == 0 && constant.Sign(constant.Kmag(x.val)) == 0 {
+						x.typ = Typ[UntypedFloat]
+					}
+				}
+				toFloat(x)
+				toFloat(&y)
+				toFloat(&z)
+				toFloat(&w)
+			} else {
+				check.convertUntyped(x, Typ[Float64])
+				check.convertUntyped(&y, Typ[Float64])
+				check.convertUntyped(&z, Typ[Float64])
+				check.convertUntyped(&w, Typ[Float64])
+				// all should be invalid now, but be conservative
+				// and check below
+			}
+		}
+
+		if x.mode == invalid || y.mode == invalid || z.mode == invalid || w.mode == invalid {
+			return
+		}
+
+		// all argument types must be identical
+		if !Identical(x.typ, y.typ) {
+			check.invalidArg(x.pos(), "mismatched types %s and %s", x.typ, y.typ)
+			return
+		}
+		if !Identical(x.typ, z.typ) {
+			check.invalidArg(x.pos(), "mismatched types %s and %s", x.typ, z.typ)
+			return
+		}
+		if !Identical(x.typ, w.typ) {
+			check.invalidArg(x.pos(), "mismatched types %s and %s", x.typ, w.typ)
+			return
+		}
+
+		// the argument types must be of floating-point type
+		if !isFloat(x.typ) {
+			check.invalidArg(x.pos(), "arguments have type %s, expected floating-point", x.typ)
+			return
+		}
+
+		// if all arguments are constants, the result is a constant
+		if x.mode == constant_ && y.mode == constant_ && z.mode == constant_ && w.mode == constant_ {
+			x.val = constant.BinaryOp(constant.BinaryOp(constant.BinaryOp(constant.ToFloat(x.val), token.ADD, constant.MakeImag(constant.ToFloat(y.val))), token.ADD, constant.MakeJmag(constant.ToFloat(z.val))), token.ADD, constant.MakeKmag(constant.ToFloat(w.val)))
+		} else {
+			x.mode = value
+		}
+
+		// determine result type
+		var res BasicKind
+		switch x.typ.Underlying().(*Basic).kind {
+		case Float32:
+			res = Quaternion128
+		case Float64:
+			res = Quaternion256
+		case UntypedFloat:
+			res = UntypedQuaternion
+		default:
+			unreachable()
+		}
+		resTyp := Typ[res]
+
+		if check.Types != nil && x.mode != constant_ {
+			check.recordBuiltinType(call.Fun, makeSig(resTyp, x.typ, x.typ, x.typ, x.typ))
+		}
+
+		x.typ = resTyp
 
 	case _Recover:
 		// recover() interface{}

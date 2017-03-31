@@ -51,6 +51,11 @@ const (
 	UntypedString
 	UntypedNil
 
+	// quaternion types
+	Quaternion128
+	Quaternion256
+	UntypedQuaternion
+
 	// aliases
 	Byte = Uint8
 	Rune = Int32
@@ -68,9 +73,10 @@ const (
 	IsComplex
 	IsString
 	IsUntyped
+	IsQuaternion
 
 	IsOrdered   = IsInteger | IsFloat | IsString
-	IsNumeric   = IsInteger | IsFloat | IsComplex
+	IsNumeric   = IsInteger | IsFloat | IsComplex | IsQuaternion
 	IsConstType = IsBoolean | IsNumeric | IsString
 )
 
