@@ -19,24 +19,26 @@ import (
 )
 
 type (
-	renamedBool       bool
-	renamedInt        int
-	renamedInt8       int8
-	renamedInt16      int16
-	renamedInt32      int32
-	renamedInt64      int64
-	renamedUint       uint
-	renamedUint8      uint8
-	renamedUint16     uint16
-	renamedUint32     uint32
-	renamedUint64     uint64
-	renamedUintptr    uintptr
-	renamedString     string
-	renamedBytes      []byte
-	renamedFloat32    float32
-	renamedFloat64    float64
-	renamedComplex64  complex64
-	renamedComplex128 complex128
+	renamedBool          bool
+	renamedInt           int
+	renamedInt8          int8
+	renamedInt16         int16
+	renamedInt32         int32
+	renamedInt64         int64
+	renamedUint          uint
+	renamedUint8         uint8
+	renamedUint16        uint16
+	renamedUint32        uint32
+	renamedUint64        uint64
+	renamedUintptr       uintptr
+	renamedString        string
+	renamedBytes         []byte
+	renamedFloat32       float32
+	renamedFloat64       float64
+	renamedComplex64     complex64
+	renamedComplex128    complex128
+	renamedQuaternion128 quaternion128
+	renamedQuaternion256 quaternion256
 )
 
 func TestFmtInterface(t *testing.T) {
@@ -532,6 +534,10 @@ var fmtTests = []struct {
 	{"%-08g", complex(negInf, negInf), "(-Inf    -Inf    i)"},
 	{"%-08G", complex(NaN, NaN), "(NaN     +NaN    i)"},
 
+	// quaternions
+	{"%.f", 1 + 2i + 3j + 4k, "(1+2i+3j+4k)"},
+	{"%.f", quaternion128(1 + 2i + 3j + 4k), "(1+2i+3j+4k)"},
+
 	// old test/fmt_test.go
 	{"%e", 1.0, "1.000000e+00"},
 	{"%e", 1234.5678e3, "1.234568e+06"},
@@ -778,6 +784,8 @@ var fmtTests = []struct {
 	{"%v", renamedFloat64(33), "33"},
 	{"%v", renamedComplex64(3 + 4i), "(3+4i)"},
 	{"%v", renamedComplex128(4 - 3i), "(4-3i)"},
+	{"%v", renamedQuaternion128(1 + 2i + 3j + 4k), "(1+2i+3j+4k)"},
+	{"%v", renamedQuaternion256(1 + 2i + 3j + 4k), "(1+2i+3j+4k)"},
 
 	// Formatter
 	{"%x", F(1), "<x=F(1)>"},

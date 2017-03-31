@@ -30,7 +30,7 @@
 		%x	base 16, with lower-case letters for a-f
 		%X	base 16, with upper-case letters for A-F
 		%U	Unicode format: U+1234; same as "U+%04X"
-	Floating-point and complex constituents:
+	Floating-point, complex, and quaternion constituents:
 		%b	decimalless scientific notation with exponent a power of two,
 			in the manner of strconv.FormatFloat with the 'b' format,
 			e.g. -123456p-78
@@ -97,7 +97,7 @@
 	%.3g prints 12.3. The default precision for %e, %f and %#g is 6; for %g it
 	is the smallest number of digits necessary to identify the value uniquely.
 
-	For complex numbers, the width and precision apply to the two
+	For complex and quaternion numbers, the width and precision apply to the
 	components independently and the result is parenthesized, so %f applied
 	to 1.2+3.4i produces (1.200000+3.400000i).
 
@@ -278,7 +278,7 @@
 	and %v will scan the default representation format for the value.
 	The Printf verbs %p and %T and the flags # and + are not implemented,
 	and the verbs %e %E %f %F %g and %G are all equivalent and scan any
-	floating-point or complex value.
+	floating-point, complex, or quaternion value.
 
 	Input processed by verbs is implicitly space-delimited: the
 	implementation of every verb except %c starts by discarding

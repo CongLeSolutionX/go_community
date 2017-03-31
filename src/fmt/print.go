@@ -421,6 +421,31 @@ func (p *pp) fmtComplex(v complex128, size int, verb rune) {
 	}
 }
 
+// fmtQuaternion formats a quaternion number v with
+// w = real(v), x = imag(v), y = jmag(v), z = kmag(v) as (w+xi+yj+zk) using
+// fmtFloat for w, x, y, and z formatting.
+func (p *pp) fmtQuaternion(v quaternion256, size int, verb rune) {
+	// Make sure any unsupported verbs are found before the
+	// calls to fmtFloat to not generate an incorrect error string.
+	switch verb {
+	case 'v', 'b', 'g', 'G', 'f', 'F', 'e', 'E':
+		oldPlus := p.fmt.plus
+		p.buf.WriteByte('(')
+		p.fmtFloat(real(v), size/4, verb)
+		// Imaginary parts always have a sign.
+		p.fmt.plus = true
+		p.fmtFloat(imag(v), size/4, verb)
+		p.buf.WriteString("i")
+		p.fmtFloat(jmag(v), size/4, verb)
+		p.buf.WriteString("j")
+		p.fmtFloat(kmag(v), size/4, verb)
+		p.buf.WriteString("k)")
+		p.fmt.plus = oldPlus
+	default:
+		p.badVerb(verb)
+	}
+}
+
 func (p *pp) fmtString(v string, verb rune) {
 	switch verb {
 	case 'v':
@@ -638,6 +663,10 @@ func (p *pp) printArg(arg interface{}, verb rune) {
 		p.fmtComplex(complex128(f), 64, verb)
 	case complex128:
 		p.fmtComplex(f, 128, verb)
+	case quaternion128:
+		p.fmtQuaternion(quaternion256(f), 128, verb)
+	case quaternion256:
+		p.fmtQuaternion(f, 256, verb)
 	case int:
 		p.fmtInteger(uint64(f), signed, verb)
 	case int8:
@@ -723,6 +752,10 @@ func (p *pp) printValue(value reflect.Value, verb rune, depth int) {
 		p.fmtComplex(f.Complex(), 64, verb)
 	case reflect.Complex128:
 		p.fmtComplex(f.Complex(), 128, verb)
+	case reflect.Quaternion128:
+		p.fmtQuaternion(f.Quaternion(), 128, verb)
+	case reflect.Quaternion256:
+		p.fmtQuaternion(f.Quaternion(), 256, verb)
 	case reflect.String:
 		p.fmtString(f.String(), verb)
 	case reflect.Map:

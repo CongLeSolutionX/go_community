@@ -41,42 +41,46 @@ type ScanfMultiTest struct {
 }
 
 var (
-	boolVal              bool
-	intVal               int
-	int8Val              int8
-	int16Val             int16
-	int32Val             int32
-	int64Val             int64
-	uintVal              uint
-	uint8Val             uint8
-	uint16Val            uint16
-	uint32Val            uint32
-	uint64Val            uint64
-	float32Val           float32
-	float64Val           float64
-	stringVal            string
-	bytesVal             []byte
-	runeVal              rune
-	complex64Val         complex64
-	complex128Val        complex128
-	renamedBoolVal       renamedBool
-	renamedIntVal        renamedInt
-	renamedInt8Val       renamedInt8
-	renamedInt16Val      renamedInt16
-	renamedInt32Val      renamedInt32
-	renamedInt64Val      renamedInt64
-	renamedUintVal       renamedUint
-	renamedUint8Val      renamedUint8
-	renamedUint16Val     renamedUint16
-	renamedUint32Val     renamedUint32
-	renamedUint64Val     renamedUint64
-	renamedUintptrVal    renamedUintptr
-	renamedStringVal     renamedString
-	renamedBytesVal      renamedBytes
-	renamedFloat32Val    renamedFloat32
-	renamedFloat64Val    renamedFloat64
-	renamedComplex64Val  renamedComplex64
-	renamedComplex128Val renamedComplex128
+	boolVal                 bool
+	intVal                  int
+	int8Val                 int8
+	int16Val                int16
+	int32Val                int32
+	int64Val                int64
+	uintVal                 uint
+	uint8Val                uint8
+	uint16Val               uint16
+	uint32Val               uint32
+	uint64Val               uint64
+	float32Val              float32
+	float64Val              float64
+	stringVal               string
+	bytesVal                []byte
+	runeVal                 rune
+	complex64Val            complex64
+	complex128Val           complex128
+	quaternion128Val        quaternion128
+	quaternion256Val        quaternion256
+	renamedBoolVal          renamedBool
+	renamedIntVal           renamedInt
+	renamedInt8Val          renamedInt8
+	renamedInt16Val         renamedInt16
+	renamedInt32Val         renamedInt32
+	renamedInt64Val         renamedInt64
+	renamedUintVal          renamedUint
+	renamedUint8Val         renamedUint8
+	renamedUint16Val        renamedUint16
+	renamedUint32Val        renamedUint32
+	renamedUint64Val        renamedUint64
+	renamedUintptrVal       renamedUintptr
+	renamedStringVal        renamedString
+	renamedBytesVal         renamedBytes
+	renamedFloat32Val       renamedFloat32
+	renamedFloat64Val       renamedFloat64
+	renamedComplex64Val     renamedComplex64
+	renamedComplex128Val    renamedComplex128
+	renamedQuaternion128Val renamedQuaternion128
+	renamedQuaternion256Val renamedQuaternion256
 )
 
 // Xs accepts any non-empty run of the verb character
@@ -170,6 +174,8 @@ var scanTests = []ScanTest{
 	{"(3.4e1-2i)\n", &complex128Val, 3.4e1 - 2i},
 	{"-3.45e1-3i\n", &complex64Val, complex64(-3.45e1 - 3i)},
 	{"-.45e1-1e2i\n", &complex128Val, complex128(-.45e1 - 100i)},
+	{"1+2i+3j+4k\n", &quaternion128Val, quaternion128(1 + 2i + 3j + 4k)},
+	{"1+2i+3j+4k\n", &quaternion256Val, quaternion256(1 + 2i + 3j + 4k)},
 	{"hello\n", &stringVal, "hello"},
 
 	// Carriage-return followed by newline. (We treat \r\n as \n always.)
@@ -194,6 +200,10 @@ var scanTests = []ScanTest{
 	{"113\n", &renamedUintptrVal, renamedUintptr(113)},
 	{"114\n", &renamedStringVal, renamedString("114")},
 	{"115\n", &renamedBytesVal, renamedBytes([]byte("115"))},
+	{"(1+2i)\n", &renamedComplex64Val, renamedComplex64(1 + 2i)},
+	{"(1+2i)\n", &renamedComplex128Val, renamedComplex128(1 + 2i)},
+	{"(1-2i+3j-4k)\n", &renamedQuaternion128Val, renamedQuaternion128(1 - 2i + 3j - 4k)},
+	{"(-1+2i-3j+4k)\n", &renamedQuaternion256Val, renamedQuaternion256(-1 + 2i - 3j + 4k)},
 
 	// Custom scanners.
 	{"  vvv ", &xVal, Xs("vvv")},

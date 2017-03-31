@@ -471,6 +471,7 @@ func (s *ss) token(skipSpace bool, f func(rune) bool) []byte {
 }
 
 var complexError = errors.New("syntax error scanning complex number")
+var quaternionError = errors.New("syntax error scanning quaternion number")
 var boolError = errors.New("syntax error scanning boolean")
 
 func indexRune(s string, r rune) int {
@@ -757,6 +758,52 @@ func (s *ss) complexTokens() (real, imag string) {
 	return real, imagSign + imag
 }
 
+// quaternionTokens returns the real and imaginary parts of the quaternion starting here.
+// The number might be parenthesized and has the format (N+Ni+Nj+Nk)
+// where N is a floating-point number and there are no spaces within.
+func (s *ss) quaternionTokens() (real, imag, jmag, kmag string) {
+	// TODO: accept parts independently?
+	parens := s.accept("(")
+	real = s.floatToken()
+	s.buf = s.buf[:0]
+	// Must now have a sign.
+	if !s.accept("+-") {
+		s.error(quaternionError)
+	}
+	// Sign is now in buffer
+	imagSign := string(s.buf)
+	imag = s.floatToken()
+	if !s.accept("i") {
+		s.error(quaternionError)
+	}
+	s.buf = s.buf[:0]
+	// Must now have a sign.
+	if !s.accept("+-") {
+		s.error(quaternionError)
+	}
+	// Sign is now in buffer
+	jmagSign := string(s.buf)
+	jmag = s.floatToken()
+	if !s.accept("j") {
+		s.error(quaternionError)
+	}
+	s.buf = s.buf[:0]
+	// Must now have a sign.
+	if !s.accept("+-") {
+		s.error(quaternionError)
+	}
+	// Sign is now in buffer
+	kmagSign := string(s.buf)
+	kmag = s.floatToken()
+	if !s.accept("k") {
+		s.error(quaternionError)
+	}
+	if parens && !s.accept(")") {
+		s.error(quaternionError)
+	}
+	return real, imagSign + imag, jmagSign + jmag, kmagSign + kmag
+}
+
 // convertFloat converts the string to a float64value.
 func (s *ss) convertFloat(str string, n int) float64 {
 	if p := indexRune(str, 'p'); p >= 0 {
@@ -787,7 +834,7 @@ func (s *ss) convertFloat(str string, n int) float64 {
 	return f
 }
 
-// convertComplex converts the next token to a complex128 value.
+// scanComplex converts the next token to a complex128 value.
 // The atof argument is a type-specific reader for the underlying type.
 // If we're reading complex64, atof will parse float32s and convert them
 // to float64's to avoid reproducing this code for each complex type.
@@ -801,6 +848,24 @@ func (s *ss) scanComplex(verb rune, n int) complex128 {
 	real := s.convertFloat(sreal, n/2)
 	imag := s.convertFloat(simag, n/2)
 	return complex(real, imag)
+}
+
+// scanQuaternion converts the next token to a quaternion256 value.
+// The atof argument is a type-specific reader for the underlying type.
+// If we're reading quaternion256, atof will parse float32s and convert them
+// to float64's to avoid reproducing this code for each quaternion type.
+func (s *ss) scanQuaternion(verb rune, n int) quaternion256 {
+	if !s.okVerb(verb, floatVerbs, "complex") {
+		return 0
+	}
+	s.skipSpace(false)
+	s.notEOF()
+	sreal, simag, sjmag, skmag := s.quaternionTokens()
+	real := s.convertFloat(sreal, n/4)
+	imag := s.convertFloat(simag, n/4)
+	jmag := s.convertFloat(sjmag, n/4)
+	kmag := s.convertFloat(skmag, n/4)
+	return quaternion(real, imag, jmag, kmag)
 }
 
 // convertString returns the string represented by the next input characters.
@@ -947,6 +1012,10 @@ func (s *ss) scanOne(verb rune, arg interface{}) {
 		*v = complex64(s.scanComplex(verb, 64))
 	case *complex128:
 		*v = s.scanComplex(verb, 128)
+	case *quaternion128:
+		*v = quaternion128(s.scanQuaternion(verb, 128))
+	case *quaternion256:
+		*v = s.scanQuaternion(verb, 256)
 	case *int:
 		*v = int(s.scanInt(verb, intBits))
 	case *int8:
@@ -1022,6 +1091,8 @@ func (s *ss) scanOne(verb rune, arg interface{}) {
 			v.SetFloat(s.convertFloat(s.floatToken(), v.Type().Bits()))
 		case reflect.Complex64, reflect.Complex128:
 			v.SetComplex(s.scanComplex(verb, v.Type().Bits()))
+		case reflect.Quaternion128, reflect.Quaternion256:
+			v.SetQuaternion(s.scanQuaternion(verb, v.Type().Bits()))
 		default:
 			s.errorString("can't scan type: " + val.Type().String())
 		}
