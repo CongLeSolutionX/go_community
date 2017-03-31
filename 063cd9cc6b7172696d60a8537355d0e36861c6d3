@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb12e171_813f5ab8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-31T23:29:12Z",
+      "side": 1,
+      "message": "I much prefer `quat128` and `quat256`. We also don\u0027t write `integer` and `function` for that matter.\n\n(and yes, I\u0027m annoyed about `complex64` and `complex128`, but unfortunately it\u0027s too late for that).",
+      "revId": "063cd9cc6b7172696d60a8537355d0e36861c6d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
