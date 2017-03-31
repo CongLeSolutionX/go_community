@@ -33,6 +33,8 @@ func TestBasicEncoderDecoder(t *testing.T) {
 		float64(1.2345678),
 		complex64(1.2345 + 2.3456i),
 		complex128(1.2345678 + 2.3456789i),
+		quaternion128(1.2345 + 2.3456i + 3.4567j + 4.5678k),
+		quaternion256(1.2345 + 2.3456i + 3.4567j + 4.5678k),
 		[]byte("hello"),
 		string("hello"),
 	}

@@ -12,41 +12,45 @@ import (
 )
 
 var decArrayHelper = map[reflect.Kind]decHelper{
-	reflect.Bool:       decBoolArray,
-	reflect.Complex64:  decComplex64Array,
-	reflect.Complex128: decComplex128Array,
-	reflect.Float32:    decFloat32Array,
-	reflect.Float64:    decFloat64Array,
-	reflect.Int:        decIntArray,
-	reflect.Int16:      decInt16Array,
-	reflect.Int32:      decInt32Array,
-	reflect.Int64:      decInt64Array,
-	reflect.Int8:       decInt8Array,
-	reflect.String:     decStringArray,
-	reflect.Uint:       decUintArray,
-	reflect.Uint16:     decUint16Array,
-	reflect.Uint32:     decUint32Array,
-	reflect.Uint64:     decUint64Array,
-	reflect.Uintptr:    decUintptrArray,
+	reflect.Bool:          decBoolArray,
+	reflect.Complex64:     decComplex64Array,
+	reflect.Complex128:    decComplex128Array,
+	reflect.Float32:       decFloat32Array,
+	reflect.Float64:       decFloat64Array,
+	reflect.Int:           decIntArray,
+	reflect.Int16:         decInt16Array,
+	reflect.Int32:         decInt32Array,
+	reflect.Int64:         decInt64Array,
+	reflect.Int8:          decInt8Array,
+	reflect.Quaternion128: decQuaternion128Array,
+	reflect.Quaternion256: decQuaternion256Array,
+	reflect.String:        decStringArray,
+	reflect.Uint:          decUintArray,
+	reflect.Uint16:        decUint16Array,
+	reflect.Uint32:        decUint32Array,
+	reflect.Uint64:        decUint64Array,
+	reflect.Uintptr:       decUintptrArray,
 }
 
 var decSliceHelper = map[reflect.Kind]decHelper{
-	reflect.Bool:       decBoolSlice,
-	reflect.Complex64:  decComplex64Slice,
-	reflect.Complex128: decComplex128Slice,
-	reflect.Float32:    decFloat32Slice,
-	reflect.Float64:    decFloat64Slice,
-	reflect.Int:        decIntSlice,
-	reflect.Int16:      decInt16Slice,
-	reflect.Int32:      decInt32Slice,
-	reflect.Int64:      decInt64Slice,
-	reflect.Int8:       decInt8Slice,
-	reflect.String:     decStringSlice,
-	reflect.Uint:       decUintSlice,
-	reflect.Uint16:     decUint16Slice,
-	reflect.Uint32:     decUint32Slice,
-	reflect.Uint64:     decUint64Slice,
-	reflect.Uintptr:    decUintptrSlice,
+	reflect.Bool:          decBoolSlice,
+	reflect.Complex64:     decComplex64Slice,
+	reflect.Complex128:    decComplex128Slice,
+	reflect.Float32:       decFloat32Slice,
+	reflect.Float64:       decFloat64Slice,
+	reflect.Int:           decIntSlice,
+	reflect.Int16:         decInt16Slice,
+	reflect.Int32:         decInt32Slice,
+	reflect.Int64:         decInt64Slice,
+	reflect.Int8:          decInt8Slice,
+	reflect.Quaternion128: decQuaternion128Slice,
+	reflect.Quaternion256: decQuaternion256Slice,
+	reflect.String:        decStringSlice,
+	reflect.Uint:          decUintSlice,
+	reflect.Uint16:        decUint16Slice,
+	reflect.Uint32:        decUint32Slice,
+	reflect.Uint64:        decUint64Slice,
+	reflect.Uintptr:       decUintptrSlice,
 }
 
 func decBoolArray(state *decoderState, v reflect.Value, length int, ovfl error) bool {
@@ -296,6 +300,60 @@ func decInt8Slice(state *decoderState, v reflect.Value, length int, ovfl error) 
 			error_(ovfl)
 		}
 		slice[i] = int8(x)
+	}
+	return true
+}
+
+func decQuaternion128Array(state *decoderState, v reflect.Value, length int, ovfl error) bool {
+	// Can only slice if it is addressable.
+	if !v.CanAddr() {
+		return false
+	}
+	return decQuaternion128Slice(state, v.Slice(0, v.Len()), length, ovfl)
+}
+
+func decQuaternion128Slice(state *decoderState, v reflect.Value, length int, ovfl error) bool {
+	slice, ok := v.Interface().([]quaternion128)
+	if !ok {
+		// It is kind quaternion128 but not type quaternion128. TODO: We can handle this unsafely.
+		return false
+	}
+	for i := 0; i < length; i++ {
+		if state.b.Len() == 0 {
+			errorf("decoding quaternion128 array or slice: length exceeds input size (%d elements)", length)
+		}
+		real := float32FromBits(state.decodeUint(), ovfl)
+		imag := float32FromBits(state.decodeUint(), ovfl)
+		jmag := float32FromBits(state.decodeUint(), ovfl)
+		kmag := float32FromBits(state.decodeUint(), ovfl)
+		slice[i] = quaternion(float32(real), float32(imag), float32(jmag), float32(kmag))
+	}
+	return true
+}
+
+func decQuaternion256Array(state *decoderState, v reflect.Value, length int, ovfl error) bool {
+	// Can only slice if it is addressable.
+	if !v.CanAddr() {
+		return false
+	}
+	return decQuaternion256Slice(state, v.Slice(0, v.Len()), length, ovfl)
+}
+
+func decQuaternion256Slice(state *decoderState, v reflect.Value, length int, ovfl error) bool {
+	slice, ok := v.Interface().([]quaternion256)
+	if !ok {
+		// It is kind quaternion256 but not type quaternion256. TODO: We can handle this unsafely.
+		return false
+	}
+	for i := 0; i < length; i++ {
+		if state.b.Len() == 0 {
+			errorf("decoding quaternion256 array or slice: length exceeds input size (%d elements)", length)
+		}
+		real := float64FromBits(state.decodeUint())
+		imag := float64FromBits(state.decodeUint())
+		jmag := float64FromBits(state.decodeUint())
+		kmag := float64FromBits(state.decodeUint())
+		slice[i] = quaternion(real, imag, jmag, kmag)
 	}
 	return true
 }

@@ -209,9 +209,18 @@ func ignoreUint(i *decInstr, state *decoderState, v reflect.Value) {
 	state.decodeUint()
 }
 
-// ignoreTwoUints discards a uint value with no destination. It's used to skip
+// ignoreTwoUints discards two uint values with no destination. It's used to skip
 // complex values.
 func ignoreTwoUints(i *decInstr, state *decoderState, v reflect.Value) {
+	state.decodeUint()
+	state.decodeUint()
+}
+
+// ignoreFourUints discards four uint values with no destination. It's used to skip
+// quaternion values.
+func ignoreFourUints(i *decInstr, state *decoderState, v reflect.Value) {
+	state.decodeUint()
+	state.decodeUint()
 	state.decodeUint()
 	state.decodeUint()
 }
@@ -363,6 +372,28 @@ func decComplex128(i *decInstr, state *decoderState, value reflect.Value) {
 	real := float64FromBits(state.decodeUint())
 	imag := float64FromBits(state.decodeUint())
 	value.SetComplex(complex(real, imag))
+}
+
+// decQuaternion128 decodes a quadruple of unsigned integers, treats them as a
+// quadruple of floating point numbers, and stores them as a quaternion128 in value.
+// The real part comes first.
+func decQuaternion128(i *decInstr, state *decoderState, value reflect.Value) {
+	real := float32FromBits(state.decodeUint(), i.ovfl)
+	imag := float32FromBits(state.decodeUint(), i.ovfl)
+	jmag := float32FromBits(state.decodeUint(), i.ovfl)
+	kmag := float32FromBits(state.decodeUint(), i.ovfl)
+	value.SetQuaternion(quaternion(real, imag, jmag, kmag))
+}
+
+// decQuaternion256 decodes a quadruple of unsigned integers, treats them as a
+// quadruple of floating point numbers, and stores them as a quaternion256 in value.
+// The real part comes first.
+func decQuaternion256(i *decInstr, state *decoderState, value reflect.Value) {
+	real := float64FromBits(state.decodeUint())
+	imag := float64FromBits(state.decodeUint())
+	jmag := float64FromBits(state.decodeUint())
+	kmag := float64FromBits(state.decodeUint())
+	value.SetQuaternion(quaternion(real, imag, jmag, kmag))
 }
 
 // decUint8Slice decodes a byte slice and stores in value a slice header
@@ -753,20 +784,22 @@ func (dec *Decoder) ignoreGobDecoder(state *decoderState) {
 
 // Index by Go types.
 var decOpTable = [...]decOp{
-	reflect.Bool:       decBool,
-	reflect.Int8:       decInt8,
-	reflect.Int16:      decInt16,
-	reflect.Int32:      decInt32,
-	reflect.Int64:      decInt64,
-	reflect.Uint8:      decUint8,
-	reflect.Uint16:     decUint16,
-	reflect.Uint32:     decUint32,
-	reflect.Uint64:     decUint64,
-	reflect.Float32:    decFloat32,
-	reflect.Float64:    decFloat64,
-	reflect.Complex64:  decComplex64,
-	reflect.Complex128: decComplex128,
-	reflect.String:     decString,
+	reflect.Bool:          decBool,
+	reflect.Int8:          decInt8,
+	reflect.Int16:         decInt16,
+	reflect.Int32:         decInt32,
+	reflect.Int64:         decInt64,
+	reflect.Uint8:         decUint8,
+	reflect.Uint16:        decUint16,
+	reflect.Uint32:        decUint32,
+	reflect.Uint64:        decUint64,
+	reflect.Float32:       decFloat32,
+	reflect.Float64:       decFloat64,
+	reflect.Complex64:     decComplex64,
+	reflect.Complex128:    decComplex128,
+	reflect.Quaternion128: decQuaternion128,
+	reflect.Quaternion256: decQuaternion256,
+	reflect.String:        decString,
 }
 
 // Indexed by gob types.  tComplex will be added during type.init().
@@ -996,6 +1029,8 @@ func (dec *Decoder) compatibleType(fr reflect.Type, fw typeId, inProgress map[re
 		return fw == tFloat
 	case reflect.Complex64, reflect.Complex128:
 		return fw == tComplex
+	case reflect.Quaternion128, reflect.Quaternion256:
+		return fw == tQuaternion
 	case reflect.String:
 		return fw == tString
 	case reflect.Interface:

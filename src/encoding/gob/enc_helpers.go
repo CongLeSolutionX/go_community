@@ -11,41 +11,45 @@ import (
 )
 
 var encArrayHelper = map[reflect.Kind]encHelper{
-	reflect.Bool:       encBoolArray,
-	reflect.Complex64:  encComplex64Array,
-	reflect.Complex128: encComplex128Array,
-	reflect.Float32:    encFloat32Array,
-	reflect.Float64:    encFloat64Array,
-	reflect.Int:        encIntArray,
-	reflect.Int16:      encInt16Array,
-	reflect.Int32:      encInt32Array,
-	reflect.Int64:      encInt64Array,
-	reflect.Int8:       encInt8Array,
-	reflect.String:     encStringArray,
-	reflect.Uint:       encUintArray,
-	reflect.Uint16:     encUint16Array,
-	reflect.Uint32:     encUint32Array,
-	reflect.Uint64:     encUint64Array,
-	reflect.Uintptr:    encUintptrArray,
+	reflect.Bool:          encBoolArray,
+	reflect.Complex64:     encComplex64Array,
+	reflect.Complex128:    encComplex128Array,
+	reflect.Float32:       encFloat32Array,
+	reflect.Float64:       encFloat64Array,
+	reflect.Int:           encIntArray,
+	reflect.Int16:         encInt16Array,
+	reflect.Int32:         encInt32Array,
+	reflect.Int64:         encInt64Array,
+	reflect.Int8:          encInt8Array,
+	reflect.Quaternion128: encQuaternion128Array,
+	reflect.Quaternion256: encQuaternion256Array,
+	reflect.String:        encStringArray,
+	reflect.Uint:          encUintArray,
+	reflect.Uint16:        encUint16Array,
+	reflect.Uint32:        encUint32Array,
+	reflect.Uint64:        encUint64Array,
+	reflect.Uintptr:       encUintptrArray,
 }
 
 var encSliceHelper = map[reflect.Kind]encHelper{
-	reflect.Bool:       encBoolSlice,
-	reflect.Complex64:  encComplex64Slice,
-	reflect.Complex128: encComplex128Slice,
-	reflect.Float32:    encFloat32Slice,
-	reflect.Float64:    encFloat64Slice,
-	reflect.Int:        encIntSlice,
-	reflect.Int16:      encInt16Slice,
-	reflect.Int32:      encInt32Slice,
-	reflect.Int64:      encInt64Slice,
-	reflect.Int8:       encInt8Slice,
-	reflect.String:     encStringSlice,
-	reflect.Uint:       encUintSlice,
-	reflect.Uint16:     encUint16Slice,
-	reflect.Uint32:     encUint32Slice,
-	reflect.Uint64:     encUint64Slice,
-	reflect.Uintptr:    encUintptrSlice,
+	reflect.Bool:          encBoolSlice,
+	reflect.Complex64:     encComplex64Slice,
+	reflect.Complex128:    encComplex128Slice,
+	reflect.Float32:       encFloat32Slice,
+	reflect.Float64:       encFloat64Slice,
+	reflect.Int:           encIntSlice,
+	reflect.Int16:         encInt16Slice,
+	reflect.Int32:         encInt32Slice,
+	reflect.Int64:         encInt64Slice,
+	reflect.Int8:          encInt8Slice,
+	reflect.Quaternion128: encQuaternion128Slice,
+	reflect.Quaternion256: encQuaternion256Slice,
+	reflect.String:        encStringSlice,
+	reflect.Uint:          encUintSlice,
+	reflect.Uint16:        encUint16Slice,
+	reflect.Uint32:        encUint32Slice,
+	reflect.Uint64:        encUint64Slice,
+	reflect.Uintptr:       encUintptrSlice,
 }
 
 func encBoolArray(state *encoderState, v reflect.Value) bool {
@@ -275,6 +279,64 @@ func encInt8Slice(state *encoderState, v reflect.Value) bool {
 	for _, x := range slice {
 		if x != 0 || state.sendZero {
 			state.encodeInt(int64(x))
+		}
+	}
+	return true
+}
+
+func encQuaternion128Array(state *encoderState, v reflect.Value) bool {
+	// Can only slice if it is addressable.
+	if !v.CanAddr() {
+		return false
+	}
+	return encQuaternion128Slice(state, v.Slice(0, v.Len()))
+}
+
+func encQuaternion128Slice(state *encoderState, v reflect.Value) bool {
+	slice, ok := v.Interface().([]quaternion128)
+	if !ok {
+		// It is kind quaternion128 but not type quaternion128. TODO: We can handle this unsafely.
+		return false
+	}
+	for _, x := range slice {
+		if x != 0+0i+0j+0k || state.sendZero {
+			rpart := floatBits(float64(real(x)))
+			ipart := floatBits(float64(imag(x)))
+			jpart := floatBits(float64(jmag(x)))
+			kpart := floatBits(float64(kmag(x)))
+			state.encodeUint(rpart)
+			state.encodeUint(ipart)
+			state.encodeUint(jpart)
+			state.encodeUint(kpart)
+		}
+	}
+	return true
+}
+
+func encQuaternion256Array(state *encoderState, v reflect.Value) bool {
+	// Can only slice if it is addressable.
+	if !v.CanAddr() {
+		return false
+	}
+	return encQuaternion256Slice(state, v.Slice(0, v.Len()))
+}
+
+func encQuaternion256Slice(state *encoderState, v reflect.Value) bool {
+	slice, ok := v.Interface().([]quaternion256)
+	if !ok {
+		// It is kind quaternion256 but not type quaternion256. TODO: We can handle this unsafely.
+		return false
+	}
+	for _, x := range slice {
+		if x != 0+0i+0j+0k || state.sendZero {
+			rpart := floatBits(real(x))
+			ipart := floatBits(imag(x))
+			jpart := floatBits(jmag(x))
+			kpart := floatBits(kmag(x))
+			state.encodeUint(rpart)
+			state.encodeUint(ipart)
+			state.encodeUint(jpart)
+			state.encodeUint(kpart)
 		}
 	}
 	return true

@@ -103,6 +103,32 @@ var types = []Type{
 		`state.encodeInt(int64(x))`,
 	},
 	{
+		"quaternion128",
+		"Quaternion128",
+		"0+0i+0j+0k",
+		`rpart := floatBits(float64(real(x)))
+		ipart := floatBits(float64(imag(x)))
+		jpart := floatBits(float64(jmag(x)))
+		kpart := floatBits(float64(kmag(x)))
+		state.encodeUint(rpart)
+		state.encodeUint(ipart)
+		state.encodeUint(jpart)
+		state.encodeUint(kpart)`,
+	},
+	{
+		"quaternion256",
+		"Quaternion256",
+		"0+0i+0j+0k",
+		`rpart := floatBits(real(x))
+		ipart := floatBits(imag(x))
+		jpart := floatBits(jmag(x))
+		kpart := floatBits(kmag(x))
+		state.encodeUint(rpart)
+		state.encodeUint(ipart)
+		state.encodeUint(jpart)
+		state.encodeUint(kpart)`,
+	},
+	{
 		"string",
 		"String",
 		`""`,
@@ -161,6 +187,7 @@ func main() {
 	}
 	source, err := format.Source(b.Bytes())
 	if err != nil {
+		fmt.Println(b.String())
 		log.Fatal("source format error:", err)
 	}
 	fd, err := os.Create(*output)

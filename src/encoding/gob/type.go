@@ -247,16 +247,16 @@ var (
 	// Primordial types, needed during initialization.
 	// Always passed as pointers so the interface{} type
 	// goes through without losing its interfaceness.
-	tBool      = bootstrapType("bool", (*bool)(nil), 1)
-	tInt       = bootstrapType("int", (*int)(nil), 2)
-	tUint      = bootstrapType("uint", (*uint)(nil), 3)
-	tFloat     = bootstrapType("float", (*float64)(nil), 4)
-	tBytes     = bootstrapType("bytes", (*[]byte)(nil), 5)
-	tString    = bootstrapType("string", (*string)(nil), 6)
-	tComplex   = bootstrapType("complex", (*complex128)(nil), 7)
-	tInterface = bootstrapType("interface", (*interface{})(nil), 8)
+	tBool       = bootstrapType("bool", (*bool)(nil), 1)
+	tInt        = bootstrapType("int", (*int)(nil), 2)
+	tUint       = bootstrapType("uint", (*uint)(nil), 3)
+	tFloat      = bootstrapType("float", (*float64)(nil), 4)
+	tBytes      = bootstrapType("bytes", (*[]byte)(nil), 5)
+	tString     = bootstrapType("string", (*string)(nil), 6)
+	tComplex    = bootstrapType("complex", (*complex128)(nil), 7)
+	tInterface  = bootstrapType("interface", (*interface{})(nil), 8)
+	tQuaternion = bootstrapType("quaternion", (*quaternion256)(nil), 9)
 	// Reserve some Ids for compatible expansion
-	tReserved7 = bootstrapType("_reserved1", (*struct{ r7 int })(nil), 9)
 	tReserved6 = bootstrapType("_reserved1", (*struct{ r6 int })(nil), 10)
 	tReserved5 = bootstrapType("_reserved1", (*struct{ r5 int })(nil), 11)
 	tReserved4 = bootstrapType("_reserved1", (*struct{ r4 int })(nil), 12)
@@ -475,6 +475,9 @@ func newTypeObject(name string, ut *userTypeInfo, rt reflect.Type) (gobType, err
 
 	case reflect.Complex64, reflect.Complex128:
 		return tComplex.gobType(), nil
+
+	case reflect.Quaternion128, reflect.Quaternion256:
+		return tQuaternion.gobType(), nil
 
 	case reflect.String:
 		return tString.gobType(), nil
@@ -899,6 +902,8 @@ func registerBasics() {
 	Register(float64(0))
 	Register(complex64(0i))
 	Register(complex128(0i))
+	Register(quaternion128(0j))
+	Register(quaternion256(0j))
 	Register(uintptr(0))
 	Register(false)
 	Register("")
@@ -917,6 +922,8 @@ func registerBasics() {
 	Register([]float64(nil))
 	Register([]complex64(nil))
 	Register([]complex128(nil))
+	Register([]quaternion128(nil))
+	Register([]quaternion256(nil))
 	Register([]uintptr(nil))
 	Register([]bool(nil))
 	Register([]string(nil))

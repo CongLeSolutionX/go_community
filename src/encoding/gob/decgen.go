@@ -101,6 +101,24 @@ var types = []Type{
 		slice[i] = int8(x)`,
 	},
 	{
+		"quaternion128",
+		"Quaternion128",
+		`real := float32FromBits(state.decodeUint(), ovfl)
+		imag := float32FromBits(state.decodeUint(), ovfl)
+		jmag := float32FromBits(state.decodeUint(), ovfl)
+		kmag := float32FromBits(state.decodeUint(), ovfl)
+		slice[i] = quaternion(float32(real), float32(imag), float32(jmag), float32(kmag))`,
+	},
+	{
+		"quaternion256",
+		"Quaternion256",
+		`real := float64FromBits(state.decodeUint())
+		imag := float64FromBits(state.decodeUint())
+		jmag := float64FromBits(state.decodeUint())
+		kmag := float64FromBits(state.decodeUint())
+		slice[i] = quaternion(real, imag, jmag, kmag)`,
+	},
+	{
 		"string",
 		"String",
 		`u := state.decodeUint()

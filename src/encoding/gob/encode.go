@@ -235,6 +235,23 @@ func encComplex(i *encInstr, state *encoderState, v reflect.Value) {
 	}
 }
 
+// encComplex encodes the quaternion value (quaternion128 quaternion256) referenced by v.
+// Quaternions are just quadruples of floating-point numbers, real part first.
+func encQuaternion(i *encInstr, state *encoderState, v reflect.Value) {
+	c := v.Quaternion()
+	if c != 0 || state.sendZero {
+		rpart := floatBits(real(c))
+		ipart := floatBits(imag(c))
+		jpart := floatBits(jmag(c))
+		kpart := floatBits(kmag(c))
+		state.update(i)
+		state.encodeUint(rpart)
+		state.encodeUint(ipart)
+		state.encodeUint(jpart)
+		state.encodeUint(kpart)
+	}
+}
+
 // encUint8Array encodes the byte array referenced by v.
 // Byte arrays are encoded as an unsigned count followed by the raw bytes.
 func encUint8Array(i *encInstr, state *encoderState, v reflect.Value) {
@@ -446,6 +463,8 @@ func isZero(val reflect.Value) bool {
 		return !val.Bool()
 	case reflect.Complex64, reflect.Complex128:
 		return val.Complex() == 0
+	case reflect.Quaternion128, reflect.Quaternion256:
+		return val.Quaternion() == 0
 	case reflect.Chan, reflect.Func, reflect.Interface, reflect.Ptr:
 		return val.IsNil()
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
@@ -492,23 +511,25 @@ func (enc *Encoder) encodeGobEncoder(b *encBuffer, ut *userTypeInfo, v reflect.V
 }
 
 var encOpTable = [...]encOp{
-	reflect.Bool:       encBool,
-	reflect.Int:        encInt,
-	reflect.Int8:       encInt,
-	reflect.Int16:      encInt,
-	reflect.Int32:      encInt,
-	reflect.Int64:      encInt,
-	reflect.Uint:       encUint,
-	reflect.Uint8:      encUint,
-	reflect.Uint16:     encUint,
-	reflect.Uint32:     encUint,
-	reflect.Uint64:     encUint,
-	reflect.Uintptr:    encUint,
-	reflect.Float32:    encFloat,
-	reflect.Float64:    encFloat,
-	reflect.Complex64:  encComplex,
-	reflect.Complex128: encComplex,
-	reflect.String:     encString,
+	reflect.Bool:          encBool,
+	reflect.Int:           encInt,
+	reflect.Int8:          encInt,
+	reflect.Int16:         encInt,
+	reflect.Int32:         encInt,
+	reflect.Int64:         encInt,
+	reflect.Uint:          encUint,
+	reflect.Uint8:         encUint,
+	reflect.Uint16:        encUint,
+	reflect.Uint32:        encUint,
+	reflect.Uint64:        encUint,
+	reflect.Uintptr:       encUint,
+	reflect.Float32:       encFloat,
+	reflect.Float64:       encFloat,
+	reflect.Complex64:     encComplex,
+	reflect.Complex128:    encComplex,
+	reflect.Quaternion128: encQuaternion,
+	reflect.Quaternion256: encQuaternion,
+	reflect.String:        encString,
 }
 
 // encOpFor returns (a pointer to) the encoding op for the base type under rt and
