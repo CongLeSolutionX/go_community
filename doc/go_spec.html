@@ -1,6 +1,6 @@
 <!--{
 	"Title": "The Go Programming Language Specification",
-	"Subtitle": "Version of March 24, 2017",
+	"Subtitle": "Version of April 1, 2017",
 	"Path": "/ref/spec"
 }-->
 
@@ -325,15 +325,15 @@ exponent  = ( "e" | "E" ) [ "+" | "-" ] decimals .
 
 <h3 id="Imaginary_literals">Imaginary literals</h3>
 <p>
-An imaginary literal is a decimal representation of the imaginary part of a
-<a href="#Constants">complex constant</a>.
+An imaginary literal is a decimal representation of an imaginary part of a
+complex or quaternion <a href="#Constants">constant</a>.
 It consists of a
 <a href="#Floating-point_literals">floating-point literal</a>
 or decimal integer followed
-by the lower-case letter <code>i</code>.
+by a lower-case letter <code>i</code>, <code>j</code>, or <code>k</code>.
 </p>
 <pre class="ebnf">
-imaginary_lit = (decimals | float_lit) "i" .
+imaginary_lit = (decimals | float_lit) ( "i" | "j" | "k" ) .
 </pre>
 
 <pre>
@@ -524,8 +524,8 @@ literal.
 <i>rune constants</i>,
 <i>integer constants</i>,
 <i>floating-point constants</i>, <i>complex constants</i>,
-and <i>string constants</i>. Rune, integer, floating-point,
-and complex constants are
+<i>quaternion constants</i>, and <i>string constants</i>.
+Rune, integer, floating-point, complex, and quaternion constants are
 collectively called <i>numeric constants</i>.
 </p>
 
@@ -544,15 +544,16 @@ the result value of some built-in functions such as
 <code>unsafe.Sizeof</code> applied to any value,
 <code>cap</code> or <code>len</code> applied to
 <a href="#Length_and_capacity">some expressions</a>,
-<code>real</code> and <code>imag</code> applied to a complex constant
-and <code>complex</code> applied to numeric constants.
+<code>real</code> and <code>imag</code> applied to a complex or quaternion constant,
+<code>jmag</code> and <code>kmag</code> applied to a quaternion constant,
+and <code>complex</code> and <code>quaternion</code> applied to numeric constants.
 The boolean truth values are represented by the predeclared constants
 <code>true</code> and <code>false</code>. The predeclared identifier
 <a href="#Iota">iota</a> denotes an integer constant.
 </p>
 
 <p>
-In general, complex constants are a form of
+In general, complex and quaternion constants are a form of
 <a href="#Constant_expressions">constant expression</a>
 and are discussed in that section.
 </p>
@@ -590,9 +591,10 @@ constant is implicitly converted in contexts where a typed value is required,
 for instance, in a <a href="#Short_variable_declarations">short variable declaration</a>
 such as <code>i := 0</code> where there is no explicit type.
 The default type of an untyped constant is <code>bool</code>, <code>rune</code>,
-<code>int</code>, <code>float64</code>, <code>complex128</code> or <code>string</code>
-respectively, depending on whether it is a boolean, rune, integer, floating-point,
-complex, or string constant.
+<code>int</code>, <code>float64</code>, <code>complex128</code>, <code>quaternion256</code>,
+or <code>string</code> respectively,
+depending on whether it is a boolean, rune, integer, floating-point,
+complex, quaternion, or string constant.
 </p>
 
 <p>
@@ -605,17 +607,17 @@ implementation must:
 	<li>Represent integer constants with at least 256 bits.</li>
 
 	<li>Represent floating-point constants, including the parts of
-	    a complex constant, with a mantissa of at least 256 bits
+	    a complex or quaternion constant, with a mantissa of at least 256 bits
 	    and a signed binary exponent of at least 16 bits.</li>
 
 	<li>Give an error if unable to represent an integer constant
 	    precisely.</li>
 
-	<li>Give an error if unable to represent a floating-point or
-	    complex constant due to overflow.</li>
+	<li>Give an error if unable to represent a floating-point,
+	    complex, or quaternion constant due to overflow.</li>
 
 	<li>Round to the nearest representable constant if unable to
-	    represent a floating-point or complex constant due to limits
+	    represent a floating-point, complex, or quaternion constant due to limits
 	    on precision.</li>
 </ul>
 <p>
@@ -776,24 +778,27 @@ The predeclared architecture-independent numeric types are:
 </p>
 
 <pre class="grammar">
-uint8       the set of all unsigned  8-bit integers (0 to 255)
-uint16      the set of all unsigned 16-bit integers (0 to 65535)
-uint32      the set of all unsigned 32-bit integers (0 to 4294967295)
-uint64      the set of all unsigned 64-bit integers (0 to 18446744073709551615)
+uint8          the set of all unsigned  8-bit integers (0 to 255)
+uint16         the set of all unsigned 16-bit integers (0 to 65535)
+uint32         the set of all unsigned 32-bit integers (0 to 4294967295)
+uint64         the set of all unsigned 64-bit integers (0 to 18446744073709551615)
 
-int8        the set of all signed  8-bit integers (-128 to 127)
-int16       the set of all signed 16-bit integers (-32768 to 32767)
-int32       the set of all signed 32-bit integers (-2147483648 to 2147483647)
-int64       the set of all signed 64-bit integers (-9223372036854775808 to 9223372036854775807)
+int8           the set of all signed  8-bit integers (-128 to 127)
+int16          the set of all signed 16-bit integers (-32768 to 32767)
+int32          the set of all signed 32-bit integers (-2147483648 to 2147483647)
+int64          the set of all signed 64-bit integers (-9223372036854775808 to 9223372036854775807)
 
-float32     the set of all IEEE-754 32-bit floating-point numbers
-float64     the set of all IEEE-754 64-bit floating-point numbers
+float32        the set of all IEEE-754 32-bit floating-point numbers
+float64        the set of all IEEE-754 64-bit floating-point numbers
 
-complex64   the set of all complex numbers with float32 real and imaginary parts
-complex128  the set of all complex numbers with float64 real and imaginary parts
+complex64      the set of all complex numbers with float32 real and imaginary parts
+complex128     the set of all complex numbers with float64 real and imaginary parts
 
-byte        alias for uint8
-rune        alias for int32
+quaternion128  the set of all quaternion numbers with float32 real and imaginary parts
+quaternion256  the set of all quaternion numbers with float64 real and imaginary parts
+
+byte           alias for uint8
+rune           alias for int32
 </pre>
 
 <p>
@@ -1694,8 +1699,8 @@ The following identifiers are implicitly declared in the
 <pre class="grammar">
 Types:
 	bool byte complex64 complex128 error float32 float64
-	int int8 int16 int32 int64 rune string
-	uint uint8 uint16 uint32 uint64 uintptr
+	int int8 int16 int32 int64 quaternion128 quaternion256
+	rune string uint uint8 uint16 uint32 uint64 uintptr
 
 Constants:
 	true false iota
@@ -1704,8 +1709,8 @@ Zero value:
 	nil
 
 Functions:
-	append cap close complex copy delete imag len
-	make new panic print println real recover
+	append cap close complex copy delete imag jmag kmag len
+	make new panic print println quaternion real recover
 </pre>
 
 
@@ -3450,14 +3455,15 @@ x == y+1 &amp;&amp; &lt;-chanPtr &gt; 0
 Arithmetic operators apply to numeric values and yield a result of the same
 type as the first operand. The four standard arithmetic operators (<code>+</code>,
 <code>-</code>, <code>*</code>, <code>/</code>) apply to integer,
-floating-point, and complex types; <code>+</code> also applies to strings.
+floating-point, and complex types; <code>+</code>, <code>-</code>,
+and <code>*</code> also apply to quaternion types; <code>+</code> also applies to strings.
 The bitwise logical and shift operators apply to integers only.
 </p>
 
 <pre class="grammar">
-+    sum                    integers, floats, complex values, strings
--    difference             integers, floats, complex values
-*    product                integers, floats, complex values
++    sum                    integers, floats, complex values, quaternions, strings
+-    difference             integers, floats, complex values, quaternions
+*    product                integers, floats, complex values, quaternions
 /    quotient               integers, floats, complex values
 %    remainder              integers
 
@@ -3574,7 +3580,7 @@ not occur. For instance, it may not assume that <code>x &lt; x + 1</code> is alw
 <h4 id="Floating_point_operators">Floating-point operators</h4>
 
 <p>
-For floating-point and complex numbers,
+For floating-point, complex, and quaternion numbers,
 <code>+x</code> is the same as <code>x</code>,
 while <code>-x</code> is the negation of <code>x</code>.
 The result of a floating-point or complex division by zero is not specified beyond the
@@ -3649,6 +3655,13 @@ These terms and the result of the comparisons are defined as follows:
 	Two complex values <code>u</code> and <code>v</code> are
 	equal if both <code>real(u) == real(v)</code> and
 	<code>imag(u) == imag(v)</code>.
+	</li>
+
+	<li>
+	Quaternion values are comparable.
+	Two quaternion values <code>u</code> and <code>v</code> are
+	equal if <code>real(u) == real(v)</code>, <code>imag(u) == imag(v)</code>,
+	<code>jmag(u) == jmag(v)</code>, and <code>kmag(u) == kmag(v)</code>.
 	</li>
 
 	<li>
@@ -3922,6 +3935,9 @@ in any of these cases:
 	<code>x</code>'s type and <code>T</code> are both complex types.
 	</li>
 	<li>
+	<code>x</code>'s type and <code>T</code> are both quaternion types.
+	</li>
+	<li>
 	<code>x</code> is an integer or a slice of bytes or runes
 	and <code>T</code> is a string type.
 	</li>
@@ -4092,7 +4108,7 @@ wherever it is legal to use an operand of boolean, numeric, or string type,
 respectively.
 Except for shift operations, if the operands of a binary operation are
 different kinds of untyped constants, the operation and, for non-boolean operations, the result use
-the kind that appears later in this list: integer, rune, floating-point, complex.
+the kind that appears later in this list: integer, rune, floating-point, complex, quaternion.
 For example, an untyped integer constant divided by an
 untyped complex constant yields an untyped complex constant.
 </p>
@@ -4106,7 +4122,7 @@ type as the left operand, which must be of
 <a href="#Numeric_types">integer type</a>.
 Applying all other operators to untyped constants results in an untyped
 constant of the same kind (that is, a boolean, integer, floating-point,
-complex, or string constant).
+complex, quaternion, or string constant).
 </p>
 
 <pre>
@@ -4127,12 +4143,13 @@ const m = string(k)        // m == "x"   (type string)
 const Σ = 1 - 0.707i       //            (untyped complex constant)
 const Δ = Σ + 2.0e-4       //            (untyped complex constant)
 const Φ = iota*1i - 1/1i   //            (untyped complex constant)
+const k = 1i * 1j          // k == 1k    (untyped quaternion constant)
 </pre>
 
 <p>
-Applying the built-in function <code>complex</code> to untyped
-integer, rune, or floating-point constants yields
-an untyped complex constant.
+Applying the built-in functions <code>complex</code> and <code>quaternion</code>
+to untyped integer, rune, or floating-point constants yield
+untyped complex and quaternion constants, respectively.
 </p>
 
 <pre>
@@ -4188,7 +4205,7 @@ int8(^1)   // same as int8(-2)
 
 <p>
 Implementation restriction: A compiler may use rounding while
-computing untyped floating-point or complex constant expressions; see
+computing untyped floating-point, complex, or quaternion constant expressions; see
 the implementation restriction in the section
 on <a href="#Constants">constants</a>.  This rounding may cause a
 floating-point constant expression to be invalid in an integer
@@ -4405,7 +4422,7 @@ The following built-in functions are not permitted in statement context:
 </p>
 
 <pre>
-append cap complex imag len make new real
+append cap complex imag jmag kmag len make new quaternion real
 unsafe.Alignof unsafe.Offsetof unsafe.Sizeof
 </pre>
 
@@ -5772,39 +5789,46 @@ does not exist, <code>delete</code> is a no-op.
 </p>
 
 
-<h3 id="Complex_numbers">Manipulating complex numbers</h3>
+<h3 id="Complex_numbers">Manipulating complex numbers and quaternions</h3>
 
 <p>
-Three functions assemble and disassemble complex numbers.
-The built-in function <code>complex</code> constructs a complex
-value from a floating-point real and imaginary part, while
-<code>real</code> and <code>imag</code>
-extract the real and imaginary parts of a complex value.
+Six functions assemble and disassemble complex numbers and quaternions.
+The built-in functions <code>complex</code> and <code>quaternion</code>
+construct complex and quaternion values from floating-point real and imaginary parts,
+while <code>real</code>, <code>imag</code>, <code>jmag</code>, <code>kmag</code>
+extract the real and imaginary parts of complex and quaternion values.
 </p>
 
 <pre class="grammar">
-complex(realPart, imaginaryPart floatT) complexT
+complex(realPart, imagPart floatT) complexT
+quaternion(realPart, imagPart, jmagPart, kmagPart floatT) quaternionT
+
 real(complexT) floatT
 imag(complexT) floatT
+jmag(quaternionT) floatT
+kmag(quaternionT) floatT
 </pre>
 
 <p>
 The type of the arguments and return value correspond.
-For <code>complex</code>, the two arguments must be of the same
-floating-point type and the return type is the complex type
+For <code>complex</code> and <code>quaternion</code>,
+the arguments must be of the same floating-point type
+and the return type is the complex type
 with the corresponding floating-point constituents:
-<code>complex64</code> for <code>float32</code> arguments, and
-<code>complex128</code> for <code>float64</code> arguments.
+<code>complex64</code> and <code>quaternion128</code>
+for <code>float32</code> arguments, and
+<code>complex128</code> and <code>quaternion256</code>
+for <code>float64</code> arguments.
 If one of the arguments evaluates to an untyped constant, it is first
 <a href="#Conversions">converted</a> to the type of the other argument.
-If both arguments evaluate to untyped constants, they must be non-complex
+If all arguments evaluate to untyped constants, they must be real
 numbers or their imaginary parts must be zero, and the return value of
-the function is an untyped complex constant.
+the function is an untyped complex or quaternion constant.
 </p>
 
 <p>
-For <code>real</code> and <code>imag</code>, the argument must be
-of complex type, and the return type is the corresponding floating-point
+For <code>real</code>, <code>imag</code>, <code>jmag</code>, and <code>kmag</code>,
+the argument must be of complex type, and the return type is the corresponding floating-point
 type: <code>float32</code> for a <code>complex64</code> argument, and
 <code>float64</code> for a <code>complex128</code> argument.
 If the argument evaluates to an untyped constant, it must be a number,
@@ -5816,6 +5840,12 @@ The <code>real</code> and <code>imag</code> functions together form the inverse 
 <code>complex</code>, so for a value <code>z</code> of a complex type <code>Z</code>,
 <code>z&nbsp;==&nbsp;Z(complex(real(z),&nbsp;imag(z)))</code>.
 </p>
+
+<p>
+Similarly, the <code>real</code>, <code>imag</code>, <code>jmag</code>,
+and <kmag</code> functions together from the inverse of <code>quaternion</code>,
+so for a value <code>q</code> of a quaternion type <code>Q</code>,
+<code>q&nbsp;==&nbsp;Q(quaternion(real(q),&nbsp;imag(q),&nbsp;jmag(q),&nbsp;kmag(q)))</code>.
 
 <p>
 If the operands of these functions are all constants, the return
