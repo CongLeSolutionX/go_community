@@ -33,6 +33,23 @@
       "revId": "a8379f5bbb4fd2cc39063a940b103350e9267839",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6de7e868_db4478e1",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1870,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-31T23:35:55Z",
+      "side": 1,
+      "message": "factor!\n\nsub(add(add(mul ...) is used multiple times\n\n(naming suggestion: saam(...) as in cdddr, caaar (lisp))",
+      "revId": "a8379f5bbb4fd2cc39063a940b103350e9267839",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
