@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59a9a790_7b657846",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-31T14:05:34Z",
+      "side": 1,
+      "message": "lowercase \"offset\".\n\nand offset of zero is okay, so \"greater than\" is false.",
+      "revId": "77c2fdef50db3cd71969590f356a5fc942b81a7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9584cdd_1173e650",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-03-31T14:05:34Z",
+      "side": 1,
+      "message": "delete all this. It\u0027s not an error to read after the end of a file.",
+      "range": {
+        "startLine": 126,
+        "startChar": 1,
+        "endLine": 135,
+        "endChar": 0
+      },
+      "revId": "77c2fdef50db3cd71969590f356a5fc942b81a7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
