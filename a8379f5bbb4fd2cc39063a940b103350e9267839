@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0d879ae_27d42052",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1981,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-31T23:26:09Z",
+      "side": 1,
+      "message": "you should add a comment here explaining why they are added at the end",
+      "revId": "a8379f5bbb4fd2cc39063a940b103350e9267839",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce1ebe19_c7234bc0",
+        "filename": "src/cmd/compile/internal/gc/mpfloat.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-31T23:26:09Z",
+      "side": 1,
+      "message": "Make this [4]Mpflt and provide Real(), Imag(), etc. accessors?\n\nThen you can use loops for the implementation of some of the operations such as +, -, negation.",
+      "revId": "a8379f5bbb4fd2cc39063a940b103350e9267839",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
