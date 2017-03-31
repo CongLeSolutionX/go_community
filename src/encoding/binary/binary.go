@@ -7,7 +7,7 @@
 //
 // Numbers are translated by reading and writing fixed-size values.
 // A fixed-size value is either a fixed-size arithmetic
-// type (bool, int8, uint8, int16, float32, complex64, ...)
+// type (bool, int8, uint8, int16, float32, complex64, quaternion128, ...)
 // or an array or struct containing only fixed-size values.
 //
 // The varint functions encode and decode single integer values using
@@ -410,7 +410,8 @@ func sizeof(t reflect.Type) int {
 	case reflect.Bool,
 		reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
 		reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
-		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128:
+		reflect.Float32, reflect.Float64, reflect.Complex64, reflect.Complex128,
+		reflect.Quaternion128, reflect.Quaternion256:
 		return int(t.Size())
 	}
 
@@ -566,6 +567,21 @@ func (d *decoder) value(v reflect.Value) {
 			math.Float64frombits(d.uint64()),
 			math.Float64frombits(d.uint64()),
 		))
+
+	case reflect.Quaternion128:
+		v.SetQuaternion(quaternion(
+			float64(math.Float32frombits(d.uint32())),
+			float64(math.Float32frombits(d.uint32())),
+			float64(math.Float32frombits(d.uint32())),
+			float64(math.Float32frombits(d.uint32())),
+		))
+	case reflect.Quaternion256:
+		v.SetQuaternion(quaternion(
+			math.Float64frombits(d.uint64()),
+			math.Float64frombits(d.uint64()),
+			math.Float64frombits(d.uint64()),
+			math.Float64frombits(d.uint64()),
+		))
 	}
 }
 
@@ -640,6 +656,22 @@ func (e *encoder) value(v reflect.Value) {
 			x := v.Complex()
 			e.uint64(math.Float64bits(real(x)))
 			e.uint64(math.Float64bits(imag(x)))
+		}
+
+	case reflect.Quaternion128, reflect.Quaternion256:
+		switch v.Type().Kind() {
+		case reflect.Quaternion128:
+			x := v.Quaternion()
+			e.uint32(math.Float32bits(float32(real(x))))
+			e.uint32(math.Float32bits(float32(imag(x))))
+			e.uint32(math.Float32bits(float32(jmag(x))))
+			e.uint32(math.Float32bits(float32(kmag(x))))
+		case reflect.Quaternion256:
+			x := v.Quaternion()
+			e.uint64(math.Float64bits(real(x)))
+			e.uint64(math.Float64bits(imag(x)))
+			e.uint64(math.Float64bits(jmag(x)))
+			e.uint64(math.Float64bits(kmag(x)))
 		}
 	}
 }
