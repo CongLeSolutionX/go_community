@@ -1451,6 +1451,42 @@ func TestReadAtOffset(t *testing.T) {
 	}
 }
 
+// Verify that ReadAt doesn't allow negative offset.
+func TestReadAtNegativeOffset(t *testing.T) {
+	f := newFile("TestReadAtNegativeOffset", t)
+	defer Remove(f.Name())
+	defer f.Close()
+
+	const data = "hello, world\n"
+	io.WriteString(f, data)
+
+	f.Seek(0, 0)
+	b := make([]byte, 5)
+
+	n, err := f.ReadAt(b, -10)
+	if err.Error() != "Offset must be greater than zero" || n != 0 {
+		t.Fatalf("ReadAt -10: %d, %v", n, err)
+	}
+}
+
+// Verify that ReadAt doesn't allow offset greater than filesize.
+func TestReadAtOffsetOverflow(t *testing.T) {
+	f := newFile("TestReadAtOffsetOverflow", t)
+	defer Remove(f.Name())
+	defer f.Close()
+
+	const data = "hello, world\n"
+	io.WriteString(f, data)
+
+	f.Seek(0, 0)
+	b := make([]byte, 1)
+
+	n, err := f.ReadAt(b, 1000)
+	if err.Error() != "Offset is greater than file size" || n != 0 {
+		t.Fatalf("ReadAt 1000: %d, %v", n, err)
+	}
+}
+
 func TestWriteAt(t *testing.T) {
 	f := newFile("TestWriteAt", t)
 	defer Remove(f.Name())

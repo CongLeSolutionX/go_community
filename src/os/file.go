@@ -37,6 +37,7 @@
 package os
 
 import (
+	"errors"
 	"io"
 	"syscall"
 )
@@ -117,6 +118,21 @@ func (f *File) ReadAt(b []byte, off int64) (n int, err error) {
 	if err := f.checkValid("read"); err != nil {
 		return 0, err
 	}
+
+	if off < 0 {
+		return 0, errors.New("Offset must be greater than zero")
+	}
+
+	// check if offset is larger than file size
+	stat, err := f.Stat()
+	if err != nil {
+		return 0, err
+	}
+
+	if off > stat.Size() {
+		return 0, errors.New("Offset is greater than file size")
+	}
+
 	for len(b) > 0 {
 		m, e := f.pread(b, off)
 		if e != nil {
