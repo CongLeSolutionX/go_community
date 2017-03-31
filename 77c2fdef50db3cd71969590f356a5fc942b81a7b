@@ -19,6 +19,40 @@
     },
     {
       "key": {
+        "uuid": "f44218e5_1d3b69ca",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-31T14:07:04Z",
+      "side": 1,
+      "message": "This is incorrect as written (a zero offset is fine).  Also error strings should not start with an unnecessary uppercase letter.  How about \"negative offset\"?  But if we do that, we should add it to errors.go as a named error, and we should add the same check to WriteAt.",
+      "revId": "77c2fdef50db3cd71969590f356a5fc942b81a7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f2bfc22_3e4d3540",
+        "filename": "src/os/file.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-03-31T14:07:04Z",
+      "side": 1,
+      "message": "I don\u0027t want to add another system call in this path just to generate a better error message.",
+      "revId": "77c2fdef50db3cd71969590f356a5fc942b81a7b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9584cdd_1173e650",
         "filename": "src/os/file.go",
         "patchSetId": 1
