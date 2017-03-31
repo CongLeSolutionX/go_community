@@ -552,6 +552,20 @@ func decodeIntoValue(state *decoderState, op decOp, isPtr bool, value reflect.Va
 	return value
 }
 
+// When decoding a map for some types of keys/elems we can keep reusing the same Value instance. For others we need to
+// keep allocating new objects, to not clobber internal value. This function returns whether we need a fresh alloc.
+func needsAlloc(kind reflect.Kind) bool {
+	return kind == reflect.Array ||
+		kind == reflect.Chan ||
+		kind == reflect.Func ||
+		kind == reflect.Interface ||
+		kind == reflect.Map ||
+		kind == reflect.Ptr ||
+		kind == reflect.Slice ||
+		kind == reflect.Struct ||
+		kind == reflect.UnsafePointer
+}
+
 // decodeMap decodes a map and stores it in value.
 // Maps are encoded as a length followed by key:value pairs.
 // Because the internals of maps are not visible to us, we must
@@ -566,9 +580,18 @@ func (dec *Decoder) decodeMap(mtyp reflect.Type, state *decoderState, value refl
 	elemIsPtr := mtyp.Elem().Kind() == reflect.Ptr
 	keyInstr := &decInstr{keyOp, 0, nil, ovfl}
 	elemInstr := &decInstr{elemOp, 0, nil, ovfl}
+	keyNeedsAlloc := needsAlloc(mtyp.Key().Kind())
+	elemNeedsAlloc := needsAlloc(mtyp.Elem().Kind())
+	var key, elem reflect.Value
 	for i := 0; i < n; i++ {
-		key := decodeIntoValue(state, keyOp, keyIsPtr, allocValue(mtyp.Key()), keyInstr)
-		elem := decodeIntoValue(state, elemOp, elemIsPtr, allocValue(mtyp.Elem()), elemInstr)
+		if keyNeedsAlloc || !key.IsValid() {
+			key = allocValue(mtyp.Key())
+		}
+		if elemNeedsAlloc || !elem.IsValid() {
+			elem = allocValue(mtyp.Elem())
+		}
+		key = decodeIntoValue(state, keyOp, keyIsPtr, key, keyInstr)
+		elem = decodeIntoValue(state, elemOp, elemIsPtr, elem, elemInstr)
 		value.SetMapIndex(key, elem)
 	}
 }
