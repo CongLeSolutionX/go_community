@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1c58807_57da276e",
+        "filename": "src/go/constant/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-31T23:31:26Z",
+      "side": 1,
+      "message": "s/quaternionVal/quatVal/",
+      "revId": "9910ed0901f823f59b61eaadcc17df896ff8d8f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f36d9ce_ce9004cd",
+        "filename": "src/go/types/universe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-31T23:31:26Z",
+      "side": 1,
+      "message": "s/UntypedQuaternion/UntypedQuat/ etc.\n\napply everywhere",
+      "revId": "9910ed0901f823f59b61eaadcc17df896ff8d8f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
