@@ -759,6 +759,14 @@ func (p *importer) value(typ *Type) (x Val) {
 		p.float(&u.Imag)
 		x.U = u
 
+	case quaternionTag:
+		u := new(Mpquat)
+		p.float(&u.Real)
+		p.float(&u.Imag)
+		p.float(&u.Jmag)
+		p.float(&u.Kmag)
+		x.U = u
+
 	case stringTag:
 		x.U = p.string()
 
@@ -993,7 +1001,7 @@ func (p *importer) node() *Node {
 		n.List.Set(p.exprList())
 		return n
 
-	case OCOPY, OCOMPLEX, OREAL, OIMAG, OAPPEND, OCAP, OCLOSE, ODELETE, OLEN, OMAKE, ONEW, OPANIC, ORECOVER, OPRINT, OPRINTN:
+	case OCOPY, OCOMPLEX, OREAL, OIMAG, OJMAG, OKMAG, OAPPEND, OCAP, OCLOSE, ODELETE, OLEN, OMAKE, ONEW, OPANIC, OQUATERNION, ORECOVER, OPRINT, OPRINTN:
 		n := npos(p.pos(), builtinCall(op))
 		n.List.Set(p.exprList())
 		if op == OAPPEND {

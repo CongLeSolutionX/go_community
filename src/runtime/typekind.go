@@ -31,6 +31,8 @@ const (
 	kindString
 	kindStruct
 	kindUnsafePointer
+	kindQuaternion128
+	kindQuaternion256
 
 	kindDirectIface = 1 << 5
 	kindGCProg      = 1 << 6

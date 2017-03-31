@@ -446,7 +446,7 @@ func inlnode(n *Node) *Node {
 			}
 		}
 
-	case ORETURN, OCALLFUNC, OCALLMETH, OCALLINTER, OAPPEND, OCOMPLEX:
+	case ORETURN, OCALLFUNC, OCALLMETH, OCALLINTER, OAPPEND, OCOMPLEX, OQUATERNION:
 		// if we just replaced arg in f(arg()) or return arg with an inlined call
 		// and arg returns multiple values, glue as list
 		if n.List.Len() == 1 && n.List.First().Op == OINLCALL && n.List.First().Rlist.Len() > 1 {

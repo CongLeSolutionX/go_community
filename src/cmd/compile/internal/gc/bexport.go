@@ -1037,6 +1037,13 @@ func (p *exporter) value(x Val) {
 		p.float(&x.Real)
 		p.float(&x.Imag)
 
+	case *Mpquat:
+		p.tag(quaternionTag)
+		p.float(&x.Real)
+		p.float(&x.Imag)
+		p.float(&x.Jmag)
+		p.float(&x.Kmag)
+
 	case string:
 		p.tag(stringTag)
 		p.string(x)
@@ -1324,6 +1331,14 @@ func (p *exporter) expr(n *Node) {
 		p.expr(n.Right)
 		p.op(OEND)
 
+	case OQUATERNION:
+		p.op(op)
+		p.pos(n)
+		for _, n2 := range n.List.Slice() {
+			p.expr(n2)
+		}
+		p.op(OEND)
+
 	case OCONV, OCONVIFACE, OCONVNOP, OARRAYBYTESTR, OARRAYRUNESTR, OSTRARRAYBYTE, OSTRARRAYRUNE, ORUNESTR:
 		p.op(OCONV)
 		p.pos(n)
@@ -1335,7 +1350,7 @@ func (p *exporter) expr(n *Node) {
 			p.exprList(n.List) // emits terminating OEND
 		}
 
-	case OREAL, OIMAG, OAPPEND, OCAP, OCLOSE, ODELETE, OLEN, OMAKE, ONEW, OPANIC, ORECOVER, OPRINT, OPRINTN:
+	case OREAL, OIMAG, OJMAG, OKMAG, OAPPEND, OCAP, OCLOSE, ODELETE, OLEN, OMAKE, ONEW, OPANIC, ORECOVER, OPRINT, OPRINTN:
 		p.op(op)
 		p.pos(n)
 		if n.Left != nil {
@@ -1840,6 +1855,9 @@ const (
 
 	// Type aliases
 	aliasTag
+
+	// Values (cont.)
+	quaternionTag
 )
 
 // Debugging support.
@@ -1878,6 +1896,9 @@ var tagString = [...]string{
 
 	// Type aliases
 	-aliasTag: "alias",
+
+	// Values (cont.)
+	-quaternionTag: "quaternion",
 }
 
 // untype returns the "pseudo" untyped type for a Ctype (import/export use only).
@@ -1893,6 +1914,8 @@ func untype(ctype Ctype) *Type {
 		return idealfloat
 	case CTCPLX:
 		return idealcomplex
+	case CTQUAT:
+		return idealquaternion
 	case CTSTR:
 		return idealstring
 	case CTBOOL:
@@ -1954,6 +1977,11 @@ func predeclared() []*Type {
 
 			// any type, for builtin export data
 			Types[TANY],
+
+			// quaternion types
+			Types[TQUATERNION128],
+			Types[TQUATERNION256],
+			untype(CTQUAT),
 		}
 	}
 	return predecl

@@ -20,6 +20,7 @@ const (
 	CTRUNE
 	CTFLT
 	CTCPLX
+	CTQUAT
 	CTSTR
 	CTBOOL
 	CTNIL
@@ -31,6 +32,7 @@ type Val struct {
 	// *Mpint   int when n.ValCtype() == CTINT, rune when n.ValCtype() == CTRUNE
 	// *Mpflt   float when n.ValCtype() == CTFLT
 	// *Mpcplx  pair of floats when n.ValCtype() == CTCPLX
+	// *Mpquat  quadruple of floats when n.ValCtype() == CTQUAT
 	// string   string when n.ValCtype() == CTSTR
 	// *Nilval  when n.ValCtype() == CTNIL
 	U interface{}
@@ -56,6 +58,8 @@ func (v Val) Ctype() Ctype {
 		return CTFLT
 	case *Mpcplx:
 		return CTCPLX
+	case *Mpquat:
+		return CTQUAT
 	case string:
 		return CTSTR
 	}
@@ -83,6 +87,10 @@ func eqval(a, b Val) bool {
 	case *Mpcplx:
 		y := b.U.(*Mpcplx)
 		return x.Real.Cmp(&y.Real) == 0 && x.Imag.Cmp(&y.Imag) == 0
+	case *Mpquat:
+		y := b.U.(*Mpquat)
+		return x.Real.Cmp(&y.Real) == 0 && x.Imag.Cmp(&y.Imag) == 0 &&
+			x.Jmag.Cmp(&y.Jmag) == 0 && x.Kmag.Cmp(&y.Kmag) == 0
 	case string:
 		y := b.U.(string)
 		return x == y
@@ -91,7 +99,8 @@ func eqval(a, b Val) bool {
 
 // Interface returns the constant value stored in v as an interface{}.
 // It returns int64s for ints and runes, float64s for floats,
-// complex128s for complex values, and nil for constant nils.
+// complex128s for complex values, [4]float64 for quaternion values,
+// and nil for constant nils.
 func (v Val) Interface() interface{} {
 	switch x := v.U.(type) {
 	default:
@@ -107,6 +116,10 @@ func (v Val) Interface() interface{} {
 		return x.Float64()
 	case *Mpcplx:
 		return complex(x.Real.Float64(), x.Imag.Float64())
+	case *Mpquat:
+		// TODO(mdempsky): Return quaternion256 once we can
+		// assume the bootstrap compiler supports quaternions.
+		return [4]float64{x.Real.Float64(), x.Imag.Float64(), x.Jmag.Float64(), x.Kmag.Float64()}
 	}
 }
 
@@ -255,6 +268,30 @@ func convlit1(n *Node, t *Type, explicit bool, reuse canReuseNode) *Node {
 		}
 
 		return n
+
+	case OQUATERNION:
+		if n.Type.Etype == TIDEAL {
+			switch t.Etype {
+			default:
+				// If trying to convert to non-quaternion type,
+				// leave as quaternion256 and let typechecker complain.
+				t = Types[TQUATERNION256]
+				fallthrough
+			case TQUATERNION256:
+				n.Type = t
+				for i, n2 := range n.List.Slice() {
+					n.List.SetIndex(i, convlit(n2, Types[TFLOAT64]))
+				}
+
+			case TQUATERNION128:
+				n.Type = t
+				for i, n2 := range n.List.Slice() {
+					n.List.SetIndex(i, convlit(n2, Types[TFLOAT32]))
+				}
+			}
+		}
+
+		return n
 	}
 
 	// avoided repeated calculations, errors
@@ -320,7 +357,7 @@ func convlit1(n *Node, t *Type, explicit bool, reuse canReuseNode) *Node {
 			goto bad
 		}
 
-	case CTINT, CTRUNE, CTFLT, CTCPLX:
+	case CTINT, CTRUNE, CTFLT, CTCPLX, CTQUAT:
 		if n.Type.Etype == TUNSAFEPTR && t.Etype != TUINTPTR {
 			goto bad
 		}
@@ -330,7 +367,7 @@ func convlit1(n *Node, t *Type, explicit bool, reuse canReuseNode) *Node {
 			default:
 				goto bad
 
-			case CTCPLX, CTFLT, CTRUNE:
+			case CTQUAT, CTCPLX, CTFLT, CTRUNE:
 				n.SetVal(toint(n.Val()))
 				fallthrough
 
@@ -342,7 +379,7 @@ func convlit1(n *Node, t *Type, explicit bool, reuse canReuseNode) *Node {
 			default:
 				goto bad
 
-			case CTCPLX, CTINT, CTRUNE:
+			case CTQUAT, CTCPLX, CTINT, CTRUNE:
 				n.SetVal(toflt(n.Val()))
 				fallthrough
 
@@ -354,11 +391,23 @@ func convlit1(n *Node, t *Type, explicit bool, reuse canReuseNode) *Node {
 			default:
 				goto bad
 
-			case CTFLT, CTINT, CTRUNE:
+			case CTQUAT, CTFLT, CTINT, CTRUNE:
 				n.SetVal(tocplx(n.Val()))
 				fallthrough
 
 			case CTCPLX:
+				overflow(n.Val(), t)
+			}
+		} else if isQuaternion[et] {
+			switch ct {
+			default:
+				goto bad
+
+			case CTCPLX, CTFLT, CTINT, CTRUNE:
+				n.SetVal(toquat(n.Val()))
+				fallthrough
+
+			case CTQUAT:
 				overflow(n.Val(), t)
 			}
 		} else if et == TSTRING && (ct == CTINT || ct == CTRUNE) && explicit {
@@ -403,6 +452,44 @@ func copyval(v Val) Val {
 		c.Real.Set(&u.Real)
 		c.Imag.Set(&u.Imag)
 		v.U = c
+
+	case *Mpquat:
+		c := new(Mpquat)
+		c.Real.Set(&u.Real)
+		c.Imag.Set(&u.Imag)
+		c.Jmag.Set(&u.Jmag)
+		c.Kmag.Set(&u.Kmag)
+		v.U = c
+	}
+
+	return v
+}
+
+func toquat(v Val) Val {
+	switch u := v.U.(type) {
+	case *Mpint:
+		c := new(Mpquat)
+		c.Real.SetInt(u)
+		c.Imag.SetFloat64(0.0)
+		c.Jmag.SetFloat64(0.0)
+		c.Kmag.SetFloat64(0.0)
+		v.U = c
+
+	case *Mpflt:
+		c := new(Mpquat)
+		c.Real.Set(u)
+		c.Imag.SetFloat64(0.0)
+		c.Jmag.SetFloat64(0.0)
+		c.Kmag.SetFloat64(0.0)
+		v.U = c
+
+	case *Mpcplx:
+		c := new(Mpquat)
+		c.Real.Set(&u.Real)
+		c.Imag.Set(&u.Imag)
+		c.Jmag.SetFloat64(0.0)
+		c.Kmag.SetFloat64(0.0)
+		v.U = c
 	}
 
 	return v
@@ -421,6 +508,15 @@ func tocplx(v Val) Val {
 		c.Real.Set(u)
 		c.Imag.SetFloat64(0.0)
 		v.U = c
+
+	case *Mpquat:
+		c := new(Mpcplx)
+		c.Real.Set(&u.Real)
+		c.Imag.Set(&u.Imag)
+		if u.Jmag.CmpFloat64(0) != 0 || u.Kmag.CmpFloat64(0) != 0 {
+			yyerror("constant %v%vi%vj%vk truncated to complex", fconv(&u.Real, FmtSharp), fconv(&u.Imag, FmtSharp|FmtSign), fconv(&u.Jmag, FmtSharp|FmtSign), fconv(&u.Kmag, FmtSharp|FmtSign))
+		}
+		v.U = c
 	}
 
 	return v
@@ -438,6 +534,14 @@ func toflt(v Val) Val {
 		f.Set(&u.Real)
 		if u.Imag.CmpFloat64(0) != 0 {
 			yyerror("constant %v%vi truncated to real", fconv(&u.Real, FmtSharp), fconv(&u.Imag, FmtSharp|FmtSign))
+		}
+		v.U = f
+
+	case *Mpquat:
+		f := newMpflt()
+		f.Set(&u.Real)
+		if u.Imag.CmpFloat64(0) != 0 || u.Jmag.CmpFloat64(0) != 0 || u.Kmag.CmpFloat64(0) != 0 {
+			yyerror("constant %v%vi%vj%vk truncated to real", fconv(&u.Real, FmtSharp), fconv(&u.Imag, FmtSharp|FmtSign), fconv(&u.Jmag, FmtSharp|FmtSign), fconv(&u.Kmag, FmtSharp|FmtSign))
 		}
 		v.U = f
 	}
@@ -485,7 +589,13 @@ func toint(v Val) Val {
 		if !i.SetFloat(&u.Real) || u.Imag.CmpFloat64(0) != 0 {
 			yyerror("constant %v%vi truncated to integer", fconv(&u.Real, FmtSharp), fconv(&u.Imag, FmtSharp|FmtSign))
 		}
+		v.U = i
 
+	case *Mpquat:
+		i := new(Mpint)
+		if !i.SetFloat(&u.Real) || u.Imag.CmpFloat64(0) != 0 || u.Jmag.CmpFloat64(0) != 0 || u.Kmag.CmpFloat64(0) != 0 {
+			yyerror("constant %v%vi%vj%vk truncated to integer", fconv(&u.Real, FmtSharp), fconv(&u.Imag, FmtSharp|FmtSign), fconv(&u.Jmag, FmtSharp|FmtSign), fconv(&u.Kmag, FmtSharp|FmtSign))
+		}
 		v.U = i
 	}
 
@@ -512,6 +622,15 @@ func doesoverflow(v Val, t *Type) bool {
 		}
 		return u.Real.Cmp(minfltval[t.Etype]) <= 0 || u.Real.Cmp(maxfltval[t.Etype]) >= 0 ||
 			u.Imag.Cmp(minfltval[t.Etype]) <= 0 || u.Imag.Cmp(maxfltval[t.Etype]) >= 0
+
+	case *Mpquat:
+		if !t.IsQuaternion() {
+			Fatalf("overflow: %v quaternion constant", t)
+		}
+		return u.Real.Cmp(minfltval[t.Etype]) <= 0 || u.Real.Cmp(maxfltval[t.Etype]) >= 0 ||
+			u.Imag.Cmp(minfltval[t.Etype]) <= 0 || u.Imag.Cmp(maxfltval[t.Etype]) >= 0 ||
+			u.Jmag.Cmp(minfltval[t.Etype]) <= 0 || u.Jmag.Cmp(maxfltval[t.Etype]) >= 0 ||
+			u.Kmag.Cmp(minfltval[t.Etype]) <= 0 || u.Kmag.Cmp(maxfltval[t.Etype]) >= 0
 	}
 
 	return false
@@ -669,6 +788,7 @@ func evconst(n *Node) {
 		CTRUNE_        = uint32(CTRUNE)
 		CTFLT_         = uint32(CTFLT)
 		CTCPLX_        = uint32(CTCPLX)
+		CTQUAT_        = uint32(CTQUAT)
 		CTSTR_         = uint32(CTSTR)
 		CTBOOL_        = uint32(CTBOOL)
 		CTNIL_         = uint32(CTNIL)
@@ -735,6 +855,7 @@ func evconst(n *Node) {
 			OCONV_ | CTRUNE_,
 			OCONV_ | CTFLT_,
 			OCONV_ | CTCPLX_,
+			OCONV_ | CTQUAT_,
 			OCONV_ | CTSTR_,
 			OCONV_ | CTBOOL_:
 			nl = convlit1(nl, n.Type, true, false)
@@ -787,6 +908,15 @@ func evconst(n *Node) {
 		case OMINUS_ | CTCPLX_:
 			v.U.(*Mpcplx).Real.Neg()
 			v.U.(*Mpcplx).Imag.Neg()
+
+		case OPLUS_ | CTQUAT_:
+			break
+
+		case OMINUS_ | CTQUAT_:
+			v.U.(*Mpquat).Real.Neg()
+			v.U.(*Mpquat).Imag.Neg()
+			v.U.(*Mpquat).Jmag.Neg()
+			v.U.(*Mpquat).Kmag.Neg()
 
 		case ONOT_ | CTBOOL_:
 			if !v.U.(bool) {
@@ -859,6 +989,11 @@ func evconst(n *Node) {
 	rv = nr.Val()
 
 	// convert to common ideal
+	if v.Ctype() == CTQUAT || rv.Ctype() == CTQUAT {
+		v = toquat(v)
+		rv = toquat(rv)
+	}
+
 	if v.Ctype() == CTCPLX || rv.Ctype() == CTCPLX {
 		v = tocplx(v)
 		rv = tocplx(rv)
@@ -1007,6 +1142,21 @@ func evconst(n *Node) {
 
 		cmplxdiv(v.U.(*Mpcplx), rv.U.(*Mpcplx))
 
+	case OADD_ | CTQUAT_:
+		v.U.(*Mpquat).Real.Add(&rv.U.(*Mpquat).Real)
+		v.U.(*Mpquat).Imag.Add(&rv.U.(*Mpquat).Imag)
+		v.U.(*Mpquat).Jmag.Add(&rv.U.(*Mpquat).Jmag)
+		v.U.(*Mpquat).Kmag.Add(&rv.U.(*Mpquat).Kmag)
+
+	case OSUB_ | CTQUAT_:
+		v.U.(*Mpquat).Real.Sub(&rv.U.(*Mpquat).Real)
+		v.U.(*Mpquat).Imag.Sub(&rv.U.(*Mpquat).Imag)
+		v.U.(*Mpquat).Jmag.Sub(&rv.U.(*Mpquat).Jmag)
+		v.U.(*Mpquat).Kmag.Sub(&rv.U.(*Mpquat).Kmag)
+
+	case OMUL_ | CTQUAT_:
+		quatmpy(v.U.(*Mpquat), rv.U.(*Mpquat))
+
 	case OEQ_ | CTNIL_:
 		goto settrue
 
@@ -1099,6 +1249,18 @@ func evconst(n *Node) {
 
 	case ONE_ | CTCPLX_:
 		if v.U.(*Mpcplx).Real.Cmp(&rv.U.(*Mpcplx).Real) != 0 || v.U.(*Mpcplx).Imag.Cmp(&rv.U.(*Mpcplx).Imag) != 0 {
+			goto settrue
+		}
+		goto setfalse
+
+	case OEQ_ | CTQUAT_:
+		if v.U.(*Mpquat).Real.Cmp(&rv.U.(*Mpquat).Real) == 0 && v.U.(*Mpquat).Imag.Cmp(&rv.U.(*Mpquat).Imag) == 0 && v.U.(*Mpquat).Jmag.Cmp(&rv.U.(*Mpquat).Jmag) == 0 && v.U.(*Mpquat).Kmag.Cmp(&rv.U.(*Mpquat).Kmag) == 0 {
+			goto settrue
+		}
+		goto setfalse
+
+	case ONE_ | CTQUAT_:
+		if v.U.(*Mpquat).Real.Cmp(&rv.U.(*Mpquat).Real) != 0 || v.U.(*Mpquat).Imag.Cmp(&rv.U.(*Mpquat).Imag) != 0 || v.U.(*Mpquat).Jmag.Cmp(&rv.U.(*Mpquat).Jmag) != 0 || v.U.(*Mpquat).Kmag.Cmp(&rv.U.(*Mpquat).Kmag) != 0 {
 			goto settrue
 		}
 		goto setfalse
@@ -1224,7 +1386,7 @@ func nodlit(v Val) *Node {
 	case CTBOOL:
 		n.Type = idealbool
 
-	case CTINT, CTRUNE, CTFLT, CTCPLX:
+	case CTINT, CTRUNE, CTFLT, CTCPLX, CTQUAT:
 		n.Type = Types[TIDEAL]
 
 	case CTNIL:
@@ -1249,6 +1411,28 @@ func nodcplxlit(r Val, i Val) *Node {
 
 	c.Real.Set(r.U.(*Mpflt))
 	c.Imag.Set(i.U.(*Mpflt))
+	return n
+}
+
+func nodquatlit(r, i, j, k Val) *Node {
+	r = toflt(r)
+	i = toflt(i)
+	j = toflt(j)
+	k = toflt(k)
+
+	q := new(Mpquat)
+	n := nod(OLITERAL, nil, nil)
+	n.Type = Types[TIDEAL]
+	n.SetVal(Val{q})
+
+	if r.Ctype() != CTFLT || i.Ctype() != CTFLT || j.Ctype() != CTFLT || k.Ctype() != CTFLT {
+		Fatalf("nodquatlit ctype %d/%d/%d/%d", r.Ctype(), i.Ctype(), j.Ctype(), k.Ctype())
+	}
+
+	q.Real.Set(r.U.(*Mpflt))
+	q.Imag.Set(i.U.(*Mpflt))
+	q.Jmag.Set(j.U.(*Mpflt))
+	q.Kmag.Set(k.U.(*Mpflt))
 	return n
 }
 
@@ -1288,11 +1472,14 @@ func idealkind(n *Node) Ctype {
 			return k2
 		}
 
-	case OREAL, OIMAG:
+	case OREAL, OIMAG, OJMAG, OKMAG:
 		return CTFLT
 
 	case OCOMPLEX:
 		return CTCPLX
+
+	case OQUATERNION:
+		return CTQUAT
 
 	case OADDSTR:
 		return CTSTR
@@ -1388,6 +1575,10 @@ func defaultlitreuse(n *Node, t *Type, reuse canReuseNode) *Node {
 	case CTCPLX:
 		t1 = Types[TCOMPLEX128]
 		goto num
+
+	case CTQUAT:
+		t1 = Types[TQUATERNION256]
+		goto num
 	}
 
 	lineno = lno
@@ -1407,6 +1598,9 @@ num:
 		} else if t.IsComplex() {
 			t1 = t
 			v1 = tocplx(n.Val())
+		} else if t.IsQuaternion() {
+			t1 = t
+			v1 = toquat(n.Val())
 		}
 		if n.Val().Ctype() != CTxxx {
 			n.SetVal(v1)
@@ -1452,6 +1646,12 @@ func defaultlit2(l *Node, r *Node, force bool) (*Node, *Node) {
 
 	lkind := idealkind(l)
 	rkind := idealkind(r)
+	if lkind == CTQUAT || rkind == CTQUAT {
+		l = convlit(l, Types[TQUATERNION256])
+		r = convlit(r, Types[TQUATERNION256])
+		return l, r
+	}
+
 	if lkind == CTCPLX || rkind == CTCPLX {
 		l = convlit(l, Types[TCOMPLEX128])
 		r = convlit(r, Types[TCOMPLEX128])
@@ -1536,23 +1736,18 @@ func cmplxmpy(v *Mpcplx, rv *Mpcplx) {
 	ac.Mul(&rv.Real) // ac
 
 	bd.Set(&v.Imag)
-
 	bd.Mul(&rv.Imag) // bd
 
 	bc.Set(&v.Imag)
-
 	bc.Mul(&rv.Real) // bc
 
 	ad.Set(&v.Real)
-
 	ad.Mul(&rv.Imag) // ad
 
 	v.Real.Set(&ac)
-
 	v.Real.Sub(&bd) // ac-bd
 
 	v.Imag.Set(&bc)
-
 	v.Imag.Add(&ad) // bc+ad
 }
 
@@ -1569,36 +1764,87 @@ func cmplxdiv(v *Mpcplx, rv *Mpcplx) {
 	cc_plus_dd.Mul(&rv.Real) // cc
 
 	ac.Set(&rv.Imag)
-
 	ac.Mul(&rv.Imag) // dd
 
 	cc_plus_dd.Add(&ac) // cc+dd
 
 	ac.Set(&v.Real)
-
 	ac.Mul(&rv.Real) // ac
 
 	bd.Set(&v.Imag)
-
 	bd.Mul(&rv.Imag) // bd
 
 	bc.Set(&v.Imag)
-
 	bc.Mul(&rv.Real) // bc
 
 	ad.Set(&v.Real)
-
 	ad.Mul(&rv.Imag) // ad
 
 	v.Real.Set(&ac)
-
 	v.Real.Add(&bd)         // ac+bd
 	v.Real.Quo(&cc_plus_dd) // (ac+bd)/(cc+dd)
 
 	v.Imag.Set(&bc)
-
 	v.Imag.Sub(&ad)         // bc-ad
 	v.Imag.Quo(&cc_plus_dd) // (bc+ad)/(cc+dd)
+}
+
+// quaternion multiply v *= rv
+func quatmpy(v *Mpquat, rv *Mpquat) {
+	var vr, vi, vj, vk, t Mpflt
+
+	vr.Set(&v.Real)
+	vr.Mul(&rv.Real)
+	t.Set(&v.Imag)
+	t.Mul(&rv.Imag)
+	vr.Sub(&t)
+	t.Set(&v.Jmag)
+	t.Mul(&rv.Jmag)
+	vr.Sub(&t)
+	t.Set(&v.Kmag)
+	t.Mul(&rv.Kmag)
+	vr.Sub(&t)
+
+	vi.Set(&v.Real)
+	vi.Mul(&rv.Imag)
+	t.Set(&v.Imag)
+	t.Mul(&rv.Real)
+	vi.Add(&t)
+	t.Set(&v.Jmag)
+	t.Mul(&rv.Kmag)
+	vi.Add(&t)
+	t.Set(&v.Kmag)
+	t.Mul(&rv.Jmag)
+	vi.Sub(&t)
+
+	vj.Set(&v.Real)
+	vj.Mul(&rv.Jmag)
+	t.Set(&v.Jmag)
+	t.Mul(&rv.Real)
+	vj.Add(&t)
+	t.Set(&v.Kmag)
+	t.Mul(&rv.Imag)
+	vj.Add(&t)
+	t.Set(&v.Imag)
+	t.Mul(&rv.Kmag)
+	vj.Sub(&t)
+
+	vk.Set(&v.Real)
+	vk.Mul(&rv.Kmag)
+	t.Set(&v.Kmag)
+	t.Mul(&rv.Real)
+	vk.Add(&t)
+	t.Set(&v.Imag)
+	t.Mul(&rv.Jmag)
+	vk.Add(&t)
+	t.Set(&v.Jmag)
+	t.Mul(&rv.Imag)
+	vk.Sub(&t)
+
+	v.Real.Set(&vr)
+	v.Imag.Set(&vi)
+	v.Jmag.Set(&vj)
+	v.Kmag.Set(&vk)
 }
 
 // Is n a Go language constant (as opposed to a compile-time constant)?
@@ -1639,10 +1885,20 @@ func isgoconst(n *Node) bool {
 		OIOTA,
 		OCOMPLEX,
 		OREAL,
-		OIMAG:
+		OIMAG,
+		OJMAG,
+		OKMAG:
 		if isgoconst(n.Left) && (n.Right == nil || isgoconst(n.Right)) {
 			return true
 		}
+
+	case OQUATERNION:
+		for _, n2 := range n.List.Slice() {
+			if !isgoconst(n2) {
+				return false
+			}
+		}
+		return true
 
 	case OCONV:
 		if okforconst[n.Type.Etype] && isgoconst(n.Left) {
@@ -1707,12 +1963,15 @@ func hascallchan(n *Node) bool {
 		OCOPY,
 		ODELETE,
 		OIMAG,
+		OJMAG,
+		OKMAG,
 		OLEN,
 		OMAKE,
 		ONEW,
 		OPANIC,
 		OPRINT,
 		OPRINTN,
+		OQUATERNION,
 		OREAL,
 		ORECOVER,
 		ORECV:

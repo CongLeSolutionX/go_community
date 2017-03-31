@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // This file contains rules to decompose builtin compound types
-// (complex,string,slice,interface) into their constituent
+// (complex,quaternion,string,slice,interface) into their constituent
 // types.  These rules work together with the decomposeBuiltIn
 // pass which handles phis of these types.
 
@@ -35,6 +35,61 @@
     (OffPtr <types.Float64Ptr> [8] dst)
     imag
     (Store {types.Float64} dst real mem))
+
+// quaternion ops
+(QuaternionReal (QuaternionMake real _ _ _)) -> real
+(QuaternionImag (QuaternionMake _ imag _ _)) -> imag
+(QuaternionJmag (QuaternionMake _ _ jmag _)) -> jmag
+(QuaternionKmag (QuaternionMake _ _ _ kmag)) -> kmag
+
+(Load <t> ptr mem) && t.IsQuaternion() && t.Size() == 16 ->
+  (QuaternionMake
+    (Load <types.Float32> ptr mem)
+    (Load <types.Float32>
+      (OffPtr <types.Float32Ptr> [4] ptr)
+      mem)
+    (Load <types.Float32>
+      (OffPtr <types.Float32Ptr> [8] ptr)
+      mem)
+    (Load <types.Float32>
+      (OffPtr <types.Float32Ptr> [12] ptr)
+      mem)
+    )
+(Store {t} dst (QuaternionMake real imag jmag kmag) mem) && t.(Type).Size() == 16 ->
+  (Store {types.Float32}
+    (OffPtr <types.Float32Ptr> [12] dst)
+    kmag
+    (Store {types.Float32}
+      (OffPtr <types.Float32Ptr> [8] dst)
+      jmag
+      (Store {types.Float32}
+        (OffPtr <types.Float32Ptr> [4] dst)
+        imag
+        (Store {types.Float32} dst real mem))))
+(Load <t> ptr mem) && t.IsQuaternion() && t.Size() == 32 ->
+  (QuaternionMake
+    (Load <types.Float64> ptr mem)
+    (Load <types.Float64>
+      (OffPtr <types.Float64Ptr> [8] ptr)
+      mem)
+    (Load <types.Float64>
+      (OffPtr <types.Float64Ptr> [16] ptr)
+      mem)
+    (Load <types.Float64>
+      (OffPtr <types.Float64Ptr> [24] ptr)
+      mem)
+    )
+(Store {t} dst (QuaternionMake real imag jmag kmag) mem) && t.(Type).Size() == 32 ->
+  (Store {types.Float64}
+    (OffPtr <types.Float64Ptr> [24] dst)
+    kmag
+    (Store {types.Float64}
+      (OffPtr <types.Float64Ptr> [16] dst)
+      jmag
+      (Store {types.Float64}
+        (OffPtr <types.Float64Ptr> [8] dst)
+        imag
+        (Store {types.Float64} dst real mem))))
 
 // string ops
 (StringPtr (StringMake ptr _)) -> ptr

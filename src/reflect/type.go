@@ -105,7 +105,7 @@ type Type interface {
 	// Methods applicable only to some types, depending on Kind.
 	// The methods allowed for each kind are:
 	//
-	//	Int*, Uint*, Float*, Complex*: Bits
+	//	Int*, Uint*, Float*, Complex*, Quaternion*: Bits
 	//	Array: Elem, Len
 	//	Chan: ChanDir, Elem
 	//	Func: In, NumIn, Out, NumOut, IsVariadic.
@@ -116,7 +116,7 @@ type Type interface {
 
 	// Bits returns the size of the type in bits.
 	// It panics if the type's Kind is not one of the
-	// sized or unsized Int, Uint, Float, or Complex kinds.
+	// sized or unsized Int, Uint, Float, Complex, or Quaternion kinds.
 	Bits() int
 
 	// ChanDir returns a channel type's direction.
@@ -250,6 +250,8 @@ const (
 	String
 	Struct
 	UnsafePointer
+	Quaternion128
+	Quaternion256
 )
 
 // tflag is used by an rtype to signal what extra type information is
@@ -630,6 +632,8 @@ var kindNames = []string{
 	String:        "string",
 	Struct:        "struct",
 	UnsafePointer: "unsafe.Pointer",
+	Quaternion128: "quaternion128",
+	Quaternion256: "quaternion256",
 }
 
 func (t *uncommonType) methods() []method {
@@ -764,7 +768,7 @@ func (t *rtype) Bits() int {
 		panic("reflect: Bits of nil Type")
 	}
 	k := t.Kind()
-	if k < Int || k > Complex128 {
+	if (k < Int || k > Complex128) && (k < Quaternion128 || k > Quaternion256) {
 		panic("reflect: Bits of non-arithmetic Type " + t.String())
 	}
 	return int(t.size) * 8
@@ -1617,7 +1621,7 @@ func haveIdenticalUnderlyingType(T, V *rtype, cmpTags bool) bool {
 
 	// Non-composite types of equal kind have same underlying type
 	// (the predefined instance of the type).
-	if Bool <= kind && kind <= Complex128 || kind == String || kind == UnsafePointer {
+	if Bool <= kind && kind <= Complex128 || kind == String || UnsafePointer <= kind && kind <= Quaternion256 {
 		return true
 	}
 
@@ -2131,7 +2135,7 @@ func isReflexive(t *rtype) bool {
 	switch t.Kind() {
 	case Bool, Int, Int8, Int16, Int32, Int64, Uint, Uint8, Uint16, Uint32, Uint64, Uintptr, Chan, Ptr, String, UnsafePointer:
 		return true
-	case Float32, Float64, Complex64, Complex128, Interface:
+	case Float32, Float64, Complex64, Complex128, Quaternion128, Quaternion256, Interface:
 		return false
 	case Array:
 		tt := (*arrayType)(unsafe.Pointer(t))
@@ -2155,7 +2159,7 @@ func needKeyUpdate(t *rtype) bool {
 	switch t.Kind() {
 	case Bool, Int, Int8, Int16, Int32, Int64, Uint, Uint8, Uint16, Uint32, Uint64, Uintptr, Chan, Ptr, UnsafePointer:
 		return false
-	case Float32, Float64, Complex64, Complex128, Interface, String:
+	case Float32, Float64, Complex64, Complex128, Quaternion128, Quaternion256, Interface, String:
 		// Float keys can be updated from +0 to -0.
 		// String keys can be updated to use a smaller backing store.
 		// Interfaces might have floats of strings in them.

@@ -1852,6 +1852,11 @@ const (
 	OpComplexMake
 	OpComplexReal
 	OpComplexImag
+	OpQuaternionMake
+	OpQuaternionReal
+	OpQuaternionImag
+	OpQuaternionJmag
+	OpQuaternionKmag
 	OpStringMake
 	OpStringPtr
 	OpStringLen
@@ -21994,6 +21999,31 @@ var opcodeTable = [...]opInfo{
 	},
 	{
 		name:    "ComplexImag",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "QuaternionMake",
+		argLen:  4,
+		generic: true,
+	},
+	{
+		name:    "QuaternionReal",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "QuaternionImag",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "QuaternionJmag",
+		argLen:  1,
+		generic: true,
+	},
+	{
+		name:    "QuaternionKmag",
 		argLen:  1,
 		generic: true,
 	},

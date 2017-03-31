@@ -25,6 +25,8 @@ var basicTypes = [...]struct {
 	{"float64", TFLOAT64},
 	{"complex64", TCOMPLEX64},
 	{"complex128", TCOMPLEX128},
+	{"quaternion128", TQUATERNION128},
+	{"quaternion256", TQUATERNION256},
 	{"bool", TBOOL},
 	{"string", TSTRING},
 }
@@ -52,12 +54,15 @@ var builtinFuncs = [...]struct {
 	{"copy", OCOPY},
 	{"delete", ODELETE},
 	{"imag", OIMAG},
+	{"jmag", OJMAG},
+	{"kmag", OKMAG},
 	{"len", OLEN},
 	{"make", OMAKE},
 	{"new", ONEW},
 	{"panic", OPANIC},
 	{"print", OPRINT},
 	{"println", OPRINTN},
+	{"quaternion", OQUATERNION},
 	{"real", OREAL},
 	{"recover", ORECOVER},
 }
@@ -195,6 +200,9 @@ func typeinit() {
 	isComplex[TCOMPLEX64] = true
 	isComplex[TCOMPLEX128] = true
 
+	isQuaternion[TQUATERNION128] = true
+	isQuaternion[TQUATERNION256] = true
+
 	isforw[TFORW] = true
 
 	// initialize okfor
@@ -203,6 +211,7 @@ func typeinit() {
 			okforeq[et] = true
 			okforcmp[et] = true
 			okforarith[et] = true
+			okfordiv[et] = true
 			okforadd[et] = true
 			okforand[et] = true
 			okforconst[et] = true
@@ -216,6 +225,7 @@ func typeinit() {
 			okforcmp[et] = true
 			okforadd[et] = true
 			okforarith[et] = true
+			okfordiv[et] = true
 			okforconst[et] = true
 			issimple[et] = true
 			minfltval[et] = newMpflt()
@@ -223,6 +233,15 @@ func typeinit() {
 		}
 
 		if isComplex[et] {
+			okforeq[et] = true
+			okforadd[et] = true
+			okforarith[et] = true
+			okfordiv[et] = true
+			okforconst[et] = true
+			issimple[et] = true
+		}
+
+		if isQuaternion[et] {
 			okforeq[et] = true
 			okforadd[et] = true
 			okforarith[et] = true
@@ -276,7 +295,7 @@ func typeinit() {
 	okfor[OAND] = okforand[:]
 	okfor[OANDAND] = okforbool[:]
 	okfor[OANDNOT] = okforand[:]
-	okfor[ODIV] = okforarith[:]
+	okfor[ODIV] = okfordiv[:]
 	okfor[OEQ] = okforeq[:]
 	okfor[OGE] = okforcmp[:]
 	okfor[OGT] = okforcmp[:]
@@ -338,18 +357,21 @@ func typeinit() {
 	maxfltval[TCOMPLEX128] = maxfltval[TFLOAT64]
 	minfltval[TCOMPLEX128] = minfltval[TFLOAT64]
 
+	maxfltval[TQUATERNION128] = maxfltval[TFLOAT32]
+	minfltval[TQUATERNION128] = minfltval[TFLOAT32]
+	maxfltval[TQUATERNION256] = maxfltval[TFLOAT64]
+	minfltval[TQUATERNION256] = minfltval[TFLOAT64]
+
 	// for walk to use in error messages
 	Types[TFUNC] = functype(nil, nil, nil)
 
 	// types used in front end
 	// types[TNIL] got set early in lexinit
 	Types[TIDEAL] = typ(TIDEAL)
-
 	Types[TINTER] = typ(TINTER)
 
 	// simple aliases
 	simtype[TMAP] = Tptr
-
 	simtype[TCHAN] = Tptr
 	simtype[TFUNC] = Tptr
 	simtype[TUNSAFEPTR] = Tptr

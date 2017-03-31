@@ -942,6 +942,20 @@
     (Arg <types.Float32> {n} [off])
     (Arg <types.Float32> {n} [off+4]))
 
+(Arg {n} [off]) && v.Type.IsQuaternion() && v.Type.Size() == 32 ->
+  (QuaternionMake
+    (Arg <types.Float64> {n} [off])
+    (Arg <types.Float64> {n} [off+8])
+    (Arg <types.Float64> {n} [off+16])
+    (Arg <types.Float64> {n} [off+24]))
+
+(Arg {n} [off]) && v.Type.IsQuaternion() && v.Type.Size() == 16 ->
+  (QuaternionMake
+    (Arg <types.Float32> {n} [off])
+    (Arg <types.Float32> {n} [off+4])
+    (Arg <types.Float32> {n} [off+8])
+    (Arg <types.Float32> {n} [off+12]))
+
 (Arg <t>) && t.IsStruct() && t.NumFields() == 0 && fe.CanSSA(t) ->
   (StructMake0)
 (Arg <t> {n} [off]) && t.IsStruct() && t.NumFields() == 1 && fe.CanSSA(t) ->

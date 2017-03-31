@@ -2939,6 +2939,62 @@ func rewriteValuegeneric_OpArg(v *Value) bool {
 		v.AddArg(v1)
 		return true
 	}
+	// match: (Arg {n} [off])
+	// cond: v.Type.IsQuaternion() && v.Type.Size() == 32
+	// result: (QuaternionMake     (Arg <types.Float64> {n} [off])     (Arg <types.Float64> {n} [off+8])     (Arg <types.Float64> {n} [off+16])     (Arg <types.Float64> {n} [off+24]))
+	for {
+		off := v.AuxInt
+		n := v.Aux
+		if !(v.Type.IsQuaternion() && v.Type.Size() == 32) {
+			break
+		}
+		v.reset(OpQuaternionMake)
+		v0 := b.NewValue0(v.Pos, OpArg, types.Float64)
+		v0.AuxInt = off
+		v0.Aux = n
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpArg, types.Float64)
+		v1.AuxInt = off + 8
+		v1.Aux = n
+		v.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpArg, types.Float64)
+		v2.AuxInt = off + 16
+		v2.Aux = n
+		v.AddArg(v2)
+		v3 := b.NewValue0(v.Pos, OpArg, types.Float64)
+		v3.AuxInt = off + 24
+		v3.Aux = n
+		v.AddArg(v3)
+		return true
+	}
+	// match: (Arg {n} [off])
+	// cond: v.Type.IsQuaternion() && v.Type.Size() == 16
+	// result: (QuaternionMake     (Arg <types.Float32> {n} [off])     (Arg <types.Float32> {n} [off+4])     (Arg <types.Float32> {n} [off+8])     (Arg <types.Float32> {n} [off+12]))
+	for {
+		off := v.AuxInt
+		n := v.Aux
+		if !(v.Type.IsQuaternion() && v.Type.Size() == 16) {
+			break
+		}
+		v.reset(OpQuaternionMake)
+		v0 := b.NewValue0(v.Pos, OpArg, types.Float32)
+		v0.AuxInt = off
+		v0.Aux = n
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpArg, types.Float32)
+		v1.AuxInt = off + 4
+		v1.Aux = n
+		v.AddArg(v1)
+		v2 := b.NewValue0(v.Pos, OpArg, types.Float32)
+		v2.AuxInt = off + 8
+		v2.Aux = n
+		v.AddArg(v2)
+		v3 := b.NewValue0(v.Pos, OpArg, types.Float32)
+		v3.AuxInt = off + 12
+		v3.Aux = n
+		v.AddArg(v3)
+		return true
+	}
 	// match: (Arg <t>)
 	// cond: t.IsStruct() && t.NumFields() == 0 && fe.CanSSA(t)
 	// result: (StructMake0)

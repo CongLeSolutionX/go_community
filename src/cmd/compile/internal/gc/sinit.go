@@ -1319,6 +1319,8 @@ func iszero(n *Node) bool {
 			return u.CmpFloat64(0) == 0
 		case *Mpcplx:
 			return u.Real.CmpFloat64(0) == 0 && u.Imag.CmpFloat64(0) == 0
+		case *Mpquat:
+			return u.Real.CmpFloat64(0) == 0 && u.Imag.CmpFloat64(0) == 0 && u.Jmag.CmpFloat64(0) == 0 && u.Kmag.CmpFloat64(0) == 0
 		}
 
 	case OARRAYLIT:

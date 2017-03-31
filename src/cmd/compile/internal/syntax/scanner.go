@@ -413,7 +413,7 @@ func (s *scanner) number(c rune) {
 				}
 				c = s.getr()
 			}
-			if c != '.' && c != 'e' && c != 'E' && c != 'i' {
+			if c != '.' && c != 'e' && c != 'E' && (c < 'i' || c > 'k') {
 				// octal
 				if has8or9 {
 					s.error("malformed octal constant")
@@ -453,8 +453,8 @@ func (s *scanner) number(c rune) {
 		}
 	}
 
-	// complex
-	if c == 'i' {
+	// complex or quaternion
+	if c >= 'i' && c <= 'k' {
 		s.kind = ImagLit
 		s.getr()
 	}

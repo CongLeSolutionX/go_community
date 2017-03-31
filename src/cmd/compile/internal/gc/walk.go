@@ -501,7 +501,7 @@ opswitch:
 	case OTYPE, ONAME, OLITERAL:
 		// TODO(mdempsky): Just return n; see discussion on CL 38655.
 
-	case ONOT, OMINUS, OPLUS, OCOM, OREAL, OIMAG, ODOTMETH, ODOTINTER,
+	case ONOT, OMINUS, OPLUS, OCOM, OREAL, OIMAG, OJMAG, OKMAG, ODOTMETH, ODOTINTER,
 		OIND, OSPTR, OITAB, OIDATA, OADDR:
 		n.Left = walkexpr(n.Left, init)
 
@@ -565,6 +565,11 @@ opswitch:
 		}
 		n.Left = walkexpr(n.Left, init)
 		n.Right = walkexpr(n.Right, init)
+
+	case OQUATERNION:
+		for i, n2 := range n.List.Slice() {
+			n.List.SetIndex(i, walkexpr(n2, init))
+		}
 
 	case OEQ, ONE:
 		n.Left = walkexpr(n.Left, init)
@@ -1054,9 +1059,8 @@ opswitch:
 		n.Left = walkexpr(n.Left, init)
 		n.Right = walkexpr(n.Right, init)
 
-		// rewrite complex div into function call.
+		// rewrite complex and quaternion div into function calls.
 		et := n.Left.Type.Etype
-
 		if isComplex[et] && n.Op == ODIV {
 			t := n.Type
 			n = mkcall("complex128div", Types[TCOMPLEX128], init, conv(n.Left, Types[TCOMPLEX128]), conv(n.Right, Types[TCOMPLEX128]))
@@ -1904,6 +1908,8 @@ func walkprint(nn *Node, init *Nodes) *Node {
 			on = syslook("printfloat")
 		} else if isComplex[et] {
 			on = syslook("printcomplex")
+		} else if isQuaternion[et] {
+			on = syslook("printquaternion")
 		} else if et == TBOOL {
 			on = syslook("printbool")
 		} else if et == TSTRING {
@@ -3542,6 +3548,8 @@ func candiscard(n *Node) bool {
 		ORUNESTR,
 		OREAL,
 		OIMAG,
+		OJMAG,
+		OKMAG,
 		OCOMPLEX:
 		break
 

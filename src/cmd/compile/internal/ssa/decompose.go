@@ -57,6 +57,26 @@ func decomposeBuiltIn(f *Func) {
 				f.NamedValues[iName] = append(f.NamedValues[iName], i)
 			}
 			delete(f.NamedValues, name)
+		case t.IsQuaternion():
+			var elemType Type
+			if t.Size() == 32 {
+				elemType = f.Config.Types.Float64
+			} else {
+				elemType = f.Config.Types.Float32
+			}
+			rName, iName, jName, kName := f.fe.SplitQuaternion(name)
+			newNames = append(newNames, rName, iName, jName, kName)
+			for _, v := range f.NamedValues[name] {
+				r := v.Block.NewValue1(v.Pos, OpQuaternionReal, elemType, v)
+				i := v.Block.NewValue1(v.Pos, OpQuaternionImag, elemType, v)
+				j := v.Block.NewValue1(v.Pos, OpQuaternionJmag, elemType, v)
+				k := v.Block.NewValue1(v.Pos, OpQuaternionKmag, elemType, v)
+				f.NamedValues[rName] = append(f.NamedValues[rName], r)
+				f.NamedValues[iName] = append(f.NamedValues[iName], i)
+				f.NamedValues[jName] = append(f.NamedValues[jName], j)
+				f.NamedValues[kName] = append(f.NamedValues[kName], k)
+			}
+			delete(f.NamedValues, name)
 		case t.IsString():
 			ptrType := f.Config.Types.BytePtr
 			lenType := f.Config.Types.Int
@@ -115,6 +135,8 @@ func decomposeBuiltInPhi(v *Value) {
 		decomposeInt64Phi(v)
 	case v.Type.IsComplex():
 		decomposeComplexPhi(v)
+	case v.Type.IsQuaternion():
+		decomposeQuaternionPhi(v)
 	case v.Type.IsString():
 		decomposeStringPhi(v)
 	case v.Type.IsSlice():
@@ -204,6 +226,35 @@ func decomposeComplexPhi(v *Value) {
 	v.reset(OpComplexMake)
 	v.AddArg(real)
 	v.AddArg(imag)
+}
+
+func decomposeQuaternionPhi(v *Value) {
+	types := &v.Block.Func.Config.Types
+	var partType Type
+	switch z := v.Type.Size(); z {
+	case 16:
+		partType = types.Float32
+	case 32:
+		partType = types.Float64
+	default:
+		v.Fatalf("decomposeQuaternionPhi: bad quaternion size %d", z)
+	}
+
+	real := v.Block.NewValue0(v.Pos, OpPhi, partType)
+	imag := v.Block.NewValue0(v.Pos, OpPhi, partType)
+	jmag := v.Block.NewValue0(v.Pos, OpPhi, partType)
+	kmag := v.Block.NewValue0(v.Pos, OpPhi, partType)
+	for _, a := range v.Args {
+		real.AddArg(a.Block.NewValue1(v.Pos, OpQuaternionReal, partType, a))
+		imag.AddArg(a.Block.NewValue1(v.Pos, OpQuaternionImag, partType, a))
+		jmag.AddArg(a.Block.NewValue1(v.Pos, OpQuaternionJmag, partType, a))
+		kmag.AddArg(a.Block.NewValue1(v.Pos, OpQuaternionKmag, partType, a))
+	}
+	v.reset(OpQuaternionMake)
+	v.AddArg(real)
+	v.AddArg(imag)
+	v.AddArg(jmag)
+	v.AddArg(kmag)
 }
 
 func decomposeInterfacePhi(v *Value) {

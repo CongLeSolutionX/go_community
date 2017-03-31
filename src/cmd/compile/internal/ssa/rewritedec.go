@@ -18,6 +18,14 @@ func rewriteValuedec(v *Value) bool {
 		return rewriteValuedec_OpITab(v)
 	case OpLoad:
 		return rewriteValuedec_OpLoad(v)
+	case OpQuaternionImag:
+		return rewriteValuedec_OpQuaternionImag(v)
+	case OpQuaternionJmag:
+		return rewriteValuedec_OpQuaternionJmag(v)
+	case OpQuaternionKmag:
+		return rewriteValuedec_OpQuaternionKmag(v)
+	case OpQuaternionReal:
+		return rewriteValuedec_OpQuaternionReal(v)
 	case OpSliceCap:
 		return rewriteValuedec_OpSliceCap(v)
 	case OpSliceLen:
@@ -159,6 +167,82 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		return true
 	}
 	// match: (Load <t> ptr mem)
+	// cond: t.IsQuaternion() && t.Size() == 16
+	// result: (QuaternionMake     (Load <types.Float32> ptr mem)     (Load <types.Float32>       (OffPtr <types.Float32Ptr> [4] ptr)       mem)     (Load <types.Float32>       (OffPtr <types.Float32Ptr> [8] ptr)       mem)     (Load <types.Float32>       (OffPtr <types.Float32Ptr> [12] ptr)       mem)     )
+	for {
+		t := v.Type
+		ptr := v.Args[0]
+		mem := v.Args[1]
+		if !(t.IsQuaternion() && t.Size() == 16) {
+			break
+		}
+		v.reset(OpQuaternionMake)
+		v0 := b.NewValue0(v.Pos, OpLoad, types.Float32)
+		v0.AddArg(ptr)
+		v0.AddArg(mem)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpLoad, types.Float32)
+		v2 := b.NewValue0(v.Pos, OpOffPtr, types.Float32Ptr)
+		v2.AuxInt = 4
+		v2.AddArg(ptr)
+		v1.AddArg(v2)
+		v1.AddArg(mem)
+		v.AddArg(v1)
+		v3 := b.NewValue0(v.Pos, OpLoad, types.Float32)
+		v4 := b.NewValue0(v.Pos, OpOffPtr, types.Float32Ptr)
+		v4.AuxInt = 8
+		v4.AddArg(ptr)
+		v3.AddArg(v4)
+		v3.AddArg(mem)
+		v.AddArg(v3)
+		v5 := b.NewValue0(v.Pos, OpLoad, types.Float32)
+		v6 := b.NewValue0(v.Pos, OpOffPtr, types.Float32Ptr)
+		v6.AuxInt = 12
+		v6.AddArg(ptr)
+		v5.AddArg(v6)
+		v5.AddArg(mem)
+		v.AddArg(v5)
+		return true
+	}
+	// match: (Load <t> ptr mem)
+	// cond: t.IsQuaternion() && t.Size() == 32
+	// result: (QuaternionMake     (Load <types.Float64> ptr mem)     (Load <types.Float64>       (OffPtr <types.Float64Ptr> [8] ptr)       mem)     (Load <types.Float64>       (OffPtr <types.Float64Ptr> [16] ptr)       mem)     (Load <types.Float64>       (OffPtr <types.Float64Ptr> [24] ptr)       mem)     )
+	for {
+		t := v.Type
+		ptr := v.Args[0]
+		mem := v.Args[1]
+		if !(t.IsQuaternion() && t.Size() == 32) {
+			break
+		}
+		v.reset(OpQuaternionMake)
+		v0 := b.NewValue0(v.Pos, OpLoad, types.Float64)
+		v0.AddArg(ptr)
+		v0.AddArg(mem)
+		v.AddArg(v0)
+		v1 := b.NewValue0(v.Pos, OpLoad, types.Float64)
+		v2 := b.NewValue0(v.Pos, OpOffPtr, types.Float64Ptr)
+		v2.AuxInt = 8
+		v2.AddArg(ptr)
+		v1.AddArg(v2)
+		v1.AddArg(mem)
+		v.AddArg(v1)
+		v3 := b.NewValue0(v.Pos, OpLoad, types.Float64)
+		v4 := b.NewValue0(v.Pos, OpOffPtr, types.Float64Ptr)
+		v4.AuxInt = 16
+		v4.AddArg(ptr)
+		v3.AddArg(v4)
+		v3.AddArg(mem)
+		v.AddArg(v3)
+		v5 := b.NewValue0(v.Pos, OpLoad, types.Float64)
+		v6 := b.NewValue0(v.Pos, OpOffPtr, types.Float64Ptr)
+		v6.AuxInt = 24
+		v6.AddArg(ptr)
+		v5.AddArg(v6)
+		v5.AddArg(mem)
+		v.AddArg(v5)
+		return true
+	}
+	// match: (Load <t> ptr mem)
 	// cond: t.IsString()
 	// result: (StringMake     (Load <types.BytePtr> ptr mem)     (Load <types.Int>       (OffPtr <types.IntPtr> [config.PtrSize] ptr)       mem))
 	for {
@@ -235,6 +319,74 @@ func rewriteValuedec_OpLoad(v *Value) bool {
 		v1.AddArg(v2)
 		v1.AddArg(mem)
 		v.AddArg(v1)
+		return true
+	}
+	return false
+}
+func rewriteValuedec_OpQuaternionImag(v *Value) bool {
+	// match: (QuaternionImag (QuaternionMake _ imag _ _))
+	// cond:
+	// result: imag
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpQuaternionMake {
+			break
+		}
+		imag := v_0.Args[1]
+		v.reset(OpCopy)
+		v.Type = imag.Type
+		v.AddArg(imag)
+		return true
+	}
+	return false
+}
+func rewriteValuedec_OpQuaternionJmag(v *Value) bool {
+	// match: (QuaternionJmag (QuaternionMake _ _ jmag _))
+	// cond:
+	// result: jmag
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpQuaternionMake {
+			break
+		}
+		jmag := v_0.Args[2]
+		v.reset(OpCopy)
+		v.Type = jmag.Type
+		v.AddArg(jmag)
+		return true
+	}
+	return false
+}
+func rewriteValuedec_OpQuaternionKmag(v *Value) bool {
+	// match: (QuaternionKmag (QuaternionMake _ _ _ kmag))
+	// cond:
+	// result: kmag
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpQuaternionMake {
+			break
+		}
+		kmag := v_0.Args[3]
+		v.reset(OpCopy)
+		v.Type = kmag.Type
+		v.AddArg(kmag)
+		return true
+	}
+	return false
+}
+func rewriteValuedec_OpQuaternionReal(v *Value) bool {
+	// match: (QuaternionReal (QuaternionMake real _ _ _))
+	// cond:
+	// result: real
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpQuaternionMake {
+			break
+		}
+		real := v_0.Args[0]
+		v.reset(OpCopy)
+		v.Type = real.Type
+		v.AddArg(real)
 		return true
 	}
 	return false
@@ -356,6 +508,104 @@ func rewriteValuedec_OpStore(v *Value) bool {
 		v1.AddArg(dst)
 		v1.AddArg(real)
 		v1.AddArg(mem)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Store {t} dst (QuaternionMake real imag jmag kmag) mem)
+	// cond: t.(Type).Size() == 16
+	// result: (Store {types.Float32}     (OffPtr <types.Float32Ptr> [12] dst)     kmag     (Store {types.Float32}       (OffPtr <types.Float32Ptr> [8] dst)       jmag       (Store {types.Float32}         (OffPtr <types.Float32Ptr> [4] dst)         imag         (Store {types.Float32} dst real mem))))
+	for {
+		t := v.Aux
+		dst := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpQuaternionMake {
+			break
+		}
+		real := v_1.Args[0]
+		imag := v_1.Args[1]
+		jmag := v_1.Args[2]
+		kmag := v_1.Args[3]
+		mem := v.Args[2]
+		if !(t.(Type).Size() == 16) {
+			break
+		}
+		v.reset(OpStore)
+		v.Aux = types.Float32
+		v0 := b.NewValue0(v.Pos, OpOffPtr, types.Float32Ptr)
+		v0.AuxInt = 12
+		v0.AddArg(dst)
+		v.AddArg(v0)
+		v.AddArg(kmag)
+		v1 := b.NewValue0(v.Pos, OpStore, TypeMem)
+		v1.Aux = types.Float32
+		v2 := b.NewValue0(v.Pos, OpOffPtr, types.Float32Ptr)
+		v2.AuxInt = 8
+		v2.AddArg(dst)
+		v1.AddArg(v2)
+		v1.AddArg(jmag)
+		v3 := b.NewValue0(v.Pos, OpStore, TypeMem)
+		v3.Aux = types.Float32
+		v4 := b.NewValue0(v.Pos, OpOffPtr, types.Float32Ptr)
+		v4.AuxInt = 4
+		v4.AddArg(dst)
+		v3.AddArg(v4)
+		v3.AddArg(imag)
+		v5 := b.NewValue0(v.Pos, OpStore, TypeMem)
+		v5.Aux = types.Float32
+		v5.AddArg(dst)
+		v5.AddArg(real)
+		v5.AddArg(mem)
+		v3.AddArg(v5)
+		v1.AddArg(v3)
+		v.AddArg(v1)
+		return true
+	}
+	// match: (Store {t} dst (QuaternionMake real imag jmag kmag) mem)
+	// cond: t.(Type).Size() == 32
+	// result: (Store {types.Float64}     (OffPtr <types.Float64Ptr> [24] dst)     kmag     (Store {types.Float64}       (OffPtr <types.Float64Ptr> [16] dst)       jmag       (Store {types.Float64}         (OffPtr <types.Float64Ptr> [8] dst)         imag         (Store {types.Float64} dst real mem))))
+	for {
+		t := v.Aux
+		dst := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpQuaternionMake {
+			break
+		}
+		real := v_1.Args[0]
+		imag := v_1.Args[1]
+		jmag := v_1.Args[2]
+		kmag := v_1.Args[3]
+		mem := v.Args[2]
+		if !(t.(Type).Size() == 32) {
+			break
+		}
+		v.reset(OpStore)
+		v.Aux = types.Float64
+		v0 := b.NewValue0(v.Pos, OpOffPtr, types.Float64Ptr)
+		v0.AuxInt = 24
+		v0.AddArg(dst)
+		v.AddArg(v0)
+		v.AddArg(kmag)
+		v1 := b.NewValue0(v.Pos, OpStore, TypeMem)
+		v1.Aux = types.Float64
+		v2 := b.NewValue0(v.Pos, OpOffPtr, types.Float64Ptr)
+		v2.AuxInt = 16
+		v2.AddArg(dst)
+		v1.AddArg(v2)
+		v1.AddArg(jmag)
+		v3 := b.NewValue0(v.Pos, OpStore, TypeMem)
+		v3.Aux = types.Float64
+		v4 := b.NewValue0(v.Pos, OpOffPtr, types.Float64Ptr)
+		v4.AuxInt = 8
+		v4.AddArg(dst)
+		v3.AddArg(v4)
+		v3.AddArg(imag)
+		v5 := b.NewValue0(v.Pos, OpStore, TypeMem)
+		v5.Aux = types.Float64
+		v5.AddArg(dst)
+		v5.AddArg(real)
+		v5.AddArg(mem)
+		v3.AddArg(v5)
+		v1.AddArg(v3)
 		v.AddArg(v1)
 		return true
 	}

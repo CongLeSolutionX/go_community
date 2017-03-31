@@ -695,7 +695,7 @@ func (v Value) Close() {
 }
 
 // Complex returns v's underlying value, as a complex128.
-// It panics if v's Kind is not Complex64 or Complex128
+// It panics if v's Kind is not Complex64 or Complex128.
 func (v Value) Complex() complex128 {
 	k := v.kind()
 	switch k {
@@ -705,6 +705,19 @@ func (v Value) Complex() complex128 {
 		return *(*complex128)(v.ptr)
 	}
 	panic(&ValueError{"reflect.Value.Complex", v.kind()})
+}
+
+// Quaternion returns v's underlying value, as a quaternion256.
+// It panics if v's Kind is not Quaternion128 or Quaternion256.
+func (v Value) Quaternion() quaternion256 {
+	k := v.kind()
+	switch k {
+	case Quaternion128:
+		return quaternion256(*(*quaternion128)(v.ptr))
+	case Quaternion256:
+		return *(*quaternion256)(v.ptr)
+	}
+	panic(&ValueError{"reflect.Value.Quaternion", v.kind()})
 }
 
 // Elem returns the value that the interface v contains
@@ -1192,6 +1205,19 @@ func (v Value) OverflowFloat(x float64) bool {
 	panic(&ValueError{"reflect.Value.OverflowFloat", v.kind()})
 }
 
+// OverflowQuaternion reports whether the quaternion256 x cannot be represented by v's type.
+// It panics if v's Kind is not Quaternion128 or Quaternion256.
+func (v Value) OverflowQuaternion(x quaternion256) bool {
+	k := v.kind()
+	switch k {
+	case Quaternion128:
+		return overflowFloat32(real(x)) || overflowFloat32(imag(x)) || overflowFloat32(jmag(x)) || overflowFloat32(kmag(x))
+	case Quaternion256:
+		return false
+	}
+	panic(&ValueError{"reflect.Value.OverflowQuaternion", v.kind()})
+}
+
 func overflowFloat32(x float64) bool {
 	if x < 0 {
 		x = -x
@@ -1405,6 +1431,20 @@ func (v Value) SetFloat(x float64) {
 		*(*float32)(v.ptr) = float32(x)
 	case Float64:
 		*(*float64)(v.ptr) = x
+	}
+}
+
+// SetQuaternion sets v's underlying value to x.
+// It panics if v's Kind is not Quaternion128 or Quaternion256, or if CanSet() is false.
+func (v Value) SetQuaternion(x quaternion256) {
+	v.mustBeAssignable()
+	switch k := v.kind(); k {
+	default:
+		panic(&ValueError{"reflect.Value.SetQuaternion", v.kind()})
+	case Quaternion128:
+		*(*quaternion128)(v.ptr) = quaternion128(x)
+	case Quaternion256:
+		*(*quaternion256)(v.ptr) = x
 	}
 }
 
@@ -2229,6 +2269,12 @@ func convertOp(dst, src *rtype) func(Value, Type) Value {
 			return cvtComplex
 		}
 
+	case Quaternion128, Quaternion256:
+		switch dst.Kind() {
+		case Quaternion128, Quaternion256:
+			return cvtQuaternion
+		}
+
 	case String:
 		if dst.Kind() == Slice && dst.Elem().PkgPath() == "" {
 			switch dst.Elem().Kind() {
@@ -2318,6 +2364,20 @@ func makeComplex(f flag, v complex128, t Type) Value {
 	return Value{typ, ptr, f | flagIndir | flag(typ.Kind())}
 }
 
+// makeQuaternion returns a Value of type t equal to v (possibly truncated to quaternion128),
+// where t is a quaternion128 or quaternion256 type.
+func makeQuaternion(f flag, v quaternion256, t Type) Value {
+	typ := t.common()
+	ptr := unsafe_New(typ)
+	switch typ.size {
+	case 16:
+		*(*quaternion128)(ptr) = quaternion128(v)
+	case 32:
+		*(*quaternion256)(ptr) = v
+	}
+	return Value{typ, ptr, f | flagIndir | flag(typ.Kind())}
+}
+
 func makeString(f flag, v string, t Type) Value {
 	ret := New(t).Elem()
 	ret.SetString(v)
@@ -2382,6 +2442,11 @@ func cvtFloat(v Value, t Type) Value {
 // convertOp: complexXX -> complexXX
 func cvtComplex(v Value, t Type) Value {
 	return makeComplex(v.flag&flagRO, v.Complex(), t)
+}
+
+// convertOp: quaternionXX -> quaternionXX
+func cvtQuaternion(v Value, t Type) Value {
+	return makeQuaternion(v.flag&flagRO, v.Quaternion(), t)
 }
 
 // convertOp: intXX -> string

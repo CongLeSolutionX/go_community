@@ -230,6 +230,14 @@ func dowidth(t *Type) {
 		w = 16
 		t.Align = uint8(Widthreg)
 
+	case TQUATERNION128:
+		w = 16
+		t.Align = 4
+
+	case TQUATERNION256:
+		w = 32
+		t.Align = uint8(Widthreg)
+
 	case TPTR32:
 		w = 4
 		checkwidth(t.Elem())

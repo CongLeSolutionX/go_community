@@ -371,6 +371,13 @@ var genericOps = []opData{
 	{name: "ComplexReal", argLength: 1}, // real(arg0)
 	{name: "ComplexImag", argLength: 1}, // imag(arg0)
 
+	// Quaternion (part/whole)
+	{name: "QuaternionMake", argLength: 4}, // arg0=real, arg1=imag, arg2=jmag, arg3=kmag
+	{name: "QuaternionReal", argLength: 1}, // real(arg0)
+	{name: "QuaternionImag", argLength: 1}, // imag(arg0)
+	{name: "QuaternionJmag", argLength: 1}, // jmag(arg0)
+	{name: "QuaternionKmag", argLength: 1}, // kmag(arg0)
+
 	// Strings
 	{name: "StringMake", argLength: 2},                // arg0=ptr, arg1=len
 	{name: "StringPtr", argLength: 1, typ: "BytePtr"}, // ptr(arg0)

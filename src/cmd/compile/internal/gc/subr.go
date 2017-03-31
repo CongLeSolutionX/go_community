@@ -610,6 +610,19 @@ func cplxsubtype(et EType) EType {
 	return 0
 }
 
+func quatsubtype(et EType) EType {
+	switch et {
+	case TQUATERNION128:
+		return TFLOAT32
+
+	case TQUATERNION256:
+		return TFLOAT64
+	}
+
+	Fatalf("quatsubtype: %v\n", et)
+	return 0
+}
+
 // eqtype reports whether t1 and t2 are identical, following the spec rules.
 //
 // Any cyclic type must go through a named type, and if one is
@@ -929,6 +942,14 @@ func convertop(src *Type, dst *Type, why *string) Op {
 
 	// 5. src and dst are both complex types.
 	if src.IsComplex() && dst.IsComplex() {
+		if simtype[src.Etype] == simtype[dst.Etype] {
+			return OCONVNOP
+		}
+		return OCONV
+	}
+
+	// 5½. src and dst are both quaternion types.
+	if src.IsQuaternion() && dst.IsQuaternion() {
 		if simtype[src.Etype] == simtype[dst.Etype] {
 			return OCONVNOP
 		}

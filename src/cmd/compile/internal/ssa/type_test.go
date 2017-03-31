@@ -8,20 +8,21 @@ import "cmd/internal/obj"
 
 // Stub implementation used for testing.
 type TypeImpl struct {
-	Size_   int64
-	Align   int64
-	Boolean bool
-	Integer bool
-	Signed  bool
-	Float   bool
-	Complex bool
-	Ptr     bool
-	string  bool
-	slice   bool
-	array   bool
-	struct_ bool
-	inter   bool
-	Elem_   Type
+	Size_      int64
+	Align      int64
+	Boolean    bool
+	Integer    bool
+	Signed     bool
+	Float      bool
+	Complex    bool
+	Quaternion bool
+	Ptr        bool
+	string     bool
+	slice      bool
+	array      bool
+	struct_    bool
+	inter      bool
+	Elem_      Type
 
 	Name string
 }
@@ -33,6 +34,7 @@ func (t *TypeImpl) IsInteger() bool        { return t.Integer }
 func (t *TypeImpl) IsSigned() bool         { return t.Signed }
 func (t *TypeImpl) IsFloat() bool          { return t.Float }
 func (t *TypeImpl) IsComplex() bool        { return t.Complex }
+func (t *TypeImpl) IsQuaternion() bool     { return t.Quaternion }
 func (t *TypeImpl) IsPtrShaped() bool      { return t.Ptr }
 func (t *TypeImpl) IsString() bool         { return t.string }
 func (t *TypeImpl) IsSlice() bool          { return t.slice }
@@ -88,19 +90,21 @@ func (t *TypeImpl) Compare(u Type) Cmp {
 
 var (
 	// shortcuts for commonly used basic types
-	TypeInt8       = &TypeImpl{Size_: 1, Align: 1, Integer: true, Signed: true, Name: "int8"}
-	TypeInt16      = &TypeImpl{Size_: 2, Align: 2, Integer: true, Signed: true, Name: "int16"}
-	TypeInt32      = &TypeImpl{Size_: 4, Align: 4, Integer: true, Signed: true, Name: "int32"}
-	TypeInt64      = &TypeImpl{Size_: 8, Align: 8, Integer: true, Signed: true, Name: "int64"}
-	TypeFloat32    = &TypeImpl{Size_: 4, Align: 4, Float: true, Name: "float32"}
-	TypeFloat64    = &TypeImpl{Size_: 8, Align: 8, Float: true, Name: "float64"}
-	TypeComplex64  = &TypeImpl{Size_: 8, Align: 4, Complex: true, Name: "complex64"}
-	TypeComplex128 = &TypeImpl{Size_: 16, Align: 8, Complex: true, Name: "complex128"}
-	TypeUInt8      = &TypeImpl{Size_: 1, Align: 1, Integer: true, Name: "uint8"}
-	TypeUInt16     = &TypeImpl{Size_: 2, Align: 2, Integer: true, Name: "uint16"}
-	TypeUInt32     = &TypeImpl{Size_: 4, Align: 4, Integer: true, Name: "uint32"}
-	TypeUInt64     = &TypeImpl{Size_: 8, Align: 8, Integer: true, Name: "uint64"}
-	TypeBool       = &TypeImpl{Size_: 1, Align: 1, Boolean: true, Name: "bool"}
-	TypeBytePtr    = &TypeImpl{Size_: 8, Align: 8, Ptr: true, Name: "*byte"}
-	TypeInt64Ptr   = &TypeImpl{Size_: 8, Align: 8, Ptr: true, Name: "*int64"}
+	TypeInt8          = &TypeImpl{Size_: 1, Align: 1, Integer: true, Signed: true, Name: "int8"}
+	TypeInt16         = &TypeImpl{Size_: 2, Align: 2, Integer: true, Signed: true, Name: "int16"}
+	TypeInt32         = &TypeImpl{Size_: 4, Align: 4, Integer: true, Signed: true, Name: "int32"}
+	TypeInt64         = &TypeImpl{Size_: 8, Align: 8, Integer: true, Signed: true, Name: "int64"}
+	TypeFloat32       = &TypeImpl{Size_: 4, Align: 4, Float: true, Name: "float32"}
+	TypeFloat64       = &TypeImpl{Size_: 8, Align: 8, Float: true, Name: "float64"}
+	TypeComplex64     = &TypeImpl{Size_: 8, Align: 4, Complex: true, Name: "complex64"}
+	TypeComplex128    = &TypeImpl{Size_: 16, Align: 8, Complex: true, Name: "complex128"}
+	TypeQuaternion128 = &TypeImpl{Size_: 16, Align: 4, Quaternion: true, Name: "quaternion128"}
+	TypeQuaternion256 = &TypeImpl{Size_: 32, Align: 8, Quaternion: true, Name: "quaternion256"}
+	TypeUInt8         = &TypeImpl{Size_: 1, Align: 1, Integer: true, Name: "uint8"}
+	TypeUInt16        = &TypeImpl{Size_: 2, Align: 2, Integer: true, Name: "uint16"}
+	TypeUInt32        = &TypeImpl{Size_: 4, Align: 4, Integer: true, Name: "uint32"}
+	TypeUInt64        = &TypeImpl{Size_: 8, Align: 8, Integer: true, Name: "uint64"}
+	TypeBool          = &TypeImpl{Size_: 1, Align: 1, Boolean: true, Name: "bool"}
+	TypeBytePtr       = &TypeImpl{Size_: 8, Align: 8, Ptr: true, Name: "*byte"}
+	TypeInt64Ptr      = &TypeImpl{Size_: 8, Align: 8, Ptr: true, Name: "*int64"}
 )

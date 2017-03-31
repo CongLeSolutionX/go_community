@@ -1117,6 +1117,8 @@ func orderexpr(n *Node, order *Order, lhs *Node) *Node {
 		OCOMPLEX,
 		OCOPY,
 		OIMAG,
+		OJMAG,
+		OKMAG,
 		OLEN,
 		OMAKECHAN,
 		OMAKEMAP,

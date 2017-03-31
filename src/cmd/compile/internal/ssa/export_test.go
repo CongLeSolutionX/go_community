@@ -96,6 +96,12 @@ func (d DummyFrontend) SplitComplex(s LocalSlot) (LocalSlot, LocalSlot) {
 	}
 	return LocalSlot{s.N, dummyTypes.Float32, s.Off}, LocalSlot{s.N, dummyTypes.Float32, s.Off + 4}
 }
+func (d DummyFrontend) SplitQuaternion(s LocalSlot) (LocalSlot, LocalSlot, LocalSlot, LocalSlot) {
+	if s.Type.Size() == 32 {
+		return LocalSlot{s.N, dummyTypes.Float64, s.Off}, LocalSlot{s.N, dummyTypes.Float64, s.Off + 8}, LocalSlot{s.N, dummyTypes.Float64, s.Off + 16}, LocalSlot{s.N, dummyTypes.Float64, s.Off + 24}
+	}
+	return LocalSlot{s.N, dummyTypes.Float32, s.Off}, LocalSlot{s.N, dummyTypes.Float32, s.Off + 4}, LocalSlot{s.N, dummyTypes.Float32, s.Off + 8}, LocalSlot{s.N, dummyTypes.Float32, s.Off + 12}
+}
 func (d DummyFrontend) SplitInt64(s LocalSlot) (LocalSlot, LocalSlot) {
 	if s.Type.IsSigned() {
 		return LocalSlot{s.N, dummyTypes.Int32, s.Off + 4}, LocalSlot{s.N, dummyTypes.UInt32, s.Off}

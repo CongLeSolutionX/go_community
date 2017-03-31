@@ -454,6 +454,11 @@ func (s *state) entryNewValue2(op ssa.Op, t ssa.Type, arg0, arg1 *ssa.Value) *ss
 	return s.f.Entry.NewValue2(s.peekPos(), op, t, arg0, arg1)
 }
 
+// entryNewValue4 adds a new value with four arguments to the entry block.
+func (s *state) entryNewValue4(op ssa.Op, t ssa.Type, arg0, arg1, arg2, arg3 *ssa.Value) *ssa.Value {
+	return s.f.Entry.NewValue4(s.peekPos(), op, t, arg0, arg1, arg2, arg3)
+}
+
 // const* routines add a new const value to the entry block.
 func (s *state) constSlice(t ssa.Type) *ssa.Value       { return s.f.ConstSlice(s.peekPos(), t) }
 func (s *state) constInterface(t ssa.Type) *ssa.Value   { return s.f.ConstInterface(s.peekPos(), t) }
@@ -1001,6 +1006,15 @@ var opToSSA = map[opAndType]ssa.Op{
 	opAndType{OREAL, TCOMPLEX64}:  ssa.OpComplexReal,
 	opAndType{OREAL, TCOMPLEX128}: ssa.OpComplexReal,
 
+	opAndType{OIMAG, TQUATERNION128}: ssa.OpQuaternionImag,
+	opAndType{OIMAG, TQUATERNION256}: ssa.OpQuaternionImag,
+	opAndType{OJMAG, TQUATERNION128}: ssa.OpQuaternionJmag,
+	opAndType{OJMAG, TQUATERNION256}: ssa.OpQuaternionJmag,
+	opAndType{OKMAG, TQUATERNION128}: ssa.OpQuaternionKmag,
+	opAndType{OKMAG, TQUATERNION256}: ssa.OpQuaternionKmag,
+	opAndType{OREAL, TQUATERNION128}: ssa.OpQuaternionReal,
+	opAndType{OREAL, TQUATERNION256}: ssa.OpQuaternionReal,
+
 	opAndType{OMUL, TINT8}:    ssa.OpMul8,
 	opAndType{OMUL, TUINT8}:   ssa.OpMul8,
 	opAndType{OMUL, TINT16}:   ssa.OpMul16,
@@ -1181,6 +1195,14 @@ func (s *state) ssaOp(op Op, t *Type) ssa.Op {
 
 func floatForComplex(t *Type) *Type {
 	if t.Size() == 8 {
+		return Types[TFLOAT32]
+	} else {
+		return Types[TFLOAT64]
+	}
+}
+
+func floatForQuaternion(t *Type) *Type {
+	if t.Size() == 16 {
 		return Types[TFLOAT32]
 	} else {
 		return Types[TFLOAT64]
@@ -1452,7 +1474,32 @@ func (s *state) expr(n *Node) *ssa.Value {
 					s.constFloat64(pt, r.Float64()),
 					s.constFloat64(pt, i.Float64()))
 			default:
-				s.Fatalf("bad float size %d", n.Type.Size())
+				s.Fatalf("bad complex size %d", n.Type.Size())
+				return nil
+			}
+
+		case *Mpquat:
+			r := &u.Real
+			i := &u.Imag
+			j := &u.Jmag
+			k := &u.Kmag
+			switch n.Type.Size() {
+			case 16:
+				pt := Types[TFLOAT32]
+				return s.newValue4(ssa.OpQuaternionMake, n.Type,
+					s.constFloat32(pt, r.Float32()),
+					s.constFloat32(pt, i.Float32()),
+					s.constFloat32(pt, j.Float32()),
+					s.constFloat32(pt, k.Float32()))
+			case 32:
+				pt := Types[TFLOAT64]
+				return s.newValue4(ssa.OpQuaternionMake, n.Type,
+					s.constFloat64(pt, r.Float64()),
+					s.constFloat64(pt, i.Float64()),
+					s.constFloat64(pt, j.Float64()),
+					s.constFloat64(pt, k.Float64()))
+			default:
+				s.Fatalf("bad quaternion size %d", n.Type.Size())
 				return nil
 			}
 
@@ -1687,6 +1734,33 @@ func (s *state) expr(n *Node) *ssa.Value {
 				s.newValue1(op, ttp, s.newValue1(ssa.OpComplexImag, ftp, x)))
 		}
 
+		if ft.IsQuaternion() && tt.IsQuaternion() {
+			var op ssa.Op
+			if ft.Size() == tt.Size() {
+				switch ft.Size() {
+				case 16:
+					op = ssa.OpRound32F
+				case 32:
+					op = ssa.OpRound64F
+				default:
+					s.Fatalf("weird quaternion conversion %v -> %v", ft, tt)
+				}
+			} else if ft.Size() == 16 && tt.Size() == 32 {
+				op = ssa.OpCvt32Fto64F
+			} else if ft.Size() == 32 && tt.Size() == 16 {
+				op = ssa.OpCvt64Fto32F
+			} else {
+				s.Fatalf("weird quaternion conversion %v -> %v", ft, tt)
+			}
+			ftp := floatForQuaternion(ft)
+			ttp := floatForQuaternion(tt)
+			return s.newValue4(ssa.OpQuaternionMake, tt,
+				s.newValue1(op, ttp, s.newValue1(ssa.OpQuaternionReal, ftp, x)),
+				s.newValue1(op, ttp, s.newValue1(ssa.OpQuaternionImag, ftp, x)),
+				s.newValue1(op, ttp, s.newValue1(ssa.OpQuaternionJmag, ftp, x)),
+				s.newValue1(op, ttp, s.newValue1(ssa.OpQuaternionKmag, ftp, x)))
+		}
+
 		s.Fatalf("unhandled OCONV %s -> %s", n.Left.Type.Etype, n.Type.Etype)
 		return nil
 
@@ -1713,14 +1787,33 @@ func (s *state) expr(n *Node) *ssa.Value {
 				s.Fatalf("ordered complex compare %v", n.Op)
 			}
 		}
+		if n.Left.Type.IsQuaternion() {
+			pt := floatForQuaternion(n.Left.Type)
+			op := s.ssaOp(OEQ, pt)
+			r := s.newValue2(op, Types[TBOOL], s.newValue1(ssa.OpQuaternionReal, pt, a), s.newValue1(ssa.OpQuaternionReal, pt, b))
+			i := s.newValue2(op, Types[TBOOL], s.newValue1(ssa.OpQuaternionImag, pt, a), s.newValue1(ssa.OpQuaternionImag, pt, b))
+			j := s.newValue2(op, Types[TBOOL], s.newValue1(ssa.OpQuaternionJmag, pt, a), s.newValue1(ssa.OpQuaternionJmag, pt, b))
+			k := s.newValue2(op, Types[TBOOL], s.newValue1(ssa.OpQuaternionKmag, pt, a), s.newValue1(ssa.OpQuaternionKmag, pt, b))
+			c := s.newValue2(ssa.OpAndB, Types[TBOOL], r, i)
+			c = s.newValue2(ssa.OpAndB, Types[TBOOL], c, j)
+			c = s.newValue2(ssa.OpAndB, Types[TBOOL], c, k)
+			switch n.Op {
+			case OEQ:
+				return c
+			case ONE:
+				return s.newValue1(ssa.OpNot, Types[TBOOL], c)
+			default:
+				s.Fatalf("ordered quaternion compare %v", n.Op)
+			}
+		}
 		return s.newValue2(s.ssaOp(n.Op, n.Left.Type), Types[TBOOL], a, b)
 	case OMUL:
 		a := s.expr(n.Left)
 		b := s.expr(n.Right)
 		if n.Type.IsComplex() {
-			mulop := ssa.OpMul64F
-			addop := ssa.OpAdd64F
-			subop := ssa.OpSub64F
+			mul := func(l, r *ssa.Value) *ssa.Value { return s.newValue2(ssa.OpMul64F, Types[TFLOAT64], l, r) }
+			add := func(l, r *ssa.Value) *ssa.Value { return s.newValue2(ssa.OpAdd64F, Types[TFLOAT64], l, r) }
+			sub := func(l, r *ssa.Value) *ssa.Value { return s.newValue2(ssa.OpSub64F, Types[TFLOAT64], l, r) }
 			pt := floatForComplex(n.Type) // Could be Float32 or Float64
 			wt := Types[TFLOAT64]         // Compute in Float64 to minimize cancelation error
 
@@ -1736,8 +1829,8 @@ func (s *state) expr(n *Node) *ssa.Value {
 				bimag = s.newValue1(ssa.OpCvt32Fto64F, wt, bimag)
 			}
 
-			xreal := s.newValue2(subop, wt, s.newValue2(mulop, wt, areal, breal), s.newValue2(mulop, wt, aimag, bimag))
-			ximag := s.newValue2(addop, wt, s.newValue2(mulop, wt, areal, bimag), s.newValue2(mulop, wt, aimag, breal))
+			xreal := sub(mul(areal, breal), mul(aimag, bimag))
+			ximag := add(mul(areal, bimag), mul(aimag, breal))
 
 			if pt != wt { // Narrow to store back
 				xreal = s.newValue1(ssa.OpCvt64Fto32F, pt, xreal)
@@ -1745,6 +1838,47 @@ func (s *state) expr(n *Node) *ssa.Value {
 			}
 
 			return s.newValue2(ssa.OpComplexMake, n.Type, xreal, ximag)
+		}
+		if n.Type.IsQuaternion() {
+			mul := func(l, r *ssa.Value) *ssa.Value { return s.newValue2(ssa.OpMul64F, Types[TFLOAT64], l, r) }
+			add := func(l, r *ssa.Value) *ssa.Value { return s.newValue2(ssa.OpAdd64F, Types[TFLOAT64], l, r) }
+			sub := func(l, r *ssa.Value) *ssa.Value { return s.newValue2(ssa.OpSub64F, Types[TFLOAT64], l, r) }
+			pt := floatForQuaternion(n.Type) // Could be Float32 or Float64
+			wt := Types[TFLOAT64]            // Compute in Float64 to minimize cancelation error
+
+			areal := s.newValue1(ssa.OpQuaternionReal, pt, a)
+			breal := s.newValue1(ssa.OpQuaternionReal, pt, b)
+			aimag := s.newValue1(ssa.OpQuaternionImag, pt, a)
+			bimag := s.newValue1(ssa.OpQuaternionImag, pt, b)
+			ajmag := s.newValue1(ssa.OpQuaternionJmag, pt, a)
+			bjmag := s.newValue1(ssa.OpQuaternionJmag, pt, b)
+			akmag := s.newValue1(ssa.OpQuaternionKmag, pt, a)
+			bkmag := s.newValue1(ssa.OpQuaternionKmag, pt, b)
+
+			if pt != wt { // Widen for calculation
+				areal = s.newValue1(ssa.OpCvt32Fto64F, wt, areal)
+				breal = s.newValue1(ssa.OpCvt32Fto64F, wt, breal)
+				aimag = s.newValue1(ssa.OpCvt32Fto64F, wt, aimag)
+				bimag = s.newValue1(ssa.OpCvt32Fto64F, wt, bimag)
+				ajmag = s.newValue1(ssa.OpCvt32Fto64F, wt, ajmag)
+				bjmag = s.newValue1(ssa.OpCvt32Fto64F, wt, bjmag)
+				akmag = s.newValue1(ssa.OpCvt32Fto64F, wt, akmag)
+				bkmag = s.newValue1(ssa.OpCvt32Fto64F, wt, bkmag)
+			}
+
+			xreal := sub(sub(sub(mul(areal, breal), mul(aimag, bimag)), mul(ajmag, bjmag)), mul(akmag, bkmag))
+			ximag := sub(add(add(mul(areal, bimag), mul(aimag, breal)), mul(ajmag, bkmag)), mul(akmag, bjmag))
+			xjmag := sub(add(add(mul(areal, bjmag), mul(ajmag, breal)), mul(akmag, bimag)), mul(aimag, bkmag))
+			xkmag := sub(add(add(mul(areal, bkmag), mul(akmag, breal)), mul(aimag, bjmag)), mul(ajmag, bimag))
+
+			if pt != wt { // Narrow to store back
+				xreal = s.newValue1(ssa.OpCvt64Fto32F, pt, xreal)
+				ximag = s.newValue1(ssa.OpCvt64Fto32F, pt, ximag)
+				xjmag = s.newValue1(ssa.OpCvt64Fto32F, pt, xjmag)
+				xkmag = s.newValue1(ssa.OpCvt64Fto32F, pt, xkmag)
+			}
+
+			return s.newValue4(ssa.OpQuaternionMake, n.Type, xreal, ximag, xjmag, xkmag)
 		}
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
 
@@ -1809,6 +1943,15 @@ func (s *state) expr(n *Node) *ssa.Value {
 				s.newValue2(op, pt, s.newValue1(ssa.OpComplexReal, pt, a), s.newValue1(ssa.OpComplexReal, pt, b)),
 				s.newValue2(op, pt, s.newValue1(ssa.OpComplexImag, pt, a), s.newValue1(ssa.OpComplexImag, pt, b)))
 		}
+		if n.Type.IsQuaternion() {
+			pt := floatForQuaternion(n.Type)
+			op := s.ssaOp(n.Op, pt)
+			return s.newValue4(ssa.OpQuaternionMake, n.Type,
+				s.newValue2(op, pt, s.newValue1(ssa.OpQuaternionReal, pt, a), s.newValue1(ssa.OpQuaternionReal, pt, b)),
+				s.newValue2(op, pt, s.newValue1(ssa.OpQuaternionImag, pt, a), s.newValue1(ssa.OpQuaternionImag, pt, b)),
+				s.newValue2(op, pt, s.newValue1(ssa.OpQuaternionJmag, pt, a), s.newValue1(ssa.OpQuaternionJmag, pt, b)),
+				s.newValue2(op, pt, s.newValue1(ssa.OpQuaternionKmag, pt, a), s.newValue1(ssa.OpQuaternionKmag, pt, b)))
+		}
 		return s.newValue2(s.ssaOp(n.Op, n.Type), a.Type, a, b)
 	case OAND, OOR, OXOR:
 		a := s.expr(n.Left)
@@ -1866,6 +2009,12 @@ func (s *state) expr(n *Node) *ssa.Value {
 		r := s.expr(n.Left)
 		i := s.expr(n.Right)
 		return s.newValue2(ssa.OpComplexMake, n.Type, r, i)
+	case OQUATERNION:
+		r := s.expr(n.List.Index(0))
+		i := s.expr(n.List.Index(1))
+		j := s.expr(n.List.Index(2))
+		k := s.expr(n.List.Index(3))
+		return s.newValue4(ssa.OpQuaternionMake, n.Type, r, i, j, k)
 
 	// unary ops
 	case OMINUS:
@@ -1877,11 +2026,20 @@ func (s *state) expr(n *Node) *ssa.Value {
 				s.newValue1(negop, tp, s.newValue1(ssa.OpComplexReal, tp, a)),
 				s.newValue1(negop, tp, s.newValue1(ssa.OpComplexImag, tp, a)))
 		}
+		if n.Type.IsQuaternion() {
+			tp := floatForQuaternion(n.Type)
+			negop := s.ssaOp(n.Op, tp)
+			return s.newValue4(ssa.OpQuaternionMake, n.Type,
+				s.newValue1(negop, tp, s.newValue1(ssa.OpQuaternionReal, tp, a)),
+				s.newValue1(negop, tp, s.newValue1(ssa.OpQuaternionImag, tp, a)),
+				s.newValue1(negop, tp, s.newValue1(ssa.OpQuaternionJmag, tp, a)),
+				s.newValue1(negop, tp, s.newValue1(ssa.OpQuaternionKmag, tp, a)))
+		}
 		return s.newValue1(s.ssaOp(n.Op, n.Type), a.Type, a)
 	case ONOT, OCOM:
 		a := s.expr(n.Left)
 		return s.newValue1(s.ssaOp(n.Op, n.Type), a.Type, a)
-	case OIMAG, OREAL:
+	case OIMAG, OJMAG, OKMAG, OREAL:
 		a := s.expr(n.Left)
 		return s.newValue1(s.ssaOp(n.Op, n.Left.Type), n.Type, a)
 	case OPLUS:
@@ -2426,6 +2584,17 @@ func (s *state) zeroVal(t *Type) *ssa.Value {
 			return s.entryNewValue2(ssa.OpComplexMake, t, z, z)
 		default:
 			s.Fatalf("bad sized complex type %v", t)
+		}
+	case t.IsQuaternion():
+		switch t.Size() {
+		case 16:
+			z := s.constFloat32(Types[TFLOAT32], 0)
+			return s.entryNewValue4(ssa.OpQuaternionMake, t, z, z, z, z)
+		case 32:
+			z := s.constFloat64(Types[TFLOAT64], 0)
+			return s.entryNewValue4(ssa.OpQuaternionMake, t, z, z, z, z)
+		default:
+			s.Fatalf("bad sized quaternion type %v", t)
 		}
 
 	case t.IsString():
@@ -3474,7 +3643,7 @@ func (s *state) storeType(t *Type, left, right *ssa.Value, skip skipMask) {
 // do *left = right for all scalar (non-pointer) parts of t.
 func (s *state) storeTypeScalars(t *Type, left, right *ssa.Value, skip skipMask) {
 	switch {
-	case t.IsBoolean() || t.IsInteger() || t.IsFloat() || t.IsComplex():
+	case t.IsBoolean() || t.IsInteger() || t.IsFloat() || t.IsComplex() || t.IsQuaternion():
 		s.vars[&memVar] = s.newValue3A(ssa.OpStore, ssa.TypeMem, t, left, right, s.mem())
 	case t.IsPtrShaped():
 		// no scalar fields.
@@ -4764,6 +4933,27 @@ func (e *ssafn) SplitComplex(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) 
 	}
 	// Return the two parts of the larger variable.
 	return ssa.LocalSlot{N: n, Type: t, Off: name.Off}, ssa.LocalSlot{N: n, Type: t, Off: name.Off + s}
+}
+
+func (e *ssafn) SplitQuaternion(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot, ssa.LocalSlot, ssa.LocalSlot) {
+	n := name.N.(*Node)
+	s := name.Type.Size() / 4
+	var t *Type
+	if s == 8 {
+		t = Types[TFLOAT64]
+	} else {
+		t = Types[TFLOAT32]
+	}
+	if n.Class == PAUTO && !n.Addrtaken() {
+		// Split this complex up into two separate variables.
+		r := e.namedAuto(n.Sym.Name+".real", t, n.Pos)
+		i := e.namedAuto(n.Sym.Name+".imag", t, n.Pos)
+		j := e.namedAuto(n.Sym.Name+".jmag", t, n.Pos)
+		k := e.namedAuto(n.Sym.Name+".kmag", t, n.Pos)
+		return ssa.LocalSlot{N: r, Type: t, Off: 0}, ssa.LocalSlot{N: i, Type: t, Off: 0}, ssa.LocalSlot{N: j, Type: t, Off: 0}, ssa.LocalSlot{N: k, Type: t, Off: 0}
+	}
+	// Return the four parts of the larger variable.
+	return ssa.LocalSlot{N: n, Type: t, Off: name.Off}, ssa.LocalSlot{N: n, Type: t, Off: name.Off + s}, ssa.LocalSlot{N: n, Type: t, Off: name.Off + 2*s}, ssa.LocalSlot{N: n, Type: t, Off: name.Off + 3*s}
 }
 
 func (e *ssafn) SplitInt64(name ssa.LocalSlot) (ssa.LocalSlot, ssa.LocalSlot) {

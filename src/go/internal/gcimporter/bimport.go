@@ -947,6 +947,11 @@ var predeclared = []types.Type{
 
 	// used internally by gc; never used by this package or in .a files
 	anyType{},
+
+	// quaternion types
+	types.Typ[types.Quaternion128],
+	types.Typ[types.Quaternion256],
+	types.Typ[types.UntypedQuaternion],
 }
 
 type anyType struct{}

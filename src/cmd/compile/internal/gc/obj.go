@@ -405,6 +405,24 @@ func gdata(nam *Node, nr *Node, wid int) {
 				s.WriteFloat64(Ctxt, nam.Xoffset+8, i)
 			}
 
+		case *Mpquat:
+			r := u.Real.Float64()
+			i := u.Imag.Float64()
+			j := u.Jmag.Float64()
+			k := u.Kmag.Float64()
+			switch nam.Type.Etype {
+			case TQUATERNION128:
+				s.WriteFloat32(Ctxt, nam.Xoffset, float32(r))
+				s.WriteFloat32(Ctxt, nam.Xoffset+4, float32(i))
+				s.WriteFloat32(Ctxt, nam.Xoffset+8, float32(j))
+				s.WriteFloat32(Ctxt, nam.Xoffset+12, float32(k))
+			case TQUATERNION256:
+				s.WriteFloat64(Ctxt, nam.Xoffset, r)
+				s.WriteFloat64(Ctxt, nam.Xoffset+8, i)
+				s.WriteFloat64(Ctxt, nam.Xoffset+16, j)
+				s.WriteFloat64(Ctxt, nam.Xoffset+24, k)
+			}
+
 		case string:
 			symdata := stringsym(u)
 			s.WriteAddr(Ctxt, nam.Xoffset, Widthptr, symdata, 0)

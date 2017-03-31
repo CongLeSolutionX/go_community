@@ -417,6 +417,14 @@ func newtype(ctxt *Link, gotype *Symbol) *dwarf.DWDie {
 		newattr(die, dwarf.DW_AT_encoding, dwarf.DW_CLS_CONSTANT, dwarf.DW_ATE_complex_float, 0)
 		newattr(die, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, bytesize, 0)
 
+	case obj.KindQuaternion128,
+		obj.KindQuaternion256:
+		// Encode as [4]floatT.
+		// TODO(mdempsky): Recommend DW_ATE_quaternion_float for DWARF 5.
+		die = newdie(ctxt, &dwtypes, dwarf.DW_ABRV_BASETYPE, name, 0)
+		newattr(die, dwarf.DW_AT_encoding, dwarf.DW_CLS_CONSTANT, dwarf.DW_ATE_complex_float, 0)
+		newattr(die, dwarf.DW_AT_byte_size, dwarf.DW_CLS_CONSTANT, bytesize, 0)
+
 	case obj.KindArray:
 		die = newdie(ctxt, &dwtypes, dwarf.DW_ABRV_ARRAYTYPE, name, 0)
 		dotypedef(ctxt, &dwtypes, name, die)

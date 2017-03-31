@@ -189,6 +189,10 @@ func printcomplex(c complex128) {
 	print("(", real(c), imag(c), "i)")
 }
 
+func printquaternion(c quaternion256) {
+	print("(", real(c), imag(c), "i", jmag(c), "j", kmag(c), "k)")
+}
+
 func printuint(v uint64) {
 	var buf [100]byte
 	i := len(buf)

@@ -31,6 +31,14 @@ type Mpcplx struct {
 	Imag Mpflt
 }
 
+// Mpquat represents a quaternion constant.
+type Mpquat struct {
+	Real Mpflt
+	Imag Mpflt
+	Jmag Mpflt
+	Kmag Mpflt
+}
+
 func newMpflt() *Mpflt {
 	var a Mpflt
 	a.Val.SetPrec(Mpprec)

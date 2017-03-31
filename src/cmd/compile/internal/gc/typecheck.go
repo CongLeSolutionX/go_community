@@ -252,7 +252,7 @@ func indexlit(n *Node) *Node {
 		return n
 	}
 	switch consttype(n) {
-	case CTINT, CTRUNE, CTFLT, CTCPLX:
+	case CTINT, CTRUNE, CTFLT, CTCPLX, CTQUAT:
 		n = defaultlit(n, Types[TINT])
 	}
 
@@ -1325,7 +1325,7 @@ OpSwitch:
 
 		break OpSwitch
 
-	case OCAP, OLEN, OREAL, OIMAG:
+	case OCAP, OLEN, OREAL, OIMAG, OJMAG, OKMAG:
 		ok |= Erv
 		if !onearg(n, "%v", n.Op) {
 			n.Type = nil
@@ -1352,20 +1352,48 @@ OpSwitch:
 			}
 
 		case OREAL, OIMAG:
-			if !t.IsComplex() {
+			if t.IsComplex() {
+				if Isconst(l, CTCPLX) {
+					r := n
+					u := l.Val().U.(*Mpcplx)
+					var f *Mpflt
+					switch n.Op {
+					case OREAL:
+						f = &u.Real
+					case OIMAG:
+						f = &u.Imag
+					}
+					n = nodfltconst(f)
+					n.Orig = r
+				}
+
+				n.Type = Types[cplxsubtype(t.Etype)]
+				break OpSwitch
+			}
+			fallthrough
+		case OJMAG, OKMAG:
+			if !t.IsQuaternion() {
 				goto badcall1
 			}
-			if Isconst(l, CTCPLX) {
+			if Isconst(l, CTQUAT) {
 				r := n
-				if n.Op == OREAL {
-					n = nodfltconst(&l.Val().U.(*Mpcplx).Real)
-				} else {
-					n = nodfltconst(&l.Val().U.(*Mpcplx).Imag)
+				u := l.Val().U.(*Mpquat)
+				var f *Mpflt
+				switch n.Op {
+				case OREAL:
+					f = &u.Real
+				case OIMAG:
+					f = &u.Imag
+				case OJMAG:
+					f = &u.Jmag
+				case OKMAG:
+					f = &u.Kmag
 				}
+				n = nodfltconst(f)
 				n.Orig = r
 			}
 
-			n.Type = Types[cplxsubtype(t.Etype)]
+			n.Type = Types[quatsubtype(t.Etype)]
 			break OpSwitch
 		}
 
@@ -1472,6 +1500,111 @@ OpSwitch:
 			// make it a complex literal
 			r = nodcplxlit(l.Val(), r.Val())
 
+			r.Orig = n
+			n = r
+		}
+
+		n.Type = t
+		break OpSwitch
+
+	case OQUATERNION:
+		ok |= Erv
+		var r, i, j, k *Node
+		if n.List.Len() == 1 {
+			typecheckslice(n.List.Slice(), Efnstruct)
+			if n.List.First().Op != OCALLFUNC && n.List.First().Op != OCALLMETH {
+				yyerror("invalid operation: quaternion expects 4 arguments")
+				n.Type = nil
+				return n
+			}
+
+			t := n.List.First().Left.Type
+			if !t.IsKind(TFUNC) {
+				// Bail. This error will be reported elsewhere.
+				return n
+			}
+			if t.Results().NumFields() != 4 {
+				yyerror("invalid operation: quaternion expects 4 arguments, %v returns %d results", n.List.First(), t.Results().NumFields())
+				n.Type = nil
+				return n
+			}
+
+			t = n.List.First().Type
+			r = t.Field(0).Nname
+			i = t.Field(1).Nname
+			j = t.Field(2).Nname
+			k = t.Field(3).Nname
+		} else {
+			if n.List.Len() < 4 {
+				yyerror("missing arguments to quaternion")
+				n.Type = nil
+				return n
+			}
+			if n.List.Len() > 4 {
+				yyerror("too many arguments to quaternion")
+				n.Type = nil
+				return n
+			}
+			for i, n2 := range n.List.Slice() {
+				n.List.SetIndex(i, typecheck(n2, Erv))
+			}
+
+			var t *Type
+			for _, n2 := range n.List.Slice() {
+				if n2.Type == nil {
+					n.Type = nil
+					return n
+				}
+				if t == nil && !n2.Type.IsUntyped() {
+					t = n2.Type
+				}
+			}
+
+			if t != nil {
+				for i, n2 := range n.List.Slice() {
+					if !n2.Type.IsUntyped() {
+						continue
+					}
+					n.List.SetIndex(i, convlit(n2, t))
+					if n.List.Index(i).Type == nil {
+						n.Type = nil
+						return n
+					}
+				}
+			}
+
+			r = n.List.Index(0)
+			i = n.List.Index(1)
+			j = n.List.Index(2)
+			k = n.List.Index(3)
+		}
+
+		if !eqtype(r.Type, i.Type) || !eqtype(r.Type, j.Type) || !eqtype(r.Type, k.Type) {
+			yyerror("invalid operation: %v (mismatched types %v, %v, %v, %v)", n, r.Type, i.Type, j.Type, k.Type)
+			n.Type = nil
+			return n
+		}
+
+		var t *Type
+		switch r.Type.Etype {
+		default:
+			yyerror("invalid operation: %v (arguments have type %v, expected floating-point)", n, r.Type)
+			n.Type = nil
+			return n
+
+		case TIDEAL:
+			t = Types[TIDEAL]
+
+		case TFLOAT32:
+			t = Types[TQUATERNION128]
+
+		case TFLOAT64:
+			t = Types[TQUATERNION256]
+		}
+
+		if r.Op == OLITERAL && i.Op == OLITERAL && j.Op == OLITERAL && k.Op == OLITERAL {
+			// make it a quaternion literal
+			r = nodquatlit(r.Val(), i.Val(), j.Val(), k.Val())
 			r.Orig = n
 			n = r
 		}
@@ -2246,6 +2379,8 @@ func checkdefergo(n *Node) {
 		OCAP,
 		OCOMPLEX,
 		OIMAG,
+		OJMAG,
+		OKMAG,
 		OLEN,
 		OMAKE,
 		OMAKESLICE,
@@ -3868,7 +4003,7 @@ func checkmake(t *Type, arg string, n *Node) bool {
 	// Do range checks for constants before defaultlit
 	// to avoid redundant "constant NNN overflows int" errors.
 	switch consttype(n) {
-	case CTINT, CTRUNE, CTFLT, CTCPLX:
+	case CTINT, CTRUNE, CTFLT, CTCPLX, CTQUAT:
 		n.SetVal(toint(n.Val()))
 		if n.Val().U.(*Mpint).CmpInt64(0) < 0 {
 			yyerror("negative %s argument in make(%v)", arg, t)

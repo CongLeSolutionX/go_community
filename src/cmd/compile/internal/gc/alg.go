@@ -26,6 +26,8 @@ const (
 	AFLOAT64
 	ACPLX64
 	ACPLX128
+	AQUAT128
+	AQUAT256
 
 	// Type can be compared/hashed as regular memory.
 	AMEM AlgKind = 100
@@ -117,6 +119,12 @@ func algtype1(t *Type) (AlgKind, *Type) {
 
 	case TCOMPLEX128:
 		return ACPLX128, nil
+
+	case TQUATERNION128:
+		return AQUAT128, nil
+
+	case TQUATERNION256:
+		return AQUAT256, nil
 
 	case TSTRING:
 		return ASTRING, nil
@@ -342,6 +350,10 @@ func hashfor(t *Type) *Node {
 		sym = Pkglookup("c64hash", Runtimepkg)
 	case ACPLX128:
 		sym = Pkglookup("c128hash", Runtimepkg)
+	case AQUAT128:
+		sym = Pkglookup("q128hash", Runtimepkg)
+	case AQUAT256:
+		sym = Pkglookup("q256hash", Runtimepkg)
 	default:
 		sym = typesymprefix(".hash", t)
 	}

@@ -19,6 +19,7 @@ type Type interface {
 	IsSigned() bool
 	IsFloat() bool
 	IsComplex() bool
+	IsQuaternion() bool
 	IsPtrShaped() bool
 	IsString() bool
 	IsSlice() bool
@@ -66,6 +67,7 @@ func (t *CompilerType) IsInteger() bool        { return false }
 func (t *CompilerType) IsSigned() bool         { return false }
 func (t *CompilerType) IsFloat() bool          { return false }
 func (t *CompilerType) IsComplex() bool        { return false }
+func (t *CompilerType) IsQuaternion() bool     { return false }
 func (t *CompilerType) IsPtrShaped() bool      { return false }
 func (t *CompilerType) IsString() bool         { return false }
 func (t *CompilerType) IsSlice() bool          { return false }
@@ -101,6 +103,7 @@ func (t *TupleType) IsInteger() bool      { return false }
 func (t *TupleType) IsSigned() bool       { return false }
 func (t *TupleType) IsFloat() bool        { return false }
 func (t *TupleType) IsComplex() bool      { return false }
+func (t *TupleType) IsQuaternion() bool   { return false }
 func (t *TupleType) IsPtrShaped() bool    { return false }
 func (t *TupleType) IsString() bool       { return false }
 func (t *TupleType) IsSlice() bool        { return false }

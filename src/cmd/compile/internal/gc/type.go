@@ -34,11 +34,14 @@ const (
 	TUINT
 	TUINTPTR
 
+	TFLOAT32
+	TFLOAT64
+
 	TCOMPLEX64
 	TCOMPLEX128
 
-	TFLOAT32
-	TFLOAT64
+	TQUATERNION128
+	TQUATERNION256
 
 	TBOOL
 
@@ -111,10 +114,11 @@ var (
 	// Types to represent untyped numeric constants.
 	// Note: Currently these are only used within the binary export
 	// data format. The rest of the compiler only uses Types[TIDEAL].
-	idealint     = typ(TIDEAL)
-	idealrune    = typ(TIDEAL)
-	idealfloat   = typ(TIDEAL)
-	idealcomplex = typ(TIDEAL)
+	idealint        = typ(TIDEAL)
+	idealrune       = typ(TIDEAL)
+	idealfloat      = typ(TIDEAL)
+	idealcomplex    = typ(TIDEAL)
+	idealquaternion = typ(TIDEAL)
 )
 
 // A Type represents a Go type.
@@ -1032,8 +1036,8 @@ func (t *Type) cmp(x *Type) ssa.Cmp {
 	// both syms nil, look at structure below.
 
 	switch t.Etype {
-	case TBOOL, TFLOAT32, TFLOAT64, TCOMPLEX64, TCOMPLEX128, TUNSAFEPTR, TUINTPTR,
-		TINT8, TINT16, TINT32, TINT64, TINT, TUINT8, TUINT16, TUINT32, TUINT64, TUINT:
+	case TBOOL, TFLOAT32, TFLOAT64, TCOMPLEX64, TCOMPLEX128, TQUATERNION128, TQUATERNION256,
+		TINT8, TINT16, TINT32, TINT64, TINT, TUINT8, TUINT16, TUINT32, TUINT64, TUINT, TUINTPTR, TUNSAFEPTR:
 		return ssa.CMPeq
 	}
 
@@ -1181,6 +1185,10 @@ func (t *Type) IsFloat() bool {
 
 func (t *Type) IsComplex() bool {
 	return t.Etype == TCOMPLEX64 || t.Etype == TCOMPLEX128
+}
+
+func (t *Type) IsQuaternion() bool {
+	return t.Etype == TQUATERNION128 || t.Etype == TQUATERNION256
 }
 
 // IsPtr reports whether t is a regular Go pointer type.

@@ -187,6 +187,8 @@ func instrumentnode(np **Node, init *Nodes, wr int, skip int) {
 		OPLUS,
 		OREAL,
 		OIMAG,
+		OJMAG,
+		OKMAG,
 		OCOM:
 		instrumentnode(&n.Left, init, wr, 0)
 		goto ret
@@ -243,6 +245,11 @@ func instrumentnode(np **Node, init *Nodes, wr int, skip int) {
 		instrumentnode(&n.Left, init, wr, 0)
 		instrumentnode(&n.Right, init, wr, 0)
 		goto ret
+
+	case OQUATERNION:
+		for i := range n.List.Slice() {
+			instrumentnode(n.List.Addr(i), init, wr, 0)
+		}
 
 	case OANDAND, OOROR:
 		instrumentnode(&n.Left, init, wr, 0)

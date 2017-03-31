@@ -141,69 +141,72 @@ func (f FmtFlag) update(mode fmtMode) (FmtFlag, fmtMode) {
 }
 
 var goopnames = []string{
-	OADDR:     "&",
-	OADD:      "+",
-	OADDSTR:   "+",
-	OALIGNOF:  "unsafe.Alignof",
-	OANDAND:   "&&",
-	OANDNOT:   "&^",
-	OAND:      "&",
-	OAPPEND:   "append",
-	OAS:       "=",
-	OAS2:      "=",
-	OBREAK:    "break",
-	OCALL:     "function call", // not actual syntax
-	OCAP:      "cap",
-	OCASE:     "case",
-	OCLOSE:    "close",
-	OCOMPLEX:  "complex",
-	OCOM:      "^",
-	OCONTINUE: "continue",
-	OCOPY:     "copy",
-	ODELETE:   "delete",
-	ODEFER:    "defer",
-	ODIV:      "/",
-	OEQ:       "==",
-	OFALL:     "fallthrough",
-	OFOR:      "for",
-	OFORUNTIL: "foruntil", // not actual syntax; used to avoid off-end pointer live on backedge.892
-	OGE:       ">=",
-	OGOTO:     "goto",
-	OGT:       ">",
-	OIF:       "if",
-	OIMAG:     "imag",
-	OIND:      "*",
-	OLEN:      "len",
-	OLE:       "<=",
-	OLSH:      "<<",
-	OLT:       "<",
-	OMAKE:     "make",
-	OMINUS:    "-",
-	OMOD:      "%",
-	OMUL:      "*",
-	ONEW:      "new",
-	ONE:       "!=",
-	ONOT:      "!",
-	OOFFSETOF: "unsafe.Offsetof",
-	OOROR:     "||",
-	OOR:       "|",
-	OPANIC:    "panic",
-	OPLUS:     "+",
-	OPRINTN:   "println",
-	OPRINT:    "print",
-	ORANGE:    "range",
-	OREAL:     "real",
-	ORECV:     "<-",
-	ORECOVER:  "recover",
-	ORETURN:   "return",
-	ORSH:      ">>",
-	OSELECT:   "select",
-	OSEND:     "<-",
-	OSIZEOF:   "unsafe.Sizeof",
-	OSUB:      "-",
-	OSWITCH:   "switch",
-	OXOR:      "^",
-	OXFALL:    "fallthrough",
+	OADDR:       "&",
+	OADD:        "+",
+	OADDSTR:     "+",
+	OALIGNOF:    "unsafe.Alignof",
+	OANDAND:     "&&",
+	OANDNOT:     "&^",
+	OAND:        "&",
+	OAPPEND:     "append",
+	OAS:         "=",
+	OAS2:        "=",
+	OBREAK:      "break",
+	OCALL:       "function call", // not actual syntax
+	OCAP:        "cap",
+	OCASE:       "case",
+	OCLOSE:      "close",
+	OCOMPLEX:    "complex",
+	OCOM:        "^",
+	OCONTINUE:   "continue",
+	OCOPY:       "copy",
+	ODELETE:     "delete",
+	ODEFER:      "defer",
+	ODIV:        "/",
+	OEQ:         "==",
+	OFALL:       "fallthrough",
+	OFOR:        "for",
+	OFORUNTIL:   "foruntil", // not actual syntax; used to avoid off-end pointer live on backedge.892
+	OGE:         ">=",
+	OGOTO:       "goto",
+	OGT:         ">",
+	OIF:         "if",
+	OIMAG:       "imag",
+	OJMAG:       "jmag",
+	OKMAG:       "kmag",
+	OIND:        "*",
+	OLEN:        "len",
+	OLE:         "<=",
+	OLSH:        "<<",
+	OLT:         "<",
+	OMAKE:       "make",
+	OMINUS:      "-",
+	OMOD:        "%",
+	OMUL:        "*",
+	ONEW:        "new",
+	ONE:         "!=",
+	ONOT:        "!",
+	OOFFSETOF:   "unsafe.Offsetof",
+	OOROR:       "||",
+	OOR:         "|",
+	OPANIC:      "panic",
+	OPLUS:       "+",
+	OPRINTN:     "println",
+	OPRINT:      "print",
+	OQUATERNION: "quaternion",
+	ORANGE:      "range",
+	OREAL:       "real",
+	ORECV:       "<-",
+	ORECOVER:    "recover",
+	ORETURN:     "return",
+	ORSH:        ">>",
+	OSELECT:     "select",
+	OSEND:       "<-",
+	OSIZEOF:     "unsafe.Sizeof",
+	OSUB:        "-",
+	OSWITCH:     "switch",
+	OXOR:        "^",
+	OXFALL:      "fallthrough",
 }
 
 func (o Op) String() string {
@@ -570,17 +573,24 @@ func (v Val) vconv(s fmt.State, flag FmtFlag) {
 		case flag&FmtSharp != 0:
 			fmt.Fprintf(s, "(%v+%vi)", &u.Real, &u.Imag)
 
-		case v.U.(*Mpcplx).Real.CmpFloat64(0) == 0:
+		case u.Real.CmpFloat64(0) == 0:
 			fmt.Fprintf(s, "%vi", fconv(&u.Imag, FmtSharp))
 
-		case v.U.(*Mpcplx).Imag.CmpFloat64(0) == 0:
+		case u.Imag.CmpFloat64(0) == 0:
 			fmt.Fprint(s, fconv(&u.Real, FmtSharp))
 
-		case v.U.(*Mpcplx).Imag.CmpFloat64(0) < 0:
-			fmt.Fprintf(s, "(%v%vi)", fconv(&u.Real, FmtSharp), fconv(&u.Imag, FmtSharp))
+		default:
+			fmt.Fprintf(s, "(%v%vi)", fconv(&u.Real, FmtSharp), fconv(&u.Imag, FmtSharp|FmtSign))
+		}
+
+	case *Mpquat:
+		switch {
+		case flag&FmtSharp != 0:
+			fmt.Fprintf(s, "(%v+%vi+%vj+%vk)", &u.Real, &u.Imag, &u.Jmag, &u.Kmag)
 
 		default:
-			fmt.Fprintf(s, "(%v+%vi)", fconv(&u.Real, FmtSharp), fconv(&u.Imag, FmtSharp))
+			// TODO(mdempsky): Concise output like for complex constants?
+			fmt.Fprintf(s, "(%v%vi%vj%vk)", fconv(&u.Real, FmtSharp), fconv(&u.Imag, FmtSharp|FmtSign), fconv(&u.Jmag, FmtSharp|FmtSign), fconv(&u.Kmag, FmtSharp|FmtSign))
 		}
 
 	case string:
@@ -607,42 +617,44 @@ s%^	........*\]%&~%g
 s%~	%%g
 */
 var etnames = []string{
-	Txxx:        "Txxx",
-	TINT:        "INT",
-	TUINT:       "UINT",
-	TINT8:       "INT8",
-	TUINT8:      "UINT8",
-	TINT16:      "INT16",
-	TUINT16:     "UINT16",
-	TINT32:      "INT32",
-	TUINT32:     "UINT32",
-	TINT64:      "INT64",
-	TUINT64:     "UINT64",
-	TUINTPTR:    "UINTPTR",
-	TFLOAT32:    "FLOAT32",
-	TFLOAT64:    "FLOAT64",
-	TCOMPLEX64:  "COMPLEX64",
-	TCOMPLEX128: "COMPLEX128",
-	TBOOL:       "BOOL",
-	TPTR32:      "PTR32",
-	TPTR64:      "PTR64",
-	TFUNC:       "FUNC",
-	TARRAY:      "ARRAY",
-	TSLICE:      "SLICE",
-	TSTRUCT:     "STRUCT",
-	TCHAN:       "CHAN",
-	TMAP:        "MAP",
-	TINTER:      "INTER",
-	TFORW:       "FORW",
-	TSTRING:     "STRING",
-	TUNSAFEPTR:  "TUNSAFEPTR",
-	TANY:        "ANY",
-	TIDEAL:      "TIDEAL",
-	TNIL:        "TNIL",
-	TBLANK:      "TBLANK",
-	TFUNCARGS:   "TFUNCARGS",
-	TCHANARGS:   "TCHANARGS",
-	TDDDFIELD:   "TDDDFIELD",
+	Txxx:           "Txxx",
+	TINT:           "INT",
+	TUINT:          "UINT",
+	TINT8:          "INT8",
+	TUINT8:         "UINT8",
+	TINT16:         "INT16",
+	TUINT16:        "UINT16",
+	TINT32:         "INT32",
+	TUINT32:        "UINT32",
+	TINT64:         "INT64",
+	TUINT64:        "UINT64",
+	TUINTPTR:       "UINTPTR",
+	TFLOAT32:       "FLOAT32",
+	TFLOAT64:       "FLOAT64",
+	TCOMPLEX64:     "COMPLEX64",
+	TCOMPLEX128:    "COMPLEX128",
+	TQUATERNION128: "QUATERNION128",
+	TQUATERNION256: "QUATERNION256",
+	TBOOL:          "BOOL",
+	TPTR32:         "PTR32",
+	TPTR64:         "PTR64",
+	TFUNC:          "FUNC",
+	TARRAY:         "ARRAY",
+	TSLICE:         "SLICE",
+	TSTRUCT:        "STRUCT",
+	TCHAN:          "CHAN",
+	TMAP:           "MAP",
+	TINTER:         "INTER",
+	TFORW:          "FORW",
+	TSTRING:        "STRING",
+	TUNSAFEPTR:     "TUNSAFEPTR",
+	TANY:           "ANY",
+	TIDEAL:         "TIDEAL",
+	TNIL:           "TNIL",
+	TBLANK:         "TBLANK",
+	TFUNCARGS:      "TFUNCARGS",
+	TCHANARGS:      "TCHANARGS",
+	TDDDFIELD:      "TDDDFIELD",
 }
 
 func (et EType) String() string {
@@ -696,27 +708,29 @@ func (s *Sym) symfmt(flag FmtFlag, mode fmtMode) string {
 }
 
 var basicnames = []string{
-	TINT:        "int",
-	TUINT:       "uint",
-	TINT8:       "int8",
-	TUINT8:      "uint8",
-	TINT16:      "int16",
-	TUINT16:     "uint16",
-	TINT32:      "int32",
-	TUINT32:     "uint32",
-	TINT64:      "int64",
-	TUINT64:     "uint64",
-	TUINTPTR:    "uintptr",
-	TFLOAT32:    "float32",
-	TFLOAT64:    "float64",
-	TCOMPLEX64:  "complex64",
-	TCOMPLEX128: "complex128",
-	TBOOL:       "bool",
-	TANY:        "any",
-	TSTRING:     "string",
-	TNIL:        "nil",
-	TIDEAL:      "untyped number",
-	TBLANK:      "blank",
+	TINT:           "int",
+	TUINT:          "uint",
+	TINT8:          "int8",
+	TUINT8:         "uint8",
+	TINT16:         "int16",
+	TUINT16:        "uint16",
+	TINT32:         "int32",
+	TUINT32:        "uint32",
+	TINT64:         "int64",
+	TUINT64:        "uint64",
+	TUINTPTR:       "uintptr",
+	TFLOAT32:       "float32",
+	TFLOAT64:       "float64",
+	TCOMPLEX64:     "complex64",
+	TCOMPLEX128:    "complex128",
+	TQUATERNION128: "quaternion128",
+	TQUATERNION256: "quaternion256",
+	TBOOL:          "bool",
+	TANY:           "any",
+	TSTRING:        "string",
+	TNIL:           "nil",
+	TIDEAL:         "untyped number",
+	TBLANK:         "blank",
 }
 
 func (t *Type) typefmt(flag FmtFlag, mode fmtMode) string {
@@ -1479,6 +1493,9 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
 	case OCOPY, OCOMPLEX:
 		mode.Fprintf(s, "%#v(%v, %v)", n.Op, n.Left, n.Right)
 
+	case OQUATERNION:
+		mode.Fprintf(s, "%#v(%.v)", n.Op, n.List)
+
 	case OCONV,
 		OCONVIFACE,
 		OCONVNOP,
@@ -1500,6 +1517,8 @@ func (n *Node) exprfmt(s fmt.State, prec int, mode fmtMode) {
 
 	case OREAL,
 		OIMAG,
+		OJMAG,
+		OKMAG,
 		OAPPEND,
 		OCAP,
 		OCLOSE,

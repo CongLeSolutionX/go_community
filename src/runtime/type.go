@@ -559,12 +559,10 @@ func typesEqual(t, v *_type) bool {
 			return false
 		}
 	}
-	if kindBool <= kind && kind <= kindComplex128 {
+	if kindBool <= kind && kind <= kindComplex128 || kind == kindString || kindUnsafePointer <= kind && kind <= kindQuaternion256 {
 		return true
 	}
 	switch kind {
-	case kindString, kindUnsafePointer:
-		return true
 	case kindArray:
 		at := (*arraytype)(unsafe.Pointer(t))
 		av := (*arraytype)(unsafe.Pointer(v))

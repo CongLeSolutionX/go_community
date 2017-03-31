@@ -994,9 +994,20 @@ func (p *noder) basicLit(lit *syntax.BasicLit) Val {
 		return Val{U: x}
 
 	case syntax.ImagLit:
-		x := new(Mpcplx)
-		x.Imag.SetString(strings.TrimSuffix(s, "i"))
-		return Val{U: x}
+		switch s[len(s)-1] {
+		case 'i':
+			x := new(Mpcplx)
+			x.Imag.SetString(strings.TrimSuffix(s, "i"))
+			return Val{U: x}
+		case 'j':
+			x := new(Mpquat)
+			x.Jmag.SetString(strings.TrimSuffix(s, "j"))
+			return Val{U: x}
+		case 'k':
+			x := new(Mpquat)
+			x.Kmag.SetString(strings.TrimSuffix(s, "k"))
+			return Val{U: x}
+		}
 
 	case syntax.RuneLit:
 		var r rune
@@ -1024,10 +1035,10 @@ func (p *noder) basicLit(lit *syntax.BasicLit) Val {
 		// Ignore errors because package syntax already reported them.
 		u, _ := strconv.Unquote(s)
 		return Val{U: u}
-
-	default:
-		panic("unhandled BasicLit kind")
 	}
+
+	Fatalf("unhandled BasicLit: %v", lit)
+	panic("unreachable")
 }
 
 func (p *noder) name(name *syntax.Name) *Sym {

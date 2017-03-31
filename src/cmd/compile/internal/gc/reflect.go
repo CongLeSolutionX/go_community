@@ -689,39 +689,41 @@ func dmethodptrOffLSym(s *obj.LSym, ot int, x *obj.LSym) int {
 }
 
 var kinds = []int{
-	TINT:        obj.KindInt,
-	TUINT:       obj.KindUint,
-	TINT8:       obj.KindInt8,
-	TUINT8:      obj.KindUint8,
-	TINT16:      obj.KindInt16,
-	TUINT16:     obj.KindUint16,
-	TINT32:      obj.KindInt32,
-	TUINT32:     obj.KindUint32,
-	TINT64:      obj.KindInt64,
-	TUINT64:     obj.KindUint64,
-	TUINTPTR:    obj.KindUintptr,
-	TFLOAT32:    obj.KindFloat32,
-	TFLOAT64:    obj.KindFloat64,
-	TBOOL:       obj.KindBool,
-	TSTRING:     obj.KindString,
-	TPTR32:      obj.KindPtr,
-	TPTR64:      obj.KindPtr,
-	TSTRUCT:     obj.KindStruct,
-	TINTER:      obj.KindInterface,
-	TCHAN:       obj.KindChan,
-	TMAP:        obj.KindMap,
-	TARRAY:      obj.KindArray,
-	TSLICE:      obj.KindSlice,
-	TFUNC:       obj.KindFunc,
-	TCOMPLEX64:  obj.KindComplex64,
-	TCOMPLEX128: obj.KindComplex128,
-	TUNSAFEPTR:  obj.KindUnsafePointer,
+	TINT:           obj.KindInt,
+	TUINT:          obj.KindUint,
+	TINT8:          obj.KindInt8,
+	TUINT8:         obj.KindUint8,
+	TINT16:         obj.KindInt16,
+	TUINT16:        obj.KindUint16,
+	TINT32:         obj.KindInt32,
+	TUINT32:        obj.KindUint32,
+	TINT64:         obj.KindInt64,
+	TUINT64:        obj.KindUint64,
+	TUINTPTR:       obj.KindUintptr,
+	TFLOAT32:       obj.KindFloat32,
+	TFLOAT64:       obj.KindFloat64,
+	TBOOL:          obj.KindBool,
+	TSTRING:        obj.KindString,
+	TPTR32:         obj.KindPtr,
+	TPTR64:         obj.KindPtr,
+	TSTRUCT:        obj.KindStruct,
+	TINTER:         obj.KindInterface,
+	TCHAN:          obj.KindChan,
+	TMAP:           obj.KindMap,
+	TARRAY:         obj.KindArray,
+	TSLICE:         obj.KindSlice,
+	TFUNC:          obj.KindFunc,
+	TCOMPLEX64:     obj.KindComplex64,
+	TCOMPLEX128:    obj.KindComplex128,
+	TQUATERNION128: obj.KindQuaternion128,
+	TQUATERNION256: obj.KindQuaternion256,
+	TUNSAFEPTR:     obj.KindUnsafePointer,
 }
 
 func haspointers(t *Type) bool {
 	switch t.Etype {
-	case TINT, TUINT, TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TINT64,
-		TUINT64, TUINTPTR, TFLOAT32, TFLOAT64, TCOMPLEX64, TCOMPLEX128, TBOOL:
+	case TINT, TUINT, TINT8, TUINT8, TINT16, TUINT16, TINT32, TUINT32, TINT64, TUINT64, TUINTPTR, TBOOL,
+		TFLOAT32, TFLOAT64, TCOMPLEX64, TCOMPLEX128, TQUATERNION128, TQUATERNION256:
 		return false
 
 	case TSLICE:
@@ -1049,6 +1051,8 @@ func isreflexive(t *Type) bool {
 		TFLOAT64,
 		TCOMPLEX64,
 		TCOMPLEX128,
+		TQUATERNION128,
+		TQUATERNION256,
 		TINTER:
 		return false
 
@@ -1095,6 +1099,8 @@ func needkeyupdate(t *Type) bool {
 		TFLOAT64,
 		TCOMPLEX64,
 		TCOMPLEX128,
+		TQUATERNION128,
+		TQUATERNION256,
 		TINTER,
 		TSTRING: // strings might have smaller backing stores
 		return true

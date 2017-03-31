@@ -199,11 +199,12 @@ var asmhdr string
 var simtype [NTYPE]EType
 
 var (
-	isforw    [NTYPE]bool
-	isInt     [NTYPE]bool
-	isFloat   [NTYPE]bool
-	isComplex [NTYPE]bool
-	issimple  [NTYPE]bool
+	isforw       [NTYPE]bool
+	isInt        [NTYPE]bool
+	isFloat      [NTYPE]bool
+	isComplex    [NTYPE]bool
+	isQuaternion [NTYPE]bool
+	issimple     [NTYPE]bool
 )
 
 var (
@@ -216,6 +217,7 @@ var (
 	okforcap   [NTYPE]bool
 	okforlen   [NTYPE]bool
 	okforarith [NTYPE]bool
+	okfordiv   [NTYPE]bool
 	okforconst [NTYPE]bool
 )
 

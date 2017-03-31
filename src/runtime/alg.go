@@ -30,6 +30,8 @@ const (
 	alg_FLOAT64
 	alg_CPLX64
 	alg_CPLX128
+	alg_QUAT128
+	alg_QUAT256
 	alg_max
 )
 
@@ -83,6 +85,8 @@ var algarray = [alg_max]typeAlg{
 	alg_FLOAT64:  {f64hash, f64equal},
 	alg_CPLX64:   {c64hash, c64equal},
 	alg_CPLX128:  {c128hash, c128equal},
+	alg_QUAT128:  {q128hash, q128equal},
+	alg_QUAT256:  {q256hash, q256equal},
 }
 
 var useAeshash bool
@@ -135,6 +139,16 @@ func c64hash(p unsafe.Pointer, h uintptr) uintptr {
 func c128hash(p unsafe.Pointer, h uintptr) uintptr {
 	x := (*[2]float64)(p)
 	return f64hash(unsafe.Pointer(&x[1]), f64hash(unsafe.Pointer(&x[0]), h))
+}
+
+func q128hash(p unsafe.Pointer, h uintptr) uintptr {
+	x := (*[4]float32)(p)
+	return f32hash(unsafe.Pointer(&x[3]), f32hash(unsafe.Pointer(&x[2]), f32hash(unsafe.Pointer(&x[1]), f32hash(unsafe.Pointer(&x[0]), h))))
+}
+
+func q256hash(p unsafe.Pointer, h uintptr) uintptr {
+	x := (*[4]float64)(p)
+	return f64hash(unsafe.Pointer(&x[3]), f64hash(unsafe.Pointer(&x[2]), f64hash(unsafe.Pointer(&x[1]), f64hash(unsafe.Pointer(&x[0]), h))))
 }
 
 func interhash(p unsafe.Pointer, h uintptr) uintptr {
@@ -201,6 +215,12 @@ func c64equal(p, q unsafe.Pointer) bool {
 }
 func c128equal(p, q unsafe.Pointer) bool {
 	return *(*complex128)(p) == *(*complex128)(q)
+}
+func q128equal(p, q unsafe.Pointer) bool {
+	return *(*quaternion128)(p) == *(*quaternion128)(q)
+}
+func q256equal(p, q unsafe.Pointer) bool {
+	return *(*quaternion256)(p) == *(*quaternion256)(q)
 }
 func strequal(p, q unsafe.Pointer) bool {
 	return *(*string)(p) == *(*string)(q)
