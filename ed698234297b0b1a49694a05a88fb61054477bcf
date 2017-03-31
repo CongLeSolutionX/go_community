@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a48ef127_bf1e5a7e",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-31T19:44:57Z",
+      "side": 1,
+      "message": "intersperse dots so as to avoid packages p, pp, and functions pf, f arrive at the same name ppf (?)",
+      "revId": "ed698234297b0b1a49694a05a88fb61054477bcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
