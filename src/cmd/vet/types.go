@@ -236,6 +236,11 @@ func (f *File) matchArgTypeInternal(t printfArgType, typ types.Type, arg ast.Exp
 			types.Complex128:
 			return t&argComplex != 0
 
+		case types.UntypedQuaternion,
+			types.Quaternion128,
+			types.Quaternion256:
+			return t&argQuaternion != 0
+
 		case types.UntypedString,
 			types.String:
 			return t&argString != 0

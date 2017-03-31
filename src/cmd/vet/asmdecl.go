@@ -31,6 +31,7 @@ const (
 	asmEmptyInterface
 	asmStruct
 	asmComplex
+	asmQuaternion
 )
 
 // An asmArch describes assembly parameters for an architecture
@@ -366,6 +367,8 @@ func asmKindForType(t types.Type, size int) asmKind {
 			return asmString
 		case types.Complex64, types.Complex128:
 			return asmComplex
+		case types.Quaternion128, types.Quaternion256:
+			return asmQuaternion
 		}
 		return asmKind(size)
 	case *types.Pointer, *types.Chan, *types.Map, *types.Signature:
@@ -447,6 +450,13 @@ func appendComponentsRecursive(arch *asmArch, t types.Type, cc []component, suff
 		fsize := size / 2
 		cc = append(cc, newComponent(suffix+"_real", asmKind(fsize), fmt.Sprintf("real(complex%d)", size*8), off, fsize, suffix))
 		cc = append(cc, newComponent(suffix+"_imag", asmKind(fsize), fmt.Sprintf("imag(complex%d)", size*8), off+fsize, fsize, suffix))
+
+	case asmQuaternion:
+		fsize := size / 4
+		cc = append(cc, newComponent(suffix+"_real", asmKind(fsize), fmt.Sprintf("real(quaternion%d)", size*8), off, fsize, suffix))
+		cc = append(cc, newComponent(suffix+"_imag", asmKind(fsize), fmt.Sprintf("imag(quaternion%d)", size*8), off+fsize, fsize, suffix))
+		cc = append(cc, newComponent(suffix+"_jmag", asmKind(fsize), fmt.Sprintf("jmag(quaternion%d)", size*8), off+2*fsize, fsize, suffix))
+		cc = append(cc, newComponent(suffix+"_kmag", asmKind(fsize), fmt.Sprintf("kmag(quaternion%d)", size*8), off+3*fsize, fsize, suffix))
 
 	case asmStruct:
 		tu := t.Underlying().(*types.Struct)

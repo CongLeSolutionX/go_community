@@ -410,6 +410,7 @@ const (
 	argString
 	argFloat
 	argComplex
+	argQuaternion
 	argPointer
 	anyType printfArgType = ^0
 )
@@ -436,15 +437,15 @@ var printVerbs = []printVerb{
 	// '#' is alternate format for several verbs.
 	// ' ' is spacer for numbers
 	{'%', noFlag, 0},
-	{'b', numFlag, argInt | argFloat | argComplex},
+	{'b', numFlag, argInt | argFloat | argComplex | argQuaternion},
 	{'c', "-", argRune | argInt},
 	{'d', numFlag, argInt},
-	{'e', numFlag, argFloat | argComplex},
-	{'E', numFlag, argFloat | argComplex},
-	{'f', numFlag, argFloat | argComplex},
-	{'F', numFlag, argFloat | argComplex},
-	{'g', numFlag, argFloat | argComplex},
-	{'G', numFlag, argFloat | argComplex},
+	{'e', numFlag, argFloat | argComplex | argQuaternion},
+	{'E', numFlag, argFloat | argComplex | argQuaternion},
+	{'f', numFlag, argFloat | argComplex | argQuaternion},
+	{'F', numFlag, argFloat | argComplex | argQuaternion},
+	{'g', numFlag, argFloat | argComplex | argQuaternion},
+	{'G', numFlag, argFloat | argComplex | argQuaternion},
 	{'o', sharpNumFlag, argInt},
 	{'p', "-#", argPointer},
 	{'q', " -+.0#", argRune | argInt | argString},
