@@ -552,6 +552,20 @@ func decodeIntoValue(state *decoderState, op decOp, isPtr bool, value reflect.Va
 	return value
 }
 
+// Skip allocation of Value if the underlying data is fully copied to the map and can be overwritten. If there is a
+// possibility of using pointers and referenced data, we need to allocate a new one.
+func needsAlloc(kind reflect.Kind) bool {
+	return kind == reflect.Array ||
+		kind == reflect.Chan ||
+		kind == reflect.Func ||
+		kind == reflect.Interface ||
+		kind == reflect.Map ||
+		kind == reflect.Ptr ||
+		kind == reflect.Slice ||
+		kind == reflect.Struct ||
+		kind == reflect.UnsafePointer
+}
+
 // decodeMap decodes a map and stores it in value.
 // Maps are encoded as a length followed by key:value pairs.
 // Because the internals of maps are not visible to us, we must
@@ -565,10 +579,16 @@ func (dec *Decoder) decodeMap(mtyp reflect.Type, state *decoderState, value refl
 	elemIsPtr := mtyp.Elem().Kind() == reflect.Ptr
 	keyInstr := &decInstr{keyOp, 0, nil, ovfl}
 	elemInstr := &decInstr{elemOp, 0, nil, ovfl}
+	keyP := reflect.New(mtyp.Key())
+	keyZ := reflect.Zero(mtyp.Key())
+	elemP := reflect.New(mtyp.Elem())
+	elemZ := reflect.Zero(mtyp.Elem())
 	for i := 0; i < n; i++ {
-		key := decodeIntoValue(state, keyOp, keyIsPtr, allocValue(mtyp.Key()), keyInstr)
-		elem := decodeIntoValue(state, elemOp, elemIsPtr, allocValue(mtyp.Elem()), elemInstr)
+		key := decodeIntoValue(state, keyOp, keyIsPtr, keyP.Elem(), keyInstr)
+		elem := decodeIntoValue(state, elemOp, elemIsPtr, elemP.Elem(), elemInstr)
 		value.SetMapIndex(key, elem)
+		keyP.Elem().Set(keyZ)
+		elemP.Elem().Set(elemZ)
 	}
 }
 
