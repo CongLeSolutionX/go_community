@@ -117,6 +117,11 @@ func (f *File) ReadAt(b []byte, off int64) (n int, err error) {
 	if err := f.checkValid("read"); err != nil {
 		return 0, err
 	}
+
+	if off < 0 {
+		return 0, ErrNegativeOffset
+	}
+
 	for len(b) > 0 {
 		m, e := f.pread(b, off)
 		if e != nil {
@@ -164,6 +169,11 @@ func (f *File) WriteAt(b []byte, off int64) (n int, err error) {
 	if err := f.checkValid("write"); err != nil {
 		return 0, err
 	}
+
+	if off < 0 {
+		return 0, ErrNegativeOffset
+	}
+
 	for len(b) > 0 {
 		m, e := f.pwrite(b, off)
 		if e != nil {

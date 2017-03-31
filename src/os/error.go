@@ -10,11 +10,12 @@ import (
 
 // Portable analogs of some common system call errors.
 var (
-	ErrInvalid    = errors.New("invalid argument") // methods on File will return this error when the receiver is nil
-	ErrPermission = errors.New("permission denied")
-	ErrExist      = errors.New("file already exists")
-	ErrNotExist   = errors.New("file does not exist")
-	ErrClosed     = errors.New("file already closed")
+	ErrInvalid        = errors.New("invalid argument") // methods on File will return this error when the receiver is nil
+	ErrPermission     = errors.New("permission denied")
+	ErrExist          = errors.New("file already exists")
+	ErrNotExist       = errors.New("file does not exist")
+	ErrClosed         = errors.New("file already closed")
+	ErrNegativeOffset = errors.New("negative offset")
 )
 
 // PathError records an error and the operation and file path that caused it.
