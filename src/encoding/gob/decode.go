@@ -552,6 +552,18 @@ func decodeIntoValue(state *decoderState, op decOp, isPtr bool, value reflect.Va
 	return value
 }
 
+func needsAlloc(kind reflect.Kind) bool {
+	return kind == reflect.Array ||
+		kind == reflect.Chan ||
+		kind == reflect.Func ||
+		kind == reflect.Interface ||
+		kind == reflect.Map ||
+		kind == reflect.Ptr ||
+		kind == reflect.Slice ||
+		kind == reflect.Struct ||
+		kind == reflect.UnsafePointer
+}
+
 // decodeMap decodes a map and stores it in value.
 // Maps are encoded as a length followed by key:value pairs.
 // Because the internals of maps are not visible to us, we must
@@ -566,9 +578,25 @@ func (dec *Decoder) decodeMap(mtyp reflect.Type, state *decoderState, value refl
 	elemIsPtr := mtyp.Elem().Kind() == reflect.Ptr
 	keyInstr := &decInstr{keyOp, 0, nil, ovfl}
 	elemInstr := &decInstr{elemOp, 0, nil, ovfl}
+	keyNeedsAlloc := needsAlloc(mtyp.Key().Kind())
+	elemNeedsAlloc := needsAlloc(mtyp.Elem().Kind())
+	reusableKey := allocValue(mtyp.Key())
+	reusableElem := allocValue(mtyp.Elem())
 	for i := 0; i < n; i++ {
-		key := decodeIntoValue(state, keyOp, keyIsPtr, allocValue(mtyp.Key()), keyInstr)
-		elem := decodeIntoValue(state, elemOp, elemIsPtr, allocValue(mtyp.Elem()), elemInstr)
+		var key reflect.Value
+		if keyNeedsAlloc {
+			key = allocValue(mtyp.Key())
+		} else {
+			key = reusableKey
+		}
+		var elem reflect.Value
+		if elemNeedsAlloc {
+			elem = allocValue(mtyp.Elem())
+		} else {
+			elem = reusableElem
+		}
+		key = decodeIntoValue(state, keyOp, keyIsPtr, key, keyInstr)
+		elem = decodeIntoValue(state, elemOp, elemIsPtr, elem, elemInstr)
 		value.SetMapIndex(key, elem)
 	}
 }

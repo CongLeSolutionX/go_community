@@ -551,10 +551,15 @@ func TestEndToEnd(t *testing.T) {
 	}
 	s1 := "string1"
 	s2 := "string2"
+	var comp1 complex128 = complex(1.0, 1.0)
+	var comp2 complex128 = complex(1.0, 1.0)
 	type T1 struct {
 		A, B, C  int
 		M        map[string]*float64
 		M2       map[int]T3
+		Mstring  map[string]string
+		Mintptr  map[int]*int
+		Mcomp    map[complex128]complex128
 		EmptyMap map[string]int // to check that we receive a non-nil map.
 		N        *[3]float64
 		Strs     *[2]string
@@ -574,6 +579,9 @@ func TestEndToEnd(t *testing.T) {
 		C:        -5,
 		M:        map[string]*float64{"pi": &pi, "e": &e},
 		M2:       map[int]T3{4: T3{X: pi, Z: &meaning}, 10: T3{X: e, Z: &fingers}},
+		Mstring:  map[string]string{"pi": "3.14", "e": "2.71"},
+		Mintptr:  map[int]*int{meaning: &fingers, fingers: &meaning},
+		Mcomp:    map[complex128]complex128{comp1: comp2, comp2: comp1},
 		EmptyMap: make(map[string]int),
 		N:        &[3]float64{1.5, 2.5, 3.5},
 		Strs:     &[2]string{s1, s2},
