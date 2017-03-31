@@ -197,7 +197,9 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 	fn := s.curfn.Func
 
 	// Mark the PAUTO's unused.
+	isdcl := make(map[*Node]bool, len(fn.Dcl))
 	for _, ln := range fn.Dcl {
+		isdcl[ln] = true
 		if ln.Class == PAUTO {
 			ln.SetUsed(false)
 		}
@@ -207,7 +209,6 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 		if ls, ok := l.(ssa.LocalSlot); ok {
 			ls.N.(*Node).SetUsed(true)
 		}
-
 	}
 
 	scratchUsed := false
@@ -215,7 +216,10 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 		for _, v := range b.Values {
 			switch a := v.Aux.(type) {
 			case *ssa.ArgSymbol:
-				a.Node.(*Node).SetUsed(true)
+				// Take care not to modify nodes that don't belong exclusively to us.
+				if n := a.Node.(*Node); isdcl[n] {
+					n.SetUsed(true)
+				}
 			case *ssa.AutoSymbol:
 				a.Node.(*Node).SetUsed(true)
 			}
