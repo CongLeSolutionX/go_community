@@ -5,11 +5,9 @@
 package url_test
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/url"
-	"strings"
 )
 
 func ExampleValues() {
@@ -76,15 +74,9 @@ func ExampleParseQuery() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(toJSON(m))
-	// Output:
-	// {"x":["1"], "y":["2", "3"], "z":[""]}
-}
 
-func toJSON(m interface{}) string {
-	js, err := json.Marshal(m)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return strings.Replace(string(js), ",", ", ", -1)
+	fmt.Println(m)
+
+	// Output:
+	// map[x:[1] y:[2 3] z:[]]
 }
