@@ -59,6 +59,7 @@ var pkgDeps = map[string][]string{
 	"math":          {"unsafe"},
 	"math/bits":     {},
 	"math/cmplx":    {"math"},
+	"math/quat":     {"math"},
 	"math/rand":     {"L0", "math"},
 	"strconv":       {"L0", "unicode/utf8", "math"},
 	"unicode/utf16": {},
