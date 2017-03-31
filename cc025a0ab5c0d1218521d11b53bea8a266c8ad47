@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "006da0cd_44eaedbf",
+        "filename": "src/fmt/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-03-31T23:38:01Z",
+      "side": 1,
+      "message": "add example for quaternions - it\u0027s confusing as is",
+      "revId": "cc025a0ab5c0d1218521d11b53bea8a266c8ad47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
