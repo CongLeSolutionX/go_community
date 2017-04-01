@@ -16,6 +16,24 @@
       "revId": "f4dc360e4b1f3cbd24a3e6806e647c49025dc3ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c1e915_df208ed5",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-01T14:17:17Z",
+      "side": 1,
+      "message": "Good question. Thanks, as usual, Matthew. Turns out this was only happening with nodfp, which admits of a much tidier solution. PTAL.",
+      "parentUuid": "b608a8f8_5c0ff077",
+      "revId": "f4dc360e4b1f3cbd24a3e6806e647c49025dc3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
