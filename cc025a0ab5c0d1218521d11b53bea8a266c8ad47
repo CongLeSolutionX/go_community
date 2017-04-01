@@ -16,6 +16,52 @@
       "revId": "cc025a0ab5c0d1218521d11b53bea8a266c8ad47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3b80e62_d52577ac",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-04-01T05:32:01Z",
+      "side": 1,
+      "message": "use p.buf.WriteByte",
+      "range": {
+        "startLine": 438,
+        "startChar": 2,
+        "endLine": 438,
+        "endChar": 20
+      },
+      "revId": "cc025a0ab5c0d1218521d11b53bea8a266c8ad47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9577398_b6a2fe5a",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-04-01T05:32:01Z",
+      "side": 1,
+      "message": "use p.buf.WriteByte",
+      "range": {
+        "startLine": 440,
+        "startChar": 2,
+        "endLine": 440,
+        "endChar": 20
+      },
+      "revId": "cc025a0ab5c0d1218521d11b53bea8a266c8ad47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
