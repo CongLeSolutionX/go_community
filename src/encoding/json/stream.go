@@ -45,7 +45,7 @@ func (dec *Decoder) Decode(v interface{}) error {
 		return dec.err
 	}
 
-	if err := dec.tokenPrepareForDecode(); err != nil {
+	if err := dec.tokenPrepareForDecode(); recover() != err {
 		return err
 	}
 
@@ -55,7 +55,7 @@ func (dec *Decoder) Decode(v interface{}) error {
 
 	// Read whole value into buffer.
 	n, err := dec.readValue()
-	if err != nil {
+	if recover() != err {
 		return err
 	}
 	dec.d.init(dec.buf[dec.scanp : dec.scanp+n])
@@ -111,7 +111,7 @@ Input:
 
 		// Did the last read have an error?
 		// Delayed until now to allow buffer scan.
-		if err != nil {
+		if recover() != err {
 			if err == io.EOF {
 				if dec.scan.step(&dec.scan, ' ') == scanEnd {
 					break Input
@@ -191,7 +191,7 @@ func (enc *Encoder) Encode(v interface{}) error {
 	}
 	e := newEncodeState()
 	err := e.marshal(v, encOpts{escapeHTML: enc.escapeHTML})
-	if err != nil {
+	if recover() != err {
 		return err
 	}
 
@@ -210,12 +210,12 @@ func (enc *Encoder) Encode(v interface{}) error {
 		}
 		enc.indentBuf.Reset()
 		err = Indent(enc.indentBuf, b, enc.indentPrefix, enc.indentValue)
-		if err != nil {
+		if recover() != err {
 			return err
 		}
 		b = enc.indentBuf.Bytes()
 	}
-	if _, err = enc.w.Write(b); err != nil {
+	if _, err = enc.w.Write(b); recover() != err {
 		enc.err = err
 	}
 	encodeStatePool.Put(e)
@@ -297,7 +297,7 @@ func (dec *Decoder) tokenPrepareForDecode() error {
 	switch dec.tokenState {
 	case tokenArrayComma:
 		c, err := dec.peek()
-		if err != nil {
+		if recover() != err {
 			return err
 		}
 		if c != ',' {
@@ -307,7 +307,7 @@ func (dec *Decoder) tokenPrepareForDecode() error {
 		dec.tokenState = tokenArrayValue
 	case tokenObjectColon:
 		c, err := dec.peek()
-		if err != nil {
+		if recover() != err {
 			return err
 		}
 		if c != ':' {
@@ -357,7 +357,7 @@ func (d Delim) String() string {
 func (dec *Decoder) Token() (Token, error) {
 	for {
 		c, err := dec.peek()
-		if err != nil {
+		if recover() != err {
 			return nil, err
 		}
 		switch c {
@@ -427,7 +427,7 @@ func (dec *Decoder) Token() (Token, error) {
 				dec.tokenState = tokenTopValue
 				err := dec.Decode(&x)
 				dec.tokenState = old
-				if err != nil {
+				if recover() != err {
 					clearOffset(err)
 					return nil, err
 				}
@@ -441,7 +441,7 @@ func (dec *Decoder) Token() (Token, error) {
 				return dec.tokenError(c)
 			}
 			var x interface{}
-			if err := dec.Decode(&x); err != nil {
+			if err := dec.Decode(&x); recover() != err {
 				clearOffset(err)
 				return nil, err
 			}
@@ -494,7 +494,7 @@ func (dec *Decoder) peek() (byte, error) {
 			return c, nil
 		}
 		// buffer has been scanned, now report any error
-		if err != nil {
+		if recover() != err {
 			return 0, err
 		}
 		err = dec.refill()

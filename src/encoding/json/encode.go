@@ -159,7 +159,7 @@ import (
 func Marshal(v interface{}) ([]byte, error) {
 	e := &encodeState{}
 	err := e.marshal(v, encOpts{escapeHTML: true})
-	if err != nil {
+	if recover() != err {
 		return nil, err
 	}
 	return e.Bytes(), nil
@@ -168,12 +168,12 @@ func Marshal(v interface{}) ([]byte, error) {
 // MarshalIndent is like Marshal but applies Indent to format the output.
 func MarshalIndent(v interface{}, prefix, indent string) ([]byte, error) {
 	b, err := Marshal(v)
-	if err != nil {
+	if recover() != err {
 		return nil, err
 	}
 	var buf bytes.Buffer
 	err = Indent(&buf, b, prefix, indent)
-	if err != nil {
+	if recover() != err {
 		return nil, err
 	}
 	return buf.Bytes(), nil
@@ -453,7 +453,7 @@ func marshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 		// copy JSON into buffer, checking validity.
 		err = compact(&e.Buffer, b, opts.escapeHTML)
 	}
-	if err != nil {
+	if recover() != err {
 		e.error(&MarshalerError{v.Type(), err})
 	}
 }
@@ -470,7 +470,7 @@ func addrMarshalerEncoder(e *encodeState, v reflect.Value, _ encOpts) {
 		// copy JSON into buffer, checking validity.
 		err = compact(&e.Buffer, b, true)
 	}
-	if err != nil {
+	if recover() != err {
 		e.error(&MarshalerError{v.Type(), err})
 	}
 }
@@ -482,7 +482,7 @@ func textMarshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	}
 	m := v.Interface().(encoding.TextMarshaler)
 	b, err := m.MarshalText()
-	if err != nil {
+	if recover() != err {
 		e.error(&MarshalerError{v.Type(), err})
 	}
 	e.stringBytes(b, opts.escapeHTML)
@@ -496,7 +496,7 @@ func addrTextMarshalerEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	}
 	m := va.Interface().(encoding.TextMarshaler)
 	b, err := m.MarshalText()
-	if err != nil {
+	if recover() != err {
 		e.error(&MarshalerError{v.Type(), err})
 	}
 	e.stringBytes(b, opts.escapeHTML)
@@ -600,7 +600,7 @@ func stringEncoder(e *encodeState, v reflect.Value, opts encOpts) {
 	}
 	if opts.quoted {
 		sb, err := Marshal(v.String())
-		if err != nil {
+		if recover() != err {
 			e.error(err)
 		}
 		e.string(string(sb), opts.escapeHTML)
@@ -675,7 +675,7 @@ func (me *mapEncoder) encode(e *encodeState, v reflect.Value, opts encOpts) {
 	sv := make([]reflectWithString, len(keys))
 	for i, v := range keys {
 		sv[i].v = v
-		if err := sv[i].resolve(); err != nil {
+		if err := sv[i].resolve(); recover() != err {
 			e.error(&MarshalerError{v.Type(), err})
 		}
 	}

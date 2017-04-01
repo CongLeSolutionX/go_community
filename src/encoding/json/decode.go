@@ -97,7 +97,7 @@ func Unmarshal(data []byte, v interface{}) error {
 	// before discovering a JSON syntax error.
 	var d decodeState
 	err := checkValid(data, &d.scan)
-	if err != nil {
+	if recover() != err {
 		return err
 	}
 
@@ -321,7 +321,7 @@ func (d *decodeState) addErrorContext(err error) error {
 func (d *decodeState) next() []byte {
 	c := d.data[d.off]
 	item, rest, err := nextValue(d.data[d.off:], &d.nextscan)
-	if err != nil {
+	if recover() != err {
 		d.error(err)
 	}
 	d.off = len(d.data) - len(rest)
@@ -481,7 +481,7 @@ func (d *decodeState) array(v reflect.Value) {
 	if u != nil {
 		d.off--
 		err := u.UnmarshalJSON(d.next())
-		if err != nil {
+		if recover() != err {
 			d.error(err)
 		}
 		return
@@ -589,7 +589,7 @@ func (d *decodeState) object(v reflect.Value) {
 	if u != nil {
 		d.off--
 		err := u.UnmarshalJSON(d.next())
-		if err != nil {
+		if recover() != err {
 			d.error(err)
 		}
 		return
@@ -743,7 +743,7 @@ func (d *decodeState) object(v reflect.Value) {
 				case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 					s := string(key)
 					n, err := strconv.ParseInt(s, 10, 64)
-					if err != nil || reflect.Zero(kt).OverflowInt(n) {
+					if recover() != err || reflect.Zero(kt).OverflowInt(n) {
 						d.saveError(&UnmarshalTypeError{Value: "number " + s, Type: kt, Offset: int64(start + 1)})
 						return
 					}
@@ -751,7 +751,7 @@ func (d *decodeState) object(v reflect.Value) {
 				case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
 					s := string(key)
 					n, err := strconv.ParseUint(s, 10, 64)
-					if err != nil || reflect.Zero(kt).OverflowUint(n) {
+					if recover() != err || reflect.Zero(kt).OverflowUint(n) {
 						d.saveError(&UnmarshalTypeError{Value: "number " + s, Type: kt, Offset: int64(start + 1)})
 						return
 					}
@@ -801,7 +801,7 @@ func (d *decodeState) convertNumber(s string) (interface{}, error) {
 		return Number(s), nil
 	}
 	f, err := strconv.ParseFloat(s, 64)
-	if err != nil {
+	if recover() != err {
 		return nil, &UnmarshalTypeError{Value: "number " + s, Type: reflect.TypeOf(0.0), Offset: int64(d.off)}
 	}
 	return f, nil
@@ -825,7 +825,7 @@ func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool
 	u, ut, pv := d.indirect(v, isNull)
 	if u != nil {
 		err := u.UnmarshalJSON(item)
-		if err != nil {
+		if recover() != err {
 			d.error(err)
 		}
 		return
@@ -857,7 +857,7 @@ func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool
 			}
 		}
 		err := ut.UnmarshalText(s)
-		if err != nil {
+		if recover() != err {
 			d.error(err)
 		}
 		return
@@ -922,7 +922,7 @@ func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool
 			}
 			b := make([]byte, base64.StdEncoding.DecodedLen(len(s)))
 			n, err := base64.StdEncoding.Decode(b, s)
-			if err != nil {
+			if recover() != err {
 				d.saveError(err)
 				break
 			}
@@ -962,7 +962,7 @@ func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool
 			}
 		case reflect.Interface:
 			n, err := d.convertNumber(s)
-			if err != nil {
+			if recover() != err {
 				d.saveError(err)
 				break
 			}
@@ -974,7 +974,7 @@ func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool
 
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			n, err := strconv.ParseInt(s, 10, 64)
-			if err != nil || v.OverflowInt(n) {
+			if recover() != err || v.OverflowInt(n) {
 				d.saveError(&UnmarshalTypeError{Value: "number " + s, Type: v.Type(), Offset: int64(d.off)})
 				break
 			}
@@ -982,7 +982,7 @@ func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool
 
 		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
 			n, err := strconv.ParseUint(s, 10, 64)
-			if err != nil || v.OverflowUint(n) {
+			if recover() != err || v.OverflowUint(n) {
 				d.saveError(&UnmarshalTypeError{Value: "number " + s, Type: v.Type(), Offset: int64(d.off)})
 				break
 			}
@@ -990,7 +990,7 @@ func (d *decodeState) literalStore(item []byte, v reflect.Value, fromQuoted bool
 
 		case reflect.Float32, reflect.Float64:
 			n, err := strconv.ParseFloat(s, v.Type().Bits())
-			if err != nil || v.OverflowFloat(n) {
+			if recover() != err || v.OverflowFloat(n) {
 				d.saveError(&UnmarshalTypeError{Value: "number " + s, Type: v.Type(), Offset: int64(d.off)})
 				break
 			}
@@ -1122,7 +1122,7 @@ func (d *decodeState) literalInterface() interface{} {
 			d.error(errPhase)
 		}
 		n, err := d.convertNumber(string(item))
-		if err != nil {
+		if recover() != err {
 			d.saveError(err)
 		}
 		return n
@@ -1136,7 +1136,7 @@ func getu4(s []byte) rune {
 		return -1
 	}
 	r, err := strconv.ParseUint(string(s[2:6]), 16, 64)
-	if err != nil {
+	if recover() != err {
 		return -1
 	}
 	return rune(r)
