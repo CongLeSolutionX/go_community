@@ -50,6 +50,52 @@
       "revId": "a8379f5bbb4fd2cc39063a940b103350e9267839",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "899e603f_112388f5",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4948,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-01T02:29:06Z",
+      "side": 1,
+      "message": "four",
+      "range": {
+        "startLine": 4948,
+        "startChar": 32,
+        "endLine": 4948,
+        "endChar": 35
+      },
+      "revId": "a8379f5bbb4fd2cc39063a940b103350e9267839",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3587d303_eb53fb15",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-01T02:29:06Z",
+      "side": 1,
+      "message": "From the spec there is no quaternion division.",
+      "range": {
+        "startLine": 1062,
+        "startChar": 25,
+        "endLine": 1062,
+        "endChar": 39
+      },
+      "revId": "a8379f5bbb4fd2cc39063a940b103350e9267839",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
