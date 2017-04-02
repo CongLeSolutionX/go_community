@@ -474,6 +474,11 @@ TEXT runtime·switchtothread(SB),NOSPLIT|NOFRAME,$0
 #define time_hi2 8
 
 TEXT runtime·nanotime(SB),NOSPLIT,$0-8
+	CMPB	runtime·useQPCTime(SB), $0
+    JE		ok
+    JMP		runtime·nanotimeQPC(SB)
+	RET
+ok:
 	MOVQ	$_INTERRUPT_TIME, DI
 loop:
 	MOVL	time_hi1(DI), AX
@@ -489,6 +494,11 @@ loop:
 	RET
 
 TEXT time·now(SB),NOSPLIT,$0-24
+	CMPB	runtime·useQPCTime(SB), $0
+    JE		ok
+    JMP		runtime·nowQPC(SB)
+	RET
+ok:
 	MOVQ	$_INTERRUPT_TIME, DI
 loop:
 	MOVL	time_hi1(DI), AX

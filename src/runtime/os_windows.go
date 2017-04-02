@@ -76,6 +76,8 @@ var (
 	_GetThreadContext,
 	_LoadLibraryW,
 	_LoadLibraryA,
+	_QueryPerformanceCounter,
+	_QueryPerformanceFrequency,
 	_ResumeThread,
 	_SetConsoleCtrlHandler,
 	_SetErrorMode,
@@ -188,6 +190,8 @@ func loadOptionalSyscalls() {
 		throw("ntdll.dll not found")
 	}
 	_NtWaitForSingleObject = windowsFindfunc(n32, []byte("NtWaitForSingleObject\000"))
+
+	checkTimers(k32)
 }
 
 //go:nosplit
@@ -290,6 +294,120 @@ func osinit() {
 	// equivalent threads that all do a mix of GUI, IO, computations, etc.
 	// In such context dynamic priority boosting does nothing but harm, so we turn it off.
 	stdcall2(_SetProcessPriorityBoost, currentProcess, 1)
+}
+
+func nanotime() int64
+
+var useQPCTime = 0
+
+var qpcStartCounter int64
+var qpcNanoBase int64
+var qpcMultiplier int64
+
+//go:nosplit
+func nanotimeQPC() int64 {
+	var counter int64 = 0
+	stdcall1(_QueryPerformanceCounter, uintptr(unsafe.Pointer(&counter)))
+
+	// returns number of nanoseconds
+	return (counter - qpcStartCounter) * qpcMultiplier
+}
+
+//go:nosplit
+func nowQPC() (sec int64, nsec int32, mono int64) {
+	mono = nanotimeQPC() + qpcNanoBase
+	sec = mono / 1000000000
+	nsec = int32(mono - sec*1000000000)
+	mono = 0
+
+	return
+}
+
+type _KSYSTEM_TIME struct {
+	LowPart   uint32
+	High1Time int32
+	High2Time int32
+}
+
+const (
+	_INTERRUPT_TIME = 0x7ffe0008
+	_SYSTEM_TIME    = 0x7ffe0014
+)
+
+func systimeMemoryMapped(addr uintptr) int64 {
+	timeaddr := (*_KSYSTEM_TIME)(unsafe.Pointer(addr))
+
+	var t _KSYSTEM_TIME
+	for i := 1; i < 10000; i++ {
+		// these fields must be read in that order (see URL above)
+		t.High1Time = timeaddr.High1Time
+		t.LowPart = timeaddr.LowPart
+		t.High2Time = timeaddr.High2Time
+		if t.High1Time == t.High2Time {
+			return int64(t.High1Time)<<32 | int64(t.LowPart)
+		}
+
+		if (i % 100) == 0 {
+			osyield()
+		}
+	}
+
+	systemstack(func() {
+		throw("interrupt/system time is changing too fast")
+	})
+	return 0
+}
+
+func checkTimers(k32 uintptr) {
+	// Wine will actually have a zero nanotime, since it is a time since boot, and starting the process is actually a boot.
+	if nanotime() != 0 {
+		// Users will wait for 2 usecs at start to detect that system doesn't update page containg INTERRUPT_TIME,
+		// which means fast time is not supported on wine. It is not a big price for checking whether time is running
+		// correctly getting that osinit() already calls LoadLibrary() and friends.
+		t1 := nanotime()
+		usleep(2)
+		t2 := nanotime()
+		if t1 != t2 {
+			return
+		}
+	}
+
+	// nanoseconds since Unix Epoch
+	qpcNanoBase = (systimeMemoryMapped(_SYSTEM_TIME) - 116444736000000000) * 100
+
+	_QueryPerformanceCounter = windowsFindfunc(k32, []byte("QueryPerformanceCounter\000"))
+	_QueryPerformanceFrequency = windowsFindfunc(k32, []byte("QueryPerformanceFrequency\000"))
+	if _QueryPerformanceCounter == nil || _QueryPerformanceFrequency == nil {
+		throw("could not find QPC syscalls")
+	}
+
+	// We can not simply fallback to Sleep() syscall, since its time is not monotonic,
+	// instead we use QueryPerformanceCounter family of syscalls to implement monotonic timer
+	// https://msdn.microsoft.com/en-us/library/windows/desktop/dn553408(v=vs.85).aspx
+
+	var tmp int64
+	stdcall1(_QueryPerformanceFrequency, uintptr(unsafe.Pointer(&tmp)))
+	if tmp == 0 {
+		throw("QueryPerformanceFrequency syscall returned zero, running on unsupported hardware")
+	}
+
+	// This should not overflow, it is a number of ticks of the performance counter per second,
+	// its resolution is at most 10 per usecond (on Wine, even smaller on real hardware), so it will be at most 10 millions here,
+	// panic if overflows.
+	if tmp > (1<<31 - 1) {
+		throw("QueryPerformanceFrequency overflow 32 bit divider, check nosplit discussion to proceed")
+	}
+	qpcFrequency := int32(tmp)
+	stdcall1(_QueryPerformanceCounter, uintptr(unsafe.Pointer(&qpcStartCounter)))
+
+	// Since we are supposed to run this time calls only on Wine, it does not lose precision,
+	// since Wine's timer is kind of emulated at 10 Mhz, so it will be a nice round multiplier of 100
+	// but for general purpose system (like 3.3 Mhz timer on i7) it will not be very precise.
+	// We have to do it this way (or similar), since multiplying QPC counter by 100 millions overflows
+	// int64 and resulted time will always be invalid.
+	qpcMultiplier = int64(timediv(1000000000, qpcFrequency, nil))
+
+	useQPCTime = 1
 }
 
 //go:nosplit
@@ -577,8 +695,6 @@ func unminit() {
 	stdcall1(_CloseHandle, *tp)
 	*tp = 0
 }
-
-func nanotime() int64
 
 // Calling stdcall on os stack.
 // May run during STW, so write barriers are not allowed.

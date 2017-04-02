@@ -441,6 +441,10 @@ TEXT runtime·switchtothread(SB),NOSPLIT,$0
 #define time_hi2 8
 
 TEXT runtime·nanotime(SB),NOSPLIT,$0-8
+	CMPB	runtime·useQPCTime(SB), $0
+    JE		loop
+    JMP		runtime·nanotimeQPC(SB)
+	RET
 loop:
 	MOVL	(_INTERRUPT_TIME+time_hi1), AX
 	MOVL	(_INTERRUPT_TIME+time_lo), CX
@@ -461,6 +465,10 @@ loop:
 	RET
 
 TEXT time·now(SB),NOSPLIT,$0-20
+	CMPB	runtime·useQPCTime(SB), $0
+    JE		loop
+    JMP		runtime·nowQPC(SB)
+	RET
 loop:
 	MOVL	(_INTERRUPT_TIME+time_hi1), AX
 	MOVL	(_INTERRUPT_TIME+time_lo), CX
@@ -477,7 +485,7 @@ loop:
 	// w*100 = DX:AX
 	// subtract startNano and save for return
 	SUBL	runtime·startNano+0(SB), AX
-	SBBL runtime·startNano+4(SB), DX
+	SBBL	runtime·startNano+4(SB), DX
 	MOVL	AX, mono+12(FP)
 	MOVL	DX, mono+16(FP)
 
