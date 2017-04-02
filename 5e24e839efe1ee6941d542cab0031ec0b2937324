@@ -16,6 +16,46 @@
       "revId": "5e24e839efe1ee6941d542cab0031ec0b2937324",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "240cf4d6_13b213b7",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-02T13:58:50Z",
+      "side": 1,
+      "message": "I don\u0027t think Array needs to be included in this list.",
+      "revId": "5e24e839efe1ee6941d542cab0031ec0b2937324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b0ef485_935bc896",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-02T13:58:50Z",
+      "side": 1,
+      "message": "shouldn\u0027t you only make these if !keyNeedsAlloc?\n\nIt seems like you could write this like:\n\n    var key, elem reflect.value\n    for i :\u003d 0; i \u003c n; i++ {\n           if keyNeedsAlloc || !key.IsValid() {\n                 key \u003d allocValue(mtyp.Key())\n           }\n           if elemNeedsAlloc || !elem.IsValid() {\n                 elem \u003d allocValue(mtyp.Key())\n           }\n           key \u003d decodeIntoValue(state, keyOp, keyIsPtr, key, keyInstr)\n\t   elem \u003d decodeIntoValue(state, elemOp, elemIsPtr, elem, elemInstr)\n\t   value.SetMapIndex(key, elem)\n    }\n\n(and not having the \"reusable\" variables at all)",
+      "range": {
+        "startLine": 583,
+        "startChar": 1,
+        "endLine": 584,
+        "endChar": 40
+      },
+      "revId": "5e24e839efe1ee6941d542cab0031ec0b2937324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
