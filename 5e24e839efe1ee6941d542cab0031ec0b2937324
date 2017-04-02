@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b49bfb3_5cc8f752",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-02T01:18:45Z",
+      "side": 1,
+      "message": "this could use a comment",
+      "revId": "5e24e839efe1ee6941d542cab0031ec0b2937324",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
