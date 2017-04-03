@@ -16,6 +16,74 @@
       "revId": "00d278bcbe71c48c9da54ac978fb5ffc98f4523c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d609ff7f_5a2dbd5a",
+        "filename": "src/runtime/export_windows_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-03T06:15:34Z",
+      "side": 1,
+      "message": "Do not add test logic here. This source file is purely to provide access to not exported part of runtime to \"go test\" command. You can add\n\nvar NanotimeQC \u003d nanotimeQC\n\nthat should provide all you are needed in syscall_windows_test.go",
+      "revId": "00d278bcbe71c48c9da54ac978fb5ffc98f4523c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "679d5b5c_4099dd42",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-03T06:15:34Z",
+      "side": 1,
+      "message": "In your CL description you say that \"WINE ... does not support memory mapped _KSYSTEM_TIME page\". Why are you adding _KSYSTEM_TIME struct, systimeMemoryMapped func and others?",
+      "revId": "00d278bcbe71c48c9da54ac978fb5ffc98f4523c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8c03480_ef1029ae",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-03T06:15:34Z",
+      "side": 1,
+      "message": "Use single \\t before and after JE just like all other instructions do.\n\nDo the same everywhere in your new code.",
+      "revId": "00d278bcbe71c48c9da54ac978fb5ffc98f4523c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "636b82b9_1e552f3b",
+        "filename": "src/runtime/syscall_windows_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-03T06:15:34Z",
+      "side": 1,
+      "message": "If you expect \"go test\" command to run this function, it needs to start with Test.",
+      "revId": "00d278bcbe71c48c9da54ac978fb5ffc98f4523c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
