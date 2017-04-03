@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d141b5b_dabdb50c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-03T17:35:56Z",
+      "side": 1,
+      "message": "This really should say more. Which hardware? What bug? Will it go away one day?\nAt least put in a TODO.",
+      "revId": "9d5987d79f42b018ce8c57ac2d90ce0d81f0d646",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
