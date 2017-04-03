@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1edcd5c9_855d4381",
+        "filename": "src/go/parser/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-03T14:52:12Z",
+      "side": 1,
+      "message": "s/the file/src/",
+      "revId": "2469f8b53e22992d5ec76035a5a6ea314e2506f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
