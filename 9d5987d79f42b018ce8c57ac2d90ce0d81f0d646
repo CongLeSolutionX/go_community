@@ -33,6 +33,24 @@
       "revId": "9d5987d79f42b018ce8c57ac2d90ce0d81f0d646",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9653112a_c7416376",
+        "filename": "src/cmd/compile/internal/ssa/rewriteARM64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-03T17:51:51Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/39296",
+      "parentUuid": "091377be_5d9e6bb5",
+      "revId": "9d5987d79f42b018ce8c57ac2d90ce0d81f0d646",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
