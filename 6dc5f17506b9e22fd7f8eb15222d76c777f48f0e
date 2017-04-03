@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6c5b765_b73a26fc",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-03T15:24:15Z",
+      "side": 1,
+      "message": "move the new sentence start to the next line.",
+      "revId": "6dc5f17506b9e22fd7f8eb15222d76c777f48f0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34edcc80_f1298f9a",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-03T15:24:15Z",
+      "side": 1,
+      "message": "I\u0027d write this as a switch as the list is nice to read:\n\nswitch kind {\n  case reflect.Array, reflect.Chan, ...\n   return true\n}\nreturn false\n\nbut then i\u0027d turn it around because the point of this function is that it catches the ones that don\u0027t.\nthis makes the purpose much clearer.\n\n// fullyInMap reports whether the value can contain no pointers, indicating that the map\u0027s memory\n// itself contains the full value. If so, there is no need to allocate a new value when creating a map entry.\nfunc fullyInMap(kind reflect.Kind) bool {\n  switch kind {\n    case reflect.Int, ...\n      return true\n    }\n  return true\n}\n\nthat said, i find this pretty distasteful",
+      "revId": "6dc5f17506b9e22fd7f8eb15222d76c777f48f0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
