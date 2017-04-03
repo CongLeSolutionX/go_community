@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8b875317_c3c34fae",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 17532
+      },
+      "writtenOn": "2017-04-03T23:54:08Z",
+      "side": 1,
+      "message": "\"that said, i find this pretty distasteful\" \n\nYeah, I\u0027m not a fan either. I would be happy to try to find a solution that doesn\u0027t require this, but I don\u0027t see a better approach for this. I will not make immediate change, until the other comment is resolved.",
+      "parentUuid": "33771774_4aa57fed",
+      "revId": "6dc5f17506b9e22fd7f8eb15222d76c777f48f0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "761ca461_190d19f5",
         "filename": "src/encoding/gob/decode.go",
         "patchSetId": 3
@@ -65,6 +83,24 @@
       "writtenOn": "2017-04-03T21:03:24Z",
       "side": 1,
       "message": "Instead of what you\u0027re doing here, just do the allocValue the first time through the loop and reuse it on each iteration. Maps always copy the key and value, so you can reuse the allocated value.",
+      "revId": "6dc5f17506b9e22fd7f8eb15222d76c777f48f0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dd88f81_98f07039",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 17532
+      },
+      "writtenOn": "2017-04-03T23:54:08Z",
+      "side": 1,
+      "message": "That was actually my initial approach, because taking the allocation out of the loop seemed like a pretty obvious optimization. Unfortunately, it seems to me that it doesn\u0027t works when pointers are involved (that\u0027s why I also added more tests for this, to make sure I don\u0027t miss some other scenario). When I try to apply this optimization indiscriminately the tests fail in following way:\n\ninput map [key1: pointerVal1, key2: pointerVal2]\noutput map [key1: pointerVal2, key2: pointerVal2]\n\nThe same if values are for example structs with pointers inside or arrays of pointers. The data to which is being pointed to seems to get clobbered.",
+      "parentUuid": "761ca461_190d19f5",
       "revId": "6dc5f17506b9e22fd7f8eb15222d76c777f48f0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
