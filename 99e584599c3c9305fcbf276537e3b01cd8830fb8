@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f5677e6_6f1e0965",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-03T20:07:20Z",
+      "side": 1,
+      "message": "MakeMapWithSize",
+      "revId": "99e584599c3c9305fcbf276537e3b01cd8830fb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a656328f_3af4a05c",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-03T20:07:20Z",
+      "side": 1,
+      "message": "MakeMapWithSize",
+      "revId": "99e584599c3c9305fcbf276537e3b01cd8830fb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ece47ab_6c15ca90",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2080,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-03T20:07:20Z",
+      "side": 1,
+      "message": "MakeMapWithSize",
+      "revId": "99e584599c3c9305fcbf276537e3b01cd8830fb8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
