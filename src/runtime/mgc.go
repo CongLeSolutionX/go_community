@@ -848,7 +848,7 @@ func gcSetTriggerRatio(triggerRatio float64) {
 		}
 		mheap_.sweepPagesPerByte = float64(mheap_.pagesInUse) / float64(heapDistance)
 		mheap_.pagesSwept = 0
-		mheap_.spanBytesAlloc = 0
+		mheap_.sweepHeapLiveBasis = memstats.heap_live
 	}
 }
 
