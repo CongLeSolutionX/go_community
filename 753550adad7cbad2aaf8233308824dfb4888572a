@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab705c06_867fa274",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-04T00:17:06Z",
+      "side": 1,
+      "message": "I don\u0027t think we need a test like this.  This basically just tests that MakeMapWithSize acts like MakeMap.  That seems unnecessary.\n\nI would instead write a new test along the lines of\n\nconst size \u003d 1000\nmv :\u003d MakeMapWithSize(TypeOf(map[int]int{}), size)\nc :\u003d testing.AllocsPerRun(10, func() {\n    for i :\u003d 0; i \u003c size; i++ {\n        mv.SetMapIndex(ValueOf(i), ValueOf(i))\n    }\n})\nif c !\u003d 0 {\n    testing.Errorf(\"got %d allocs, expected none\", c)\n}\n\nOf course verify that the test fails with MakeMap and passes with MakeMapWithSize.",
+      "revId": "753550adad7cbad2aaf8233308824dfb4888572a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
