@@ -122,6 +122,24 @@
       "revId": "6dc5f17506b9e22fd7f8eb15222d76c777f48f0e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faeec82f_a772757e",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 17532
+      },
+      "writtenOn": "2017-04-04T00:42:34Z",
+      "side": 1,
+      "message": "I didn\u0027t, because of this comment:\n\n// Gob depends on being able to take the address\n// of zeroed Values it creates, so use this wrapper instead\n// of the standard reflect.Zero.\n// Each call allocates once.\nfunc allocValue(t reflect.Type) reflect.Value {\n\treturn reflect.New(t).Elem()\n}\n\nI did try it now and if I try something like this:\n\n\t\tvalue.SetMapIndex(key, elem)\n\t\tkey \u003d reflect.Zero(mtyp.Key())\n\t\telem \u003d reflect.Zero(mtyp.Elem())\n\nthen it crashes:\n\n$ go test encoding/gob\n--- FAIL: TestEndToEnd (0.00s)\npanic: reflect: reflect.Value.SetString using unaddressable value [recovered]\n\tpanic: reflect: reflect.Value.SetString using unaddressable value [recovered]\n\tpanic: reflect: reflect.Value.SetString using unaddressable value",
+      "parentUuid": "3c723d7f_a16eaa82",
+      "revId": "6dc5f17506b9e22fd7f8eb15222d76c777f48f0e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
