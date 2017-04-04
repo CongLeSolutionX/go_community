@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "489eb5f1_33e2b524",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5855,
+      "author": {
+        "id": 17532
+      },
+      "writtenOn": "2017-04-04T02:01:33Z",
+      "side": 1,
+      "message": "It does! That\u0027s of course very strange, because there obviously should be allocations, right? At first I thought that maybe AllocsPerRun doesn\u0027t register allocations from the hashmap (thinking that maybe it uses lower level allocation methods for speed that don\u0027t register). That\u0027s obviously not true. The reason this passes is this:\n\n1) AllocsPerRun first runs a warmup run - this will actually catch all the allocation inside the mv. After this finishes mv will have enough capacity to hold \u003csize\u003e elements without further resizing.\n2) Further 100 runs will not trigger anymore allocations at all, because we never reset the map, so it has all the necessary capacity.\n\nI changed this to:\n1) have MakeMapWithSize be called inside the Run function, so we start with a fresh map on every run\n2) With capacity hint it requires 3 allocations per run, without it requires 91. I set the threshold to 10 (to not make it too brittle in case some new allocation happen for creating the map) and verify that the average number of allocations is not above that.\n\nDoes this make sense?",
+      "parentUuid": "7d538ba0_f7448137",
+      "revId": "ba8803bac604e5d51a3dbf34770d701340aa10c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9029e3ab_8b0be46f",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "6d61ea13_ad8ce1b7",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5859,
+      "author": {
+        "id": 17532
+      },
+      "writtenOn": "2017-04-04T02:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9029e3ab_8b0be46f",
+      "range": {
+        "startLine": 5859,
+        "startChar": 11,
+        "endLine": 5859,
+        "endChar": 12
+      },
+      "revId": "ba8803bac604e5d51a3dbf34770d701340aa10c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54cc60d0_ab8b0f15",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 6
@@ -62,6 +104,30 @@
       "revId": "ba8803bac604e5d51a3dbf34770d701340aa10c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be80abbb_fe0b155a",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 5864,
+      "author": {
+        "id": 17532
+      },
+      "writtenOn": "2017-04-04T02:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54cc60d0_ab8b0f15",
+      "range": {
+        "startLine": 5864,
+        "startChar": 13,
+        "endLine": 5864,
+        "endChar": 16
+      },
+      "revId": "ba8803bac604e5d51a3dbf34770d701340aa10c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
