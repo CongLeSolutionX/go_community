@@ -19,11 +19,12 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 	var curb *Block
 	var curv *Value
 	defer func() {
+		err := recover()
 		if curb != nil {
-			curb.Fatalf("panic during rewrite of block %s\n", curb.LongString())
+			curb.Fatalf("panic during rewrite of block %s: %v\n", curb.LongString(), err)
 		}
 		if curv != nil {
-			curv.Fatalf("panic during rewrite of value %s\n", curv.LongString())
+			curv.Fatalf("panic during rewrite of value %s: %v\n", curv.LongString(), err)
 			// TODO(khr): print source location also
 		}
 	}()
