@@ -16,6 +16,24 @@
       "revId": "7e29a45bcb7fb37ad5c086e960584c5d2b20743f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bba64c48_3aa0e156",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-04-04T19:44:50Z",
+      "side": 1,
+      "message": "Both versions are stack allocated and use duffzero so there shouldnt be any difference which a quick test seems to confirm.",
+      "parentUuid": "bfb247a3_27ba615c",
+      "revId": "7e29a45bcb7fb37ad5c086e960584c5d2b20743f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
