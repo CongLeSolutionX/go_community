@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7d36395_9fda8849",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-04T02:48:31Z",
+      "side": 1,
+      "message": "Tweak the topic sentence:\n\ns/Add/add/\nDrop the final period.",
+      "revId": "ab496b32854488b81b61518088f921e314832f28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
