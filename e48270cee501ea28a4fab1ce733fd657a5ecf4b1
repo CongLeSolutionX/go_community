@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd8d7801_503cec42",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 5857,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-04T04:33:30Z",
+      "side": 1,
+      "message": "this size is misleading because it has nothing to do with the size on the next line.\n\nI would just hard-code 1000 here and not use any const (especially not \u0027size\u0027)\n\nBut if that\u0027s important, please explain in a comment.",
+      "revId": "e48270cee501ea28a4fab1ce733fd657a5ecf4b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2ec3a6f_d6569562",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 5864,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-04T04:33:30Z",
+      "side": 1,
+      "message": "where\u0027s 10 come from? it\u0027s not clear from the test code at least.",
+      "revId": "e48270cee501ea28a4fab1ce733fd657a5ecf4b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
