@@ -115,7 +115,7 @@ func (p *cpuProfile) add(gp *g, stk []uintptr) {
 // Instead, we copy the stack into cpuprof.extra,
 // which will be drained the next time a Go thread
 // gets the signal handling event.
-//go:nosplit
+//go:nosplitk
 //go:nowritebarrierrec
 func (p *cpuProfile) addNonGo(stk []uintptr) {
 	// Simple cas-lock to coordinate with SetCPUProfileRate.

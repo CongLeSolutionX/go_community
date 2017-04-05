@@ -349,7 +349,7 @@ func (b *profBuf) write(tagPtr *unsafe.Pointer, now int64, hdr []uint64, stk []u
 	// so there is no need for a deletion barrier on b.tags[wt].
 	wt := int(bw.tagCount() % uint32(len(b.tags)))
 	if tagPtr != nil {
-		*(*uintptr)(unsafe.Pointer(&b.tags[wt])) = uintptr(unsafe.Pointer(*tagPtr))
+		atomic.StorepNoWB(unsafe.Pointer(&b.tags[wt]), unsafe.Pointer(*tagPtr))
 	}
 
 	// Main record.
