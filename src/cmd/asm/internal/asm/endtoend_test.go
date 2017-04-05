@@ -179,7 +179,7 @@ Diff:
 		t.Errorf(format, args...)
 		ok = false
 	}
-	obj.FlushplistNoFree(ctxt, pList)
+	obj.Flushplist(ctxt, pList)
 
 	for p := top; p != nil; p = p.Link {
 		if p.As == obj.ATEXT {
