@@ -8,6 +8,7 @@ package pprof
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"internal/testenv"
 	"math/big"
@@ -67,14 +68,14 @@ func cpuHog2() {
 }
 
 func TestCPUProfile(t *testing.T) {
-	testCPUProfile(t, []string{"runtime/pprof.cpuHog1"}, func(dur time.Duration) {
+	testCPUProfile(t, profileOk([]string{"runtime/pprof.cpuHog1"}), func(dur time.Duration) {
 		cpuHogger(cpuHog1, dur)
 	})
 }
 
 func TestCPUProfileMultithreaded(t *testing.T) {
 	defer runtime.GOMAXPROCS(runtime.GOMAXPROCS(2))
-	testCPUProfile(t, []string{"runtime/pprof.cpuHog1", "runtime/pprof.cpuHog2"}, func(dur time.Duration) {
+	testCPUProfile(t, profileOk([]string{"runtime/pprof.cpuHog1", "runtime/pprof.cpuHog2"}), func(dur time.Duration) {
 		c := make(chan int)
 		go func() {
 			cpuHogger(cpuHog1, dur)
@@ -85,7 +86,7 @@ func TestCPUProfileMultithreaded(t *testing.T) {
 	})
 }
 
-func parseProfile(t *testing.T, valBytes []byte, f func(uintptr, []uintptr)) {
+func parseProfile(t *testing.T, valBytes []byte, f func(uintptr, []uintptr, map[string][]string)) {
 	p, err := profile.Parse(bytes.NewReader(valBytes))
 	if err != nil {
 		t.Fatal(err)
@@ -96,11 +97,11 @@ func parseProfile(t *testing.T, valBytes []byte, f func(uintptr, []uintptr)) {
 		for i := range sample.Location {
 			stk[i] = uintptr(sample.Location[i].Address)
 		}
-		f(count, stk)
+		f(count, stk, sample.Label)
 	}
 }
 
-func testCPUProfile(t *testing.T, need []string, f func(dur time.Duration)) {
+func testCPUProfile(t *testing.T, profileOk func(t *testing.T, prof bytes.Buffer, dur time.Duration) bool, f func(dur time.Duration)) {
 	switch runtime.GOOS {
 	case "darwin":
 		switch runtime.GOARCH {
@@ -139,7 +140,7 @@ func testCPUProfile(t *testing.T, need []string, f func(dur time.Duration)) {
 		f(duration)
 		StopCPUProfile()
 
-		if profileOk(t, need, prof, duration) {
+		if profileOk(t, prof, duration) {
 			return
 		}
 
@@ -164,76 +165,78 @@ func testCPUProfile(t *testing.T, need []string, f func(dur time.Duration)) {
 	t.FailNow()
 }
 
-func profileOk(t *testing.T, need []string, prof bytes.Buffer, duration time.Duration) (ok bool) {
-	ok = true
+func profileOk(need []string) func(t *testing.T, prof bytes.Buffer, duration time.Duration) (ok bool) {
+	return func(t *testing.T, prof bytes.Buffer, duration time.Duration) (ok bool) {
+		ok = true
 
-	// Check that profile is well formed and contains need.
-	have := make([]uintptr, len(need))
-	var samples uintptr
-	var buf bytes.Buffer
-	parseProfile(t, prof.Bytes(), func(count uintptr, stk []uintptr) {
-		fmt.Fprintf(&buf, "%d:", count)
-		samples += count
-		for _, pc := range stk {
-			fmt.Fprintf(&buf, " %#x", pc)
-			f := runtime.FuncForPC(pc)
-			if f == nil {
-				continue
-			}
-			fmt.Fprintf(&buf, "(%s)", f.Name())
-			for i, name := range need {
-				if strings.Contains(f.Name(), name) {
-					have[i] += count
+		// Check that profile is well formed and contains need.
+		have := make([]uintptr, len(need))
+		var samples uintptr
+		var buf bytes.Buffer
+		parseProfile(t, prof.Bytes(), func(count uintptr, stk []uintptr, _ map[string][]string) {
+			fmt.Fprintf(&buf, "%d:", count)
+			samples += count
+			for _, pc := range stk {
+				fmt.Fprintf(&buf, " %#x", pc)
+				f := runtime.FuncForPC(pc)
+				if f == nil {
+					continue
+				}
+				fmt.Fprintf(&buf, "(%s)", f.Name())
+				for i, name := range need {
+					if strings.Contains(f.Name(), name) {
+						have[i] += count
+					}
 				}
 			}
+			fmt.Fprintf(&buf, "\n")
+		})
+		t.Logf("total %d CPU profile samples collected:\n%s", samples, buf.String())
+
+		if samples < 10 && runtime.GOOS == "windows" {
+			// On some windows machines we end up with
+			// not enough samples due to coarse timer
+			// resolution. Let it go.
+			t.Log("too few samples on Windows (golang.org/issue/10842)")
+			return false
 		}
-		fmt.Fprintf(&buf, "\n")
-	})
-	t.Logf("total %d CPU profile samples collected:\n%s", samples, buf.String())
 
-	if samples < 10 && runtime.GOOS == "windows" {
-		// On some windows machines we end up with
-		// not enough samples due to coarse timer
-		// resolution. Let it go.
-		t.Log("too few samples on Windows (golang.org/issue/10842)")
-		return false
-	}
-
-	// Check that we got a reasonable number of samples.
-	// We used to always require at least ideal/4 samples,
-	// but that is too hard to guarantee on a loaded system.
-	// Now we accept 10 or more samples, which we take to be
-	// enough to show that at least some profiling is occurring.
-	if ideal := uintptr(duration * 100 / time.Second); samples == 0 || (samples < ideal/4 && samples < 10) {
-		t.Logf("too few samples; got %d, want at least %d, ideally %d", samples, ideal/4, ideal)
-		ok = false
-	}
-
-	if len(need) == 0 {
-		return ok
-	}
-
-	var total uintptr
-	for i, name := range need {
-		total += have[i]
-		t.Logf("%s: %d\n", name, have[i])
-	}
-	if total == 0 {
-		t.Logf("no samples in expected functions")
-		ok = false
-	}
-	// We'd like to check a reasonable minimum, like
-	// total / len(have) / smallconstant, but this test is
-	// pretty flaky (see bug 7095).  So we'll just test to
-	// make sure we got at least one sample.
-	min := uintptr(1)
-	for i, name := range need {
-		if have[i] < min {
-			t.Logf("%s has %d samples out of %d, want at least %d, ideally %d", name, have[i], total, min, total/uintptr(len(have)))
+		// Check that we got a reasonable number of samples.
+		// We used to always require at least ideal/4 samples,
+		// but that is too hard to guarantee on a loaded system.
+		// Now we accept 10 or more samples, which we take to be
+		// enough to show that at least some profiling is occurring.
+		if ideal := uintptr(duration * 100 / time.Second); samples == 0 || (samples < ideal/4 && samples < 10) {
+			t.Logf("too few samples; got %d, want at least %d, ideally %d", samples, ideal/4, ideal)
 			ok = false
 		}
+
+		if len(need) == 0 {
+			return ok
+		}
+
+		var total uintptr
+		for i, name := range need {
+			total += have[i]
+			t.Logf("%s: %d\n", name, have[i])
+		}
+		if total == 0 {
+			t.Logf("no samples in expected functions")
+			ok = false
+		}
+		// We'd like to check a reasonable minimum, like
+		// total / len(have) / smallconstant, but this test is
+		// pretty flaky (see bug 7095).  So we'll just test to
+		// make sure we got at least one sample.
+		min := uintptr(1)
+		for i, name := range need {
+			if have[i] < min {
+				t.Logf("%s has %d samples out of %d, want at least %d, ideally %d", name, have[i], total, min, total/uintptr(len(have)))
+				ok = false
+			}
+		}
+		return ok
 	}
-	return ok
 }
 
 // Fork can hang if preempted with signals frequently enough (see issue 5517).
@@ -296,7 +299,7 @@ func TestGoroutineSwitch(t *testing.T) {
 
 		// Read profile to look for entries for runtime.gogo with an attempt at a traceback.
 		// The special entry
-		parseProfile(t, prof.Bytes(), func(count uintptr, stk []uintptr) {
+		parseProfile(t, prof.Bytes(), func(count uintptr, stk []uintptr, _ map[string][]string) {
 			// An entry with two frames with 'System' in its top frame
 			// exists to record a PC without a traceback. Those are okay.
 			if len(stk) == 2 {
@@ -328,7 +331,7 @@ func TestGoroutineSwitch(t *testing.T) {
 
 // Test that profiling of division operations is okay, especially on ARM. See issue 6681.
 func TestMathBigDivide(t *testing.T) {
-	testCPUProfile(t, nil, func(duration time.Duration) {
+	testCPUProfile(t, profileOk(nil), func(duration time.Duration) {
 		t := time.After(duration)
 		pi := new(big.Int)
 		for {
@@ -653,4 +656,33 @@ func TestEmptyCallStack(t *testing.T) {
 	if !strings.Contains(got, lostevent) {
 		t.Fatalf("got:\n\t%q\ndoes not contain:\n\t%q\n", got, lostevent)
 	}
+}
+
+func TestCPUProfileLabel(t *testing.T) {
+	testCPUProfile(t, func(t *testing.T, buf bytes.Buffer, dur time.Duration) bool {
+		found := false
+		// look for a sample for cpuHog1 where (key, value) is set
+		parseProfile(t, buf.Bytes(), func(count uintptr, stk []uintptr, labels map[string][]string) {
+			for _, pc := range stk {
+				f := runtime.FuncForPC(pc)
+				if f == nil || f.Name() != "runtime/pprof.cpuHogger" {
+					continue
+				}
+				// look for label
+				if vals := labels["key"]; vals != nil {
+					for _, v := range vals {
+						if v == "value" {
+							found = true
+						}
+					}
+				}
+			}
+			fmt.Fprintf(&buf, "\n")
+		})
+		return found
+	}, func(dur time.Duration) {
+		Do(context.Background(), Labels("key", "value"), func(context.Context) {
+			cpuHogger(cpuHog1, dur)
+		})
+	})
 }
