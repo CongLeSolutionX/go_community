@@ -6,6 +6,7 @@ package pprof
 
 import (
 	"context"
+	"sync/atomic"
 )
 
 type label struct {
@@ -24,7 +25,7 @@ type labelContextKey struct{}
 func labelValue(ctx context.Context) labelMap {
 	labels, _ := ctx.Value(labelContextKey{}).(*labelMap)
 	if labels == nil {
-		return labelMap(nil)
+		return labelMap{m: nil, frozen: 1}
 	}
 	return *labels
 }
@@ -32,23 +33,27 @@ func labelValue(ctx context.Context) labelMap {
 // labelMap is the representation of the label set held in the context type.
 // This is an initial implementation, but it will be replaced with something
 // that admits incremental immutable modification more efficiently.
-type labelMap map[string]string
+type labelMap struct {
+	m      map[string]string
+	frozen int32
+}
 
 // WithLabels returns a new context.Context with the given labels added.
 // A label overwrites a prior label with the same key.
 func WithLabels(ctx context.Context, labels LabelSet) context.Context {
-	childLabels := make(labelMap)
+	childLabels := labelMap{m: make(map[string]string), frozen: 0}
 	parentLabels := labelValue(ctx)
 	// TODO(matloob): replace the map implementation with something
 	// more efficient so creating a child context WithLabels doesn't need
 	// to clone the map.
-	for k, v := range parentLabels {
-		childLabels[k] = v
+	for k, v := range parentLabels.m {
+		childLabels.m[k] = v
 	}
 	for _, label := range labels.list {
-		childLabels[label.key] = label.value
+		childLabels.m[label.key] = label.value
 	}
-	return context.WithValue(ctx, labelContextKey{}, &childLabels)
+	atomic.StoreInt32(&childLabels.frozen, 1)
+	return context.WithValue(ctx, labelContextKey{}, childLabels)
 }
 
 // Labels takes an even number of strings representing key-value pairs
@@ -69,7 +74,7 @@ func Labels(args ...string) LabelSet {
 // whether that label exists.
 func Label(ctx context.Context, key string) (string, bool) {
 	ctxLabels := labelValue(ctx)
-	v, ok := ctxLabels[key]
+	v, ok := ctxLabels.m[key]
 	return v, ok
 }
 
@@ -77,7 +82,7 @@ func Label(ctx context.Context, key string) (string, bool) {
 // The function f should return true to continue iteration or false to stop iteration early.
 func ForLabels(ctx context.Context, f func(key, value string) bool) {
 	ctxLabels := labelValue(ctx)
-	for k, v := range ctxLabels {
+	for k, v := range ctxLabels.m {
 		if !f(k, v) {
 			break
 		}
