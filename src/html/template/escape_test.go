@@ -69,17 +69,7 @@ func TestEscape(t *testing.T) {
 			"&lt;Goodbye&gt;!",
 		},
 		{
-			"overescaping1",
-			"Hello, {{.C | html}}!",
-			"Hello, &lt;Cincinatti&gt;!",
-		},
-		{
-			"overescaping2",
-			"Hello, {{html .C}}!",
-			"Hello, &lt;Cincinatti&gt;!",
-		},
-		{
-			"overescaping3",
+			"overescaping",
 			"{{with .C}}{{$msg := .}}Hello, {{$msg}}!{{end}}",
 			"Hello, &lt;Cincinatti&gt;!",
 		},
@@ -214,11 +204,6 @@ func TestEscape(t *testing.T) {
 			`<script>alert(["\u003ca\u003e","\u003cb\u003e"])</script>`,
 		},
 		{
-			"jsObjValueNotOverEscaped",
-			"<button onclick='alert({{.A | html}})'>",
-			`<button onclick='alert([&#34;\u003ca\u003e&#34;,&#34;\u003cb\u003e&#34;])'>`,
-		},
-		{
 			"jsStr",
 			"<button onclick='alert(&quot;{{.H}}&quot;)'>",
 			`<button onclick='alert(&quot;\x3cHello\x3e&quot;)'>`,
@@ -232,12 +217,6 @@ func TestEscape(t *testing.T) {
 			"jsMarshaler",
 			`<button onclick='alert({{.M}})'>`,
 			`<button onclick='alert({&#34;\u003cfoo\u003e&#34;:&#34;O&#39;Reilly&#34;})'>`,
-		},
-		{
-			"jsStrNotUnderEscaped",
-			"<button onclick='alert({{.C | urlquery}})'>",
-			// URL escaped, then quoted for JS.
-			`<button onclick='alert(&#34;%3CCincinatti%3E&#34;)'>`,
 		},
 		{
 			"jsRe",
@@ -1519,58 +1498,19 @@ func TestEnsurePipelineContains(t *testing.T) {
 			[]string{},
 		},
 		{
-			"{{.X | html}}",
-			".X | html",
-			[]string{},
-		},
-		{
 			"{{.X}}",
 			".X | html",
 			[]string{"html"},
 		},
 		{
+			// Predefined escaper allowed if no escapers will be inserted into the pipeline.
 			"{{.X | html}}",
-			".X | html | urlquery",
-			[]string{"urlquery"},
-		},
-		{
-			"{{.X | html | urlquery}}",
-			".X | html | urlquery",
-			[]string{"urlquery"},
-		},
-		{
-			"{{.X | html | urlquery}}",
-			".X | html | urlquery",
-			[]string{"html", "urlquery"},
-		},
-		{
-			"{{.X | html | urlquery}}",
-			".X | html | urlquery",
-			[]string{"html"},
-		},
-		{
-			"{{.X | urlquery}}",
-			".X | html | urlquery",
-			[]string{"html", "urlquery"},
-		},
-		{
-			"{{.X | html | print}}",
-			".X | urlquery | html | print",
-			[]string{"urlquery", "html"},
-		},
-		{
-			"{{($).X | html | print}}",
-			"($).X | urlquery | html | print",
-			[]string{"urlquery", "html"},
+			".X | html",
+			[]string{},
 		},
 		{
 			"{{.X | print 2 | .f 3}}",
 			".X | print 2 | .f 3 | urlquery | html",
-			[]string{"urlquery", "html"},
-		},
-		{
-			"{{.X | html | print 2 | .f 3}}",
-			".X | urlquery | html | print 2 | .f 3",
 			[]string{"urlquery", "html"},
 		},
 		{
@@ -1605,11 +1545,7 @@ func TestEnsurePipelineContains(t *testing.T) {
 func TestEscapeMalformedPipelines(t *testing.T) {
 	tests := []string{
 		"{{ 0 | $ }}",
-		"{{ 0 | $ | urlquery }}",
-		"{{ 0 | $ | urlquery | html }}",
 		"{{ 0 | (nil) }}",
-		"{{ 0 | (nil) | html }}",
-		"{{ 0 | (nil) | html | urlquery }}",
 	}
 	for _, test := range tests {
 		var b bytes.Buffer
@@ -1758,6 +1694,39 @@ func TestErrorOnUndefined(t *testing.T) {
 	}
 	if !strings.Contains(err.Error(), "incomplete") {
 		t.Errorf("expected error about incomplete template; got %s", err)
+	}
+}
+
+func TestPanicOnPredefinedEscapers(t *testing.T) {
+	const expect = "Remove this escaper and refactor the pipeline or template to rely only on contextual autoescaping."
+	tests := []string {
+			"Hello, {{. | html}}!",
+			"Hello, {{html .}}!",
+			"<button onclick='alert({{. | html}})'>",
+			"<button onclick='alert({{. | urlquery}})'>",
+			"<a href={{ . | html | print }}>",
+			"<script>function do{{. | js}}() { return 1 }</script>",
+	}
+	for _, test := range tests {
+		tmpl := Must(New("").Parse(test))
+		tryExec := func() (msg string) {
+			defer func() {
+				panicValue := recover()
+				if panicValue != nil {
+					msg = fmt.Sprint(panicValue)
+				}
+			}()
+			var b bytes.Buffer
+			tmpl.Execute(&b, "")
+			return
+		}
+		msg := tryExec()
+		if msg == "" {
+			t.Fatalf("template=%q: expected panic", test)
+		}
+		if !strings.Contains(msg, expect) {
+			t.Errorf("template=%q: expected panic message %q got %q", test, expect, msg)
+		}
 	}
 }
 
