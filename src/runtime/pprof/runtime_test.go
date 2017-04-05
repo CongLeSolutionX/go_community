@@ -92,5 +92,5 @@ func getProfLabel() map[string]string {
 	if l == nil {
 		return map[string]string{}
 	}
-	return *l
+	return l.m
 }
