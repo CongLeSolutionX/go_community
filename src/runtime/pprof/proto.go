@@ -13,6 +13,7 @@ import (
 	"runtime"
 	"sort"
 	"strconv"
+	"sync/atomic"
 	"time"
 	"unsafe"
 )
@@ -339,6 +340,17 @@ func (b *profileBuilder) build() error {
 		values[0] = e.count
 		values[1] = e.count * b.period
 
+		var labels func()
+		if e.tag != nil {
+			labels = func() {
+				lm := (*labelMap)(e.tag)
+				atomic.LoadInt32(&lm.frozen)
+				for k, v := range lm.m {
+					b.pbLabel(tagSample_Label, k, v, 0)
+				}
+			}
+		}
+
 		locs = locs[:0]
 		for i, addr := range e.stk {
 			// Addresses from stack traces point to the next instruction after
@@ -353,7 +365,7 @@ func (b *profileBuilder) build() error {
 			}
 			locs = append(locs, l)
 		}
-		b.pbSample(values, locs, nil)
+		b.pbSample(values, locs, labels)
 	}
 
 	// TODO: Anything for tagProfile_DropFrames?
