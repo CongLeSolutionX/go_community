@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "998367f6_d5d58f5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-04-06T18:29:10Z",
+      "side": 1,
+      "message": "Updates #18940 \n\n(or Fixes if my other comment is addressed)",
+      "revId": "8f22ce526b4cce46bbe2405f257fcdf0642e4abf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ac17f36_a69dd1c3",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
         "patchSetId": 2
@@ -31,6 +48,29 @@
       "side": 1,
       "message": "No, this is for add.  Adding multiples of 64 doesn\u0027t change what SHLQ does.",
       "parentUuid": "9ac17f36_a69dd1c3",
+      "revId": "8f22ce526b4cce46bbe2405f257fcdf0642e4abf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38e86b92_e71794d7",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 701,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-04-06T18:29:10Z",
+      "side": 1,
+      "message": "FWIW, this could actually be any value \u003c 63, with the only difference that you need to keep the AND before the ROL/ROR.",
+      "range": {
+        "startLine": 701,
+        "startChar": 7,
+        "endLine": 701,
+        "endChar": 14
+      },
       "revId": "8f22ce526b4cce46bbe2405f257fcdf0642e4abf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
