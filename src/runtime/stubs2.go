@@ -27,3 +27,5 @@ func write(fd uintptr, p unsafe.Pointer, n int32) int32
 func open(name *byte, mode, perm int32) int32
 
 func madvise(addr unsafe.Pointer, n uintptr, flags int32)
+
+func sbrk0() uintptr
