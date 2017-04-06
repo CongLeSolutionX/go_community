@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ac17f36_a69dd1c3",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-06T17:42:42Z",
+      "side": 1,
+      "message": "Should this be ANDQconst? Same in several places below.",
+      "revId": "8f22ce526b4cce46bbe2405f257fcdf0642e4abf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
