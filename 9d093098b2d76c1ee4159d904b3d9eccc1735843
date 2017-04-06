@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b66a434e_940c4674",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2017-04-06T02:05:11Z",
+      "side": 1,
+      "message": "I\u0027m not native speaker. So this may not be make sense. IMO, I feel the name NamedValueCheck/NamedValueChecker is reverted Subject and Verb. CheckNamedValue/CheckNamedValuer is better? Please don\u0027t change anything for my opinion. I just want to hear how you feel this names.",
+      "revId": "9d093098b2d76c1ee4159d904b3d9eccc1735843",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0289a8a_f71f0b0e",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2017-04-06T02:05:11Z",
+      "side": 1,
+      "message": "This error message should be clearly which can be describing what is wrong?",
+      "revId": "9d093098b2d76c1ee4159d904b3d9eccc1735843",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
