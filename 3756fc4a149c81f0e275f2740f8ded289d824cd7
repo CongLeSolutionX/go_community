@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dcc43ce_b97aec59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-06T20:19:44Z",
+      "side": 1,
+      "message": "It\u0027s not obvious to me why this is desirable. It seems like it would be simpler to just reuse Type.cmp for sorting []*Type:\n\n    func (s typesByCmp) Less(i, j int) bool { return s[i].cmp(s[j]) \u003d\u003d ssa.CMPlt }\n\nand would also avoid constructing the LongStrings.",
+      "range": {
+        "startLine": 24,
+        "startChar": 34,
+        "endLine": 25,
+        "endChar": 40
+      },
+      "revId": "3756fc4a149c81f0e275f2740f8ded289d824cd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
