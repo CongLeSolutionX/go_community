@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84648387_2415004c",
+        "filename": "src/cmd/compile/internal/gc/sizeof_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-06T03:39:43Z",
+      "side": 0,
+      "message": "nice size reduction",
+      "revId": "5b59b32c97c83b6b89bca9cfb0cc6eaaa1d19d55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
