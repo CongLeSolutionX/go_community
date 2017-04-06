@@ -5,6 +5,7 @@
 package gc
 
 import (
+	"cmd/compile/internal/ssa"
 	"cmd/internal/gcprog"
 	"cmd/internal/obj"
 	"cmd/internal/src"
@@ -34,7 +35,7 @@ type ptabEntry struct {
 }
 
 // runtime interface and reflection data structures
-var signatlist []*Type
+var signatlist = make(map[*Type]bool)
 var itabs []itabEntry
 var ptabs []ptabEntry
 
@@ -933,24 +934,22 @@ func typesymprefix(prefix string, t *Type) *Sym {
 
 func typenamesym(t *Type) *Sym {
 	if t == nil || (t.IsPtr() && t.Elem() == nil) || t.IsUntyped() {
-		Fatalf("typename %v", t)
+		Fatalf("typenamesym %v", t)
 	}
 	s := typesym(t)
+	addsignat(t)
+	return s
+}
+
+func typename(t *Type) *Node {
+	s := typenamesym(t)
 	if s.Def == nil {
 		n := newnamel(src.NoXPos, s)
 		n.Type = Types[TUINT8]
 		n.Class = PEXTERN
 		n.Typecheck = 1
 		s.Def = n
-
-		signatlist = append(signatlist, t)
 	}
-
-	return s.Def.Sym
-}
-
-func typename(t *Type) *Node {
-	s := typenamesym(t)
 	n := nod(OADDR, s.Def, nil)
 	n.Type = typPtr(s.Def.Type)
 	n.SetAddable(true)
@@ -1417,21 +1416,34 @@ func itabsym(it *obj.LSym, offset int64) *obj.LSym {
 	return syms[methodnum]
 }
 
+func addsignat(t *Type) {
+	signatlist[t] = true
+}
+
 func dumptypestructs() {
 	// copy types from externdcl list to signatlist
 	for _, n := range externdcl {
 		if n.Op == OTYPE {
-			signatlist = append(signatlist, n.Type)
+			addsignat(n.Type)
 		}
 	}
 
-	// Process signatlist.  This can't use range, as entries are
-	// added to the list while it is being processed.
-	for i := 0; i < len(signatlist); i++ {
-		t := signatlist[i]
-		dtypesym(t)
-		if t.Sym != nil {
-			dtypesym(typPtr(t))
+	// Process signatlist. Use a loop, as dtypesym adds
+	// entries to signatlist while it is being processed.
+	signats := make([]*Type, len(signatlist))
+	for len(signatlist) > 0 {
+		signats = signats[:0]
+		// Transfer entries to a slice and sort, for reproducible builds.
+		for t := range signatlist {
+			signats = append(signats, t)
+			delete(signatlist, t)
+		}
+		sort.Sort(typesByCmp(signats))
+		for _, t := range signats {
+			dtypesym(t)
+			if t.Sym != nil {
+				dtypesym(typPtr(t))
+			}
 		}
 	}
 
@@ -1531,6 +1543,12 @@ func dumptypestructs() {
 		dimportpath(mkpkg("main"))
 	}
 }
+
+type typesByCmp []*Type
+
+func (a typesByCmp) Len() int           { return len(a) }
+func (a typesByCmp) Less(i, j int) bool { return a[i].cmp(a[j]) == ssa.CMPlt }
+func (a typesByCmp) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 type pkgByPath []*Pkg
 
