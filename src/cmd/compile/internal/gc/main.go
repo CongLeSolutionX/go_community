@@ -122,6 +122,8 @@ func Main(archInit func(*Arch)) {
 	Ctxt.DiagFunc = yyerror
 	Ctxt.Bso = bufio.NewWriter(os.Stdout)
 
+	thearch.LinkArch.Init(Ctxt)
+
 	localpkg = mkpkg("")
 	localpkg.Prefix = "\"\""
 
