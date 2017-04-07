@@ -34,6 +34,24 @@
       "revId": "90e27acef47a804d2bcd59695a421efe63bf4eaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a03510c4_2452dcdc",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-07T21:51:57Z",
+      "side": 1,
+      "message": "Maybe something like \"formalType\"? Byte and rune aren\u0027t actually types, according to the spec. Formally, they\u0027re aliases; we just treat them as their own types in some places to get better error messages.\n\n\nI don\u0027t like tying it to \"byte\" and \"rune\" specifically, because we\u0027ll probably need to make similar changes for generic type aliases too, if we want to have nicer error messages.\n\n\"simplify\" is already overloaded for replacing TINT with TINT32/TINT64, TCHAN/TMAP/etc with TPTR, etc.\n\nAnd while this CL uses it for reflect, I think we can use it in eqtype too.",
+      "parentUuid": "97623c4b_7cc7730a",
+      "revId": "90e27acef47a804d2bcd59695a421efe63bf4eaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
