@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5ed7ea8_aba13230",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3600,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-07T17:20:05Z",
+      "side": 1,
+      "message": "\"validate map key types\".",
+      "range": {
+        "startLine": 3599,
+        "startChar": 11,
+        "endLine": 3600,
+        "endChar": 16
+      },
+      "revId": "258bb9529af1365e5dd0cd540908d53bd809a8d9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
