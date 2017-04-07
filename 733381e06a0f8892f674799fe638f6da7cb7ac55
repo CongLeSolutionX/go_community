@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "505cc9a4_8f08ad81",
+        "filename": "src/cmd/compile/internal/types/scope.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-07T19:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bda9bf30_11f8f0f8",
+      "revId": "733381e06a0f8892f674799fe638f6da7cb7ac55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "333f3eee_3957bdde",
         "filename": "src/cmd/compile/internal/types/scope.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8751dc0e_7769b41b",
+        "filename": "src/cmd/compile/internal/types/scope.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-07T19:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "333f3eee_3957bdde",
+      "revId": "733381e06a0f8892f674799fe638f6da7cb7ac55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58a49aa3_56a6de9f",
         "filename": "src/cmd/compile/internal/types/scope.go",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2017-04-07T18:19:38Z",
       "side": 1,
       "message": "Kind of a clumsy API, and our only action never returns anyway. Might as well just make it:\n\n    func IsDclstackValid() bool",
+      "range": {
+        "startLine": 102,
+        "startChar": 18,
+        "endLine": 102,
+        "endChar": 24
+      },
+      "revId": "733381e06a0f8892f674799fe638f6da7cb7ac55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d91795d3_bba88b03",
+        "filename": "src/cmd/compile/internal/types/scope.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-07T19:53:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58a49aa3_56a6de9f",
       "range": {
         "startLine": 102,
         "startChar": 18,
