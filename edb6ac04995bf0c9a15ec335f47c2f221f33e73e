@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69404edf_3033d4f0",
+        "filename": "doc/devel/release.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-07T16:35:31Z",
+      "side": 1,
+      "message": "I\u0027ve updated all the \"backport CL nnn to 1.8\" titles to their original titles + \" (backport)\".",
+      "range": {
+        "startLine": 41,
+        "startChar": 15,
+        "endLine": 41,
+        "endChar": 75
+      },
+      "revId": "edb6ac04995bf0c9a15ec335f47c2f221f33e73e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
