@@ -1713,13 +1713,16 @@ func (tx *Tx) Stmt(stmt *Stmt) *Stmt {
 // For example: an INSERT and UPDATE.
 func (tx *Tx) ExecContext(ctx context.Context, query string, args ...interface{}) (Result, error) {
 	tx.closemu.RLock()
-	defer tx.closemu.RUnlock()
 
 	dc, err := tx.grabConn(ctx)
 	if err != nil {
+		tx.closemu.RUnlock()
 		return nil, err
 	}
-	return tx.db.execDC(ctx, dc, func(error) {}, query, args)
+	release := func(error) {
+		tx.closemu.RUnlock()
+	}
+	return tx.db.execDC(ctx, dc, release, query, args)
 }
 
 // Exec executes a query that doesn't return rows.
@@ -1731,13 +1734,18 @@ func (tx *Tx) Exec(query string, args ...interface{}) (Result, error) {
 // QueryContext executes a query that returns rows, typically a SELECT.
 func (tx *Tx) QueryContext(ctx context.Context, query string, args ...interface{}) (*Rows, error) {
 	tx.closemu.RLock()
-	defer tx.closemu.RUnlock()
 
 	dc, err := tx.grabConn(ctx)
 	if err != nil {
+		tx.closemu.RUnlock()
 		return nil, err
 	}
-	releaseConn := func(error) {}
+
+	// The driver conn should not be returned to the pool until
+	// the Rows has been closed.
+	releaseConn := func(error) {
+		tx.closemu.RUnlock()
+	}
 	return tx.db.queryDC(ctx, dc, releaseConn, query, args)
 }
 
