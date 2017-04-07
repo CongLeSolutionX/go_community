@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bf283aca_c03c5b22",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-04-07T13:30:49Z",
+      "side": 1,
+      "message": "I read it as a NamedValue (noun) Checker (noun), similar to how Writer is a noun but write is a verb. I\u0027m open to other opinions too.",
+      "parentUuid": "b66a434e_940c4674",
+      "revId": "9d093098b2d76c1ee4159d904b3d9eccc1735843",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0289a8a_f71f0b0e",
         "filename": "src/database/sql/convert.go",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-06T02:05:11Z",
       "side": 1,
       "message": "This error message should be clearly which can be describing what is wrong?",
+      "revId": "9d093098b2d76c1ee4159d904b3d9eccc1735843",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d577e544_32a51e10",
+        "filename": "src/database/sql/convert.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-04-07T13:30:49Z",
+      "side": 1,
+      "message": "The exact error message will be provided by driver and inserted into that text at the end. It is parallel do the text below. I may be misunderstanding your meaning so feel free to suggest something.",
+      "parentUuid": "c0289a8a_f71f0b0e",
       "revId": "9d093098b2d76c1ee4159d904b3d9eccc1735843",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
