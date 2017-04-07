@@ -34,6 +34,69 @@
       "revId": "e878f90102b46b3c3cab4e3842fd91fe748b3405",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a710bee_17cf1837",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-07T22:01:37Z",
+      "side": 1,
+      "message": "Are you planning on removing the corresponding fields in obj.Link?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "e878f90102b46b3c3cab4e3842fd91fe748b3405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cc6578d_28fd3a36",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1501,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-07T22:01:37Z",
+      "side": 1,
+      "message": "Are you going to change all the architectures? If not (maybe others don\u0027t have many globals?), should we remain this as function that takes ctxt5 as first arg? So it is consistent with other architectures. Also oplook, aclass, oprrr, etc.",
+      "revId": "e878f90102b46b3c3cab4e3842fd91fe748b3405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00186f5b_8f440e1e",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1651,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-07T22:01:37Z",
+      "side": 1,
+      "message": "Maybe \"... as part of the literal pool (c.pool)\"?",
+      "range": {
+        "startLine": 1651,
+        "startChar": 38,
+        "endLine": 1651,
+        "endChar": 52
+      },
+      "revId": "e878f90102b46b3c3cab4e3842fd91fe748b3405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

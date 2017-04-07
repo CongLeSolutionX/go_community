@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b2c893e_6d3c5b12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-07T22:01:37Z",
+      "side": 1,
+      "message": "Is there a way to test the concurrency safety?",
+      "revId": "5f597aafbeb2267a44df83671e85a62e41921e6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
