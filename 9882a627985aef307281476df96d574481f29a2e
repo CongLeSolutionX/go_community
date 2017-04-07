@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8339f76b_68fbeed8",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-04-07T12:05:34Z",
+      "side": 1,
+      "message": "I\u0027ve just noticed that this is bit incompatible with UNIX\u0027s behavior.\nPerhaps:\n return nil, err\n?",
+      "revId": "9882a627985aef307281476df96d574481f29a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9a0f811_ecca8b9a",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-04-07T12:05:34Z",
+      "side": 1,
+      "message": "same as above.",
+      "revId": "9882a627985aef307281476df96d574481f29a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
