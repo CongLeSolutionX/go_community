@@ -16,6 +16,24 @@
       "revId": "5f597aafbeb2267a44df83671e85a62e41921e6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da34ec7f_f0a4ad26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-07T22:12:11Z",
+      "side": 1,
+      "message": "I have a rather large branch locally that culminates in a race-detector-approved tree. (That\u0027s not to say that it is race-free, just that it is free of detectable races. :P) I have run it over this code and it comes back fine. And without this commit, detectable races abound.\n\nI hope to mail this branch somewhat soon, but to avoid some plain awful code I wrote to work around the assembler races, I need to get all the assemblers in good shape first.",
+      "parentUuid": "1b2c893e_6d3c5b12",
+      "revId": "5f597aafbeb2267a44df83671e85a62e41921e6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

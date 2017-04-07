@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "74a4ca1c_16ee8d53",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-07T22:12:11Z",
+      "side": 1,
+      "message": "Yes, as soon as possible. I\u0027ve removed a few now. Those that remain are in use by other architectures still. I look forward to ripping them out. :)",
+      "parentUuid": "7a710bee_17cf1837",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 17
+      },
+      "revId": "e878f90102b46b3c3cab4e3842fd91fe748b3405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cc6578d_28fd3a36",
         "filename": "src/cmd/internal/obj/arm/asm5.go",
         "patchSetId": 1
@@ -77,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "d618a1a2_9ded80ce",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1501,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-07T22:12:11Z",
+      "side": 1,
+      "message": "I\u0027m going to do all the architectures, yes. The others have lots of globals as well; I had planned to use ctxtX methods for all of them, so they would all be consistent. Does that work for you?",
+      "parentUuid": "4cc6578d_28fd3a36",
+      "revId": "e878f90102b46b3c3cab4e3842fd91fe748b3405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00186f5b_8f440e1e",
         "filename": "src/cmd/internal/obj/arm/asm5.go",
         "patchSetId": 1
@@ -88,6 +130,30 @@
       "writtenOn": "2017-04-07T22:01:37Z",
       "side": 1,
       "message": "Maybe \"... as part of the literal pool (c.pool)\"?",
+      "range": {
+        "startLine": 1651,
+        "startChar": 38,
+        "endLine": 1651,
+        "endChar": 52
+      },
+      "revId": "e878f90102b46b3c3cab4e3842fd91fe748b3405",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6793e815_b85891dd",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1651,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-07T22:12:11Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "00186f5b_8f440e1e",
       "range": {
         "startLine": 1651,
         "startChar": 38,
