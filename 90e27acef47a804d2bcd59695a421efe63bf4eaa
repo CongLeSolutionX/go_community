@@ -16,6 +16,24 @@
       "revId": "90e27acef47a804d2bcd59695a421efe63bf4eaa",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97623c4b_7cc7730a",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-07T18:28:48Z",
+      "side": 1,
+      "message": "I also drew blanks. Any of these seem better?\n\nelimByteRune\nsimplifyType\nreflectTableType",
+      "parentUuid": "8ea4f748_5f1f801e",
+      "revId": "90e27acef47a804d2bcd59695a421efe63bf4eaa",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
