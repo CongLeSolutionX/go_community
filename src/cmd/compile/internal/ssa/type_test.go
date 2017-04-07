@@ -22,8 +22,13 @@ type TypeImpl struct {
 	struct_ bool
 	inter   bool
 	Elem_   Type
-
-	Name string
+	fields  []StructField
+	Name    string
+}
+type StructField struct {
+	Name   string
+	Type   *TypeImpl
+	Offset int64
 }
 
 func (t *TypeImpl) Size() int64            { return t.Size_ }
@@ -47,10 +52,10 @@ func (t *TypeImpl) String() string         { return t.Name }
 func (t *TypeImpl) SimpleString() string   { return t.Name }
 func (t *TypeImpl) ElemType() Type         { return t.Elem_ }
 func (t *TypeImpl) PtrTo() Type            { return TypeBytePtr }
-func (t *TypeImpl) NumFields() int         { panic("not implemented") }
-func (t *TypeImpl) FieldType(i int) Type   { panic("not implemented") }
-func (t *TypeImpl) FieldOff(i int) int64   { panic("not implemented") }
-func (t *TypeImpl) FieldName(i int) string { panic("not implemented") }
+func (t *TypeImpl) NumFields() int         { return len(t.fields) }
+func (t *TypeImpl) FieldType(i int) Type   { return t.fields[i].Type }
+func (t *TypeImpl) FieldOff(i int) int64   { return t.fields[i].Offset }
+func (t *TypeImpl) FieldName(i int) string { return t.fields[i].Name }
 func (t *TypeImpl) NumElem() int64         { panic("not implemented") }
 func (t *TypeImpl) HasPointer() bool       { return t.Ptr }
 func (t *TypeImpl) Symbol() *obj.LSym      { panic("not implemented") }

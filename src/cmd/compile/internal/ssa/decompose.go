@@ -234,25 +234,12 @@ func decomposeUser(f *Func) {
 	// We must do the opt pass before any deadcode elimination or we will
 	// lose the name->value correspondence.
 	i := 0
-	var fnames []LocalSlot
 	var newNames []LocalSlot
 	for _, name := range f.Names {
 		t := name.Type
 		switch {
 		case t.IsStruct():
-			n := t.NumFields()
-			fnames = fnames[:0]
-			for i := 0; i < n; i++ {
-				fnames = append(fnames, f.fe.SplitStruct(name, i))
-			}
-			for _, v := range f.NamedValues[name] {
-				for i := 0; i < n; i++ {
-					x := v.Block.NewValue1I(v.Pos, OpStructSelect, t.FieldType(i), int64(i), v)
-					f.NamedValues[fnames[i]] = append(f.NamedValues[fnames[i]], x)
-				}
-			}
-			delete(f.NamedValues, name)
-			newNames = append(newNames, fnames...)
+			newNames = append(newNames, decomposeUserStruct(f, name)...)
 		case t.IsArray():
 			if t.NumElem() == 0 {
 				// TODO(khr): Not sure what to do here.  Probably nothing.
@@ -277,6 +264,36 @@ func decomposeUser(f *Func) {
 	f.Names = append(f.Names, newNames...)
 }
 
+func decomposeUserStruct(f *Func, name LocalSlot) []LocalSlot {
+	fnames := []LocalSlot{} // slots for struct in name
+	ret := []LocalSlot{}    // slots for struct in name plus nested struct slots
+	t := name.Type
+	n := t.NumFields()
+
+	for i := 0; i < n; i++ {
+		fs := f.fe.SplitStruct(name, i)
+		fnames = append(fnames, fs)
+		ret = append(ret, fs)
+	}
+
+	// create named values for each struct field
+	for _, v := range f.NamedValues[name] {
+		for i := 0; i < len(fnames); i++ {
+			x := v.Block.NewValue1I(v.Pos, OpStructSelect, t.FieldType(i), int64(i), v)
+			f.NamedValues[fnames[i]] = append(f.NamedValues[fnames[i]], x)
+		}
+	}
+	delete(f.NamedValues, name)
+
+	// now that this f.NamedValues contains values for the struct fields,
+	// we can recurse into nested structs
+	for i := 0; i < n; i++ {
+		if name.Type.FieldType(i).IsStruct() {
+			ret = append(ret, decomposeUserStruct(f, fnames[i])...)
+		}
+	}
+	return ret
+}
 func decomposeUserPhi(v *Value) {
 	switch {
 	case v.Type.IsStruct():
