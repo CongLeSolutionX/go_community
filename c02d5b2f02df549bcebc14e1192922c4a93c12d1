@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d5d4b7eb_882df44f",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-07T21:43:33Z",
+      "side": 1,
+      "message": "\u003e Why do we need to overwrite Class and Pos here?\n\nWithout Class\u003d\u003dPEXTERN, genAsStatic complains. I\u0027ve added a special-case for nblank there instead.",
+      "parentUuid": "f1222fc5_d02931fe",
+      "revId": "c02d5b2f02df549bcebc14e1192922c4a93c12d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9412d819_f3c444ba",
         "filename": "src/cmd/compile/internal/gc/sinit.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-07T21:26:47Z",
       "side": 1,
       "message": "When can this happen? I thought we don\u0027t try generating code unless everything type checks.",
+      "revId": "c02d5b2f02df549bcebc14e1192922c4a93c12d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ce4e7fd_60a9b4bc",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-07T21:43:33Z",
+      "side": 1,
+      "message": "I\u0027m not sure it can, now. But I wasted time chasing down an ICE because we weren\u0027t typechecking everything appropriately; this is just to make sure that doesn\u0027t happen again. I\u0027ll make it a Fatalf, I guess.",
+      "parentUuid": "9412d819_f3c444ba",
       "revId": "c02d5b2f02df549bcebc14e1192922c4a93c12d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
