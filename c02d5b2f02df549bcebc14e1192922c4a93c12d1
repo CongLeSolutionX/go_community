@@ -16,6 +16,23 @@
       "revId": "c02d5b2f02df549bcebc14e1192922c4a93c12d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9412d819_f3c444ba",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-07T21:26:47Z",
+      "side": 1,
+      "message": "When can this happen? I thought we don\u0027t try generating code unless everything type checks.",
+      "revId": "c02d5b2f02df549bcebc14e1192922c4a93c12d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
