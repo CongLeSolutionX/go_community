@@ -7,6 +7,7 @@ package fcgi
 // This file implements FastCGI from the perspective of a child process.
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -30,6 +31,10 @@ type request struct {
 	rawParams []byte
 	keepConn  bool
 }
+
+type envVarsKey string
+
+const envVarsKeyFCGI = envVarsKey("FCGI_ENV_VARS")
 
 func newRequest(reqId uint16, flags uint8) *request {
 	r := &request{
@@ -268,6 +273,8 @@ func (c *child) serveRequest(req *request, body io.ReadCloser) {
 		c.conn.writeRecord(typeStderr, req.reqId, []byte(err.Error()))
 	} else {
 		httpReq.Body = body
+		envVarCtx := context.WithValue(httpReq.Context(), envVarsKeyFCGI, req.params)
+		httpReq = httpReq.WithContext(envVarCtx)
 		c.handler.ServeHTTP(r, httpReq)
 	}
 	r.Close()
@@ -328,4 +335,13 @@ func Serve(l net.Listener, handler http.Handler) error {
 		c := newChild(rw, handler)
 		go c.serve()
 	}
+}
+
+// ProcessEnv returns the FastCGI environment variables associated with the request r.
+func ProcessEnv(r *http.Request) map[string]string {
+	env, ok := r.Context().Value(envVarsKeyFCGI).(map[string]string)
+	if !ok {
+		return nil
+	}
+	return env
 }
