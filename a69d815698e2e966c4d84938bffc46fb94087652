@@ -16,6 +16,24 @@
       "revId": "a69d815698e2e966c4d84938bffc46fb94087652",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b09d5bf0_a8a6b39b",
+        "filename": "src/os/error.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 17255
+      },
+      "writtenOn": "2017-04-08T18:30:08Z",
+      "side": 1,
+      "message": "Thanks Brad, this change was done based on Ian\u0027s feedback. I\u0027ll change it to yield the error inside the function.",
+      "parentUuid": "58d52004_79823dc5",
+      "revId": "a69d815698e2e966c4d84938bffc46fb94087652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
