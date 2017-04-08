@@ -7,6 +7,7 @@ package fcgi
 // This file implements FastCGI from the perspective of a child process.
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -15,6 +16,7 @@ import (
 	"net/http"
 	"net/http/cgi"
 	"os"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -30,6 +32,16 @@ type request struct {
 	rawParams []byte
 	keepConn  bool
 }
+
+// envVarsContextKey uniquely identifies a mapping of CGI
+// environment variables to their values in a request context
+type envVarsContextKey struct{}
+
+// envVarsInHTTPRequest matches all the environment variables for which
+// a best effor is made to be included in http.Request data
+var envVarsHTTPRequest, _ = regexp.Compile(
+	"CONTENT_LENGTH|CONTENT_TYPE|HTTP_*|HTTPS|PATH_INFO|QUERY_STRING|REMOTE_ADDR|" +
+		"REMOTE_HOST|REMOTE_PORT|REQUEST_METHOD|REQUEST_URI|SCRIPT_NAME|SERVER_PROTOCOL")
 
 func newRequest(reqId uint16, flags uint8) *request {
 	r := &request{
@@ -259,6 +271,18 @@ func (c *child) handleRecord(rec *record) error {
 	}
 }
 
+// filterOutUsedEnvVars returns a new map of env vars without the
+// variables in the given envVars map that are read for creating each http.Request
+func filterOutUsedEnvVars(envVars map[string]string) map[string]string {
+	withoutUsedEnvVars := make(map[string]string)
+	for k, v := range envVars {
+		if !envVarsHTTPRequest.MatchString(k) {
+			withoutUsedEnvVars[k] = v
+		}
+	}
+	return withoutUsedEnvVars
+}
+
 func (c *child) serveRequest(req *request, body io.ReadCloser) {
 	r := newResponse(c, req)
 	httpReq, err := cgi.RequestFromMap(req.params)
@@ -268,6 +292,9 @@ func (c *child) serveRequest(req *request, body io.ReadCloser) {
 		c.conn.writeRecord(typeStderr, req.reqId, []byte(err.Error()))
 	} else {
 		httpReq.Body = body
+		withoutUsedEnvVars := filterOutUsedEnvVars(req.params)
+		envVarCtx := context.WithValue(httpReq.Context(), envVarsContextKey{}, withoutUsedEnvVars)
+		httpReq = httpReq.WithContext(envVarCtx)
 		c.handler.ServeHTTP(r, httpReq)
 	}
 	r.Close()
@@ -328,4 +355,14 @@ func Serve(l net.Listener, handler http.Handler) error {
 		c := newChild(rw, handler)
 		go c.serve()
 	}
+}
+
+// ProcessEnv returns FastCGI environment variables associated with the request r
+// for which no effort was made to be included in the request itself - the data
+// is hidden in the request's context. As an example, if REMOTE_USER is set for a
+// request, it will not be found anywhere in r, but it will be included in
+// ProcessEnv's response (via r's context).
+func ProcessEnv(r *http.Request) map[string]string {
+	env, _ := r.Context().Value(envVarsContextKey{}).(map[string]string)
+	return env
 }
