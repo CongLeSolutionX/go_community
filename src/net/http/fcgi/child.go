@@ -131,13 +131,13 @@ func (r *response) Close() error {
 
 type child struct {
 	conn    *conn
-	handler http.Handler
+	handler Handler
 
 	mu       sync.Mutex          // protects requests:
 	requests map[uint16]*request // keyed by request ID
 }
 
-func newChild(rwc io.ReadWriteCloser, handler http.Handler) *child {
+func newChild(rwc io.ReadWriteCloser, handler Handler) *child {
 	return &child{
 		conn:     newConn(rwc),
 		handler:  handler,
@@ -268,7 +268,7 @@ func (c *child) serveRequest(req *request, body io.ReadCloser) {
 		c.conn.writeRecord(typeStderr, req.reqId, []byte(err.Error()))
 	} else {
 		httpReq.Body = body
-		c.handler.ServeHTTP(r, httpReq)
+		c.handler.ServeHttpCgiEnv(r, httpReq, req.params)
 	}
 	r.Close()
 	c.mu.Lock()
@@ -309,6 +309,25 @@ func (c *child) cleanUp() {
 // If l is nil, Serve accepts connections from os.Stdin.
 // If handler is nil, http.DefaultServeMux is used.
 func Serve(l net.Listener, handler http.Handler) error {
+	return ServeCgiEnv(l, requestHandler{handler})
+}
+
+// EnvVars contains the CGI environment variables that are set for
+// a particular request.
+type EnvVars map[string]string
+
+// A Handler responds to http requests and the CGI environment variables
+// set when each request is received.
+type Handler interface {
+	ServeHttpCgiEnv(http.ResponseWriter, *http.Request, EnvVars)
+}
+
+// Serve accepts incoming FastCGI connections on the listener l, creating a new
+// goroutine for each. The goroutine reads requests and CGI environment variables
+// and then calls handler to reply to them.
+// If l is nil, Serve accepts connections from os.Stdin.
+// If handler is nil, http.DefaultServeMux is used.
+func ServeCgiEnv(l net.Listener, handler Handler) error {
 	if l == nil {
 		var err error
 		l, err = net.FileListener(os.Stdin)
@@ -318,7 +337,7 @@ func Serve(l net.Listener, handler http.Handler) error {
 		defer l.Close()
 	}
 	if handler == nil {
-		handler = http.DefaultServeMux
+		handler = requestHandler{http.DefaultServeMux}
 	}
 	for {
 		rw, err := l.Accept()
@@ -328,4 +347,26 @@ func Serve(l net.Listener, handler http.Handler) error {
 		c := newChild(rw, handler)
 		go c.serve()
 	}
+}
+
+// requestHandler conforms to the fcgi.Handler interface but ignores the cgi environment variables.
+type requestHandler struct {
+	handler http.Handler
+}
+
+func (h requestHandler) ServeHttpCgiEnv(w http.ResponseWriter, r *http.Request, env EnvVars) {
+	if h.handler == nil {
+		return
+	}
+	h.handler.ServeHTTP(w, r)
+}
+
+// The handlerFunc type is an adapter to allow the use of
+// ordinary functions as HTTP/CGI env handlers. If f is a function
+// with the appropriate signature, handlerFunc(f) is a
+// Handler that calls f.
+type handlerFunc func(http.ResponseWriter, *http.Request, EnvVars)
+
+func (f handlerFunc) ServeHttpCgiEnv(w http.ResponseWriter, r *http.Request, env EnvVars) {
+	f(w, r, env)
 }

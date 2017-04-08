@@ -237,7 +237,7 @@ func TestChildServeCleansUp(t *testing.T) {
 		copy(input, tt.input)
 		rc := nopWriteCloser{bytes.NewBuffer(input)}
 		done := make(chan bool)
-		c := newChild(rc, http.HandlerFunc(func(
+		c := newChild(rc, requestHandler{http.HandlerFunc(func(
 			w http.ResponseWriter,
 			r *http.Request,
 		) {
@@ -248,7 +248,7 @@ func TestChildServeCleansUp(t *testing.T) {
 			}
 			// not reached if body of request isn't closed
 			done <- true
-		}))
+		})})
 		go c.serve()
 		// wait for body of request to be closed or all goroutines to block
 		<-done
@@ -275,6 +275,78 @@ func TestMalformedParams(t *testing.T) {
 		1, 4, 0, 1, 0, 0, 0, 0,
 	}
 	rw := rwNopCloser{bytes.NewReader(input), ioutil.Discard}
-	c := newChild(rw, http.DefaultServeMux)
+	c := newChild(rw, requestHandler{http.DefaultServeMux})
 	c.serve()
+}
+
+// a series of FastCGI records that start and end a request
+var streamFullRequestStdin = bytes.Join([][]byte{
+	// set up request
+	makeRecord(typeBeginRequest, 1,
+		[]byte{0, byte(roleResponder), 0, 0, 0, 0, 0, 0}),
+	// add required parameters
+	makeRecord(typeParams, 1, nameValuePair11("REQUEST_METHOD", "GET")),
+	makeRecord(typeParams, 1, nameValuePair11("SERVER_PROTOCOL", "HTTP/1.1")),
+	// set optional parameters
+	makeRecord(typeParams, 1, nameValuePair11("REMOTE_USER", "jane.doe")),
+	makeRecord(typeParams, 1, nameValuePair11("PATH_INFO", "")),
+	makeRecord(typeParams, 1, nil),
+	// begin sending body of request
+	makeRecord(typeStdin, 1, []byte("0123456789abcdef")),
+	// end request
+	makeRecord(typeEndRequest, 1, nil),
+},
+	nil)
+
+var envVarTests = []struct {
+	input            []byte
+	envVar           string
+	expectedVal      string
+	expectedNotExist bool
+}{
+	{
+		streamFullRequestStdin,
+		"REMOTE_USER",
+		"jane.doe",
+		false,
+	},
+	{
+		streamFullRequestStdin,
+		"PATH_INFO",
+		"",
+		false,
+	},
+	{
+		streamFullRequestStdin,
+		"CONTENT_TYPE",
+		"",
+		true,
+	},
+}
+
+// Test that environment variables set for a request can be
+// read by a handler. Ensures that variables not set will not
+// be exposed to a handler.
+func TestChildServeReadsEnvVars(t *testing.T) {
+	for _, tt := range envVarTests {
+		input := make([]byte, len(tt.input))
+		copy(input, tt.input)
+		rc := nopWriteCloser{bytes.NewBuffer(input)}
+		done := make(chan bool)
+		c := newChild(rc, handlerFunc(func(
+			w http.ResponseWriter,
+			r *http.Request,
+			env EnvVars,
+		) {
+			if _, ok := env[tt.envVar]; ok && tt.expectedNotExist {
+				t.Errorf("Expected environment variable %s to not be set, but set to %s",
+					tt.envVar, env[tt.envVar])
+			} else if env[tt.envVar] != tt.expectedVal {
+				t.Errorf("Expected %s, got %s", tt.expectedVal, env[tt.envVar])
+			}
+			done <- true
+		}))
+		go c.serve()
+		<-done
+	}
 }
