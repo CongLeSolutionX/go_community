@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "3047054f_d39d9d91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-09T07:00:01Z",
+      "side": 1,
+      "message": "How about changing this paragraph with:\n\nWalk relative symlinks in windows os.Stat from\nsymlink path instead of from current directory.\n\n?",
+      "revId": "9882a627985aef307281476df96d574481f29a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40463c1d_21062462",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1708,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-09T07:00:01Z",
+      "side": 1,
+      "message": "I wonder if we want similar test in path/filepath to check that filepath.EvalSymlinks is not broken too.",
+      "revId": "9882a627985aef307281476df96d574481f29a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ce140ae_27e5cbf4",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1730,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-09T07:00:01Z",
+      "side": 1,
+      "message": "Remove blank line.",
+      "revId": "9882a627985aef307281476df96d574481f29a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b60440bc_a6e5e481",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-09T07:00:01Z",
+      "side": 1,
+      "message": "I was surprised this was broken for so long. We seems to have similar problems with symlinks in os and path/filepath. I wonder, if we should move all this path and symlinks related code and tests into internal/syscall/windows and use it from os and path/filepath. Obviously not for this CL.",
+      "revId": "9882a627985aef307281476df96d574481f29a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8339f76b_68fbeed8",
         "filename": "src/os/stat_windows.go",
         "patchSetId": 1
@@ -13,6 +81,24 @@
       "writtenOn": "2017-04-07T12:05:34Z",
       "side": 1,
       "message": "I\u0027ve just noticed that this is bit incompatible with UNIX\u0027s behavior.\nPerhaps:\n return nil, err\n?",
+      "revId": "9882a627985aef307281476df96d574481f29a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e0cfbc1_80698566",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-09T07:00:01Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "8339f76b_68fbeed8",
       "revId": "9882a627985aef307281476df96d574481f29a2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -33,6 +119,41 @@
       "revId": "9882a627985aef307281476df96d574481f29a2e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1244ff26_e8b1cf70",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-09T07:00:01Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "c9a0f811_ecca8b9a",
+      "revId": "9882a627985aef307281476df96d574481f29a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddc6814a_bd99370a",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-09T07:00:01Z",
+      "side": 1,
+      "message": "I wonder, if we should use SYMLINK_FLAG_RELATIVE to decide here instead.\nI would leave this line for this CL as is, but maybe we should reconsider in the future.\nI am certain we would have to change syscall.Readlink (see issue #18555), maybe we could do it then.",
+      "revId": "9882a627985aef307281476df96d574481f29a2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
