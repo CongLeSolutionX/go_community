@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5eefb4be_54296902",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e248a608_60b071f8",
+      "range": {
+        "startLine": 13,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f93f8079_6cfe7a9d",
         "filename": "src/cmd/dist/deps.go",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "81c823e7_714649bc",
+        "filename": "src/cmd/dist/deps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f93f8079_6cfe7a9d",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40ffd542_6b422328",
         "filename": "src/cmd/go/alldocs.go",
         "patchSetId": 2
@@ -53,6 +95,24 @@
       "writtenOn": "2017-04-09T10:52:07Z",
       "side": 1,
       "message": "Is it more natural to think of the vet-specific flags coming before the more general build flags?\nBetween the two of them, they are also mentioned first below.",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "684f7825_f03db864",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "Not to me, no.",
+      "parentUuid": "40ffd542_6b422328",
       "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "837fb7e0_aff2fbbd",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dee74dad_a8327a71",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 39
+      },
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e85ad673_899854e2",
         "filename": "src/cmd/go/internal/cmdflag/flag.go",
         "patchSetId": 2
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "69cc9ead_f9287119",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e85ad673_899854e2",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4add0a7_ac4a459a",
         "filename": "src/cmd/go/internal/cmdflag/flag.go",
         "patchSetId": 2
@@ -110,6 +212,24 @@
       "writtenOn": "2017-04-09T10:52:07Z",
       "side": 1,
       "message": "Perhaps   return ok \u0026\u0026 vv.IsBoolFlag()",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af0699ac_2e23c73f",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "old code, don\u0027t want to make unrelated changes.",
+      "parentUuid": "d4add0a7_ac4a459a",
       "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "bd76711a_3ce1a1a3",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "i don\u0027t think that\u0027s easier to follow.",
+      "parentUuid": "79b7293e_466987f5",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7425f19_ee5261fd",
         "filename": "src/cmd/go/internal/cmdflag/flag.go",
         "patchSetId": 2
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "44c75a46_5fcd6d8a",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "old code, don\u0027t want to change it here if not necessary.",
+      "parentUuid": "c7425f19_ee5261fd",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60c02588_9c726bd7",
         "filename": "src/cmd/go/internal/cmdflag/flag.go",
         "patchSetId": 2
@@ -161,6 +317,30 @@
       "writtenOn": "2017-04-09T10:52:07Z",
       "side": 1,
       "message": "Allowing an index for \"\u003d\" of 0 means an arg of \"-\u003dbar\" will look for an f.Name that\u0027s empty.\nIt probably won\u0027t find one, but perhaps a better error message can be given here.\nAn empty f.Name that\u0027s a bool opens up \"-\" as setting it true, so perhaps it\u0027s deliberate to allow \"-\" for stdin flag, but I doubt it since \"-\u003dfalse\" is then valid.",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5add7fc9_b7181f91",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "old code, don\u0027t want to make unrelated changes.",
+      "parentUuid": "60c02588_9c726bd7",
       "range": {
         "startLine": 91,
         "startChar": 1,
@@ -196,6 +376,30 @@
     },
     {
       "key": {
+        "uuid": "7060e276_ef1e6017",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "985b8e70_ca646f13",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 99,
+        "endChar": 83
+      },
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2136e19b_8e5f09a2",
         "filename": "src/cmd/go/internal/cmdflag/flag.go",
         "patchSetId": 2
@@ -207,6 +411,24 @@
       "writtenOn": "2017-04-09T10:52:07Z",
       "side": 1,
       "message": "It seems odd that -boolFlag\u003dfalse has the false verified, but -intFlag\u003dfoo does not.\nThe caller has to process the \"false\" or \"foo\" in both cases and would detect a -boolFlag\u003dfoo then?\nIs all that\u0027s required a value\u003d\"true\" in the case of no value?",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b89c47c9_81775b9a",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T18:20:52Z",
+      "side": 1,
+      "message": "old code, don\u0027t want to make unrelated changes.",
+      "parentUuid": "2136e19b_8e5f09a2",
       "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
