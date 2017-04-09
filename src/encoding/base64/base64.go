@@ -24,6 +24,7 @@ type Encoding struct {
 	decodeMap [256]byte
 	padChar   rune
 	strict    bool
+	accEncode []int8
 }
 
 const (
@@ -59,6 +60,8 @@ func NewEncoding(encoder string) *Encoding {
 	for i := 0; i < len(encoder); i++ {
 		e.decodeMap[encoder[i]] = byte(i)
 	}
+
+	e.accEncode = accelerateEncodeMap(encoder)
 	return e
 }
 
@@ -123,7 +126,8 @@ func (enc *Encoding) Encode(dst, src []byte) {
 		return
 	}
 
-	di, si := 0, 0
+	di, si := encodeAccelerated(enc, dst, src)
+
 	n := (len(src) / 3) * 3
 	for si < n {
 		// Convert 3x 8bit source bytes into 4 bytes
