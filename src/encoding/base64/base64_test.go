@@ -44,6 +44,12 @@ var pairs = []testpair{
 	{"easure.", "ZWFzdXJlLg=="},
 	{"asure.", "YXN1cmUu"},
 	{"sure.", "c3VyZS4="},
+
+	// Examples >= 12 input bytes
+	{"\x14\xfb\x9c\x03\xd9\x7e\x14\xfb\x9c\x03\xd9\x7e", "FPucA9l+FPucA9l+"},
+	{"\x14\xfb\x9c\x03\xd9\x7f\x14\xfb\x9c\x03\xd9\x7f", "FPucA9l/FPucA9l/"},
+	{"\x14\xfb\x9c\x03\xd9\x7e\x14\xfb\x9c\x03\xd9\x7esur", "FPucA9l+FPucA9l+c3Vy"},
+	{"\x14\xfb\x9c\x03\xd9\x7f\x14\xfb\x9c\x03\xd9\x7fsu", "FPucA9l/FPucA9l/c3U="},
 }
 
 // Do nothing to a reference base64 string (leave in standard format)
@@ -465,6 +471,14 @@ func TestDecoderIssue15656(t *testing.T) {
 
 func BenchmarkEncodeToString(b *testing.B) {
 	data := make([]byte, 8192)
+	b.SetBytes(int64(len(data)))
+	for i := 0; i < b.N; i++ {
+		StdEncoding.EncodeToString(data)
+	}
+}
+
+func BenchmarkEncodeSmallBufferToString(b *testing.B) {
+	data := make([]byte, 11)
 	b.SetBytes(int64(len(data)))
 	for i := 0; i < b.N; i++ {
 		StdEncoding.EncodeToString(data)
