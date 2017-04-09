@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc025cd4_36ce6bf9",
+        "filename": "src/os/file.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-09T19:02:19Z",
+      "side": 1,
+      "message": "this returns a *PathError if possible, and line 181 returns a PathError. Perhaps line 175 and 123 above should also return *PathError for consistency.\n\n....\n\n   return 0, \u0026PathError{\"writeat\", f.name, errors.New(\"negative offset\")}\n\netc",
+      "range": {
+        "startLine": 170,
+        "startChar": 11,
+        "endLine": 170,
+        "endChar": 32
+      },
+      "revId": "3b34b3c1cded52187d5a2f2fac8f151d867106a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebc1e776_db25262f",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1467,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-09T19:02:19Z",
+      "side": 1,
+      "message": "this will crash if err is nil.\n\nmaybe:\n\n    const wantsub \u003d \"negative offset\"\n    if !strings.Contains(fmt.Sprint(err), wantsub) || n !\u003d 0 {\n         t.Errorf(\"ReadAt(-10) \u003d %v, %v; want 0, ...%q...\", n, err, wantsub)\n    }",
+      "range": {
+        "startLine": 1467,
+        "startChar": 4,
+        "endLine": 1467,
+        "endChar": 15
+      },
+      "revId": "3b34b3c1cded52187d5a2f2fac8f151d867106a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3e29f99_9d12dea4",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1501,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-09T19:02:19Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 1501,
+        "startChar": 3,
+        "endLine": 1501,
+        "endChar": 48
+      },
+      "revId": "3b34b3c1cded52187d5a2f2fac8f151d867106a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
