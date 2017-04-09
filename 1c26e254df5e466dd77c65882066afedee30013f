@@ -16,6 +16,24 @@
       "revId": "1c26e254df5e466dd77c65882066afedee30013f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9bd395d_44beb0e2",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 17532
+      },
+      "writtenOn": "2017-04-09T23:15:29Z",
+      "side": 1,
+      "message": "I decided to double the size to make sure we won\u0027t over the \u0027tooBig\u0027 limit. A hashmap most likely has some overhead for storing the data and since it\u0027s not predictable, I decide to multiple the key and elem sizes by two as a heuristic. I am not very tied to this, but I would like to protect against that.\n\nAs for the steps here: is your suggestion to file a bug for documentation about how to use reflect.MakeMapWithSize? I looked at https://golang.org/ref/spec#Map_types and I don\u0027t see any information about how to use capacity.",
+      "parentUuid": "6ecf4445_b1bfb2a5",
+      "revId": "1c26e254df5e466dd77c65882066afedee30013f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
