@@ -557,16 +557,27 @@ func decodeIntoValue(state *decoderState, op decOp, isPtr bool, value reflect.Va
 // Because the internals of maps are not visible to us, we must
 // use reflection rather than pointer magic.
 func (dec *Decoder) decodeMap(mtyp reflect.Type, state *decoderState, value reflect.Value, keyOp, elemOp decOp, ovfl error) {
+	n := state.decodeUint()
+	keyTyp := mtyp.Key()
+	elemTyp := mtyp.Elem()
 	if value.IsNil() {
-		// Allocate map.
-		value.Set(reflect.MakeMap(mtyp))
+		keySize := uint64(keyTyp.Size())
+		elemSize := uint64(elemTyp.Size())
+		// Double the expected size of the entry to accommodate the overhead of a hashmap.
+		totalSize := (keySize + elemSize) * 2
+		nBytes := n * totalSize
+		truncated := int32(n)
+		// Detect a potential overflow.
+		if truncated < 0 || uint64(truncated) != n || nBytes > tooBig || (totalSize > 0 && nBytes/totalSize != n) {
+			errorf("[%s]%s map too big: %d elements of %d bytes", keyTyp, elemTyp, n, (keySize + elemSize))
+		}
+		value.Set(reflect.MakeMapWithSize(mtyp, int(n)))
 	}
-	n := int(state.decodeUint())
-	keyIsPtr := mtyp.Key().Kind() == reflect.Ptr
-	elemIsPtr := mtyp.Elem().Kind() == reflect.Ptr
+	keyIsPtr := keyTyp.Kind() == reflect.Ptr
+	elemIsPtr := elemTyp.Kind() == reflect.Ptr
 	keyInstr := &decInstr{keyOp, 0, nil, ovfl}
 	elemInstr := &decInstr{elemOp, 0, nil, ovfl}
-	for i := 0; i < n; i++ {
+	for i := 0; i < int(n); i++ {
 		key := decodeIntoValue(state, keyOp, keyIsPtr, allocValue(mtyp.Key()), keyInstr)
 		elem := decodeIntoValue(state, elemOp, elemIsPtr, allocValue(mtyp.Elem()), elemInstr)
 		value.SetMapIndex(key, elem)
