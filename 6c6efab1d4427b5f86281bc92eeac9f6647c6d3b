@@ -1,0 +1,215 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e248a608_60b071f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": "\"handling\"",
+      "range": {
+        "startLine": 13,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 43
+      },
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f93f8079_6cfe7a9d",
+        "filename": "src/cmd/dist/deps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": "This has cmd/... after the stdlib packages whereas the other lines have it between \"bytes\" and \"compress\".",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40ffd542_6b422328",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": "Is it more natural to think of the vet-specific flags coming before the more general build flags?\nBetween the two of them, they are also mentioned first below.",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dee74dad_a8327a71",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": "\"commands\"",
+      "range": {
+        "startLine": 18,
+        "startChar": 32,
+        "endLine": 18,
+        "endChar": 39
+      },
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e85ad673_899854e2",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": "Present\u0027s comment lacks a full stop compared to its neighbours.",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4add0a7_ac4a459a",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": "Perhaps   return ok \u0026\u0026 vv.IsBoolFlag()",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79b7293e_466987f5",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": ".\n    orHelp :\u003d \"\"\n    if cmd \u003d\u003d \"test\" {\n        orHelp \u003d ` or \"go help testflag\"`\n    }\n    fmt.Fprintf...",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7425f19_ee5261fd",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": ".\n    if arg \u003d\u003d \"\" || arg[0] !\u003d \u0027-\u0027 {\n        return\n    }\n    name :\u003d arg[1:]\n    switch name {\n    case \"?\", \"h\", \"help\":",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c02588_9c726bd7",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": "Allowing an index for \"\u003d\" of 0 means an arg of \"-\u003dbar\" will look for an f.Name that\u0027s empty.\nIt probably won\u0027t find one, but perhaps a better error message can be given here.\nAn empty f.Name that\u0027s a bool opens up \"-\" as setting it true, so perhaps it\u0027s deliberate to allow \"-\" for stdin flag, but I doubt it since \"-\u003dfalse\" is then valid.",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "985b8e70_ca646f13",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": "Think that should be \"SetBool\".",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 99,
+        "endChar": 83
+      },
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2136e19b_8e5f09a2",
+        "filename": "src/cmd/go/internal/cmdflag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-09T10:52:07Z",
+      "side": 1,
+      "message": "It seems odd that -boolFlag\u003dfalse has the false verified, but -intFlag\u003dfoo does not.\nThe caller has to process the \"false\" or \"foo\" in both cases and would detect a -boolFlag\u003dfoo then?\nIs all that\u0027s required a value\u003d\"true\" in the case of no value?",
+      "revId": "6c6efab1d4427b5f86281bc92eeac9f6647c6d3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
