@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ecf4445_b1bfb2a5",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-09T23:03:07Z",
+      "side": 1,
+      "message": "This behavior, if true, is undocumented. Who says to double the number? In fact, where is it written how to set the hint? As far as I can tell, no one does, and that should be fixed before we write code to honor the behavior.\n\nNot your fault at all, but please file an issue to resolve that before we proceed with this.",
+      "revId": "1c26e254df5e466dd77c65882066afedee30013f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
