@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4be02f6b_3f0f58f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-10T17:29:35Z",
+      "side": 1,
+      "message": "what do you mean here? P256 is the only one with an assembly implementation (on amd64 and s390x at least). Is that what you meant?\n\n\"and the existence of an optimized Go implementation for amd64\"",
+      "revId": "6fa64465d50fb401f2549f263575ad6c242d3a71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
