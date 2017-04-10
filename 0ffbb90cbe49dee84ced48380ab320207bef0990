@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "65ccd159_38f00c03",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-04-10T18:48:57Z",
+      "side": 1,
+      "message": "I believe it is entirely implementation-defined, both in make(map[K]V, n) and in this function.",
+      "parentUuid": "9e282469_7b2a9f5c",
+      "range": {
+        "startLine": 2085,
+        "startChar": 3,
+        "endLine": 2086,
+        "endChar": 17
+      },
+      "revId": "0ffbb90cbe49dee84ced48380ab320207bef0990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32bd0473_0509a249",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
