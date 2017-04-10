@@ -52,6 +52,24 @@
       "revId": "1c26e254df5e466dd77c65882066afedee30013f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "194e98f0_3025fc82",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-04-10T20:13:51Z",
+      "side": 1,
+      "message": "We will come back with a spec change #19903 but the expectation for user code is that you pass the actual N that you plan to insert, not second-guess the runtime. So please just use the one line here and then assume the runtime will do a good job. If it doesn\u0027t do a good job, that can be a bug against the runtime, not gob.",
+      "parentUuid": "0fb97f30_a13c6a61",
+      "revId": "1c26e254df5e466dd77c65882066afedee30013f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
