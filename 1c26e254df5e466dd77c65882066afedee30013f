@@ -34,6 +34,24 @@
       "revId": "1c26e254df5e466dd77c65882066afedee30013f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fb97f30_a13c6a61",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-04-10T17:09:42Z",
+      "side": 1,
+      "message": "Sorry, but no. Please use _only_:\n\nif value.IsNil() {\n    value.Set(reflect.MakeMapWithSize(mtyp, int(n)))\n}\n\nOtherwise it\u0027s not a hint.",
+      "parentUuid": "a9bd395d_44beb0e2",
+      "revId": "1c26e254df5e466dd77c65882066afedee30013f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
