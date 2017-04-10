@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6db92b6_b1dac761",
+        "filename": "src/cmd/go/internal/vet/vet.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-04-10T14:04:52Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "6ea3e04cc47737469266ed22e4d6869326901525",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
