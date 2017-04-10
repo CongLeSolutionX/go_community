@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "73a5f8c0_e77634ce",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-10T17:52:04Z",
+      "side": 1,
+      "message": "The spec says \"make(T, n)\" produces a \"map of type T with initial space for n elements\".  We could just echo the spec here: \"MakeMapWithSize creates a new map with the specified type and initial space for n elements.\"",
+      "range": {
+        "startLine": 2085,
+        "startChar": 3,
+        "endLine": 2086,
+        "endChar": 17
+      },
+      "revId": "0ffbb90cbe49dee84ced48380ab320207bef0990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32bd0473_0509a249",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "I never remember which to use. Will wait for Rob.",
       "parentUuid": "32bd0473_0509a249",
+      "range": {
+        "startLine": 2088,
+        "startChar": 8,
+        "endLine": 2088,
+        "endChar": 11
+      },
+      "revId": "0ffbb90cbe49dee84ced48380ab320207bef0990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52f3fe3d_cea3d049",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-10T17:52:04Z",
+      "side": 1,
+      "message": "It\u0027s \"Like X\" or \"As in X\", but in this case I would go for \"As with X\".",
+      "parentUuid": "36fc880f_e98c79fd",
       "range": {
         "startLine": 2088,
         "startChar": 8,
