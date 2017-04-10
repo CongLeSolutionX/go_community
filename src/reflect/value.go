@@ -2082,7 +2082,12 @@ func MakeMap(typ Type) Value {
 	return MakeMapWithSize(typ, 0)
 }
 
-// MakeMapWithSize creates a new map with the specified type and initial capacity.
+// MakeMapWithSize creates a new map with the specified type and
+// capacity hint.
+//
+// Like in Go's built-in make(map[K]V, cap), the capacity hint only affects the
+// amount of data preallocated for use by the map. It does not limit the size
+// of the map: maps grow to accommodate the number of items stored in them.
 func MakeMapWithSize(typ Type, cap int) Value {
 	if typ.Kind() != Map {
 		panic("reflect.MakeMapWithSize of non-map type")
