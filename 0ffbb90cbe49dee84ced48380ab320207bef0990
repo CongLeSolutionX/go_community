@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "85de8aa0_44419424",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-04-10T19:14:46Z",
+      "side": 1,
+      "message": "This is the logic I was trying to avoid. Due to the unpredictability of hash collisions, a map with allocated space for N elements may or may not actually hold the N elements you want to insert, depending on exactly how they hash. (This is also what I think https://golang.org/ref/spec#Map_types is trying to avoid; you found text in https://golang.org/ref/spec#Making_slices_maps_and_channels, which I\u0027d missed when I went looking.)",
+      "parentUuid": "544c1e4e_f071354a",
+      "range": {
+        "startLine": 2085,
+        "startChar": 3,
+        "endLine": 2086,
+        "endChar": 17
+      },
+      "revId": "0ffbb90cbe49dee84ced48380ab320207bef0990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32bd0473_0509a249",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
