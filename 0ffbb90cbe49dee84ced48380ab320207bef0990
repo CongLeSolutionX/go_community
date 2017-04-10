@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9e282469_7b2a9f5c",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-10T18:46:24Z",
+      "side": 1,
+      "message": "It\u0027s not correct grammar to say \"created with a hint\". Ian\u0027s suggestion is better.\n\nBUT: The reason I pushed for this issue is that someone is trying to write code that exploits the internals of this operation and includes a peculiar doubling. I want to know whether we commit to something meaningful about the hint, or say that it is entirely implementation-defined and kill any code that exploits it otherwise.",
+      "parentUuid": "73a5f8c0_e77634ce",
+      "range": {
+        "startLine": 2085,
+        "startChar": 3,
+        "endLine": 2086,
+        "endChar": 17
+      },
+      "revId": "0ffbb90cbe49dee84ced48380ab320207bef0990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32bd0473_0509a249",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "It\u0027s \"Like X\" or \"As in X\", but in this case I would go for \"As with X\".",
       "parentUuid": "36fc880f_e98c79fd",
+      "range": {
+        "startLine": 2088,
+        "startChar": 8,
+        "endLine": 2088,
+        "endChar": 11
+      },
+      "revId": "0ffbb90cbe49dee84ced48380ab320207bef0990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e39e72b_5e2aa9c4",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-10T18:46:24Z",
+      "side": 1,
+      "message": "It should be \"As with\".",
+      "parentUuid": "52f3fe3d_cea3d049",
       "range": {
         "startLine": 2088,
         "startChar": 8,
