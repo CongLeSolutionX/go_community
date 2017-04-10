@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03b4dc13_f703de9a",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-10T18:48:45Z",
+      "side": 1,
+      "message": "No need for a unique type and a unique string. Just a type:\n\n    // envVarsContextKey is ....\n    type envVarsContextKey struct{}\n\nAnd then when you need it below:\n\n       WithValue(httpReq.Context(), envVarsContextKey{}, ...",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 50
+      },
+      "revId": "738518094797043d47a3f568f598549c214594b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aee56a2_70ec6ae7",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-10T18:48:45Z",
+      "side": 1,
+      "message": "should this doc reference REMOTE_USER ? I think that\u0027s the only useful one.\n\nI almost wonder if we should filter out ones we already handled, so people don\u0027t write overly-FastCGI-specific Handlers rather than doing things the Go way.",
+      "range": {
+        "startLine": 340,
+        "startChar": 3,
+        "endLine": 340,
+        "endChar": 13
+      },
+      "revId": "738518094797043d47a3f568f598549c214594b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94f8eba8_b6d09bde",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-10T18:48:45Z",
+      "side": 1,
+      "message": "or get rid of \"ok\" and just do:\n\n  env, _ :\u003d r.Context(...).Value(...)\n  return env",
+      "range": {
+        "startLine": 342,
+        "startChar": 5,
+        "endLine": 345,
+        "endChar": 2
+      },
+      "revId": "738518094797043d47a3f568f598549c214594b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
