@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32bd0473_0509a249",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2088,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-10T17:30:48Z",
+      "side": 1,
+      "message": "Or drop the word \"in\".",
+      "range": {
+        "startLine": 2088,
+        "startChar": 8,
+        "endLine": 2088,
+        "endChar": 11
+      },
+      "revId": "0ffbb90cbe49dee84ced48380ab320207bef0990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
