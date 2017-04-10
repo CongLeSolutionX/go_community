@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "544c1e4e_f071354a",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-10T18:50:07Z",
+      "side": 1,
+      "message": "In my opinion the spec says it right: the map is created with enough space to hold N elements.\n\nIt follows that if code is going to add N elements to a map, that is the exact value that it should pass to `make` or to `reflect.MakeMapWithSize`.  No reason for any doubling or other fiddling.  Unless you are unsure about how many elements you are going to add.",
+      "parentUuid": "9e282469_7b2a9f5c",
+      "range": {
+        "startLine": 2085,
+        "startChar": 3,
+        "endLine": 2086,
+        "endChar": 17
+      },
+      "revId": "0ffbb90cbe49dee84ced48380ab320207bef0990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32bd0473_0509a249",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
