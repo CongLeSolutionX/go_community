@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "1e2db1be_a8b6613d",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2086,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-10T19:21:11Z",
+      "side": 1,
+      "message": "The spec needs to say something about the exact definition being implementation-defined, but also inject the word \"approximate\" or something like that somewhere in there.\n\nI suggest the box now say something like\n\nmake(T, n)       map        map of type T with initial space for roughly n elements\n\nand the text say\n\nA new, empty map value is made using the built-in function make, which takes the map type and an optional capacity hint as arguments:\n\nmake(map[string]int)\nmake(map[string]int, 100)\n\nThe hint is intended to suggest that the implementation should reserve space in the map for that many elements, but the implementation might only approximate that guarantee.",
+      "parentUuid": "85de8aa0_44419424",
+      "range": {
+        "startLine": 2085,
+        "startChar": 3,
+        "endLine": 2086,
+        "endChar": 17
+      },
+      "revId": "0ffbb90cbe49dee84ced48380ab320207bef0990",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32bd0473_0509a249",
         "filename": "src/reflect/value.go",
         "patchSetId": 1
