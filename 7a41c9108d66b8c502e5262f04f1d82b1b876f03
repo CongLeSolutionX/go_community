@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eff024bc_6b4a7fe2",
+        "filename": "src/encoding/asn1/asn1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-04-11T21:37:15Z",
+      "side": 1,
+      "message": "this loop can bail out at 5 because, otherwise, either the representation is non-minimal or it\u0027ll be too large for an int32.",
+      "range": {
+        "startLine": 299,
+        "startChar": 16,
+        "endLine": 299,
+        "endChar": 17
+      },
+      "revId": "7a41c9108d66b8c502e5262f04f1d82b1b876f03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1b88629_6c4a7145",
+        "filename": "src/encoding/asn1/asn1.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-04-11T21:37:15Z",
+      "side": 1,
+      "message": "// Ensure that the returned value fits in an int on all platforms.\nif ret \u003e math.MaxInt32 {\n   …\n}",
+      "range": {
+        "startLine": 310,
+        "startChar": 6,
+        "endLine": 310,
+        "endChar": 25
+      },
+      "revId": "7a41c9108d66b8c502e5262f04f1d82b1b876f03",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
