@@ -293,16 +293,23 @@ type Flag bool
 // given byte slice. It returns the value and the new offset.
 func parseBase128Int(bytes []byte, initOffset int) (ret, offset int, err error) {
 	offset = initOffset
+	ret64 := int64(0)
 	for shifted := 0; offset < len(bytes); shifted++ {
-		if shifted == 4 {
+		// 9 * 7 bits per byte == 63 bits of data
+		if shifted == 9 {
 			err = StructuralError{"base 128 integer too large"}
 			return
 		}
-		ret <<= 7
+		ret64 <<= 7
 		b := bytes[offset]
-		ret |= int(b & 0x7f)
+		ret64 |= int64(b & 0x7f)
 		offset++
 		if b&0x80 == 0 {
+			ret = int(ret64)
+			// Ensure the parsed value fit in the unsized int we're returning
+			if int64(ret) != ret64 {
+				err = StructuralError{"base 128 integer too large"}
+			}
 			return
 		}
 	}
