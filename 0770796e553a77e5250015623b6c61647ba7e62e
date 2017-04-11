@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72642782_c978ba16",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-11T19:22:50Z",
+      "side": 1,
+      "message": "this is what regexp.MustCompile is for.\n\nBut please don\u0027t use a regexp here. Go stylistically just doesn\u0027t use regexps for everything like some languages.\n\nJust write a little function like:\n\n   // addFastCGIEnvToContext reports whether to include the FastCGI environment variable s\n   // in the http.Request.Context, accessible via ...\n   func addFastCGIEnvToContext(s string) bool {\n        // Exclude things supported by net/http natively:\n        switch s {\n        case \"CONTENT_LENGTH\", \"CONTENT_TYPE\", \"QUERY_STRING\",  ... :\n                return false\n         }\n         if strings.HasPrefix(s, \"HTTP_\") {\n                 return false\n         }\n         // Explicitly include FastCGI-specific things.\n         // This list is redundant with the default \"return true\" below.\n         // Consider this documentation of the sorts of things we expect\n         // to maybe see.\n         switch s {\n         case \"SCRIPT_NAME\", \"REMOTE_USER\": \n                   return true\n         }\n         // Unknown, so include it to be safe.\n         return true\n   }",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "0770796e553a77e5250015623b6c61647ba7e62e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
