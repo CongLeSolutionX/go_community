@@ -106,6 +106,24 @@
       "revId": "1c26e254df5e466dd77c65882066afedee30013f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7e8dd07_e487c91f",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-04-11T13:13:46Z",
+      "side": 1,
+      "message": "Right, it\u0027s only a hint, meaning it must not change the visible behavior in any way, only the performance. If the behavior changes, that\u0027s a bug.",
+      "parentUuid": "a38b635f_2e83d310",
+      "revId": "1c26e254df5e466dd77c65882066afedee30013f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
