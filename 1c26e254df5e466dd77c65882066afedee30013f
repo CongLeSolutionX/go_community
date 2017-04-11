@@ -70,6 +70,24 @@
       "revId": "1c26e254df5e466dd77c65882066afedee30013f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b27359a_efe41877",
+        "filename": "src/encoding/gob/decode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 17532
+      },
+      "writtenOn": "2017-04-11T05:21:45Z",
+      "side": 1,
+      "message": "Thanks for all the information, Russ! I did try to do the right thing here, it didn\u0027t occur to me that I should be changing the runtime. I did start with the exact code you suggest, but that immediately failed on tests:\n\n--- FAIL: TestFuzzOneByte (0.57s)\n\tcodec_test.go:1472: crash for b[248] ^\u003d 0xf9\npanic: makemap: size out of range [recovered]\n\tpanic: makemap: size out of range [recovered]\n\tpanic: makemap: size out of range [recovered]\n\tpanic: makemap: size out of range\n\nI reasoned that this test represents a requirement that strange input will not cause a panic. Should I file yet another bug for the hashmap to treat the size really as a hint and be able to handle it when it\u0027s too big?",
+      "parentUuid": "194e98f0_3025fc82",
+      "revId": "1c26e254df5e466dd77c65882066afedee30013f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
