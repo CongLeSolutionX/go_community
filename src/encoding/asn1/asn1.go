@@ -958,9 +958,9 @@ func setDefaultValue(v reflect.Value, params fieldParameters) (ok bool) {
 //
 // An ASN.1 ENUMERATED can be written to an Enumerated.
 //
-// An ASN.1 UTCTIME or GENERALIZEDTIME can be written to a time.Time.
+// An ASN.1 UTCTime or GeneralizedTime can be written to a time.Time.
 //
-// An ASN.1 PrintableString or IA5String can be written to a string.
+// An ASN.1 UTF8String, PrintableString or IA5String can be written to a string.
 //
 // Any of the above ASN.1 values can be written to an interface{}.
 // The value stored in the interface has the corresponding Go type.
