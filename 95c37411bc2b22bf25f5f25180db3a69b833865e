@@ -22,6 +22,29 @@
       "revId": "95c37411bc2b22bf25f5f25180db3a69b833865e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bce986b_0f5847a9",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-11T23:29:39Z",
+      "side": 1,
+      "message": "starts a transaction. The provided dc must be valid and ready to use.\n\n?",
+      "range": {
+        "startLine": 1376,
+        "startChar": 32,
+        "endLine": 1376,
+        "endChar": 35
+      },
+      "revId": "95c37411bc2b22bf25f5f25180db3a69b833865e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
