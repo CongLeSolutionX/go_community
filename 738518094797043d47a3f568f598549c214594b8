@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "33bb1268_c34b1d29",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-04-11T17:56:10Z",
+      "side": 1,
+      "message": "Correction:\nFiltering earlier saves memory. Though there is now a small performance hit for every request. If we instead moved filtering to ProcessEnv, there would only be a small performance hit for the rare case that someone needed e.g. remote user value, but we\u0027d have to store the extra values.\n\nSo it\u0027s basically a question of whether we care more about space/speed.",
+      "parentUuid": "f6605517_daffdd1e",
+      "range": {
+        "startLine": 340,
+        "startChar": 3,
+        "endLine": 340,
+        "endChar": 13
+      },
+      "revId": "738518094797043d47a3f568f598549c214594b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94f8eba8_b6d09bde",
         "filename": "src/net/http/fcgi/child.go",
         "patchSetId": 3
