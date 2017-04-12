@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bab9f8a_2c6b6732",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1724,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-12T16:23:32Z",
+      "side": 1,
+      "message": "rather than allocating this closure every time, you can do this allocation-free like:\n\n   // closemuRUnlockRelease is used as a func(error) method value in ExecContext and QueryContext\n   func (tx *Tx) closemuRUnlockRelease(error) {\n           tx.closemu.RUnlock()\n   }\n\n  Then:\n\n   return tx.db.execDC(ctx, dc, tx.closemuRUnlockRelease, query, args)",
+      "range": {
+        "startLine": 1722,
+        "startChar": 12,
+        "endLine": 1724,
+        "endChar": 2
+      },
+      "revId": "afe37a82f81fbb3f03eae84ab22b06d68658c529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86c46119_3685be62",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1748,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-12T16:23:32Z",
+      "side": 1,
+      "message": "then you can delete this too, and use the same on the next line",
+      "range": {
+        "startLine": 1746,
+        "startChar": 1,
+        "endLine": 1748,
+        "endChar": 2
+      },
+      "revId": "afe37a82f81fbb3f03eae84ab22b06d68658c529",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
