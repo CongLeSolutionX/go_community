@@ -16,6 +16,24 @@
       "revId": "e3c7b68bbbf17ca23e40338c9fe3848978bfa725",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5a81d76_bf80113d",
+        "filename": "src/cmd/compile/internal/gc/gen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-12T23:08:01Z",
+      "side": 1,
+      "message": "Yeah, we just need a Fatallf or something that can take fn.Pos.",
+      "parentUuid": "d96747df_9fd15941",
+      "revId": "e3c7b68bbbf17ca23e40338c9fe3848978bfa725",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
