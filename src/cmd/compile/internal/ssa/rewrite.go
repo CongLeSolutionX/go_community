@@ -272,16 +272,10 @@ search:
 	return true
 }
 
-// isArg returns whether s is an arg symbol
-func isArg(s interface{}) bool {
-	_, ok := s.(*ArgSymbol)
-	return ok
-}
-
-// isAuto returns whether s is an auto symbol
-func isAuto(s interface{}) bool {
-	_, ok := s.(*AutoSymbol)
-	return ok
+// AlignedSymbol is an optional interface symbols can implement to
+// report their minimum alignment constraints.
+type AlignedSymbol interface {
+	Aligned() int64
 }
 
 func fitsARM64Offset(off, align int64, sym interface{}) bool {
@@ -292,10 +286,14 @@ func fitsARM64Offset(off, align int64, sym interface{}) bool {
 	if !is32Bit(off) {
 		return false
 	}
-	if align == 1 {
-		return true
+	if off&(align-1) == 0 {
+		// If we don't know a symbol's alignment,
+		// optimistically hope for the best. If we're wrong,
+		// the assembler will still catch our mistake.
+		sym, ok := sym.(AlignedSymbol)
+		return !ok || sym.Aligned() >= align
 	}
-	return !isArg(sym) && (off%align == 0 || off < 256 && off > -256 && !isAuto(sym))
+	return sym == nil && off < 256 && off >= -256
 }
 
 // isSameSym returns whether sym is the same as the given named symbol

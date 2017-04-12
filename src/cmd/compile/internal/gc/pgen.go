@@ -252,7 +252,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 			Fatalf("bad width")
 		}
 		s.stksize += w
-		s.stksize = Rnd(s.stksize, int64(n.Type.Align))
+		s.stksize = Rnd(s.stksize, n.Type.Alignment())
 		if types.Haspointers(n.Type) {
 			s.stkptrsize = s.stksize
 		}
@@ -264,6 +264,33 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 
 	s.stksize = Rnd(s.stksize, int64(Widthreg))
 	s.stkptrsize = Rnd(s.stkptrsize, int64(Widthreg))
+}
+
+var _ ssa.AlignedSymbol = (*Node)(nil)
+
+// Aligned returns the minimum guaranteed alignment for automatic or
+// parameter n.
+func (n *Node) Aligned() int64 {
+	align := n.Type.Alignment()
+
+	switch n.Class {
+	case PAUTO:
+		// AllocFrame over aligns variables on these
+		// architectures above.
+		if int64(Widthptr) > align && thearch.LinkArch.InFamily(sys.MIPS, sys.MIPS64, sys.ARM, sys.ARM64, sys.PPC64, sys.S390X) {
+			align = int64(Widthptr)
+		}
+	case PPARAM, PPARAMOUT:
+		off := n.Xoffset | int64(Widthreg)
+		off &^= off - 1
+		if off > align {
+			align = off
+		}
+	default:
+		Fatalf("unexpected node class: %v, %d", n, n.Class)
+	}
+
+	return align
 }
 
 func compile(fn *Node) {
