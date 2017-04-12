@@ -290,8 +290,7 @@ var genericOps = []opData{
 
 	// The address of a variable.  arg0 is the base pointer (SB or SP, depending
 	// on whether it is a global or stack variable).  The Aux field identifies the
-	// variable. It will be either an *ExternSymbol (with arg0=SB), *ArgSymbol (arg0=SP),
-	// or *AutoSymbol (arg0=SP).
+	// variable. It will be either an *obj.LSym (with arg0=SB) or *gc.Node (arg0=SP).
 	{name: "Addr", argLength: 1, aux: "Sym", symEffect: "Addr"}, // Address of a variable.  Arg0=SP or SB.  Aux identifies the variable.
 
 	{name: "SP"},                 // stack pointer

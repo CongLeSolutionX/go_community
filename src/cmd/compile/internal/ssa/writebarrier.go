@@ -93,7 +93,7 @@ func writebarrier(f *Func) {
 			if sp == nil {
 				sp = f.Entry.NewValue0(initpos, OpSP, f.Config.Types.Uintptr)
 			}
-			wbsym := &ExternSymbol{Sym: f.fe.Syslook("writeBarrier")}
+			wbsym := f.fe.Syslook("writeBarrier")
 			wbaddr = f.Entry.NewValue1A(initpos, OpAddr, f.Config.Types.UInt32Ptr, wbsym, sb)
 			writebarrierptr = f.fe.Syslook("writebarrierptr")
 			typedmemmove = f.fe.Syslook("typedmemmove")
@@ -176,7 +176,7 @@ func writebarrier(f *Func) {
 			ptr := w.Args[0]
 			var typ interface{}
 			if w.Op != OpStoreWB {
-				typ = &ExternSymbol{Sym: w.Aux.(Type).Symbol()}
+				typ = w.Aux.(Type).Symbol()
 			}
 			pos = w.Pos
 
@@ -265,9 +265,8 @@ func wbcall(pos src.XPos, b *Block, fn *obj.LSym, typ interface{}, ptr, val, mem
 		// value we're trying to move.
 		t := val.Type.ElemType()
 		tmp = b.Func.fe.Auto(val.Pos, t)
-		aux := &AutoSymbol{Node: tmp}
 		mem = b.NewValue1A(pos, OpVarDef, TypeMem, tmp, mem)
-		tmpaddr := b.NewValue1A(pos, OpAddr, t.PtrTo(), aux, sp)
+		tmpaddr := b.NewValue1A(pos, OpAddr, t.PtrTo(), tmp, sp)
 		siz := t.Size()
 		mem = b.NewValue3I(pos, OpMove, TypeMem, siz, tmpaddr, val, mem)
 		mem.Aux = t

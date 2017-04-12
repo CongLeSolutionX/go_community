@@ -150,15 +150,12 @@ func buildssa(fn *Node) *ssa.Func {
 	s.startBlock(s.f.Entry)
 	s.vars[&memVar] = s.startmem
 
-	s.varsyms = map[*Node]interface{}{}
-
 	// Generate addresses of local declarations
 	s.decladdrs = map[*Node]*ssa.Value{}
 	for _, n := range fn.Func.Dcl {
 		switch n.Class {
 		case PPARAM, PPARAMOUT:
-			aux := s.lookupSymbol(n, &ssa.ArgSymbol{Node: n})
-			s.decladdrs[n] = s.entryNewValue1A(ssa.OpAddr, types.NewPtr(n.Type), aux, s.sp)
+			s.decladdrs[n] = s.entryNewValue1A(ssa.OpAddr, types.NewPtr(n.Type), n, s.sp)
 			if n.Class == PPARAMOUT && s.canSSA(n) {
 				// Save ssa-able PPARAMOUT variables so we can
 				// store them back to the stack at the end of
@@ -245,9 +242,6 @@ type state struct {
 
 	// addresses of PPARAM and PPARAMOUT variables.
 	decladdrs map[*Node]*ssa.Value
-
-	// symbols for PEXTERN, PAUTO and PPARAMOUT variables so they can be reused.
-	varsyms map[*Node]interface{}
 
 	// starting values. Memory, stack pointer, and globals pointer
 	startmem *ssa.Value
@@ -1380,13 +1374,11 @@ func (s *state) expr(n *Node) *ssa.Value {
 		len := s.newValue1(ssa.OpStringLen, types.Types[TINT], str)
 		return s.newValue3(ssa.OpSliceMake, n.Type, ptr, len, len)
 	case OCFUNC:
-		aux := s.lookupSymbol(n, &ssa.ExternSymbol{Sym: Linksym(n.Left.Sym)})
-		return s.entryNewValue1A(ssa.OpAddr, n.Type, aux, s.sb)
+		return s.entryNewValue1A(ssa.OpAddr, n.Type, Linksym(n.Left.Sym), s.sb)
 	case ONAME:
 		if n.Class == PFUNC {
 			// "value" of a function is the address of the function's closure
-			sym := Linksym(funcsym(n.Sym))
-			aux := s.lookupSymbol(n, &ssa.ExternSymbol{Sym: sym})
+			aux := Linksym(funcsym(n.Sym))
 			return s.entryNewValue1A(ssa.OpAddr, types.NewPtr(n.Type), aux, s.sb)
 		}
 		if s.canSSA(n) {
@@ -2826,7 +2818,7 @@ func init() {
 		sys.ARM64)
 	makeOnesCount := func(op64 ssa.Op, op32 ssa.Op) func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
 		return func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
-			aux := s.lookupSymbol(n, &ssa.ExternSymbol{Sym: Linksym(syslook("support_popcnt").Sym)})
+			aux := Linksym(syslook("support_popcnt").Sym)
 			addr := s.entryNewValue1A(ssa.OpAddr, types.Types[TBOOL].PtrTo(), aux, s.sb)
 			v := s.newValue2(ssa.OpLoad, types.Types[TBOOL], addr, s.mem())
 			b := s.endBlock()
@@ -3168,24 +3160,6 @@ func etypesign(e types.EType) int8 {
 	return 0
 }
 
-// lookupSymbol is used to retrieve the symbol (Extern, Arg or Auto) used for a particular node.
-// This improves the effectiveness of cse by using the same Aux values for the
-// same symbols.
-func (s *state) lookupSymbol(n *Node, sym interface{}) interface{} {
-	switch sym.(type) {
-	default:
-		s.Fatalf("sym %v is of unknown type %T", sym, sym)
-	case *ssa.ExternSymbol, *ssa.ArgSymbol, *ssa.AutoSymbol:
-		// these are the only valid types
-	}
-
-	if lsym, ok := s.varsyms[n]; ok {
-		return lsym
-	}
-	s.varsyms[n] = sym
-	return sym
-}
-
 // addr converts the address of the expression n to SSA, adds it to s and returns the SSA result.
 // The value that the returned Value represents is guaranteed to be non-nil.
 // If bounded is true then this address does not require a nil check for its operand
@@ -3197,8 +3171,7 @@ func (s *state) addr(n *Node, bounded bool) *ssa.Value {
 		switch n.Class {
 		case PEXTERN:
 			// global variable
-			aux := s.lookupSymbol(n, &ssa.ExternSymbol{Sym: Linksym(n.Sym)})
-			v := s.entryNewValue1A(ssa.OpAddr, t, aux, s.sb)
+			v := s.entryNewValue1A(ssa.OpAddr, t, Linksym(n.Sym), s.sb)
 			// TODO: Make OpAddr use AuxInt as well as Aux.
 			if n.Xoffset != 0 {
 				v = s.entryNewValue1I(ssa.OpOffPtr, v.Type, n.Xoffset, v)
@@ -3212,19 +3185,16 @@ func (s *state) addr(n *Node, bounded bool) *ssa.Value {
 			}
 			if n == nodfp {
 				// Special arg that points to the frame pointer (Used by ORECOVER).
-				aux := s.lookupSymbol(n, &ssa.ArgSymbol{Node: n})
-				return s.entryNewValue1A(ssa.OpAddr, t, aux, s.sp)
+				return s.entryNewValue1A(ssa.OpAddr, t, n, s.sp)
 			}
 			s.Fatalf("addr of undeclared ONAME %v. declared: %v", n, s.decladdrs)
 			return nil
 		case PAUTO:
-			aux := s.lookupSymbol(n, &ssa.AutoSymbol{Node: n})
-			return s.newValue1A(ssa.OpAddr, t, aux, s.sp)
+			return s.newValue1A(ssa.OpAddr, t, n, s.sp)
 		case PPARAMOUT: // Same as PAUTO -- cannot generate LEA early.
 			// ensure that we reuse symbols for out parameters so
 			// that cse works on their addresses
-			aux := s.lookupSymbol(n, &ssa.ArgSymbol{Node: n})
-			return s.newValue1A(ssa.OpAddr, t, aux, s.sp)
+			return s.newValue1A(ssa.OpAddr, t, n, s.sp)
 		default:
 			s.Fatalf("variable address class %v not implemented", classnames[n.Class])
 			return nil
@@ -4491,13 +4461,7 @@ func (s *SSAGenState) FPJump(b, next *ssa.Block, jumps *[2][2]FloatingEQNEJump) 
 }
 
 func AuxOffset(v *ssa.Value) (offset int64) {
-	if v.Aux == nil {
-		return 0
-	}
-	switch sym := v.Aux.(type) {
-
-	case *ssa.AutoSymbol:
-		n := sym.Node.(*Node)
+	if n, ok := v.Aux.(*Node); ok && n.Class == PAUTO {
 		return n.Xoffset
 	}
 	return 0
@@ -4520,19 +4484,18 @@ func AddAux2(a *obj.Addr, v *ssa.Value, offset int64) {
 	}
 	// Add symbol's offset from its base register.
 	switch sym := v.Aux.(type) {
-	case *ssa.ExternSymbol:
+	case *obj.LSym:
 		a.Name = obj.NAME_EXTERN
-		a.Sym = sym.Sym
-	case *ssa.ArgSymbol:
-		n := sym.Node.(*Node)
-		a.Name = obj.NAME_PARAM
-		a.Sym = Linksym(n.Orig.Sym)
-		a.Offset += n.Xoffset
-	case *ssa.AutoSymbol:
-		n := sym.Node.(*Node)
-		a.Name = obj.NAME_AUTO
-		a.Sym = Linksym(n.Sym)
-		a.Offset += n.Xoffset
+		a.Sym = sym
+	case *Node:
+		if sym.Class == PAUTO {
+			a.Name = obj.NAME_AUTO
+			a.Sym = Linksym(sym.Sym)
+		} else {
+			a.Name = obj.NAME_PARAM
+			a.Sym = Linksym(sym.Orig.Sym)
+		}
+		a.Offset += sym.Xoffset
 	default:
 		v.Fatalf("aux in %s not implemented %#v", v, v.Aux)
 	}
@@ -4727,26 +4690,25 @@ func fieldIdx(n *Node) int {
 // It also exports a bunch of compiler services for the ssa backend.
 type ssafn struct {
 	curfn        *Node
-	strings      map[string]interface{} // map from constant string to data symbols
-	scratchFpMem *Node                  // temp for floating point register / memory moves on some architectures
-	stksize      int64                  // stack size for current frame
-	stkptrsize   int64                  // prefix of stack containing pointers
+	strings      map[string]*obj.LSym // map from constant string to data symbols
+	scratchFpMem *Node                // temp for floating point register / memory moves on some architectures
+	stksize      int64                // stack size for current frame
+	stkptrsize   int64                // prefix of stack containing pointers
 	log          bool
 }
 
 // StringData returns a symbol (a *types.Sym wrapped in an interface) which
 // is the data component of a global string constant containing s.
 func (e *ssafn) StringData(s string) interface{} {
-	if aux, ok := e.strings[s]; ok {
-		return aux
+	if sym, ok := e.strings[s]; ok {
+		return sym
 	}
 	if e.strings == nil {
-		e.strings = make(map[string]interface{})
+		e.strings = make(map[string]*obj.LSym)
 	}
-	data := stringsym(s)
-	aux := &ssa.ExternSymbol{Sym: data}
-	e.strings[s] = aux
-	return aux
+	sym := stringsym(s)
+	e.strings[s] = sym
+	return sym
 }
 
 func (e *ssafn) Auto(pos src.XPos, t ssa.Type) ssa.GCNode {
