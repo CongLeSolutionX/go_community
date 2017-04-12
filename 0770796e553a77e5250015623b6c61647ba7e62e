@@ -46,6 +46,30 @@
       "revId": "0770796e553a77e5250015623b6c61647ba7e62e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a33c751a_bf90cfd8",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-12T07:17:21Z",
+      "side": 1,
+      "message": "I was just guessing which ones were which. In general, if this package already handles it, don\u0027t add it to the map in the context.",
+      "parentUuid": "771307c5_e3636efc",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "0770796e553a77e5250015623b6c61647ba7e62e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
