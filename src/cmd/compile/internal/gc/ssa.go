@@ -4697,9 +4697,9 @@ type ssafn struct {
 	log          bool
 }
 
-// StringData returns a symbol (a *types.Sym wrapped in an interface) which
-// is the data component of a global string constant containing s.
-func (e *ssafn) StringData(s string) interface{} {
+// StringData returns a symbol which is the data component of a global
+// string constant containing s.
+func (e *ssafn) StringData(s string) *obj.LSym {
 	if sym, ok := e.strings[s]; ok {
 		return sym
 	}
