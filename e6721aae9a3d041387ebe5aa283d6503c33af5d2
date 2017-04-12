@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f64f8b1_e82876c6",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-12T04:32:44Z",
+      "side": 1,
+      "message": "s/. Even/, even/\ns/if new/if the new/",
+      "range": {
+        "startLine": 811,
+        "startChar": 63,
+        "endLine": 811,
+        "endChar": 69
+      },
+      "revId": "e6721aae9a3d041387ebe5aa283d6503c33af5d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c893dcdc_2fa4c684",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-12T04:32:44Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s a good idea to use bufio.Scanner here.  bufio.Scanner has a line length limit, which is plausible for convenience but here means that this will break on otherwise valid object files.  The code in ldpkg that looks at the header simply does strings.Index(s, \"\\n$$\").  Seems like that should work here.",
+      "revId": "e6721aae9a3d041387ebe5aa283d6503c33af5d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
