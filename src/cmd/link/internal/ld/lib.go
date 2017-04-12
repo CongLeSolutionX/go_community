@@ -720,9 +720,24 @@ func genhash(ctxt *Link, lib *Library) {
 	}
 
 	h := sha1.New()
-	if _, err := io.CopyN(h, f, atolwhex(arhdr.size)); err != nil {
-		Errorf(nil, "bad read of %s for hash generation: %v", lib.File, err)
-		return
+
+	lr := io.LimitedReader{R: f, N: atolwhex(arhdr.size)}
+	scanner := bufio.NewScanner(&lr)
+	scanner.Scan()
+	h.Write(scanner.Bytes())
+	inExportData := false
+	for scanner.Scan() {
+		line := scanner.Bytes()
+		if len(line) >= 2 && line[0] == '$' && line[1] == '$' {
+			if inExportData {
+				break
+			} else {
+				inExportData = true
+			}
+		}
+		if inExportData {
+			h.Write(line)
+		}
 	}
 	lib.hash = hex.EncodeToString(h.Sum(nil))
 }
