@@ -16,6 +16,24 @@
       "revId": "2122fc6358c926846ea70c8497f94f9b8c8a49c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "359e82fe_beaa1e79",
+        "filename": "src/runtime/cgo/gcc_libinit_openbsd.c",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13640
+      },
+      "writtenOn": "2017-04-12T06:16:54Z",
+      "side": 0,
+      "message": "Nope, it should have been deleted - I\u0027ve raised https://go-review.googlesource.com/40413 to fix this. Thanks.",
+      "parentUuid": "43b45d65_aaca5a06",
+      "revId": "2122fc6358c926846ea70c8497f94f9b8c8a49c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
