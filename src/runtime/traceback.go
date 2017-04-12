@@ -377,7 +377,7 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 				(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = frame.pc
 
 				// if there's room, pcbuf[1] is a skip PC that encodes the number of skipped frames in pcbuf[0]
-				if n+1 < max {
+				if n+1 < max && logicalSkipped > 0 {
 					n++
 					skipPC := funcPC(skipPleaseUseCallersFrames) + uintptr(logicalSkipped)
 					(*[1 << 20]uintptr)(unsafe.Pointer(pcbuf))[n] = skipPC
