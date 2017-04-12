@@ -16,6 +16,24 @@
       "revId": "e5ff8321014956d77554d73e5ea0582b280e10df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85f30268_21d6abcf",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-12T15:30:17Z",
+      "side": 1,
+      "message": "Subtle, but, yes, you\u0027re right.",
+      "parentUuid": "f745919b_624160d2",
+      "revId": "e5ff8321014956d77554d73e5ea0582b280e10df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
