@@ -252,13 +252,11 @@ func affectedNode(v *ssa.Value) (*Node, ssa.SymEffect) {
 	}
 
 	var n *Node
-	switch a := v.Aux.(type) {
-	case nil, *ssa.ExternSymbol:
+	switch aux := v.Aux.(type) {
+	case nil, *obj.LSym:
 		// ok, but no node
-	case *ssa.ArgSymbol:
-		n = a.Node.(*Node)
-	case *ssa.AutoSymbol:
-		n = a.Node.(*Node)
+	case *Node:
+		n = aux
 	default:
 		Fatalf("weird aux: %s", v.LongString())
 	}

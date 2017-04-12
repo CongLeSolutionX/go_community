@@ -411,11 +411,11 @@ func uaddOvf(a, b int64) bool {
 // 'sym' is the symbol for the itab
 func devirt(v *Value, sym interface{}, offset int64) *obj.LSym {
 	f := v.Block.Func
-	ext, ok := sym.(*ExternSymbol)
+	ext, ok := sym.(*obj.LSym)
 	if !ok {
 		return nil
 	}
-	lsym := f.fe.DerefItab(ext.Sym, offset)
+	lsym := f.fe.DerefItab(ext, offset)
 	if f.pass.debug > 0 {
 		if lsym != nil {
 			f.Warnl(v.Pos, "de-virtualizing call")
