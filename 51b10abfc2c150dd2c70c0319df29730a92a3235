@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70037a38_6ca79758",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-12T18:07:39Z",
+      "side": 1,
+      "message": "Am I right in thinking that in principle it should never be the case that ci.skip \u003e 0 \u0026\u0026 !ci.expander.more?",
+      "revId": "51b10abfc2c150dd2c70c0319df29730a92a3235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc68ea28_a85566f3",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-12T18:07:39Z",
+      "side": 1,
+      "message": "I don\u0027t think there is any order of evaluation rule that says that the call to ci.expander.next() will take place before ci.expander.more is loaded into a register.  I think you need to use a temporary variable.",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 44
+      },
+      "revId": "51b10abfc2c150dd2c70c0319df29730a92a3235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
