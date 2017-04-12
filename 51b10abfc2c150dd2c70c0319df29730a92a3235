@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa104d1e_adadb3b4",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-12T18:14:19Z",
+      "side": 1,
+      "message": "In principle, yes. This is being defensive (which is perhaps silly since ci.expander.next() is also defensive).",
+      "parentUuid": "70037a38_6ca79758",
+      "revId": "51b10abfc2c150dd2c70c0319df29730a92a3235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc68ea28_a85566f3",
         "filename": "src/runtime/symtab.go",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2017-04-12T18:07:39Z",
       "side": 1,
       "message": "I don\u0027t think there is any order of evaluation rule that says that the call to ci.expander.next() will take place before ci.expander.more is loaded into a register.  I think you need to use a temporary variable.",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 44
+      },
+      "revId": "51b10abfc2c150dd2c70c0319df29730a92a3235",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f464e61_95829d43",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-12T18:14:19Z",
+      "side": 1,
+      "message": "Huh, indeed. Alternatively, if ci.expander.more were a function call, it would be evaluated in order, I believe. (I think I\u0027ll just use a temporary, though.)",
+      "parentUuid": "dc68ea28_a85566f3",
       "range": {
         "startLine": 112,
         "startChar": 8,
