@@ -22,6 +22,30 @@
       "revId": "0770796e553a77e5250015623b6c61647ba7e62e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "771307c5_e3636efc",
+        "filename": "src/net/http/fcgi/child.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-04-12T05:28:03Z",
+      "side": 1,
+      "message": "Done\n\nI\u0027m confused about the placement of SCRIPT_NAME as \"FastCGI-specific\" instead of \"net/http native\". SCRIPT_NAME seems to be just as native as QUERY_STRING since both are only used if REQUEST_URI is not set (cgi/child.go), and yet QUERY_STRING is considered native in this snippet.\n\nHere are the cgi vars I found along with their usage in RequestFromMap:\nhttps://docs.google.com/spreadsheets/d/1b66f0XC6vTE0WAfNq0SJo7SNHltajZoQ_djnHBKypQA/edit?usp\u003dsharing\n\nShould SCRIPT_NAME be fcgi specific? I\u0027m not sure what should be in this category aside from REMOTE_USER. \n\nI agree that we don\u0027t want a white list of all the \"NOT COVERED\" items because the protocol doesn\u0027t seem well established/some people might have custom var names.",
+      "parentUuid": "72642782_c978ba16",
+      "range": {
+        "startLine": 42,
+        "startChar": 24,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "0770796e553a77e5250015623b6c61647ba7e62e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
