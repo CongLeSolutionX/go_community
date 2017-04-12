@@ -50,28 +50,7 @@ func addrescapes(n *Node) {
 			break
 		}
 
-		// This is a plain parameter or local variable that needs to move to the heap,
-		// but possibly for the function outside the one we're compiling.
-		// That is, if we have:
-		//
-		//	func f(x int) {
-		//		func() {
-		//			global = &x
-		//		}
-		//	}
-		//
-		// then we're analyzing the inner closure but we need to move x to the
-		// heap in f, not in the inner closure. Flip over to f before calling moveToHeap.
-		oldfn := Curfn
-		Curfn = n.Name.Curfn
-		if Curfn.Func.Closure != nil && Curfn.Op == OCLOSURE {
-			Curfn = Curfn.Func.Closure
-		}
-		ln := lineno
-		lineno = Curfn.Pos
 		moveToHeap(n)
-		Curfn = oldfn
-		lineno = ln
 
 	case OIND, ODOTPTR:
 		break
@@ -102,11 +81,31 @@ func (n *Node) isParamHeapCopy() bool {
 
 // moveToHeap records the parameter or local variable n as moved to the heap.
 func moveToHeap(n *Node) {
+	// This is a plain parameter or local variable that needs to move to the heap,
+	// but possibly for the function outside the one we're compiling.
+	// That is, if we have:
+	//
+	//	func f(x int) {
+	//		func() {
+	//			global = &x
+	//		}
+	//	}
+	//
+	// then we're analyzing the inner closure but we need to move x to the
+	// heap in f, not in the inner closure. Flip over to f before calling moveToHeap.
+	fn := n.Name.Curfn
+	if fn.Func.Closure != nil && fn.Op == OCLOSURE {
+		fn = fn.Func.Closure
+	}
+
+	ln := lineno
+	lineno = fn.Pos // for Fatalf calls
+
 	if Debug['r'] != 0 {
 		Dump("MOVE", n)
 	}
 	if compiling_runtime {
-		yyerror("%v escapes to heap, not allowed in runtime.", n)
+		yyerrorl(fn.Pos, "%v escapes to heap, not allowed in runtime.", n)
 	}
 	if n.Class == PAUTOHEAP {
 		Dump("n", n)
@@ -115,7 +114,7 @@ func moveToHeap(n *Node) {
 
 	// Allocate a local stack variable to hold the pointer to the heap copy.
 	// temp will add it to the function declaration list automatically.
-	heapaddr := temp(types.NewPtr(n.Type))
+	heapaddr := tempAt(fn.Pos, fn, types.NewPtr(n.Type))
 	heapaddr.Sym = lookup("&" + n.Sym.Name)
 	heapaddr.Orig.Sym = heapaddr.Sym
 
@@ -136,11 +135,12 @@ func moveToHeap(n *Node) {
 		// Preserve a copy so we can still write code referring to the original,
 		// and substitute that copy into the function declaration list
 		// so that analyses of the local (on-stack) variables use it.
-		stackcopy := newname(n.Sym)
+		stackcopy := newnamel(fn.Pos, n.Sym)
 		stackcopy.SetAddable(false)
 		stackcopy.Type = n.Type
 		stackcopy.Xoffset = n.Xoffset
 		stackcopy.Class = n.Class
+		stackcopy.Name.Curfn = fn
 		stackcopy.Name.Param.Heapaddr = heapaddr
 		if n.Class == PPARAMOUT {
 			// Make sure the pointer to the heap copy is kept live throughout the function.
@@ -156,9 +156,9 @@ func moveToHeap(n *Node) {
 		// liveness and other analyses use the underlying stack slot
 		// and not the now-pseudo-variable n.
 		found := false
-		for i, d := range Curfn.Func.Dcl {
+		for i, d := range fn.Func.Dcl {
 			if d == n {
-				Curfn.Func.Dcl[i] = stackcopy
+				fn.Func.Dcl[i] = stackcopy
 				found = true
 				break
 			}
@@ -171,7 +171,7 @@ func moveToHeap(n *Node) {
 		if !found {
 			Fatalf("cannot find %v in local variable list", n)
 		}
-		Curfn.Func.Dcl = append(Curfn.Func.Dcl, n)
+		fn.Func.Dcl = append(fn.Func.Dcl, n)
 	}
 
 	// Modify n in place so that uses of n now mean indirection of the heapaddr.
@@ -182,6 +182,8 @@ func moveToHeap(n *Node) {
 	if Debug['m'] != 0 {
 		fmt.Printf("%v: moved to heap: %v\n", n.Line(), n)
 	}
+
+	lineno = ln
 }
 
 // autotmpname returns the name for an autotmp variable numbered n.
