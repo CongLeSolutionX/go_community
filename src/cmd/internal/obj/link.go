@@ -738,7 +738,6 @@ type Link struct {
 }
 
 func (ctxt *Link) Diag(format string, args ...interface{}) {
-	ctxt.Errors++
 	ctxt.DiagFunc(format, args...)
 }
 
