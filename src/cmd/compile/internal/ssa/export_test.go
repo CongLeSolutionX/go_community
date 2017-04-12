@@ -73,7 +73,7 @@ func (d *DummyAuto) String() string {
 	return d.s
 }
 
-func (DummyFrontend) StringData(s string) interface{} {
+func (DummyFrontend) StringData(s string) *obj.LSym {
 	return nil
 }
 func (DummyFrontend) Auto(pos src.XPos, t Type) GCNode {
