@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a9a1944_9839cbf7",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-13T01:39:21Z",
+      "side": 1,
+      "message": "Not a prefix. It has the full paths.",
+      "parentUuid": "2f4825c1_a9c9164f",
+      "revId": "3344d8056fee29b88a836fd5924722206ecb612e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0af5ae48_e6139f5e",
         "filename": "src/cmd/dist/buildtool.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d2d28c50_8538f836",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-13T01:39:21Z",
+      "side": 1,
+      "message": "It\u0027s a substring, not a prefix. C:\\Users\\gunk",
+      "parentUuid": "0af5ae48_e6139f5e",
+      "revId": "3344d8056fee29b88a836fd5924722206ecb612e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "09dc6639_dfbd2e76",
         "filename": "src/cmd/dist/buildtool.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-04-13T01:34:07Z",
       "side": 1,
       "message": "Ditto. Or maybe change isUnneededSSARewriteFile to return fileArch (and maybe rename it), and just use that here?",
+      "revId": "3344d8056fee29b88a836fd5924722206ecb612e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5b808cc_0714adb4",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-13T01:39:21Z",
+      "side": 1,
+      "message": "I liked the bool func, but I\u0027ll try...",
+      "parentUuid": "09dc6639_dfbd2e76",
       "revId": "3344d8056fee29b88a836fd5924722206ecb612e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
