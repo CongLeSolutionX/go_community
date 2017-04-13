@@ -21,7 +21,7 @@ const (
 )
 
 func memhash(p unsafe.Pointer, seed, s uintptr) uintptr {
-	if GOARCH == "386" && GOOS != "nacl" && useAeshash {
+	if useAeshash {
 		return aeshash(p, seed, s)
 	}
 	h := uint32(seed + s*hashkey[0])
