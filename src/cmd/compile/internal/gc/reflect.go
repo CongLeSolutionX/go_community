@@ -1202,9 +1202,9 @@ ok:
 		}
 		ot = dgopkgpath(s, ot, tpkg)
 
-		ot = dsymptr(s, ot, s, ot+Widthptr+2*Widthint+uncommonSize(t))
-		ot = duintxx(s, ot, uint64(n), Widthint)
-		ot = duintxx(s, ot, uint64(n), Widthint)
+		ot = dsymptr(s, ot, s, ot+3*Widthptr+uncommonSize(t))
+		ot = duintxx(s, ot, uint64(n), Widthptr)
+		ot = duintxx(s, ot, uint64(n), Widthptr)
 		dataAdd := imethodSize() * n
 		ot = dextratype(s, ot, t, dataAdd)
 
@@ -1295,9 +1295,9 @@ ok:
 			}
 		}
 		ot = dgopkgpath(s, ot, pkg)
-		ot = dsymptr(s, ot, s, ot+Widthptr+2*Widthint+uncommonSize(t))
-		ot = duintxx(s, ot, uint64(n), Widthint)
-		ot = duintxx(s, ot, uint64(n), Widthint)
+		ot = dsymptr(s, ot, s, ot+3*Widthptr+uncommonSize(t))
+		ot = duintxx(s, ot, uint64(n), Widthptr)
+		ot = duintxx(s, ot, uint64(n), Widthptr)
 
 		dataAdd := n * structfieldSize()
 		ot = dextratype(s, ot, t, dataAdd)

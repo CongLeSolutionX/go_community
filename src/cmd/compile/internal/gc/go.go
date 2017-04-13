@@ -179,8 +179,6 @@ var Curfn *Node
 
 var Widthptr int
 
-var Widthint int
-
 var Widthreg int
 
 var nblank *Node

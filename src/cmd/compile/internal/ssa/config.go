@@ -16,7 +16,6 @@ import (
 // and shared across all compilations.
 type Config struct {
 	arch            string // "amd64", etc.
-	IntSize         int64  // 4 or 8
 	PtrSize         int64  // 4 or 8
 	RegSize         int64  // 4 or 8
 	Types           Types
@@ -142,7 +141,6 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 	c := &Config{arch: arch, Types: types}
 	switch arch {
 	case "amd64":
-		c.IntSize = 8
 		c.PtrSize = 8
 		c.RegSize = 8
 		c.lowerBlock = rewriteBlockAMD64
@@ -154,7 +152,6 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		c.LinkReg = linkRegAMD64
 		c.hasGReg = false
 	case "amd64p32":
-		c.IntSize = 4
 		c.PtrSize = 4
 		c.RegSize = 8
 		c.lowerBlock = rewriteBlockAMD64
@@ -167,7 +164,6 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		c.hasGReg = false
 		c.noDuffDevice = true
 	case "386":
-		c.IntSize = 4
 		c.PtrSize = 4
 		c.RegSize = 4
 		c.lowerBlock = rewriteBlock386
@@ -179,7 +175,6 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		c.LinkReg = linkReg386
 		c.hasGReg = false
 	case "arm":
-		c.IntSize = 4
 		c.PtrSize = 4
 		c.RegSize = 4
 		c.lowerBlock = rewriteBlockARM
@@ -191,7 +186,6 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		c.LinkReg = linkRegARM
 		c.hasGReg = true
 	case "arm64":
-		c.IntSize = 8
 		c.PtrSize = 8
 		c.RegSize = 8
 		c.lowerBlock = rewriteBlockARM64
@@ -207,7 +201,6 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		c.BigEndian = true
 		fallthrough
 	case "ppc64le":
-		c.IntSize = 8
 		c.PtrSize = 8
 		c.RegSize = 8
 		c.lowerBlock = rewriteBlockPPC64
@@ -223,7 +216,6 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		c.BigEndian = true
 		fallthrough
 	case "mips64le":
-		c.IntSize = 8
 		c.PtrSize = 8
 		c.RegSize = 8
 		c.lowerBlock = rewriteBlockMIPS64
@@ -236,7 +228,6 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		c.LinkReg = linkRegMIPS64
 		c.hasGReg = true
 	case "s390x":
-		c.IntSize = 8
 		c.PtrSize = 8
 		c.RegSize = 8
 		c.lowerBlock = rewriteBlockS390X
@@ -253,7 +244,6 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		c.BigEndian = true
 		fallthrough
 	case "mipsle":
-		c.IntSize = 4
 		c.PtrSize = 4
 		c.RegSize = 4
 		c.lowerBlock = rewriteBlockMIPS

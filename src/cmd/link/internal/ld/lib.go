@@ -1515,7 +1515,7 @@ func ldshlibsyms(ctxt *Link, shlib string) {
 			// the type data.
 			if strings.HasPrefix(lsym.Name, "type.") && !strings.HasPrefix(lsym.Name, "type..") {
 				lsym.P = readelfsymboldata(ctxt, f, &elfsym)
-				gcdataLocations[elfsym.Value+2*uint64(SysArch.PtrSize)+8+1*uint64(SysArch.PtrSize)] = lsym
+				gcdataLocations[elfsym.Value+3*uint64(SysArch.PtrSize)+8] = lsym
 			}
 		}
 	}

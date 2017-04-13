@@ -330,8 +330,8 @@ func slicebytes(nam *Node, s string, len int) {
 	}
 	off = int(nam.Xoffset)
 	off = dsymptr(nam.Sym, off, sym, 0)
-	off = duintxx(nam.Sym, off, uint64(len), Widthint)
-	duintxx(nam.Sym, off, uint64(len), Widthint)
+	off = duintxx(nam.Sym, off, uint64(len), Widthptr)
+	duintxx(nam.Sym, off, uint64(len), Widthptr)
 }
 
 func dsname(s *types.Sym, off int, t string) int {
@@ -409,7 +409,7 @@ func gdata(nam *Node, nr *Node, wid int) {
 		case string:
 			symdata := stringsym(u)
 			s.WriteAddr(Ctxt, nam.Xoffset, Widthptr, symdata, 0)
-			s.WriteInt(Ctxt, nam.Xoffset+int64(Widthptr), Widthint, int64(len(u)))
+			s.WriteInt(Ctxt, nam.Xoffset+int64(Widthptr), Widthptr, int64(len(u)))
 
 		default:
 			Fatalf("gdata unhandled OLITERAL %v", nr)

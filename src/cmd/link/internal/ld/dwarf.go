@@ -1409,7 +1409,7 @@ func writearanges(ctxt *Link, syms []*Symbol) []*Symbol {
 	s.Type = obj.SDWARFSECT
 	// The first tuple is aligned to a multiple of the size of a single tuple
 	// (twice the size of an address)
-	headersize := int(Rnd(4+2+4+1+1, int64(SysArch.PtrSize*2))) // don't count unit_length field itself
+	headersize := int(Rnd(4+2+4+1+1, int64(2*SysArch.PtrSize))) // don't count unit_length field itself
 
 	for compunit := dwroot.Child; compunit != nil; compunit = compunit.Link {
 		b := getattr(compunit, dwarf.DW_AT_low_pc)
