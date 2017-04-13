@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b246b836_c47ed7b7",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-13T14:28:43Z",
+      "side": 1,
+      "message": "This currently still require a map lookup. We should probably cache the LSym in s.Func.",
+      "revId": "ad36ed84f4112de6bcc36ad96fbf078de6e14986",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
