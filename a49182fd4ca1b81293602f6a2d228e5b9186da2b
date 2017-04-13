@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93c38c0e_146518df",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-13T13:28:55Z",
+      "side": 1,
+      "message": "parseFailed",
+      "revId": "a49182fd4ca1b81293602f6a2d228e5b9186da2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d446487_31be2d91",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-13T13:28:55Z",
+      "side": 1,
+      "message": "put this on stderr. it\u0027s an error message. and give it a header.\nfmt.Fprintln(os.Stderr, \"failing line:\", line)",
+      "revId": "a49182fd4ca1b81293602f6a2d228e5b9186da2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
