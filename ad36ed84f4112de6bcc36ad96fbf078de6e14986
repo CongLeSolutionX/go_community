@@ -16,6 +16,24 @@
       "revId": "ad36ed84f4112de6bcc36ad96fbf078de6e14986",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74177699_f8710e22",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-13T14:39:54Z",
+      "side": 1,
+      "message": "I\u0027ll profile and add a cache if helps.",
+      "parentUuid": "b246b836_c47ed7b7",
+      "revId": "ad36ed84f4112de6bcc36ad96fbf078de6e14986",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
