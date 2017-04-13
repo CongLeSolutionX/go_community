@@ -46,6 +46,30 @@
       "revId": "b34429d1e0e2edc2b176da233796ee2e03e7126e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54a8015c_11c61428",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-13T16:55:48Z",
+      "side": 1,
+      "message": "Well, if this were a traditional assembler, MOVL would generate a smaller operand than MOVQ.  I admit that I don\u0027t actually know what cmd/asm generates.  If the generated code is the same either way, then I suppose it doesn\u0027t matter.",
+      "parentUuid": "d3c97b6f_a90526a9",
+      "range": {
+        "startLine": 605,
+        "startChar": 1,
+        "endLine": 605,
+        "endChar": 5
+      },
+      "revId": "b34429d1e0e2edc2b176da233796ee2e03e7126e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
