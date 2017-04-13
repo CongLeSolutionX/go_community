@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f4825c1_a9c9164f",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-13T01:34:07Z",
+      "side": 1,
+      "message": "strings.HasPrefix?",
+      "revId": "3344d8056fee29b88a836fd5924722206ecb612e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0af5ae48_e6139f5e",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-13T01:34:07Z",
+      "side": 1,
+      "message": "You could just strings.TrimPrefix(srcFile, ssaRewriteFileSubstring) and skip filepath here.",
+      "revId": "3344d8056fee29b88a836fd5924722206ecb612e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09dc6639_dfbd2e76",
+        "filename": "src/cmd/dist/buildtool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-13T01:34:07Z",
+      "side": 1,
+      "message": "Ditto. Or maybe change isUnneededSSARewriteFile to return fileArch (and maybe rename it), and just use that here?",
+      "revId": "3344d8056fee29b88a836fd5924722206ecb612e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
