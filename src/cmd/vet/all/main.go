@@ -217,6 +217,7 @@ func (p platform) vet() {
 
 	// Process vet output.
 	scan := bufio.NewScanner(stderr)
+	var parsefailed bool
 NextLine:
 	for scan.Scan() {
 		line := scan.Text()
@@ -235,7 +236,8 @@ NextLine:
 		case 3:
 			file, lineno, msg = fields[0], fields[1], fields[2]
 		default:
-			log.Fatalf("could not parse vet output line:\n%s", line)
+			parsefailed = true
+			fmt.Println(line)
 		}
 		msg = strings.TrimSpace(msg)
 
@@ -257,6 +259,9 @@ NextLine:
 			continue
 		}
 		w[key]--
+	}
+	if parsefailed {
+		log.Fatalf("failed to parse vet output")
 	}
 	if scan.Err() != nil {
 		log.Fatalf("failed to scan vet output: %v", scan.Err())
