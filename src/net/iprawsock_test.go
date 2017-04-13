@@ -117,3 +117,87 @@ func TestIPConnRemoteName(t *testing.T) {
 		t.Fatalf("got %#v; want %#v", c.RemoteAddr(), raddr)
 	}
 }
+
+func TestDialListenIPArgs(t *testing.T) {
+	type test struct {
+		argLists   [][2]string
+		shouldFail bool
+	}
+	tests := []test{
+		{
+			argLists: [][2]string{
+				{"ip", "127.0.0.1"},
+				{"ip:", "127.0.0.1"},
+				{"ip::", "127.0.0.1"},
+				{"ip", "::1"},
+				{"ip:", "::1"},
+				{"ip::", "::1"},
+				{"ip4", "127.0.0.1"},
+				{"ip4:", "127.0.0.1"},
+				{"ip4::", "127.0.0.1"},
+				{"ip6", "::1"},
+				{"ip6:", "::1"},
+				{"ip6::", "::1"},
+			},
+			shouldFail: true,
+		},
+	}
+	if testableNetwork("ip") {
+		priv := test{shouldFail: false}
+		for _, tt := range []struct {
+			network, address string
+			args             [2]string
+		}{
+			{"ip4:47", "127.0.0.1", [2]string{"ip4:47", "127.0.0.1"}},
+			{"ip6:47", "::1", [2]string{"ip6:47", "::1"}},
+		} {
+			c, err := ListenPacket(tt.network, tt.address)
+			if err != nil {
+				continue
+			}
+			c.Close()
+			priv.argLists = append(priv.argLists, tt.args)
+		}
+		if len(priv.argLists) > 0 {
+			tests = append(tests, priv)
+		}
+	}
+
+	for _, tt := range tests {
+		for _, args := range tt.argLists {
+			_, err := Dial(args[0], args[1])
+			if tt.shouldFail != (err != nil) {
+				t.Errorf("Dial(%q, %q) should fail", args[0], args[1])
+			}
+			if !tt.shouldFail != (err == nil) {
+				t.Errorf("Dial(%q, %q) should not fail; %v", args[0], args[1], err)
+			}
+			_, err = ListenPacket(args[0], args[1])
+			if tt.shouldFail != (err != nil) {
+				t.Errorf("ListenPacket(%q, %q) should fail", args[0], args[1])
+			}
+			if !tt.shouldFail != (err == nil) {
+				t.Errorf("ListenPacket(%q, %q) should not fail; %v", args[0], args[1], err)
+			}
+			a, err := ResolveIPAddr("ip", args[1])
+			if err != nil {
+				t.Errorf("ResolveIPAddr(\"ip\", %q) = %v", args[1], err)
+				continue
+			}
+			_, err = DialIP(args[0], nil, a)
+			if tt.shouldFail != (err != nil) {
+				t.Errorf("DialIP(%q, %v) should fail", args[0], a)
+			}
+			if !tt.shouldFail != (err == nil) {
+				t.Errorf("DialIP(%q, %v) should not fail; %v", args[0], a, err)
+			}
+			_, err = ListenIP(args[0], a)
+			if tt.shouldFail != (err != nil) {
+				t.Errorf("ListenIP(%q, %v) should fail", args[0], a)
+			}
+			if !tt.shouldFail != (err == nil) {
+				t.Errorf("ListenIP(%q, %v) should not fail; %v", args[0], a, err)
+			}
+		}
+	}
+}
