@@ -22,6 +22,30 @@
       "revId": "b34429d1e0e2edc2b176da233796ee2e03e7126e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3c97b6f_a90526a9",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-13T14:32:52Z",
+      "side": 1,
+      "message": "Why? I understand that they\u0027ll do the same thing because of sign extension, but so does the assembler since it assembles both to an xor :). Given that the argument is a pointer, MOVQ seems more appropriate.",
+      "parentUuid": "c1d6fc7f_b93ac91c",
+      "range": {
+        "startLine": 605,
+        "startChar": 1,
+        "endLine": 605,
+        "endChar": 5
+      },
+      "revId": "b34429d1e0e2edc2b176da233796ee2e03e7126e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
