@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f62ace90_cec5793a",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-04-13T11:05:07Z",
+      "side": 1,
+      "message": "I\u0027m not setting old.Diag to true here on purpose. We shouldn\u0027t touch the\nold node Diag or we won\u0027t report any error after the first in code like\n\n \tvar x float64\n\tf(x) // ERROR \"byte\"\n\tg(x) // ERROR \"uint8\"\n\n(where f and g are functions that do not take a float64).",
+      "revId": "aa2838b68043a8b9fe4c5e4c3130a83c921e981f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
