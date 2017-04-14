@@ -16,6 +16,24 @@
       "revId": "3dc19505b39b52737a0bb336555411e94aafd694",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d34d5e_d85d42d1",
+        "filename": "src/net/iprawsock_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-04-14T01:23:53Z",
+      "side": 1,
+      "message": "thk, done.",
+      "parentUuid": "86f85e69_f9abcf0b",
+      "revId": "3dc19505b39b52737a0bb336555411e94aafd694",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
