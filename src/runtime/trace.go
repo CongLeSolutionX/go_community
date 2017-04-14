@@ -31,7 +31,7 @@ const (
 	traceEvGCScanStart       = 9  // GC mark termination start [timestamp]
 	traceEvGCScanDone        = 10 // GC mark termination done [timestamp]
 	traceEvGCSweepStart      = 11 // GC sweep start [timestamp, stack id]
-	traceEvGCSweepDone       = 12 // GC sweep done [timestamp]
+	traceEvGCSweepDone       = 12 // GC sweep done [timestamp, swept, reclaimed]
 	traceEvGoCreate          = 13 // goroutine creation [timestamp, new goroutine id, new stack id, stack id]
 	traceEvGoStart           = 14 // goroutine starts running [timestamp, goroutine id, seq]
 	traceEvGoEnd             = 15 // goroutine ends [timestamp]
@@ -939,21 +939,26 @@ func traceGCSweepStart() {
 	if _p_.traceSweep {
 		throw("double traceGCSweepStart")
 	}
-	_p_.traceSweep = true
+	_p_.traceSweep, _p_.traceSwept, _p_.traceReclaimed = true, 0, 0
 }
 
-func traceGCSweepSpan() {
+func traceGCSweepSpan(bytesSwept uintptr) {
 	_p_ := getg().m.p.ptr()
 	if _p_.traceSweep {
-		traceEvent(traceEvGCSweepStart, 1)
-		_p_.traceSweep = false
+		if _p_.traceSwept == 0 {
+			traceEvent(traceEvGCSweepStart, 1)
+		}
+		_p_.traceSwept += bytesSwept
 	}
 }
 
 func traceGCSweepDone() {
 	_p_ := getg().m.p.ptr()
 	if !_p_.traceSweep {
-		traceEvent(traceEvGCSweepDone, -1)
+		throw("missing traceGCSweepStart")
+	}
+	if _p_.traceSwept != 0 {
+		traceEvent(traceEvGCSweepDone, -1, uint64(_p_.traceSwept), uint64(_p_.traceReclaimed))
 	}
 	_p_.traceSweep = false
 }
