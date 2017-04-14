@@ -933,11 +933,29 @@ func traceGCScanDone() {
 }
 
 func traceGCSweepStart() {
-	traceEvent(traceEvGCSweepStart, 1)
+	// Delay the actual GCSweepStart event until the first span
+	// sweep. If we don't sweep anything, don't emit any events.
+	_p_ := getg().m.p.ptr()
+	if _p_.traceSweep {
+		throw("double traceGCSweepStart")
+	}
+	_p_.traceSweep = true
+}
+
+func traceGCSweepSpan() {
+	_p_ := getg().m.p.ptr()
+	if _p_.traceSweep {
+		traceEvent(traceEvGCSweepStart, 1)
+		_p_.traceSweep = false
+	}
 }
 
 func traceGCSweepDone() {
-	traceEvent(traceEvGCSweepDone, -1)
+	_p_ := getg().m.p.ptr()
+	if !_p_.traceSweep {
+		traceEvent(traceEvGCSweepDone, -1)
+	}
+	_p_.traceSweep = false
 }
 
 func traceGCMarkAssistStart() {
