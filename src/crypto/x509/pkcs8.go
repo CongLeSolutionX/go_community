@@ -5,6 +5,8 @@
 package x509
 
 import (
+	"crypto/ecdsa"
+	"crypto/rsa"
 	"crypto/x509/pkix"
 	"encoding/asn1"
 	"errors"
@@ -51,4 +53,46 @@ func ParsePKCS8PrivateKey(der []byte) (key interface{}, err error) {
 	default:
 		return nil, fmt.Errorf("x509: PKCS#8 wrapping contained private key with unknown algorithm: %v", privKey.Algo.Algorithm)
 	}
+}
+
+// MarshalPKCS8PrivateKey converts a private key to PKCS#8 encoded form.
+// The following key types are supported: *rsa.PrivateKey, *ecdsa.PublicKey.
+// Unsupported key types result in an error.
+//
+// See RFC 5208.
+func MarshalPKCS8PrivateKey(key interface{}) ([]byte, error) {
+	var privKey pkcs8
+	switch k := key.(type) {
+	case *rsa.PrivateKey:
+		// See RFC 3279 2.2.1 RSA Signature Algorithm
+		// the parameters component of that type SHALL be the ASN.1 type NULL
+		privKey.Algo = pkix.AlgorithmIdentifier{
+			Algorithm:  oidPublicKeyRSA,
+			Parameters: asn1.NullRawValue,
+		}
+		privKey.PrivateKey = MarshalPKCS1PrivateKey(k)
+	case *ecdsa.PrivateKey:
+		oid, ok := oidFromNamedCurve(k.Curve)
+		if !ok {
+			return nil, errors.New("x509: unknown curve when marshalling PKCS#8")
+		}
+		par, err := asn1.Marshal(oid)
+		if err != nil {
+			return nil, errors.New("x509: failed to marshal curve object id in PKCS#8: " + err.Error())
+		}
+		privKey.Algo = pkix.AlgorithmIdentifier{
+			Algorithm: oidPublicKeyECDSA,
+			Parameters: asn1.RawValue{
+				FullBytes: par,
+			},
+		}
+		ePrivKey, err := MarshalECPrivateKey(k)
+		if err != nil {
+			return nil, errors.New("x509: failed to marshal EC private key embedded in PKCS#8: " + err.Error())
+		}
+		privKey.PrivateKey = ePrivKey
+	default:
+		return nil, fmt.Errorf("x509: unknown key type to marshal to PKCS#8: %T", key)
+	}
+	return asn1.Marshal(privKey)
 }
