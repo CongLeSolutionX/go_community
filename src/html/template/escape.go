@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"html"
 	"io"
+	"strings"
 	"text/template"
 	"text/template/parse"
 )
@@ -667,7 +668,7 @@ func contextAfterText(c context, s []byte) (context, int) {
 	element := c.element
 
 	// If this is a non-JS "type" attribute inside "script" tag, do not treat the contents as JS.
-	if c.state == stateAttr && c.element == elementScript && c.attr == attrScriptType && !isJSType(string(s[:i])) {
+	if c.state == stateAttr && c.element == elementScript && c.attr == attrScriptType && !isJSType(strings.ToLower(string(s[:i]))) {
 		element = elementNone
 	}
 
