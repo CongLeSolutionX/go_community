@@ -2568,6 +2568,9 @@ func typecheckaste(op Op, call *Node, isddd bool, tstruct *types.Type, nl Nodes,
 
 	lno := lineno
 
+	// pre-prepare error string message for toomany/notenough errors
+	details := errorDetails(nl, tstruct, isddd)
+
 	if tstruct.Broke() {
 		goto out
 	}
@@ -2581,10 +2584,12 @@ func typecheckaste(op Op, call *Node, isddd bool, tstruct *types.Type, nl Nodes,
 					n1 := tstruct.NumFields()
 					n2 := n.Type.NumFields()
 					if n2 > n1 {
-						goto toomany
+						errtoomany(call, op, details, lno)
+						return
 					}
 					if n2 < n1 {
-						goto notenough
+						errnotenough(n, call, op, details, lno)
+						return
 					}
 				}
 
@@ -2606,7 +2611,8 @@ func typecheckaste(op Op, call *Node, isddd bool, tstruct *types.Type, nl Nodes,
 					}
 
 					if i >= len(rfs) {
-						goto notenough
+						errnotenough(n, call, op, details, lno)
+						return
 					}
 					tn := rfs[i]
 					if assignop(tn.Type, tl.Type, &why) == 0 {
@@ -2619,7 +2625,8 @@ func typecheckaste(op Op, call *Node, isddd bool, tstruct *types.Type, nl Nodes,
 				}
 
 				if len(rfs) > len(lfs) {
-					goto toomany
+					errtoomany(call, op, details, lno)
+					return
 				}
 				goto out
 			}
@@ -2628,25 +2635,22 @@ func typecheckaste(op Op, call *Node, isddd bool, tstruct *types.Type, nl Nodes,
 
 	n1 = tstruct.NumFields()
 	n2 = nl.Len()
-	if !hasddd(tstruct) {
+
+	if hasddd(tstruct) && !isddd {
+		if n2 < n1-1 {
+			errnotenough(n, call, op, details, lno)
+			return
+		}
+	}
+
+	if !hasddd(tstruct) || isddd {
 		if n2 > n1 {
-			goto toomany
+			errtoomany(call, op, details, lno)
+			return
 		}
 		if n2 < n1 {
-			goto notenough
-		}
-	} else {
-		if !isddd {
-			if n2 < n1-1 {
-				goto notenough
-			}
-		} else {
-			if n2 > n1 {
-				goto toomany
-			}
-			if n2 < n1 {
-				goto notenough
-			}
+			errnotenough(n, call, op, details, lno)
+			return
 		}
 	}
 
@@ -2656,10 +2660,12 @@ func typecheckaste(op Op, call *Node, isddd bool, tstruct *types.Type, nl Nodes,
 		if tl.Isddd() {
 			if isddd {
 				if i >= nl.Len() {
-					goto notenough
+					errnotenough(n, call, op, details, lno)
+					return
 				}
 				if nl.Len()-i > 1 {
-					goto toomany
+					errtoomany(call, op, details, lno)
+					return
 				}
 				n = nl.Index(i)
 				setlineno(n)
@@ -2681,7 +2687,8 @@ func typecheckaste(op Op, call *Node, isddd bool, tstruct *types.Type, nl Nodes,
 		}
 
 		if i >= nl.Len() {
-			goto notenough
+			errnotenough(n, call, op, details, lno)
+			return
 		}
 		n = nl.Index(i)
 		setlineno(n)
@@ -2692,7 +2699,8 @@ func typecheckaste(op Op, call *Node, isddd bool, tstruct *types.Type, nl Nodes,
 	}
 
 	if i < nl.Len() {
-		goto toomany
+		errtoomany(call, op, details, lno)
+		return
 	}
 	if isddd {
 		if call != nil {
@@ -2704,38 +2712,42 @@ func typecheckaste(op Op, call *Node, isddd bool, tstruct *types.Type, nl Nodes,
 
 out:
 	lineno = lno
-	return
+}
 
-notenough:
-	if n == nil || !n.Diag() {
-		details := errorDetails(nl, tstruct, isddd)
-		if call != nil {
-			// call is the expression being called, not the overall call.
-			// Method expressions have the form T.M, and the compiler has
-			// rewritten those to ONAME nodes but left T in Left.
-			if call.Op == ONAME && call.Left != nil && call.Left.Op == OTYPE {
-				yyerror("not enough arguments in call to method expression %v%s", call, details)
-			} else {
-				yyerror("not enough arguments in call to %v%s", call, details)
-			}
-		} else {
-			yyerror("not enough arguments to %v%s", op, details)
-		}
-		if n != nil {
-			n.SetDiag(true)
-		}
+func errnotenough(n, call *Node, op Op, details string, lno src.XPos) {
+	if n != nil && n.Diag() {
+		lineno = lno
+		return
 	}
 
-	goto out
+	if call != nil {
+		// call is the expression being called, not the overall call.
+		// Method expressions have the form T.M, and the compiler has
+		// rewritten those to ONAME nodes but left T in Left.
+		if call.Op == ONAME && call.Left != nil && call.Left.Op == OTYPE {
+			yyerror("not enough arguments in call to method expression %v%s", call, details)
+		} else {
+			yyerror("not enough arguments in call to %v%s", call, details)
+		}
+	} else {
+		yyerror("not enough arguments to %v%s", op, details)
+	}
 
-toomany:
-	details := errorDetails(nl, tstruct, isddd)
+	if n != nil {
+		n.SetDiag(true)
+	}
+
+	lineno = lno
+}
+
+func errtoomany(call *Node, op Op, details string, lno src.XPos) {
 	if call != nil {
 		yyerror("too many arguments in call to %v%s", call, details)
 	} else {
 		yyerror("too many arguments to %v%s", op, details)
 	}
-	goto out
+
+	lineno = lno
 }
 
 func errorDetails(nl Nodes, tstruct *types.Type, isddd bool) string {
