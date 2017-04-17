@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c108cefe_15eba982",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-04-17T18:32:23Z",
+      "side": 1,
+      "message": "nit: Put these up on 843 since they come first?",
+      "revId": "12c6de5799596f86195ba644ff0e85189fedba59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8434818_77c53dc5",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-04-17T18:32:23Z",
+      "side": 1,
+      "message": "I think it\u0027s actually being used for a sanity check to make sure we don\u0027t double-start and nothing else? Or is there a case where we call traceGCSweepSpan without being inside a traceGCSweep?",
+      "range": {
+        "startLine": 494,
+        "startChar": 60,
+        "endLine": 494,
+        "endChar": 0
+      },
+      "revId": "12c6de5799596f86195ba644ff0e85189fedba59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
