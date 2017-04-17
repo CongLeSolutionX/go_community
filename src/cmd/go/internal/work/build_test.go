@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 	"reflect"
 	"runtime"
@@ -191,33 +190,40 @@ func TestRespectGroupSticky(t *testing.T) {
 		return cmdBuf.WriteString(fmt.Sprint(a...))
 	}
 
-	stickydir := path.Join(os.TempDir(), "GroupSticky")
-	if err := os.Mkdir(stickydir, 0755); err != nil {
-		t.Fatal(err)
+	stickydir, err := ioutil.TempDir("", "GroupSticky")
+	if err != nil {
+		os.RemoveAll(stickydir)
+		base.Fatalf(err.Error())
 	}
-	defer os.RemoveAll(stickydir)
 
-	// Mkdir doesn't always correctly set the group sticky bit.
 	// Change stickydir's permissions to include group sticky bit.
 	if err := os.Chmod(stickydir, 0755|os.ModeSetgid); err != nil {
-		t.Fatal(err)
+		os.RemoveAll(stickydir)
+		base.Fatalf(err.Error())
 	}
 
 	pkgfile, err := ioutil.TempFile(b.WorkDir, "")
 	if err != nil {
-		t.Fatalf("ioutil.TempFile(%q): %v", b.WorkDir, err)
+		os.RemoveAll(stickydir)
+		base.Fatalf("ioutil.TempFile(%q): %v", b.WorkDir, err)
 	}
-	defer os.Remove(pkgfile.Name())
-	defer pkgfile.Close()
 
 	stickyFile := filepath.Join(stickydir, "sticky")
 	if err := b.moveOrCopyFile(nil, stickyFile, pkgfile.Name(), 0666, true); err != nil {
-		t.Fatalf("moveOrCopyFile: %v", err)
+		pkgfile.Close()
+		os.RemoveAll(stickydir)
+		base.Fatalf("moveOrCopyFile: %v", err)
 	}
 
 	got := strings.TrimSpace(cmdBuf.String())
 	want := b.fmtcmd("", "cp %s %s", pkgfile.Name(), stickyFile)
 	if got != want {
-		t.Fatalf("moveOrCopyFile(%q, %q): want %q, got %q", stickyFile, pkgfile.Name(), want, got)
+		pkgfile.Close()
+		os.RemoveAll(stickydir)
+		base.Fatalf("moveOrCopyFile(%q, %q): want %q, got %q", stickyFile, pkgfile.Name(), want, got)
 	}
+
+	pkgfile.Close()
+	os.RemoveAll(stickydir)
+	base.Exit()
 }
