@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae733237_c3b71bc7",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-04-17T00:17:04Z",
+      "side": 1,
+      "message": "Given that this is a monotonic timer, does it matter to make it start with the beginning of the program? Wouldn\u0027t be possible to simply drop this qpcStartConter?",
+      "range": {
+        "startLine": 317,
+        "startChar": 19,
+        "endLine": 317,
+        "endChar": 34
+      },
+      "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ed7af5_9fab3247",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-04-17T00:17:04Z",
+      "side": 1,
+      "message": "Forward branche are statically predicted as not taken. dynamic prediction will eventually fix this, but given that the vast majority of users will run natively, you may want to move the wine branch at the end of the function.",
+      "range": {
+        "startLine": 445,
+        "startChar": 1,
+        "endLine": 445,
+        "endChar": 8
+      },
+      "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
