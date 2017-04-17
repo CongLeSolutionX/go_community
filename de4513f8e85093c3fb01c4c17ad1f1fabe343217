@@ -70,6 +70,30 @@
       "revId": "de4513f8e85093c3fb01c4c17ad1f1fabe343217",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4edef911_b06b0401",
+        "filename": "src/cmd/compile/internal/gc/testdata/gen/cmpConstGen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-04-17T19:04:43Z",
+      "side": 1,
+      "message": "Done in CL 40873 on master and merged into this cherry-pick.",
+      "parentUuid": "c03c7995_4a5737fd",
+      "range": {
+        "startLine": 163,
+        "startChar": 18,
+        "endLine": 163,
+        "endChar": 19
+      },
+      "revId": "de4513f8e85093c3fb01c4c17ad1f1fabe343217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
