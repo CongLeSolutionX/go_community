@@ -22,6 +22,30 @@
       "revId": "e65d900e030ba50f73a6997ac14fd6305dbc0959",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc88010c_faf01606",
+        "filename": "src/syscall/syscall_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2017-04-17T19:52:26Z",
+      "side": 1,
+      "message": "Fixed in patchset 4.  I didn\u0027t realise that defer statements where processed in reverse order.",
+      "parentUuid": "2680008f_708b2ec8",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 29
+      },
+      "revId": "e65d900e030ba50f73a6997ac14fd6305dbc0959",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
