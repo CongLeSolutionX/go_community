@@ -143,6 +143,10 @@ func (p *Package) writeDefs() {
 		}
 
 		if !cVars[n.C] {
+			if builtinDefs[n.C] != "" {
+				fatalf("cgo: use of builtin %q not in function call", fixGo(n.C))
+			}
+
 			if *gccgo {
 				fmt.Fprintf(fc, "extern byte *%s;\n", n.C)
 			} else {
