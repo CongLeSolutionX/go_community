@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03b0d355_e19d35e3",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2017-04-17T22:29:29Z",
+      "side": 1,
+      "message": "No need to \"else\" after a \"return\";  Effective Go.",
+      "revId": "60658786a8a17795650d0aa6a5773e18986dfdcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
