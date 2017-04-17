@@ -44,6 +44,21 @@ func escapeTemplate(tmpl *Template, node parse.Node, name string) error {
 	return nil
 }
 
+// evalArgs formats the list of arguments into a string. It is equivalent to
+// fmt.Sprint(args...), except that it deferences all pointers.
+func evalArgs(args ...interface{}) string {
+	// Optimization for simple common case of a single string argument.
+	if len(args) == 1 {
+		if s, ok := args[0].(string); ok {
+			return s
+		}
+	}
+	for i, arg := range args {
+		args[i] = indirectToStringerOrError(arg)
+	}
+	return fmt.Sprint(args...)
+}
+
 // funcMap maps command names to functions that render their inputs safe.
 var funcMap = template.FuncMap{
 	"_html_template_attrescaper":     attrEscaper,
@@ -60,13 +75,7 @@ var funcMap = template.FuncMap{
 	"_html_template_urlescaper":      urlEscaper,
 	"_html_template_urlfilter":       urlFilter,
 	"_html_template_urlnormalizer":   urlNormalizer,
-}
-
-// predefinedEscapers contains template predefined escapers.
-var predefinedEscapers = map[string]bool{
-	"html" :    true,
-	"urlquery": true,
-	"js":       true,
+	"_eval_args_":                    evalArgs,
 }
 
 // escaper collects type inferences about templates and changes needed to make
@@ -150,13 +159,16 @@ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
 		// A local variable assignment, not an interpolation.
 		return c
 	}
-	// Disallow the use of predefined escapers in pipelines.
-	for _, idNode := range n.Pipe.Cmds {
+	// Check for disallowed use of predefined escapers in the pipeline.
+	for pos, idNode := range n.Pipe.Cmds {
 		for _, ident := range allIdents(idNode.Args[0]) {
 			if _, ok := predefinedEscapers[ident]; ok {
-				return context{
-				state: stateError,
-				err:   errorf(ErrPredefinedEscaper, n, n.Line, "predefined escaper %q disallowed in template", ident),
+				if pos < len(n.Pipe.Cmds) - 1 ||
+						c.state == stateBeforeValue && c.delim == delimNone && ident == "html"{
+					return context{
+					state: stateError,
+					err:   errorf(ErrPredefinedEscaper, n, n.Line, "predefined escaper %q disallowed in template", ident),
+					}
 				}
 			}
 		}
@@ -233,13 +245,78 @@ func ensurePipelineContains(p *parse.PipeNode, s []string) {
 		// Do not rewrite pipeline if we have no escapers to insert.
 		return
 	}
+	// Precondition: p.Cmds contains at most one predefined escaper at its last
+	// index. This precondition is always true because of the checks in
+	// escapeAction.
+	pipelineLen := len(p.Cmds)
+	if pipelineLen > 0 {
+		lastCmd := p.Cmds[pipelineLen-1]
+		if idNode, ok := lastCmd.Args[0].(*parse.IdentifierNode); ok {
+			if esc := idNode.Ident; predefinedEscapers[esc] {
+			// Pipeline ends with a predefined escaper.
+
+			// Special case: pipeline is of the form {{ esc arg1 arg2 ... argN }},
+			// where esc is the predefined escaper, and arg1...argN are its arguments.
+			// Convert this into the equivalent form
+			// {{ _eval_args_ arg1 arg2 ... argN | esc }}, so that esc can be easily
+			// merged with the escapers in s.
+			if len(p.Cmds) == 1 && len(lastCmd.Args) > 1 {
+				lastCmd.Args[0] = parse.NewIdentifier("_eval_args_").SetTree(nil).SetPos(lastCmd.Args[0].Position())
+        p.Cmds = appendCmd(p.Cmds, newIdentCmd(esc, p.Position()))
+				pipelineLen++
+			}
+			// If any of the commands in s that we are about to insert is equivalent
+			// to the predefined escaper, use the predefined escaper instead.
+			dup := false
+			for i, escaper := range s {
+				if escFnsEq(esc, escaper) {
+					s[i] = idNode.Ident
+					dup = true
+				}
+			}
+			if dup {
+				// The predefined escaper will already be inserted along with the
+				// escapers in s, so do not copy it to the rewritten pipeline.
+			  pipelineLen--
+			}
+		}
+    }
+	}
 	// Rewrite the pipeline, creating the escapers in s at the end of the pipeline.
-	newCmds := make([]*parse.CommandNode, len(p.Cmds), len(p.Cmds)+len(s))
+	newCmds := make([]*parse.CommandNode, pipelineLen, pipelineLen+len(s))
 	copy(newCmds, p.Cmds)
 	for _, name := range s {
 		newCmds = appendCmd(newCmds, newIdentCmd(name, p.Position()))
 	}
 	p.Cmds = newCmds
+}
+
+// predefinedEscapers contains template predefined escapers that are equivalent
+// to some contextual escapers. Keep in sync with equivEscapers.
+var predefinedEscapers = map[string]bool{
+	"html" :    true,
+	"urlquery": true,
+}
+
+// equivEscapers matches contextual escapers to equivalent predefined
+// template escapers.
+var equivEscapers = map[string]string{
+	"_html_template_attrescaper":    "html",
+	"_html_template_htmlescaper":    "html",
+	"_html_template_rcdataescaper":  "html",
+	"_html_template_urlescaper":     "urlquery",
+	"_html_template_urlnormalizer":  "urlquery",
+}
+
+// escFnsEq reports whether the two escaping functions are equivalent.
+func escFnsEq(a, b string) bool {
+	if e := equivEscapers[a]; e != "" {
+		a = e
+	}
+	if e := equivEscapers[b]; e != "" {
+		b = e
+	}
+	return a == b
 }
 
 // redundantFuncs[a][b] implies that funcMap[b](funcMap[a](x)) == funcMap[a](x)
