@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59011790_3080f548",
+        "filename": "src/io/ioutil/tempfile_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-17T19:20:54Z",
+      "side": 1,
+      "message": "drop the /, otherwise this test does exactly what it did before, no?",
+      "range": {
+        "startLine": 21,
+        "startChar": 39,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "921ad00e49a4543380acd407fe7c51515e638e17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
