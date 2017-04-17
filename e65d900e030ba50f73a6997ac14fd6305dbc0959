@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2680008f_708b2ec8",
+        "filename": "src/syscall/syscall_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-17T19:47:09Z",
+      "side": 1,
+      "message": "why\u0027d you change the order? It\u0027s okay on Unix, but because of Windows we try to always close files before unlinking them.",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 29
+      },
+      "revId": "e65d900e030ba50f73a6997ac14fd6305dbc0959",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
