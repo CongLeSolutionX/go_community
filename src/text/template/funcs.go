@@ -489,6 +489,7 @@ var (
 	htmlAmp  = []byte("&amp;")
 	htmlLt   = []byte("&lt;")
 	htmlGt   = []byte("&gt;")
+	htmlNull = []byte("\uFFFD")
 )
 
 // HTMLEscape writes to w the escaped HTML equivalent of the plain text data b.
@@ -497,6 +498,8 @@ func HTMLEscape(w io.Writer, b []byte) {
 	for i, c := range b {
 		var html []byte
 		switch c {
+		case 0:
+			html = htmlNull
 		case '"':
 			html = htmlQuot
 		case '\'':
