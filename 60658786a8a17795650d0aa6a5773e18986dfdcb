@@ -16,6 +16,24 @@
       "revId": "60658786a8a17795650d0aa6a5773e18986dfdcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57db3771_cf06cf56",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-17T22:31:28Z",
+      "side": 1,
+      "message": "I almost made the same comment but then realized he\u0027s limiting the scope of the \u0027i\u0027 variable, which is also nice.",
+      "parentUuid": "03b0d355_e19d35e3",
+      "revId": "60658786a8a17795650d0aa6a5773e18986dfdcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
