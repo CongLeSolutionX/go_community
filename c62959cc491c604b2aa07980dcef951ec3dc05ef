@@ -22,6 +22,30 @@
       "revId": "c62959cc491c604b2aa07980dcef951ec3dc05ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c060d9d9_95bb75c8",
+        "filename": "src/io/ioutil/tempfile_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2017-04-17T19:31:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07ee1f15_3d332be9",
+      "range": {
+        "startLine": 24,
+        "startChar": 22,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "c62959cc491c604b2aa07980dcef951ec3dc05ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
