@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "037ce838_af2027ca",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-04-17T18:27:12Z",
+      "side": 1,
+      "message": "Smells like there should be a function enclosing 51-98, but you\u0027re more familiar with this code.",
+      "revId": "32471fcbeccecf038265bbc9009499ab6f193dfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
