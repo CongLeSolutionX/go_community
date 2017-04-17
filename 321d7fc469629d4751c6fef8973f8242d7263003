@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3945de26_3bec4a3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-17T19:35:46Z",
+      "side": 1,
+      "message": "delete. only the package name name goes before the colon.",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "321d7fc469629d4751c6fef8973f8242d7263003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f140508_3e2a15f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-17T19:35:46Z",
+      "side": 1,
+      "message": "e.g. but generally we avoid Latin",
+      "revId": "321d7fc469629d4751c6fef8973f8242d7263003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
