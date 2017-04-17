@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ab168ed_471a9e2e",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-17T05:06:52Z",
+      "side": 1,
+      "message": "If at all possible, a test shouldn\u0027t call to base.Fatalf.  That will stop all other tests from running.\n\nWhy is the deferred os.RemoveAll not running?\n\nOr is the problem a different one, that the directory created elsewhere is not being removed?  If so I think we should use a TestMain function.  Look for TestMain in https://golang.org/pkg/testing.",
+      "revId": "4da8883242b47a5da71061e7a16ffe5ca2a67ed7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
