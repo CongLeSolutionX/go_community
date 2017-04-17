@@ -169,6 +169,30 @@
       "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d692942_32a468b7",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-04-17T16:18:58Z",
+      "side": 1,
+      "message": "I\u0027m simply suggesting to move the JMP runtime.nanotimeQPC line at the end of the function, with a new label, and changing the JE into JNE. Basically:\n\n   CMPB runtime.useQPCTime(SB), $0\n   JNE useQPC\n   [... normal function ... ]\n   RET\nuseQPC:\n   JMP runtime.nanotimeQPC(SB)\n\nIt\u0027s true that the branch will generally predict very well because it\u0027s always taken or not taken, depending on a condition that never mutates, but when the branch predictor is not warm, the general static prediction rules are to predict a forward branch as not taken. Given that the Wine use-case is rare, I\u0027m suggesting to statically predicting that we are not running under Wine.",
+      "parentUuid": "6254466c_92d9b15a",
+      "range": {
+        "startLine": 445,
+        "startChar": 1,
+        "endLine": 445,
+        "endChar": 8
+      },
+      "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
