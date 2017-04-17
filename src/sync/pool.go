@@ -241,7 +241,8 @@ func init() {
 }
 
 func indexLocal(l unsafe.Pointer, i int) *poolLocal {
-	return &(*[1000000]poolLocal)(l)[i]
+	lp := uintptr(l) + uintptr(i)*unsafe.Sizeof(poolLocal{})
+	return (*poolLocal)(unsafe.Pointer(lp))
 }
 
 // Implemented in runtime.
