@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "7e4b759c_511c8e7d",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-17T15:48:07Z",
+      "side": 1,
+      "message": "Renamed the field and the type to stackExpander and renamed stackExpander.expander to pcExpander (to match the type and be consistent)",
+      "parentUuid": "3e54c1d8_7e026e62",
+      "revId": "afcee3a6ea873829beb4ee764cd5e919b319aa73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a399a0e_fae933b8",
         "filename": "src/runtime/symtab.go",
         "patchSetId": 1
@@ -87,6 +105,24 @@
       "revId": "afcee3a6ea873829beb4ee764cd5e919b319aa73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2ca8e3a_e5025a5b",
+        "filename": "src/runtime/symtab.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-17T15:48:07Z",
+      "side": 1,
+      "message": "Renamed to pcExpander.",
+      "parentUuid": "2a399a0e_fae933b8",
+      "revId": "afcee3a6ea873829beb4ee764cd5e919b319aa73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
