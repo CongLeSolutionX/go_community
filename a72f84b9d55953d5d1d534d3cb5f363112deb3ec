@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "1d8785f6_ec0a866b",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-04-17T11:43:13Z",
+      "side": 1,
+      "message": "\u003e Given that this is a monotonic timer, does it matter to make it start with the beginning of the program? Wouldn\u0027t be possible to simply drop this qpcStartConter?\n\nIn theory, it would be safe to start this \u0027timer\u0027 from any point in time, but in practice this will damage time.String(), since its \u0027monotonic\u0027 part (m\u003dxxx) will have this weird offset instead of zero. With start counter it will start with zero.",
+      "parentUuid": "ae733237_c3b71bc7",
+      "range": {
+        "startLine": 317,
+        "startChar": 19,
+        "endLine": 317,
+        "endChar": 34
+      },
+      "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "437afee8_6ec01987",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 11
@@ -53,6 +77,24 @@
       "writtenOn": "2017-04-17T07:19:12Z",
       "side": 1,
       "message": "Reading doc from timeasm.go:\n```\nDeclarations for operating systems implementing time.now directly in assembly.\nThose systems are also expected to have nanotime subtract startNano,\nso that time.now and nanotime return the same monotonic clock readings.\n```\nI interpret that you should return\n\nnanotimeQPC() - startNano\n\nfor monotime. No?",
+      "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3e476abb_ece8461a",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-04-17T11:43:13Z",
+      "side": 1,
+      "message": "\u003e Reading doc from timeasm.go:\n\u003e ```\n\u003e Declarations for operating systems implementing time.now directly in assembly.\n\u003e Those systems are also expected to have nanotime subtract startNano,\n\u003e so that time.now and nanotime return the same monotonic clock readings.\n\u003e ```\n\u003e I interpret that you should return\n\u003e \n\u003e nanotimeQPC() - startNano\n\u003e \n\u003e for monotime. No?\n\nstartNano is not used in wine (and it will be very close to zero anyway), basically \n(counter - qpcStartCounter) * qpcMultiplier\nis somewhat similar to nontime() - startNano, but scaled into qpc measures.",
+      "parentUuid": "437afee8_6ec01987",
       "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
