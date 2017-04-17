@@ -34,6 +34,24 @@
       "revId": "4da8883242b47a5da71061e7a16ffe5ca2a67ed7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93ea297c_65172e65",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-17T15:19:00Z",
+      "side": 1,
+      "message": "Do you want to debug \"go test\" or do you want to debug the program being tested?  To debug the program being tested, run `go test -c` to generate the test program as an executable, and then debug that.",
+      "parentUuid": "f89292f4_08955174",
+      "revId": "4da8883242b47a5da71061e7a16ffe5ca2a67ed7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
