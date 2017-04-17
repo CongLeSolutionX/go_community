@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "088ee9aa_3538c78a",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-17T22:50:05Z",
+      "side": 1,
+      "message": "Done. Required a little reshuffling to handle the EvBatch, EvFrequency, EvTimerGoroutine case.",
+      "parentUuid": "c108cefe_15eba982",
+      "revId": "12c6de5799596f86195ba644ff0e85189fedba59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8434818_77c53dc5",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "12c6de5799596f86195ba644ff0e85189fedba59",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6579527e_19e2a29d",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-17T22:50:05Z",
+      "side": 1,
+      "message": "We can call traceGCSweepSpan without being inside a traceGCSweep (e.g., this happens in a few places where we do sweeping not in response to allocation, such as the background sweeper)",
+      "parentUuid": "e8434818_77c53dc5",
+      "range": {
+        "startLine": 494,
+        "startChar": 60,
+        "endLine": 494,
+        "endChar": 0
+      },
+      "revId": "12c6de5799596f86195ba644ff0e85189fedba59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
