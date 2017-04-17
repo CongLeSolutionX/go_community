@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c23be834_7ac05915",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2017-04-17T19:38:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3945de26_3bec4a3c",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "321d7fc469629d4751c6fef8973f8242d7263003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f140508_3e2a15f5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "321d7fc469629d4751c6fef8973f8242d7263003",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65550db1_c334afb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2017-04-17T19:38:48Z",
+      "side": 1,
+      "message": "Replaced with the \"for example\".",
+      "parentUuid": "2f140508_3e2a15f5",
+      "revId": "321d7fc469629d4751c6fef8973f8242d7263003",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
