@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb14e2dd_80a5379f",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-17T19:18:43Z",
+      "side": 1,
+      "message": "IndexByte",
+      "range": {
+        "startLine": 156,
+        "startChar": 17,
+        "endLine": 156,
+        "endChar": 22
+      },
+      "revId": "f098e4bbc3090cc2b5f20a448c6f7b499a69ab32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a340a3df_b35677fc",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-17T19:18:43Z",
+      "side": 1,
+      "message": "strings.TrimLeft(line[i+1:], \" \")",
+      "range": {
+        "startLine": 160,
+        "startChar": 16,
+        "endLine": 160,
+        "endChar": 26
+      },
+      "revId": "f098e4bbc3090cc2b5f20a448c6f7b499a69ab32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfbba1f6_d29ad53b",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-17T19:18:43Z",
+      "side": 1,
+      "message": "then you can delete this",
+      "range": {
+        "startLine": 162,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 2
+      },
+      "revId": "f098e4bbc3090cc2b5f20a448c6f7b499a69ab32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57e67e4e_232b7b1a",
+        "filename": "src/net/http/response.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-17T19:18:43Z",
+      "side": 1,
+      "message": "IndexByte",
+      "range": {
+        "startLine": 166,
+        "startChar": 17,
+        "endLine": 166,
+        "endChar": 22
+      },
+      "revId": "f098e4bbc3090cc2b5f20a448c6f7b499a69ab32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
