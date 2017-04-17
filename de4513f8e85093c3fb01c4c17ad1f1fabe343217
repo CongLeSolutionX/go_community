@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52df7067_35e6d739",
+        "filename": "src/cmd/compile/internal/gc/testdata/gen/cmpConstGen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-04-17T17:11:56Z",
+      "side": 1,
+      "message": "Are these underscores necessary?",
+      "range": {
+        "startLine": 163,
+        "startChar": 18,
+        "endLine": 163,
+        "endChar": 19
+      },
+      "revId": "de4513f8e85093c3fb01c4c17ad1f1fabe343217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
