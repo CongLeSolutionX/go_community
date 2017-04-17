@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "22f91579_7fc50859",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-17T07:19:12Z",
+      "side": 1,
+      "message": "Your parent is too old now. Please update this CL to the current tip.",
+      "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae733237_c3b71bc7",
         "filename": "src/runtime/os_windows.go",
         "patchSetId": 11
@@ -25,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "437afee8_6ec01987",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-17T07:19:12Z",
+      "side": 1,
+      "message": "Reading doc from timeasm.go:\n```\nDeclarations for operating systems implementing time.now directly in assembly.\nThose systems are also expected to have nanotime subtract startNano,\nso that time.now and nanotime return the same monotonic clock readings.\n```\nI interpret that you should return\n\nnanotimeQPC() - startNano\n\nfor monotime. No?",
+      "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4ed7af5_9fab3247",
         "filename": "src/runtime/sys_windows_386.s",
         "patchSetId": 11
@@ -36,6 +70,30 @@
       "writtenOn": "2017-04-17T00:17:04Z",
       "side": 1,
       "message": "Forward branche are statically predicted as not taken. dynamic prediction will eventually fix this, but given that the vast majority of users will run natively, you may want to move the wine branch at the end of the function.",
+      "range": {
+        "startLine": 445,
+        "startChar": 1,
+        "endLine": 445,
+        "endChar": 8
+      },
+      "revId": "a72f84b9d55953d5d1d534d3cb5f363112deb3ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5cbc9c4_aaffcfc3",
+        "filename": "src/runtime/sys_windows_386.s",
+        "patchSetId": 11
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-17T07:19:12Z",
+      "side": 1,
+      "message": "That is what Russ asked us to do (see Russ comment from Feb 28 and March 1). I know nothing about branch prediction, but what exactly are you proposing?",
+      "parentUuid": "e4ed7af5_9fab3247",
       "range": {
         "startLine": 445,
         "startChar": 1,
