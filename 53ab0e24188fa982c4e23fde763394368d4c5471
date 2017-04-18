@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "dbb14506_2443571e",
+        "filename": "src/html/template/escape.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 16020
+      },
+      "writtenOn": "2017-04-18T17:39:37Z",
+      "side": 1,
+      "message": "Perhaps we should do the opposite, and add comments stating why each of these pairs are equivalent? That should make it easier to review this list in the future.",
+      "parentUuid": "40213a86_d1de5002",
+      "range": {
+        "startLine": 307,
+        "startChar": 2,
+        "endLine": 307,
+        "endChar": 30
+      },
+      "revId": "53ab0e24188fa982c4e23fde763394368d4c5471",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f37c9f8_2f020aa3",
         "filename": "src/text/template/funcs.go",
         "patchSetId": 4
