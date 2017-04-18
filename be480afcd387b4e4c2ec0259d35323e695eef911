@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1b585c44_2b9f53e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-04-18T09:57:21Z",
+      "side": 1,
+      "message": "\u003e BTW, probably cmd/compile issue should be created on why the original code is slower than the new code?\n\nThe code contains pointer nil check and bounds check. The code could be a little bit faster, but these 2 checks are inherently required (and not required for the new code). We could special-case conversions to, say, `*[~0]T`, but it does not seem to worth it. So I don\u0027t see anything to fix in the compiler for this particular case.",
+      "parentUuid": "df1abfc7_642bc052",
+      "revId": "be480afcd387b4e4c2ec0259d35323e695eef911",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97adfe3f_3782c8ae",
         "filename": "src/sync/pool.go",
         "patchSetId": 1
