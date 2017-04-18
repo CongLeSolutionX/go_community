@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd08f3d2_95bcda36",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-18T02:12:19Z",
+      "side": 1,
+      "message": "Delete this line and next line.",
+      "revId": "a65766992253ae7a38668bc18203a56b343afae8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
