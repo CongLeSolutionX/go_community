@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2b44523_f0160676",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-04-18T21:19:14Z",
+      "side": 1,
+      "message": "Add runtime: to the print statement,",
+      "revId": "60dd6305cc610422bcc43b787b7f421808ff3b47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ade8f66_d253ee98",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-04-18T21:19:14Z",
+      "side": 1,
+      "message": "What is the intent here if gcpercent \u003d\u003d 0?",
+      "range": {
+        "startLine": 817,
+        "startChar": 1,
+        "endLine": 817,
+        "endChar": 20
+      },
+      "revId": "60dd6305cc610422bcc43b787b7f421808ff3b47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
