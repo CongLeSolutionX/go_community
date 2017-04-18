@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d329d8d_70eafed8",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-04-18T21:01:17Z",
+      "side": 1,
+      "message": "It seems to be the case that triggerRatio is actually set just before mark termination in the routine endCycle. Since markTermination had the potential to alter the values that go into this calculation shouldn\u0027t triggerRation be done at the end of markTermination?",
+      "range": {
+        "startLine": 103,
+        "startChar": 47,
+        "endLine": 104,
+        "endChar": 57
+      },
+      "revId": "ba69e44c2e7c3f75a696dc2f82917f2ef8283e06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
