@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "939b12e9_a29404d8",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-04-18T16:11:53Z",
+      "side": 1,
+      "message": "This makes me nervous. Even Intel processors can have 128-byte cache lines:\nhttps://software.intel.com/en-us/articles/optimizing-application-performance-on-intel-coret-microarchitecture-using-hardware-implemented-prefetchers\nPlease don\u0027t touch the constant.",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 6
+      },
+      "revId": "522077a0bec5da6758818c2987fd6e07b808b2f3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
