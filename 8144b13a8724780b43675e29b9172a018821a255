@@ -22,6 +22,30 @@
       "revId": "8144b13a8724780b43675e29b9172a018821a255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfb95f99_4ccebdd1",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 17055
+      },
+      "writtenOn": "2017-04-18T23:55:37Z",
+      "side": 1,
+      "message": "\u003e the assembly has CMPB, but this is an int.\n\u003e \n\u003e Shouldn\u0027t this be an byte? I\u0027d also add a comment?\n\u003e \n\u003e     // useQPCTime controls whether time.now and nanotime\n\u003e     // use QueryPerformanceCounter.\n\u003e     // This is only set to 1 when running under Wine.\n\u003e     var useQPCTime uint8\n\u003e \n\u003e \n\u003e (it\u0027s set to zero automatically)\n\nI explicitly set it to zero to indicate that by default QPC is not used.\nIn theory it could be bool, but then it requires underlying knowledge of how bool is transferred to int and thus how it can be checked in asm.\n\nWhether this flag is int or byte, it does not really matter, since it is still an offset from the base pointer in asm and the whole pointer will be fetched anyway.\n\nI can update it to byte in the next \u0027release\u0027 as well as add comment, I will wait for more comments now.",
+      "parentUuid": "177a67be_45856f08",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 18
+      },
+      "revId": "8144b13a8724780b43675e29b9172a018821a255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
