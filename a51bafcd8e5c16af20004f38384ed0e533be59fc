@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49954f80_074b2e86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-18T21:26:16Z",
+      "side": 1,
+      "message": "lowercase initial verb, and mention ppc64 somewhere\n\nmath/big: improve ppc64 performance for addVV/subVV",
+      "revId": "a51bafcd8e5c16af20004f38384ed0e533be59fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
