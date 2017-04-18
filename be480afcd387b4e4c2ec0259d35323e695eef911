@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "df1abfc7_642bc052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-18T09:29:11Z",
+      "side": 1,
+      "message": "Added performance results for linux/386 also.\n\nBTW, probably cmd/compile issue should be created on why the original code is slower than the new code?",
+      "parentUuid": "9da40bbe_2825a6ae",
+      "revId": "be480afcd387b4e4c2ec0259d35323e695eef911",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97adfe3f_3782c8ae",
         "filename": "src/sync/pool.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "be480afcd387b4e4c2ec0259d35323e695eef911",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "deee318f_cf51d6ca",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-18T09:29:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97adfe3f_3782c8ae",
+      "revId": "be480afcd387b4e4c2ec0259d35323e695eef911",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
