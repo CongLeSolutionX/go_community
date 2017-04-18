@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "177a67be_45856f08",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-18T16:05:11Z",
+      "side": 1,
+      "message": "the assembly has CMPB, but this is an int.\n\nShouldn\u0027t this be an byte? I\u0027d also add a comment?\n\n    // useQPCTime controls whether time.now and nanotime\n    // use QueryPerformanceCounter.\n    // This is only set to 1 when running under Wine.\n    var useQPCTime uint8\n\n\n(it\u0027s set to zero automatically)",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 18
+      },
+      "revId": "8144b13a8724780b43675e29b9172a018821a255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
