@@ -54,11 +54,18 @@ type Pool struct {
 }
 
 // Local per-P Pool appendix.
-type poolLocal struct {
+type poolLocalInternal struct {
 	private interface{}   // Can be used only by the respective P.
 	shared  []interface{} // Can be used by any P.
 	Mutex                 // Protects shared.
-	pad     [128]byte     // Prevents false sharing.
+}
+
+type poolLocal struct {
+	poolLocalInternal
+
+	// Prevents false sharing on most platforms with
+	// 64 % mod (cache line size) = 0 .
+	pad [64 - unsafe.Sizeof(poolLocalInternal{})%64]byte
 }
 
 // from runtime
