@@ -165,6 +165,8 @@ func Main(archInit func(*Arch)) {
 
 	Nacl = objabi.GOOS == "nacl"
 
+	Debug['l'] = 4
+
 	flag.BoolVar(&compiling_runtime, "+", false, "compiling runtime")
 	objabi.Flagcount("%", "debug non-static initializers", &Debug['%'])
 	objabi.Flagcount("B", "disable bounds checking", &Debug['B'])
