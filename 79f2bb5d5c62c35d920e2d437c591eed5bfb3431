@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1558cfba_8d24d086",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-04-19T17:08:45Z",
+      "side": 1,
+      "message": "It seems too strict.\nIs it impossible to start tracing during sweep, so only traceGCSweepDone is called?",
+      "range": {
+        "startLine": 958,
+        "startChar": 36,
+        "endLine": 958,
+        "endChar": 0
+      },
+      "revId": "79f2bb5d5c62c35d920e2d437c591eed5bfb3431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72f64109_edd2049f",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-04-19T17:08:45Z",
+      "side": 1,
+      "message": "to be safe, reset traceSwept and traceReclaimed",
+      "range": {
+        "startLine": 963,
+        "startChar": 23,
+        "endLine": 963,
+        "endChar": 0
+      },
+      "revId": "79f2bb5d5c62c35d920e2d437c591eed5bfb3431",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
