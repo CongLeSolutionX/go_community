@@ -7,21 +7,36 @@ package runtime_test
 import (
 	"fmt"
 	"runtime"
+	"strings"
 )
 
 func ExampleFrames() {
 	c := func() {
-		pc := make([]uintptr, 5)
+		// Ask runtime.Callers for up to 10 pcs, including runtime.Callers itself.
+		pc := make([]uintptr, 10)
 		n := runtime.Callers(0, pc)
 		if n == 0 {
+			// No pcs available. Stop now.
+			// This can happen if the first argument to runtime.Callers is large.
 			return
 		}
 
-		frames := runtime.CallersFrames(pc[:n])
+		// Pass only valid pcs to runtime.CallersFrames.
+		pc = pc[:n]
+		frames := runtime.CallersFrames(pc)
 		var frame runtime.Frame
-		for i, more := 0, true; more && i < 5; i++ {
+		more := true
+		for more {
 			frame, more = frames.Next()
-			fmt.Printf("- %s\n", frame.Function)
+			// Those (up to) 10 pcs could correspond to
+			// an indefinite number of Frames, due to inlining.
+			// To keep this example's output stable,
+			// even if the compiler's inlining decisions change,
+			// we stop the moment that we leave package runtime.
+			if !strings.Contains(frame.File, "runtime/") {
+				break
+			}
+			fmt.Printf("- more:%v | %s\n", more, frame.Function)
 		}
 	}
 
@@ -30,9 +45,9 @@ func ExampleFrames() {
 
 	a()
 	// Output:
-	// - runtime.Callers
-	// - runtime_test.ExampleFrames.func1
-	// - runtime_test.ExampleFrames.func2
-	// - runtime_test.ExampleFrames.func3
-	// - runtime_test.ExampleFrames
+	// - more:true | runtime.Callers
+	// - more:true | runtime_test.ExampleFrames.func1
+	// - more:true | runtime_test.ExampleFrames.func2
+	// - more:true | runtime_test.ExampleFrames.func3
+	// - more:true | runtime_test.ExampleFrames
 }
