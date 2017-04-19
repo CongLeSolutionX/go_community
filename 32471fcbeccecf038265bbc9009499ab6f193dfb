@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3bdc78f9_1bdded53",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-19T18:07:28Z",
+      "side": 1,
+      "message": "trace.enabled is only changed with the world stopped, so there\u0027s no danger of a race.",
+      "parentUuid": "fbb09b08_b8e9de24",
+      "range": {
+        "startLine": 47,
+        "startChar": 19,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "32471fcbeccecf038265bbc9009499ab6f193dfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "037ce838_af2027ca",
         "filename": "src/runtime/mcentral.go",
         "patchSetId": 1
@@ -77,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "9ed452f8_5ed8237c",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-19T18:07:28Z",
+      "side": 1,
+      "message": "No. I didn\u0027t consider this useful because it\u0027s not allocation-triggered sweeping (so it\u0027s not on any critical path). Also, if the trace shows the bgsweep goroutine running, it\u0027s sweeping. :) It\u0027s also hard to do because bgsweep is preemptible and the sweepStart/sweepDone currently have to be paired in a non-preemptible context.",
+      "parentUuid": "00f05cd6_59f07460",
+      "revId": "32471fcbeccecf038265bbc9009499ab6f193dfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e18f722_4837d980",
         "filename": "src/runtime/trace.go",
         "patchSetId": 1
@@ -88,6 +130,30 @@
       "writtenOn": "2017-04-19T16:53:15Z",
       "side": 1,
       "message": "when trace is disabled, do we need to go through all goroutines and reset this traceSweep field? \nIf trace is disabled just after traceGCSweepStart is called but before any of trace.GCSweepSpan or trace.GCSweepDone is called, none will reset the traceSweep field, and may cause crash during next tracing.",
+      "range": {
+        "startLine": 939,
+        "startChar": 20,
+        "endLine": 939,
+        "endChar": 0
+      },
+      "revId": "32471fcbeccecf038265bbc9009499ab6f193dfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "425dc089_ebf4c606",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-19T18:07:28Z",
+      "side": 1,
+      "message": "Since traceGCSweepStart/traceGCSweepDone must be paired in a non-preemptible context and tracing can only be enabled/disabled with the world stopped, tracing can\u0027t be enabled/disabled between them.\n\nI\u0027ll add a comment about requiring a non-preemptible context.",
+      "parentUuid": "2e18f722_4837d980",
       "range": {
         "startLine": 939,
         "startChar": 20,
