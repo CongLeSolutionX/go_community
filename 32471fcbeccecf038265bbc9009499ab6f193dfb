@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "fbb09b08_b8e9de24",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-04-19T16:53:15Z",
+      "side": 1,
+      "message": "Why is it safe to access trace.enabled without any locking? (Probably, it\u0027s okay but I am curious)",
+      "range": {
+        "startLine": 47,
+        "startChar": 19,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "32471fcbeccecf038265bbc9009499ab6f193dfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "037ce838_af2027ca",
         "filename": "src/runtime/mcentral.go",
         "patchSetId": 1
@@ -34,6 +57,46 @@
       "revId": "32471fcbeccecf038265bbc9009499ab6f193dfb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00f05cd6_59f07460",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-04-19T16:53:15Z",
+      "side": 1,
+      "message": "Is this bg sweep activity traced?",
+      "revId": "32471fcbeccecf038265bbc9009499ab6f193dfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e18f722_4837d980",
+        "filename": "src/runtime/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-04-19T16:53:15Z",
+      "side": 1,
+      "message": "when trace is disabled, do we need to go through all goroutines and reset this traceSweep field? \nIf trace is disabled just after traceGCSweepStart is called but before any of trace.GCSweepSpan or trace.GCSweepDone is called, none will reset the traceSweep field, and may cause crash during next tracing.",
+      "range": {
+        "startLine": 939,
+        "startChar": 20,
+        "endLine": 939,
+        "endChar": 0
+      },
+      "revId": "32471fcbeccecf038265bbc9009499ab6f193dfb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
