@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47744365_3f5b5b3b",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-19T20:17:33Z",
+      "side": 1,
+      "message": "Oops, didn\u0027t mean to include this line.",
+      "revId": "136312bc0bc39e181145ed6c6d8e8fe891ae42a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
