@@ -120,8 +120,6 @@ var abiSymKindToSymKind = map[objabi.SymKind]SymKind{
 	objabi.SBSS:       SBSS,
 	objabi.SNOPTRBSS:  SNOPTRBSS,
 	objabi.STLSBSS:    STLSBSS,
-	objabi.SXREF:      SXREF,
-	objabi.SCONST:     SCONST,
 	objabi.SDWARFINFO: SDWARFINFO,
 }
 
