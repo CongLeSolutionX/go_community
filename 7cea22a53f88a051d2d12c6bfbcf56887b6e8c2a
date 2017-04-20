@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14197e18_fcadabd0",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-20T01:46:32Z",
+      "side": 1,
+      "message": "Consider adding a comment here about looping over the frames. Currently it looks like the \"// Pass only ...\" comment applies to this whole code block, not just the one line.",
+      "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14c22055_73883b1a",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-20T01:46:32Z",
+      "side": 1,
+      "message": "I think the more canonical way to write this loop is\n\nfor {\n  frame, more :\u003d frames.Next()\n  ...\n  if !more {\n    break\n  }\n}",
+      "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87e59713_97e4f26f",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-20T01:46:32Z",
+      "side": 1,
+      "message": "Is the concern that 10 PCs might not be enough for the whole stack (so inlining decisions matter) or that the frames beyond runtime might change (so we don\u0027t want to bake them into the test)?",
+      "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
