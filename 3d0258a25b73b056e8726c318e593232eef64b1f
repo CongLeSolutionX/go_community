@@ -46,6 +46,30 @@
       "revId": "3d0258a25b73b056e8726c318e593232eef64b1f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a9183b9_4f39583b",
+        "filename": "src/math/sincos_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-20T21:19:49Z",
+      "side": 1,
+      "message": "Nothing wrong with many smaller commits. In fact, that might be preferable.\n\nI\u0027d find a way to do this CL just for sincos and just for amd64 in this CL, without any *.s file.",
+      "parentUuid": "8f14f1ea_425c90dc",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 16
+      },
+      "revId": "3d0258a25b73b056e8726c318e593232eef64b1f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
