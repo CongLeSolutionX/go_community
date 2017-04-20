@@ -46,6 +46,30 @@
       "revId": "8144b13a8724780b43675e29b9172a018821a255",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ed86db6_57129840",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-20T03:02:03Z",
+      "side": 1,
+      "message": "\u003e I explicitly set it to zero to indicate that by default QPC is not\n\u003e used.\n\nGo uses \"zero value\" everywhere. Setting it explicitly, makes people reading your code look for some trickery.\n \n\u003e In theory it could be bool, but then it requires underlying\n\u003e knowledge of how bool is transferred to int and thus how it can be\n\u003e checked in asm.\n\nBrad is not asking to change int for bool, he is asking to change int for uint8. You use CMPB in your asm, and CMPB expect its operand to be byte. While int type has undefined length. So Brad\u0027s request is valid.\n\n\u003e Whether this flag is int or byte, it does not really matter, since\n\u003e it is still an offset from the base pointer in asm and the whole\n\u003e pointer will be fetched anyway.\n\nBut you also need to consider people reading your code. They would ask themselves why Go and asm types are different.\n\n\u003e I can update it to byte in the next \u0027release\u0027 as well as add\n\u003e comment, I will wait for more comments now.\n\nPlease, incorporate Brad\u0027s suggestion into this CL.\nI have no other suggestions.",
+      "parentUuid": "bfb95f99_4ccebdd1",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 305,
+        "endChar": 18
+      },
+      "revId": "8144b13a8724780b43675e29b9172a018821a255",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
