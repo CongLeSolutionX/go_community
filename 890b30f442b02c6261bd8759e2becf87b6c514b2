@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4e88ff5_c71fa469",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-04-20T16:34:25Z",
+      "side": 1,
+      "message": "This is the read I am referring to below.",
+      "range": {
+        "startLine": 528,
+        "startChar": 43,
+        "endLine": 528,
+        "endChar": 68
+      },
+      "revId": "890b30f442b02c6261bd8759e2becf87b6c514b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fcc69ac_78c7e8c2",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-04-20T16:34:25Z",
+      "side": 1,
+      "message": "Reading memstats.heap_live is sometimes done atomically and sometimes it is not. While this is fine during an STW the call to revise above does not do atomic.Load64. A grep of memstats.heap_live to ensure accesses are atomic.",
+      "range": {
+        "startLine": 841,
+        "startChar": 14,
+        "endLine": 841,
+        "endChar": 48
+      },
+      "revId": "890b30f442b02c6261bd8759e2becf87b6c514b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
