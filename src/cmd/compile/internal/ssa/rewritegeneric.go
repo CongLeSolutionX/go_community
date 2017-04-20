@@ -14427,7 +14427,7 @@ func rewriteValuegeneric_OpNilCheck(v *Value) bool {
 		return true
 	}
 	// match: (NilCheck (Load (OffPtr [c] (SP)) mem) mem)
-	// cond: mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.ctxt.FixedFrameSize() + config.RegSize 	&& warnRule(fe.Debug_checknil() && v.Pos.Line() > 1, v, "removed nil check")
+	// cond: mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.FixedFrameSize + config.RegSize 	&& warnRule(fe.Debug_checknil() && v.Pos.Line() > 1, v, "removed nil check")
 	// result: (Invalid)
 	for {
 		v_0 := v.Args[0]
@@ -14447,14 +14447,14 @@ func rewriteValuegeneric_OpNilCheck(v *Value) bool {
 		if mem != v.Args[1] {
 			break
 		}
-		if !(mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.ctxt.FixedFrameSize()+config.RegSize && warnRule(fe.Debug_checknil() && v.Pos.Line() > 1, v, "removed nil check")) {
+		if !(mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.FixedFrameSize+config.RegSize && warnRule(fe.Debug_checknil() && v.Pos.Line() > 1, v, "removed nil check")) {
 			break
 		}
 		v.reset(OpInvalid)
 		return true
 	}
 	// match: (NilCheck (OffPtr (Load (OffPtr [c] (SP)) mem)) mem)
-	// cond: mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.ctxt.FixedFrameSize() + config.RegSize 	&& warnRule(fe.Debug_checknil() && v.Pos.Line() > 1, v, "removed nil check")
+	// cond: mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.FixedFrameSize + config.RegSize 	&& warnRule(fe.Debug_checknil() && v.Pos.Line() > 1, v, "removed nil check")
 	// result: (Invalid)
 	for {
 		v_0 := v.Args[0]
@@ -14478,7 +14478,7 @@ func rewriteValuegeneric_OpNilCheck(v *Value) bool {
 		if mem != v.Args[1] {
 			break
 		}
-		if !(mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.ctxt.FixedFrameSize()+config.RegSize && warnRule(fe.Debug_checknil() && v.Pos.Line() > 1, v, "removed nil check")) {
+		if !(mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.FixedFrameSize+config.RegSize && warnRule(fe.Debug_checknil() && v.Pos.Line() > 1, v, "removed nil check")) {
 			break
 		}
 		v.reset(OpInvalid)
@@ -19892,7 +19892,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		return true
 	}
 	// match: (Store (Load (OffPtr [c] (SP)) mem) x mem)
-	// cond: isConstZero(x) 	&& mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.ctxt.FixedFrameSize() + config.RegSize
+	// cond: isConstZero(x) 	&& mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.FixedFrameSize + config.RegSize
 	// result: mem
 	for {
 		v_0 := v.Args[0]
@@ -19913,7 +19913,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if mem != v.Args[2] {
 			break
 		}
-		if !(isConstZero(x) && mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.ctxt.FixedFrameSize()+config.RegSize) {
+		if !(isConstZero(x) && mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.FixedFrameSize+config.RegSize) {
 			break
 		}
 		v.reset(OpCopy)
@@ -19922,7 +19922,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		return true
 	}
 	// match: (Store (OffPtr (Load (OffPtr [c] (SP)) mem)) x mem)
-	// cond: isConstZero(x) 	&& mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.ctxt.FixedFrameSize() + config.RegSize
+	// cond: isConstZero(x) 	&& mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.FixedFrameSize + config.RegSize
 	// result: mem
 	for {
 		v_0 := v.Args[0]
@@ -19947,7 +19947,7 @@ func rewriteValuegeneric_OpStore(v *Value) bool {
 		if mem != v.Args[2] {
 			break
 		}
-		if !(isConstZero(x) && mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.ctxt.FixedFrameSize()+config.RegSize) {
+		if !(isConstZero(x) && mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.FixedFrameSize+config.RegSize) {
 			break
 		}
 		v.reset(OpCopy)
@@ -23411,7 +23411,7 @@ func rewriteValuegeneric_OpZero(v *Value) bool {
 	config := b.Func.Config
 	_ = config
 	// match: (Zero (Load (OffPtr [c] (SP)) mem) mem)
-	// cond: mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.ctxt.FixedFrameSize() + config.RegSize
+	// cond: mem.Op == OpStaticCall 	&& isSameSym(mem.Aux, "runtime.newobject") 	&& c == config.FixedFrameSize + config.RegSize
 	// result: mem
 	for {
 		v_0 := v.Args[0]
@@ -23431,7 +23431,7 @@ func rewriteValuegeneric_OpZero(v *Value) bool {
 		if mem != v.Args[1] {
 			break
 		}
-		if !(mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.ctxt.FixedFrameSize()+config.RegSize) {
+		if !(mem.Op == OpStaticCall && isSameSym(mem.Aux, "runtime.newobject") && c == config.FixedFrameSize+config.RegSize) {
 			break
 		}
 		v.reset(OpCopy)

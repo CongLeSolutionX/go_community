@@ -16,28 +16,31 @@ import (
 // It is created once, early during compilation,
 // and shared across all compilations.
 type Config struct {
-	arch            string // "amd64", etc.
-	IntSize         int64  // 4 or 8
-	PtrSize         int64  // 4 or 8
-	RegSize         int64  // 4 or 8
-	Types           Types
-	lowerBlock      blockRewriter // lowering function
-	lowerValue      valueRewriter // lowering function
-	registers       []Register    // machine registers
-	gpRegMask       regMask       // general purpose integer register mask
-	fpRegMask       regMask       // floating point register mask
-	specialRegMask  regMask       // special register mask
-	FPReg           int8          // register number of frame pointer, -1 if not used
-	LinkReg         int8          // register number of link register if it is a general purpose register, -1 if not used
-	hasGReg         bool          // has hardware g register
-	ctxt            *obj.Link     // Generic arch information
-	optimize        bool          // Do optimization
-	noDuffDevice    bool          // Don't use Duff's device
-	nacl            bool          // GOOS=nacl
-	use387          bool          // GO386=387
-	NeedsFpScratch  bool          // No direct move between GP and FP register sets
-	BigEndian       bool          //
-	sparsePhiCutoff uint64        // Sparse phi location algorithm used above this #blocks*#variables score
+	arch                string // "amd64", etc.
+	IntSize             int64  // 4 or 8
+	PtrSize             int64  // 4 or 8
+	RegSize             int64  // 4 or 8
+	Types               Types
+	lowerBlock          blockRewriter // lowering function
+	lowerValue          valueRewriter // lowering function
+	registers           []Register    // machine registers
+	gpRegMask           regMask       // general purpose integer register mask
+	fpRegMask           regMask       // floating point register mask
+	specialRegMask      regMask       // special register mask
+	FPReg               int8          // register number of frame pointer, -1 if not used
+	LinkReg             int8          // register number of link register if it is a general purpose register, -1 if not used
+	hasGReg             bool          // has hardware g register
+	FixedFrameSize      int64
+	FlagShared          bool
+	FlagDynlink         bool
+	FramepointerEnabled bool
+	optimize            bool   // Do optimization
+	noDuffDevice        bool   // Don't use Duff's device
+	nacl                bool   // GOOS=nacl
+	use387              bool   // GO386=387
+	NeedsFpScratch      bool   // No direct move between GP and FP register sets
+	BigEndian           bool   //
+	sparsePhiCutoff     uint64 // Sparse phi location algorithm used above this #blocks*#variables score
 }
 
 type (
@@ -270,7 +273,10 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 	default:
 		ctxt.Diag("arch %s not implemented", arch)
 	}
-	c.ctxt = ctxt
+	c.FixedFrameSize = ctxt.FixedFrameSize()
+	c.FlagShared = ctxt.Flag_shared
+	c.FramepointerEnabled = ctxt.Framepointer_enabled
+	c.FlagDynlink = ctxt.Flag_dynlink
 	c.optimize = optimize
 	c.nacl = objabi.GOOS == "nacl"
 
@@ -312,4 +318,3 @@ func (c *Config) Set387(b bool) {
 }
 
 func (c *Config) SparsePhiCutoff() uint64 { return c.sparsePhiCutoff }
-func (c *Config) Ctxt() *obj.Link         { return c.ctxt }

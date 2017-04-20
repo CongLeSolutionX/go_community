@@ -538,10 +538,10 @@ func (s *regAllocState) init(f *Func) {
 	if s.f.Config.hasGReg {
 		s.allocatable &^= 1 << s.GReg
 	}
-	if s.f.Config.ctxt.Framepointer_enabled && s.f.Config.FPReg >= 0 {
+	if s.f.Config.FramepointerEnabled && s.f.Config.FPReg >= 0 {
 		s.allocatable &^= 1 << uint(s.f.Config.FPReg)
 	}
-	if s.f.Config.ctxt.Flag_shared {
+	if s.f.Config.FlagShared {
 		switch s.f.Config.arch {
 		case "ppc64le": // R2 already reserved.
 			s.allocatable &^= 1 << 12 // R12
@@ -559,7 +559,7 @@ func (s *regAllocState) init(f *Func) {
 			s.allocatable &^= 1 << uint(s.f.Config.LinkReg)
 		}
 	}
-	if s.f.Config.ctxt.Flag_dynlink {
+	if s.f.Config.FlagDynlink {
 		switch s.f.Config.arch {
 		case "amd64":
 			s.allocatable &^= 1 << 15 // R15

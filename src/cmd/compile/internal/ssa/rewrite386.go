@@ -2796,7 +2796,7 @@ func rewriteValue386_Op386MOVBLSXload(v *Value) bool {
 	config := b.Func.Config
 	_ = config
 	// match: (MOVBLSXload [off1] {sym1} (LEAL [off2] {sym2} base) mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVBLSXload [off1+off2] {mergeSym(sym1,sym2)} base mem)
 	for {
 		off1 := v.AuxInt
@@ -2809,7 +2809,7 @@ func rewriteValue386_Op386MOVBLSXload(v *Value) bool {
 		sym2 := v_0.Aux
 		base := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVBLSXload)
@@ -2945,7 +2945,7 @@ func rewriteValue386_Op386MOVBload(v *Value) bool {
 		return true
 	}
 	// match: (MOVBload [off1] {sym1} (LEAL [off2] {sym2} base) mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVBload  [off1+off2] {mergeSym(sym1,sym2)} base mem)
 	for {
 		off1 := v.AuxInt
@@ -2958,7 +2958,7 @@ func rewriteValue386_Op386MOVBload(v *Value) bool {
 		sym2 := v_0.Aux
 		base := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVBload)
@@ -3207,7 +3207,7 @@ func rewriteValue386_Op386MOVBstore(v *Value) bool {
 		return true
 	}
 	// match: (MOVBstore [off1] {sym1} (LEAL [off2] {sym2} base) val mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVBstore  [off1+off2] {mergeSym(sym1,sym2)} base val mem)
 	for {
 		off1 := v.AuxInt
@@ -3221,7 +3221,7 @@ func rewriteValue386_Op386MOVBstore(v *Value) bool {
 		base := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVBstore)
@@ -3408,7 +3408,7 @@ func rewriteValue386_Op386MOVBstoreconst(v *Value) bool {
 		return true
 	}
 	// match: (MOVBstoreconst [sc] {sym1} (LEAL [off] {sym2} ptr) mem)
-	// cond: canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off)   && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off)   && (ptr.Op != OpSB || !config.FlagShared)
 	// result: (MOVBstoreconst [ValAndOff(sc).add(off)] {mergeSym(sym1, sym2)} ptr mem)
 	for {
 		sc := v.AuxInt
@@ -3421,7 +3421,7 @@ func rewriteValue386_Op386MOVBstoreconst(v *Value) bool {
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
-		if !(canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off) && (ptr.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVBstoreconst)
@@ -4145,7 +4145,7 @@ func rewriteValue386_Op386MOVLload(v *Value) bool {
 		return true
 	}
 	// match: (MOVLload [off1] {sym1} (LEAL [off2] {sym2} base) mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVLload  [off1+off2] {mergeSym(sym1,sym2)} base mem)
 	for {
 		off1 := v.AuxInt
@@ -4158,7 +4158,7 @@ func rewriteValue386_Op386MOVLload(v *Value) bool {
 		sym2 := v_0.Aux
 		base := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVLload)
@@ -4486,7 +4486,7 @@ func rewriteValue386_Op386MOVLstore(v *Value) bool {
 		return true
 	}
 	// match: (MOVLstore [off1] {sym1} (LEAL [off2] {sym2} base) val mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVLstore  [off1+off2] {mergeSym(sym1,sym2)} base val mem)
 	for {
 		off1 := v.AuxInt
@@ -4500,7 +4500,7 @@ func rewriteValue386_Op386MOVLstore(v *Value) bool {
 		base := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVLstore)
@@ -4624,7 +4624,7 @@ func rewriteValue386_Op386MOVLstoreconst(v *Value) bool {
 		return true
 	}
 	// match: (MOVLstoreconst [sc] {sym1} (LEAL [off] {sym2} ptr) mem)
-	// cond: canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off)   && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off)   && (ptr.Op != OpSB || !config.FlagShared)
 	// result: (MOVLstoreconst [ValAndOff(sc).add(off)] {mergeSym(sym1, sym2)} ptr mem)
 	for {
 		sc := v.AuxInt
@@ -4637,7 +4637,7 @@ func rewriteValue386_Op386MOVLstoreconst(v *Value) bool {
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
-		if !(canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off) && (ptr.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVLstoreconst)
@@ -5050,11 +5050,11 @@ func rewriteValue386_Op386MOVSDconst(v *Value) bool {
 	types := &b.Func.Config.Types
 	_ = types
 	// match: (MOVSDconst [c])
-	// cond: config.ctxt.Flag_shared
+	// cond: config.FlagShared
 	// result: (MOVSDconst2 (MOVSDconst1 [c]))
 	for {
 		c := v.AuxInt
-		if !(config.ctxt.Flag_shared) {
+		if !(config.FlagShared) {
 			break
 		}
 		v.reset(Op386MOVSDconst2)
@@ -5094,7 +5094,7 @@ func rewriteValue386_Op386MOVSDload(v *Value) bool {
 		return true
 	}
 	// match: (MOVSDload [off1] {sym1} (LEAL [off2] {sym2} base) mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVSDload [off1+off2] {mergeSym(sym1,sym2)} base mem)
 	for {
 		off1 := v.AuxInt
@@ -5107,7 +5107,7 @@ func rewriteValue386_Op386MOVSDload(v *Value) bool {
 		sym2 := v_0.Aux
 		base := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVSDload)
@@ -5320,7 +5320,7 @@ func rewriteValue386_Op386MOVSDstore(v *Value) bool {
 		return true
 	}
 	// match: (MOVSDstore [off1] {sym1} (LEAL [off2] {sym2} base) val mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVSDstore [off1+off2] {mergeSym(sym1,sym2)} base val mem)
 	for {
 		off1 := v.AuxInt
@@ -5334,7 +5334,7 @@ func rewriteValue386_Op386MOVSDstore(v *Value) bool {
 		base := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVSDstore)
@@ -5539,11 +5539,11 @@ func rewriteValue386_Op386MOVSSconst(v *Value) bool {
 	types := &b.Func.Config.Types
 	_ = types
 	// match: (MOVSSconst [c])
-	// cond: config.ctxt.Flag_shared
+	// cond: config.FlagShared
 	// result: (MOVSSconst2 (MOVSSconst1 [c]))
 	for {
 		c := v.AuxInt
-		if !(config.ctxt.Flag_shared) {
+		if !(config.FlagShared) {
 			break
 		}
 		v.reset(Op386MOVSSconst2)
@@ -5583,7 +5583,7 @@ func rewriteValue386_Op386MOVSSload(v *Value) bool {
 		return true
 	}
 	// match: (MOVSSload [off1] {sym1} (LEAL [off2] {sym2} base) mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVSSload [off1+off2] {mergeSym(sym1,sym2)} base mem)
 	for {
 		off1 := v.AuxInt
@@ -5596,7 +5596,7 @@ func rewriteValue386_Op386MOVSSload(v *Value) bool {
 		sym2 := v_0.Aux
 		base := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVSSload)
@@ -5809,7 +5809,7 @@ func rewriteValue386_Op386MOVSSstore(v *Value) bool {
 		return true
 	}
 	// match: (MOVSSstore [off1] {sym1} (LEAL [off2] {sym2} base) val mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVSSstore [off1+off2] {mergeSym(sym1,sym2)} base val mem)
 	for {
 		off1 := v.AuxInt
@@ -5823,7 +5823,7 @@ func rewriteValue386_Op386MOVSSstore(v *Value) bool {
 		base := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVSSstore)
@@ -6074,7 +6074,7 @@ func rewriteValue386_Op386MOVWLSXload(v *Value) bool {
 	config := b.Func.Config
 	_ = config
 	// match: (MOVWLSXload [off1] {sym1} (LEAL [off2] {sym2} base) mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVWLSXload [off1+off2] {mergeSym(sym1,sym2)} base mem)
 	for {
 		off1 := v.AuxInt
@@ -6087,7 +6087,7 @@ func rewriteValue386_Op386MOVWLSXload(v *Value) bool {
 		sym2 := v_0.Aux
 		base := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVWLSXload)
@@ -6250,7 +6250,7 @@ func rewriteValue386_Op386MOVWload(v *Value) bool {
 		return true
 	}
 	// match: (MOVWload [off1] {sym1} (LEAL [off2] {sym2} base) mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVWload  [off1+off2] {mergeSym(sym1,sym2)} base mem)
 	for {
 		off1 := v.AuxInt
@@ -6263,7 +6263,7 @@ func rewriteValue386_Op386MOVWload(v *Value) bool {
 		sym2 := v_0.Aux
 		base := v_0.Args[0]
 		mem := v.Args[1]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVWload)
@@ -6633,7 +6633,7 @@ func rewriteValue386_Op386MOVWstore(v *Value) bool {
 		return true
 	}
 	// match: (MOVWstore [off1] {sym1} (LEAL [off2] {sym2} base) val mem)
-	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)   && (base.Op != OpSB || !config.FlagShared)
 	// result: (MOVWstore  [off1+off2] {mergeSym(sym1,sym2)} base val mem)
 	for {
 		off1 := v.AuxInt
@@ -6647,7 +6647,7 @@ func rewriteValue386_Op386MOVWstore(v *Value) bool {
 		base := v_0.Args[0]
 		val := v.Args[1]
 		mem := v.Args[2]
-		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2) && (base.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVWstore)
@@ -6862,7 +6862,7 @@ func rewriteValue386_Op386MOVWstoreconst(v *Value) bool {
 		return true
 	}
 	// match: (MOVWstoreconst [sc] {sym1} (LEAL [off] {sym2} ptr) mem)
-	// cond: canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off)   && (ptr.Op != OpSB || !config.ctxt.Flag_shared)
+	// cond: canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off)   && (ptr.Op != OpSB || !config.FlagShared)
 	// result: (MOVWstoreconst [ValAndOff(sc).add(off)] {mergeSym(sym1, sym2)} ptr mem)
 	for {
 		sc := v.AuxInt
@@ -6875,7 +6875,7 @@ func rewriteValue386_Op386MOVWstoreconst(v *Value) bool {
 		sym2 := v_0.Aux
 		ptr := v_0.Args[0]
 		mem := v.Args[1]
-		if !(canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off) && (ptr.Op != OpSB || !config.ctxt.Flag_shared)) {
+		if !(canMergeSym(sym1, sym2) && ValAndOff(sc).canAdd(off) && (ptr.Op != OpSB || !config.FlagShared)) {
 			break
 		}
 		v.reset(Op386MOVWstoreconst)

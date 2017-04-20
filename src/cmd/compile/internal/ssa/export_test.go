@@ -48,7 +48,7 @@ type Conf struct {
 
 func (c *Conf) Frontend() Frontend {
 	if c.fe == nil {
-		c.fe = DummyFrontend{t: c.tb, ctxt: c.config.ctxt}
+		c.fe = DummyFrontend{t: c.tb}
 	}
 	return c.fe
 }
@@ -56,8 +56,7 @@ func (c *Conf) Frontend() Frontend {
 // DummyFrontend is a test-only frontend.
 // It assumes 64 bit integers and pointers.
 type DummyFrontend struct {
-	t    testing.TB
-	ctxt *obj.Link
+	t testing.TB
 }
 
 type DummyAuto struct {
@@ -114,7 +113,7 @@ func (DummyFrontend) Line(_ src.XPos) string {
 func (DummyFrontend) AllocFrame(f *Func) {
 }
 func (d DummyFrontend) Syslook(s string) *obj.LSym {
-	return d.ctxt.Lookup(s, 0)
+	return nil
 }
 func (DummyFrontend) UseWriteBarrier() bool {
 	return true // only writebarrier_test cares
