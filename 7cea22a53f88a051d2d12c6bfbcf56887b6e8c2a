@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "67d06455_279b44e4",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-20T15:45:10Z",
+      "side": 1,
+      "message": "Indeed. See whether my changes help.",
+      "parentUuid": "14197e18_fcadabd0",
+      "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "14c22055_73883b1a",
         "filename": "src/runtime/example_test.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a776a7f3_6b8cfdb5",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-20T15:45:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14c22055_73883b1a",
+      "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87e59713_97e4f26f",
         "filename": "src/runtime/example_test.go",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-04-20T01:46:32Z",
       "side": 1,
       "message": "Is the concern that 10 PCs might not be enough for the whole stack (so inlining decisions matter) or that the frames beyond runtime might change (so we don\u0027t want to bake them into the test)?",
+      "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d418d23_16a12a30",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-20T15:45:10Z",
+      "side": 1,
+      "message": "The latter. If it were the former, we could just bump up to 50 PCs or something silly. Also, having the full call stack seems a bit distracting. If you prefer, though, I\u0027m ok putting in the full stack.\n\nFor reference, here\u0027s what the full call stack looks like:\n\n- more:true | runtime.Callers\n- more:true | runtime_test.ExampleFrames.func1\n- more:true | runtime_test.ExampleFrames.func2\n- more:true | runtime_test.ExampleFrames.func3\n- more:true | runtime_test.ExampleFrames\n- more:true | testing.runExample\n- more:true | testing.runExamples\n- more:true | testing.(*M).Run\n- more:true | runtime_test.TestMain\n- more:false | main.main",
+      "parentUuid": "87e59713_97e4f26f",
       "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
