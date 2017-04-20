@@ -22,6 +22,30 @@
       "revId": "1ff6ba12a4a9225f2e89f8e497af8fa60414b67b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac217417_8f9db19a",
+        "filename": "src/html/template/escape.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-04-20T14:43:29Z",
+      "side": 1,
+      "message": "\u003e The URL normalizer does not seem to be meant to produce a URL that is safe to embed in a URL query, since it allows a bunch of reserved characters through:\n\nIIRC, _html_template_urlnormalizer does not  escape \u0027#\u0027 so does not prevent a transition from the query to the fragment.\nThe other reserved characters don\u0027t matter.\n\nSo we should not replace an explicit {{. | urlquery}} with {{. | _html_template_urlnormalizer}} though {{. | urlquery | _html_template_urlnormalizer}} is fine.\n\n----\n\nMy reading of net.url.shouldEscape is that urlquery should be embeddable in all the contexts in which _html_tempate_url* are.",
+      "parentUuid": "d8627f25_f17dfb44",
+      "range": {
+        "startLine": 312,
+        "startChar": 1,
+        "endLine": 312,
+        "endChar": 44
+      },
+      "revId": "1ff6ba12a4a9225f2e89f8e497af8fa60414b67b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
