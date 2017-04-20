@@ -38,13 +38,15 @@ func GoSyntax(inst Inst, pc uint64, symname func(uint64) (string, uint64)) strin
 	}
 
 	prefix := ""
-	switch last & 0xFF {
-	case 0, 0x66, 0x67:
-		// ignore
-	case PrefixREPN:
-		prefix += "REPNE "
-	default:
-		prefix += last.String() + " "
+	if last&PrefixImplicit == 0 {
+		switch last & 0xFF {
+		case 0, 0x66, 0x67:
+			// ignore
+		case PrefixREPN:
+			prefix += "REPNE "
+		default:
+			prefix += last.String() + " "
+		}
 	}
 
 	op := inst.Op.String()

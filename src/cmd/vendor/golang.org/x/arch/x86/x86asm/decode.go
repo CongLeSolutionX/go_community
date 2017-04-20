@@ -705,7 +705,7 @@ Decode:
 			//	0, 456
 			//
 			// branch to 123 if the F3 prefix is present, 234 if the F2 prefix
-			// is present, 66 if the 345 prefix is present, and 456 otherwise.
+			// is present, 345 if the 66 prefix is present, and 456 otherwise.
 			// The prefixes are given in descending order so that the 0 will be last.
 			//
 			// It is unclear what should happen if multiple conditions are
