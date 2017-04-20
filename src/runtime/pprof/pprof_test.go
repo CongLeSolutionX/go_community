@@ -10,6 +10,7 @@ import (
 	"bytes"
 	"fmt"
 	"internal/testenv"
+	"io"
 	"math/big"
 	"os"
 	"os/exec"
@@ -85,18 +86,14 @@ func TestCPUProfileMultithreaded(t *testing.T) {
 	})
 }
 
-func parseProfile(t *testing.T, valBytes []byte, f func(uintptr, []uintptr)) {
+func parseProfile(t *testing.T, valBytes []byte, f func(uintptr, []*profile.Location)) {
 	p, err := profile.Parse(bytes.NewReader(valBytes))
 	if err != nil {
 		t.Fatal(err)
 	}
 	for _, sample := range p.Sample {
 		count := uintptr(sample.Value[0])
-		stk := make([]uintptr, len(sample.Location))
-		for i := range sample.Location {
-			stk[i] = uintptr(sample.Location[i].Address)
-		}
-		f(count, stk)
+		f(count, sample.Location)
 	}
 }
 
@@ -171,19 +168,16 @@ func profileOk(t *testing.T, need []string, prof bytes.Buffer, duration time.Dur
 	have := make([]uintptr, len(need))
 	var samples uintptr
 	var buf bytes.Buffer
-	parseProfile(t, prof.Bytes(), func(count uintptr, stk []uintptr) {
+	parseProfile(t, prof.Bytes(), func(count uintptr, stk []*profile.Location) {
 		fmt.Fprintf(&buf, "%d:", count)
+		fprintStack(&buf, stk)
 		samples += count
-		for _, pc := range stk {
-			fmt.Fprintf(&buf, " %#x", pc)
-			f := runtime.FuncForPC(pc)
-			if f == nil {
-				continue
-			}
-			fmt.Fprintf(&buf, "(%s)", f.Name())
-			for i, name := range need {
-				if strings.Contains(f.Name(), name) {
-					have[i] += count
+		for i, name := range need {
+			for _, loc := range stk {
+				for _, line := range loc.Line {
+					if strings.Contains(line.Function.Name, name) {
+						have[i] += count
+					}
 				}
 			}
 		}
@@ -296,34 +290,41 @@ func TestGoroutineSwitch(t *testing.T) {
 
 		// Read profile to look for entries for runtime.gogo with an attempt at a traceback.
 		// The special entry
-		parseProfile(t, prof.Bytes(), func(count uintptr, stk []uintptr) {
+		parseProfile(t, prof.Bytes(), func(count uintptr, stk []*profile.Location) {
 			// An entry with two frames with 'System' in its top frame
 			// exists to record a PC without a traceback. Those are okay.
 			if len(stk) == 2 {
-				f := runtime.FuncForPC(stk[1])
-				if f != nil && (f.Name() == "runtime._System" || f.Name() == "runtime._ExternalCode" || f.Name() == "runtime._GC") {
+				name := stk[1].Line[0].Function.Name
+				if name == "runtime._System" || name == "runtime._ExternalCode" || name == "runtime._GC" {
 					return
 				}
 			}
 
 			// Otherwise, should not see runtime.gogo.
 			// The place we'd see it would be the inner most frame.
-			f := runtime.FuncForPC(stk[0])
-			if f != nil && f.Name() == "runtime.gogo" {
+			name := stk[0].Line[0].Function.Name
+			if name == "runtime.gogo" {
 				var buf bytes.Buffer
-				for _, pc := range stk {
-					f := runtime.FuncForPC(pc)
-					if f == nil {
-						fmt.Fprintf(&buf, "%#x ?:0\n", pc)
-					} else {
-						file, line := f.FileLine(pc)
-						fmt.Fprintf(&buf, "%#x %s:%d\n", pc, file, line)
-					}
-				}
+				fprintStack(&buf, stk)
 				t.Fatalf("found profile entry for runtime.gogo:\n%s", buf.String())
 			}
 		})
 	}
+}
+
+func fprintStack(w io.Writer, stk []*profile.Location) {
+	for _, loc := range stk {
+		fmt.Fprintf(w, " %#x", loc.Address)
+		fmt.Fprintf(w, " (")
+		for i, line := range loc.Line {
+			if i > 0 {
+				fmt.Fprintf(w, " ")
+			}
+			fmt.Fprintf(w, "%s:%d", line.Function.Name, line.Line)
+		}
+		fmt.Fprintf(w, ")")
+	}
+	fmt.Fprintf(w, "\n")
 }
 
 // Test that profiling of division operations is okay, especially on ARM. See issue 6681.
