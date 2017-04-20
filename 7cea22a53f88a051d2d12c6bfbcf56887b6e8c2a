@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d0057019_327c8b45",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-20T16:08:23Z",
+      "side": 1,
+      "message": "Changes look good.",
+      "parentUuid": "67d06455_279b44e4",
+      "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14c22055_73883b1a",
         "filename": "src/runtime/example_test.go",
         "patchSetId": 1
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "The latter. If it were the former, we could just bump up to 50 PCs or something silly. Also, having the full call stack seems a bit distracting. If you prefer, though, I\u0027m ok putting in the full stack.\n\nFor reference, here\u0027s what the full call stack looks like:\n\n- more:true | runtime.Callers\n- more:true | runtime_test.ExampleFrames.func1\n- more:true | runtime_test.ExampleFrames.func2\n- more:true | runtime_test.ExampleFrames.func3\n- more:true | runtime_test.ExampleFrames\n- more:true | testing.runExample\n- more:true | testing.runExamples\n- more:true | testing.(*M).Run\n- more:true | runtime_test.TestMain\n- more:false | main.main",
       "parentUuid": "87e59713_97e4f26f",
+      "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a441410_d06c43c5",
+        "filename": "src/runtime/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-20T16:08:23Z",
+      "side": 1,
+      "message": "In that case, I think this comment is misleading, since the compiler\u0027s inlining decisions have nothing to do with stopping when you leave the runtime. Maybe just something like\n\n// To keep this example\u0027s output stable\n// even if there are changes in the testing package,\n// stop unwinding when we leave package runtime.",
+      "parentUuid": "4d418d23_16a12a30",
       "revId": "7cea22a53f88a051d2d12c6bfbcf56887b6e8c2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
