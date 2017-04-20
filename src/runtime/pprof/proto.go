@@ -43,7 +43,7 @@ type profileBuilder struct {
 	strings   []string
 	stringMap map[string]int
 	locs      map[uintptr]int
-	funcs     map[*runtime.Func]int
+	funcs     map[string]int // Package path-qualified function name to Function.ID
 	mem       []memMap
 }
 
@@ -189,17 +189,47 @@ func (b *profileBuilder) locForPC(addr uintptr) uint64 {
 	if id != 0 {
 		return id
 	}
-	f := runtime.FuncForPC(addr)
-	if f != nil && f.Name() == "runtime.goexit" {
+
+	// Expand this one address using CallersFrames so we can cache
+	// each expansion. In general, CallersFrames takes a whole
+	// stack, but in this case we know there will be no skips in
+	// the stack and we have to adjust for return PCs anyway.
+	frames := runtime.CallersFrames([]uintptr{addr})
+	frame, more := frames.Next()
+	if frame.Function == "runtime.goexit" {
+		// Short-circuit if we see runtime.goexit so the loop
+		// below doesn't allocate a useless empty location.
 		return 0
 	}
-	funcID, lineno := b.funcForPC(addr)
+
+	// We can't write out functions while in the middle of the
+	// Location message, so record new functions we encounter and
+	// write them out after the Location.
+	type newFunc struct {
+		id         uint64
+		name, file string
+	}
+	newFuncs := make([]newFunc, 0, 8)
+
 	id = uint64(len(b.locs)) + 1
 	b.locs[addr] = int(id)
 	start := b.pb.startMessage()
 	b.pb.uint64Opt(tagLocation_ID, id)
 	b.pb.uint64Opt(tagLocation_Address, uint64(addr))
-	b.pbLine(tagLocation_Line, funcID, int64(lineno))
+	for frame.Function != "runtime.goexit" {
+		// Write out each line in frame expansion.
+		funcID := uint64(b.funcs[frame.Function])
+		if funcID == 0 {
+			funcID = uint64(len(b.funcs)) + 1
+			b.funcs[frame.Function] = int(funcID)
+			newFuncs = append(newFuncs, newFunc{funcID, frame.Function, frame.File})
+		}
+		b.pbLine(tagLocation_Line, funcID, int64(frame.Line))
+		if !more {
+			break
+		}
+		frame, more = frames.Next()
+	}
 	if len(b.mem) > 0 {
 		i := sort.Search(len(b.mem), func(i int) bool {
 			return b.mem[i].end > addr
@@ -209,34 +239,19 @@ func (b *profileBuilder) locForPC(addr uintptr) uint64 {
 		}
 	}
 	b.pb.endMessage(tagProfile_Location, start)
+
+	// Write out functions we found during frame expansion.
+	for _, fn := range newFuncs {
+		start := b.pb.startMessage()
+		b.pb.uint64Opt(tagFunction_ID, fn.id)
+		b.pb.int64Opt(tagFunction_Name, b.stringIndex(fn.name))
+		b.pb.int64Opt(tagFunction_SystemName, b.stringIndex(fn.name))
+		b.pb.int64Opt(tagFunction_Filename, b.stringIndex(fn.file))
+		b.pb.endMessage(tagProfile_Function, start)
+	}
+
 	b.flush()
 	return id
-}
-
-// funcForPC returns the func ID and line number for addr.
-// It may emit to b.pb, so there must be no message encoding in progress.
-func (b *profileBuilder) funcForPC(addr uintptr) (funcID uint64, lineno int) {
-	f := runtime.FuncForPC(addr)
-	if f == nil {
-		return 0, 0
-	}
-	file, lineno := f.FileLine(addr)
-	funcID = uint64(b.funcs[f])
-	if funcID != 0 {
-		return funcID, lineno
-	}
-
-	funcID = uint64(len(b.funcs)) + 1
-	b.funcs[f] = int(funcID)
-	name := f.Name()
-	start := b.pb.startMessage()
-	b.pb.uint64Opt(tagFunction_ID, funcID)
-	b.pb.int64Opt(tagFunction_Name, b.stringIndex(name))
-	b.pb.int64Opt(tagFunction_SystemName, b.stringIndex(name))
-	b.pb.int64Opt(tagFunction_Filename, b.stringIndex(file))
-	b.pb.endMessage(tagProfile_Function, start)
-	b.flush()
-	return funcID, lineno
 }
 
 // newProfileBuilder returns a new profileBuilder.
@@ -252,7 +267,7 @@ func newProfileBuilder(w io.Writer) *profileBuilder {
 		strings:   []string{""},
 		stringMap: map[string]int{"": 0},
 		locs:      map[uintptr]int{},
-		funcs:     map[*runtime.Func]int{},
+		funcs:     map[string]int{},
 	}
 	b.readMapping()
 	return b
