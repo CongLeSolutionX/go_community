@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73a3c3dc_5cbc53ed",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-04-20T16:13:07Z",
+      "side": 1,
+      "message": "As an aside for small heaps (4MB) this forces the GC all the sweeps in only 1 MB of allocation instead of 2. It is all benign but seems to be another reason to increase our minumum heap size.",
+      "range": {
+        "startLine": 840,
+        "startChar": 60,
+        "endLine": 844,
+        "endChar": 29
+      },
+      "revId": "5820de52f5d8bee2c4ca715fbd7c5c6e8683fce4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
