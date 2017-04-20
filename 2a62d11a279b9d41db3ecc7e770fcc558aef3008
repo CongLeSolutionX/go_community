@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0702f6a5_c5d53ae5",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-20T20:36:26Z",
+      "side": 1,
+      "message": "Could be gc.AddAux2(\u0026p.To, v, 4)",
+      "range": {
+        "startLine": 908,
+        "startChar": 0,
+        "endLine": 909,
+        "endChar": 18
+      },
+      "revId": "2a62d11a279b9d41db3ecc7e770fcc558aef3008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

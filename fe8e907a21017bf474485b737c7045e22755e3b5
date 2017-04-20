@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06502773_f2129a1e",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-20T20:36:26Z",
+      "side": 1,
+      "message": "(I think this could become a generic VisitPtrs functions, but that can be done later.)",
+      "revId": "fe8e907a21017bf474485b737c7045e22755e3b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b497380_1b2efe59",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-20T20:36:26Z",
+      "side": 1,
+      "message": "I think this would be easier to read as a separate livenessclobber function that runs after livenesscompact. As a separate function, you can just return in code paths where we determine we don\u0027t want to instrument with clobbers. And after compact means stackMapIndex is defined.",
+      "revId": "fe8e907a21017bf474485b737c7045e22755e3b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
