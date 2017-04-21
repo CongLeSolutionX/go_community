@@ -148,8 +148,8 @@ const (
 	// is encoded as TYPE_REG, even though it's not really a register.
 	COND_EQ
 	COND_NE
-	COND_HS
-	COND_LO
+	COND_CS
+	COND_CC
 	COND_MI
 	COND_PL
 	COND_VS
