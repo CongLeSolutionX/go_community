@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c8ac543_452d9548",
+        "filename": "misc/cgo/test/issue18720.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-21T14:15:08Z",
+      "side": 1,
+      "message": "Why not do the test right here?  Why call another function?",
+      "revId": "d23ecd1ee685dea979921fb8db7c21915908afea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9784b236_aa5b41d7",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-21T14:15:08Z",
+      "side": 1,
+      "message": "Space after \\t looks wrong.",
+      "range": {
+        "startLine": 494,
+        "startChar": 22,
+        "endLine": 494,
+        "endChar": 23
+      },
+      "revId": "d23ecd1ee685dea979921fb8db7c21915908afea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "150a615e_6f8c819f",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-21T14:15:08Z",
+      "side": 1,
+      "message": "Where does this __cstring name come from?  Seems like that will be compiler dependent.  You should be able to find the right section by pulling the address out of the array and looking through the sections for the one that includes that address.",
+      "revId": "d23ecd1ee685dea979921fb8db7c21915908afea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
