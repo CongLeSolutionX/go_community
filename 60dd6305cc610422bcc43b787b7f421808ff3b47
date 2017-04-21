@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5b2aa5c9_f895c96b",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-21T15:06:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2b44523_f0160676",
+      "revId": "60dd6305cc610422bcc43b787b7f421808ff3b47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ade8f66_d253ee98",
         "filename": "src/runtime/mgc.go",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "60dd6305cc610422bcc43b787b7f421808ff3b47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08755fa1_a4a061df",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-21T15:06:10Z",
+      "side": 1,
+      "message": "No, I want the below code to trigger unless GC is turned off. GOGC\u003doff sets gcpercent \u003c 0, so the condition here is gcpercent \u003e\u003d 0.",
+      "parentUuid": "9ade8f66_d253ee98",
+      "range": {
+        "startLine": 817,
+        "startChar": 1,
+        "endLine": 817,
+        "endChar": 20
+      },
+      "revId": "60dd6305cc610422bcc43b787b7f421808ff3b47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
