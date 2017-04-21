@@ -1333,7 +1333,9 @@ func peekitabs() {
 		if len(methods) == 0 {
 			continue
 		}
-		tab.lsym = tab.sym.Linksym()
+		if tab.lsym == nil {
+			tab.lsym = tab.sym.Linksym()
+		}
 		tab.entries = methods
 	}
 }
@@ -1441,19 +1443,21 @@ func dumptypestructs() {
 		//   unused [2]byte
 		//   fun    [1]uintptr // variable sized
 		// }
-		ilsym := i.sym.Linksym()
-		o := dsymptr(ilsym, 0, dtypesym(i.itype).Linksym(), 0)
-		o = dsymptr(ilsym, o, dtypesym(i.t).Linksym(), 0)
+		if i.lsym == nil {
+			i.lsym = i.sym.Linksym()
+		}
+		o := dsymptr(i.lsym, 0, dtypesym(i.itype).Linksym(), 0)
+		o = dsymptr(i.lsym, o, dtypesym(i.t).Linksym(), 0)
 		o += Widthptr                          // skip link field
-		o = duint32(ilsym, o, typehash(i.t))   // copy of type hash
+		o = duint32(i.lsym, o, typehash(i.t))  // copy of type hash
 		o += 4                                 // skip bad/inhash/unused fields
 		o += len(imethods(i.itype)) * Widthptr // skip fun method pointers
 		// at runtime the itab will contain pointers to types, other itabs and
 		// method functions. None are allocated on heap, so we can use obj.NOPTR.
-		ggloblsym(ilsym, int32(o), int16(obj.DUPOK|obj.NOPTR))
+		ggloblsym(i.lsym, int32(o), int16(obj.DUPOK|obj.NOPTR))
 
 		ilink := itablinkpkg.Lookup(i.t.ShortString() + "," + i.itype.ShortString()).Linksym()
-		dsymptr(ilink, 0, ilsym, 0)
+		dsymptr(ilink, 0, i.lsym, 0)
 		ggloblsym(ilink, int32(Widthptr), int16(obj.DUPOK|obj.RODATA))
 	}
 
