@@ -195,13 +195,15 @@ func TestRespectGroupSticky(t *testing.T) {
 	}
 	defer os.RemoveAll(stickydir)
 
-	testdir, err := ioutil.TempDir(stickydir, "testdir")
-	if err != nil {
-		t.Fatal(err)
+	if runtime.GOOS == "freebsd" {
+		err = os.Chown(stickydir, os.Getuid(), os.Getgid())
+		if err != nil {
+			t.Fatal(err)
+		}
 	}
 
-	// Change testdir's permissions to include group sticky bit.
-	if err := os.Chmod(testdir, 0755|os.ModeSetgid); err != nil {
+	// Change stickydir's permissions to include group sticky bit.
+	if err := os.Chmod(stickydir, 0755|os.ModeSetgid); err != nil {
 		t.Fatal(err)
 	}
 
@@ -212,7 +214,7 @@ func TestRespectGroupSticky(t *testing.T) {
 	defer os.Remove(pkgfile.Name())
 	defer pkgfile.Close()
 
-	stickyFile := filepath.Join(testdir, "sticky")
+	stickyFile := filepath.Join(stickydir, "sticky")
 	if err := b.moveOrCopyFile(nil, stickyFile, pkgfile.Name(), 0666, true); err != nil {
 		t.Fatalf("moveOrCopyFile: %v", err)
 	}
