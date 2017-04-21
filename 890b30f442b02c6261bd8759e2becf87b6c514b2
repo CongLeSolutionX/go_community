@@ -45,6 +45,30 @@
       "revId": "890b30f442b02c6261bd8759e2becf87b6c514b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f8daf95_72737aef",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-21T15:53:28Z",
+      "side": 1,
+      "message": "Good catch. I added a new CL at the beginning of the stack to fix other reads of heap_live and pushed it through all of the CLs.",
+      "parentUuid": "9fcc69ac_78c7e8c2",
+      "range": {
+        "startLine": 841,
+        "startChar": 14,
+        "endLine": 841,
+        "endChar": 48
+      },
+      "revId": "890b30f442b02c6261bd8759e2becf87b6c514b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
