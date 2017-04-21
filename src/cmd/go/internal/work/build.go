@@ -3701,6 +3701,11 @@ func InstrumentInit() {
 	if !cfg.BuildRace && !cfg.BuildMSan {
 		return
 	}
+	if cfg.BuildRace && cfg.BuildBuildmode == "pie" {
+		// Not supported. Race runtime assumes that executable is loaded at around 0 address.
+		fmt.Fprintf(os.Stderr, "go %s: may not use -race and -buildmode=pie simultaneously\n", flag.Args()[0])
+		os.Exit(2)
+	}
 	if cfg.BuildRace && cfg.BuildMSan {
 		fmt.Fprintf(os.Stderr, "go %s: may not use -race and -msan simultaneously\n", flag.Args()[0])
 		os.Exit(2)
