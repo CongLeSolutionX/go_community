@@ -16,6 +16,24 @@
       "revId": "9249c8ffb22e7977587f3b52fd2571d79ff4deca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8be45f6_879e23af",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-21T16:35:14Z",
+      "side": 1,
+      "message": "That\u0027s a good point. However, in principle ~nothing should be running while the timer resolution is relaxed, so nothing should be able to call nanotime. The only places I can find that could violate this are:\n\n1) sysmon\u0027s own call to notetsleep right after it osRelaxes, but that gets passed a really long timeout (on the order of minutes), so the resolution doesn\u0027t matter there.\n2) The ctrlchandler and profileloop, which I believe are the only other two things that run in their own special threads. ctrlchandler obviously doesn\u0027t care. The profileloop will be affected, but, again, if everything is idle, there won\u0027t be anything to profile, so again it won\u0027t matter.",
+      "parentUuid": "e401e923_66305348",
+      "revId": "9249c8ffb22e7977587f3b52fd2571d79ff4deca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
