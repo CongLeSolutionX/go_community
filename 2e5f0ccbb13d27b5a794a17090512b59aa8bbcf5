@@ -16,6 +16,29 @@
       "revId": "2e5f0ccbb13d27b5a794a17090512b59aa8bbcf5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4573d9f_7dc9ec24",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2017-04-21T22:38:38Z",
+      "side": 1,
+      "message": "I think this needs a better name- the file isn\u0027t SetGID, it is merely in a specific group...",
+      "range": {
+        "startLine": 217,
+        "startChar": 1,
+        "endLine": 217,
+        "endChar": 11
+      },
+      "revId": "2e5f0ccbb13d27b5a794a17090512b59aa8bbcf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

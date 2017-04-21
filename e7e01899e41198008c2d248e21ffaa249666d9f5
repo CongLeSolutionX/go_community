@@ -22,6 +22,30 @@
       "revId": "e7e01899e41198008c2d248e21ffaa249666d9f5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29c3041a_161b65c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 18980
+      },
+      "writtenOn": "2017-04-21T22:38:38Z",
+      "side": 1,
+      "message": "You\u0027re too quick for me- I wanted to upload this in two parts, patchset 1 and 2 (the renaming is in patchset 2) :)\n\nThis now seems to WFM on FreeBSD and Darwin, but I will add some reviewers from the github issue to (hopefully) confirm.",
+      "parentUuid": "848742e5_a65417ce",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "e7e01899e41198008c2d248e21ffaa249666d9f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
