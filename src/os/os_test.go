@@ -748,6 +748,9 @@ func TestSymlink(t *testing.T) {
 	if err != nil {
 		t.Fatalf("stat %q failed: %v", from, err)
 	}
+	if fromstat.Name() != from {
+		t.Fatalf("stat %q did not have correct name", from)
+	}
 	if fromstat.Mode()&ModeSymlink != 0 {
 		t.Fatalf("stat %q did not follow symlink", from)
 	}

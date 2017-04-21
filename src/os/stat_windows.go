@@ -61,6 +61,7 @@ func (file *File) Stat() (FileInfo, error) {
 // Stat returns a FileInfo structure describing the named file.
 // If there is an error, it will be of type *PathError.
 func Stat(name string) (FileInfo, error) {
+	org := name
 	var fi FileInfo
 	var err error
 	for i := 0; i < 255; i++ {
@@ -69,6 +70,7 @@ func Stat(name string) (FileInfo, error) {
 			return nil, err
 		}
 		if fi.Mode()&ModeSymlink == 0 {
+			fi.(*fileStat).name = basename(org)
 			return fi, nil
 		}
 		newname, err := Readlink(name)
@@ -84,7 +86,7 @@ func Stat(name string) (FileInfo, error) {
 			name = dirname(name) + `\` + newname
 		}
 	}
-	return nil, &PathError{"Stat", name, syscall.ELOOP}
+	return nil, &PathError{"Stat", org, syscall.ELOOP}
 }
 
 // Lstat returns the FileInfo structure describing the named file.
