@@ -1286,6 +1286,31 @@ func TestSeek(t *testing.T) {
 	}
 }
 
+func TestSeekError(t *testing.T) {
+	if runtime.GOOS == "plan9" {
+		t.Skipf("skipping test on %v", runtime.GOOS)
+	}
+
+	r, w, err := Pipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = r.Seek(0, 0)
+	if err == nil {
+		t.Fatal("Seek on pipe should fail")
+	}
+	if perr, ok := err.(*PathError); !ok || perr.Err != syscall.ESPIPE {
+		t.Error("Seek on pipe should return syscall.ESPIPE")
+	}
+	_, err = w.Seek(0, 0)
+	if err == nil {
+		t.Fatal("Seek on pipe should fail")
+	}
+	if perr, ok := err.(*PathError); !ok || perr.Err != syscall.ESPIPE {
+		t.Error("Seek on pipe should return syscall.ESPIPE")
+	}
+}
+
 type openErrorTest struct {
 	path  string
 	mode  int
