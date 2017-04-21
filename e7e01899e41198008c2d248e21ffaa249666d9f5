@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "848742e5_a65417ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-21T22:28:32Z",
+      "side": 1,
+      "message": "I don\u0027t see a rename to TestRespectSetgid here (and I think that is OK but the CL description doesn\u0027t match the code).",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "e7e01899e41198008c2d248e21ffaa249666d9f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
