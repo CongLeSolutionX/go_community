@@ -487,7 +487,18 @@ func (p *Package) loadDWARF(f *File, names []*Name) {
 	fmt.Fprintf(&b, "\t1\n")
 	fmt.Fprintf(&b, "};\n")
 
-	d, ints, floats := p.gccDebug(b.Bytes())
+	// do the same work for strings.
+	fmt.Fprintf(&b, "const char * __cgodebug_strings[] = {\n")
+	for i, n := range names {
+		if n.Kind == "sconst" {
+			fmt.Fprintf(&b, "\t \"__cgo_str__%020d\" %s,\n", i, n.C)
+		} else {
+			fmt.Fprintf(&b, "\t\"\",\n")
+		}
+	}
+	fmt.Fprintf(&b, "};\n")
+
+	d, ints, floats, strs := p.gccDebug(b.Bytes(), len(names))
 
 	// Scan DWARF info for top-level TagVariable entries with AttrName __cgo__i.
 	types := make([]dwarf.Type, len(names))
@@ -567,6 +578,10 @@ func (p *Package) loadDWARF(f *File, names []*Name) {
 			case "fconst":
 				if i < len(floats) {
 					n.Const = fmt.Sprintf("%f", floats[i])
+				}
+			case "sconst":
+				if i < len(strs) {
+					n.Const = fmt.Sprintf("%q", strs[i])
 				}
 			}
 		}
@@ -1258,7 +1273,7 @@ func (p *Package) gccCmd() []string {
 
 // gccDebug runs gcc -gdwarf-2 over the C program stdin and
 // returns the corresponding DWARF data and, if present, debug data block.
-func (p *Package) gccDebug(stdin []byte) (d *dwarf.Data, ints []int64, floats []float64) {
+func (p *Package) gccDebug(stdin []byte, nnames int) (d *dwarf.Data, ints []int64, floats []float64, strs []string) {
 	runGcc(stdin, p.gccCmd())
 
 	isDebugInts := func(s string) bool {
@@ -1269,6 +1284,12 @@ func (p *Package) gccDebug(stdin []byte) (d *dwarf.Data, ints []int64, floats []
 		// Some systems use leading _ to denote non-assembly symbols.
 		return s == "__cgodebug_floats" || s == "___cgodebug_floats"
 	}
+	isDebugStrings := func(s string) bool {
+		// Some systems use leading _ to denote non-assembly symbols.
+		return s == "__cgodebug_strings" || s == "___cgodebug_strings"
+	}
+
+	strs = make([]string, nnames)
 
 	if f, err := macho.Open(gccTmp()); err == nil {
 		defer f.Close()
@@ -1309,10 +1330,29 @@ func (p *Package) gccDebug(stdin []byte) (d *dwarf.Data, ints []int64, floats []
 							}
 						}
 					}
+				case isDebugStrings(s.Name):
+					sect := f.Section("__cstring")
+					if sect != nil {
+						if sdat, err := sect.Data(); err == nil {
+							for {
+								i := bytes.IndexByte(sdat, 0x00)
+								if i == -1 {
+									break
+								}
+								s := string(sdat[:i])
+								if strings.HasPrefix(s, "__cgo_str__") {
+									if n, err := strconv.Atoi(s[len("__cgo_str__") : len("__cgo_str__")+20]); err == nil {
+										strs[n] = s[len("__cgo_str__")+20:]
+									}
+								}
+								sdat = sdat[i+1:]
+							}
+						}
+					}
 				}
 			}
 		}
-		return d, ints, floats
+		return d, ints, floats, strs
 	}
 
 	if f, err := elf.Open(gccTmp()); err == nil {
@@ -1355,10 +1395,32 @@ func (p *Package) gccDebug(stdin []byte) (d *dwarf.Data, ints []int64, floats []
 							}
 						}
 					}
+				case isDebugStrings(s.Name):
+					for _, sect := range f.Sections {
+						if strings.HasPrefix(sect.Name, ".rodata") {
+							if sect != nil {
+								if sdat, err := sect.Data(); err == nil {
+									for {
+										i := bytes.IndexByte(sdat, 0x00)
+										if i == -1 {
+											break
+										}
+										s := string(sdat[:i])
+										if strings.HasPrefix(s, "__cgo_str__") {
+											if n, err := strconv.Atoi(s[len("__cgo_str__") : len("__cgo_str__")+20]); err == nil {
+												strs[n] = s[len("__cgo_str__")+20:]
+											}
+										}
+										sdat = sdat[i+1:]
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		}
-		return d, ints, floats
+		return d, ints, floats, strs
 	}
 
 	if f, err := pe.Open(gccTmp()); err == nil {
@@ -1396,9 +1458,28 @@ func (p *Package) gccDebug(stdin []byte) (d *dwarf.Data, ints []int64, floats []
 						}
 					}
 				}
+			case isDebugStrings(s.Name):
+				sect := f.Section(".rdata")
+				if sect != nil {
+					if sdat, err := sect.Data(); err == nil {
+						for {
+							i := bytes.IndexByte(sdat, 0x00)
+							if i == -1 {
+								break
+							}
+							s := string(sdat[:i])
+							if strings.HasPrefix(s, "__cgo_str__") {
+								if n, err := strconv.Atoi(s[len("__cgo_str__") : len("__cgo_str__")+20]); err == nil {
+									strs[n] = s[len("__cgo_str__")+20:]
+								}
+							}
+							sdat = sdat[i+1:]
+						}
+					}
+				}
 			}
 		}
-		return d, ints, floats
+		return d, ints, floats, strs
 	}
 
 	fatalf("cannot parse gcc output %s as ELF, Mach-O, PE object", gccTmp())
