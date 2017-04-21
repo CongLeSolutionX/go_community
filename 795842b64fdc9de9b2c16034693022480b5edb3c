@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d065235_038f00c5",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1444,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-21T22:51:08Z",
+      "side": 1,
+      "message": "Looks like there\u0027s already i.lsym, but it\u0027s only conditionally populated based on i.sym. Maybe get rid of i.sym in a followup CL?",
+      "revId": "795842b64fdc9de9b2c16034693022480b5edb3c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
