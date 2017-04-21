@@ -33,6 +33,46 @@
       "revId": "fe8e907a21017bf474485b737c7045e22755e3b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "085b9c53_a0b03ec4",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-21T15:10:16Z",
+      "side": 1,
+      "message": "there is a global variable typedmemmove you can use (defined at the end of gc/go.go)",
+      "revId": "fe8e907a21017bf474485b737c7045e22755e3b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "514b7386_e4c132be",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-21T15:10:16Z",
+      "side": 1,
+      "message": "obj.LSym now",
+      "range": {
+        "startLine": 317,
+        "startChar": 106,
+        "endLine": 317,
+        "endChar": 113
+      },
+      "revId": "fe8e907a21017bf474485b737c7045e22755e3b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
