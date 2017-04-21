@@ -22,6 +22,30 @@
       "revId": "2a62d11a279b9d41db3ecc7e770fcc558aef3008",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "130868c2_4be61508",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-04-21T19:42:53Z",
+      "side": 1,
+      "message": "Not quite, because we want to add both .AuxInt and 4.  Could be AddAux2(\u0026p.To, v, v.AuxInt + 4)\nI\u0027d rather leave as is so it is obvious it parallels the AddAux above.",
+      "parentUuid": "0702f6a5_c5d53ae5",
+      "range": {
+        "startLine": 908,
+        "startChar": 0,
+        "endLine": 909,
+        "endChar": 18
+      },
+      "revId": "2a62d11a279b9d41db3ecc7e770fcc558aef3008",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
