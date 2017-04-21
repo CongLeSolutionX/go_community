@@ -46,6 +46,53 @@
       "revId": "1ff6ba12a4a9225f2e89f8e497af8fa60414b67b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e7490a_f344a5ef",
+        "filename": "src/html/template/escape.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 16020
+      },
+      "writtenOn": "2017-04-21T23:20:55Z",
+      "side": 1,
+      "message": "\u003e My reading of net.url.shouldEscape is that urlquery should be embeddable in all the contexts in which _html_tempate_url* are.\n\nurlquery calls net.url.QueryEscape, which ends up calling net.url.shouldEscape with the encodeQueryComponent mode. This causes it to return true for all reserved characters, including \u0027#\u0027, which leads to all these characters getting escaped. _html_template_urlnormalizer_, on the other hand, does not escape \u0027#\u0027, among a number of other reserved characters. Clearly, they are not equivalent.\n\n\u003e So we should not replace an explicit {{. | urlquery}} with {{. | _html_template_urlnormalizer}} though {{. | urlquery | _html_template_urlnormalizer}} is fine.\n\nThe replacement goes the other way around: urlquery calls that exist in the pipeline will replace _html_template_urlnormalizer calls that the escaper attempts to insert. Since urlquery is stricter than _html_template_urlnormalizer, this is safe, but might affect the correctness of the pipeline output by overescaping.\n\nI\u0027ve decided to keep this table entry around for backward compatibility reasons. Refer to the code comment, and added test cases, for details.",
+      "parentUuid": "ac217417_8f9db19a",
+      "range": {
+        "startLine": 312,
+        "startChar": 1,
+        "endLine": 312,
+        "endChar": 44
+      },
+      "revId": "1ff6ba12a4a9225f2e89f8e497af8fa60414b67b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "424e9cdb_d7b0e239",
+        "filename": "src/html/template/escape.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 16020
+      },
+      "writtenOn": "2017-04-21T23:20:55Z",
+      "side": 1,
+      "message": "Note: I removed this entry because these two functions do not satisfy the invariant in the variable comment. Removing this has no effect on template behavior, since the logic in escapeAction will produce a pipeline where both these escapers are present.",
+      "range": {
+        "startLine": 343,
+        "startChar": 1,
+        "endLine": 345,
+        "endChar": 3
+      },
+      "revId": "1ff6ba12a4a9225f2e89f8e497af8fa60414b67b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
