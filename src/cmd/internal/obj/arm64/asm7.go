@@ -495,7 +495,7 @@ var optab = []Optab{
 	{AFMOVD, C_FREG, C_NONE, C_REG, 29, 4, 0, 0, 0},
 	{AFCMPS, C_FREG, C_FREG, C_NONE, 56, 4, 0, 0, 0},
 	{AFCMPS, C_FCON, C_FREG, C_NONE, 56, 4, 0, 0, 0},
-	{AFCCMPS, C_COND, C_REG, C_VCON, 57, 4, 0, 0, 0},
+	{AFCCMPS, C_COND, C_FREG, C_VCON, 57, 4, 0, 0, 0},
 	{AFCSELD, C_COND, C_REG, C_FREG, 18, 4, 0, 0, 0},
 	{AFCVTSD, C_FREG, C_NONE, C_FREG, 29, 4, 0, 0, 0},
 	{ACLREX, C_NONE, C_NONE, C_VCON, 38, 4, 0, 0, 0},
@@ -2224,6 +2224,12 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = c.oprrr(p, p.As)
 
 		cond := int(p.From.Reg)
+		if cond < COND_EQ || cond > COND_NV {
+			c.ctxt.Diag("invalid condition\n%v", p)
+		} else {
+			cond -= COND_EQ
+		}
+
 		r := int(p.Reg)
 		var rf int
 		if r != 0 {
@@ -2246,12 +2252,17 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 		rt := int(p.To.Reg)
-		o1 |= (uint32(rf&31) << 16) | (uint32(cond&31) << 12) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= (uint32(rf&31) << 16) | (uint32(cond) << 12) | (uint32(r&31) << 5) | uint32(rt&31)
 
 	case 19: /* CCMN cond, (Rm|uimm5),Rn, uimm4 -> ccmn Rn,Rm,uimm4,cond */
 		nzcv := int(p.To.Offset)
 
 		cond := int(p.From.Reg)
+		if cond < COND_EQ || cond > COND_NV {
+			c.ctxt.Diag("invalid condition\n%v", p)
+		} else {
+			cond -= COND_EQ
+		}
 		var rf int
 		if p.From3.Type == obj.TYPE_REG {
 			o1 = c.oprrr(p, p.As)
@@ -2794,6 +2805,12 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = c.oprrr(p, p.As)
 
 		cond := int(p.From.Reg)
+		if cond < COND_EQ || cond > COND_NV {
+			c.ctxt.Diag("invalid condition\n%v", p)
+		} else {
+			cond -= COND_EQ
+		}
+
 		nzcv := int(p.To.Offset)
 		if nzcv&^0xF != 0 {
 			c.ctxt.Diag("implausible condition\n%v", p)
