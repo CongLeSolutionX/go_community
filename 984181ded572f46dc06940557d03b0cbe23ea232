@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87a1cdc5_851f6075",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 9056
+      },
+      "writtenOn": "2017-04-22T23:18:14Z",
+      "side": 1,
+      "message": "Unless I\u0027ve missed something, \"i\" is an itabEntry value, not a reference, so the assignment to lsym here will not cause peekitabs() to re-use it.",
+      "revId": "984181ded572f46dc06940557d03b0cbe23ea232",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
