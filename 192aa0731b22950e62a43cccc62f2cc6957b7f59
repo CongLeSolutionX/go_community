@@ -46,6 +46,30 @@
       "revId": "192aa0731b22950e62a43cccc62f2cc6957b7f59",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "772f2710_15ca7e73",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-04-23T18:56:00Z",
+      "side": 1,
+      "message": "Yikes. Thanks for catching this.",
+      "parentUuid": "ef48063f_dba6f8d7",
+      "range": {
+        "startLine": 53,
+        "startChar": 47,
+        "endLine": 53,
+        "endChar": 62
+      },
+      "revId": "192aa0731b22950e62a43cccc62f2cc6957b7f59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
