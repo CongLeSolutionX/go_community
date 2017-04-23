@@ -164,10 +164,11 @@ type exporter struct {
 	out *bufio.Writer
 
 	// object -> index maps, indexed in order of serialization
-	strIndex map[string]int
-	pkgIndex map[*types.Pkg]int
-	typIndex map[*types.Type]int
-	funcList []*Func
+	strIndex  map[string]int
+	pkgIndex  map[*types.Pkg]int
+	typIndex  map[*types.Type]int
+	pathIndex map[string]int
+	funcList  []*Func
 
 	// position encoding
 	posInfoFormat bool
@@ -187,6 +188,7 @@ func export(out *bufio.Writer, trace bool) int {
 		strIndex:      map[string]int{"": 0}, // empty string is mapped to 0
 		pkgIndex:      make(map[*types.Pkg]int),
 		typIndex:      make(map[*types.Type]int),
+		pathIndex:     map[string]int{"": 0}, // empty path is mapped to 0
 		posInfoFormat: true,
 		trace:         trace,
 	}
@@ -416,7 +418,7 @@ func (p *exporter) pkg(pkg *types.Pkg) {
 
 	p.tag(packageTag)
 	p.string(pkg.Name)
-	p.string(pkg.Path)
+	p.path(pkg.Path)
 }
 
 func unidealType(typ *types.Type, val Val) *types.Type {
@@ -534,19 +536,24 @@ func (p *exporter) pos(n *Node) {
 	} else {
 		// different file
 		p.int(posNewFile)
-		// Encode filename as length of common prefix with previous
-		// filename, followed by (possibly empty) suffix. Filenames
-		// frequently share path prefixes, so this can save a lot
-		// of space and make export data size less dependent on file
-		// path length. The suffix is unlikely to be empty because
-		// file names tend to end in ".go".
-		n := commonPrefixLen(p.prevFile, file)
-		p.int(n)           // n >= 0
-		p.string(file[n:]) // write suffix only
+		p.int(line) // line >= 0
+		p.path(file)
 		p.prevFile = file
-		p.int(line)
 	}
 	p.prevLine = line
+}
+
+func (p *exporter) path(s string) {
+	if i, ok := p.pathIndex[s]; ok {
+		p.index('p', i) // i >= 0
+		return
+	}
+	p.pathIndex[s] = len(p.pathIndex)
+	c := strings.Split(s, "/")
+	p.int(-len(c)) // -len(c) < 0
+	for _, x := range c {
+		p.string(x)
+	}
 }
 
 func fileLine(n *Node) (file string, line int) {
@@ -556,18 +563,6 @@ func fileLine(n *Node) (file string, line int) {
 		line = int(pos.RelLine())
 	}
 	return
-}
-
-func commonPrefixLen(a, b string) int {
-	if len(a) > len(b) {
-		a, b = b, a
-	}
-	// len(a) <= len(b)
-	i := 0
-	for i < len(a) && a[i] == b[i] {
-		i++
-	}
-	return i
 }
 
 func isInlineable(n *Node) bool {
