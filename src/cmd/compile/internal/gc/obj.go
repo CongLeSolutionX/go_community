@@ -143,6 +143,17 @@ func dumpobj1(outfile string, mode int) {
 	dumpimportstrings()
 	dumpbasictypes()
 
+	// The first call to dumpsignats can generate functions,
+	// like method wrappers and hash and equality routines.
+	compileFunctions()
+
+	// Process any new signats added during compilation.
+	// No need to loop here; signats from compiling the generated
+	// functions should not themselves generate new functions.
+	// If they do, we'll know about it; the sanity check of
+	// len(compilequeue) in gc.Main will fail.
+	dumpsignats()
+
 	// Dump extra globals.
 	tmp := externdcl
 
