@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3aa0b27f_71682c86",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-24T16:15:45Z",
+      "side": 1,
+      "message": "Go test failure message style is \"func(%q) \u003d %q; want %q\"\n\nAlso, no need to Fatal if the test can proceed and get more useful failures.\n\nSo this would be like:\n\n    t.Errorf(\"Stat(%q).Name \u003d %q; want %q\", from, fromstat.Name(), from)",
+      "revId": "9d593ae09b13d2158d2e00f10bcb2f1e47435640",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
