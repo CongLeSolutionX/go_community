@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab870e92_84a14d3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-24T23:57:45Z",
+      "side": 1,
+      "message": "s/packge/package/",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "5aede6fd9694592ac61339d4026d5ae77e26a12f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95e5007e_06b38471",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-24T23:57:45Z",
+      "side": 1,
+      "message": "Should use filepath.Join here (from the path/filepath package), not path.Join.",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 347,
+        "endChar": 10
+      },
+      "revId": "5aede6fd9694592ac61339d4026d5ae77e26a12f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
