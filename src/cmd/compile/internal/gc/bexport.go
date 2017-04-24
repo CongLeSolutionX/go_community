@@ -515,6 +515,8 @@ func (p *exporter) obj(sym *types.Sym) {
 	}
 }
 
+const posNewFile = -64
+
 func (p *exporter) pos(n *Node) {
 	if !p.posInfoFormat {
 		return
@@ -526,12 +528,12 @@ func (p *exporter) pos(n *Node) {
 		// delta == 0 means different file or no line change
 		delta := line - p.prevLine
 		p.int(delta)
-		if delta == 0 {
+		if delta == posNewFile {
 			p.int(-1) // -1 means no file change
 		}
 	} else {
 		// different file
-		p.int(0)
+		p.int(posNewFile)
 		// Encode filename as length of common prefix with previous
 		// filename, followed by (possibly empty) suffix. Filenames
 		// frequently share path prefixes, so this can save a lot

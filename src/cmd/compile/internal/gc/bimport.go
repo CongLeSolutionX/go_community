@@ -382,7 +382,7 @@ func (p *importer) pos() src.XPos {
 
 	file := p.prevFile
 	line := p.prevLine
-	if delta := p.int(); delta != 0 {
+	if delta := p.int(); delta != posNewFile {
 		// line changed
 		line += delta
 	} else if n := p.int(); n >= 0 {
@@ -391,6 +391,9 @@ func (p *importer) pos() src.XPos {
 		p.prevFile = file
 		line = p.int()
 		p.posBase = src.NewFileBase(file, file)
+	} else {
+		// line changed after all
+		line += posNewFile
 	}
 	p.prevLine = line
 
