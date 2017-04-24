@@ -1358,7 +1358,10 @@ func genAsStatic(as *Node) {
 		Fatalf("genAsStatic: lhs %v", as.Left)
 	}
 
-	if as.Right.Op != OLITERAL {
+	switch {
+	case as.Right.Op == OLITERAL:
+	case as.Right.Op == ONAME && as.Right.Class == PFUNC:
+	default:
 		Fatalf("genAsStatic: rhs %v", as.Right)
 	}
 
