@@ -53,7 +53,7 @@ func netpollclose(fd uintptr) int32 {
 }
 
 func netpollarm(pd *pollDesc, mode int) {
-	throw("unused")
+	throw("netpollarm: unused")
 }
 
 // polls for ready network connections
@@ -71,8 +71,8 @@ retry:
 	n := epollwait(epfd, &events[0], int32(len(events)), waitms)
 	if n < 0 {
 		if n != -_EINTR {
-			println("runtime: epollwait on fd", epfd, "failed with", -n)
-			throw("epollwait failed")
+			println("netpoll: epollwait on fd", epfd, "failed with", -n)
+			throw("netpoll: epollwait failed")
 		}
 		goto retry
 	}

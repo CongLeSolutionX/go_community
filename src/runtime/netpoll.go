@@ -105,10 +105,10 @@ func poll_runtime_pollOpen(fd uintptr) (*pollDesc, int) {
 	pd := pollcache.alloc()
 	lock(&pd.lock)
 	if pd.wg != 0 && pd.wg != pdReady {
-		throw("netpollOpen: blocked write on free descriptor")
+		throw("runtime_pollOpen: blocked write on free descriptor")
 	}
 	if pd.rg != 0 && pd.rg != pdReady {
-		throw("netpollOpen: blocked read on free descriptor")
+		throw("runtime_pollOpen: blocked read on free descriptor")
 	}
 	pd.fd = fd
 	pd.closing = false
@@ -127,13 +127,13 @@ func poll_runtime_pollOpen(fd uintptr) (*pollDesc, int) {
 //go:linkname poll_runtime_pollClose internal/poll.runtime_pollClose
 func poll_runtime_pollClose(pd *pollDesc) {
 	if !pd.closing {
-		throw("netpollClose: close w/o unblock")
+		throw("runtime_pollClose: close w/o unblock")
 	}
 	if pd.wg != 0 && pd.wg != pdReady {
-		throw("netpollClose: blocked write on closing descriptor")
+		throw("runtime_pollClose: blocked write on closing descriptor")
 	}
 	if pd.rg != 0 && pd.rg != pdReady {
-		throw("netpollClose: blocked read on closing descriptor")
+		throw("runtime_pollClose: blocked read on closing descriptor")
 	}
 	netpollclose(pd.fd)
 	pollcache.free(pd)
@@ -264,7 +264,7 @@ func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
 func poll_runtime_pollUnblock(pd *pollDesc) {
 	lock(&pd.lock)
 	if pd.closing {
-		throw("netpollUnblock: already closing")
+		throw("runtime_pollUnblock: already closing")
 	}
 	pd.closing = true
 	pd.seq++

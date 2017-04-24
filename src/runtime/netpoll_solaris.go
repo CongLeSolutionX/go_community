@@ -196,8 +196,8 @@ retry:
 	var n uint32 = 1
 	if port_getn(portfd, &events[0], uint32(len(events)), &n, wait) < 0 {
 		if e := errno(); e != _EINTR {
-			print("runtime: port_getn on fd ", portfd, " failed with ", e, "\n")
-			throw("port_getn failed")
+			print("netpoll: port_getn on fd ", portfd, " failed with ", e, "\n")
+			throw("netpoll: port_getn failed")
 		}
 		goto retry
 	}

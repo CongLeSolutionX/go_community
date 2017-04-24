@@ -36,8 +36,8 @@ var iocphandle uintptr = _INVALID_HANDLE_VALUE // completion port io handle
 func netpollinit() {
 	iocphandle = stdcall4(_CreateIoCompletionPort, _INVALID_HANDLE_VALUE, 0, 0, _DWORD_MAX)
 	if iocphandle == 0 {
-		println("netpoll: failed to create iocp handle (errno=", getlasterror(), ")")
-		throw("netpoll: failed to create iocp handle")
+		println("netpollinit: failed to create iocp handle (errno=", getlasterror(), ")")
+		throw("netpollinit: failed to create iocp handle")
 	}
 }
 
@@ -58,7 +58,7 @@ func netpollclose(fd uintptr) int32 {
 }
 
 func netpollarm(pd *pollDesc, mode int) {
-	throw("unused")
+	throw("netpollarm: unused")
 }
 
 // Polls for completed network IO.

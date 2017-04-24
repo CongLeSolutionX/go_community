@@ -60,7 +60,7 @@ func netpollclose(fd uintptr) int32 {
 }
 
 func netpollarm(pd *pollDesc, mode int) {
-	throw("unused")
+	throw("netpollarm: unused")
 }
 
 // Polls for ready network connections.
@@ -79,8 +79,8 @@ retry:
 	n := kevent(kq, nil, 0, &events[0], int32(len(events)), tp)
 	if n < 0 {
 		if n != -_EINTR {
-			println("runtime: kevent on fd", kq, "failed with", -n)
-			throw("kevent failed")
+			println("netpoll: kevent on fd", kq, "failed with", -n)
+			throw("netpoll: kevent failed")
 		}
 		goto retry
 	}
