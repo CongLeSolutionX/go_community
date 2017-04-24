@@ -16,6 +16,24 @@
       "revId": "74c348a52531bfc1b4fc5d418a371046e191b565",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43e6bd22_b74c62b4",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-24T23:22:55Z",
+      "side": 1,
+      "message": "ah yes - good point. still ok to move back to package gc though",
+      "parentUuid": "89ddec33_f5805346",
+      "revId": "74c348a52531bfc1b4fc5d418a371046e191b565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
