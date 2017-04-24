@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b669881_603c3832",
+        "filename": "src/archive/tar/tar_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-04-24T17:18:42Z",
+      "side": 1,
+      "message": "Nit: This type conversion seems since TypeSymlink is an untyped constant.",
+      "range": {
+        "startLine": 102,
+        "startChar": 24,
+        "endLine": 102,
+        "endChar": 41
+      },
+      "revId": "4e28d802d83c07f867a5a00add5cf7f1660859c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
