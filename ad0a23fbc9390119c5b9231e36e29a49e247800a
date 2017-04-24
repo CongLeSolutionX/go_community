@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae93981_339b4f79",
+        "filename": "src/runtime/rand_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-04-24T11:31:09Z",
+      "side": 1,
+      "message": "This could maybe get simplified, not sure what would be the best way to trick the compiler though.",
+      "revId": "ad0a23fbc9390119c5b9231e36e29a49e247800a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e301cca7_0e084ce8",
+        "filename": "src/runtime/string_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-04-24T11:31:09Z",
+      "side": 1,
+      "message": "I think those are intentional as they are.",
+      "range": {
+        "startLine": 128,
+        "startChar": 5,
+        "endLine": 128,
+        "endChar": 24
+      },
+      "revId": "ad0a23fbc9390119c5b9231e36e29a49e247800a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "615a9ea5_57bdc0f5",
+        "filename": "src/runtime/string_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-04-24T11:31:09Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 138,
+        "startChar": 5,
+        "endLine": 138,
+        "endChar": 24
+      },
+      "revId": "ad0a23fbc9390119c5b9231e36e29a49e247800a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
