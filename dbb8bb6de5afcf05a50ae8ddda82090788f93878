@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e1e0611a_90fef1b0",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-04-24T14:21:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7d86a2d5_bd5f8222",
+      "revId": "dbb8bb6de5afcf05a50ae8ddda82090788f93878",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e4de970_6cec9e5c",
         "filename": "src/math/big/arith_ppc64x.s",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-04-24T12:51:51Z",
       "side": 1,
       "message": "Why do you have 2 nops after the CMP?",
+      "revId": "dbb8bb6de5afcf05a50ae8ddda82090788f93878",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28027d37_1dea3d31",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-04-24T14:21:41Z",
+      "side": 1,
+      "message": "Alignment for the loop.",
+      "parentUuid": "9e4de970_6cec9e5c",
       "revId": "dbb8bb6de5afcf05a50ae8ddda82090788f93878",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "de3c9bd5_1d711f47",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-04-24T14:21:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c43a61e2_dd4c52d4",
+      "revId": "dbb8bb6de5afcf05a50ae8ddda82090788f93878",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c73e282_69d3d67f",
         "filename": "src/math/big/arith_ppc64x.s",
         "patchSetId": 2
@@ -67,6 +121,24 @@
       "revId": "dbb8bb6de5afcf05a50ae8ddda82090788f93878",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97069c97_3c32d08b",
+        "filename": "src/math/big/arith_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-04-24T14:21:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5c73e282_69d3d67f",
+      "revId": "dbb8bb6de5afcf05a50ae8ddda82090788f93878",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
