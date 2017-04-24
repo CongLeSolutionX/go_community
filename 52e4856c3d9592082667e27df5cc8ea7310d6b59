@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eece6245_72a11721",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-24T23:40:47Z",
+      "side": 1,
+      "message": "move up below stdIndex ?",
+      "revId": "52e4856c3d9592082667e27df5cc8ea7310d6b59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b41aaef_197c3722",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-24T23:40:47Z",
+      "side": 1,
+      "message": "move up below strList",
+      "revId": "52e4856c3d9592082667e27df5cc8ea7310d6b59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e5079230_4a02019b",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-24T23:40:47Z",
+      "side": 1,
+      "message": "maybe s/x/s/",
+      "revId": "52e4856c3d9592082667e27df5cc8ea7310d6b59",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
