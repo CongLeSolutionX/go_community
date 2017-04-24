@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73206832_3c9c04e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-24T23:43:00Z",
+      "side": 1,
+      "message": "mention Linux somewhere in this subject",
+      "revId": "ad8812ff6608893b4e3bccf0406507d3cf641880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af8a8033_67a7d3c8",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-24T23:43:00Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 346,
+        "startChar": 19,
+        "endLine": 346,
+        "endChar": 30
+      },
+      "revId": "ad8812ff6608893b4e3bccf0406507d3cf641880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84c7ed10_25651366",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-24T23:43:00Z",
+      "side": 1,
+      "message": "mounted on the rm?",
+      "range": {
+        "startLine": 368,
+        "startChar": 4,
+        "endLine": 368,
+        "endChar": 13
+      },
+      "revId": "ad8812ff6608893b4e3bccf0406507d3cf641880",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
