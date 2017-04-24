@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72f1baaf_617190c4",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-24T15:58:18Z",
+      "side": 1,
+      "message": "same as below",
+      "revId": "6aba3b3acfe5363f3ab4935fb55d4baa8eab99a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ff7055d_86c4dd2b",
+        "filename": "src/runtime/netpoll_epoll.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-24T15:58:18Z",
+      "side": 1,
+      "message": "I\u0027d keep the \"runtime\" prefix so it\u0027s more clear that this is coming from the runtime package and not some random github package the user installed.\n\nIf you want the function name still in it, you can say:\n\n    \"runtime: netpoll: ....\"\n\n?",
+      "range": {
+        "startLine": 74,
+        "startChar": 3,
+        "endLine": 75,
+        "endChar": 31
+      },
+      "revId": "6aba3b3acfe5363f3ab4935fb55d4baa8eab99a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
