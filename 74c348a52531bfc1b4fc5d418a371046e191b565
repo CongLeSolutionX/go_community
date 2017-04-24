@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89ddec33_f5805346",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-24T23:10:24Z",
+      "side": 1,
+      "message": "I\u0027d prefer all of the calls to typepkg.Lookup (here and below) to be funneled through a single function, because they all need the same concurrency protection. It was called typeLookup at https://go-review.googlesource.com/c/40693/9/src/cmd/compile/internal/gc/reflect.go#916. Perhaps it could again.",
+      "revId": "74c348a52531bfc1b4fc5d418a371046e191b565",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
