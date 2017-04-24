@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e572ba0e_d759ab9e",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-04-24T11:07:02Z",
+      "side": 1,
+      "message": "I tried to check if ntypedcl \u003d\u003d externs, which is defined some lines above. Turns out in general it doesn\u0027t. But I couldn\u0027t determine, where something is added to externdcl in between. Maybe you know and can tell me.",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 27
+      },
+      "revId": "c5473a3895fa33d0688c3e8c781e4391631e7578",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
