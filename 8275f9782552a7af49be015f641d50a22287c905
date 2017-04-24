@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca33eed5_db89d42a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-24T00:53:54Z",
+      "side": 1,
+      "message": "Here you say 100...",
+      "revId": "8275f9782552a7af49be015f641d50a22287c905",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693722ad_17960b5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-24T00:53:54Z",
+      "side": 1,
+      "message": "... but here you say 500.",
+      "revId": "8275f9782552a7af49be015f641d50a22287c905",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a626c6eb_318ee3c9",
+        "filename": "src/cmd/compile/internal/gc/init.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-24T00:53:54Z",
+      "side": 1,
+      "message": "maybe give this constant a name, and that name could also serve as the documentation point to reference a bug or so for history.",
+      "range": {
+        "startLine": 127,
+        "startChar": 20,
+        "endLine": 127,
+        "endChar": 23
+      },
+      "revId": "8275f9782552a7af49be015f641d50a22287c905",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
