@@ -378,11 +378,11 @@ func rewriteValuegeneric(v *Value) bool {
 	case OpSub16:
 		return rewriteValuegeneric_OpSub16_0(v) || rewriteValuegeneric_OpSub16_10(v)
 	case OpSub32:
-		return rewriteValuegeneric_OpSub32_0(v) || rewriteValuegeneric_OpSub32_10(v)
+		return rewriteValuegeneric_OpSub32_0(v)
 	case OpSub32F:
 		return rewriteValuegeneric_OpSub32F_0(v)
 	case OpSub64:
-		return rewriteValuegeneric_OpSub64_0(v) || rewriteValuegeneric_OpSub64_10(v)
+		return rewriteValuegeneric_OpSub64_0(v)
 	case OpSub64F:
 		return rewriteValuegeneric_OpSub64F_0(v)
 	case OpSub8:
@@ -20607,27 +20607,6 @@ func rewriteValuegeneric_OpSub32_0(v *Value) bool {
 		v.AuxInt = int64(int32(c - d))
 		return true
 	}
-	// match: (Sub32 x (Const32 <t> [c]))
-	// cond: x.Op != OpConst32
-	// result: (Add32 (Const32 <t> [int64(int32(-c))]) x)
-	for {
-		x := v.Args[0]
-		v_1 := v.Args[1]
-		if v_1.Op != OpConst32 {
-			break
-		}
-		t := v_1.Type
-		c := v_1.AuxInt
-		if !(x.Op != OpConst32) {
-			break
-		}
-		v.reset(OpAdd32)
-		v0 := b.NewValue0(v.Pos, OpConst32, t)
-		v0.AuxInt = int64(int32(-c))
-		v.AddArg(v0)
-		v.AddArg(x)
-		return true
-	}
 	// match: (Sub32 x x)
 	// cond:
 	// result: (Const32 [0])
@@ -20794,11 +20773,6 @@ func rewriteValuegeneric_OpSub32_0(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	return false
-}
-func rewriteValuegeneric_OpSub32_10(v *Value) bool {
-	b := v.Block
-	_ = b
 	// match: (Sub32 (Const32 <t> [c]) (Sub32 (Const32 <t> [d]) x))
 	// cond:
 	// result: (Add32 (Const32 <t> [int64(int32(c-d))]) x)
@@ -20888,27 +20862,6 @@ func rewriteValuegeneric_OpSub64_0(v *Value) bool {
 		d := v_1.AuxInt
 		v.reset(OpConst64)
 		v.AuxInt = c - d
-		return true
-	}
-	// match: (Sub64 x (Const64 <t> [c]))
-	// cond: x.Op != OpConst64
-	// result: (Add64 (Const64 <t> [-c]) x)
-	for {
-		x := v.Args[0]
-		v_1 := v.Args[1]
-		if v_1.Op != OpConst64 {
-			break
-		}
-		t := v_1.Type
-		c := v_1.AuxInt
-		if !(x.Op != OpConst64) {
-			break
-		}
-		v.reset(OpAdd64)
-		v0 := b.NewValue0(v.Pos, OpConst64, t)
-		v0.AuxInt = -c
-		v.AddArg(v0)
-		v.AddArg(x)
 		return true
 	}
 	// match: (Sub64 x x)
@@ -21077,11 +21030,6 @@ func rewriteValuegeneric_OpSub64_0(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
-	return false
-}
-func rewriteValuegeneric_OpSub64_10(v *Value) bool {
-	b := v.Block
-	_ = b
 	// match: (Sub64 (Const64 <t> [c]) (Sub64 (Const64 <t> [d]) x))
 	// cond:
 	// result: (Add64 (Const64 <t> [c-d]) x)
