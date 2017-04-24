@@ -141,6 +141,30 @@
       "revId": "1ff6ba12a4a9225f2e89f8e497af8fa60414b67b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29f0d586_33ecc76f",
+        "filename": "src/html/template/escape.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 16020
+      },
+      "writtenOn": "2017-04-24T20:21:49Z",
+      "side": 1,
+      "message": "Sorry, I made a mistake in my comment here. This entry does indeed satisfy the invariant, i.e.\n\n    _html_template_urlnormalizer(_html_template_urlescaper(x)) \u003d\u003d _html_template_urlescaper(x)\n\nfor all x, since urlnormalizer basically performs a subset of the substitutions performed in urlescaper.\n\nHowever, the logic in escapeAction makes it impossible for urlnormalizer to appended to a pipeline after urlescaper,\nso this map entry currently has no effect on the program.\n\nI\u0027ve decided to restore this entry since it is correct, and will help optimize the code if escapeAction changes\nin the future.",
+      "parentUuid": "9372798d_407bb804",
+      "range": {
+        "startLine": 343,
+        "startChar": 1,
+        "endLine": 345,
+        "endChar": 3
+      },
+      "revId": "1ff6ba12a4a9225f2e89f8e497af8fa60414b67b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
