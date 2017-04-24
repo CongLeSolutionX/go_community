@@ -116,6 +116,24 @@
       "revId": "d23ecd1ee685dea979921fb8db7c21915908afea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44ef2004_72138612",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-24T22:26:29Z",
+      "side": 1,
+      "message": "What you have here is an object file and a value in that object file.  That value will have a relocation that points to the string data.  So the reliable way to find the string data is to look through the relocations for this section for one that applies to this entry in the array.  I\u0027m skeptical that the approach you are using here is going to be reliable across compilers.\n\nAnother and perhaps simpler approach is to not try to build an array.  Instead build a set of symbols\n\nconst char __cgo_str__0[] \u003d \"constant\";\nconst char __cgo_str__1[] \u003d  \"constant\";\n\nand so forth.  Then when you find a symbol whose name starts with __cgo_str__, you can read the data from the section up to the NUL byte.\n\nBut when I write that I realize that this will mishandle\n\n#define S \"a\\000b\"\n\nSo you also need something like\n\nconst size_t __cgo_strlen__0 \u003d sizeof \"constant\" - 1;\n\nto know how many bytes to read.",
+      "parentUuid": "bf390f50_1f190a6c",
+      "revId": "d23ecd1ee685dea979921fb8db7c21915908afea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
