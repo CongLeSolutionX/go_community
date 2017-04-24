@@ -124,11 +124,55 @@ func fninit(n []*Node) {
 	r = append(r, nf...)
 
 	// (8)
-	// could check that it is fn of no args/returns
-	for i := 0; i < renameinitgen; i++ {
-		s := lookupN("init.", i)
-		a = nod(OCALL, asNode(s.Def), nil)
-		r = append(r, a)
+	if renameinitgen < 500 {
+		// Not many init functions. Just call them all directly.
+		for i := 0; i < renameinitgen; i++ {
+			// could check that it is fn of no args/returns
+			s := lookupN("init.", i)
+			a = nod(OCALL, asNode(s.Def), nil)
+			r = append(r, a)
+		}
+	} else {
+		// Lots of init functions.
+		// Set up an array of functions and loop to call them.
+		// This is faster to compile and similar at runtime.
+
+		// Build type [renameinitgen]func().
+		typ := types.NewArray(functype(nil, nil, nil), int64(renameinitgen))
+
+		// Make and fill array.
+		fnarr := staticname(typ)
+		fnarr.Name.SetReadonly(true)
+		for i := 0; i < renameinitgen; i++ {
+			// could check that it is fn of no args/returns
+			s := lookupN("init.", i)
+			lhs := nod(OINDEX, fnarr, nodintconst(int64(i)))
+			rhs := asNode(s.Def)
+			as := nod(OAS, lhs, rhs)
+			as = typecheck(as, Etop)
+			genAsStatic(as)
+		}
+
+		// Generate a loop that calls each function in turn.
+		// for i := 0; i < renameinitgen; i++ {
+		//   fnarr[i]()
+		// }
+		i := temp(types.Types[TINT])
+		fnidx := nod(OINDEX, fnarr, i)
+		fnidx.SetBounded(true)
+
+		zero := nod(OAS, i, nodintconst(0))
+		cond := nod(OLT, i, nodintconst(int64(renameinitgen)))
+		incr := nod(OAS, i, nod(OADD, i, nodintconst(1)))
+		body := nod(OCALL, fnidx, nil)
+
+		loop := nod(OFOR, cond, incr)
+		loop.Nbody.Set1(body)
+		loop.Ninit.Set1(zero)
+
+		loop = typecheck(loop, Etop)
+		loop = walkstmt(loop)
+		r = append(r, loop)
 	}
 
 	// (9)
