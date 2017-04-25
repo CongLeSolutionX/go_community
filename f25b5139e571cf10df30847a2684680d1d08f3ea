@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb10d54e_8d900905",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-25T19:56:24Z",
+      "side": 1,
+      "message": "These docs are not in our standard form. They shouldn\u0027t begin with \"If \".\n\nMaybe:\n\n   // ReuseRecord controls whether calls to Read may return a slice sharing\n   // the backing array of the previous call\u0027s returned slice for performance.\n   // By default, each call to Read returns newly allocated memory owned by the caller.\n\nNo need to go into details about when it does or doesn\u0027t resize. Just say \"may\" and leave out details.",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 7
+      },
+      "revId": "f25b5139e571cf10df30847a2684680d1d08f3ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b517acd_d86d6ef0",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-25T19:56:24Z",
+      "side": 1,
+      "message": "I think you can remove all this. I don\u0027t think ReadAll needs to be optimized. If you\u0027re using ReadAll, you pretty much don\u0027t care about performance already and just want convenience.",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 3
+      },
+      "revId": "f25b5139e571cf10df30847a2684680d1d08f3ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
