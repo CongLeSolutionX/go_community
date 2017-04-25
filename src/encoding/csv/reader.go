@@ -110,6 +110,12 @@ type Reader struct {
 	// If TrimLeadingSpace is true, leading white space in a field is ignored.
 	// This is done even if the field delimiter, Comma, is white space.
 	TrimLeadingSpace bool
+	// If ReuseRecord is true, calls to Read will reuse a single record slice.
+	// When a record doesn't fit into the currently held slice, a new slice will
+	// be allocated and used for succcessive calls to Read.
+	// If set to false, each call to Read returns a fresh slice.
+	// ReadAll is not affected by this setting.
+	ReuseRecord bool
 
 	line   int
 	column int
@@ -122,6 +128,9 @@ type Reader struct {
 	// Indexes of fields inside lineBuffer
 	// The i'th field starts at offset fieldIndexes[i] in lineBuffer.
 	fieldIndexes []int
+
+	// only used when ReuseRecord == true
+	lastRecord []string
 }
 
 // NewReader returns a new Reader that reads from r.
@@ -147,6 +156,8 @@ func (r *Reader) error(err error) error {
 // Except for that case, Read always returns either a non-nil
 // record or a non-nil error, but not both.
 // If there is no data left to be read, Read returns nil, io.EOF.
+// If ReuseRecord is true, the returned slice will be shared
+// between multiple calls to Read.
 func (r *Reader) Read() (record []string, err error) {
 	for {
 		record, err = r.parseRecord()
@@ -182,6 +193,11 @@ func (r *Reader) ReadAll() (records [][]string, err error) {
 		}
 		if err != nil {
 			return nil, err
+		}
+		if r.ReuseRecord {
+			recordCopy := make([]string, len(record))
+			copy(recordCopy, record)
+			record = recordCopy
 		}
 		records = append(records, record)
 	}
@@ -275,7 +291,16 @@ func (r *Reader) parseRecord() (fields []string, err error) {
 	// minimal and a tradeoff for better performance through the combined
 	// allocations.
 	line := r.lineBuffer.String()
-	fields = make([]string, fieldCount)
+
+	if r.ReuseRecord && cap(r.lastRecord) >= fieldCount {
+		fields = r.lastRecord[:fieldCount]
+	} else {
+		fields = make([]string, fieldCount)
+
+		if r.ReuseRecord {
+			r.lastRecord = fields
+		}
+	}
 
 	for i, idx := range r.fieldIndexes {
 		if i == fieldCount-1 {
