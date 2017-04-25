@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bf32dc5_1d231f23",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 16720
+      },
+      "writtenOn": "2017-04-25T08:43:56Z",
+      "side": 1,
+      "message": "I should re-phrase this, what about: \n\ndecode_quantum decode up to 4 base64 bytes. For parameters, it takes a destination and source buffer and si, the index at which we read the source buffer.\nIt returns an updated source index nsi, n the number of bytes writen to dst, an \u0027end\u0027 value which indicates if end-of-messsage padding or a partial quantum was encountered and thus any additional data is an error, and an error, if any.",
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
