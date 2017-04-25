@@ -16,6 +16,24 @@
       "revId": "2bcb237f7669d902304cb3c5e4984bcb09dd9e5d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5af6d820_1ec3c0e5",
+        "filename": "src/runtime/crash_cgo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-25T04:30:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc16d48a_948b278f",
+      "revId": "2bcb237f7669d902304cb3c5e4984bcb09dd9e5d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
