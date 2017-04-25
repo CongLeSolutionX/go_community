@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "6dd394cb_b5ddbc01",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "Update cmd/dist/deps.go with cmd/dist/mkdeps.bash",
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5311834_f8c2090b",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "s/decode/decodes/",
+      "range": {
+        "startLine": 273,
+        "startChar": 18,
+        "endLine": 273,
+        "endChar": 24
+      },
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4bf32dc5_1d231f23",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 3
@@ -13,6 +53,299 @@
       "writtenOn": "2017-04-25T08:43:56Z",
       "side": 1,
       "message": "I should re-phrase this, what about: \n\ndecode_quantum decode up to 4 base64 bytes. For parameters, it takes a destination and source buffer and si, the index at which we read the source buffer.\nIt returns an updated source index nsi, n the number of bytes writen to dst, an \u0027end\u0027 value which indicates if end-of-messsage padding or a partial quantum was encountered and thus any additional data is an error, and an error, if any.",
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c5b9fc1_c97892fd",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "IHMO the existing comment is better than the re-phrased one :)",
+      "parentUuid": "4bf32dc5_1d231f23",
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7e80db7_9a88fd08",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "s/decode_quantum/decodeQuantum/",
+      "range": {
+        "startLine": 277,
+        "startChar": 21,
+        "endLine": 277,
+        "endChar": 35
+      },
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38e3c2c1_da667e5f",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "n should be substituted by 0, since we didn\u0027t write anything to dst yet",
+      "range": {
+        "startLine": 288,
+        "startChar": 15,
+        "endLine": 288,
+        "endChar": 16
+      },
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b664a780_b4d39127",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "s/0xFF/0xff/\n\nto be consistent with 0xff lines in decode32 and decode64 below",
+      "range": {
+        "startLine": 297,
+        "startChar": 12,
+        "endLine": 297,
+        "endChar": 16
+      },
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c68d2467_1c21978f",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "substitute n with 0",
+      "range": {
+        "startLine": 311,
+        "startChar": 15,
+        "endLine": 311,
+        "endChar": 16
+      },
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e420b7a_23d07fa5",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "s/n/0/",
+      "range": {
+        "startLine": 320,
+        "startChar": 16,
+        "endLine": 320,
+        "endChar": 17
+      },
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d229f003_151cf885",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "s/n/0/",
+      "range": {
+        "startLine": 324,
+        "startChar": 16,
+        "endLine": 324,
+        "endChar": 17
+      },
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34248a1b_02605480",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "s/n/0/",
+      "range": {
+        "startLine": 340,
+        "startChar": 13,
+        "endLine": 340,
+        "endChar": 14
+      },
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40ae57fa_755bc890",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "It would be better to move this line before the \u0027if\u0027 condition above in order to reduce code indentation:\n\n  if rune(in) !\u003d enc.padChar {\n      return si, 0, false, CorruptInputError(si - 1)\n  }\n\n  // We\u0027ve reached the end and there\u0027s padding\n  ...",
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "844af338_cfe74d96",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "Missing continue. It should trigger if strconv.IntSize \u003c 64",
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24b3a3cb_3fcded5e",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "Rename:\n\nstr -\u003e sn (\"source number\")\nres -\u003e dn (\"destination number\")\ndec -\u003e n (\"number\")\n\nThe same is for the decode64",
+      "range": {
+        "startLine": 514,
+        "startChar": 0,
+        "endLine": 515,
+        "endChar": 15
+      },
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "808523b3_136c2884",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "Define \u0027sn\u0027 on this line:\n\n    sn :\u003d binary.BigEndian.Uint32(src)",
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da5b2429_41d72eff",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "Write this line like:\n\n    dn |\u003d n \u003c\u003c 26\n\nIn order to be consistent with the similar lines below",
+      "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b813a19_5f4e6977",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-04-25T12:38:29Z",
+      "side": 1,
+      "message": "(sn \u003e\u003e 0)\u00260xff\n\nto be consistent with the lines above",
+      "range": {
+        "startLine": 531,
+        "startChar": 31,
+        "endLine": 531,
+        "endChar": 34
+      },
       "revId": "09317b8a1f4a89736da9923653b4f1043512a428",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
