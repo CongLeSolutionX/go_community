@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "89ae207d_cb4edec2",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-25T01:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb917cd0_74710365",
+      "revId": "d88e7a8271d3dcfb2e13fda072b4ba5086d75c6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad73fda9_5fd9bc3d",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "8aa05d2a_5e892045",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-25T01:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad73fda9_5fd9bc3d",
+      "range": {
+        "startLine": 528,
+        "startChar": 22,
+        "endLine": 528,
+        "endChar": 31
+      },
+      "revId": "d88e7a8271d3dcfb2e13fda072b4ba5086d75c6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d66ef052_bc7da5f8",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2017-04-24T23:32:16Z",
       "side": 1,
       "message": "I think this can be combined with the first if. Always add the delta and then have an if instead of an else if.",
+      "revId": "d88e7a8271d3dcfb2e13fda072b4ba5086d75c6e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "510a0aea_45a24f3b",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-25T01:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d66ef052_bc7da5f8",
       "revId": "d88e7a8271d3dcfb2e13fda072b4ba5086d75c6e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
