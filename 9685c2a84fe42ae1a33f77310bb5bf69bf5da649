@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1598301f_33b004e4",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-04-25T13:55:07Z",
+      "side": 1,
+      "message": "In reviewing these I noticed the cntlzd and cntlzw instructions set the CR so added clobberFlags as needed.",
+      "revId": "9685c2a84fe42ae1a33f77310bb5bf69bf5da649",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
