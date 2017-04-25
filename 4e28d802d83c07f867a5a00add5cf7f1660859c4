@@ -22,6 +22,30 @@
       "revId": "4e28d802d83c07f867a5a00add5cf7f1660859c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e018dd19_210ca787",
+        "filename": "src/archive/tar/tar_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-04-25T02:41:43Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you are suggesting. If you propose to drop conversion to byte, then it does not compile:\n```\ntar $ git diff\ndiff --git a/src/archive/tar/tar_test.go b/src/archive/tar/tar_test.go\nindex c5c8f51..0a81666 100644\n--- a/src/archive/tar/tar_test.go\n+++ b/src/archive/tar/tar_test.go\n@@ -99,7 +99,7 @@ func TestFileInfoHeaderSymlink(t *testing.T) {\n        if g, e :\u003d h.Linkname, target; g !\u003d e {\n                t.Errorf(\"Linkname \u003d %q; want %q\", g, e)\n        }\n-       if g, e :\u003d h.Typeflag, byte(TypeSymlink); g !\u003d e {\n+       if g, e :\u003d h.Typeflag, TypeSymlink; g !\u003d e {\n                t.Errorf(\"Typeflag \u003d %v; want %v\", g, e)\n        }\n }\ntar $ go test -v\n# archive/tar\n./tar_test.go:102:40: invalid operation: g !\u003d e (mismatched types byte and rune)\nFAIL    archive/tar [build failed]\ntar $\n```\nIf you tell me what to do, I will change code.",
+      "parentUuid": "6b669881_603c3832",
+      "range": {
+        "startLine": 102,
+        "startChar": 24,
+        "endLine": 102,
+        "endChar": 41
+      },
+      "revId": "4e28d802d83c07f867a5a00add5cf7f1660859c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
