@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "64f833da_588e0a16",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2244,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-26T22:09:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faac6ac8_db1cf1c9",
+      "range": {
+        "startLine": 2244,
+        "startChar": 1,
+        "endLine": 2244,
+        "endChar": 64
+      },
+      "revId": "a8015b26e7f16f97d0c9572d649e8fef3536a30b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24495444_5fbbec0e",
         "filename": "src/cmd/go/internal/work/build.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-26T21:50:21Z",
       "side": 1,
       "message": "in theory it shouldn\u0027t matter and that\u0027s why we have an OS scheduler. give it work to do.",
+      "range": {
+        "startLine": 2277,
+        "startChar": 46,
+        "endLine": 2277,
+        "endChar": 82
+      },
+      "revId": "a8015b26e7f16f97d0c9572d649e8fef3536a30b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3f1434_9e7f380e",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2277,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-26T22:09:59Z",
+      "side": 1,
+      "message": "\u003e in theory it shouldn\u0027t matter and that\u0027s why we have an OS scheduler.\n\nIn theory. But see issue 20141, which has been bothering me a lot recently. I don\u0027t want to put regular users in that situation every time they compile their code.",
+      "parentUuid": "24495444_5fbbec0e",
       "range": {
         "startLine": 2277,
         "startChar": 46,
