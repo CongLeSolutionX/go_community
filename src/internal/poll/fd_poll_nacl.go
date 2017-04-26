@@ -72,6 +72,7 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 	if err := fd.incref(); err != nil {
 		return err
 	}
+	defer fd.decref()
 	switch mode {
 	case 'r':
 		syscall.SetReadDeadline(fd.Sysfd, d)
@@ -81,7 +82,6 @@ func setDeadlineImpl(fd *FD, t time.Time, mode int) error {
 		syscall.SetReadDeadline(fd.Sysfd, d)
 		syscall.SetWriteDeadline(fd.Sysfd, d)
 	}
-	fd.decref()
 	return nil
 }
 

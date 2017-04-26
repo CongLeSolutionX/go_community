@@ -140,6 +140,7 @@ func (fd *FD) Pread(p []byte, off int64) (int, error) {
 	if err := fd.incref(); err != nil {
 		return 0, err
 	}
+	defer fd.decref()
 	if fd.IsStream && len(p) > maxRW {
 		p = p[:maxRW]
 	}
@@ -147,7 +148,6 @@ func (fd *FD) Pread(p []byte, off int64) (int, error) {
 	if err != nil {
 		n = 0
 	}
-	fd.decref()
 	err = fd.eofError(n, err)
 	return n, err
 }
