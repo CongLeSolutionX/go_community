@@ -22,6 +22,30 @@
       "revId": "c5473a3895fa33d0688c3e8c781e4391631e7578",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f78b1960_50b50a27",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-26T19:55:07Z",
+      "side": 1,
+      "message": "The easiest way to find things like this out is by instrumenting the compiler. Add a global bool \"var where bool\", set it to true just before running all the dump functions, and set it false just afterwards. Then look for places where externdcl is modified (in this case, func declare in dcl.go), and add \"if where { debug.PrintStack() }\". Then run the compiler. Offhand, though, I can tell you that genwrapper and genhash and geneq create new functions, which I believe get added to externdcl.\n\nHowever, I do see further cleanup/simplification to do here. New version coming soon.",
+      "parentUuid": "e572ba0e_d759ab9e",
+      "range": {
+        "startLine": 148,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 27
+      },
+      "revId": "c5473a3895fa33d0688c3e8c781e4391631e7578",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
