@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57c4cf80_2cc08eb2",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-26T15:32:01Z",
+      "side": 1,
+      "message": "end in period.\n\nAlso, describe dst.",
+      "revId": "37fcb59bef81d1ed02ee47d9f8ac25f0a4efd927",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "665dca8f_407d0acb",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-26T15:32:01Z",
+      "side": 1,
+      "message": "end in period. And capitalize If.  (parseRecord doesn\u0027t need to be capitalized because its proper noun name is lowercase already)",
+      "revId": "37fcb59bef81d1ed02ee47d9f8ac25f0a4efd927",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
