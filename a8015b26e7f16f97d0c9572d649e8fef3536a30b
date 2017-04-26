@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faac6ac8_db1cf1c9",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2244,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-26T21:50:21Z",
+      "side": 1,
+      "message": "this gc method is long enough. pull this out into a helper method?\n\nThen the addition here is just:\n\n    if c :\u003d someHelper(...); c !\u003d 0 {\n         args \u003d append(args, fmt.Sprintf(\"-c\u003d%d\", c))\n    }",
+      "range": {
+        "startLine": 2244,
+        "startChar": 1,
+        "endLine": 2244,
+        "endChar": 64
+      },
+      "revId": "a8015b26e7f16f97d0c9572d649e8fef3536a30b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24495444_5fbbec0e",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2277,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-26T21:50:21Z",
+      "side": 1,
+      "message": "in theory it shouldn\u0027t matter and that\u0027s why we have an OS scheduler. give it work to do.",
+      "range": {
+        "startLine": 2277,
+        "startChar": 46,
+        "endLine": 2277,
+        "endChar": 82
+      },
+      "revId": "a8015b26e7f16f97d0c9572d649e8fef3536a30b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
