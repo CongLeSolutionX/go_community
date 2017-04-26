@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8459772a_7699ac62",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5475
+      },
+      "writtenOn": "2017-04-26T06:02:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eb10d54e_8d900905",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 7
+      },
+      "revId": "f25b5139e571cf10df30847a2684680d1d08f3ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b517acd_d86d6ef0",
         "filename": "src/encoding/csv/reader.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-04-25T19:56:24Z",
       "side": 1,
       "message": "I think you can remove all this. I don\u0027t think ReadAll needs to be optimized. If you\u0027re using ReadAll, you pretty much don\u0027t care about performance already and just want convenience.",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 3
+      },
+      "revId": "f25b5139e571cf10df30847a2684680d1d08f3ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd184d4d_1ba193c0",
+        "filename": "src/encoding/csv/reader.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 5475
+      },
+      "writtenOn": "2017-04-26T06:02:47Z",
+      "side": 1,
+      "message": "Maybe I misunderstand you, but this isn\u0027t an optimization. If ReuseRecord \u003d\u003d true, ReadAll must make a copy of record. Otherwise record will be reused and most records will point to the same backing arrays.",
+      "parentUuid": "8b517acd_d86d6ef0",
       "range": {
         "startLine": 197,
         "startChar": 2,
