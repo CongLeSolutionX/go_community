@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "489d4f45_0e271294",
+        "filename": "src/cmd/internal/obj/ppc64/obj9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-04-26T14:33:47Z",
+      "side": 1,
+      "message": "Can you re-add the comment about tracebacks? Something like this:\n\n// Save the link register and update the SP.  MOVDU is used unless\n// the frame size is too large. Always save the link register for a\n// non-empty frame, even if it is a leaf function, so that traceback works.",
+      "range": {
+        "startLine": 501,
+        "startChar": 0,
+        "endLine": 502,
+        "endChar": 35
+      },
+      "revId": "3ead5159dcb14e01ab9a22890159bb7dc2933fde",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
