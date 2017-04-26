@@ -100,3 +100,24 @@ func MultiWriter(writers ...Writer) Writer {
 	copy(w, writers)
 	return &multiWriter{w}
 }
+
+type multiCloser struct {
+	closers []Closer
+}
+
+func (mc *multiCloser) Close() (err error) {
+	for _, closer := range mc.closers {
+		if err = closer.Close(); err != nil {
+			return
+		}
+	}
+	return
+}
+
+// MultiCloser creates a closer that attempts to close all of the provided
+// closers, although stops if an error occures.
+func MultiCloser(closers ...Closer) Closer {
+	cw := make([]Closer, len(closers))
+	copy(cw, closers)
+	return &multiCloser{cw}
+}
