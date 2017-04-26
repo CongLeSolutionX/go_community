@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8064f882_5a0c8fec",
+        "filename": "src/io/multi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-26T16:35:24Z",
+      "side": 1,
+      "message": "you should probably still call Close on each, even if one returns an error.\n\nthe behavior should be documented in any case.\n\nThis would also need tests. But let\u0027s wait on https://github.com/golang/go/issues/20136 first.",
+      "revId": "c23598f84452c3a60dd95056240199885785aba0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
