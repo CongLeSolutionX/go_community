@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7623b86e_4f468c3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-26T14:27:40Z",
+      "side": 1,
+      "message": "You can delete this now.",
+      "revId": "7ed22caa78b2ead982cc610624fea04289f1eefe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46a74bf2_52e16462",
+        "filename": "src/cmd/internal/obj/arm/a.out.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-26T14:27:40Z",
+      "side": 1,
+      "message": "Realized in CL https://go-review.googlesource.com/c/41653/, you\u0027ll also need to update anames5.go. FWIW, we should auto-generate that file...",
+      "revId": "7ed22caa78b2ead982cc610624fea04289f1eefe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
