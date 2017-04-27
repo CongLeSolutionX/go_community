@@ -46,6 +46,30 @@
       "revId": "16b07ed2d436dfe9ca1acb3ba91df665901e5b80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c9e134a_22adc2cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-27T22:37:44Z",
+      "side": 1,
+      "message": "Oh, I missed that CL. :/",
+      "parentUuid": "9a0893e3_48694097",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "16b07ed2d436dfe9ca1acb3ba91df665901e5b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
