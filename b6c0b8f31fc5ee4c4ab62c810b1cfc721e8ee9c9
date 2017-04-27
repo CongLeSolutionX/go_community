@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d296a4e_60f159e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-27T16:31:29Z",
+      "side": 1,
+      "message": "all these new allocations and especially going from zero to non-zero is a bummer.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 68
+      },
+      "revId": "b6c0b8f31fc5ee4c4ab62c810b1cfc721e8ee9c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13d0d7d8_c9115c5c",
+        "filename": "src/expvar/expvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-27T16:31:29Z",
+      "side": 1,
+      "message": "This is sad.",
+      "revId": "b6c0b8f31fc5ee4c4ab62c810b1cfc721e8ee9c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
