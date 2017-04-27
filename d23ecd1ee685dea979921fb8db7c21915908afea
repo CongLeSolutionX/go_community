@@ -134,6 +134,24 @@
       "revId": "d23ecd1ee685dea979921fb8db7c21915908afea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b64d3f97_79b009ef",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-04-27T14:18:34Z",
+      "side": 1,
+      "message": "Thank you for your suggestion. I prefer later approach because relocations are too complex to me. Done.",
+      "parentUuid": "44ef2004_72138612",
+      "revId": "d23ecd1ee685dea979921fb8db7c21915908afea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

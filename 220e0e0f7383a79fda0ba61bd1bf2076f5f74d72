@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7ebd42d_689308cd",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1426,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-04-27T14:18:34Z",
+      "side": 0,
+      "message": "I moved this code from here to gccCmd because __debugcgo_str__ will disappear by optimization on windows",
+      "revId": "220e0e0f7383a79fda0ba61bd1bf2076f5f74d72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
