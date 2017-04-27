@@ -22,6 +22,30 @@
       "revId": "16b07ed2d436dfe9ca1acb3ba91df665901e5b80",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a0893e3_48694097",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-27T22:34:24Z",
+      "side": 1,
+      "message": "I am an idiot: https://go-review.googlesource.com/c/41797/\n\nWe can just separate those back out again if all else fails, but I\u0027d like to first try to keep the space savings.\n\nAnd if nothing else, I\u0027d like to keep the setters and getters, because Node is getting pretty close to being one automated rewrite away from being an interface...",
+      "parentUuid": "4980b8ff_ce397588",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "16b07ed2d436dfe9ca1acb3ba91df665901e5b80",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
