@@ -16,6 +16,24 @@
       "revId": "3ddf65015aea7dfcde2774b615784cc068442ece",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1e23f94_2ffaf441",
+        "filename": "src/runtime/pprof/proto.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-04-27T01:42:40Z",
+      "side": 1,
+      "message": "I\u0027ll leave this for now, but note that the /proc/self/maps test I added does not say \"/anon_hugepage\". It says empty string (no file name). Do you have any examples where the maps file says /anon_hugepage instead?",
+      "parentUuid": "00cee367_a2ecd4a0",
+      "revId": "3ddf65015aea7dfcde2774b615784cc068442ece",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
