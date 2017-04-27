@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "023469c5_2c4d9b74",
+        "filename": "src/image/jpeg/huffman.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2017-04-27T02:54:24Z",
+      "side": 1,
+      "message": "Even though the precedence is well-defined, it\u0027s not well-understood, so consider adding some parens to make it clear whether it is `A || (B \u0026\u0026 C)` or `(A || B) \u0026\u0026 C`.",
+      "range": {
+        "startLine": 105,
+        "startChar": 41,
+        "endLine": 105,
+        "endChar": 0
+      },
+      "revId": "f2a1dcb558bd9b01dad4885cc387074ab7163219",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce3b45eb_2e713d06",
+        "filename": "src/image/jpeg/scan.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2017-04-27T02:54:24Z",
+      "side": 1,
+      "message": "same in this file too.",
+      "range": {
+        "startLine": 97,
+        "startChar": 56,
+        "endLine": 97,
+        "endChar": 0
+      },
+      "revId": "f2a1dcb558bd9b01dad4885cc387074ab7163219",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
