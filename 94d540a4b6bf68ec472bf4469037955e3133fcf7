@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "609a03a9_007e2948",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-27T23:08:12Z",
+      "side": 1,
+      "message": "this seems too easy for callers to use wrong.\n\nif a caller is supposed to use MustSize but calls Size, ... it just works. usually. probably.\n\nI\u0027d prefer less API (one method), and one that was impossible to use wrong.\n\nLike, imagine all Types were registered somewhere (they probably are), and then between frontend and parallel backend, you call a new method like:\n\n   func (t *Type) freeze() { t.frozen \u003d true }\n\n... for all known types.\n\nAnd then we:\n\n// Size calculates and returns t\u0027s Size.\nfunc (t *Type) Size() int64 {\n        if t.frozen {\n               t.AssertWidthCalculated()\n        } else {\n   \t       Dowidth(t)\n         }\n\treturn t.Width\n}",
+      "range": {
+        "startLine": 866,
+        "startChar": 0,
+        "endLine": 877,
+        "endChar": 1
+      },
+      "revId": "94d540a4b6bf68ec472bf4469037955e3133fcf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7ac453f_77899071",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-27T23:08:12Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 880,
+        "startChar": 0,
+        "endLine": 880,
+        "endChar": 34
+      },
+      "revId": "94d540a4b6bf68ec472bf4469037955e3133fcf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
