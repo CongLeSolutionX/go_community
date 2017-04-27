@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fbd9889a_e37af673",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-27T23:38:32Z",
+      "side": 1,
+      "message": "Alternative CL: https://go-review.googlesource.com/42018. If that looks good, we can revert this one and get it in instead.",
+      "parentUuid": "d9ca0226_8659d636",
+      "range": {
+        "startLine": 866,
+        "startChar": 0,
+        "endLine": 877,
+        "endChar": 1
+      },
+      "revId": "94d540a4b6bf68ec472bf4469037955e3133fcf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7ac453f_77899071",
         "filename": "src/cmd/compile/internal/types/type.go",
         "patchSetId": 2
