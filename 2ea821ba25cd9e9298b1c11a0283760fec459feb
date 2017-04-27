@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdef12d9_2bee5009",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-04-27T14:15:37Z",
+      "side": 1,
+      "message": "What exactly happens if you don\u0027t do this?",
+      "revId": "2ea821ba25cd9e9298b1c11a0283760fec459feb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
