@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6f2fe587_cf07e58b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-27T17:27:09Z",
+      "side": 1,
+      "message": "For this package degrading single-core for better multi-core makes sense. I wouldn\u0027t generalize that to all packages. Making single-core JSON performance 15% worse to get 90% better 2-core improvement isn\u0027t necessarily an improvement. There\u0027s lots of single-core batch jobs processing JSON/proto/etc reflect-heavy things.\n\nAlso, I wouldn\u0027t assume drastically better escape analysis is coming anytime soon. The easy stuff is all done and the hard stuff (seeing through interfaces \u0026 virtual calls) has been on the radar for ages with no hope of progress or plan.",
+      "parentUuid": "e3c64113_e86a8884",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 68
+      },
+      "revId": "b6c0b8f31fc5ee4c4ab62c810b1cfc721e8ee9c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13d0d7d8_c9115c5c",
         "filename": "src/expvar/expvar.go",
         "patchSetId": 1
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "I can replace the unsafe.Pointer usage with atomic.Value if you prefer, but it would be somewhat less efficient.\n\nIf we had generics, then we could do atomic.Value without the overhead...  :)",
       "parentUuid": "13d0d7d8_c9115c5c",
+      "revId": "b6c0b8f31fc5ee4c4ab62c810b1cfc721e8ee9c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aa88708_044112da",
+        "filename": "src/expvar/expvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-27T17:27:09Z",
+      "side": 1,
+      "message": "I think we should use atomic.Value.\n\nHistorically there\u0027s been very hard push back against adding unsafe to packages outside of sync/runtime/reflect.",
+      "parentUuid": "297ed397_a36c6861",
       "revId": "b6c0b8f31fc5ee4c4ab62c810b1cfc721e8ee9c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
