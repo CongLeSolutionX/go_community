@@ -192,9 +192,13 @@ func (p *Package) Translate(f *File) {
 // in the file f and saves relevant renamings in f.Name[name].Define.
 func (p *Package) loadDefines(f *File) {
 	var b bytes.Buffer
+
 	b.WriteString(f.Preamble)
 	b.WriteString(builtinProlog)
 	stdout := p.gccDefines(b.Bytes())
+
+	b.Reset()
+	b.WriteString(stdout)
 
 	for _, line := range strings.Split(stdout, "\n") {
 		if len(line) < 9 || line[0:7] != "#define" {
@@ -222,10 +226,27 @@ func (p *Package) loadDefines(f *File) {
 		}
 
 		if n := f.Name[key]; n != nil {
-			if *debugDefine {
-				fmt.Fprintf(os.Stderr, "#define %s %s\n", key, val)
+			fmt.Fprintf(&b, "%q:%s\n", key, val)
+		}
+	}
+
+	stdout = p.gccPreprocess(b.Bytes())
+
+	for _, line := range strings.Split(stdout, "\n") {
+		if i := strings.IndexByte(line, ':'); i != -1 {
+			key := line[:i]
+			if len(key) < 2 || key[0] != '"' || key[len(key)-1] != '"' {
+				fatalf("unexpected string format")
 			}
-			n.Define = val
+			key = key[1 : len(key)-1]
+			val := line[i+1:]
+
+			if n := f.Name[key]; n != nil {
+				if *debugDefine {
+					fmt.Fprintf(os.Stderr, "#define %s %s\n", key, val)
+				}
+				n.Define = val
+			}
 		}
 	}
 }
@@ -325,7 +346,13 @@ func (p *Package) guessKinds(f *File) []*Name {
 	b.WriteString(f.Preamble)
 	b.WriteString(builtinProlog)
 
+	var c string
 	for i, n := range names {
+		if n.Define != "" {
+			c = n.Define
+		} else {
+			c = n.C
+		}
 		fmt.Fprintf(&b, "#line %d \"not-declared\"\n"+
 			"void __cgo_f_%d_1(void) { __typeof__(%s) *__cgo_undefined__; }\n"+
 			"#line %d \"not-type\"\n"+
@@ -341,12 +368,12 @@ func (p *Package) guessKinds(f *File) []*Name {
 			"#line %d \"not-signed-int-const\"\n"+
 			"#error found unsigned int\n"+
 			"#endif\n",
-			i+1, i+1, n.C,
-			i+1, i+1, n.C,
-			i+1, i+1, n.C,
-			i+1, i+1, n.C,
-			i+1, i+1, n.C,
-			i+1, n.C, i+1,
+			i+1, i+1, c,
+			i+1, i+1, c,
+			i+1, i+1, c,
+			i+1, i+1, c,
+			i+1, i+1, c,
+			i+1, c, i+1,
 		)
 	}
 	fmt.Fprintf(&b, "#line 1 \"completed\"\n"+
@@ -1584,6 +1611,15 @@ func (p *Package) gccDebug(stdin []byte, nnames int) (d *dwarf.Data, ints []int6
 // and its included files.
 func (p *Package) gccDefines(stdin []byte) string {
 	base := append(p.gccBaseCmd(), "-E", "-dM", "-xc")
+	base = append(base, p.gccMachine()...)
+	stdout, _ := runGcc(stdin, append(append(base, p.GccOptions...), "-"))
+	return stdout
+}
+
+// gccPreprocess runs gcc -P -E -xc - over the C program stdin
+// and returns the corresponding standard output.
+func (p *Package) gccPreprocess(stdin []byte) string {
+	base := append(p.gccBaseCmd(), "-P", "-E", "-xc")
 	base = append(base, p.gccMachine()...)
 	stdout, _ := runGcc(stdin, append(append(base, p.GccOptions...), "-"))
 	return stdout
