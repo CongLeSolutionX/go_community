@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d9ca0226_8659d636",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 877,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-27T23:23:07Z",
+      "side": 1,
+      "message": "There\u0027s no global registry of types, but we could set up a package global var in package Types, set it at the beginning of compileFunctions and unset it at the end. What do you think?",
+      "parentUuid": "609a03a9_007e2948",
+      "range": {
+        "startLine": 866,
+        "startChar": 0,
+        "endLine": 877,
+        "endChar": 1
+      },
+      "revId": "94d540a4b6bf68ec472bf4469037955e3133fcf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7ac453f_77899071",
         "filename": "src/cmd/compile/internal/types/type.go",
         "patchSetId": 2
