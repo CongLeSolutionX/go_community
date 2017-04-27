@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "6a0ee969_6f7853e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-04-27T17:49:13Z",
+      "side": 1,
+      "message": "\u003e For this package degrading single-core for better multi-core makes sense. I wouldn\u0027t generalize that to all packages. Making single-core JSON performance 15% worse to get 90% better 2-core improvement isn\u0027t necessarily an improvement. There\u0027s lots of single-core batch jobs processing JSON/proto/etc reflect-heavy things.\n\nAgreed: the tradeoff of single-core vs. multi-core performance definitely depends on usage.  In this particular case, I think the dramatic steady-state improvements to (*Map).Add are likely to outweigh the single-core slowdown for a broad class of real-world programs (basically anything that uses counters like MapReduce).\n\nDo bear in mind that the reciprocal of the percentage is often what matters: a 90% decrease in time/op corresponds to a 10x increase in per-core throughput, whereas a 100% increase in time/op is only a factor of 2x.\n\n(Since you mention JSON specifically: sync.Map turns out to be an unambiguous win there.  https://go-review.googlesource.com/c/41931/.)\n\n\n\u003e Also, I wouldn\u0027t assume drastically better escape analysis is coming anytime soon. The easy stuff is all done and the hard stuff (seeing through interfaces \u0026 virtual calls) has been on the radar for ages with no hope of progress or plan.\n\nYep.  In the medium term, I think we\u0027re more likely to see improvements due to sync.Map optimization than due to better inlining and escape analysis.",
+      "parentUuid": "6f2fe587_cf07e58b",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 68
+      },
+      "revId": "b6c0b8f31fc5ee4c4ab62c810b1cfc721e8ee9c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13d0d7d8_c9115c5c",
         "filename": "src/expvar/expvar.go",
         "patchSetId": 1
@@ -123,6 +147,24 @@
       "revId": "b6c0b8f31fc5ee4c4ab62c810b1cfc721e8ee9c9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95aacaa7_d9299d23",
+        "filename": "src/expvar/expvar.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-04-27T17:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4aa88708_044112da",
+      "revId": "b6c0b8f31fc5ee4c4ab62c810b1cfc721e8ee9c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
