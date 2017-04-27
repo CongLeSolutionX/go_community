@@ -863,13 +863,24 @@ func (t *Type) ArgWidth() int64 {
 	return t.Extra.(*Func).Argwid
 }
 
+// SizeCalculationDisabled indicates whether it is safe to calculate Types' widths and alignments.
+var SizeCalculationDisabled bool
+
 func (t *Type) Size() int64 {
-	t.AssertWidthCalculated()
+	if SizeCalculationDisabled {
+		t.AssertWidthCalculated()
+	} else {
+		Dowidth(t)
+	}
 	return t.Width
 }
 
 func (t *Type) Alignment() int64 {
-	t.AssertWidthCalculated()
+	if SizeCalculationDisabled {
+		t.AssertWidthCalculated()
+	} else {
+		Dowidth(t)
+	}
 	return int64(t.Align)
 }
 
