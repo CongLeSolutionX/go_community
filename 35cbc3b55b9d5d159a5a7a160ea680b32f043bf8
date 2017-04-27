@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfae7bbb_cd95806f",
+        "filename": "src/os/pipe_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-27T04:26:41Z",
+      "side": 0,
+      "message": "I knew it! :)",
+      "revId": "35cbc3b55b9d5d159a5a7a160ea680b32f043bf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
