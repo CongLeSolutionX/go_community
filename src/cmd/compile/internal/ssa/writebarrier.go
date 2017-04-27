@@ -116,18 +116,23 @@ func writebarrier(f *Func) {
 		var last *Value
 		var start, end int
 		values := b.Values
+	FindSeq:
 		for i := len(values) - 1; i >= 0; i-- {
 			w := values[i]
-			if w.Op == OpStoreWB || w.Op == OpMoveWB || w.Op == OpZeroWB {
+			switch w.Op {
+			case OpStoreWB, OpMoveWB, OpZeroWB:
+				start = i
 				if last == nil {
 					last = w
 					end = i + 1
 				}
-			} else {
-				if last != nil {
-					start = i + 1
-					break
+			case OpVarDef, OpVarLive, OpVarKill:
+				continue
+			default:
+				if last == nil {
+					continue
 				}
+				break FindSeq
 			}
 		}
 		stores = append(stores[:0], b.Values[start:end]...) // copy to avoid aliasing
@@ -189,11 +194,17 @@ func writebarrier(f *Func) {
 			case OpZeroWB:
 				fn = typedmemclr
 				typ = &ExternSymbol{Sym: w.Aux.(Type).Symbol()}
+			case OpVarDef, OpVarLive, OpVarKill:
 			}
 
 			// then block: emit write barrier call
-			volatile := w.Op == OpMoveWB && isVolatile(val)
-			memThen = wbcall(pos, bThen, fn, typ, ptr, val, memThen, sp, sb, volatile)
+			switch w.Op {
+			case OpStoreWB, OpMoveWB, OpZeroWB:
+				volatile := w.Op == OpMoveWB && isVolatile(val)
+				memThen = wbcall(pos, bThen, fn, typ, ptr, val, memThen, sp, sb, volatile)
+			case OpVarDef, OpVarLive, OpVarKill:
+				memThen = bThen.NewValue1A(pos, w.Op, TypeMem, w.Aux, memThen)
+			}
 
 			// else block: normal store
 			switch w.Op {
@@ -205,6 +216,8 @@ func writebarrier(f *Func) {
 			case OpZeroWB:
 				memElse = bElse.NewValue2I(pos, OpZero, TypeMem, w.AuxInt, ptr, memElse)
 				memElse.Aux = w.Aux
+			case OpVarDef, OpVarLive, OpVarKill:
+				memElse = bElse.NewValue1A(pos, w.Op, TypeMem, w.Aux, memElse)
 			}
 
 			if !f.WBPos.IsKnown() {
