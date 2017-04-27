@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "3072d671_2f7f60ae",
+        "filename": "src/net/http/transport_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2869,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-04-27T04:20:22Z",
+      "side": 1,
+      "message": "Gotcha, I yield to @bradfitz\u0027s suggestion. In this case please ignore my comment above.",
+      "parentUuid": "0877a5ea_3b7ed993",
+      "revId": "70f0d9e0370bad5ece8cef66a136287b7c54bc93",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cec5e50f_10d953bc",
         "filename": "src/net/http/transport_test.go",
         "patchSetId": 2
