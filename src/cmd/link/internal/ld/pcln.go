@@ -180,7 +180,7 @@ func container(s *Symbol) int {
 	}
 	// We want to generate func table entries only for the "lowest level" symbols,
 	// not containers of subsymbols.
-	if s.Type&SCONTAINER != 0 {
+	if s.Attr.Container() {
 		return 1
 	}
 	return 0
@@ -212,10 +212,10 @@ func (ctxt *Link) pclntab() {
 	//	offset to file table [4 bytes]
 	nfunc := int32(0)
 
-	// Find container symbols, mark them with SCONTAINER
+	// Find container symbols and mark them as such.
 	for _, s := range ctxt.Textp {
 		if s.Outer != nil {
-			s.Outer.Type |= SCONTAINER
+			s.Outer.Attr |= AttrContainer
 		}
 	}
 
