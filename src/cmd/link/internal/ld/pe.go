@@ -581,7 +581,8 @@ func initdynimport(ctxt *Link) *Dll {
 		dynamic.Type = SWINDOWS
 		for d := dr; d != nil; d = d.next {
 			for m = d.ms; m != nil; m = m.next {
-				m.s.Type = SWINDOWS | SSUB
+				m.s.Type = SWINDOWS
+				m.s.Attr |= AttrSubSymbol
 				m.s.Sub = dynamic.Sub
 				dynamic.Sub = m.s
 				m.s.Value = dynamic.Size

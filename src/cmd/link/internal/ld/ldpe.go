@@ -345,7 +345,8 @@ func ldpeError(ctxt *Link, input *bio.Reader, pkg string, length int64, pn strin
 		sectsym := sectsyms[sect]
 		s.Sub = sectsym.Sub
 		sectsym.Sub = s
-		s.Type = sectsym.Type | SSUB
+		s.Type = sectsym.Type
+		s.Attr |= AttrSubSymbol
 		s.Value = int64(pesym.Value)
 		s.Size = 4
 		s.Outer = sectsym
