@@ -22,6 +22,30 @@
       "revId": "6ba979da2e4c5f4bbdc52cd346f28f0df3cd8e01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e5f6540_1ae9e68f",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-04-28T19:19:50Z",
+      "side": 1,
+      "message": "Nice.  I like your version better.\n\nWill sync and re-benchmark for just the ServeMux.m part of the change after that\u0027s in.  (I suspect the ServeMux.m part is where most of the improvement in the ServeMux benchmark comes from, but it doesn\u0027t hurt to measure.)",
+      "parentUuid": "e207340e_2b44e3bc",
+      "range": {
+        "startLine": 1411,
+        "startChar": 0,
+        "endLine": 1424,
+        "endChar": 2
+      },
+      "revId": "6ba979da2e4c5f4bbdc52cd346f28f0df3cd8e01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
