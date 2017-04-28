@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "528ad053_078eb79e",
+        "filename": "test/fixedbugs/issue20162.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T16:05:28Z",
+      "side": 1,
+      "message": "\"front end\" with a space, but...",
+      "revId": "69c52f336ea9acc46a7675b2c2619b622ddae26d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a15f8fb_74a578e6",
+        "filename": "test/fixedbugs/issue20162.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T16:05:28Z",
+      "side": 1,
+      "message": "\"backend\" without a space.",
+      "revId": "69c52f336ea9acc46a7675b2c2619b622ddae26d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
