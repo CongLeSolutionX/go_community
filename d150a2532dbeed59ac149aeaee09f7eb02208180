@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c244427_f5a7b9ba",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2243,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T17:53:23Z",
+      "side": 1,
+      "message": "Should we keep doing it on builders?\n\nif testing.Short() \u0026\u0026 testenv.Builder() \u003d\u003d \"\" {\n\n?",
+      "range": {
+        "startLine": 2243,
+        "startChar": 4,
+        "endLine": 2243,
+        "endChar": 19
+      },
+      "revId": "d150a2532dbeed59ac149aeaee09f7eb02208180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
