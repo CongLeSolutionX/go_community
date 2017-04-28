@@ -979,6 +979,8 @@ func assignconvfn(n *Node, t *types.Type, context func() string) *Node {
 		return n
 	}
 
+	checkwidth(n.Type) // ensure width is calculated for backend
+
 	var why string
 	op := assignop(n.Type, t, &why)
 	if op == 0 {
