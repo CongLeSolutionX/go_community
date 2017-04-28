@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21f0ab12_d91bd9e1",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T22:22:24Z",
+      "side": 1,
+      "message": "is this omit an imperative verb? as in, \"please omit arguments from your query next time\" or is it \"you omitted arguments  from your query so you got this error\"",
+      "range": {
+        "startLine": 265,
+        "startChar": 42,
+        "endLine": 265,
+        "endChar": 55
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2725e1a1_3c372be1",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T22:22:24Z",
+      "side": 1,
+      "message": "docs. who returns this and why?",
+      "range": {
+        "startLine": 265,
+        "startChar": 4,
+        "endLine": 265,
+        "endChar": 19
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "256612d4_1ea66b89",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T22:22:24Z",
+      "side": 1,
+      "message": "drop argument name if you don\u0027t reference it in docs",
+      "range": {
+        "startLine": 286,
+        "startChar": 17,
+        "endLine": 286,
+        "endChar": 20
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7eea9dd_069e496b",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T22:22:24Z",
+      "side": 1,
+      "message": "since we\u0027re in a different package, qualify it?\n\n\"must implement driver.NamedValueChecker\"\n\n(even if it\u0027s slightly redundant with \"Drivers\")",
+      "range": {
+        "startLine": 284,
+        "startChar": 33,
+        "endLine": 284,
+        "endChar": 64
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30e9bd7c_9f2ebe52",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T22:22:24Z",
+      "side": 1,
+      "message": "or \"var outArg string\"\n\nNo need to pre-initialize it.",
+      "range": {
+        "startLine": 288,
+        "startChar": 5,
+        "endLine": 288,
+        "endChar": 17
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
