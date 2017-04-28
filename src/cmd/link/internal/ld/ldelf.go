@@ -816,7 +816,8 @@ func ldelf(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
 
 		s.Sub = sect.sym.Sub
 		sect.sym.Sub = s
-		s.Type = sect.sym.Type | s.Type&^SMASK | SSUB
+		s.Type = sect.sym.Type
+		s.Attr |= AttrSubSymbol
 		if !s.Attr.CgoExportDynamic() {
 			s.Dynimplib = "" // satisfy dynimport
 		}

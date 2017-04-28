@@ -90,7 +90,7 @@ func (s *Symbol) ElfsymForReloc() int32 {
 }
 
 // Attribute is a set of common symbol attributes.
-type Attribute int16
+type Attribute uint16
 
 const (
 	// AttrDuplicateOK marks a symbol that can be present in multiple object
@@ -140,6 +140,12 @@ const (
 	// the final executable. Only relevant when internally linking
 	// on an ELF platform.
 	AttrVisibilityHidden
+	// AttrSubSymbol symbols are subordinate parts of other symbols
+	// TODO(mwhudson): find a better description for this.
+	AttrSubSymbol
+	// AttrContainer symbols have sub symbols (not necessarily
+	// only in the sense of AttrSubSymbol).
+	AttrContainer
 )
 
 func (a Attribute) DuplicateOK() bool      { return a&AttrDuplicateOK != 0 }
@@ -156,6 +162,8 @@ func (a Attribute) Local() bool            { return a&AttrLocal != 0 }
 func (a Attribute) ReflectMethod() bool    { return a&AttrReflectMethod != 0 }
 func (a Attribute) MakeTypelink() bool     { return a&AttrMakeTypelink != 0 }
 func (a Attribute) VisibilityHidden() bool { return a&AttrVisibilityHidden != 0 }
+func (a Attribute) SubSymbol() bool        { return a&AttrSubSymbol != 0 }
+func (a Attribute) Container() bool        { return a&AttrContainer != 0 }
 
 func (a Attribute) CgoExport() bool {
 	return a.CgoExportDynamic() || a.CgoExportStatic()
