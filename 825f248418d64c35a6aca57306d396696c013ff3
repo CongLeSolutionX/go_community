@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "fb1606e6_31aa852a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6433,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-28T18:07:31Z",
+      "side": 1,
+      "message": "no because we mean value of pointer type, or value of ... uintptr type\nrephrases",
+      "parentUuid": "9967b037_65aa5ae8",
+      "range": {
+        "startLine": 6433,
+        "startChar": 4,
+        "endLine": 6433,
+        "endChar": 20
+      },
+      "revId": "825f248418d64c35a6aca57306d396696c013ff3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2af9f8d6_90eea75f",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
@@ -131,6 +155,30 @@
       "writtenOn": "2017-04-28T17:49:16Z",
       "side": 1,
       "message": "Maybe just \"any type\" instead. That way when you mentally swap uintptr and Pointer to understand \"vice versa\" you don\u0027t end up with \"a pointer type of underlying type uintptr\".",
+      "range": {
+        "startLine": 6434,
+        "startChar": 0,
+        "endLine": 6434,
+        "endChar": 14
+      },
+      "revId": "825f248418d64c35a6aca57306d396696c013ff3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2cdb9ae_52c5b63c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6434,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-28T18:07:31Z",
+      "side": 1,
+      "message": "rephrased",
+      "parentUuid": "2af9f8d6_90eea75f",
       "range": {
         "startLine": 6434,
         "startChar": 0,
