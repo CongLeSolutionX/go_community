@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c52ef087_a46ef216",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T05:42:56Z",
+      "side": 1,
+      "message": "none of these are in the normal documentation format.\n\nhttps://github.com/golang/go/wiki/CodeReviewComments#comment-sentences\n\nI\u0027d put \"Attr\" before each subject to be consistent with normal style.",
+      "revId": "5b4ce583e54eba3f4da9e894b9c0e745b9d34ff4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
