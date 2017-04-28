@@ -46,6 +46,30 @@
       "revId": "d150a2532dbeed59ac149aeaee09f7eb02208180",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1057c74f_02068589",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2243,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T18:21:42Z",
+      "side": 1,
+      "message": "func OnBuilder() bool or similar? I\u0027m fine with that.",
+      "parentUuid": "a927466f_f8611ba3",
+      "range": {
+        "startLine": 2243,
+        "startChar": 4,
+        "endLine": 2243,
+        "endChar": 19
+      },
+      "revId": "d150a2532dbeed59ac149aeaee09f7eb02208180",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
