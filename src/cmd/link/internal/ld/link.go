@@ -93,18 +93,45 @@ func (s *Symbol) ElfsymForReloc() int32 {
 type Attribute int16
 
 const (
+	// DuplicateOK symbols can be present in multiple object files.
 	AttrDuplicateOK Attribute = 1 << iota
+	// External symbols are function symbols loaded from host object files.
 	AttrExternal
+	// NoSplit functions cannot split the stack; the linker cares because it
+	// checks that there are no call chains of nosplit functions that
+	// require more than StackLimit bytes (see lib.go:dostkcheck)
 	AttrNoSplit
+	// Reachable symbols are those that are transitively references from the
+	// entrypoints. Unreachable symbols are not written to the output.
 	AttrReachable
+	// CgoExportDynamic and CgoExportStatic symbols are those referenced by
+	// directives written by cgo in response to //export directives in the
+	// source.
 	AttrCgoExportDynamic
 	AttrCgoExportStatic
+	// Special symbols do not have their address (i.e. Value) computed by
+	// the usual mechanism of data.go:dodata() & data.go:address().
 	AttrSpecial
+	// The StackCheck bit is used by dostkcheck to only check each NoSplit
+	// functions stack usage once.
 	AttrStackCheck
+	// Hidden symbols are not written to the symbol table.
 	AttrHidden
+	// The OnList bit indicates that the symbol is on a list (such as the
+	// list of all text symbols, or one of the lists of data symbols) and is
+	// consulted to avoid bugs where a symbol is put on a list twice.
 	AttrOnList
+	// Local symbols are only visible within the module (exectuable or
+	// shared library) being linked. Only relevant when dynamically linking
+	// Go code.
 	AttrLocal
+	// The ReflectMethod bit is used to mark certain methods from the
+	// reflect package that can be used to call arbitrary methods. If no
+	// symbol with this bit set is marked as reachable, more dead code
+	// elimination can be done.
 	AttrReflectMethod
+	// The MakeTypelink bit marks types that should be added to the typelink
+	// table. See typelinks.go:typelinks().
 	AttrMakeTypelink
 )
 
