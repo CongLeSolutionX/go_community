@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c316b5cd_d9d8cbb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-28T11:07:57Z",
+      "side": 1,
+      "message": "I read the new liveness code and believed this is ok.",
+      "revId": "8f7add3201e6784cae72f1771c9e8da0ce91c7ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a64d46fa_5faa7cd5",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-28T11:07:57Z",
+      "side": 1,
+      "message": "OpVarXXX shouldn\u0027t update WBPos nor emit debug output. So maybe just handle them here and continue?",
+      "revId": "8f7add3201e6784cae72f1771c9e8da0ce91c7ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
