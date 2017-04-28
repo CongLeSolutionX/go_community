@@ -2067,7 +2067,7 @@ func undefsym(ctxt *Link, s *Symbol) {
 		if r.Sym == nil { // happens for some external ARM relocs
 			continue
 		}
-		if r.Sym.Type == Sxxx || r.Sym.Type == SXREF {
+		if (r.Sym.Type == Sxxx || r.Sym.Type == SXREF) && !r.Sym.Attr.VisibilityHidden() {
 			Errorf(s, "undefined: %q", r.Sym.Name)
 		}
 		if !r.Sym.Attr.Reachable() && r.Type != objabi.R_WEAKADDROFF {
