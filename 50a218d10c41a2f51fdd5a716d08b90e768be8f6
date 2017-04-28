@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57b3d708_77f4c806",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T18:17:48Z",
+      "side": 1,
+      "message": "you don\u0027t document this \u0027si\u0027 parameter.\n\nBut if it\u0027s just an index into \u0027src\u0027, I think you should remove it and just have the caller pass in a re-sliced src.",
+      "range": {
+        "startLine": 277,
+        "startChar": 52,
+        "endLine": 277,
+        "endChar": 58
+      },
+      "revId": "50a218d10c41a2f51fdd5a716d08b90e768be8f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
