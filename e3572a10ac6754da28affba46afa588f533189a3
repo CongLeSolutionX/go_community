@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6804e469_e29229f7",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-28T00:08:44Z",
+      "side": 1,
+      "message": "I would change these back to an unconditional call to Dowidth, and then in gc.dowidth add\n\n    if disableSizeCalc {\n        Fatalf(...)\n    }\n\nafter the if t.WidthCalculated() { return } check. Then I think we can get rid of AssertWidthCalculated.",
+      "revId": "e3572a10ac6754da28affba46afa588f533189a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
