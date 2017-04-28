@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d3ec712_bbd3480f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-28T14:28:44Z",
+      "side": 1,
+      "message": "I agree that we shouldn\u0027t duplicated call, atomic, Select, and Phi. Store is most common. Move and Zero are probably not that many. So it is probably good to do only Stores.",
+      "revId": "16362a3e01ae86820fa651f250e75b465570cacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "342760d6_0ec0f6fc",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-28T14:28:44Z",
+      "side": 1,
+      "message": "It may be interesting to see the performance and binary size change for also budget 3 or 4.",
+      "revId": "16362a3e01ae86820fa651f250e75b465570cacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d62bac8_1b07c736",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-28T14:28:44Z",
+      "side": 1,
+      "message": "OpStore shouldn\u0027t generate debug output.",
+      "revId": "16362a3e01ae86820fa651f250e75b465570cacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
