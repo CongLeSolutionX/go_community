@@ -70,6 +70,30 @@
       "revId": "6ba979da2e4c5f4bbdc52cd346f28f0df3cd8e01",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d95a0b9_2c0c8687",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-04-28T19:43:03Z",
+      "side": 1,
+      "message": "\u003e I\u0027m starting to think we need a sync.StringMap specialization (string \u003d\u003e interface{} instead of interface{} \u003d\u003e interface{}). We have tons of users with string keys. We could keep it sync mechanically, like the mirror of the internal sort package algorithms that work on interfaces vs. funcs.\n\nI\u0027m not sure that that would help much. For most uses of Load and LoadOrStore there shouldn\u0027t be any additional allocations anyway.\n\nThe storage for the key interface is inline in the map, so only the payload escapes and only for LoadOrStore calls. If escape analysis applies at the level of whole functions, the payload would escape with a typed map too. It may be possible to do a bit more optimization to prevent value-payloads from escaping.\n\nFor the value interface, LoadOrStore makes an explicit copy and that copy is what actually escapes, so if we don\u0027t hit the Store path we shouldn\u0027t allocate for the value. The downside of that approach is that it may allocate an extra interface if the caller has a heap-allocated interface value to begin with.\n\nThat doesn\u0027t really help with the loss of type-safety and extra type-assertion noise in the code itself, though.",
+      "parentUuid": "f8d4b108_d0ba3a61",
+      "range": {
+        "startLine": 1411,
+        "startChar": 0,
+        "endLine": 1424,
+        "endChar": 2
+      },
+      "revId": "6ba979da2e4c5f4bbdc52cd346f28f0df3cd8e01",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
