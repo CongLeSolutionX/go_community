@@ -22,6 +22,30 @@
       "revId": "825f248418d64c35a6aca57306d396696c013ff3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26f7e70e_5a9b64d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-28T17:44:04Z",
+      "side": 1,
+      "message": "https://www.wordnik.com/words/unsage",
+      "parentUuid": "03308931_46af0011",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "825f248418d64c35a6aca57306d396696c013ff3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
