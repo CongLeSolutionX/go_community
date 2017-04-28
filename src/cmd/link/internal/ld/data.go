@@ -386,7 +386,7 @@ func relocsym(ctxt *Link, s *Symbol) {
 			continue
 		}
 
-		if r.Sym != nil && ((r.Sym.Type == 0 && !r.Sym.Attr.VisibilityHidden()) || r.Sym.Type&SMASK == SXREF) {
+		if r.Sym != nil && ((r.Sym.Type == 0 && !r.Sym.Attr.VisibilityHidden()) || r.Sym.Type == SXREF) {
 			// When putting the runtime but not main into a shared library
 			// these symbols are undefined and that's OK.
 			if Buildmode == BuildmodeShared {
@@ -906,7 +906,7 @@ func CodeblkPad(ctxt *Link, addr int64, size int64, pad []byte) {
 
 func blk(ctxt *Link, syms []*Symbol, addr, size int64, pad []byte) {
 	for i, s := range syms {
-		if s.Type&SSUB == 0 && s.Value >= addr {
+		if !s.Attr.SubSymbol() && s.Value >= addr {
 			syms = syms[i:]
 			break
 		}
@@ -914,7 +914,7 @@ func blk(ctxt *Link, syms []*Symbol, addr, size int64, pad []byte) {
 
 	eaddr := addr + size
 	for _, s := range syms {
-		if s.Type&SSUB != 0 {
+		if s.Attr.SubSymbol() {
 			continue
 		}
 		if s.Value >= eaddr {
@@ -2084,7 +2084,7 @@ func (ctxt *Link) textaddress() {
 // will not need to create new text sections, and so no need to return sect and n.
 func assignAddress(ctxt *Link, sect *Section, n int, sym *Symbol, va uint64) (*Section, int, uint64) {
 	sym.Sect = sect
-	if sym.Type&SSUB != 0 {
+	if sym.Attr.SubSymbol() {
 		return sect, n, va
 	}
 	if sym.Align != 0 {

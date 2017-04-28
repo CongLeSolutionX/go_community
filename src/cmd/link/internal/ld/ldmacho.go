@@ -663,7 +663,8 @@ func ldmacho(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
 			Exitf("%s: duplicate symbol reference: %s in both %s and %s", pn, s.Name, s.Outer.Name, sect.sym.Name)
 		}
 
-		s.Type = outer.Type | SSUB
+		s.Type = outer.Type
+		s.Attr |= AttrSubSymbol
 		s.Sub = outer.Sub
 		outer.Sub = s
 		s.Outer = outer
