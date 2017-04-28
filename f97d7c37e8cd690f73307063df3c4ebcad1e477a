@@ -22,6 +22,23 @@
       "revId": "f97d7c37e8cd690f73307063df3c4ebcad1e477a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94a2c40a_600d7ad9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-04-28T14:12:56Z",
+      "side": 1,
+      "message": "Need to mention ARM. Maybe something like \"fix operand order of ARM\u0027s MULA instruction\".",
+      "revId": "f97d7c37e8cd690f73307063df3c4ebcad1e477a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
