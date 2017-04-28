@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "b8c4f400_967e188f",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-04-28T23:33:40Z",
+      "side": 1,
+      "message": "The driver is instructing the sql interface to omit the argument before sending to the query method.",
+      "parentUuid": "21f0ab12_d91bd9e1",
+      "range": {
+        "startLine": 265,
+        "startChar": 42,
+        "endLine": 265,
+        "endChar": 55
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1c4ec8a_2cc6f764",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-04-28T23:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2725e1a1_3c372be1",
+      "range": {
+        "startLine": 265,
+        "startChar": 4,
+        "endLine": 265,
+        "endChar": 19
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "256612d4_1ea66b89",
         "filename": "src/database/sql/driver/driver.go",
         "patchSetId": 12
@@ -68,6 +116,30 @@
       "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f3e3fb9_0b835d33",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-04-28T23:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "256612d4_1ea66b89",
+      "range": {
+        "startLine": 286,
+        "startChar": 17,
+        "endLine": 286,
+        "endChar": 20
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "9a9d95f1_e902b16f",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-04-28T23:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7eea9dd_069e496b",
+      "range": {
+        "startLine": 284,
+        "startChar": 33,
+        "endLine": 284,
+        "endChar": 64
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30e9bd7c_9f2ebe52",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 12
@@ -114,6 +210,30 @@
       "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c94c519b_14c47bcd",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-04-28T23:33:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30e9bd7c_9f2ebe52",
+      "range": {
+        "startLine": 288,
+        "startChar": 5,
+        "endLine": 288,
+        "endChar": 17
+      },
+      "revId": "60e1074049c1993aeae8747791bf4a71df6a18cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
