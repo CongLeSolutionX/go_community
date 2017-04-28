@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef0e2327_99b16d17",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5543,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-04-28T19:26:26Z",
+      "side": 1,
+      "message": "for the record, the uncommitted comparison benchmark I was running against was:\n\nfunc BenchmarkResponseStatusLine(b *testing.B) {\n       b.ReportAllocs()\n       b.RunParallel(func(pb *testing.PB) {\n               bw :\u003d bufio.NewWriter(ioutil.Discard)\n               req :\u003d \u0026Request{ProtoMajor: 1, ProtoMinor: 1}\n               for pb.Next() {\n                       bw.WriteString(ExportStatusLine(req, 200))\n               }\n       })\n}",
+      "revId": "07a22bbc11de6c8cdac599f59ef00f019d22ff67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
