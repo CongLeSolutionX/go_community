@@ -69,6 +69,24 @@
       "revId": "69c52f336ea9acc46a7675b2c2619b622ddae26d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b95face0_c152f430",
+        "filename": "test/fixedbugs/issue20162.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-28T19:29:44Z",
+      "side": 1,
+      "message": "One word it is, then.",
+      "parentUuid": "9acdfc39_5887b7c8",
+      "revId": "69c52f336ea9acc46a7675b2c2619b622ddae26d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
