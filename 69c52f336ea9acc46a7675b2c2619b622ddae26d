@@ -51,6 +51,24 @@
       "revId": "69c52f336ea9acc46a7675b2c2619b622ddae26d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9acdfc39_5887b7c8",
+        "filename": "test/fixedbugs/issue20162.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-04-28T16:58:53Z",
+      "side": 1,
+      "message": "Grep says we use both but in one word (\"frontend\" and \"backend\") is way more common.",
+      "parentUuid": "307c8e80_3229c4e1",
+      "revId": "69c52f336ea9acc46a7675b2c2619b622ddae26d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
