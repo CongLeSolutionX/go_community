@@ -115,8 +115,8 @@ const (
 	// The StackCheck bit is used by dostkcheck to only check each NoSplit
 	// functions stack usage once.
 	AttrStackCheck
-	// Hidden symbols are not written to the symbol table.
-	AttrHidden
+	// NotInSymbolTable symbols are not written to the symbol table.
+	AttrNotInSymbolTable
 	// The OnList bit indicates that the symbol is on a list (such as the
 	// list of all text symbols, or one of the lists of data symbols) and is
 	// consulted to avoid bugs where a symbol is put on a list twice.
@@ -143,7 +143,7 @@ func (a Attribute) CgoExportDynamic() bool { return a&AttrCgoExportDynamic != 0 
 func (a Attribute) CgoExportStatic() bool  { return a&AttrCgoExportStatic != 0 }
 func (a Attribute) Special() bool          { return a&AttrSpecial != 0 }
 func (a Attribute) StackCheck() bool       { return a&AttrStackCheck != 0 }
-func (a Attribute) Hidden() bool           { return a&AttrHidden != 0 }
+func (a Attribute) NotInSymbolTable() bool { return a&AttrNotInSymbolTable != 0 }
 func (a Attribute) OnList() bool           { return a&AttrOnList != 0 }
 func (a Attribute) Local() bool            { return a&AttrLocal != 0 }
 func (a Attribute) ReflectMethod() bool    { return a&AttrReflectMethod != 0 }
