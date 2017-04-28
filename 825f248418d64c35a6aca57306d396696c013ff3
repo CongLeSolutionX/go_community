@@ -70,6 +70,76 @@
       "revId": "825f248418d64c35a6aca57306d396696c013ff3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c2189fb_4c91d61a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-28T17:49:16Z",
+      "side": 1,
+      "message": "Sounds like a good Go 2 proposal.",
+      "parentUuid": "3efdc0dc_b52a007e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "825f248418d64c35a6aca57306d396696c013ff3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9967b037_65aa5ae8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6433,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-28T17:49:16Z",
+      "side": 1,
+      "message": "Since pointers are values, could this be simplified to just \"value\"?",
+      "range": {
+        "startLine": 6433,
+        "startChar": 4,
+        "endLine": 6433,
+        "endChar": 20
+      },
+      "revId": "825f248418d64c35a6aca57306d396696c013ff3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2af9f8d6_90eea75f",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 6434,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-04-28T17:49:16Z",
+      "side": 1,
+      "message": "Maybe just \"any type\" instead. That way when you mentally swap uintptr and Pointer to understand \"vice versa\" you don\u0027t end up with \"a pointer type of underlying type uintptr\".",
+      "range": {
+        "startLine": 6434,
+        "startChar": 0,
+        "endLine": 6434,
+        "endChar": 14
+      },
+      "revId": "825f248418d64c35a6aca57306d396696c013ff3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
