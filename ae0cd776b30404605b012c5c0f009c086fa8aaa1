@@ -16,6 +16,24 @@
       "revId": "ae0cd776b30404605b012c5c0f009c086fa8aaa1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e6cd229_83954e92",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 6433,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-04-28T19:35:58Z",
+      "side": 1,
+      "message": "The previous line could be read as\n\nAny (pointer or value) of underlying type uintptr ...\n\n(parentheses for emphasis), I think. It\u0027s nonsensical but confusing at first reading (at least to me).\n\nBetter suggestion welcome. Perhaps a good use of a comma somewhere?",
+      "parentUuid": "48f9e863_402b0c18",
+      "revId": "ae0cd776b30404605b012c5c0f009c086fa8aaa1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
