@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea8e35cc_7c8aaaf8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5971,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-04-28T02:01:47Z",
+      "side": 1,
+      "message": "trailing space",
+      "revId": "8e5d27d333a289b532ccfef172628930d1aee127",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
