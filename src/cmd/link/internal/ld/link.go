@@ -133,6 +133,10 @@ const (
 	// The MakeTypelink bit marks types that should be added to the typelink
 	// table. See typelinks.go:typelinks().
 	AttrMakeTypelink
+	// VisibilityHidden symbols are ELF symbols with visibility set to
+	// STV_HIDDEN. They become local symbols in the final executable. Only
+	// relevant when internally linking on an ELF platform.
+	AttrVisibilityHidden
 )
 
 func (a Attribute) DuplicateOK() bool      { return a&AttrDuplicateOK != 0 }
@@ -148,6 +152,7 @@ func (a Attribute) OnList() bool           { return a&AttrOnList != 0 }
 func (a Attribute) Local() bool            { return a&AttrLocal != 0 }
 func (a Attribute) ReflectMethod() bool    { return a&AttrReflectMethod != 0 }
 func (a Attribute) MakeTypelink() bool     { return a&AttrMakeTypelink != 0 }
+func (a Attribute) VisibilityHidden() bool { return a&AttrVisibilityHidden != 0 }
 
 func (a Attribute) CgoExport() bool {
 	return a.CgoExportDynamic() || a.CgoExportStatic()
