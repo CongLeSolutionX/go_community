@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "cb776726_abc9168a",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-29T21:51:48Z",
+      "side": 1,
+      "message": "Yeah. I\u0027m not even quite sure 2 is a good idea. I need to do a bit more benchmarking.",
+      "parentUuid": "342760d6_0ec0f6fc",
+      "revId": "16362a3e01ae86820fa651f250e75b465570cacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3d62bac8_1b07c736",
         "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2017-04-28T14:28:44Z",
       "side": 1,
       "message": "OpStore shouldn\u0027t generate debug output.",
+      "revId": "16362a3e01ae86820fa651f250e75b465570cacb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acb30afd_14570883",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-29T21:51:48Z",
+      "side": 1,
+      "message": "Fixed in the preceding CL.",
+      "parentUuid": "3d62bac8_1b07c736",
       "revId": "16362a3e01ae86820fa651f250e75b465570cacb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
