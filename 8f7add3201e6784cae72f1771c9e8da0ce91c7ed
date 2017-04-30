@@ -69,6 +69,24 @@
       "revId": "8f7add3201e6784cae72f1771c9e8da0ce91c7ed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc272b94_aef99498",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-04-30T02:46:35Z",
+      "side": 1,
+      "message": "Thanks. Will submit once https://go-review.googlesource.com/c/42145/ is in (or rejected), since they conflict, and this CL is definitely the easier of the two to update. :)",
+      "parentUuid": "9282b114_2fcdfd39",
+      "revId": "8f7add3201e6784cae72f1771c9e8da0ce91c7ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
