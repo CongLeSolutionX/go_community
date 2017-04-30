@@ -16,6 +16,24 @@
       "revId": "575cea47f5a493081d450924e738d1f0c46e3b5f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33960f3f_9d43db30",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 12836
+      },
+      "writtenOn": "2017-04-30T17:13:28Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s cleaner. \n\nDone",
+      "parentUuid": "94dc69b5_5e3662fe",
+      "revId": "575cea47f5a493081d450924e738d1f0c46e3b5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
