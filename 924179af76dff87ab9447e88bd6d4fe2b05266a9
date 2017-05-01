@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41279cc6_96dba8e2",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-05-01T17:13:26Z",
+      "side": 1,
+      "message": "I thought the assembler already did this.  Apparently not.",
+      "revId": "924179af76dff87ab9447e88bd6d4fe2b05266a9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
