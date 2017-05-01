@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a3ae88bf_ce644764",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1340,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2017-05-01T04:18:53Z",
+      "side": 1,
+      "message": "It did implicitly with the \"s.Type \u003e\u003d SXREF\" check... (this was fun to figure out)",
+      "parentUuid": "5b8e8547_85b4a969",
+      "revId": "91044a7af8f53f40997f6214cdffc17829e6baed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b0e0975_80a3823c",
         "filename": "src/cmd/link/internal/ld/link.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-01T03:34:09Z",
       "side": 1,
       "message": "AttrSubSymbol means that the symbol appears on the Sub list of some other symbol.  Unfortunately, it\u0027s not 100% reliable; at least, it\u0027s not set correctly for the .TOC. symbol in Link.dodata.  Usually the Outer field of the symbol points to the symbol whose list it is on, but that it is not set for the symbols added to .windynamic in initdynimport in pe.go.\n\nThis seems to be used for host objects when doing internal linking.  The sections will get regular symbols.  The host symbols will be defined as SSUB symbols on the Sub linked list starting at the section symbol.  The blk function, which writes data to the file, will ignore SSUB symbols, and just write out host object sections as a unit.  There are various bits of code that loop through the Sub symbols when a symbol address is adjusted, adjusting all the Sub symbols as well.\n\nSo AttrSubSymbol should perhaps be something like AttrNonGoSym.\n\nSCONTAINER is only used in pclntab and findfunctab, and in effect it just marks host object section symbols.  It was introduced in https://golang.org/cl/11652 because the earlier test for host object section symbols--testing whether .Sub was nil was wrong (.Sub is not nil in symbols on a list, but it is nil for the last symbol).  It might make sense to replace this with a different attribute for host object section symbols.",
+      "revId": "91044a7af8f53f40997f6214cdffc17829e6baed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7d853a4_5aa20eb0",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2017-05-01T04:18:53Z",
+      "side": 1,
+      "message": "Thanks for this.\n\n\u003e AttrSubSymbol means that the symbol appears on the Sub list of some other symbol.  Unfortunately, it\u0027s not 100% reliable; at least, it\u0027s not set correctly for the .TOC. symbol in Link.dodata.  \n\nIt\u0027s not?\n\n\u003e Usually the Outer field of the symbol points to the symbol whose list it is on, but that it is not set for the symbols added to .windynamic in initdynimport in pe.go.\n\nI guess that should be fixed.\n\nThe converse is not true though, the symbols that get packed by symtab() (e.g. the go.string.* stuff) have Outer set but are not on a Sub list. I wonder what would break if all checks for SubSymbol became checks for Outer !\u003d nil? (Outer !\u003d nil also has overlap with AttrSpecial^WAttrNotinSymbolTable...).\n\n\u003e This seems to be used for host objects when doing internal linking.  The sections will get regular symbols.  The host symbols will be defined as SSUB symbols on the Sub linked list starting at the section symbol.  The blk function, which writes data to the file, will ignore SSUB symbols, and just write out host object sections as a unit.  There are various bits of code that loop through the Sub symbols when a symbol address is adjusted, adjusting all the Sub symbols as well.\n\nAh right, this makes sense. The way an ELF linker handles sections is somewhat like the way the Go linker handles symbols, in some ways at least.\n\n\u003e So AttrSubSymbol should perhaps be something like AttrNonGoSym.\n\nOK. I\u0027ll try that tomorrow, after I\u0027ve figured out why the SHIDDEN change broke ppc64.\n\n\u003e SCONTAINER is only used in pclntab and findfunctab, and in effect it just marks host object section symbols.  It was introduced in https://golang.org/cl/11652 because the earlier test for host object section symbols--testing whether .Sub was nil was wrong (.Sub is not nil in symbols on a list, but it is nil for the last symbol).  It might make sense to replace this with a different attribute for host object section symbols.\n\nAnother way this could be fixed (I think?) is to store sub-symbols in a slice, then the the check for AttrContainer can become len(s.Sub) \u003e 0...",
+      "parentUuid": "7b0e0975_80a3823c",
       "revId": "91044a7af8f53f40997f6214cdffc17829e6baed",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
