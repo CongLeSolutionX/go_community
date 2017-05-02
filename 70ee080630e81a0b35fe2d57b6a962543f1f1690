@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5fab986_c7ddb02b",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-05-02T13:24:41Z",
+      "side": 1,
+      "message": "We could add a bool package symbol useSSSE3 that is a constant set to false on !amd64 gets intiailized on amd64 as a variable by a function copying the value of runtime·support_ssse3 and later can just be replaced by internal/cpu.HasSSSE3 from https://golang.org/cl/41476/.\n\nthen do:\ndi, si :\u003d 0, 0\nif useSSSE3 \u0026\u0026 len(src) \u003e\u003d 12 \u0026\u0026 len(enc.accEncode) \u003e\u003d 16 \u0026\u0026 len(dst) \u003e\u003d enc.EncodedLen(len(src)) {\n    di, si \u003d encode12ByteGroups(enc.accEncode, dst, src)\n}\n\nthis would avoid some function call overhead for cases where ssse3 is not used.",
+      "range": {
+        "startLine": 129,
+        "startChar": 1,
+        "endLine": 129,
+        "endChar": 43
+      },
+      "revId": "70ee080630e81a0b35fe2d57b6a962543f1f1690",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "724bc691_45d8d1d1",
+        "filename": "src/encoding/base64/base64_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-05-02T13:24:41Z",
+      "side": 1,
+      "message": "If these are always 16 elements this could be an array [16]int8 and we can pass pointers to them around.",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "70ee080630e81a0b35fe2d57b6a962543f1f1690",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "089bb10b_bd61ec36",
+        "filename": "src/encoding/base64/base64_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-05-02T13:24:41Z",
+      "side": 1,
+      "message": "I think we can find out earlier to avoid the function call overhead - see other comment. If this stays in assembler it can use CMPB runtime·support_ssse3, $1 for now which was just added (might need a git codereview sync to work).",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 33
+      },
+      "revId": "70ee080630e81a0b35fe2d57b6a962543f1f1690",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
