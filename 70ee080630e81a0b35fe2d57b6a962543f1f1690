@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d9ea5d9b_6055ff1f",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 19185
+      },
+      "writtenOn": "2017-05-02T16:17:15Z",
+      "side": 1,
+      "message": "My original plan was to have accelerateEncodeMap, which is called once per standard encoder on init, return two pieces of information.\n\n1. The lookup table it currently returns\n2. A minimum input buffer size required to use the accelerated encoder.  This number would be stored in the Encoding structure along with the lookup map, in say minAccelerateBufSize, and checked later by the Encode method.  If the CPU didn\u0027t support at least SSSE3, 0 would be returned.\n\nThe nice thing about doing this is that base64.go would remain architecture agnostic.  It would know that accelerated encoders existed, but it wouldn\u0027t itself hardcode any knowledge about their implementation, e.g.,their buffer size or CPU requirements.  Going forward, I\u0027m planning to create an AVX2 encoder as well and if someone were to create an SIMD encoding algorithm for another platform, base64.go might get a bit polluted if we were to add additional platform specific tests to it.  Instead, if we allow accelerateEncodeMap to provide information about the capabilities of the encoder we just need to do\n\ndi, si :\u003d 0, 0\nif enc.minAccelerateBufSize \u003e0 \u0026\u0026 len(src) \u003e\u003d enc.minAccelerateBufSize {\n  di, si \u003d encodeAccelerated(enc.accEncode, dst, src)\n}\n\nThis would remove the performance penalty for input buffers of \u003c 12 bytes on amd64.\n\nThe reason I decided not to do this in the end is that I\u0027d be adding an extra check for architectures for which there was no accelerator, i.e., I\u0027d be slowing them down a tiny bit.  But in hindsight this would only be one extra comparison so maybe this would be acceptable.  What do you think?",
+      "parentUuid": "f5fab986_c7ddb02b",
+      "range": {
+        "startLine": 129,
+        "startChar": 1,
+        "endLine": 129,
+        "endChar": 43
+      },
+      "revId": "70ee080630e81a0b35fe2d57b6a962543f1f1690",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "724bc691_45d8d1d1",
         "filename": "src/encoding/base64/base64_amd64.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f7087886_444fdebb",
+        "filename": "src/encoding/base64/base64_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 19185
+      },
+      "writtenOn": "2017-05-02T16:17:15Z",
+      "side": 1,
+      "message": "These slices are returned by accelerateEncodeMap and stored in instances of the Encoding structure defined in base64.go.  As a result I didn\u0027t want to use arrays here as this would force me to hardcode algorithm and architecture specific information, i.e., the size of the lookup tables, in base64.go, which I wanted to keep hardware agnostic.  For example, an AVX2 encoder would probably need 32 byte lookup tables.",
+      "parentUuid": "724bc691_45d8d1d1",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "70ee080630e81a0b35fe2d57b6a962543f1f1690",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089bb10b_bd61ec36",
         "filename": "src/encoding/base64/base64_amd64.s",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-05-02T13:24:41Z",
       "side": 1,
       "message": "I think we can find out earlier to avoid the function call overhead - see other comment. If this stays in assembler it can use CMPB runtime·support_ssse3, $1 for now which was just added (might need a git codereview sync to work).",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 33
+      },
+      "revId": "70ee080630e81a0b35fe2d57b6a962543f1f1690",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "818890d7_6c8bc922",
+        "filename": "src/encoding/base64/base64_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 19185
+      },
+      "writtenOn": "2017-05-02T16:17:15Z",
+      "side": 1,
+      "message": "Agreed.  I\u0027ll add a useSSSE3 package variable and move this check into encodeAccelerated.",
+      "parentUuid": "089bb10b_bd61ec36",
       "range": {
         "startLine": 61,
         "startChar": 16,
