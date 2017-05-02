@@ -145,7 +145,8 @@ var optab = []Optab{
 	{AMVN, C_SCON, C_NONE, C_REG, 13, 8, 0, 0, 0},
 	{ACMP, C_SCON, C_REG, C_NONE, 13, 8, 0, 0, 0},
 	{AADD, C_RCON2, C_REG, C_REG, 106, 8, 0, 0, 0},
-	// TODO: RCON2: how to do AND and BIC?
+	// TODO: RCON2: how to do for AAND?
+	// TODO: RCON2: break LCON = RCON - RCON
 	{AADD, C_LCON, C_REG, C_REG, 13, 8, 0, LFROM, 0},
 	{AADD, C_LCON, C_NONE, C_REG, 13, 8, 0, LFROM, 0},
 	{AAND, C_LCON, C_REG, C_REG, 13, 8, 0, LFROM, 0},
@@ -1414,9 +1415,6 @@ func buildop(ctxt *obj.Link) {
 			opset(ASBC, r0)
 			opset(ARSC, r0)
 			opset(AORR, r0)
-
-		case AAND:
-			opset(AAND, r0)
 			opset(ABIC, r0)
 
 		case ACMP:
@@ -1536,12 +1534,12 @@ func buildop(ctxt *obj.Link) {
 			opset(AREVSH, r0)
 			opset(ARBIT, r0)
 
-		case AMULA,
+		case AAND,
+			AMULA,
 			ALDREX,
 			ASTREX,
 			ALDREXD,
 			ASTREXD,
-			ATST,
 			APLD,
 			obj.AUNDEF,
 			obj.AFUNCDATA,
@@ -1614,8 +1612,8 @@ func (c *ctxt5) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		x, y := immrot2(uint32(c.instoffset))
 		var as2 obj.As
 		switch p.As {
-		case AADD, ASUB, AORR, AEOR:
-			as2 = p.As // ADD, SUB, ORR, EOR
+		case AADD, ASUB, AORR, AEOR, ABIC:
+			as2 = p.As // ADD, SUB, ORR, EOR, BIC
 		case ARSB:
 			as2 = AADD // RSB -> RSB/ADD pair
 		case AADC:
