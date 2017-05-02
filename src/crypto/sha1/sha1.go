@@ -3,6 +3,8 @@
 // license that can be found in the LICENSE file.
 
 // Package sha1 implements the SHA1 hash algorithm as defined in RFC 3174.
+//
+// SHA1 is broken and should not be used anymore.
 package sha1
 
 import (
