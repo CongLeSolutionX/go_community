@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8eafdf1d_95151114",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-02T13:40:41Z",
+      "side": 1,
+      "message": "I doubt it, since only one shard at a time runs on each builder.\n\nActually, why does more than 1 run at a time via local all.bash usage? Did Russ add that?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 58
+      },
+      "revId": "70f39b1f412800747530698d40173fd19adce536",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
