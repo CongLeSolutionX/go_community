@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c31890b1_d7d676a8",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-05-02T17:03:36Z",
+      "side": 1,
+      "message": "I think we can keep the minimum needed length for acceleration in a package level variable like the strings package does as the cpu hopefully is not changing while the program is running (If that info is only dependent on the cpu instruction set) Otherwise in the struct SGTM.\n\nI dont think an extra (predictable) if for other architectures is problematic. If we find it is we can add a constant like hasAccelerator thats true for architectures with special encoders and otherwise is false to constant fold the if block away. That said if the encodeAccelerated is defined to be a nop on non accelerated architectures (like currently) the compiler might even optimize away the whole if block due to no side effects (to be tested) without that.",
+      "parentUuid": "d9ea5d9b_6055ff1f",
+      "range": {
+        "startLine": 129,
+        "startChar": 1,
+        "endLine": 129,
+        "endChar": 43
+      },
+      "revId": "70ee080630e81a0b35fe2d57b6a962543f1f1690",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "724bc691_45d8d1d1",
         "filename": "src/encoding/base64/base64_amd64.go",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "These slices are returned by accelerateEncodeMap and stored in instances of the Encoding structure defined in base64.go.  As a result I didn\u0027t want to use arrays here as this would force me to hardcode algorithm and architecture specific information, i.e., the size of the lookup tables, in base64.go, which I wanted to keep hardware agnostic.  For example, an AVX2 encoder would probably need 32 byte lookup tables.",
       "parentUuid": "724bc691_45d8d1d1",
+      "range": {
+        "startLine": 11,
+        "startChar": 1,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "70ee080630e81a0b35fe2d57b6a962543f1f1690",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12114764_75144044",
+        "filename": "src/encoding/base64/base64_amd64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-05-02T17:03:36Z",
+      "side": 1,
+      "message": "Sure. In context of other encoders make sense to keep it flexible as []int8.",
+      "parentUuid": "f7087886_444fdebb",
       "range": {
         "startLine": 11,
         "startChar": 1,
