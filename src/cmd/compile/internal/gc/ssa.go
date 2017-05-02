@@ -3415,7 +3415,7 @@ func canSSAType(t *types.Type) bool {
 		}
 		return false
 	case TSTRUCT:
-		if t.NumFields() > ssa.MaxStruct {
+		if t.NumComponents() > ssa.MaxStruct {
 			return false
 		}
 		for _, t1 := range t.Fields().Slice() {
