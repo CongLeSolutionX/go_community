@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c58d5761_724abdfa",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 19185
+      },
+      "writtenOn": "2017-05-02T17:51:13Z",
+      "side": 1,
+      "message": "\u003e I think we can keep the minimum needed length for acceleration in a package level variable like the strings package does as the cpu hopefully is not changing while the program is running (If that info is only dependent on the cpu instruction set) Otherwise in the struct SGTM.\n\nAgreed.  Storing the minimum length in a package variable would be simpler.  I\u0027ll submit an updated patch tomorrow.  Thanks again for the review.",
+      "parentUuid": "c31890b1_d7d676a8",
+      "range": {
+        "startLine": 129,
+        "startChar": 1,
+        "endLine": 129,
+        "endChar": 43
+      },
+      "revId": "70ee080630e81a0b35fe2d57b6a962543f1f1690",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "724bc691_45d8d1d1",
         "filename": "src/encoding/base64/base64_amd64.go",
         "patchSetId": 2
