@@ -40,6 +40,11 @@ func subr32(x uint32) uint32 {
 }
 
 //go:noinline
+func bic32(x uint32) uint32 {
+	return x &^ c32
+}
+
+//go:noinline
 func add64(x uint64) uint64 {
 	return x + c64
 }
@@ -62,6 +67,11 @@ func xor64(x uint64) uint64 {
 //go:noinline
 func subr64(x uint64) uint64 {
 	return c64 - x
+}
+
+//go:noinline
+func bic64(x uint64) uint64 {
+	return x &^ c64
 }
 
 // Note: x-c gets rewritten to x+(-c), so SUB and SBC are not directly testable.
@@ -90,6 +100,9 @@ func test32() {
 	if want, got = c32-a, subr32(a); got != want {
 		panic(fmt.Sprintf("subr32(%x) = %x, want %x", a, got, want))
 	}
+	if want, got = a&^c32, bic32(a); got != want {
+		panic(fmt.Sprintf("bic32(%x) = %x, want %x", a, got, want))
+	}
 }
 
 func test64() {
@@ -109,5 +122,8 @@ func test64() {
 	}
 	if want, got = c64-a, subr64(a); got != want {
 		panic(fmt.Sprintf("subr64(%x) = %x, want %x", a, got, want))
+	}
+	if want, got = a&^c64, bic64(a); got != want {
+		panic(fmt.Sprintf("bic64(%x) = %x, want %x", a, got, want))
 	}
 }
