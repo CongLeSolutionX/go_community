@@ -597,11 +597,11 @@ func (t *tester) registerTests() {
 		t.registerTest("bench_go1", "../test/bench/go1", "go", "test", t.timeout(600), t.runFlag(""))
 	}
 	if t.goos != "android" && !t.iOS() {
-		const nShards = 5
+		const nShards = 1 // see issue 20141
 		for shard := 0; shard < nShards; shard++ {
 			shard := shard
 			t.tests = append(t.tests, distTest{
-				name:    fmt.Sprintf("test:%d_%d", shard, nShards),
+				name:    fmt.Sprintf("testdir:%d_%d", shard, nShards),
 				heading: "../test",
 				fn:      func(dt *distTest) error { return t.testDirTest(dt, shard, nShards) },
 			})
@@ -1143,7 +1143,7 @@ func (t *tester) testDirTest(dt *distTest, shard, shards int) error {
 	runtest.Do(func() {
 		const exe = "runtest.exe" // named exe for Windows, but harmless elsewhere
 		cmd := t.dirCmd("test", "go", "build", "-o", exe, "run.go")
-		cmd.Env = append(os.Environ(), "GOOS="+t.gohostos, "GOARCH="+t.gohostarch, "GOMAXPROCS=")
+		cmd.Env = append(os.Environ(), "GOOS="+t.gohostos, "GOARCH="+t.gohostarch)
 		runtest.exe = filepath.Join(cmd.Dir, exe)
 		if err := cmd.Run(); err != nil {
 			runtest.err = err
