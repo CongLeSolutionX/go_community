@@ -18117,30 +18117,6 @@ func rewriteBlock386(b *Block) bool {
 			b.SetControl(cmp)
 			return true
 		}
-		// match: (NE (TESTB (SETL cmp) (SETL cmp)) yes no)
-		// cond:
-		// result: (LT  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETL {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETL {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386LT
-			b.SetControl(cmp)
-			return true
-		}
 		// match: (NE (TESTB (SETLE cmp) (SETLE cmp)) yes no)
 		// cond:
 		// result: (LE  cmp yes no)
@@ -18162,54 +18138,6 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386LE
-			b.SetControl(cmp)
-			return true
-		}
-		// match: (NE (TESTB (SETLE cmp) (SETLE cmp)) yes no)
-		// cond:
-		// result: (LE  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETLE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETLE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386LE
-			b.SetControl(cmp)
-			return true
-		}
-		// match: (NE (TESTB (SETG cmp) (SETG cmp)) yes no)
-		// cond:
-		// result: (GT  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETG {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETG {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386GT
 			b.SetControl(cmp)
 			return true
 		}
@@ -18261,30 +18189,6 @@ func rewriteBlock386(b *Block) bool {
 			b.SetControl(cmp)
 			return true
 		}
-		// match: (NE (TESTB (SETGE cmp) (SETGE cmp)) yes no)
-		// cond:
-		// result: (GE  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETGE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETGE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386GE
-			b.SetControl(cmp)
-			return true
-		}
 		// match: (NE (TESTB (SETEQ cmp) (SETEQ cmp)) yes no)
 		// cond:
 		// result: (EQ  cmp yes no)
@@ -18306,54 +18210,6 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386EQ
-			b.SetControl(cmp)
-			return true
-		}
-		// match: (NE (TESTB (SETEQ cmp) (SETEQ cmp)) yes no)
-		// cond:
-		// result: (EQ  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETEQ {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETEQ {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386EQ
-			b.SetControl(cmp)
-			return true
-		}
-		// match: (NE (TESTB (SETNE cmp) (SETNE cmp)) yes no)
-		// cond:
-		// result: (NE  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETNE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETNE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386NE
 			b.SetControl(cmp)
 			return true
 		}
@@ -18405,30 +18261,6 @@ func rewriteBlock386(b *Block) bool {
 			b.SetControl(cmp)
 			return true
 		}
-		// match: (NE (TESTB (SETB cmp) (SETB cmp)) yes no)
-		// cond:
-		// result: (ULT cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETB {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETB {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386ULT
-			b.SetControl(cmp)
-			return true
-		}
 		// match: (NE (TESTB (SETBE cmp) (SETBE cmp)) yes no)
 		// cond:
 		// result: (ULE cmp yes no)
@@ -18450,54 +18282,6 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386ULE
-			b.SetControl(cmp)
-			return true
-		}
-		// match: (NE (TESTB (SETBE cmp) (SETBE cmp)) yes no)
-		// cond:
-		// result: (ULE cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETBE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETBE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386ULE
-			b.SetControl(cmp)
-			return true
-		}
-		// match: (NE (TESTB (SETA cmp) (SETA cmp)) yes no)
-		// cond:
-		// result: (UGT cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETA {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETA {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386UGT
 			b.SetControl(cmp)
 			return true
 		}
@@ -18549,54 +18333,6 @@ func rewriteBlock386(b *Block) bool {
 			b.SetControl(cmp)
 			return true
 		}
-		// match: (NE (TESTB (SETAE cmp) (SETAE cmp)) yes no)
-		// cond:
-		// result: (UGE cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETAE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETAE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386UGE
-			b.SetControl(cmp)
-			return true
-		}
-		// match: (NE (TESTB (SETGF cmp) (SETGF cmp)) yes no)
-		// cond:
-		// result: (UGT  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETGF {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETGF {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386UGT
-			b.SetControl(cmp)
-			return true
-		}
 		// match: (NE (TESTB (SETGF cmp) (SETGF cmp)) yes no)
 		// cond:
 		// result: (UGT  cmp yes no)
@@ -18645,30 +18381,6 @@ func rewriteBlock386(b *Block) bool {
 			b.SetControl(cmp)
 			return true
 		}
-		// match: (NE (TESTB (SETGEF cmp) (SETGEF cmp)) yes no)
-		// cond:
-		// result: (UGE  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETGEF {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETGEF {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386UGE
-			b.SetControl(cmp)
-			return true
-		}
 		// match: (NE (TESTB (SETEQF cmp) (SETEQF cmp)) yes no)
 		// cond:
 		// result: (EQF  cmp yes no)
@@ -18690,54 +18402,6 @@ func rewriteBlock386(b *Block) bool {
 				break
 			}
 			b.Kind = Block386EQF
-			b.SetControl(cmp)
-			return true
-		}
-		// match: (NE (TESTB (SETEQF cmp) (SETEQF cmp)) yes no)
-		// cond:
-		// result: (EQF  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETEQF {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETEQF {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386EQF
-			b.SetControl(cmp)
-			return true
-		}
-		// match: (NE (TESTB (SETNEF cmp) (SETNEF cmp)) yes no)
-		// cond:
-		// result: (NEF  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != Op386TESTB {
-				break
-			}
-			v_0 := v.Args[0]
-			if v_0.Op != Op386SETNEF {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != Op386SETNEF {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = Block386NEF
 			b.SetControl(cmp)
 			return true
 		}

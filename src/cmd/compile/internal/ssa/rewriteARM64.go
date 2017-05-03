@@ -5723,24 +5723,6 @@ func rewriteValueARM64_OpARM64MUL_20(v *Value) bool {
 		v.AuxInt = c * d
 		return true
 	}
-	// match: (MUL (MOVDconst [d]) (MOVDconst [c]))
-	// cond:
-	// result: (MOVDconst [c*d])
-	for {
-		v_0 := v.Args[0]
-		if v_0.Op != OpARM64MOVDconst {
-			break
-		}
-		d := v_0.AuxInt
-		v_1 := v.Args[1]
-		if v_1.Op != OpARM64MOVDconst {
-			break
-		}
-		c := v_1.AuxInt
-		v.reset(OpARM64MOVDconst)
-		v.AuxInt = c * d
-		return true
-	}
 	return false
 }
 func rewriteValueARM64_OpARM64MULW_0(v *Value) bool {
@@ -6164,24 +6146,6 @@ func rewriteValueARM64_OpARM64MULW_20(v *Value) bool {
 			break
 		}
 		d := v_1.AuxInt
-		v.reset(OpARM64MOVDconst)
-		v.AuxInt = int64(int32(c) * int32(d))
-		return true
-	}
-	// match: (MULW (MOVDconst [d]) (MOVDconst [c]))
-	// cond:
-	// result: (MOVDconst [int64(int32(c)*int32(d))])
-	for {
-		v_0 := v.Args[0]
-		if v_0.Op != OpARM64MOVDconst {
-			break
-		}
-		d := v_0.AuxInt
-		v_1 := v.Args[1]
-		if v_1.Op != OpARM64MOVDconst {
-			break
-		}
-		c := v_1.AuxInt
 		v.reset(OpARM64MOVDconst)
 		v.AuxInt = int64(int32(c) * int32(d))
 		return true
