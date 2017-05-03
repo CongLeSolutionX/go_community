@@ -46213,32 +46213,6 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Aux = nil
 			return true
 		}
-		// match: (NE (TESTB (SETL cmp) (SETL cmp)) yes no)
-		// cond:
-		// result: (LT  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETL {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETL {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64LT
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
 		// match: (NE (TESTB (SETLE cmp) (SETLE cmp)) yes no)
 		// cond:
 		// result: (LE  cmp yes no)
@@ -46261,58 +46235,6 @@ func rewriteBlockAMD64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockAMD64LE
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETLE cmp) (SETLE cmp)) yes no)
-		// cond:
-		// result: (LE  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETLE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETLE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64LE
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETG cmp) (SETG cmp)) yes no)
-		// cond:
-		// result: (GT  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETG {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETG {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64GT
 			b.SetControl(cmp)
 			b.Aux = nil
 			return true
@@ -46369,32 +46291,6 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Aux = nil
 			return true
 		}
-		// match: (NE (TESTB (SETGE cmp) (SETGE cmp)) yes no)
-		// cond:
-		// result: (GE  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETGE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETGE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64GE
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
 		// match: (NE (TESTB (SETEQ cmp) (SETEQ cmp)) yes no)
 		// cond:
 		// result: (EQ  cmp yes no)
@@ -46417,58 +46313,6 @@ func rewriteBlockAMD64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockAMD64EQ
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETEQ cmp) (SETEQ cmp)) yes no)
-		// cond:
-		// result: (EQ  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETEQ {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETEQ {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64EQ
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETNE cmp) (SETNE cmp)) yes no)
-		// cond:
-		// result: (NE  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETNE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETNE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64NE
 			b.SetControl(cmp)
 			b.Aux = nil
 			return true
@@ -46525,58 +46369,6 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Aux = nil
 			return true
 		}
-		// match: (NE (TESTB (SETB cmp) (SETB cmp)) yes no)
-		// cond:
-		// result: (ULT cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETB {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETB {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64ULT
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETBE cmp) (SETBE cmp)) yes no)
-		// cond:
-		// result: (ULE cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETBE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETBE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64ULE
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
 		// match: (NE (TESTB (SETBE cmp) (SETBE cmp)) yes no)
 		// cond:
 		// result: (ULE cmp yes no)
@@ -46625,58 +46417,6 @@ func rewriteBlockAMD64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockAMD64UGT
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETA cmp) (SETA cmp)) yes no)
-		// cond:
-		// result: (UGT cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETA {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETA {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64UGT
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETAE cmp) (SETAE cmp)) yes no)
-		// cond:
-		// result: (UGE cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETAE {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETAE {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64UGE
 			b.SetControl(cmp)
 			b.Aux = nil
 			return true
@@ -46963,58 +46703,6 @@ func rewriteBlockAMD64(b *Block) bool {
 			b.Aux = nil
 			return true
 		}
-		// match: (NE (TESTB (SETGF cmp) (SETGF cmp)) yes no)
-		// cond:
-		// result: (UGT  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETGF {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETGF {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64UGT
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETGEF cmp) (SETGEF cmp)) yes no)
-		// cond:
-		// result: (UGE  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETGEF {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETGEF {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64UGE
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
 		// match: (NE (TESTB (SETGEF cmp) (SETGEF cmp)) yes no)
 		// cond:
 		// result: (UGE  cmp yes no)
@@ -47063,58 +46751,6 @@ func rewriteBlockAMD64(b *Block) bool {
 				break
 			}
 			b.Kind = BlockAMD64EQF
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETEQF cmp) (SETEQF cmp)) yes no)
-		// cond:
-		// result: (EQF  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETEQF {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETEQF {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64EQF
-			b.SetControl(cmp)
-			b.Aux = nil
-			return true
-		}
-		// match: (NE (TESTB (SETNEF cmp) (SETNEF cmp)) yes no)
-		// cond:
-		// result: (NEF  cmp yes no)
-		for {
-			v := b.Control
-			if v.Op != OpAMD64TESTB {
-				break
-			}
-			_ = v.Args[1]
-			v_0 := v.Args[0]
-			if v_0.Op != OpAMD64SETNEF {
-				break
-			}
-			cmp := v_0.Args[0]
-			v_1 := v.Args[1]
-			if v_1.Op != OpAMD64SETNEF {
-				break
-			}
-			if cmp != v_1.Args[0] {
-				break
-			}
-			b.Kind = BlockAMD64NEF
 			b.SetControl(cmp)
 			b.Aux = nil
 			return true

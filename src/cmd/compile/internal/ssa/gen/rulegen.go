@@ -784,6 +784,25 @@ func isVariable(s string) bool {
 	return b
 }
 
+// eqModVarName reports whether s1 and s2 differ only in a single one character
+// long variable name. Additionally it returns the corresponding variable names.
+func eqModVarName(s1, s2 string) (c, d string, ok bool) {
+	if len(s1) != len(s2) {
+		return "", "", false
+	}
+	for i := 0; i < len(s1); i++ {
+		if s1[i] != s2[i] {
+			if c == "" {
+				c, d = s1[i:i+1], s2[i:i+1]
+				continue
+			}
+			return "", "", false
+		}
+	}
+	ok = isVariable(c) && isVariable(d)
+	return c, d, ok
+}
+
 // commute returns all equivalent rules to r after applying all possible
 // argument swaps to the commutable ops in r.
 // Potentially exponential, be careful.
@@ -867,9 +886,17 @@ func commute1(m string, cnt map[string]int, arch arch) []string {
 		if idx1 == 0 {
 			panic("couldn't find first two args of commutative op " + s[0])
 		}
-		if cnt[s[idx0]] == 1 && cnt[s[idx1]] == 1 || s[idx0] == s[idx1] && cnt[s[idx0]] == 2 {
-			// When we have (Add x y) with no ther uses of x and y in the matching rule,
+		if s[idx0] == s[idx1] {
+			// When we have (Add X X), then we can obviously skip the commutative match.
+			commutative = false
+		} else if cnt[s[idx0]] == 1 && cnt[s[idx1]] == 1 {
+			// When we have (Add x y) with no other uses of x and y in the matching rule,
 			// then we can skip the commutative match (Add y x).
+			commutative = false
+		} else if c, d, ok := eqModVarName(s[idx0], s[idx1]); ok && cnt[c] == 1 && cnt[d] == 1 {
+			// When we have (Add (Const [c]) (Const [d])) with no other uses of
+			// c and d in the matching rule, then we can skip the commutative
+			// match (Add (Const [d]) (Const [c])).
 			commutative = false
 		}
 	}
@@ -897,13 +924,19 @@ func commute1(m string, cnt map[string]int, arch arch) []string {
 }
 
 // varCount returns a map which counts the number of occurrences of
-// Value variables in m.
+// Value and Const variables in m.
 func varCount(m string) map[string]int {
 	cnt := map[string]int{}
 	varCount1(m, cnt)
 	return cnt
 }
 func varCount1(m string, cnt map[string]int) {
+	if m[0] == '[' && m[len(m)-1] == ']' {
+		if m = m[1 : len(m)-1]; isVariable(m) {
+			cnt[m]++
+		}
+		return
+	}
 	if m[0] == '<' || m[0] == '[' || m[0] == '{' {
 		return
 	}

@@ -9286,25 +9286,6 @@ func rewriteValueARM_OpARMMUL_20(v *Value) bool {
 		v.AuxInt = int64(int32(c * d))
 		return true
 	}
-	// match: (MUL (MOVWconst [d]) (MOVWconst [c]))
-	// cond:
-	// result: (MOVWconst [int64(int32(c*d))])
-	for {
-		_ = v.Args[1]
-		v_0 := v.Args[0]
-		if v_0.Op != OpARMMOVWconst {
-			break
-		}
-		d := v_0.AuxInt
-		v_1 := v.Args[1]
-		if v_1.Op != OpARMMOVWconst {
-			break
-		}
-		c := v_1.AuxInt
-		v.reset(OpARMMOVWconst)
-		v.AuxInt = int64(int32(c * d))
-		return true
-	}
 	return false
 }
 func rewriteValueARM_OpARMMULA_0(v *Value) bool {

@@ -5377,25 +5377,6 @@ func rewriteValuePPC64_OpPPC64AND_0(v *Value) bool {
 		v.AuxInt = c & d
 		return true
 	}
-	// match: (AND (MOVDconst [d]) (MOVDconst [c]))
-	// cond:
-	// result: (MOVDconst [c&d])
-	for {
-		_ = v.Args[1]
-		v_0 := v.Args[0]
-		if v_0.Op != OpPPC64MOVDconst {
-			break
-		}
-		d := v_0.AuxInt
-		v_1 := v.Args[1]
-		if v_1.Op != OpPPC64MOVDconst {
-			break
-		}
-		c := v_1.AuxInt
-		v.reset(OpPPC64MOVDconst)
-		v.AuxInt = c & d
-		return true
-	}
 	// match: (AND x (MOVDconst [c]))
 	// cond: isU16Bit(c)
 	// result: (ANDconst [c] x)
@@ -8771,28 +8752,6 @@ func rewriteValuePPC64_OpPPC64OR_0(v *Value) bool {
 		v.AuxInt = c | d
 		return true
 	}
-	// match: (OR (MOVDconst [d]) (MOVDconst [c]))
-	// cond:
-	// result: (MOVDconst [c|d])
-	for {
-		_ = v.Args[1]
-		v_0 := v.Args[0]
-		if v_0.Op != OpPPC64MOVDconst {
-			break
-		}
-		d := v_0.AuxInt
-		v_1 := v.Args[1]
-		if v_1.Op != OpPPC64MOVDconst {
-			break
-		}
-		c := v_1.AuxInt
-		v.reset(OpPPC64MOVDconst)
-		v.AuxInt = c | d
-		return true
-	}
-	return false
-}
-func rewriteValuePPC64_OpPPC64OR_10(v *Value) bool {
 	// match: (OR x (MOVDconst [c]))
 	// cond: isU32Bit(c)
 	// result: (ORconst [c] x)
@@ -8812,6 +8771,9 @@ func rewriteValuePPC64_OpPPC64OR_10(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
+	return false
+}
+func rewriteValuePPC64_OpPPC64OR_10(v *Value) bool {
 	// match: (OR (MOVDconst [c]) x)
 	// cond: isU32Bit(c)
 	// result: (ORconst [c] x)
@@ -9303,28 +9265,6 @@ func rewriteValuePPC64_OpPPC64XOR_0(v *Value) bool {
 		v.AuxInt = c ^ d
 		return true
 	}
-	// match: (XOR (MOVDconst [d]) (MOVDconst [c]))
-	// cond:
-	// result: (MOVDconst [c^d])
-	for {
-		_ = v.Args[1]
-		v_0 := v.Args[0]
-		if v_0.Op != OpPPC64MOVDconst {
-			break
-		}
-		d := v_0.AuxInt
-		v_1 := v.Args[1]
-		if v_1.Op != OpPPC64MOVDconst {
-			break
-		}
-		c := v_1.AuxInt
-		v.reset(OpPPC64MOVDconst)
-		v.AuxInt = c ^ d
-		return true
-	}
-	return false
-}
-func rewriteValuePPC64_OpPPC64XOR_10(v *Value) bool {
 	// match: (XOR x (MOVDconst [c]))
 	// cond: isU32Bit(c)
 	// result: (XORconst [c] x)
@@ -9344,6 +9284,9 @@ func rewriteValuePPC64_OpPPC64XOR_10(v *Value) bool {
 		v.AddArg(x)
 		return true
 	}
+	return false
+}
+func rewriteValuePPC64_OpPPC64XOR_10(v *Value) bool {
 	// match: (XOR (MOVDconst [c]) x)
 	// cond: isU32Bit(c)
 	// result: (XORconst [c] x)

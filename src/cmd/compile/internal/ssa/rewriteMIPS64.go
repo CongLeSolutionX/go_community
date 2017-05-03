@@ -9094,32 +9094,6 @@ func rewriteValueMIPS64_OpSelect1_10(v *Value) bool {
 		v.AuxInt = c * d
 		return true
 	}
-	// match: (Select1 (MULVU (MOVVconst [d]) (MOVVconst [c])))
-	// cond:
-	// result: (MOVVconst [c*d])
-	for {
-		v_0 := v.Args[0]
-		if v_0.Op != OpMIPS64MULVU {
-			break
-		}
-		_ = v_0.Args[1]
-		v_0_0 := v_0.Args[0]
-		if v_0_0.Op != OpMIPS64MOVVconst {
-			break
-		}
-		d := v_0_0.AuxInt
-		v_0_1 := v_0.Args[1]
-		if v_0_1.Op != OpMIPS64MOVVconst {
-			break
-		}
-		c := v_0_1.AuxInt
-		v.reset(OpMIPS64MOVVconst)
-		v.AuxInt = c * d
-		return true
-	}
-	return false
-}
-func rewriteValueMIPS64_OpSelect1_20(v *Value) bool {
 	// match: (Select1 (DIVV (MOVVconst [c]) (MOVVconst [d])))
 	// cond:
 	// result: (MOVVconst [int64(c)/int64(d)])
@@ -9143,6 +9117,9 @@ func rewriteValueMIPS64_OpSelect1_20(v *Value) bool {
 		v.AuxInt = int64(c) / int64(d)
 		return true
 	}
+	return false
+}
+func rewriteValueMIPS64_OpSelect1_20(v *Value) bool {
 	// match: (Select1 (DIVVU (MOVVconst [c]) (MOVVconst [d])))
 	// cond:
 	// result: (MOVVconst [int64(uint64(c)/uint64(d))])
