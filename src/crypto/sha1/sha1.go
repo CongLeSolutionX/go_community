@@ -4,7 +4,7 @@
 
 // Package sha1 implements the SHA-1 hash algorithm as defined in RFC 3174.
 //
-// SHA-1 is broken and should not be used anymore.
+// For cryptographic purposes, SHA-1 is broken and should not be used anymore.
 package sha1
 
 import (
