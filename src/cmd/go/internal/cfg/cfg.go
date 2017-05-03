@@ -64,9 +64,23 @@ var (
 )
 
 var (
-	GOROOT    = filepath.Clean(runtime.GOROOT())
+	GOROOT    = findGOROOT()
 	GOBIN     = os.Getenv("GOBIN")
 	GOROOTbin = filepath.Join(GOROOT, "bin")
 	GOROOTpkg = filepath.Join(GOROOT, "pkg")
 	GOROOTsrc = filepath.Join(GOROOT, "src")
 )
+
+func findGOROOT() string {
+	if env := os.Getenv("GOROOT"); env != "" {
+		return filepath.Clean(env)
+	}
+	exe, err := os.Executable()
+	if err == nil {
+		exe, err = filepath.Abs(exe)
+		if err == nil {
+			return filepath.Join(exe, "../..")
+		}
+	}
+	return filepath.Clean(runtime.GOROOT())
+}
