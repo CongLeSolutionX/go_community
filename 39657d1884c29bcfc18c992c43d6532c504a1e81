@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fa53269_42b28ef4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-03T17:38:49Z",
+      "side": 1,
+      "message": "The word \"Closes\" works, but the Go convention is to use \"Fixes\"",
+      "revId": "39657d1884c29bcfc18c992c43d6532c504a1e81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1e2e6ec_e516f6c9",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-03T17:38:49Z",
+      "side": 1,
+      "message": "Sorry, I had no opinion previously but now that I search, I see that SHA-1 is the proper way to spell it. Can you fix line 5 too?",
+      "revId": "39657d1884c29bcfc18c992c43d6532c504a1e81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
