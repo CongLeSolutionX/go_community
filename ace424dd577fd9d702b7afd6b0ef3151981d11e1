@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d5f5d4e_ea388d8b",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-05-03T23:48:42Z",
+      "side": 1,
+      "message": "I\u0027d slightly favor something like:\n\n    var t *Type\n    if f.Type !\u003d nil {\n        t \u003d f.Type.Elem()\n    }\n    typ \u003d \"...\" + tmodeString(t, mode, depth)\n\njust in case someday we change how we print broken types.",
+      "revId": "ace424dd577fd9d702b7afd6b0ef3151981d11e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
