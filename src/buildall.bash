@@ -79,6 +79,19 @@ do
 			exit 1
 		fi
 	fi
+
+	# Build all tests as well.
+        for PKG in $(go list -f "{{.ImportPath}} {{.TestGoFiles}}" std cmd | \
+          grep -v ' \[\]$' | perl -npe 's/ .+//'); do \
+          # TODO(cmang): This will leave behind a large amount of test binaries.
+          # Figure out what to do with the binaries.
+          if ! "$GOROOT/bin/go" test -c $PKG; then
+	    falied=true
+	    if $sete; then
+	      exit 1
+	    fi
+	  fi
+        done
 done
 
 if [ "$failed" = "true" ]; then
