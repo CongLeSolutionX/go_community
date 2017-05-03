@@ -1754,7 +1754,11 @@ func fldconv(f *types.Field, flag FmtFlag, mode fmtMode, depth int) string {
 
 	var typ string
 	if f.Isddd() {
-		typ = "..." + tmodeString(f.Type.Elem(), mode, depth)
+		et := "<T>"
+		if f.Type != nil {
+			et = tmodeString(f.Type.Elem(), mode, depth)
+		}
+		typ = "..." + et
 	} else {
 		typ = tmodeString(f.Type, mode, depth)
 	}
