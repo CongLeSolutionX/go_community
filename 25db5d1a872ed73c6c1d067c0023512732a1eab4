@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "959eab5e_d4c224e1",
+        "filename": "src/crypto/des/const.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-05-03T23:37:24Z",
+      "side": 1,
+      "message": "Should be two words, \"any more\".\nBut it\u0027s not necessary to say that at all.\n\n// DES is broken and should not be used.\n\nBut even that isn\u0027t quite right, because they are fine to use if one is not concerned about cryptographic security. So I suggest:\n\n// DES is cryptographically broken and should not be used for secure applications.\n\nPlease make this change throughout.",
+      "revId": "25db5d1a872ed73c6c1d067c0023512732a1eab4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
