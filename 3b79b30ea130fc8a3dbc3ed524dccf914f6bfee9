@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e218b78_183fe6ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-03T14:57:49Z",
+      "side": 1,
+      "message": "just \"build\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "3b79b30ea130fc8a3dbc3ed524dccf914f6bfee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fbd1a6f_4ee6385c",
+        "filename": "src/buildall.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-03T14:57:49Z",
+      "side": 1,
+      "message": "mkdir some temp dir, cd into it before the go test, and then delete the file after each go test?",
+      "range": {
+        "startLine": 86,
+        "startChar": 10,
+        "endLine": 87,
+        "endChar": 52
+      },
+      "revId": "3b79b30ea130fc8a3dbc3ed524dccf914f6bfee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb0cfdb9_8d70d266",
+        "filename": "src/buildall.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-03T14:57:49Z",
+      "side": 1,
+      "message": "looks like this file uses tabs instead of spaces. be consistent? (sorry)",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 10
+      },
+      "revId": "3b79b30ea130fc8a3dbc3ed524dccf914f6bfee9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
