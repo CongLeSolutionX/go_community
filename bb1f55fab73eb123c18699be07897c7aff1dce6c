@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de532aff_8cb7fa40",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-04T03:08:45Z",
+      "side": 1,
+      "message": "sorry, we have this quirk in Go docs of putting each word in its own \u003ccode\u003e block so the spaces are a different width or something. I don\u0027t remember the backstory, but it\u0027s what we do.\n\nSee line 414 below for examples.\n\nSo this would be \u003ccode\u003egit\u003c/code\u003e \u003ccode\u003echange\u003c/code\u003e.\n\n(don\u0027t shoot the messenger)",
+      "range": {
+        "startLine": 399,
+        "startChar": 58,
+        "endLine": 399,
+        "endChar": 68
+      },
+      "revId": "bb1f55fab73eb123c18699be07897c7aff1dce6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbad706b_4d7881f2",
+        "filename": "doc/contribute.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-04T03:08:45Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 421,
+        "startChar": 13,
+        "endLine": 421,
+        "endChar": 23
+      },
+      "revId": "bb1f55fab73eb123c18699be07897c7aff1dce6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
