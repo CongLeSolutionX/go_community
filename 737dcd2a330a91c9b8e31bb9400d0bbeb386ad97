@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "261a227c_ac80063a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-05-04T02:45:26Z",
+      "side": 1,
+      "message": "s/April 28/May 3/",
+      "range": {
+        "startLine": 3,
+        "startChar": 25,
+        "endLine": 3,
+        "endChar": 30
+      },
+      "revId": "737dcd2a330a91c9b8e31bb9400d0bbeb386ad97",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
