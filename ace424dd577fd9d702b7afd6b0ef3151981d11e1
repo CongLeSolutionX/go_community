@@ -16,6 +16,24 @@
       "revId": "ace424dd577fd9d702b7afd6b0ef3151981d11e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "691a687f_c4f2ca16",
+        "filename": "src/cmd/compile/internal/gc/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-05-04T00:22:09Z",
+      "side": 1,
+      "message": "I wavered back and forth between the two forms. Changed. :) And left some wiggle room in the test.",
+      "parentUuid": "5d5f5d4e_ea388d8b",
+      "revId": "ace424dd577fd9d702b7afd6b0ef3151981d11e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
