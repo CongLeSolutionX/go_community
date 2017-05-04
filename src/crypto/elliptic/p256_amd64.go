@@ -213,9 +213,11 @@ func (curve p256Curve) CombinedMult(bigX, bigY *big.Int, baseScalar, scalar []by
 	scalarReversed := make([]uint64, 4)
 	var r1, r2 p256Point
 	p256GetScalar(scalarReversed, baseScalar)
+	r1IsInfinity := scalarIsZero(scalarReversed)
 	r1.p256BaseMult(scalarReversed)
 
 	p256GetScalar(scalarReversed, scalar)
+	r2IsInfinity := scalarIsZero(scalarReversed)
 	fromBig(r2.xyz[0:4], maybeReduceModP(bigX))
 	fromBig(r2.xyz[4:8], maybeReduceModP(bigY))
 	p256Mul(r2.xyz[0:4], r2.xyz[0:4], rr[:])
@@ -228,8 +230,13 @@ func (curve p256Curve) CombinedMult(bigX, bigY *big.Int, baseScalar, scalar []by
 	r2.xyz[11] = 0x00000000fffffffe
 
 	r2.p256ScalarMult(scalarReversed)
-	p256PointAddAsm(r1.xyz[:], r1.xyz[:], r2.xyz[:])
-	return r1.p256PointToAffine()
+
+	var sum p256Point
+	p256PointAddAsm(sum.xyz[:], r1.xyz[:], r2.xyz[:])
+	sum.CopyConditional(&r1, r2IsInfinity)
+	sum.CopyConditional(&r2, r1IsInfinity)
+
+	return sum.p256PointToAffine()
 }
 
 func (curve p256Curve) ScalarBaseMult(scalar []byte) (x, y *big.Int) {
@@ -260,6 +267,24 @@ func (curve p256Curve) ScalarMult(bigX, bigY *big.Int, scalar []byte) (x, y *big
 	return r.p256PointToAffine()
 }
 
+// uint64IsZero returns 1 if x is zero and zero otherwise.
+func uint64IsZero(x uint64) int {
+	x = ^x
+	x &= x >> 32
+	x &= x >> 16
+	x &= x >> 8
+	x &= x >> 4
+	x &= x >> 2
+	x &= x >> 1
+	return int(x&1)
+}
+
+// scalarIsZero returns 1 if scalar represents the zero value, and zero
+// otherwise.
+func scalarIsZero(scalar []uint64) int {
+	return uint64IsZero(scalar[0] | scalar[1] | scalar[2] | scalar[3])
+}
+
 func (p *p256Point) p256PointToAffine() (x, y *big.Int) {
 	zInv := make([]uint64, 4)
 	zInvSq := make([]uint64, 4)
@@ -279,6 +304,17 @@ func (p *p256Point) p256PointToAffine() (x, y *big.Int) {
 	p256LittleToBig(yOut, zInv)
 
 	return new(big.Int).SetBytes(xOut), new(big.Int).SetBytes(yOut)
+}
+
+// CopyConditional copies overwrites p with src if v == 1, and leaves p
+// unchanged if v == 0.
+func (p *p256Point) CopyConditional(src *p256Point, v int) {
+	pMask := uint64(v) - 1
+	srcMask := ^pMask
+
+	for i, n := range p.xyz {
+		p.xyz[i] = (n & pMask) | (src.xyz[i] & srcMask)
+	}
 }
 
 // p256Inverse sets out to in^-1 mod p.
