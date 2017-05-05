@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "292cfbc3_8d7ecc64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "may be implemented by ?",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 2
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2bde4ba_2769bf49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "typo.\n\nBut also: what\u0027s a known statement?",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4a0aa79_d6a6e0d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "this part feels like a hack. Which bug does it address?",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 56
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41127d8d_67f756f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb1517fd_158d8a24",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "the default Value types allowed? \n\n(Because https://golang.org/pkg/database/sql/driver/#Value exists and has docs, so might as well reference \"Value\")",
+      "range": {
+        "startLine": 272,
+        "startChar": 66,
+        "endLine": 272,
+        "endChar": 77
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d59e0432_7541240d",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "Go",
+      "range": {
+        "startLine": 272,
+        "startChar": 37,
+        "endLine": 272,
+        "endChar": 39
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6dce958_8c400b5a",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "This part reads unusually for Go docs. The point of this is to communicate the precedence when multiple levels might implement various interfaces?\n\nMaybe:\n\n// The sql package checks for value checkers in the following order, stopping at the first found match: Stmt.NamedValueChecker, Foo.Bar, Bar.Bax, or else the DefaultFooBar.",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 64
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ca5eae8_f5745868",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "ErrSkip and ErrOmit* sure sound alike.\n\nIs ErrSkip following any precedent? (if so, it\u0027s fine. But filepath.SkipDir means something different too). But maybe we should name it more explicitly like ErrUseDefaultChecker?",
+      "range": {
+        "startLine": 283,
+        "startChar": 6,
+        "endLine": 283,
+        "endChar": 13
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e1be031_ad219e80",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "\" to retrieve values from stored procedures.\" ?",
+      "range": {
+        "startLine": 281,
+        "startChar": 46,
+        "endLine": 281,
+        "endChar": 47
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c21ecbf2_d60716eb",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-05T23:22:36Z",
+      "side": 1,
+      "message": "this is somewhat of a stretch of a type. We use this type for documentation only, and now we\u0027re abusing it by saying \"oh and it needs to be a pointer\". Maybe just using interface{} here is best. That would be consistent with https://golang.org/pkg/database/sql/#Row.Scan and these feel the same. (getting data out)",
+      "range": {
+        "startLine": 291,
+        "startChar": 7,
+        "endLine": 291,
+        "endChar": 19
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
