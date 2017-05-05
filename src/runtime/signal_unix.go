@@ -216,13 +216,16 @@ func setProcessCPUProfiler(hz int32) {
 			setsig(_SIGPROF, funcPC(sighandler))
 		}
 	} else {
-		// If the Go signal handler should be disabled by default,
-		// disable it if it is enabled.
-		if !sigInstallGoHandler(_SIGPROF) {
-			if atomic.Cas(&handlingSig[_SIGPROF], 1, 0) {
-				setsig(_SIGPROF, atomic.Loaduintptr(&fwdSig[_SIGPROF]))
-			}
+		handler := atomic.Loaduintptr(&fwdSig[_SIGPROF])
+		// We have no way of knowing whether there is a
+		// pending SIGPROF in a different thread (see
+		// issue #19320) so don't change back to the default
+		// signal handler. Do change back if there used to
+		// be a non-default handler.
+		if handler != _SIG_DFL {
+			setsig(_SIGPROF, handler)
 		}
+
 	}
 }
 
