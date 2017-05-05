@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71d1685a_90f03443",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 12836
+      },
+      "writtenOn": "2017-05-05T21:03:06Z",
+      "side": 1,
+      "message": "Needs a \", ok\" for non x64/s390, also maybe something like:\n\n    type genCombinedMult struct {\n\tCurve\n    }\n\n    func (g genCombinedMult) CombinedMult(bigX, bigY *big.Int, baseScalar, scalar []byte) (x, y *big.Int) {\n    \tx1, y1 :\u003d g.ScalarBaseMult(baseScalar)\n    \tx2, y2 :\u003d g.ScalarMult(bigX, bigY, scalar)\n    \treturn g.Add(x1, y1, x2, y2)\n    }\n\n\n\tp256, ok :\u003d P256().(combinedMult)\n\tif !ok {\n\t\tp256 \u003d \u0026genCombinedMult{P256()}\n\t}",
+      "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eaebf29_bc8e6836",
+        "filename": "src/crypto/elliptic/p256_asm_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 2107,
+      "author": {
+        "id": 12836
+      },
+      "writtenOn": "2017-05-05T21:03:06Z",
+      "side": 1,
+      "message": "This doesn\u0027t explicitly check for U1\u003d\u003dU2 \u0026 S1 !\u003d S2 like the referenced paper at https://eprint.iacr.org/2013/816.pdf:\n\n    if (U1 \u003d\u003d U2) then\n     if (S1 !\u003d S2) return POINT_AT_INFINITY\n     else return POINT_DOUBLE (X1, Y1, Z1)\n     abort\n    end\n\nI tested by modifying the asm to return a flag for each condition, and it occurs in the \"1×G + (-1)×G \u003d ∞\" test case which correctly returns infinity.",
+      "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
