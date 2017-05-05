@@ -16,6 +16,24 @@
       "revId": "7dfbdfbd3ef1d0eeae2563c4fb0384679fcb4f8f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd7b12f7_60f620dd",
+        "filename": "src/os/stat_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-05T03:59:15Z",
+      "side": 1,
+      "message": "There is no such thing as \"symlink to NUL\". \"NUL\" is a special name that some Windows APIs (including CreateFile) recognise for what it is. \"NUL\" stands for what you use /dev/null on unix.\n\nFrom https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v\u003dvs.85).aspx\n```\nDo not use the following reserved names for the name of a file:\nCON, PRN, AUX, NUL, COM1, COM2, COM3, COM4, COM5, COM6, COM7, COM8, COM9, LPT1, LPT2, LPT3, LPT4, LPT5, LPT6, LPT7, LPT8, and LPT9.\n```\n\nI copied this code from Lstat.",
+      "parentUuid": "33423753_6223abac",
+      "revId": "7dfbdfbd3ef1d0eeae2563c4fb0384679fcb4f8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
