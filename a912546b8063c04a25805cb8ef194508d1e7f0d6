@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d3d112ac_d82208f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "292cfbc3_8d7ecc64",
+      "range": {
+        "startLine": 13,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 2
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2bde4ba_2769bf49",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-05T23:22:36Z",
       "side": 1,
       "message": "typo.\n\nBut also: what\u0027s a known statement?",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9420a37_1aed3870",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "Should read \"it can be used for checking arguments known to a prepared statement\"",
+      "parentUuid": "e2bde4ba_2769bf49",
       "range": {
         "startLine": 17,
         "startChar": 15,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7c299d9a_5e10a81e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "It addresses bugs:\nhttps://github.com/golang/go/issues/19797 (I should include this in the Updates issue list below)\nhttps://github.com/golang/go/issues/13067\n\nIn essence, we can pass an option value as an argument and let the driver acknowledge this is an option or secondary interface that will be used by the user and driver. It instructs the sql package to not pass these option types to the query. This both provides separation of concerns and the driver.NamedValue has an Ordinal value, this insures that Ordinal value is correct.\n\nIt could be named \"driver.ErrOption\" (?) unsure. It is a hack really, but there isn\u0027t any other way of passing option type per query driver parameters to the query.\n\nOne concrete example is the RawMessage option, prototyped here:\nhttps://github.com/golang-sql/sqlexp/blob/master/messages.go#L20\nThe RawMessage struct would be passed as a query argument, the NamedValueChecker would omit it from the argument list but still register it (and slightly modify when SQL errors are returned), and use it during execution.\n\nPreviously I was proposing a separate CL to include RawMessage on the Rows struct, but it turns out the driver needs to know in advance if RawMessage will be used or not. After some back and forth realized we could pass the RawMessage interface into the argument list. It would also solve the per-query options that others would like to see (issue 13067).",
+      "parentUuid": "b4a0aa79_d6a6e0d9",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 56
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41127d8d_67f756f1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 13
@@ -91,6 +163,30 @@
       "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24a5444c_894fe453",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "41127d8d_67f756f1",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +236,54 @@
     },
     {
       "key": {
+        "uuid": "c3a293dc_c64b6859",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d59e0432_7541240d",
+      "range": {
+        "startLine": 272,
+        "startChar": 37,
+        "endLine": 272,
+        "endChar": 39
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9c632ae_4aca5811",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb1517fd_158d8a24",
+      "range": {
+        "startLine": 272,
+        "startChar": 66,
+        "endLine": 272,
+        "endChar": 77
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6dce958_8c400b5a",
         "filename": "src/database/sql/driver/driver.go",
         "patchSetId": 13
@@ -151,6 +295,30 @@
       "writtenOn": "2017-05-05T23:22:36Z",
       "side": 1,
       "message": "This part reads unusually for Go docs. The point of this is to communicate the precedence when multiple levels might implement various interfaces?\n\nMaybe:\n\n// The sql package checks for value checkers in the following order, stopping at the first found match: Stmt.NamedValueChecker, Foo.Bar, Bar.Bax, or else the DefaultFooBar.",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 64
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb87a628_f23d651e",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "SGTM. I\u0027ll reword next draft.",
+      "parentUuid": "a6dce958_8c400b5a",
       "range": {
         "startLine": 275,
         "startChar": 0,
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "93fa65b1_5e2a5cfe",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "If you return driver.ErrSkip it behaves as if the interface is entirely un-implemented, thus the re-use. I totally get where you are going with that.\n\nmaybe s/ErrOmitArgument/ErrRemoveArgument/ ?",
+      "parentUuid": "9ca5eae8_f5745868",
+      "range": {
+        "startLine": 283,
+        "startChar": 6,
+        "endLine": 283,
+        "endChar": 13
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8e1be031_ad219e80",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 13
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "7d9de137_bc1f48a7",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "\"Out may be used to retrieve OUTPUT value parameters from stored procedures.\" ?",
+      "parentUuid": "8e1be031_ad219e80",
+      "range": {
+        "startLine": 281,
+        "startChar": 46,
+        "endLine": 281,
+        "endChar": 47
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c21ecbf2_d60716eb",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 13
@@ -220,6 +436,30 @@
       "writtenOn": "2017-05-05T23:22:36Z",
       "side": 1,
       "message": "this is somewhat of a stretch of a type. We use this type for documentation only, and now we\u0027re abusing it by saying \"oh and it needs to be a pointer\". Maybe just using interface{} here is best. That would be consistent with https://golang.org/pkg/database/sql/#Row.Scan and these feel the same. (getting data out)",
+      "range": {
+        "startLine": 291,
+        "startChar": 7,
+        "endLine": 291,
+        "endChar": 19
+      },
+      "revId": "a912546b8063c04a25805cb8ef194508d1e7f0d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90b53127_58924414",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-05T23:55:21Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "c21ecbf2_d60716eb",
       "range": {
         "startLine": 291,
         "startChar": 7,
