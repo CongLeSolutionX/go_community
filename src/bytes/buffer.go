@@ -18,7 +18,6 @@ type Buffer struct {
 	buf      []byte // contents are the bytes buf[off : len(buf)]
 	off      int    // read at &buf[off], write at &buf[len(buf)]
 	lastRead readOp // last read operation, so that Unread* can work correctly.
-	// FIXME: lastRead can fit in a single byte
 
 	// memory to hold first slice; helps small buffers avoid allocation.
 	// FIXME: it would be advisable to align Buffer to cachelines to avoid false
@@ -30,7 +29,7 @@ type Buffer struct {
 // the buffer, so that UnreadRune and UnreadByte can check for
 // invalid usage. opReadRuneX constants are chosen such that
 // converted to int they correspond to the rune size that was read.
-type readOp int
+type readOp int8
 
 const (
 	opRead      readOp = -1 // Any other read operation.
@@ -61,6 +60,9 @@ func (b *Buffer) String() string {
 	return string(b.buf[b.off:])
 }
 
+// empty returns whether the unread portion of the buffer is empty.
+func (b *Buffer) empty() bool { return len(b.buf) <= b.off }
+
 // Len returns the number of bytes of the unread portion of the buffer;
 // b.Len() == len(b.Bytes()).
 func (b *Buffer) Len() int { return len(b.buf) - b.off }
@@ -81,7 +83,7 @@ func (b *Buffer) Truncate(n int) {
 	if n < 0 || n > b.Len() {
 		panic("bytes.Buffer: truncation out of range")
 	}
-	b.buf = b.buf[0 : b.off+n]
+	b.buf = b.buf[:b.off+n]
 }
 
 // Reset resets the buffer to be empty,
@@ -108,9 +110,8 @@ func (b *Buffer) tryGrowByReslice(n int) (int, bool) {
 // It returns the index where bytes should be written.
 // If the buffer can't grow it will panic with ErrTooLarge.
 func (b *Buffer) grow(n int) int {
-	m := b.Len()
-	// If buffer is empty, reset to recover space.
-	if m == 0 && b.off != 0 {
+	if b.empty() {
+		// If buffer is empty, reset to recover space.
 		b.Reset()
 	}
 	// Try to grow by means of a reslice.
@@ -122,9 +123,10 @@ func (b *Buffer) grow(n int) int {
 		b.buf = b.bootstrap[:n]
 		return 0
 	}
-	if m+n <= cap(b.buf)/2 {
+	l := b.Len()
+	if l+n <= cap(b.buf)/2 {
 		// We can slide things down instead of allocating a new
-		// slice. We only need m+n <= cap(b.buf) to slide, but
+		// slice. We only need l+n <= cap(b.buf) to slide, but
 		// we instead let capacity get twice as large so we
 		// don't spend all our time copying.
 		copy(b.buf[:], b.buf[b.off:])
@@ -136,8 +138,8 @@ func (b *Buffer) grow(n int) int {
 	}
 	// Restore b.off and len(b.buf).
 	b.off = 0
-	b.buf = b.buf[:m+n]
-	return m
+	b.buf = b.buf[:l+n]
+	return l
 }
 
 // Grow grows the buffer's capacity, if necessary, to guarantee space for
@@ -149,8 +151,8 @@ func (b *Buffer) Grow(n int) {
 	if n < 0 {
 		panic("bytes.Buffer.Grow: negative count")
 	}
-	m := b.grow(n)
-	b.buf = b.buf[0:m]
+	i := b.grow(n)
+	b.buf = b.buf[:i]
 }
 
 // Write appends the contents of p to the buffer, growing the buffer as
@@ -158,11 +160,11 @@ func (b *Buffer) Grow(n int) {
 // buffer becomes too large, Write will panic with ErrTooLarge.
 func (b *Buffer) Write(p []byte) (n int, err error) {
 	b.lastRead = opInvalid
-	m, ok := b.tryGrowByReslice(len(p))
+	i, ok := b.tryGrowByReslice(len(p))
 	if !ok {
-		m = b.grow(len(p))
+		i = b.grow(len(p))
 	}
-	return copy(b.buf[m:], p), nil
+	return copy(b.buf[i:], p), nil
 }
 
 // WriteString appends the contents of s to the buffer, growing the buffer as
@@ -170,11 +172,11 @@ func (b *Buffer) Write(p []byte) (n int, err error) {
 // buffer becomes too large, WriteString will panic with ErrTooLarge.
 func (b *Buffer) WriteString(s string) (n int, err error) {
 	b.lastRead = opInvalid
-	m, ok := b.tryGrowByReslice(len(s))
+	i, ok := b.tryGrowByReslice(len(s))
 	if !ok {
-		m = b.grow(len(s))
+		i = b.grow(len(s))
 	}
-	return copy(b.buf[m:], s), nil
+	return copy(b.buf[i:], s), nil
 }
 
 // MinRead is the minimum slice size passed to a Read call by
@@ -189,34 +191,18 @@ const MinRead = 512
 // buffer becomes too large, ReadFrom will panic with ErrTooLarge.
 func (b *Buffer) ReadFrom(r io.Reader) (n int64, err error) {
 	b.lastRead = opInvalid
-	// If buffer is empty, reset to recover space.
-	if b.off >= len(b.buf) {
-		b.Reset()
-	}
 	for {
-		if free := cap(b.buf) - len(b.buf); free < MinRead {
-			// not enough space at end
-			newBuf := b.buf
-			if b.off+free < MinRead {
-				// not enough space using beginning of buffer;
-				// double buffer capacity
-				newBuf = makeSlice(2*cap(b.buf) + MinRead)
-			}
-			copy(newBuf, b.buf[b.off:])
-			b.buf = newBuf[:len(b.buf)-b.off]
-			b.off = 0
-		}
-		m, e := r.Read(b.buf[len(b.buf):cap(b.buf)])
-		b.buf = b.buf[0 : len(b.buf)+m]
+		i := b.grow(MinRead)
+		m, e := r.Read(b.buf[i:cap(b.buf)])
+		b.buf = b.buf[:i+m]
 		n += int64(m)
 		if e == io.EOF {
-			break
+			return n, nil // e is EOF, so return nil explicitly
 		}
 		if e != nil {
 			return n, e
 		}
 	}
-	return n, nil // err is EOF, so return nil explicitly
 }
 
 // makeSlice allocates a slice of size n. If the allocation fails, it panics
@@ -237,8 +223,7 @@ func makeSlice(n int) []byte {
 // encountered during the write is also returned.
 func (b *Buffer) WriteTo(w io.Writer) (n int64, err error) {
 	b.lastRead = opInvalid
-	if b.off < len(b.buf) {
-		nBytes := b.Len()
+	if nBytes := b.Len(); nBytes > 0 {
 		m, e := w.Write(b.buf[b.off:])
 		if m > nBytes {
 			panic("bytes.Buffer.WriteTo: invalid Write count")
@@ -256,7 +241,7 @@ func (b *Buffer) WriteTo(w io.Writer) (n int64, err error) {
 	}
 	// Buffer is now empty; reset.
 	b.Reset()
-	return
+	return n, nil
 }
 
 // WriteByte appends the byte c to the buffer, growing the buffer as needed.
@@ -265,11 +250,11 @@ func (b *Buffer) WriteTo(w io.Writer) (n int64, err error) {
 // ErrTooLarge.
 func (b *Buffer) WriteByte(c byte) error {
 	b.lastRead = opInvalid
-	m, ok := b.tryGrowByReslice(1)
+	i, ok := b.tryGrowByReslice(1)
 	if !ok {
-		m = b.grow(1)
+		i = b.grow(1)
 	}
-	b.buf[m] = c
+	b.buf[i] = c
 	return nil
 }
 
@@ -283,12 +268,12 @@ func (b *Buffer) WriteRune(r rune) (n int, err error) {
 		return 1, nil
 	}
 	b.lastRead = opInvalid
-	m, ok := b.tryGrowByReslice(utf8.UTFMax)
+	i, ok := b.tryGrowByReslice(utf8.UTFMax)
 	if !ok {
-		m = b.grow(utf8.UTFMax)
+		i = b.grow(utf8.UTFMax)
 	}
-	n = utf8.EncodeRune(b.buf[m:m+utf8.UTFMax], r)
-	b.buf = b.buf[:m+n]
+	n = utf8.EncodeRune(b.buf[i:i+utf8.UTFMax], r)
+	b.buf = b.buf[:i+n]
 	return n, nil
 }
 
@@ -298,11 +283,11 @@ func (b *Buffer) WriteRune(r rune) (n int, err error) {
 // otherwise it is nil.
 func (b *Buffer) Read(p []byte) (n int, err error) {
 	b.lastRead = opInvalid
-	if b.off >= len(b.buf) {
+	if b.empty() {
 		// Buffer is empty, reset to recover space.
 		b.Reset()
 		if len(p) == 0 {
-			return
+			return 0, nil
 		}
 		return 0, io.EOF
 	}
@@ -311,7 +296,7 @@ func (b *Buffer) Read(p []byte) (n int, err error) {
 	if n > 0 {
 		b.lastRead = opRead
 	}
-	return
+	return n, nil
 }
 
 // Next returns a slice containing the next n bytes from the buffer,
@@ -335,8 +320,7 @@ func (b *Buffer) Next(n int) []byte {
 // ReadByte reads and returns the next byte from the buffer.
 // If no byte is available, it returns error io.EOF.
 func (b *Buffer) ReadByte() (byte, error) {
-	b.lastRead = opInvalid
-	if b.off >= len(b.buf) {
+	if b.empty() {
 		// Buffer is empty, reset to recover space.
 		b.Reset()
 		return 0, io.EOF
@@ -354,7 +338,7 @@ func (b *Buffer) ReadByte() (byte, error) {
 // consumes one byte and returns U+FFFD, 1.
 func (b *Buffer) ReadRune() (r rune, size int, err error) {
 	b.lastRead = opInvalid
-	if b.off >= len(b.buf) {
+	if b.empty() {
 		// Buffer is empty, reset to recover space.
 		b.Reset()
 		return 0, 0, io.EOF
@@ -413,7 +397,7 @@ func (b *Buffer) ReadBytes(delim byte) (line []byte, err error) {
 	// return a copy of slice. The buffer's backing array may
 	// be overwritten by later calls.
 	line = append(line, slice...)
-	return
+	return line, err
 }
 
 // readSlice is like ReadBytes but returns a reference to internal buffer data.
