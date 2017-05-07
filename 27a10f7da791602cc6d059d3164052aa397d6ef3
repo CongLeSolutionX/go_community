@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49d72b31_ddd4a811",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-05-07T01:14:26Z",
+      "side": 0,
+      "message": "How about\n    handler :\u003d atomic.Loaduintptr(\u0026fwdSig[_SIGPROF])\n    // We have no way of knowing whether there is a pending SIGPROF in a different thread (see issue #19320) so don\u0027t change back to the default signal handler.  Do change back if there used to be a non-default handler.\n    if handler !\u003d _SIG_DFL {\n        setsig(_SIGPROF, handler)\n    }",
+      "revId": "27a10f7da791602cc6d059d3164052aa397d6ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
