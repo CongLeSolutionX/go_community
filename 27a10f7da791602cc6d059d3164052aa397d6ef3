@@ -16,6 +16,24 @@
       "revId": "27a10f7da791602cc6d059d3164052aa397d6ef3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17ed6e31_9ac67eb4",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-05-07T19:13:00Z",
+      "side": 0,
+      "message": "Done.\n\nIt seems technically imperfect to me: something other than Go could have changed the handler since fwdSig was recorded. But in practice it is going to be better than leaving the Go handler in place and dropping all the SIGPROFs.",
+      "parentUuid": "49d72b31_ddd4a811",
+      "revId": "27a10f7da791602cc6d059d3164052aa397d6ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
