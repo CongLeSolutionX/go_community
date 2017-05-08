@@ -14,6 +14,14 @@ import (
 // GOTRACEBACK=crash when a signal is received.
 var crashing int32
 
+const PreemptAddress uintptr = 0xa000000000
+
+var LoopSignalCount int
+
+func LoopUnmap() {
+	sysFault(unsafe.Pointer(PreemptAddress), 0x1000)
+}
+
 // sighandler is invoked when a signal occurs. The global g will be
 // set to a gsignal goroutine and we will be running on the alternate
 // signal stack. The parameter g will be the value of the global g
@@ -28,6 +36,18 @@ var crashing int32
 func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 	_g_ := getg()
 	c := &sigctxt{info, ctxt}
+
+	if sig == _SIGSEGV && c.fault() == PreemptAddress {
+		// Experiment: loop preemption
+		//
+		// Skip over load.
+		c.set_rip(c.rip() + (0x21 - 0x1e))
+
+		// Map preemption page back.
+		sysUnfault(unsafe.Pointer(PreemptAddress), 0x1000)
+		LoopSignalCount++
+		return
+	}
 
 	if sig == _SIGPROF {
 		sigprof(c.sigpc(), c.sigsp(), c.siglr(), gp, _g_.m)

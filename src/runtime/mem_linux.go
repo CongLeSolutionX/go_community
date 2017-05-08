@@ -180,6 +180,10 @@ func sysFault(v unsafe.Pointer, n uintptr) {
 	mmap(v, n, _PROT_NONE, _MAP_ANON|_MAP_PRIVATE|_MAP_FIXED, -1, 0)
 }
 
+func sysUnfault(v unsafe.Pointer, n uintptr) {
+	mmap(v, n, _PROT_READ, _MAP_ANON|_MAP_PRIVATE|_MAP_FIXED, -1, 0)
+}
+
 func sysReserve(v unsafe.Pointer, n uintptr, reserved *bool) unsafe.Pointer {
 	// On 64-bit, people with ulimit -v set complain if we reserve too
 	// much address space. Instead, assume that the reservation is okay
