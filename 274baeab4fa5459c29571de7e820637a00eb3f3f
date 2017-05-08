@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a0c48ab_d857d8ae",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2307,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-05-08T23:48:13Z",
+      "side": 1,
+      "message": "s/we in theory/in theory we/ (?)",
+      "revId": "274baeab4fa5459c29571de7e820637a00eb3f3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa9da99a_7f1a5db2",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2309,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-05-08T23:48:13Z",
+      "side": 1,
+      "message": "s/to/too/",
+      "range": {
+        "startLine": 2309,
+        "startChar": 51,
+        "endLine": 2309,
+        "endChar": 53
+      },
+      "revId": "274baeab4fa5459c29571de7e820637a00eb3f3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61b195bd_76ed1e9a",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2311,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-05-08T23:48:13Z",
+      "side": 1,
+      "message": "s/only for/only enabled for/",
+      "revId": "274baeab4fa5459c29571de7e820637a00eb3f3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a070b62_2569dda1",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2315,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-05-08T23:48:13Z",
+      "side": 1,
+      "message": "s/ right now//.\n\n(or rephrase - we have \"for now\" before and \"right now\" here)",
+      "revId": "274baeab4fa5459c29571de7e820637a00eb3f3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cc1fdbd_853bc99a",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2323,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-05-08T23:48:13Z",
+      "side": 1,
+      "message": "s/such case/such a case/ (?)",
+      "revId": "274baeab4fa5459c29571de7e820637a00eb3f3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
