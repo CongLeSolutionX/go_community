@@ -34,6 +34,24 @@
       "revId": "27a10f7da791602cc6d059d3164052aa397d6ef3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aab9c543_6533eb40",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-05-08T17:40:26Z",
+      "side": 0,
+      "message": "I\u0027m not seeing a lot of technically perfect solutions.  It\u0027s basically impossible for multiple language runtimes to successfully coordinate SIGPROF handling.",
+      "parentUuid": "17ed6e31_9ac67eb4",
+      "revId": "27a10f7da791602cc6d059d3164052aa397d6ef3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
