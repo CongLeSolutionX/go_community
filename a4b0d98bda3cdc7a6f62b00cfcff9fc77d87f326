@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b1f7882_027d84bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-08T22:52:12Z",
+      "side": 1,
+      "message": "drop the parens per Go style",
+      "revId": "a4b0d98bda3cdc7a6f62b00cfcff9fc77d87f326",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
