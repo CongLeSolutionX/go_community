@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "210e4561_9731a90c",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2017-05-09T00:45:47Z",
+      "side": 1,
+      "message": "Couple of things got me confused in this test:\n\n- I believe these tests reflect http://www.secg.org/sec1-v1.99.dif.pdf 2.2.1, Adam is that what you were after?\n     - Inf + Inf \u003d Inf\n     - (x,y) + Inf \u003d P\n     - (x,y) + (x,-y) \u003d Inf\n     ...\n-  negative of a point is (x, -y). The variable called minusOne (-1) \u003d N - 1 doesn\u0027t achieve that effect. You still get a pass since you effectively do N * G \u003d\u003d 0 * G\n     - Would think of adding a test  (gx, gy) + (gx, (p-gy)%p)\n- Sign() as check for infinity. I would want a Math major to comment/correct me, being a self-taught CS guy..\n    - x.Sign(): Thinking pictorially, x \u003d 0 is still a valid point. ( y^2 \u003d\u003d b (mod p))\n    - y.Sign(): This one seems to make sense, except I can\u0027t explain why x^3 + a x \u003d\u003d -b (mod p) is not solvable\n    - The standard trick for infinity check seems to be (Z \u003d\u003d 0) check  (see my other comment)",
+      "range": {
+        "startLine": 503,
+        "startChar": 0,
+        "endLine": 506,
+        "endChar": 34
+      },
+      "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef8b2c7f_9d1a8b32",
+        "filename": "src/crypto/elliptic/p256_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 15715
+      },
+      "writtenOn": "2017-05-09T00:45:47Z",
+      "side": 1,
+      "message": "- Generally, it seems that the problem is with p256(Base)Mult, so the fixes should go there (i.e. this infinity issue also exists for ECDHE and ECDSA.Sign not just ECDSA.Verify)\n   - should not need an extra point double here, if the multiplies are behaving. just slows things down. \n- \u0027Guide to Elliptic Curve Cryptography\u0027 by Menezes Section 3.2.2, suggests that Jacobian projective coordinates, point at infinity corresponds to (1, 1, 0), though given that the conversion back to cartesian plane involves division by Z ((x,y) \u003d\u003d (X/Z^2, Y/Z^3)), any zero value of Z will give you infinity\n     - Need to leave for the night (and out for a bit, so will be responding slowly) so haven\u0027t confirmed it, but I believe what really is missing are the checks specified by (in the above book) Algorithm 3.21  Step 1 for doubling and Algorithm 3.22 for addition, Step 1, Step 2 (\u00271\u0027 is in montgomery domain here) and Step 9.* Everything else just works out implicitly through the impressive ecc math magic..",
+      "range": {
+        "startLine": 236,
+        "startChar": 1,
+        "endLine": 242,
+        "endChar": 0
+      },
+      "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1eaebf29_bc8e6836",
         "filename": "src/crypto/elliptic/p256_asm_amd64.s",
         "patchSetId": 3
