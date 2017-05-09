@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4be8ccc_64f0ac78",
+        "filename": "src/net/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-05-09T00:54:51Z",
+      "side": 1,
+      "message": "this should be \"192.0.2.1/24\"; see rfc 6890 and issue 15228.",
+      "range": {
+        "startLine": 47,
+        "startChar": 42,
+        "endLine": 47,
+        "endChar": 54
+      },
+      "revId": "716761b8b13926ef4a82dcb4ffc324066779239c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
