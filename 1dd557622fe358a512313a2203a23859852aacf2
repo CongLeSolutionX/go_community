@@ -1,0 +1,313 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6affc361_e2b5564c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "Fixes #19844. (so GopherBot can automatically close it)",
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1ef621d_1033daa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "What do \"first round\" and \"second round\" mean? Can we just have one?",
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9e3eaaf_5faf6dcb",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM.rules",
+        "patchSetId": 11
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "Could this be \"uint32(c)\"? We probably don\u0027t want high bits of the result to be all 1s, although it might be harmless.",
+      "range": {
+        "startLine": 801,
+        "startChar": 92,
+        "endLine": 801,
+        "endChar": 100
+      },
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84cbf31c_f5b0da5e",
+        "filename": "src/cmd/internal/obj/arm/a.out.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "Need to update anames5.go.",
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e10c080_cbe36921",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "Add x\u0026y\u003d\u003d0.",
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa93bca_a2cbe700",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1005,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "Remove the quotes",
+      "range": {
+        "startLine": 1005,
+        "startChar": 38,
+        "endLine": 1005,
+        "endChar": 42
+      },
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cd95e3b_c7eb8f6e",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "Parentheses are unnecessary.",
+      "range": {
+        "startLine": 1009,
+        "startChar": 5,
+        "endLine": 1009,
+        "endChar": 25
+      },
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df078022_a712ea80",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1012,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "Return 0, 0 when i \u003e\u003d 26?",
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "929ad703_4ed792f8",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "\"point to\" is unclear. Maybe \"adjust i just above lower 8 effective bits of v\".",
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecd16c71_34e1a958",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "the complement of lower 8 effective bits",
+      "range": {
+        "startLine": 1015,
+        "startChar": 13,
+        "endLine": 1015,
+        "endChar": 50
+      },
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8be8bda8_aafb3917",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "Parentheses are unnecessary.",
+      "range": {
+        "startLine": 1016,
+        "startChar": 21,
+        "endLine": 1016,
+        "endChar": 45
+      },
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd8a4e5d_78997aab",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "No need for the type conversion and parentheses.",
+      "range": {
+        "startLine": 1272,
+        "startChar": 42,
+        "endLine": 1272,
+        "endChar": 63
+      },
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec0bd864_3d87ca54",
+        "filename": "test/armimm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "subr64 and subr64a are same.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 1
+      },
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5583f540_3114f90d",
+        "filename": "test/armimm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "bic32a?",
+      "range": {
+        "startLine": 149,
+        "startChar": 25,
+        "endLine": 149,
+        "endChar": 30
+      },
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193547a4_cbe9714a",
+        "filename": "test/armimm.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-09T12:17:22Z",
+      "side": 1,
+      "message": "bic64a?",
+      "range": {
+        "startLine": 181,
+        "startChar": 25,
+        "endLine": 181,
+        "endChar": 30
+      },
+      "revId": "1dd557622fe358a512313a2203a23859852aacf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
