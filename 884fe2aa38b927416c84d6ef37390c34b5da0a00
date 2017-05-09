@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee44e2e_410fb758",
+        "filename": "src/cmd/compile/internal/ssa/value.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-05-09T20:08:39Z",
+      "side": 1,
+      "message": "I worry a little bit about losing a line number altogether with this change.\nFor instance, flagalloc uses copyInto to move the comparison instruction. The original is then unused.\nThere\u0027s a TODO in flagalloc to remove the original.  If we did that, then there may be no instruction left corresponding to the original line number where the comparison happened.\n\nHow much is this part a contributor to line number churn?\n\nThe copyInto\u0027s used for rematerialization in regalloc are probably ok.  Maybe other uses aren\u0027t.",
+      "revId": "884fe2aa38b927416c84d6ef37390c34b5da0a00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
