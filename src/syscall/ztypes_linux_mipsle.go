@@ -1,5 +1,5 @@
 // Created by cgo -godefs - DO NOT EDIT
-// cgo -godefs types_linux.go
+// cgo -godefs types_linux.go | go run mkpost.go
 
 package syscall
 
@@ -355,7 +355,7 @@ const (
 	IFLA_LINKINFO       = 0x12
 	IFLA_NET_NS_PID     = 0x13
 	IFLA_IFALIAS        = 0x14
-	IFLA_MAX            = 0x27
+	IFLA_MAX            = 0x2b
 	RT_SCOPE_UNIVERSE   = 0x0
 	RT_SCOPE_SITE       = 0xc8
 	RT_SCOPE_LINK       = 0xfd
@@ -521,6 +521,15 @@ type PtraceRegs struct {
 	U_ar0       *byte
 	Magic       uint32
 	U_comm      [32]int8
+}
+
+type ptracePsw struct {
+}
+
+type ptraceFpregs struct {
+}
+
+type ptracePer struct {
 }
 
 type FdSet struct {

@@ -60,6 +60,20 @@ enum {
 	sizeofPtr = sizeof(void*),
 };
 
+#if defined(__mips__) && _MIPS_SIM == _ABI64
+// MIPS N64 uses getdents instead of getdents64 (see syscall_linux_mips64x.go)
+// so we need linux_dirent instead of linux_dirent64
+struct my_dirent
+{
+	unsigned long d_ino;
+	unsigned long d_off;
+	unsigned short d_reclen;
+	char d_name[];
+};
+#else
+#define my_dirent dirent
+#endif
+
 union sockaddr_all {
 	struct sockaddr s1;	// this one gets used for fields
 	struct sockaddr_in s2;	// these pad it out
@@ -175,7 +189,7 @@ type Stat_t C.struct_stat
 
 type Statfs_t C.struct_statfs
 
-type Dirent C.struct_dirent
+type Dirent C.struct_my_dirent
 
 type Fsid C.fsid_t
 
