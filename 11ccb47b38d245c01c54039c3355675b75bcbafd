@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10cd8610_831bb4b1",
+        "filename": "src/path/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-05-09T06:23:59Z",
+      "side": 1,
+      "message": "Go examples are not unit tests and not the greatest place to document edge cases. These inline examples needs to cover essential cases and be simple to read.",
+      "revId": "11ccb47b38d245c01c54039c3355675b75bcbafd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
