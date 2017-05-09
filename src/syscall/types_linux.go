@@ -60,6 +60,56 @@ enum {
 	sizeofPtr = sizeof(void*),
 };
 
+#if defined(__mips__) && _MIPS_SIM == _ABI64
+// MIPS N64 uses getdents instead of getdents64 (see syscall_linux_mips64x.go)
+// so we need linux_dirent instead of linux_dirent64
+struct my_dirent
+{
+	unsigned long d_ino;
+	unsigned long d_off;
+	unsigned short d_reclen;
+	char d_name[];
+};
+
+// MIPS N64 uses the stat defined by the kernel with a few modifications.
+// These are:
+// * The time fields (like st_atime and st_atimensec) use the timespec
+//   struct (like st_atim) for consitancy with the glibc fields.
+// * The padding fields get different names to not break compatibility.
+// * st_blocks is signed, again for compatibility.
+struct my_stat {
+	unsigned int		st_dev;
+	unsigned int		st_pad1[3]; // Reserved for st_dev expansion
+
+	unsigned long		st_ino;
+
+	mode_t			st_mode;
+	__u32			st_nlink;
+
+	uid_t			st_uid;
+	gid_t			st_gid;
+
+	unsigned int		st_rdev;
+	unsigned int		st_pad2[3]; // Reserved for st_rdev expansion
+
+	off_t			st_size;
+
+	// These are declared as speperate fields in the kernel. Here we use
+	// the timespec struct for consistancy with the other stat structs.
+	struct timespec		st_atim;
+	struct timespec		st_mtim;
+	struct timespec		st_ctim;
+
+	unsigned int		st_blksize;
+	unsigned int		st_pad4;
+
+	long			st_blocks;
+};
+#else
+#define my_dirent dirent
+#define my_stat stat
+#endif
+
 union sockaddr_all {
 	struct sockaddr s1;	// this one gets used for fields
 	struct sockaddr_in s2;	// these pad it out
@@ -171,11 +221,11 @@ type _Gid_t C.gid_t
 
 // Files
 
-type Stat_t C.struct_stat
+type Stat_t C.struct_my_stat
 
 type Statfs_t C.struct_statfs
 
-type Dirent C.struct_dirent
+type Dirent C.struct_my_dirent
 
 type Fsid C.fsid_t
 

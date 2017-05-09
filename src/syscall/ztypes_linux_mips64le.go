@@ -1,5 +1,5 @@
 // Created by cgo -godefs - DO NOT EDIT
-// cgo -godefs types_linux.go
+// cgo -godefs types_linux.go | go run mkpost.go
 
 package syscall
 
@@ -98,7 +98,7 @@ type _Gid_t uint32
 
 type Stat_t struct {
 	Dev     uint32
-	Pad1    [3]int32
+	Pad1    [3]uint32
 	Ino     uint64
 	Mode    uint32
 	Nlink   uint32
@@ -130,16 +130,12 @@ type Statfs_t struct {
 	Spare   [5]int64
 }
 
-// Note: on mips64, we're using the getdents syscall,
-// so the Dirent struct is different.
-
 type Dirent struct {
 	Ino       uint64
-	Off       int64
+	Off       uint64
 	Reclen    uint16
-	Name      [256]int8
-	Type      uint8
-	Pad_cgo_0 [5]byte
+	Name      [0]int8
+	Pad_cgo_0 [6]byte
 }
 
 type Fsid struct {
@@ -360,7 +356,7 @@ const (
 	IFLA_LINKINFO       = 0x12
 	IFLA_NET_NS_PID     = 0x13
 	IFLA_IFALIAS        = 0x14
-	IFLA_MAX            = 0x22
+	IFLA_MAX            = 0x2b
 	RT_SCOPE_UNIVERSE   = 0x0
 	RT_SCOPE_SITE       = 0xc8
 	RT_SCOPE_LINK       = 0xfd
@@ -510,7 +506,6 @@ type InotifyEvent struct {
 	Mask   uint32
 	Cookie uint32
 	Len    uint32
-	Name   [0]int8
 }
 
 const SizeofInotifyEvent = 0x10
@@ -527,6 +522,15 @@ type PtraceRegs struct {
 	U_ar0       uint64
 	Magic       uint64
 	U_comm      [32]int8
+}
+
+type ptracePsw struct {
+}
+
+type ptraceFpregs struct {
+}
+
+type ptracePer struct {
 }
 
 type FdSet struct {
