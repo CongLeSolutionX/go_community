@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aac7cc2c_eb082543",
+        "filename": "src/syscall/types_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-10T18:03:51Z",
+      "side": 1,
+      "message": "Did you make sure that this include has no bad effect on other architectures?",
+      "revId": "3d43e81d19910af6f66194f057ca0adb57a8613b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
