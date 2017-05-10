@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bd82ebed_77a4236d",
+        "filename": "src/syscall/types_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 17411
+      },
+      "writtenOn": "2017-05-10T18:02:58Z",
+      "side": 1,
+      "message": "For the x/sys/unix package, we had to do something similar to this to get the Stat structure to work (see https://github.com/golang/sys/blob/master/unix/linux/types.go#L62-L109). You might want to model your changes off of that.",
+      "parentUuid": "4f41e416_a630e4a9",
+      "revId": "a58df155adb5f43c3238630e3a8fb5b0933b3cd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b4c1ede_08734ff3",
         "filename": "src/syscall/types_linux.go",
         "patchSetId": 1
@@ -48,6 +66,29 @@
       "side": 1,
       "message": "I\u0027ve tried rebuilding the amd64 ztypes file and it does seem to work OK.",
       "parentUuid": "3b4c1ede_08734ff3",
+      "revId": "a58df155adb5f43c3238630e3a8fb5b0933b3cd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dac5450_474778be",
+        "filename": "src/syscall/ztypes_linux_mips64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 17411
+      },
+      "writtenOn": "2017-05-10T18:02:58Z",
+      "side": 1,
+      "message": "This Stat structure should not need to change. It also should ideally match what is in x/sys/unix (see https://github.com/golang/sys/blob/master/unix/ztypes_linux_mips64.go#L101-L118)",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 1
+      },
       "revId": "a58df155adb5f43c3238630e3a8fb5b0933b3cd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
