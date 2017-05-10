@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b4c1ede_08734ff3",
+        "filename": "src/syscall/types_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-05-10T16:40:10Z",
+      "side": 1,
+      "message": "Have you tried rebuilding any non-MIPS files?  Does cgo see through this #define?",
+      "revId": "a58df155adb5f43c3238630e3a8fb5b0933b3cd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
