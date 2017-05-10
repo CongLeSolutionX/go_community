@@ -16,6 +16,24 @@
       "revId": "a58df155adb5f43c3238630e3a8fb5b0933b3cd9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc7004b2_da4fbd60",
+        "filename": "src/syscall/types_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 17679
+      },
+      "writtenOn": "2017-05-10T16:53:51Z",
+      "side": 1,
+      "message": "I\u0027ve tried rebuilding the amd64 ztypes file and it does seem to work OK.",
+      "parentUuid": "3b4c1ede_08734ff3",
+      "revId": "a58df155adb5f43c3238630e3a8fb5b0933b3cd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
