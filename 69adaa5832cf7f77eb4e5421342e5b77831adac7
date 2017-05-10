@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "938af270_8904178a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-05-10T11:20:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "62756839_66caee64",
+      "revId": "69adaa5832cf7f77eb4e5421342e5b77831adac7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad2084d0_697aa6d2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "ff2fd164_1df97cae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-05-10T11:20:10Z",
+      "side": 1,
+      "message": "How? \"This issue is similar to #16722.\"?",
+      "parentUuid": "ad2084d0_697aa6d2",
+      "revId": "69adaa5832cf7f77eb4e5421342e5b77831adac7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f34a9000_60d42532",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 1
@@ -47,6 +83,30 @@
       "writtenOn": "2017-05-10T11:17:05Z",
       "side": 1,
       "message": "spaces around \u003d ?",
+      "range": {
+        "startLine": 3999,
+        "startChar": 42,
+        "endLine": 3999,
+        "endChar": 43
+      },
+      "revId": "69adaa5832cf7f77eb4e5421342e5b77831adac7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f18d8557_c7facd75",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3999,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-05-10T11:20:10Z",
+      "side": 1,
+      "message": "This is copied from TestSliceOf, didn\u0027t even think about it. I\u0027d keep it for consistency with the rest of the file.",
+      "parentUuid": "f34a9000_60d42532",
       "range": {
         "startLine": 3999,
         "startChar": 42,
