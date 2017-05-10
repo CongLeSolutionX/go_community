@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62756839_66caee64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-10T11:17:05Z",
+      "side": 1,
+      "message": "drop ()",
+      "revId": "69adaa5832cf7f77eb4e5421342e5b77831adac7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad2084d0_697aa6d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-10T11:17:05Z",
+      "side": 1,
+      "message": "Reference #16722 too? This is the same fix it seems.",
+      "revId": "69adaa5832cf7f77eb4e5421342e5b77831adac7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f34a9000_60d42532",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3999,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-10T11:17:05Z",
+      "side": 1,
+      "message": "spaces around \u003d ?",
+      "range": {
+        "startLine": 3999,
+        "startChar": 42,
+        "endLine": 3999,
+        "endChar": 43
+      },
+      "revId": "69adaa5832cf7f77eb4e5421342e5b77831adac7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
