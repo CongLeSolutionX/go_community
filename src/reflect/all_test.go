@@ -3992,6 +3992,14 @@ func TestArrayOfDirectIface(t *testing.T) {
 	}
 }
 
+func TestArrayOfString(t *testing.T) {
+	type T int
+	ar := ArrayOf(3, TypeOf(T(0)))
+	if got, want := ar.String(), "[3]reflect_test.T"; got != want {
+		t.Errorf("ArrayOf(3, TypeOf(0)).String()=%q, want %q", got, want)
+	}
+}
+
 func TestSliceOf(t *testing.T) {
 	// check construction and use of type not in binary
 	type T int
