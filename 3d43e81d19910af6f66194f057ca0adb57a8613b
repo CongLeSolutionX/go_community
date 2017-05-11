@@ -34,6 +34,24 @@
       "revId": "3d43e81d19910af6f66194f057ca0adb57a8613b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d33623cf_853e0807",
+        "filename": "src/syscall/types_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-11T13:56:16Z",
+      "side": 1,
+      "message": "Is there any problem for ARM64? Does the regeneration produce a different struct? If so, you can also include that in this CL.",
+      "parentUuid": "bfca5887_4b280492",
+      "revId": "3d43e81d19910af6f66194f057ca0adb57a8613b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
