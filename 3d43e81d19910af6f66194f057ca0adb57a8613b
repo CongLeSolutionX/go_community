@@ -52,6 +52,24 @@
       "revId": "3d43e81d19910af6f66194f057ca0adb57a8613b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "adde9823_be4d1341",
+        "filename": "src/syscall/types_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 17679
+      },
+      "writtenOn": "2017-05-11T14:08:16Z",
+      "side": 1,
+      "message": "\u003e Is there any problem for ARM64? Does the regeneration produce a different struct? If so, you can also include that in this CL.\n\nBefore this CL an empty PtraceRegs was being generated on ARM64 because the linux/ptrace.h header was missing, but the ztypes_linux_arm64.go file already contained the correct PtraceRegs. After this CL, the PtraceRegs generation is fixed on ARM64 as an unintended side effect, but no regeneration needs to take place because it was already correct in the ztypes file.\n\nDo you want me to mention this in the commit message?",
+      "parentUuid": "d33623cf_853e0807",
+      "revId": "3d43e81d19910af6f66194f057ca0adb57a8613b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
