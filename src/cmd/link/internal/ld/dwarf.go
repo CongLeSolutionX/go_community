@@ -872,7 +872,7 @@ func finddebugruntimepath(s *Symbol) {
 
 	for i := range s.FuncInfo.File {
 		f := s.FuncInfo.File[i]
-		if i := strings.Index(f.Name, "runtime/runtime.go"); i >= 0 {
+		if i := strings.Index(f.Name, "runtime/debug.go"); i >= 0 {
 			gdbscript = f.Name[:i] + "runtime/runtime-gdb.py"
 			break
 		}
@@ -1450,7 +1450,7 @@ func writearanges(ctxt *Link, syms []*Symbol) []*Symbol {
 }
 
 func writegdbscript(ctxt *Link, syms []*Symbol) []*Symbol {
-	if Linkmode == LinkExternal && Headtype == objabi.Hwindows {
+	if Linkmode == LinkExternal && Headtype == objabi.Hwindows && Buildmode == BuildmodeCArchive {
 		// gcc on Windows places .debug_gdb_scripts in the wrong location, which
 		// causes the program not to run. See https://golang.org/issue/20183
 		return syms
