@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8cab3d25_52fe0e69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-05-11T01:19:42Z",
+      "side": 1,
+      "message": "and x/sys/plan9 pls.",
+      "range": {
+        "startLine": 17,
+        "startChar": 27,
+        "endLine": 17,
+        "endChar": 37
+      },
+      "revId": "bd2f7c7c411bdbd75a194e745bec222390c1c99e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
