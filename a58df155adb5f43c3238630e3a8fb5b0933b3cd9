@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d21be66d_7a5ee05f",
+        "filename": "src/syscall/types_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 17679
+      },
+      "writtenOn": "2017-05-11T10:57:49Z",
+      "side": 1,
+      "message": "\u003e Is there a way to generate it instead of hand-written?\n\nThere doesn\u0027t appear to be a header containing this structure. getdents(2) says that you must define struct linux_dirent structure yourself (and gives the layout of the structure).\n\n\u003e Also, could we have better name than \"my_\"?\n\nI copied the name from \"my_epoll_event\". Should that be changed as well? What name do you suggest?",
+      "parentUuid": "bd82ebed_77a4236d",
+      "revId": "a58df155adb5f43c3238630e3a8fb5b0933b3cd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b4c1ede_08734ff3",
         "filename": "src/syscall/types_linux.go",
         "patchSetId": 1
@@ -83,6 +101,30 @@
       "writtenOn": "2017-05-10T18:02:58Z",
       "side": 1,
       "message": "This Stat structure should not need to change. It also should ideally match what is in x/sys/unix (see https://github.com/golang/sys/blob/master/unix/ztypes_linux_mips64.go#L101-L118)",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 1
+      },
+      "revId": "a58df155adb5f43c3238630e3a8fb5b0933b3cd9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a55d042f_c0ac19d3",
+        "filename": "src/syscall/ztypes_linux_mips64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 17679
+      },
+      "writtenOn": "2017-05-11T10:57:49Z",
+      "side": 1,
+      "message": "Ok, that\u0027s probably the best way to do this. I\u0027ll copy the version of struct stat from x/sys/unix into types_linux.go so it matches.",
+      "parentUuid": "7dac5450_474778be",
       "range": {
         "startLine": 99,
         "startChar": 0,
