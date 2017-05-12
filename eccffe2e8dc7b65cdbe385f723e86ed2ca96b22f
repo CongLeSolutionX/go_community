@@ -22,6 +22,30 @@
       "revId": "eccffe2e8dc7b65cdbe385f723e86ed2ca96b22f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7b6f9db_5a2c7e04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-05-12T14:39:04Z",
+      "side": 1,
+      "message": "Thanks. Done.\n\n(Actually, I rewrote the whole message since the compiler fix is in now, but this word is still there. :)",
+      "parentUuid": "fa708853_1150d1c3",
+      "range": {
+        "startLine": 13,
+        "startChar": 61,
+        "endLine": 13,
+        "endChar": 66
+      },
+      "revId": "eccffe2e8dc7b65cdbe385f723e86ed2ca96b22f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
