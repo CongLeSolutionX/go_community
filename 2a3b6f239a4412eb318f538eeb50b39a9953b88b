@@ -16,6 +16,24 @@
       "revId": "2a3b6f239a4412eb318f538eeb50b39a9953b88b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b0fc4b6_bca82dd4",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-12T07:35:36Z",
+      "side": 1,
+      "message": "\u003e Is there a better issue that this could be\n \u003e pointing to? \n\nThere is no better issue that I know of.\n\n \u003e Alternatively, the comment could be extended here to\n \u003e cover c-archive.\n\nWhat do you propose I say here? The story is similar to the exe - you need version of gcc with https://github.com/golang/go/issues/20183 fixed or use trick you suggested here https://github.com/golang/go/issues/20183#issuecomment-300440729 Except trick needs to be used when compiling C executable (not Go).",
+      "parentUuid": "b25875c7_1506cdbe",
+      "revId": "2a3b6f239a4412eb318f538eeb50b39a9953b88b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
