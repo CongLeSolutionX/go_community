@@ -313,9 +313,6 @@ func (q *queue) waitWrite(n int, deadline int64) (int, error) {
 	if m == 0 && t.expired {
 		return 0, EAGAIN
 	}
-	if m == 0 {
-		return 0, EAGAIN
-	}
 	if m > n {
 		m = n
 		q.canWrite.Signal() // wake up next writer too
