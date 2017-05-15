@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b98b877_5ff5cd42",
+        "filename": "src/cmd/compile/internal/ssa/decompose_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-05-15T22:44:42Z",
+      "side": 1,
+      "message": "1 name?",
+      "range": {
+        "startLine": 43,
+        "startChar": 21,
+        "endLine": 43,
+        "endChar": 28
+      },
+      "revId": "a964daa7d7b0b9882f84e47a7dbf9ce86f2ee203",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
