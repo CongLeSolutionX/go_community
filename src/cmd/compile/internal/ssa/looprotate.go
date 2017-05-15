@@ -26,6 +26,7 @@ func loopRotate(f *Func) {
 	if len(loopnest.loops) == 0 {
 		return
 	}
+	loopnest.calculateDepths()
 
 	// Set of blocks we're moving, by ID.
 	move := map[ID]struct{}{}
@@ -37,6 +38,16 @@ func loopRotate(f *Func) {
 	// Check each loop header and decide if we want to move it.
 	for _, loop := range loopnest.loops {
 		b := loop.header
+		if b.Kind != BlockIf {
+			continue
+		}
+		if loopnest.b2l[b.Succs[0].b.ID].depth >= loop.depth &&
+			loopnest.b2l[b.Succs[1].b.ID].depth >= loop.depth {
+			// We want one of b's successors to be out of the loop
+			// so it can be the fallthrough at the end of the loop.
+			// See issue 20355.
+			continue
+		}
 		var p *Block // b's in-loop predecessor
 		for _, e := range b.Preds {
 			if e.b.Kind != BlockPlain {
