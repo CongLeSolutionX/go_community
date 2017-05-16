@@ -16,6 +16,24 @@
       "revId": "11ccb47b38d245c01c54039c3355675b75bcbafd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7ff7d2a_6a40738d",
+        "filename": "src/path/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 14840
+      },
+      "writtenOn": "2017-05-16T15:39:31Z",
+      "side": 1,
+      "message": "I don\u0027t think these are edge cases. \"/\" and \"\" are quite commonly used and I think they add significantly to the examples.",
+      "parentUuid": "10cd8610_831bb4b1",
+      "revId": "11ccb47b38d245c01c54039c3355675b75bcbafd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
