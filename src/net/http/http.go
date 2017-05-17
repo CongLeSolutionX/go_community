@@ -6,6 +6,7 @@ package http
 
 import (
 	"io"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -138,4 +139,20 @@ type Pusher interface {
 	// Push returns ErrNotSupported if the client has disabled push or if push
 	// is not supported on the underlying connection.
 	Push(target string, opts *PushOptions) error
+}
+
+var (
+	http1LogConnections bool
+	http1LogRequests    bool
+)
+
+func init() {
+	e := os.Getenv("GODEBUG")
+	if strings.Contains(e, "http1debug=1") {
+		http1LogConnections = true
+	}
+	if strings.Contains(e, "http1debug=2") {
+		http1LogConnections = true
+		http1LogRequests = true
+	}
 }

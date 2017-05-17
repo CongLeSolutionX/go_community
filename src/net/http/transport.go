@@ -309,6 +309,7 @@ type transportRequest struct {
 	*Request                        // original request, not to be mutated
 	extra    Header                 // extra headers to write, or nil
 	trace    *httptrace.ClientTrace // optional
+	reqId    int64                  // for debugging
 
 	mu  sync.Mutex // guards err
 	err error      // first setError value for mapRoundTripError to consider
@@ -334,28 +335,39 @@ func (tr *transportRequest) setError(err error) {
 // For higher-level HTTP client support (such as handling of cookies
 // and redirects), see Get, Post, and the Client type.
 func (t *Transport) RoundTrip(req *Request) (*Response, error) {
+	reqID := int64(0)
+	logError := func(err error) error {
+		if !http1LogRequests || err == nil {
+			return err
+		}
+		log.Printf("http: RoundTrip failed: %v", err)
+		if reqID == 0 { // not yet logged
+			logRequest(0, 0, req)
+		}
+		return err
+	}
 	t.nextProtoOnce.Do(t.onceSetNextProtoDefaults)
 	ctx := req.Context()
 	trace := httptrace.ContextClientTrace(ctx)
 
 	if req.URL == nil {
 		req.closeBody()
-		return nil, errors.New("http: nil Request.URL")
+		return nil, logError(errors.New("http: nil Request.URL"))
 	}
 	if req.Header == nil {
 		req.closeBody()
-		return nil, errors.New("http: nil Request.Header")
+		return nil, logError(errors.New("http: nil Request.Header"))
 	}
 	scheme := req.URL.Scheme
 	isHTTP := scheme == "http" || scheme == "https"
 	if isHTTP {
 		for k, vv := range req.Header {
 			if !httplex.ValidHeaderFieldName(k) {
-				return nil, fmt.Errorf("net/http: invalid header field name %q", k)
+				return nil, logError(fmt.Errorf("net/http: invalid header field name %q", k))
 			}
 			for _, v := range vv {
 				if !httplex.ValidHeaderFieldValue(v) {
-					return nil, fmt.Errorf("net/http: invalid header field value %q for key %v", v, k)
+					return nil, logError(fmt.Errorf("net/http: invalid header field value %q for key %v", v, k))
 				}
 			}
 		}
@@ -364,19 +376,19 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 	altProto, _ := t.altProto.Load().(map[string]RoundTripper)
 	if altRT := altProto[scheme]; altRT != nil {
 		if resp, err := altRT.RoundTrip(req); err != ErrSkipAltProtocol {
-			return resp, err
+			return resp, err // assume altRT logged the error
 		}
 	}
 	if !isHTTP {
 		req.closeBody()
-		return nil, &badStringError{"unsupported protocol scheme", scheme}
+		return nil, logError(&badStringError{"unsupported protocol scheme", scheme})
 	}
 	if req.Method != "" && !validMethod(req.Method) {
-		return nil, fmt.Errorf("net/http: invalid method %q", req.Method)
+		return nil, logError(fmt.Errorf("net/http: invalid method %q", req.Method))
 	}
 	if req.URL.Host == "" {
 		req.closeBody()
-		return nil, errors.New("http: no Host in request URL")
+		return nil, logError(errors.New("http: no Host in request URL"))
 	}
 
 	for {
@@ -385,7 +397,7 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		cm, err := t.connectMethodForRequest(treq)
 		if err != nil {
 			req.closeBody()
-			return nil, err
+			return nil, logError(err)
 		}
 
 		// Get the cached or newly-created connection to either the
@@ -396,7 +408,7 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 		if err != nil {
 			t.setReqCanceler(req, nil)
 			req.closeBody()
-			return nil, err
+			return nil, logError(err)
 		}
 
 		var resp *Response
@@ -405,7 +417,15 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 			t.setReqCanceler(req, nil) // not cancelable with CancelRequest
 			resp, err = pconn.alt.RoundTrip(req)
 		} else {
+			if http1LogRequests {
+				treq.reqId = pconn.newRequestID()
+			}
+
 			resp, err = pconn.roundTrip(treq)
+
+			if http1LogRequests && err != nil {
+				log.Printf("http: conn %d > req %d error: %v", pconn.id, treq.reqId, err)
+			}
 		}
 		if err == nil {
 			return resp, nil
@@ -416,9 +436,38 @@ func (t *Transport) RoundTrip(req *Request) (*Response, error) {
 			if e, ok := err.(transportReadFromServerError); ok {
 				err = e.err
 			}
-			return nil, err
+			return nil, logError(err)
 		}
 		testHookRoundTripRetried()
+		if http1LogRequests {
+			log.Printf("http: retrying request for error %v", err)
+		}
+	}
+}
+
+func logRequest(connID, reqID int64, req *Request) {
+	prefix := fmt.Sprintf("http: conn %d req %d >", connID, reqID)
+	if connID == 0 && reqID == 0 {
+		prefix = "http: unsent request >"
+	}
+	log.Printf("%s %s %s %s", prefix, req.Method, req.URL, req.Proto)
+	if h := req.Host; h != "" {
+		log.Printf("%s Host: %s", prefix, h)
+	}
+	for k, vv := range req.Header {
+		log.Printf("%s %s: %s", prefix, k, strings.Join(vv, ", "))
+	}
+	if n := req.ContentLength; n != 0 {
+		log.Printf("%s ContentLength: %d", prefix, n)
+	}
+	if ts := req.TransferEncoding; len(ts) > 0 {
+		log.Printf("%s TransferEncoding: %s", prefix, strings.Join(ts, ", "))
+	}
+	if req.Close {
+		log.Printf("%s Connection: close", prefix)
+	}
+	for k, vv := range req.Trailer {
+		log.Printf("%s %s: %s", prefix, k, strings.Join(vv, ", "))
 	}
 }
 
@@ -879,7 +928,15 @@ func (t *Transport) dial(ctx context.Context, network, addr string) (net.Conn, e
 // specified in the connectMethod. This includes doing a proxy CONNECT
 // and/or setting up TLS.  If this doesn't return an error, the persistConn
 // is ready to write requests to.
-func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (*persistConn, error) {
+func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (_ *persistConn, connErr error) {
+	if http1LogConnections {
+		defer func() {
+			if connErr != nil {
+				log.Printf("http: Transport failed to get conn for %s: %v",
+					cm.addr(), connErr)
+			}
+		}()
+	}
 	req := treq.Request
 	trace := treq.trace
 	ctx := req.Context()
@@ -889,6 +946,15 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (*persistC
 	if pc, idleSince := t.getIdleConn(cm); pc != nil {
 		if trace != nil && trace.GotConn != nil {
 			trace.GotConn(pc.gotIdleConnTrace(idleSince))
+		}
+		if http1LogConnections {
+			tr := pc.gotIdleConnTrace(idleSince)
+			reusedStr := "not "
+			if tr.Reused {
+				reusedStr = ""
+			}
+			log.Printf("http: Transport got cached conn %d for %s: idle for %s, %sreused",
+				pc.id, cm.addr(), tr.IdleTime, reusedStr)
 		}
 		// set request canceler to some non-nil function so we
 		// can detect whether it was cleared between now and when
@@ -934,6 +1000,10 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (*persistC
 			if trace != nil && trace.GotConn != nil && v.pc.alt == nil {
 				trace.GotConn(httptrace.GotConnInfo{Conn: v.pc.conn})
 			}
+			if http1LogConnections && v.pc.alt == nil { // TODO: log TLS conns?
+				log.Printf("http: Transport created conn %d to %s",
+					v.pc.id, cm.addr())
+			}
 			return v.pc, nil
 		}
 		// Our dial failed. See why to return a nicer error
@@ -964,6 +1034,14 @@ func (t *Transport) getConn(treq *transportRequest, cm connectMethod) (*persistC
 		handlePendingDial()
 		if trace != nil && trace.GotConn != nil {
 			trace.GotConn(httptrace.GotConnInfo{Conn: pc.conn, Reused: pc.isReused()})
+		}
+		if http1LogConnections {
+			reusedStr := "not "
+			if pc.isReused() {
+				reusedStr = ""
+			}
+			log.Printf("http: Transport got conn %d for %s: %sreused",
+				pc.id, cm.addr(), reusedStr)
 		}
 		return pc, nil
 	case <-req.Cancel:
@@ -1000,6 +1078,7 @@ func (d oneConnDialer) Dial(network, addr string) (net.Conn, error) {
 
 func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistConn, error) {
 	pconn := &persistConn{
+		id:            newPersistConnID(),
 		t:             t,
 		cacheKey:      cm.key(),
 		reqch:         make(chan requestAndChan, 1),
@@ -1030,11 +1109,17 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 				if trace != nil && trace.TLSHandshakeDone != nil {
 					trace.TLSHandshakeDone(tls.ConnectionState{}, err)
 				}
+				if http1LogConnections {
+					log.Printf("http: conn %d TLS handshake with %s failed: %v", pconn.id, cm.addr(), err)
+				}
 				return nil, err
 			}
 			cs := tc.ConnectionState()
 			if trace != nil && trace.TLSHandshakeDone != nil {
 				trace.TLSHandshakeDone(cs, nil)
+			}
+			if http1LogConnections {
+				log.Printf("http: conn %d TLS handshake with %s OK", pconn.id, cm.addr())
 			}
 			pconn.tlsState = &cs
 		}
@@ -1141,11 +1226,17 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 			if trace != nil && trace.TLSHandshakeDone != nil {
 				trace.TLSHandshakeDone(tls.ConnectionState{}, err)
 			}
+			if http1LogConnections {
+				log.Printf("http: conn %d TLS handshake with %s failed: %v", pconn.id, cfg.ServerName, err)
+			}
 			return nil, err
 		}
 		if !cfg.InsecureSkipVerify {
 			if err := tlsConn.VerifyHostname(cfg.ServerName); err != nil {
 				plainConn.Close()
+				if http1LogConnections {
+					log.Printf("http: conn %d TLS verify hostname %s failed: %v", pconn.id, cfg.ServerName, err)
+				}
 				return nil, err
 			}
 		}
@@ -1153,21 +1244,91 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 		if trace != nil && trace.TLSHandshakeDone != nil {
 			trace.TLSHandshakeDone(cs, nil)
 		}
+		if http1LogConnections {
+			log.Printf("http: conn %d TLS handshake with %s OK", pconn.id, cfg.ServerName)
+		}
 		pconn.tlsState = &cs
 		pconn.conn = tlsConn
 	}
 
 	if s := pconn.tlsState; s != nil && s.NegotiatedProtocolIsMutual && s.NegotiatedProtocol != "" {
 		if next, ok := t.TLSNextProto[s.NegotiatedProtocol]; ok {
-			return &persistConn{alt: next(cm.targetAddr, pconn.conn.(*tls.Conn))}, nil
+			return &persistConn{
+				alt: next(cm.targetAddr, pconn.conn.(*tls.Conn)),
+			}, nil
 		}
 	}
 
 	pconn.br = bufio.NewReader(pconn)
 	pconn.bw = bufio.NewWriter(persistConnWriter{pconn})
+	if http1LogConnections {
+		pconn.conn = clientLoggingConn{
+			pc:   pconn,
+			Conn: pconn.conn,
+		}
+	}
+
 	go pconn.readLoop()
 	go pconn.writeLoop()
 	return pconn, nil
+}
+
+// clientLoggingConn is used for debugging.
+type clientLoggingConn struct {
+	pc *persistConn
+	net.Conn
+}
+
+func (c clientLoggingConn) vlogf(err error, reqRespPre, format string, v ...interface{}) {
+	if !http1LogRequests {
+		return
+	}
+
+	connReqPrefix := fmt.Sprintf("conn %d %s ", c.pc.id, reqRespPre)
+	errStr := ""
+	if err != nil {
+		errStr = fmt.Sprintf(", error: %v", err)
+	}
+	log.Printf(connReqPrefix+format+errStr, v...)
+}
+
+func (c clientLoggingConn) Write(p []byte) (n int, err error) {
+	reqPre := "req [peek] >"
+	if c.pc.currWriteReqId != nil {
+		reqPre = fmt.Sprintf("req %d >", *c.pc.currWriteReqId)
+	}
+	c.vlogf(nil, reqPre, "%s", elide(string(p), 256))
+	n, err = c.Conn.Write(p)
+	c.vlogf(err, reqPre, "wrote %d of %d bytes", n, len(p))
+	return
+}
+
+func (c clientLoggingConn) Read(p []byte) (n int, err error) {
+	n, err = c.Conn.Read(p)
+	respPre := "resp [peek] <"
+	if c.pc.currReadReqId != nil {
+		respPre = fmt.Sprintf("resp %d <", *c.pc.currReadReqId)
+	}
+	c.vlogf(nil, respPre, "%s", elide(string(p), 256))
+	c.vlogf(err, respPre, "read %d of %d bytes", n, len(p))
+	return
+}
+
+func (c clientLoggingConn) Close() (err error) {
+	err = c.Conn.Close()
+	errStr := ""
+	if err != nil {
+		errStr = fmt.Sprintf(", error: %v", err)
+	}
+	log.Printf("conn %d closed -"+errStr, c.pc.id)
+	return
+}
+
+func elide(s string, maxChars int) string {
+	if len(s) <= maxChars {
+		return s
+	}
+	return s[:maxChars/2] + "..." + s[len(s)-maxChars/2:]
 }
 
 // persistConnWriter is the io.Writer written to by pc.bw.
@@ -1319,6 +1480,10 @@ type persistConn struct {
 	// If it's non-nil, the rest of the fields are unused.
 	alt RoundTripper
 
+	// IDs for debug logging.
+	id            int64
+	nextRequestID int64
+
 	t         *Transport
 	cacheKey  connectMethodKey
 	conn      net.Conn
@@ -1345,6 +1510,8 @@ type persistConn struct {
 	idleTimer *time.Timer // holding an AfterFunc to close it
 
 	mu                   sync.Mutex // guards following fields
+	currReadReqId        *int64
+	currWriteReqId       *int64
 	numExpectedResponses int
 	closed               error // set non-nil when conn is closed, before closech is closed
 	canceledErr          error // set non-nil if conn is canceled
@@ -1354,6 +1521,17 @@ type persistConn struct {
 	// headers on each outbound request before it's written. (the
 	// original Request given to RoundTrip is not modified)
 	mutateHeaderFunc func(Header)
+}
+
+// Connection and request IDs for debug logging.
+var nextPersistConnID int64
+
+func newPersistConnID() int64 {
+	return atomic.AddInt64(&nextPersistConnID, 1)
+}
+
+func (p *persistConn) newRequestID() int64 {
+	return atomic.AddInt64(&p.nextRequestID, 1)
 }
 
 func (pc *persistConn) maxHeaderResponseSize() int64 {
@@ -1489,6 +1667,7 @@ func (pc *persistConn) readLoop() {
 		pc.close(closeErr)
 		pc.t.removeIdleConn(pc)
 	}()
+	defer pc.resetCurrReadReqId()
 
 	tryPutIdleConn := func(trace *httptrace.ClientTrace) bool {
 		if err := pc.t.tryPutIdleConn(pc); err != nil {
@@ -1529,6 +1708,9 @@ func (pc *persistConn) readLoop() {
 		pc.mu.Unlock()
 
 		rc := <-pc.reqch
+		pc.mu.Lock()
+		pc.currReadReqId = &rc.reqId
+		pc.mu.Unlock()
 		trace := httptrace.ContextClientTrace(rc.req.Context())
 
 		var resp *Response
@@ -1600,6 +1782,7 @@ func (pc *persistConn) readLoop() {
 			// out of the select that also waits on this goroutine to die, so
 			// we're allowed to exit now if needed (if alive is false)
 			testHookReadLoopBeforeNextRead()
+			pc.resetCurrReadReqId()
 			continue
 		}
 
@@ -1665,7 +1848,14 @@ func (pc *persistConn) readLoop() {
 		}
 
 		testHookReadLoopBeforeNextRead()
+		pc.resetCurrReadReqId()
 	}
+}
+
+func (pc *persistConn) resetCurrReadReqId() {
+	pc.mu.Lock()
+	defer pc.mu.Unlock()
+	pc.currReadReqId = nil
 }
 
 func (pc *persistConn) readLoopPeekFailLocked(peekErr error) {
@@ -1747,9 +1937,14 @@ type nothingWrittenError struct {
 
 func (pc *persistConn) writeLoop() {
 	defer close(pc.writeLoopDone)
+	defer pc.resetCurrWriteReqId()
 	for {
 		select {
 		case wr := <-pc.writech:
+			pc.mu.Lock()
+			pc.currWriteReqId = &wr.reqId
+			pc.mu.Unlock()
+
 			startBytesWritten := pc.nwrite
 			err := wr.req.Request.write(pc.bw, pc.isProxy, wr.req.extra, pc.waitForContinue(wr.continueCh))
 			if bre, ok := err.(requestBodyReadError); ok {
@@ -1778,10 +1973,17 @@ func (pc *persistConn) writeLoop() {
 				pc.close(err)
 				return
 			}
+			pc.resetCurrWriteReqId()
 		case <-pc.closech:
 			return
 		}
 	}
+}
+
+func (pc *persistConn) resetCurrWriteReqId() {
+	pc.mu.Lock()
+	defer pc.mu.Unlock()
+	pc.currWriteReqId = nil
 }
 
 // wroteRequest is a check before recycling a connection that the previous write
@@ -1820,8 +2022,9 @@ type responseAndError struct {
 }
 
 type requestAndChan struct {
-	req *Request
-	ch  chan responseAndError // unbuffered; always send in select on callerGone
+	req   *Request
+	ch    chan responseAndError // unbuffered; always send in select on callerGone
+	reqId int64                 // for debugging
 
 	// whether the Transport (as opposed to the user client code)
 	// added the Accept-Encoding gzip header. If the Transport
@@ -1842,8 +2045,9 @@ type requestAndChan struct {
 // concurrently waits on both the write response and the server's
 // reply.
 type writeRequest struct {
-	req *transportRequest
-	ch  chan<- error
+	req   *transportRequest
+	ch    chan<- error
+	reqId int64 // for debugging
 
 	// Optional blocking chan for Expect: 100-continue (for receive).
 	// If not nil, writeLoop blocks sending request body until
@@ -1943,12 +2147,13 @@ func (pc *persistConn) roundTrip(req *transportRequest) (resp *Response, err err
 	// request body.
 	startBytesWritten := pc.nwrite
 	writeErrCh := make(chan error, 1)
-	pc.writech <- writeRequest{req, writeErrCh, continueCh}
+	pc.writech <- writeRequest{req, writeErrCh, req.reqId, continueCh}
 
 	resc := make(chan responseAndError)
 	pc.reqch <- requestAndChan{
 		req:        req.Request,
 		ch:         resc,
+		reqId:      req.reqId,
 		addedGzip:  requestedGzip,
 		continueCh: continueCh,
 		callerGone: gone,
