@@ -16,6 +16,24 @@
       "revId": "5289d3e4954f19d1404796499d264613afc73385",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93d54d26_43369d56",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-05-17T14:02:47Z",
+      "side": 1,
+      "message": "I would support that, but it seems low priority since the syscall package is frozen for most purposes (https://docs.google.com/document/d/1QXzI9I1pOfZPujQzxhyRy6EeHYTQitKKjHfpq0zpxZs/view).",
+      "parentUuid": "7c365bfb_107f96b3",
+      "revId": "5289d3e4954f19d1404796499d264613afc73385",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
