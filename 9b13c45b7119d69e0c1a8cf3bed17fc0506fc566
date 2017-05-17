@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81dfd94b_97336326",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-05-17T04:01:45Z",
+      "side": 1,
+      "message": "There are a bunch of string manipulations here and below that could hurt performance. Users would expect some perf hit from logging, but this might be too much. I did it this way since the code is better factored.",
+      "revId": "9b13c45b7119d69e0c1a8cf3bed17fc0506fc566",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d237dcde_6e7c03f2",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-05-17T04:01:45Z",
+      "side": 1,
+      "message": "readLoop blocks on Peek(1). This is problematic because once the first byte comes in, it reads a chunk of bytes (4096) and buffers them. Those are bytes that won\u0027t again be read from the connection. So we have to log it here, but req id is not known. My non-ideal solution to this was to say that these bytes were read during a Peek. This is somewhat confusing and not precise. I don\u0027t know how to avoid this. If buffering is turned off, that will hurt performance. If we don\u0027t rely on the reqId \nthat\u0027s passed to the read loop and use an independent counter instead, that could be wrong if the req id is incremented but a request doesn\u0027t go through. Am I wrong/missing something?",
+      "revId": "9b13c45b7119d69e0c1a8cf3bed17fc0506fc566",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
