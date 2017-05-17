@@ -40,11 +40,18 @@ type SysProcAttr struct {
 	// This parameter is no-op if GidMappings == nil. Otherwise for unprivileged
 	// users this should be set to false for mappings work.
 	GidMappingsEnableSetgroups bool
+	AmbientCaps                []uint64 // Ambient capabilities (Linux only)
 }
 
 var (
 	none  = [...]byte{'n', 'o', 'n', 'e', 0}
 	slash = [...]byte{'/', 0}
+)
+
+// Defined in linux/prctl.h starting with Linux 4.3.
+const (
+	PR_CAP_AMBIENT       = 0x2f
+	PR_CAP_AMBIENT_RAISE = 0x2
 )
 
 // Implemented in runtime package.
@@ -132,6 +139,14 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	}
 
 	// Fork succeeded, now in child.
+
+	// Enable the "keep capabilities" flag to set ambient capabilities later.
+	if len(sys.AmbientCaps) > 0 {
+		_, _, err1 = RawSyscall6(SYS_PRCTL, PR_SET_KEEPCAPS, 1, 0, 0, 0, 0)
+		if err1 != 0 {
+			return 0, err1
+		}
+	}
 
 	// Wait for User ID/Group ID mappings to be written.
 	if sys.UidMappings != nil || sys.GidMappings != nil {
@@ -242,6 +257,13 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 			goto childerror
 		}
 		_, _, err1 = RawSyscall(sys_SETUID, uintptr(cred.Uid), 0, 0)
+		if err1 != 0 {
+			goto childerror
+		}
+	}
+
+	for _, c := range sys.AmbientCaps {
+		_, _, err1 = RawSyscall6(SYS_PRCTL, PR_CAP_AMBIENT, uintptr(PR_CAP_AMBIENT_RAISE), uintptr(c), 0, 0, 0)
 		if err1 != 0 {
 			goto childerror
 		}
