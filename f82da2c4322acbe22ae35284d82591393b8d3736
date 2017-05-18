@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fbc6ecd_14910954",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-05-18T20:58:20Z",
+      "side": 1,
+      "message": "Updates #18636",
+      "revId": "f82da2c4322acbe22ae35284d82591393b8d3736",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
