@@ -22,6 +22,30 @@
       "revId": "949275c98caee8b82a2f5e8dcb229976bce3ec45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0ad2ea0_64cd9e30",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-18T17:30:14Z",
+      "side": 1,
+      "message": "I like naming the field Dest. Done.\nUpdated docs, good point. Done.\n\nIf we need to differentiate between OUTPUT and INOUT parameters, we could add new field `In bool` to the struct. Of course if we think we might do that we should force people to create the struct using named fields.\n\nI\u0027ve asked on the issue, pinging various maintainers if database clients need to differentiate between the two. MS SQL Server doesn\u0027t differentiate between the two so it didn\u0027t occur to me. Let me look into INOUT for a bit longer and get back.",
+      "parentUuid": "2380c8a2_d8fb43ae",
+      "range": {
+        "startLine": 291,
+        "startChar": 1,
+        "endLine": 291,
+        "endChar": 6
+      },
+      "revId": "949275c98caee8b82a2f5e8dcb229976bce3ec45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
