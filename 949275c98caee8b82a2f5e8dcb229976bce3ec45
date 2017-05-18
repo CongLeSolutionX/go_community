@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2380c8a2_d8fb43ae",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-18T04:47:22Z",
+      "side": 1,
+      "message": "should this be called Dest to imply it\u0027s a pointer, like Scan is named?\n\nAlso, add a doc to the field as well. You can remove docs from the type if you like.\n\n    // {Dest,Value} is a pointer to the value to populate with the result of the\n    // stored procedure\u0027s OUTPUT parameter.\n\nNot sure I asked this before, but: What\u0027s the story with INOUT parameters? Do we support those? How will this grow into that if not?",
+      "range": {
+        "startLine": 291,
+        "startChar": 1,
+        "endLine": 291,
+        "endChar": 6
+      },
+      "revId": "949275c98caee8b82a2f5e8dcb229976bce3ec45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
