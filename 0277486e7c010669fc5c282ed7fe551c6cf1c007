@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbdb2033_9705a572",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-18T21:55:10Z",
+      "side": 1,
+      "message": "I meant in the Go style:\n\nhttps://github.com/golang/go/wiki/CodeReviewComments#comment-sentences\n\nStarting with the field name as the subject of the sentence.\n\n   // In is whether the parameter is an INOUT parameter. If so, the input value to the stored\n   // procedure is the dereferenced value of Dest\u0027s pointer, which is then replaced with\n   // the output value.\n\n(If that\u0027s accurate?)\n\nDid you also consider just using a separate field for the input value?\n\n    In driver.Value or probably interface{}\n\n?\n\nI have no preference either way.",
+      "range": {
+        "startLine": 296,
+        "startChar": 4,
+        "endLine": 296,
+        "endChar": 17
+      },
+      "revId": "0277486e7c010669fc5c282ed7fe551c6cf1c007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
