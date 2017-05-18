@@ -22,6 +22,29 @@
       "revId": "b329a6446f24999bbdaaa18b6b15efa318d8b979",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "584ea5ec_a57b26b3",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2731,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-18T23:14:42Z",
+      "side": 1,
+      "message": "also, this part isn\u0027t safe. this will cause the function to panic of the provided net.Listener isn\u0027t a TCPListener.\n\nYou should only do this listener wrapping if it\u0027s a TCPListener.",
+      "range": {
+        "startLine": 2731,
+        "startChar": 53,
+        "endLine": 2731,
+        "endChar": 73
+      },
+      "revId": "b329a6446f24999bbdaaa18b6b15efa318d8b979",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
