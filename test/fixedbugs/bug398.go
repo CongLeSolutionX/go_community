@@ -5,23 +5,21 @@
 // license that can be found in the LICENSE file.
 
 // Used to crash compiler in interface type equality check.
+// (This test used to have problems - see #15596.)
 
 package p
 
-type i1 interface {
-      F() interface{i1}
+type I1 interface {
+      F() interface{I1}
 }
 
-type i2 interface {
-      F() interface{i2}
+type I2 interface {
+      F() interface{I2}
 }       
 
-var v1 i1
-var v2 i2
+var v1 I1
+var v2 I2
 
 func f() bool {
        return v1 == v2
 }
-
-// TODO(gri) Change test to use exported interfaces.
-// See issue #15596 for details.
