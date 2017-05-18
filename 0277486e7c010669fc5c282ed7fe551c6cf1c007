@@ -22,6 +22,30 @@
       "revId": "0277486e7c010669fc5c282ed7fe551c6cf1c007",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7087319c_9a21d76c",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 20
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-05-18T22:11:55Z",
+      "side": 1,
+      "message": "Yes, that\u0027s accurate. Thanks for writing that.\n\nI think I\u0027d prefer to just mark it as such with a bool. Drivers will need to dereference the Dest field anyway when they verify the Out.Dest type, so they can just grab the value when they do that.",
+      "parentUuid": "cbdb2033_9705a572",
+      "range": {
+        "startLine": 296,
+        "startChar": 4,
+        "endLine": 296,
+        "endChar": 17
+      },
+      "revId": "0277486e7c010669fc5c282ed7fe551c6cf1c007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
