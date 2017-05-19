@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f81b6bf0_c9a43cbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-05-19T19:56:02Z",
+      "side": 1,
+      "message": "Updates #5757.\n\njust fyi: https://github.com/golang/go/wiki/CodeReview",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "f470dfb9b359376984f60851f1e0f5d5855a608f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
