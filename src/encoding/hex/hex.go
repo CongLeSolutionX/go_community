@@ -56,12 +56,12 @@ func Decode(dst, src []byte) (int, error) {
 	}
 
 	for i := 0; i < len(src)/2; i++ {
-		a, ok := fromHexChar(src[i*2])
-		if !ok {
+		a := decodeMap[src[i*2]]
+		if a == 0xFF {
 			return 0, InvalidByteError(src[i*2])
 		}
-		b, ok := fromHexChar(src[i*2+1])
-		if !ok {
+		b := decodeMap[src[i*2+1]]
+		if b == 0xFF {
 			return 0, InvalidByteError(src[i*2+1])
 		}
 		dst[i] = (a << 4) | b
@@ -70,18 +70,19 @@ func Decode(dst, src []byte) (int, error) {
 	return len(src) / 2, nil
 }
 
-// fromHexChar converts a hex character into its value and a success flag.
-func fromHexChar(c byte) (byte, bool) {
-	switch {
-	case '0' <= c && c <= '9':
-		return c - '0', true
-	case 'a' <= c && c <= 'f':
-		return c - 'a' + 10, true
-	case 'A' <= c && c <= 'F':
-		return c - 'A' + 10, true
-	}
+var decodeMap [256]byte
 
-	return 0, false
+func init() {
+	for i := range decodeMap {
+		decodeMap[i] = 0xFF
+	}
+	for i := byte(0); i < 10; i++ {
+		decodeMap['0'+i] = i
+	}
+	for i := byte(0); i < 6; i++ {
+		decodeMap['a'+i] = 10 + i
+		decodeMap['A'+i] = 10 + i
+	}
 }
 
 // EncodeToString returns the hexadecimal encoding of src.
