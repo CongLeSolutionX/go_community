@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d0b2c5c_c6c7e411",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-05-19T15:46:40Z",
+      "side": 1,
+      "message": "This was a bit faster for me:  \n    for i, j :\u003d 0, 0; i \u003c len(src); i, j \u003d i+2, j+1 { \n        a :\u003d decodeMap[src[i]]\n        if a \u003d\u003d 0xFF {\n            return 0, InvalidByteError(src[i])\n        }\n        b :\u003d decodeMap[src[i+1]]\n        if b \u003d\u003d 0xFF {\n            return 0, InvalidByteError(src[i+1])\n        }\n        dst[j] \u003d (a \u003c\u003c 4) | b\n    }\n\ngoos: linux\ngoarch: amd64\nname            old time/op  new time/op  delta\nDecode/256-4     259ns ± 3%   231ns ± 0%  -10.88%  (p\u003d0.000 n\u003d10+9)\nDecode/1024-4    994ns ± 5%   885ns ± 1%  -10.96%  (p\u003d0.000 n\u003d9+10)\nDecode/4096-4   3.92µs ± 2%  3.53µs ± 2%  -10.06%  (p\u003d0.000 n\u003d9+10)\nDecode/16384-4  15.6µs ± 1%  14.1µs ± 3%   -9.34%  (p\u003d0.000 n\u003d9+9)",
+      "revId": "4ceb908f51878335d7bc0f4dc5bd80b7fd5ba5e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
