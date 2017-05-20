@@ -1615,6 +1615,12 @@ func unlockextra(mp *m) {
 	atomic.Storeuintptr(&extram, uintptr(unsafe.Pointer(mp)))
 }
 
+// used to serialize exec and clone to avoid bugs or unspecified behaviour
+// around exec'ing while creating/destroying threads.  See issue #19546.
+//
+// TODO: look into using a rwmutex, to avoid serializing thread creation.
+var execlock mutex
+
 // Create a new m. It will start off with a call to fn, or else the scheduler.
 // fn needs to be static and not a heap allocated closure.
 // May run with m.p==nil, so write barriers are not allowed.
@@ -1634,10 +1640,14 @@ func newm(fn func(), _p_ *p) {
 		if msanenabled {
 			msanwrite(unsafe.Pointer(&ts), unsafe.Sizeof(ts))
 		}
+		lock(&execlock)
 		asmcgocall(_cgo_thread_start, unsafe.Pointer(&ts))
+		unlock(&execlock)
 		return
 	}
+	lock(&execlock)
 	newosproc(mp, unsafe.Pointer(mp.g0.stack.hi))
+	unlock(&execlock)
 }
 
 // Stops execution of the current m until new work is available.
@@ -2855,6 +2865,18 @@ func syscall_runtime_AfterForkInChild() {
 	// When we are the child we are the only thread running,
 	// so we know that nothing else has changed gp.m.sigmask.
 	msigrestore(getg().m.sigmask)
+}
+
+// Called from syscall package before Exec.
+//go:linkname syscall_runtime_BeforeExec syscall.runtime_BeforeExec
+func syscall_runtime_BeforeExec() {
+	lock(&execlock)
+}
+
+// Called from syscall package after Exec.
+//go:linkname syscall_runtime_AfterExec syscall.runtime_AfterExec
+func syscall_runtime_AfterExec() {
+	unlock(&execlock)
 }
 
 // Allocate a new g, with a stack big enough for stacksize bytes.
