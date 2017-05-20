@@ -1590,6 +1590,10 @@ func unlockextra(mp *m) {
 	atomic.Storeuintptr(&extram, uintptr(unsafe.Pointer(mp)))
 }
 
+// used to serialize exec and clone to avoid bugs or unspecified
+// behaviour around exec'ing while creating/destroying threads
+var execlock mutex
+
 // Create a new m. It will start off with a call to fn, or else the scheduler.
 // fn needs to be static and not a heap allocated closure.
 // May run with m.p==nil, so write barriers are not allowed.
@@ -1609,10 +1613,14 @@ func newm(fn func(), _p_ *p) {
 		if msanenabled {
 			msanwrite(unsafe.Pointer(&ts), unsafe.Sizeof(ts))
 		}
+		lock(&execlock)
 		asmcgocall(_cgo_thread_start, unsafe.Pointer(&ts))
+		unlock(&execlock)
 		return
 	}
+	lock(&execlock)
 	newosproc(mp, unsafe.Pointer(mp.g0.stack.hi))
+	unlock(&execlock)
 }
 
 // Stops execution of the current m until new work is available.
@@ -2818,6 +2826,18 @@ func afterfork() {
 //go:nosplit
 func syscall_runtime_AfterFork() {
 	systemstack(afterfork)
+}
+
+// Called from syscall package before Exec.
+//go:linkname syscall_runtime_BeforeExec syscall.runtime_BeforeExec
+func syscall_runtime_BeforeExec() {
+	lock(&execlock)
+}
+
+// Called from syscall package after Exec.
+//go:linkname syscall_runtime_AfterExec syscall.runtime_AfterExec
+func syscall_runtime_AfterExec() {
+	unlock(&execlock)
 }
 
 // Allocate a new g, with a stack big enough for stacksize bytes.
