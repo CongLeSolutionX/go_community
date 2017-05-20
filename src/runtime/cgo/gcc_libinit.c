@@ -14,6 +14,7 @@
 #include "libcgo.h"
 #include "libcgo_unix.h"
 
+static pthread_mutex_t runtime_exec_mu = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t runtime_init_cond = PTHREAD_COND_INITIALIZER;
 static pthread_mutex_t runtime_init_mu = PTHREAD_MUTEX_INITIALIZER;
 static int runtime_init_done;
@@ -88,6 +89,16 @@ void (*(_cgo_get_context_function(void)))(struct context_arg*) {
 	return ret;
 }
 
+void
+x_cgo_before_exec() {
+	pthread_mutex_lock(&runtime_exec_mu);
+}
+
+void
+x_cgo_after_exec() {
+	pthread_mutex_unlock(&runtime_exec_mu);
+}
+
 // _cgo_try_pthread_create retries pthread_create if it fails with
 // EAGAIN.
 int
@@ -97,7 +108,9 @@ _cgo_try_pthread_create(pthread_t* thread, const pthread_attr_t* attr, void* (*p
 	struct timespec ts;
 
 	for (tries = 0; tries < 20; tries++) {
+		pthread_mutex_lock(&runtime_exec_mu);
 		err = pthread_create(thread, attr, pfn, arg);
+		pthread_mutex_unlock(&runtime_exec_mu);
 		if (err != EAGAIN) {
 			return err;
 		}

@@ -70,6 +70,18 @@ var _cgo_thread_start = &x_cgo_thread_start
 var x_cgo_sys_thread_create byte
 var _cgo_sys_thread_create = &x_cgo_sys_thread_create
 
+//go:cgo_import_static x_cgo_before_exec
+//go:linkname x_cgo_before_exec x_cgo_before_exec
+//go:linkname _cgo_before_exec _cgo_before_exec
+var x_cgo_before_exec byte
+var _cgo_before_exec = &x_cgo_before_exec
+
+//go:cgo_import_static x_cgo_after_exec
+//go:linkname x_cgo_after_exec x_cgo_after_exec
+//go:linkname _cgo_after_exec _cgo_after_exec
+var x_cgo_after_exec byte
+var _cgo_after_exec = &x_cgo_after_exec
+
 // Notifies that the runtime has been initialized.
 //
 // We currently block at every CGO entry point (via _cgo_wait_runtime_init_done)

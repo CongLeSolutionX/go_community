@@ -55,6 +55,9 @@ extern void (*_cgo_sys_thread_create)(void* (*func)(void*), void* arg);
  */
 void _cgo_sys_thread_start(ThreadStart *ts);
 
+void _cgo_before_exec();
+void _cgo_after_exec();
+
 /*
  * Waits for the Go runtime to be initialized (OS dependent).
  * If runtime.SetCgoTraceback is used to set a context function,
