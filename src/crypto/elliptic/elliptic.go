@@ -14,6 +14,7 @@ package elliptic
 // reverse the transform than to operate in affine coordinates.
 
 import (
+	"crypto/subtle"
 	"io"
 	"math/big"
 	"sync"
@@ -250,19 +251,23 @@ func (curve *CurveParams) doubleJacobian(x, y, z *big.Int) (*big.Int, *big.Int, 
 
 func (curve *CurveParams) ScalarMult(Bx, By *big.Int, k []byte) (*big.Int, *big.Int) {
 	Bz := new(big.Int).SetInt64(1)
-	x, y, z := new(big.Int), new(big.Int), new(big.Int)
+	x0, y0, z0 := new(big.Int), new(big.Int), new(big.Int)
+	x1, y1, z1 := Bx, By, Bz
 
 	for _, byte := range k {
 		for bitNum := 0; bitNum < 8; bitNum++ {
-			x, y, z = curve.doubleJacobian(x, y, z)
-			if byte&0x80 == 0x80 {
-				x, y, z = curve.addJacobian(Bx, By, Bz, x, y, z)
+			if subtle.ConstantTimeByteEq(byte&0x80, 0x80) == 0 {
+				x1, y1, z1 = curve.addJacobian(x0, y0, z0, x1, y1, z1)
+				x0, y0, z0 = curve.doubleJacobian(x0, y0, z0)
+			} else {
+				x0, y0, z0 = curve.addJacobian(x0, y0, z0, x1, y1, z1)
+				x1, y1, z1 = curve.doubleJacobian(x1, y1, z1)
 			}
 			byte <<= 1
 		}
 	}
 
-	return curve.affineFromJacobian(x, y, z)
+	return curve.affineFromJacobian(x0, y0, z0)
 }
 
 func (curve *CurveParams) ScalarBaseMult(k []byte) (*big.Int, *big.Int) {
