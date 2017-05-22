@@ -877,12 +877,22 @@ func TestHelperProcess(*testing.T) {
 	}
 }
 
+type infiniteReader struct{}
+
+func (r infiniteReader) Read(b []byte) (int, error) {
+	time.Sleep(100 * time.Millisecond)
+	for i := range b {
+		b[i] = 'x'
+	}
+	return len(b), nil
+}
+
 // Issue 9173: ignore stdin pipe writes if the program completes successfully.
 func TestIgnorePipeErrorOnSuccess(t *testing.T) {
 	testenv.MustHaveExec(t)
 
-	// We really only care about testing this on Unixy things.
-	if runtime.GOOS == "windows" || runtime.GOOS == "plan9" {
+	// We really only care about testing this on Unixy and Windowsy things.
+	if runtime.GOOS == "plan9" {
 		t.Skipf("skipping test on %q", runtime.GOOS)
 	}
 
@@ -896,6 +906,18 @@ func TestIgnorePipeErrorOnSuccess(t *testing.T) {
 	if got, want := out.String(), "foo\n"; got != want {
 		t.Errorf("output = %q; want %q", got, want)
 	}
+
+	cmd2 := helperCommand(t, "echo", "foo")
+	var out2 bytes.Buffer
+	cmd2.Stdin = infiniteReader{}
+	cmd2.Stdout = &out2
+	if err := cmd2.Run(); err != nil {
+		t.Fatal(err)
+	}
+	if got, want := out2.String(), "foo\n"; got != want {
+		t.Errorf("output = %q; want %q", got, want)
+	}
+
 }
 
 type badWriter struct{}
