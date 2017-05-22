@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64f0bad6_6ea07160",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-22T17:57:18Z",
+      "side": 1,
+      "message": "But it\u0027s x/net/INTERNAL/socks upstream. So this import path is misleading.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "2ed01120a9c67c8fcb0bb208ce2c32a7d0048a53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
