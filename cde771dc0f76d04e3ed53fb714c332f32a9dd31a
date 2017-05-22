@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4e4bdd8_c10707e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-22T19:29:30Z",
+      "side": 1,
+      "message": "you need more runs (go test -bench\u003d... -count\u003d20) to get statistically interesting numbers here",
+      "range": {
+        "startLine": 12,
+        "startChar": 59,
+        "endLine": 12,
+        "endChar": 74
+      },
+      "revId": "cde771dc0f76d04e3ed53fb714c332f32a9dd31a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
