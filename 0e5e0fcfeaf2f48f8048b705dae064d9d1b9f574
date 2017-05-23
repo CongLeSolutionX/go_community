@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95610d85_c83426f2",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-23T12:09:53Z",
+      "side": 1,
+      "message": "What is this for? Identical error messages generated multiple times?",
+      "range": {
+        "startLine": 308,
+        "startChar": 28,
+        "endLine": 308,
+        "endChar": 56
+      },
+      "revId": "0e5e0fcfeaf2f48f8048b705dae064d9d1b9f574",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3940120a_d536fdaa",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-23T12:09:53Z",
+      "side": 1,
+      "message": "use switch statement.",
+      "range": {
+        "startLine": 1328,
+        "startChar": 2,
+        "endLine": 1334,
+        "endChar": 3
+      },
+      "revId": "0e5e0fcfeaf2f48f8048b705dae064d9d1b9f574",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
