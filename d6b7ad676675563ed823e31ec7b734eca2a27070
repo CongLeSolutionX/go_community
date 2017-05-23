@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "91324602_d68ea186",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 880,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-23T04:13:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67fce493_ac4452ad",
+      "range": {
+        "startLine": 880,
+        "startChar": 5,
+        "endLine": 880,
+        "endChar": 19
+      },
+      "revId": "d6b7ad676675563ed823e31ec7b734eca2a27070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f846533e_89f89ccb",
         "filename": "src/os/exec/exec_test.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "829501cc_a30fae34",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-23T04:13:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f846533e_89f89ccb",
+      "range": {
+        "startLine": 882,
+        "startChar": 6,
+        "endLine": 882,
+        "endChar": 8
+      },
+      "revId": "d6b7ad676675563ed823e31ec7b734eca2a27070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "610a4552_5b208870",
         "filename": "src/os/exec/exec_test.go",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2017-05-23T03:23:56Z",
       "side": 1,
       "message": "or just re-use \"out\".\n\nbut this looks like a subtest. I\u0027d use t.Run with two named cases and share the bulk of the code except the reader.\n\n   testWith :\u003d func(r io.Reader) func (*testing.T) {\n        return func(t *testing.T) {\n                cmd :\u003d helperCommand(t, \"echo\", \"foo\")\n              var out bytes.Buffer\n\t      cmd.Stdin \u003d r\n              ....\n         }\n   }\n   t.Run(\"10MB\", testWith(strings.NewReader(strings.Repeat(\"x\", 10\u003c\u003c20)))\n   t.Run(\"Infinite\", testWith(infiniteReader{}))",
+      "revId": "d6b7ad676675563ed823e31ec7b734eca2a27070",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1b4a83_ff2588fa",
+        "filename": "src/os/exec/exec_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-23T04:13:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "610a4552_5b208870",
       "revId": "d6b7ad676675563ed823e31ec7b734eca2a27070",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
