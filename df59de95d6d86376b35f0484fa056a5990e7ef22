@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09394bf2_256aeeb0",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-23T12:27:16Z",
+      "side": 1,
+      "message": "keep them at the end, as the original file does.",
+      "revId": "df59de95d6d86376b35f0484fa056a5990e7ef22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
