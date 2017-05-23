@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "47fd1cab_1cdc0b03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-23T12:25:10Z",
+      "side": 1,
+      "message": "remove \"rc/\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "0e5e0fcfeaf2f48f8048b705dae064d9d1b9f574",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "95610d85_c83426f2",
         "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
         "patchSetId": 1
