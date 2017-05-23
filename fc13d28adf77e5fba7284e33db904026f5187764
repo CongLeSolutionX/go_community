@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1ae9d99_79952a07",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5258,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-23T23:09:30Z",
+      "side": 1,
+      "message": "if you make my other suggestion, this would need a change to not have a race.\n\ne.g. change the bool into a buffered channel and make this:\n\nselect {\ncase \u003c-gotShutdown:\ncase \u003c-time.After(5 * time.Second):\n   t.Errorf(\"never got shutdown notification\")\n}",
+      "revId": "fc13d28adf77e5fba7284e33db904026f5187764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c96728b_de394b5f",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2480,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-23T23:09:30Z",
+      "side": 1,
+      "message": "what do you think about making this \"go f()\" in case they break the rules, block, call back into srv.Shutdown, deadlock, and blame us?  goroutines are super cheap.",
+      "range": {
+        "startLine": 2480,
+        "startChar": 2,
+        "endLine": 2480,
+        "endChar": 5
+      },
+      "revId": "fc13d28adf77e5fba7284e33db904026f5187764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
