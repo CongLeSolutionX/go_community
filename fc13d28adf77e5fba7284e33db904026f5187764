@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa963bc8_a2630263",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5258,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-05-23T23:42:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1ae9d99_79952a07",
+      "revId": "fc13d28adf77e5fba7284e33db904026f5187764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c96728b_de394b5f",
         "filename": "src/net/http/server.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-05-23T23:09:30Z",
       "side": 1,
       "message": "what do you think about making this \"go f()\" in case they break the rules, block, call back into srv.Shutdown, deadlock, and blame us?  goroutines are super cheap.",
+      "range": {
+        "startLine": 2480,
+        "startChar": 2,
+        "endLine": 2480,
+        "endChar": 5
+      },
+      "revId": "fc13d28adf77e5fba7284e33db904026f5187764",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1280ab79_8f31d984",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2480,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-05-23T23:42:01Z",
+      "side": 1,
+      "message": "Good point. Emphasizing your point, the h2 implementation actually might block (since it sends to a channel). Done.",
+      "parentUuid": "1c96728b_de394b5f",
       "range": {
         "startLine": 2480,
         "startChar": 2,
