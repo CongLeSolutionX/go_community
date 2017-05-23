@@ -7,4 +7,7 @@ TEXT errors(SB),$0
 	ADD.P	R1, R2, R3         // ERROR "invalid .P suffix"
 	SUB.W	R2, R3             // ERROR "invalid .W suffix"
 	BL	4(R4)              // ERROR "non-zero offset"
+	ADDF	F0, R1, F2         // ERROR "illegal combination"
+	SWI	(R0)               // ERROR "illegal combination"
+
 	END

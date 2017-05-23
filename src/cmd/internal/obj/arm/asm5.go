@@ -228,7 +228,7 @@ var optab = []Optab{
 	{AMOVF, C_FREG, C_NONE, C_ADDR, 68, 8, 0, LTO | LPCREL, 4},
 	{AMOVF, C_ADDR, C_NONE, C_FREG, 69, 8, 0, LFROM | LPCREL, 4},
 	{AADDF, C_FREG, C_NONE, C_FREG, 54, 4, 0, 0, 0},
-	{AADDF, C_FREG, C_REG, C_FREG, 54, 4, 0, 0, 0},
+	{AADDF, C_FREG, C_FREG, C_FREG, 54, 4, 0, 0, 0},
 	{AMOVF, C_FREG, C_NONE, C_FREG, 54, 4, 0, 0, 0},
 	{AMOVW, C_REG, C_NONE, C_FCR, 56, 4, 0, 0, 0},
 	{AMOVW, C_FCR, C_NONE, C_REG, 57, 4, 0, 0, 0},
@@ -284,7 +284,7 @@ var optab = []Optab{
 	{ASTREX, C_SOREG, C_REG, C_REG, 78, 4, 0, 0, 0},
 	{AMOVF, C_ZFCON, C_NONE, C_FREG, 80, 8, 0, 0, 0},
 	{AMOVF, C_SFCON, C_NONE, C_FREG, 81, 4, 0, 0, 0},
-	{ACMPF, C_FREG, C_REG, C_NONE, 82, 8, 0, 0, 0},
+	{ACMPF, C_FREG, C_FREG, C_NONE, 82, 8, 0, 0, 0},
 	{ACMPF, C_FREG, C_NONE, C_NONE, 83, 8, 0, 0, 0},
 	{AMOVFW, C_FREG, C_NONE, C_FREG, 84, 4, 0, 0, 0},
 	{AMOVWF, C_FREG, C_NONE, C_FREG, 85, 4, 0, 0, 0},
@@ -1325,7 +1325,14 @@ func (c *ctxt5) oplook(p *obj.Prog) *Optab {
 	a3--
 	a2 := C_NONE
 	if p.Reg != 0 {
-		a2 = C_REG
+		switch {
+		case REG_F0 <= p.Reg && p.Reg <= REG_F15:
+			a2 = C_FREG
+		case REG_R0 <= p.Reg && p.Reg <= REG_R15:
+			a2 = C_REG
+		default:
+			c.ctxt.Diag("invalid register in %v", p)
+		}
 	}
 
 	// If current instruction has a .S suffix (flags update),
@@ -1353,8 +1360,7 @@ func (c *ctxt5) oplook(p *obj.Prog) *Optab {
 		}
 	}
 
-	c.ctxt.Diag("illegal combination %v; %v %v %v, %d %d", p, DRconv(a1), DRconv(a2), DRconv(a3), p.From.Type, p.To.Type)
-	c.ctxt.Diag("from %d %d to %d %d\n", p.From.Type, p.From.Name, p.To.Type, p.To.Name)
+	c.ctxt.Diag("illegal combination %v; %v %v %v; from %d %d; to %d %d", p, DRconv(a1), DRconv(a2), DRconv(a3), p.From.Type, p.From.Name, p.To.Type, p.To.Name)
 	if ops == nil {
 		ops = optab
 	}
