@@ -7,6 +7,9 @@ package asm
 import (
 	"bufio"
 	"bytes"
+	"cmd/asm/internal/lex"
+	"cmd/internal/obj"
+	"cmd/internal/objabi"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -16,9 +19,6 @@ import (
 	"strconv"
 	"strings"
 	"testing"
-
-	"cmd/asm/internal/lex"
-	"cmd/internal/obj"
 )
 
 // An end-to-end test for the assembler: Do we print what we parse?
@@ -352,23 +352,26 @@ func testErrors(t *testing.T, goarch, file string) {
 }
 
 func Test386EndToEnd(t *testing.T) {
-	defer os.Setenv("GO386", os.Getenv("GO386"))
-
-	for _, go386 := range []string{"387", "sse"} {
-		os.Setenv("GO386", go386)
-		t.Logf("GO386=%v", os.Getenv("GO386"))
+	old := objabi.GO386
+	for _, go386 := range []string{"387", "sse2"} {
+		t.Logf("GO386=%v", go386)
+		objabi.GO386 = go386
 		testEndToEnd(t, "386", "386")
 	}
+	objabi.GO386 = old
 }
 
 func TestARMEndToEnd(t *testing.T) {
-	defer os.Setenv("GOARM", os.Getenv("GOARM"))
-
-	for _, goarm := range []string{"5", "6", "7"} {
-		os.Setenv("GOARM", goarm)
-		t.Logf("GOARM=%v", os.Getenv("GOARM"))
+	old := objabi.GOARM
+	for _, goarm := range []int{5, 6, 7} {
+		t.Logf("GOARM=%d", goarm)
+		objabi.GOARM = goarm
 		testEndToEnd(t, "arm", "arm")
+		if goarm == 6 {
+			testEndToEnd(t, "arm", "armv6")
+		}
 	}
+	objabi.GOARM = old
 }
 
 func TestARMErrors(t *testing.T) {
