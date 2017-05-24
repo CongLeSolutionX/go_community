@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d9e6129_a1fec0c4",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-24T12:18:18Z",
+      "side": 1,
+      "message": "As this runs after shuffle, is it possible that the spill is live in a \"copy\" generated from shuffle? I guess not, as the spill is defined in the loop and d has single predecessor. Well, even this could happen, we just conservatively abort sinking, which is fine.",
+      "range": {
+        "startLine": 1712,
+        "startChar": 28,
+        "endLine": 1712,
+        "endChar": 45
+      },
+      "revId": "ef7e87d6895a91d6885ae0e3e609b813c66b6a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "225ba389_27f7abda",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1717,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-24T12:18:18Z",
+      "side": 1,
+      "message": "In theory we only need to make it not sink into this exit. It could still sink to other exits where the spill is live, right? I guess this way is fine, being simpler and safer for Go 1.8. (and we no longer need it for Go 1.9)",
+      "range": {
+        "startLine": 1717,
+        "startChar": 3,
+        "endLine": 1717,
+        "endChar": 19
+      },
+      "revId": "ef7e87d6895a91d6885ae0e3e609b813c66b6a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f9471c7_ff4c8bb0",
+        "filename": "src/cmd/compile/internal/ssa/regalloc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-24T12:18:18Z",
+      "side": 1,
+      "message": "t.Error",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 76,
+        "endChar": 7
+      },
+      "revId": "ef7e87d6895a91d6885ae0e3e609b813c66b6a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
