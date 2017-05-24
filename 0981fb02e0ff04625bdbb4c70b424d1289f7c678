@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "84d76678_17108dd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-05-24T04:17:03Z",
+      "side": 1,
+      "message": "Double drat, let me update that.",
+      "parentUuid": "00ddce33_dbe05d07",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "0981fb02e0ff04625bdbb4c70b424d1289f7c678",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b43f83a4_42dbfb52",
         "filename": "src/net/http/httputil/reverseproxy_test.go",
         "patchSetId": 2
