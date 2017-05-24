@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3b05178_cc7c9633",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2175,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-24T12:39:44Z",
+      "side": 1,
+      "message": "I think a better fix would be putting these into a separate optab entry, which only accept FREG NONE FREG. Then we don\u0027t need the test here. And adjust buildop accordingly.",
+      "range": {
+        "startLine": 2175,
+        "startChar": 5,
+        "endLine": 2175,
+        "endChar": 175
+      },
+      "revId": "5cead8953df1e25b621955a65904f6cc0045c719",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
