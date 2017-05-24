@@ -369,7 +369,7 @@ var passes = [...]pass{
 	{name: "late nilcheck", fn: nilcheckelim2},
 	{name: "flagalloc", fn: flagalloc, required: true}, // allocate flags register
 	{name: "regalloc", fn: regalloc, required: true},   // allocate int & float registers + stack slots
-	{name: "loop rotate", fn: loopRotate},
+	{name: "loop rotate", fn: loopRotate, disabled: true},
 	{name: "stackframe", fn: stackframe, required: true},
 	{name: "trim", fn: trim}, // remove empty blocks
 }
