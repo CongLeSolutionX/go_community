@@ -4,6 +4,8 @@
 
 package ssa
 
+import "fmt"
+
 // mark values
 type markKind uint8
 
@@ -24,8 +26,8 @@ func postorder(f *Func) []*Block {
 }
 
 type blockAndIndex struct {
-	b     *Block
-	index int // index is the number of successor edges of b that have already been explored.
+	b        *Block
+	succMask int // succMask is a bitmap indicating which successor edges of b that have already been explored.
 }
 
 // postorderWithNumbering provides a DFS postordering.
@@ -44,9 +46,33 @@ func postorderWithNumbering(f *Func, ponums []int32) []*Block {
 		tos := len(s) - 1
 		x := s[tos]
 		b := x.b
-		i := x.index
-		if i < len(b.Succs) {
-			s[tos].index++
+		m := x.succMask
+
+		if m < 1<<uint(len(b.Succs))-1 {
+			i := uint(0)
+			// Prefer to recur on unlikely first; want likely to be last, closer to entry point
+			if len(b.Succs) > 1 {
+				if b.Likely < BranchUnknown {
+					if 1&m == 1 { // if unlikely succ already visited
+						i = 1
+					}
+				} else if b.Likely > BranchUnknown {
+					if 2&m == 0 { // if unlikely succ not yet visited
+						i = 1
+					}
+				} else { // as necessary, advance i to unvisited successor
+					for ; i < uint(len(b.Succs)) && 1<<i&m != 0; i++ {
+					}
+				}
+			}
+
+			if i >= uint(len(b.Succs)) || m&(1<<i) != 0 {
+				fmt.Printf("i=%d, len(b.Succs)=%d, m=%d, b=%s\n", i, len(b.Succs), m, b.String())
+				panic("Wrong")
+			}
+
+			s[tos].succMask |= 1 << i
+
 			bb := b.Succs[i].Block()
 			if mark[bb.ID] == notFound {
 				mark[bb.ID] = explored
