@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f63e972_99bc0bc5",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T04:15:04Z",
+      "side": 1,
+      "message": "since line is fine. also, no need for the variable. can just be:\n\n   defer func(old string) { objabi.GO386 \u003d old }(objabi.GO386)\n\nAnd same below.",
+      "range": {
+        "startLine": 357,
+        "startChar": 1,
+        "endLine": 359,
+        "endChar": 14
+      },
+      "revId": "e40b6182cb5c4c10d47b5bb16138433f79c34752",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
