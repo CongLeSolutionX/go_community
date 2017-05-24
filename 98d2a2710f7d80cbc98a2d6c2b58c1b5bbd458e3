@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44cc748a_3a3e9383",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1709,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T06:04:09Z",
+      "side": 1,
+      "message": "break after?",
+      "range": {
+        "startLine": 1709,
+        "startChar": 5,
+        "endLine": 1709,
+        "endChar": 21
+      },
+      "revId": "98d2a2710f7d80cbc98a2d6c2b58c1b5bbd458e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa1c16de_a8c61923",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T06:04:09Z",
+      "side": 1,
+      "message": "if !stillLive {   ?\n\nNo need running a loop to set something to true if it\u0027s already true?",
+      "range": {
+        "startLine": 1712,
+        "startChar": 4,
+        "endLine": 1712,
+        "endChar": 31
+      },
+      "revId": "98d2a2710f7d80cbc98a2d6c2b58c1b5bbd458e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad4197f3_4f0af14f",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1714,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T06:04:09Z",
+      "side": 1,
+      "message": "likewise?",
+      "range": {
+        "startLine": 1714,
+        "startChar": 5,
+        "endLine": 1714,
+        "endChar": 14
+      },
+      "revId": "98d2a2710f7d80cbc98a2d6c2b58c1b5bbd458e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
