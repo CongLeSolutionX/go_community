@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a4ada3a9_8a93d3c0",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-05-24T15:31:21Z",
+      "side": 1,
+      "message": "You\u0027re right, there\u0027s no shuffle going on at the start of this block / end of loop block that branches here, because the incoming edge to this block is not a merge edge.",
+      "parentUuid": "2d9e6129_a1fec0c4",
+      "range": {
+        "startLine": 1712,
+        "startChar": 28,
+        "endLine": 1712,
+        "endChar": 45
+      },
+      "revId": "ef7e87d6895a91d6885ae0e3e609b813c66b6a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "225ba389_27f7abda",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-05-24T12:18:18Z",
       "side": 1,
       "message": "In theory we only need to make it not sink into this exit. It could still sink to other exits where the spill is live, right? I guess this way is fine, being simpler and safer for Go 1.8. (and we no longer need it for Go 1.9)",
+      "range": {
+        "startLine": 1717,
+        "startChar": 3,
+        "endLine": 1717,
+        "endChar": 19
+      },
+      "revId": "ef7e87d6895a91d6885ae0e3e609b813c66b6a57",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "332ee402_d4939c38",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1717,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-05-24T15:31:21Z",
+      "side": 1,
+      "message": "Once we decide that we won\u0027t sink to one of the exits, we need the spill in the loop anyway. So there\u0027s really no point in sinking anywhere then.  Unless we could move the spill to a rare part of the loop, but we don\u0027t have that level of information here.\nAnd as you said, this is throwaway code.  It\u0027s all gone for 1.9.",
+      "parentUuid": "225ba389_27f7abda",
       "range": {
         "startLine": 1717,
         "startChar": 3,
