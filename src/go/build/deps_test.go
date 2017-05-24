@@ -237,7 +237,7 @@ var pkgDeps = map[string][]string{
 	"context":                  {"errors", "fmt", "reflect", "sync", "time"},
 	"database/sql":             {"L4", "container/list", "context", "database/sql/driver", "database/sql/internal"},
 	"database/sql/driver":      {"L4", "context", "time", "database/sql/internal"},
-	"debug/dwarf":              {"L4"},
+	"debug/dwarf":              {"L4", "path/filepath"},
 	"debug/elf":                {"L4", "OS", "debug/dwarf", "compress/zlib"},
 	"debug/gosym":              {"L4"},
 	"debug/macho":              {"L4", "OS", "debug/dwarf"},
