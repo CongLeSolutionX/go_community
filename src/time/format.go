@@ -1050,10 +1050,16 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 
 		// Look for local zone with the given offset.
 		// If that zone was in effect at the given time, use it.
-		name, offset, _, _, _ := local.lookup(t.unixSec())
-		if offset == zoneOffset && (zoneName == "" || name == zoneName) {
-			t.setLoc(local)
-			return t, nil
+		//
+		// Issue 19750: only check timezones if the time value
+		// includes a time in the Olson tzdata, which starts
+		// at 1970.
+		if unixSec := t.unixSec(); unixSec >= 0 {
+			name, offset, _, _, _ := local.lookup(unixSec)
+			if offset == zoneOffset && name != "" && (zoneName == "" || name == zoneName) {
+				t.setLoc(local)
+				return t, nil
+			}
 		}
 
 		// Otherwise create fake zone to record offset.

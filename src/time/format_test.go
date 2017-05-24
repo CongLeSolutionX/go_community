@@ -624,3 +624,19 @@ func TestUnderscoreTwoThousand(t *testing.T) {
 		t.Errorf("Incorrect minute, got %d", m)
 	}
 }
+
+// Issue 19750: don't use the local timezone if its offset if the time
+// is before 1970, when the Olson tzdata starts recording data.
+func TestParseUsingLocalTimezoneBefore1970(t *testing.T) {
+	defer func(old *Location) { Local = old }(Local)
+
+	Local = FixedZone("foo", 0)
+
+	tm, err := Parse("-0700", "+0000")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if tm.Location() == Local {
+		t.Errorf("year 0 time's Location should not be Local")
+	}
+}
