@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5373d81_21e80594",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T03:15:18Z",
+      "side": 1,
+      "message": "net/http: deep copy Request.URL also in Request.WithContext\u0027s copy",
+      "revId": "3793407213bf35a314760ffb8d24f9dc596ccf8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eeeab80_51bb259f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T03:15:18Z",
+      "side": 1,
+      "message": "drop the period and move it to the end (but before Change-Id)",
+      "revId": "3793407213bf35a314760ffb8d24f9dc596ccf8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f021a844_d92c3101",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T03:15:18Z",
+      "side": 1,
+      "message": "no need for parens",
+      "revId": "3793407213bf35a314760ffb8d24f9dc596ccf8a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
