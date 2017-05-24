@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1194ef17_9aa5a37b",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T14:48:04Z",
+      "side": 1,
+      "message": "this line is a lot of stutter. My suggestion a number of comments back was to use \"old\" here. You used to have the old variable explicitly, but I suggested naming this variable old instead.",
+      "range": {
+        "startLine": 356,
+        "startChar": 12,
+        "endLine": 356,
+        "endChar": 17
+      },
+      "revId": "0c8d2dfe3e87c77fa24245dfa44ebef990b091ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ebbb840_23ae3274",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T14:48:04Z",
+      "side": 1,
+      "message": "old",
+      "range": {
+        "startLine": 365,
+        "startChar": 12,
+        "endLine": 365,
+        "endChar": 17
+      },
+      "revId": "0c8d2dfe3e87c77fa24245dfa44ebef990b091ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
