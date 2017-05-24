@@ -15,6 +15,7 @@ type loop struct {
 	// By default, children exits, and depth are not initialized.
 	children []*loop  // loops nested directly within this loop. Initialized by assembleChildren().
 	exits    []*Block // exits records blocks reached by exits from this loop. Initialized by findExits().
+	blocks   []*Block // blocks records blocks in this loop (but not within nested loops)
 
 	// Next three fields used by regalloc and/or
 	// aid in computation of inner-ness and list of blocks.
@@ -79,7 +80,7 @@ type loopnest struct {
 	loops []*loop
 
 	// Record which of the lazily initialized fields have actually been initialized.
-	initializedChildren, initializedDepth, initializedExits bool
+	initializedChildren, initializedDepth, initializedExits, initializedBlocks bool
 }
 
 func min8(a, b int8) int8 {
@@ -498,4 +499,24 @@ func (l *loop) setDepth(d int16) {
 	for _, c := range l.children {
 		c.setDepth(d + 1)
 	}
+}
+
+// findBlocks initializes the per-loop lists of blocks.
+// The blocks are in a postorder.
+func (ln *loopnest) findBlocks() {
+	if ln.initializedBlocks {
+		return
+	}
+	for _, l := range ln.loops {
+		l.blocks = make([]*Block, 0, l.nBlocks)
+	}
+
+	b2l := ln.b2l
+	for _, b := range ln.po {
+		l := b2l[b.ID]
+		if l != nil {
+			l.blocks = append(l.blocks, b)
+		}
+	}
+	ln.initializedBlocks = true
 }
