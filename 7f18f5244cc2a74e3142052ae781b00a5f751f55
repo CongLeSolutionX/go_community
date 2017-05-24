@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca4b81af_38b8af1b",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-05-24T18:17:19Z",
+      "side": 1,
+      "message": "This comment isn\u0027t correct.  The tzdata files do cover older times; for example, the Stockholm times have data back to 1879.\n\nIt\u0027s not entirely obvious to me that the behavior reported in the issue is wrong.  It does seem to match the documentation of time.Parse.",
+      "revId": "7f18f5244cc2a74e3142052ae781b00a5f751f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
