@@ -22,6 +22,30 @@
       "revId": "2ed01120a9c67c8fcb0bb208ce2c32a7d0048a53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "593207cc_a45ab3be",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-05-24T10:03:17Z",
+      "side": 1,
+      "message": "yup, but i don\u0027t want to touch package visibility control, for both \"vendor\" and \"internal\", in go1.9. suggestions? (use internal_ instead of internal?)",
+      "parentUuid": "64f0bad6_6ea07160",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 25
+      },
+      "revId": "2ed01120a9c67c8fcb0bb208ce2c32a7d0048a53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
