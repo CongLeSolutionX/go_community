@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "188a4ae9_b30ce16d",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T03:43:49Z",
+      "side": 1,
+      "message": "you should restore these with defer, so a t.Fatal (runtime.Goexit) still runs deferred goroutines and still restores it.",
+      "range": {
+        "startLine": 362,
+        "startChar": 1,
+        "endLine": 362,
+        "endChar": 18
+      },
+      "revId": "8091e823665bcff3d6dfa3fbea7e45368bf29a48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc82c5a8_3be4af96",
+        "filename": "src/cmd/asm/internal/asm/endtoend_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T03:43:49Z",
+      "side": 1,
+      "message": "likewise",
+      "revId": "8091e823665bcff3d6dfa3fbea7e45368bf29a48",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
