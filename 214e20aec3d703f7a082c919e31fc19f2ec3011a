@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "455c5c66_e1c77591",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-05-24T22:12:04Z",
+      "side": 1,
+      "message": "Perhaps this should be\n    len(path) \u003e 3 \u0026\u0026 (path[0] \u003d\u003d \u0027\\\\\u0027 || path[0] \u003d\u003d \u0027/\u0027) \u0026\u0026 path[1] \u003d\u003d path[0]",
+      "revId": "214e20aec3d703f7a082c919e31fc19f2ec3011a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8459d90_e23069ec",
+        "filename": "src/debug/dwarf/line.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-05-24T22:12:04Z",
+      "side": 1,
+      "message": "Here you could reasonably use raw string literals to avoid the backslash quoting.",
+      "range": {
+        "startLine": 644,
+        "startChar": 33,
+        "endLine": 644,
+        "endChar": 42
+      },
+      "revId": "214e20aec3d703f7a082c919e31fc19f2ec3011a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
