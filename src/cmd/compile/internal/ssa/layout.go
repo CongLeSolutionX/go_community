@@ -19,6 +19,12 @@ func layout(f *Func) {
 	exit := f.newSparseSet(f.NumBlocks()) // exit blocks
 	defer f.retSparseSet(exit)
 
+	ln := f.loopnest()
+	ln.findExits()
+	ln.calculateDepths()
+	ln.findBlocks()
+	ln.assembleChildren()
+
 	// Initialize indegree of each block
 	for _, b := range f.Blocks {
 		idToBlock[b.ID] = b
@@ -41,6 +47,17 @@ blockloop:
 	for {
 		// add block to schedule
 		b := idToBlock[bid]
+		if len(order) > 0 {
+			// Check for transition into new loop, if so, attempt to pre-rotate
+			if bl, bendl := ln.b2l[b.ID], ln.b2l[order[len(order)-1].ID]; bl != nil &&
+				(bendl == nil || bl != bendl && bl.depth <= bendl.depth) {
+				bstart := ln.goodtop(bl)
+				if bstart != nil && !scheduled[bstart.ID] {
+					b = bstart
+					bid = b.ID
+				}
+			}
+		}
 		order = append(order, b)
 		scheduled[bid] = true
 		if len(order) == len(f.Blocks) {
@@ -117,4 +134,78 @@ blockloop:
 		}
 	}
 	f.Blocks = order
+}
+
+// goodtop attempts to find a good first block for the linearized layout of loop l.
+func (ln *loopnest) goodtop(l *loop) *Block {
+	var dominatesOne, dominatesAll *Block
+	dom := ln.f.Idom()
+blocks:
+	for _, b := range l.blocks {
+		if b.Kind != BlockIf {
+			continue
+		}
+		l0 := ln.b2l[b.Succs[0].Block().ID]
+		l1 := ln.b2l[b.Succs[1].Block().ID]
+		if l0 == l1 {
+			// note one successor must be in loop, so both are in loop if equal.
+			continue
+		}
+		if (l0 == l || l0.depth < l.depth) && (l1 == l || l1.depth < l.depth) {
+			// one or both successors are nested within l
+			continue
+		}
+		// Therefore one successor is an exit.
+
+		if dominatesOne == nil {
+			dominatesOne = b
+		}
+		for _, e := range l.header.Preds {
+			be := e.Block()
+			if ln.sdom.isAncestorEq(l.header, be) {
+				// be is the source of a backedge, does b dominate it?
+				if !ln.sdom.isAncestorEq(b, be) {
+					continue blocks
+				}
+			}
+		}
+		dominatesAll = b
+		break
+	}
+	if dominatesAll != nil {
+		// pick the successor that is in the loop for top of loop.
+		return dominatesAll.Succs[ln.inLoopSuccessorIndex(l, dominatesAll)].Block()
+	}
+	if dominatesOne != nil {
+		// look for BlockPlain predecessors of in-loop successor of dominatesOne,
+		// iterate on their dominators as long as they do not dominate B,
+		// iterate up dominators to B.  Ideally find A such that one successor
+		// dominates B, the other dominates the in-loop successor of B (e.g.,
+		// the root of a diamond).
+		inloop := ln.inLoopSuccessorIndex(l, dominatesOne)
+		inloopBlock := dominatesOne.Succs[inloop].Block()
+		for _, p := range inloopBlock.Preds {
+			pb := p.Block()
+			if pb.Kind == BlockPlain {
+				// Should always terminate on loop header
+				for ib := pb; ib != nil && !ln.sdom.isAncestorEq(ib, dominatesOne); ib = dom[ib.ID] {
+					pb = ib
+				}
+				// This is a little uncertain -- could make branches towards dominatesOne be less likely.
+				return pb
+			}
+		}
+		// Could come here for case of A -> (B,C); B -> (X, C); triangle, not diamond.
+		return inloopBlock
+	}
+	return nil
+}
+
+func (ln *loopnest) inLoopSuccessorIndex(l *loop, b *Block) int {
+	s0 := b.Succs[0].Block()
+	l0 := ln.b2l[s0.ID]
+	if l0 == nil || l0.depth > l.depth || l0 != l && l0.depth == l.depth {
+		return 1
+	}
+	return 0
 }
