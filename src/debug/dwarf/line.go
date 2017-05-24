@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io"
 	"path"
+	"path/filepath"
 )
 
 // A LineReader reads a sequence of LineEntry structures from a DWARF
@@ -247,10 +248,10 @@ func (r *LineReader) readHeader() error {
 		if len(directory) == 0 {
 			break
 		}
-		if !path.IsAbs(directory) {
+		if !filepath.IsAbs(directory) {
 			// Relative paths are implicitly relative to
 			// the compilation directory.
-			directory = path.Join(r.directories[0], directory)
+			directory = filepath.Join(r.directories[0], directory)
 		}
 		r.directories = append(r.directories, directory)
 	}
@@ -287,7 +288,7 @@ func (r *LineReader) readFileEntry() (bool, error) {
 		if dirIndex >= len(r.directories) {
 			return false, DecodeError{"line", off, "directory index too large"}
 		}
-		name = path.Join(r.directories[dirIndex], name)
+		name = filepath.Join(r.directories[dirIndex], name)
 	}
 	mtime := r.buf.uint()
 	length := int(r.buf.uint())
