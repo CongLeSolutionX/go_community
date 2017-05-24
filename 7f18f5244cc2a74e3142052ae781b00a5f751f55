@@ -16,6 +16,24 @@
       "revId": "7f18f5244cc2a74e3142052ae781b00a5f751f55",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01698317_c40bb320",
+        "filename": "src/time/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-05-24T18:22:16Z",
+      "side": 1,
+      "message": "Oh, I didn\u0027t check that tzdata goes back before 1970. I just read that online. But that was just a cutoff point I picked somewhat arbitrarily. I was also considering the start of railway time, which was also in the 1800s.\n\nThe docs say \"if the offset corresponds to a time zone used by the current location (Local)\", so the question is what the definition of \"corresponds\" is. I\u0027d argue that in year 0, there weren\u0027t timezones yet, so +0000 mapping to Local because the user today is in London is kinda weird.",
+      "parentUuid": "ca4b81af_38b8af1b",
+      "revId": "7f18f5244cc2a74e3142052ae781b00a5f751f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
