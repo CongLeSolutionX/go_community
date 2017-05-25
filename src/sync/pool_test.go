@@ -23,23 +23,30 @@ func TestPool(t *testing.T) {
 	if p.Get() != nil {
 		t.Fatal("expected empty")
 	}
-	p.Put("a")
-	p.Put("b")
-	if g := p.Get(); g != "a" {
-		t.Fatalf("got %#v; want a", g)
+
+	m := map[interface{}]bool{
+		"a": true,
+		"b": true,
 	}
-	if g := p.Get(); g != "b" {
-		t.Fatalf("got %#v; want b", g)
+	for v := range m {
+		p.Put(v)
 	}
-	if g := p.Get(); g != nil {
-		t.Fatalf("got %#v; want nil", g)
+	if v := p.Get(); !m[v] {
+		t.Fatalf("got %#v; want a or b", v)
+		delete(m, v)
+	}
+	if v := p.Get(); !m[v] {
+		t.Fatalf("got %#v; want a or b", v)
+	}
+	if v := p.Get(); v != nil {
+		t.Fatalf("got %#v; want nil", v)
 	}
 
 	p.Put("c")
 	debug.SetGCPercent(100) // to allow following GC to actually run
 	runtime.GC()
-	if g := p.Get(); g != nil {
-		t.Fatalf("got %#v; want nil after GC", g)
+	if v := p.Get(); v != nil {
+		t.Fatalf("got %#v; want nil after GC", v)
 	}
 }
 
