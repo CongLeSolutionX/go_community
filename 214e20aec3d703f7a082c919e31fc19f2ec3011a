@@ -107,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a0679187_ff6e85e3",
+        "filename": "src/debug/dwarf/line_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-05-25T17:37:18Z",
+      "side": 1,
+      "message": "Oops. Copy-paste error.",
+      "parentUuid": "340c9066_be044bbe",
+      "range": {
+        "startLine": 50,
+        "startChar": 5,
+        "endLine": 50,
+        "endChar": 26
+      },
+      "revId": "214e20aec3d703f7a082c919e31fc19f2ec3011a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e09c78c6_f9c0b5d0",
         "filename": "src/debug/dwarf/line_test.go",
         "patchSetId": 1
@@ -118,6 +142,24 @@
       "writtenOn": "2017-05-25T01:44:05Z",
       "side": 1,
       "message": "I suspect you took these out of path/filepath.TestJoin. But you did not copy tests like:\n\n{[]string{`C:a`, `b`}, `C:a\\b`}\n\nThe `C:a` is actually `C:.\\a`, and, because of the \u0027.\u0027, this path is not absolute - it depends on what your current directory on C: is. I suspect this subtlety is not important here. But than should you document it somewhere?",
+      "revId": "214e20aec3d703f7a082c919e31fc19f2ec3011a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50b93f6d_6dec00de",
+        "filename": "src/debug/dwarf/line_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-05-25T17:37:18Z",
+      "side": 1,
+      "message": "I left out the tests with a relative base directory since the base directory should always be absolute in DWARF. But it\u0027s good to test these things anyway, so I\u0027ve added some \"best effort\" tests where it\u0027s not totally clear what the right answer is, but pathJoin at least shouldn\u0027t crash. Let me know if you think they\u0027re reasonable.",
+      "parentUuid": "e09c78c6_f9c0b5d0",
       "revId": "214e20aec3d703f7a082c919e31fc19f2ec3011a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
