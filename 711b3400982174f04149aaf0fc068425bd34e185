@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abe2af84_96a57cec",
+        "filename": "src/debug/dwarf/line_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-25T23:40:33Z",
+      "side": 1,
+      "message": "This is wrong. It should be\n\n{`C:`, `a`, `C:a`},\n\nor\n\n{`C:`, `a`, `C:.\\a`},\n\nImaging if UNIX had not one file path tree, but many. And you need to add prefix to identify the tree you are referring: C:, D: and so on.\n\nThen `a` actually mean `.\\a`, not `\\a`. You add `C:` prefix, and you get `C:.\\a`. `C:a` is file `a` from current directory of C. Unlike `C:\\a` is `a` from root directory of C.",
+      "range": {
+        "startLine": 301,
+        "startChar": 1,
+        "endLine": 301,
+        "endChar": 21
+      },
+      "revId": "711b3400982174f04149aaf0fc068425bd34e185",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07a85ac5_f0d0d6c9",
+        "filename": "src/debug/dwarf/line_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-25T23:40:33Z",
+      "side": 1,
+      "message": "Same. It should be\n\n{`C:`, `a\\b`, `C:a\\b`},\n\nor\n\n{`C:`, `a\\b`, `C:.\\a\\b`},",
+      "revId": "711b3400982174f04149aaf0fc068425bd34e185",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
