@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fd9f7140_f36e3527",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-05-25T22:32:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e05bad1_23cfa340",
+      "range": {
+        "startLine": 14,
+        "startChar": 19,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "d01bfc47c89111c801cf79b933c7e56ce79d9170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81b87451_69e0137a",
         "filename": "src/sync/pool_test.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-05-25T22:28:24Z",
       "side": 1,
       "message": "Consider var v1 interface{} \u003d \"a\"",
+      "revId": "d01bfc47c89111c801cf79b933c7e56ce79d9170",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28da6438_e7cbcecc",
+        "filename": "src/sync/pool_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-05-25T22:32:24Z",
+      "side": 1,
+      "message": "I think I found more elegant solution - see the updated CL :)",
+      "parentUuid": "81b87451_69e0137a",
       "revId": "d01bfc47c89111c801cf79b933c7e56ce79d9170",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
