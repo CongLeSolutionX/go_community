@@ -81,6 +81,46 @@
       "revId": "214e20aec3d703f7a082c919e31fc19f2ec3011a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "340c9066_be044bbe",
+        "filename": "src/debug/dwarf/line_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-25T01:44:05Z",
+      "side": 1,
+      "message": "I am not sure what ELF stands for in here. gcc generates \"Portable Executable and Common Object File Format\" on Windows, not ELF.\n\nMaybe just:\n\ns/TestLineELFGCCWindows/TestLineGCCWindows/\n\n?",
+      "range": {
+        "startLine": 50,
+        "startChar": 5,
+        "endLine": 50,
+        "endChar": 26
+      },
+      "revId": "214e20aec3d703f7a082c919e31fc19f2ec3011a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e09c78c6_f9c0b5d0",
+        "filename": "src/debug/dwarf/line_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-25T01:44:05Z",
+      "side": 1,
+      "message": "I suspect you took these out of path/filepath.TestJoin. But you did not copy tests like:\n\n{[]string{`C:a`, `b`}, `C:a\\b`}\n\nThe `C:a` is actually `C:.\\a`, and, because of the \u0027.\u0027, this path is not absolute - it depends on what your current directory on C: is. I suspect this subtlety is not important here. But than should you document it somewhere?",
+      "revId": "214e20aec3d703f7a082c919e31fc19f2ec3011a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
