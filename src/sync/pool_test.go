@@ -23,23 +23,34 @@ func TestPool(t *testing.T) {
 	if p.Get() != nil {
 		t.Fatal("expected empty")
 	}
-	p.Put("a")
-	p.Put("b")
-	if g := p.Get(); g != "a" {
-		t.Fatalf("got %#v; want a", g)
+
+	// Put 2*GOMAXPROCS distinct values into the pool, so at least
+	// GOMAXPROCS values trap into shared slots.
+	m := make(map[interface{}]bool)
+	gomaxprocs := runtime.GOMAXPROCS(0)
+	for i := 0; i < 2*gomaxprocs; i++ {
+		m[i] = true
 	}
-	if g := p.Get(); g != "b" {
-		t.Fatalf("got %#v; want b", g)
-	}
-	if g := p.Get(); g != nil {
-		t.Fatalf("got %#v; want nil", g)
+	for v := range m {
+		p.Put(v)
 	}
 
+	// Verify that at least GOMAXPROCS distinct values put into
+	// shared slots and may be returned from the pool.
+	for i := 0; i < gomaxprocs; i++ {
+		v := p.Get()
+		if !m[v] {
+			t.Fatalf("got %#v; want any value from the range 1..%d", v, 2*gomaxprocs)
+		}
+		delete(m, v)
+	}
+
+	// Verify that runtime.GC call clears the pool.
 	p.Put("c")
 	debug.SetGCPercent(100) // to allow following GC to actually run
 	runtime.GC()
-	if g := p.Get(); g != nil {
-		t.Fatalf("got %#v; want nil after GC", g)
+	if v := p.Get(); v != nil {
+		t.Fatalf("got %#v; want nil after GC", v)
 	}
 }
 
@@ -60,12 +71,12 @@ func TestPoolNew(t *testing.T) {
 	if v := p.Get(); v != 2 {
 		t.Fatalf("got %v; want 2", v)
 	}
+
 	p.Put(42)
-	if v := p.Get(); v != 42 {
-		t.Fatalf("got %v; want 42", v)
-	}
-	if v := p.Get(); v != 3 {
-		t.Fatalf("got %v; want 3", v)
+	if v := p.Get(); v != 42 && v != 3 {
+		// 3 may be returned if the goroutine is re-scheduled
+		// to another P between Put(42) and Get().
+		t.Fatalf("got %v; want either 42 or 3", v)
 	}
 }
 
