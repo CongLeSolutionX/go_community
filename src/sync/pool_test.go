@@ -23,16 +23,24 @@ func TestPool(t *testing.T) {
 	if p.Get() != nil {
 		t.Fatal("expected empty")
 	}
-	p.Put("a")
-	p.Put("b")
-	if g := p.Get(); g != "a" {
-		t.Fatalf("got %#v; want a", g)
+
+	v1 := interface{}("a")
+	v2 := interface{}("b")
+	m := map[interface{}]bool{
+		v1: true,
+		v2: true,
 	}
-	if g := p.Get(); g != "b" {
-		t.Fatalf("got %#v; want b", g)
+	p.Put(v1)
+	p.Put(v2)
+	if v := p.Get(); !m[v] {
+		t.Fatalf("got %#v; want a or b", v)
+		delete(m, v)
 	}
-	if g := p.Get(); g != nil {
-		t.Fatalf("got %#v; want nil", g)
+	if v := p.Get(); !m[v] {
+		t.Fatalf("got %#v; want a or b", v)
+	}
+	if v := p.Get(); v != nil {
+		t.Fatalf("got %#v; want nil", v)
 	}
 
 	p.Put("c")
