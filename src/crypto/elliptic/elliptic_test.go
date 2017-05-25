@@ -517,3 +517,40 @@ func TestP224Overflow(t *testing.T) {
 		t.Error("P224 failed to validate a correct point")
 	}
 }
+
+// See https://github.com/golang/go/issues/20482
+func TestUnmarshalToLargeCoordinates(t *testing.T) {
+	curve := P256()
+
+	invalidX, invalidY := make([]byte, 65), make([]byte, 65)
+	invalidX[0], invalidY[0] = 4, 4 // uncompressed encoding
+
+	// Set x to be greater than curve's parameter P -- specifically, to P+5
+	// Set y to mod_sqrt(BasePoint + (x^3 - 3x mod P)) => (x mod P = 5 , y) is on the curve
+	x, _ := new(big.Int).SetString("115792089210356248762697446949407573530086143415290314195533631308867097853956", 10)
+	y, _ := new(big.Int).SetString("31468013646237722594854082025316614106172411895747863909393730389177298123724", 10)
+
+	// marshal
+	copy(invalidX[1:], x.Bytes())
+	copy(invalidX[33:], y.Bytes())
+
+	X, _ := Unmarshal(curve, invalidX)
+	if X != nil {
+		t.Errorf("Unmarshal accpets invalid X coordinate")
+	}
+
+	// Set x = 5 so X^3 - 3x mod P = 110 (like before)
+	// Set y to mod_sqrt(BasePoint + (x^3 - 3x mod P)) + P => (x = 5 , y^2 mod P) is on the curve, but y > P
+	// We exploit that a^2 mod P = (a+P)^2 mod P
+	x, _ = new(big.Int).SetString("5", 10)
+	y, _ = new(big.Int).SetString("147260102856593971357551528974724187636258555311038178104927361698044395977675", 10)
+
+	// marshal
+	copy(invalidY[1:], x.Bytes())
+	copy(invalidY[33:], y.Bytes())
+
+	X, _ = Unmarshal(curve, invalidY)
+	if X != nil {
+		t.Errorf("Unmarshal accpets invalid Y coordinate")
+	}
+}
