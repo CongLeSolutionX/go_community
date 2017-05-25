@@ -118,6 +118,7 @@ import (
 	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"fmt"
+	"strings"
 	"unsafe"
 )
 
@@ -204,6 +205,7 @@ type valState struct {
 	restoreMax        int32   // maximum of all restores' blocks' sdom.exit
 	needReg           bool    // cached value of !v.Type.IsMemory() && !v.Type.IsVoid() && !.v.Type.IsFlags()
 	rematerializeable bool    // cached value of v.rematerializeable()
+	names             []LocalSlot
 }
 
 type regState struct {
@@ -466,6 +468,9 @@ func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, pos 
 			panic("bad register state")
 		}
 		c = s.curBlock.NewValue1(pos, OpCopy, v.Type, s.regs[r2].c)
+		for _, name := range vi.names {
+			s.f.NamedValues[name] = append(s.f.NamedValues[name], c)
+		}
 	} else if v.rematerializeable() {
 		// Rematerialize instead of loading from the spill location.
 		c = v.copyIntoNoXPos(s.curBlock)
@@ -599,6 +604,14 @@ func (s *regAllocState) init(f *Func) {
 	s.values = make([]valState, f.NumValues())
 	s.orig = make([]*Value, f.NumValues())
 	s.copies = make(map[*Value]bool)
+	for slot, values := range f.NamedValues {
+		if strings.HasPrefix(slot.Name(), ".autotmp") || strings.HasPrefix(slot.Name(), "~r") {
+			continue
+		}
+		for _, value := range values {
+			s.values[value.ID].names = append(s.values[value.ID].names, slot)
+		}
+	}
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			if !v.Type.IsMemory() && !v.Type.IsVoid() && !v.Type.IsFlags() && !v.Type.IsTuple() {
