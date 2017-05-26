@@ -22,6 +22,30 @@
       "revId": "02df8b6479f2bc293a6109a96994381be340dd82",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1fb017_6b0b4b29",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-05-26T21:25:23Z",
+      "side": 1,
+      "message": "No -- changed the wording to \"as of\". It was a change in 3 that remains true.",
+      "parentUuid": "d20d5b63_239b5adb",
+      "range": {
+        "startLine": 637,
+        "startChar": 1,
+        "endLine": 638,
+        "endChar": 71
+      },
+      "revId": "02df8b6479f2bc293a6109a96994381be340dd82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
