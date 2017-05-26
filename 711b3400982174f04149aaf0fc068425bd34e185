@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "637da298_6bdd2e85",
+        "filename": "src/debug/dwarf/line_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-05-26T00:48:12Z",
+      "side": 1,
+      "message": "I understand that this is wrong for a Windows path, but the code treats this as a UNIX path. Since there\u0027s nothing after the drive letter at all, it assumes this is just a foolishly named UNIX directory, rather than a Windows drive.",
+      "parentUuid": "abe2af84_96a57cec",
+      "range": {
+        "startLine": 301,
+        "startChar": 1,
+        "endLine": 301,
+        "endChar": 21
+      },
+      "revId": "711b3400982174f04149aaf0fc068425bd34e185",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07a85ac5_f0d0d6c9",
         "filename": "src/debug/dwarf/line_test.go",
         "patchSetId": 2
