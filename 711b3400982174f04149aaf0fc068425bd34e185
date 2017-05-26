@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "241cb0d6_b8ec7fe8",
+        "filename": "src/debug/dwarf/line_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-05-26T01:11:26Z",
+      "side": 1,
+      "message": "If you insist on non-absolute path support, then you should change this.\n\nThis path would be uncommon on UNIX, but common on Windows. So you solving uncommon case, while leaving common case broken, cannot be called \"best effort\".\n\nAlternatively, you could just fail for non-absolute path. Maybe we will never have anyone complain about that.",
+      "parentUuid": "637da298_6bdd2e85",
+      "range": {
+        "startLine": 301,
+        "startChar": 1,
+        "endLine": 301,
+        "endChar": 21
+      },
+      "revId": "711b3400982174f04149aaf0fc068425bd34e185",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07a85ac5_f0d0d6c9",
         "filename": "src/debug/dwarf/line_test.go",
         "patchSetId": 2
