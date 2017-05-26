@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "542c8452_14b67483",
+        "filename": "src/sync/pool_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-05-26T13:13:59Z",
+      "side": 1,
+      "message": "This only preserves thread, not necessary P. You need the procPin used in Pool impl.",
+      "revId": "6126d0243453b83ee05ec2f30147fa2ec5284da2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
