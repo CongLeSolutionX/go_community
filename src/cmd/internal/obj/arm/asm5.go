@@ -1063,7 +1063,7 @@ func immrot2a(v uint32) (uint32, uint32) {
 // such that the encoded constants y, x satisfy y-x==v, y&x==0.
 // Returns 0,0 if no such decomposition of v exists.
 func immrot2s(v uint32) (uint32, uint32) {
-	if immrot(v) == 0 {
+	if immrot(v) != 0 {
 		return v, 0
 	}
 	// suppose v in the form of {leading 00, upper effective bits, lower 8 effective bits, trailing 00}
