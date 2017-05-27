@@ -1888,6 +1888,9 @@ func (c *ctxt5) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 
 	case 12: /* movw $lcon, reg */
+		if p.Scond&C_SBIT != 0 {
+			c.ctxt.Diag("%v: .S suffix ignored", p)
+		}
 		if o.a1 == C_SCON {
 			o1 = c.omvs(p, &p.From, int(p.To.Reg))
 		} else {
