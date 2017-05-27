@@ -19,5 +19,7 @@ TEXT errors(SB),$0
 	MOVD	F0, F1, F2         // ERROR "illegal combination"
 	MOVDF	F0, F1, F2         // ERROR "illegal combination"
 	MOVFD	F0, F1, F2         // ERROR "illegal combination"
+	MOVW.S	$0xffffffaa, R1    // ERROR ".S suffix ignored"
+	MOVW.S	$0xaaaaaaaa, R1    // ERROR ".S suffix ignored"
 
 	END

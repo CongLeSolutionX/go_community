@@ -1003,6 +1003,92 @@ jmp_label_3:
 	SWI	$65535         // ffff00ef
 	SWI	               // 000000ef
 
+// synthetised arithmatic
+	ADD	$4294967210, R2, R3  // 55b0e0e30b3082e0
+	ADD	$4294967125, R5      // aab0e0e30b5085e0
+	ADD.S	$4294967211, R2, R3  // 54b0e0e30b3092e0
+	ADD.S	$4294967124, R5      // abb0e0e30b5095e0
+	ADC	$4294967212, R2, R3  // 53b0e0e30b30a2e0
+	ADC	$4294967123, R5      // acb0e0e30b50a5e0
+	ADC.S	$4294967213, R2, R3  // 52b0e0e30b30b2e0
+	ADC.S	$4294967122, R5      // adb0e0e30b50b5e0
+	SUB	$4294967214, R2, R3  // 51b0e0e30b3042e0
+	SUB	$4294967121, R5      // aeb0e0e30b5045e0
+	SUB.S	$4294967215, R2, R3  // 50b0e0e30b3052e0
+	SUB.S	$4294967120, R5      // afb0e0e30b5055e0
+	SBC	$4294967216, R2, R3  // 4fb0e0e30b30c2e0
+	SBC	$4294967119, R5      // b0b0e0e30b50c5e0
+	SBC.S	$4294967217, R2, R3  // 4eb0e0e30b30d2e0
+	SBC.S	$4294967118, R5      // b1b0e0e30b50d5e0
+	RSB	$4294967218, R2, R3  // 4db0e0e30b3062e0
+	RSB	$4294967117, R5      // b2b0e0e30b5065e0
+	RSB.S	$4294967219, R2, R3  // 4cb0e0e30b3072e0
+	RSB.S	$4294967116, R5      // b3b0e0e30b5075e0
+	RSC	$4294967220, R2, R3  // 4bb0e0e30b30e2e0
+	RSC	$4294967115, R5      // b4b0e0e30b50e5e0
+	RSC.S	$4294967221, R2, R3  // 4ab0e0e30b30f2e0
+	RSC.S	$4294967114, R5      // b5b0e0e30b50f5e0
+	AND	$4294967210, R2, R3  // 55b0e0e30b3002e0
+	AND	$4294967125, R5      // aab0e0e30b5005e0
+	AND.S	$4294967211, R2, R3  // 54b0e0e30b3012e0
+	AND.S	$4294967124, R5      // abb0e0e30b5015e0
+	ORR	$4294967210, R2, R3  // 55b0e0e30b3082e1
+	ORR	$4294967125, R5      // aab0e0e30b5085e1
+	ORR.S	$4294967211, R2, R3  // 54b0e0e30b3092e1
+	ORR.S	$4294967124, R5      // abb0e0e30b5095e1
+	EOR	$4294967210, R2, R3  // 55b0e0e30b3022e0
+	EOR	$4294967125, R5      // aab0e0e30b5025e0
+	EOR.S	$4294967211, R2, R3  // 54b0e0e30b3032e0
+	EOR.S	$4294967124, R5      // abb0e0e30b5035e0
+	BIC	$4294967210, R2, R3  // 55b0e0e30b30c2e1
+	BIC	$4294967125, R5      // aab0e0e30b50c5e1
+	BIC.S	$4294967211, R2, R3  // 54b0e0e30b30d2e1
+	BIC.S	$4294967124, R5      // abb0e0e30b50d5e1
+	CMP	$4294967211, R2      // 54b0e0e30b0052e1
+	CMN	$4294967212, R3      // 53b0e0e30b0073e1
+	TST	$4294967213, R4      // 52b0e0e30b0014e1
+	TEQ	$4294967214, R5      // 51b0e0e30b0035e1
+
+// MVN
+	MVN	$255, R1         // ff10e0e3
+	MVN	$4278190080, R1  // ff14e0e3
+	MVN.S	$255, R1         // ff10f0e3
+	MVN.S	$4278190080, R1  // ff14f0e3
+	MVN	R9<<30, R7       // 097fe0e1
+	MVN	R9>>30, R7       // 297fe0e1
+	MVN	R9->30, R7       // 497fe0e1
+	MVN	R9@>30, R7       // 697fe0e1
+	MVN.S	R9<<30, R7       // 097ff0e1
+	MVN.S	R9>>30, R7       // 297ff0e1
+	MVN.S	R9->30, R7       // 497ff0e1
+	MVN.S	R9@>30, R7       // 697ff0e1
+	MVN	R9<<R8, R7       // 1978e0e1
+	MVN	R9>>R8, R7       // 3978e0e1
+	MVN	R9->R8, R7       // 5978e0e1
+	MVN	R9@>R8, R7       // 7978e0e1
+	MVN.S	R9<<R8, R7       // 1978f0e1
+	MVN.S	R9>>R8, R7       // 3978f0e1
+	MVN.S	R9->R8, R7       // 5978f0e1
+	MVN.S	R9@>R8, R7       // 7978f0e1
+	MVN	$4294967214, R5  // 51b0e0e30b50e0e1
+	MVN.S	$4294967214, R5  // 51b0e0e30b50f0e1
+
+// MOVW
+mov_label_0:
+	MOVW	$255, R9             // ff90a0e3
+	MOVW	$4278190080, R9      // ff94a0e3
+	MOVW.S	$255, R9             // ff90b0e3
+	MOVW.S	$4278190080, R9      // ff94b0e3
+	MOVW	R3, R4               // 0340a0e1
+	MOVW.S	R4, R3               // 0430b0e1
+	MOVW	$255(R0), R1         // ff1080e2
+	MOVW	$-255(R0), R1        // ff1040e2
+	MOVW.S	$255(R0), R1         // ff1090e2
+	MOVW.S	$-255(R0), R1        // ff1050e2
+	MOVW	$4294967214, R1      // 5110e0e3
+	MOVW	$0xaaaaaaaa, R1      // MOVW $2863311530, R1
+	MOVW	$mov_label_0(SB), R2 // MOVW $mov_label_0(SB), R2
+
 //
 // END
 //
