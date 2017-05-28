@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "694651c9_73466d63",
+        "filename": "src/cmd/cover/func.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 13855
+      },
+      "writtenOn": "2017-05-28T16:36:22Z",
+      "side": 1,
+      "message": "t can be 0 now, so c/t can be a division by 0. Maybe factor out a small percent() function that can be used in the printf?\n\nfunc percent(active, total) int64 {\n    if total \u003d\u003d 0 {\n        return 0.0\n    }\n    return 100 * float64(active) / float64(total) \n}",
+      "revId": "a68f63adea5271652ef4875c47957838f7890cab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
