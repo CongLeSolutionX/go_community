@@ -71,6 +71,9 @@ func funcOutput(profile, outputFile string) error {
 			covered += c
 		}
 	}
+	if total == 0 {
+		total = 1 // Avoid zero denominator.
+	}
 	fmt.Fprintf(tabber, "total:\t(statements)\t%.1f%%\n", 100.0*float64(covered)/float64(total))
 
 	return nil
@@ -146,9 +149,6 @@ func (f *FuncExtent) coverage(profile *Profile) (num, den int64) {
 		if b.Count > 0 {
 			covered += int64(b.NumStmt)
 		}
-	}
-	if total == 0 {
-		total = 1 // Avoid zero denominator.
 	}
 	return covered, total
 }
