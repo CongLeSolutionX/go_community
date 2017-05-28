@@ -26,10 +26,11 @@ const (
 
 var (
 	// Files we use.
-	testMain    = filepath.Join(testdata, "main.go")
-	testTest    = filepath.Join(testdata, "test.go")
-	coverInput  = filepath.Join(testdata, "test_line.go")
-	coverOutput = filepath.Join(testdata, "test_cover.go")
+	testMain     = filepath.Join(testdata, "main.go")
+	testTest     = filepath.Join(testdata, "test.go")
+	coverInput   = filepath.Join(testdata, "test_line.go")
+	coverOutput  = filepath.Join(testdata, "test_cover.go")
+	coverProfile = filepath.Join(testdata, "profile.cov")
 )
 
 var debug = false // Keeps the rewritten files around if set.
@@ -99,6 +100,23 @@ func TestCover(t *testing.T) {
 	c := ".*// This comment shouldn't appear in generated go code.*"
 	if got, err := regexp.MatchString(c, string(file)); err != nil || got {
 		t.Errorf("non compiler directive comment %q found. got=(%v, %v); want=(false; nil)", c, got, err)
+	}
+}
+
+// Makes sure that `cover -func=profile.cov` reports accurate coverage.
+// Issue #20515.
+func TestCoverFunc(t *testing.T) {
+	// go tool cover -func ./testdata/profile.cov
+	cmd := exec.Command(testenv.GoToolPath(t), "tool", "cover", "-func", coverProfile)
+	buf := &bytes.Buffer{}
+	cmd.Stdout = buf
+	err := cmd.Run()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if got, err := regexp.MatchString(".*total:.*100.0.*", buf.String()); err != nil || !got {
+		t.Errorf("invalid coverage counts. got=(%v, %v); want=(true; nil)", got, err)
 	}
 }
 
