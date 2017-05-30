@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1330ca9e_332a02fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-05-30T10:29:17Z",
+      "side": 1,
+      "message": "Could you provide benchmark results for TLS handshake peformance before and after the CL?\nUse https://godoc.org/rsc.io/benchstat for benchmark results\u0027 comparison.\n\nTry TLS handshake benchmarks from github.com/valyala/fasthttp/fasthttputil from https://github.com/golang/go/issues/20058 .",
+      "revId": "a122a6d9e3e77198b1d0d9ed2f35516706b51902",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
