@@ -659,6 +659,10 @@ func callerName(skip int) string {
 // -test.count or -test.cpu, multiple instances of a single test never run in
 // parallel with each other.
 func (t *T) Parallel() {
+	if t.context.maxParallel == -1 {
+		// -parallel=-1 forces all tests to run sequentially
+		return
+	}
 	if t.isParallel {
 		panic("testing: t.Parallel called multiple times")
 	}
