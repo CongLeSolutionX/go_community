@@ -94,7 +94,6 @@ NextCipherSuite:
 
 	_, err := io.ReadFull(c.config.rand(), hello.random)
 	if err != nil {
-		c.sendAlert(alertInternalError)
 		return errors.New("tls: short read from Rand: " + err.Error())
 	}
 
@@ -147,7 +146,6 @@ NextCipherSuite:
 		// (see RFC 5077).
 		hello.sessionId = make([]byte, 16)
 		if _, err := io.ReadFull(c.config.rand(), hello.sessionId); err != nil {
-			c.sendAlert(alertInternalError)
 			return errors.New("tls: short read from Rand: " + err.Error())
 		}
 	}
