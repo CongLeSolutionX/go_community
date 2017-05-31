@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "958dd439_69db84db",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-31T13:25:03Z",
+      "side": 1,
+      "message": "Could you write the constants in hex? I understand that you have to write it again in decimal in the comment, but it is clearer in hex to see which encoding should be chosen.",
+      "range": {
+        "startLine": 1007,
+        "startChar": 6,
+        "endLine": 1007,
+        "endChar": 16
+      },
+      "revId": "1f704c09524f7f6fc824a6f7f1cf7309fa7159a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c710deee_3e9537eb",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm.s",
+        "patchSetId": 13
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-31T13:25:03Z",
+      "side": 1,
+      "message": "Let\u0027s don\u0027t put MOVW.S into this CL, as it is still under discussion.",
+      "revId": "1f704c09524f7f6fc824a6f7f1cf7309fa7159a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4218501f_e8964150",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-05-31T13:25:03Z",
+      "side": 1,
+      "message": "Don\u0027t you need to change case 106 and 107 in asmout?",
+      "revId": "1f704c09524f7f6fc824a6f7f1cf7309fa7159a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
