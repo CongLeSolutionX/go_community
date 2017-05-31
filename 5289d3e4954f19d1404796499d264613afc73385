@@ -52,6 +52,63 @@
       "revId": "5289d3e4954f19d1404796499d264613afc73385",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4de2ccf4_d9155be7",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 8675
+      },
+      "writtenOn": "2017-05-31T22:33:00Z",
+      "side": 1,
+      "message": "It seems like this should at least be in the child so that we don\u0027t affect the calling thread\u0027s KEEPCAPS value. Should this be split out into another option (or be based on calling setuid)?",
+      "revId": "5289d3e4954f19d1404796499d264613afc73385",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52f6a8f0_143f7881",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 8675
+      },
+      "writtenOn": "2017-05-31T22:33:00Z",
+      "side": 1,
+      "message": "Why put this in the Credential check? For my use case (keeping capabilities in non-root-mapped user namespaces), I need to manipulate the ambient capability set even without calling setuid. (Though I also need to manipulate the inheritable capability set first, so if I continue down this path I\u0027ll send a separate CL)",
+      "revId": "5289d3e4954f19d1404796499d264613afc73385",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "557b3a05_f549acee",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 8675
+      },
+      "writtenOn": "2017-05-31T22:33:00Z",
+      "side": 1,
+      "message": "PR_CAP_AMBIENT_RAISE takes a single capability number, not a multiple capabilities. Can we make this a loop so that more than one capability can be set? The current capget/capset implementations use 64-bit (2x32-bit) masks, so it would be feasible to take uint64 and walk the set bits, but iterating over a slice matches this interface better.",
+      "range": {
+        "startLine": 264,
+        "startChar": 3,
+        "endLine": 264,
+        "endChar": 110
+      },
+      "revId": "5289d3e4954f19d1404796499d264613afc73385",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
