@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02958d18_39c34cce",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-01T22:24:15Z",
+      "side": 1,
+      "message": "I would prefer to see:\n    var buf bytes.Buffer\n    cmd.Stdout \u003d \u0026buf\nand\n    cmd.Stderr \u003d os.Stderr\n\nBut better than either is\n\n    cmd :\u003d exec.Command(...)\n    if out, err :\u003d cmd.Output(); err !\u003d nil {\n        if ee, ok :\u003d err.(*exec.ExitError): ok {\n            t.Logf(\"%s\", ee.Stderr)\n        }\n        t.Fatal(err)\n    }",
+      "revId": "41dce439f3ff5f3a675382ac2b34306f548f2090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c317558_6c230619",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-01T22:24:15Z",
+      "side": 1,
+      "message": "Before the t.Errorf add\n    t.Log(buf.String())",
+      "revId": "41dce439f3ff5f3a675382ac2b34306f548f2090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "175b2f71_5769c1fe",
+        "filename": "src/cmd/cover/testdata/p.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-01T22:24:15Z",
+      "side": 1,
+      "message": "Add standard copyright header seen in other files.",
+      "revId": "41dce439f3ff5f3a675382ac2b34306f548f2090",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
