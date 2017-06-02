@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56764899_f2997d44",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-02T18:27:47Z",
+      "side": 1,
+      "message": "Seems like this should be RawSyscall6.",
+      "revId": "54bb82c0fd38679a732043974352c646fecb88ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
