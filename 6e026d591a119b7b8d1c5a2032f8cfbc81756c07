@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff2d135d_9cd1a96b",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-02T16:36:28Z",
+      "side": 1,
+      "message": "You can write simply\n    t.Logf(\"%s\", out)\nbecause %s will print a []byte as a string.  This doesn\u0027t matter here at all, but we may as well have the standard library model good Go practice.",
+      "revId": "6e026d591a119b7b8d1c5a2032f8cfbc81756c07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
