@@ -16,6 +16,24 @@
       "revId": "eb1933d0601b2fdeee16c662a92e53da5de876f2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbde9c94_739f8771",
+        "filename": "src/crypto/tls/handshake_server_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 6195
+      },
+      "writtenOn": "2017-06-02T21:37:16Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "98566b47_78ebd2f2",
+      "revId": "eb1933d0601b2fdeee16c662a92e53da5de876f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
