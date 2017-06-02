@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e71ed51_1155a877",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-02T21:35:13Z",
+      "side": 1,
+      "message": "Add a TODO comment here to remove the test of VisibilityHidden.",
+      "revId": "b400974db632e1976849a083384bad8a30a87f1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cf19f43_a63cf8d6",
+        "filename": "src/cmd/link/internal/ld/ldelf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-02T21:35:13Z",
+      "side": 1,
+      "message": "This also probably needs a TODO to not test VisibilityHidden.  At least, I can\u0027t see why testing it here makes sense.",
+      "revId": "b400974db632e1976849a083384bad8a30a87f1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ebbd1fa_0dd696b2",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2070,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-02T21:35:13Z",
+      "side": 1,
+      "message": "Another TODO.",
+      "revId": "b400974db632e1976849a083384bad8a30a87f1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1c5f741_557dfab5",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-02T21:35:13Z",
+      "side": 1,
+      "message": "Hidden matters in shared libraries, though whether that applies here I do not know.",
+      "revId": "b400974db632e1976849a083384bad8a30a87f1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9dedce4_5cf85a5f",
+        "filename": "src/cmd/link/internal/s390x/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-02T21:35:13Z",
+      "side": 1,
+      "message": "Another TODO.",
+      "revId": "b400974db632e1976849a083384bad8a30a87f1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92708fbd_b137ba36",
+        "filename": "src/cmd/link/internal/x86/asm.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-02T21:35:13Z",
+      "side": 1,
+      "message": "Another TODO.",
+      "revId": "b400974db632e1976849a083384bad8a30a87f1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
