@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b3b0ee3_482c771f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1594,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-02T18:10:08Z",
+      "side": 1,
+      "message": "Mention the issue number in the comment.",
+      "revId": "f3c038550a5d955e97076c2d3f1cfd4378ef5d51",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
