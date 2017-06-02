@@ -50,6 +50,24 @@
       "revId": "31c9c3d95d8736a06e3f3b057ce7b076b4f86dbb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "960a6952_b344423d",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-06-02T12:04:24Z",
+      "side": 1,
+      "message": "I can also wrap that, but I have not been able to reproduce the issue when clone is used for forking. This might be because the tests I\u0027ve done have mostly been on amd64, where this uses a separate path.",
+      "parentUuid": "4162f170_97de8457",
+      "revId": "31c9c3d95d8736a06e3f3b057ce7b076b4f86dbb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
