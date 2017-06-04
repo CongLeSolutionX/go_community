@@ -215,6 +215,8 @@ NextCandidate:
 		}
 
 		curve25519.ScalarBaseMult(&public, &scalar)
+		public[31] |= (public[30] & 0x80)
+
 		ka.privateKey = scalar[:]
 		ecdhePublic = public[:]
 	} else {
@@ -444,6 +446,8 @@ func (ka *ecdheKeyAgreement) generateClientKeyExchange(config *Config, clientHel
 
 		copy(theirPublic[:], ka.publicKey)
 		curve25519.ScalarBaseMult(&ourPublic, &scalar)
+		ourPublic[31] |= (ourPublic[30] & 0x80)
+
 		curve25519.ScalarMult(&sharedKey, &scalar, &theirPublic)
 		serialized = ourPublic[:]
 		preMasterSecret = sharedKey[:]
