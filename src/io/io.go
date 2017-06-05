@@ -173,9 +173,10 @@ type ReaderFrom interface {
 
 // WriterTo is the interface that wraps the WriteTo method.
 //
-// WriteTo writes data to w until there's no more data to write or
-// when an error occurs. The return value n is the number of bytes
-// written. Any error encountered during the write is also returned.
+// WriteTo writes data to w until there's no more data to write or when an error
+// occurs. The return value n is the number of bytes written. Any error
+// encountered during the write is also returned.
+// WriteTo may perform one or more read operations on the WriterTo.
 //
 // The Copy function uses WriterTo if available.
 type WriterTo interface {
