@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f4dd492_8298109a",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-05T22:32:23Z",
+      "side": 1,
+      "message": "I think this is too much detail.  I don\u0027t think it helps clarify what the method does, and it kind of locks us into approaches we may want to change in the future.  I think it would suffice to add a sentence \"This may make multiple calls to the Read method of the underlying Reader.\"",
+      "revId": "331c8d628eb380b0a4e005bb0e7eb4757f23e8b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
