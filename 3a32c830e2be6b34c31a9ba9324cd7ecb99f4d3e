@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aa3ad76_1090cb9a",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2377,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-05T16:41:17Z",
+      "side": 1,
+      "message": "probably needs better docs now.",
+      "range": {
+        "startLine": 2376,
+        "startChar": 45,
+        "endLine": 2377,
+        "endChar": 55
+      },
+      "revId": "3a32c830e2be6b34c31a9ba9324cd7ecb99f4d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b22c571_1d89f44d",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2471,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-05T16:41:17Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 2471,
+        "startChar": 26,
+        "endLine": 2471,
+        "endChar": 32
+      },
+      "revId": "3a32c830e2be6b34c31a9ba9324cd7ecb99f4d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "169fa309_ecc1c737",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2484,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-05T16:41:17Z",
+      "side": 1,
+      "message": "what rows? oh, from QueryContext?",
+      "range": {
+        "startLine": 2484,
+        "startChar": 0,
+        "endLine": 2484,
+        "endChar": 22
+      },
+      "revId": "3a32c830e2be6b34c31a9ba9324cd7ecb99f4d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "746e2505_524d60a4",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2492,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-05T16:41:17Z",
+      "side": 1,
+      "message": "add \"timeout: \" before this error message? This is the error on 3 seconds, right?",
+      "range": {
+        "startLine": 2492,
+        "startChar": 11,
+        "endLine": 2492,
+        "endChar": 17
+      },
+      "revId": "3a32c830e2be6b34c31a9ba9324cd7ecb99f4d3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
