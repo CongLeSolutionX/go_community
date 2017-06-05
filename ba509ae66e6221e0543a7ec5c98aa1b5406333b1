@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab61925c_f85e1283",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-05T12:23:39Z",
+      "side": 1,
+      "message": "Use something more precise. Maybe fix constant decomposition.",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "ba509ae66e6221e0543a7ec5c98aa1b5406333b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
