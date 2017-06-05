@@ -457,7 +457,11 @@ func (b *Reader) ReadString(delim byte) (string, error) {
 	return string(bytes), err
 }
 
-// WriteTo implements io.WriterTo.
+// WriteTo implements io.WriterTo. After flushing the buffer, if the underlying
+// reader is also an io.WriterTo its WriteTo method is called. Otherwise, if the
+// writer is an io.ReaderFrom its ReadFrom method is called. If neither is true,
+// WriteTo then falls back to filling the buffer and manually writing it.
+// This may result in multiple calls to the underlying readers Read method.
 func (b *Reader) WriteTo(w io.Writer) (n int64, err error) {
 	n, err = b.writeBuf(w)
 	if err != nil {
