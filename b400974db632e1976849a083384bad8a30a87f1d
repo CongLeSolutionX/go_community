@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "a219c6b3_8d67ce0f",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2017-06-05T15:39:11Z",
+      "side": 1,
+      "message": "Sure but we\u0027re a long way from implementing shared libraries with internal linking I think?",
+      "parentUuid": "b1c5f741_557dfab5",
+      "revId": "b400974db632e1976849a083384bad8a30a87f1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9dedce4_5cf85a5f",
         "filename": "src/cmd/link/internal/s390x/asm.go",
         "patchSetId": 2
