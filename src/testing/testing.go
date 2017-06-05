@@ -1001,8 +1001,10 @@ func runTests(matchString func(pat, str string) (bool, error), tests []InternalT
 			context: ctx,
 		}
 		tRunner(t, func(t *T) {
-			for _, test := range tests {
-				t.Run(test.Name, test.F)
+			for i := uint(0); i < *count; i++ {
+				for _, test := range tests {
+					t.Run(test.Name, test.F)
+				}
 			}
 			// Run catching the signal rather than the tRunner as a separate
 			// goroutine to avoid adding a goroutine during the sequential
@@ -1166,13 +1168,9 @@ func parseCpuList() {
 			fmt.Fprintf(os.Stderr, "testing: invalid value %q for -test.cpu\n", val)
 			os.Exit(1)
 		}
-		for i := uint(0); i < *count; i++ {
-			cpuList = append(cpuList, cpu)
-		}
+		cpuList = append(cpuList, cpu)
 	}
 	if cpuList == nil {
-		for i := uint(0); i < *count; i++ {
-			cpuList = append(cpuList, runtime.GOMAXPROCS(-1))
-		}
+		cpuList = append(cpuList, runtime.GOMAXPROCS(-1))
 	}
 }
