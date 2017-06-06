@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2317b02_006eff41",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-06T22:36:39Z",
+      "side": 1,
+      "message": "whoops, I didn\u0027t have Emacs\u0027 sentence-end-double-space set to nil on this machine.",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "299fb6e15ef32d0ffe3049b7dc7f5dd063ec8284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
