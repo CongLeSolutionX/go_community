@@ -22,6 +22,30 @@
       "revId": "299fb6e15ef32d0ffe3049b7dc7f5dd063ec8284",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4db4ff9f_a909e619",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-06T22:40:03Z",
+      "side": 1,
+      "message": "I actually thought you were joking when you wrote \"sentence-end-double-space\".  Until I tried it.",
+      "parentUuid": "b2317b02_006eff41",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "299fb6e15ef32d0ffe3049b7dc7f5dd063ec8284",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
