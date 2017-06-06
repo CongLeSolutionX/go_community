@@ -95,13 +95,7 @@ func (c *UnixConn) CloseWrite() error {
 	return nil
 }
 
-// ReadFromUnix reads a packet from c, copying the payload into b. It
-// returns the number of bytes copied into b and the source address of
-// the packet.
-//
-// ReadFromUnix can be made to time out and return an error with
-// Timeout() == true after a fixed time limit; see SetDeadline and
-// SetReadDeadline.
+// ReadFromUnix acts like ReadFrom but returns a UnixAddr.
 func (c *UnixConn) ReadFromUnix(b []byte) (int, *UnixAddr, error) {
 	if !c.ok() {
 		return 0, nil, syscall.EINVAL
@@ -131,7 +125,7 @@ func (c *UnixConn) ReadFrom(b []byte) (int, Addr, error) {
 // ReadMsgUnix reads a packet from c, copying the payload into b and
 // the associated out-of-band data into oob. It returns the number of
 // bytes copied into b, the number of bytes copied into oob, the flags
-// that were set on the packet, and the source address of the packet.
+// on the underlying operation, and the source address of the packet.
 //
 // Note that if len(b) == 0 and len(oob) > 0, this function will still
 // read (and discard) 1 byte from the connection.
@@ -146,12 +140,7 @@ func (c *UnixConn) ReadMsgUnix(b, oob []byte) (n, oobn, flags int, addr *UnixAdd
 	return
 }
 
-// WriteToUnix writes a packet to addr via c, copying the payload from b.
-//
-// WriteToUnix can be made to time out and return an error with
-// Timeout() == true after a fixed time limit; see SetDeadline and
-// SetWriteDeadline. On packet-oriented connections, write timeouts
-// are rare.
+// WriteToUnix acts like WriteTo but takes a UnixAddr.
 func (c *UnixConn) WriteToUnix(b []byte, addr *UnixAddr) (int, error) {
 	if !c.ok() {
 		return 0, syscall.EINVAL
