@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fb950b2_5f067a00",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-06T20:12:29Z",
+      "side": 1,
+      "message": "I prefer the original description of the flags.  We could do something else, but \"on the underlying operation\" seems ambiguous.",
+      "revId": "8a9304ed3041488e9779cdb575c15e522921f2a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
