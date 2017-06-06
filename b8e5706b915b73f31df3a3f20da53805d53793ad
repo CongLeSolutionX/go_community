@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5e73c2c_f4f57bba",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-06-06T23:14:13Z",
+      "side": 1,
+      "message": "In short, a type declaration of the form",
+      "revId": "b8e5706b915b73f31df3a3f20da53805d53793ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58827fe4_86d62fdc",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-06-06T23:14:13Z",
+      "side": 1,
+      "message": "Don\u0027t use \"after\" - because T1 may also used \"before\" the declaration (in package context). How about:\n\nThis declaration introduces an alias name T1 - an alternate spelling - for the type denoted by T2; i.e., both T1 and T2 denote the same type.",
+      "revId": "b8e5706b915b73f31df3a3f20da53805d53793ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
