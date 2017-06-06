@@ -16,6 +16,24 @@
       "revId": "84530b4fe262757cb6f788626d3e44fc1016b5e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d00bd0b2_08cf12a8",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-06T22:04:50Z",
+      "side": 1,
+      "message": "Thanks. Fixed in https://go-review.googlesource.com/45014",
+      "parentUuid": "f47097a2_82f4ebe0",
+      "revId": "84530b4fe262757cb6f788626d3e44fc1016b5e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
