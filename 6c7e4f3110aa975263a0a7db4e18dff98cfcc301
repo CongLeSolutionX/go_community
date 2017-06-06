@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e10a38f5_58098c53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-06-06T22:44:36Z",
+      "side": 1,
+      "message": "Nit: no trailing period",
+      "revId": "6c7e4f3110aa975263a0a7db4e18dff98cfcc301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07b9c38d_809355ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-06-06T22:44:36Z",
+      "side": 1,
+      "message": "Maybe CL 33909 should fix, and this should update?",
+      "revId": "6c7e4f3110aa975263a0a7db4e18dff98cfcc301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31de5ce8_84c30692",
+        "filename": "src/cmd/compile/internal/ssa/check.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-06-06T22:44:36Z",
+      "side": 1,
+      "message": "d?",
+      "revId": "6c7e4f3110aa975263a0a7db4e18dff98cfcc301",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
