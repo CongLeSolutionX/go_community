@@ -108,7 +108,9 @@ var (
 	IPv6linklocalallrouters    = IP{0xff, 0x02, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x02}
 )
 
-// IsUnspecified reports whether ip is an unspecified address.
+// IsUnspecified reports whether ip is an unspecified address, either
+// the IPv4 address "0.0.0.0" or the IPv6 address "::", which
+// represents the absence of an address.
 func (ip IP) IsUnspecified() bool {
 	return ip.Equal(IPv4zero) || ip.Equal(IPv6unspecified)
 }
