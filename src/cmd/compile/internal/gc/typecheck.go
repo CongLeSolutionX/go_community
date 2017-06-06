@@ -543,9 +543,8 @@ OpSwitch:
 		OOROR,
 		OSUB,
 		OXOR:
-		var l *Node
+		var l, r *Node
 		var op Op
-		var r *Node
 		if n.Op == OASOP {
 			ok |= Etop
 			n.Left = typecheck(n.Left, Erv)
@@ -577,6 +576,34 @@ OpSwitch:
 			op = n.Op
 		}
 		if op == OLSH || op == ORSH {
+			// If the shift count is an integer constant, exclude extreme values
+			// and avoid follow-on errors.
+			if Isconst(r, CTINT) {
+				s := r.Val().U.(*Mpint) // shift count
+				if s.CmpInt64(0) < 0 {
+					yyerror("invalid operation: %v (negative shift count %v)", n, s)
+					n.Type = nil
+					return n
+				}
+				// A constant shift count >= 64 can always be replaced with
+				// shift count 64 if the shifted operand is not a constant.
+				// Avoids overflow error for large but valid shift counts
+				// when calling defaultlit below (was issue #14822).
+				if l.Op != OLITERAL {
+					// non-constant shift
+					if s.CmpInt64(64) >= 0 {
+						s.SetInt64(64)
+					}
+				} else {
+					// constant shift
+					if s.CmpInt64(Mpprec) >= 0 {
+						yyerror("shift count too large: %v", s)
+						n.Type = nil
+						return n
+					}
+				}
+			}
+
 			r = defaultlit(r, types.Types[TUINT])
 			n.Right = r
 			t := r.Type
@@ -593,8 +620,7 @@ OpSwitch:
 				return n
 			}
 
-			// no defaultlit for left
-			// the outer context gives the type
+			// No defaultlit for left: The outer context determines its type.
 			n.Type = l.Type
 
 			break OpSwitch
