@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43bdd3ee_a7e38d31",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-06T20:28:12Z",
+      "side": 1,
+      "message": "Sorry, this doesn\u0027t seem quite right to me.  The canonical case for WriterTo is something like bytes.Buffer.  The bytes.Buffer.WriteTo method never encounters EOF.  I think we can do better here, but this isn\u0027t quite it.  Perhaps something more like\n\nWriteTo writes all available data to w, stopping only when there is no more data to write or when an error occurs.",
+      "revId": "b7c4d0e57f55c1b3e8ffa7583b5933c6d0c76429",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
