@@ -103,13 +103,7 @@ func (c *IPConn) SyscallConn() (syscall.RawConn, error) {
 	return newRawConn(c.fd)
 }
 
-// ReadFromIP reads an IP packet from c, copying the payload into b.
-// It returns the number of bytes copied into b and the return address
-// that was on the packet.
-//
-// ReadFromIP can be made to time out and return an error with
-// Timeout() == true after a fixed time limit; see SetDeadline and
-// SetReadDeadline.
+// ReadFromIP acts like ReadFrom but returns an IPAddr.
 func (c *IPConn) ReadFromIP(b []byte) (int, *IPAddr, error) {
 	if !c.ok() {
 		return 0, nil, syscall.EINVAL
@@ -139,7 +133,10 @@ func (c *IPConn) ReadFrom(b []byte) (int, Addr, error) {
 // ReadMsgIP reads a packet from c, copying the payload into b and the
 // associated out-of-band data into oob. It returns the number of
 // bytes copied into b, the number of bytes copied into oob, the flags
-// that were set on the packet and the source address of the packet.
+// on the underlying operation and the source address of the packet.
+//
+// The packages golang.org/x/net/ipv4 and golang.org/x/net/ipv6 can be
+// used to manipulate IP-level socket options in oob.
 func (c *IPConn) ReadMsgIP(b, oob []byte) (n, oobn, flags int, addr *IPAddr, err error) {
 	if !c.ok() {
 		return 0, 0, 0, nil, syscall.EINVAL
@@ -151,13 +148,7 @@ func (c *IPConn) ReadMsgIP(b, oob []byte) (n, oobn, flags int, addr *IPAddr, err
 	return
 }
 
-// WriteToIP writes an IP packet to addr via c, copying the payload
-// from b.
-//
-// WriteToIP can be made to time out and return an error with
-// Timeout() == true after a fixed time limit; see SetDeadline and
-// SetWriteDeadline. On packet-oriented connections, write timeouts
-// are rare.
+// WriteToIP acts like WriteTo but takes an IPAddr.
 func (c *IPConn) WriteToIP(b []byte, addr *IPAddr) (int, error) {
 	if !c.ok() {
 		return 0, syscall.EINVAL
@@ -188,6 +179,9 @@ func (c *IPConn) WriteTo(b []byte, addr Addr) (int, error) {
 // WriteMsgIP writes a packet to addr via c, copying the payload from
 // b and the associated out-of-band data from oob. It returns the
 // number of payload and out-of-band bytes written.
+//
+// The packages golang.org/x/net/ipv4 and golang.org/x/net/ipv6 can be
+// used to manipulate IP-level socket options in oob.
 func (c *IPConn) WriteMsgIP(b, oob []byte, addr *IPAddr) (n, oobn int, err error) {
 	if !c.ok() {
 		return 0, 0, syscall.EINVAL
