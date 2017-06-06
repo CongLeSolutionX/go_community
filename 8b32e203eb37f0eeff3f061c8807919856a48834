@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21d22773_39c9ebe3",
+        "filename": "src/net/iprawsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-06T20:11:34Z",
+      "side": 1,
+      "message": "I actually think the original \"the flags that were set on the packet\" is clearer than what you have written here.  \"The flags on the underlying operation\" is ambiguous between the flags on the package and the flags passed to the recvmsg system call.",
+      "revId": "8b32e203eb37f0eeff3f061c8807919856a48834",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
