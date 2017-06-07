@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ec24f97_8a5e7dc8",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-06-07T05:28:24Z",
+      "side": 1,
+      "message": "docs are easier to edit if you start sentences on new lines, but that doesn\u0027t appear to be your preference.",
+      "revId": "4fb712e053d4bd432be0aa678169204285448d2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
