@@ -51,6 +51,24 @@
       "revId": "903c21db20f0e2104542328a9bd4c4d043d380b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c02936f_7704953d",
+        "filename": "src/io/io.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-07T14:40:41Z",
+      "side": 1,
+      "message": "Yes, my suggestion just rewords what it says today.  I was hoping it would make it slightly clearer that \"all available data\" implies fetching more data when using a type for which that makes sense.  Still, I understand your confusion.  But, I think it\u0027s misleading to start talking about read here.  There are many ways to get more data; consider implementing WriteTo on math/rand.*Rand.\n\nMaybe something like\n\nWriteTo writes data from a data source to w.  It keeps writing data until no more data is available from the source or when an error occurs.\n\nI\u0027m not entirely happy with that but maybe we are getting closer to what we want.",
+      "parentUuid": "627af014_fbeecc75",
+      "revId": "903c21db20f0e2104542328a9bd4c4d043d380b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
