@@ -33,6 +33,24 @@
       "revId": "903c21db20f0e2104542328a9bd4c4d043d380b2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "627af014_fbeecc75",
+        "filename": "src/io/io.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 11106
+      },
+      "writtenOn": "2017-06-07T14:22:50Z",
+      "side": 1,
+      "message": "Thanks; your version is more or less a slight rewording of what it already says, no? \"writes all available data to w, stopping only when there is no more data to write\" vs \"writes data to w until there\u0027s no more data to write\". The \"all available\" specifically confused me; if I have a bufio.Reader, \"all available\" data sounds like \"what\u0027s already in the buffer\", so I\u0027d still think we want some clarification that it might call read (that\u0027s why it was a \"may perform\", but maybe \"may or may not\" to ensure that people interpret it correctly?",
+      "parentUuid": "e1e6b1ee_0f658543",
+      "revId": "903c21db20f0e2104542328a9bd4c4d043d380b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
