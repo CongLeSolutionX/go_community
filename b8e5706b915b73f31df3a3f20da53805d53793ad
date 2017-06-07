@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dca716fa_a3a32e31",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-07T00:25:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5e73c2c_f4f57bba",
+      "revId": "b8e5706b915b73f31df3a3f20da53805d53793ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58827fe4_86d62fdc",
         "filename": "doc/go1.9.html",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-06T23:14:13Z",
       "side": 1,
       "message": "Don\u0027t use \"after\" - because T1 may also used \"before\" the declaration (in package context). How about:\n\nThis declaration introduces an alias name T1 - an alternate spelling - for the type denoted by T2; i.e., both T1 and T2 denote the same type.",
+      "revId": "b8e5706b915b73f31df3a3f20da53805d53793ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e539753_7323deb6",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-07T00:25:14Z",
+      "side": 1,
+      "message": "I copied the text from https://github.com/golang/proposal/blob/master/design/18130-type-alias.md#proposal\n\nBut sure, I\u0027ll take your text sans Latin.",
+      "parentUuid": "58827fe4_86d62fdc",
       "revId": "b8e5706b915b73f31df3a3f20da53805d53793ad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
