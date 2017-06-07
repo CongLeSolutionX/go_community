@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eb09600_d067970d",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-06-07T20:45:00Z",
+      "side": 1,
+      "message": "We also have no way of knowing whether some other library has installed a different SIGPROF handler in the meantime.\n\nThe safest option here would be to never restore the previous handler (and always forward the signal to any existing non-default handler).",
+      "range": {
+        "startLine": 223,
+        "startChar": 21,
+        "endLine": 224,
+        "endChar": 30
+      },
+      "revId": "2ff00d7fdfd45bcbdac8bb315f03b6834206643b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
