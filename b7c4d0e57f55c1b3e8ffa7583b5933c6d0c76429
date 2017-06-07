@@ -16,6 +16,24 @@
       "revId": "b7c4d0e57f55c1b3e8ffa7583b5933c6d0c76429",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8f4678d_4e13617c",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 11106
+      },
+      "writtenOn": "2017-06-07T14:02:19Z",
+      "side": 1,
+      "message": "Thanks; I was apparently more confused by the current wording than I thought. Maybe all that\u0027s needed is clarification that it may perform multiple read operations? Pushing another attempt for your review. Thanks for your patience!",
+      "parentUuid": "43bdd3ee_a7e38d31",
+      "revId": "b7c4d0e57f55c1b3e8ffa7583b5933c6d0c76429",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
