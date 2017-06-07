@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d211970_73029930",
+        "filename": "src/bufio/bufio.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 11106
+      },
+      "writtenOn": "2017-06-07T14:04:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure that this makes it entirely clear that this is *different* than the docs on the io.WriterTo interface. Here we\u0027re saying that we might make multiple calls to the underlying Reader, ie. the buffer may be filled multiple times (which is what resulted in an unexpected blocking net.Conn read for me when I thought I was just flushing a buffer). Maybe it\u0027s fine; would be curious if others think this is clear.",
+      "revId": "903c21db20f0e2104542328a9bd4c4d043d380b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
