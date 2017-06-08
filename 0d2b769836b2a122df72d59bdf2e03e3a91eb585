@@ -130,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "4e53be77_5c1c9800",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-06-08T16:41:53Z",
+      "side": 1,
+      "message": "Good point, I need to investigate this.  With dynamic linking R12 should hold the address of the call target, and I see that the code in gencallstub which should only be used for internal linking is also using R12.",
+      "parentUuid": "4b583dee_d620f25d",
+      "range": {
+        "startLine": 590,
+        "startChar": 33,
+        "endLine": 590,
+        "endChar": 36
+      },
+      "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ded192c9_8615fd2e",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 1
