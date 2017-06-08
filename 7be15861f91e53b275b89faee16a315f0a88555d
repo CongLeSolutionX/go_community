@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a5d0bc9_fe4a1896",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2120,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-08T16:12:21Z",
+      "side": 0,
+      "message": "I\u0027m concerned about removing the section splitting because, as I mentioned in https://golang.org/issue/20492, the linker will warn about sections that are too large even if the overly-large sections do not actually cause a relocation problem.",
+      "range": {
+        "startLine": 2120,
+        "startChar": 117,
+        "endLine": 2120,
+        "endChar": 126
+      },
+      "revId": "7be15861f91e53b275b89faee16a315f0a88555d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
