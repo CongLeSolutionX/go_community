@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4304506_eef7884a",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-06-08T16:09:21Z",
+      "side": 1,
+      "message": "We should add the treap changes also. Not sure there is anything in the language docs to point to.\n\nAllocation of large objects now takes O(log(n)) where n is the number of large objects. This greatly improving performance of application using large (\u003e50GB) heaps containing many large objects.",
+      "revId": "9088395e554921a6663917145428215f0a6e3eb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
