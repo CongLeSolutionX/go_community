@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7cae069_8c842b36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-08T15:26:27Z",
+      "side": 1,
+      "message": "Probably not directly related to the CL, is it by any chance related to issue 20492?",
+      "range": {
+        "startLine": 17,
+        "startChar": 18,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b9539b8_a97b1ac0",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-08T15:26:27Z",
+      "side": 1,
+      "message": "Could you add a comment about what this instruction is (load R2 from where)?",
+      "range": {
+        "startLine": 566,
+        "startChar": 20,
+        "endLine": 566,
+        "endChar": 30
+      },
+      "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e193bf3b_83fb9fff",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-08T15:26:27Z",
+      "side": 1,
+      "message": "So this is inserted to the current function instead of the trampoline function. Doesn\u0027t the compiler already do it? Does it overwrite anything?",
+      "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b583dee_d620f25d",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-08T15:26:27Z",
+      "side": 1,
+      "message": "Is R12 free to use? I see we mark R12 non-allocatable in shared mode, but not in normal mode.",
+      "range": {
+        "startLine": 590,
+        "startChar": 33,
+        "endLine": 590,
+        "endChar": 36
+      },
+      "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ded192c9_8615fd2e",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-08T15:26:27Z",
+      "side": 1,
+      "message": "targetaddr?",
+      "range": {
+        "startLine": 591,
+        "startChar": 38,
+        "endLine": 591,
+        "endChar": 47
+      },
+      "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
