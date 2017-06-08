@@ -329,15 +329,10 @@ func isRuntimeDepPkg(pkg string) bool {
 }
 
 // detect too-far jumps in function s, and add trampolines if necessary
-// ARM supports trampoline insertion for internal and external linking
-// PPC64 & PPC64LE support trampoline insertion for internal linking only
+// ARM, PPC64, and PPC64LE support trampoline insertion for internal and external linking
 func trampoline(ctxt *Link, s *Symbol) {
 	if Thearch.Trampoline == nil {
 		return // no need or no support of trampolines on this arch
-	}
-
-	if Linkmode == LinkExternal && SysArch.Family == sys.PPC64 {
-		return
 	}
 
 	for ri := range s.R {
@@ -2051,18 +2046,19 @@ func (ctxt *Link) textaddress() {
 	}
 
 	va := uint64(*FlagTextAddr)
-	n := 1
 	sect.Vaddr = va
 	ntramps := 0
 	for _, sym := range ctxt.Textp {
-		sect, n, va = assignAddress(ctxt, sect, n, sym, va)
+		va = assignAddress(ctxt, sym, va)
+		sym.Sect = sect
 
 		trampoline(ctxt, sym) // resolve jumps, may add trampolines if jump too far
 
 		// lay down trampolines after each function
 		for ; ntramps < len(ctxt.tramps); ntramps++ {
 			tramp := ctxt.tramps[ntramps]
-			sect, n, va = assignAddress(ctxt, sect, n, tramp, va)
+			va = assignAddress(ctxt, tramp, va)
+			tramp.Sect = sect
 		}
 	}
 
@@ -2088,10 +2084,9 @@ func (ctxt *Link) textaddress() {
 // assigns address for a text symbol, returns (possibly new) section, its number, and the address
 // Note: once we have trampoline insertion support for external linking, this function
 // will not need to create new text sections, and so no need to return sect and n.
-func assignAddress(ctxt *Link, sect *Section, n int, sym *Symbol, va uint64) (*Section, int, uint64) {
-	sym.Sect = sect
+func assignAddress(ctxt *Link, sym *Symbol, va uint64) uint64 {
 	if sym.Type&SSUB != 0 {
-		return sect, n, va
+		return va
 	}
 	if sym.Align != 0 {
 		va = uint64(Rnd(int64(va), int64(sym.Align)))
@@ -2108,32 +2103,9 @@ func assignAddress(ctxt *Link, sect *Section, n int, sym *Symbol, va uint64) (*S
 		funcsize = uint64(sym.Size)
 	}
 
-	// On ppc64x a text section should not be larger than 2^26 bytes due to the size of
-	// call target offset field in the bl instruction.  Splitting into smaller text
-	// sections smaller than this limit allows the GNU linker to modify the long calls
-	// appropriately.  The limit allows for the space needed for tables inserted by the linker.
-
-	// If this function doesn't fit in the current text section, then create a new one.
-
-	// Only break at outermost syms.
-
-	if SysArch.InFamily(sys.PPC64) && sym.Outer == nil && Iself && Linkmode == LinkExternal && va-sect.Vaddr+funcsize > 0x1c00000 {
-
-		// Set the length for the previous text section
-		sect.Length = va - sect.Vaddr
-
-		// Create new section, set the starting Vaddr
-		sect = addsection(&Segtext, ".text", 05)
-		sect.Vaddr = va
-		sym.Sect = sect
-
-		// Create a symbol for the start of the secondary text sections
-		ctxt.Syms.Lookup(fmt.Sprintf("runtime.text.%d", n), 0).Sect = sect
-		n++
-	}
 	va += funcsize
 
-	return sect, n, va
+	return va
 }
 
 // assign addresses
