@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f1ccfef_668526d7",
+        "filename": "src/compress/lzw/reader_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 5045
+      },
+      "writtenOn": "2017-06-08T01:04:54Z",
+      "side": 1,
+      "message": "perhaps you should validate the number of bytes that came through io.Copy too?",
+      "range": {
+        "startLine": 209,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 5
+      },
+      "revId": "f72ba606f2682fd1a1e31b2b6b515d0d41285e28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
