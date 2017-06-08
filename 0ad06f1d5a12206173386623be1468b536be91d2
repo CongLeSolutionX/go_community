@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6b6efe4_e9e1c3a1",
+        "filename": "src/syscall/netlink_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-08T20:15:36Z",
+      "side": 1,
+      "message": "I think want you actually mean to do is move this after the for loop, and then say:\n\n   if len(b) \u003e 0 {\n       return nil, EINVAL\n   }\n\nPreviously, passing in nil data (\"an array of netlink messages\") would return a nil slice (0 messages) and a nil error, which seems to match teh docs.\n\nBut even with this change, you don\u0027t return an error with 1 complete message and then a fragment of a header.\n\nIn any case, I think the documentation (which is untouched in this CL) should specify what the intent is.",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 120,
+        "endChar": 2
+      },
+      "revId": "0ad06f1d5a12206173386623be1468b536be91d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
