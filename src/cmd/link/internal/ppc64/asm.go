@@ -559,19 +559,17 @@ func trampoline(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol) {
 			}
 			if tramp.Type == 0 {
 				ctxt.AddTramp(tramp)
-				tramp.Size = 16 // 4 instructions
-				tramp.P = make([]byte, tramp.Size)
-				t = ld.Symaddr(r.Sym) + r.Add
-				f := t & 0xffff0000
-				o1 := uint32(0x3fe00000 | (f >> 16)) // lis r31,trampaddr hi (r31 is temp reg)
-				f = t & 0xffff
-				o2 := uint32(0x63ff0000 | f) // ori r31,trampaddr lo
-				o3 := uint32(0x7fe903a6)     // mtctr
-				o4 := uint32(0x4e800420)     // bctr
-				ld.SysArch.ByteOrder.PutUint32(tramp.P, o1)
-				ld.SysArch.ByteOrder.PutUint32(tramp.P[4:], o2)
-				ld.SysArch.ByteOrder.PutUint32(tramp.P[8:], o3)
-				ld.SysArch.ByteOrder.PutUint32(tramp.P[12:], o4)
+				if ctxt.DynlinkingGo() {
+					gentrampdyn(tramp, r.Sym, int64(r.Add))
+					// When a trampoline has been inserted with Go dynamic linking, r2 must be restored
+					// after the call.
+					const loadr2 = 0xe8410018
+					ld.SysArch.ByteOrder.PutUint32(s.P[r.Off+4:], loadr2)
+				} else if ld.Buildmode == ld.BuildmodeCArchive || ld.Buildmode == ld.BuildmodeCShared || ld.Buildmode == ld.BuildmodePIE {
+					gentramppic(tramp, r.Sym, int64(r.Add))
+				} else {
+					gentramp(tramp, r.Sym, int64(r.Add))
+				}
 			}
 			r.Sym = tramp
 			r.Add = 0 // This was folded into the trampoline target address
@@ -580,6 +578,104 @@ func trampoline(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol) {
 	default:
 		ld.Errorf(s, "trampoline called with non-jump reloc: %v", r.Type)
 	}
+}
+
+func gentramp(tramp, target *ld.Symbol, offset int64) {
+	// Used for default build mode for an executable
+	// Address of the call target is generated using
+	// relocation and doesn't depend on r2 (TOC).
+	tramp.Size = 16 // 4 instructions
+	tramp.P = make([]byte, tramp.Size)
+	t := ld.Symaddr(target) + offset
+	o1 := uint32(0x3d800000) // lis r12,targetaddr hi
+	o2 := uint32(0x398c0000) // addi r12,trampaddr lo
+	// With external linking, the target address must be
+	// relocated using LO and HA
+	if ld.Linkmode == ld.LinkExternal {
+		tr := ld.Addrel(tramp)
+		tr.Off = 0
+		tr.Type = objabi.R_ADDRPOWER
+		tr.Siz = 8 // generates 2 relocations:  HA + LO
+		tr.Sym = target
+		tr.Add = offset
+	} else {
+		// adjustment needed if lo has sign bit set
+		// when using addi to compute address
+		val := uint32((t & 0xffff0000) >> 16)
+		if t&0x8000 != 0 {
+			val += 1
+		}
+		o1 |= val                // hi part of addr
+		o2 |= uint32(t & 0xffff) // lo part of addr
+	}
+	o3 := uint32(0x7d8903a6) // mtctr r12
+	o4 := uint32(0x4e800420) // bctr
+	ld.SysArch.ByteOrder.PutUint32(tramp.P, o1)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[4:], o2)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[8:], o3)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[12:], o4)
+}
+
+func gentramppic(tramp, target *ld.Symbol, offset int64) {
+	// Used for position independent code.
+	// Generate the target address relative to the TOC
+	// then branch to it.
+	tramp.Size = 16 // 4 instructions
+	tramp.P = make([]byte, tramp.Size)
+	o1 := uint32(0x3d820000) // addis r12,r2,targetaddr hi
+	o2 := uint32(0x398c0000) // addi 12,targetaddrlo
+	if ld.Linkmode == ld.LinkExternal {
+		tr := ld.Addrel(tramp)
+		tr.Off = 0
+		tr.Type = objabi.R_ADDRPOWER_TOCREL
+		tr.Siz = 8 // generates 2 relocations:  HA + LO
+		tr.Sym = target
+		tr.Add = offset
+	} else {
+		ld.Errorf(target, "Can't use internal linker for PIC")
+		return
+		// can't be internal, log an error?
+	}
+	o3 := uint32(0x7d8903a6) // mtctr r12
+	o4 := uint32(0x4e800420) // bctr
+	ld.SysArch.ByteOrder.PutUint32(tramp.P, o1)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[4:], o2)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[8:], o3)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[12:], o4)
+}
+
+func gentrampdyn(tramp, target *ld.Symbol, offset int64) {
+	// Used for Go dynamic linking.
+	// Generate the address of the GOT entry for this
+	// call target, then load its contents into CTR
+	// and branch to it.
+	tramp.Size = 24 // 6 instructions
+	tramp.P = make([]byte, tramp.Size)
+	o1 := uint32(0xf8410018) // std r2,24(r1)
+	o2 := uint32(0x3d820000) // addis r12,r2,targetaddr@got hi
+	o3 := uint32(0x398c0000) // addi 12,targetaddr@got lo
+	// The GOT entry for the call target is loaded, then
+	// that is the address to call.
+	if ld.Linkmode == ld.LinkExternal {
+		tr := ld.Addrel(tramp)
+		tr.Off = 4
+		tr.Type = objabi.R_ADDRPOWER_GOT
+		tr.Siz = 8 // generates 2 relocations:  HA + LO
+		tr.Sym = target
+		tr.Add = offset
+	} else {
+		ld.Errorf(target, "Can't use internal linker for Go dynamic linking")
+		return
+	}
+	o4 := uint32(0xe98c0000) // ld r12,0(r12) load target addr from GOT slot
+	o5 := uint32(0x7d8903a6) // mtctr r12
+	o6 := uint32(0x4e800420) // bctr
+	ld.SysArch.ByteOrder.PutUint32(tramp.P, o1)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[4:], o2)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[8:], o3)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[12:], o4)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[16:], o5)
+	ld.SysArch.ByteOrder.PutUint32(tramp.P[20:], o6)
 }
 
 func archreloc(ctxt *ld.Link, r *ld.Reloc, s *ld.Symbol, val *int64) int {
