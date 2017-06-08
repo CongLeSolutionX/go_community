@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "0c9d2379_1a79cb6a",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-06-08T16:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b9539b8_a97b1ac0",
+      "range": {
+        "startLine": 566,
+        "startChar": 20,
+        "endLine": 566,
+        "endChar": 30
+      },
+      "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e193bf3b_83fb9fff",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 1
@@ -59,6 +83,24 @@
       "writtenOn": "2017-06-08T15:26:27Z",
       "side": 1,
       "message": "So this is inserted to the current function instead of the trampoline function. Doesn\u0027t the compiler already do it? Does it overwrite anything?",
+      "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "973ef3c0_758d906f",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-06-08T16:39:38Z",
+      "side": 1,
+      "message": "In asm9.go, whenever there is a branch and link instruction, a NOP is written as the next instruction.  This is to allow ld r2,24(r1) to be inserted if necessary when returning from a function call, in case the function changed the value of r2.  This insertion of ld r2 is done in genplt (earlier in asm.go) if internal linking is used, and it is expected that the GNU linker will do it if necessary with external linking.  However, in this case, the bl trampoline appears to be calling a function that is local so the GNU linker decides the ld r2 is not needed when it really is.\n\nThe ld r2 can\u0027t be added to the trampoline code because it has to be done after returning from the function call, and the function never returns to the trampoline code but to the point after the bl.\n\nFor more detail:  bl tramp sets link register (return point) to instruction after bl, then branches to the trampoline code.  The trampoline code computes target address, puts it in ctr, then calls the function using bctr, which does not alter the link register.  The function returns to the location specified by the link register, so that is where r2 must be restored.\n\nThis behavior with r2 and the GNU linker is all documented in the PowerPC64 v2 ELF ABI.",
+      "parentUuid": "e193bf3b_83fb9fff",
       "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -108,6 +150,30 @@
       "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff3bdd81_44b6ee41",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-06-08T16:39:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ded192c9_8615fd2e",
+      "range": {
+        "startLine": 591,
+        "startChar": 38,
+        "endLine": 591,
+        "endChar": 47
+      },
+      "revId": "0d2b769836b2a122df72d59bdf2e03e3a91eb585",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
