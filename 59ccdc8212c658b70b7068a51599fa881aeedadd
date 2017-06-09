@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ee49b5c_13a93558",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-09T14:59:07Z",
+      "side": 1,
+      "message": "furthermore works, but it also works without it.\n\nOr s/furthermore/now/.\n\nEven though these are paragraphs, it\u0027s not really a novel that people read top down. It\u0027s more of an bulleted/unordered list that most people would skim and jump all over (I\u0027d guess).",
+      "range": {
+        "startLine": 170,
+        "startChar": 11,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "59ccdc8212c658b70b7068a51599fa881aeedadd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
