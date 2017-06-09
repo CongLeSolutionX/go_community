@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0438af65_34f91daf",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-09T14:28:49Z",
+      "side": 1,
+      "message": "Either is correct. Looking at past release notes, we\u0027re not 100% consistent, but omitting the trailing \"s\" is more common.",
+      "parentUuid": "bd9667c1_7cb03912",
+      "range": {
+        "startLine": 532,
+        "startChar": 27,
+        "endLine": 532,
+        "endChar": 35
+      },
+      "revId": "c7f016731cf5a4a8c11f710d91d81a8103146a4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2de4c58_c8307d39",
         "filename": "doc/go1.9.html",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c7f016731cf5a4a8c11f710d91d81a8103146a4e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f7bd8cf_743e9907",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-09T14:28:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2de4c58_c8307d39",
+      "range": {
+        "startLine": 555,
+        "startChar": 54,
+        "endLine": 555,
+        "endChar": 58
+      },
+      "revId": "c7f016731cf5a4a8c11f710d91d81a8103146a4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
