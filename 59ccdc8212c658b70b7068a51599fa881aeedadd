@@ -22,6 +22,30 @@
       "revId": "59ccdc8212c658b70b7068a51599fa881aeedadd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11dc6380_47b25cae",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-09T15:04:35Z",
+      "side": 1,
+      "message": "Fair enough. Done.",
+      "parentUuid": "6ee49b5c_13a93558",
+      "range": {
+        "startLine": 170,
+        "startChar": 11,
+        "endLine": 170,
+        "endChar": 22
+      },
+      "revId": "59ccdc8212c658b70b7068a51599fa881aeedadd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
