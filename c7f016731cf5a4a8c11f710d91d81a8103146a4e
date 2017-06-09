@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd9667c1_7cb03912",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-06-09T02:18:35Z",
+      "side": 1,
+      "message": "I am not good with English, but maybe you want\n\ns/process\u0027/process\u0027s/",
+      "range": {
+        "startLine": 532,
+        "startChar": 27,
+        "endLine": 532,
+        "endChar": 35
+      },
+      "revId": "c7f016731cf5a4a8c11f710d91d81a8103146a4e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
