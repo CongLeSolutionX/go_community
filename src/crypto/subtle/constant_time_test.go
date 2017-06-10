@@ -125,3 +125,34 @@ func TestConstantTimeLessOrEq(t *testing.T) {
 		}
 	}
 }
+
+var benchx = make([]int, 1000)
+var benchy = make([]int, 1000)
+var benchz = make([]int, 1000)
+
+func BenchmarkConstantTimeByteEq(b *testing.B) {
+	for i := (b.N+999)/1000 - 1; i >= 0; i-- {
+		for j := 0; j < 1000; j++ {
+			benchz[j] = ConstantTimeByteEq(uint8(benchx[j]),
+				uint8(benchy[j]))
+		}
+	}
+}
+
+func BenchmarkConstantTimeEq(b *testing.B) {
+	for i := (b.N+999)/1000 - 1; i >= 0; i-- {
+		for j := 0; j < 1000; j++ {
+			benchz[j] = ConstantTimeEq(int32(benchx[j]),
+				int32(benchy[j]))
+		}
+	}
+}
+
+func BenchmarkConstantTimeLessOrEq(b *testing.B) {
+	for i := (b.N+999)/1000 - 1; i >= 0; i-- {
+		for j := 0; j < 1000; j++ {
+			benchz[j] = ConstantTimeLessOrEq(benchx[j],
+				benchy[j])
+		}
+	}
+}
