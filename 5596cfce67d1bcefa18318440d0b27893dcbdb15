@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "490f4051_ec8be9a3",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-06-10T08:01:05Z",
+      "side": 1,
+      "message": "\u003e did you look at the HTML?\n\nI did. I was hoping you will tell me where to move it. :-)\n\n \u003e You put this in the \u003ch3\u003eGo test\u003c/h3\u003e\n \u003e heading.\n\nMoved it under \u003ch3 id\u003d\"compiler\"\u003eCompiler Toolchain\u003c/h3\u003e. I hope it is OK now.",
+      "parentUuid": "1b68f8cb_449f34d5",
+      "revId": "5596cfce67d1bcefa18318440d0b27893dcbdb15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fda117e7_588136b0",
         "filename": "doc/go1.9.html",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-06-09T15:18:57Z",
       "side": 1,
       "message": "The linker",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 129,
+        "endChar": 8
+      },
+      "revId": "5596cfce67d1bcefa18318440d0b27893dcbdb15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dfa2037_9420709b",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-06-10T08:01:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fda117e7_588136b0",
       "range": {
         "startLine": 129,
         "startChar": 2,
