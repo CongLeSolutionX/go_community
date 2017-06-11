@@ -22,6 +22,30 @@
       "revId": "0ad06f1d5a12206173386623be1468b536be91d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21063b8d_c7316899",
+        "filename": "src/syscall/netlink_linux.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 16965
+      },
+      "writtenOn": "2017-06-11T16:29:16Z",
+      "side": 1,
+      "message": "Correct, this should be fixed to return a nil slice and nil error for nil data. \n\nTwo clarification regarding documentation and/or what\u0027s idiomatic:\n- by \"documentation\" do you mean the function comment or some external doc location? \n- in the case of partial or incorrect message, what should be returned? My expectation is that the function does not return partial or unparsed messages in the array, only correctly parsed messages. A failure should return, IMHO, all correctly parsed messages in the slice and an error indication. A partial header would be confusing.\n\nIf acceptable, I can resubmit with a fix to correctly handle nil input (with a new test case) and clarify intent in the function comment. Let me know.",
+      "parentUuid": "d6b6efe4_e9e1c3a1",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 120,
+        "endChar": 2
+      },
+      "revId": "0ad06f1d5a12206173386623be1468b536be91d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
