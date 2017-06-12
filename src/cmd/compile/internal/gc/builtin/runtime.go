@@ -19,7 +19,7 @@ func panicindex()
 func panicslice()
 func panicdivide()
 func throwinit()
-func panicwrap()
+func panicwrap(uint8)
 
 func gopanic(interface{})
 func gorecover(*int32) interface{}

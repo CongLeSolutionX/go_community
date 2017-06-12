@@ -1719,6 +1719,7 @@ func genwrapper(rcvr *types.Type, method *types.Field, newnam *types.Sym, iface 
 		n := nod(OIF, nil, nil)
 		n.Left = nod(OEQ, this.Left, nodnil())
 		call := nod(OCALL, syslook("panicwrap"), nil)
+		call.List.Set([]*Node{nodintconst(0)}) // Dummy argument
 		n.Nbody.Set1(call)
 		fn.Nbody.Append(n)
 	}
