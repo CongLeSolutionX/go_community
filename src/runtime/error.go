@@ -126,7 +126,10 @@ func printany(i interface{}) {
 //go:linkname stringsIndexByte strings.IndexByte
 func stringsIndexByte(s string, c byte) int
 
-// called from generated code
+// panicwrap generates a panic for a call to a wrapped value method
+// with a nil pointer receiver.
+//
+// It is called from the generated wrapper code.
 func panicwrap() {
 	pc := make([]uintptr, 1)
 	n := Callers(2, pc)
