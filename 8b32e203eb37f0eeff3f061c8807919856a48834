@@ -16,6 +16,24 @@
       "revId": "8b32e203eb37f0eeff3f061c8807919856a48834",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aad5dfe_4b0cccba",
+        "filename": "src/net/iprawsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-06-12T07:39:44Z",
+      "side": 1,
+      "message": "actually that part is incorrect because, for example, MSG_TRUNC is never set on any packet, it\u0027s generated in host reception process. hm, \"the platform-dependent flags like syscall.MSG_TRUNC\" is better and clear?",
+      "parentUuid": "21d22773_39c9ebe3",
+      "revId": "8b32e203eb37f0eeff3f061c8807919856a48834",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
