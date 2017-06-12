@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "829ba939_9f4338ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-12T21:13:34Z",
+      "side": 1,
+      "message": "You want to run benchstat like:\n\n$ benchstat before after\n\nSo it generates the comparison output itself, rather than having separate before and after blocks like this.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 35
+      },
+      "revId": "bcadc6c73ffd3a31c05b79dee0944e51f349651d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
