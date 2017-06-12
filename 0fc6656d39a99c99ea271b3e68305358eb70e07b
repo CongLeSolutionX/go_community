@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fd49531_74b52c9e",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-12T13:15:31Z",
+      "side": 1,
+      "message": "I think the idea we discussed in Issue 20492 is that for external linking, you\u0027ll need trampolines for all cross-section calls. So this condition may need to change to something like s.Sect !\u003d r.Sym.Sect in external linking. Also need to be sure that the trampoline and the caller are in the same section.",
+      "range": {
+        "startLine": 540,
+        "startChar": 5,
+        "endLine": 540,
+        "endChar": 31
+      },
+      "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75cbb746_65ad1895",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-12T13:15:31Z",
+      "side": 1,
+      "message": "I think it is clearer to put this comment inside the if.",
+      "range": {
+        "startLine": 571,
+        "startChar": 4,
+        "endLine": 571,
+        "endChar": 52
+      },
+      "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cc7f102_e327132e",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-12T13:15:31Z",
+      "side": 1,
+      "message": "I\u0027m still a little concerned about R12 here. In non-shared build mode, R12 is not reserved. Normally registers are not live across function calls, so this is fine. But there may be special cases (for example, Duff\u0027s Device)?",
+      "range": {
+        "startLine": 594,
+        "startChar": 33,
+        "endLine": 594,
+        "endChar": 36
+      },
+      "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
