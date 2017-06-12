@@ -5,6 +5,7 @@
 package runtime_test
 
 import (
+	"fmt"
 	. "runtime"
 	"strings"
 	"sync"
@@ -624,4 +625,33 @@ func count23(n int) int {
 		return 0
 	}
 	return 1 + count1(n-1)
+}
+
+type structWithMethod struct{}
+
+func (s structWithMethod) caller() string {
+	_, file, line, ok := Caller(1)
+	if !ok {
+		panic("Caller failed")
+	}
+	return fmt.Sprintf("%s:%d", file, line)
+}
+
+func TestPanicWrap(t *testing.T) {
+	// Force the compiler to construct a wrapper method so we can
+	// call the value receiver method with a pointer receiver.
+	wrapper := (*structWithMethod).caller
+	// Call it with a nil receiver.
+	var msg string
+	func() {
+		defer func() {
+			err := recover()
+			msg = fmt.Sprint(err)
+		}()
+		wrapper(nil)
+	}()
+	want := "value method runtime_test.structWithMethod.caller called using nil *structWithMethod pointer"
+	if msg != want {
+		t.Fatalf("want panic %q; got %q", want, msg)
+	}
 }
