@@ -34,6 +34,24 @@
       "revId": "8b32e203eb37f0eeff3f061c8807919856a48834",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f15388a_dab2313c",
+        "filename": "src/net/iprawsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-12T16:34:21Z",
+      "side": 1,
+      "message": "That doesn\u0027t resolve the ambiguity.  There are two separate set of flags here: the flags passed to the recvmsg system call, and the flags in the msg_flags field of the msghdr returned by recvmsg.  The original \"the flags that were set on the packet\" is clear as to which flags are being returned.  Saying \"the platform-dependent flags\" is not clear about that.",
+      "parentUuid": "9aad5dfe_4b0cccba",
+      "revId": "8b32e203eb37f0eeff3f061c8807919856a48834",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
