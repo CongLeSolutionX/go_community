@@ -48,6 +48,9 @@ import (
 	"golang_org/x/net/lex/httplex"
 )
 
+// A list of the possible cipher suite ids. Taken from
+// http://www.iana.org/assignments/tls-parameters/tls-parameters.txt
+
 const (
 	http2cipher_TLS_NULL_WITH_NULL_NULL               uint16 = 0x0000
 	http2cipher_TLS_RSA_WITH_NULL_MD5                 uint16 = 0x0001
@@ -1206,11 +1209,16 @@ type http2goAwayFlowError struct{}
 
 func (http2goAwayFlowError) Error() string { return "connection exceeded flow control window size" }
 
+// connError represents an HTTP/2 ConnectionError error code, along
+// with a string (for debugging) explaining why.
+//
 // Errors of this type are only returned by the frame parser functions
-// and converted into ConnectionError(ErrCodeProtocol).
+// and converted into ConnectionError(Code), after stashing away
+// the Reason into the Framer's errDetail field, accessible via
+// the (*Framer).ErrorDetail method.
 type http2connError struct {
-	Code   http2ErrCode
-	Reason string
+	Code   http2ErrCode // the ConnectionError error code
+	Reason string       // additional reason
 }
 
 func (e http2connError) Error() string {
@@ -8694,7 +8702,7 @@ func (p *http2writeGoAway) writeFrame(ctx http2writeContext) error {
 	return err
 }
 
-func (*http2writeGoAway) staysWithinBuffer(max int) bool { return false }
+func (*http2writeGoAway) staysWithinBuffer(max int) bool { return false } // flushes
 
 type http2writeData struct {
 	streamID  uint32
@@ -9205,7 +9213,7 @@ func (p *http2writeQueuePool) get() *http2writeQueue {
 }
 
 // RFC 7540, Section 5.3.5: the default weight is 16.
-const http2priorityDefaultWeight = 15
+const http2priorityDefaultWeight = 15 // 16 = 15 + 1
 
 // PriorityWriteSchedulerConfig configures a priorityWriteScheduler.
 type http2PriorityWriteSchedulerConfig struct {
