@@ -164,6 +164,30 @@
       "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73644025_e8e67f0b",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-06-13T17:12:35Z",
+      "side": 1,
+      "message": "If Go code is compiled for PIC (shared or dynlink) then at the start of each function call, it expects that R12 was passed holding the function\u0027s address, and uses that to initialize R2 with the TOC address.  Executables created by default with golang are not compiled for PIC (dynamic or static), and that is the reason this bug has happened, and that is the only case now where trampolines are being created.\n\nThe question is, is it ever possible to link a program where some Go code was compiled for PIC and some not.  I don\u0027t know if there is a situation where that could happen or if the linker tries to detect it.  To be safe R12 could be used here and then indicate R12 as clobbered for the duff devices calls.\n\nNote this does not affect C code because C code is always built with R12 and R2 set up.\n\nMy understanding is that the external linking can only create dynamic executables, and the internal linker must be used to create static executables on ppc64le.",
+      "parentUuid": "c2ce5e1c_4bd4ce49",
+      "range": {
+        "startLine": 594,
+        "startChar": 33,
+        "endLine": 594,
+        "endChar": 36
+      },
+      "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
