@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dabc8ec_0257ce34",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-13T20:05:59Z",
+      "side": 1,
+      "message": "slash after sql here and everywhere else.",
+      "range": {
+        "startLine": 283,
+        "startChar": 63,
+        "endLine": 283,
+        "endChar": 66
+      },
+      "revId": "d15552556639480f3e01e355ffcad67a0835215e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59589579_89fe99be",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-13T20:05:59Z",
+      "side": 1,
+      "message": "slash after driver",
+      "range": {
+        "startLine": 291,
+        "startChar": 33,
+        "endLine": 291,
+        "endChar": 39
+      },
+      "revId": "d15552556639480f3e01e355ffcad67a0835215e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
