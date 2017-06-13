@@ -280,15 +280,27 @@ type T1 = T2
 <dl id="database/sql"><dt><a href="/pkg/database/sql/">database/sql</a></dt>
   <dd>
     <p><!-- CL 35476 -->
-      TODO: <a href="https://golang.org/cl/35476">https://golang.org/cl/35476</a>: proper prepared statement support in transactions
+      The package will now use a cached Stmt if available in <a href="/pkg/database/sql#Tx.Stmt"><code>Tx.Stmt</code></a>.
+      This prevents Stmts from being re-prepared each time Tx.Stmt is called.
+    </p>
+
+    <p><!-- CL 38533 -->
+      The package now allows drivers to implement their own argument checkers by implementing
+      <a href="/pkg/database/sql/driver#NamedValueChecker"><code>driver.NamedValueChecker</code></a>. This also allows drivers
+      to support OUTPUT and INOUT parameter types. <a href="/pkg/database/sql#Out"><code>Out</code></a> should be used to return
+      output parameters if the driver supports it.
     </p>
 
     <p><!-- CL 39031 -->
-      TODO: <a href="https://golang.org/cl/39031">https://golang.org/cl/39031</a>: support scanning into user defined string types
+      <a href="/pkg/database/sql#Rows.Scan"><code>Rows.Scan</code></a> can now scan user defined string types.
+      Previously the package supported scanning into numeric types like <code>type Int int64</code>. It now also supports
+      scanning into string types like <code>type String string</code>.
     </p>
 
     <p><!-- CL 40694 -->
-      TODO: <a href="https://golang.org/cl/40694">https://golang.org/cl/40694</a>: allow using a single connection from the database
+      The package now allows using a single connection from the connection pool outside of a transaction
+      with <a href="/pkg/database/sql#DB.Conn"><code>DB.Conn</code></a>.
+      Connections should be returned to the pool by calling <a href="/pkg/database/sql#Conn.Close"><code>Conn.Close</code></a>.
     </p>
 
 </dl><!-- database/sql -->
