@@ -188,6 +188,30 @@
       "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf004c1b_9f5770a3",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-13T18:00:03Z",
+      "side": 1,
+      "message": "So, if I understand correctly, using R31 is ok even with external linking as long as we are not linking PIC and non-PIC together?\n\nI\u0027m not worried about linking PIC and non-PIC at the moment. I\u0027m not sure this even works on other architectures as well as on PPC64 even if R12 is set.\n\nIt is possible to create static binary with external linking:\n\n$ CGO_ENABLED\u003d1 GOARCH\u003dppc64le GOOS\u003dlinux CC\u003d/usr/bin/powerpc64le-linux-gnu-gcc go build -ldflags\u003d\u0027-linkmode\u003dexternal -extldflags\u003d-static\u0027 hello.go\n$ file hello\nhello: ELF 64-bit LSB  executable, 64-bit PowerPC or cisco 7500, version 1 (GNU/Linux), statically linked, for GNU/Linux 2.6.32, BuildID[sha1]\u003dce00110b7d2deaf27d65e5b5211cf70760f123fb, not stripped",
+      "parentUuid": "73644025_e8e67f0b",
+      "range": {
+        "startLine": 594,
+        "startChar": 33,
+        "endLine": 594,
+        "endChar": 36
+      },
+      "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
