@@ -495,9 +495,9 @@ var optab = []Optab{
 
 	/* special */
 	{AMOVD, C_SPR, C_NONE, C_REG, 35, 4, 0, 0, 0},
-	{AMRS, C_SPR, C_NONE, C_REG, 35, 4, 0, 0, 0},
+	{AMRS, C_LCON, C_NONE, C_REG, 35, 4, 0, 0, 0},
 	{AMOVD, C_REG, C_NONE, C_SPR, 36, 4, 0, 0, 0},
-	{AMSR, C_REG, C_NONE, C_SPR, 36, 4, 0, 0, 0},
+	{AMSR, C_REG, C_NONE, C_LCON, 36, 4, 0, 0, 0},
 	{AMOVD, C_VCON, C_NONE, C_SPR, 37, 4, 0, 0, 0},
 	{AMSR, C_VCON, C_NONE, C_SPR, 37, 4, 0, 0, 0},
 	{AERET, C_NONE, C_NONE, C_NONE, 41, 4, 0, 0, 0},
@@ -2749,7 +2749,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if (o1 & uint32(v&^(3<<19))) != 0 {
 			c.ctxt.Diag("MRS register value overlap\n%v", p)
 		}
-		o1 |= uint32(v)
+		o1 |= uint32(v << 5)
 		o1 |= uint32(p.To.Reg & 31)
 
 	case 36: /* mov R,SPR */
@@ -2759,7 +2759,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		if (o1 & uint32(v&^(3<<19))) != 0 {
 			c.ctxt.Diag("MSR register value overlap\n%v", p)
 		}
-		o1 |= uint32(v)
+		o1 |= uint32(v << 5)
 		o1 |= uint32(p.From.Reg & 31)
 
 	case 37: /* mov $con,PSTATEfield -> MSR [immediate] */
@@ -2770,7 +2770,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 |= uint32((p.From.Offset & 0xF) << 8) /* Crm */
 		v := int32(0)
 		for i := 0; i < len(pstatefield); i++ {
-			if int64(pstatefield[i].a) == p.To.Offset {
+			if int64(pstatefield[i].a) == int64(p.To.Reg) {
 				v = int32(pstatefield[i].b)
 				break
 			}
