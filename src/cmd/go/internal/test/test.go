@@ -216,6 +216,7 @@ const testFlag2 = `
 
 	-timeout t
 	    If a test runs longer than t, panic.
+	    A zero duration makes it wait forever until all tests pass.
 	    The default is 10 minutes (10m).
 
 	-v
@@ -447,11 +448,14 @@ func runTest(cmd *base.Command, args []string) {
 	}
 
 	// If a test timeout was given and is parseable, set our kill timeout
-	// to that timeout plus one minute. This is a backup alarm in case
-	// the test wedges with a goroutine spinning and its background
+	// to that timeout plus one minute unless -timeout=0. This is a backup
+	// alarm in case the test wedges with a goroutine spinning and its background
 	// timer does not get a chance to fire.
-	if dt, err := time.ParseDuration(testTimeout); err == nil && dt > 0 {
-		testKillTimeout = dt + 1*time.Minute
+	if dt, err := time.ParseDuration(testTimeout); err == nil && dt >= 0 {
+		testKillTimeout = dt
+		if dt > 0 {
+			testKillTimeout += 1 * time.Minute
+		}
 	}
 
 	// show passing test output (after buffering) with -v flag.
@@ -1200,7 +1204,16 @@ func builderRunTest(b *work.Builder, a *work.Action) error {
 	// stop wedged test binaries, to keep the builders
 	// running.
 	if err == nil {
-		tick := time.NewTimer(testKillTimeout)
+		// Blocks until tests pass unless testKillTimeout != 0.
+		var tc <-chan time.Time
+
+		var tick *time.Timer
+		if testKillTimeout != 0 {
+			tick = time.NewTimer(testKillTimeout)
+			defer tick.Stop()
+			tc = tick.C
+		}
+
 		base.StartSigHandlers()
 		done := make(chan error)
 		go func() {
@@ -1210,7 +1223,7 @@ func builderRunTest(b *work.Builder, a *work.Action) error {
 		select {
 		case err = <-done:
 			// ok
-		case <-tick.C:
+		case <-tc:
 			if base.SignalTrace != nil {
 				// Send a quit signal in the hope that the program will print
 				// a stack trace and exit. Give it five seconds before resorting
@@ -1227,7 +1240,6 @@ func builderRunTest(b *work.Builder, a *work.Action) error {
 			err = <-done
 			fmt.Fprintf(&buf, "*** Test killed: ran too long (%v).\n", testKillTimeout)
 		}
-		tick.Stop()
 	}
 	out := buf.Bytes()
 	t := fmt.Sprintf("%.3fs", time.Since(t0).Seconds())
