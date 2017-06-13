@@ -450,8 +450,13 @@ func runTest(cmd *base.Command, args []string) {
 	// to that timeout plus one minute. This is a backup alarm in case
 	// the test wedges with a goroutine spinning and its background
 	// timer does not get a chance to fire.
-	if dt, err := time.ParseDuration(testTimeout); err == nil && dt > 0 {
-		testKillTimeout = dt + 1*time.Minute
+	if dt, err := time.ParseDuration(testTimeout); err == nil {
+		// -timeout=0 disables kill timeout.
+		if dt == 0 && testTimeout == "0" {
+			testKillTimeout = 0
+		} else if dt > 0 {
+			testKillTimeout = dt + 1*time.Minute
+		}
 	}
 
 	// show passing test output (after buffering) with -v flag.
@@ -1200,7 +1205,15 @@ func builderRunTest(b *work.Builder, a *work.Action) error {
 	// stop wedged test binaries, to keep the builders
 	// running.
 	if err == nil {
-		tick := time.NewTimer(testKillTimeout)
+		// Blocks until tests pass unless testKillTimeout != 0.
+		var timeout <-chan time.Time
+
+		var tick *time.Timer
+		if testKillTimeout != 0 {
+			tick = time.NewTimer(testKillTimeout)
+			timeout = tick.C
+		}
+
 		base.StartSigHandlers()
 		done := make(chan error)
 		go func() {
@@ -1210,7 +1223,7 @@ func builderRunTest(b *work.Builder, a *work.Action) error {
 		select {
 		case err = <-done:
 			// ok
-		case <-tick.C:
+		case <-timeout:
 			if base.SignalTrace != nil {
 				// Send a quit signal in the hope that the program will print
 				// a stack trace and exit. Give it five seconds before resorting
@@ -1227,7 +1240,10 @@ func builderRunTest(b *work.Builder, a *work.Action) error {
 			err = <-done
 			fmt.Fprintf(&buf, "*** Test killed: ran too long (%v).\n", testKillTimeout)
 		}
-		tick.Stop()
+
+		if tick != nil {
+			tick.Stop()
+		}
 	}
 	out := buf.Bytes()
 	t := fmt.Sprintf("%.3fs", time.Since(t0).Seconds())
