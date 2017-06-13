@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "672d0710_73bdd3b3",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2108,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-13T15:50:18Z",
+      "side": 1,
+      "message": "I think you can remove this note (no longer apply).",
+      "range": {
+        "startLine": 2107,
+        "startChar": 0,
+        "endLine": 2108,
+        "endChar": 82
+      },
+      "revId": "6614e167666600d7bdba44c894d5ddff4266289c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

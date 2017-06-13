@@ -140,6 +140,30 @@
       "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2ce5e1c_4bd4ce49",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-13T15:50:18Z",
+      "side": 1,
+      "message": "In external linking (which I think could be static or dynamic), when does R12 need to hold the function entry address? Is it only needed for stubs created by the external linker? If this is the case, using R31 should be fine, because we no longer need the external linker to create call stubs.\n\nIf R12 is needed in other cases, we probably have to use R12 then. Normally it is ok. For special cases like runtime.duffzero/duffcopy, we can tell the compiler that R12 will be clobbered. Is there any other case that CALL does not kill registers?\n\nI\u0027ll go read the ABI doc. But leave a comment first.",
+      "parentUuid": "5d7d5e86_36678c60",
+      "range": {
+        "startLine": 594,
+        "startChar": 33,
+        "endLine": 594,
+        "endChar": 36
+      },
+      "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
