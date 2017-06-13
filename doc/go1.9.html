@@ -236,18 +236,14 @@ type T1 = T2
 <dl id="archive/zip"><dt><a href="/pkg/archive/zip/">archive/zip</a></dt>
   <dd>
     <p><!-- CL 39570 -->
-      TODO: <a href="https://golang.org/cl/39570">https://golang.org/cl/39570</a>: set utf-8 flag
+      The
+      ZIP <a href="/pkg/archive/zip/#Writer"><code>Writer</code></a>
+      now sets the UTF-8 bit in
+      the <a href="/pkg/archive/zip/#FileHeader.Flags"><code>FileHeader.Flags</code></a>
+      when appropriate.
     </p>
 
 </dl><!-- archive/zip -->
-
-<dl id="crypto"><dt><a href="/pkg/crypto/">crypto</a></dt>
-  <dd>
-    <p><!-- CL 36876 -->
-      TODO: <a href="https://golang.org/cl/36876">https://golang.org/cl/36876</a>: add BLAKE2b and BLAKE2s hash constants
-    </p>
-
-</dl><!-- crypto -->
 
 <dl id="crypto/aes"><dt><a href="/pkg/crypto/aes/">crypto/aes</a></dt>
   <dd>
@@ -260,7 +256,11 @@ type T1 = T2
 <dl id="crypto/rand"><dt><a href="/pkg/crypto/rand/">crypto/rand</a></dt>
   <dd>
     <p><!-- CL 43852 -->
-      TODO: <a href="https://golang.org/cl/43852">https://golang.org/cl/43852</a>: use blocking getrandom call on Linux when supported
+      On Linux, Go now calls the <code>getrandom</code> system call
+      without the <code>GRND_NONBLOCK</code> flag; it will now block
+      until the kernel has sufficient randomness. On kernels predating
+      the <code>getrandom</code> system call, Go continues to read
+      from <code>/dev/urandom</code>.
     </p>
 
 </dl><!-- crypto/rand -->
@@ -268,11 +268,28 @@ type T1 = T2
 <dl id="crypto/x509"><dt><a href="/pkg/crypto/x509/">crypto/x509</a></dt>
   <dd>
     <p><!-- CL 36093 -->
-      TODO: <a href="https://golang.org/cl/36093">https://golang.org/cl/36093</a>: load certs from env vars + extra locations
+
+      On UNIX systems the environment
+      variables <code>SSL_CERT_FILE</code>
+      and <code>SSL_CERT_DIR</code> can now be used to override the
+      system default locations for the SSL certificate file and SSL
+      certificate files directory, respectively.
+    </p>
+
+    <p>The FreeBSD path <code>/usr/local/etc/ssl/cert.pem</code> is
+      now included in the certificate search path.
     </p>
 
     <p><!-- CL 36900 -->
-      TODO: <a href="https://golang.org/cl/36900">https://golang.org/cl/36900</a>: support excluded domains in name constraints.
+
+      The package now supports excluded domains in name constraints.
+      In addition to enforcing such constraints,
+      <a href="/pkg/crypto/x509/#CreateCertificate"><code>CreateCertificate</code></a>
+      will create certificates with excluded name constraints
+      if the provided template certificate has the new
+      field
+      <a href="/pkg/crypto/x509/#Certificate.ExcludedDNSDomains"><code>ExcludedDNSDomains</code></a>
+      populated.
     </p>
 
 </dl><!-- crypto/x509 -->
@@ -292,14 +309,6 @@ type T1 = T2
     </p>
 
 </dl><!-- database/sql -->
-
-<dl id="debug/dwarf"><dt><a href="/pkg/debug/dwarf/">debug/dwarf</a></dt>
-  <dd>
-    <p><!-- CL 44017 -->
-      TODO: <a href="https://golang.org/cl/44017">https://golang.org/cl/44017</a>: heuristically handle both UNIX and Windows paths
-    </p>
-
-</dl><!-- debug/dwarf -->
 
 <dl id="encoding/asn1"><dt><a href="/pkg/encoding/asn1/">encoding/asn1</a></dt>
   <dd>
@@ -325,7 +334,12 @@ type T1 = T2
 <dl id="fmt"><dt><a href="/pkg/fmt/">fmt</a></dt>
   <dd>
     <p><!-- CL 37051 -->
-      TODO: <a href="https://golang.org/cl/37051">https://golang.org/cl/37051</a>: support sharp flag for float and complex value printing
+      The sharp flag ('<code>#</code>') is now supported when printing
+      floating point and complex numbers. It will always print a
+      decimal point
+      for <code>%e</code>, <code>%E</code>, <code>%f</code>, <code>%F</code>, <code>%g</code>
+      and <code>%G</code>; it will not remove trailing zeros
+      for <code>%g</code> and <code>%G</code>.
     </p>
 
 </dl><!-- fmt -->
@@ -341,7 +355,9 @@ type T1 = T2
 <dl id="hash/fnv"><dt><a href="/pkg/hash/fnv/">hash/fnv</a></dt>
   <dd>
     <p><!-- CL 38356 -->
-      TODO: <a href="https://golang.org/cl/38356">https://golang.org/cl/38356</a>: add 128-bit FNV hash support
+      The package now includes 128-bit FNV-1 and FNV-1a hash support with
+      <a href="/pkg/hash/fnv/#New128"><code>New128</code></a> and
+      <a href="/pkg/hash/fnv/#New128a"><code>New128a</code></a>, respectively.
     </p>
 
 </dl><!-- hash/fnv -->
