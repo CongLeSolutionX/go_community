@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5b0daac9_b1c004c9",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-06-13T12:10:47Z",
+      "side": 1,
+      "message": "Yes we did decide that.  But I was thinking that this was simpler and should be good enough but now I see why it isn\u0027t. \n\nYour comment about putting the trampoline in the same section as the caller is something I hadn\u0027t considered, so I changed data.go to handle that.",
+      "parentUuid": "1fd49531_74b52c9e",
+      "range": {
+        "startLine": 540,
+        "startChar": 5,
+        "endLine": 540,
+        "endChar": 31
+      },
+      "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75cbb746_65ad1895",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "85188a2b_401cf701",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-06-13T12:10:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75cbb746_65ad1895",
+      "range": {
+        "startLine": 571,
+        "startChar": 4,
+        "endLine": 571,
+        "endChar": 52
+      },
+      "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cc7f102_e327132e",
         "filename": "src/cmd/link/internal/ppc64/asm.go",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-12T13:15:31Z",
       "side": 1,
       "message": "I\u0027m still a little concerned about R12 here. In non-shared build mode, R12 is not reserved. Normally registers are not live across function calls, so this is fine. But there may be special cases (for example, Duff\u0027s Device)?",
+      "range": {
+        "startLine": 594,
+        "startChar": 33,
+        "endLine": 594,
+        "endChar": 36
+      },
+      "revId": "0fc6656d39a99c99ea271b3e68305358eb70e07b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d7d5e86_36678c60",
+        "filename": "src/cmd/link/internal/ppc64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-06-13T12:10:47Z",
+      "side": 1,
+      "message": "Sorry I forgot to respond to your previous comment on this.  My thinking was that this was a function call to some unknown address so there should be no expectation of r12 remaining valid.  But I can change it to what it was before.",
+      "parentUuid": "6cc7f102_e327132e",
       "range": {
         "startLine": 594,
         "startChar": 33,
