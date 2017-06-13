@@ -22,6 +22,23 @@
       "revId": "84e7aa639c69d186c0ddd9f9cf46252034d57d21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05a93670_351bdaeb",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-13T23:11:55Z",
+      "side": 1,
+      "message": "Or:\n\n// IsUnspecified reports whether ip is either the IPv4 address\n// \"0.0.0.0\" or the IPv6 address \"::\", which represent the\n// absence of an address.",
+      "revId": "84e7aa639c69d186c0ddd9f9cf46252034d57d21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
