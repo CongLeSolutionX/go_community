@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ac72595_76f8b0b3",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1244,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-06-14T01:37:18Z",
+      "side": 1,
+      "message": "Can you use a defer around line 1213 to avoid this conditional logic\u003e",
+      "revId": "a35c8c92daf95f870625e4efdb547147a2931a61",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
