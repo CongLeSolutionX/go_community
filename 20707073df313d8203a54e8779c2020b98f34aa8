@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e18d1bf9_ac86f514",
+        "filename": "test/fixedbugs/issue19507.dir/div_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-06-14T18:41:10Z",
+      "side": 1,
+      "message": "nit: tab\n\nAlso, copyright notice?",
+      "revId": "20707073df313d8203a54e8779c2020b98f34aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca7851cd_a7d5fd6f",
+        "filename": "test/fixedbugs/issue19507.dir/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-06-14T18:41:10Z",
+      "side": 1,
+      "message": "I thought these directives have to go first? I.e., before the +build line?",
+      "revId": "20707073df313d8203a54e8779c2020b98f34aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
