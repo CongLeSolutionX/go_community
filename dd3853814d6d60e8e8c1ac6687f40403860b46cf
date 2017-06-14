@@ -45,6 +45,30 @@
       "revId": "dd3853814d6d60e8e8c1ac6687f40403860b46cf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f06db3f_ccc23624",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-06-14T15:42:03Z",
+      "side": 1,
+      "message": "Done. I tried to say something without making it too verbose.",
+      "parentUuid": "e1b63e68_52559271",
+      "range": {
+        "startLine": 720,
+        "startChar": 41,
+        "endLine": 720,
+        "endChar": 44
+      },
+      "revId": "dd3853814d6d60e8e8c1ac6687f40403860b46cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
