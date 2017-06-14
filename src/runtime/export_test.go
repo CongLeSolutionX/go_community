@@ -349,3 +349,17 @@ func blockOnSystemStackInternal() {
 	lock(&deadlock)
 	lock(&deadlock)
 }
+
+func LockOSCounts() (external, internal uint32) {
+	g := getg()
+	if g.m.lockedExt+g.m.lockedInt == 0 {
+		if g.lockedm != nil {
+			panic("lockedm on non-locked goroutine")
+		}
+	} else {
+		if g.lockedm == nil {
+			panic("lockedm == nil on locked goroutine")
+		}
+	}
+	return g.m.lockedExt, g.m.lockedInt
+}
