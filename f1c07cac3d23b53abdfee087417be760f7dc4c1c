@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a242413_c36f3328",
+        "filename": "src/crypto/x509/pkcs8.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-14T02:52:45Z",
+      "side": 1,
+      "message": "I don\u0027t see how this statement about crypto.Signer is true since you never reference crypto.Signer in the code below.",
+      "range": {
+        "startLine": 59,
+        "startChar": 39,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "f1c07cac3d23b53abdfee087417be760f7dc4c1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aae756a_eea2e846",
+        "filename": "src/crypto/x509/pkcs8.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-14T02:52:45Z",
+      "side": 1,
+      "message": "try to rewrite without the parens, which we generally avoid.\n\nAlso, is this supposed to be PrivateKey or PublicKey?",
+      "range": {
+        "startLine": 59,
+        "startChar": 66,
+        "endLine": 60,
+        "endChar": 49
+      },
+      "revId": "f1c07cac3d23b53abdfee087417be760f7dc4c1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
