@@ -16,6 +16,24 @@
       "revId": "52f790284f73056316555610cc6ec32fb2503e3d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af8babd4_2af78aca",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-14T23:28:42Z",
+      "side": 1,
+      "message": "I wavered back and forth on it several times.\n\nOn one hand, yes, it\u0027s a bug fix.\n\nOn the other hand, I\u0027d been running around telling people that it\u0027s undefined to call Dial(Listen(\":0\")) and they should stop doing it. But I think I always linked them at the bug, so they\u0027d know when it\u0027s fixed.\n\nAnd I know I\u0027ll forget in a few releases which release we fixed this in. Of course, I can find it from github too.\n\nYour call.",
+      "parentUuid": "4d47d7c6_c8e4052f",
+      "revId": "52f790284f73056316555610cc6ec32fb2503e3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
