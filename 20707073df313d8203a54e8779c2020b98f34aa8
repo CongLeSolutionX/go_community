@@ -33,6 +33,24 @@
       "revId": "20707073df313d8203a54e8779c2020b98f34aa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde926ad_6099ce96",
+        "filename": "test/fixedbugs/issue19507.dir/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-14T19:11:49Z",
+      "side": 1,
+      "message": "It looks like this is ok. Seems run.go can parse the build tag and directive like this.\n\nHowever, seems run.go only looks for tests in test/fixedbugs but not in its subdirectory... We probably need a dummy fixedbugs/issue19507.go. We have \"rundir\" and \"compiledir\" but no \"builddir\" though. Maybe just rundir.",
+      "parentUuid": "ca7851cd_a7d5fd6f",
+      "revId": "20707073df313d8203a54e8779c2020b98f34aa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
