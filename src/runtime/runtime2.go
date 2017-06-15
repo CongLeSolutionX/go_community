@@ -426,7 +426,7 @@ type m struct {
 	fflag         uint32      // floating point compare flags
 	lockedExt     uint32      // tracking for external LockOSThread
 	lockedInt     uint32      // tracking for internal lockOSThread
-	nextwaitm     uintptr     // next m waiting for lock
+	nextwaitm     muintptr    // next m waiting for lock | locked
 	needextram    bool
 	traceback     uint8
 	waitunlockf   unsafe.Pointer // todo go func(*g, unsafe.pointer) bool
