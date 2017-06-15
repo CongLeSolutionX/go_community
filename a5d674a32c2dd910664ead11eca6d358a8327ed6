@@ -22,6 +22,30 @@
       "revId": "a5d674a32c2dd910664ead11eca6d358a8327ed6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d0969c5_312a15ca",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-15T17:55:32Z",
+      "side": 1,
+      "message": "Done by using a new line.",
+      "parentUuid": "72d939e7_b3b62238",
+      "range": {
+        "startLine": 614,
+        "startChar": 19,
+        "endLine": 614,
+        "endChar": 21
+      },
+      "revId": "a5d674a32c2dd910664ead11eca6d358a8327ed6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
