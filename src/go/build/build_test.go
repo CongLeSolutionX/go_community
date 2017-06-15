@@ -302,6 +302,26 @@ func TestShellSafety(t *testing.T) {
 	}
 }
 
+func TestImportRelativeSrcDir(t *testing.T) {
+	testenv.MustHaveGoBuild(t) // really must just have source
+	ctxt := Default
+	ctxt.AbsPath = func(path string) (string, error) {
+		if filepath.IsAbs(path) {
+			return path, nil
+		}
+		return filepath.Join(ctxt.GOROOT, "src/go", path), nil
+	}
+	
+	printDir := filepath.Join(ctxt.GOROOT, "src/go/printer")
+	p, err := ctxt.Import("./printer", ".", 0)
+	if err != nil {
+		t.Fatalf(`Import("./printer", ".", 0): %v`, err)
+	}
+	if p.Dir != printDir {
+		t.Fatalf(`Import("./printer", ".", 0): p.Dir = %q, want %q`, p.Dir, printDir)
+	}
+}
+
 // Want to get a "cannot find package" error when directory for package does not exist.
 // There should be valid partial information in the returned non-nil *Package.
 func TestImportDirNotExist(t *testing.T) {

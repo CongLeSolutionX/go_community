@@ -67,6 +67,10 @@ type Context struct {
 	// SplitPathList splits the path list into a slice of individual paths.
 	// If SplitPathList is nil, Import uses filepath.SplitList.
 	SplitPathList func(list string) []string
+	
+	// AbsPath returns an absolute representation of path.
+	// If AbsPath is nil, Import uses filepath.Abs.
+	AbsPath func(path string) (string, error)
 
 	// IsAbsPath reports whether path is an absolute path.
 	// If IsAbsPath is nil, Import uses filepath.IsAbs.
@@ -109,6 +113,14 @@ func (ctxt *Context) splitPathList(s string) []string {
 		return f(s)
 	}
 	return filepath.SplitList(s)
+}
+
+// absPath calls ctxt.AbsPath (if not nil) or else filepath.Abs.
+func (ctxt *Context) absPath(path string) (string, error) {
+	if f := ctxt.AbsPath; f != nil {
+		return f(path)
+	}
+	return filepath.Abs(path)
 }
 
 // isAbsPath calls ctxt.IsAbsPath (if not nil) or else filepath.IsAbs.
@@ -492,7 +504,7 @@ func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Packa
 	if path == "" {
 		return p, fmt.Errorf("import %q: invalid import path", path)
 	}
-
+	
 	var pkgtargetroot string
 	var pkga string
 	var pkgerr error
@@ -526,7 +538,14 @@ func (ctxt *Context) Import(path string, srcDir string, mode ImportMode) (*Packa
 		if srcDir == "" {
 			return p, fmt.Errorf("import %q: import relative to unknown directory", path)
 		}
+
 		if !ctxt.isAbsPath(path) {
+			// Best-effort attempt to make srcDir absolute,
+			// so that the GOROOT and GOPATH containment checks
+			// are more likely to succeed. But continue on either way.
+		//	if dir, err := ctxt.absPath(srcDir); err == nil {
+		//		srcDir = dir
+		//	}
 			p.Dir = ctxt.joinPath(srcDir, path)
 		}
 		// p.Dir directory may or may not exist. Gather partial information first, check if it exists later.
