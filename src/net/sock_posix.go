@@ -134,11 +134,12 @@ func (fd *netFD) dial(ctx context.Context, laddr, raddr sockaddr) error {
 		}
 	}
 	var rsa syscall.Sockaddr
+	var crsa syscall.Sockaddr
 	if raddr != nil {
 		if rsa, err = raddr.sockaddr(fd.family); err != nil {
 			return err
 		}
-		if err := fd.connect(ctx, lsa, rsa); err != nil {
+		if crsa, err = fd.connect(ctx, lsa, rsa); err != nil {
 			return err
 		}
 		fd.isConnected = true
@@ -148,7 +149,9 @@ func (fd *netFD) dial(ctx context.Context, laddr, raddr sockaddr) error {
 		}
 	}
 	lsa, _ = syscall.Getsockname(fd.pfd.Sysfd)
-	if rsa, _ = syscall.Getpeername(fd.pfd.Sysfd); rsa != nil {
+	if crsa != nil {
+		fd.setAddr(fd.addrFunc()(lsa), fd.addrFunc()(crsa))
+	} else if rsa, _ = syscall.Getpeername(fd.pfd.Sysfd); rsa != nil {
 		fd.setAddr(fd.addrFunc()(lsa), fd.addrFunc()(rsa))
 	} else {
 		fd.setAddr(fd.addrFunc()(lsa), raddr)
