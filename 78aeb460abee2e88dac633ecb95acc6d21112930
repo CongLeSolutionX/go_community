@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04bc9099_f8c0b921",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 15430
+      },
+      "writtenOn": "2017-06-15T16:23:59Z",
+      "side": 1,
+      "message": "I did misread that, corrected.",
+      "parentUuid": "59a53622_cbe5a326",
+      "revId": "78aeb460abee2e88dac633ecb95acc6d21112930",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b23c8da_45002abf",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "78aeb460abee2e88dac633ecb95acc6d21112930",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "748ed76b_c824999e",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 15430
+      },
+      "writtenOn": "2017-06-15T16:23:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b23c8da_45002abf",
+      "revId": "78aeb460abee2e88dac633ecb95acc6d21112930",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
