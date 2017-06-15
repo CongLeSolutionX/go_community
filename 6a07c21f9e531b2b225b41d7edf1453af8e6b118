@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4b8ab70e_29ba8380",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-15T21:10:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "888a52aa_1cbd1328",
+      "range": {
+        "startLine": 136,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 26
+      },
+      "revId": "6a07c21f9e531b2b225b41d7edf1453af8e6b118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1a1f52d_9ffdafd7",
         "filename": "src/net/sock_posix.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4751b080_07a9dd96",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-15T21:10:36Z",
+      "side": 1,
+      "message": "I can\u0027t pull it down; it\u0027s used up there before calling connect.  I added some comments.",
+      "parentUuid": "f1a1f52d_9ffdafd7",
+      "range": {
+        "startLine": 154,
+        "startChar": 11,
+        "endLine": 154,
+        "endChar": 53
+      },
+      "revId": "6a07c21f9e531b2b225b41d7edf1453af8e6b118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1eed40c2_3715810c",
         "filename": "src/net/tcpsock_unix_test.go",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-15T04:36:55Z",
       "side": 1,
       "message": "not sure how long this test runs, but doing this DNS lookup once and not doing it potentially 10,000 times might be a win for stressing the code you actually want to stress.",
+      "range": {
+        "startLine": 108,
+        "startChar": 45,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "6a07c21f9e531b2b225b41d7edf1453af8e6b118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b0bb71d_cf9302be",
+        "filename": "src/net/tcpsock_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-15T21:10:36Z",
+      "side": 1,
+      "message": "That definitely makes sense, but when I tried making that change the test no longer failed at all.  As it is the test fails 2 or 3 times out of the 10,000 attempts.  I think the additional sockets created for the DNS lookup must make a difference.\n\nAlso doing the DNS lookup once didn\u0027t seem to make any difference in how long it took the test run on my laptop.",
+      "parentUuid": "1eed40c2_3715810c",
       "range": {
         "startLine": 108,
         "startChar": 45,
