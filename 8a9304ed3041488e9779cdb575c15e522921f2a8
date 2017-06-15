@@ -16,6 +16,24 @@
       "revId": "8a9304ed3041488e9779cdb575c15e522921f2a8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64049b90_30b1f5b6",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-06-15T11:19:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fb950b2_5f067a00",
+      "revId": "8a9304ed3041488e9779cdb575c15e522921f2a8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
