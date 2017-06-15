@@ -39,6 +39,48 @@
       "revId": "84e7aa639c69d186c0ddd9f9cf46252034d57d21",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d0fd28c_c8de585c",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-06-15T11:17:55Z",
+      "side": 1,
+      "message": "textual representation of literal IP addresses varies.",
+      "parentUuid": "b1ad8ca3_7719770a",
+      "range": {
+        "startLine": 114,
+        "startChar": 36,
+        "endLine": 114,
+        "endChar": 49
+      },
+      "revId": "84e7aa639c69d186c0ddd9f9cf46252034d57d21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e93d28d_ef0ca5e4",
+        "filename": "src/net/ip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-06-15T11:17:55Z",
+      "side": 1,
+      "message": "looks reasonable but i don\u0027t want to drop the standardized term \"unspecified IP address\" here, since other methods of IP use the terms come from rfc.",
+      "parentUuid": "05a93670_351bdaeb",
+      "revId": "84e7aa639c69d186c0ddd9f9cf46252034d57d21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
