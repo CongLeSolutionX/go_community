@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "888a52aa_1cbd1328",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-15T04:36:55Z",
+      "side": 1,
+      "message": "these could use little same-line comments explaining what they are now",
+      "range": {
+        "startLine": 136,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 26
+      },
+      "revId": "6a07c21f9e531b2b225b41d7edf1453af8e6b118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1a1f52d_9ffdafd7",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-15T04:36:55Z",
+      "side": 1,
+      "message": "looks like this can overwrite the rsa defined on line 136 and assigned on line 139.\n\nput the line 136 down to make it explicit that this isn\u0027t a bug and they\u0027re different, if so?",
+      "range": {
+        "startLine": 154,
+        "startChar": 11,
+        "endLine": 154,
+        "endChar": 53
+      },
+      "revId": "6a07c21f9e531b2b225b41d7edf1453af8e6b118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eed40c2_3715810c",
+        "filename": "src/net/tcpsock_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-15T04:36:55Z",
+      "side": 1,
+      "message": "not sure how long this test runs, but doing this DNS lookup once and not doing it potentially 10,000 times might be a win for stressing the code you actually want to stress.",
+      "range": {
+        "startLine": 108,
+        "startChar": 45,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "6a07c21f9e531b2b225b41d7edf1453af8e6b118",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
