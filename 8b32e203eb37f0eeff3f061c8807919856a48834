@@ -52,6 +52,24 @@
       "revId": "8b32e203eb37f0eeff3f061c8807919856a48834",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c8bb0e4_e12f96a5",
+        "filename": "src/net/iprawsock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-06-15T11:18:44Z",
+      "side": 1,
+      "message": "i\u0027m a bit confused. msghdr and packet are different stuff. maybe you are assuming s/packet/message/ here?",
+      "parentUuid": "0f15388a_dab2313c",
+      "revId": "8b32e203eb37f0eeff3f061c8807919856a48834",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
