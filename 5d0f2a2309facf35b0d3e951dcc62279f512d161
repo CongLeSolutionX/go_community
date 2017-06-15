@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e8145db_61ad20a1",
+        "filename": "src/go/build/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2017-06-15T08:02:19Z",
+      "side": 1,
+      "message": "Remove?\n\nAlso, this file doesn\u0027t seem go fmt\u0027ed.",
+      "range": {
+        "startLine": 546,
+        "startChar": 0,
+        "endLine": 548,
+        "endChar": 6
+      },
+      "revId": "5d0f2a2309facf35b0d3e951dcc62279f512d161",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
