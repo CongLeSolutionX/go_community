@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59a53622_cbe5a326",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-15T06:01:38Z",
+      "side": 1,
+      "message": "Not https. That is https://github.com/golang/go/issues/11332\n\nI think you misread cm.proxyURL.Scheme vs cm.targetScheme",
+      "revId": "78aeb460abee2e88dac633ecb95acc6d21112930",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b23c8da_45002abf",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-15T06:01:38Z",
+      "side": 1,
+      "message": "comma after empty",
+      "revId": "78aeb460abee2e88dac633ecb95acc6d21112930",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
