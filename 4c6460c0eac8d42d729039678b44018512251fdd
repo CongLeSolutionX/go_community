@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "67254390_08b925b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-06-15T13:41:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f4316451_69cdd98a",
+      "range": {
+        "startLine": 7,
+        "startChar": 40,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c4c6557_86dcbb99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-06-15T13:41:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fee14864_b3bffd2b",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18d23d6a_8fc852cf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2017-06-15T13:19:53Z",
       "side": 1,
       "message": "As far as I can tell, the fix hasn\u0027t actually been applied yet, so I think this bug is still present tense. If it has been applied, say which version it first appeared in. (You could also say the bug was introduced in v2.6.30.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c415423_20503a8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-06-15T13:41:51Z",
+      "side": 1,
+      "message": "how about “has (at the time of writing, and since v2.6.30-rc1)”?",
+      "parentUuid": "18d23d6a_8fc852cf",
       "range": {
         "startLine": 9,
         "startChar": 22,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8f15048b_95aef59e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-06-15T13:41:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "98118a36_ac73cbf7",
+      "range": {
+        "startLine": 12,
+        "startChar": 36,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8031398_227e7bae",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -105,6 +201,30 @@
       "writtenOn": "2017-06-15T13:19:53Z",
       "side": 1,
       "message": "This isn\u0027t typically how Go commit messages are written.\n\nWhat\u0027s effect does this Linux bug have on Go? Briefly, how is it triggered and how does it manifest? How does this patch fix this problem?",
+      "range": {
+        "startLine": 12,
+        "startChar": 65,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3c96afe_5507af9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-06-15T13:41:51Z",
+      "side": 1,
+      "message": "Do you have an example of a “good” commit message? Or do you mean that in addition to what it already says it should answer these questions?",
+      "parentUuid": "d8031398_227e7bae",
       "range": {
         "startLine": 12,
         "startChar": 65,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "23d884df_b3c4a619",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-06-15T13:41:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c4dde33f_2d911519",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 44
+      },
+      "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7f19979_e45798c8",
         "filename": "src/runtime/proc.go",
         "patchSetId": 3
@@ -154,6 +298,24 @@
       "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a9aecc6_4763c222",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-06-15T13:41:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e7f19979_e45798c8",
+      "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -177,6 +339,30 @@
       "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a54ae6b6_b1497c3e",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1622,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-06-15T13:41:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dadb93f6_f11c6a99",
+      "range": {
+        "startLine": 1622,
+        "startChar": 4,
+        "endLine": 1622,
+        "endChar": 12
+      },
+      "revId": "4c6460c0eac8d42d729039678b44018512251fdd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
