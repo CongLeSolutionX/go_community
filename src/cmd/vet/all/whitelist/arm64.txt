@@ -2,6 +2,9 @@
 
 runtime/asm_ARCHSUFF.s: [GOARCH] cannot check cross-package assembly function: Compare is in package bytes
 
+// Nothing much to do about cross-package assembly. Unfortunate.
+runtime/asm_arm64.s: [arm64] cannot check cross-package assembly function: countByte is in package bytes
+
 // Intentionally missing declarations.
 runtime/asm_arm64.s: [arm64] abort: function abort missing Go declaration
 runtime/asm_arm64.s: [arm64] addmoduledata: function addmoduledata missing Go declaration
@@ -9,3 +12,4 @@ runtime/duff_arm64.s: [arm64] duffzero: function duffzero missing Go declaration
 runtime/duff_arm64.s: [arm64] duffcopy: function duffcopy missing Go declaration
 runtime/tls_arm64.s: [arm64] load_g: function load_g missing Go declaration
 runtime/tls_arm64.s: [arm64] save_g: function save_g missing Go declaration
+runtime/asm_arm64.s: [arm64] countByte: function countByte missing Go declaration
