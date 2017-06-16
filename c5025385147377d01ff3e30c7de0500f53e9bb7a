@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89728dc2_01479f80",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-16T14:51:06Z",
+      "side": 1,
+      "message": "now includes the suffix ... ?\n\nIt\u0027s kinda a field, I guess, in the https://golang.org/pkg/strings/#Fields sense.\n\nEither way.",
+      "range": {
+        "startLine": 810,
+        "startChar": 78,
+        "endLine": 811,
+        "endChar": 17
+      },
+      "revId": "c5025385147377d01ff3e30c7de0500f53e9bb7a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
