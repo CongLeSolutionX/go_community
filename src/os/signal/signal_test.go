@@ -7,7 +7,9 @@
 package signal_test
 
 import (
+	"bytes"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -301,4 +303,90 @@ func TestSIGCONT(t *testing.T) {
 	defer Stop(c)
 	syscall.Kill(syscall.Getpid(), syscall.SIGCONT)
 	waitSig(t, c, syscall.SIGCONT)
+}
+
+// Test race between stopping and receiving a signal (issue 14571).
+func TestAtomicStop(t *testing.T) {
+	if os.Getenv("GO_TEST_ATOMIC_STOP") == "" {
+		// This is the test run by the testsuite. Run the test
+		// with an environment variable to try to trigger the race.
+
+		const execs = 10
+		for i := 0; i < execs; i++ {
+			cmd := exec.Command(os.Args[0], "-test.run=TestAtomicStop")
+			cmd.Env = append(os.Environ(), "GO_TEST_ATOMIC_STOP=1")
+			out, err := cmd.CombinedOutput()
+			if err == nil {
+				t.Logf("iteration %d: output %s\n", i, out)
+			} else {
+				t.Logf("iteration %d: exit status %q: output: %s", i, err, out)
+			}
+
+			lost := bytes.Contains(out, []byte("lost signal"))
+			if lost {
+				t.Errorf("iteration %d: lost signal", i)
+			}
+
+			// The program should either die due to SIGINT,
+			// or exit with success without printing "lost signal".
+			if err == nil {
+				if len(out) > 0 && !lost {
+					t.Errorf("iteration %d: unexpected output", i)
+				}
+			} else {
+				if ee, ok := err.(*exec.ExitError); !ok {
+					t.Errorf("iteration %d: error (%v) has type %T; expected exec.ExitError", i, err, err)
+				} else if ws, ok := ee.Sys().(syscall.WaitStatus); !ok {
+					t.Errorf("iteration %d: error.Sys (%v) has type %T; expected syscall.WaitStatus", i, ee.Sys(), ee.Sys())
+				} else if !ws.Signaled() || ws.Signal() != syscall.SIGINT {
+					t.Errorf("iteration %d: got exit status %v; expected SIGINT", i, ee)
+				}
+			}
+		}
+	} else {
+		// This is the test program that tries to trigger a race.
+		// This program should either catch a signal or die from it.
+		const tries = 10
+		pid := syscall.Getpid()
+		cb := make(chan bool, 1)
+		printed := false
+		for i := 0; i < tries; i++ {
+			go func() {
+				time.Sleep(100 * time.Microsecond)
+				cb <- true
+				syscall.Kill(pid, syscall.SIGINT)
+			}()
+
+			cs := make(chan os.Signal, 1)
+			Notify(cs, syscall.SIGINT)
+
+			select {
+			case <-cs:
+				Stop(cs)
+			case <-cb:
+				Stop(cs)
+
+				// At this point we should either die from
+				// SIGINT or get a notification on cs.
+				// If neither happens, we dropped the signal.
+				// Give it a second to deliver, which is
+				// far far longer than it should require.
+
+				select {
+				case <-cs:
+				case <-time.After(time.Second):
+					if !printed {
+						fmt.Print("lost signal on iterations:")
+						printed = true
+					}
+					fmt.Printf(" %d", i)
+				}
+			}
+		}
+		if printed {
+			fmt.Print("\n")
+		}
+
+		os.Exit(0)
+	}
 }

@@ -11,8 +11,18 @@ import (
 
 var handlers struct {
 	sync.Mutex
-	m   map[chan<- os.Signal]*handler
+	// Map a channel to the signals that should be sent to it.
+	m map[chan<- os.Signal]*handler
+	// Map a signal to the number of channels receiving it.
 	ref [numSig]int64
+	// Map channels to signals while the channel is being stopped.
+	// Not a map because entries live here only very briefly.
+	stopping []stopping
+}
+
+type stopping struct {
+	c chan<- os.Signal
+	h *handler
 }
 
 type handler struct {
@@ -142,10 +152,10 @@ func Reset(sig ...os.Signal) {
 // When Stop returns, it is guaranteed that c will receive no more signals.
 func Stop(c chan<- os.Signal) {
 	handlers.Lock()
-	defer handlers.Unlock()
 
 	h := handlers.m[c]
 	if h == nil {
+		handlers.Unlock()
 		return
 	}
 	delete(handlers.m, c)
@@ -158,7 +168,36 @@ func Stop(c chan<- os.Signal) {
 			}
 		}
 	}
+
+	// Signals will no longer be delivered to the channel.
+	// We want to avoid a race for a signal such as SIGINT:
+	// it should be either delivered to the channel,
+	// or the program should take the default action (that is, exit).
+	// To avoid the possibility of neither happening,
+	// put the channel on a list of channels being stopped and
+	// wait for signal delivery to quiesce before fully removing it.
+
+	handlers.stopping = append(handlers.stopping, stopping{c, h})
+
+	handlers.Unlock()
+
+	signalWaitUntilIdle()
+
+	handlers.Lock()
+
+	for i, s := range handlers.stopping {
+		if s.c == c {
+			handlers.stopping = append(handlers.stopping[:i], handlers.stopping[i+1:]...)
+			break
+		}
+	}
+
+	handlers.Unlock()
 }
+
+// Wait until there are no more signals waiting to be delivered.
+// Defined by the runtime package.
+func signalWaitUntilIdle()
 
 func process(sig os.Signal) {
 	n := signum(sig)
@@ -174,6 +213,16 @@ func process(sig os.Signal) {
 			// send but do not block for it
 			select {
 			case c <- sig:
+			default:
+			}
+		}
+	}
+
+	// Avoid the race mentioned in Stop.
+	for _, d := range handlers.stopping {
+		if d.h.want(n) {
+			select {
+			case d.c <- sig:
 			default:
 			}
 		}
