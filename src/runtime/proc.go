@@ -1136,7 +1136,8 @@ func startTheWorldWithSema() {
 func mstart() {
 	_g_ := getg()
 
-	if _g_.stack.lo == 0 {
+	osStack := _g_.stack.lo == 0
+	if osStack {
 		// Initialize stack bounds from system stack.
 		// Cgo may have left stack size in stack.hi.
 		size := _g_.stack.hi
@@ -1150,21 +1151,30 @@ func mstart() {
 	// both Go and C functions with stack growth prologues.
 	_g_.stackguard0 = _g_.stack.lo + _StackGuard
 	_g_.stackguard1 = _g_.stackguard0
-	mstart1()
+	mstart1(0)
+
+	// Exit this thread.
+	if GOOS == "windows" || GOOS == "solaris" {
+		// Winddows and Solaris always system-allocate the
+		// stack, but put it in _g_.stack before mstart, so
+		// the logic above hasn't set osStack yet.
+		osStack = true
+	}
+	mexit(osStack)
 }
 
-func mstart1() {
+func mstart1(dummy int32) {
 	_g_ := getg()
 
 	if _g_ != _g_.m.g0 {
 		throw("bad runtime·mstart")
 	}
 
-	// Record top of stack for use by mcall.
-	// Once we call schedule we're never coming back,
-	// so other calls can reuse this stack space.
-	gosave(&_g_.m.g0.sched)
-	_g_.m.g0.sched.pc = ^uintptr(0) // make sure it is never used
+	// Record the caller for use as the top of stack in mcall and
+	// for terminating the thread.
+	// We're never coming back to mstart1 after we call schedule,
+	// so other calls can reuse the current frame.
+	save(getcallerpc(unsafe.Pointer(&dummy)), getcallersp(unsafe.Pointer(&dummy)))
 	asminit()
 	minit()
 
@@ -1201,6 +1211,88 @@ func mstartm0() {
 		newextram()
 	}
 	initsig(false)
+}
+
+// mexit tears down and exits the current thread.
+//
+// Don't call this directly to exit the thread, since it must run at
+// the top of the thread stack. Instead, use gogo(&_g_.m.g0.sched) to
+// unwind the stack to the point that exits the thread.
+//
+// It is entered with m.p != nil, so write barriers are allowed. It
+// will release the P before exiting.
+//
+//go:yeswritebarrierrec
+func mexit(osStack bool) {
+	g := getg()
+	m := g.m
+
+	lock(&sched.lock)
+	sched.nmfreed++
+	checkdead()
+
+	if m == &m0 {
+		// This is the main thread. Just wedge it.
+		//
+		// On Linux, exiting the main thread puts the process
+		// into a non-waitable zombie state. On Plan 9,
+		// exiting the main thread unblocks wait even though
+		// other threads are still running. On Solaris we can
+		// neither exitThread nor return from mstart. Other
+		// bad things probably happen on other platforms.
+		//
+		// We could try to clean up this M more before wedging
+		// it, but that complicates signal handling.
+		unlock(&sched.lock)
+		handoffp(releasep())
+		notesleep(&m.park)
+		throw("locked m0 woke up")
+	}
+
+	sigblock()
+	unminit()
+
+	// Free the gsignal stack.
+	if m.gsignal != nil {
+		stackfree(m.gsignal.stack)
+	}
+
+	// Remove m from allm.
+	for pprev := &allm; *pprev != nil; pprev = &(*pprev).alllink {
+		if *pprev == m {
+			*pprev = m.alllink
+			goto found
+		}
+	}
+	throw("m not found in allm")
+found:
+	// Delay reaping m until it's done with the stack.
+	atomic.Store(&m.freeWait, 1)
+	// Put m on the free list, though it will not be reaped until
+	// freeWait is 0. Note that the free list must not be linked
+	// through alllink because some functions walk allm without
+	// locking, so may be using alllink.
+	m.freelink = sched.freem
+	sched.freem = m
+	unlock(&sched.lock)
+
+	// Release the P.
+	handoffp(releasep())
+	// After this point we must not have write barriers.
+
+	if osStack {
+		// The OS allocated the g0 stack. Zero it out so
+		// pruning doesn't try to free it.
+		g.stack.lo, g.stack.hi = 0, 0
+		// Return from mstart and let the system thread
+		// library free the g0 stack and terminate the thread.
+		atomic.Store(&m.freeWait, 0)
+		return
+	}
+	// Otherwise, mstart is the thread's entry point, so exit the
+	// thread directly. This will clear m.freeWait when it's done
+	// with the stack and the m can be reaped.
+	exitThread(&m.freeWait)
 }
 
 // forEachP calls fn(p) for every P p when p reaches a GC safe point.
@@ -1350,6 +1442,29 @@ func allocm(_p_ *p, fn func()) *m {
 	if _g_.m.p == 0 {
 		acquirep(_p_) // temporarily borrow p for mallocs in this function
 	}
+
+	// Release the free M list. We need to do this somewhere and
+	// this may free up a stack we can use.
+	if sched.freem != nil {
+		lock(&sched.lock)
+		var newList *m
+		for freem := sched.freem; freem != nil; {
+			if freem.freeWait != 0 {
+				next := freem.freelink
+				freem.freelink = newList
+				newList = freem
+				freem = next
+				continue
+			}
+			if freem.g0.stack.lo != 0 {
+				stackfree(freem.g0.stack)
+			}
+			freem = freem.freelink
+		}
+		sched.freem = newList
+		unlock(&sched.lock)
+	}
+
 	mp := new(m)
 	mp.mstartfn = fn
 	mcommoninit(mp)
@@ -3865,6 +3980,7 @@ func incidlelocked(v int32) {
 
 // Check for deadlock situation.
 // The check is based on number of running M's, if 0 -> deadlock.
+// sched.lock must be held.
 func checkdead() {
 	// For -buildmode=c-shared or -buildmode=c-archive it's OK if
 	// there are no running goroutines. The calling program is
@@ -3881,12 +3997,12 @@ func checkdead() {
 		return
 	}
 
-	run := sched.mcount - sched.nmidle - sched.nmidlelocked - sched.nmsys
+	run := sched.mcount - sched.nmidle - sched.nmidlelocked - sched.nmsys - sched.nmfreed
 	if run > 0 {
 		return
 	}
 	if run < 0 {
-		print("runtime: checkdead: nmidle=", sched.nmidle, " nmidlelocked=", sched.nmidlelocked, " mcount=", sched.mcount, " nmsys=", sched.nmsys, "\n")
+		print("runtime: checkdead: nmidle=", sched.nmidle, " nmidlelocked=", sched.nmidlelocked, " mcount=", sched.mcount-sched.nmfreed, " nmsys=", sched.nmsys, "\n")
 		throw("checkdead: inconsistent counts")
 	}
 
