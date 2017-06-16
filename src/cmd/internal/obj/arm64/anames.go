@@ -380,5 +380,6 @@ var Anames = []string{
 	"VMOVS",
 	"VADDV",
 	"VMOVI",
+	"VUADDLV",
 	"LAST",
 }

@@ -51,6 +51,7 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	SHA1P	V11.S4, V10, V9                 // 49110b5e
 	VADDV	V0.S4, V0                       // 00b8b14e
 	VMOVI	$82, V0.B16                     // 40e6024f
+	VUADDLV	V6.B16, V6                      // c638306e
 
 //	LTYPE1 imsr ',' spreg ','
 //	{

@@ -1,13 +1,10 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2017 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !amd64,!s390x,!arm64
-
 package bytes
 
-// TODO: implements short string optimization on non amd64 platforms
-// and get rid of bytes_amd64.go
+func countByte(s []byte, c byte) int // ../runtime/asm_arm64.s
 
 // Index returns the index of the first instance of sep in s, or -1 if sep is not present in s.
 func Index(s, sep []byte) int {
@@ -41,7 +38,10 @@ func Index(s, sep []byte) int {
 }
 
 // Count counts the number of non-overlapping instances of sep in s.
-// If sep is an empty slice, Count returns 1 + the number of UTF-8-encoded code points in s.
+// If sep is an empty slice, Count returns 1 + the number of Unicode code points in s.
 func Count(s, sep []byte) int {
+	if len(sep) == 1 {
+		return countByte(s, sep[0])
+	}
 	return countGeneric(s, sep)
 }

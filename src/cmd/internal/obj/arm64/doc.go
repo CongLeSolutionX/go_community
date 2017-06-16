@@ -115,6 +115,11 @@ Go Assembly for ARM64 Reference Manual
         <T> Is an arrangement specifier and can have the following values:
         B8, B16, H4, H8, S2, S4, D1, D2
 
+    VUADDLV: Unsigned sum Long across Vector.
+      VUADDLV	<Vn>.<T>, Vd
+        <T> Is an arrangement specifier and can have the following values:
+        8B, 16B, H4, H8, S4
+
 4. Alphabetical list of cryptographic extension instructions
 
     SHA1C, SHA1M, SHA1P: SHA1 hash update.

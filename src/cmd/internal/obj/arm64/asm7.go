@@ -2075,6 +2075,9 @@ func buildop(ctxt *obj.Link) {
 		case ASHA1SU0:
 			oprangeset(ASHA256SU1, t)
 
+		case AVADDV:
+			oprangeset(AVUADDLV, t)
+
 		case ASHA1H,
 			AVMOV,
 			AVLD1,
@@ -2082,7 +2085,6 @@ func buildop(ctxt *obj.Link) {
 			AVST1,
 			AVDUP,
 			AVMOVS,
-			AVADDV,
 			AVMOVI:
 			break
 
@@ -3584,7 +3586,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 |= uint32(p.From.Offset)
 		o1 |= uint32(r&31) << 5
 
-	case 85: /* vaddv Vn.<T>, Vd*/
+	case 85: /* vaddv/vuaddlv Vn.<T>, Vd*/
 		af := int((p.From.Reg >> 5) & 15)
 		o1 = c.oprrr(p, p.As)
 		rf := int((p.From.Reg) & 31)
@@ -4217,6 +4219,9 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As) uint32 {
 
 	case AVADDV:
 		return 7<<25 | 3<<20 | 3<<15 | 7<<11
+
+	case AVUADDLV:
+		return 1<<29 | 7<<25 | 3<<20 | 7<<11
 	}
 
 	c.ctxt.Diag("%v: bad rrr %d %v", p, a, a)
