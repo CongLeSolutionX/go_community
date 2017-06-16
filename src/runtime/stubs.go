@@ -135,7 +135,6 @@ func mincore(addr unsafe.Pointer, n uintptr, dst *byte) int32
 
 //go:noescape
 func jmpdefer(fv *funcval, argp uintptr)
-func exit1(code int32)
 func asminit()
 func setg(gg *g)
 func breakpoint()
