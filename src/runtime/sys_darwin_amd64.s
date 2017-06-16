@@ -26,6 +26,7 @@ TEXT runtime·exit(SB),NOSPLIT,$0
 // Exit this OS thread (like pthread_exit, which eventually
 // calls __bsdthread_terminate).
 TEXT runtime·exit1(SB),NOSPLIT,$0
+	// Because of exitThread below, this must not use the stack.
 	// __bsdthread_terminate takes 4 word-size arguments.
 	// Set them all to 0. (None are an exit status.)
 	MOVL	$0, DI
@@ -37,7 +38,12 @@ TEXT runtime·exit1(SB),NOSPLIT,$0
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-
+// func exitThread(wait *uint32)
+TEXT runtime·exitThread(SB),NOSPLIT,$0-8
+	MOVQ	wait+0(FP), AX
+	// We're done using the stack.
+	MOVL	$0, (AX)
+	JMP	runtime·exit1(SB)
 
 TEXT runtime·open(SB),NOSPLIT,$0
 	MOVQ	name+0(FP), DI		// arg 1 pathname

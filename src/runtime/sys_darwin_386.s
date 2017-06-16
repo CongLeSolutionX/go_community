@@ -32,6 +32,26 @@ TEXT runtime·exit1(SB),NOSPLIT,$16-0
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
+GLOBL exitStack<>(SB),RODATA,$(4*4)
+DATA exitStack<>+0x00(SB)/4, $0
+DATA exitStack<>+0x04(SB)/4, $0
+DATA exitStack<>+0x08(SB)/4, $0
+DATA exitStack<>+0x0c(SB)/4, $0
+
+// func exitThread(wait *uint32)
+TEXT runtime·exitThread(SB),NOSPLIT,$0-4
+	MOVL	wait+0(FP), AX
+	// We're done using the stack.
+	MOVL	$0, (AX)
+	// __bsdthread_terminate takes 4 arguments, which it expects
+	// on the stack. They should all be 0, so switch over to a
+	// fake stack of 0s. It won't write to the stack.
+	MOVL	$exitStack<>(SB), SP
+	MOVL	$361, AX	// __bsdthread_terminate
+	INT	$0x80
+	MOVL	$0xf1, 0xf1  // crash
+	JMP	0(PC)
+
 TEXT runtime·open(SB),NOSPLIT,$0
 	MOVL	$5, AX
 	INT	$0x80

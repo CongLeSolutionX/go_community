@@ -38,6 +38,18 @@ TEXT runtime·exit1(SB),NOSPLIT,$0
 	INT $3	// not reached
 	RET
 
+// func exitThread(wait *uint32)
+TEXT runtime·exitThread(SB),NOSPLIT,$0-4
+	MOVL	wait+0(FP), AX
+	// We're done using the stack.
+	MOVL	$0, (AX)
+	MOVL	$1, AX	// exit (just this thread)
+	MOVL	$0, BX	// exit code
+	INT	$0x80	// no stack; must not use CALL
+	// We may not even have a stack any more.
+	INT	$3
+	JMP	0(PC)
+
 TEXT runtime·open(SB),NOSPLIT,$0
 	MOVL	$5, AX		// syscall - open
 	MOVL	name+0(FP), BX
