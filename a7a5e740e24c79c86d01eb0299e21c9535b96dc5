@@ -84,6 +84,40 @@
     },
     {
       "key": {
+        "uuid": "8fc56cd1_c5e76a64",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-06-17T22:09:47Z",
+      "side": 1,
+      "message": "English sentences start with a capital later. Capitalize dep or rephrase to avoid the problem.",
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b252cec9_7c2a6376",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1156,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-06-17T22:09:47Z",
+      "side": 1,
+      "message": "I don\u0027t know what \u0027fully-functioning\u0027 means. Nor \u0027living outside the toolchain\u0027.",
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e87385f2_6bb241ab",
         "filename": "doc/go_faq.html",
         "patchSetId": 1
@@ -125,6 +159,23 @@
         "endLine": 1157,
         "endChar": 77
       },
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b5b013b_8437a900",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-06-17T22:09:47Z",
+      "side": 1,
+      "message": "This paragraph sounds more like a marketing blurb than an FAQ answer.\n\nI would just say something like\n\nWork is underway on a package management tool, dep \u003clink\u003e, which may in the future become part of the go tool. For more about dep, see \u003clink\u003e.",
       "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
