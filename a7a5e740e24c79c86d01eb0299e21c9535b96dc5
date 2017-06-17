@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "150f0aff_49b4c761",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 10156
+      },
+      "writtenOn": "2017-06-17T12:24:21Z",
+      "side": 1,
+      "message": "it was intended to contrast a the relatively narrow purpose of vendor, and recall the discussion in the section\u0027s first paragraph about \"versioning being a source of significant complexity.\"\n\nbut, sure, can drop it.",
+      "parentUuid": "f51a327e_8e94ab40",
+      "range": {
+        "startLine": 1152,
+        "startChar": 53,
+        "endLine": 1152,
+        "endChar": 59
+      },
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f64c1790_29d5dcff",
         "filename": "doc/go_faq.html",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c9d0dede_933f6789",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 10156
+      },
+      "writtenOn": "2017-06-17T12:24:21Z",
+      "side": 1,
+      "message": "what about just \"support\"?",
+      "parentUuid": "f64c1790_29d5dcff",
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e87385f2_6bb241ab",
         "filename": "doc/go_faq.html",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2017-06-17T06:08:14Z",
       "side": 1,
       "message": "converge \u0026 lessons ... little grandiose.",
+      "range": {
+        "startLine": 1157,
+        "startChar": 33,
+        "endLine": 1157,
+        "endChar": 77
+      },
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e691fc2_f9cdcdc0",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 10156
+      },
+      "writtenOn": "2017-06-17T12:24:21Z",
+      "side": 1,
+      "message": "these are goals we\u0027ve consistently put out there - try to bring the community together behind one tool, and inform the process of developing something for the toolchain. is the issue that those things just aren\u0027t relevant for the purpose of this FAQ, or is it just about tamping down the language a bit?",
+      "parentUuid": "e87385f2_6bb241ab",
       "range": {
         "startLine": 1157,
         "startChar": 33,
