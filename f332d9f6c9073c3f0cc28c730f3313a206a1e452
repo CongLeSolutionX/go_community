@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6ad9d71_f70cf7d9",
+        "filename": "src/os/executable_path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-17T01:52:02Z",
+      "side": 1,
+      "message": "that\u0027s a long (but acceptable) way to spell \"/\" on +build openbsd. But explicit works.",
+      "range": {
+        "startLine": 31,
+        "startChar": 23,
+        "endLine": 31,
+        "endChar": 44
+      },
+      "revId": "f332d9f6c9073c3f0cc28c730f3313a206a1e452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b75f0c06_5b2f8fd2",
+        "filename": "src/os/executable_path.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-17T01:52:02Z",
+      "side": 1,
+      "message": "this returns [\"\"] if $PATH is \"\", which seems wrong.\n\nbecause then you search dir \".\".\n\nI\u0027d make this return nil for pathList \u003d\u003d \"\"?",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 46
+      },
+      "revId": "f332d9f6c9073c3f0cc28c730f3313a206a1e452",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
