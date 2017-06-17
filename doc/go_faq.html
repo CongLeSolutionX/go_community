@@ -1148,6 +1148,19 @@ See the <a href="https://golang.org/s/go15vendor">design
 document</a> for details.
 </p>
 
+<p>
+As of the 1.9 cycle, effort has begun to introduce a robust package management
+solution into the <code>go</code> tool itself. To that end, we have developed
+an experimental package management tool: <a
+href="https://github.com/golang/dep"><code>dep</code></a>. <code>dep</code> is
+an "official experiment": it is a fully-functioning tool, living outside the
+toolchain, on which Go users can converge, and from which we can draw lessons
+about how package management should work within the toolchain. All Go users are
+encouraged to try <code>dep</code> and provide feedback. We hope to begin the
+process of adding first-class package management to the <code>go</code> tool
+during the 1.10 cycle.
+</p>
+
 <h2 id="Pointers">Pointers and Allocation</h2>
 
 <h3 id="pass_by_value">
