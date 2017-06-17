@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f51a327e_8e94ab40",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-17T06:08:14Z",
+      "side": 1,
+      "message": "drop \"robust\". sounds like a marketing word.",
+      "range": {
+        "startLine": 1152,
+        "startChar": 53,
+        "endLine": 1152,
+        "endChar": 59
+      },
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f64c1790_29d5dcff",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-17T06:08:14Z",
+      "side": 1,
+      "message": "drop \"solution\". another marketing word.\n\n\"tool\" would work, but that word would stutter later. maybe \"functionality\"?",
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e87385f2_6bb241ab",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-17T06:08:14Z",
+      "side": 1,
+      "message": "converge \u0026 lessons ... little grandiose.",
+      "range": {
+        "startLine": 1157,
+        "startChar": 33,
+        "endLine": 1157,
+        "endChar": 77
+      },
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
