@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ce876291_de239ae7",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1153,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-06-18T06:51:07Z",
+      "side": 1,
+      "message": "\"Currently\" is redundant in the present tense.\n\ns/\u003ca/called \u0026/",
+      "revId": "bcadb3fb6e930db04b67401e532546afdc201e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e1ca2cc_07591d48",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1154,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-06-18T06:51:07Z",
+      "side": 1,
+      "message": "\"In the future\" is redundant too. \"Hope\" is strange, \"absorption\" stranger.",
+      "revId": "bcadb3fb6e930db04b67401e532546afdc201e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c757a56_11bcf3e9",
         "filename": "doc/go_faq.html",
         "patchSetId": 2
