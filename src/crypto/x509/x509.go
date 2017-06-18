@@ -213,7 +213,7 @@ var algoName = [...]string{
 }
 
 func (algo SignatureAlgorithm) String() string {
-	if 0 < algo && int(algo) < len(algoName) {
+	if 0 < algo && int(algo) <= len(algoName) {
 		return algoName[algo]
 	}
 	return strconv.Itoa(int(algo))
