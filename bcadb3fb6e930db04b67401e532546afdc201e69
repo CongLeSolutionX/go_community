@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c757a56_11bcf3e9",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1155,
+      "author": {
+        "id": 10156
+      },
+      "writtenOn": "2017-06-18T03:59:57Z",
+      "side": 1,
+      "message": "i know that \"absorption\" is an odd term to use. we\u0027ve used it in the past because it 1) suggests that the goal is for dep to eventually go away, and 2) does not necessarily imply a direct merge is planned.\n\nhappy to change it if needed, of course.",
+      "revId": "bcadb3fb6e930db04b67401e532546afdc201e69",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
