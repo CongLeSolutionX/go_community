@@ -179,6 +179,24 @@
       "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f209548c_82071201",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 10156
+      },
+      "writtenOn": "2017-06-18T00:05:32Z",
+      "side": 1,
+      "message": "ah OK, this gives me a much better sense of what you were looking for with this. \n\ni think \"become part\" may be a too suggestive of directly merging dep into the toolchain, which is something we\u0027ve tried to avoid implying publicly in the past. i\u0027ll look for a looser phrasing.",
+      "parentUuid": "1b5b013b_8437a900",
+      "revId": "a7a5e740e24c79c86d01eb0299e21c9535b96dc5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
