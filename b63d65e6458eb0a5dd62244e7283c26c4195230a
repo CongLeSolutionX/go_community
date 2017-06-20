@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01fcc3af_f23d4779",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-20T23:44:44Z",
+      "side": 1,
+      "message": "It\u0027s not actually necessary to convert errno to error here or below.",
+      "revId": "b63d65e6458eb0a5dd62244e7283c26c4195230a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "765e7358_889edc00",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-20T23:44:44Z",
+      "side": 1,
+      "message": "Honest question: why not just query whether CAP_SYS_TIME is set?  Why try to set it again?",
+      "revId": "b63d65e6458eb0a5dd62244e7283c26c4195230a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27352e2c_6bf350f6",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-20T23:44:44Z",
+      "side": 1,
+      "message": "Let\u0027s not pull in log for this, just fmt.Fprintf/os.Exit as in TestUnshareMountNameSpaceHelper.",
+      "revId": "b63d65e6458eb0a5dd62244e7283c26c4195230a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
