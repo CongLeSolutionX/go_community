@@ -125,6 +125,8 @@ func rewriteValueAMD64(v *Value) bool {
 		return rewriteValueAMD64_OpAMD64MOVLloadidx1_0(v)
 	case OpAMD64MOVLloadidx4:
 		return rewriteValueAMD64_OpAMD64MOVLloadidx4_0(v)
+	case OpAMD64MOVLloadidx8:
+		return rewriteValueAMD64_OpAMD64MOVLloadidx8_0(v)
 	case OpAMD64MOVLstore:
 		return rewriteValueAMD64_OpAMD64MOVLstore_0(v) || rewriteValueAMD64_OpAMD64MOVLstore_10(v)
 	case OpAMD64MOVLstoreconst:
@@ -7299,6 +7301,34 @@ func rewriteValueAMD64_OpAMD64MOVLload_0(v *Value) bool {
 		v.AddArg(mem)
 		return true
 	}
+	// match: (MOVLload [off1] {sym1} (LEAQ8 [off2] {sym2} ptr idx) mem)
+	// cond: is32Bit(off1+off2) && canMergeSym(sym1, sym2)
+	// result: (MOVLloadidx8 [off1+off2] {mergeSym(sym1,sym2)} ptr idx mem)
+	for {
+		off1 := v.AuxInt
+		sym1 := v.Aux
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64LEAQ8 {
+			break
+		}
+		off2 := v_0.AuxInt
+		sym2 := v_0.Aux
+		_ = v_0.Args[1]
+		ptr := v_0.Args[0]
+		idx := v_0.Args[1]
+		mem := v.Args[1]
+		if !(is32Bit(off1+off2) && canMergeSym(sym1, sym2)) {
+			break
+		}
+		v.reset(OpAMD64MOVLloadidx8)
+		v.AuxInt = off1 + off2
+		v.Aux = mergeSym(sym1, sym2)
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
 	// match: (MOVLload [off] {sym} (ADDQ ptr idx) mem)
 	// cond: ptr.Op != OpSB
 	// result: (MOVLloadidx1 [off] {sym} ptr idx mem)
@@ -7447,6 +7477,56 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx1_0(v *Value) bool {
 		ptr := v.Args[1]
 		mem := v.Args[2]
 		v.reset(OpAMD64MOVLloadidx4)
+		v.AuxInt = c
+		v.Aux = sym
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVLloadidx1 [c] {sym} ptr (SHLQconst [3] idx) mem)
+	// cond:
+	// result: (MOVLloadidx8 [c] {sym} ptr idx mem)
+	for {
+		c := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		ptr := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpAMD64SHLQconst {
+			break
+		}
+		if v_1.AuxInt != 3 {
+			break
+		}
+		idx := v_1.Args[0]
+		mem := v.Args[2]
+		v.reset(OpAMD64MOVLloadidx8)
+		v.AuxInt = c
+		v.Aux = sym
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVLloadidx1 [c] {sym} (SHLQconst [3] idx) ptr mem)
+	// cond:
+	// result: (MOVLloadidx8 [c] {sym} ptr idx mem)
+	for {
+		c := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64SHLQconst {
+			break
+		}
+		if v_0.AuxInt != 3 {
+			break
+		}
+		idx := v_0.Args[0]
+		ptr := v.Args[1]
+		mem := v.Args[2]
+		v.reset(OpAMD64MOVLloadidx8)
 		v.AuxInt = c
 		v.Aux = sym
 		v.AddArg(ptr)
@@ -7607,6 +7687,61 @@ func rewriteValueAMD64_OpAMD64MOVLloadidx4_0(v *Value) bool {
 		}
 		v.reset(OpAMD64MOVLloadidx4)
 		v.AuxInt = c + 4*d
+		v.Aux = sym
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
+	return false
+}
+func rewriteValueAMD64_OpAMD64MOVLloadidx8_0(v *Value) bool {
+	// match: (MOVLloadidx8 [c] {sym} (ADDQconst [d] ptr) idx mem)
+	// cond: is32Bit(c+d)
+	// result: (MOVLloadidx8 [c+d] {sym} ptr idx mem)
+	for {
+		c := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64ADDQconst {
+			break
+		}
+		d := v_0.AuxInt
+		ptr := v_0.Args[0]
+		idx := v.Args[1]
+		mem := v.Args[2]
+		if !(is32Bit(c + d)) {
+			break
+		}
+		v.reset(OpAMD64MOVLloadidx8)
+		v.AuxInt = c + d
+		v.Aux = sym
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVLloadidx8 [c] {sym} ptr (ADDQconst [d] idx) mem)
+	// cond: is32Bit(c+8*d)
+	// result: (MOVLloadidx8 [c+8*d] {sym} ptr idx mem)
+	for {
+		c := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[2]
+		ptr := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpAMD64ADDQconst {
+			break
+		}
+		d := v_1.AuxInt
+		idx := v_1.Args[0]
+		mem := v.Args[2]
+		if !(is32Bit(c + 8*d)) {
+			break
+		}
+		v.reset(OpAMD64MOVLloadidx8)
+		v.AuxInt = c + 8*d
 		v.Aux = sym
 		v.AddArg(ptr)
 		v.AddArg(idx)
@@ -8572,6 +8707,33 @@ func rewriteValueAMD64_OpAMD64MOVLstoreidx1_0(v *Value) bool {
 		val := v.Args[2]
 		mem := v.Args[3]
 		v.reset(OpAMD64MOVLstoreidx4)
+		v.AuxInt = c
+		v.Aux = sym
+		v.AddArg(ptr)
+		v.AddArg(idx)
+		v.AddArg(val)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVLstoreidx1 [c] {sym} ptr (SHLQconst [3] idx) val mem)
+	// cond:
+	// result: (MOVLstoreidx8 [c] {sym} ptr idx val mem)
+	for {
+		c := v.AuxInt
+		sym := v.Aux
+		_ = v.Args[3]
+		ptr := v.Args[0]
+		v_1 := v.Args[1]
+		if v_1.Op != OpAMD64SHLQconst {
+			break
+		}
+		if v_1.AuxInt != 3 {
+			break
+		}
+		idx := v_1.Args[0]
+		val := v.Args[2]
+		mem := v.Args[3]
+		v.reset(OpAMD64MOVLstoreidx8)
 		v.AuxInt = c
 		v.Aux = sym
 		v.AddArg(ptr)
