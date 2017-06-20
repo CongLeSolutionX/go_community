@@ -465,8 +465,7 @@ func (p *exporter) obj(sym *types.Sym) {
 		// not need the qualified name here. See also comment above.
 		// Possible space optimization.
 		p.qualifiedName(sym)
-		p.typ(unidealType(n.Type, n.Val()))
-		p.value(n.Val())
+		p.value(n)
 
 	case OTYPE:
 		// named type
@@ -1007,12 +1006,14 @@ func parName(f *types.Field, numbered bool) string {
 	return name
 }
 
-func (p *exporter) value(x Val) {
+func (p *exporter) value(n *Node) {
+	p.typ(unidealType(n.Type, n.Val()))
+
 	if p.trace {
 		p.tracef("= ")
 	}
 
-	switch x := x.U.(type) {
+	switch x := n.Val().U.(type) {
 	case bool:
 		tag := falseTag
 		if x {
@@ -1200,8 +1201,7 @@ func (p *exporter) expr(n *Node) {
 		}
 		p.op(OLITERAL)
 		p.pos(n)
-		p.typ(unidealType(n.Type, n.Val()))
-		p.value(n.Val())
+		p.value(n)
 
 	case ONAME:
 		// Special case: name used as local variable in export.

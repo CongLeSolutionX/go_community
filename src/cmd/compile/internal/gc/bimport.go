@@ -316,9 +316,10 @@ func (p *importer) pkg() *types.Pkg {
 }
 
 func idealType(typ *types.Type) *types.Type {
-	if typ.IsUntyped() {
-		// canonicalize ideal types
-		typ = types.Types[TIDEAL]
+	// Canonicalize untyped numeric types.
+	switch typ {
+	case types.Idealint, types.Idealrune, types.Idealfloat, types.Idealcomplex:
+		typ = types.Types[types.TIDEAL]
 	}
 	return typ
 }
@@ -328,9 +329,7 @@ func (p *importer) obj(tag int) {
 	case constTag:
 		p.pos()
 		sym := p.qualifiedName()
-		typ := p.typ()
-		val := p.value(typ)
-		importconst(p.imp, sym, idealType(typ), nodlit(val))
+		importconst(p.imp, sym, p.value())
 
 	case aliasTag:
 		p.pos()
@@ -765,7 +764,10 @@ func (p *importer) param(named bool) *types.Field {
 	return f
 }
 
-func (p *importer) value(typ *types.Type) (x Val) {
+func (p *importer) value() *Node {
+	typ := p.typ()
+
+	var x Val
 	switch tag := p.tagOrIndex(); tag {
 	case falseTag:
 		x.U = false
@@ -815,7 +817,9 @@ func (p *importer) value(typ *types.Type) (x Val) {
 		p.formatErrorf("value %v and type %v don't match", x, typ)
 	}
 
-	return
+	n := nodlit(x)
+	n.Type = idealType(typ)
+	return n
 }
 
 func (p *importer) float(x *Mpflt) {
@@ -913,22 +917,7 @@ func (p *importer) node() *Node {
 	//	unimplemented
 
 	case OLITERAL:
-		pos := p.pos()
-		typ := p.typ()
-		n := npos(pos, nodlit(p.value(typ)))
-		if !typ.IsUntyped() {
-			// Type-checking simplifies unsafe.Pointer(uintptr(c))
-			// to unsafe.Pointer(c) which then cannot type-checked
-			// again. Re-introduce explicit uintptr(c) conversion.
-			// (issue 16317).
-			if typ.IsUnsafePtr() {
-				n = nodl(pos, OCONV, n, nil)
-				n.Type = types.Types[TUINTPTR]
-			}
-			n = nodl(pos, OCONV, n, nil)
-			n.Type = typ
-		}
-		return n
+		return npos(p.pos(), p.value())
 
 	case ONAME:
 		return npos(p.pos(), mkname(p.sym()))

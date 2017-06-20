@@ -297,9 +297,8 @@ func pkgtype(pkg *types.Pkg, s *types.Sym) *types.Type {
 
 // importconst declares symbol s as an imported constant with type t and value n.
 // pkg is the package being imported
-func importconst(pkg *types.Pkg, s *types.Sym, t *types.Type, n *Node) {
+func importconst(pkg *types.Pkg, s *types.Sym, n *Node) {
 	importsym(pkg, s, OLITERAL)
-	n = convlit(n, t)
 
 	if asNode(s.Def) != nil { // TODO: check if already the same.
 		return
