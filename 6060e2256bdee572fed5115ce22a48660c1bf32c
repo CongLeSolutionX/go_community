@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93bc8aa7_f2619a97",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-20T12:21:13Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right place to check. The parser is for parsing syntax, not to tell what register it is. And the magic numbers look bad.",
+      "revId": "6060e2256bdee572fed5115ce22a48660c1bf32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9878b8d_302a0b89",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1351,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-20T12:21:13Z",
+      "side": 1,
+      "message": "This is not special case. Instead this is a common case: all ADD, SUB, AND, ORR, etc do this.",
+      "range": {
+        "startLine": 1351,
+        "startChar": 26,
+        "endLine": 1351,
+        "endChar": 39
+      },
+      "revId": "6060e2256bdee572fed5115ce22a48660c1bf32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3431992f_0cb49207",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1356,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-20T12:21:13Z",
+      "side": 1,
+      "message": "Use named constants like REG_R0.",
+      "range": {
+        "startLine": 1356,
+        "startChar": 18,
+        "endLine": 1356,
+        "endChar": 23
+      },
+      "revId": "6060e2256bdee572fed5115ce22a48660c1bf32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
