@@ -522,6 +522,9 @@ func (p *Parser) registerShift(name string, prefix rune) int64 {
 	if !ok {
 		return 0
 	}
+	if p.arch.Family == sys.ARM && (r1 < 0xc00 || 0xc0f < r1) {
+		p.errorf("unexpected register: %s", name)
+	}
 	var op int16
 	switch p.next().ScanToken {
 	case lex.LSH:
