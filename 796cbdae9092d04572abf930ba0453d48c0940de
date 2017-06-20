@@ -46,6 +46,30 @@
       "revId": "796cbdae9092d04572abf930ba0453d48c0940de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ccf6f4_e7a7a5e2",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1143,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-20T04:13:29Z",
+      "side": 1,
+      "message": "Simple past is fine for things in the past.",
+      "parentUuid": "afe670cc_8767f8c4",
+      "range": {
+        "startLine": 1143,
+        "startChar": 19,
+        "endLine": 1143,
+        "endChar": 27
+      },
+      "revId": "796cbdae9092d04572abf930ba0453d48c0940de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
