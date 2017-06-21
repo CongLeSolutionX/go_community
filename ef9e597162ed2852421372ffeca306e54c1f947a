@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2e746b2c_25185641",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-21T21:00:02Z",
+      "side": 1,
+      "message": "There is a theoretical risk of starvation if signals are coming in very rapidly, but that is always true for a Unix program.  If you can send a process a signal each time it enters the signal handlers, it will do nothing except run the signal handler.  So I don\u0027t think this introduces a new problem, it just makes a theoretical problem slightly easier to trigger.",
+      "parentUuid": "95fa72b1_108f9fd2",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5cfb101_89fa6930",
         "filename": "src/os/signal/signal_test.go",
         "patchSetId": 1
@@ -159,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "1daf3819_d79c3790",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-21T21:00:02Z",
+      "side": 1,
+      "message": "I corrected the comment.\n\nI think that mask and recv are separate fields so that signal_recv has a clear point at which to sleep to receive more data: after it has sent all the signals in recv.  But I didn\u0027t write this code.",
+      "parentUuid": "3a76c1bd_2cec9c31",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "818ecc91_e3e92e15",
         "filename": "src/runtime/sigqueue.go",
         "patchSetId": 1
@@ -240,6 +282,30 @@
       "writtenOn": "2017-06-21T20:24:36Z",
       "side": 1,
       "message": "It looks like \"wanted\" and \"ignored\" are more-or-less complements of each other.\nIs there a risk of races from the skew between these atomic updates?\n\nsig.wanted is read in sigsend, and sig.ignored is read in signal_ignored (which is called after sigsend returns).\n\nI think that implies a (rare) race if signal_ignore executes simultaneously with sighandler for a signal for which _SigKill or _SigThrow is set.\n\n1) signal_ignore clears sig.wanted\n2) sighandler returns false from sigsend\n3) sighandler calls signal_ignored and returns false\n4) sighandler begins killing or throwing\n5) signal_ignore sets sig.ignored\n\nI can see two alternatives.\n\nA) We could combine \"wanted\" and \"ignored\" into a single interleaved array (so that updates to \"wanted\" and \"ignored\" for the same signal occur in a single atomic op). That somewhat complicates the code, but I don\u0027t see anything that makes it downright infeasible.\n\nB) We could set \"wanted\" instead of \"ignored\" for ignored signals. That would produce spurious wakeups in signal_recv, but as far as I can tell they turn into no-ops anyway. But perhaps I\u0027m missing a more subtle interaction between _SigNotify and signal_ignore.",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 36
+      },
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f41718b_b47d353f",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-21T21:00:02Z",
+      "side": 1,
+      "message": "The wanted and ignored fields aren\u0027t complements of each other.  The wanted field means that somebody called os/signal.Notify for the signal, meaning that the signal should be sent to one or more channels.  The ignored field means that somebody called os/signal.Ignore, meaning that the signal should be ignored entirely--even the default behavior should not take place.  If wanted is set for a signal, then ignored should be zero for that signal, and if ignored is set, then wanted should be zero.  But both wanted and ignored can be zero for the same signal, and in fact that is the normal case at program startup.\n\nI don\u0027t think your race is a real problem, because signal_ignore first calls sigignore, which sets the signal handler for the signal to SIG_IGN.  So the only way the race can occur is if we are already processing the signal at the time that the program calls os/signal.Ignore.  In other words, while the race you describe can occur, there is already a race anyhow.\n\nThat said, I think you\u0027re right that we could remove the ignored array, and just use wanted.  Want to file an issue?",
+      "parentUuid": "65fec4a0_2a4082fd",
       "range": {
         "startLine": 209,
         "startChar": 0,
