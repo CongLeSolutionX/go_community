@@ -100,7 +100,7 @@ type memRecord struct {
 	// into the active profile.
 
 	// active is the currently published profile. A profiling
-	// cycle can be accumulated into active once its complete.
+	// cycle can be accumulated into active once it's complete.
 	active memRecordCycle
 
 	// future records the profile events we're counting for cycles
@@ -116,10 +116,21 @@ type memRecord struct {
 	future [3]memRecordCycle
 }
 
+const nFuture = uint32(len(memRecord{}.future))
+
 // memRecordCycle
 type memRecordCycle struct {
 	allocs, frees           uintptr
 	alloc_bytes, free_bytes uintptr
+
+	// dead and dead_bytes record the objects and bytes that were
+	// freed by the last full GC cycle.  This is a "garbage
+	// profile". Combined with the allocations that survived the
+	// last GC cycle, these explain the peak memory usage of the
+	// last cycle. Unlike other fields in this struct, this is not
+	// cumulative.
+	dead       uintptr
+	dead_bytes uintptr
 }
 
 // add accumulates b into a. It does not zero b.
@@ -128,6 +139,11 @@ func (a *memRecordCycle) add(b *memRecordCycle) {
 	a.frees += b.frees
 	a.alloc_bytes += b.alloc_bytes
 	a.free_bytes += b.free_bytes
+}
+
+// setDead sets the freed allocation stats to dead allocation stats.
+func (a *memRecordCycle) setDead(dead, dead_bytes uintptr) {
+	a.dead, a.dead_bytes = dead, dead_bytes
 }
 
 // A blockRecord is the bucket data for a bucket of type blockProfile,
@@ -150,13 +166,13 @@ var (
 		// cycle is the global heap profile cycle. This wraps
 		// at mProfCycleWrap.
 		cycle uint32
-		// flushed indicates that future[cycle] in all buckets
+		// flushed indicates that future[cycle%nFuture] in all buckets
 		// has been flushed to the active profile.
-		flushed bool
+		flushed [nFuture]bool
 	}
 )
 
-const mProfCycleWrap = uint32(len(memRecord{}.future)) * (2 << 24)
+const mProfCycleWrap = nFuture * (2 << 24)
 
 // newBucket allocates a bucket with the given type and number of stack entries.
 func newBucket(typ bucketType, nstk int) *bucket {
@@ -282,7 +298,7 @@ func mProf_NextCycle() {
 	// uint wraparound because the memRecord.future ring does not
 	// itself wrap at a power of two.
 	mProf.cycle = (mProf.cycle + 1) % mProfCycleWrap
-	mProf.flushed = false
+	mProf.flushed[mProf.cycle%nFuture] = false
 	unlock(&proflock)
 }
 
@@ -295,43 +311,47 @@ func mProf_NextCycle() {
 // to do concurrently.
 func mProf_Flush() {
 	lock(&proflock)
-	if !mProf.flushed {
-		mProf_FlushLocked()
-		mProf.flushed = true
+	c := mProf.cycle % nFuture
+	if !mProf.flushed[c] {
+		mProf_FlushLocked(c)
+		mProf.flushed[c] = true
 	}
 	unlock(&proflock)
 }
 
-func mProf_FlushLocked() {
-	c := mProf.cycle
+func mProf_FlushLocked(c uint32) {
+	flushed := mProf.flushed[c]
 	for b := mbuckets; b != nil; b = b.allnext {
 		mp := b.mp()
 
-		// Flush cycle C into the published profile and clear
-		// it for reuse.
-		mpc := &mp.future[c%uint32(len(mp.future))]
+		// Flush cycle c into the published profile (active)
+		// and clear it for reuse.
+		mpc := &mp.future[c]
 		mp.active.add(mpc)
+		if !flushed {
+			// Update the dead alloc stats only for
+			// the first time to flush this cycle.
+			mp.active.setDead(mpc.frees, mpc.free_bytes)
+		}
 		*mpc = memRecordCycle{}
 	}
 }
 
-// mProf_PostSweep records that all sweep frees for this GC cycle have
-// completed. This has the effect of publishing the heap profile
+// mProf_PostSweep records that all sweep frees for this runtime.GC triggered
+// GC cycle have completed. This has the effect of publishing the heap profile
 // snapshot as of the last mark termination without advancing the heap
 // profile cycle.
 func mProf_PostSweep() {
 	lock(&proflock)
-	// Flush cycle C+1 to the active profile so everything as of
+	// Flush cycle C and C+1 to the active profile so everything as of
 	// the last mark termination becomes visible. *Don't* advance
 	// the cycle, since we're still accumulating allocs in cycle
 	// C+2, which have to become C+1 in the next mark termination
 	// and so on.
-	c := mProf.cycle
-	for b := mbuckets; b != nil; b = b.allnext {
-		mp := b.mp()
-		mpc := &mp.future[(c+1)%uint32(len(mp.future))]
-		mp.active.add(mpc)
-		*mpc = memRecordCycle{}
+	for i := uint32(0); i <= 1; i++ { // cycle C and C+1
+		c := (mProf.cycle + i) % nFuture
+		mProf_FlushLocked(c)
+		mProf.flushed[c] = true
 	}
 	unlock(&proflock)
 }
@@ -344,7 +364,7 @@ func mProf_Malloc(p unsafe.Pointer, size uintptr) {
 	b := stkbucket(memProfile, size, stk[:nstk], true)
 	c := mProf.cycle
 	mp := b.mp()
-	mpc := &mp.future[(c+2)%uint32(len(mp.future))]
+	mpc := &mp.future[(c+2)%nFuture]
 	mpc.allocs++
 	mpc.alloc_bytes += size
 	unlock(&proflock)
@@ -363,7 +383,7 @@ func mProf_Free(b *bucket, size uintptr) {
 	lock(&proflock)
 	c := mProf.cycle
 	mp := b.mp()
-	mpc := &mp.future[(c+1)%uint32(len(mp.future))]
+	mpc := &mp.future[(c+1)%nFuture]
 	mpc.frees++
 	mpc.free_bytes += size
 	unlock(&proflock)
@@ -497,6 +517,7 @@ var MemProfileRate int = 512 * 1024
 type MemProfileRecord struct {
 	AllocBytes, FreeBytes     int64       // number of bytes allocated, freed
 	AllocObjects, FreeObjects int64       // number of objects allocated, freed
+	DeadBytes, DeadObjects    int64       // number of dead bytes/objects collected by previous cycle
 	Stack0                    [32]uintptr // stack trace for this record; ends at first 0 entry
 }
 
@@ -545,7 +566,7 @@ func MemProfile(p []MemProfileRecord, inuseZero bool) (n int, ok bool) {
 	// If we're between mProf_NextCycle and mProf_Flush, take care
 	// of flushing to the active profile so we only have to look
 	// at the active profile below.
-	mProf_FlushLocked()
+	mProf_FlushLocked(mProf.cycle % nFuture)
 	clear := true
 	for b := mbuckets; b != nil; b = b.allnext {
 		mp := b.mp()
@@ -565,7 +586,8 @@ func MemProfile(p []MemProfileRecord, inuseZero bool) (n int, ok bool) {
 		for b := mbuckets; b != nil; b = b.allnext {
 			mp := b.mp()
 			for c := range mp.future {
-				mp.active.add(&mp.future[c])
+				f := &mp.future[c]
+				mp.active.add(f)
 				mp.future[c] = memRecordCycle{}
 			}
 			if inuseZero || mp.active.alloc_bytes != mp.active.free_bytes {
@@ -593,8 +615,11 @@ func record(r *MemProfileRecord, b *bucket) {
 	mp := b.mp()
 	r.AllocBytes = int64(mp.active.alloc_bytes)
 	r.FreeBytes = int64(mp.active.free_bytes)
+	r.DeadBytes = int64(mp.active.dead_bytes)
 	r.AllocObjects = int64(mp.active.allocs)
 	r.FreeObjects = int64(mp.active.frees)
+	r.DeadObjects = int64(mp.active.dead)
+
 	if raceenabled {
 		racewriterangepc(unsafe.Pointer(&r.Stack0[0]), unsafe.Sizeof(r.Stack0), getcallerpc(unsafe.Pointer(&r)), funcPC(MemProfile))
 	}

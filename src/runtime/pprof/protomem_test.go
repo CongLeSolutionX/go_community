@@ -50,6 +50,7 @@ func TestConvertMemProfile(t *testing.T) {
 				{ID: 1, Mapping: map1, Address: addr1},
 				{ID: 2, Mapping: map2, Address: addr2},
 			},
+			Label:    map[string][]string{"gc": {"live"}},
 			NumLabel: map[string][]int64{"bytes": {1024}},
 		},
 		{
@@ -58,6 +59,7 @@ func TestConvertMemProfile(t *testing.T) {
 				{ID: 3, Mapping: map2, Address: addr2 + 1},
 				{ID: 4, Mapping: map2, Address: addr2 + 2},
 			},
+			Label:    map[string][]string{"gc": {"live"}},
 			NumLabel: map[string][]int64{"bytes": {829411}},
 		},
 		{
@@ -67,6 +69,7 @@ func TestConvertMemProfile(t *testing.T) {
 				{ID: 6, Mapping: map1, Address: addr1 + 2},
 				{ID: 7, Mapping: map2, Address: addr2 + 3},
 			},
+			Label:    map[string][]string{"gc": {"live"}},
 			NumLabel: map[string][]int64{"bytes": {829411}},
 		},
 	}
