@@ -205,6 +205,10 @@ func main() {
 	}
 
 	exit(0)
+	// In case exit fails to stop the program, try to stop it by causing a
+	// panic. If that doesn't work, stall the program.
+	// This is here to help catch problems with new ports, where exit may not
+	// be properly implemented.
 	for {
 		var x *int32
 		*x = 0
