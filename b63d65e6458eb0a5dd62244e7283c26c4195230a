@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "175f3fbf_2ff9d244",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2017-06-21T10:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01fcc3af_f23d4779",
+      "revId": "b63d65e6458eb0a5dd62244e7283c26c4195230a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "765e7358_889edc00",
         "filename": "src/syscall/exec_linux_test.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f70199cf_ef732504",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2017-06-21T10:30:54Z",
+      "side": 1,
+      "message": "Good point, I misremembered. I thought one would need to explicitly modify the effective capability set, but that is not the case, as https://lwn.net/Articles/636533/ confirms: child processes get their effective capability mask set from the ambient capability mask.\n\nDone.",
+      "parentUuid": "765e7358_889edc00",
+      "revId": "b63d65e6458eb0a5dd62244e7283c26c4195230a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27352e2c_6bf350f6",
         "filename": "src/syscall/exec_linux_test.go",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "b63d65e6458eb0a5dd62244e7283c26c4195230a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9e1496c_bfbdefbf",
+        "filename": "src/syscall/exec_linux_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2017-06-21T10:30:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27352e2c_6bf350f6",
+      "revId": "b63d65e6458eb0a5dd62244e7283c26c4195230a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
