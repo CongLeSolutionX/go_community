@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "142ecc34_10a3f501",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-21T20:21:30Z",
+      "side": 1,
+      "message": "Code in, e.g., cancel will loop through the map and make decisions based on h.want.  That code could of course run during signalWaitUntilIdle.  If we leave the channel in handlers.m without changing h.want, then cancel will do the wrong thing.  If we leave the channel in handlers.m and clear h.want, then the code in process won\u0027t know which channels should receive the signal.\n\nAdded a comment on the stopping field in handlers.",
+      "parentUuid": "ab0ee3c7_6c21e72a",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5cfb101_89fa6930",
         "filename": "src/os/signal/signal_test.go",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "2c6b1930_7429f339",
+        "filename": "src/os/signal/signal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-21T20:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5cfb101_89fa6930",
+      "range": {
+        "startLine": 320,
+        "startChar": 35,
+        "endLine": 320,
+        "endChar": 38
+      },
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0e1ec24_10a1588c",
         "filename": "src/os/signal/signal_test.go",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e78c91cd_d3148d60",
+        "filename": "src/os/signal/signal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-21T20:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e1ec24_10a1588c",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "4cfee79c_de4569ac",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-21T20:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "818ecc91_e3e92e15",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6f80bdc_f2d6d81f",
         "filename": "src/runtime/sigqueue.go",
         "patchSetId": 1
@@ -90,6 +168,24 @@
       "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb8a5004_811b1cf5",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-21T20:21:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6f80bdc_f2d6d81f",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
