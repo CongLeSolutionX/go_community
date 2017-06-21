@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "ac1ce561_dc9226be",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-06-21T22:49:57Z",
+      "side": 1,
+      "message": "The particular detail that I\u0027m worried about is that a single thread receiving a thread-specific signal can now starve the program globally, whereas before it could only starve itself.\n\nA signal-starved Go thread would starve the whole program anyway (because it would prevent the GC from entering a safe point), but the potential for a self-signaling C thread to now starve the Go runtime makes things a bit more interesting.\n\nI suppose that\u0027s unusual enough that we needn\u0027t worry about it for now, though.",
+      "parentUuid": "2e746b2c_25185641",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5cfb101_89fa6930",
         "filename": "src/os/signal/signal_test.go",
         "patchSetId": 1
@@ -201,6 +219,30 @@
     },
     {
       "key": {
+        "uuid": "a6ae3add_b8201ebe",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-06-21T22:49:57Z",
+      "side": 1,
+      "message": "\u003e I think that mask and recv are separate fields so that signal_recv has a clear point at which to sleep to receive more data: after it has sent all the signals in recv.  But I didn\u0027t write this code.\n\nAh, it looks like separating the masks has the effect of preventing one signal from starving the others. If we used the same mask for both, we\u0027d have to choose which of the set bits to report next, and the obvious approach (\"send the lowest set bit and clear it\") would fail to deliver higher signals if lower signals arrive at a fast enough rate.\n\n(That might be a subtle enough point to merit a mention in either this comment or the earlier file-level comment.)",
+      "parentUuid": "1daf3819_d79c3790",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "818ecc91_e3e92e15",
         "filename": "src/runtime/sigqueue.go",
         "patchSetId": 1
@@ -315,6 +357,30 @@
       "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03978d71_00c6c76b",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-06-21T22:49:57Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think your race is a real problem, because signal_ignore first calls sigignore, which sets the signal handler for the signal to SIG_IGN.  So the only way the race can occur is if we are already processing the signal at the time that the program calls os/signal.Ignore.  In other words, while the race you describe can occur, there is already a race anyhow.\n\nIt\u0027s true that there is already a race, and if the program hasn\u0027t previously called signal.Notify for the signal, the behavior is equivalent to the signal arriving slightly earlier (before the execution of the Ignore call). That\u0027s fairly benign.\n\nHowever, if the program previously called signal.Notify for the signal in question, the inherent race is between \"send the signal on the channel\" and \"do not send the signal on the channel\". The skew here introduces a third behavior (\"terminate the process due to unhandled signal\") that does not correspond to either the pre-Ignore or post-Ignore state.\n\nThat seems like it should be an easy race to reproduce, but the \"obvious\" reproducer turns out to trigger a different race and crash with a SIGSEGV (https://golang.org/issue/20748).\n\nSince the failure mode is already pretty bad, I don\u0027t think it needs to block this CL.\n\n\n\u003e That said, I think you\u0027re right that we could remove the ignored array, and just use wanted.  Want to file an issue?\n\nLet\u0027s start with https://golang.org/issue/20748 and see where we go from there.",
+      "parentUuid": "6f41718b_b47d353f",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 36
+      },
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
