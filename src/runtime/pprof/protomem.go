@@ -50,6 +50,7 @@ func writeHeapProto(w io.Writer, p []runtime.MemProfileRecord, rate int64) error
 			hideRuntime = false // try again, and show all frames
 		}
 
+		// Add live sample.
 		values[0], values[1] = scaleHeapSample(r.AllocObjects, r.AllocBytes, rate)
 		values[2], values[3] = scaleHeapSample(r.InUseObjects(), r.InUseBytes(), rate)
 		var blockSize int64
@@ -60,7 +61,20 @@ func writeHeapProto(w io.Writer, p []runtime.MemProfileRecord, rate int64) error
 			if blockSize != 0 {
 				b.pbLabel(tagSample_Label, "bytes", "", blockSize)
 			}
+			b.pbLabel(tagSample_Label, "gc", "live", 0)
 		})
+
+		// Add dead sample if DeadObjects != 0
+		if r.DeadObjects > 0 {
+			values[0], values[1] = 0, 0
+			values[2], values[3] = scaleHeapSample(r.DeadObjects, r.DeadBytes, rate)
+			b.pbSample(values, locs, func() {
+				if blockSize != 0 {
+					b.pbLabel(tagSample_Label, "bytes", "", blockSize)
+				}
+				b.pbLabel(tagSample_Label, "gc", "dead", 0)
+			})
+		}
 	}
 	b.build()
 	return nil
