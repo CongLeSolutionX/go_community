@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "95fa72b1_108f9fd2",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-06-21T20:24:36Z",
+      "side": 1,
+      "message": "Is there a risk of starvation here? (What happens if the signal.loop goroutine can\u0027t keep up with the rate of arriving signals?)\n\nAs far as I can tell, we\u0027re guaranteed to eventually hit sigIdle and sigSending, but not necessarily sigReceiving (which is whal signalWaitUntilIdle blocks on).",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a5cfb101_89fa6930",
         "filename": "src/os/signal/signal_test.go",
         "patchSetId": 1
@@ -119,6 +136,29 @@
     },
     {
       "key": {
+        "uuid": "3a76c1bd_2cec9c31",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-06-21T20:24:36Z",
+      "side": 1,
+      "message": "It appears that \"recv\" is not accessed atomically (because it is synchronized externally).\n\nI have some lingering confusion around \"mask\" and \"recv\". Why are they separate arrays at all, given that the mask is updated atomically? (Is it so that we can avoid atomic ops in the fast path of signal_recv, to avoid cas-loop-induced starvation somewhere, or some other reason?)",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "818ecc91_e3e92e15",
         "filename": "src/runtime/sigqueue.go",
         "patchSetId": 1
@@ -186,6 +226,29 @@
       "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65fec4a0_2a4082fd",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-06-21T20:24:36Z",
+      "side": 1,
+      "message": "It looks like \"wanted\" and \"ignored\" are more-or-less complements of each other.\nIs there a risk of races from the skew between these atomic updates?\n\nsig.wanted is read in sigsend, and sig.ignored is read in signal_ignored (which is called after sigsend returns).\n\nI think that implies a (rare) race if signal_ignore executes simultaneously with sighandler for a signal for which _SigKill or _SigThrow is set.\n\n1) signal_ignore clears sig.wanted\n2) sighandler returns false from sigsend\n3) sighandler calls signal_ignored and returns false\n4) sighandler begins killing or throwing\n5) signal_ignore sets sig.ignored\n\nI can see two alternatives.\n\nA) We could combine \"wanted\" and \"ignored\" into a single interleaved array (so that updates to \"wanted\" and \"ignored\" for the same signal occur in a single atomic op). That somewhat complicates the code, but I don\u0027t see anything that makes it downright infeasible.\n\nB) We could set \"wanted\" instead of \"ignored\" for ignored signals. That would produce spurious wakeups in signal_recv, but as far as I can tell they turn into no-ops anyway. But perhaps I\u0027m missing a more subtle interaction between _SigNotify and signal_ignore.",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 36
+      },
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
