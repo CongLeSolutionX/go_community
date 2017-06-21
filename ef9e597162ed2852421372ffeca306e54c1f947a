@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab0ee3c7_6c21e72a",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-21T18:56:04Z",
+      "side": 1,
+      "message": "Why is this separate (not a) map necessary? If I understand correctly, the necessary sequence is:\n\n1. disableSignal, which sets the action in the kernel\n2. Wait for signal quiescence.\n3. Remove the signal channel.\n\nCan you just leave the handler in handlers.m while waiting for quiescence, and then remove it from handlers.m?",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5cfb101_89fa6930",
+        "filename": "src/os/signal/signal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-21T18:56:04Z",
+      "side": 1,
+      "message": "No \\n",
+      "range": {
+        "startLine": 320,
+        "startChar": 35,
+        "endLine": 320,
+        "endChar": 38
+      },
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0e1ec24_10a1588c",
+        "filename": "src/os/signal/signal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-21T18:56:04Z",
+      "side": 1,
+      "message": "Comment what the sleep is doing.",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "818ecc91_e3e92e15",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-21T18:56:04Z",
+      "side": 1,
+      "message": "Could you elaborate on what\u0027s reading/writing these fields that needs the atomic synchronization? What\u0027s ensuring there are no write races on wanted and ignored? The comment is written from the perspective of \"what\u0027s not strictly necessary\", which I think turns the argument on its head.",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6f80bdc_f2d6d81f",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-21T18:56:04Z",
+      "side": 1,
+      "message": "These loads don\u0027t have to be atomic, right?",
+      "revId": "ef9e597162ed2852421372ffeca306e54c1f947a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
