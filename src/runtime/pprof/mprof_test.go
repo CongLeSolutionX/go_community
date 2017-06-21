@@ -10,6 +10,7 @@ import (
 	"reflect"
 	"regexp"
 	"runtime"
+	"runtime/pprof/internal/profile"
 	"testing"
 	"unsafe"
 )
@@ -53,7 +54,7 @@ func allocateReflect() {
 	rv.Call(nil)
 }
 
-var memoryProfilerRun = 0
+var memoryProfilerRun = int64(0)
 
 func TestMemoryProfiler(t *testing.T) {
 	// Disable sampling, otherwise it's difficult to assert anything.
@@ -76,31 +77,37 @@ func TestMemoryProfiler(t *testing.T) {
 	memSink = nil
 
 	runtime.GC() // materialize stats
+
+	memoryProfilerRun++
+
+	testLegacyFormatMemoryProfile(t)
+	testProtoFormatMemoryProfile(t)
+}
+
+func testLegacyFormatMemoryProfile(t *testing.T) {
 	var buf bytes.Buffer
 	if err := Lookup("heap").WriteTo(&buf, 1); err != nil {
 		t.Fatalf("failed to write heap profile: %v", err)
 	}
 
-	memoryProfilerRun++
-
 	tests := []string{
 		fmt.Sprintf(`%v: %v \[%v: %v\] @ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+
-#	0x[0-9,a-f]+	runtime/pprof\.allocatePersistent1K\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test\.go:40
-#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test\.go:74
+#	0x[0-9,a-f]+	runtime/pprof\.allocatePersistent1K\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test\.go:41
+#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test\.go:75
 `, 32*memoryProfilerRun, 1024*memoryProfilerRun, 32*memoryProfilerRun, 1024*memoryProfilerRun),
 
 		fmt.Sprintf(`0: 0 \[%v: %v\] @ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+
-#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient1M\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:21
-#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:72
+#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient1M\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:22
+#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:73
 `, (1<<10)*memoryProfilerRun, (1<<20)*memoryProfilerRun),
 
 		fmt.Sprintf(`0: 0 \[%v: %v\] @ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+ 0x[0-9,a-f]+
-#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient2M\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:27
-#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:73
+#	0x[0-9,a-f]+	runtime/pprof\.allocateTransient2M\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:28
+#	0x[0-9,a-f]+	runtime/pprof\.TestMemoryProfiler\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:74
 `, memoryProfilerRun, (2<<20)*memoryProfilerRun),
 
 		fmt.Sprintf(`0: 0 \[%v: %v\] @( 0x[0-9,a-f]+)+
-#	0x[0-9,a-f]+	runtime/pprof\.allocateReflectTransient\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:48
+#	0x[0-9,a-f]+	runtime/pprof\.allocateReflectTransient\+0x[0-9,a-f]+	.*/runtime/pprof/mprof_test.go:49
 `, memoryProfilerRun, (2<<20)*memoryProfilerRun),
 	}
 
@@ -109,4 +116,73 @@ func TestMemoryProfiler(t *testing.T) {
 			t.Fatalf("The entry did not match:\n%v\n\nProfile:\n%v\n", test, buf.String())
 		}
 	}
+}
+
+func testProtoFormatMemoryProfile(t *testing.T) {
+	var buf bytes.Buffer
+	if err := Lookup("heap").WriteTo(&buf, 0); err != nil {
+		t.Fatalf("failed to write heap profile: %v", err)
+	}
+
+	p, err := profile.Parse(&buf)
+	if err != nil {
+		t.Fatalf("failed to parse heap profile: %v", err)
+	}
+
+	// Want samples labeled with "gc:live"
+	live := p.Copy()
+	if found, _ := live.FilterSamplesByTag(func(key, val string, _ int64) bool { return key == "gc" && val == "live" }, nil); !found {
+		t.Fatalf("Failed to find gc:live samples: %v", p)
+	}
+	// Check expected samples for "gc:live"
+	liveTests := []struct {
+		fname []string
+		vals  []int64
+	}{
+		{
+			fname: []string{`runtime/pprof.allocatePersistent1K`, `runtime/pprof.TestMemoryProfiler`},
+			vals:  []int64{32 * memoryProfilerRun, 1024 * memoryProfilerRun, 32 * memoryProfilerRun, 1024 * memoryProfilerRun},
+		},
+		{
+			fname: []string{`runtime/pprof.allocateTransient1M`, `runtime/pprof.TestMemoryProfiler`},
+			vals:  []int64{(1 << 10) * memoryProfilerRun, (1 << 20) * memoryProfilerRun, 0, 0},
+		},
+		{
+			fname: []string{`runtime/pprof.allocateTransient2M`, `runtime/pprof.TestMemoryProfiler`},
+			vals:  []int64{memoryProfilerRun, (2 << 20) * memoryProfilerRun, 0, 0},
+		},
+		{
+			fname: []string{`runtime/pprof.allocateReflectTransient`},
+			vals:  []int64{memoryProfilerRun, (2 << 20) * memoryProfilerRun, 0, 0},
+		},
+	}
+	for _, tc := range liveTests {
+		matched := false
+		for _, s := range live.Sample {
+			matched = matched || matchingSample(s, tc.fname, tc.vals)
+		}
+		if !matched {
+			t.Fatalf("The entry did not match:\n%v\n\nProfile:\n%+v\n", tc, p)
+		}
+	}
+
+	// Want samples labeled with "gc:dead"
+	dead := p.Copy()
+	if found, _ := dead.FilterSamplesByTag(func(key, val string, _ int64) bool { return key == "gc" && val == "dead" }, nil); !found {
+		t.Errorf("Failed to find gc:dead samples: %v", p)
+	}
+
+}
+
+func matchingSample(s *profile.Sample, want []string, wantVal []int64) bool {
+	var got []string
+	for _, loc := range s.Location {
+		for _, line := range loc.Line {
+			got = append(got, line.Function.Name)
+		}
+	}
+	if len(got) < len(want) {
+		return false
+	}
+	return reflect.DeepEqual(got[:len(want)], want) && reflect.DeepEqual(s.Value, wantVal)
 }
