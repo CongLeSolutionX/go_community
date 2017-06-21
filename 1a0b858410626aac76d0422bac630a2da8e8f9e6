@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bbbbd9d_6280a79c",
+        "filename": "src/html/template/content_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-06-21T20:09:16Z",
+      "side": 1,
+      "message": "More tests please:\n\n    \u003cimg srcset\u003d\"{{.}} 2x, https://golang.org/ 500.5w\"\u003e\n    \u003cimg srcset\u003d\"http://godoc.org/ {{.}}, https://golang.org/ 500.5w\"\u003e\n    \u003cimg srcset\u003d\"http://godoc.org/?q\u003d{{.}} 2x, https://golang.org/ 500.5w\"\u003e\n    \u003cimg srcset\u003d\"http://godoc.org/ 2x, {{.}} 500.5w\"\u003e\n    \u003cimg srcset\u003d\"http://godoc.org/ 2x, https://golang.org/ {{.}}\"\u003e\n\nThanks.",
+      "revId": "1a0b858410626aac76d0422bac630a2da8e8f9e6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
