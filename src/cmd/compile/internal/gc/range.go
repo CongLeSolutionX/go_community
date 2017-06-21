@@ -211,9 +211,9 @@ func walkrange(n *Node) *Node {
 		} else if v2 == nil {
 			body = []*Node{nod(OAS, v1, hv1)}
 		} else { // for i,a := range thing { body }
-			ifGuard = nod(OIF, nil, nil)
-			ifGuard.Left = nod(OLT, hv1, hn)
-			translatedLoopOp = OFORUNTIL
+			//ifGuard = nod(OIF, nil, nil)
+			//ifGuard.Left = nod(OLT, hv1, hn)
+			//translatedLoopOp = OFORUNTIL
 
 			a := nod(OAS2, nil, nil)
 			a.List.Set2(v1, v2)
