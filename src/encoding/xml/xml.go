@@ -1067,15 +1067,22 @@ Input:
 			return nil
 		}
 
+		// Handle end of line https://www.w3.org/TR/REC-xml/#sec-line-ends
 		// We must rewrite unescaped \r and \r\n into \n.
 		if b == '\r' {
-			d.buf.WriteByte('\n')
+			// Normalization white space character with #x20 https://www.w3.org/TR/REC-xml/#AVNormalize
+			d.buf.WriteByte(' ')
 		} else if b1 == '\r' && b == '\n' {
-			// Skip \r\n--we already wrote \n.
+			// Skip \r\n--we already wrote \n (replaced with #x20).
 		} else {
-			d.buf.WriteByte(b)
+			if isWhiteSpaceCharacter(b) {
+				// Replace with #x20 when it is white space character
+				d.buf.WriteByte(' ')
+			} else {
+				// Append character other than white space character
+				d.buf.WriteByte(b)
+			}
 		}
-
 		b0, b1 = b1, b
 	}
 	data := d.buf.Bytes()
@@ -1097,6 +1104,14 @@ Input:
 	}
 
 	return data
+}
+
+// Decide whether the give byte is a white space character
+func isWhiteSpaceCharacter(c byte) bool {
+	return c == '\t' ||
+		c == '\n' ||
+		c == '\r' ||
+		c == ' '
 }
 
 // Decide whether the given rune is in the XML Character Range, per
