@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd4e7c5f_984ea766",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3231,
+      "author": {
+        "id": 21610
+      },
+      "writtenOn": "2017-06-22T07:37:16Z",
+      "side": 1,
+      "message": "nit: We don\u0027t know the m is good, just that the code hasn\u0027t previously tried to change it *in a good way*.\n\nsyscall.Setuid(1) // whoops\nruntime.LockOSThread()\n\nBut that should mostly matter for user error, so meh.",
+      "range": {
+        "startLine": 3231,
+        "startChar": 5,
+        "endLine": 3231,
+        "endChar": 38
+      },
+      "revId": "c9cbd0d6a0b8044599ec0827368d581f98104c1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7f736d5_4f9c35ec",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 21610
+      },
+      "writtenOn": "2017-06-22T07:37:16Z",
+      "side": 1,
+      "message": "consistency nit: m\u0027s",
+      "range": {
+        "startLine": 538,
+        "startChar": 43,
+        "endLine": 538,
+        "endChar": 45
+      },
+      "revId": "c9cbd0d6a0b8044599ec0827368d581f98104c1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
