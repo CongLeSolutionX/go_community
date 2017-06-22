@@ -131,7 +131,7 @@ var atomFeed = Feed{
 	},
 	Entry: []Entry{
 		{
-			Title: "rietveld: an attempt at pubsubhubbub\n",
+			Title: "rietveld: an attempt at pubsubhubbub ",
 			Link: []Link{
 				{Rel: "alternate", Href: "http://codereview.appspot.com/126085"},
 			},
@@ -143,42 +143,11 @@ var atomFeed = Feed{
 			Id: "urn:md5:134d9179c41f806be79b3a5f7877d19a",
 			Summary: Text{
 				Type: "html",
-				Body: `
-  An attempt at adding pubsubhubbub support to Rietveld.
-http://code.google.com/p/pubsubhubbub
-http://code.google.com/p/rietveld/issues/detail?id=155
-
-The server side of the protocol is trivial:
-  1. add a &lt;link rel=&quot;hub&quot; href=&quot;hub-server&quot;&gt; tag to all
-     feeds that will be pubsubhubbubbed.
-  2. every time one of those feeds changes, tell the hub
-     with a simple POST request.
-
-I have tested this by adding debug prints to a local hub
-server and checking that the server got the right publish
-requests.
-
-I can&#39;t quite get the server to work, but I think the bug
-is not in my code.  I think that the server expects to be
-able to grab the feed and see the feed&#39;s actual URL in
-the link rel=&quot;self&quot;, but the default value for that drops
-the :port from the URL, and I cannot for the life of me
-figure out how to get the Atom generator deep inside
-django not to do that, or even where it is doing that,
-or even what code is running to generate the Atom feed.
-(I thought I knew but I added some assert False statements
-and it kept running!)
-
-Ignoring that particular problem, I would appreciate
-feedback on the right way to get the two values at
-the top of feeds.py marked NOTE(rsc).
-
-
-`,
+				Body: `   An attempt at adding pubsubhubbub support to Rietveld. http://code.google.com/p/pubsubhubbub http://code.google.com/p/rietveld/issues/detail?id=155  The server side of the protocol is trivial:   1. add a &lt;link rel=&quot;hub&quot; href=&quot;hub-server&quot;&gt; tag to all      feeds that will be pubsubhubbubbed.   2. every time one of those feeds changes, tell the hub      with a simple POST request.  I have tested this by adding debug prints to a local hub server and checking that the server got the right publish requests.  I can&#39;t quite get the server to work, but I think the bug is not in my code.  I think that the server expects to be able to grab the feed and see the feed&#39;s actual URL in the link rel=&quot;self&quot;, but the default value for that drops the :port from the URL, and I cannot for the life of me figure out how to get the Atom generator deep inside django not to do that, or even where it is doing that, or even what code is running to generate the Atom feed. (I thought I knew but I added some assert False statements and it kept running!)  Ignoring that particular problem, I would appreciate feedback on the right way to get the two values at the top of feeds.py marked NOTE(rsc).   `,
 			},
 		},
 		{
-			Title: "rietveld: correct tab handling\n",
+			Title: "rietveld: correct tab handling ",
 			Link: []Link{
 				{Rel: "alternate", Href: "http://codereview.appspot.com/124106"},
 			},
@@ -190,25 +159,7 @@ the top of feeds.py marked NOTE(rsc).
 			Id: "urn:md5:0a2a4f19bb815101f0ba2904aed7c35a",
 			Summary: Text{
 				Type: "html",
-				Body: `
-  This fixes the buggy tab rendering that can be seen at
-http://codereview.appspot.com/116075/diff/1/2
-
-The fundamental problem was that the tab code was
-not being told what column the text began in, so it
-didn&#39;t know where to put the tab stops.  Another problem
-was that some of the code assumed that string byte
-offsets were the same as column offsets, which is only
-true if there are no tabs.
-
-In the process of fixing this, I cleaned up the arguments
-to Fold and ExpandTabs and renamed them Break and
-_ExpandTabs so that I could be sure that I found all the
-call sites.  I also wanted to verify that ExpandTabs was
-not being used from outside intra_region_diff.py.
-
-
-`,
+				Body: `   This fixes the buggy tab rendering that can be seen at http://codereview.appspot.com/116075/diff/1/2  The fundamental problem was that the tab code was not being told what column the text began in, so it didn&#39;t know where to put the tab stops.  Another problem was that some of the code assumed that string byte offsets were the same as column offsets, which is only true if there are no tabs.  In the process of fixing this, I cleaned up the arguments to Fold and ExpandTabs and renamed them Break and _ExpandTabs so that I could be sure that I found all the call sites.  I also wanted to verify that ExpandTabs was not being used from outside intra_region_diff.py.   `,
 			},
 		},
 	},
