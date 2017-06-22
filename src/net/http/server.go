@@ -3006,9 +3006,9 @@ type timeoutHandler struct {
 	body    string
 	dt      time.Duration
 
-	// When set, no timer will be created and this channel will
+	// When set, no context will be created and this context will
 	// be used instead.
-	testTimeout <-chan time.Time
+	testContext context.Context
 }
 
 func (h *timeoutHandler) errorBody() string {
@@ -3019,12 +3019,15 @@ func (h *timeoutHandler) errorBody() string {
 }
 
 func (h *timeoutHandler) ServeHTTP(w ResponseWriter, r *Request) {
-	var t *time.Timer
-	timeout := h.testTimeout
-	if timeout == nil {
-		t = time.NewTimer(h.dt)
-		timeout = t.C
+	var cancelCtx context.CancelFunc
+	ctx := h.testContext
+	if ctx == nil {
+		ctx, cancelCtx = context.WithTimeout(r.Context(), h.dt)
+	} else {
+		cancelCtx = func() {}
 	}
+	defer cancelCtx()
+	r = r.WithContext(ctx)
 	done := make(chan struct{})
 	tw := &timeoutWriter{
 		w: w,
@@ -3047,10 +3050,7 @@ func (h *timeoutHandler) ServeHTTP(w ResponseWriter, r *Request) {
 		}
 		w.WriteHeader(tw.code)
 		w.Write(tw.wbuf.Bytes())
-		if t != nil {
-			t.Stop()
-		}
-	case <-timeout:
+	case <-ctx.Done():
 		tw.mu.Lock()
 		defer tw.mu.Unlock()
 		w.WriteHeader(StatusServiceUnavailable)
