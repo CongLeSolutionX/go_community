@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "398b6bfc_92f4d344",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-22T15:06:56Z",
+      "side": 1,
+      "message": "This is a run-on sentence.  I think you can drop \"which represents the absence of an address.\"",
+      "revId": "3e206cf9ee846f54b2ca2160bb1c5c570e333140",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
