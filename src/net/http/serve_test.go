@@ -2144,8 +2144,9 @@ func testTimeoutHandler(t *testing.T, h2 bool) {
 		_, werr := w.Write([]byte("hi"))
 		writeErrors <- werr
 	})
-	timeout := make(chan time.Time, 1) // write to this to force timeouts
-	cst := newClientServerTest(t, h2, NewTestTimeoutHandler(sayHi, timeout))
+	ctx, cancelCtx := context.WithCancel(context.Background()) // cancel this to force timeouts
+	defer cancelCtx()
+	cst := newClientServerTest(t, h2, NewTestTimeoutHandler(sayHi, ctx))
 	defer cst.close()
 
 	// Succeed without timing out:
@@ -2166,7 +2167,7 @@ func testTimeoutHandler(t *testing.T, h2 bool) {
 	}
 
 	// Times out:
-	timeout <- time.Time{}
+	cancelCtx()
 	res, err = cst.c.Get(cst.ts.URL)
 	if err != nil {
 		t.Error(err)
@@ -2281,8 +2282,9 @@ func TestTimeoutHandlerRaceHeaderTimeout(t *testing.T) {
 		_, werr := w.Write([]byte("hi"))
 		writeErrors <- werr
 	})
-	timeout := make(chan time.Time, 1) // write to this to force timeouts
-	cst := newClientServerTest(t, h1Mode, NewTestTimeoutHandler(sayHi, timeout))
+	ctx, cancelCtx := context.WithCancel(context.Background()) // cancel this to force timeouts
+	defer cancelCtx()
+	cst := newClientServerTest(t, h1Mode, NewTestTimeoutHandler(sayHi, ctx))
 	defer cst.close()
 
 	// Succeed without timing out:
@@ -2303,7 +2305,7 @@ func TestTimeoutHandlerRaceHeaderTimeout(t *testing.T) {
 	}
 
 	// Times out:
-	timeout <- time.Time{}
+	cancelCtx()
 	res, err = cst.c.Get(cst.ts.URL)
 	if err != nil {
 		t.Error(err)
