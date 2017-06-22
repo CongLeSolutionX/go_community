@@ -13,7 +13,6 @@ import (
 	"sort"
 	"sync"
 	"testing"
-	"time"
 )
 
 var (
@@ -62,10 +61,10 @@ func SetPendingDialHooks(before, after func()) {
 
 func SetTestHookServerServe(fn func(*Server, net.Listener)) { testHookServerServe = fn }
 
-func NewTestTimeoutHandler(handler Handler, ch <-chan time.Time) Handler {
+func NewTestTimeoutHandler(handler Handler, ctx context.Context) Handler {
 	return &timeoutHandler{
 		handler:     handler,
-		testTimeout: ch,
+		testContext: ctx,
 		// (no body)
 	}
 }
