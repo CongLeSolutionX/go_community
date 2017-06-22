@@ -480,6 +480,23 @@ func (t *tester) registerTests() {
 		})
 	}
 
+	// Test default linking of PIE binaries. Issue 18968.
+	if t.pieSupported() {
+		// The tests themselves don't have to run.
+		// We just want to check that the binary can start and execute properly.
+		// Use -run=^$ to select no tests.
+		// Note that package net uses cgo while strings does not.
+		// We've had problems before with cgo vs not.
+		t.tests = append(t.tests, distTest{
+			name:    "pie",
+			heading: "execution of -buildmode=pie binaries",
+			fn: func(dt *distTest) error {
+				t.addCmd(dt, "src", "go", "test", "net", "strings", "-short", "-buildmode=pie", "-run=^$", t.timeout(60), t.tags())
+				return nil
+			},
+		})
+	}
+
 	// sync tests
 	t.tests = append(t.tests, distTest{
 		name:    "sync_cpu",
@@ -1093,6 +1110,23 @@ func (t *tester) hasBash() bool {
 		return false
 	}
 	return true
+}
+
+func (t *tester) pieSupported() bool {
+	return find(t.goos+"/"+t.goarch, pies) >= 0
+}
+
+var pies = []string{
+	"android/386",
+	"android/amd64",
+	"android/arm",
+	"android/arm64",
+	"linux/386",
+	"linux/amd64",
+	"linux/arm",
+	"linux/arm64",
+	"linux/ppc64le",
+	"linux/s390x",
 }
 
 func (t *tester) raceDetectorSupported() bool {
