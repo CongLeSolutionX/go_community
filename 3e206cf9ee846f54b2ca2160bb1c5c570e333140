@@ -16,6 +16,24 @@
       "revId": "3e206cf9ee846f54b2ca2160bb1c5c570e333140",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42988d90_7af3808c",
+        "filename": "src/net/ip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-06-22T21:51:40Z",
+      "side": 1,
+      "message": "i\u0027d like to prefer \"the absence of an address\" than \"0.0.0.0 or ::\" because the former implies the ipv6 ipv4-mapped unspecified address \"::ffff:0.0.0.0\". but, well, the latter is fine for now. it\u0027s hard to describe the use of ipv6 ipv4-mapped address here.",
+      "parentUuid": "398b6bfc_92f4d344",
+      "revId": "3e206cf9ee846f54b2ca2160bb1c5c570e333140",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
