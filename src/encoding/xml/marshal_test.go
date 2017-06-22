@@ -1179,9 +1179,9 @@ var marshalTests = []struct {
 		},
 	},
 	{
-		ExpectXML: "<a><nested><value>1\r2\r\n3\n\r4\n5</value></nested></a>",
+		ExpectXML: `<a><nested><value>1\r2\r\n3\n\r4\n5</value></nested></a>`,
 		Value: &AnyTest{
-			Nested: "1\n2\n3\n\n4\n5",
+			Nested: `1\r2\r\n3\n\r4\n5`,
 		},
 		UnmarshalOnly: true,
 	},
@@ -1191,6 +1191,16 @@ var marshalTests = []struct {
 			MyInt: 42,
 		},
 	},
+	// Test Attribute-Value Normalization
+	{
+		ExpectXML: `<a><nested><value>
+ &#13;&#x20;&#xa;&#9; </value></nested></a>`,
+		Value: &AnyTest{
+			Nested: "  \r \n\t ",
+		},
+		UnmarshalOnly: true,
+	},
+
 	// Test outputting CDATA-wrapped text.
 	{
 		ExpectXML: `<CDataTest></CDataTest>`,
