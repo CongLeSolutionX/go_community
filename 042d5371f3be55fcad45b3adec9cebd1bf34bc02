@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa668259_d5497ace",
+        "filename": "src/net/http/export_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-06-22T05:59:02Z",
+      "side": 1,
+      "message": "This changes a signature of an exported function.\nI\u0027ll let @bradfitz chime in on whether this alright.",
+      "revId": "042d5371f3be55fcad45b3adec9cebd1bf34bc02",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
