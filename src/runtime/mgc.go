@@ -189,6 +189,9 @@ func gcinit() {
 	// This will go into computing the initial GC goal.
 	memstats.heap_marked = uint64(float64(heapminimum) / (1 + memstats.triggerRatio))
 
+	// Disable heap limit initially.
+	mheap_.maxHeap = ^uintptr(0)
+
 	// Set gcpercent from the environment. This will also compute
 	// and set the GC trigger and goal.
 	_ = setGCPercent(readgogc())
@@ -226,7 +229,11 @@ func setGCPercent(in int32) (out int32) {
 		in = -1
 	}
 	gcpercent = in
-	heapminimum = defaultHeapMinimum * uint64(gcpercent) / 100
+	if gcpercent >= 0 {
+		heapminimum = defaultHeapMinimum * uint64(gcpercent) / 100
+	} else {
+		heapminimum = 0
+	}
 	// Update pacing in response to gcpercent change.
 	gcSetTriggerRatio(memstats.triggerRatio)
 	unlock(&mheap_.lock)
@@ -249,6 +256,18 @@ func setGCPercent(in int32) (out int32) {
 	}
 
 	return out
+}
+
+//go:linkname gcSetMaxHeap runtime/debug.gcSetMaxHeap
+func gcSetMaxHeap(bytes uintptr, cb func(gogc int, maxHeap uintptr, egogc int)) uintptr {
+	lock(&mheap_.lock)
+	prev := mheap_.maxHeap
+	mheap_.maxHeap = bytes
+	mheap_.gcPressureChange = cb
+	// Updating pacing.
+	gcSetTriggerRatio(memstats.triggerRatio)
+	unlock(&mheap_.lock)
+	return prev
 }
 
 // Garbage collector phase.
@@ -771,17 +790,47 @@ func pollFractionalWorkerExit() bool {
 // This can be called any time. If GC is the in the middle of a
 // concurrent phase, it will adjust the pacing of that phase.
 //
-// This depends on gcpercent, memstats.heap_marked, and
-// memstats.heap_live. These must be up to date.
+// This depends on gcpercent, mheap_.maxHeap, memstats.heap_marked,
+// and memstats.heap_live. These must be up to date.
 //
 // mheap_.lock must be held or the world must be stopped.
 func gcSetTriggerRatio(triggerRatio float64) {
+	// Since GOGC ratios are in terms of heap_marked, make sure it
+	// isn't 0. This shouldn't happen, but if it does we want to
+	// avoid infinities and divide-by-zeroes.
+	if memstats.heap_marked == 0 {
+		memstats.heap_marked = 1
+	}
+
 	// Compute the next GC goal, which is when the allocated heap
 	// has grown by GOGC/100 over the heap marked by the last
-	// cycle.
+	// cycle, or maxHeap, whichever is lower.
 	goal := ^uint64(0)
 	if gcpercent >= 0 {
 		goal = memstats.heap_marked + memstats.heap_marked*uint64(gcpercent)/100
+	}
+	if mheap_.maxHeap != ^uintptr(0) && goal > uint64(mheap_.maxHeap) { // Careful of 32-bit uintptr!
+		// Use maxHeap-based goal.
+		goal = uint64(mheap_.maxHeap)
+
+		// Avoid thrashing by not letting the
+		// effective GOGC drop below 10.
+		//
+		// TODO(austin): This heuristic is pulled from
+		// thin air. It might be better to do
+		// something to more directly force
+		// amortization of GC costs, e.g., by limiting
+		// what fraction of the time GC can be active.
+		var minGOGC uint64 = 10
+		if gcpercent >= 0 && uint64(gcpercent) < minGOGC {
+			// The user explicitly requested
+			// GOGC < minGOGC. Use that.
+			minGOGC = uint64(gcpercent)
+		}
+		lowerBound := memstats.heap_marked + memstats.heap_marked*minGOGC/100
+		if goal < lowerBound {
+			goal = lowerBound
+		}
 	}
 
 	// Set the trigger ratio, capped to reasonable bounds.
@@ -789,13 +838,9 @@ func gcSetTriggerRatio(triggerRatio float64) {
 		// This can happen if the mutator is allocating very
 		// quickly or the GC is scanning very slowly.
 		triggerRatio = 0
-	} else if gcpercent >= 0 {
-		// Ensure there's always a little margin so that the
-		// mutator assist ratio isn't infinity.
-		maxTriggerRatio := 0.95 * float64(gcpercent) / 100
-		if triggerRatio > maxTriggerRatio {
-			triggerRatio = maxTriggerRatio
-		}
+	} else if gcpercent >= 0 && triggerRatio > float64(gcpercent)/100 {
+		// Cap trigger ratio at GOGC/100.
+		triggerRatio = float64(gcpercent) / 100
 	}
 	memstats.triggerRatio = triggerRatio
 
@@ -804,8 +849,14 @@ func gcSetTriggerRatio(triggerRatio float64) {
 	// We trigger the next GC cycle when the allocated heap has
 	// grown by the trigger ratio over the marked heap size.
 	trigger := ^uint64(0)
-	if gcpercent >= 0 {
+	if goal != ^uint64(0) {
 		trigger = uint64(float64(memstats.heap_marked) * (1 + triggerRatio))
+		// Ensure there's always a little margin so that the
+		// mutator assist ratio isn't infinity.
+		if trigger > goal*95/100 {
+			trigger = goal * 95 / 100
+		}
+
 		// Don't trigger below the minimum heap size.
 		minTrigger := heapminimum
 		if !gosweepdone() {
@@ -878,6 +929,46 @@ func gcSetTriggerRatio(triggerRatio float64) {
 			atomic.Store64(&mheap_.pagesSweptBasis, pagesSwept)
 		}
 	}
+
+	// Notify the debug package of a GC pressure change.
+	if mheap_.gcPressureChange != nil {
+		if raceenabled {
+			// This call is protected by mheap_.lock, but
+			// the race detector can't see that.
+			raceacquire(unsafe.Pointer(&mheap_.gcPressureChange))
+		}
+		mheap_.gcPressureChange(gcReadPolicyLocked())
+		if raceenabled {
+			racerelease(unsafe.Pointer(&mheap_.gcPressureChange))
+		}
+	}
+}
+
+//go:linkname gcReadPolicy runtime/debug.gcReadPolicy
+func gcReadPolicy() (gogc int, maxHeap uintptr, egogc int) {
+	lock(&mheap_.lock)
+	gogc, maxHeap, egogc = gcReadPolicyLocked()
+	unlock(&mheap_.lock)
+	return
+}
+
+func gcReadPolicyLocked() (gogc int, maxHeap uintptr, egogc int) {
+	goal := memstats.next_gc
+	if goal < uint64(mheap_.maxHeap) && gcpercent >= 0 {
+		// We're not up against the max heap size, so just
+		// return GOGC.
+		egogc = int(gcpercent)
+	} else {
+		// Back out the effective GOGC from the goal.
+		egogc = int(gcEffectiveGrowthRatio() * 100)
+		// The effective GOGC may actually be higher than
+		// gcpercent if the heap is tiny. Avoid that confusion
+		// and just return the user-set GOGC.
+		if gcpercent >= 0 && egogc > int(gcpercent) {
+			egogc = int(gcpercent)
+		}
+	}
+	return int(gcpercent), mheap_.maxHeap, egogc
 }
 
 // gcEffectiveGrowthRatio returns the current effective heap growth
@@ -1210,7 +1301,7 @@ func (t gcTrigger) test() bool {
 		// own write.
 		return memstats.heap_live >= memstats.gc_trigger
 	case gcTriggerTime:
-		if gcpercent < 0 {
+		if gcpercent < 0 && mheap_.maxHeap == ^uintptr(0) {
 			return false
 		}
 		lastgc := int64(atomic.Load64(&memstats.last_gc_nanotime))

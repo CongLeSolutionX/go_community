@@ -161,6 +161,17 @@ type mheap struct {
 	specialprofilealloc   fixalloc // allocator for specialprofile*
 	speciallock           mutex    // lock for special record allocators.
 
+	// maxHeap is the GC heap limit.
+	//
+	// This is set by the user with debug.SetMaxHeap. GC will
+	// attempt to keep heap_live under maxHeap, even if it has to
+	// violate GOGC (up to a point).
+	maxHeap uintptr
+
+	// gcPressureChange is called after every gcSetTriggerRatio.
+	// It's provided by package debug. It may be nil.
+	gcPressureChange func(gogc int, maxHeap uintptr, egogc int)
+
 	unused *specialfinalizer // never set, just here to force the specialfinalizer type into DWARF
 }
 
