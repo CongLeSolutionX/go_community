@@ -632,6 +632,51 @@ func BenchmarkIndexEasy(b *testing.B) {
 	})
 }
 
+func BenchmarkIndexShort2(b *testing.B) {
+	var indexSizes2 = []int{2, 3, 4, 5, 6, 7, 8, 9, 10, 32, 4 << 10, 4 << 20, 64 << 20}
+	benchBytes(b, indexSizes2, func(b *testing.B, n int) {
+		buf := bmbuf[0:n]
+		buf[n-1] = 'x'
+		for i := 0; i < b.N; i++ {
+			j := Index(buf, buf[n-2:])
+			if j != n-2 {
+				b.Fatal("bad index", j)
+			}
+		}
+		buf[n-1] = '\x00'
+	})
+}
+
+func BenchmarkIndexShort3(b *testing.B) {
+	var indexSizes3 = []int{3, 4, 5, 6, 7, 8, 9, 10, 32, 4 << 10, 4 << 20, 64 << 20}
+	benchBytes(b, indexSizes3, func(b *testing.B, n int) {
+		buf := bmbuf[0:n]
+		buf[n-1] = 'x'
+		for i := 0; i < b.N; i++ {
+			j := Index(buf, buf[n-3:])
+			if j != n-3 {
+				b.Fatal("bad index", j)
+			}
+		}
+		buf[n-1] = '\x00'
+	})
+}
+
+func BenchmarkIndexShort4(b *testing.B) {
+	var indexSizes4 = []int{4, 5, 6, 7, 8, 9, 10, 32, 4 << 10, 4 << 20, 64 << 20}
+	benchBytes(b, indexSizes4, func(b *testing.B, n int) {
+		buf := bmbuf[0:n]
+		buf[n-1] = 'x'
+		for i := 0; i < b.N; i++ {
+			j := Index(buf, buf[n-4:])
+			if j != n-4 {
+				b.Fatal("bad index", j)
+			}
+		}
+		buf[n-1] = '\x00'
+	})
+}
+
 func BenchmarkCount(b *testing.B) {
 	benchBytes(b, indexSizes, func(b *testing.B, n int) {
 		buf := bmbuf[0:n]
