@@ -15,9 +15,14 @@ operating system) control the run-time behavior of Go programs. The meanings
 and use may change from release to release.
 
 The GOGC variable sets the initial garbage collection target percentage.
-A collection is triggered when the ratio of freshly allocated data to live data
-remaining after the previous collection reaches this percentage. The default
-is GOGC=100. Setting GOGC=off disables the garbage collector entirely.
+This is the maximum allowed ratio of data allocated since the previous
+garbage collection to live data remaining after the previous garbage
+collection.
+The garbage collector will reclaim space to stay under this ratio.
+The default is GOGC=100, which allows the heap to double in size between
+each garbage collection.
+Setting this lower reduces memory usage at the cost of higher CPU usage.
+Setting GOGC=off disables the garbage collector entirely.
 The runtime/debug package's SetGCPercent function allows changing this
 percentage at run time. See https://golang.org/pkg/runtime/debug/#SetGCPercent.
 

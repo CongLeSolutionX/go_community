@@ -81,9 +81,10 @@ func ReadGCStats(stats *GCStats) {
 	}
 }
 
-// SetGCPercent sets the garbage collection target percentage:
-// a collection is triggered when the ratio of freshly allocated data
-// to live data remaining after the previous collection reaches this percentage.
+// SetGCPercent sets the garbage collection target percentage.
+// The garbage collector keeps the ratio of data allocated since the
+// previous garbage collection to live data remaining after the
+// previous garbage collection under this target.
 // SetGCPercent returns the previous setting.
 // The initial setting is the value of the GOGC environment variable
 // at startup, or 100 if the variable is not set.
