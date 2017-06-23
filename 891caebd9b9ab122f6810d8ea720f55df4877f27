@@ -22,6 +22,30 @@
       "revId": "891caebd9b9ab122f6810d8ea720f55df4877f27",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3926447c_dafe1fad",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-06-23T23:59:24Z",
+      "side": 1,
+      "message": "thx",
+      "parentUuid": "ff2f727f_a679393a",
+      "range": {
+        "startLine": 70,
+        "startChar": 37,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "891caebd9b9ab122f6810d8ea720f55df4877f27",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
