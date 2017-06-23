@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "346b35e1_5cafd87e",
+        "filename": "src/os/signal/signal.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-23T18:42:07Z",
+      "side": 1,
+      "message": "Consider saying what would lead to neither happening. E.g., \"To avoid the possibility that neither happens because the handler is removed between the signal being received and being processed, put the channel ...\"",
+      "range": {
+        "startLine": 179,
+        "startChar": 32,
+        "endLine": 179,
+        "endChar": 49
+      },
+      "revId": "23bafee4002176e52f6c98df68fb9fc4546236fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "699d5a25_a26e06e1",
+        "filename": "src/os/signal/signal_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-06-23T18:42:07Z",
+      "side": 1,
+      "message": "To lower the indentation and make this a bit more readable, consider putting this in a separate function and outdenting the \"if\" case of this function.",
+      "revId": "23bafee4002176e52f6c98df68fb9fc4546236fe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
