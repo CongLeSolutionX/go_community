@@ -39,6 +39,30 @@
       "revId": "381557c548ce03b628a50fdd26ac37eee691da74",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2da7f432_49b613bf",
+        "filename": "src/os/signal/signal_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-23T05:44:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1cb4d54_e5fa44e6",
+      "range": {
+        "startLine": 365,
+        "startChar": 0,
+        "endLine": 367,
+        "endChar": 37
+      },
+      "revId": "381557c548ce03b628a50fdd26ac37eee691da74",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
