@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10b5143f_fc1f318d",
+        "filename": "src/runtime/mgc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1782,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-06-24T11:23:13Z",
+      "side": 1,
+      "message": "gp, _ :\u003d runqget(_p_)\n\nVery strange. The _ (underline) does not appear on my screen but if I cut/paste it is there.",
+      "range": {
+        "startLine": 1782,
+        "startChar": 6,
+        "endLine": 1782,
+        "endChar": 27
+      },
+      "revId": "ba9d5f115cfe66f8551e934acf61b6b676be32c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
