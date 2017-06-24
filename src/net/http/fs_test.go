@@ -937,8 +937,7 @@ func TestServeContent(t *testing.T) {
 			reqHeader: map[string]string{
 				"If-Match": `"B"`,
 			},
-			wantStatus:      412,
-			wantContentType: "text/plain; charset=utf-8",
+			wantStatus: 412,
 		},
 		"ifmatch_fails_on_weak_etag": {
 			file:      "testdata/style.css",
@@ -946,8 +945,7 @@ func TestServeContent(t *testing.T) {
 			reqHeader: map[string]string{
 				"If-Match": `W/"A"`,
 			},
-			wantStatus:      412,
-			wantContentType: "text/plain; charset=utf-8",
+			wantStatus: 412,
 		},
 		"if_unmodified_since_true": {
 			file:    "testdata/style.css",
@@ -965,9 +963,8 @@ func TestServeContent(t *testing.T) {
 			reqHeader: map[string]string{
 				"If-Unmodified-Since": htmlModTime.Add(-2 * time.Second).UTC().Format(TimeFormat),
 			},
-			wantStatus:      412,
-			wantContentType: "text/plain; charset=utf-8",
-			wantLastMod:     htmlModTime.UTC().Format(TimeFormat),
+			wantStatus:  412,
+			wantLastMod: htmlModTime.UTC().Format(TimeFormat),
 		},
 	}
 	for testName, tt := range tests {
