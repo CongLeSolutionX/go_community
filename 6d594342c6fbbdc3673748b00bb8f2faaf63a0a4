@@ -52,6 +52,24 @@
       "revId": "6d594342c6fbbdc3673748b00bb8f2faaf63a0a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b7305f3_79fa5c66",
+        "filename": "test/fixedbugs/issue20789.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-06-26T23:18:49Z",
+      "side": 1,
+      "message": "Agreed. It should be closed. Feel free to add me as a reviewer when you \u0027re ready (git mail -r gri).",
+      "parentUuid": "e0e799d9_889e3ada",
+      "revId": "6d594342c6fbbdc3673748b00bb8f2faaf63a0a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
