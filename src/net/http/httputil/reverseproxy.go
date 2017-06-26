@@ -154,23 +154,16 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 		outreq.Body = nil // Issue 16036: nil Body for http.Transport retries
 	}
 
+	outreq.Header = cloneHeader(req.Header)
+
 	p.Director(outreq)
 	outreq.Close = false
-
-	// We are modifying the same underlying map from req (shallow
-	// copied above) so we only copy it if necessary.
-	copiedHeaders := false
 
 	// Remove hop-by-hop headers listed in the "Connection" header.
 	// See RFC 2616, section 14.10.
 	if c := outreq.Header.Get("Connection"); c != "" {
 		for _, f := range strings.Split(c, ",") {
 			if f = strings.TrimSpace(f); f != "" {
-				if !copiedHeaders {
-					outreq.Header = make(http.Header)
-					copyHeader(outreq.Header, req.Header)
-					copiedHeaders = true
-				}
 				outreq.Header.Del(f)
 			}
 		}
@@ -181,11 +174,6 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	// connection, regardless of what the client sent to us.
 	for _, h := range hopHeaders {
 		if outreq.Header.Get(h) != "" {
-			if !copiedHeaders {
-				outreq.Header = make(http.Header)
-				copyHeader(outreq.Header, req.Header)
-				copiedHeaders = true
-			}
 			outreq.Header.Del(h)
 		}
 	}
@@ -365,3 +353,13 @@ func (m *maxLatencyWriter) flushLoop() {
 }
 
 func (m *maxLatencyWriter) stop() { m.done <- true }
+
+func cloneHeader(h http.Header) http.Header {
+	h2 := make(http.Header, len(h))
+	for k, vv := range h {
+		vv2 := make([]string, len(vv))
+		copy(vv2, vv)
+		h2[k] = vv2
+	}
+	return h2
+}
