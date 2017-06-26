@@ -73,7 +73,11 @@ type B struct {
 // a call to StopTimer.
 func (b *B) StartTimer() {
 	if !b.timerOn {
-		if *benchmarkMemory || b.showAllocResult {
+		firstRun := b.previousN == 0
+		// We don't know if ReportAllocs is called within the
+		// benchmark until after the first run starts so
+		// always ReadMemStats before first run.
+		if *benchmarkMemory || b.showAllocResult || firstRun {
 			runtime.ReadMemStats(&memStats)
 			b.startAllocs = memStats.Mallocs
 			b.startBytes = memStats.TotalAlloc
