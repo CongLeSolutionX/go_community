@@ -57,6 +57,13 @@ func ExampleDate() {
 	// Output: Go launched at 2009-11-10 15:00:00 -0800 PST
 }
 
+func ExampleDate_midnight() {
+	// Get the most recent midnight in the current Location.
+	t0 := time.Now()
+	midnight := time.Date(t0.Year(), t0.Month(), t0.Day(), 0, 0, 0, 0, t0.Location())
+	fmt.Println(midnight)
+}
+
 func ExampleTime_Format() {
 	// Parse a time value from a string in the standard Unix format.
 	t, err := time.Parse(time.UnixDate, "Sat Mar  7 11:06:39 PST 2015")
