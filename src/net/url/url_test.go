@@ -954,6 +954,10 @@ var encodeQueryTests = []EncodeQueryTest{
 	{nil, ""},
 	{Values{"q": {"puppies"}, "oe": {"utf8"}}, "oe=utf8&q=puppies"},
 	{Values{"q": {"dogs", "&", "7"}}, "q=dogs&q=%26&q=7"},
+	{Values{"q": nil}, "q"},
+	{Values{"q": make([]string, 0)}, "q"},
+	{Values{"q": make([]string, 1)}, "q="},
+	{Values{"q": make([]string, 2)}, "q=&q="},
 	{Values{
 		"a": {"a1", "a2", "a3"},
 		"b": {"b1", "b2", "b3"},
