@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a9380f6a_ea1dfdd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17352
+      },
+      "writtenOn": "2017-06-27T17:33:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47b25932_e140a2d9",
+      "revId": "676784ef99ecf58dd7868193b3e53139fffeb157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5753d16e_1d827bba",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "676784ef99ecf58dd7868193b3e53139fffeb157",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f84e7703_222b199f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 17352
+      },
+      "writtenOn": "2017-06-27T17:33:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5753d16e_1d827bba",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 47
+      },
+      "revId": "676784ef99ecf58dd7868193b3e53139fffeb157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ad3fe236_3bc59281",
+        "filename": "AUTHORS",
+        "patchSetId": 2
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 17352
+      },
+      "writtenOn": "2017-06-27T17:33:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c414a54_77287d7d",
+      "range": {
+        "startLine": 292,
+        "startChar": 0,
+        "endLine": 292,
+        "endChar": 36
+      },
+      "revId": "676784ef99ecf58dd7868193b3e53139fffeb157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d424ea7f_e8651bdd",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 2
@@ -85,6 +151,30 @@
       "revId": "676784ef99ecf58dd7868193b3e53139fffeb157",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "085aae9f_8c653b3c",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 17352
+      },
+      "writtenOn": "2017-06-27T17:33:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d424ea7f_e8651bdd",
+      "range": {
+        "startLine": 595,
+        "startChar": 33,
+        "endLine": 595,
+        "endChar": 39
+      },
+      "revId": "676784ef99ecf58dd7868193b3e53139fffeb157",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
