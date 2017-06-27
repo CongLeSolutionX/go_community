@@ -9,6 +9,12 @@ import (
 	"time"
 )
 
+func ExampleDate_midnight() {
+	t0 := time.Now()
+	midnight := time.Date(t0.Year(), t0.Month(), t0.Day(), 0, 0, 0, 0, t0.Location())
+	fmt.Println(midnight)
+}
+
 func expensiveCall() {}
 
 func ExampleDuration() {
