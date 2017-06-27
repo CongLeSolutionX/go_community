@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef69b0cf_191bab03",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-27T15:44:44Z",
+      "side": 1,
+      "message": "I don\u0027t see how this helps document why this thing exists.\n\nHow about:\n\n   // maxServiceLength is the longest reasonable name of a\n   // service (non-numeric port). It\u0027s used by lookupPortMap\n   // to avoid allocs during a map lookup.\n   // Currently the longest known service name is \"mobility-header\",\n   // so we use that length, plus some slop in case something\n   // longer is added in the future.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "5a76d71747e735d9bed345f061beebe941cbbdf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ce1fa83_81192609",
+        "filename": "src/net/lookup.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-27T15:44:44Z",
+      "side": 1,
+      "message": "then you can delete this comment",
+      "range": {
+        "startLine": 71,
+        "startChar": 53,
+        "endLine": 71,
+        "endChar": 73
+      },
+      "revId": "5a76d71747e735d9bed345f061beebe941cbbdf1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
