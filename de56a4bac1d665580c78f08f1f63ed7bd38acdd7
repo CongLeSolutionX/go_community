@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "182d933a_b6e29437",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-27T14:52:34Z",
+      "side": 1,
+      "message": "Update title. Now the change is not in cmd/asm.",
+      "revId": "de56a4bac1d665580c78f08f1f63ed7bd38acdd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a8e3814_63d1f7b5",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1349,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-06-27T14:52:34Z",
+      "side": 1,
+      "message": "break is not needed",
+      "revId": "de56a4bac1d665580c78f08f1f63ed7bd38acdd7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
