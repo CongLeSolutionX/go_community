@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4264b411_657793a1",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-27T21:05:37Z",
+      "side": 1,
+      "message": "This underscore syntax is for an example of a method.  There is no Date.midnight method, so this is the wrong name to use.\n\nPerhaps you should move this example into ExampleTime_Truncate.  Or call it ExampleMidnight.",
+      "revId": "5306f66d89f211f3466d4ba542fcccbdcfe448f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
