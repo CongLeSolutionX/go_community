@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12b68b3a_6128c5fb",
+        "filename": "src/net/url/url_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 12225
+      },
+      "writtenOn": "2017-06-27T19:50:38Z",
+      "side": 1,
+      "message": "My own personal preference is to make this  `q\u0026q`, but I wanted to change as little as possible.",
+      "revId": "76103dce8588d64d43e9ca1b3572f444e989fb28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
