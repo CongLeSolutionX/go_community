@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c93cd47_9b1ea9c3",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-27T17:33:49Z",
+      "side": 1,
+      "message": "why is this all plural if you can have only one?",
+      "range": {
+        "startLine": 592,
+        "startChar": 2,
+        "endLine": 592,
+        "endChar": 61
+      },
+      "revId": "e2ab3b2f5fb14b6913b306a880dc802d2695df1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a98b5bdb_601c7ecc",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-27T17:33:49Z",
+      "side": 1,
+      "message": "you still forgot to include cmd/go/alldocs.go in this CL.",
+      "range": {
+        "startLine": 595,
+        "startChar": 2,
+        "endLine": 595,
+        "endChar": 49
+      },
+      "revId": "e2ab3b2f5fb14b6913b306a880dc802d2695df1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
