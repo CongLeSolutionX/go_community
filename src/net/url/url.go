@@ -864,13 +864,20 @@ func (v Values) Encode() string {
 	sort.Strings(keys)
 	for _, k := range keys {
 		vs := v[k]
-		prefix := QueryEscape(k) + "="
-		for _, v := range vs {
+		if len(vs) == 0 {
 			if buf.Len() > 0 {
 				buf.WriteByte('&')
 			}
-			buf.WriteString(prefix)
-			buf.WriteString(QueryEscape(v))
+			buf.WriteString(QueryEscape(k))
+		} else {
+			prefix := QueryEscape(k) + "="
+			for _, v := range vs {
+				if buf.Len() > 0 {
+					buf.WriteByte('&')
+				}
+				buf.WriteString(prefix)
+				buf.WriteString(QueryEscape(v))
+			}
 		}
 	}
 	return buf.String()
