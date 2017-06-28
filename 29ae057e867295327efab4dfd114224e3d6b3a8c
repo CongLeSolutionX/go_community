@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e316f9be_9bc6e64d",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 16458
+      },
+      "writtenOn": "2017-06-28T18:36:07Z",
+      "side": 1,
+      "message": "My rationale was that we don\u0027t really care about changing the mode to something different as long as the function returns no error. Chmod on Windows only toggles READ_ONLY anyway.",
+      "parentUuid": "44632e8c_50005b13",
+      "range": {
+        "startLine": 1993,
+        "startChar": 23,
+        "endLine": 1993,
+        "endChar": 27
+      },
+      "revId": "29ae057e867295327efab4dfd114224e3d6b3a8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19ccc2d4_5198cbcc",
         "filename": "src/os/os_test.go",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "29ae057e867295327efab4dfd114224e3d6b3a8c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fab409ce_a28e9c05",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1995,
+      "author": {
+        "id": 16458
+      },
+      "writtenOn": "2017-06-28T18:36:07Z",
+      "side": 1,
+      "message": "Yes.\n\n--- FAIL: TestLongPath (0.05s)\n    --- FAIL: TestLongPath/length\u003d400 (0.01s)\n        os_test.go:1994: Chmod(\"C:\\\\Users\\\\ibrahim\\\\AppData\\\\Local\\\\Temp\\\\_Go_TestLongPath443823691/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456x/bar.txt\") failed: chmod C:\\Users\\ibrahim\\AppData\\Local\\Temp\\_Go_TestLongPath443823691/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456789/dir3456x/bar.txt: The system cannot find the path specified.\nFAIL\nFAIL    os      2.809s",
+      "parentUuid": "19ccc2d4_5198cbcc",
+      "range": {
+        "startLine": 1995,
+        "startChar": 0,
+        "endLine": 1995,
+        "endChar": 49
+      },
+      "revId": "29ae057e867295327efab4dfd114224e3d6b3a8c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
