@@ -69,6 +69,30 @@
       "revId": "45eb1266ef04f6d038e0c2bf113e1ef34777d93c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "857ff185_7e299896",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T21:23:05Z",
+      "side": 1,
+      "message": "Oh, I thought this was only used by tests.\n\nSo unexport this instead. (pr_CAP_AMBIENT_RAISE)\n\nOr move these consts (case as-is) inside the forceAndExecInChild1 func, instead of global where they add API surface.",
+      "parentUuid": "70796d65_00f69ed6",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 1
+      },
+      "revId": "45eb1266ef04f6d038e0c2bf113e1ef34777d93c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
