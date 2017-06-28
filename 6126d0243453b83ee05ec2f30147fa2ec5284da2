@@ -16,6 +16,24 @@
       "revId": "6126d0243453b83ee05ec2f30147fa2ec5284da2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdfcf92d_f317738d",
+        "filename": "src/sync/pool_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T21:52:51Z",
+      "side": 1,
+      "message": "I\u0027ve updated this CL.",
+      "parentUuid": "542c8452_14b67483",
+      "revId": "6126d0243453b83ee05ec2f30147fa2ec5284da2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
