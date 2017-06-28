@@ -239,7 +239,7 @@ TEXT runtime·nanotime(SB),NOSPLIT,$24-8
 	MOVD	(g_sched+gobuf_sp)(R3), R1	// Set RSP to g0 stack
 
 noswitch:
-	SUB	$16, R1
+	SUB	$32, R1
 	BIC	$15, R1
 	MOVD	R1, RSP
 
