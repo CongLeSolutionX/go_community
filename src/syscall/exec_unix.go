@@ -261,10 +261,20 @@ func Exec(argv0 string, argv []string, envv []string) (err error) {
 		return err
 	}
 	runtime_BeforeExec()
-	_, _, err1 := RawSyscall(SYS_EXECVE,
-		uintptr(unsafe.Pointer(argv0p)),
-		uintptr(unsafe.Pointer(&argvp[0])),
-		uintptr(unsafe.Pointer(&envvp[0])))
+
+	var err1 Errno
+	if runtime.GOOS == "solaris" {
+		// RawSyscall should never be used on Solaris.
+		err1 = execve(
+			uintptr(unsafe.Pointer(argv0p)),
+			uintptr(unsafe.Pointer(&argvp[0])),
+			uintptr(unsafe.Pointer(&envvp[0])))
+	} else {
+		_, _, err1 = RawSyscall(SYS_EXECVE,
+			uintptr(unsafe.Pointer(argv0p)),
+			uintptr(unsafe.Pointer(&argvp[0])),
+			uintptr(unsafe.Pointer(&envvp[0])))
+	}
 	runtime_AfterExec()
-	return Errno(err1)
+	return err1
 }
