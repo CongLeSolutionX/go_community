@@ -413,9 +413,9 @@ func createSimpleVars(automDecls []*Node) ([]*Node, []*dwarf.Var, map[*Node]bool
 			abbrev = dwarf.DW_ABRV_AUTO
 			if Ctxt.FixedFrameSize() == 0 {
 				offs -= int64(Widthptr)
-			}
-			if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
-				offs -= int64(Widthptr)
+				if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+					offs -= int64(Widthptr)
+				}
 			}
 
 		case PPARAM, PPARAMOUT:
@@ -619,9 +619,9 @@ func stackOffset(slot ssa.LocalSlot) int32 {
 	case PAUTO:
 		if Ctxt.FixedFrameSize() == 0 {
 			base -= int64(Widthptr)
-		}
-		if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
-			base -= int64(Widthptr)
+			if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+				base -= int64(Widthptr)
+			}
 		}
 	case PPARAM, PPARAMOUT:
 		base += Ctxt.FixedFrameSize()

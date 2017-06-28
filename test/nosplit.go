@@ -319,7 +319,7 @@ TestCases:
 					}
 				}
 
-				if size%ptrSize == 4 || goarch == "arm64" && size != 0 && (size+8)%16 != 0 {
+				if size%ptrSize == 4 || goarch == "arm64" && size != 0 && size%16 != 0 {
 					continue TestCases
 				}
 				nosplit := m[3]
