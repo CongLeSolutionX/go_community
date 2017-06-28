@@ -2492,6 +2492,9 @@ func StructOf(fields []StructField) Type {
 			case Ptr:
 				ptr := (*ptrType)(unsafe.Pointer(ft))
 				if unt := ptr.uncommon(); unt != nil {
+					if i > 0 && unt.mcount > 0 {
+						panic("reflect: embedded type with methods not implemented if type is not first field")
+					}
 					for _, m := range unt.methods() {
 						mname := ptr.nameOff(m.name)
 						if mname.pkgPath() != "" {
@@ -2523,6 +2526,9 @@ func StructOf(fields []StructField) Type {
 				}
 			default:
 				if unt := ft.uncommon(); unt != nil {
+					if i > 0 && unt.mcount > 0 {
+						panic("reflect: embedded type with methods not implemented if type is not first field")
+					}
 					for _, m := range unt.methods() {
 						mname := ft.nameOff(m.name)
 						if mname.pkgPath() != "" {
