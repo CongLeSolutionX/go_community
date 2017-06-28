@@ -16,6 +16,24 @@
       "revId": "e6d9eda2fc13786c55292429b510128252ad8817",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd94e34f_6b760f32",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T21:45:55Z",
+      "side": 1,
+      "message": "This program is the program that runs vet on everything automatically.\n\nI think it doesn\u0027t run vet on itself, ironically.",
+      "parentUuid": "4ecc4436_752bb8c6",
+      "revId": "e6d9eda2fc13786c55292429b510128252ad8817",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
