@@ -385,9 +385,9 @@ func createSimpleVars(automDecls []*Node) ([]*Node, []*dwarf.Var) {
 			abbrev = dwarf.DW_ABRV_AUTO
 			if Ctxt.FixedFrameSize() == 0 {
 				offs -= int64(Widthptr)
-			}
-			if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
-				offs -= int64(Widthptr)
+				if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+					offs -= int64(Widthptr)
+				}
 			}
 
 		case PPARAM, PPARAMOUT:
