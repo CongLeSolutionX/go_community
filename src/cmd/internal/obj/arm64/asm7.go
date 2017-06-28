@@ -774,6 +774,10 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	}
 
 	c := ctxt7{ctxt: ctxt, newprog: newprog, cursym: cursym, autosize: int32(p.To.Offset&0xffffffff) + 8}
+	if !cursym.NoFrame() {
+		// count the frame top extra 16 bytes for FP
+		c.autosize += 16
+	}
 
 	bflag := 1
 	pc := int64(0)
@@ -1432,7 +1436,8 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 				// a.Offset is still relative to pseudo-SP.
 				a.Reg = obj.REG_NONE
 			}
-			c.instoffset = int64(c.autosize) + a.Offset
+			// The frame top 16 bytes are for FP
+			c.instoffset = int64(c.autosize) + a.Offset - 16
 			return autoclass(c.instoffset)
 
 		case obj.NAME_PARAM:
@@ -1532,7 +1537,8 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 				// a.Offset is still relative to pseudo-SP.
 				a.Reg = obj.REG_NONE
 			}
-			c.instoffset = int64(c.autosize) + a.Offset
+			// The frame top 16 bytes are for FP
+			c.instoffset = int64(c.autosize) + a.Offset - 16
 
 		case obj.NAME_PARAM:
 			if a.Reg == REGSP {

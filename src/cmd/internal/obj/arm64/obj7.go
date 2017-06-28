@@ -575,6 +575,9 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				}
 			}
 
+			// Alloc extra 16 bytes to the frame for FP
+			c.autosize += 16
+
 			if !p.From.Sym.NoSplit() {
 				p = c.stacksplit(p, c.autosize) // emit split check
 			}
@@ -629,6 +632,26 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q1.To.Offset = int64(-aoffset)
 				q1.To.Reg = REGSP
 				q1.Spadj = aoffset
+			}
+
+			if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+				q1 = obj.Appendp(q1, c.newprog)
+				q1.Pos = p.Pos
+				q1.As = AMOVD
+				q1.From.Type = obj.TYPE_REG
+				q1.From.Reg = REGFP
+				q1.To.Type = obj.TYPE_MEM
+				q1.To.Reg = REGSP
+				q1.To.Offset = int64(-8)
+
+				q1 = obj.Appendp(q1, c.newprog)
+				q1.Pos = p.Pos
+				q1.As = ASUB
+				q1.From.Type = obj.TYPE_CONST
+				q1.From.Offset = int64(8)
+				q1.Reg = REGSP
+				q1.To.Type = obj.TYPE_REG
+				q1.To.Reg = REGFP
 			}
 
 			if c.cursym.Func.Text.From.Sym.Wrapper() {
@@ -753,9 +776,30 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					p.To.Type = obj.TYPE_REG
 					p.To.Reg = REGSP
 					p.Spadj = -c.autosize
+
+					if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+						p = obj.Appendp(p, c.newprog)
+						p.As = ASUB
+						p.From.Type = obj.TYPE_CONST
+						p.From.Offset = int64(8)
+						p.Reg = REGSP
+						p.To.Type = obj.TYPE_REG
+						p.To.Reg = REGFP
+					}
 				}
 			} else {
 				/* want write-back pre-indexed SP+autosize -> SP, loading REGLINK*/
+
+				if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+					p.As = AMOVD
+					p.From.Type = obj.TYPE_MEM
+					p.From.Reg = REGSP
+					p.From.Offset = int64(-8)
+					p.To.Type = obj.TYPE_REG
+					p.To.Reg = REGFP
+					p = obj.Appendp(p, c.newprog)
+				}
+
 				aoffset := c.autosize
 
 				if aoffset > 0xF0 {
@@ -828,6 +872,115 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				p.From.Type = obj.TYPE_MEM
 				p.From.Reg = REGSP
 			}
+			break
+
+		case obj.ADUFFCOPY:
+			if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+				//  ADR	ret_addr, R27
+				//  STP	(FP, R27), -32(SP)
+				//  SUB	32, SP, FP
+				//  DUFFCOPY
+				// ret_addr:
+				//  SUB	8, SP, FP
+
+				q1 := p
+				// copy DUFFCOPY from q1 to q4
+				q4 := obj.Appendp(p, c.newprog)
+				q4.Pos = p.Pos
+				q4.As = obj.ADUFFCOPY
+				q4.To = p.To
+
+				q1.As = AADR
+				q1.From.Type = obj.TYPE_BRANCH
+				q1.To.Type = obj.TYPE_REG
+				q1.To.Reg = REG_R27
+
+				q2 := obj.Appendp(q1, c.newprog)
+				q2.Pos = p.Pos
+				q2.As = ASTP
+				q2.From.Type = obj.TYPE_REGREG
+				q2.From.Reg = REGFP
+				q2.From.Offset = int64(REG_R27)
+				q2.To.Type = obj.TYPE_MEM
+				q2.To.Reg = REGSP
+				q2.To.Offset = -32
+
+				// maintaine FP for DUFFCOPY
+				q3 := obj.Appendp(q2, c.newprog)
+				q3.Pos = p.Pos
+				q3.As = ASUB
+				q3.From.Type = obj.TYPE_CONST
+				q3.From.Offset = 32
+				q3.Reg = REGSP
+				q3.To.Type = obj.TYPE_REG
+				q3.To.Reg = REGFP
+
+				q5 := obj.Appendp(q4, c.newprog)
+				q5.Pos = p.Pos
+				q5.As = ASUB
+				q5.From.Type = obj.TYPE_CONST
+				q5.From.Offset = 8
+				q5.Reg = REGSP
+				q5.To.Type = obj.TYPE_REG
+				q5.To.Reg = REGFP
+				q1.Pcond = q5
+				p = q5
+			}
+			break
+
+		case obj.ADUFFZERO:
+			if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+				//  ADR	ret_addr, R27
+				//  STP	(FP, R27), -32(SP)
+				//  SUB	32, SP, FP
+				//  DUFFZERO
+				// ret_addr:
+				//  SUB	8, SP, FP
+
+				q1 := p
+				// copy DUFFZERO from q1 to q4
+				q4 := obj.Appendp(p, c.newprog)
+				q4.Pos = p.Pos
+				q4.As = obj.ADUFFZERO
+				q4.To = p.To
+
+				q1.As = AADR
+				q1.From.Type = obj.TYPE_BRANCH
+				q1.To.Type = obj.TYPE_REG
+				q1.To.Reg = REG_R27
+
+				q2 := obj.Appendp(q1, c.newprog)
+				q2.Pos = p.Pos
+				q2.As = ASTP
+				q2.From.Type = obj.TYPE_REGREG
+				q2.From.Reg = REGFP
+				q2.From.Offset = int64(REG_R27)
+				q2.To.Type = obj.TYPE_MEM
+				q2.To.Reg = REGSP
+				q2.To.Offset = -32
+
+				// maintaine FP for DUFFZERO
+				q3 := obj.Appendp(q2, c.newprog)
+				q3.Pos = p.Pos
+				q3.As = ASUB
+				q3.From.Type = obj.TYPE_CONST
+				q3.From.Offset = 32
+				q3.Reg = REGSP
+				q3.To.Type = obj.TYPE_REG
+				q3.To.Reg = REGFP
+
+				q5 := obj.Appendp(q4, c.newprog)
+				q5.Pos = p.Pos
+				q5.As = ASUB
+				q5.From.Type = obj.TYPE_CONST
+				q5.From.Offset = 8
+				q5.Reg = REGSP
+				q5.To.Type = obj.TYPE_REG
+				q5.To.Reg = REGFP
+				q1.Pcond = q5
+				p = q5
+			}
+			break
 		}
 	}
 }

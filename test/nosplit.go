@@ -122,7 +122,7 @@ main 104 nosplit; REJECT ppc64 ppc64le
 main 108 nosplit; REJECT ppc64 ppc64le
 main 112 nosplit; REJECT ppc64 ppc64le
 main 116 nosplit; REJECT ppc64 ppc64le
-main 120 nosplit; REJECT ppc64 ppc64le amd64
+main 104 nosplit; REJECT ppc64 ppc64le amd64
 main 124 nosplit; REJECT ppc64 ppc64le amd64
 main 128 nosplit; REJECT
 main 132 nosplit; REJECT
@@ -140,7 +140,7 @@ main 104 nosplit call f; f 0 nosplit; REJECT ppc64 ppc64le
 main 108 nosplit call f; f 0 nosplit; REJECT ppc64 ppc64le
 main 112 nosplit call f; f 0 nosplit; REJECT ppc64 ppc64le amd64
 main 116 nosplit call f; f 0 nosplit; REJECT ppc64 ppc64le amd64
-main 120 nosplit call f; f 0 nosplit; REJECT ppc64 ppc64le amd64
+main 104 nosplit call f; f 0 nosplit; REJECT ppc64 ppc64le amd64
 main 124 nosplit call f; f 0 nosplit; REJECT ppc64 ppc64le amd64 386
 main 128 nosplit call f; f 0 nosplit; REJECT
 main 132 nosplit call f; f 0 nosplit; REJECT
@@ -156,7 +156,7 @@ main 104 nosplit call f; f 0 call f; REJECT ppc64 ppc64le amd64
 main 108 nosplit call f; f 0 call f; REJECT ppc64 ppc64le amd64
 main 112 nosplit call f; f 0 call f; REJECT ppc64 ppc64le amd64
 main 116 nosplit call f; f 0 call f; REJECT ppc64 ppc64le amd64
-main 120 nosplit call f; f 0 call f; REJECT ppc64 ppc64le amd64 386
+main 104 nosplit call f; f 0 call f; REJECT ppc64 ppc64le amd64 386
 main 124 nosplit call f; f 0 call f; REJECT ppc64 ppc64le amd64 386
 main 128 nosplit call f; f 0 call f; REJECT
 main 132 nosplit call f; f 0 call f; REJECT
@@ -169,7 +169,7 @@ main 104 nosplit callind; REJECT ppc64 ppc64le amd64
 main 108 nosplit callind; REJECT ppc64 ppc64le amd64
 main 112 nosplit callind; REJECT ppc64 ppc64le amd64
 main 116 nosplit callind; REJECT ppc64 ppc64le amd64
-main 120 nosplit callind; REJECT ppc64 ppc64le amd64 386
+main 104 nosplit callind; REJECT ppc64 ppc64le amd64 386
 main 124 nosplit callind; REJECT ppc64 ppc64le amd64 386
 main 128 nosplit callind; REJECT
 main 132 nosplit callind; REJECT
