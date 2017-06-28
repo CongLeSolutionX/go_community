@@ -268,6 +268,10 @@ func gentraceback(pc0, sp0, lr0 uintptr, gp *g, skip int, pcbuf *uintptr, max in
 			// On x86, call instruction pushes return PC before entering new function.
 			frame.varp -= sys.RegSize
 		}
+		if GOARCH == "arm64" && frame.sp != frame.fp {
+			// On arm64, the frame top 8 bytes are for FP
+			frame.varp -= sys.RegSize
+		}
 
 		// If framepointer_enabled and there's a frame, then
 		// there's a saved bp here.
