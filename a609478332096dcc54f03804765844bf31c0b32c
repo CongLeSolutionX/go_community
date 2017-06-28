@@ -22,6 +22,30 @@
       "revId": "a609478332096dcc54f03804765844bf31c0b32c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d7d4650_fe14294f",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-28T21:50:13Z",
+      "side": 1,
+      "message": "Good point, seems that this should be uintptr.",
+      "parentUuid": "72cfed86_5266b8c9",
+      "range": {
+        "startLine": 43,
+        "startChar": 30,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "a609478332096dcc54f03804765844bf31c0b32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
