@@ -46,6 +46,30 @@
       "revId": "a609478332096dcc54f03804765844bf31c0b32c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7e4fee7_d2972791",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-06-28T21:50:17Z",
+      "side": 1,
+      "message": "I was wondering this too.\n\nThe values are just densely packed IDs, so almost anything works currently. It looks like the C analog is cap_value_t, which is a C int.\n\nI think int32 would closest match the C API. uint32 or uintptr seem fine too.",
+      "parentUuid": "72cfed86_5266b8c9",
+      "range": {
+        "startLine": 43,
+        "startChar": 30,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "a609478332096dcc54f03804765844bf31c0b32c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
