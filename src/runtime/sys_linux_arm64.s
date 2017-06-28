@@ -114,24 +114,24 @@ done:
 	MOVW	R0, ret+24(FP)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$24-4
+TEXT runtime·usleep(SB),NOSPLIT,$16-4
 	MOVWU	usec+0(FP), R3
 	MOVD	R3, R5
 	MOVW	$1000000, R4
 	UDIV	R4, R3
-	MOVD	R3, 8(RSP)
+	MOVD	R3, 16(RSP)
 	MUL	R3, R4
 	SUB	R4, R5
 	MOVW	$1000, R4
 	MUL	R4, R5
-	MOVD	R5, 16(RSP)
+	MOVD	R5, 24(RSP)
 
 	// pselect6(0, 0, 0, 0, &ts, 0)
 	MOVD	$0, R0
 	MOVD	R0, R1
 	MOVD	R0, R2
 	MOVD	R0, R3
-	ADD	$8, RSP, R4
+	ADD	$16, RSP, R4
 	MOVD	R0, R5
 	MOVD	$SYS_pselect6, R8
 	SVC
@@ -179,24 +179,24 @@ TEXT runtime·mincore(SB),NOSPLIT|NOFRAME,$0-28
 	RET
 
 // func walltime() (sec int64, nsec int32)
-TEXT runtime·walltime(SB),NOSPLIT,$24-12
+TEXT runtime·walltime(SB),NOSPLIT,$16-12
 	MOVW	$0, R0 // CLOCK_REALTIME
-	MOVD	RSP, R1
+	ADD	$16, RSP, R1
 	MOVD	$SYS_clock_gettime, R8
 	SVC
-	MOVD	0(RSP), R3	// sec
-	MOVD	8(RSP), R5	// nsec
+	MOVD	16(RSP), R3	// sec
+	MOVD	24(RSP), R5	// nsec
 	MOVD	R3, sec+0(FP)
 	MOVW	R5, nsec+8(FP)
 	RET
 
-TEXT runtime·nanotime(SB),NOSPLIT,$24-8
+TEXT runtime·nanotime(SB),NOSPLIT,$16-8
 	MOVW	$1, R0 // CLOCK_MONOTONIC
-	MOVD	RSP, R1
+	ADD	$16, RSP, R1
 	MOVD	$SYS_clock_gettime, R8
 	SVC
-	MOVD	0(RSP), R3	// sec
-	MOVD	8(RSP), R5	// nsec
+	MOVD	16(RSP), R3	// sec
+	MOVD	24(RSP), R5	// nsec
 	// sec is in R3, nsec in R5
 	// return nsec in R3
 	MOVD	$1000000000, R4
@@ -237,18 +237,18 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	BL	(R11)
 	RET
 
-TEXT runtime·sigtramp(SB),NOSPLIT,$24
+TEXT runtime·sigtramp(SB),NOSPLIT,$32
 	// this might be called in external code context,
 	// where g is not set.
 	// first save R0, because runtime·load_g will clobber it
-	MOVW	R0, 8(RSP)
+	MOVW	R0, 16(RSP)
 	MOVBU	runtime·iscgo(SB), R0
 	CMP	$0, R0
 	BEQ	2(PC)
 	BL	runtime·load_g(SB)
 
-	MOVD	R1, 16(RSP)
-	MOVD	R2, 24(RSP)
+	MOVD	R1, 24(RSP)
+	MOVD	R2, 32(RSP)
 	MOVD	$runtime·sigtrampgo(SB), R0
 	BL	(R0)
 	RET

@@ -65,6 +65,10 @@ func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// anyway.
 	sp := c.sp() - sys.SpAlign // needs only sizeof uint64, but must align the stack
 	c.set_sp(sp)
+	if sys.GOARCH == "arm64" {
+		*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.r29()
+		sp += sys.RegSize
+	}
 	*(*uint64)(unsafe.Pointer(uintptr(sp))) = c.lr()
 
 	pc := gp.sigpc

@@ -60,17 +60,17 @@ equal:
 	RET
 
 // memequal_varlen(a, b unsafe.Pointer) bool
-TEXT runtime·memequal_varlen(SB),NOSPLIT,$40-17
+TEXT runtime·memequal_varlen(SB),NOSPLIT,$32-17
 	MOVD	a+0(FP), R3
 	MOVD	b+8(FP), R4
 	CMP	R3, R4
 	BEQ	eq
 	MOVD	8(R26), R5    // compiler stores size at offset 8 in the closure
-	MOVD	R3, 8(RSP)
-	MOVD	R4, 16(RSP)
-	MOVD	R5, 24(RSP)
+	MOVD	R3, 16(RSP)
+	MOVD	R4, 24(RSP)
+	MOVD	R5, 32(RSP)
 	BL	runtime·memequal(SB)
-	MOVBU	32(RSP), R3
+	MOVBU	40(RSP), R3
 	MOVB	R3, ret+16(FP)
 	RET
 eq:
