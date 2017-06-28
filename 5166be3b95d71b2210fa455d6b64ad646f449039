@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d197f7d_9f2ba98c",
+        "filename": "src/cmd/vet/all/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T18:36:38Z",
+      "side": 1,
+      "message": "Let\u0027s include the platform.String() in here so it\u0027s obvious which GOOS/GOARCH failed:\n\n  fmt.Fprintf(os.Stderr, \"failed to parse %s vet output:\\n\", p)",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 241,
+        "endChar": 58
+      },
+      "revId": "5166be3b95d71b2210fa455d6b64ad646f449039",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
