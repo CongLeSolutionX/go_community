@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b8a333a_9028484c",
+        "filename": "src/crypto/x509/root_unix_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 10210
+      },
+      "writtenOn": "2017-06-28T10:58:27Z",
+      "side": 1,
+      "message": "This doesn\u0027t describe what this block is doing, its actually confirming that r.certs \u003d\u003d tc.cns and reporting where any difference is be that:\n1. missing expected cert.\n2. unexpected cert i.e. a missmatch\n3. more certs than expected.\n\nI would change this comment to something like:\n// Verify that the returned certs match, otherwise report where the mismatch is.",
+      "revId": "441fd1338633c2aafa5b30121142ab24ee9dddcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
