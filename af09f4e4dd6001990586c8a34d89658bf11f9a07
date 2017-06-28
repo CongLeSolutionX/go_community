@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9f02e6ec_acc03bb1",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2017-06-28T18:18:48Z",
+      "side": 1,
+      "message": "On Solaris, syscall() exists for internal use by libc and for very ancient programs, but the actual expected arguments to those system calls can and do change -- they\u0027re not a guaranteed stable interface boundary.  On Solaris, libc is the guaranteed, stable interface boundary.\n\nIf I had to guess, in current versions of Solaris, we\u0027ve changed the required arguments internally for the system call, which results in EINVAL being set when Go attempts to call execve.  I haven\u0027t spent the time to find out exactly where EINVAL is being set because this is obviously not correct.\n\nIf it does work on Illumos/SmartOS, it works by accident -- not by design.\n\nIf I had to make a further guess, Illumos has spent a great deal of time trying to be more Linux compatible, and it\u0027s possible that\u0027s why this works at all there.\n\nRegardless, this change should work perfectly fine for all Solaris variants.",
+      "parentUuid": "1a75b0ff_dd46d07e",
+      "range": {
+        "startLine": 266,
+        "startChar": 1,
+        "endLine": 266,
+        "endChar": 31
+      },
+      "revId": "af09f4e4dd6001990586c8a34d89658bf11f9a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b39f157_7d95e369",
         "filename": "src/syscall/exec_unix.go",
         "patchSetId": 1
@@ -92,6 +116,30 @@
       "revId": "af09f4e4dd6001990586c8a34d89658bf11f9a07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6440570_e8f6574d",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2017-06-28T18:18:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2b39f157_7d95e369",
+      "range": {
+        "startLine": 279,
+        "startChar": 8,
+        "endLine": 279,
+        "endChar": 12
+      },
+      "revId": "af09f4e4dd6001990586c8a34d89658bf11f9a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
