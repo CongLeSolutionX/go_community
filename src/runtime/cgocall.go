@@ -266,9 +266,9 @@ func cgocallbackg1(ctxt uintptr) {
 		// SP and the stack frame and between the stack frame and the arguments.
 		cb = (*args)(unsafe.Pointer(sp + 4*sys.PtrSize))
 	case "arm64":
-		// On arm64, stack frame is four words and there's a saved LR between
+		// On arm64, stack frame is four words and there's saved FP&LR between
 		// SP and the stack frame and between the stack frame and the arguments.
-		cb = (*args)(unsafe.Pointer(sp + 5*sys.PtrSize))
+		cb = (*args)(unsafe.Pointer(sp + 6*sys.PtrSize))
 	case "amd64":
 		// On amd64, stack frame is two words, plus caller PC.
 		if framepointer_enabled {

@@ -2692,7 +2692,7 @@ var linuxARM64Tests = []*asmTest{
 			return *(&x)
 		}
 		`,
-		pos: []string{"TEXT\t.*, [$]-8-8"},
+		pos: []string{"TEXT\t.*, [$]-16-8"},
 	},
 	{
 		// check that we don't emit comparisons for constant shift
