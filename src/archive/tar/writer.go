@@ -121,7 +121,9 @@ func (tw *Writer) writeHeader(hdr *Header, allowPax bool) error {
 		needsPaxHeader := paxKeyword != paxNone && len(s) > len(b) || !isASCII(s)
 		if needsPaxHeader {
 			paxHeaders[paxKeyword] = s
-			return
+		}
+		if len(s) > len(b) {
+			s = s[:len(b)]
 		}
 		f.formatString(b, s)
 	}
