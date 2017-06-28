@@ -22,6 +22,29 @@
       "revId": "8e5d2a00836866cc945162273bcb1f024401df2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "821be08c_ac7dbc16",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T18:23:47Z",
+      "side": 1,
+      "message": "What you could do is add a global variable in this file like:\n\n// execveSolaris is non-nil on Solaris, set to execve in exec_solaris.go. \nvar execveSolaris func(path uintptr, argv uintptr, envp uintptr) (err Errno)\n\nAnd then add a \"func init\" in exec_solaris.go to:\n\nfunc init() {\n    execveSolaris \u003d execve\n}\n\n\nThat would be the minimal change.",
+      "range": {
+        "startLine": 268,
+        "startChar": 9,
+        "endLine": 268,
+        "endChar": 15
+      },
+      "revId": "8e5d2a00836866cc945162273bcb1f024401df2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
