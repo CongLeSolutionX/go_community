@@ -45,6 +45,30 @@
       "revId": "8e5d2a00836866cc945162273bcb1f024401df2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f0308be_6440a108",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 7291
+      },
+      "writtenOn": "2017-06-28T18:38:02Z",
+      "side": 1,
+      "message": "Sigh, I don\u0027t know why I didn\u0027t think of that.  I was already considering how to minimally split apart exec_unix instead with build tags, but that\u0027s a much more elegant solution.  Thanks.",
+      "parentUuid": "821be08c_ac7dbc16",
+      "range": {
+        "startLine": 268,
+        "startChar": 9,
+        "endLine": 268,
+        "endChar": 15
+      },
+      "revId": "8e5d2a00836866cc945162273bcb1f024401df2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
