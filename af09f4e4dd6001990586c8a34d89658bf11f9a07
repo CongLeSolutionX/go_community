@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4dc3bb7_68744b0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T18:01:50Z",
+      "side": 1,
+      "message": "#18146 (convention recognized by Gerrit \u0026 Github to link to Github issues)",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "af09f4e4dd6001990586c8a34d89658bf11f9a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
