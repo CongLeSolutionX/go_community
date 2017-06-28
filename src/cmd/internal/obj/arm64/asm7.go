@@ -49,6 +49,7 @@ type ctxt7 struct {
 	blitrl     *obj.Prog
 	elitrl     *obj.Prog
 	autosize   int32
+	extrasize  int32
 	instoffset int64
 	pc         int64
 	pool       struct {
@@ -774,6 +775,18 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	}
 
 	c := ctxt7{ctxt: ctxt, newprog: newprog, cursym: cursym, autosize: int32(p.To.Offset&0xffffffff) + 8}
+	if !cursym.NoFrame() {
+		if c.autosize%16 == 8 {
+			// Allocate extra 8 bytes on the frame top to save FP
+			c.extrasize = 8
+		} else if c.autosize&(16-1) == 0 {
+			// Allocate extra 16 bytes to save FP for the old frame whose size is 8 mod 16
+			c.extrasize = 16
+		} else {
+			ctxt.Diag("unaligned frame size %d - must be 16 aligned", c.autosize-8)
+		}
+		c.autosize += c.extrasize
+	}
 
 	bflag := 1
 	pc := int64(0)
@@ -1432,7 +1445,8 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 				// a.Offset is still relative to pseudo-SP.
 				a.Reg = obj.REG_NONE
 			}
-			c.instoffset = int64(c.autosize) + a.Offset
+			// The frame top 8 or 16 bytes are for FP
+			c.instoffset = int64(c.autosize) + a.Offset - int64(c.extrasize)
 			return autoclass(c.instoffset)
 
 		case obj.NAME_PARAM:
@@ -1532,7 +1546,8 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 				// a.Offset is still relative to pseudo-SP.
 				a.Reg = obj.REG_NONE
 			}
-			c.instoffset = int64(c.autosize) + a.Offset
+			// The frame top 8 or 16 bytes are for FP
+			c.instoffset = int64(c.autosize) + a.Offset - int64(c.extrasize)
 
 		case obj.NAME_PARAM:
 			if a.Reg == REGSP {
