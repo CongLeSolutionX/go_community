@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "850275dd_244e6ff7",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-28T20:31:43Z",
+      "side": 1,
+      "message": "Do we know if older versions of Go work OK?",
+      "revId": "3ffde97064aed10ee0496bd98e6e4e3936c3e3c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
