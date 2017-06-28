@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1e6e9c2_793c28fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T18:20:47Z",
+      "side": 1,
+      "message": "generally we start with a lowercase verb after the colon\n\nSee https://golang.org/doc/contribute.html where it says \"It should complete the sentence\"\n\nAs stated, this sounds like a bug report title.",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "8e5d2a00836866cc945162273bcb1f024401df2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
