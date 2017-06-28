@@ -253,6 +253,10 @@ Files:
 				if archDef.lr {
 					// Account for caller's saved LR
 					localSize += archDef.intSize
+					if arch == "arm64" {
+						// Account for 2 saved FP of caller and callee
+						localSize += 2*archDef.ptrSize
+					}
 				}
 				argSize, _ = strconv.Atoi(m[5])
 				if fn == nil && !strings.Contains(fnName, "<>") {

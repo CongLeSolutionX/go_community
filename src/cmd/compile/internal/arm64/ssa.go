@@ -12,6 +12,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/obj/arm64"
+	"cmd/internal/objabi"
 )
 
 // loadByType returns the load instruction of the given type.
@@ -575,12 +576,56 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpARM64DUFFZERO:
-		// runtime.duffzero expects start address in R16
-		p := s.Prog(obj.ADUFFZERO)
-		p.To.Type = obj.TYPE_MEM
-		p.To.Name = obj.NAME_EXTERN
-		p.To.Sym = gc.Duffzero
-		p.To.Offset = v.AuxInt
+		if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+			//  ADR	ret_addr, R27
+			//  STP	(FP, R27), -16(SP)
+			//  SUB	16, SP, FP
+			//  DUFFZERO
+			// ret_addr:
+			//  MOV	SP, FP
+
+			p := s.Prog(arm64.AADR)
+			p.From.Type = obj.TYPE_BRANCH
+			p.To.Type = obj.TYPE_REG
+			p.To.Reg = arm64.REG_R27
+
+			p2 := s.Prog(arm64.ASTP)
+			p2.From.Type = obj.TYPE_REGREG
+			p2.From.Reg = arm64.REGFP
+			p2.From.Offset = int64(arm64.REG_R27)
+			p2.To.Type = obj.TYPE_MEM
+			p2.To.Reg = arm64.REGSP
+			p2.To.Offset = -16
+
+			// maintaine FP for DUFFZERO
+			p3 := s.Prog(arm64.ASUB)
+			p3.From.Type = obj.TYPE_CONST
+			p3.From.Offset = 16
+			p3.Reg = arm64.REGSP
+			p3.To.Type = obj.TYPE_REG
+			p3.To.Reg = arm64.REGFP
+
+			// runtime.duffzero expects start address in R16
+			p4 := s.Prog(obj.ADUFFZERO)
+			p4.To.Type = obj.TYPE_MEM
+			p4.To.Name = obj.NAME_EXTERN
+			p4.To.Sym = gc.Duffzero
+			p4.To.Offset = v.AuxInt
+
+			p5 := s.Prog(arm64.AMOVD)
+			p5.From.Type = obj.TYPE_REG
+			p5.From.Reg = arm64.REGSP
+			p5.To.Type = obj.TYPE_REG
+			p5.To.Reg = arm64.REGFP
+			p.Pcond = p5
+		} else {
+			// runtime.duffzero expects start address in R16
+			p := s.Prog(obj.ADUFFZERO)
+			p.To.Type = obj.TYPE_MEM
+			p.To.Name = obj.NAME_EXTERN
+			p.To.Sym = gc.Duffzero
+			p.To.Offset = v.AuxInt
+		}
 	case ssa.OpARM64LoweredZero:
 		// STP.P	(ZR,ZR), 16(R16)
 		// CMP	Rarg1, R16
@@ -602,11 +647,54 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p3.To.Type = obj.TYPE_BRANCH
 		gc.Patch(p3, p)
 	case ssa.OpARM64DUFFCOPY:
-		p := s.Prog(obj.ADUFFCOPY)
-		p.To.Type = obj.TYPE_MEM
-		p.To.Name = obj.NAME_EXTERN
-		p.To.Sym = gc.Duffcopy
-		p.To.Offset = v.AuxInt
+		if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+			//  ADR	ret_addr, R27
+			//  STP	(FP, R27), -16(SP)
+			//  SUB	16, SP, FP
+			//  DUFFCOPY
+			// ret_addr:
+			//  MOV	SP, FP
+
+			p := s.Prog(arm64.AADR)
+			p.From.Type = obj.TYPE_BRANCH
+			p.To.Type = obj.TYPE_REG
+			p.To.Reg = arm64.REG_R27
+
+			p2 := s.Prog(arm64.ASTP)
+			p2.From.Type = obj.TYPE_REGREG
+			p2.From.Reg = arm64.REGFP
+			p2.From.Offset = int64(arm64.REG_R27)
+			p2.To.Type = obj.TYPE_MEM
+			p2.To.Reg = arm64.REGSP
+			p2.To.Offset = -16
+
+			// maintaine FP for DUFFCOPY
+			p3 := s.Prog(arm64.ASUB)
+			p3.From.Type = obj.TYPE_CONST
+			p3.From.Offset = 16
+			p3.Reg = arm64.REGSP
+			p3.To.Type = obj.TYPE_REG
+			p3.To.Reg = arm64.REGFP
+
+			p4 := s.Prog(obj.ADUFFCOPY)
+			p4.To.Type = obj.TYPE_MEM
+			p4.To.Name = obj.NAME_EXTERN
+			p4.To.Sym = gc.Duffcopy
+			p4.To.Offset = v.AuxInt
+
+			p5 := s.Prog(arm64.AMOVD)
+			p5.From.Type = obj.TYPE_REG
+			p5.From.Reg = arm64.REGSP
+			p5.To.Type = obj.TYPE_REG
+			p5.To.Reg = arm64.REGFP
+			p.Pcond = p5
+		} else {
+			p := s.Prog(obj.ADUFFCOPY)
+			p.To.Type = obj.TYPE_MEM
+			p.To.Name = obj.NAME_EXTERN
+			p.To.Sym = gc.Duffcopy
+			p.To.Offset = v.AuxInt
+		}
 	case ssa.OpARM64LoweredMove:
 		// MOVD.P	8(R16), Rtmp
 		// MOVD.P	Rtmp, 8(R17)
