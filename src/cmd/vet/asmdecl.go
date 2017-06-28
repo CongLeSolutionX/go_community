@@ -109,7 +109,7 @@ func init() {
 var (
 	re           = regexp.MustCompile
 	asmPlusBuild = re(`//\s+\+build\s+([^\n]+)`)
-	asmTEXT      = re(`\bTEXT\b(.*)·([^\(]+)\(SB\)(?:\s*,\s*([0-9A-Z|+]+))?(?:\s*,\s*\$(-?[0-9]+)(?:-([0-9]+))?)?`)
+	asmTEXT      = re(`\bTEXT\b(.*)·([^\(]+)\(SB\)(?:\s*,\s*([0-9A-Z|+\(\)]+))?(?:\s*,\s*\$(-?[0-9]+)(?:-([0-9]+))?)?`)
 	asmDATA      = re(`\b(DATA|GLOBL)\b`)
 	asmNamedFP   = re(`([a-zA-Z0-9_\xFF-\x{10FFFF}]+)(?:\+([0-9]+))\(FP\)`)
 	asmUnnamedFP = re(`[^+\-0-9](([0-9]+)\(FP\))`)
@@ -253,6 +253,10 @@ Files:
 				if archDef.lr {
 					// Account for caller's saved LR
 					localSize += archDef.intSize
+					if arch == "arm64" {
+						// Account for 2 saved FP of caller and callee
+						localSize += 2*archDef.ptrSize
+					}
 				}
 				argSize, _ = strconv.Atoi(m[5])
 				if fn == nil && !strings.Contains(fnName, "<>") {
