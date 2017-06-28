@@ -512,6 +512,23 @@ var ptrnames = []string{
 // +------------------+
 // |  return address  |
 // +------------------+ <- frame->sp
+//
+// (arm64)
+// +------------------+
+// | args from caller |
+// +------------------+ <- frame->argp
+// | caller's retaddr |
+// +------------------+
+// |  caller's FP (*) | (*) if framepointer_enabled
+// +------------------+ <- frame->varp
+// |     locals       |
+// +------------------+
+// |  args to callee  |
+// +------------------+
+// |  return address  |
+// +------------------+
+// | frame-pointer (*)| (*) if framepointer_enabled
+// +------------------+ <- frame->sp
 
 type adjustinfo struct {
 	old   stack
@@ -1161,13 +1178,7 @@ func getStackMap(frame *stkframe, cache *pcvalueCache, debug bool) (locals, args
 
 	// Local variables.
 	size := frame.varp - frame.sp
-	var minsize uintptr
-	switch sys.ArchFamily {
-	case sys.ARM64:
-		minsize = sys.SpAlign
-	default:
-		minsize = sys.MinFrameSize
-	}
+	minsize := uintptr(sys.MinFrameSize)
 	if size > minsize {
 		stackmap := (*stackmap)(funcdata(f, _FUNCDATA_LocalsPointerMaps))
 		if stackmap == nil || stackmap.n <= 0 {

@@ -171,8 +171,8 @@ TEXT runtime·setitimer(SB),NOSPLIT,$0
 	SVC	$0x80
 	RET
 
-TEXT runtime·walltime(SB),NOSPLIT,$40-12
-	MOVD	RSP, R0	// timeval
+TEXT runtime·walltime(SB),NOSPLIT,$32-12
+	ADD	$16, RSP, R0	// timeval
 	MOVD	R0, R9	// this is how dyld calls gettimeofday
 	MOVW	$0, R1	// zone
 	MOVD	$0, R2	// see issue 16570
@@ -180,8 +180,8 @@ TEXT runtime·walltime(SB),NOSPLIT,$40-12
 	SVC	$0x80	// Note: x0 is tv_sec, w1 is tv_usec
 	CMP	$0, R0
 	BNE	inreg
-	MOVD	0(RSP), R0
-	MOVW	8(RSP), R1
+	MOVD	16(RSP), R0
+	MOVW	24(RSP), R1
 inreg:
 	MOVD	R0, sec+0(FP)
 	MOVW	$1000, R3
@@ -189,8 +189,8 @@ inreg:
 	MOVW	R1, nsec+8(FP)
 	RET
 
-TEXT runtime·nanotime(SB),NOSPLIT,$40
-	MOVD	RSP, R0	// timeval
+TEXT runtime·nanotime(SB),NOSPLIT,$32
+	ADD	$16, RSP, R0	// timeval
 	MOVD	R0, R9	// this is how dyld calls gettimeofday
 	MOVW	$0, R1	// zone
 	MOVD	$0, R2	// see issue 16570
@@ -198,8 +198,8 @@ TEXT runtime·nanotime(SB),NOSPLIT,$40
 	SVC	$0x80	// Note: x0 is tv_sec, w1 is tv_usec
 	CMP	$0, R0
 	BNE	inreg
-	MOVD	0(RSP), R0
-	MOVW	8(RSP), R1
+	MOVD	16(RSP), R0
+	MOVW	24(RSP), R1
 inreg:
 	MOVW	$1000000000, R3
 	MUL	R3, R0
@@ -243,14 +243,14 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$0
 	// badsignal will expect R2 at 8(RSP), so we also
 	// push R1 onto stack. turns out we do need R1
 	// to do sigreturn.
-	MOVD.W	R1, -16(RSP)
-	MOVD	R2, 8(RSP)
+	MOVD.W	R1, -32(RSP)
+	MOVD	R2, 16(RSP)
 	MOVD	R4, 24(RSP)	// save ucontext, badsignal might clobber R4
 	MOVD	$runtime·badsignal(SB), R26
 	BL	(R26)
 	MOVD	0(RSP), R1	// saved infostype
 	MOVD	24(RSP), R0	// the ucontext
-	ADD	$(16+16), RSP
+	ADD	$(16+32), RSP
 	B	ret
 
 cont:
@@ -265,14 +265,14 @@ cont:
 	SUB	$64, R6
 
 	// copy arguments for call to sighandler
-	MOVD	R2, 8(R6)	// signal num
-	MOVD	R3, 16(R6)	// signal info
-	MOVD	R4, 24(R6)	// context
-	MOVD	g, 32(R6)	// old_g
+	MOVD	R2, 16(R6)	// signal num
+	MOVD	R3, 24(R6)	// signal info
+	MOVD	R4, 32(R6)	// context
+	MOVD	g, 40(R6)	// old_g
 
 	// Backup ucontext and infostyle
-	MOVD	R4, 40(R6)
-	MOVD	R1, 48(R6)
+	MOVD	R4, 48(R6)
+	MOVD	R1, 56(R6)
 
 	// switch stack and g
 	MOVD	R6, RSP	// sigtramp is not re-entrant, so no need to back up RSP.
@@ -281,8 +281,8 @@ cont:
 	BL	(R0)
 
 	// call sigreturn
-	MOVD	40(RSP), R0	// saved ucontext
-	MOVD	48(RSP), R1	// saved infostyle
+	MOVD	48(RSP), R0	// saved ucontext
+	MOVD	56(RSP), R1	// saved infostyle
 ret:
 	MOVW	$SYS_sigreturn, R16 // sigreturn(ucontext, infostyle)
 	SVC	$0x80
@@ -310,7 +310,7 @@ TEXT runtime·sigaction(SB),NOSPLIT,$0
 	BL	notok<>(SB)
 	RET
 
-TEXT runtime·usleep(SB),NOSPLIT,$24
+TEXT runtime·usleep(SB),NOSPLIT,$16
 	MOVW	usec+0(FP), R0
 	MOVW	R0, R1
 	MOVW	$1000000, R2

@@ -254,6 +254,14 @@ Files:
 					// Account for caller's saved LR
 					localSize += archDef.intSize
 				}
+				if arch == "arm64" {
+					// Account for saved FP of caller
+					localSize += archDef.intSize
+					if !strings.Contains(flag, "NOFRAME") {
+						// Account for saved FP of callee
+						localSize += archDef.intSize
+					}
+				}
 				argSize, _ = strconv.Atoi(m[5])
 				if fn == nil && !strings.Contains(fnName, "<>") {
 					badf("function %s missing Go declaration", fnName)

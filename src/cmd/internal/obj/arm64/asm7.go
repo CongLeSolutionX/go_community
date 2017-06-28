@@ -55,6 +55,7 @@ type ctxt7 struct {
 		start uint32
 		size  uint32
 	}
+	fixRSPOff int32
 }
 
 const (
@@ -773,7 +774,7 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		ctxt.Diag("arm64 ops not initialized, call arm64.buildop first")
 	}
 
-	c := ctxt7{ctxt: ctxt, newprog: newprog, cursym: cursym, autosize: int32(p.To.Offset&0xffffffff) + 8}
+	c := ctxt7{ctxt: ctxt, newprog: newprog, cursym: cursym, autosize: int32(p.To.Offset&0xffffffff) + 16, fixRSPOff: p.From.Val.(int32)}
 
 	bflag := 1
 	pc := int64(0)
@@ -1441,7 +1442,7 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 				// a.Offset is still relative to pseudo-FP.
 				a.Reg = obj.REG_NONE
 			}
-			c.instoffset = int64(c.autosize) + a.Offset + 8
+			c.instoffset = int64(c.autosize) + a.Offset + 16
 			return autoclass(c.instoffset)
 
 		case obj.NAME_NONE:
@@ -1457,6 +1458,13 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 				return C_ROFF
 			}
 			c.instoffset = a.Offset
+			if a.Reg == REGSP && c.fixRSPOff != 0 {
+				// only fix RSP related offset
+				if a.Offset != int64(c.autosize) && a.Offset != -int64(c.autosize) {
+					// fix not apply to prologue and epilogue instructions
+					c.instoffset += int64(c.fixRSPOff)
+				}
+			}
 			return oregclass(c.instoffset)
 		}
 		return C_GOK
@@ -1471,6 +1479,13 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 		switch a.Name {
 		case obj.NAME_NONE:
 			c.instoffset = a.Offset
+			if a.Reg == REGSP && c.fixRSPOff != 0 {
+				// only fix RSP related offset
+				if a.Offset != int64(c.autosize) && a.Offset != -int64(c.autosize) {
+					// fix not apply to prologue and epilogue instructions
+					c.instoffset += int64(c.fixRSPOff)
+				}
+			}
 			if a.Reg != 0 && a.Reg != REGZERO {
 				break
 			}
@@ -1540,7 +1555,7 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 				// a.Offset is still relative to pseudo-FP.
 				a.Reg = obj.REG_NONE
 			}
-			c.instoffset = int64(c.autosize) + a.Offset + 8
+			c.instoffset = int64(c.autosize) + a.Offset + 16
 		default:
 			return C_GOK
 		}
