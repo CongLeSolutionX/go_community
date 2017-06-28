@@ -45,6 +45,30 @@
       "revId": "45eb1266ef04f6d038e0c2bf113e1ef34777d93c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70796d65_00f69ed6",
+        "filename": "src/syscall/exec_linux.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-06-28T21:19:36Z",
+      "side": 1,
+      "message": "Remove the\n\n    RawSyscall6(SYS_PRCTL, PR_CAP_AMBIENT, uintptr(PR_CAP_AMBIENT_RAISE), uintptr(c), 0, 0, 0)\n\ncall below too?",
+      "parentUuid": "979fcc74_895e93f5",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 1
+      },
+      "revId": "45eb1266ef04f6d038e0c2bf113e1ef34777d93c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
