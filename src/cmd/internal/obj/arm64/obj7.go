@@ -544,25 +544,12 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 			if !p.From.Sym.NoFrame() {
 				// If there is a stack frame at all, it includes
-				// space to save the LR.
-				c.autosize += 8
+				// space to save the FP&LR.
+				c.autosize += 16
 			}
 
-			if c.autosize != 0 && c.autosize&(16-1) != 0 {
-				// The frame includes an LR.
-				// If the frame size is 8, it's only an LR,
-				// so there's no potential for breaking references to
-				// local variables by growing the frame size,
-				// because there are no local variables.
-				// But otherwise, if there is a non-empty locals section,
-				// the author of the code is responsible for making sure
-				// that the frame size is 8 mod 16.
-				if c.autosize == 8 {
-					c.autosize += 8
-					c.cursym.Func.Locals += 8
-				} else {
-					c.ctxt.Diag("%v: unaligned frame size %d - must be 8 mod 16 (or 0)", p, c.autosize-8)
-				}
+			if c.autosize&(16-1) != 0 {
+				c.ctxt.Diag("%v: unaligned frame size %d - must 16 bytes aligned", p, c.autosize)
 			}
 			if c.autosize == 0 && c.cursym.Func.Text.Mark&LEAF == 0 {
 				if c.ctxt.Debugvlog {
@@ -572,7 +559,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			}
 
 			// FP offsets need an updated p.To.Offset.
-			p.To.Offset = int64(c.autosize) - 8
+			p.To.Offset = int64(c.autosize) - 16
 
 			if cursym.Func.Text.Mark&LEAF != 0 {
 				cursym.Set(obj.AttrLeaf, true)
@@ -586,16 +573,17 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			}
 
 			aoffset := c.autosize
-			if aoffset > 0xF0 {
-				aoffset = 0xF0
+			// 504 is the maximum immediate offset for STP/LDP
+			if aoffset > 504 {
+				aoffset = 504
 			}
 
 			// Frame is non-empty. Make sure to save link register, even if
 			// it is a leaf function, so that traceback works.
 			q = p
 			if c.autosize > aoffset {
-				// Frame size is too large for a MOVD.W instruction.
-				// Store link register before decrementing SP, so if a signal comes
+				// Frame size is too large for a STP.W instruction.
+				// Store FP&LR before decrementing SP, so if a signal comes
 				// during the execution of the function prologue, the traceback
 				// code will not see a half-updated stack frame.
 				q = obj.Appendp(q, c.newprog)
@@ -609,9 +597,10 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 				q = obj.Appendp(q, c.newprog)
 				q.Pos = p.Pos
-				q.As = AMOVD
-				q.From.Type = obj.TYPE_REG
-				q.From.Reg = REGLINK
+				q.As = ASTP
+				q.From.Type = obj.TYPE_REGREG
+				q.From.Reg = REGFP
+				q.From.Offset = REGLINK
 				q.To.Type = obj.TYPE_MEM
 				q.To.Reg = REGTMP
 
@@ -623,34 +612,55 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q1.To.Type = obj.TYPE_REG
 				q1.To.Reg = REGSP
 				q1.Spadj = c.autosize
+
+				if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+					q1 = obj.Appendp(q1, c.newprog)
+					q1.Pos = p.Pos
+					q1.As = AMOVD
+					q1.From.Type = obj.TYPE_REG
+					q1.From.Reg = REGSP
+					q1.To.Type = obj.TYPE_REG
+					q1.To.Reg = REGFP
+				}
 			} else {
-				// small frame, update SP and save LR in a single MOVD.W instruction
+				// small frame, update SP and save FP&LR in a single STP.W instruction
 				q1 = obj.Appendp(q, c.newprog)
-				q1.As = AMOVD
+				q1.As = ASTP
 				q1.Pos = p.Pos
-				q1.From.Type = obj.TYPE_REG
-				q1.From.Reg = REGLINK
+				q1.From.Type = obj.TYPE_REGREG
+				q1.From.Reg = REGFP
+				q1.From.Offset = REGLINK
 				q1.To.Type = obj.TYPE_MEM
 				q1.Scond = C_XPRE
 				q1.To.Offset = int64(-aoffset)
 				q1.To.Reg = REGSP
 				q1.Spadj = aoffset
+
+				if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+					q1 = obj.Appendp(q1, c.newprog)
+					q1.Pos = p.Pos
+					q1.As = AMOVD
+					q1.From.Type = obj.TYPE_REG
+					q1.From.Reg = REGSP
+					q1.To.Type = obj.TYPE_REG
+					q1.To.Reg = REGFP
+				}
 			}
 
 			if c.cursym.Func.Text.From.Sym.Wrapper() {
 				// if(g->panic != nil && g->panic->argp == FP) g->panic->argp = bottom-of-frame
 				//
 				//	MOV  g_panic(g), R1
-				//	CBNZ checkargp
+				//	CBNZ R1, checkargp
 				// end:
 				//	NOP
 				// ... function body ...
 				// checkargp:
 				//	MOV  panic_argp(R1), R2
-				//	ADD  $(autosize+8), RSP, R3
+				//	ADD  $(autosize+16), RSP, R3
 				//	CMP  R2, R3
 				//	BNE  end
-				//	ADD  $8, RSP, R4
+				//	ADD  $16, RSP, R4
 				//	MOVD R4, panic_argp(R1)
 				//	B    end
 				//
@@ -695,11 +705,11 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				// CBNZ branches to the MOV above
 				cbnz.Pcond = mov
 
-				// ADD $(autosize+8), SP, R3
+				// ADD $(autosize+16), SP, R3
 				q = obj.Appendp(mov, c.newprog)
 				q.As = AADD
 				q.From.Type = obj.TYPE_CONST
-				q.From.Offset = int64(c.autosize) + 8
+				q.From.Offset = int64(c.autosize) + 16
 				q.Reg = REGSP
 				q.To.Type = obj.TYPE_REG
 				q.To.Reg = REG_R3
@@ -717,11 +727,11 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				q.To.Type = obj.TYPE_BRANCH
 				q.Pcond = end
 
-				// ADD $8, SP, R4
+				// ADD $16, SP, R4
 				q = obj.Appendp(q, c.newprog)
 				q.As = AADD
 				q.From.Type = obj.TYPE_CONST
-				q.From.Offset = 8
+				q.From.Offset = 16
 				q.Reg = REGSP
 				q.To.Type = obj.TYPE_REG
 				q.To.Reg = REG_R4
@@ -759,22 +769,34 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 					p.To.Type = obj.TYPE_REG
 					p.To.Reg = REGSP
 					p.Spadj = -c.autosize
+
+					if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+						p = obj.Appendp(p, c.newprog)
+						p.As = AMOVD
+						p.From.Type = obj.TYPE_REG
+						p.From.Reg = REGSP
+						p.To.Type = obj.TYPE_REG
+						p.To.Reg = REGFP
+					}
 				}
 			} else {
-				/* want write-back pre-indexed SP+autosize -> SP, loading REGLINK*/
+				/* want write-back pre-indexed SP+autosize -> SP, loading FP&LR*/
 				aoffset := c.autosize
 
-				if aoffset > 0xF0 {
-					aoffset = 0xF0
+				// 504 is the maximum immediate offset for STP/LDP
+				if aoffset > 504 {
+					aoffset = 504
 				}
-				p.As = AMOVD
+				p.As = ALDP
 				p.From.Type = obj.TYPE_MEM
 				p.Scond = C_XPOST
 				p.From.Offset = int64(aoffset)
 				p.From.Reg = REGSP
-				p.To.Type = obj.TYPE_REG
-				p.To.Reg = REGLINK
+				p.To.Type = obj.TYPE_REGREG
+				p.To.Reg = REGFP
+				p.To.Offset = REGLINK
 				p.Spadj = -aoffset
+
 				if c.autosize > aoffset {
 					q = newprog()
 					q.As = AADD
@@ -819,6 +841,112 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 				} else {
 					p.Spadj = int32(+p.From.Offset)
 				}
+			}
+			break
+
+		case obj.ADUFFZERO:
+			if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+				//  ADR	ret_addr, R27
+				//  STP	(FP, R27), -16(SP)
+				//  SUB	16, SP, FP
+				//  DUFFZERO
+				// ret_addr:
+				//  MOV	SP, FP
+
+				q1 := p
+				// copy DUFFZERO from q1 to q4
+				q4 := obj.Appendp(p, c.newprog)
+				q4.Pos = p.Pos
+				q4.As = obj.ADUFFZERO
+				q4.To = p.To
+
+				q1.As = AADR
+				q1.From.Type = obj.TYPE_BRANCH
+				q1.To.Type = obj.TYPE_REG
+				q1.To.Reg = REG_R27
+
+				q2 := obj.Appendp(q1, c.newprog)
+				q2.Pos = p.Pos
+				q2.As = ASTP
+				q2.From.Type = obj.TYPE_REGREG
+				q2.From.Reg = REGFP
+				q2.From.Offset = int64(REG_R27)
+				q2.To.Type = obj.TYPE_MEM
+				q2.To.Reg = REGSP
+				q2.To.Offset = -16
+
+				// maintaine FP for DUFFZERO
+				q3 := obj.Appendp(q2, c.newprog)
+				q3.Pos = p.Pos
+				q3.As = ASUB
+				q3.From.Type = obj.TYPE_CONST
+				q3.From.Offset = 16
+				q3.Reg = REGSP
+				q3.To.Type = obj.TYPE_REG
+				q3.To.Reg = REGFP
+
+				q5 := obj.Appendp(q4, c.newprog)
+				q5.Pos = p.Pos
+				q5.As = AMOVD
+				q5.From.Type = obj.TYPE_REG
+				q5.From.Reg = REGSP
+				q5.To.Type = obj.TYPE_REG
+				q5.To.Reg = REGFP
+				q1.Pcond = q5
+				p = q5
+			}
+			break
+
+		case obj.ADUFFCOPY:
+			if objabi.Framepointer_enabled(objabi.GOOS, objabi.GOARCH) {
+				//  ADR	ret_addr, R27
+				//  STP	(FP, R27), -16(SP)
+				//  SUB	16, SP, FP
+				//  DUFFCOPY
+				// ret_addr:
+				//  MOV	SP, FP
+
+				q1 := p
+				// copy DUFFCOPY from q1 to q4
+				q4 := obj.Appendp(p, c.newprog)
+				q4.Pos = p.Pos
+				q4.As = obj.ADUFFCOPY
+				q4.To = p.To
+
+				q1.As = AADR
+				q1.From.Type = obj.TYPE_BRANCH
+				q1.To.Type = obj.TYPE_REG
+				q1.To.Reg = REG_R27
+
+				q2 := obj.Appendp(q1, c.newprog)
+				q2.Pos = p.Pos
+				q2.As = ASTP
+				q2.From.Type = obj.TYPE_REGREG
+				q2.From.Reg = REGFP
+				q2.From.Offset = int64(REG_R27)
+				q2.To.Type = obj.TYPE_MEM
+				q2.To.Reg = REGSP
+				q2.To.Offset = -16
+
+				// maintaine FP for DUFFCOPY
+				q3 := obj.Appendp(q2, c.newprog)
+				q3.Pos = p.Pos
+				q3.As = ASUB
+				q3.From.Type = obj.TYPE_CONST
+				q3.From.Offset = 16
+				q3.Reg = REGSP
+				q3.To.Type = obj.TYPE_REG
+				q3.To.Reg = REGFP
+
+				q5 := obj.Appendp(q4, c.newprog)
+				q5.Pos = p.Pos
+				q5.As = AMOVD
+				q5.From.Type = obj.TYPE_REG
+				q5.From.Reg = REGSP
+				q5.To.Type = obj.TYPE_REG
+				q5.To.Reg = REGFP
+				q1.Pcond = q5
+				p = q5
 			}
 			break
 		}

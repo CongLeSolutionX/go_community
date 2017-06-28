@@ -774,7 +774,7 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		ctxt.Diag("arm64 ops not initialized, call arm64.buildop first")
 	}
 
-	c := ctxt7{ctxt: ctxt, newprog: newprog, cursym: cursym, autosize: int32(p.To.Offset&0xffffffff) + 8}
+	c := ctxt7{ctxt: ctxt, newprog: newprog, cursym: cursym, autosize: int32(p.To.Offset&0xffffffff) + 16}
 
 	bflag := 1
 	pc := int64(0)
@@ -1446,7 +1446,7 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 				// a.Offset is still relative to pseudo-FP.
 				a.Reg = obj.REG_NONE
 			}
-			c.instoffset = int64(c.autosize) + a.Offset + 8
+			c.instoffset = int64(c.autosize) + a.Offset + 16
 			return autoclass(c.instoffset)
 
 		case obj.NAME_NONE:
@@ -1546,7 +1546,7 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 				// a.Offset is still relative to pseudo-FP.
 				a.Reg = obj.REG_NONE
 			}
-			c.instoffset = int64(c.autosize) + a.Offset + 8
+			c.instoffset = int64(c.autosize) + a.Offset + 16
 			goto aconsize
 		}
 		return C_GOK

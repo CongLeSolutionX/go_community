@@ -79,6 +79,8 @@ catch_exception_raise(
 #ifdef __arm64__
 	thread_state.ts_64.__x[1] = thread_state.ts_64.__lr;
 	thread_state.ts_64.__x[2] = thread_state.ts_64.__pc;
+	thread_state.ts_64.__x[3] = thread_state.ts_64.__sp;
+	thread_state.ts_64.__x[4] = thread_state.ts_64.__fp;
 	thread_state.ts_64.__pc = x_cgo_panicmem;
 #else
 	thread_state.ts_32.__r[1] = thread_state.ts_32.__lr;
