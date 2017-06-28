@@ -240,7 +240,7 @@ NextLine:
 				parseFailed = true
 				fmt.Fprintln(os.Stderr, "failed to parse vet output:")
 			}
-			fmt.Println(os.Stderr, line)
+			fmt.Fprintln(os.Stderr, line)
 		}
 		msg = strings.TrimSpace(msg)
 
