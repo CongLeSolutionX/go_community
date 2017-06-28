@@ -16,6 +16,24 @@
       "revId": "3ffde97064aed10ee0496bd98e6e4e3936c3e3c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aff9f611_59f9719c",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T20:37:52Z",
+      "side": 1,
+      "message": "Judging by the age of some of the bugs, I don\u0027t think so.\n\nOr maybe it did and it was NetBSD 7.0 that caused the flakiness:\n\nhttps://github.com/golang/go/issues/16511\n\nNot sure.",
+      "parentUuid": "850275dd_244e6ff7",
+      "revId": "3ffde97064aed10ee0496bd98e6e4e3936c3e3c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
