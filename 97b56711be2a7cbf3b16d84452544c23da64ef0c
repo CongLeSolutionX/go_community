@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e50c983_7029f85c",
+        "filename": "src/bufio/scan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T06:17:58Z",
+      "side": 1,
+      "message": "You can\u0027t have public docs referencing private constants.\n\nThe user won\u0027t know whether this is is 5, 100, or one million.",
+      "range": {
+        "startLine": 126,
+        "startChar": 45,
+        "endLine": 126,
+        "endChar": 69
+      },
+      "revId": "97b56711be2a7cbf3b16d84452544c23da64ef0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f87563d1_b1c8d572",
+        "filename": "src/bufio/scan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T06:17:58Z",
+      "side": 1,
+      "message": "this line is fine",
+      "revId": "97b56711be2a7cbf3b16d84452544c23da64ef0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9c4fd59_19070160",
+        "filename": "src/bufio/scan.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T06:17:58Z",
+      "side": 1,
+      "message": "this isn\u0027t helpful to the user. multiple can mean 2.\n\n100 is better.",
+      "range": {
+        "startLine": 161,
+        "startChar": 25,
+        "endLine": 161,
+        "endChar": 39
+      },
+      "revId": "97b56711be2a7cbf3b16d84452544c23da64ef0c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
