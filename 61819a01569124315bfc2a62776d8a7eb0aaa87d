@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5316fb_8bbe9098",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 5030,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T17:21:27Z",
+      "side": 1,
+      "message": "this almost implies that multiple entries created during the same iteration have shared fate: that if I create two entries for one iteration, that both are produced during iteration or both are not.\n\nBut kinda a stretch interpretation.",
+      "range": {
+        "startLine": 5030,
+        "startChar": 26,
+        "endLine": 5030,
+        "endChar": 39
+      },
+      "revId": "61819a01569124315bfc2a62776d8a7eb0aaa87d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
