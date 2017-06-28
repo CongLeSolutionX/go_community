@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a04d4d2e_2f12cb5b",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T20:34:00Z",
+      "side": 1,
+      "message": "delete, per Russ\u0027s comment.",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 56
+      },
+      "revId": "8036781dd5bd01dfe77c2fdb44b87e674af995f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9a8e4f0_6a3e55d2",
         "filename": "src/testing/sub_test.go",
         "patchSetId": 1
@@ -31,6 +54,24 @@
       "side": 1,
       "message": "Yes, please fix that.\n\nOtherwise this change LGTM.",
       "parentUuid": "f9a8e4f0_6a3e55d2",
+      "revId": "8036781dd5bd01dfe77c2fdb44b87e674af995f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca23bbfe_02d158fe",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T20:34:00Z",
+      "side": 1,
+      "message": "Actually, this is consistent with the test immediately above it.\n\nI think there\u0027s a reason for it. Let\u0027s keep it for now.",
+      "parentUuid": "864dffea_d0092937",
       "revId": "8036781dd5bd01dfe77c2fdb44b87e674af995f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
