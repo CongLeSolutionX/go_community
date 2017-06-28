@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e3cdca1_1e510b92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T20:09:10Z",
+      "side": 1,
+      "message": "verb\n\nreflect: make StructOf panic for methods that don\u0027t work",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "ad03f6c7116ca0973e84b2f86b7ca68f9d8af442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd12e1d8_54c0cca6",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2496,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T20:09:10Z",
+      "side": 1,
+      "message": "reference an issue number in either comments or the panic string itself? up to you.",
+      "range": {
+        "startLine": 2496,
+        "startChar": 22,
+        "endLine": 2496,
+        "endChar": 91
+      },
+      "revId": "ad03f6c7116ca0973e84b2f86b7ca68f9d8af442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95d633eb_0c4bd5e5",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2536,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T20:09:10Z",
+      "side": 1,
+      "message": "etc",
+      "range": {
+        "startLine": 2530,
+        "startChar": 5,
+        "endLine": 2536,
+        "endChar": 85
+      },
+      "revId": "ad03f6c7116ca0973e84b2f86b7ca68f9d8af442",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
