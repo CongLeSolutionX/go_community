@@ -1472,7 +1472,12 @@ func writeframes(ctxt *Link, syms []*sym.Symbol) []*sym.Symbol {
 					// after a stack frame has been allocated.
 					deltaBuf = append(deltaBuf, dwarf.DW_CFA_offset_extended_sf)
 					deltaBuf = dwarf.AppendUleb128(deltaBuf, uint64(thearch.Dwarfreglr))
-					deltaBuf = dwarf.AppendSleb128(deltaBuf, -int64(pcsp.value)/dataAlignmentFactor)
+					offset := pcsp.value
+					if objabi.GOARCH == "arm64" {
+						// LR is stored above FP
+						offset -= int32(ctxt.Arch.PtrSize)
+					}
+					deltaBuf = dwarf.AppendSleb128(deltaBuf, -int64(offset)/dataAlignmentFactor)
 				} else {
 					// The return address is restored into the link register
 					// when a stack frame has been de-allocated.
