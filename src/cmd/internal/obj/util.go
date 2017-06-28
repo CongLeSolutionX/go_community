@@ -246,9 +246,9 @@ func Dconv(p *Prog, a *Addr) string {
 
 	case TYPE_TEXTSIZE:
 		if a.Val.(int32) == objabi.ArgsSizeUnknown {
-			str = fmt.Sprintf("$%d", a.Offset)
+			str = fmt.Sprintf("$%d", int32(a.Offset&0xffffffff))
 		} else {
-			str = fmt.Sprintf("$%d-%d", a.Offset, a.Val.(int32))
+			str = fmt.Sprintf("$%d-%d", int32(a.Offset&0xffffffff), a.Val.(int32))
 		}
 
 	case TYPE_FCONST:
