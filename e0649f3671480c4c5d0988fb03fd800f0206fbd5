@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4cff875_76852e9d",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T05:01:17Z",
+      "side": 1,
+      "message": "thanks for this. Sorry about replying via email. Was mobile and Gerritless.",
+      "range": {
+        "startLine": 59,
+        "startChar": 33,
+        "endLine": 59,
+        "endChar": 85
+      },
+      "revId": "e0649f3671480c4c5d0988fb03fd800f0206fbd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
