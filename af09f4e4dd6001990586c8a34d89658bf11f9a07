@@ -46,6 +46,52 @@
       "revId": "af09f4e4dd6001990586c8a34d89658bf11f9a07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a75b0ff_dd46d07e",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T18:06:00Z",
+      "side": 1,
+      "message": "Why is the SmartOS builder happy?\n\nI\u0027m reluctant to change this and affect illumos if illumos is currently passing.",
+      "range": {
+        "startLine": 266,
+        "startChar": 1,
+        "endLine": 266,
+        "endChar": 31
+      },
+      "revId": "af09f4e4dd6001990586c8a34d89658bf11f9a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b39f157_7d95e369",
+        "filename": "src/syscall/exec_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-06-28T18:06:00Z",
+      "side": 1,
+      "message": "I was going to complain that this returns a typed error value even if it\u0027s ErrNo(0) to make a non-nil error value, but then I realized it\u0027s calling exec, so only non-0 errors would be here anyway.",
+      "range": {
+        "startLine": 279,
+        "startChar": 8,
+        "endLine": 279,
+        "endChar": 12
+      },
+      "revId": "af09f4e4dd6001990586c8a34d89658bf11f9a07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
