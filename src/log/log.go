@@ -238,6 +238,7 @@ func (l *Logger) Flags() int {
 }
 
 // SetFlags sets the output flags for the logger.
+// The flag bits are Ldate, Ltime, and so on.
 func (l *Logger) SetFlags(flag int) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
@@ -271,6 +272,7 @@ func Flags() int {
 }
 
 // SetFlags sets the output flags for the standard logger.
+// The flag bits are Ldate, Ltime, and so on.
 func SetFlags(flag int) {
 	std.SetFlags(flag)
 }
