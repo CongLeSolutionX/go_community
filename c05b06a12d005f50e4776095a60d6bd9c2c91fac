@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4399f850_70d7067d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 2063,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-06-29T06:11:55Z",
+      "side": 1,
+      "message": "can\u0027t it happen that when procs blocks netpollWaiters\u003d\u003d0, but then later when we need poller (netpollWaiters\u003e0) nobody is polling, so the notification will be arbitrary delayed?",
+      "revId": "c05b06a12d005f50e4776095a60d6bd9c2c91fac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
