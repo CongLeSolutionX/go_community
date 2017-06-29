@@ -22,6 +22,30 @@
       "revId": "a1055874f11ef8d6a348db912e02a475f024e199",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8edcd75e_08c68b9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-06-29T15:28:08Z",
+      "side": 1,
+      "message": "Really it\u0027s time to move forward.  But done for now.",
+      "parentUuid": "55a499b1_2cac6433",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "a1055874f11ef8d6a348db912e02a475f024e199",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
