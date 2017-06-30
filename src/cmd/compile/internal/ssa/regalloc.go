@@ -283,6 +283,9 @@ type regAllocState struct {
 	copies map[*Value]bool
 
 	loopnest *loopnest
+
+	// choose a good order in which to visit blocks for allocation purposes.
+	visitOrder []*Block
 }
 
 type endReg struct {
@@ -595,11 +598,24 @@ func (s *regAllocState) init(f *Func) {
 		s.allocatable &^= 1 << 15 // X7 disallowed (one 387 register is used as scratch space during SSE->387 generation in ../x86/387.go)
 	}
 
+	// Linear scan register allocation can be influenced by the order in which blocks appear.
+	// Decouple the register allocation order from the generated block order.
+	// This also creates an opportunity for experiments to find a better order.
+	s.visitOrder = layoutRegallocOrder(f)
+
+	// Compute block order. This array allows us to distinguish forward edges
+	// from backward edges and compute how far they go.
+	blockOrder := make([]int32, f.NumBlocks())
+	for i, b := range s.visitOrder {
+		blockOrder[b.ID] = int32(i)
+	}
+
 	s.regs = make([]regState, s.numRegs)
 	s.values = make([]valState, f.NumValues())
 	s.orig = make([]*Value, f.NumValues())
 	s.copies = make(map[*Value]bool)
-	for _, b := range f.Blocks {
+
+	for _, b := range s.visitOrder {
 		for _, v := range b.Values {
 			if !v.Type.IsMemory() && !v.Type.IsVoid() && !v.Type.IsFlags() && !v.Type.IsTuple() {
 				s.values[v.ID].needReg = true
@@ -612,16 +628,9 @@ func (s *regAllocState) init(f *Func) {
 	}
 	s.computeLive()
 
-	// Compute block order. This array allows us to distinguish forward edges
-	// from backward edges and compute how far they go.
-	blockOrder := make([]int32, f.NumBlocks())
-	for i, b := range f.Blocks {
-		blockOrder[b.ID] = int32(i)
-	}
-
 	// Compute primary predecessors.
 	s.primary = make([]int32, f.NumBlocks())
-	for _, b := range f.Blocks {
+	for _, b := range s.visitOrder {
 		best := -1
 		for i, e := range b.Preds {
 			p := e.b
@@ -734,7 +743,7 @@ func (s *regAllocState) regalloc(f *Func) {
 		f.Fatalf("entry block must be first")
 	}
 
-	for _, b := range f.Blocks {
+	for _, b := range s.visitOrder {
 		s.curBlock = b
 
 		// Initialize regValLiveSet and uses fields for this block.
@@ -1544,7 +1553,7 @@ func (s *regAllocState) regalloc(f *Func) {
 		}
 	}
 
-	for _, b := range f.Blocks {
+	for _, b := range s.visitOrder {
 		i := 0
 		for _, v := range b.Values {
 			if v.Op == OpInvalid {
@@ -1562,7 +1571,7 @@ func (s *regAllocState) placeSpills() {
 
 	// Precompute some useful info.
 	phiRegs := make([]regMask, f.NumBlocks())
-	for _, b := range f.Blocks {
+	for _, b := range s.visitOrder {
 		var m regMask
 		for _, v := range b.Values {
 			if v.Op != OpPhi {
@@ -1672,7 +1681,7 @@ func (s *regAllocState) placeSpills() {
 
 	// Insert spill instructions into the block schedules.
 	var oldSched []*Value
-	for _, b := range f.Blocks {
+	for _, b := range s.visitOrder {
 		nphi := 0
 		for _, v := range b.Values {
 			if v.Op != OpPhi {
@@ -1705,7 +1714,7 @@ func (s *regAllocState) shuffle(stacklive [][]ID) {
 		fmt.Println(s.f.String())
 	}
 
-	for _, b := range s.f.Blocks {
+	for _, b := range s.visitOrder {
 		if len(b.Preds) <= 1 {
 			continue
 		}
