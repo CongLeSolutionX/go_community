@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29b5bd99_59e5d9e9",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-06-30T22:34:42Z",
+      "side": 1,
+      "message": "Just use s.visitOrder directly, and omit this local var.",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8733899_03e4ec0d",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-06-30T22:34:42Z",
+      "side": 1,
+      "message": "Any chance of strings rather than ints here, for easier mnemonics and stability?",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c4d3c2_4266017f",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-06-30T22:34:42Z",
+      "side": 1,
+      "message": "When would layoutOrder differ from f.Blocks?\n\nIs layoutOrder cheap enough that we don\u0027t mind re-calculating it?",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a9a59b9_3bf8acdf",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-06-30T22:34:42Z",
+      "side": 1,
+      "message": "Does regalloc thoroughly check the required block ordering invariants already? If not, it might be worth adding such checks here, if they are not prohibitively expensive, so that the failure messages are right next to the code to examine. (And if they are expensive, they could go in ssa/check.)",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
