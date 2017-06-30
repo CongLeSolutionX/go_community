@@ -3,9 +3,8 @@
 package syscall
 
 import (
+	"internal/syscall/windows/sysdll"
 	"unsafe"
-
-	"golang.org/x/sys/windows"
 )
 
 var _ unsafe.Pointer
@@ -36,17 +35,17 @@ func errnoErr(e Errno) error {
 }
 
 var (
-	modkernel32 = windows.NewLazySystemDLL("kernel32.dll")
-	modadvapi32 = windows.NewLazySystemDLL("advapi32.dll")
-	modshell32  = windows.NewLazySystemDLL("shell32.dll")
-	modmswsock  = windows.NewLazySystemDLL("mswsock.dll")
-	modcrypt32  = windows.NewLazySystemDLL("crypt32.dll")
-	modws2_32   = windows.NewLazySystemDLL("ws2_32.dll")
-	moddnsapi   = windows.NewLazySystemDLL("dnsapi.dll")
-	modiphlpapi = windows.NewLazySystemDLL("iphlpapi.dll")
-	modsecur32  = windows.NewLazySystemDLL("secur32.dll")
-	modnetapi32 = windows.NewLazySystemDLL("netapi32.dll")
-	moduserenv  = windows.NewLazySystemDLL("userenv.dll")
+	modkernel32 = NewLazyDLL(sysdll.Add("kernel32.dll"))
+	modadvapi32 = NewLazyDLL(sysdll.Add("advapi32.dll"))
+	modshell32  = NewLazyDLL(sysdll.Add("shell32.dll"))
+	modmswsock  = NewLazyDLL(sysdll.Add("mswsock.dll"))
+	modcrypt32  = NewLazyDLL(sysdll.Add("crypt32.dll"))
+	modws2_32   = NewLazyDLL(sysdll.Add("ws2_32.dll"))
+	moddnsapi   = NewLazyDLL(sysdll.Add("dnsapi.dll"))
+	modiphlpapi = NewLazyDLL(sysdll.Add("iphlpapi.dll"))
+	modsecur32  = NewLazyDLL(sysdll.Add("secur32.dll"))
+	modnetapi32 = NewLazyDLL(sysdll.Add("netapi32.dll"))
+	moduserenv  = NewLazyDLL(sysdll.Add("userenv.dll"))
 
 	procGetLastError                       = modkernel32.NewProc("GetLastError")
 	procLoadLibraryW                       = modkernel32.NewProc("LoadLibraryW")
