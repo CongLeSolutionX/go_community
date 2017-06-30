@@ -809,6 +809,22 @@ CL 40331: https://golang.org/cl/40331: cmd/link,runtime/cgo: enable PT_TLS gener
 
 </dl><!-- syscall -->
 
+<dl id="testing"><dt><a href="/pkg/testing">testing</a></dt>
+  <dd>
+    <p><!-- CL 36791 -->
+	  Benchmarks memory statistics are now only collected when memory
+	  benchmarking is explicitly requested
+	  using <code>B.ReportAllocs</code> or the
+	  <code>-benchmem</code> command line flag.
+
+	  A user-visible effect of this change is
+	  that <code>BenchmarkResult</code> fields <code>MemAllocs</code>
+	  and <code>MemBytes</code> are now always zero when memory
+	  benchmarking is not enabled. In previous releases, they always
+	  contained meaningful data.
+    </p>
+</dl><!-- testing -->
+
 
 <dl id="testing/quick"><dt><a href="/pkg/testing/quick/">testing/quick</a></dt>
   <dd>
