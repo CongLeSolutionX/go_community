@@ -34,6 +34,24 @@
       "revId": "c05b06a12d005f50e4776095a60d6bd9c2c91fac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc4780ee_384cc68f",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 2063,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-06-30T05:56:53Z",
+      "side": 1,
+      "message": "sysmon should bound the delay. But additional 10ms delay is long. But I am not sure if it can happen or not.\n\n\u003e At that point, netpollWaiters \u003e 0, so if there is nothing else to do the m will block in netpoll.\n\nBut what if there is something else to do (e.g. a computational goroutine)? I don\u0027t see how the additional delay can happen. But I can\u0027t prove that it can\u0027t happen either.",
+      "parentUuid": "84088cec_fe7822a1",
+      "revId": "c05b06a12d005f50e4776095a60d6bd9c2c91fac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
