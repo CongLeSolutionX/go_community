@@ -8,6 +8,9 @@ package ssa
 // After this phase returns, the order of f.Blocks matters and is the order
 // in which those blocks will appear in the assembly output.
 func layout(f *Func) {
+	f.Blocks = layoutOrder(f)
+}
+func layoutOrder(f *Func) []*Block {
 	order := make([]*Block, 0, f.NumBlocks())
 	scheduled := make([]bool, f.NumBlocks())
 	idToBlock := make([]*Block, f.NumBlocks())
@@ -116,5 +119,5 @@ blockloop:
 			}
 		}
 	}
-	f.Blocks = order
+	return order
 }
