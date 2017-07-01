@@ -52,6 +52,24 @@
       "revId": "c05b06a12d005f50e4776095a60d6bd9c2c91fac",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5f4d564_e3bf8ae2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 14
+      },
+      "lineNbr": 2063,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-07-01T03:27:47Z",
+      "side": 1,
+      "message": "Well, let me know if you see anything.  I don\u0027t see anything either.  There is, of coures, a race between network activity and polling for activity.  It seems to me that this code just shifts that race a little bit.",
+      "parentUuid": "dc4780ee_384cc68f",
+      "revId": "c05b06a12d005f50e4776095a60d6bd9c2c91fac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
