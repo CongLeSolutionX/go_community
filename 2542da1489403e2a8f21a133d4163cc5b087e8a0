@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2d855688_f07bf337",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-07-01T02:05:27Z",
+      "side": 1,
+      "message": "will fix",
+      "parentUuid": "29b5bd99_59e5d9e9",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8733899_03e4ec0d",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-06-30T22:34:42Z",
       "side": 1,
       "message": "Any chance of strings rather than ints here, for easier mnemonics and stability?",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ae349c4_6d642fdf",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-07-01T02:05:27Z",
+      "side": 1,
+      "message": "f.pass.test has integer values, doesn\u0027t it?\nThe command-line options are 0, 1, 2, 3, etc, this is only for developer experiments.",
+      "parentUuid": "f8733899_03e4ec0d",
       "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b1b0cc1f_59d260cb",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-07-01T02:05:27Z",
+      "side": 1,
+      "message": "It differs from f.Blocks today, because it doesn\u0027t have the separate rotate pass following it.\nSome of the orders that I was generating while attempting to improve the order (before decoupling\norders) were plain wrong.\n\nI don\u0027t know if it is cheap enough, but it doesn\u0027t look like it contains a lot of hard work in it.\n\nIn my experimental version, I add a second boolean parameter indicating whether it should do a \"plain\"\n(what we have now) layout or the enhanced (with attempts at loop rotation by construction) layout.\nOur existing layout is much better than terrible, I\u0027ve found out that much with a pile of experiments\nand benchmarking, so I suspect that we\u0027ll always use it for non-loop code.  I tried a sort of synthetic\nlayout based on advice by Wimmer and Franz, and it did not do nearly as well for register allocation.",
+      "parentUuid": "07c4d3c2_4266017f",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a9a59b9_3bf8acdf",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2017-06-30T22:34:42Z",
       "side": 1,
       "message": "Does regalloc thoroughly check the required block ordering invariants already? If not, it might be worth adding such checks here, if they are not prohibitively expensive, so that the failure messages are right next to the code to examine. (And if they are expensive, they could go in ssa/check.)",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee471ab2_65ea2342",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-07-01T02:05:27Z",
+      "side": 1,
+      "message": "Not really. It generates hilariously wrong code, attempts to spill SB, then use some other register as the base register for accessing statics, and then the assembler chokes.",
+      "parentUuid": "3a9a59b9_3bf8acdf",
       "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
