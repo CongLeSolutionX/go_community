@@ -748,11 +748,12 @@ func putvar(ctxt Context, s Sym, v *Var, encbuf []byte) {
 
 	Uleb128put(ctxt, s, int64(v.Abbrev))
 	putattr(ctxt, s, v.Abbrev, DW_FORM_string, DW_CLS_STRING, int64(len(n)), n)
-	loc := append(encbuf[:0], DW_OP_call_frame_cfa)
-	if v.Offset != 0 {
-		loc = append(loc, DW_OP_consts)
+	loc := encbuf[:0]
+	if v.Offset == 0 {
+		loc = append(loc, DW_OP_call_frame_cfa)
+	} else {
+		loc = append(loc, DW_OP_fbreg)
 		loc = AppendSleb128(loc, int64(v.Offset))
-		loc = append(loc, DW_OP_plus)
 	}
 	putattr(ctxt, s, v.Abbrev, DW_FORM_block1, DW_CLS_BLOCK, int64(len(loc)), loc)
 	putattr(ctxt, s, v.Abbrev, DW_FORM_ref_addr, DW_CLS_REFERENCE, 0, v.Type)
