@@ -268,7 +268,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 		[]dwAttrForm{
 			{DW_AT_name, DW_FORM_string},
 			{DW_AT_low_pc, DW_FORM_addr},
-			{DW_AT_high_pc, DW_FORM_addr},
+			{DW_AT_high_pc, DW_FORM_udata},
 			{DW_AT_frame_base, DW_FORM_block1},
 			{DW_AT_external, DW_FORM_flag},
 		},
@@ -322,7 +322,7 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 		DW_CHILDREN_yes,
 		[]dwAttrForm{
 			{DW_AT_low_pc, DW_FORM_addr},
-			{DW_AT_high_pc, DW_FORM_addr},
+			{DW_AT_high_pc, DW_FORM_udata},
 		},
 	},
 
@@ -688,7 +688,7 @@ func PutFunc(ctxt Context, s, ranges Sym, name string, external bool, startPC Sy
 	Uleb128put(ctxt, s, DW_ABRV_FUNCTION)
 	putattr(ctxt, s, DW_ABRV_FUNCTION, DW_FORM_string, DW_CLS_STRING, int64(len(name)), name)
 	putattr(ctxt, s, DW_ABRV_FUNCTION, DW_FORM_addr, DW_CLS_ADDRESS, 0, startPC)
-	putattr(ctxt, s, DW_ABRV_FUNCTION, DW_FORM_addr, DW_CLS_ADDRESS, size, startPC)
+	putattr(ctxt, s, DW_ABRV_FUNCTION, DW_FORM_udata, DW_CLS_CONSTANT, size, nil)
 	putattr(ctxt, s, DW_ABRV_FUNCTION, DW_FORM_block1, DW_CLS_BLOCK, 1, []byte{DW_OP_call_frame_cfa})
 	var ev int64
 	if external {
@@ -721,7 +721,7 @@ func putscope(ctxt Context, s, ranges Sym, startPC Sym, curscope int32, scopes [
 		if len(scope.Ranges) == 1 {
 			Uleb128put(ctxt, s, DW_ABRV_LEXICAL_BLOCK_SIMPLE)
 			putattr(ctxt, s, DW_ABRV_LEXICAL_BLOCK_SIMPLE, DW_FORM_addr, DW_CLS_ADDRESS, scope.Ranges[0].Start, startPC)
-			putattr(ctxt, s, DW_ABRV_LEXICAL_BLOCK_SIMPLE, DW_FORM_addr, DW_CLS_ADDRESS, scope.Ranges[0].End, startPC)
+			putattr(ctxt, s, DW_ABRV_LEXICAL_BLOCK_SIMPLE, DW_FORM_udata, DW_CLS_CONSTANT, scope.Ranges[0].End-scope.Ranges[0].Start, nil)
 		} else {
 			Uleb128put(ctxt, s, DW_ABRV_LEXICAL_BLOCK_RANGES)
 			putattr(ctxt, s, DW_ABRV_LEXICAL_BLOCK_RANGES, DW_FORM_sec_offset, DW_CLS_PTR, ranges.Len(), ranges)
