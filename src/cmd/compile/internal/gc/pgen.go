@@ -356,14 +356,6 @@ func debuginfo(fnsym *obj.LSym, curfn interface{}) []dwarf.Scope {
 			continue
 		}
 
-		typename := dwarf.InfoPrefix + gotype.Name[len("type."):]
-		dwarfVars = append(dwarfVars, &dwarf.Var{
-			Name:   n.Sym.Name,
-			Abbrev: abbrev,
-			Offset: int32(offs),
-			Type:   Ctxt.Lookup(typename),
-		})
-
 		var scope ScopeID
 		if !n.Name.Captured() && !n.Name.Byval() {
 			// n.Pos of captured variables is their first
@@ -371,7 +363,19 @@ func debuginfo(fnsym *obj.LSym, curfn interface{}) []dwarf.Scope {
 			// be assigned to scope 0 instead.
 			// TODO(mdempsky): Verify this.
 			scope = findScope(fn.Func.Marks, n.Pos)
+		} else {
+			// Force captured variables to appear as local variables even if they
+			// were parameters for the enclosing function.
+			abbrev = dwarf.DW_ABRV_AUTO
 		}
+
+		typename := dwarf.InfoPrefix + gotype.Name[len("type."):]
+		dwarfVars = append(dwarfVars, &dwarf.Var{
+			Name:   n.Sym.Name,
+			Abbrev: abbrev,
+			Offset: int32(offs),
+			Type:   Ctxt.Lookup(typename),
+		})
 
 		varScopes = append(varScopes, scope)
 	}
