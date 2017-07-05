@@ -80,7 +80,7 @@ func insertLoopReschedChecks(f *Func) {
 	sdom := newSparseOrderedTree(f, idom, po)
 
 	if f.pass.debug > 1 {
-		fmt.Printf("before %s = %s\n", f.Name, sdom.treestructure(f.Entry))
+		fmt.Printf("before %s = %s\n", f.Name, sdom.treestructure(f))
 	}
 
 	tofixBackedges := []edgeMem{}
@@ -266,7 +266,7 @@ func insertLoopReschedChecks(f *Func) {
 
 	if f.pass.debug > 1 {
 		sdom = newSparseTree(f, f.Idom())
-		fmt.Printf("after %s = %s\n", f.Name, sdom.treestructure(f.Entry))
+		fmt.Printf("after %s = %s\n", f.Name, sdom.treestructure(f))
 	}
 
 	return
