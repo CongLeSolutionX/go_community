@@ -171,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "23139dc0_93da918b",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-07-05T16:08:00Z",
+      "side": 1,
+      "message": "I missed that rotate had not yet run, whoops.\n\nThat makes my earlier benchmarking results even more mystifying; I was measuring not-much-at-all, yet getting what looked like a clear signal on an N\u003d25 run, on a relatively quiet machine using Austin\u0027s perflock to hold things even more constant.\n\nAt least for the short term I was planning to experiment with different orders while passing a boolean parameter to layout.  Maybe I should split it into goodBranchOrder and goodRegallocOrder, and for now those are both the same thing.",
+      "parentUuid": "42e85819_de96185f",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a9a59b9_3bf8acdf",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 1
@@ -217,6 +235,30 @@
       "writtenOn": "2017-07-05T15:20:16Z",
       "side": 1,
       "message": "From the comment above, this is to distinguish forward edges from backward edges, so it should be scheduling order here.",
+      "range": {
+        "startLine": 622,
+        "startChar": 19,
+        "endLine": 622,
+        "endChar": 29
+      },
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5d194e9_ecdb0c3e",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-07-05T16:08:00Z",
+      "side": 1,
+      "message": "I think this is supposed to be \"backward\" and \"how far\" with respect to however regalloc happens to be visiting blocks, not w.r.t. the graph structure of the code.",
+      "parentUuid": "62493b79_689e6ef0",
       "range": {
         "startLine": 622,
         "startChar": 19,
