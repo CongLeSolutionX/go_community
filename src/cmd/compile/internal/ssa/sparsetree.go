@@ -88,19 +88,44 @@ func newSparseOrderedTree(f *Func, parentOf, reverseOrder []*Block) SparseTree {
 	return t
 }
 
+func (f *Func) b2po() []int32 {
+	b2PO := make([]int32, f.NumBlocks()) // For each block, its PO#, or -1 if not reachable
+	for i := range b2PO {
+		b2PO[i] = -1
+	}
+	for i, b := range f.postorder() {
+		b2PO[b.ID] = int32(i)
+	}
+	return b2PO
+}
+
 // treestructure provides a string description of the dominator
 // tree and flow structure of block b and all blocks that it
 // dominates.
-func (t SparseTree) treestructure(b *Block) string {
-	return t.treestructure1(b, 0)
+func (t SparseTree) treestructure(f *Func) string {
+	return t.treestructure1(f.Entry, 0, f.b2po())
 }
-func (t SparseTree) treestructure1(b *Block, i int) string {
-	s := "\n" + strings.Repeat("\t", i) + b.String() + "->["
+func (t SparseTree) treestructure1(b *Block, i int, b2po []int32) string {
+	ishead := ""
+	for _, e := range b.Preds {
+		if t.isAncestorEq(b, e.b) {
+			ishead += "*"
+		} else if b2po[e.b.ID] <= b2po[b.ID] {
+			ishead += "!"
+		}
+	}
+	s := "\n" + strings.Repeat("\t", i) + b.String() + ishead + "->["
 	for i, e := range b.Succs {
 		if i > 0 {
 			s = s + ","
 		}
-		s = s + e.b.String()
+		sb := e.b
+		s = s + sb.String()
+		if t.isAncestorEq(sb, b) {
+			s += "*"
+		} else if b2po[b.ID] <= b2po[sb.ID] {
+			s += "!"
+		}
 	}
 	s += "]"
 	if c0 := t[b.ID].child; c0 != nil {
@@ -109,7 +134,7 @@ func (t SparseTree) treestructure1(b *Block, i int) string {
 			if c != c0 {
 				s += " "
 			}
-			s += t.treestructure1(c, i+1)
+			s += t.treestructure1(c, i+1, b2po)
 		}
 		s += ")"
 	}
