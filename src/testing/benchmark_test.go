@@ -12,21 +12,20 @@ import (
 	"text/template"
 )
 
-var roundDownTests = []struct {
-	v, expected int
-}{
-	{1, 1},
-	{9, 1},
-	{10, 10},
-	{11, 10},
-	{100, 100},
-	{101, 100},
-	{999, 100},
-	{1000, 1000},
-	{1001, 1000},
-}
-
 func TestRoundDown10(t *testing.T) {
+	var roundDownTests = []struct {
+		v, expected int64
+	}{
+		{1, 1},
+		{9, 1},
+		{10, 10},
+		{11, 10},
+		{100, 100},
+		{101, 100},
+		{999, 100},
+		{1000, 1000},
+		{1001, 1000},
+	}
 	for _, tt := range roundDownTests {
 		actual := testing.RoundDown10(tt.v)
 		if tt.expected != actual {
@@ -35,26 +34,25 @@ func TestRoundDown10(t *testing.T) {
 	}
 }
 
-var roundUpTests = []struct {
-	v, expected int
-}{
-	{0, 1},
-	{1, 1},
-	{2, 2},
-	{3, 3},
-	{5, 5},
-	{9, 10},
-	{999, 1000},
-	{1000, 1000},
-	{1400, 2000},
-	{1700, 2000},
-	{2700, 3000},
-	{4999, 5000},
-	{5000, 5000},
-	{5001, 10000},
-}
-
 func TestRoundUp(t *testing.T) {
+	var roundUpTests = []struct {
+		v, expected int64
+	}{
+		{0, 1},
+		{1, 1},
+		{2, 2},
+		{3, 3},
+		{5, 5},
+		{9, 10},
+		{999, 1000},
+		{1000, 1000},
+		{1400, 2000},
+		{1700, 2000},
+		{2700, 3000},
+		{4999, 5000},
+		{5000, 5000},
+		{5001, 10000},
+	}
 	for _, tt := range roundUpTests {
 		actual := testing.RoundUp(tt.v)
 		if tt.expected != actual {

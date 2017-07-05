@@ -1434,6 +1434,10 @@
 // 	    as a time.Duration (for example, -benchtime 1h30s).
 // 	    The default is 1 second (1s).
 //
+//  -benchsplit s
+//      Split each benchmark into s intervals, which are run sequentially,
+//      each for at least t/s.
+//
 // 	-count n
 // 	    Run each test and benchmark n times (default 1).
 // 	    If -cpu is set, run n times for each GOMAXPROCS value.
