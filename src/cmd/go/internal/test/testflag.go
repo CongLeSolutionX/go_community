@@ -37,6 +37,7 @@ var testFlagDefn = []*cmdflag.Defn{
 	// Passed to 6.out, adding a "test." prefix to the name if necessary: -v becomes -test.v.
 	{Name: "bench", PassToTest: true},
 	{Name: "benchmem", BoolVar: new(bool), PassToTest: true},
+	{Name: "benchsplit", PassToTest: true},
 	{Name: "benchtime", PassToTest: true},
 	{Name: "count", PassToTest: true},
 	{Name: "coverprofile", PassToTest: true},
