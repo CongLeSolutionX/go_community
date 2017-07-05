@@ -494,8 +494,9 @@ func TestBRun(t *T) {
 				w:      buf,
 				chatty: tc.chatty,
 			},
-			benchFunc: func(b *B) { ok = b.Run("test", tc.f) }, // Use Run to catch failure.
-			benchTime: time.Microsecond,
+			benchFunc:  func(b *B) { ok = b.Run("test", tc.f) }, // Use Run to catch failure.
+			benchTime:  time.Microsecond,
+			benchSplit: 1,
 		}
 		root.runN(1)
 		if ok != !tc.failed {
@@ -528,6 +529,53 @@ func TestBenchmarkOutput(t *T) {
 	// normal case.
 	Benchmark(func(b *B) { b.Error("do not print this output") })
 	Benchmark(func(b *B) {})
+}
+
+func TestBenchsplitObeyIntervalRequest(t *T) {
+	var benchSplitTests = []struct {
+		requestedSplits      uint
+		expectTopLevelResult bool
+	}{
+		{1, true},
+		{2, false},
+		{3, false},
+		{4, false},
+		{5, false},
+		{10, false},
+		{100, false},
+	}
+	for _, tt := range benchSplitTests {
+		b := &B{
+			common: common{
+				signal: make(chan bool),
+				w:      &bytes.Buffer{},
+			},
+			benchFunc: func(b *B) {
+				for i := 0; i < b.N; i++ {
+					time.Sleep(time.Microsecond)
+				}
+			},
+			benchTime:  time.Millisecond,
+			benchSplit: tt.requestedSplits,
+		}
+		if b.run1() {
+			result := b.run()
+			actualIntervals := uint(len(result.split))
+			if tt.expectTopLevelResult && b.N < 1 {
+				t.Errorf("expected top level result for %d, but top level result not set", tt.requestedSplits)
+				continue
+			}
+			if tt.expectTopLevelResult && actualIntervals > 0 {
+				t.Errorf("expected top level result for %d, but split intervals also set", tt.requestedSplits)
+				continue
+			}
+			if !tt.expectTopLevelResult && actualIntervals != tt.requestedSplits {
+				t.Errorf("requested %d intervals, got %d", tt.requestedSplits, actualIntervals)
+			}
+		} else {
+			t.Error("expected run1 to return true, but returned false")
+		}
+	}
 }
 
 func TestBenchmarkStartsFrom1(t *T) {

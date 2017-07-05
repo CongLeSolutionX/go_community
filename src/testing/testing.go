@@ -254,6 +254,7 @@ var (
 	// Report as tests are run; default is silent for success.
 	chatty               = flag.Bool("test.v", false, "verbose: print additional output")
 	count                = flag.Uint("test.count", 1, "run tests and benchmarks `n` times")
+	benchSplit           = flag.Uint("test.benchsplit", 1, "split each benchmark run into `s` intervals")
 	coverProfile         = flag.String("test.coverprofile", "", "write a coverage profile to `file`")
 	matchList            = flag.String("test.list", "", "list tests, examples, and benchmarch maching `regexp` then exit")
 	match                = flag.String("test.run", "", "run only tests and examples matching `regexp`")

@@ -15,6 +15,8 @@ import (
 	"time"
 )
 
+const maxInt32 = (1 << 31) - 1
+
 var matchBenchmarks = flag.String("test.bench", "", "run only benchmarks matching `regexp`")
 var benchTime = flag.Duration("test.benchtime", 1*time.Second, "run each benchmark for duration `d`")
 var benchmarkMemory = flag.Bool("test.benchmem", false, "print memory allocations for benchmarks")
@@ -54,6 +56,7 @@ type B struct {
 	previousDuration time.Duration // total duration of the previous run
 	benchFunc        func(b *B)
 	benchTime        time.Duration
+	benchSplit       uint
 	bytes            int64
 	missingBytes     bool // one of the subbenchmarks does not have bytes set.
 	timerOn          bool
@@ -148,14 +151,24 @@ func (b *B) runN(n int) {
 	}
 }
 
-func min(x, y int) int {
+func (b *B) toResult() BenchmarkResult {
+	return BenchmarkResult{
+		N:         b.N,
+		T:         b.duration,
+		Bytes:     b.bytes,
+		MemAllocs: b.netAllocs,
+		MemBytes:  b.netBytes,
+	}
+}
+
+func min64(x, y int64) int64 {
 	if x > y {
 		return y
 	}
 	return x
 }
 
-func max(x, y int) int {
+func max64(x, y int64) int64 {
 	if x < y {
 		return y
 	}
@@ -163,7 +176,7 @@ func max(x, y int) int {
 }
 
 // roundDown10 rounds a number down to the nearest power of 10.
-func roundDown10(n int) int {
+func roundDown10(n int64) int64 {
 	var tens = 0
 	// tens = floor(log_10(n))
 	for n >= 10 {
@@ -171,7 +184,7 @@ func roundDown10(n int) int {
 		tens++
 	}
 	// result = 10^tens
-	result := 1
+	var result int64 = 1
 	for i := 0; i < tens; i++ {
 		result *= 10
 	}
@@ -179,7 +192,7 @@ func roundDown10(n int) int {
 }
 
 // roundUp rounds x up to a number of the form [1eX, 2eX, 3eX, 5eX].
-func roundUp(n int) int {
+func roundUp(n int64) int64 {
 	base := roundDown10(n)
 	switch {
 	case n <= base:
@@ -272,25 +285,67 @@ func (b *B) launch() {
 	defer func() {
 		b.signal <- true
 	}()
-
 	// Run the benchmark for at least the specified amount of time.
-	d := b.benchTime
-	for n := 1; !b.failed && b.duration < d && n < 1e9; {
-		last := n
-		// Predict required iterations.
-		n = int(d.Nanoseconds())
-		if nsop := b.nsPerOp(); nsop != 0 {
-			n /= int(nsop)
+	timePerInterval := b.benchTime / time.Duration(b.benchSplit)
+	// set values from run1
+	ops := int64(b.N)
+	totElapsed := b.duration
+
+	lowestPenultimateN := maxInt32
+	var intervalResults []BenchmarkResult
+	for i := uint(0); i < b.benchSplit && !b.failed; i++ {
+		var prevN, penultimateN int
+		var intervalElapsed time.Duration
+		if i == 0 {
+			prevN = int(ops)
+			intervalElapsed = totElapsed
+		} else if lowestPenultimateN != maxInt32 {
+			// estimate initial prevN from previous intervals
+			prevN = lowestPenultimateN
 		}
-		// Run more iterations than we think we'll need (1.2x).
-		// Don't grow too fast in case we had timing errors previously.
-		// Be sure to run at least one more than last time.
-		n = max(min(n+n/5, 100*last), last+1)
-		// Round up to something easy to read.
-		n = roundUp(n)
-		b.runN(n)
+
+		for incN := true; incN && intervalElapsed < timePerInterval && !b.failed; {
+			var n int
+			n, incN = predictN(prevN, ops, totElapsed, timePerInterval)
+			b.runN(n)
+			intervalElapsed += b.duration
+			totElapsed += b.duration
+			ops += int64(b.N)
+			penultimateN = prevN
+			prevN = n
+		}
+		if penultimateN > 0 && penultimateN < lowestPenultimateN {
+			lowestPenultimateN = penultimateN
+		}
+		intervalResults = append(intervalResults, b.toResult())
 	}
-	b.result = BenchmarkResult{b.N, b.duration, b.bytes, b.netAllocs, b.netBytes}
+
+	if b.benchSplit == 1 {
+		b.result = intervalResults[0]
+	} else {
+		b.result.split = intervalResults
+	}
+}
+
+// predictN returns a prediction of required iterations
+// and whether that value can be increased further.
+func predictN(prevN int, opsCompleted int64, nsElapsed, nsPerInterval time.Duration) (int, bool) {
+	n := nsPerInterval.Nanoseconds()
+	if nsElapsed > 0 {
+		n *= opsCompleted
+		n /= nsElapsed.Nanoseconds()
+	}
+	// Run more iterations than we think we'll need.
+	// Don't grow too fast in case we had timing errors previously.
+	highGrowthMult := int64(prevN * 100)
+	lowGrowthMult := n + n/5
+	// Be sure to run at least one more than last time.
+	n = max64(min64(lowGrowthMult, highGrowthMult), int64(prevN+1))
+	// Round up to something easy to read.
+	rounded := roundUp(n)
+	// Fit into round 32-bit int.
+	roundedInt32 := int(min64(rounded, 2e9))
+	return roundedInt32, roundedInt32 < 1e9
 }
 
 // The results of a benchmark run.
@@ -300,6 +355,8 @@ type BenchmarkResult struct {
 	Bytes     int64         // Bytes processed in one iteration.
 	MemAllocs uint64        // The total number of memory allocations.
 	MemBytes  uint64        // The total number of bytes allocated.
+
+	split []BenchmarkResult // benchsplit iteration → result
 }
 
 func (r BenchmarkResult) NsPerOp() int64 {
@@ -417,8 +474,9 @@ func runBenchmarks(importPath string, matchString func(pat, str string) (bool, e
 				b.Run(Benchmark.Name, Benchmark.F)
 			}
 		},
-		benchTime: *benchTime,
-		context:   ctx,
+		benchTime:  *benchTime,
+		benchSplit: *benchSplit,
+		context:    ctx,
 	}
 	main.runN(1)
 	return !main.failed
@@ -426,10 +484,13 @@ func runBenchmarks(importPath string, matchString func(pat, str string) (bool, e
 
 // processBench runs bench b for the configured CPU counts and prints the results.
 func (ctx *benchContext) processBench(b *B) {
+	if *benchSplit == 0 {
+		return
+	}
 	for i, procs := range cpuList {
 		runtime.GOMAXPROCS(procs)
 		benchName := benchmarkName(b.name, procs)
-		fmt.Fprintf(b.w, "%-*s\t", ctx.maxLen, benchName)
+		fmt.Fprintf(b.w, benchName)
 		// Recompute the running time for all but the first iteration.
 		if i > 0 {
 			b = &B{
@@ -439,8 +500,9 @@ func (ctx *benchContext) processBench(b *B) {
 					w:      b.w,
 					chatty: b.chatty,
 				},
-				benchFunc: b.benchFunc,
-				benchTime: b.benchTime,
+				benchFunc:  b.benchFunc,
+				benchTime:  b.benchTime,
+				benchSplit: b.benchSplit,
 			}
 			b.run1()
 		}
@@ -452,11 +514,29 @@ func (ctx *benchContext) processBench(b *B) {
 			fmt.Fprintf(b.w, "--- FAIL: %s\n%s", benchName, b.output)
 			continue
 		}
-		results := r.String()
-		if *benchmarkMemory || b.showAllocResult {
-			results += "\t" + r.MemString()
+		if len(r.split) == 0 {
+			fmt.Fprintf(b.w, "%-*s\t", ctx.maxLen-len(benchName), "")
+			results := r.String()
+			if *benchmarkMemory || b.showAllocResult {
+				results += "\t" + r.MemString()
+			}
+			fmt.Fprintln(b.w, results)
 		}
-		fmt.Fprintln(b.w, results)
+		for i, intervalResult := range r.split {
+			indexStr := fmt.Sprintf("(#%d)", i)
+			var line string
+			if i == 0 {
+				line = fmt.Sprintf("%-*s\t", ctx.maxLen-len(benchName), " "+indexStr)
+			} else {
+				line = fmt.Sprintf("%-*s\t", ctx.maxLen, benchName+" "+indexStr)
+			}
+			line += intervalResult.String()
+			if *benchmarkMemory || b.showAllocResult {
+				line += "\t" + intervalResult.MemString()
+			}
+			fmt.Fprintln(b.w, line)
+		}
+
 		// Unlike with tests, we ignore the -chatty flag and always print output for
 		// benchmarks since the output generation time will skew the results.
 		if len(b.output) > 0 {
@@ -503,6 +583,7 @@ func (b *B) Run(name string, f func(b *B)) bool {
 		importPath: b.importPath,
 		benchFunc:  f,
 		benchTime:  b.benchTime,
+		benchSplit: b.benchSplit,
 		context:    b.context,
 	}
 	if partial {
@@ -651,8 +732,9 @@ func Benchmark(f func(b *B)) BenchmarkResult {
 			signal: make(chan bool),
 			w:      discard{},
 		},
-		benchFunc: f,
-		benchTime: *benchTime,
+		benchFunc:  f,
+		benchTime:  *benchTime,
+		benchSplit: *benchSplit,
 	}
 	if b.run1() {
 		b.run()

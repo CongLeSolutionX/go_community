@@ -13,7 +13,7 @@ import (
 )
 
 var roundDownTests = []struct {
-	v, expected int
+	v, expected int64
 }{
 	{1, 1},
 	{9, 1},
@@ -36,7 +36,7 @@ func TestRoundDown10(t *testing.T) {
 }
 
 var roundUpTests = []struct {
-	v, expected int
+	v, expected int64
 }{
 	{0, 1},
 	{1, 1},

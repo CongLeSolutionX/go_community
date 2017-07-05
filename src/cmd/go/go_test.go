@@ -1226,6 +1226,29 @@ func TestImportCommentConflict(t *testing.T) {
 	tg.grepStderr("found import comments", "go build did not mention comment conflict")
 }
 
+func TestBenchsplitOutput(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.tempDir("profiling")
+	tg.tempFile("benchsplit/benchsplit_test.go", `package benchsplit_test
+ import "testing"
+ import "time"
+ func BenchmarkMicroSleep(b *testing.B) {
+     for i := 0; i < b.N; i++ {
+         time.Sleep(time.Microsecond)
+     }
+ }`)
+	tg.cd(tg.path("benchsplit"))
+	tg.run("test", "-bench", "MicroSleep", "-benchtime", "10ms", "-benchsplit", "3")
+
+	tg.grepStdout("BenchmarkMicroSleep-[0-9]+ \\(#0\\)\\s+[0-9]+\\s+[0-9]+ ns/op",
+		"missing 1st interval output")
+	tg.grepStdout("BenchmarkMicroSleep-[0-9]+ \\(#1\\)\\s+[0-9]+\\s+[0-9]+ ns/op",
+		"missing 2nd interval output")
+	tg.grepStdout("BenchmarkMicroSleep-[0-9]+ \\(#2\\)\\s+[0-9]+\\s+[0-9]+ ns/op",
+		"missing 3rd interval output")
+}
+
 // cmd/go: custom import path checking should not apply to Go packages without import comment.
 func TestIssue10952(t *testing.T) {
 	testenv.MustHaveExternalNetwork(t)
