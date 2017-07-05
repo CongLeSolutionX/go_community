@@ -377,31 +377,34 @@ func TestBRun(t *T) {
 		}
 	}
 	testCases := []struct {
-		desc   string
-		failed bool
-		chatty bool
-		output string
-		f      func(*B)
+		desc      string
+		failed    bool
+		chatty    bool
+		intervals int
+		output    string
+		f         func(*B)
 	}{{
 		desc: "simulate sequential run of subbenchmarks.",
 		f: func(b *B) {
 			b.Run("", func(b *B) { work(b) })
-			time1 := b.result.NsPerOp()
+			time1 := b.results[0].NsPerOp()
 			b.Run("", func(b *B) { work(b) })
-			time2 := b.result.NsPerOp()
+			time2 := b.results[0].NsPerOp()
 			if time1 >= time2 {
 				t.Errorf("no time spent in benchmark t1 >= t2 (%d >= %d)", time1, time2)
 			}
 		},
+		intervals: 1,
 	}, {
 		desc: "bytes set by all benchmarks",
 		f: func(b *B) {
 			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
 			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
-			if b.result.Bytes != 20 {
-				t.Errorf("bytes: got: %d; want 20", b.result.Bytes)
+			if b.results[0].Bytes != 20 {
+				t.Errorf("bytes: got: %d; want 20", b.results[0].Bytes)
 			}
 		},
+		intervals: 1,
 	}, {
 		desc: "bytes set by some benchmarks",
 		// In this case the bytes result is meaningless, so it must be 0.
@@ -409,27 +412,31 @@ func TestBRun(t *T) {
 			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
 			b.Run("", func(b *B) { work(b) })
 			b.Run("", func(b *B) { b.SetBytes(10); work(b) })
-			if b.result.Bytes != 0 {
-				t.Errorf("bytes: got: %d; want 0", b.result.Bytes)
+			if b.results[0].Bytes != 0 {
+				t.Errorf("bytes: got: %d; want 0", b.results[0].Bytes)
 			}
 		},
+		intervals: 1,
 	}, {
-		desc:   "failure carried over to root",
-		failed: true,
-		output: "--- FAIL: root",
-		f:      func(b *B) { b.Fail() },
+		desc:      "failure carried over to root",
+		failed:    true,
+		output:    "--- FAIL: root",
+		f:         func(b *B) { b.Fail() },
+		intervals: 1,
 	}, {
-		desc:   "skipping without message, chatty",
-		chatty: true,
-		output: "--- SKIP: root",
-		f:      func(b *B) { b.SkipNow() },
+		desc:      "skipping without message, chatty",
+		chatty:    true,
+		output:    "--- SKIP: root",
+		f:         func(b *B) { b.SkipNow() },
+		intervals: 1,
 	}, {
 		desc:   "skipping with message, chatty",
 		chatty: true,
 		output: `
 --- SKIP: root
 	sub_test.go:NNN: skipping`,
-		f: func(b *B) { b.Skip("skipping") },
+		f:         func(b *B) { b.Skip("skipping") },
+		intervals: 1,
 	}, {
 		desc:   "chatty with recursion",
 		chatty: true,
@@ -438,9 +445,11 @@ func TestBRun(t *T) {
 				b.Run("", func(b *B) {})
 			})
 		},
+		intervals: 1,
 	}, {
-		desc: "skipping without message, not chatty",
-		f:    func(b *B) { b.SkipNow() },
+		desc:      "skipping without message, not chatty",
+		f:         func(b *B) { b.SkipNow() },
+		intervals: 1,
 	}, {
 		desc:   "skipping after error",
 		failed: true,
@@ -452,6 +461,7 @@ func TestBRun(t *T) {
 			b.Error("an error")
 			b.Skip("skipped")
 		},
+		intervals: 1,
 	}, {
 		desc: "memory allocation",
 		f: func(b *B) {
@@ -474,13 +484,14 @@ func TestBRun(t *T) {
 			// benchmark is responsible for. Luckily the point of this test is
 			// to ensure that the results are not underreported, so we can
 			// simply verify the lower bound.
-			if got := b.result.MemAllocs; got < 2 {
+			if got := b.results[0].MemAllocs; got < 2 {
 				t.Errorf("MemAllocs was %v; want 2", got)
 			}
-			if got := b.result.MemBytes; got < 2*bufSize {
+			if got := b.results[0].MemBytes; got < 2*bufSize {
 				t.Errorf("MemBytes was %v; want %v", got, 2*bufSize)
 			}
 		},
+		intervals: 1,
 	}}
 	for _, tc := range testCases {
 		var ok bool
@@ -494,8 +505,9 @@ func TestBRun(t *T) {
 				w:      buf,
 				chatty: tc.chatty,
 			},
-			benchFunc: func(b *B) { ok = b.Run("test", tc.f) }, // Use Run to catch failure.
-			benchTime: time.Microsecond,
+			benchFunc:  func(b *B) { ok = b.Run("test", tc.f) }, // Use Run to catch failure.
+			benchTime:  time.Microsecond,
+			benchSplit: tc.intervals,
 		}
 		root.runN(1)
 		if ok != !tc.failed {
@@ -505,8 +517,8 @@ func TestBRun(t *T) {
 			t.Errorf("%s:root failed: got %v; want %v", tc.desc, !ok, root.Failed())
 		}
 		// All tests are run as subtests
-		if root.result.N != 1 {
-			t.Errorf("%s: N for parent benchmark was %d; want 1", tc.desc, root.result.N)
+		if root.results[0].N != 1 {
+			t.Errorf("%s: N for parent benchmark was %d; want 1", tc.desc, root.results[0].N)
 		}
 		got := strings.TrimSpace(buf.String())
 		want := strings.TrimSpace(tc.output)
@@ -528,6 +540,53 @@ func TestBenchmarkOutput(t *T) {
 	// normal case.
 	Benchmark(func(b *B) { b.Error("do not print this output") })
 	Benchmark(func(b *B) {})
+}
+
+func TestBenchsplitMultipleIntervals(t *T) {
+	b := &B{
+		common: common{
+			signal: make(chan bool),
+			w:      &bytes.Buffer{},
+		},
+		benchFunc: func(b *B) {
+			for i := 0; i < b.N; i++ {
+			}
+		},
+		benchTime:  time.Microsecond,
+		benchSplit: 4,
+	}
+	if b.run1() {
+		b.run()
+		if len(b.results) == 1 {
+			t.Error("expected more than one interval, got one")
+		}
+	} else {
+		t.Error("expected run1 to return true, but returned false")
+	}
+}
+
+func TestBenchsplitStopOnceBenchtimeReached(t *T) {
+	b := &B{
+		common: common{
+			signal: make(chan bool),
+			w:      &bytes.Buffer{},
+		},
+		benchFunc: func(b *B) {
+			for i := 0; i < b.N; i++ {
+				time.Sleep(10 * time.Millisecond)
+			}
+		},
+		benchTime:  time.Microsecond,
+		benchSplit: 4,
+	}
+	if b.run1() {
+		b.run()
+		if len(b.results) > 1 {
+			t.Errorf("expected one interval, got %d", len(b.results))
+		}
+	} else {
+		t.Error("expected run1 to return true, but returned false")
+	}
 }
 
 func TestBenchmarkStartsFrom1(t *T) {
