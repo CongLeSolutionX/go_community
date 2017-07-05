@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "b5e54895_dc84f8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-07-05T15:20:16Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 13
+      },
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "664f5f92_e14dc225",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-07-05T15:20:16Z",
+      "side": 1,
+      "message": "Maybe revise this comment?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 69
+      },
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "29b5bd99_59e5d9e9",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 1
@@ -107,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "42e85819_de96185f",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-07-05T15:20:16Z",
+      "side": 1,
+      "message": "Currently the rotate pass runs after register allocation. So f.Blocks and layout order are same here.\n\nMaybe set the default to existing block order for now, so there is no change for the default case?",
+      "parentUuid": "b1b0cc1f_59d260cb",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a9a59b9_3bf8acdf",
         "filename": "src/cmd/compile/internal/ssa/regalloc.go",
         "patchSetId": 1
@@ -136,6 +200,29 @@
       "side": 1,
       "message": "Not really. It generates hilariously wrong code, attempts to spill SB, then use some other register as the base register for accessing statics, and then the assembler chokes.",
       "parentUuid": "3a9a59b9_3bf8acdf",
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62493b79_689e6ef0",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-07-05T15:20:16Z",
+      "side": 1,
+      "message": "From the comment above, this is to distinguish forward edges from backward edges, so it should be scheduling order here.",
+      "range": {
+        "startLine": 622,
+        "startChar": 19,
+        "endLine": 622,
+        "endChar": 29
+      },
       "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
