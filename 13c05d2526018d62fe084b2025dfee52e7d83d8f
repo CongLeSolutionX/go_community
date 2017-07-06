@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b253656_b30203c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-06T19:40:21Z",
+      "side": 1,
+      "message": "start with a lowercase verb and drop the () after func names\n\n   encoding/bas32: make NoPadding Encoding\u0027s DecodedLen return exact size",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "13c05d2526018d62fe084b2025dfee52e7d83d8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aec7e2bd_9932fc96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-06T19:40:21Z",
+      "side": 1,
+      "message": "added",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "13c05d2526018d62fe084b2025dfee52e7d83d8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a5bf204_602cb67f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-06T19:40:21Z",
+      "side": 1,
+      "message": "drop ()",
+      "range": {
+        "startLine": 9,
+        "startChar": 60,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "13c05d2526018d62fe084b2025dfee52e7d83d8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d85271d8_22a42f4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-06T19:40:21Z",
+      "side": 1,
+      "message": "returned",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "13c05d2526018d62fe084b2025dfee52e7d83d8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "106b3710_5ddcc7f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-06T19:40:21Z",
+      "side": 1,
+      "message": "not a comma. \n\nMaybe you meant \", even though it is\" ...",
+      "range": {
+        "startLine": 10,
+        "startChar": 54,
+        "endLine": 10,
+        "endChar": 73
+      },
+      "revId": "13c05d2526018d62fe084b2025dfee52e7d83d8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3007aaa3_81538f2c",
+        "filename": "src/encoding/base32/base32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-06T19:40:21Z",
+      "side": 1,
+      "message": "if !end {\n    dst \u003d dst[5:]\n}\n\nThen you don\u0027t need the dinc variable above.",
+      "range": {
+        "startLine": 346,
+        "startChar": 2,
+        "endLine": 346,
+        "endChar": 18
+      },
+      "revId": "13c05d2526018d62fe084b2025dfee52e7d83d8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
