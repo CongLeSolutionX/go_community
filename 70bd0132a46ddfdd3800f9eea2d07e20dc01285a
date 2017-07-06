@@ -16,6 +16,24 @@
       "revId": "70bd0132a46ddfdd3800f9eea2d07e20dc01285a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98e01169_d944f8f2",
+        "filename": "src/cmd/doc/doc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-06T21:29:10Z",
+      "side": 1,
+      "message": "\\b is not a backspace, but a word boundary.\n\nThe test\u0027s intention is that it doesn\u0027t find the word \"Fields\" by itself.  But this now fails with my addition of the \"ExportedStructOneField\" type, because it contains \"Field\".\n\nSo I updated this regexp to only match Field if not\u0027s at the edge of an identifier boundary.",
+      "parentUuid": "157686a7_72ad08be",
+      "revId": "70bd0132a46ddfdd3800f9eea2d07e20dc01285a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
