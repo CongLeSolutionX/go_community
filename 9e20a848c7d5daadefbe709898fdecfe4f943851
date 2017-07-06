@@ -52,6 +52,24 @@
       "revId": "9e20a848c7d5daadefbe709898fdecfe4f943851",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70738f3b_481c2e0c",
+        "filename": "src/runtime/rwmutex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-07-06T17:04:14Z",
+      "side": 1,
+      "message": ":)",
+      "parentUuid": "d02fb1f8_0abd7a80",
+      "revId": "9e20a848c7d5daadefbe709898fdecfe4f943851",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
