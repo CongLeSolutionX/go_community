@@ -52,6 +52,24 @@
       "revId": "70bd0132a46ddfdd3800f9eea2d07e20dc01285a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a201e859_7c6bc9a0",
+        "filename": "src/cmd/doc/doc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-06T21:41:49Z",
+      "side": 1,
+      "message": "I have no clue what I was trying to type there.",
+      "parentUuid": "dbbc5ffc_f047d162",
+      "revId": "70bd0132a46ddfdd3800f9eea2d07e20dc01285a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
