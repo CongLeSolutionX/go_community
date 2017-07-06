@@ -34,6 +34,24 @@
       "revId": "70bd0132a46ddfdd3800f9eea2d07e20dc01285a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbbc5ffc_f047d162",
+        "filename": "src/cmd/doc/doc_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-07-06T21:37:10Z",
+      "side": 1,
+      "message": "i like \"not\u0027s\". i might adopt it.",
+      "parentUuid": "98e01169_d944f8f2",
+      "revId": "70bd0132a46ddfdd3800f9eea2d07e20dc01285a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
