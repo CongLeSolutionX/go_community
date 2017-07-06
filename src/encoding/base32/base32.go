@@ -277,6 +277,7 @@ func (enc *Encoding) decode(dst, src []byte) (n int, end bool, err error) {
 		// Decode quantum using the base32 alphabet
 		var dbuf [8]byte
 		dlen := 8
+		dinc := 5
 
 		for j := 0; j < 8; {
 
@@ -288,6 +289,7 @@ func (enc *Encoding) decode(dst, src []byte) (n int, end bool, err error) {
 			// We have reached the end and are not expecing any padding
 			if len(src) == 0 && enc.padChar == NoPadding {
 				dlen, end = j, true
+				dinc = 0
 				break
 			}
 
@@ -341,7 +343,7 @@ func (enc *Encoding) decode(dst, src []byte) (n int, end bool, err error) {
 		case 2:
 			dst[0] = dbuf[0]<<3 | dbuf[1]>>2
 		}
-		dst = dst[5:]
+		dst = dst[dinc:]
 		switch dlen {
 		case 2:
 			n += 1
@@ -495,8 +497,7 @@ func NewDecoder(enc *Encoding, r io.Reader) io.Reader {
 // corresponding to n bytes of base32-encoded data.
 func (enc *Encoding) DecodedLen(n int) int {
 	if enc.padChar == NoPadding {
-		// +6 represents the missing padding
-		return (n + 6) / 8 * 5
+		return n * 5 / 8
 	}
 
 	return n / 8 * 5
