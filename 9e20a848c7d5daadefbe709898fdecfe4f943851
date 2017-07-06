@@ -34,6 +34,24 @@
       "revId": "9e20a848c7d5daadefbe709898fdecfe4f943851",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d02fb1f8_0abd7a80",
+        "filename": "src/runtime/rwmutex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-07-06T17:03:02Z",
+      "side": 1,
+      "message": "Yeah, well, OK.  Just this once.",
+      "parentUuid": "2a20f2ae_8dc43e08",
+      "revId": "9e20a848c7d5daadefbe709898fdecfe4f943851",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
