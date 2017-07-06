@@ -268,6 +268,30 @@
       "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82f46f59_caf49006",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-07-06T18:28:42Z",
+      "side": 1,
+      "message": "Ok, you are right. This is used in computing primary predecessor. At least the requirement is that the primary predecessor must be visited before visiting the current block. So visiting order sounds right. Maybe clarify it in the comment?",
+      "parentUuid": "e5d194e9_ecdb0c3e",
+      "range": {
+        "startLine": 622,
+        "startChar": 19,
+        "endLine": 622,
+        "endChar": 29
+      },
+      "revId": "2542da1489403e2a8f21a133d4163cc5b087e8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

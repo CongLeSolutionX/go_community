@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14ab37db_f58d3fb1",
+        "filename": "src/cmd/compile/internal/ssa/layout.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-07-06T18:28:42Z",
+      "side": 1,
+      "message": "Maybe panic here.",
+      "revId": "d1daa7bda7223e4265be9d436b623ec9dc56f6ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5c30f09_a1d93ec8",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-07-06T18:28:42Z",
+      "side": 1,
+      "message": "minor: this and some other loops are just doing something local to the current block, where the visiting order is irrelevant. Maybe just keep using f.Blocks, to make this information clear?",
+      "revId": "d1daa7bda7223e4265be9d436b623ec9dc56f6ac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
