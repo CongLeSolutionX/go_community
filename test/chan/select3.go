@@ -34,14 +34,21 @@ func testPanic(signal string, f func()) {
 
 // Calls f and empirically verifies that f always/never blocks depending on signal.
 func testBlock(signal string, f func()) {
+	if signal == never {
+		// Just call f directly.
+		// If it blocks, it'll probably trigger a panic from the deadlock detector,
+		// and if not, it'll hang, which will trigger a failure further upstream.
+		f()
+		return
+	}
 	c := make(chan string)
 	go func() {
 		f()
 		c <- never // f didn't block
 	}()
 	go func() {
-		time.Sleep(1e8) // 0.1s seems plenty long
-		c <- always     // f blocked always
+		time.Sleep(10 * time.Millisecond) // 10ms is long enough to at least occasionally catch failures
+		c <- always                       // f blocked always
 	}()
 	if <-c != signal {
 		panic(signal + " block")
