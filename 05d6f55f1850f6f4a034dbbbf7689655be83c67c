@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f05460c9_16ac1cf2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-07-09T00:35:36Z",
+      "side": 1,
+      "message": "How much is \"some\"?",
+      "revId": "05d6f55f1850f6f4a034dbbbf7689655be83c67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51108d4b_0ecc6609",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-07-09T00:35:36Z",
+      "side": 1,
+      "message": "Just:\n\ns.f.NamedValues[name] \u003d append(s.f.NamedValues[name], vi.names...)",
+      "revId": "05d6f55f1850f6f4a034dbbbf7689655be83c67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c815c00_391eafb0",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-07-09T00:35:36Z",
+      "side": 1,
+      "message": "I\u0027d rather add a method to GCNode that package ssa can use to ask whether the node is an autotmp/unnamed return value. (I vaguely recall that you already did in another CL.) And then check slot.N.IsSynthetic(), or whatever it is called.",
+      "revId": "05d6f55f1850f6f4a034dbbbf7689655be83c67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d60ee7ca_29a826ec",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-07-09T00:35:36Z",
+      "side": 1,
+      "message": "Use append with ..., like above.",
+      "revId": "05d6f55f1850f6f4a034dbbbf7689655be83c67c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
