@@ -31,6 +31,9 @@ type Block struct {
 	// After flagalloc, records whether flags are live at the end of the block.
 	FlagsLiveAtEnd bool
 
+	// Some blocks are known-rarely-run.  For example, loop preemptions.
+	RarelyRun bool
+
 	// Subsequent blocks, if any. The number and order depend on the block kind.
 	Succs []Edge
 

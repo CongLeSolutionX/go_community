@@ -225,6 +225,7 @@ func (f *Func) NewBlock(kind BlockKind) *Block {
 		}
 	}
 	b.Kind = kind
+	b.RarelyRun = kind == BlockExit
 	b.Func = f
 	b.Preds = b.predstorage[:0]
 	b.Succs = b.succstorage[:0]
