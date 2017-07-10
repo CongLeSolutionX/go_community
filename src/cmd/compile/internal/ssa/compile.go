@@ -371,7 +371,8 @@ var passes = [...]pass{
 	{name: "regalloc", fn: regalloc, required: true},   // allocate int & float registers + stack slots
 	{name: "loop rotate", fn: loopRotate, disabled: true},
 	{name: "stackframe", fn: stackframe, required: true},
-	{name: "trim", fn: trim}, // remove empty blocks
+	{name: "trim", fn: trim},                         // remove empty blocks
+	{name: "estimate", fn: estimate, disabled: true}, // Estimate quality of generated code
 }
 
 // Double-check phase ordering constraints.
