@@ -208,6 +208,7 @@ func insertLoopReschedChecks(f *Func) {
 
 		test := f.NewBlock(BlockIf)
 		sched := f.NewBlock(BlockPlain)
+		sched.RarelyRun = true
 
 		test.Pos = bb.Pos
 		sched.Pos = bb.Pos

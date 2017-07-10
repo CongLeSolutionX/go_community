@@ -155,6 +155,10 @@ func likelyadjust(f *Func) {
 		default:
 			if len(b.Succs) == 1 {
 				certain[b.ID] = certain[b.Succs[0].b.ID]
+				if b.RarelyRun { // super-duper-unlikely, treat like an exit.
+					certain[b.ID] = blEXIT
+					local[b.ID] = blEXIT
+				}
 			} else if len(b.Succs) == 2 {
 				// If successor is an unvisited backedge, it's in loop and we don't care.
 				// Its default unlikely is also zero which is consistent with favoring loop edges.
