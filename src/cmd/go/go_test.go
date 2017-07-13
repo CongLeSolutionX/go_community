@@ -4314,3 +4314,50 @@ func TestTestRegexps(t *testing.T) {
 		t.Errorf("reduced output:<<<\n%s>>> want:<<<\n%s>>>", have, want)
 	}
 }
+
+func TestGoGetPrintdir(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+
+	// Setup multiple GOPATHs
+	tg.makeTempdir()
+	pathA := filepath.Join(tg.tempdir, "gopath-a")
+	pathB := filepath.Join(tg.tempdir, "gopath-b")
+	sep := string(filepath.ListSeparator)
+	tg.setenv("GOPATH", pathA+sep+pathB)
+
+	// Create packages in both GOPATHs
+	tg.tempFile("gopath-a/src/pathA/packA/main.go", `package main; func main(){}`)
+	tg.tempFile("gopath-b/src/pathB/packB/main.go", `package main; func main(){}`)
+
+	// Test with package that exists in the first (default) GOPATH
+	tg.run("get", "--printdir", "pathA/packA")
+	tg.grepStdout("gopath-a/src/pathA/packA", "packA was not found in gopath-a")
+
+	// Test with package that exists in the second GOPATH
+	tg.run("get", "--printdir", "pathB/packB")
+	tg.grepStdout("gopath-b/src/pathB/packB", "packB was not found in gopath-b")
+
+	// Test with package that does not exist in any GOPATH
+	tg.run("get", "--printdir", "toBeDownloaded/packC")
+	tg.grepStdout("gopath-a/src/toBeDownloaded/packC", "packC was not found in gopath-a")
+
+	// Test with multiple arguments
+	tg.run("get", "--printdir", "pathA/packA", "pathB/packB", "toBeDownloaded/packC")
+	tg.grepStdout("gopath-a/src/pathA/packA", "packA was not found in gopath-a")
+	tg.grepStdout("gopath-b/src/pathB/packB", "packB was not found in gopath-b")
+	tg.grepStdout("gopath-a/src/toBeDownloaded/packC", "packC was not found in gopath-a")
+
+	// Test for package in GOROOT
+	tg.run("get", "--printdir", "context")
+	tg.grepStdout(testGOROOT+"/src/context", "Unexpected GOROOT package path")
+
+	// Unset GOPATH
+	tg.unsetenv("GOPATH")
+	tg.run("get", "--printdir", "pathB/packB")
+	tg.grepStdout("test-go-home-does-not-exist/go/src/pathB/packB", "packB was not found with default GOPATH")
+
+	// No arguments error
+	tg.runFail("get", "--printdir")
+	tg.grepStderr("go get: no package provided to -printdir", "unexpected error")
+}

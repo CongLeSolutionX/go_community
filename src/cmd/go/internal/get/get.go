@@ -22,7 +22,7 @@ import (
 )
 
 var CmdGet = &base.Command{
-	UsageLine: "get [-d] [-f] [-fix] [-insecure] [-t] [-u] [build flags] [packages]",
+	UsageLine: "get [-d] [-f] [-fix] [-insecure] [-t] [-u] [-printdir] [build flags] [packages]",
 	Short:     "download and install packages and dependencies",
 	Long: `
 Get downloads the packages named by the import paths, along with their
@@ -50,6 +50,11 @@ and their dependencies. By default, get uses the network to check out
 missing packages but does not use it to look for updates to existing packages.
 
 The -v flag enables verbose progress and debug output.
+
+The -printdir flag instructs get to print the path to the packages instead
+of downloading them. The results will be written on multiple lines. This can be useful
+if GOPATH contains multiple directories. If the package exists in any
+GOPATH that path will be used, if it does not the first GOPATH is used.
 
 Get also accepts build flags to control the installation. See 'go help build'.
 
@@ -83,6 +88,7 @@ var getT = CmdGet.Flag.Bool("t", false, "")
 var getU = CmdGet.Flag.Bool("u", false, "")
 var getFix = CmdGet.Flag.Bool("fix", false, "")
 var getInsecure = CmdGet.Flag.Bool("insecure", false, "")
+var getPrintdir = CmdGet.Flag.Bool("printdir", false, "")
 
 func init() {
 	work.AddBuildFlags(CmdGet)
@@ -122,6 +128,12 @@ func runGet(cmd *base.Command, args []string) {
 	// But default to turning off ControlMaster.
 	if os.Getenv("GIT_SSH") == "" && os.Getenv("GIT_SSH_COMMAND") == "" {
 		os.Setenv("GIT_SSH_COMMAND", "ssh -o ControlMaster=no")
+	}
+
+	// Argument --printdir
+	if *getPrintdir {
+		printdir(args)
+		return
 	}
 
 	// Phase 1. Download/update.
@@ -525,4 +537,40 @@ func selectTag(goVersion string, tags []string) (match string) {
 		}
 	}
 	return ""
+}
+
+// printdir prints the directory in GOPATH of where a package exists or
+// would exist if it got downloaded by go get.
+//
+// If multiple packages are provided the result for each is written to a
+// new line. Output is written to stdout.
+func printdir(packages []string) {
+	if len(packages) == 0 {
+		base.Fatalf("go get: no package provided to -printdir")
+		base.ExitIfErrors()
+	}
+
+	var stk load.ImportStack
+
+	for _, packageImportPath := range packages {
+		// Check if this package already exists in a GOPATH
+		p := load.LoadPackage(packageImportPath, &stk)
+
+		// Package waas found in GOPATH
+		if p.PackagePublic.Dir != "" {
+			fmt.Println(p.PackagePublic.Dir)
+			continue
+		}
+
+		// Use the first GOPATH
+		// This is where the package will be downloaded with go get
+		list := filepath.SplitList(cfg.BuildContext.GOPATH)
+		if len(list) == 0 {
+			base.Fatalf("go get: cannot printdir, $GOPATH not set. For more details see: 'go help gopath'")
+			base.ExitIfErrors()
+		}
+
+		resdir := filepath.Join(list[0], "src", packageImportPath)
+		fmt.Println(resdir)
+	}
 }
