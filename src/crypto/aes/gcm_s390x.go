@@ -58,11 +58,13 @@ type gcmAsm struct {
 	block     *aesCipherAsm
 	hashKey   gcmHashKey
 	nonceSize int
+	tagSize   int
 }
 
 const (
 	gcmBlockSize         = 16
 	gcmTagSize           = 16
+	gcmMinimumTagSize    = 12 // NIST SP 800-38D recommends tags with 12 or more bytes.
 	gcmStandardNonceSize = 12
 )
 
@@ -73,13 +75,14 @@ var _ gcmAble = (*aesCipherAsm)(nil)
 
 // NewGCM returns the AES cipher wrapped in Galois Counter Mode. This is only
 // called by crypto/cipher.NewGCM via the gcmAble interface.
-func (c *aesCipherAsm) NewGCM(nonceSize int) (cipher.AEAD, error) {
+func (c *aesCipherAsm) NewGCM(nonceSize, tagSize int) (cipher.AEAD, error) {
 	var hk gcmHashKey
 	c.Encrypt(hk[:], hk[:])
 	g := gcmAsm{
 		block:     c,
 		hashKey:   hk,
 		nonceSize: nonceSize,
+		tagSize:   tagSize,
 	}
 	if hasKMA {
 		g := gcmKMA{g}
@@ -93,7 +96,7 @@ func (g *gcmAsm) NonceSize() int {
 }
 
 func (*gcmAsm) Overhead() int {
-	return gcmTagSize
+	return g.tagSize
 }
 
 // sliceForAppend takes a slice and a requested number of bytes. It returns a
@@ -222,7 +225,7 @@ func (g *gcmAsm) Seal(dst, nonce, plaintext, data []byte) []byte {
 		panic("cipher: message too large for GCM")
 	}
 
-	ret, out := sliceForAppend(dst, len(plaintext)+gcmTagSize)
+	ret, out := sliceForAppend(dst, len(plaintext)+g.tagSize)
 
 	counter := g.deriveCounter(nonce)
 
@@ -230,8 +233,10 @@ func (g *gcmAsm) Seal(dst, nonce, plaintext, data []byte) []byte {
 	g.block.Encrypt(tagMask[:], counter[:])
 	counter.inc()
 
+	var tagOut [gcmTagSize]byte
 	g.counterCrypt(out, plaintext, &counter)
-	g.auth(out[len(plaintext):], out[:len(plaintext)], data, &tagMask)
+	g.auth(tagOut[:], out[:len(plaintext)], data, &tagMask)
+	copy(out[len(plaintext):], tagOut[:])
 
 	return ret
 }
@@ -242,15 +247,15 @@ func (g *gcmAsm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(nonce) != g.nonceSize {
 		panic("cipher: incorrect nonce length given to GCM")
 	}
-	if len(ciphertext) < gcmTagSize {
+	if len(ciphertext) < g.tagSize {
 		return nil, errOpen
 	}
-	if uint64(len(ciphertext)) > ((1<<32)-2)*BlockSize+gcmTagSize {
+	if uint64(len(ciphertext)) > ((1<<32)-2)*uint64(BlockSize)+uint64(g.tagSize) {
 		return nil, errOpen
 	}
 
-	tag := ciphertext[len(ciphertext)-gcmTagSize:]
-	ciphertext = ciphertext[:len(ciphertext)-gcmTagSize]
+	tag := ciphertext[len(ciphertext)-g.tagSize:]
+	ciphertext = ciphertext[:len(ciphertext)-g.tagSize]
 
 	counter := g.deriveCounter(nonce)
 
@@ -263,7 +268,11 @@ func (g *gcmAsm) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 
 	ret, out := sliceForAppend(dst, len(ciphertext))
 
-	if subtle.ConstantTimeCompare(expectedTag[:], tag) != 1 {
+	if g.tagSize < gcmMinimumTagSize {
+		panic("cipher: incorrect GCM tag size")
+	}
+
+	if subtle.ConstantTimeCompare(expectedTag[:g.tagSize], tag) != 1 {
 		// The AESNI code decrypts and authenticates concurrently, and
 		// so overwrites dst in the event of a tag mismatch. That
 		// behavior is mimicked here in order to be consistent across
@@ -316,7 +325,7 @@ func (g *gcmKMA) Seal(dst, nonce, plaintext, data []byte) []byte {
 		panic("cipher: message too large for GCM")
 	}
 
-	ret, out := sliceForAppend(dst, len(plaintext)+gcmTagSize)
+	ret, out := sliceForAppend(dst, len(plaintext)+g.tagSize)
 
 	counter := g.deriveCounter(nonce)
 	fc := g.block.function | kmaLAAD | kmaLPC
@@ -334,16 +343,20 @@ func (g *gcmKMA) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	if len(nonce) != g.nonceSize {
 		panic("cipher: incorrect nonce length given to GCM")
 	}
-	if len(ciphertext) < gcmTagSize {
+	if len(ciphertext) < g.tagSize {
 		return nil, errOpen
 	}
-	if uint64(len(ciphertext)) > ((1<<32)-2)*BlockSize+gcmTagSize {
+	if uint64(len(ciphertext)) > ((1<<32)-2)*uint64(BlockSize)+uint64(g.tagSize) {
 		return nil, errOpen
 	}
 
-	tag := ciphertext[len(ciphertext)-gcmTagSize:]
-	ciphertext = ciphertext[:len(ciphertext)-gcmTagSize]
+	tag := ciphertext[len(ciphertext)-g.tagSize:]
+	ciphertext = ciphertext[:len(ciphertext)-g.tagSize]
 	ret, out := sliceForAppend(dst, len(ciphertext))
+
+	if g.tagSize < gcmMinimumTagSize {
+		panic("cipher: incorrect GCM tag size")
+	}
 
 	counter := g.deriveCounter(nonce)
 	fc := g.block.function | kmaLAAD | kmaLPC | kmaDecrypt
@@ -351,7 +364,7 @@ func (g *gcmKMA) Open(dst, nonce, ciphertext, data []byte) ([]byte, error) {
 	var expectedTag [gcmTagSize]byte
 	kmaGCM(fc, g.block.key, out[:len(ciphertext)], ciphertext, data, &expectedTag, &counter)
 
-	if subtle.ConstantTimeCompare(expectedTag[:], tag) != 1 {
+	if subtle.ConstantTimeCompare(expectedTag[:g.tagSize], tag) != 1 {
 		// The AESNI code decrypts and authenticates concurrently, and
 		// so overwrites dst in the event of a tag mismatch. That
 		// behavior is mimicked here in order to be consistent across
