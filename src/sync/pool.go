@@ -55,17 +55,17 @@ type Pool struct {
 
 // Local per-P Pool appendix.
 type poolLocalInternal struct {
-	private interface{}   // Can be used only by the respective P.
-	shared  []interface{} // Can be used by any P.
-	Mutex                 // Protects shared.
+	Mutex                     // Protects shared.
+	shared     []interface{}  // Can be used by any P.
+	privateLen int            // How many objects currently in the private pool.
+	private    [5]interface{} // Can be used only by the respective P. The capacity is
+	// chosen to keep the size of poolLocal below 128 bytes while minimizing the space
+	// wasted by padding (on 64-bit archs)
 }
 
 type poolLocal struct {
 	poolLocalInternal
-
-	// Prevents false sharing on widespread platforms with
-	// 128 mod (cache line size) = 0 .
-	pad [128 - unsafe.Sizeof(poolLocalInternal{})%128]byte
+	_ [128 - unsafe.Sizeof(poolLocalInternal{})]byte // padding
 }
 
 // from runtime
@@ -98,8 +98,9 @@ func (p *Pool) Put(x interface{}) {
 		race.Disable()
 	}
 	l := p.pin()
-	if l.private == nil {
-		l.private = x
+	if l.privateLen < cap(l.private) {
+		l.private[l.privateLen] = x
+		l.privateLen++
 		x = nil
 	}
 	runtime_procUnpin()
@@ -125,9 +126,12 @@ func (p *Pool) Get() interface{} {
 	if race.Enabled {
 		race.Disable()
 	}
+	var x interface{}
 	l := p.pin()
-	x := l.private
-	l.private = nil
+	if l.privateLen > 0 {
+		l.privateLen--
+		x = l.private[l.privateLen]
+	}
 	runtime_procUnpin()
 	if x == nil {
 		l.Lock()
@@ -226,7 +230,10 @@ func poolCleanup() {
 		allPools[i] = nil
 		for i := 0; i < int(p.localSize); i++ {
 			l := indexLocal(p.local, i)
-			l.private = nil
+			for j := range l.private {
+				l.private[j] = nil
+			}
+			l.privateLen = 0
 			for j := range l.shared {
 				l.shared[j] = nil
 			}
