@@ -255,3 +255,34 @@ func ExampleTrimPrefix() {
 	fmt.Print("Hello" + s)
 	// Output: Hello, world!
 }
+
+func ExampleTrimFunc() {
+	fmt.Print(strings.TrimFunc(">>> So long! Thanks for all the fish! <<<", func(r rune) bool {
+		return r == '>' || r == '<'
+	}))
+	// Output: So long! Thanks for all the fish!
+}
+
+func ExampleTrimLeft() {
+	fmt.Print(strings.TrimLeft(">>> So long! Thanks for all the fish!", " >"))
+	// Output: So long! Thanks for all the fish!
+}
+
+func ExampleTrimLeftFunc() {
+	fmt.Print(strings.TrimLeftFunc(">>> So long! Thanks for all the fish!", func(r rune) bool {
+		return r == '>' || r == ' '
+	}))
+	// Output: So long! Thanks for all the fish!
+}
+
+func ExampleTrimRight() {
+	fmt.Print(strings.TrimRight("So long! Thanks for all the fish!?", "!?"))
+	// Output: So long! Thanks for all the fish
+}
+
+func ExampleTrimRightFunc() {
+	fmt.Print(strings.TrimRightFunc("So long! Thanks for all the fish!?", func(r rune) bool {
+		return r == '?' || r == '!'
+	}))
+	// Output: So long! Thanks for all the fish
+}
