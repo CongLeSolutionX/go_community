@@ -11,7 +11,7 @@ const svgPanJS = `
  * ======================
  *
  * Given an unique existing element with id "viewport" (or when missing, the first g 
- * element), including the the library into any SVG adds the following capabilities:
+ * element), including the library into any SVG adds the following capabilities:
  *
  *  - Mouse panning
  *  - Mouse zooming (using the wheel)
