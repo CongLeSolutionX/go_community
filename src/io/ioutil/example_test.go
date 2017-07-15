@@ -69,3 +69,10 @@ func ExampleTempFile() {
 		log.Fatal(err)
 	}
 }
+
+func ExampleReadFile() {
+	content, err := ioutil.ReadFile("/a/file")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
