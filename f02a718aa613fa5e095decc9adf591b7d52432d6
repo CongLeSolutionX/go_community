@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "c478cdfa_885829ec",
+        "filename": "src/strings/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-07-15T20:53:05Z",
+      "side": 1,
+      "message": "This and the other examples might be clearer if you don\u0027t use whitespace around the angle brackets.  The problem is that the \"Output:\" line strips whitespace, so that obscures whether TrimFunc, et. al., trim whitespace.",
+      "revId": "f02a718aa613fa5e095decc9adf591b7d52432d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe367f80_274b862b",
+        "filename": "src/strings/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-07-15T20:53:05Z",
+      "side": 1,
+      "message": "I would suggest using the same string for all the Trim examples, if possible, to makes the differences between the Trim functions more clear.",
+      "revId": "f02a718aa613fa5e095decc9adf591b7d52432d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82659f77_d5d0b548",
         "filename": "src/strings/example_test.go",
         "patchSetId": 1
