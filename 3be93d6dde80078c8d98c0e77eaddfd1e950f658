@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82ad738a_f975521a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-15T21:47:17Z",
+      "side": 1,
+      "message": "this would be \"io/ioutil: add\" (lowercase \"add\") and no parens after ReadFile",
+      "revId": "3be93d6dde80078c8d98c0e77eaddfd1e950f658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c941c8f9_aae37f12",
+        "filename": "src/io/ioutil/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-15T21:47:17Z",
+      "side": 1,
+      "message": "this is a dup of https://go-review.googlesource.com/c/48775/ which has a functional example",
+      "range": {
+        "startLine": 74,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 2
+      },
+      "revId": "3be93d6dde80078c8d98c0e77eaddfd1e950f658",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
