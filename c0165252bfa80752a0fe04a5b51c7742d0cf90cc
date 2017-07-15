@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41c402f5_d69d48f5",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2147,
+      "author": {
+        "id": 22701
+      },
+      "writtenOn": "2017-07-15T19:19:25Z",
+      "side": 1,
+      "message": "I wonder if we should do a `defer cancelCtx()` after this line.",
+      "revId": "c0165252bfa80752a0fe04a5b51c7742d0cf90cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
