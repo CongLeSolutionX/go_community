@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "983eb1af_96baf493",
+        "filename": "src/strings/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-15T20:44:17Z",
+      "side": 1,
+      "message": "We try to keep Examples looking like actual code users would right, and not like unit tests.\n\nThis is a little borderline on the side of a unit test instead of normal-looking code. Or at least it\u0027s a bit indirect.\n\nI\u0027d prefer something simple like the ExampleContains down below.",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 14
+      },
+      "revId": "55ee7f2bfe6f6e0edaab182a2c2689a4dfefd28b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
