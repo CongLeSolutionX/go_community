@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26eab95e_4be6536a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-07-15T20:39:55Z",
+      "side": 1,
+      "message": "Conventionally, the first word of the description after the package should be lowercased.",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 0
+      },
+      "revId": "9d9e5c14a5a710c3856129392fe9247ab8f51337",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
