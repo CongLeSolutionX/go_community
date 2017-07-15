@@ -16,6 +16,23 @@
       "revId": "c0165252bfa80752a0fe04a5b51c7742d0cf90cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a6e5860_303f8b09",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3027,
+      "author": {
+        "id": 22701
+      },
+      "writtenOn": "2017-07-15T20:17:42Z",
+      "side": 1,
+      "message": "Could we avoid creating this empty function?",
+      "revId": "c0165252bfa80752a0fe04a5b51c7742d0cf90cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
