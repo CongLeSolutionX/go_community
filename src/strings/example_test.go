@@ -200,11 +200,6 @@ func ExampleToTitle() {
 	// ХЛЕБ
 }
 
-func ExampleTrim() {
-	fmt.Printf("[%q]", strings.Trim(" !!! Achtung! Achtung! !!! ", "! "))
-	// Output: ["Achtung! Achtung"]
-}
-
 func ExampleMap() {
 	rot13 := func(r rune) rune {
 		switch {
@@ -217,11 +212,6 @@ func ExampleMap() {
 	}
 	fmt.Println(strings.Map(rot13, "'Twas brillig and the slithy gopher..."))
 	// Output: 'Gjnf oevyyvt naq gur fyvgul tbcure...
-}
-
-func ExampleTrimSpace() {
-	fmt.Println(strings.TrimSpace(" \t\n a lone gopher \n\t\r\n"))
-	// Output: a lone gopher
 }
 
 func ExampleNewReplacer() {
@@ -240,18 +230,59 @@ func ExampleToLower() {
 	// Output: gopher
 }
 
-func ExampleTrimSuffix() {
-	var s = "Hello, goodbye, etc!"
-	s = strings.TrimSuffix(s, "goodbye, etc!")
-	s = strings.TrimSuffix(s, "planet")
-	fmt.Print(s, "world!")
-	// Output: Hello, world!
+func ExampleTrim() {
+	fmt.Print(strings.Trim("¡¡¡Hello, goodbye, etc!!!", "!¡"))
+	// Output: Hello, goodbye, etc
+}
+
+func ExampleTrimSpace() {
+	fmt.Println(strings.TrimSpace(" \t\n Hello, goodbye, etc \n\t\r\n"))
+	// Output: Hello, goodbye, etc
 }
 
 func ExampleTrimPrefix() {
-	var s = "Goodbye,, world!"
-	s = strings.TrimPrefix(s, "Goodbye,")
-	s = strings.TrimPrefix(s, "Howdy,")
-	fmt.Print("Hello" + s)
-	// Output: Hello, world!
+	var s = "¡¡¡Hello, goodbye, etc!!!"
+	s = strings.TrimPrefix(s, "¡¡¡Hello, ")
+	s = strings.TrimPrefix(s, "¡¡¡Howdy, ")
+	fmt.Print(s)
+	// Output: goodbye, etc!!!
+}
+
+func ExampleTrimSuffix() {
+	var s = "¡¡¡Hello, goodbye, etc!!!"
+	s = strings.TrimSuffix(s, ", goodbye, etc!!!")
+	s = strings.TrimSuffix(s, ", planet!!!")
+	fmt.Print(s)
+	// Output: ¡¡¡Hello
+}
+
+func ExampleTrimFunc() {
+	fmt.Print(strings.TrimFunc("¡¡¡Hello, goodbye, etc!!!", func(r rune) bool {
+		return r == '!' || r == '¡'
+	}))
+	// Output: Hello, goodbye, etc
+}
+
+func ExampleTrimLeft() {
+	fmt.Print(strings.TrimLeft("¡¡¡Hello, goodbye, etc!!!", "!¡"))
+	// Output: Hello, goodbye, etc!!!
+}
+
+func ExampleTrimLeftFunc() {
+	fmt.Print(strings.TrimLeftFunc("¡¡¡Hello, goodbye, etc!!!", func(r rune) bool {
+		return r == '!' || r == '¡'
+	}))
+	// Output: Hello, goodbye, etc!!!
+}
+
+func ExampleTrimRight() {
+	fmt.Print(strings.TrimRight("¡¡¡Hello, goodbye, etc!!!", "!¡"))
+	// Output: ¡¡¡Hello, goodbye, etc
+}
+
+func ExampleTrimRightFunc() {
+	fmt.Print(strings.TrimRightFunc("¡¡¡Hello, goodbye, etc!!!", func(r rune) bool {
+		return r == '!' || r == '¡'
+	}))
+	// Output: ¡¡¡Hello, goodbye, etc
 }
