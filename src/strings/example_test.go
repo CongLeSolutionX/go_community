@@ -23,6 +23,32 @@ func ExampleFieldsFunc() {
 	// Output: Fields are: ["foo1" "bar2" "baz3"]
 }
 
+func ExampleCompare() {
+	pairs := [][]string{
+		{"alpha", "bravo"},
+		{"go", "c"},
+		{"foo", "foo"},
+	}
+
+	for _, pair := range pairs {
+		a := pair[0]
+		b := pair[1]
+		switch strings.Compare(a, b) {
+		case 1:
+			fmt.Printf("%s > %s\n", a, b)
+		case 0:
+			fmt.Printf("%s == %s\n", a, b)
+		case -1:
+			fmt.Printf("%s < %s\n", a, b)
+		}
+	}
+
+	// Output:
+	// alpha < bravo
+	// go > c
+	// foo == foo
+}
+
 func ExampleContains() {
 	fmt.Println(strings.Contains("seafood", "foo"))
 	fmt.Println(strings.Contains("seafood", "bar"))
