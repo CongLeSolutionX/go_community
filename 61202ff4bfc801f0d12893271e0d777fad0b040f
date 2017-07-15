@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "500d9021_ba9fdffe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-07-15T20:29:12Z",
+      "side": 1,
+      "message": "As Brad has already pointed it out, \"gocdoc\" still has a typo and should be \"godoc\".",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 25
+      },
+      "revId": "61202ff4bfc801f0d12893271e0d777fad0b040f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
