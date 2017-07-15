@@ -518,7 +518,9 @@ type GIF struct {
 	// the first frame's bounds' Rectangle.Max point.
 	Config image.Config
 	// BackgroundIndex is the background index in the global color table, for
-	// use with the DisposalBackground disposal method.
+	// use with the DisposalBackground disposal method.  However, modern browsers
+	// ignore this and instead, DisposalBackground is interpreted as "clear the
+	// canvas to fully transparent"
 	BackgroundIndex byte
 }
 
