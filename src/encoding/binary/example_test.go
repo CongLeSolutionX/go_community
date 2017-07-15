@@ -50,3 +50,39 @@ func ExampleRead() {
 	fmt.Print(pi)
 	// Output: 3.141592653589793
 }
+
+func ExamplePutUvarint() {
+	x := uint64(0x42f0e1eba9ea3693)
+	buf := make([]byte, binary.MaxVarintLen64)
+	n := binary.PutUvarint(buf, x)
+	fmt.Printf("%x", buf[:n])
+	// Output: 93eda8cfbabdb8f842
+}
+
+func ExamplePutVarint() {
+	x := int64(0x42f0e1eba9ea3693)
+	buf := make([]byte, binary.MaxVarintLen64)
+	n := binary.PutVarint(buf, x)
+	fmt.Printf("%x", buf[:n])
+	// Output: a6dad19ef5faf0f08501
+}
+
+func ExampleUvarint() {
+	b := []byte{0x93, 0xed, 0xa8, 0xcf, 0xba, 0xbd, 0xb8, 0xf8, 0x42}
+	x, n := binary.Uvarint(b)
+	if n != len(b) {
+		fmt.Println("Uvarint did not consume all of b")
+	}
+	fmt.Printf("%#x", x)
+	// Output: 0x42f0e1eba9ea3693
+}
+
+func ExampleVarint() {
+	b := []byte{0xa6, 0xda, 0xd1, 0x9e, 0xf5, 0xfa, 0xf0, 0xf0, 0x85, 0x01}
+	x, n := binary.Varint(b)
+	if n != len(b) {
+		fmt.Println("Uvarint did not consume all of b")
+	}
+	fmt.Printf("%#x", x)
+	// Output: 0x42f0e1eba9ea3693
+}
