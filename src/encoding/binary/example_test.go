@@ -68,3 +68,58 @@ func ExampleByteOrder_get() {
 	// Output:
 	// 0x03e8 0x07d0
 }
+
+func ExamplePutUvarint() {
+	buf := make([]byte, binary.MaxVarintLen64)
+
+	for _, x := range []uint64{1, 2, 127, 128, 255, 256} {
+		n := binary.PutUvarint(buf, x)
+		fmt.Printf("%x\n", buf[:n])
+	}
+	// Output:
+	// 01
+	// 02
+	// 7f
+	// 8001
+	// ff01
+	// 8002
+}
+
+func ExamplePutVarint() {
+	buf := make([]byte, binary.MaxVarintLen64)
+
+	for _, x := range []int64{-65, -64, -2, -1, 0, 1, 2, 63, 64} {
+		n := binary.PutVarint(buf, x)
+		fmt.Printf("%x\n", buf[:n])
+	}
+	// Output:
+	// 8101
+	// 7f
+	// 03
+	// 01
+	// 00
+	// 02
+	// 04
+	// 7e
+	// 8001
+}
+
+func ExampleUvarint() {
+	b := []byte{0x93, 0xed, 0xa8, 0xcf, 0xba, 0xbd, 0xb8, 0xf8, 0x42}
+	x, n := binary.Uvarint(b)
+	if n != len(b) {
+		fmt.Println("Uvarint did not consume all of b")
+	}
+	fmt.Printf("%#x", x)
+	// Output: 0x42f0e1eba9ea3693
+}
+
+func ExampleVarint() {
+	b := []byte{0xa6, 0xda, 0xd1, 0x9e, 0xf5, 0xfa, 0xf0, 0xf0, 0x85, 0x01}
+	x, n := binary.Varint(b)
+	if n != len(b) {
+		fmt.Println("Uvarint did not consume all of b")
+	}
+	fmt.Printf("%#x", x)
+	// Output: 0x42f0e1eba9ea3693
+}
