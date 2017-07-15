@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82659f77_d5d0b548",
+        "filename": "src/strings/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-15T20:52:11Z",
+      "side": 1,
+      "message": "maybe reverse these two characters to be \"?!\" to show that it still works.  (that it\u0027s not TrimSuffix)",
+      "range": {
+        "startLine": 279,
+        "startChar": 68,
+        "endLine": 279,
+        "endChar": 70
+      },
+      "revId": "f02a718aa613fa5e095decc9adf591b7d52432d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
