@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ce38bd9_2c26f0d9",
+        "filename": "src/encoding/json/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-07-15T18:56:19Z",
+      "side": 1,
+      "message": "Why add this empty line?",
+      "revId": "3d04af3cd4689adb0999f8a502c5d80ab4d0af85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
