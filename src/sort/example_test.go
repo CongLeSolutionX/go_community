@@ -69,3 +69,10 @@ func ExampleSliceStable() {
 	// Output: By name: [{Alice 25} {Alice 75} {Alice 75} {Bob 75} {Bob 25} {Colin 25} {Elizabeth 75} {Elizabeth 25}]
 	// By age,name: [{Alice 25} {Bob 25} {Colin 25} {Elizabeth 25} {Alice 75} {Alice 75} {Bob 75} {Elizabeth 75}]
 }
+
+func ExampleStrings() {
+	s := []string{"b", "d", "a", "c"} // unsorted
+	sort.Strings(s)
+	fmt.Println(s)
+	// Output: [a b c d]
+}
