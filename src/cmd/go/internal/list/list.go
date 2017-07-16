@@ -199,7 +199,24 @@ func runList(cmd *base.Command, args []string) {
 		loadpkgs = load.PackagesAndErrors
 	}
 
-	for _, pkg := range loadpkgs(args) {
+	pkgs := loadpkgs(args)
+
+	// Estimate whether staleness information is needed,
+	// since it's a little bit of work to compute.
+	needStale := *listJson || strings.Contains(*listFmt, ".Stale")
+	if needStale {
+		var b work.Builder
+		b.Init()
+		b.ComputeStaleOnly = true
+		a := &work.Action{}
+		// TODO: Use pkgsFilter?
+		for _, p := range pkgs {
+			a.Deps = append(a.Deps, b.Action(work.ModeInstall, work.ModeInstall, p))
+		}
+		b.Do(a)
+	}
+
+	for _, pkg := range pkgs {
 		// Show vendor-expanded paths in listing
 		pkg.TestImports = pkg.Vendored(pkg.TestImports)
 		pkg.XTestImports = pkg.Vendored(pkg.XTestImports)

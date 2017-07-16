@@ -964,7 +964,7 @@ func TestGoInstallRebuildsStalePackagesInOtherGOPATH(t *testing.T) {
 	} else {
 		tg.must(f.Close())
 	}
-	tg.wantStale("p2", "newer source file", "./testgo list claims p2 is NOT stale, incorrectly")
+	tg.wantStale("p2", "build ID mismatch", "./testgo list claims p2 is NOT stale, incorrectly")
 	tg.wantStale("p1", "stale dependency", "./testgo list claims p1 is NOT stale, incorrectly")
 
 	tg.run("install", "p1")
@@ -3704,9 +3704,9 @@ func TestBinaryOnlyPackages(t *testing.T) {
 
 		package p1
 	`)
-	tg.wantStale("p1", "cannot access install target", "p1 is binary-only but has no binary, should be stale")
+	tg.wantStale("p1", "missing or invalid binary-only package", "p1 is binary-only but has no binary, should be stale")
 	tg.runFail("install", "p1")
-	tg.grepStderr("missing or invalid package binary", "did not report attempt to compile binary-only package")
+	tg.grepStderr("missing or invalid binary-only package", "did not report attempt to compile binary-only package")
 
 	tg.tempFile("src/p1/p1.go", `
 		package p1
@@ -3732,7 +3732,7 @@ func TestBinaryOnlyPackages(t *testing.T) {
 		import _ "fmt"
 		func G()
 	`)
-	tg.wantNotStale("p1", "no source code", "should NOT want to rebuild p1 (first)")
+	tg.wantNotStale("p1", "binary-only package", "should NOT want to rebuild p1 (first)")
 	tg.run("install", "-x", "p1") // no-op, up to date
 	tg.grepBothNot("/compile", "should not have run compiler")
 	tg.run("install", "p2") // does not rebuild p1 (or else p2 will fail)
@@ -3744,7 +3744,7 @@ func TestBinaryOnlyPackages(t *testing.T) {
 		package p1
 		func H()
 	`)
-	tg.wantNotStale("p1", "no source code", "should NOT want to rebuild p1 (second)")
+	tg.wantNotStale("p1", "binary-only package", "should NOT want to rebuild p1 (second)")
 	tg.wantNotStale("p2", "", "should NOT want to rebuild p2")
 
 	tg.tempFile("src/p3/p3.go", `

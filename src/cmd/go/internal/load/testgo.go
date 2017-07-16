@@ -16,6 +16,6 @@ import "os"
 
 func init() {
 	if v := os.Getenv("TESTGO_IS_GO_RELEASE"); v != "" {
-		isGoRelease = v == "1"
+		//	isGoRelease = v == "1"
 	}
 }

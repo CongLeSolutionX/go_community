@@ -8,6 +8,7 @@ import (
 	"bufio"
 	"bytes"
 	"container/heap"
+	"crypto/sha256"
 	"debug/elf"
 	"errors"
 	"flag"
@@ -29,6 +30,7 @@ import (
 
 	"cmd/go/internal/base"
 	"cmd/go/internal/buildid"
+	"cmd/go/internal/cache"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
 	"cmd/go/internal/str"
@@ -454,8 +456,6 @@ func runBuild(cmd *base.Command, args []string) {
 		}
 		p := pkgs[0]
 		p.Internal.Target = cfg.BuildO
-		p.Stale = true // must build - not up to date
-		p.StaleReason = "build -o flag in use"
 		a := b.Action(ModeInstall, depMode, p)
 		b.Do(a)
 		return
@@ -652,11 +652,12 @@ func InstallPackages(args []string, forGet bool) {
 // It does not hold per-package state, because we
 // build packages in parallel, and the builder is shared.
 type Builder struct {
-	WorkDir     string               // the temporary work directory (ends in filepath.Separator)
-	actionCache map[cacheKey]*Action // a cache of already-constructed actions
-	mkdirCache  map[string]bool      // a cache of created directories
-	flagCache   map[[2]string]bool   // a cache of supported compiler flags
-	Print       func(args ...interface{}) (int, error)
+	ComputeStaleOnly bool                 // compute staleness for "go list", but do no real work
+	WorkDir          string               // the temporary work directory (ends in filepath.Separator)
+	actionCache      map[cacheKey]*Action // a cache of already-constructed actions
+	mkdirCache       map[string]bool      // a cache of created directories
+	flagCache        map[[2]string]bool   // a cache of supported compiler flags
+	Print            func(args ...interface{}) (int, error)
 
 	objdirSeq int // counter for NewObjdir
 	pkgSeq    int
@@ -668,6 +669,12 @@ type Builder struct {
 	readySema chan bool
 	ready     actionQueue
 }
+
+// ErrStale is the error returned by Action Funcs that cannot be
+// satisfied entirely by cached operations. It is only returned
+// when b.ComputeStaleOnly is true and should never be seen
+// by users.
+var ErrStale = errors.New("build during go list (internal error)")
 
 // NOTE: Much of Action would not need to be exported if not for test.
 // Maybe test functionality should move into this package too?
@@ -683,6 +690,8 @@ type Action struct {
 
 	triggers []*Action // inverse of deps
 	cgo      *Action   // action for cgo binary if needed
+	buildID  string    // computed build ID (action ID for cache lookup)
+	built    string    // target as built
 
 	// Generated files, directories.
 	Link   bool   // target is executable, not just package
@@ -884,14 +893,6 @@ func (b *Builder) action1(mode BuildMode, depMode BuildMode, p *load.Package, lo
 		}
 	}
 
-	if !p.Stale && p.Internal.Target != "" {
-		// p.Stale==false implies that p.Internal.Target is up-to-date.
-		// Record target name for use by actions depending on this one.
-		a.Target = p.Internal.Target
-		p.Internal.Pkgfile = a.Target
-		return a
-	}
-
 	if p.Internal.Local && p.Internal.Target == "" {
 		// Imported via local path. No permanent target.
 		mode = ModeBuild
@@ -899,12 +900,17 @@ func (b *Builder) action1(mode BuildMode, depMode BuildMode, p *load.Package, lo
 	a.Objdir = b.NewObjdir()
 	a.Link = p.Name == "main" && !p.Internal.ForceLibrary
 
+	// TODO: Eventually, if not a.Link, drop mode down to ModeBuild,
+	// so that we never install .a files into pkg. (They live only in cache.)
+	// Before we can do that, we have to update other programs that
+	// read .a files, like vet, to consult the go command to find them.
+	//	if !a.Link { mode = ModeBuild }
+
 	switch mode {
 	case ModeInstall:
 		a.Func = BuildInstallFunc
 		a.Deps = []*Action{b.action1(ModeBuild, depMode, p, lookshared, forShlib)}
 		a.Target = a.Package.Internal.Target
-		a.Package.Internal.Pkgfile = a.Target
 
 		// Install header for cgo in c-archive and c-shared modes.
 		if p.UsesCgo() && (cfg.BuildBuildmode == "c-archive" || cfg.BuildBuildmode == "c-shared") {
@@ -930,7 +936,6 @@ func (b *Builder) action1(mode BuildMode, depMode BuildMode, p *load.Package, lo
 	case ModeBuild:
 		a.Func = (*Builder).build
 		a.Target = a.Objdir + "_pkg_.a"
-		a.Package.Internal.Pkgfile = a.Target
 		if a.Link {
 			// An executable file. (This is the name of a temporary file.)
 			// Because we run the temporary file in 'go run' and 'go test',
@@ -990,7 +995,6 @@ func (b *Builder) libaction(libname string, pkgs []*load.Package, mode, depMode 
 				if p.Error != nil {
 					base.Fatalf("load runtime/cgo: %v", p.Error)
 				}
-				load.ComputeStale(p)
 				// If runtime/cgo is in another shared library, then that's
 				// also the shared library that contains runtime, so
 				// something will depend on it and so runtime/cgo's staleness
@@ -1011,7 +1015,6 @@ func (b *Builder) libaction(libname string, pkgs []*load.Package, mode, depMode 
 					if p.Error != nil {
 						base.Fatalf("load math: %v", p.Error)
 					}
-					load.ComputeStale(p)
 					// If math is in another shared library, then that's
 					// also the shared library that contains runtime, so
 					// something will depend on it and so math's staleness
@@ -1039,38 +1042,26 @@ func (b *Builder) libaction(libname string, pkgs []*load.Package, mode, depMode 
 		}
 		a.Target = filepath.Join(libdir, libname)
 
-		// Now we can check whether we need to rebuild it.
-		stale := false
-		var built time.Time
-		if fi, err := os.Stat(a.Target); err == nil {
-			built = fi.ModTime()
-		}
+		// Now arrange to build it.
 		for _, p := range pkgs {
 			if p.Internal.Target == "" {
 				continue
 			}
-			stale = stale || p.Stale
-			lstat, err := os.Stat(p.Internal.Target)
-			if err != nil || lstat.ModTime().After(built) {
-				stale = true
-			}
 			a.Deps = append(a.Deps, b.action1(depMode, depMode, p, false, a.Target))
 		}
 
-		if stale {
-			a.Func = BuildInstallFunc
-			buildAction := b.libaction(libname, pkgs, ModeBuild, depMode)
-			a.Deps = []*Action{buildAction}
-			for _, p := range pkgs {
-				if p.Internal.Target == "" {
-					continue
-				}
-				shlibnameaction := &Action{}
-				shlibnameaction.Func = (*Builder).installShlibname
-				shlibnameaction.Target = p.Internal.Target[:len(p.Internal.Target)-2] + ".shlibname"
-				a.Deps = append(a.Deps, shlibnameaction)
-				shlibnameaction.Deps = append(shlibnameaction.Deps, buildAction)
+		a.Func = BuildInstallFunc
+		buildAction := b.libaction(libname, pkgs, ModeBuild, depMode)
+		a.Deps = []*Action{buildAction}
+		for _, p := range pkgs {
+			if p.Internal.Target == "" {
+				continue
 			}
+			shlibnameaction := &Action{}
+			shlibnameaction.Func = (*Builder).installShlibname
+			shlibnameaction.Target = p.Internal.Target[:len(p.Internal.Target)-2] + ".shlibname"
+			a.Deps = append(a.Deps, shlibnameaction)
+			shlibnameaction.Deps = append(shlibnameaction.Deps, buildAction)
 		}
 	}
 	return a
@@ -1202,15 +1193,14 @@ func (b *Builder) Do(root *Action) {
 	wg.Wait()
 }
 
+// errStaleDependency is a special error returned by b.buildActionID
+// to signal that a stale dependency was found and recorded.
+// It is not seen by users.
+var errStaleDependency = errors.New("stale dependency")
+
 // build is the action for building a single package or command.
 func (b *Builder) build(a *Action) (err error) {
-	// Return an error for binary-only package.
-	// We only reach this if isStale believes the binary form is
-	// either not present or not usable.
-	if a.Package.BinaryOnly {
-		return fmt.Errorf("missing or invalid package binary for binary-only package %s", a.Package.ImportPath)
-	}
-
+	// TODO: Move these checks to action creation time?
 	// Return an error if the package has CXX files but it's not using
 	// cgo nor SWIG, since the CXX files can only be processed by cgo
 	// and SWIG.
@@ -1229,6 +1219,67 @@ func (b *Builder) build(a *Action) (err error) {
 			a.Package.ImportPath, strings.Join(a.Package.FFiles, ","))
 	}
 
+	var actionErr, binaryErr error
+	if a.Package.BinaryOnly {
+		_, err := os.Stat(a.Package.Internal.Target)
+		if err == nil {
+			a.built = a.Package.Internal.Target
+			a.Target = a.Package.Internal.Target
+			a.Package.Internal.Pkgfile = a.built
+			a.buildID = fmt.Sprintf("%x", FileHash(a.Package.Internal.Target))
+			a.Package.Stale = false
+			a.Package.StaleReason = "binary-only package"
+			return nil
+		}
+		if b.ComputeStaleOnly {
+			a.Package.Stale = true
+			a.Package.StaleReason = "missing or invalid binary-only package"
+			return nil
+		}
+		binaryErr = fmt.Errorf("missing or invalid binary-only package")
+	} else {
+		// TODO: Rethink this call: should it really return an error at all?
+		var actionID cache.ActionID
+		actionID, actionErr = b.buildActionID(a)
+		if actionErr == errStaleDependency {
+			// b.buildActionID set a.Package.Stale, StaleReason.
+			return nil
+		}
+		a.buildID = fmt.Sprintf("%x", actionID)
+
+		if target := a.Package.Internal.Target; target != "" && !cfg.BuildA {
+			buildID, err := buildid.ReadBuildID(a.Package.Name, target)
+			if err != nil && b.ComputeStaleOnly {
+				a.Package.Stale = true
+				a.Package.StaleReason = "install target missing or missing build ID" + " (" + a.buildID + ")"
+				return nil
+			}
+			if buildID == a.buildID {
+				// TODO: Set Pkgfile or something like that?
+				a.built = target
+				a.Target = target
+				a.Package.Internal.Pkgfile = a.built
+				return nil
+			}
+		}
+	}
+
+	// TODO(rsc):
+	// When cache is added, look up actionID in cache and
+	// copy to install target if needed.
+	// Also decide how to handle ComputeStaleOnly, how to express
+	// "not installed but cached" in terms of Stale / StaleReason.
+
+	if b.ComputeStaleOnly {
+		a.Package.Stale = true
+		if cfg.BuildA {
+			a.Package.StaleReason = "build -a flag in use"
+		} else {
+			a.Package.StaleReason = "build ID mismatch for " + a.Package.ImportPath + " (" + a.buildID + ")"
+		}
+		return nil
+	}
+
 	defer func() {
 		if err != nil && err != errPrintedOutput {
 			err = fmt.Errorf("go build %s: %v", a.Package.ImportPath, err)
@@ -1245,6 +1296,15 @@ func (b *Builder) build(a *Action) (err error) {
 
 	if cfg.BuildV {
 		b.Print(a.Package.ImportPath + "\n")
+	}
+
+	// Check error from actionID computation above.
+	// Delayed until now to allow initialization of output and error handling.
+	if actionErr != nil {
+		return actionErr
+	}
+	if binaryErr != nil {
+		return binaryErr
 	}
 
 	// Make build directory.
@@ -1341,6 +1401,7 @@ func (b *Builder) build(a *Action) (err error) {
 		gofiles = append(gofiles, outGo...)
 	}
 
+	// TODO: Move this check to action creation time.
 	if len(gofiles) == 0 {
 		return &load.NoGoError{Package: a.Package}
 	}
@@ -1415,7 +1476,7 @@ func (b *Builder) build(a *Action) (err error) {
 
 	// Compile Go.
 	objpkg := objdir + "_pkg_.a"
-	ofile, out, err := BuildToolchain.gc(b, a.Package, objpkg, objdir, icfg.Bytes(), len(sfiles) > 0, gofiles)
+	ofile, out, err := BuildToolchain.gc(b, a, objpkg, icfg.Bytes(), len(sfiles) > 0, gofiles)
 	if len(out) > 0 {
 		b.showOutput(a.Package.Dir, a.Package.ImportPath, b.processOutput(out))
 		if err != nil {
@@ -1494,6 +1555,8 @@ func (b *Builder) build(a *Action) (err error) {
 			return err
 		}
 	}
+	a.built = objpkg
+	a.Package.Internal.Pkgfile = a.built
 
 	// Link if needed.
 	if a.Link {
@@ -1509,6 +1572,7 @@ func (b *Builder) build(a *Action) (err error) {
 		if err := BuildToolchain.ld(b, a, a.Target, importcfg, all, objpkg, objects); err != nil {
 			return err
 		}
+		a.built = a.Target
 	}
 
 	return nil
@@ -1538,6 +1602,153 @@ func (b *Builder) writeLinkImportcfg(a *Action, file string) error {
 		}
 	}
 	return b.writeFile(file, icfg.Bytes())
+}
+
+func (b *Builder) buildActionID(a *Action) (cache.ActionID, error) {
+	h := cache.NewHash("actionID")
+	p := a.Package
+
+	// TODO: Include environment variables as appropriate.
+	// TODO: Factor these better.
+
+	fmt.Fprintf(h, "package %s\nimport %s\n", p.Name, p.ImportPath)
+	fmt.Fprintf(h, "buildmode %q\n", cfg.BuildBuildmode)
+	fmt.Fprintf(h, "compile %x\n", toolHash("compile"))
+	if p.Internal.CoverMode != "" {
+		fmt.Fprintf(h, "cover %q\n", a.Package.Internal.CoverMode)
+	}
+
+	// TODO: If toolexec is set, we're kind of screwed.
+	// Maybe give up and never cache in that case?
+	fmt.Fprintf(h, "toolexec %q\n", cfg.BuildToolexec)
+
+	if len(p.CgoFiles)+len(p.SwigFiles) > 0 {
+		fmt.Fprintf(h, "cgo %x\n", toolHash("cgo"))
+	}
+
+	if a.Link {
+		fmt.Fprintf(h, "link %x %q\n", toolHash("link"), ldBuildmode)
+		ldflags := cfg.BuildLdflags
+		if p.Goroot {
+			ldflags = removeLinkmodeExternal(str.StringList(ldflags))
+		}
+		fmt.Fprintf(h, "ldflags %q\n", ldflags)
+		// TODO: Make sure auto-deps like math are covered by p.Internal.Imports.
+
+		// TODO: Use right CXX detection.
+		// TODO: Determine if there's cgo at all (need to consider dependencies).
+		if len(p.CXXFiles)+len(p.SwigCXXFiles) > 0 {
+			fmt.Fprintf(h, "cxx %q\n", envList("CXX", cfg.DefaultCXX))
+		} else {
+			fmt.Fprintf(h, "cc %q\n", envList("CC", cfg.DefaultCC))
+		}
+	}
+	if p.Standard {
+		fmt.Fprintf(h, "standard\n")
+	}
+	fmt.Fprintf(h, "goos %s goarch %s\n", cfg.Goos, cfg.Goarch)
+	if p.Internal.OmitDebug {
+		fmt.Fprintf(h, "omitdebug\n")
+	}
+
+	// TODO: not for gccgo
+	fmt.Fprintf(h, "gcflags %q\n", buildGcflags)
+	if p.Internal.Local {
+		fmt.Fprintf(h, "localprefix %q\n", p.Internal.LocalPrefix)
+	}
+
+	if len(p.SFiles) > 0 {
+		fmt.Fprintf(h, "asm %x\n", FileHash(base.Tool("asm")))
+		fmt.Fprintf(h, "asmflags %q\n", buildAsmflags)
+	}
+
+	// Add environment variables that affect code generation.
+	// TODO: Caller should pass us the env vars and make sure those are
+	// the only ones exposed in the environment?
+	switch cfg.BuildContext.GOARCH {
+	case "arm":
+		fmt.Fprintf(h, "GOARM=%s\n", os.Getenv("GOARM"))
+	case "386":
+		fmt.Fprintf(h, "GO386=%s\n", os.Getenv("GO386"))
+	}
+
+	inputFiles := str.StringList(
+		p.GoFiles,
+		p.CgoFiles,
+		p.CFiles,
+		p.CXXFiles,
+		p.FFiles,
+		p.MFiles,
+		p.HFiles,
+		p.SFiles,
+		p.SysoFiles,
+		p.SwigFiles,
+		p.SwigCXXFiles,
+	)
+	for _, file := range inputFiles {
+		fmt.Fprintf(h, "file %s %x\n", file, FileHash(filepath.Join(p.Dir, file)))
+	}
+
+	for _, a1 := range a.Deps {
+		p1 := a1.Package
+		if p1.ImportPath == "unsafe" {
+			continue
+		}
+		if b.ComputeStaleOnly && p1.Stale {
+			p.Stale = true
+			if strings.HasPrefix(p1.StaleReason, "stale dependency: ") {
+				p.StaleReason = p1.StaleReason
+			} else {
+				p.StaleReason = "stale dependency: " + p1.ImportPath
+			}
+			return cache.ActionID{}, errStaleDependency
+		}
+		if a1.built == "" {
+			panic("missing target " + p1.ImportPath + " during build of " + p.ImportPath)
+		}
+		fmt.Fprintf(h, "import %s %x\n", p1.ImportPath, FileHash(a1.built))
+	}
+
+	return h.Sum(), nil
+}
+
+func toolHash(name string) [32]byte {
+	// TODO(rsc): Use release string if this is a release binary.
+	return FileHash(base.Tool(name))
+}
+
+var fileHashCache struct {
+	mu   sync.Mutex
+	hash map[string][32]byte
+}
+
+func setFileHash(file string, hash [32]byte) {
+	fileHashCache.mu.Lock()
+	if fileHashCache.hash == nil {
+		fileHashCache.hash = make(map[string][32]byte)
+	}
+	fileHashCache.hash[file] = hash
+	fileHashCache.mu.Unlock()
+}
+
+func FileHash(file string) [32]byte {
+	fileHashCache.mu.Lock()
+	cached, ok := fileHashCache.hash[file]
+	fileHashCache.mu.Unlock()
+	if ok {
+		return cached
+	}
+
+	out, err := cache.HashFile(file)
+	if err != nil {
+		if cfg.BuildN {
+			return sha256.Sum256([]byte(file))
+		}
+		// TODO: Do not panic.
+		panic(err)
+	}
+	setFileHash(file, out)
+	return out
 }
 
 // PkgconfigCmd returns a pkg-config binary name
@@ -1632,12 +1843,23 @@ func (b *Builder) linkShared(a *Action) (err error) {
 
 // BuildInstallFunc is the action for installing a single package or executable.
 func BuildInstallFunc(b *Builder, a *Action) (err error) {
+	a1 := a.Deps[0]
+	if a1.built == a.Target {
+		a.built = a.Target
+		a.Package.Internal.Pkgfile = a.built
+		return nil
+	}
+
+	if b.ComputeStaleOnly {
+		return nil
+	}
+
 	defer func() {
 		if err != nil && err != errPrintedOutput {
 			err = fmt.Errorf("go install %s: %v", a.Package.ImportPath, err)
 		}
 	}()
-	a1 := a.Deps[0]
+
 	perm := os.FileMode(0666)
 	if a1.Link {
 		switch cfg.BuildBuildmode {
@@ -1674,7 +1896,9 @@ func BuildInstallFunc(b *Builder, a *Action) (err error) {
 		}()
 	}
 
-	return b.moveOrCopyFile(a, a.Target, a1.Target, perm, false)
+	a.built = a.Target
+	a.Package.Internal.Pkgfile = a.built
+	return b.moveOrCopyFile(a, a.Target, a1.built, perm, false)
 }
 
 // moveOrCopyFile is like 'mv src dst' or 'cp src dst'.
@@ -2137,7 +2361,7 @@ func mkAbs(dir, f string) string {
 type toolchain interface {
 	// gc runs the compiler in a specific directory on a set of files
 	// and returns the name of the generated output file.
-	gc(b *Builder, p *load.Package, archive, objdir string, importcfg []byte, asmhdr bool, gofiles []string) (ofile string, out []byte, err error)
+	gc(b *Builder, a *Action, archive string, importcfg []byte, asmhdr bool, gofiles []string) (ofile string, out []byte, err error)
 	// cc runs the toolchain's C compiler in a directory on a C file
 	// to produce an output file.
 	cc(b *Builder, p *load.Package, objdir, ofile, cfile string) error
@@ -2176,7 +2400,7 @@ func (noToolchain) linker() string {
 	return ""
 }
 
-func (noToolchain) gc(b *Builder, p *load.Package, archive, objdir string, importcfg []byte, asmhdr bool, gofiles []string) (ofile string, out []byte, err error) {
+func (noToolchain) gc(b *Builder, a *Action, archive string, importcfg []byte, asmhdr bool, gofiles []string) (ofile string, out []byte, err error) {
 	return "", nil, noCompiler()
 }
 
@@ -2216,7 +2440,10 @@ func (gcToolchain) linker() string {
 	return base.Tool("link")
 }
 
-func (gcToolchain) gc(b *Builder, p *load.Package, archive, objdir string, importcfg []byte, asmhdr bool, gofiles []string) (ofile string, output []byte, err error) {
+func (gcToolchain) gc(b *Builder, a *Action, archive string, importcfg []byte, asmhdr bool, gofiles []string) (ofile string, output []byte, err error) {
+	p := a.Package
+	objdir := a.Objdir
+
 	if archive != "" {
 		ofile = archive
 	} else {
@@ -2258,8 +2485,8 @@ func (gcToolchain) gc(b *Builder, p *load.Package, archive, objdir string, impor
 	if cfg.BuildContext.InstallSuffix != "" {
 		gcargs = append(gcargs, "-installsuffix", cfg.BuildContext.InstallSuffix)
 	}
-	if p.Internal.BuildID != "" {
-		gcargs = append(gcargs, "-buildid", p.Internal.BuildID)
+	if a.buildID != "" {
+		gcargs = append(gcargs, "-buildid", a.buildID)
 	}
 	platform := cfg.Goos + "/" + cfg.Goarch
 	if p.Internal.OmitDebug || platform == "nacl/amd64p32" || platform == "darwin/arm" || platform == "darwin/arm64" || cfg.Goos == "plan9" {
@@ -2574,8 +2801,8 @@ func (gcToolchain) ld(b *Builder, root *Action, out, importcfg string, allaction
 		compiler = envList("CC", cfg.DefaultCC)
 	}
 	ldflags = append(ldflags, "-buildmode="+ldBuildmode)
-	if root.Package.Internal.BuildID != "" {
-		ldflags = append(ldflags, "-buildid="+root.Package.Internal.BuildID)
+	if root.buildID != "" {
+		ldflags = append(ldflags, "-buildid="+root.buildID)
 	}
 	ldflags = append(ldflags, cfg.BuildLdflags...)
 	if root.Package.Goroot {
@@ -2693,7 +2920,9 @@ func checkGccgoBin() {
 	os.Exit(2)
 }
 
-func (tools gccgoToolchain) gc(b *Builder, p *load.Package, archive, objdir string, importcfg []byte, asmhdr bool, gofiles []string) (ofile string, output []byte, err error) {
+func (tools gccgoToolchain) gc(b *Builder, a *Action, archive string, importcfg []byte, asmhdr bool, gofiles []string) (ofile string, output []byte, err error) {
+	p := a.Package
+	objdir := a.Objdir
 	out := "_go_.o"
 	ofile = objdir + out
 	gcargs := []string{"-g"}
@@ -3732,7 +3961,7 @@ func (b *Builder) swigDoIntSize(objdir string) (intsize string, err error) {
 
 	p := load.GoFilesPackage(srcs)
 
-	if _, _, e := BuildToolchain.gc(b, p, "", objdir, nil, false, srcs); e != nil {
+	if _, _, e := BuildToolchain.gc(b, &Action{Package: p, Objdir: objdir}, "", nil, false, srcs); e != nil {
 		return "32", nil
 	}
 	return "64", nil

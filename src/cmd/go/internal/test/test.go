@@ -564,8 +564,6 @@ func runTest(cmd *base.Command, args []string) {
 			if p.ImportPath == "unsafe" {
 				continue
 			}
-			p.Stale = true // rebuild
-			p.StaleReason = "rebuild for coverage"
 			p.Internal.CoverMode = testCoverMode
 			var coverFiles []string
 			coverFiles = append(coverFiles, p.GoFiles...)
@@ -641,7 +639,6 @@ func ensureImport(p *load.Package, pkg string) {
 	if a.Error != nil {
 		base.Fatalf("load %s: %v", pkg, a.Error)
 	}
-	load.ComputeStale(a)
 
 	p.Internal.Imports = append(p.Internal.Imports, a)
 }
@@ -745,8 +742,6 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 		ptest.Imports = str.StringList(p.Imports, p.TestImports)
 		ptest.Internal.Imports = append(append([]*load.Package{}, p.Internal.Imports...), imports...)
 		ptest.Internal.ForceLibrary = true
-		ptest.Stale = true
-		ptest.StaleReason = "rebuild for test"
 		ptest.Internal.Build = new(build.Package)
 		*ptest.Internal.Build = *p.Internal.Build
 		m := map[string][]token.Position{}
@@ -779,7 +774,6 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 				Dir:        p.Dir,
 				GoFiles:    p.XTestGoFiles,
 				Imports:    p.XTestImports,
-				Stale:      true,
 			},
 			Internal: load.PackageInternal{
 				LocalPrefix: p.Internal.LocalPrefix,
@@ -807,7 +801,6 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 			GoFiles:    []string{"_testmain.go"},
 			ImportPath: p.ImportPath + " (testmain)",
 			Root:       p.Root,
-			Stale:      true,
 		},
 		Internal: load.PackageInternal{
 			Build:     &build.Package{Name: "main"},
@@ -904,8 +897,6 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 			return nil, nil, nil, err
 		}
 	}
-
-	load.ComputeStale(pmain)
 
 	if ptest != p {
 		a := b.Action(work.ModeBuild, work.ModeBuild, ptest)
@@ -1030,8 +1021,6 @@ func recompileForTest(pmain, preal, ptest *load.Package) {
 			copy(p1.Internal.Imports, p.Internal.Imports)
 			p = p1
 			p.Internal.Target = ""
-			p.Stale = true
-			p.StaleReason = "depends on package being tested"
 		}
 
 		// Update p.Internal.Imports to use test copies.
