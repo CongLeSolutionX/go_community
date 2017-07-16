@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "011e8cd1_b963ff9e",
+        "filename": "src/encoding/binary/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 14425
+      },
+      "writtenOn": "2017-07-16T02:50:31Z",
+      "side": 1,
+      "message": "I just wanted to demonstrate the function itself, but you are right. Much better to also show some properties of the encoding. I tried to use series that are representative of the respective behavior. I also personally prefer to not use it inline with the slice, for clarity.",
+      "parentUuid": "04ae273d_4fe2ebe4",
+      "range": {
+        "startLine": 55,
+        "startChar": 1,
+        "endLine": 59,
+        "endChar": 30
+      },
+      "revId": "86e5f9cb98d7db8881fc137e0d12fd20fc8c2c43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da295c13_7ee8beb9",
         "filename": "src/encoding/binary/example_test.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "86e5f9cb98d7db8881fc137e0d12fd20fc8c2c43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "173146d7_560f14ff",
+        "filename": "src/encoding/binary/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 14425
+      },
+      "writtenOn": "2017-07-16T02:50:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da295c13_7ee8beb9",
+      "range": {
+        "startLine": 63,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 32
+      },
+      "revId": "86e5f9cb98d7db8881fc137e0d12fd20fc8c2c43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
