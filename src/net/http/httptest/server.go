@@ -49,7 +49,7 @@ type Server struct {
 
 	// client is configured for use with the server.
 	// Its transport is automatically closed when Close is called.
-	client *http.Client
+	client *Client
 }
 
 func newLocalListener() net.Listener {
@@ -102,7 +102,7 @@ func (s *Server) Start() {
 		panic("Server already started")
 	}
 	if s.client == nil {
-		s.client = &http.Client{Transport: &http.Transport{}}
+		s.client = NewClient()
 	}
 	s.URL = "http://" + s.Listener.Addr().String()
 	s.wrap()
@@ -119,7 +119,7 @@ func (s *Server) StartTLS() {
 		panic("Server already started")
 	}
 	if s.client == nil {
-		s.client = &http.Client{Transport: &http.Transport{}}
+		s.client = NewClient()
 	}
 	cert, err := tls.X509KeyPair(internal.LocalhostCert, internal.LocalhostKey)
 	if err != nil {
@@ -211,11 +211,9 @@ func (s *Server) Close() {
 		t.CloseIdleConnections()
 	}
 
-	// Also close the client idle connections.
+	// Also close the client's transport idle connections.
 	if s.client != nil {
-		if t, ok := s.client.Transport.(closeIdleTransport); ok {
-			t.CloseIdleConnections()
-		}
+		s.client.CloseIdleTransport()
 	}
 
 	s.wg.Wait()
@@ -270,7 +268,10 @@ func (s *Server) Certificate() *x509.Certificate {
 // It is configured to trust the server's TLS test certificate and will
 // close its idle connections on Server.Close.
 func (s *Server) Client() *http.Client {
-	return s.client
+	if s.client != nil {
+		return s.client.Client
+	}
+	return nil
 }
 
 func (s *Server) goServe() {

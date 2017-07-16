@@ -4749,7 +4749,9 @@ func benchmarkClientServerParallel(b *testing.B, parallelism int, useTLS bool) {
 	b.ResetTimer()
 	b.SetParallelism(parallelism)
 	b.RunParallel(func(pb *testing.PB) {
-		c := ts.Client()
+		c := httptest.NewClient()
+		defer c.CloseIdleTransport()
+
 		for pb.Next() {
 			res, err := c.Get(ts.URL)
 			if err != nil {
