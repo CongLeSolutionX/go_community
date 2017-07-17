@@ -57,6 +57,14 @@ func checkUserNS(t *testing.T) {
 			t.Skip("kernel prohibits user namespace in unprivileged process")
 		}
 	}
+	// On centos 7 make sure they set the kernel paramenter user_namespace=1
+	// See issue 16283 and 20796.
+	if _, err := os.Stat("/sys/module/user_namespace/parameters/enable"); err == nil {
+		buf, err := ioutil.ReadFile("/sys/module/user_namespace/parameters/enabled")
+		if err == nil && len(buf) > 1 && buf[0] != 'Y' {
+			t.Skip("kernel doesn't support user namespaces")
+		}
+	}
 	// When running under the Go continuous build, skip tests for
 	// now when under Kubernetes. (where things are root but not quite)
 	// Both of these are our own environment variables.
