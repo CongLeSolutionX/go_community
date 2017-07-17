@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f32f905b_42a74f26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-17T16:38:29Z",
+      "side": 1,
+      "message": "database/sql: update documentation\n\n(full package name, lowercase verb \"update\", drop final period)",
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11895982_a1cc027e",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-17T16:38:29Z",
+      "side": 1,
+      "message": "... to the pool\n\nBut why?",
+      "range": {
+        "startLine": 1461,
+        "startChar": 25,
+        "endLine": 1461,
+        "endChar": 41
+      },
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f7a98cc_5b28fdef",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-17T16:38:29Z",
+      "side": 1,
+      "message": "why?",
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5834d6c1_6d87036b",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1816,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-17T16:38:29Z",
+      "side": 1,
+      "message": "this is the only change I\u0027d make for Go 1.9. Can you mail this separately?",
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
