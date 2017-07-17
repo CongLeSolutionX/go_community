@@ -110,6 +110,7 @@ func TestCloneNEWUSERAndRemapRootEnableSetgroups(t *testing.T) {
 }
 
 func TestCloneNEWUSERAndRemapNoRootDisableSetgroups(t *testing.T) {
+	checkUserNS(t)
 	if os.Getuid() == 0 {
 		t.Skip("skipping unprivileged user only test")
 	}
@@ -117,6 +118,7 @@ func TestCloneNEWUSERAndRemapNoRootDisableSetgroups(t *testing.T) {
 }
 
 func TestCloneNEWUSERAndRemapNoRootSetgroupsEnableSetgroups(t *testing.T) {
+	checkUserNS(t)
 	if os.Getuid() == 0 {
 		t.Skip("skipping unprivileged user only test")
 	}
@@ -131,6 +133,7 @@ func TestCloneNEWUSERAndRemapNoRootSetgroupsEnableSetgroups(t *testing.T) {
 }
 
 func TestEmptyCredGroupsDisableSetgroups(t *testing.T) {
+	checkUserNS(t)
 	cmd := whoamiCmd(t, os.Getuid(), os.Getgid(), false)
 	cmd.SysProcAttr.Credential = &syscall.Credential{}
 	if err := cmd.Run(); err != nil {
