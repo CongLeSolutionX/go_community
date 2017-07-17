@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d650d28f_d1eb639c",
+        "filename": "src/encoding/binary/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-07-17T21:10:14Z",
+      "side": 1,
+      "message": "It would be nice if the examples for Uvarint and Varint were the inverse of the examples for PutUvarint and PutVarint, since the functions themselves are more or less inverses.",
+      "revId": "bc623a4aca57305414a13921fb235f9505ef950b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
