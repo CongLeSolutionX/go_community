@@ -20,19 +20,23 @@ type SysProcIDMap struct {
 }
 
 type SysProcAttr struct {
-	Chroot       string         // Chroot.
-	Credential   *Credential    // Credential.
-	Ptrace       bool           // Enable tracing.
-	Setsid       bool           // Create session.
-	Setpgid      bool           // Set process group ID to Pgid, or, if Pgid == 0, to new pid.
-	Setctty      bool           // Set controlling terminal to fd Ctty (only meaningful if Setsid is set)
-	Noctty       bool           // Detach fd 0 from controlling terminal
-	Ctty         int            // Controlling TTY fd
-	Foreground   bool           // Place child's process group in foreground. (Implies Setpgid. Uses Ctty as fd of controlling TTY)
-	Pgid         int            // Child's process group ID if Setpgid.
-	Pdeathsig    Signal         // Signal that the process will get when its parent dies (Linux only)
-	Cloneflags   uintptr        // Flags for clone calls (Linux only)
-	Unshareflags uintptr        // Flags for unshare calls (Linux only)
+	Chroot     string      // Chroot.
+	Credential *Credential // Credential.
+	Ptrace     bool        // Enable tracing.
+	Setsid     bool        // Create session.
+	Setpgid    bool        // Set process group ID to Pgid, or, if Pgid == 0, to new pid.
+	Setctty    bool        // Set controlling terminal to fd Ctty (only meaningful if Setsid is set)
+	Noctty     bool        // Detach fd 0 from controlling terminal
+	Ctty       int         // Controlling TTY fd
+	Foreground bool        // Place child's process group in foreground. (Implies Setpgid. Uses Ctty as fd of controlling TTY)
+	Pgid       int         // Child's process group ID if Setpgid.
+	Pdeathsig  Signal      // Signal that the process will get when its parent dies (Linux only)
+	Cloneflags uintptr     // Flags for clone calls (Linux only)
+	// Unshareflags define the flags for unshare calls (Linux only).
+	// If the PID namespace is unshared (CLONE_NEWPID) and you are going to mount /proc,
+	// you need to unshare the mount namespace (CLONE_NEWNS) or you break /proc for every
+	// process outside the namespace.
+	Unshareflags uintptr
 	UidMappings  []SysProcIDMap // User ID mappings for user namespaces.
 	GidMappings  []SysProcIDMap // Group ID mappings for user namespaces.
 	// GidMappingsEnableSetgroups enabling setgroups syscall.
