@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a3d0960_7f2b43ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-17T03:01:33Z",
+      "side": 1,
+      "message": "lowercase verb after colon",
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec6944e5_48cc6dd2",
+        "filename": "src/regexp/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-17T03:01:33Z",
+      "side": 1,
+      "message": "this isn\u0027t a unit test. No need to show every possible escaped character.",
+      "range": {
+        "startLine": 44,
+        "startChar": 23,
+        "endLine": 44,
+        "endChar": 36
+      },
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "966ae8a9_cdc10ec8",
+        "filename": "src/regexp/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-17T03:01:33Z",
+      "side": 1,
+      "message": "the [foo] line adds nothing not included in this line.",
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cf68549_ec4b925a",
+        "filename": "src/regexp/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-17T03:01:33Z",
+      "side": 1,
+      "message": "ditch the \u0027s\u0027 variables and just write this in 3 lines?\n\nas a bonus, the \u0027(\u0027 after QuoteMeta will line up on each line.",
+      "range": {
+        "startLine": 42,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07e058d_ea42f5bd",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-17T03:01:33Z",
+      "side": 1,
+      "message": "change this back to \"quotes\" to keep this CL focused on examples and not wordsmithing, to limit the number of reviewers involved here.",
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
