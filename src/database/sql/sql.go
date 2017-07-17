@@ -1457,14 +1457,14 @@ func (db *DB) Driver() driver.Driver {
 	return db.driver
 }
 
-// ErrConnDone is returned by any operation that is performed on a connection
-// that has already been committed or rolled back.
-var ErrConnDone = errors.New("database/sql: connection is already closed")
+// ErrConnDone is returned by any operation that is performed on a Conn
+// that has already been returned to pool.
+var ErrConnDone = errors.New("sql: connection is already closed")
 
 // Conn returns a single connection by either opening a new connection
 // or returning an existing connection from the connection pool. Conn will
 // block until either a connection is returned or ctx is canceled.
-// Queries run on the same Conn will be run in the same database session.
+// Queries run on the same returned Conn will be run in the same database session.
 //
 // Every Conn must be returned to the database pool after use by
 // calling Conn.Close.
@@ -1493,8 +1493,8 @@ func (db *DB) Conn(ctx context.Context) (*Conn, error) {
 
 type releaseConn func(error)
 
-// Conn represents a single database session rather a pool of database
-// sessions. Prefer running queries from DB unless there is a specific
+// Conn represents a single database connection rather than a pool of database
+// connection. Prefer running queries from DB unless there is a specific
 // need for a continuous single database session.
 //
 // A Conn must call Close to return the connection to the database pool
@@ -1813,7 +1813,7 @@ func (tx *Tx) Rollback() error {
 	return tx.rollback(false)
 }
 
-// Prepare creates a prepared statement for use within a transaction.
+// PrepareContext creates a prepared statement for use within a transaction.
 //
 // The returned statement operates within the transaction and will be closed
 // when the transaction has been committed or rolled back.
@@ -1859,6 +1859,8 @@ func (tx *Tx) Prepare(query string) (*Stmt, error) {
 //  ...
 //  res, err := tx.StmtContext(ctx, updateMoney).Exec(123.45, 98293203)
 //
+// The provided context is used for the preparation of the statement, not for the
+// execution of the statement.
 // The returned statement operates within the transaction and will be closed
 // when the transaction has been committed or rolled back.
 func (tx *Tx) StmtContext(ctx context.Context, stmt *Stmt) *Stmt {
