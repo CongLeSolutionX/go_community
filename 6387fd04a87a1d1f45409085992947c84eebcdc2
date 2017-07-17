@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a959d7c_e772e11a",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2017-07-17T22:31:51Z",
+      "side": 1,
+      "message": "Ah. I think this should just be \"bad character in unquoted string\" without the hyphen, but then we\u0027d also want to change \"bad character in quoted string\" as well...\n\nIs there any way to hit this error case as part of a quoted string? e.g. \n\n     \"(some invalid value)\" \u003cemail@bar.com\u003e",
+      "revId": "6387fd04a87a1d1f45409085992947c84eebcdc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1393d1e5_36fe0263",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2017-07-17T22:31:51Z",
+      "side": 1,
+      "message": "Mind adding the correctly quoted version of this case to TestAddressParsing below?",
+      "revId": "6387fd04a87a1d1f45409085992947c84eebcdc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
