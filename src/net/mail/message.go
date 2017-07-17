@@ -311,9 +311,22 @@ func (p *addrParser) parseAddress() (addr *Address, err error) {
 
 	// angle-addr = "<" addr-spec ">"
 	p.skipSpace()
-	if !p.consume('<') {
+	if p.empty() {
 		return nil, errors.New("mail: no angle-addr")
 	}
+
+	if p.peek() != '<' {
+		r, size := utf8.DecodeRuneInString(p.s[0:])
+
+		switch {
+		case size == 1 && r == utf8.RuneError:
+			return nil, errors.New("mail: invalid utf-8 in displayName")
+
+		case size == 0 || !isAtext(r, false):
+			return nil, errors.New("mail: bad character in unquoted-string")
+		}
+	}
+	p.consume('<')
 	spec, err = p.consumeAddrSpec()
 	if err != nil {
 		return nil, err

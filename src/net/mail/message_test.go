@@ -137,6 +137,7 @@ func TestAddressParsingError(t *testing.T) {
 		5: {"\"\x00\" <null@example.net>", "bad character in quoted-string"},
 		6: {"\"\\\x00\" <escaped-null@example.net>", "bad character in quoted-string"},
 		7: {"John Doe", "no angle-addr"},
+		8: {"John (Middle) Doe <middle-name@example.net>", "bad character in unquoted-string"},
 	}
 
 	for i, tc := range mustErrTestCases {
