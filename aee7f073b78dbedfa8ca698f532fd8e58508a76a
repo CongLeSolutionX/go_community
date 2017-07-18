@@ -16,6 +16,24 @@
       "revId": "aee7f073b78dbedfa8ca698f532fd8e58508a76a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0f39dd6_30af3e70",
+        "filename": "src/go/printer/testdata/comments3.input",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 22625
+      },
+      "writtenOn": "2017-07-18T06:50:09Z",
+      "side": 1,
+      "message": "(Sorry for dup, still learning this system.)\nI don\u0027t think the go/printer library hides that bit. I think what happens is that godoc hides that bit. That\u0027s why I ended up putting in the comment, as godoc strips hidden fields, adds the extra comment, and passes the new AST to go/printer to be printed.\n\nI just tried it; the private fields still show up in the output. This is, also, what magic seemed to indicate: https://github.com/golang/go/issues/18264#issuecomment-266897173",
+      "parentUuid": "0b59b7cc_719bdd61",
+      "revId": "aee7f073b78dbedfa8ca698f532fd8e58508a76a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
