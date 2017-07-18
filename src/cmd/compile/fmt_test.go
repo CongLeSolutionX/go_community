@@ -229,7 +229,10 @@ func TestFormats(t *testing.T) {
 			}
 		}
 		if mismatch {
-			t.Errorf("knownFormats is out of date; please run with -v to regenerate")
+			t.Errorf("knownFormats is out of date; \n" +
+				"to regenerate cd to the directory containing fmt_test.go, execute\n" +
+				"go test -v \n, and cut and paste over the \n" +
+				"var knownFormats = map[string]string{ ... } in the fmt_test.go file")
 		}
 	}
 
