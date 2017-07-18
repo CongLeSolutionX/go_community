@@ -97,8 +97,8 @@ func diff(aname, bname string, a, b []byte) error {
 	for i := 0; i < len(a) && i < len(b); i++ {
 		ch := a[i]
 		if ch != b[i] {
-			fmt.Fprintf(&buf, "\n%s:%d:%d: %s", aname, line, i-offs+1, lineAt(a, offs))
-			fmt.Fprintf(&buf, "\n%s:%d:%d: %s", bname, line, i-offs+1, lineAt(b, offs))
+			fmt.Fprintf(&buf, "\n%s:%d:%d: “%s”", aname, line, i-offs+1, lineAt(a, offs))
+			fmt.Fprintf(&buf, "\n%s:%d:%d: “%s”", bname, line, i-offs+1, lineAt(b, offs))
 			fmt.Fprintf(&buf, "\n\n")
 			break
 		}
@@ -178,22 +178,24 @@ func check(t *testing.T, source, golden string, mode checkMode) {
 }
 
 type entry struct {
+	name           string
 	source, golden string
 	mode           checkMode
 }
 
 // Use go test -update to create/update the respective golden files.
 var data = []entry{
-	{"empty.input", "empty.golden", idempotent},
-	{"comments.input", "comments.golden", 0},
-	{"comments.input", "comments.x", export},
-	{"comments2.input", "comments2.golden", idempotent},
-	{"linebreaks.input", "linebreaks.golden", idempotent},
-	{"expressions.input", "expressions.golden", idempotent},
-	{"expressions.input", "expressions.raw", rawFormat | idempotent},
-	{"declarations.input", "declarations.golden", 0},
-	{"statements.input", "statements.golden", 0},
-	{"slow.input", "slow.golden", idempotent},
+	{"empty package", "empty.input", "empty.golden", idempotent},
+	{"comments", "comments.input", "comments.golden", 0},
+	{"comments=1", "comments.input", "comments.x", export},
+	{"comments=2", "comments2.input", "comments2.golden", idempotent},
+	{"comments=3 (issue 18264)", "comments3.input", "comments3.golden", 0},
+	{"linebreaks", "linebreaks.input", "linebreaks.golden", idempotent},
+	{"expressions", "expressions.input", "expressions.golden", idempotent},
+	{"expressions=raw", "expressions.input", "expressions.raw", rawFormat | idempotent},
+	{"declarations", "declarations.input", "declarations.golden", 0},
+	{"statements", "statements.input", "statements.golden", 0},
+	{"slow", "slow.input", "slow.golden", idempotent},
 }
 
 func TestFiles(t *testing.T) {
@@ -202,7 +204,11 @@ func TestFiles(t *testing.T) {
 		source := filepath.Join(dataDir, e.source)
 		golden := filepath.Join(dataDir, e.golden)
 		mode := e.mode
-		t.Run(e.source, func(t *testing.T) {
+		var name string
+		if e.name != "" {
+			name = e.name + ","
+		}
+		t.Run(name+e.source, func(t *testing.T) {
 			t.Parallel()
 			check(t, source, golden, mode)
 			// TODO(gri) check that golden is idempotent

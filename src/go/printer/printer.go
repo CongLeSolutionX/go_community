@@ -425,9 +425,15 @@ func (p *printer) writeCommentPrefix(pos, next token.Position, prev *ast.Comment
 		// determine number of linebreaks before the comment
 		n := 0
 		if pos.IsValid() && p.last.IsValid() {
-			n = pos.Line - p.last.Line
-			if n < 0 { // should never happen
-				n = 0
+			// After the opening of a struct we don't want a newline. (issue 18264)
+			if len(p.output) > 8 && "struct {" == string(p.output[len(p.output)-8:]) {
+				// write a single new line, to terminate the “struct {”
+				n = 1
+			} else {
+				n = pos.Line - p.last.Line
+				if n < 0 { // should never happen
+					n = 0
+				}
 			}
 		}
 
