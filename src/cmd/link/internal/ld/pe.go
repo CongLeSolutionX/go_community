@@ -1308,11 +1308,11 @@ func Asmbpe(ctxt *Link) {
 	// size otherwise reserve will be rounded up to a
 	// larger size, as verified with VMMap.
 
-	// On 64-bit, we always reserve 2MB stacks. "Pure" Go code is
-	// okay with much smaller stacks, but the syscall package
-	// makes it easy to call into arbitrary C code without cgo,
-	// and system calls even in "pure" Go code are actually C
-	// calls that may need more stack than we think.
+	// Reserve 1MB/2MB stacks. "Pure" Go code is okay with much
+	// smaller stacks, but the syscall package makes it easy to
+	// call into arbitrary C code without cgo, and system calls
+	// even in "pure" Go code are actually C calls that may need
+	// more stack than we think.
 	//
 	// The default stack reserve size affects only the main
 	// thread, ctrlhandler thread, and profileloop thread. For
@@ -1324,18 +1324,9 @@ func Asmbpe(ctxt *Link) {
 	// runtime/cgo/gcc_windows_{386,amd64}.c and the correspondent
 	// CreateThread parameter in runtime.newosproc.
 	oh64.SizeOfStackReserve = 0x00200000
+	oh.SizeOfStackReserve = 0x00100000
 	oh64.SizeOfStackCommit = 0x00200000 - 0x2000 // account for 2 guard pages
-
-	// 32-bit is trickier since there much less address space to
-	// work with. Here we use large stacks only in cgo binaries as
-	// a compromise.
-	if !iscgo {
-		oh.SizeOfStackReserve = 0x00020000
-		oh.SizeOfStackCommit = 0x00001000
-	} else {
-		oh.SizeOfStackReserve = 0x00100000
-		oh.SizeOfStackCommit = 0x00100000 - 0x2000
-	}
+	oh.SizeOfStackCommit = 0x00100000 - 0x2000
 
 	oh64.SizeOfHeapReserve = 0x00100000
 	oh.SizeOfHeapReserve = 0x00100000
