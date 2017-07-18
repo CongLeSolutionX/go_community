@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2508daa2_6b0f9d64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-07-18T06:07:44Z",
+      "side": 1,
+      "message": "Nit: We usually start with lower case titles and speak in the active tense of what was done.\n\nThus:\ngo/printer: remove extra newline after \"struct {\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "c31bfa81a99dcc45dfdf039ab1f1102b5db43274",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33c4ca89_5a146683",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-07-18T06:07:44Z",
+      "side": 1,
+      "message": "Instead of \"Issue #18264: \", put \"Fixes #18264\" at the end, surrounded by blank lines.\n\nSee https://go-review.googlesource.com/c/48550/ for example.",
+      "revId": "c31bfa81a99dcc45dfdf039ab1f1102b5db43274",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
