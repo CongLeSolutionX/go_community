@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a35e47e6_0e8f0c9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-07-18T01:19:06Z",
+      "side": 1,
+      "message": "net/mail: improve ParseAddress error for badly quoted display name",
+      "revId": "6387fd04a87a1d1f45409085992947c84eebcdc2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6a959d7c_e772e11a",
         "filename": "src/net/mail/message.go",
         "patchSetId": 1
