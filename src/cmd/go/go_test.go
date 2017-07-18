@@ -770,6 +770,19 @@ func TestBrokenTestsWithoutTestFunctionsAllFail(t *testing.T) {
 	tg.grepBoth("FAIL.*badtest/badvar", "test did not run everything")
 }
 
+func TestGoInstallConverges(t *testing.T) {
+	if testing.Short() {
+		t.Skip("don't rebuild the standard library in short mode")
+	}
+
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.run("install", "std", "cmd")
+	tg.run("install", "std", "cmd")
+	tg.run("list", "-f", "{{if .Stale}}{{.ImportPath}}{{end}}", "std", "cmd")
+	tg.grepStdoutNot(".+", "expected nothing stale")
+}
+
 func TestGoBuildDashAInDevBranch(t *testing.T) {
 	if testing.Short() {
 		t.Skip("don't rebuild the standard library in short mode")
@@ -783,7 +796,8 @@ func TestGoBuildDashAInDevBranch(t *testing.T) {
 	tg.grepStderr("runtime", "testgo build -a math in dev branch DID NOT build runtime, but should have")
 
 	// Everything is out of date. Rebuild to leave things in a better state.
-	tg.run("install", "std")
+	tg.run("install", "std", "cmd")
+	tg.run("install", "std", "cmd")
 }
 
 func TestGoBuildDashAInReleaseBranch(t *testing.T) {
@@ -805,7 +819,8 @@ func TestGoBuildDashAInReleaseBranch(t *testing.T) {
 	tg.grepStderrNot("net/http", "testgo build -v net/http in release branch with newer runtime.a DID build net/http but should not have")
 
 	// Everything is out of date. Rebuild to leave things in a better state.
-	tg.run("install", "std")
+	tg.run("install", "std", "cmd")
+	tg.run("install", "std", "cmd")
 }
 
 func TestNewReleaseRebuildsStalePackagesInGOPATH(t *testing.T) {
@@ -868,7 +883,8 @@ func TestNewReleaseRebuildsStalePackagesInGOPATH(t *testing.T) {
 	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale after building with old release")
 
 	// Everything is out of date. Rebuild to leave things in a better state.
-	tg.run("install", "std")
+	tg.run("install", "std", "cmd")
+	tg.run("install", "std", "cmd")
 }
 
 func TestGoListStandard(t *testing.T) {

@@ -6,12 +6,12 @@ package buildid
 
 import (
 	"bytes"
-	"cmd/go/internal/cfg"
 	"fmt"
 	"io"
 	"os"
 	"strconv"
-	"strings"
+
+	"cmd/go/internal/cfg"
 )
 
 var (
@@ -30,9 +30,9 @@ var (
 // ReadBuildID reads the build ID from an archive or binary.
 // It only supports the gc toolchain.
 // Other toolchain maintainers should adjust this function.
-func ReadBuildID(name, target string) (id string, err error) {
+func ReadBuildID(name, target string) (id string, offset int64, err error) {
 	if cfg.BuildToolchainName != "gc" {
-		return "", errBuildIDToolchain
+		return "", 0, errBuildIDToolchain
 	}
 
 	// For commands, read build ID directly from binary.
@@ -42,10 +42,6 @@ func ReadBuildID(name, target string) (id string, err error) {
 
 	// Otherwise, we expect to have an archive (.a) file,
 	// and we can read the build ID from the Go export data.
-	if !strings.HasSuffix(target, ".a") {
-		return "", &os.PathError{Op: "parse", Path: target, Err: errBuildIDUnknown}
-	}
-
 	// Read just enough of the target to fetch the build ID.
 	// The archive is expected to look like:
 	//
@@ -58,21 +54,22 @@ func ReadBuildID(name, target string) (id string, err error) {
 	// Reading the first 1024 bytes should be plenty.
 	f, err := os.Open(target)
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 	data := make([]byte, 1024)
 	n, err := io.ReadFull(f, data)
 	f.Close()
 
 	if err != nil && n == 0 {
-		return "", err
+		return "", 0, err
 	}
 
-	bad := func() (string, error) {
-		return "", &os.PathError{Op: "parse", Path: target, Err: errBuildIDMalformed}
+	bad := func() (string, int64, error) {
+		return "", 0, &os.PathError{Op: "parse", Path: target, Err: errBuildIDMalformed}
 	}
 
 	// Archive header.
+	offset = 0
 	for i := 0; ; i++ { // returns during i==3
 		j := bytes.IndexByte(data, '\n')
 		if j < 0 {
@@ -97,14 +94,16 @@ func ReadBuildID(name, target string) (id string, err error) {
 			if !bytes.HasPrefix(line, buildid) {
 				// Found the object header, just doesn't have a build id line.
 				// Treat as successful, with empty build id.
-				return "", nil
+				return "", 0, nil
 			}
-			id, err := strconv.Unquote(string(line[len(buildid):]))
-			if err != nil {
+			quoted := string(line[len(buildid):])
+			id, err := strconv.Unquote(quoted)
+			if err != nil || id != quoted[1:len(quoted)-1] {
 				return bad()
 			}
-			return id, nil
+			return id, offset + int64(len(buildid)) + 1, nil
 		}
+		offset += int64(j + 1)
 	}
 }
 
@@ -133,9 +132,9 @@ var BuildIDReadSize = 32 * 1024 // changed for testing
 // of the text segment, which should appear near the beginning
 // of the file. This is clumsy but fairly portable. Custom locations
 // can be added for other binary types as needed, like we did for ELF.
-func ReadBuildIDFromBinary(filename string) (id string, err error) {
+func ReadBuildIDFromBinary(filename string) (id string, offset int64, err error) {
 	if filename == "" {
-		return "", &os.PathError{Op: "parse", Path: filename, Err: errBuildIDUnknown}
+		return "", 0, &os.PathError{Op: "parse", Path: filename, Err: errBuildIDUnknown}
 	}
 
 	// Read the first 32 kB of the binary file.
@@ -153,7 +152,7 @@ func ReadBuildIDFromBinary(filename string) (id string, err error) {
 	//
 	f, err := os.Open(filename)
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 	defer f.Close()
 
@@ -163,7 +162,7 @@ func ReadBuildIDFromBinary(filename string) (id string, err error) {
 		err = nil
 	}
 	if err != nil {
-		return "", err
+		return "", 0, err
 	}
 
 	if bytes.HasPrefix(data, elfPrefix) {
@@ -175,27 +174,27 @@ func ReadBuildIDFromBinary(filename string) (id string, err error) {
 		}
 	}
 
-	return readRawGoBuildID(filename, data)
+	return readRawGoBuildID(filename, data, 0)
 }
 
 // readRawGoBuildID finds the raw build ID stored in text segment data.
-func readRawGoBuildID(filename string, data []byte) (id string, err error) {
+func readRawGoBuildID(filename string, data []byte, offset int64) (id string, idOffset int64, err error) {
 	i := bytes.Index(data, goBuildPrefix)
 	if i < 0 {
 		// Missing. Treat as successful but build ID empty.
-		return "", nil
+		return "", 0, nil
 	}
 
 	j := bytes.Index(data[i+len(goBuildPrefix):], goBuildEnd)
 	if j < 0 {
-		return "", &os.PathError{Op: "parse", Path: filename, Err: errBuildIDMalformed}
+		return "", 0, &os.PathError{Op: "parse", Path: filename, Err: errBuildIDMalformed}
 	}
 
-	quoted := data[i+len(goBuildPrefix)-1 : i+len(goBuildPrefix)+j+1]
-	id, err = strconv.Unquote(string(quoted))
-	if err != nil {
-		return "", &os.PathError{Op: "parse", Path: filename, Err: errBuildIDMalformed}
+	quoted := string(data[i+len(goBuildPrefix)-1 : i+len(goBuildPrefix)+j+1])
+	id, err = strconv.Unquote(quoted)
+	if err != nil || id != quoted[1:len(quoted)-1] {
+		return "", 0, &os.PathError{Op: "parse", Path: filename, Err: errBuildIDMalformed}
 	}
 
-	return id, nil
+	return id, offset + int64(i+len(goBuildPrefix)), nil
 }

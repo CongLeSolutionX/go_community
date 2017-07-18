@@ -1226,7 +1226,7 @@ func (b *Builder) build(a *Action) (err error) {
 			a.built = a.Package.Internal.Target
 			a.Target = a.Package.Internal.Target
 			a.Package.Internal.Pkgfile = a.built
-			a.buildID = fmt.Sprintf("%x", FileHash(a.Package.Internal.Target))
+			a.buildID = fmt.Sprintf("%x", fileHash(a.Package.Internal.Target, ""))
 			a.Package.Stale = false
 			a.Package.StaleReason = "binary-only package"
 			return nil
@@ -1248,7 +1248,7 @@ func (b *Builder) build(a *Action) (err error) {
 		a.buildID = fmt.Sprintf("%x", actionID)
 
 		if target := a.Package.Internal.Target; target != "" && !cfg.BuildA {
-			buildID, err := buildid.ReadBuildID(a.Package.Name, target)
+			buildID, _, err := buildid.ReadBuildID(a.Package.Name, target)
 			if err != nil && b.ComputeStaleOnly {
 				a.Package.Stale = true
 				a.Package.StaleReason = "install target missing or missing build ID" + " (" + a.buildID + ")"
@@ -1633,16 +1633,19 @@ func (b *Builder) buildActionID(a *Action) (cache.ActionID, error) {
 			ldflags = removeLinkmodeExternal(str.StringList(ldflags))
 		}
 		fmt.Fprintf(h, "ldflags %q\n", ldflags)
-		// TODO: Make sure auto-deps like math are covered by p.Internal.Imports.
 
-		// TODO: Use right CXX detection.
-		// TODO: Determine if there's cgo at all (need to consider dependencies).
-		if len(p.CXXFiles)+len(p.SwigCXXFiles) > 0 {
+		var cgoFiles, cxxFiles int
+		for _, a1 := range a.packageDeps() {
+			cgoFiles += len(a1.Package.CgoFiles) + len(a1.Package.SwigFiles)
+			cxxFiles += len(a1.Package.CXXFiles) + len(a1.Package.SwigCXXFiles)
+		}
+		if cxxFiles > 0 {
 			fmt.Fprintf(h, "cxx %q\n", envList("CXX", cfg.DefaultCXX))
-		} else {
+		} else if cgoFiles > 0 {
 			fmt.Fprintf(h, "cc %q\n", envList("CC", cfg.DefaultCC))
 		}
 	}
+
 	if p.Standard {
 		fmt.Fprintf(h, "standard\n")
 	}
@@ -1658,7 +1661,7 @@ func (b *Builder) buildActionID(a *Action) (cache.ActionID, error) {
 	}
 
 	if len(p.SFiles) > 0 {
-		fmt.Fprintf(h, "asm %x\n", FileHash(base.Tool("asm")))
+		fmt.Fprintf(h, "asm %x\n", toolHash("asm"))
 		fmt.Fprintf(h, "asmflags %q\n", buildAsmflags)
 	}
 
@@ -1686,7 +1689,7 @@ func (b *Builder) buildActionID(a *Action) (cache.ActionID, error) {
 		p.SwigCXXFiles,
 	)
 	for _, file := range inputFiles {
-		fmt.Fprintf(h, "file %s %x\n", file, FileHash(filepath.Join(p.Dir, file)))
+		fmt.Fprintf(h, "file %s %x\n", file, fileHash(filepath.Join(p.Dir, file), ""))
 	}
 
 	for _, a1 := range a.Deps {
@@ -1706,7 +1709,7 @@ func (b *Builder) buildActionID(a *Action) (cache.ActionID, error) {
 		if a1.built == "" {
 			panic("missing target " + p1.ImportPath + " during build of " + p.ImportPath)
 		}
-		fmt.Fprintf(h, "import %s %x\n", p1.ImportPath, FileHash(a1.built))
+		fmt.Fprintf(h, "import %s %x\n", p1.ImportPath, importHash(a1.built))
 	}
 
 	return h.Sum(), nil
@@ -1714,7 +1717,11 @@ func (b *Builder) buildActionID(a *Action) (cache.ActionID, error) {
 
 func toolHash(name string) [32]byte {
 	// TODO(rsc): Use release string if this is a release binary.
-	return FileHash(base.Tool(name))
+	return fileHash(base.Tool(name), "main")
+}
+
+func importHash(name string) [32]byte {
+	return fileHash(name, "pkg.a")
 }
 
 var fileHashCache struct {
@@ -1731,7 +1738,7 @@ func setFileHash(file string, hash [32]byte) {
 	fileHashCache.mu.Unlock()
 }
 
-func FileHash(file string) [32]byte {
+func fileHash(file string, idMode string) [32]byte {
 	fileHashCache.mu.Lock()
 	cached, ok := fileHashCache.hash[file]
 	fileHashCache.mu.Unlock()
@@ -1739,7 +1746,7 @@ func FileHash(file string) [32]byte {
 		return cached
 	}
 
-	out, err := cache.HashFile(file)
+	out, err := cache.HashFile(file, idMode)
 	if err != nil {
 		if cfg.BuildN {
 			return sha256.Sum256([]byte(file))

@@ -5,6 +5,7 @@
 package cache
 
 import (
+	"cmd/go/internal/buildid"
 	"crypto/sha256"
 	"fmt"
 	"hash"
@@ -53,7 +54,8 @@ func (h *Hash) Sum() [HashSize]byte {
 }
 
 // HashFile returns the hash of the named file.
-func HashFile(file string) ([HashSize]byte, error) {
+// TODO: Describe idMode.
+func HashFile(file, idMode string) ([HashSize]byte, error) {
 	h := sha256.New()
 	f, err := os.Open(file)
 	if err != nil {
@@ -62,9 +64,31 @@ func HashFile(file string) ([HashSize]byte, error) {
 		}
 		return [HashSize]byte{}, err
 	}
+
+	if idMode != "" {
+		// If this is an executable (idMode == "main") or a package (other non-empty idMode),
+		// then do not include the build ID in the hash.
+		// The build ID has no semantic effect, and because
+		// the hash of the file is input into the build ID of anything
+		// built from this package, and the compiler is built from
+		// the standard library, and the standard library is built
+		// from the compiler, if we included the build ID in the hash
+		// then the build IDs would never converge, making the
+		// standard library or the compiler (or both) always appear
+		// out of date.
+		id, off, err := buildid.ReadBuildID(idMode, file)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "HASH %s: %v\n", file, err)
+			goto RawFile
+		}
+		io.CopyN(h, f, off)
+		f.Seek(int64(len(id)), 1)
+	}
+
+RawFile:
 	io.Copy(h, f)
 	f.Close()
-	var out [HashSize]byte
+	var out [32]byte
 	copy(out[:], h.Sum(nil))
 	if debugHash {
 		fmt.Fprintf(os.Stderr, "HASH %s: %x\n", file, out)

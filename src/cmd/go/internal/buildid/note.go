@@ -73,7 +73,7 @@ var elfGoNote = []byte("Go\x00\x00")
 // The Go build ID is stored in a note described by an ELF PT_NOTE prog
 // header. The caller has already opened filename, to get f, and read
 // at least 4 kB out, in data.
-func readELFGoBuildID(filename string, f *os.File, data []byte) (buildid string, err error) {
+func readELFGoBuildID(filename string, f *os.File, data []byte) (buildid string, offset int64, err error) {
 	// Assume the note content is in the data, already read.
 	// Rewrite the ELF header to set shnum to 0, so that we can pass
 	// the data to elf.NewFile and it will decode the Prog list but not
@@ -93,7 +93,7 @@ func readELFGoBuildID(filename string, f *os.File, data []byte) (buildid string,
 
 	ef, err := elf.NewFile(bytes.NewReader(data))
 	if err != nil {
-		return "", &os.PathError{Path: filename, Op: "parse", Err: err}
+		return "", 0, &os.PathError{Path: filename, Op: "parse", Err: err}
 	}
 	for _, p := range ef.Progs {
 		if p.Type != elf.PT_NOTE || p.Filesz < 16 {
@@ -112,16 +112,17 @@ func readELFGoBuildID(filename string, f *os.File, data []byte) (buildid string,
 			// in that case, extract the note data manually.
 			_, err = f.Seek(int64(p.Off), io.SeekStart)
 			if err != nil {
-				return "", err
+				return "", 0, err
 			}
 
 			note = make([]byte, p.Filesz)
 			_, err = io.ReadFull(f, note)
 			if err != nil {
-				return "", err
+				return "", 0, err
 			}
 		}
 
+		offset := int64(p.Off)
 		filesz := p.Filesz
 		for filesz >= 16 {
 			nameSize := ef.ByteOrder.Uint32(note)
@@ -129,7 +130,7 @@ func readELFGoBuildID(filename string, f *os.File, data []byte) (buildid string,
 			tag := ef.ByteOrder.Uint32(note[8:])
 			name := note[12:16]
 			if nameSize == 4 && 16+valSize <= uint32(len(note)) && tag == elfGoBuildIDTag && bytes.Equal(name, elfGoNote) {
-				return string(note[16 : 16+valSize]), nil
+				return string(note[16 : 16+valSize]), offset + 16, nil
 			}
 
 			nameSize = (nameSize + 3) &^ 3
@@ -140,34 +141,35 @@ func readELFGoBuildID(filename string, f *os.File, data []byte) (buildid string,
 			}
 			filesz -= notesz
 			note = note[notesz:]
+			offset += int64(notesz)
 		}
 	}
 
 	// No note. Treat as successful but build ID empty.
-	return "", nil
+	return "", 0, nil
 }
 
 // The Go build ID is stored at the beginning of the Mach-O __text segment.
 // The caller has already opened filename, to get f, and read a few kB out, in data.
 // Sadly, that's not guaranteed to hold the note, because there is an arbitrary amount
 // of other junk placed in the file ahead of the main text.
-func readMachoGoBuildID(filename string, f *os.File, data []byte) (buildid string, err error) {
+func readMachoGoBuildID(filename string, f *os.File, data []byte) (buildid string, offset int64, err error) {
 	// If the data we want has already been read, don't worry about Mach-O parsing.
 	// This is both an optimization and a hedge against the Mach-O parsing failing
 	// in the future due to, for example, the name of the __text section changing.
-	if b, err := readRawGoBuildID(filename, data); b != "" && err == nil {
-		return b, err
+	if b, off, err := readRawGoBuildID(filename, data, 0); b != "" && err == nil {
+		return b, off, err
 	}
 
 	mf, err := macho.NewFile(f)
 	if err != nil {
-		return "", &os.PathError{Path: filename, Op: "parse", Err: err}
+		return "", 0, &os.PathError{Path: filename, Op: "parse", Err: err}
 	}
 
 	sect := mf.Section("__text")
 	if sect == nil {
 		// Every binary has a __text section. Something is wrong.
-		return "", &os.PathError{Path: filename, Op: "parse", Err: fmt.Errorf("cannot find __text section")}
+		return "", 0, &os.PathError{Path: filename, Op: "parse", Err: fmt.Errorf("cannot find __text section")}
 	}
 
 	// It should be in the first few bytes, but read a lot just in case,
@@ -180,8 +182,8 @@ func readMachoGoBuildID(filename string, f *os.File, data []byte) (buildid strin
 	}
 	buf := make([]byte, n)
 	if _, err := f.ReadAt(buf, int64(sect.Offset)); err != nil {
-		return "", err
+		return "", 0, err
 	}
 
-	return readRawGoBuildID(filename, buf)
+	return readRawGoBuildID(filename, buf, int64(sect.Offset))
 }

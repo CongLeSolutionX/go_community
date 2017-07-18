@@ -6,6 +6,7 @@ package main_test
 
 import (
 	"go/build"
+	"io/ioutil"
 	"runtime"
 	"testing"
 
@@ -35,12 +36,19 @@ func testNoteReading(t *testing.T) {
 	tg.tempFile("hello.go", `package main; func main() { print("hello, world\n") }`)
 	const buildID = "TestNoteReading-Build-ID"
 	tg.run("build", "-ldflags", "-buildid="+buildID, "-o", tg.path("hello.exe"), tg.path("hello.go"))
-	id, err := buildid.ReadBuildIDFromBinary(tg.path("hello.exe"))
+	id, off, err := buildid.ReadBuildIDFromBinary(tg.path("hello.exe"))
 	if err != nil {
 		t.Fatalf("reading build ID from hello binary: %v", err)
 	}
 	if id != buildID {
 		t.Fatalf("buildID in hello binary = %q, want %q", id, buildID)
+	}
+	data, err := ioutil.ReadFile(tg.path("hello.exe"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if id := string(data[off : off+int64(len(id))]); id != buildID {
+		t.Fatalf("text at buildID offset in hello binary = %q, want %q", id, buildID)
 	}
 
 	switch {
@@ -55,12 +63,19 @@ func testNoteReading(t *testing.T) {
 	}
 
 	tg.run("build", "-ldflags", "-buildid="+buildID+" -linkmode=external", "-o", tg.path("hello.exe"), tg.path("hello.go"))
-	id, err = buildid.ReadBuildIDFromBinary(tg.path("hello.exe"))
+	id, off, err = buildid.ReadBuildIDFromBinary(tg.path("hello.exe"))
 	if err != nil {
 		t.Fatalf("reading build ID from hello binary (linkmode=external): %v", err)
 	}
 	if id != buildID {
 		t.Fatalf("buildID in hello binary = %q, want %q (linkmode=external)", id, buildID)
+	}
+	data, err = ioutil.ReadFile(tg.path("hello.exe"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if id := string(data[off : off+int64(len(id))]); id != buildID {
+		t.Fatalf("text at buildID offset in hello binary = %q, want %q", id, buildID)
 	}
 
 	switch runtime.GOOS {
@@ -81,4 +96,5 @@ func testNoteReading(t *testing.T) {
 			t.Fatalf("buildID in hello binary = %q, want %q (linkmode=external -extldflags=-fuse-ld=gold)", id, buildID)
 		}
 	}
+
 }
