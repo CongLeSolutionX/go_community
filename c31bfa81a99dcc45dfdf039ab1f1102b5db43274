@@ -65,6 +65,23 @@
     },
     {
       "key": {
+        "uuid": "0f849e39_e987a001",
+        "filename": "src/go/printer/testdata/comments3.golden",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 22625
+      },
+      "writtenOn": "2017-07-18T06:22:00Z",
+      "side": 1,
+      "message": "Here is where the new line was removed.",
+      "revId": "c31bfa81a99dcc45dfdf039ab1f1102b5db43274",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02bd1a56_9faa91fd",
         "filename": "src/go/printer/testdata/comments3.golden",
         "patchSetId": 3
@@ -76,6 +93,24 @@
       "writtenOn": "2017-07-18T06:12:33Z",
       "side": 1,
       "message": "It seems that this CL removed the extra newline at the front and moved it to the back. It\u0027s as if it just moved the problem somewhere else.\n\nIdeally there would be a blank line after `Value interface{}`",
+      "revId": "c31bfa81a99dcc45dfdf039ab1f1102b5db43274",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d9b92d_12f25606",
+        "filename": "src/go/printer/testdata/comments3.golden",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 22625
+      },
+      "writtenOn": "2017-07-18T06:22:00Z",
+      "side": 1,
+      "message": "Reading through https://github.com/golang/go/issues/18264, at end of the comments it was decided that the only thing that should be done is that the extra new line after the \"struct {\" and the the first comment should be removed. My test case, should not have the extra new line after value. I will fix it to reflect what is in the issue. (Here is where Russ makes the suggestion: https://github.com/golang/go/issues/18264#issuecomment-266882066)",
+      "parentUuid": "02bd1a56_9faa91fd",
       "revId": "c31bfa81a99dcc45dfdf039ab1f1102b5db43274",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
