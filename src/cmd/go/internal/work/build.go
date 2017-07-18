@@ -455,7 +455,7 @@ func runBuild(cmd *base.Command, args []string) {
 			base.Fatalf("no packages to build")
 		}
 		p := pkgs[0]
-		p.Internal.Target = cfg.BuildO
+		p.Target = cfg.BuildO
 		a := b.Action(ModeInstall, depMode, p)
 		b.Do(a)
 		return
@@ -888,12 +888,12 @@ func (b *Builder) action1(mode BuildMode, depMode BuildMode, p *load.Package, lo
 		// gccgo standard library is "fake" too.
 		if cfg.BuildToolchainName == "gccgo" {
 			// the target name is needed for cgo.
-			a.Target = p.Internal.Target
+			a.Target = p.Target
 			return a
 		}
 	}
 
-	if p.Internal.Local && p.Internal.Target == "" {
+	if p.Internal.Local && p.Target == "" {
 		// Imported via local path. No permanent target.
 		mode = ModeBuild
 	}
@@ -910,7 +910,7 @@ func (b *Builder) action1(mode BuildMode, depMode BuildMode, p *load.Package, lo
 	case ModeInstall:
 		a.Func = BuildInstallFunc
 		a.Deps = []*Action{b.action1(ModeBuild, depMode, p, lookshared, forShlib)}
-		a.Target = a.Package.Internal.Target
+		a.Target = a.Package.Target
 
 		// Install header for cgo in c-archive and c-shared modes.
 		if p.UsesCgo() && (cfg.BuildBuildmode == "c-archive" || cfg.BuildBuildmode == "c-shared") {
@@ -947,13 +947,13 @@ func (b *Builder) action1(mode BuildMode, depMode BuildMode, p *load.Package, lo
 			name := "a.out"
 			if p.Internal.ExeName != "" {
 				name = p.Internal.ExeName
-			} else if cfg.Goos == "darwin" && cfg.BuildBuildmode == "c-shared" && p.Internal.Target != "" {
+			} else if cfg.Goos == "darwin" && cfg.BuildBuildmode == "c-shared" && p.Target != "" {
 				// On OS X, the linker output name gets recorded in the
 				// shared library's LC_ID_DYLIB load command.
 				// The code invoking the linker knows to pass only the final
 				// path element. Arrange that the path element matches what
 				// we'll install it as; otherwise the library is only loadable as "a.out".
-				_, name = filepath.Split(p.Internal.Target)
+				_, name = filepath.Split(p.Target)
 			}
 			a.Target = a.Objdir + filepath.Join("exe", name) + cfg.ExeSuffix
 		}
@@ -972,7 +972,7 @@ func (b *Builder) libaction(libname string, pkgs []*load.Package, mode, depMode 
 		a.Func = (*Builder).linkShared
 		a.Target = filepath.Join(b.WorkDir, libname)
 		for _, p := range pkgs {
-			if p.Internal.Target == "" {
+			if p.Target == "" {
 				continue
 			}
 			a.Deps = append(a.Deps, b.Action(depMode, depMode, p))
@@ -1044,7 +1044,7 @@ func (b *Builder) libaction(libname string, pkgs []*load.Package, mode, depMode 
 
 		// Now arrange to build it.
 		for _, p := range pkgs {
-			if p.Internal.Target == "" {
+			if p.Target == "" {
 				continue
 			}
 			a.Deps = append(a.Deps, b.action1(depMode, depMode, p, false, a.Target))
@@ -1054,12 +1054,12 @@ func (b *Builder) libaction(libname string, pkgs []*load.Package, mode, depMode 
 		buildAction := b.libaction(libname, pkgs, ModeBuild, depMode)
 		a.Deps = []*Action{buildAction}
 		for _, p := range pkgs {
-			if p.Internal.Target == "" {
+			if p.Target == "" {
 				continue
 			}
 			shlibnameaction := &Action{}
 			shlibnameaction.Func = (*Builder).installShlibname
-			shlibnameaction.Target = p.Internal.Target[:len(p.Internal.Target)-2] + ".shlibname"
+			shlibnameaction.Target = p.Target[:len(p.Target)-2] + ".shlibname"
 			a.Deps = append(a.Deps, shlibnameaction)
 			shlibnameaction.Deps = append(shlibnameaction.Deps, buildAction)
 		}
@@ -1221,12 +1221,12 @@ func (b *Builder) build(a *Action) (err error) {
 
 	var actionErr, binaryErr error
 	if a.Package.BinaryOnly {
-		_, err := os.Stat(a.Package.Internal.Target)
+		_, err := os.Stat(a.Package.Target)
 		if err == nil {
-			a.built = a.Package.Internal.Target
-			a.Target = a.Package.Internal.Target
+			a.built = a.Package.Target
+			a.Target = a.Package.Target
 			a.Package.Internal.Pkgfile = a.built
-			a.buildID = fmt.Sprintf("%x", fileHash(a.Package.Internal.Target, ""))
+			a.buildID = fmt.Sprintf("%x", fileHash(a.Package.Target, ""))
 			a.Package.Stale = false
 			a.Package.StaleReason = "binary-only package"
 			return nil
@@ -1247,7 +1247,7 @@ func (b *Builder) build(a *Action) (err error) {
 		}
 		a.buildID = fmt.Sprintf("%x", actionID)
 
-		if target := a.Package.Internal.Target; target != "" && !cfg.BuildA {
+		if target := a.Package.Target; target != "" && !cfg.BuildA {
 			buildID, _, err := buildid.ReadBuildID(a.Package.Name, target)
 			if err != nil && b.ComputeStaleOnly {
 				a.Package.Stale = true

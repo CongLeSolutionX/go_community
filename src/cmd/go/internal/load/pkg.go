@@ -96,7 +96,6 @@ type PackageInternal struct {
 	// Unexported fields are not part of the public API.
 	Build        *build.Package
 	Imports      []*Package           // this package's direct imports
-	Target       string               // installed file for this package (may be executable)
 	Pkgfile      string               // where package will be (or is already) built or installed
 	ForceLibrary bool                 // this package is a library (even if named "main")
 	Cmdline      bool                 // defined by files listed on command line
@@ -897,29 +896,29 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		}
 		if p.Internal.Build.BinDir != "" {
 			// Install to GOBIN or bin of GOPATH entry.
-			p.Internal.Target = filepath.Join(p.Internal.Build.BinDir, elem)
+			p.Target = filepath.Join(p.Internal.Build.BinDir, elem)
 			if !p.Goroot && strings.Contains(elem, "/") && cfg.GOBIN != "" {
 				// Do not create $GOBIN/goos_goarch/elem.
-				p.Internal.Target = ""
+				p.Target = ""
 				p.Internal.GobinSubdir = true
 			}
 		}
 		if GoTools[p.ImportPath] == ToTool {
 			// This is for 'go tool'.
 			// Override all the usual logic and force it into the tool directory.
-			p.Internal.Target = filepath.Join(cfg.GOROOTpkg, "tool", full)
+			p.Target = filepath.Join(cfg.GOROOTpkg, "tool", full)
 		}
-		if p.Internal.Target != "" && cfg.BuildContext.GOOS == "windows" {
-			p.Internal.Target += ".exe"
+		if p.Target != "" && cfg.BuildContext.GOOS == "windows" {
+			p.Target += ".exe"
 		}
 	} else if p.Internal.Local {
 		// Local import turned into absolute path.
 		// No permanent install target.
-		p.Internal.Target = ""
+		p.Target = ""
 	} else {
-		p.Internal.Target = p.Internal.Build.PkgObj
+		p.Target = p.Internal.Build.PkgObj
 		if cfg.BuildLinkshared {
-			shlibnamefile := p.Internal.Target[:len(p.Internal.Target)-2] + ".shlibname"
+			shlibnamefile := p.Target[:len(p.Target)-2] + ".shlibname"
 			shlib, err := ioutil.ReadFile(shlibnamefile)
 			if err == nil {
 				libname := strings.TrimSpace(string(shlib))
@@ -1074,9 +1073,8 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 
 	// unsafe is a fake package.
 	if p.Standard && (p.ImportPath == "unsafe" || cfg.BuildContext.Compiler == "gccgo") {
-		p.Internal.Target = ""
+		p.Target = ""
 	}
-	p.Target = p.Internal.Target
 
 	// If cgo is not enabled, ignore cgo supporting sources
 	// just as we ignore go files containing import "C".
@@ -1448,7 +1446,7 @@ func GoFilesPackage(gofiles []string) *Package {
 	stk.Pop()
 	pkg.Internal.LocalPrefix = dirToImportPath(dir)
 	pkg.ImportPath = "command-line-arguments"
-	pkg.Internal.Target = ""
+	pkg.Target = ""
 
 	if pkg.Name == "main" {
 		_, elem := filepath.Split(gofiles[0])
@@ -1457,10 +1455,9 @@ func GoFilesPackage(gofiles []string) *Package {
 			cfg.BuildO = exe
 		}
 		if cfg.GOBIN != "" {
-			pkg.Internal.Target = filepath.Join(cfg.GOBIN, exe)
+			pkg.Target = filepath.Join(cfg.GOBIN, exe)
 		}
 	}
 
-	pkg.Target = pkg.Internal.Target
 	return pkg
 }
