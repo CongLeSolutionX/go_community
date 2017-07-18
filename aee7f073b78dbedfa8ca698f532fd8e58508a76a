@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b59b7cc_719bdd61",
+        "filename": "src/go/printer/testdata/comments3.input",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-07-18T06:18:04Z",
+      "side": 1,
+      "message": "Oh. I see what\u0027s happened. Rather than copy the comment \"// Contains filtered or unexported fields.\" here, you should actually put an unexported field.\n\nYou could just copy the exact source, line-for-line from here:\n\nhttps://tip.golang.org/src/database/sql/sql.go?s\u003d1951:2326#L70",
+      "revId": "aee7f073b78dbedfa8ca698f532fd8e58508a76a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
