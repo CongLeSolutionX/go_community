@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f176868a_aeacb12f",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-18T16:05:32Z",
+      "side": 1,
+      "message": "wrong year",
+      "revId": "1fb6531892e755b1654cba744ac4b1772846636e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
