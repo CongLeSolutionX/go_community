@@ -834,40 +834,36 @@ func TestNewReleaseRebuildsStalePackagesInGOPATH(t *testing.T) {
 		}
 	}
 
-	tg.setenv("TESTGO_IS_GO_RELEASE", "1")
-
 	tg.tempFile("d1/src/p1/p1.go", `package p1`)
 	tg.setenv("GOPATH", tg.path("d1"))
 	tg.run("install", "-a", "p1")
-	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale, incorrectly")
-	tg.sleep()
+	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale, incorrectly, before any changes")
 
-	// Changing mtime and content of runtime/internal/sys/sys.go
-	// should have no effect: we're in a release, which doesn't rebuild
-	// for general mtime or content changes.
+	// Changing mtime of runtime/internal/sys/sys.go
+	// should have no effect: only the content matters.
+	// In fact this should be true even outside a release branch.
 	sys := runtime.GOROOT() + "/src/runtime/internal/sys/sys.go"
+	tg.sleep()
 	restore := addNL(sys)
-	defer restore()
-	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale, incorrectly, after updating runtime/internal/sys/sys.go")
 	restore()
-	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale, incorrectly, after restoring runtime/internal/sys/sys.go")
+	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale, incorrectly, after updating mtime of runtime/internal/sys/sys.go")
 
-	// But changing runtime/internal/sys/zversion.go should have an effect:
-	// that's how we tell when we flip from one release to another.
-	zversion := runtime.GOROOT() + "/src/runtime/internal/sys/zversion.go"
-	restore = addNL(zversion)
+	// But changing content of any file should have an effect.
+	// Previously zversion.go was the only one that mattered;
+	// now they all matter, so keep using sys.go.
+	restore = addNL(sys)
 	defer restore()
-	tg.wantStale("p1", "build ID mismatch", "./testgo list claims p1 is NOT stale, incorrectly, after changing to new release")
+	tg.wantStale("p1", "stale dependency: runtime/internal/sys", "./testgo list claims p1 is NOT stale, incorrectly, after changing sys.go")
 	restore()
 	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale, incorrectly, after changing back to old release")
-	addNL(zversion)
-	tg.wantStale("p1", "build ID mismatch", "./testgo list claims p1 is NOT stale, incorrectly, after changing again to new release")
+	addNL(sys)
+	tg.wantStale("p1", "stale dependency: runtime/internal/sys", "./testgo list claims p1 is NOT stale, incorrectly, after changing sys.go again")
 	tg.run("install", "p1")
 	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale after building with new release")
 
 	// Restore to "old" release.
 	restore()
-	tg.wantStale("p1", "build ID mismatch", "./testgo list claims p1 is NOT stale, incorrectly, after changing to old release after new build")
+	tg.wantStale("p1", "stale dependency: runtime/internal/sys", "./testgo list claims p1 is NOT stale, incorrectly, after restoring sys.go")
 	tg.run("install", "p1")
 	tg.wantNotStale("p1", "", "./testgo list claims p1 is stale after building with old release")
 
@@ -4411,7 +4407,7 @@ func main() {}`)
 			before()
 			tg.run("install", "mycmd")
 			after()
-			tg.wantStale("mycmd", "build ID mismatch", "should be stale after environment variable change")
+			tg.wantStale("mycmd", "stale dependency: runtime/internal/sys", "should be stale after environment variable change")
 		}
 	}
 
