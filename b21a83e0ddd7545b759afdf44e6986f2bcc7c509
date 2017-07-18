@@ -22,6 +22,30 @@
       "revId": "b21a83e0ddd7545b759afdf44e6986f2bcc7c509",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41e07904_018c1776",
+        "filename": "src/runtime/os_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-07-18T14:04:55Z",
+      "side": 1,
+      "message": "Good point. :)",
+      "parentUuid": "df5b8c95_8976e4f4",
+      "range": {
+        "startLine": 626,
+        "startChar": 7,
+        "endLine": 626,
+        "endChar": 16
+      },
+      "revId": "b21a83e0ddd7545b759afdf44e6986f2bcc7c509",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
