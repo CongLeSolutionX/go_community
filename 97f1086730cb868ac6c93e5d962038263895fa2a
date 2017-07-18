@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "41537ce3_eea7fcb9",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 13090
+      },
+      "writtenOn": "2017-07-18T04:27:36Z",
+      "side": 1,
+      "message": "I plan to work on database/sql and database/sql/driver more during 1.10 window. If you are not ok with other changes in this CL for 1.9, you can ignore them. But please change ErrConnDone error text. I understand that \"database/sql:\" is better than \"sql:\" since it\u0027s a full package name, but that would be really inconsistent with other errors and confusing. If we don\u0027t change it now, it will not be possible to change it until Go2.\n\nAnd ErrConnDone documentation is just plain wrong.",
+      "parentUuid": "f1b57030_d98b9fb6",
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8207e2d0_1537d97e",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 1
@@ -182,6 +200,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "5834d6c1_6d87036b",
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1916f526_039ae325",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1816,
+      "author": {
+        "id": 13090
+      },
+      "writtenOn": "2017-07-18T04:27:36Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/49470/",
+      "parentUuid": "aa7caace_02bac29c",
       "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
