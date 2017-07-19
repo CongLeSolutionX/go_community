@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfe0d3df_3c33cac6",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1971,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2017-07-19T05:30:47Z",
+      "side": 1,
+      "message": "\"with the url package\"?",
+      "revId": "a9228ad3b483d21abfc0b7e7fe0b3e87c068e55f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
