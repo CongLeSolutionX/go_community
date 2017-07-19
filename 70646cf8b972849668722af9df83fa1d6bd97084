@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7b6b339_293f8443",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 22660
+      },
+      "writtenOn": "2017-07-19T00:20:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2a3d0960_7f2b43ce",
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec6944e5_48cc6dd2",
         "filename": "src/regexp/example_test.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-07-17T03:01:33Z",
       "side": 1,
       "message": "this isn\u0027t a unit test. No need to show every possible escaped character.",
+      "range": {
+        "startLine": 44,
+        "startChar": 23,
+        "endLine": 44,
+        "endChar": 36
+      },
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c222255_c78474ad",
+        "filename": "src/regexp/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 22660
+      },
+      "writtenOn": "2017-07-19T00:20:18Z",
+      "side": 1,
+      "message": "I found myself asking the question \"what are the symbols that QuoteMeta escapes?\" So I thought it might be a fun example. You gave me an idea to add in some text in the patch.",
+      "parentUuid": "ec6944e5_48cc6dd2",
       "range": {
         "startLine": 44,
         "startChar": 23,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "c2d89fb6_3c23d77c",
+        "filename": "src/regexp/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 22660
+      },
+      "writtenOn": "2017-07-19T00:20:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "966ae8a9_cdc10ec8",
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cf68549_ec4b925a",
         "filename": "src/regexp/example_test.go",
         "patchSetId": 1
@@ -79,6 +139,30 @@
       "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f862a274_2bf2eb00",
+        "filename": "src/regexp/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 22660
+      },
+      "writtenOn": "2017-07-19T00:20:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1cf68549_ec4b925a",
+      "range": {
+        "startLine": 42,
+        "startChar": 1,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
