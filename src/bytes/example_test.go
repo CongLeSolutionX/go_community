@@ -119,6 +119,36 @@ func ExampleContains() {
 	// true
 }
 
+func ExampleContainsAny() {
+	fmt.Println(bytes.ContainsAny([]byte("gopher"), "ph"))
+	fmt.Println(bytes.ContainsAny([]byte("👍🕺🏾👍🏽👍🏿"), "👍🏽"))
+	fmt.Println(bytes.ContainsAny([]byte("gopher"), "xyz"))
+	// Output:
+	// true
+	// true
+	// false
+}
+
+func ExampleContainsRune() {
+	fmt.Println(bytes.ContainsRune([]byte("gopher"), 'g'))
+	fmt.Println(bytes.ContainsRune([]byte("gopher"), 'x'))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleEqual() {
+	fmt.Println(bytes.Equal([]byte("dog"), []byte("dog")))
+	fmt.Println(bytes.Equal([]byte("dog"), []byte("cat")))
+	fmt.Println(bytes.Equal([]byte("rehpog"), nil))
+	fmt.Println(bytes.Equal(nil, nil))
+	// Output:
+	// true
+	// false
+	// false
+	// true
+}
+
 func ExampleCount() {
 	fmt.Println(bytes.Count([]byte("cheese"), []byte("e")))
 	fmt.Println(bytes.Count([]byte("five"), []byte(""))) // before & after each rune
@@ -228,6 +258,48 @@ func ExampleSplit() {
 	// ["" "man " "plan " "canal panama"]
 	// [" " "x" "y" "z" " "]
 	// [""]
+}
+
+func ExampleIndexByte() {
+	fmt.Println(bytes.IndexByte([]byte("dog"), []byte("d")[0]))
+	fmt.Println(bytes.IndexByte([]byte("marsupial"), 'u'))
+	// Output:
+	// 0
+	// 4
+}
+
+func ExampleLastIndexAny() {
+	fmt.Println(bytes.LastIndexAny([]byte("supercalifragilisticexpialidocious"), "c"))
+	fmt.Println(bytes.LastIndexAny([]byte("Ti esrever dna ti pilf, nwod gniht ym tup"), "e"))
+	fmt.Println(bytes.LastIndexAny([]byte("和小"), ""))
+	// Output:
+	// 29
+	// 8
+	// -1
+}
+
+func ExampleLastIndexByte() {
+	fmt.Println(bytes.LastIndexByte([]byte("supercalifragilisticexpialidocious"), 'd'))
+	fmt.Println(bytes.LastIndexByte([]byte("supercalifragilisticexpialidocious"), 'h'))
+	// Output:
+	// 27
+	// -1
+}
+
+func ExamplelastIndexFunc() {
+	b := []byte("holeinone")
+	index := bytes.LastIndexFunc(b, func(r rune) bool {
+		return r == 'e'
+	})
+	fmt.Println(index)
+	b = []byte("holeinone")
+	index = bytes.LastIndexFunc(b, func(r rune) bool {
+		return r == 'z'
+	})
+	fmt.Println(index)
+	// Output:
+	// 8
+	// -1
 }
 
 func ExampleSplitN() {
