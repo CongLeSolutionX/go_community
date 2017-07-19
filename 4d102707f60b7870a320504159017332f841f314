@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51df536b_12862a8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:53:02Z",
+      "side": 1,
+      "message": "this isn\u0027t a complete sentence ending in a comma like this.\n\nif you want to keep it short, just say:\n\nbytes: add some missing examples\n\nAnd then list them in the commit body.",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "4d102707f60b7870a320504159017332f841f314",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
