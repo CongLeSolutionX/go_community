@@ -762,7 +762,10 @@ func validMethod(method string) bool {
 // exact value (instead of -1), GetBody is populated (so 307 and 308
 // redirects can replay the body), and Body is set to NoBody if the
 // ContentLength is 0.
-func NewRequest(method, urlStr string, body io.Reader) (*Request, error) {
+func NewRequest(method, url string, body io.Reader) (*Request, error) {
+	// Note: The "url" parameter looks good in godoc, but means we
+	// have to access net/url package via helpers, such as parseURL.
+
 	if method == "" {
 		// We document that "" means "GET" for Request.Method, and people have
 		// relied on that from NewRequest, so keep that working.
@@ -772,7 +775,7 @@ func NewRequest(method, urlStr string, body io.Reader) (*Request, error) {
 	if !validMethod(method) {
 		return nil, fmt.Errorf("net/http: invalid method %q", method)
 	}
-	u, err := url.Parse(urlStr)
+	u, err := parseURL(url)
 	if err != nil {
 		return nil, err
 	}
