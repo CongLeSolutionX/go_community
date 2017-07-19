@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97f627a4_06ad27ad",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "do \"hp\" instead of \"ph\" to actually surprise people so they don\u0027t think it\u0027s substring search",
+      "range": {
+        "startLine": 123,
+        "startChar": 50,
+        "endLine": 123,
+        "endChar": 53
+      },
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "990769d2_f53cbd22",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "no emoji please",
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8bb4b15_87ffc705",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "or just foo/bar",
+      "range": {
+        "startLine": 141,
+        "startChar": 33,
+        "endLine": 142,
+        "endChar": 55
+      },
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3db7d0a5_8772dfb6",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "this isn\u0027t very interesting\n\nan empty string []byte(\"\") vs nil would be more interesting.",
+      "range": {
+        "startLine": 143,
+        "startChar": 24,
+        "endLine": 143,
+        "endChar": 48
+      },
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7f5c616_ce0b2c5b",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "what? just write \u0027d\u0027",
+      "range": {
+        "startLine": 264,
+        "startChar": 44,
+        "endLine": 264,
+        "endChar": 58
+      },
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1372f5e_687c9f7f",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "this is unnecessary confusion. just write the \u0027u\u0027.\n\nalso, include a -1 case.",
+      "range": {
+        "startLine": 265,
+        "startChar": 50,
+        "endLine": 265,
+        "endChar": 59
+      },
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03ac2436_ea83ab12",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "[]byte(\"foo\"), \u0027o\u0027\n\nDon\u0027t make people count.",
+      "range": {
+        "startLine": 272,
+        "startChar": 40,
+        "endLine": 272,
+        "endChar": 80
+      },
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d994855_961c56e6",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "delete. example above is fine.",
+      "range": {
+        "startLine": 273,
+        "startChar": 40,
+        "endLine": 273,
+        "endChar": 88
+      },
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6947774_dea8bc50",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "this is confusing two things: japanese, and empty string not matching.\n\nif you want both, do two.",
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a85994b1_38827ff9",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "pick something very short. and don\u0027t obscure the byte. just write \u0027x\u0027 whatever.",
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac80be56_ed5eb7ba",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T05:52:15Z",
+      "side": 1,
+      "message": "\u0027foo\u0027 is easier to count, again",
+      "revId": "4615c8bd22a3ddc5abd147d1cad5ca5e9f41a460",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
