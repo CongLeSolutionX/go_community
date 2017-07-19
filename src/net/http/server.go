@@ -1958,12 +1958,18 @@ func StripPrefix(prefix string, h Handler) Handler {
 	})
 }
 
-// Redirect replies to the request with a redirect to urlStr,
+// Redirect replies to the request with a redirect to url,
 // which may be a path relative to the request path.
 //
 // The provided code should be in the 3xx range and is usually
 // StatusMovedPermanently, StatusFound or StatusSeeOther.
-func Redirect(w ResponseWriter, r *Request, urlStr string, code int) {
+func Redirect(w ResponseWriter, r *Request, url string, code int) {
+	redirect(w, r, url, code)
+}
+
+// redirect is the implementation of Redirect. Its signature is suboptimal
+// for godoc because of identifier name collision with the url package.
+func redirect(w ResponseWriter, r *Request, urlStr string, code int) {
 	if u, err := url.Parse(urlStr); err == nil {
 		// If url was relative, make absolute by
 		// combining with request path.
