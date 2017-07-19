@@ -214,6 +214,12 @@ var physPageSize uintptr
 // SysFault marks a (already sysAlloc'd) region to fault
 // if accessed. Used only for debugging the runtime.
 
+// Ideally one would use a GODEBUG variable to turn card marking on and off.
+// Unfortunately mallocinit happens before the call to parsedebugvars. The
+// constant cardMarkOn is used to toggle whether the card mark structures
+// need to be initialized.
+const cardMarkOn = true
+
 func mallocinit() {
 	if class_to_size[_TinySizeClass] != _TinySize {
 		throw("bad TinySizeClass")
@@ -245,12 +251,24 @@ func mallocinit() {
 	var p, pSize uintptr
 	var reserved bool
 
+	// A 1 byte card mark represents _CardBytes (typically 512) of heap.
+	// A half terabyte heap (549,755,813,887) requires a 1 gigabyte (1,073,741,824) card table.
 	// The spans array holds one *mspan per _PageSize of arena.
 	var spansSize uintptr = (_MaxMem + 1) / _PageSize * sys.PtrSize
 	spansSize = round(spansSize, _PageSize)
 	// The bitmap holds 2 bits per word of arena.
 	var bitmapSize uintptr = (_MaxMem + 1) / (sys.PtrSize * 8 / 2)
 	bitmapSize = round(bitmapSize, _PageSize)
+	// RLH 40294 code
+	// The card marks hold 1 byte per card.
+	var cardTableSize uintptr = (_MaxMem + 1) / _CardBytes
+	if cardMarkOn {
+		cardTableSize = round(cardTableSize, _PageSize)
+	} else {
+		// Reserve 0 bytes if the card marking is off.
+		cardTableSize = 0
+	}
+	// RLH end 40294 code
 
 	// Set up the allocation arena, a contiguous area of memory where
 	// allocated data will be found.
@@ -278,6 +296,9 @@ func mallocinit() {
 		// Actually we reserve 544 GB (because the bitmap ends up being 32 GB)
 		// but it hardly matters: e0 00 is not valid UTF-8 either.
 		//
+		// When using a card table we reserve an additional 1 byte / _CardTableSize
+		// If the _CardTableSize is 512 this adds and additional 1 GB
+		//
 		// If this fails we fall back to the 32 bit memory mechanism
 		//
 		// However, on arm64, we ignore all this advice above and slam the
@@ -285,7 +306,7 @@ func mallocinit() {
 		// translation buffers, the user address space is limited to 39 bits
 		// On darwin/arm64, the address space is even smaller.
 		arenaSize := round(_MaxMem, _PageSize)
-		pSize = bitmapSize + spansSize + arenaSize + _PageSize
+		pSize = bitmapSize + spansSize + cardTableSize + arenaSize + _PageSize
 		for i := 0; i <= 0x7f; i++ {
 			switch {
 			case GOARCH == "arm64" && GOOS == "darwin":
@@ -344,7 +365,8 @@ func mallocinit() {
 			// away from the running binary image and then round up
 			// to a MB boundary.
 			p = round(firstmoduledata.end+(1<<18), 1<<20)
-			pSize = bitmapSize + spansSize + arenaSize + _PageSize
+			// cardTableSize is 0 if card marking is off.
+			pSize = bitmapSize + spansSize + cardTableSize + arenaSize + _PageSize
 			if p <= procBrk && procBrk < p+pSize {
 				// Move the start above the brk,
 				// leaving some room for future brk
@@ -367,9 +389,23 @@ func mallocinit() {
 	p1 := round(p, _PageSize)
 	pSize -= p1 - p
 
+	if cardMarkOn {
+		// Set up the card slice.
+		// cards.len is what has been reserved.
+		cards := (*slice)(unsafe.Pointer(&mheap_.cards))
+		cards.array = unsafe.Pointer(p1)
+		cards.len = 0
+		cards.cap = int(cardTableSize)
+		p1 += cardTableSize
+	}
 	spansStart := p1
 	p1 += spansSize
 	mheap_.bitmap = p1 + bitmapSize
+	// RLH 40294 code
+	if cardMarkOn {
+		mheap_.cardMarks = (*byte)(unsafe.Pointer(p1))
+	}
+	// RLH end 40294 code
 	p1 += bitmapSize
 	if sys.PtrSize == 4 {
 		// Set arena_start such that we can accept memory
@@ -384,9 +420,23 @@ func mallocinit() {
 	mheap_.arena_reserved = reserved
 
 	if mheap_.arena_start&(_PageSize-1) != 0 {
-		println("bad pagesize", hex(p), hex(p1), hex(spansSize), hex(bitmapSize), hex(_PageSize), "start", hex(mheap_.arena_start))
+		// RLH 40294 code
+		println("bad pagesize", hex(p), hex(p1), hex(spansSize), hex(bitmapSize), hex(_PageSize), hex(cardTableSize),
+			hex(_PageSize), "start", hex(mheap_.arena_start))
+		// RLH end 40294 code
 		throw("misrounded allocation in mallocinit")
 	}
+
+	// RLH code from 40295
+	// Initialize cardMarks and teach the compiler about it so
+	// that it can generate inlined card marking without having to
+	// teach it about the more complex mheap structure.
+
+	if cardMarkOn {
+		cardMarks.arenaStart = mheap_.arena_start
+		cardMarks.base = mheap_.cardMarks
+	}
+	// RLH end code from 40295
 
 	// Initialize the rest of the allocator.
 	mheap_.init(spansStart, spansSize)

@@ -308,7 +308,15 @@ func (s *mspan) sweep(preserve bool) bool {
 	// gcmarkBits becomes the allocBits.
 	// get a fresh cleared gcmarkBits in preparation for next GC
 	s.allocBits = s.gcmarkBits
-	s.gcmarkBits = newMarkBits(s.nelems)
+	// Generational GC uses the allocBits as the sticky bits for
+	// collecting statistics and then discards them with the above
+	// statement. To turn on generational GC minor GC cycles need
+	// to start with the allocBits as the gcmarkBits.
+	// For now we go ahead and allocate new mark bits but
+	// this is not needed if the next GC is a minor GC.
+	if true || debug.gcgen == 0 {
+		s.gcmarkBits = newMarkBits(s.nelems)
+	}
 
 	// Initialize alloc bits cache.
 	s.refillAllocCache(0)
