@@ -22,6 +22,30 @@
       "revId": "284e5ca72f91049e26a1221b4a2e53d97b5543ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7106151_3ddbd4f2",
+        "filename": "src/runtime/mem_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-07-19T14:58:05Z",
+      "side": 1,
+      "message": "Understanding \"cannot map pages in arena address space\" requires a great deal more knowledge of memory management and the internal implementation of Go to understand than \"out of memory\". \"Out of memory\" is absolutely actionable, whereas acting on \"cannot map pages in arena address space\" requires knowing what mapping is, what pages are, what an arena is, what an address space is, and what you can do to free up some of these. Nothing here even say it\u0027s about memory (which would at least suggest that maybe you need to free up memory).\n\n\u003e Maybe we should replace \"cannot map pages in arena address space\" with \"out of memory\"?\n\nI\u0027d be fine with that if that\u0027s a reasonable thing to do. I couldn\u0027t find a list of failure modes of VirtualAlloc anywhere, which is why I called out the two that were clearly caused by low memory. We do much the same thing with the POSIX memory interfaces where we give a specific failure for \"out of memory\" and otherwise a more general error.",
+      "parentUuid": "1b4ae24a_d93893e3",
+      "range": {
+        "startLine": 122,
+        "startChar": 10,
+        "endLine": 122,
+        "endChar": 23
+      },
+      "revId": "284e5ca72f91049e26a1221b4a2e53d97b5543ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
