@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5414bba_26164ebd",
+        "filename": "src/runtime/mgcmark.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-07-19T19:55:36Z",
+      "side": 1,
+      "message": "This works just find but to future proof the code I would go with \nif traced {\n    traceGCMarkAssistDone()\n}",
+      "revId": "2126d752fa723d5ff9b5a2b36e778a5a9d74c222",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
