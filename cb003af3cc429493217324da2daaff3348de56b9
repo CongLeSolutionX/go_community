@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7d58ba1_1e692206",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-07-19T19:25:34Z",
+      "side": 1,
+      "message": "Fixes #19972",
+      "revId": "cb003af3cc429493217324da2daaff3348de56b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
