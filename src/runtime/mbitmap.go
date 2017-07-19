@@ -161,6 +161,31 @@ func (h *mheap) mapBits(arena_used uintptr) {
 	h.bitmap_mapped = n
 }
 
+// RLH 40294 code
+// mapCardMarks maps additional card marks memory for the new arena memory.
+//
+// Don't call this directly. Call mheap.setArenaUsed.
+func (h *mheap) mapCardMarks(arena_used uintptr) {
+	const mapChunk = 8192
+
+	n := (arena_used - mheap_.arena_start) / _CardBytes
+	n = round(n, mapChunk)
+	n = round(n, physPageSize)
+	if h.cardMarksMapped >= n {
+		return
+	}
+	sysMap(unsafe.Pointer(addb(h.cardMarks, h.cardMarksMapped)), n-h.cardMarksMapped, h.arena_reserved, &memstats.gc_sys)
+	h.cardMarksMapped = n
+	// RLH 40295 code
+	// Initialize cardMarks and teach the compiler about it so
+	// that it can generate inlined card marking without having to
+	// teach it about the more complex mheap structure.
+	cardMarks.mapped = h.cardMarksMapped
+	// RLH end 40295 code
+}
+
+// RLH end 40294 code
+
 // heapBits provides access to the bitmap bits for a single heap word.
 // The methods on heapBits take value receivers so that the compiler
 // can more easily inline calls to those methods and registerize the
@@ -282,6 +307,12 @@ func (s *mspan) objIndex(p uintptr) uintptr {
 		return byteOffset >> s.divShift
 	}
 	return uintptr(((uint64(byteOffset) >> s.divShift) * uint64(s.divMul)) >> s.divShift2)
+}
+
+func allocBitsForAddr(p uintptr) markBits {
+	s := spanOf(p)
+	allocBitIndex := s.objIndex(p)
+	return s.allocBitsForIndex(allocBitIndex)
 }
 
 func markBitsForAddr(p uintptr) markBits {
@@ -552,6 +583,18 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 		throw("bulkBarrierPreWrite: unaligned arguments")
 	}
 	if !writeBarrier.needed {
+		// RLH 40294 code
+		if cardMarkOn {
+			if writeBarrier.gen {
+				if card1 := cardIndex(dst); card1 < mheap_.cardMarksMapped {
+					card2 := cardIndex(dst + size - 1)
+					for card := card1; card <= card2; card++ {
+						*addb(mheap_.cardMarks, card) = 255
+					}
+				}
+			}
+		}
+		// RLH end 40294 code
 		return
 	}
 	if !inheap(dst) {
@@ -577,6 +620,17 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 		}
 		return
 	}
+
+	// RLH 40294 code
+	if cardMarkOn {
+		if writeBarrier.gen {
+			card1, card2 := (dst-mheap_.arena_start)/_CardBytes, (dst-mheap_.arena_start+size-1)/_CardBytes
+			for card := card1; card <= card2; card++ {
+				*addb(mheap_.cardMarks, card) = 255
+			}
+		}
+	}
+	// RLH end 40294 code
 
 	h := heapBitsForAddr(dst)
 	if src == 0 {
@@ -662,6 +716,20 @@ func typeBitsBulkBarrier(typ *_type, dst, src, size uintptr) {
 		println("runtime: typeBitsBulkBarrier with type ", typ.string(), " with GC prog")
 		throw("runtime: invalid typeBitsBulkBarrier")
 	}
+	// RLH 40294 code
+	if cardMarkOn {
+		if typ.kind&kindNoPointers == 0 {
+			if writeBarrier.gen {
+				if card1 := cardIndex(uintptr(unsafe.Pointer(dst))); card1 < mheap_.cardMarksMapped {
+					card2 := cardIndex(uintptr(unsafe.Pointer(dst)) + typ.ptrdata - 1)
+					for card := card1; card <= card2; card++ {
+						*addb(mheap_.cardMarks, card) = 255
+					}
+				}
+			}
+		}
+	}
+	// RLH end 40294 code
 	if !writeBarrier.needed {
 		return
 	}

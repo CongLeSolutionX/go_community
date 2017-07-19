@@ -151,6 +151,12 @@ const (
 	// (in bytes) reserved for concurrent sweeping between GC
 	// cycles. This will be scaled by gcpercent/100.
 	sweepMinHeapDistance = 1024 * 1024
+
+	// RLH 40294 code
+	// cardBytes is the card marking granularity.
+	// Also know to the compile
+	_CardBytes = 512
+	// RLH end 40294 code
 )
 
 // heapminimum is the minimum heap size at which to trigger GC.
@@ -246,8 +252,24 @@ var writeBarrier struct {
 	pad     [3]byte // compiler uses 32-bit load for "enabled" field
 	needed  bool    // whether we need a write barrier for current GC phase
 	cgo     bool    // whether we need a write barrier for a cgo check
+	gen     bool    // wether we are using a generational write barrier
 	alignme uint64  // guarantee alignment so that compiler can use a 32 or 64-bit load
 }
+
+// RLH 40295 code
+
+// TODO Doc
+// This structure is also know to builtin/runtime.go and the write
+// barrier insertion code.
+//
+// TODO: Don't duplicate these fields in mheap.
+var cardMarks struct {
+	arenaStart uintptr
+	base       *byte
+	mapped     uintptr
+}
+
+// RLH end 40295 code
 
 // gcBlackenEnabled is 1 if mutator assists and background mark
 // workers are allowed to blacken objects. This must only be set when
@@ -932,8 +954,8 @@ var work struct {
 	helperDrainBlock bool
 
 	// Number of roots of various root types. Set by gcMarkRootPrepare.
-	nFlushCacheRoots                               int
-	nDataRoots, nBSSRoots, nSpanRoots, nStackRoots int
+	nFlushCacheRoots                                             int
+	nDataRoots, nBSSRoots, nSpanRoots, nMatureRoots, nStackRoots int
 
 	// markrootDone indicates that roots have been marked at least
 	// once during the current GC cycle. This is checked by root
@@ -1637,6 +1659,9 @@ func gcMarkTermination(nextTriggerRatio float64) {
 		}
 		print("\n")
 		printunlock()
+		// Temp dump of what a span looks like.
+		// Does this happen after the sweep, in which case the allocBits might have been changed.
+		printHeapCardInfo()
 	}
 
 	semrelease(&worldsema)
@@ -1903,7 +1928,11 @@ func gcMark(start_time int64) {
 	work.ndone = 0
 	work.nproc = uint32(gcprocs())
 
-	if work.full == 0 && work.nDataRoots+work.nBSSRoots+work.nSpanRoots+work.nStackRoots == 0 {
+	if !writeBarrier.gen && work.nMatureRoots != 0 {
+		throw("debug.gcgen == 0 && work.nMatureRoots != 0")
+	}
+
+	if work.full == 0 && work.nDataRoots+work.nBSSRoots+work.nSpanRoots+work.nMatureRoots+work.nStackRoots == 0 {
 		// There's no work on the work queue and no root jobs
 		// that can produce work, so don't bother entering the
 		// getfull() barrier.

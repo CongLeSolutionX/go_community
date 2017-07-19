@@ -25,6 +25,16 @@ const (
 	// root.
 	rootBlockSpans = 8 * 1024 // 64MB worth of spans
 
+	// Assuming one can scan about 1MB of heap in 1ms and that
+	// we want to keep the amount of work done by the root scanning
+	// code to between 100us to 1ms then the number of pages one
+	// unit of card marking should do is .5 MB or 512KB
+	// There is a span entry for each 8K page calculate the
+	// number of span entries that need to be processed.
+	// The total number of span entries will be divided by
+	// this number in gcMarkRootPrepare
+	rootCardMarkSpans = (512 << 10) / (8 << 10)
+
 	// maxObletBytes is the maximum bytes of an object to scan at
 	// once. Larger objects will be split up into "oblets" of at
 	// most this size. Since we can scan 1–2 MB/ms, 128 KB bounds
@@ -98,6 +108,26 @@ func gcMarkRootPrepare() {
 		// this mark phase.
 		work.nSpanRoots = mheap_.sweepSpans[mheap_.sweepgen/2%2].numBlocks()
 
+		// On the first markroot we need to scan all the marked cards
+		// for roots into the young generation. We will divide the work
+		// into work.nMatureRoots so that the markroots routine does not
+		// have to ingest the entire job at once.
+		// Full cycle GCs that collect the mature areas will have this
+		// set to 0, which acts as a noop as far as the markroot routine
+		// is concerned.
+		if cardMarkOn {
+			if writeBarrier.gen {
+				work.nMatureRoots = len(mheap_.spans) / rootCardMarkSpans // the number of span entries to scan / granularity
+			} else {
+				// 0 will noop the scanning of ther roots in mature space. RLH
+				work.nMatureRoots = 0
+			}
+		} else {
+			if work.nMatureRoots != 0 {
+				throw("work.nMatureRoots != 0")
+			}
+		}
+
 		// On the first markroot, we need to scan all Gs. Gs
 		// may be created after this point, but it's okay that
 		// we ignore them because they begin life without any
@@ -112,6 +142,15 @@ func gcMarkRootPrepare() {
 		// up-to-date during concurrent mark.
 		work.nSpanRoots = 0
 
+		if cardMarkOn {
+			// We've already scanned the mature generation for pointers
+			// into the young generation. 0 avoids doing it again.
+			work.nMatureRoots = 0
+		} else {
+			if work.nMatureRoots != 0 {
+				throw("work.nMatureRoots != 0")
+			}
+		}
 		// The hybrid barrier ensures that stacks can't
 		// contain pointers to unmarked objects, so on the
 		// second markroot, there's no need to scan stacks.
@@ -123,8 +162,12 @@ func gcMarkRootPrepare() {
 		}
 	}
 
+	if !writeBarrier.gen && work.nMatureRoots != 0 {
+		throw("debug.gcgen == 0 && work.nMatureRoots != 0")
+	}
 	work.markrootNext = 0
-	work.markrootJobs = uint32(fixedRootCount + work.nFlushCacheRoots + work.nDataRoots + work.nBSSRoots + work.nSpanRoots + work.nStackRoots)
+	work.markrootJobs = uint32(fixedRootCount + work.nFlushCacheRoots + work.nDataRoots +
+		work.nBSSRoots + work.nSpanRoots + work.nMatureRoots + work.nStackRoots)
 }
 
 // gcMarkRootCheck checks that all roots have been scanned. It is
@@ -176,15 +219,22 @@ var oneptrmask = [...]uint8{1}
 //
 //go:nowritebarrier
 func markroot(gcw *gcWork, i uint32) {
+
+	if !writeBarrier.gen && work.nMatureRoots != 0 {
+		throw("debug.gcgen == 0 && work.nMatureRoots != 0")
+	}
 	// TODO(austin): This is a bit ridiculous. Compute and store
 	// the bases in gcMarkRootPrepare instead of the counts.
 	baseFlushCache := uint32(fixedRootCount)
 	baseData := baseFlushCache + uint32(work.nFlushCacheRoots)
 	baseBSS := baseData + uint32(work.nDataRoots)
 	baseSpans := baseBSS + uint32(work.nBSSRoots)
-	baseStacks := baseSpans + uint32(work.nSpanRoots)
+	baseMature := baseSpans + uint32(work.nSpanRoots)
+	baseStacks := baseMature + uint32(work.nMatureRoots) // for noop set nMatureRoots to 0
 	end := baseStacks + uint32(work.nStackRoots)
-
+	if !cardMarkOn && work.nMatureRoots != 0 {
+		throw("work.nMatureRoots != 0")
+	}
 	// Note: if you add a case here, please also update heapdump.go:dumproots.
 	switch {
 	case baseFlushCache <= i && i < baseData:
@@ -220,9 +270,18 @@ func markroot(gcw *gcWork, i uint32) {
 			systemstack(markrootFreeGStacks)
 		}
 
-	case baseSpans <= i && i < baseStacks:
+	case baseSpans <= i && i < baseMature:
 		// mark MSpan.specials
 		markrootSpans(gcw, int(i-baseSpans))
+
+	case baseMature <= i && i < baseStacks:
+		// mark young objects pointed to by mature objects
+		if !cardMarkOn {
+			println("runtime: cardMark shard = ", i-baseMature, "i=", i, "baseSpans=", baseSpans, "baseMature=", baseMature, "work.nMatureRoots", work.nMatureRoots)
+			throw("Unexpected mature roots encountered")
+		}
+		// Get the number of marked cards for this shard of roots and add it to the total using atomic instruction.
+		markrootMature(gcw, int(i-baseMature))
 
 	default:
 		// the rest is scanning goroutine stacks
@@ -230,6 +289,7 @@ func markroot(gcw *gcWork, i uint32) {
 		if baseStacks <= i && i < end {
 			gp = allgs[i-baseStacks]
 		} else {
+			println("runtime: i=", i, "baseSpans=", baseSpans, "baseMature=", baseMature, "work.nMatureRoots", work.nMatureRoots)
 			throw("markroot: bad index")
 		}
 
@@ -344,7 +404,6 @@ func markrootSpans(gcw *gcWork, shard int) {
 	if work.markrootDone {
 		throw("markrootSpans during second markroot")
 	}
-
 	sg := mheap_.sweepgen
 	spans := mheap_.sweepSpans[mheap_.sweepgen/2%2].block(shard)
 	// Note that work.spans may not include spans that were
@@ -399,6 +458,85 @@ func markrootSpans(gcw *gcWork, shard int) {
 
 		unlock(&s.speciallock)
 	}
+}
+
+// markrootMature marks roots for one shard of work.spans.
+// returns the number of cards scanned.
+//go:nowritebarrier
+func markrootMature(gcw *gcWork, shard int) {
+	// Generation GC requires that mature objects in marked
+	// cards are scanned for pointers into the young generation.
+
+	// TODO(austin): There are several ideas for making this more
+	// efficient in issue #11485.
+
+	if work.markrootDone {
+		throw("markrootMature during second markroot")
+	}
+	if !writeBarrier.gen {
+		throw("writeBarrier.gen is false.")
+	}
+	start := shard * rootCardMarkSpans // The first span to check
+	end := start + rootCardMarkSpans
+	// if start refers to a span that is partially in the previous shard then it is
+	// the responsibility of the previous shard to deal with this span. Find the
+	// start of the next span.
+	if shard != 0 && mheap_.spans[start] == mheap_.spans[start-1] {
+		skipSpan := mheap_.spans[start]
+		start++
+		for mheap_.spans[start] == skipSpan {
+			start++
+			if start == end {
+				// This span starts in a previous shard and ends in a later shard
+				// There is nothing to do here.
+				return
+			}
+		}
+	}
+	spans := mheap_.spans[start:end] // a slice of the spans to check
+
+	// How do we deal with span entries that are not associated with
+	// the start of a span? For example a span uses 2 pages so the
+	// second entry is bogus.
+
+	// Note that work.spans may not include spans that were
+	// allocated between entering the scan phase and now. This is
+	// okay because any objects with finalizers in those spans
+	// must have been allocated and given finalizers after we
+	// entered the scan phase, so addfinalizer will have ensured
+	// the above invariants for them.
+
+	spanLen := len(spans)
+	var cardMarks, scanCards, noScanCards, pointerCount, matureToYoungPointerCount, ignoredCards uintptr
+	for i := 0; i < spanLen; {
+		aspan := spans[i]
+		if aspan == nil {
+			i++
+			ignoredCards++
+			cardMarks++
+			continue
+		}
+
+		var tempCardMarks, tempScanCards, tempNoScanCards, tempPointerCount, tempMatureToYoungPointerCount, tempIgnoredCards uintptr
+
+		tempCardMarks, tempScanCards, tempNoScanCards, tempPointerCount, tempMatureToYoungPointerCount, tempIgnoredCards =
+			aspan.gatherSpanCardInfo()
+		cardMarks += tempCardMarks
+		scanCards += tempScanCards
+		noScanCards += tempNoScanCards
+		pointerCount += tempPointerCount
+		matureToYoungPointerCount += tempMatureToYoungPointerCount
+		ignoredCards += tempIgnoredCards
+		i = i + int(aspan.npages)
+	}
+
+	atomic.Xadduintptr(&totalCardMarks, cardMarks)
+	atomic.Xadduintptr(&totalScanCards, scanCards)
+	atomic.Xadduintptr(&totalNoScanCards, noScanCards)
+	atomic.Xadduintptr(&totalPointerCount, pointerCount)
+	atomic.Xadduintptr(&totalMatureToYoungPointerCount, matureToYoungPointerCount)
+	atomic.Xadduintptr(&totalIgnoredCards, ignoredCards)
+	return
 }
 
 // gcAssistAlloc performs GC work to make gp's assist debt positive.

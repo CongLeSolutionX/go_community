@@ -317,6 +317,7 @@ var debug struct {
 	allocfreetrace   int32
 	cgocheck         int32
 	efence           int32
+	gcgen            int32
 	gccheckmark      int32
 	gcpacertrace     int32
 	gcshrinkstackoff int32
@@ -334,6 +335,7 @@ var dbgvars = []dbgVar{
 	{"allocfreetrace", &debug.allocfreetrace},
 	{"cgocheck", &debug.cgocheck},
 	{"efence", &debug.efence},
+	{"gcgen", &debug.gcgen},
 	{"gccheckmark", &debug.gccheckmark},
 	{"gcpacertrace", &debug.gcpacertrace},
 	{"gcshrinkstackoff", &debug.gcshrinkstackoff},
@@ -392,6 +394,10 @@ func parsedebugvars() {
 	if debug.cgocheck > 1 {
 		writeBarrier.cgo = true
 		writeBarrier.enabled = true
+	}
+	if debug.gcgen >= 1 {
+		// Turn card marking on.
+		writeBarrier.gen = true
 	}
 }
 

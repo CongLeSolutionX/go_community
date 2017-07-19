@@ -140,6 +140,12 @@ import (
 //go:nowritebarrierrec
 //go:systemstack
 func gcmarkwb_m(slot *uintptr, ptr uintptr) {
+	if cardMarkOn {
+		if writeBarrier.gen {
+			//	println("gcmarkwb slot=", slot, inheap(uintptr(unsafe.Pointer(slot))), "ptr=", hex(ptr), inheap(ptr))
+			cardMarkWB(uintptr(unsafe.Pointer(slot)), ptr)
+		}
+	}
 	if writeBarrier.needed {
 		// Note: This turns bad pointer writes into bad
 		// pointer reads, which could be confusing. We avoid
@@ -178,6 +184,11 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 // the p associated with an m. We use the fact that m.p == nil to indicate
 // that we are in one these critical section and throw if the write is of
 // a pointer to a heap object.
+//
+// RLH 40294 code
+// The caller is responsible for card marking.
+// RLH end 40294 code
+//
 //go:nosplit
 func writebarrierptr_prewrite1(dst *uintptr, src uintptr) {
 	mp := acquirem()
@@ -203,6 +214,17 @@ func writebarrierptr(dst *uintptr, src uintptr) {
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
 	}
+	// RLH 40294 code
+	if cardMarkOn {
+		if writeBarrier.gen {
+			if inheap(uintptr(unsafe.Pointer(dst))) {
+				if card := cardIndex(uintptr(unsafe.Pointer(dst))); 0 < card || card <= mheap_.cardMarksMapped {
+					*addb(mheap_.cardMarks, card) = 255
+				}
+			}
+		}
+	}
+	// RLH end 40294 code
 	if !writeBarrier.needed {
 		*dst = src
 		return
@@ -226,6 +248,15 @@ func writebarrierptr_prewrite(dst *uintptr, src uintptr) {
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
 	}
+	// RLH 40294 code
+	if cardMarkOn {
+		if writeBarrier.gen {
+			if card := cardIndex(uintptr(unsafe.Pointer(dst))); card < mheap_.cardMarksMapped {
+				*addb(mheap_.cardMarks, card) = 255
+			}
+		}
+	}
+	// RLH end 40294 code
 	if !writeBarrier.needed {
 		return
 	}

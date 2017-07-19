@@ -78,6 +78,8 @@ type mheap struct {
 	// on the swept stack.
 	sweepSpans [2]gcSweepBuf
 
+	cards []byte
+
 	_ uint32 // align uint64 fields on 32-bit for atomics
 
 	// Proportional sweep
@@ -140,6 +142,7 @@ type mheap struct {
 	// false, we have to be careful not to clobber existing
 	// mappings here. If this is true, then we own the mapping
 	// here and *must* clobber it to use it.
+
 	arena_reserved bool
 
 	_ uint32 // ensure 64-bit alignment
@@ -160,6 +163,12 @@ type mheap struct {
 	specialfinalizeralloc fixalloc // allocator for specialfinalizer*
 	specialprofilealloc   fixalloc // allocator for specialprofile*
 	speciallock           mutex    // lock for special record allocators.
+
+	// RLH 40294 code
+	cardMarks       *byte
+	cardMarksMapped uintptr // Bytes of cardMarks mapped.
+	// RLH end 40294 code
+
 }
 
 var mheap_ mheap
@@ -532,6 +541,13 @@ func (h *mheap) setArenaUsed(arena_used uintptr, racemap bool) {
 
 	// Map spans array.
 	h.mapSpans(arena_used)
+
+	// RLH 40294 code
+	if cardMarkOn || writeBarrier.gen {
+		// Map the card marks.
+		h.mapCardMarks(arena_used)
+	}
+	// RLH end 40294 code
 
 	// Tell the race detector about the new heap memory.
 	if racemap && raceenabled {
@@ -1047,6 +1063,11 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 			} else {
 				h.freeList(before.npages).remove(before)
 			}
+			// RLH change
+			for i := p; i < p+s.npages; i++ {
+				h.spans[i] = s
+			}
+			// RLH end change
 			before.state = _MSpanDead
 			h.spanalloc.free(unsafe.Pointer(before))
 		}
@@ -1054,6 +1075,7 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 
 	// Now check to see if next (greater addresses) span is free and can be coalesced.
 	if (p + s.npages) < uintptr(len(h.spans)) {
+		nextIndex := p + s.npages
 		after := h.spans[p+s.npages]
 		if after != nil && after.state == _MSpanFree {
 			s.npages += after.npages
@@ -1065,6 +1087,11 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 			} else {
 				h.freeList(after.npages).remove(after)
 			}
+			// RLH change
+			for i := nextIndex; i < p+s.npages; i++ {
+				h.spans[i] = s
+			}
+			// RLH change end
 			after.state = _MSpanDead
 			h.spanalloc.free(unsafe.Pointer(after))
 		}
