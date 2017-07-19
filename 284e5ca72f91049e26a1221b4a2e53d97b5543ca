@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b4ae24a_d93893e3",
+        "filename": "src/runtime/mem_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-07-19T01:59:02Z",
+      "side": 1,
+      "message": "I do not see how \"out of memory\" error message is better then \"cannot map pages in arena address space\". Either of them is too general for the user to act upon. Windows memory is a complicated subject, maybe we should not try to be helpful here. We provide error number, that should be enough for the user to get started.\n\nMaybe we should replace \"cannot map pages in arena address space\" with \"out of memory\"?",
+      "range": {
+        "startLine": 122,
+        "startChar": 10,
+        "endLine": 122,
+        "endChar": 23
+      },
+      "revId": "284e5ca72f91049e26a1221b4a2e53d97b5543ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
