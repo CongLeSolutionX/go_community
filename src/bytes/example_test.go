@@ -119,6 +119,34 @@ func ExampleContains() {
 	// true
 }
 
+func ExampleContainsAny() {
+	fmt.Println(bytes.ContainsAny([]byte("gopher"), "hp"))
+	fmt.Println(bytes.ContainsAny([]byte("gopher"), "xyz"))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleContainsRune() {
+	fmt.Println(bytes.ContainsRune([]byte("gopher"), 'g'))
+	fmt.Println(bytes.ContainsRune([]byte("gopher"), 'x'))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleEqual() {
+	fmt.Println(bytes.Equal([]byte("dog"), []byte("dog")))
+	fmt.Println(bytes.Equal([]byte("dog"), []byte("cat")))
+	fmt.Println(bytes.Equal([]byte(""), nil))
+	fmt.Println(bytes.Equal([]byte("foo"), []byte("bar")))
+	// Output:
+	// true
+	// false
+	// true
+	// false
+}
+
 func ExampleCount() {
 	fmt.Println(bytes.Count([]byte("cheese"), []byte("e")))
 	fmt.Println(bytes.Count([]byte("five"), []byte(""))) // before & after each rune
@@ -228,6 +256,50 @@ func ExampleSplit() {
 	// ["" "man " "plan " "canal panama"]
 	// [" " "x" "y" "z" " "]
 	// [""]
+}
+
+func ExampleIndexByte() {
+	fmt.Println(bytes.IndexByte([]byte("dog"), 'd'))
+	fmt.Println(bytes.IndexByte([]byte("marsupial"), 'u'))
+	fmt.Println(bytes.IndexByte([]byte("marsupial"), 'x'))
+	// Output:
+	// 0
+	// 4
+	// -1
+}
+
+func ExampleLastIndexAny() {
+	fmt.Println(bytes.LastIndexAny([]byte("foo"), "o"))
+	fmt.Println(bytes.LastIndexAny([]byte("和小"), "た"))
+	fmt.Println(bytes.LastIndexAny([]byte("bar"), ""))
+	// Output:
+	// 2
+	// -1
+	// -1
+}
+
+func ExampleLastIndexByte() {
+	fmt.Println(bytes.LastIndexByte([]byte("foo"), 'o'))
+	fmt.Println(bytes.LastIndexByte([]byte("bar"), 'z'))
+	// Output:
+	// 2
+	// -1
+}
+
+func ExampleLastIndexFunc() {
+	b := []byte("foo")
+	index := bytes.LastIndexFunc(b, func(r rune) bool {
+		return r == 'o'
+	})
+	fmt.Println(index)
+	b = []byte("bar")
+	index = bytes.LastIndexFunc(b, func(r rune) bool {
+		return r == 'z'
+	})
+	fmt.Println(index)
+	// Output:
+	// 8
+	// -1
 }
 
 func ExampleSplitN() {
