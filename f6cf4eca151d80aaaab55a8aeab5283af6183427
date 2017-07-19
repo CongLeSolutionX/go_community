@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "237cbbb1_87b9f939",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-19T21:18:00Z",
+      "side": 1,
+      "message": "change \"Added\" to \"add\" (and lowercase)",
+      "revId": "f6cf4eca151d80aaaab55a8aeab5283af6183427",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
