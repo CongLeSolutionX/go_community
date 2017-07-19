@@ -198,6 +198,24 @@
       "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b49667b_bea065a4",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 22660
+      },
+      "writtenOn": "2017-07-19T02:53:03Z",
+      "side": 1,
+      "message": "my bad, still getting used to navigating around Gerrit. I mentioned in a [this](https://go-review.googlesource.com/c/49130/1#message-bcdb0f3c243a41718f1bd598cf8a1a6aa4ad4422) that I\u0027m okay scope creeping even if it takes longer, but if you strongly prefer separation of these points I can revert it. Thanks again!",
+      "parentUuid": "ee5521a4_c8e5fbf7",
+      "revId": "70646cf8b972849668722af9df83fa1d6bd97084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
