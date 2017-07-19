@@ -2017,6 +2017,7 @@ func Redirect(w ResponseWriter, r *Request, url string, code int) {
 	// response because older user agents may not understand 301/307.
 	// Shouldn't send the response for POST or HEAD; that leaves GET.
 	if r.Method == "GET" {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
 		note := "<a href=\"" + htmlEscape(url) + "\">" + statusText[code] + "</a>.\n"
 		fmt.Fprintln(w, note)
 	}
