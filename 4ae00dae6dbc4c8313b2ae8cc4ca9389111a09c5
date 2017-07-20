@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7095f37_cb0d4758",
+        "filename": "src/sync/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-07-20T16:20:19Z",
+      "side": 1,
+      "message": "Let\u0027s make this descriptive rather than prescriptive. How about:\n\n// Map is designed to reduce cache contention in the Go standard library.\n// It is optimized for use in concurrent loops with keys that are stable\n// over time, and either few steady-state stores, or stores localized to\n// one goroutine per key.\n//\n// For use-cases that do not share these attributes, it will likely have\n// comparable or worse performance and worse type-safety than an ordinary\n// map paired with a read-write mutex.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 53
+      },
+      "revId": "4ae00dae6dbc4c8313b2ae8cc4ca9389111a09c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
