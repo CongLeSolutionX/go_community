@@ -237,6 +237,11 @@ type T1 = T2
   include symbol information, so they can be viewed
   in <code>go</code> <code>tool</code> <code>pprof</code>
   without the binary that produced the profile.
+  Due to bugs discovered late in the release cycle,
+  sometimes you need to exclude the binary to see profiles (such
+  as when profiling static binaries on Macs), and sometimes
+  you need the binary listed (to symbolize C code).
+  So just try both ways and hope for the best!
 </p>
 
 <p> <!-- CL 38343 -->
