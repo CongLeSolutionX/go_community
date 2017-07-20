@@ -22,6 +22,30 @@
       "revId": "4ae00dae6dbc4c8313b2ae8cc4ca9389111a09c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef67f2b7_90e81cd5",
+        "filename": "src/sync/map.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 8470
+      },
+      "writtenOn": "2017-07-20T16:34:56Z",
+      "side": 1,
+      "message": "Sounds good! Updated.",
+      "parentUuid": "a7095f37_cb0d4758",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 53
+      },
+      "revId": "4ae00dae6dbc4c8313b2ae8cc4ca9389111a09c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
