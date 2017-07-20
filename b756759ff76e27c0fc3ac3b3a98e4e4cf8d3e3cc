@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a14d333_4cf8c6a7",
+        "filename": "src/sync/map.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-07-20T16:38:47Z",
+      "side": 1,
+      "message": "Reading this again, I think my suggestion was a little dash-heavy. Perhaps change \"use-cases\" to \"use cases\" and \"type-safety\" to \"type safety\".",
+      "range": {
+        "startLine": 20,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 56
+      },
+      "revId": "b756759ff76e27c0fc3ac3b3a98e4e4cf8d3e3cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
