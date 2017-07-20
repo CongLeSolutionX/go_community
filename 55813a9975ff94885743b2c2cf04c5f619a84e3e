@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08485eea_8b3cb6df",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-20T19:56:57Z",
+      "side": 1,
+      "message": "it\u0027s not really a \"helper\".\n\n  // have to access net/url via other names, like parseURL.",
+      "revId": "55813a9975ff94885743b2c2cf04c5f619a84e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d83b64a_36d20bd8",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-20T19:56:57Z",
+      "side": 1,
+      "message": "Or just:\n\nparseURL(url) // just url.Parse (url is shadowed for godoc)\n\nWhich has the bonus of noting that it\u0027s url.Parse, which is greppable.\n\nThen maybe you can remove the comment at top.",
+      "revId": "55813a9975ff94885743b2c2cf04c5f619a84e3e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
