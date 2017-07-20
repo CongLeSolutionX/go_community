@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6041d94_e1e869f1",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1973,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-20T19:21:39Z",
+      "side": 1,
+      "message": "the other thing you could do, though, is just make a package global:\n\nvar urlParse \u003d url.Parse\n\nand then change this to urlParse and don\u0027t have the wrapper func.\n\nlikewise:\n\ntype urlURL \u003d url.URL\n\n... if needed.\n\n(or url_Parse if that\u0027s preferred)",
+      "revId": "d3ae66e8096b5a2caeccc5cac05a2d0a82ff4ba6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
