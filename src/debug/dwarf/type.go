@@ -695,7 +695,7 @@ func (d *Data) readType(name string, r typeReader, off Offset, typeCache map[Off
 				// type's size once the type graph is
 				// constructed.
 				*typedefs = append(*typedefs, t)
-			case *PtrType:
+			case *PtrType, *FuncType:
 				b = int64(addressSize)
 			}
 		}
