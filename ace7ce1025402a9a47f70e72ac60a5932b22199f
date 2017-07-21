@@ -16,6 +16,24 @@
       "revId": "ace7ce1025402a9a47f70e72ac60a5932b22199f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce45f716_989bb0ee",
+        "filename": "src/sync/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-07-21T17:46:13Z",
+      "side": 1,
+      "message": "The point I want us to convey here is that Map is not yet optimized for cases that don\u0027t resemble the ones in the standard library.\n\n(It\u0027s fine for people to use it for other purposes, of course, but I don\u0027t want to discourage folks from experimenting with other implementations too: I would be disappointed if folks prefer sync.Map for cases it doesn\u0027t handle well just because it\u0027s in the standard library.)\n\nAt any rate, if you can think of a better way to get that point across I\u0027m happy to review improvements.",
+      "parentUuid": "d33c0dc4_5e1fe8ef",
+      "revId": "ace7ce1025402a9a47f70e72ac60a5932b22199f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
