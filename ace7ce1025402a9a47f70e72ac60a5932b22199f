@@ -34,6 +34,24 @@
       "revId": "ace7ce1025402a9a47f70e72ac60a5932b22199f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "941cd72b_627a2cfe",
+        "filename": "src/sync/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-21T17:49:30Z",
+      "side": 1,
+      "message": "I preferred just deleting the sentence in https://go-review.googlesource.com/c/50632/\n\nI don\u0027t think this adds anything.\n\nYou already say what it\u0027s optimized for. If people choose to use it for other things, that\u0027s their choice. They\u0027re already in the sync package. We don\u0027t hold hands much here.",
+      "parentUuid": "ce45f716_989bb0ee",
+      "revId": "ace7ce1025402a9a47f70e72ac60a5932b22199f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
