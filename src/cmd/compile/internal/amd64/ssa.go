@@ -954,6 +954,7 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		if b.Succs[0].Block() != next {
 			p := s.Prog(obj.AJMP)
 			p.To.Type = obj.TYPE_BRANCH
+			p.Pos = gc.LastPosInBlock(b)
 			s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
 		}
 	case ssa.BlockDefer:
@@ -971,6 +972,7 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		if b.Succs[0].Block() != next {
 			p := s.Prog(obj.AJMP)
 			p.To.Type = obj.TYPE_BRANCH
+			p.Pos = gc.LastPosInBlock(b)
 			s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
 		}
 	case ssa.BlockExit:
@@ -979,6 +981,7 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		s.Prog(obj.ARET)
 	case ssa.BlockRetJmp:
 		p := s.Prog(obj.AJMP)
+		p.Pos = gc.LastPosInBlock(b)
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = b.Aux.(*obj.LSym)
@@ -1000,10 +1003,12 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		case b.Succs[0].Block():
 			p = s.Prog(jmp.invasm)
 			p.To.Type = obj.TYPE_BRANCH
+			p.Pos = gc.LastPosInBlock(b)
 			s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[1].Block()})
 		case b.Succs[1].Block():
 			p = s.Prog(jmp.asm)
 			p.To.Type = obj.TYPE_BRANCH
+			p.Pos = gc.LastPosInBlock(b)
 			s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
 		default:
 			p = s.Prog(jmp.asm)
@@ -1011,6 +1016,7 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 			s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
 			q := s.Prog(obj.AJMP)
 			q.To.Type = obj.TYPE_BRANCH
+			q.Pos = gc.LastPosInBlock(b)
 			s.Branches = append(s.Branches, gc.Branch{P: q, B: b.Succs[1].Block()})
 		}
 

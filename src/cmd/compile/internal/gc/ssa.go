@@ -264,6 +264,10 @@ type state struct {
 
 	// line number stack. The current line number is top of stack
 	line []src.XPos
+	// the last line number processed; it may have been popped
+	lastPos src.XPos
+	// empty blocks get the line number of their successor, if possible.
+	prevBlocks []*ssa.Block
 
 	// list of panic calls by function name and line number.
 	// Used to deduplicate panic calls.
@@ -345,7 +349,14 @@ func (s *state) endBlock() *ssa.Block {
 	s.defvars[b.ID] = s.vars
 	s.curBlock = nil
 	s.vars = nil
-	b.Pos = s.peekPos()
+	if len(b.Values) == 0 && b.Kind == ssa.BlockPlain {
+		// Empty plain blocks get the line of their successor.
+		// Exception: increment blocks in For statements (handled in ssa conversion of OFOR)
+		b.Pos = src.NoXPos
+		s.prevBlocks = append(s.prevBlocks, b)
+	} else {
+		b.Pos = s.lastPos
+	}
 	return b
 }
 
@@ -358,7 +369,18 @@ func (s *state) pushLine(line src.XPos) {
 		if Debug['K'] != 0 {
 			Warn("buildssa: unknown position (line 0)")
 		}
+	} else {
+		s.lastPos = line
+		// Any preceding blocks with no line number get their successor
+		for i, b := range s.prevBlocks {
+			if b.Pos == src.NoXPos {
+				b.Pos = line
+			}
+			s.prevBlocks[i] = nil
+		}
+		s.prevBlocks = s.prevBlocks[:0]
 	}
+
 	s.line = append(s.line, line)
 }
 
@@ -516,8 +538,11 @@ func (s *state) stmtList(l Nodes) {
 
 // stmt converts the statement n to SSA and adds it to s.
 func (s *state) stmt(n *Node) {
-	s.pushLine(n.Pos)
-	defer s.popLine()
+	if !(n.Op == OVARKILL || n.Op == OVARLIVE) {
+		// These are invisible to the programmer and cause confusion in debugging
+		s.pushLine(n.Pos)
+		defer s.popLine()
+	}
 
 	// If s.curBlock is nil, and n isn't a label (which might have an associated goto somewhere),
 	// then this code is dead. Stop here.
@@ -630,6 +655,7 @@ func (s *state) stmt(n *Node) {
 		}
 
 		b := s.endBlock()
+		b.Pos = s.lastPos
 		b.AddEdgeTo(lab.target)
 
 	case OAS:
@@ -771,6 +797,7 @@ func (s *state) stmt(n *Node) {
 			}
 		}
 		s.startBlock(bEnd)
+		// fmt.Printf("bThen=%v, bElse=%v, bEnd=%v\n", bThen, bElse, bEnd)
 
 	case ORETURN:
 		s.stmtList(n.List)
@@ -804,6 +831,7 @@ func (s *state) stmt(n *Node) {
 		}
 
 		b := s.endBlock()
+		b.Pos = s.lastPos
 		b.AddEdgeTo(to)
 
 	case OFOR, OFORUNTIL:
@@ -869,6 +897,11 @@ func (s *state) stmt(n *Node) {
 		}
 		if b := s.endBlock(); b != nil {
 			b.AddEdgeTo(bCond)
+			// It can happen that bIncr ends in a block containing only VARKILL,
+			// and that muddles the debugging experience.
+			if n.Op != OFORUNTIL && b.Pos == src.NoXPos {
+				b.Pos = bCond.Pos
+			}
 		}
 
 		if n.Op == OFORUNTIL {
@@ -4582,9 +4615,14 @@ type FloatingEQNEJump struct {
 	Index int
 }
 
+func LastPosInBlock(b *ssa.Block) src.XPos {
+	return b.Pos
+}
+
 func (s *SSAGenState) oneFPJump(b *ssa.Block, jumps *FloatingEQNEJump) {
 	p := s.Prog(jumps.Jump)
 	p.To.Type = obj.TYPE_BRANCH
+	p.Pos = LastPosInBlock(b)
 	to := jumps.Index
 	s.Branches = append(s.Branches, Branch{p, b.Succs[to].Block()})
 }
@@ -4601,6 +4639,7 @@ func (s *SSAGenState) FPJump(b, next *ssa.Block, jumps *[2][2]FloatingEQNEJump) 
 		s.oneFPJump(b, &jumps[1][0])
 		s.oneFPJump(b, &jumps[1][1])
 		q := s.Prog(obj.AJMP)
+		q.Pos = LastPosInBlock(b)
 		q.To.Type = obj.TYPE_BRANCH
 		s.Branches = append(s.Branches, Branch{q, b.Succs[1].Block()})
 	}
