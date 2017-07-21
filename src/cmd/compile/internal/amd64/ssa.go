@@ -13,6 +13,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/obj/x86"
+	"cmd/internal/src"
 )
 
 // markMoves marks any MOVXconst ops that need to avoid clobbering flags.
@@ -948,12 +949,23 @@ var nefJumps = [2][2]gc.FloatingEQNEJump{
 	{{Jump: x86.AJNE, Index: 0}, {Jump: x86.AJPS, Index: 0}}, // next == b.Succs[1]
 }
 
+func lastPosInBlock(b *ssa.Block) src.XPos {
+	for i := len(b.Values) - 1; i >= 0; i-- {
+		v := b.Values[i]
+		if v.Pos != src.NoXPos {
+			return v.Pos
+		}
+	}
+	return b.Pos
+}
+
 func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 	switch b.Kind {
 	case ssa.BlockPlain:
 		if b.Succs[0].Block() != next {
 			p := s.Prog(obj.AJMP)
 			p.To.Type = obj.TYPE_BRANCH
+			p.Pos = lastPosInBlock(b)
 			s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
 		}
 	case ssa.BlockDefer:
@@ -971,6 +983,7 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		if b.Succs[0].Block() != next {
 			p := s.Prog(obj.AJMP)
 			p.To.Type = obj.TYPE_BRANCH
+			p.Pos = lastPosInBlock(b)
 			s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
 		}
 	case ssa.BlockExit:
@@ -979,6 +992,7 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		s.Prog(obj.ARET)
 	case ssa.BlockRetJmp:
 		p := s.Prog(obj.AJMP)
+		p.Pos = lastPosInBlock(b)
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = b.Aux.(*obj.LSym)
@@ -1011,6 +1025,7 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 			s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
 			q := s.Prog(obj.AJMP)
 			q.To.Type = obj.TYPE_BRANCH
+			q.Pos = lastPosInBlock(b)
 			s.Branches = append(s.Branches, gc.Branch{P: q, B: b.Succs[1].Block()})
 		}
 
