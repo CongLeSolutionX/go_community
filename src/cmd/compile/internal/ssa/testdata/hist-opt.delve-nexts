@@ -1,0 +1,244 @@
+  ./testdata/hist.go
+31:	func main() {
+32:		hist := make([]int, 100)
+33:		var reader io.Reader = strings.NewReader(cannedInput)
+9:		"strings"
+  /usr/local/google/home/drchase/work/go/src/strings/reader.go
+150:	func NewReader(s string) *Reader { return &Reader{s, 0, -1} }
+  ./testdata/hist.go
+34:		if len(os.Args) > 1 {
+4:		"bufio"
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+84:			split:        ScanLines,
+74:		MaxScanTokenSize = 64 * 1024
+  ./testdata/hist.go
+43:		for scanner.Scan() {
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+  /usr/local/google/home/drchase/work/go/src/bufio/scan.go
+107:		return string(s.token)
+  ./testdata/hist.go
+45:			i, err := strconv.ParseInt(s, 10, 64)
+46:			if err != nil {
+50:			hist = ensure(int(i), hist)
+51:			hist[int(i)]++
+51:			hist[int(i)]++
+43:		for scanner.Scan() {
+55:		for i, a := range hist {
+56:			if a == 0 {
+56:			if a == 0 {
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+60:			n += a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+59:			t += i * a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+59:			t += i * a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+55:		for i, a := range hist {
+56:			if a == 0 {
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+60:			n += a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+59:			t += i * a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+59:			t += i * a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+55:		for i, a := range hist {
+56:			if a == 0 {
+56:			if a == 0 {
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+60:			n += a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+59:			t += i * a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+59:			t += i * a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+55:		for i, a := range hist {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+60:			n += a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+59:			t += i * a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+59:			t += i * a
+61:			fmt.Fprintf(os.Stderr, "%d\t%d\t%d\t%d\t%d\n", i, a, n, i*a, t)
+55:		for i, a := range hist {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+56:			if a == 0 {
+64:	}
+  /usr/local/google/home/drchase/work/go/src/runtime/proc.go
+201:		if atomic.Load(&runningPanicDefers) != 0 {
+210:		if atomic.Load(&panicking) != 0 {
+214:		exit(0)
