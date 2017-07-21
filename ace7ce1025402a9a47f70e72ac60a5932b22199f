@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d33c0dc4_5e1fe8ef",
+        "filename": "src/sync/map.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-07-21T17:11:43Z",
+      "side": 1,
+      "message": "Sorry I\u0027m late, but I don\u0027t think we should say \"in the standard library\" here. It\u0027s public API, for everyone.",
+      "revId": "ace7ce1025402a9a47f70e72ac60a5932b22199f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
