@@ -468,10 +468,7 @@ func (z *Int) GCD(x, y, a, b *Int) *Int {
 	B := new(Int).Set(b)
 
 	X := new(Int)
-	Y := new(Int).SetInt64(1)
-
 	lastX := new(Int).SetInt64(1)
-	lastY := new(Int)
 
 	q := new(Int)
 	temp := new(Int)
@@ -487,12 +484,6 @@ func (z *Int) GCD(x, y, a, b *Int) *Int {
 		X.neg = !X.neg
 		X.Add(X, lastX)
 		lastX.Set(temp)
-
-		temp.Set(Y)
-		Y.Mul(Y, q)
-		Y.neg = !Y.neg
-		Y.Add(Y, lastY)
-		lastY.Set(temp)
 	}
 
 	if x != nil {
@@ -500,7 +491,11 @@ func (z *Int) GCD(x, y, a, b *Int) *Int {
 	}
 
 	if y != nil {
-		*y = *lastY
+		// y = (z - a*x)/b
+		y.Mul(a, lastX)
+		y.neg = !y.neg
+		y.Add(A, y)
+		y.Div(y, b)
 	}
 
 	*z = *A
