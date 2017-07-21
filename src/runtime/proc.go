@@ -941,7 +941,7 @@ func stopTheWorld(reason string) {
 
 // startTheWorld undoes the effects of stopTheWorld.
 func startTheWorld() {
-	systemstack(func() { startTheWorldWithSema() })
+	systemstack(func() { startTheWorldWithSema(false) })
 	// worldsema must be held over startTheWorldWithSema to ensure
 	// gomaxprocs cannot change while worldsema is held.
 	semrelease(&worldsema)
@@ -1057,7 +1057,7 @@ func mhelpgc() {
 	_g_.m.helpgc = -1
 }
 
-func startTheWorldWithSema() int64 {
+func startTheWorldWithSema(emitTraceEvent bool) int64 {
 	_g_ := getg()
 
 	_g_.m.locks++        // disable preemption because it can be holding p in a local var
@@ -1099,6 +1099,9 @@ func startTheWorldWithSema() int64 {
 
 	// Capture start-the-world time before doing clean-up tasks.
 	startTime := nanotime()
+	if emitTraceEvent {
+		traceGCSTWDone()
+	}
 
 	// Wakeup an additional proc in case we have excessive runnable goroutines
 	// in local queues or in the global queue. If we don't, the proc will park itself.
