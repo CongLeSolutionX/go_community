@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966f76eb_09c2454c",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-07-22T01:09:09Z",
+      "side": 1,
+      "message": "I actually don\u0027t think you need isExported.  You have called Elem, so now you are looking at the real type.  That type should have PkgPath() !\u003d \"\".\n\nThe problem we are facing is that sf.PkgPath \u003d\u003d \"\" for an anonymous pointer field.  Checking sf.Elem().PkgPath() fixes that.  So just write\n\nif t.PkgPath() !\u003d \"\" \u0026\u0026 t.Kind() !\u003d reflect.Struct {\n    // ...\n    continue\n}\n\nand remove isExported.",
+      "range": {
+        "startLine": 1104,
+        "startChar": 9,
+        "endLine": 1104,
+        "endChar": 28
+      },
+      "revId": "a1f4387a762e189ea3c82901f4ef9e34a6fa3240",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
