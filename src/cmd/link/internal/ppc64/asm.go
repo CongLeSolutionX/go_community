@@ -348,7 +348,7 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) bool {
 		return true
 	}
 
-	// Handle references to ELF symbols from our own object files.
+	// Handle references to ELF/Mach-O symbols from our own object files.
 	if targ.Type != ld.SDYNIMPORT {
 		return true
 	}
