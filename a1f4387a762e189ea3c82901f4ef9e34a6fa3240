@@ -46,6 +46,30 @@
       "revId": "a1f4387a762e189ea3c82901f4ef9e34a6fa3240",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "884fd08d_488e8430",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-07-22T01:15:11Z",
+      "side": 1,
+      "message": "Bother.  OK.",
+      "parentUuid": "8ff99d4c_c9b00469",
+      "range": {
+        "startLine": 1104,
+        "startChar": 9,
+        "endLine": 1104,
+        "endChar": 28
+      },
+      "revId": "a1f4387a762e189ea3c82901f4ef9e34a6fa3240",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
