@@ -285,10 +285,11 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) bool {
 		return true
 	}
 
-	// Handle references to ELF symbols from our own object files.
+	// Handle references to ELF/Mach-O symbols from our own object files.
 	if targ.Type != ld.SDYNIMPORT {
 		return true
 	}
+
 	switch r.Type {
 	case objabi.R_CALL,
 		objabi.R_PCREL:
@@ -333,11 +334,6 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) bool {
 			ld.Adduint32(ctxt, got, 0)
 			ld.Adduint32(ctxt, ctxt.Syms.Lookup(".linkedit.got", 0), uint32(targ.Dynid))
 			r.Type = 256 // ignore during relocsym
-			return true
-		}
-
-		if ld.Headtype == objabi.Hwindows && s.Size == int64(ld.SysArch.PtrSize) {
-			// nothing to do, the relocation will be laid out in pereloc1
 			return true
 		}
 	}
