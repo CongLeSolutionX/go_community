@@ -224,21 +224,16 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) bool {
 	switch r.Type {
 	case objabi.R_CALL,
 		objabi.R_PCREL:
+		// Handle references to ELF/Mach-O symbols from our own object files.
 		if targ.Type != ld.SDYNIMPORT {
-			// nothing to do, the relocation will be laid out in reloc
-			return true
-		}
-		if ld.Headtype == objabi.Hwindows {
-			// nothing to do, the relocation will be laid out in pereloc1
-			return true
-		} else {
-			// for both ELF and Mach-O
-			addpltsym(ctxt, targ)
-			r.Sym = ctxt.Syms.Lookup(".plt", 0)
-			r.Add = int64(targ.Plt)
 			return true
 		}
 
+		// for both ELF and Mach-O
+		addpltsym(ctxt, targ)
+		r.Sym = ctxt.Syms.Lookup(".plt", 0)
+		r.Add = int64(targ.Plt)
+		return true
 	case objabi.R_ADDR:
 		if s.Type == ld.STEXT && ld.Iself {
 			if ld.Headtype == objabi.Hsolaris {
@@ -258,7 +253,7 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) bool {
 		}
 
 		// Process dynamic relocations for the data sections.
-		if ld.Buildmode == ld.BuildmodePIE && ld.Linkmode == ld.LinkInternal {
+		if ld.Buildmode == ld.BuildmodePIE {
 			// When internally linking, generate dynamic relocations
 			// for all typical R_ADDR relocations. The exception
 			// are those R_ADDR that are created as part of generating
@@ -346,11 +341,6 @@ func adddynrel(ctxt *ld.Link, s *ld.Symbol, r *ld.Reloc) bool {
 			ld.Adduint64(ctxt, got, 0)
 			ld.Adduint32(ctxt, ctxt.Syms.Lookup(".linkedit.got", 0), uint32(targ.Dynid))
 			r.Type = 256 // ignore during relocsym
-			return true
-		}
-
-		if ld.Headtype == objabi.Hwindows {
-			// nothing to do, the relocation will be laid out in pereloc1
 			return true
 		}
 	}

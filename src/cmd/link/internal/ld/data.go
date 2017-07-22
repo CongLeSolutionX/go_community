@@ -777,7 +777,7 @@ func (ctxt *Link) reloc() {
 }
 
 func dynrelocsym(ctxt *Link, s *Symbol) {
-	if Headtype == objabi.Hwindows && Linkmode != LinkExternal {
+	if Headtype == objabi.Hwindows {
 		rel := ctxt.Syms.Lookup(".rel", 0)
 		if s == rel {
 			return
@@ -824,7 +824,7 @@ func dynrelocsym(ctxt *Link, s *Symbol) {
 
 	for ri := 0; ri < len(s.R); ri++ {
 		r := &s.R[ri]
-		if Buildmode == BuildmodePIE && Linkmode == LinkInternal {
+		if Buildmode == BuildmodePIE {
 			// It's expected that some relocations will be done
 			// later by relocsym (R_TLS_LE, R_ADDROFF), so
 			// don't worry if Adddynrel returns false.
@@ -843,6 +843,9 @@ func dynrelocsym(ctxt *Link, s *Symbol) {
 }
 
 func dynreloc(ctxt *Link, data *[SXREF][]*Symbol) {
+	if Linkmode == LinkExternal {
+		return
+	}
 	// -d suppresses dynamic loader format, so we may as well not
 	// compute these sections or mark their symbols as reachable.
 	if *FlagD && Headtype != objabi.Hwindows {
