@@ -22,6 +22,30 @@
       "revId": "a1f4387a762e189ea3c82901f4ef9e34a6fa3240",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ff99d4c_c9b00469",
+        "filename": "src/encoding/json/encode.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-07-22T01:12:59Z",
+      "side": 1,
+      "message": "I don\u0027t think we can do that since t.PkgPath() always returns an non-empty string for any named typed regardless of whether the type is exported or not.\n\nThe documentation for reflect.Type.PkgPath says:\n\n // PkgPath returns a named type\u0027s package path, that is, the import path\n // that uniquely identifies the package, such as \"encoding/base64\".\n // If the type was predeclared (string, error) or unnamed (*T, struct{}, []int),\n // the package path will be the empty string.",
+      "parentUuid": "966f76eb_09c2454c",
+      "range": {
+        "startLine": 1104,
+        "startChar": 9,
+        "endLine": 1104,
+        "endChar": 28
+      },
+      "revId": "a1f4387a762e189ea3c82901f4ef9e34a6fa3240",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
