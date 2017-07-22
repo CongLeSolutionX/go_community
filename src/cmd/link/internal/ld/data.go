@@ -849,7 +849,7 @@ func dynreloc(ctxt *Link, data *[SXREF][]*Symbol) {
 		return
 	}
 	if ctxt.Debugvlog != 0 {
-		ctxt.Logf("%5.2f reloc\n", Cputime())
+		ctxt.Logf("%5.2f dynreloc\n", Cputime())
 	}
 
 	for _, s := range ctxt.Textp {
