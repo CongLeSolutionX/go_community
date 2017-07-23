@@ -22,10 +22,12 @@ import (
 	"net/http/httptest"
 	"os"
 	"os/exec"
+	"os/signal"
 	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
+	"syscall"
 	"testing"
 	"time"
 )
@@ -734,6 +736,12 @@ func TestHelperProcess(*testing.T) {
 				os.Exit(1)
 			}
 		}
+	case "signal":
+		sigs := make(chan os.Signal, 1)
+		signal.Notify(sigs, syscall.SIGTERM)
+		fmt.Print(signalReady)
+		<-sigs
+		os.Exit(0)
 	case "stdinClose":
 		b, err := ioutil.ReadAll(os.Stdin)
 		if err != nil {
@@ -992,6 +1000,39 @@ func TestContext(t *testing.T) {
 	case err := <-waitErr:
 		if err == nil {
 			t.Fatal("expected Wait failure")
+		}
+	case <-time.After(3 * time.Second):
+		t.Fatal("timeout waiting for child process death")
+	}
+}
+
+const signalReady = "ready\n"
+
+func TestContextSignal(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	c := helperCommandContext(t, ctx, "signal")
+	c.ContextSignal = syscall.SIGTERM
+	stdout, err := c.StdoutPipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := c.Start(); err != nil {
+		t.Fatal(err)
+	}
+	waitErr := make(chan error, 1)
+	go func() {
+		waitErr <- c.Wait()
+	}()
+	buf := make([]byte, len(signalReady))
+	n, err := io.ReadFull(stdout, buf)
+	if n != len(buf) || err != nil || string(buf) != signalReady {
+		t.Fatalf("ReadFull = %d, %v, %q", n, err, buf[:n])
+	}
+	cancel()
+	select {
+	case err := <-waitErr:
+		if err != nil {
+			t.Fatalf("unexpected Wait failure: %v", err)
 		}
 	case <-time.After(3 * time.Second):
 		t.Fatal("timeout waiting for child process death")

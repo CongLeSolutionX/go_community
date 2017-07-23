@@ -113,6 +113,11 @@ type Cmd struct {
 	// available after a call to Wait or Run.
 	ProcessState *os.ProcessState
 
+	// ContextSignal specifies the signal to send to the command when its
+	// context becomes done before the command finished on its own. The process
+	// is kill by calling os.Process.Kill if ContextSignal is not specified
+	ContextSignal os.Signal
+
 	ctx             context.Context // nil means none
 	lookPathErr     error           // LookPath error, if any.
 	finished        bool            // when Wait was called
@@ -155,7 +160,8 @@ func Command(name string, arg ...string) *Cmd {
 // CommandContext is like Command but includes a context.
 //
 // The provided context is used to kill the process (by calling
-// os.Process.Kill) if the context becomes done before the command
+// os.Process.Kill or by calling os.Process.Signal(ContextSignal) if
+// ContextSignal is set) if the context becomes done before the command
 // completes on its own.
 func CommandContext(ctx context.Context, name string, arg ...string) *Cmd {
 	if ctx == nil {
@@ -386,7 +392,11 @@ func (c *Cmd) Start() error {
 		go func() {
 			select {
 			case <-c.ctx.Done():
-				c.Process.Kill()
+				if c.ContextSignal != nil {
+					c.Process.Signal(c.ContextSignal)
+				} else {
+					c.Process.Kill()
+				}
 			case <-c.waitDone:
 			}
 		}()
