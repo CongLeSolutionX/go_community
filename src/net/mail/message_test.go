@@ -137,6 +137,8 @@ func TestAddressParsingError(t *testing.T) {
 		5: {"\"\x00\" <null@example.net>", "bad character in quoted-string"},
 		6: {"\"\\\x00\" <escaped-null@example.net>", "bad character in quoted-string"},
 		7: {"John Doe", "no angle-addr"},
+		8: {`<jdoe#machine.example>`, "missing @ in addr-spec"},
+		9: {`John <middle> Doe <jdoe@machine.example>`, "missing @ in addr-spec"},
 	}
 
 	for i, tc := range mustErrTestCases {
@@ -173,6 +175,41 @@ func TestAddressParsing(t *testing.T) {
 			[]*Address{{
 				Name:    "Joe Q. Public",
 				Address: "john.q.public@example.com",
+			}},
+		},
+		{
+			`Joe Q. Public <john.q.public@example.com>`,
+			[]*Address{{
+				Name:    "Joe Q. Public",
+				Address: "john.q.public@example.com",
+			}},
+		},
+		{
+			`"John (middle) Doe" <jdoe@machine.example>`,
+			[]*Address{{
+				Name:    "John (middle) Doe",
+				Address: "jdoe@machine.example",
+			}},
+		},
+		{
+			`John (middle) Doe <jdoe@machine.example>`,
+			[]*Address{{
+				Name:    "John (middle) Doe",
+				Address: "jdoe@machine.example",
+			}},
+		},
+		{
+			`John !@M@! Doe <jdoe@machine.example>`,
+			[]*Address{{
+				Name:    "John !@M@! Doe",
+				Address: "jdoe@machine.example",
+			}},
+		},
+		{
+			`"John <middle> Doe" <jdoe@machine.example>`,
+			[]*Address{{
+				Name:    "John <middle> Doe",
+				Address: "jdoe@machine.example",
 			}},
 		},
 		{
