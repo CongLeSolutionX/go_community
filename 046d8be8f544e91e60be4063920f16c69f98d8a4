@@ -16,6 +16,24 @@
       "revId": "046d8be8f544e91e60be4063920f16c69f98d8a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a01371d0_64259522",
+        "filename": ".github/ISSUE_TEMPLATE",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-07-24T17:20:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c237e760_17d42bd5",
+      "revId": "046d8be8f544e91e60be4063920f16c69f98d8a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
