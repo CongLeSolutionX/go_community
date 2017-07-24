@@ -191,6 +191,7 @@ var templMain = template.Must(template.New("").Parse(`
 <a href="/block">Synchronization blocking profile</a><br>
 <a href="/syscall">Syscall blocking profile</a><br>
 <a href="/sched">Scheduler latency profile</a><br>
+<a href="/mmu">Minimum mutator utilization</a><br>
 </body>
 </html>
 `))
