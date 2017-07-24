@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "a4900f68_f9e93885",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1461,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-07-24T17:05:11Z",
+      "side": 1,
+      "message": "You\u0027re correct, this was a copy and paste error. Please send a CL for go1.10. I don\u0027t think any minor confusion this will cause is worth a change this late in the cycle.",
+      "parentUuid": "215a305c_911cbb2e",
+      "range": {
+        "startLine": 1461,
+        "startChar": 25,
+        "endLine": 1461,
+        "endChar": 41
+      },
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f7a98cc_5b28fdef",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 1
@@ -137,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "7e0f110c_7e17ae15",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-07-24T17:05:11Z",
+      "side": 1,
+      "message": "This is a typed error, clients should match on the type. Error text does change sometimes, though it is discouraged. I\u0027d just leave this until go1.10 if we decide to do it.",
+      "parentUuid": "41537ce3_eea7fcb9",
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8207e2d0_1537d97e",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 1
@@ -154,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "c8c86704_d6a7e72e",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1467,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-07-24T17:05:11Z",
+      "side": 1,
+      "message": "I don\u0027t think this change is needed. It is really a general comment for any Conn, not just the one returned.",
+      "parentUuid": "8207e2d0_1537d97e",
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa611f64_f07b8790",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 1
@@ -165,6 +225,24 @@
       "writtenOn": "2017-07-17T17:39:03Z",
       "side": 1,
       "message": "Word \"session\" wasn\u0027t used consistency in the package documentation. Now it is reduced to two instances, where no confusion is possible.",
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ec961c7_69f7dae9",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-07-24T17:05:11Z",
+      "side": 1,
+      "message": "Fair point. We can make this doc change for go1.10.",
+      "parentUuid": "aa611f64_f07b8790",
       "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -235,6 +313,24 @@
       "writtenOn": "2017-07-17T17:39:03Z",
       "side": 1,
       "message": "Otherwise, it\u0027s not clear if ctx used only for Stmt creation or also during Stmt execution (like in transaction).",
+      "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa91fbb6_d061fbbc",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1863,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-07-24T17:05:11Z",
+      "side": 1,
+      "message": "Leave for go1.10. The clarification itself is fine.",
+      "parentUuid": "a4aa0c0e_e9667ec0",
       "revId": "97f1086730cb868ac6c93e5d962038263895fa2a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
