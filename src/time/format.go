@@ -840,9 +840,15 @@ func parse(layout, value string, defaultLocation, local *Location) (Time, error)
 			p, value = value[0:4], value[4:]
 			year, err = atoi(p)
 		case stdMonth:
-			month, value, err = lookup(shortMonthNames, value)
+			month, value, err = lookup(shortMonthNames[1:], value)
+			if err == nil {
+				month += 1
+			}
 		case stdLongMonth:
-			month, value, err = lookup(longMonthNames, value)
+			month, value, err = lookup(longMonthNames[1:], value)
+			if err == nil {
+				month += 1
+			}
 		case stdNumMonth, stdZeroMonth:
 			month, value, err = getnum(value, std == stdZeroMonth)
 			if month <= 0 || 12 < month {
