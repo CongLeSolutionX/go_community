@@ -4,6 +4,18 @@
 
 // Minimum mutator utilization (MMU) graphing.
 
+// TODO:
+//
+// In worst window list, show break-down of GC utilization sources
+// (STW, assist, etc). Probably requires a different MutatorUtil
+// representation.
+//
+// Render plot progressively so rough outline is visible quickly even
+// for very complex MUTs.
+//
+// When a window size is selected, show a second plot of the mutator
+// utilization distribution for that window size.
+
 package main
 
 import (
