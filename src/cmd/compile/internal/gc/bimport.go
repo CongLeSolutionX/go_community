@@ -445,13 +445,14 @@ func (p *importer) newtyp(etype types.EType) *types.Type {
 }
 
 // importtype declares that pt, an imported named type, has underlying type t.
-func (p *importer) importtype(pt, t *types.Type) {
+func (p *importer) importtype(pt, t *types.Type) (used bool) {
 	if pt.Etype == TFORW {
 		copytype(asNode(pt.Nod), t)
 		pt.Sym.Importdef = p.imp
 		pt.Sym.Lastlineno = lineno
 		declare(asNode(pt.Nod), PEXTERN)
 		checkwidth(pt)
+		used = true
 	} else {
 		// pt.Orig and t must be identical.
 		if p.trackAllTypes {
@@ -466,6 +467,8 @@ func (p *importer) importtype(pt, t *types.Type) {
 	if Debug['E'] != 0 {
 		fmt.Printf("import type %v %L\n", pt, t)
 	}
+
+	return
 }
 
 func (p *importer) typ() *types.Type {
@@ -487,7 +490,7 @@ func (p *importer) typ() *types.Type {
 
 		// read underlying type
 		t0 := p.typ()
-		p.importtype(t, t0)
+		used := p.importtype(t, t0)
 
 		// interfaces don't have associated methods
 		if t0.IsInterface() {
@@ -514,10 +517,17 @@ func (p *importer) typ() *types.Type {
 			result := p.paramList()
 			nointerface := p.bool()
 
+			mt := functypefield(recv[0], params, result)
+			addmethod(sym, mt, false, nointerface)
+
+			if !used {
+				p.funcList = append(p.funcList, nil)
+				continue
+			}
+
 			n := newfuncname(methodname(sym, recv[0].Type))
-			n.Type = functypefield(recv[0], params, result)
+			n.Type = mt
 			checkwidth(n.Type)
-			addmethod(sym, n.Type, false, nointerface)
 			p.funcList = append(p.funcList, n)
 			importlist = append(importlist, n)
 
