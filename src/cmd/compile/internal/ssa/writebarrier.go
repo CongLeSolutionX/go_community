@@ -138,7 +138,8 @@ func writebarrier(f *Func) {
 
 				// set up control flow for write barrier test
 				// load word, test word, avoiding partial register write from load byte.
-				flag := b.NewValue2(line, OpLoad, f.Config.fe.TypeUInt32(), wbaddr, mem)
+				//flag := b.NewValue2(line, OpLoad, f.Config.fe.TypeUInt32(), wbaddr, mem)
+				flag := f.ConstInt32(line, f.Config.fe.TypeUInt32(), 1)
 				const0 := f.ConstInt32(line, f.Config.fe.TypeUInt32(), 0)
 				flag = b.NewValue2(line, OpNeq32, f.Config.fe.TypeBool(), flag, const0)
 				b.Kind = BlockIf
