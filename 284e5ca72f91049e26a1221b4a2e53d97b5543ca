@@ -46,6 +46,30 @@
       "revId": "284e5ca72f91049e26a1221b4a2e53d97b5543ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36579fdd_b0b7fb95",
+        "filename": "src/runtime/mem_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-07-26T10:50:09Z",
+      "side": 1,
+      "message": "\u003e Understanding \"cannot map pages in arena address space\" requires a\n \u003e great deal more knowledge of memory management and the internal\n \u003e implementation of Go to understand than \"out of memory\".\n\nFair enough.\n\n \u003e \u003e Maybe we should replace \"cannot map pages in arena address space\"\n \u003e with \"out of memory\"?\n \u003e \n \u003e I\u0027d be fine with that if that\u0027s a reasonable thing to do. \n\nI think it is a reasonable thing to do. As you have explained yourself, \"cannot map pages in arena address space\" might be confusing for an average programmer.\n\n\u003e I\n \u003e couldn\u0027t find a list of failure modes of VirtualAlloc anywhere,\n\nNormally errors are explained in the API description, but https://msdn.microsoft.com/en-us/library/windows/desktop/aa366887(v\u003dvs.85).aspx does not mention errors except ERROR_INVALID_ADDRESS. Alternatively you could call Windows FormatMessage to convert error number into an error message string https://github.com/golang/go/blob/master/src/syscall/syscall_windows.go#L90 But I am hesitant to complicate this code, especially since process memory might be low at that time.",
+      "parentUuid": "f7106151_3ddbd4f2",
+      "range": {
+        "startLine": 122,
+        "startChar": 10,
+        "endLine": 122,
+        "endChar": 23
+      },
+      "revId": "284e5ca72f91049e26a1221b4a2e53d97b5543ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
