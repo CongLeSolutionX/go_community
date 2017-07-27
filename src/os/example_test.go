@@ -11,6 +11,27 @@ import (
 	"time"
 )
 
+func ExampleReadlink() {
+	// Create a test file
+	_, err := os.Create("/tmp/test.file")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer os.Remove("/tmp/test.file")
+
+	// Create a symlinc to the test file
+	if err := os.Symlink("/tmp/test.file", "/tmp/symlink_to.file"); err != nil {
+		log.Fatal(err)
+	}
+	defer os.Remove("/tmp/symlink_to.file")
+
+	dest, err := os.Readlink("/tmp/symlink_to.file")
+	fmt.Printf("the link destination is %s.\n", dest)
+
+	// Output:
+	// the link destination is /tmp/test.file.
+}
+
 func ExampleOpenFile() {
 	f, err := os.OpenFile("notes.txt", os.O_RDWR|os.O_CREATE, 0755)
 	if err != nil {
