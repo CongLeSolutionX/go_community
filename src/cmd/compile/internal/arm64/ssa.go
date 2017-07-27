@@ -324,6 +324,14 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = v.Args[0].Reg()
 		gc.AddAux(&p.To, v)
+	case ssa.OpARM64MOVQstore:
+		p := s.Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_REGREG
+		p.From.Reg = v.Args[1].Reg()
+		p.From.Offset = int64(v.Args[2].Reg())
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = v.Args[0].Reg()
+		gc.AddAux(&p.To, v)
 	case ssa.OpARM64MOVBstorezero,
 		ssa.OpARM64MOVHstorezero,
 		ssa.OpARM64MOVWstorezero,
@@ -331,6 +339,14 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = arm64.REGZERO
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = v.Args[0].Reg()
+		gc.AddAux(&p.To, v)
+	case ssa.OpARM64MOVQstorezero:
+		p := s.Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_REGREG
+		p.From.Reg = arm64.REGZERO
+		p.From.Offset = int64(arm64.REGZERO)
 		p.To.Type = obj.TYPE_MEM
 		p.To.Reg = v.Args[0].Reg()
 		gc.AddAux(&p.To, v)
@@ -559,14 +575,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = v.Reg()
 	case ssa.OpARM64DUFFZERO:
-		// runtime.duffzero expects start address - 8 in R16
-		p := s.Prog(arm64.ASUB)
-		p.From.Type = obj.TYPE_CONST
-		p.From.Offset = 8
-		p.Reg = v.Args[0].Reg()
-		p.To.Type = obj.TYPE_REG
-		p.To.Reg = arm64.REG_R16
-		p = s.Prog(obj.ADUFFZERO)
+		// runtime.duffzero expects start address in R16
+		p := s.Prog(obj.ADUFFZERO)
 		p.To.Type = obj.TYPE_MEM
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = gc.Duffzero
