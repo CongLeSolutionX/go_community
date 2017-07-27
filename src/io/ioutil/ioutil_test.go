@@ -5,8 +5,12 @@
 package ioutil
 
 import (
+	"bytes"
+	"fmt"
+	"io"
 	"os"
 	"testing"
+	"time"
 )
 
 func checkSize(t *testing.T, path string, size int64) {
@@ -91,5 +95,44 @@ func TestReadDir(t *testing.T) {
 	}
 	if !foundSubDir {
 		t.Fatalf("ReadDir %s: ioutil directory not found", dirname)
+	}
+}
+
+type delayReader struct {
+	br    *bytes.Reader
+	delay time.Duration
+}
+
+func newDelayReader(size int64, delay time.Duration) delayReader {
+	return delayReader{
+		br:    bytes.NewReader(make([]byte, size)),
+		delay: delay,
+	}
+}
+
+func (r delayReader) Read(p []byte) (int, error) {
+	time.Sleep(r.delay)
+	return r.br.Read(p)
+}
+
+func BenchmarkDiscard(b *testing.B) {
+	for _, tc := range []struct {
+		readDelay time.Duration
+	}{
+		{readDelay: 0},
+		{readDelay: time.Microsecond},
+		{readDelay: time.Millisecond},
+		{readDelay: 5 * time.Millisecond},
+	} {
+		b.Run(fmt.Sprintf("delay=%s", tc.readDelay), func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				n, err := io.Copy(Discard, newDelayReader(10<<20, tc.readDelay))
+				if err != nil {
+					b.Fatalf("Failed to copy random data to discard: %v", err)
+				}
+				b.SetBytes(n)
+			}
+		})
+
 	}
 }

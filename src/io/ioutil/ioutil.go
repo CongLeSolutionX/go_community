@@ -10,7 +10,6 @@ import (
 	"io"
 	"os"
 	"sort"
-	"sync"
 )
 
 // readAll reads from r until an error or EOF and returns the data it read
@@ -118,39 +117,12 @@ func NopCloser(r io.Reader) io.ReadCloser {
 
 type devNull int
 
-// devNull implements ReaderFrom as an optimization so io.Copy to
-// ioutil.Discard can avoid doing unnecessary work.
-var _ io.ReaderFrom = devNull(0)
-
 func (devNull) Write(p []byte) (int, error) {
 	return len(p), nil
 }
 
 func (devNull) WriteString(s string) (int, error) {
 	return len(s), nil
-}
-
-var blackHolePool = sync.Pool{
-	New: func() interface{} {
-		b := make([]byte, 8192)
-		return &b
-	},
-}
-
-func (devNull) ReadFrom(r io.Reader) (n int64, err error) {
-	bufp := blackHolePool.Get().(*[]byte)
-	readSize := 0
-	for {
-		readSize, err = r.Read(*bufp)
-		n += int64(readSize)
-		if err != nil {
-			blackHolePool.Put(bufp)
-			if err == io.EOF {
-				return n, nil
-			}
-			return
-		}
-	}
 }
 
 // Discard is an io.Writer on which all Write calls succeed
