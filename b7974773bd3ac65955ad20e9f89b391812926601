@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2625874_0202d4d5",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-07-27T15:06:41Z",
+      "side": 1,
+      "message": "Update the comment to say what the result means.\n\nI found \"used\" a little confusing (if I understand correctly, this is saying that this import \"used t\"). I think negating the sense to something like \"dup\" may be clearer, but I\u0027m not very familiar with this code. Then the code that uses the result below would be \"if dup { discard each method }\", which may read more clearly.",
+      "revId": "b7974773bd3ac65955ad20e9f89b391812926601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "548226f4_a7b442fd",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-07-27T15:06:41Z",
+      "side": 1,
+      "message": "Perhaps \"// An earlier import already declared this type and its methods. Discard these methods.\"",
+      "revId": "b7974773bd3ac65955ad20e9f89b391812926601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
