@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c2bb189_71c75eb3",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 18675
+      },
+      "writtenOn": "2017-07-27T17:25:26Z",
+      "side": 1,
+      "message": "Maybe something like:\n\nProfiles produced by the runtime/pprof package now include symbol information, so they can be viewed in go tool pprof without having to specify the binary which should be your default choice. You still need to specify the binary if your program runs any interesting non-Go code, such as linked C or C++ code. Caveat: specifying the binary will attempt to re-symbolize all of the profile (including locations in Go code) which currently has known issues on Darwin, see https://github.com/golang/go/issues/21022. If you have a binary with substantial amount of profiling information in non-Go code, we recommend you profile the program on a Linux machine.",
+      "revId": "e3ac661eedc4641d9ff9968c9e931b16bf34e00a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
