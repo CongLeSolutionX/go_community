@@ -503,6 +503,9 @@ func (h *mheap) init(spansStart, spansBytes uintptr) {
 	sp.array = unsafe.Pointer(spansStart)
 	sp.len = 0
 	sp.cap = int(spansBytes / sys.PtrSize)
+
+	// Map metadata structures.
+	h.setArenaUsed(h.arena_used, true)
 }
 
 // setArenaUsed extends the usable arena to address arena_used and
