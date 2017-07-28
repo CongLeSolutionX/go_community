@@ -223,9 +223,15 @@ func httpJsonTrace(w http.ResponseWriter, r *http.Request) {
 }
 
 type Range struct {
-	Name  string
-	Start int
-	End   int
+	Name      string
+	Start     int
+	End       int
+	StartTime int64
+	EndTime   int64
+}
+
+func (r Range) URL() string {
+	return fmt.Sprintf("/trace?start=%d&end=%d", r.Start, r.End)
 }
 
 // splitTrace splits the trace into a number of ranges,
@@ -247,9 +253,11 @@ func splitTrace(data ViewerData) []Range {
 		enc.Encode(data.Events[i])
 		if cw.size+auxSize > rangeSize || i == data.footer-1 {
 			ranges = append(ranges, Range{
-				Name:  fmt.Sprintf("%v-%v", time.Duration(data.Events[start].Time*1000), time.Duration(data.Events[i].Time*1000)),
-				Start: start,
-				End:   i + 1,
+				Name:      fmt.Sprintf("%v-%v", time.Duration(data.Events[start].Time*1000), time.Duration(data.Events[i].Time*1000)),
+				Start:     start,
+				End:       i + 1,
+				StartTime: int64(data.Events[start].Time) * 1000,
+				EndTime:   int64(data.Events[i].Time) * 1000,
 			})
 			start = i + 1
 			cw.size = 0
