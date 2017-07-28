@@ -271,9 +271,15 @@ func httpJsonTrace(w http.ResponseWriter, r *http.Request) {
 }
 
 type Range struct {
-	Name  string
-	Start int
-	End   int
+	Name      string
+	Start     int
+	End       int
+	StartTime int64
+	EndTime   int64
+}
+
+func (r Range) URL() string {
+	return fmt.Sprintf("/trace?start=%d&end=%d", r.Start, r.End)
 }
 
 // splitTrace splits the trace into a number of ranges,
@@ -345,9 +351,11 @@ func splittingTraceConsumer(max int) (*splitter, traceConsumer) {
 			for i, ev := range sizes {
 				if sum+ev.Sz > max {
 					ranges = append(ranges, Range{
-						Name:  fmt.Sprintf("%v-%v", time.Duration(sizes[start].Time*1000), time.Duration(ev.Time*1000)),
-						Start: start,
-						End:   i + 1,
+						Name:      fmt.Sprintf("%v-%v", time.Duration(sizes[start].Time*1000), time.Duration(ev.Time*1000)),
+						Start:     start,
+						End:       i + 1,
+						StartTime: int64(sizes[start].Time * 1000),
+						EndTime:   int64(ev.Time * 1000),
 					})
 					start = i + 1
 					sum = minSize
@@ -362,9 +370,11 @@ func splittingTraceConsumer(max int) (*splitter, traceConsumer) {
 
 			if end := len(sizes) - 1; start < end {
 				ranges = append(ranges, Range{
-					Name:  fmt.Sprintf("%v-%v", time.Duration(sizes[start].Time*1000), time.Duration(sizes[end].Time*1000)),
-					Start: start,
-					End:   end,
+					Name:      fmt.Sprintf("%v-%v", time.Duration(sizes[start].Time*1000), time.Duration(sizes[end].Time*1000)),
+					Start:     start,
+					End:       end,
+					StartTime: int64(sizes[start].Time * 1000),
+					EndTime:   int64(sizes[end].Time * 1000),
 				})
 			}
 			s.Ranges = ranges
