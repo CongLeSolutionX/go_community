@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f07bd2fb_04ec0d23",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2017-07-29T10:01:31Z",
+      "side": 1,
+      "message": "leftover debug printf?",
+      "revId": "d7678b49724864c48a530748536b842027495f50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
