@@ -4314,3 +4314,20 @@ func TestTestRegexps(t *testing.T) {
 		t.Errorf("reduced output:<<<\n%s>>> want:<<<\n%s>>>", have, want)
 	}
 }
+
+func TestListTests(t *testing.T) {
+	var tg *testgoData
+	testWith := func(listName, expected, msg string) func(*testing.T) {
+		return func(t *testing.T) {
+			tg = testgo(t)
+			defer tg.cleanup()
+			listOption := fmt.Sprintf("-list=%s", listName)
+			tg.run("test", "./testdata/src/testlist/...", listOption)
+			tg.grepStdout(expected, msg)
+		}
+	}
+
+	t.Run("Test", testWith("Test", "TestSimple", "tests should match"))
+	t.Run("Bench", testWith("Benchmark", "BenchmarkSimple", "benchmarks should match"))
+	t.Run("Example", testWith("Example", "ExampleSimple\nExampleWithEmptyOutput", "examples should match"))
+}

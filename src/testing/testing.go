@@ -953,7 +953,7 @@ func (t *T) report() {
 	}
 }
 
-func listTests(matchString func(pat, str string) (bool, error), tests []InternalTest, benchmarks []InternalBenchmark, examples []InternalExample) {
+func listTests(matchString func(pat, str string) (bool, error), tests []InternalTest, benchmarks []InternalBenchmark, examples []InternalExample) error {
 	if _, err := matchString(*matchList, "non-empty"); err != nil {
 		fmt.Fprintf(os.Stderr, "testing: invalid regexp in -test.list (%q): %s\n", *matchList, err)
 		os.Exit(1)
@@ -970,10 +970,11 @@ func listTests(matchString func(pat, str string) (bool, error), tests []Internal
 		}
 	}
 	for _, example := range examples {
-		if ok, _ := matchString(*matchList, example.Name); ok && example.Output != "" {
+		if ok, _ := matchString(*matchList, example.Name); ok {
 			fmt.Println(example.Name)
 		}
 	}
+	return testNames, nil
 }
 
 // An internal function but exported because it is cross-package; part of the implementation
