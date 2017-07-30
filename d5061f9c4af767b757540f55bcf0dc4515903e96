@@ -56,6 +56,30 @@
       "revId": "d5061f9c4af767b757540f55bcf0dc4515903e96",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57150cea_d45a6343",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-07-30T19:59:17Z",
+      "side": 1,
+      "message": "I also wanted to ask whether you\u0027ve checked this is sufficient to resolve the issue?\n\nAlso, after this change, are the non-executable examples (i.e., ones without an \"Output:\" comment) still omitted from the output (as they should be)?\n\nOf course, if a test can be added for all that, it\u0027d be useful because then we can see the fix works and feel safe knowing it won\u0027t regress.",
+      "parentUuid": "98c2e1d2_79669eb5",
+      "range": {
+        "startLine": 973,
+        "startChar": 2,
+        "endLine": 973,
+        "endChar": 57
+      },
+      "revId": "d5061f9c4af767b757540f55bcf0dc4515903e96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
