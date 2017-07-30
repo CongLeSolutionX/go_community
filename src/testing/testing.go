@@ -910,7 +910,15 @@ func (m *M) Run() int {
 	}
 
 	if len(*matchList) != 0 {
-		listTests(m.deps.MatchString, m.tests, m.benchmarks, m.examples)
+		testNames, err := listTests(m.deps.MatchString, m.tests, m.benchmarks, m.examples)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "testing: invalid regexp in -test.list (%q): %s\n", *matchList, err)
+			os.Exit(1)
+		}
+
+		for i := range testNames {
+			fmt.Println(testNames[i])
+		}
 		return 0
 	}
 
@@ -953,27 +961,29 @@ func (t *T) report() {
 	}
 }
 
-func listTests(matchString func(pat, str string) (bool, error), tests []InternalTest, benchmarks []InternalBenchmark, examples []InternalExample) {
+func listTests(matchString func(pat, str string) (bool, error), tests []InternalTest, benchmarks []InternalBenchmark, examples []InternalExample) ([]string, error) {
+	var testNames []string
 	if _, err := matchString(*matchList, "non-empty"); err != nil {
-		fmt.Fprintf(os.Stderr, "testing: invalid regexp in -test.list (%q): %s\n", *matchList, err)
-		os.Exit(1)
+		return testNames, err
 	}
 
 	for _, test := range tests {
 		if ok, _ := matchString(*matchList, test.Name); ok {
-			fmt.Println(test.Name)
+			testNames = append(testNames, test.Name)
 		}
 	}
 	for _, bench := range benchmarks {
 		if ok, _ := matchString(*matchList, bench.Name); ok {
+			testNames = append(testNames, bench.Name)
 			fmt.Println(bench.Name)
 		}
 	}
 	for _, example := range examples {
-		if ok, _ := matchString(*matchList, example.Name); ok && example.Output != "" {
-			fmt.Println(example.Name)
+		if ok, _ := matchString(*matchList, example.Name); ok {
+			testNames = append(testNames, example.Name)
 		}
 	}
+	return testNames, nil
 }
 
 // An internal function but exported because it is cross-package; part of the implementation
