@@ -179,7 +179,16 @@ func roundShortest(d *decimal, x *Float) {
 	// x (i.e., for mant we want x.prec + 1 bits).
 	mant := nat(nil).set(x.mant)
 	exp := int(x.exp) - mant.bitLen()
-	s := mant.bitLen() - int(x.prec+1)
+
+	// Working precision. What we want is (x.prec + 1), but the sum
+	// will overflow when x.prec is big.MaxPrec (aka math.MaxUint32).
+	// In this case we give up and settle for x.prec (see issue 20867).
+	wp := x.prec + 1
+	if wp == 0 {
+		wp = x.prec
+	}
+
+	s := mant.bitLen() - int(wp)
 	switch {
 	case s < 0:
 		mant = mant.shl(mant, uint(-s))
