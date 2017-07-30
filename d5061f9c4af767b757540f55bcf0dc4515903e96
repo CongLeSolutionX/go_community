@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d18a968_e46e74d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-30T15:52:23Z",
+      "side": 1,
+      "message": "lowercase \"fix\"",
+      "revId": "d5061f9c4af767b757540f55bcf0dc4515903e96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0182d748_36887034",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-30T15:52:23Z",
+      "side": 1,
+      "message": "change\n\nBut you can delete this line and the next two. The bug has the info.",
+      "revId": "d5061f9c4af767b757540f55bcf0dc4515903e96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98c2e1d2_79669eb5",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-07-30T15:52:23Z",
+      "side": 1,
+      "message": "can you add a test too?",
+      "range": {
+        "startLine": 973,
+        "startChar": 2,
+        "endLine": 973,
+        "endChar": 57
+      },
+      "revId": "d5061f9c4af767b757540f55bcf0dc4515903e96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
