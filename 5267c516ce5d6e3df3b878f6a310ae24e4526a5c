@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "40b43400_1771b7ff",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1172,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-07-31T15:48:22Z",
+      "side": 1,
+      "message": "Done (all)",
+      "parentUuid": "c08429b7_4ad1b860",
+      "range": {
+        "startLine": 1172,
+        "startChar": 37,
+        "endLine": 1172,
+        "endChar": 43
+      },
+      "revId": "5267c516ce5d6e3df3b878f6a310ae24e4526a5c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7140e441_38dc986c",
         "filename": "src/cmd/internal/obj/arm/asm5.go",
         "patchSetId": 2
