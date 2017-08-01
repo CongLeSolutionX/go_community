@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "9de82c9b_78b41402",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 15570
+      },
+      "writtenOn": "2017-08-01T00:42:34Z",
+      "side": 1,
+      "message": "Sounds good! I\u0027ll be careful not to name ambiguously like this from now on.",
+      "parentUuid": "cb52b5f0_2f902c5b",
+      "range": {
+        "startLine": 965,
+        "startChar": 5,
+        "endLine": 965,
+        "endChar": 12
+      },
+      "revId": "cb2c41ace07363635b7471f3893514d6d4f7dc68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d298be9_9482ab71",
         "filename": "src/testing/testing_test.go",
         "patchSetId": 1
@@ -53,6 +77,24 @@
       "writtenOn": "2017-07-31T20:13:16Z",
       "side": 1,
       "message": "I think match_test.go would be a better test file to place this new test in. You wouldn\u0027t have to make all of the above changes.",
+      "revId": "cb2c41ace07363635b7471f3893514d6d4f7dc68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b5d3966_03255e5d",
+        "filename": "src/testing/testing_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 15570
+      },
+      "writtenOn": "2017-08-01T00:42:34Z",
+      "side": 1,
+      "message": "OK, I\u0027ll ship the code below to `match_test.go`.",
+      "parentUuid": "0d298be9_9482ab71",
       "revId": "cb2c41ace07363635b7471f3893514d6d4f7dc68",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
