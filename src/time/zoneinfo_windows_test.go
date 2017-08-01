@@ -14,7 +14,7 @@ func testZoneAbbr(t *testing.T) {
 	t1 := Now()
 	// discard nsec
 	t1 = Date(t1.Year(), t1.Month(), t1.Day(), t1.Hour(), t1.Minute(), t1.Second(), 0, t1.Location())
-	t2, err := Parse(RFC1123, t1.Format(RFC1123))
+	t2, err := Parse(RFC1123Z, t1.Format(RFC1123Z))
 	if err != nil {
 		t.Fatalf("Parse failed: %v", err)
 	}
