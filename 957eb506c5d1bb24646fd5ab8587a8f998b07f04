@@ -134,6 +134,24 @@
     },
     {
       "key": {
+        "uuid": "a36073a2_235cb268",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-08-01T16:48:27Z",
+      "side": 1,
+      "message": "Ian, in case you didn\u0027t see, this CL is an (unintended) replacement for CL 52030. That one was a minimal fix (1 line change), but the code review feedback was \"can you add a test too?\"\n\nThe previous version of listTests isn\u0027t very testable: it prints to os.Stdout using fmt.Println and does os.Exit(1) on error in matchString.\n\nIt\u0027s still possible to test it by temporarily overriding os.Stdout (that fmt.Println prints to) with a temp file, then comparing its contents with the expected list, and restoring os.Stdout to its original value, but it\u0027s hard to recommend that approach.\n\nOne other idea I have to make the change smaller (at the expense of a harder to write test) is to change signature to take an io.Writer to write to. Then the test can write into a *bytes.Buffer, while the real code can pass os.Stdout. But, that also seems worse to me than the current change to make listTests return results to its caller for further processing.\n\nAt least that\u0027s my understanding, perhaps Seiji has other comments on your question.",
+      "parentUuid": "d0ce2b4d_38ef506f",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8e25155_fd2a68a0",
         "filename": "src/testing/testing.go",
         "patchSetId": 4
@@ -145,6 +163,47 @@
       "writtenOn": "2017-08-01T13:57:10Z",
       "side": 1,
       "message": "return nil, err",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65b4b8b1_034c5c57",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-08-01T16:48:27Z",
+      "side": 1,
+      "message": "Instead of returning err without context here, you should add context here, where it makes sense:\n\n    return nil, fmt.Errorf(\"invalid regexp in -test.list (%q): %s\", *matchList, err)\n\nThen the code in func (m *M) Run() int can be modified to do this:\n\n\ttestNames, err :\u003d listTests(m.deps.MatchString, m.tests, m.benchmarks, m.examples)\n\tif err !\u003d nil {\n\t\tfmt.Fprintf(os.Stderr, \"testing: %v\\n\", err)\n\t\tos.Exit(1)\n\t}\n\nOtherwise, printing the error details (the fact it\u0027s a problem with -test.list regexp) is separated far away from where the actual error occurs, so it\u0027s both hard to read, and easy for it to get out of sync later if other errors are returned from listTests.",
+      "parentUuid": "d8e25155_fd2a68a0",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbc9844f_f33d93e0",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-08-01T16:48:27Z",
+      "side": 1,
+      "message": "You forgot to delete this fmt.Println line here.",
+      "range": {
+        "startLine": 978,
+        "startChar": 3,
+        "endLine": 978,
+        "endChar": 26
+      },
       "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
