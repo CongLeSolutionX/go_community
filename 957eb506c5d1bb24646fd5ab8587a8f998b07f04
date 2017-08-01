@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbcdf6b0_9bc1cf29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-01T13:57:10Z",
+      "side": 1,
+      "message": "cmd/go: show examples with empty output in go test -list\n\nFixes #21205",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a5219c0_5f1d52bc",
+        "filename": "src/testing/match_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-01T13:57:10Z",
+      "side": 1,
+      "message": "Why don\u0027t you also a test with no // Output line.",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f984e393_6e1a0b36",
+        "filename": "src/testing/match_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-01T13:57:10Z",
+      "side": 1,
+      "message": "You should restore this flag when the test is over.  Before the loop write something like\n    defer flag.Set(\"test.list\", flag.Lookup(\"test.list\").String())",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11725307_aaff84b7",
+        "filename": "src/testing/match_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-01T13:57:10Z",
+      "side": 1,
+      "message": "\"-test.list\u003d%s returned %q, expected %s\", tc.listFlag, results, tc.output",
+      "range": {
+        "startLine": 261,
+        "startChar": 13,
+        "endLine": 261,
+        "endChar": 42
+      },
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bc390ab_fcfc1bd1",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-01T13:57:10Z",
+      "side": 1,
+      "message": "for _, n :\u003d range testNames {\n    fmt.Println(n)\n}",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0ce2b4d_38ef506f",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-01T13:57:10Z",
+      "side": 1,
+      "message": "Is there a reason that you are changing this function so much?  It would be nice to get this into 1.9, but for that the change should be minimal.",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8e25155_fd2a68a0",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-01T13:57:10Z",
+      "side": 1,
+      "message": "return nil, err",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
