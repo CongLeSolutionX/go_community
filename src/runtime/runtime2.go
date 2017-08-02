@@ -272,11 +272,19 @@ type sudog struct {
 	// channel this sudog is blocking on. shrinkstack depends on
 	// this for sudogs involved in channel ops.
 
-	g          *g
-	selectdone *uint32 // CAS to 1 to win select race (may point to stack)
-	next       *sudog
-	prev       *sudog
-	elem       unsafe.Pointer // data element (may point to stack)
+	g *g
+
+	// Each g has a select epoch, which counts up
+	// how many selects they've been through in this
+	// execution of the program.
+	//
+	// When we enqueue, we add the current g's epoch
+	// so that when we pop a sudog, we know whether
+	// to signal for this select or ignore it
+	selectEpoch uint64
+	next        *sudog
+	prev        *sudog
+	elem        unsafe.Pointer // data element (may point to stack)
 
 	// The following fields are never accessed concurrently.
 	// For channels, waitlink is only accessed by g.
@@ -329,14 +337,21 @@ type g struct {
 	stackguard0 uintptr // offset known to liblink
 	stackguard1 uintptr // offset known to liblink
 
-	_panic         *_panic // innermost panic - offset known to liblink
-	_defer         *_defer // innermost defer
-	m              *m      // current m; offset known to arm liblink
-	sched          gobuf
-	syscallsp      uintptr        // if status==Gsyscall, syscallsp = sched.sp to use during gc
-	syscallpc      uintptr        // if status==Gsyscall, syscallpc = sched.pc to use during gc
-	stktopsp       uintptr        // expected sp at top of stack, to check in traceback
-	param          unsafe.Pointer // passed parameter on wakeup
+	_panic    *_panic // innermost panic - offset known to liblink
+	_defer    *_defer // innermost defer
+	m         *m      // current m; offset known to arm liblink
+	sched     gobuf
+	syscallsp uintptr        // if status==Gsyscall, syscallsp = sched.sp to use during gc
+	syscallpc uintptr        // if status==Gsyscall, syscallpc = sched.pc to use during gc
+	stktopsp  uintptr        // expected sp at top of stack, to check in traceback
+	param     unsafe.Pointer // passed parameter on wakeup
+
+	// number of selects executed. Needed for sudog
+	// dedupe. Needs to be here since 386 requires
+	// 8 byte aligned uint64 for atomics while
+	// compiler aligns uint64 on 4 byte boundaries
+	selectEpoch uint64
+
 	atomicstatus   uint32
 	stackLock      uint32 // sigprof/scang lock; TODO: fold in to atomicstatus
 	goid           int64
