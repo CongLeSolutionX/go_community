@@ -170,6 +170,24 @@
     },
     {
       "key": {
+        "uuid": "98515e00_deac47e9",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 15570
+      },
+      "writtenOn": "2017-08-02T01:19:20Z",
+      "side": 1,
+      "message": "There\u0027s no difference to my intention.\nHowever, I didn\u0027t know about cmd/go/go_test.go, so I\u0027ll try to add the tests there.\nThe idea seems efficient for refactoring.",
+      "parentUuid": "2c9a447c_21689a0e",
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8e25155_fd2a68a0",
         "filename": "src/testing/testing.go",
         "patchSetId": 4
@@ -216,6 +234,30 @@
       "writtenOn": "2017-08-01T16:48:27Z",
       "side": 1,
       "message": "You forgot to delete this fmt.Println line here.",
+      "range": {
+        "startLine": 978,
+        "startChar": 3,
+        "endLine": 978,
+        "endChar": 26
+      },
+      "revId": "957eb506c5d1bb24646fd5ab8587a8f998b07f04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea498df4_484dc9e0",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 15570
+      },
+      "writtenOn": "2017-08-02T01:19:20Z",
+      "side": 1,
+      "message": "omg, so sorry.",
+      "parentUuid": "bbc9844f_f33d93e0",
       "range": {
         "startLine": 978,
         "startChar": 3,
