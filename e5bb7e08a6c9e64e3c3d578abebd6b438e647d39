@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e8b67d5_2d46eabc",
+        "filename": "src/encoding/base32/base32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-08-02T17:03:24Z",
+      "side": 1,
+      "message": "did you see the \u003e\u003d 8 comment earlier?",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 134,
+        "endChar": 15
+      },
+      "revId": "e5bb7e08a6c9e64e3c3d578abebd6b438e647d39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "815eb7f4_04c0faaf",
         "filename": "src/encoding/base32/base32.go",
         "patchSetId": 1
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "I think the preference in other parts of std lib instead of rearanging memory access patterns was to use e.g. _ \u003d b[7] at the start to elid some of the bounce checks.\n\nAlso (have not checked) the compiler might already be able to infer dst[7] is safe from the enclosing len(dst) \u003e 8 if block. If not that sounds like a good case to cover in the analysis if applicable.",
       "parentUuid": "815eb7f4_04c0faaf",
+      "range": {
+        "startLine": 135,
+        "startChar": 3,
+        "endLine": 143,
+        "endChar": 28
+      },
+      "revId": "e5bb7e08a6c9e64e3c3d578abebd6b438e647d39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c7579b0_aa2fba0e",
+        "filename": "src/encoding/base32/base32.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-08-02T17:03:24Z",
+      "side": 1,
+      "message": "I\u0027m not proposing reordering these lines. Only adding a _ \u003d dst[7] first.",
+      "parentUuid": "debbfbba_c59c78f3",
       "range": {
         "startLine": 135,
         "startChar": 3,
