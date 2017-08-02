@@ -214,7 +214,7 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 	mysg.elem = ep
 	mysg.waitlink = nil
 	mysg.g = gp
-	mysg.selectdone = nil
+	mysg.selectEpoch = 0
 	mysg.c = c
 	gp.waiting = mysg
 	gp.param = nil
@@ -499,7 +499,7 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 	mysg.waitlink = nil
 	gp.waiting = mysg
 	mysg.g = gp
-	mysg.selectdone = nil
+	mysg.selectEpoch = 0
 	mysg.c = c
 	gp.param = nil
 	c.recvq.enqueue(mysg)
@@ -704,9 +704,15 @@ func (q *waitq) dequeue() *sudog {
 		}
 
 		// if sgp participates in a select and is already signaled, ignore it
-		if sgp.selectdone != nil {
+		epoch := sgp.selectEpoch
+		if epoch != 0 {
 			// claim the right to signal
-			if *sgp.selectdone != 0 || !atomic.Cas(sgp.selectdone, 0, 1) {
+			nextEpoch := epoch + 1
+			// avoid confusion on integer wraparound
+			if nextEpoch == 0 {
+				nextEpoch = 1
+			}
+			if !atomic.Cas64(&sgp.g.selectEpoch, epoch, nextEpoch) {
 				continue
 			}
 		}
