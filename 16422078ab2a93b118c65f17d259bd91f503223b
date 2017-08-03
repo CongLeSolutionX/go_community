@@ -16,6 +16,24 @@
       "revId": "16422078ab2a93b118c65f17d259bd91f503223b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "654dfb7f_9dc17742",
+        "filename": "src/internal/poll/fd_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 16958
+      },
+      "writtenOn": "2017-08-03T12:47:58Z",
+      "side": 1,
+      "message": "That makes sense, thanks for digging into this! \n\nI\u0027m traveling so a proper test will have to wait till next week.",
+      "parentUuid": "9351c5e4_65e99573",
+      "revId": "16422078ab2a93b118c65f17d259bd91f503223b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
