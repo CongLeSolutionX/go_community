@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f47c0434_e9b3821f",
+        "filename": "src/internal/poll/export_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-08-03T03:34:23Z",
+      "side": 1,
+      "message": "!\u003d 0 is fine. (and better here)",
+      "range": {
+        "startLine": 12,
+        "startChar": 1,
+        "endLine": 13,
+        "endChar": 41
+      },
+      "revId": "9609cec505704572606f5525ea74cbfdd7e3bc32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "300c8cef_207adfb5",
+        "filename": "src/internal/poll/fd_windows_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-08-03T03:34:23Z",
+      "side": 1,
+      "message": "unowned net type %q\", net",
+      "range": {
+        "startLine": 17,
+        "startChar": 37,
+        "endLine": 17,
+        "endChar": 54
+      },
+      "revId": "9609cec505704572606f5525ea74cbfdd7e3bc32",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
