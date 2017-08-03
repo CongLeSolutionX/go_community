@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0338aa07_9e9ffd16",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-03T18:18:34Z",
+      "side": 1,
+      "message": "Sorry, but now there is trailing whitespace on this line and two lines down.",
+      "revId": "dc504e0a2e33dba652cdd8f270f45b648bfe2c82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
