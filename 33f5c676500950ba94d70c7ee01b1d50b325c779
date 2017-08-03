@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d522317c_30bee6ba",
+        "filename": "doc/go1.9.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-08-03T15:41:56Z",
+      "side": 1,
+      "message": "In the rest of the document notes about the previous behaviour are usually in the form of a top level sentence, not inside brackets, e.g.\n\n[..] is ignored. In previous releases, the code tested only whether DNS-name SANs were present in a certificate.",
+      "range": {
+        "startLine": 480,
+        "startChar": 15,
+        "endLine": 480,
+        "endChar": 101
+      },
+      "revId": "33f5c676500950ba94d70c7ee01b1d50b325c779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
