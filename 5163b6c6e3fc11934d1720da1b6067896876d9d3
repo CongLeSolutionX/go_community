@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14880a2b_74bcd8df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-08-04T16:47:47Z",
+      "side": 1,
+      "message": "the magic phrase you\u0027re looking for is DO NOT SUBMIT (it has meaning and prevents submission)\n\nbut Gerrit remembers the original subject from patchset version 1 for all future emails, so you already kinda screwed up in that this thread will have NOT FOR SUBMISSION for all future reviews. that\u0027s okay but gross. you might want to abandon and recreate.",
+      "revId": "5163b6c6e3fc11934d1720da1b6067896876d9d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
