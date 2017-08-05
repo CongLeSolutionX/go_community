@@ -283,6 +283,7 @@ func (f *File) wrapErr(op string, err error) error {
 // TempDir returns the default directory to use for temporary files.
 //
 // On Unix systems, it returns $TMPDIR if non-empty, else /tmp.
+// If $TMPDIR ends with a slash, it will trim it.
 // On Windows, it uses GetTempPath, returning the first non-empty
 // value from %TMP%, %TEMP%, %USERPROFILE%, or the Windows directory.
 // On Plan 9, it returns /tmp.
