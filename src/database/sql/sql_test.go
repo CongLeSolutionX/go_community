@@ -1658,7 +1658,7 @@ func TestIssue4902(t *testing.T) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)
 
-	driver := db.driver.(*fakeDriver)
+	driver := db.Driver().(*fakeDriver)
 	opens0 := driver.openCount
 
 	var stmt *Stmt
@@ -1751,7 +1751,7 @@ func TestMaxOpenConns(t *testing.T) {
 	db := newTestDB(t, "magicquery")
 	defer closeDB(t, db)
 
-	driver := db.driver.(*fakeDriver)
+	driver := db.Driver().(*fakeDriver)
 
 	// Force the number of open connections to 0 so we can get an accurate
 	// count for the test
@@ -2043,7 +2043,7 @@ func TestConnMaxLifetime(t *testing.T) {
 	db := newTestDB(t, "magicquery")
 	defer closeDB(t, db)
 
-	driver := db.driver.(*fakeDriver)
+	driver := db.Driver().(*fakeDriver)
 
 	// Force the number of open connections to 0 so we can get an accurate
 	// count for the test
@@ -2132,7 +2132,7 @@ func TestStmtCloseDeps(t *testing.T) {
 	db := newTestDB(t, "magicquery")
 	defer closeDB(t, db)
 
-	driver := db.driver.(*fakeDriver)
+	driver := db.Driver().(*fakeDriver)
 
 	driver.mu.Lock()
 	opens0 := driver.openCount
@@ -3057,7 +3057,7 @@ func TestIssue6081(t *testing.T) {
 	db := newTestDB(t, "people")
 	defer closeDB(t, db)
 
-	drv := db.driver.(*fakeDriver)
+	drv := db.Driver().(*fakeDriver)
 	drv.mu.Lock()
 	opens0 := drv.openCount
 	closes0 := drv.closeCount
@@ -3312,7 +3312,7 @@ func TestConnectionLeak(t *testing.T) {
 	// Now we have defaultMaxIdleConns busy connections. Open
 	// a new one, but wait until the busy connections are released
 	// before returning control to DB.
-	drv := db.driver.(*fakeDriver)
+	drv := db.Driver().(*fakeDriver)
 	drv.waitCh = make(chan struct{}, 1)
 	drv.waitingCh = make(chan struct{}, 1)
 	var wg sync.WaitGroup
