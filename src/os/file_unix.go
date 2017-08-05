@@ -302,6 +302,10 @@ func tempDir() string {
 		} else {
 			dir = "/tmp"
 		}
+	} else if dir != "/" && string(dir[len(dir)-1]) == "/" {
+		// On OS X, $TMPDIR ends with a slash, which doesn't
+		// behave consistently with Unix systems.
+		dir = string(dir[:len(dir)-1])
 	}
 	return dir
 }
