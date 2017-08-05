@@ -2808,8 +2808,17 @@ func mapfast(t *types.Type) int {
 	}
 	switch algtype(t.Key()) {
 	case AMEM32:
+		// map{assign,delete}_fast{32,64} don't perform write
+		// barriers, so they can only be used for pointer-free
+		// keys.
+		if types.Haspointers(t.Key()) {
+			return mapslow
+		}
 		return mapfast32
 	case AMEM64:
+		if types.Haspointers(t.Key()) {
+			return mapslow
+		}
 		return mapfast64
 	case ASTRING:
 		return mapfaststr
