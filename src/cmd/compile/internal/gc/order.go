@@ -209,10 +209,10 @@ func orderaddrtemp(n *Node, order *Order) *Node {
 
 // ordermapkeytemp prepares n to be a key in a map runtime call and returns n.
 // It should only be used for map runtime calls which have *_fast* versions.
-func ordermapkeytemp(t *types.Type, n *Node, order *Order) *Node {
+func ordermapkeytemp(t *types.Type, n *Node, order *Order, write bool) *Node {
 	// Most map calls need to take the address of the key.
 	// Exception: map*_fast* calls. See golang.org/issue/19015.
-	if mapfast(t) == mapslow {
+	if mapfast(t, write) == mapslow {
 		return orderaddrtemp(n, order)
 	}
 	return n
@@ -564,7 +564,7 @@ func orderstmt(n *Node, order *Order) {
 		if r.Right.Op == OARRAYBYTESTR {
 			r.Right.Op = OARRAYBYTESTRTMP
 		}
-		r.Right = ordermapkeytemp(r.Left.Type, r.Right, order)
+		r.Right = ordermapkeytemp(r.Left.Type, r.Right, order, false)
 		orderokas2(n, order)
 		cleantemp(t, order)
 
@@ -644,7 +644,7 @@ func orderstmt(n *Node, order *Order) {
 		case ODELETE:
 			orderexprlist(n.Left.List, order)
 
-			if mapfast(n.Left.List.First().Type) == mapslow {
+			if mapfast(n.Left.List.First().Type, true) == mapslow {
 				t1 := marktemp(order)
 				np := n.Left.List.Addr(1) // map key
 				*np = ordercopyexpr(*np, (*np).Type, order, 0)
@@ -662,7 +662,7 @@ func orderstmt(n *Node, order *Order) {
 		t := marktemp(order)
 		n.List.SetFirst(orderexpr(n.List.First(), order, nil))
 		n.List.SetSecond(orderexpr(n.List.Second(), order, nil))
-		n.List.SetSecond(ordermapkeytemp(n.List.First().Type, n.List.Second(), order))
+		n.List.SetSecond(ordermapkeytemp(n.List.First().Type, n.List.Second(), order, true))
 		order.out = append(order.out, n)
 		cleantemp(t, order)
 
@@ -1081,7 +1081,7 @@ func orderexpr(n *Node, order *Order, lhs *Node) *Node {
 			needCopy = true
 		}
 
-		n.Right = ordermapkeytemp(n.Left.Type, n.Right, order)
+		n.Right = ordermapkeytemp(n.Left.Type, n.Right, order, n.Etype == 1)
 		if needCopy {
 			n = ordercopyexpr(n, n.Type, order, 0)
 		}

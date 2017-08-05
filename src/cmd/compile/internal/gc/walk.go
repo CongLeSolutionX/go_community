@@ -796,7 +796,7 @@ opswitch:
 		r.Right = walkexpr(r.Right, init)
 		t := r.Left.Type
 
-		fast := mapfast(t)
+		fast := mapfast(t, false)
 		var key *Node
 		if fast != mapslow {
 			// fast versions take key by value
@@ -854,7 +854,7 @@ opswitch:
 		key = walkexpr(key, init)
 
 		t := map_.Type
-		fast := mapfast(t)
+		fast := mapfast(t, true)
 		if fast == mapslow {
 			// orderstmt made sure key is addressable.
 			key = nod(OADDR, key, nil)
@@ -1173,7 +1173,7 @@ opswitch:
 		t := map_.Type
 		if n.Etype == 1 {
 			// This m[k] expression is on the left-hand side of an assignment.
-			fast := mapfast(t)
+			fast := mapfast(t, true)
 			if fast == mapslow {
 				// standard version takes key by reference.
 				// orderexpr made sure key is addressable.
@@ -1182,7 +1182,7 @@ opswitch:
 			n = mkcall1(mapfn(mapassign[fast], t), nil, init, typename(t), map_, key)
 		} else {
 			// m[k] is not the target of an assignment.
-			fast := mapfast(t)
+			fast := mapfast(t, false)
 			if fast == mapslow {
 				// standard version takes key by reference.
 				// orderexpr made sure key is addressable.
@@ -2801,15 +2801,24 @@ var mapaccess2 mapnames = mkmapnames("mapaccess2")
 var mapassign mapnames = mkmapnames("mapassign")
 var mapdelete mapnames = mkmapnames("mapdelete")
 
-func mapfast(t *types.Type) int {
+func mapfast(t *types.Type, write bool) int {
 	// Check ../../runtime/hashmap.go:maxValueSize before changing.
 	if t.Val().Width > 128 {
 		return mapslow
 	}
 	switch algtype(t.Key()) {
 	case AMEM32:
+		// map{assign,delete}_fast{32,64} don't perform write
+		// barriers, so they can only be used for pointer-free
+		// keys.
+		if write && types.Haspointers(t.Key()) {
+			return mapslow
+		}
 		return mapfast32
 	case AMEM64:
+		if write && types.Haspointers(t.Key()) {
+			return mapslow
+		}
 		return mapfast64
 	case ASTRING:
 		return mapfaststr
