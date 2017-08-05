@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc07bb4b_3c80579b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-05T08:15:04Z",
+      "side": 1,
+      "message": "s/FIxes:/Fixes",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 5
+      },
+      "revId": "72b4c1545bc910c49642f5fb661d10c3a52b7c21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "439cbd0e_e2793572",
+        "filename": "CONTRIBUTORS",
+        "patchSetId": 1
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-05T08:15:04Z",
+      "side": 1,
+      "message": "Please remove this edit, an automated tool keeps the CONTRIBUTORS file up to date each release.",
+      "revId": "72b4c1545bc910c49642f5fb661d10c3a52b7c21",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
