@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4624b055_7aead1fb",
+        "filename": "src/reflect/deepequal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-08-05T00:40:38Z",
+      "side": 1,
+      "message": "Not worth an edit, but for future reference: The \"this\" that begins the final sentence has no clear referent. Of course we can work it out--that\u0027s why it\u0027s not worth an edit--but it would be clearer to avoid the issue: \"This approach\" or \"This algorithm\".\n\nThises at the start of sentences are often ambiguous because, as in this case, there is actually no subject of a previous sentence to which the This can refer. Instead, we must make one up.",
+      "revId": "a279b53a18dbe317180e9e411ca7892294a62901",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
