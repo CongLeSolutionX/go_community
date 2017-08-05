@@ -495,7 +495,7 @@ again:
 	}
 
 	// store new key/value at insert position
-	*((*uint32)(insertk)) = key
+	typedmemmove(t.key, insertk, unsafe.Pointer(&key))
 	*inserti = top
 	h.count++
 
@@ -583,7 +583,7 @@ again:
 	}
 
 	// store new key/value at insert position
-	*((*uint64)(insertk)) = key
+	typedmemmove(t.key, insertk, unsafe.Pointer(&key))
 	*inserti = top
 	h.count++
 
