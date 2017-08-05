@@ -228,6 +228,18 @@ func getcallersp(argp unsafe.Pointer) uintptr {
 	return uintptr(argp) - sys.MinFrameSize
 }
 
+// getclosureptr can only be used in assignment statement
+// at the entry of a function.
+// for example:
+//
+//	func f(arg1, arg2, arg3 int) {
+//		dx := getclosureptr()
+//	}
+//
+// The compiler rewrites calls to this function into instructions
+// that fetch the pointer from register DX directly.
+func getclosureptr() uintptr
+
 //go:noescape
 func asmcgocall(fn, arg unsafe.Pointer) int32
 
