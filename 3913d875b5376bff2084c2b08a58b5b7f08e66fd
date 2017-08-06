@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "1d263fbb_5ba18969",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-06T19:13:02Z",
+      "side": 1,
+      "message": "May as well be optimistic and say \"Fixes\" :)",
+      "revId": "3913d875b5376bff2084c2b08a58b5b7f08e66fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7587b2d5_0a46e331",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-06T19:13:02Z",
+      "side": 1,
+      "message": "Delete",
+      "revId": "3913d875b5376bff2084c2b08a58b5b7f08e66fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f504fb42_42f1848d",
         "filename": "src/runtime/alg.go",
         "patchSetId": 2
@@ -13,6 +47,30 @@
       "writtenOn": "2017-08-05T15:56:30Z",
       "side": 1,
       "message": "Do we perhaps need to add a comment to indicate that this function is really special?\nIt can\u0027t be called outright because the closure pointer will be junk in that case.\n\nThis, or the declaration of getclosureptr, needs a comment pointing out that it must occur at the beginning of any function, else it will trip checks in the scheduler.  No need to leave that rake lying around for the future.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 22
+      },
+      "revId": "3913d875b5376bff2084c2b08a58b5b7f08e66fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c69e2ba3_c2b35985",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-06T19:13:02Z",
+      "side": 1,
+      "message": "\u003e Do we perhaps need to add a comment to indicate that this function is really special?\n\nYes, definitely.\n\n\u003e This, or the declaration of getclosureptr, needs a comment pointing out that it must occur at the beginning of any function, else it will trip checks in the scheduler. No need to leave that rake lying around for the future.\n\nDefinitely. I\u0027d also enforce that by adding a check to order.go that if there\u0027s a call to getclosureptr, it must be of the form \"x :\u003d getclosureptr()\" and that that statement must be the first statement in the function body.",
+      "parentUuid": "f504fb42_42f1848d",
       "range": {
         "startLine": 66,
         "startChar": 0,
