@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2aa14a2_4aa10cd7",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2017-08-07T09:29:58Z",
+      "side": 1,
+      "message": "s/not a real function and so does/not real functions and so do not/",
+      "range": {
+        "startLine": 1100,
+        "startChar": 42,
+        "endLine": 1100,
+        "endChar": 73
+      },
+      "revId": "fabf9153a973f2a0eb6b2bae7d5a78c291a26512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
