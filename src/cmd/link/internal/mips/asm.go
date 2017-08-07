@@ -69,6 +69,12 @@ func elfreloc1(ctxt *ld.Link, r *sym.Reloc, sectoff int64) bool {
 		ctxt.Out.Write32(uint32(elf.R_MIPS_TLS_TPREL_LO16) | uint32(elfsym)<<8)
 	case objabi.R_CALLMIPS, objabi.R_JMPMIPS:
 		ctxt.Out.Write32(uint32(elf.R_MIPS_26) | uint32(elfsym)<<8)
+	case objabi.R_ADDRMIPS_GOTPAGE:
+		ctxt.Out.Write32(uint32(elf.R_MIPS_GOT16) | uint32(elfsym)<<8)
+	case objabi.R_ADDRMIPS_PAGEOFF:
+		ctxt.Out.Write32(uint32(elf.R_MIPS_LO16) | uint32(elfsym)<<8)
+	case objabi.R_ADDRMIPSTLS_GOT:
+		ctxt.Out.Write32(uint32(elf.R_MIPS_TLS_GOTTPREL) | uint32(elfsym)<<8)
 	}
 
 	return true
@@ -85,9 +91,9 @@ func machoreloc1(arch *sys.Arch, out *ld.OutBuf, s *sym.Symbol, r *sym.Reloc, se
 func applyrel(arch *sys.Arch, r *sym.Reloc, s *sym.Symbol, val int64, t int64) int64 {
 	o := arch.ByteOrder.Uint32(s.P[r.Off:])
 	switch r.Type {
-	case objabi.R_ADDRMIPS, objabi.R_ADDRMIPSTLS:
+	case objabi.R_ADDRMIPS, objabi.R_ADDRMIPSTLS, objabi.R_ADDRMIPS_PAGEOFF:
 		return int64(o&0xffff0000 | uint32(t)&0xffff)
-	case objabi.R_ADDRMIPSU:
+	case objabi.R_ADDRMIPSU, objabi.R_ADDRMIPS_GOTPAGE:
 		return int64(o&0xffff0000 | uint32((t+(1<<15))>>16)&0xffff)
 	case objabi.R_CALLMIPS, objabi.R_JMPMIPS:
 		return int64(o&0xfc000000 | uint32(t>>2)&^0xfc000000)
@@ -101,7 +107,7 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 		switch r.Type {
 		default:
 			return val, false
-		case objabi.R_ADDRMIPS, objabi.R_ADDRMIPSU:
+		case objabi.R_ADDRMIPS, objabi.R_ADDRMIPSU, objabi.R_ADDRMIPS_GOTPAGE, objabi.R_ADDRMIPS_PAGEOFF:
 			r.Done = false
 
 			// set up addend for eventual relocation via outer symbol.
@@ -117,6 +123,11 @@ func archreloc(ctxt *ld.Link, r *sym.Reloc, s *sym.Symbol, val int64) (int64, bo
 			}
 			r.Xsym = rs
 			return applyrel(ctxt.Arch, r, s, val, r.Xadd), true
+		case objabi.R_ADDRMIPSTLS_GOT:
+			if r.Add != 0 {
+				ld.Errorf(s, "TLS relloc addend is not zero: %s %x", r.Sym.Name, r.Add)
+			}
+			fallthrough
 		case objabi.R_ADDRMIPSTLS, objabi.R_CALLMIPS, objabi.R_JMPMIPS:
 			r.Done = false
 			r.Xsym = r.Sym

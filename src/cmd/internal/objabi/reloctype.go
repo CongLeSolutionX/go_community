@@ -61,7 +61,7 @@ const (
 	R_CALLARM64
 	R_CALLIND
 	R_CALLPOWER
-	// R_CALLMIPS (only used on mips64) resolves to non-PC-relative target address
+	// R_CALLMIPS (only used on mips/mips64) resolves to non-PC-relative target address
 	// of a CALL (JAL) instruction, by encoding the address into the instruction.
 	R_CALLMIPS
 	R_CONST
@@ -95,7 +95,7 @@ const (
 	R_METHODOFF
 	R_POWER_TOC
 	R_GOTPCREL
-	// R_JMPMIPS (only used on mips64) resolves to non-PC-relative target address
+	// R_JMPMIPS (only used on mips/mips64) resolves to non-PC-relative target address
 	// of a JMP instruction, by encoding the address into the instruction.
 	// The stack nosplit check ignores this since it is not a function call.
 	R_JMPMIPS
@@ -187,12 +187,22 @@ const (
 	// R_ADDRMIPSU (only used on mips/mips64) resolves to the sign-adjusted "upper" 16
 	// bits (bit 16-31) of an external address, by encoding it into the instruction.
 	R_ADDRMIPSU
-	// R_ADDRMIPSTLS (only used on mips64) resolves to the low 16 bits of a TLS
+	// R_ADDRMIPSTLS (only used on mips/mips64) resolves to the low 16 bits of a TLS
 	// address (offset from thread pointer), by encoding it into the instruction.
 	R_ADDRMIPSTLS
 	// R_ADDRCUOFF resolves to a pointer-sized offset from the start of the
 	// symbol's DWARF compile unit.
 	R_ADDRCUOFF
+	// R_ADDRMIPSU_GOTPAGE (only used on mips/mips64) resolves to 16-bit offset of GOT slot which contains address
+	// of memory block (GOT page) that points to withing 32KB of external address, by encoding it into the instruction.
+	// Note that this and subsequent relocation can be only used with local symbols.
+	R_ADDRMIPS_GOTPAGE
+	// R_ADDRMIPS_PAGEOFF (only used on mips/mips64) resolves to the 16-bit offset from external address to its
+	// enclosing GOT page, by encoding it into the instruction.
+	R_ADDRMIPS_PAGEOFF
+	// R_ADDRMIPSTLS_GOT (only used on mips/mips64) resolves to 16-bit offset of GOT slot which contains
+	// TLS address (offset from thread pointer), by encoding it into the instruction.
+	R_ADDRMIPSTLS_GOT
 
 	// R_WASMIMPORT resolves to the index of the WebAssembly function import.
 	R_WASMIMPORT

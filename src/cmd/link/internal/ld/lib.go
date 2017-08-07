@@ -410,6 +410,13 @@ func (ctxt *Link) loadlib() {
 		toc.Type = sym.SDYNIMPORT
 	}
 
+	if ctxt.LinkMode == LinkExternal && ctxt.Arch.Family == sys.MIPS {
+		gpdisp := ctxt.Syms.ROLookup("_gp_disp", 0)
+		if gpdisp != nil {
+			gpdisp.Type = sym.SDYNIMPORT
+		}
+	}
+
 	if ctxt.LinkMode == LinkExternal && !iscgo && ctxt.LibraryByPkg["runtime/cgo"] == nil && !(objabi.GOOS == "darwin" && (ctxt.Arch.Family == sys.AMD64 || ctxt.Arch.Family == sys.I386)) {
 		// This indicates a user requested -linkmode=external.
 		// The startup code uses an import of runtime/cgo to decide
