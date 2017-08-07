@@ -127,5 +127,6 @@ var Anames = []string{
 	"MOVDV",
 	"MOVVF",
 	"MOVVD",
+	"CPLOAD",
 	"LAST",
 }
