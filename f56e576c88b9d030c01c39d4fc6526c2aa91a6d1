@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "239bb4e7_72448645",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-08-07T13:08:58Z",
+      "side": 1,
+      "message": "This CL",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 11
+      },
+      "revId": "f56e576c88b9d030c01c39d4fc6526c2aa91a6d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db2f7e9d_b81cd92d",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-08-07T13:08:58Z",
+      "side": 1,
+      "message": "Please define this in the \"database/sql/driver\" package and export it.",
+      "range": {
+        "startLine": 590,
+        "startChar": 0,
+        "endLine": 593,
+        "endChar": 1
+      },
+      "revId": "f56e576c88b9d030c01c39d4fc6526c2aa91a6d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6203160_d8de8597",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-08-07T13:08:58Z",
+      "side": 1,
+      "message": "What do you think of naming this \"OpenConnector\" or something like that? Even Open returns a *DB, but this function takes a Connector, not a DB...",
+      "range": {
+        "startLine": 611,
+        "startChar": 5,
+        "endLine": 611,
+        "endChar": 11
+      },
+      "revId": "f56e576c88b9d030c01c39d4fc6526c2aa91a6d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
