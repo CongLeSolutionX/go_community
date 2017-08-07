@@ -331,9 +331,13 @@ func (fd *FD) Init(net string) (string, error) {
 		// somehow call ExecIO, then ExecIO, and therefore the
 		// calling method, will return an error, because
 		// fd.pd.runtimeCtx will be 0.
-		if err := fd.pd.init(fd); err != nil {
+		err := fd.pd.init(fd)
+		fd.logInit(net, err)
+		if err != nil {
 			return "", err
 		}
+	} else {
+		fd.logInit(net, nil)
 	}
 	if hasLoadSetFileCompletionNotificationModes {
 		// We do not use events, so we can skip them always.
@@ -391,6 +395,18 @@ func (fd *FD) destroy() error {
 	}
 	fd.Sysfd = syscall.InvalidHandle
 	return err
+}
+
+// logInitFD is set by tests to enable file descriptor initialization logging.
+var logInitFD func(net string, fd *FD, err error)
+
+// logInit records file descriptor initialization, so that the log
+// can be analyzed during the tests.
+func (fd *FD) logInit(net string, err error) {
+	if logInitFD == nil {
+		return
+	}
+	logInitFD(net, fd, err)
 }
 
 // Close closes the FD. The underlying file descriptor is closed by
