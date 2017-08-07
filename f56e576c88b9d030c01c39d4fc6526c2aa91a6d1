@@ -140,6 +140,30 @@
       "revId": "f56e576c88b9d030c01c39d4fc6526c2aa91a6d1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae8f7fbd_7af3fcc7",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-08-07T22:29:41Z",
+      "side": 1,
+      "message": "Fair point. We could go with OpenDB.",
+      "parentUuid": "1d7732e4_761b8f9a",
+      "range": {
+        "startLine": 611,
+        "startChar": 5,
+        "endLine": 611,
+        "endChar": 11
+      },
+      "revId": "f56e576c88b9d030c01c39d4fc6526c2aa91a6d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
