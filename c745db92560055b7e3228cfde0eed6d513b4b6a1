@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d8e974b_03bad7cb",
+        "filename": "src/internal/poll/export_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 16958
+      },
+      "writtenOn": "2017-08-07T17:37:21Z",
+      "side": 1,
+      "message": "echoing brad\u0027s feedback from my CR: 0 is preferred here",
+      "range": {
+        "startLine": 17,
+        "startChar": 28,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "c745db92560055b7e3228cfde0eed6d513b4b6a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b956b962_1a37dbff",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 16958
+      },
+      "writtenOn": "2017-08-07T17:37:21Z",
+      "side": 1,
+      "message": "to reduce the test specific code i suggest a structure like:\n\nvar err error\nif !fd.isFile \u0026\u0026 ... {\n    err \u003d fd.pd.init(fd)\n}\nif logInitFD !\u003d nil {\n    logInitFD(net, err)\n}\nif err !\u003d nil {\n    return \"\", err\n}",
+      "range": {
+        "startLine": 334,
+        "startChar": 2,
+        "endLine": 334,
+        "endChar": 5
+      },
+      "revId": "c745db92560055b7e3228cfde0eed6d513b4b6a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bef55eda_b1cb6574",
+        "filename": "src/internal/poll/fd_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 16958
+      },
+      "writtenOn": "2017-08-07T17:37:21Z",
+      "side": 1,
+      "message": "Suggest moving contents of testSerialFdsAreInitialised in into this range. The test isn\u0027t really testing a bunch of distinct scenarios, just that all COM ports are treated equal.",
+      "range": {
+        "startLine": 111,
+        "startChar": 2,
+        "endLine": 111,
+        "endChar": 3
+      },
+      "revId": "c745db92560055b7e3228cfde0eed6d513b4b6a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
