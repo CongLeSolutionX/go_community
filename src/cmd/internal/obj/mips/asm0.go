@@ -74,6 +74,7 @@ type Optab struct {
 var optab = []Optab{
 	{obj.ATEXT, C_LEXT, C_NONE, C_TEXTSIZE, 0, 0, 0, sys.MIPS64},
 	{obj.ATEXT, C_ADDR, C_NONE, C_TEXTSIZE, 0, 0, 0, 0},
+	{obj.ATEXT, C_ADDR_PIC, C_NONE, C_TEXTSIZE, 0, 0, 0, sys.MIPS},
 
 	{AMOVW, C_REG, C_NONE, C_REG, 1, 4, 0, 0},
 	{AMOVV, C_REG, C_NONE, C_REG, 1, 4, 0, sys.MIPS64},
@@ -376,9 +377,39 @@ var optab = []Optab{
 	{ABREAK, C_REG, C_NONE, C_SOREG, 7, 4, REGZERO, sys.MIPS64},
 	{ABREAK, C_NONE, C_NONE, C_NONE, 5, 4, 0, 0},
 
+	{ACPLOAD, C_REG, C_NONE, C_REG, 56, 12, 0, sys.MIPS},
+
+	{AMOVW, C_ADDR_PIC, C_NONE, C_REG, 57, 8, 0, sys.MIPS},
+	{AMOVB, C_ADDR_PIC, C_NONE, C_REG, 57, 8, 0, sys.MIPS},
+	{AMOVBU, C_ADDR_PIC, C_NONE, C_REG, 57, 8, 0, sys.MIPS},
+	{AMOVF, C_ADDR_PIC, C_NONE, C_FREG, 57, 8, 0, sys.MIPS},
+	{AMOVD, C_ADDR_PIC, C_NONE, C_FREG, 57, 8, 0, sys.MIPS},
+
+	{AMOVW, C_REG, C_NONE, C_ADDR_PIC, 58, 8, 0, sys.MIPS},
+	{AMOVB, C_REG, C_NONE, C_ADDR_PIC, 58, 8, 0, sys.MIPS},
+	{AMOVBU, C_REG, C_NONE, C_ADDR_PIC, 58, 8, 0, sys.MIPS},
+	{AMOVF, C_FREG, C_NONE, C_ADDR_PIC, 58, 8, 0, sys.MIPS},
+	{AMOVD, C_FREG, C_NONE, C_ADDR_PIC, 58, 8, 0, sys.MIPS},
+
+	{AMOVW, C_LECON_PIC, C_NONE, C_REG, 59, 8, 0, sys.MIPS},
+
+	{AMOVW, C_TLS_IE, C_NONE, C_REG, 60, 16, 0, sys.MIPS},
+	{AMOVB, C_TLS_IE, C_NONE, C_REG, 60, 16, 0, sys.MIPS},
+	{AMOVBU, C_TLS_IE, C_NONE, C_REG, 60, 16, 0, sys.MIPS},
+
+	{AMOVW, C_REG, C_NONE, C_TLS_IE, 61, 16, 0, sys.MIPS},
+	{AMOVB, C_REG, C_NONE, C_TLS_IE, 61, 16, 0, sys.MIPS},
+	{AMOVBU, C_REG, C_NONE, C_TLS_IE, 61, 16, 0, sys.MIPS},
+
+	{AMOVW, C_STCON_IE, C_NONE, C_REG, 62, 12, 0, sys.MIPS},
+
+	{AJMP, C_NONE, C_NONE, C_LBRA_PIC, 63, 12, REGZERO, sys.MIPS},
+	{AJAL, C_NONE, C_NONE, C_LBRA_PIC, 63, 12, REGLINK, sys.MIPS},
+
 	{obj.AUNDEF, C_NONE, C_NONE, C_NONE, 49, 4, 0, 0},
 	{obj.APCDATA, C_LCON, C_NONE, C_LCON, 0, 0, 0, 0},
 	{obj.AFUNCDATA, C_SCON, C_NONE, C_ADDR, 0, 0, 0, 0},
+	{obj.AFUNCDATA, C_SCON, C_NONE, C_ADDR_PIC, 0, 0, 0, sys.MIPS},
 	{obj.ANOP, C_NONE, C_NONE, C_NONE, 0, 0, 0, 0},
 	{obj.ADUFFZERO, C_NONE, C_NONE, C_LBRA, 11, 4, 0, 0}, // same as AJMP
 	{obj.ADUFFCOPY, C_NONE, C_NONE, C_LBRA, 11, 4, 0, 0}, // same as AJMP
@@ -462,6 +493,17 @@ func span0(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 					c.addnop(p.Link)
 					c.addnop(p)
+					bflag = 1
+				}
+			}
+
+			// very large unconditional branches in pic code expands to jumps trough got table
+			if ctxt.Flag_shared && o.type_ == 11 && p.Pcond != nil {
+				otxt = p.Pcond.Pc - pc
+				if otxt < -(1<<17)+10 || otxt >= (1<<17)-10 {
+					p.To.Class = C_LBRA_PIC + 1
+					p.Optab = 0
+					// force size recalculation
 					bflag = 1
 				}
 			}
@@ -551,7 +593,13 @@ func (c *ctxt0) aclass(a *obj.Addr) int {
 			c.instoffset = a.Offset
 			if a.Sym != nil { // use relocation
 				if a.Sym.Type == objabi.STLSBSS {
+					if c.ctxt.Flag_shared {
+						return C_TLS_IE
+					}
 					return C_TLS
+				}
+				if c.ctxt.Flag_shared {
+					return C_ADDR_PIC
 				}
 				return C_ADDR
 			}
@@ -621,7 +669,13 @@ func (c *ctxt0) aclass(a *obj.Addr) int {
 
 			c.instoffset = a.Offset
 			if s.Type == objabi.STLSBSS {
+				if c.ctxt.Flag_shared {
+					return C_STCON_IE
+				}
 				return C_STCON // address of TLS variable
+			}
+			if c.ctxt.Flag_shared {
+				return C_LECON_PIC
 			}
 			return C_LECON
 
@@ -684,6 +738,9 @@ func (c *ctxt0) aclass(a *obj.Addr) int {
 		return C_LCON // C_DCON
 
 	case obj.TYPE_BRANCH:
+		if a.Sym != nil && c.ctxt.Flag_shared {
+			return C_LBRA_PIC
+		}
 		return C_SBRA
 	}
 
@@ -1022,6 +1079,7 @@ func buildop(ctxt *obj.Link) {
 			ANEGW,
 			ANEGV,
 			AWORD,
+			ACPLOAD,
 			obj.ANOP,
 			obj.ATEXT,
 			obj.AUNDEF,
@@ -1591,6 +1649,141 @@ func (c *ctxt0) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rel.Sym = p.From.Sym
 		rel.Add = p.From.Offset
 		rel.Type = objabi.R_ADDRMIPSTLS
+
+	case 56: /* cpload r1, r2 ==> lui %hi(_gp_disp), r2 + add %lo(_gp_disp), r2 + add r1, r2 */
+		/* _gp_disp - the special symbol name used by external linker for calculation of gp,
+		See ftp://www.linux-mips.org/pub/linux/mips/doc/ABI/psABI_mips3.0.pdf, section 3-38 */
+		gp := c.ctxt.Lookup("_gp_disp")
+		o1 = OP_IRR(c.opirr(ALUI), uint32(0), uint32(REGZERO), uint32(p.To.Reg))
+		rel := obj.Addrel(c.cursym)
+		rel.Off = int32(c.pc)
+		rel.Siz = 4
+		rel.Sym = gp
+		rel.Add = 0
+		rel.Type = objabi.R_ADDRMIPSU
+		o2 = OP_IRR(c.opirr(add), uint32(0), uint32(p.To.Reg), uint32(p.To.Reg))
+		rel2 := obj.Addrel(c.cursym)
+		rel2.Off = int32(c.pc + 4)
+		rel2.Siz = 4
+		rel2.Sym = gp
+		rel2.Add = 0
+		rel2.Type = objabi.R_ADDRMIPS
+		o3 = OP_RRR(c.oprrr(add), uint32(p.From.Reg), uint32(p.To.Reg), uint32(p.To.Reg))
+
+	case 57: /* mov addr_pic, r ==> lw o(REGSB), REGTMP + lw o(REGTMP), r */
+		o1 = OP_IRR(c.opirr(-AMOVW), uint32(0), uint32(REGSB), uint32(REGTMP))
+		rel := obj.Addrel(c.cursym)
+		rel.Off = int32(c.pc)
+		rel.Siz = 4
+		rel.Sym = p.From.Sym
+		rel.Add = p.From.Offset
+		rel.Type = objabi.R_ADDRMIPS_GOTPAGE
+		o2 = OP_IRR(c.opirr(-p.As), uint32(0), uint32(REGTMP), uint32(p.To.Reg))
+		rel2 := obj.Addrel(c.cursym)
+		rel2.Off = int32(c.pc + 4)
+		rel2.Siz = 4
+		rel2.Sym = p.From.Sym
+		rel2.Add = p.From.Offset
+		rel2.Type = objabi.R_ADDRMIPS_PAGEOFF
+
+	case 58: /* mov r, addr_pic ==> lw o(REGSB), REGTMP + sw r, o(REGTMP) */
+		o1 = OP_IRR(c.opirr(-AMOVW), uint32(0), uint32(REGSB), uint32(REGTMP))
+		rel := obj.Addrel(c.cursym)
+		rel.Off = int32(c.pc)
+		rel.Siz = 4
+		rel.Sym = p.To.Sym
+		rel.Add = p.To.Offset
+		rel.Type = objabi.R_ADDRMIPS_GOTPAGE
+		o2 = OP_IRR(c.opirr(p.As), uint32(0), uint32(REGTMP), uint32(p.From.Reg))
+		rel2 := obj.Addrel(c.cursym)
+		rel2.Off = int32(c.pc + 4)
+		rel2.Siz = 4
+		rel2.Sym = p.To.Sym
+		rel2.Add = p.To.Offset
+		rel2.Type = objabi.R_ADDRMIPS_PAGEOFF
+
+	case 59: /* mov $lext_pic, r ==> lw o(REGSB), r + add */
+		o1 = OP_IRR(c.opirr(-AMOVW), uint32(0), uint32(REGSB), uint32(p.To.Reg))
+		rel1 := obj.Addrel(c.cursym)
+		rel1.Off = int32(c.pc)
+		rel1.Siz = 4
+		rel1.Sym = p.From.Sym
+		rel1.Add = p.From.Offset
+		rel1.Type = objabi.R_ADDRMIPS_GOTPAGE
+
+		o2 = OP_IRR(c.opirr(add), uint32(0), uint32(p.To.Reg), uint32(p.To.Reg))
+		rel2 := obj.Addrel(c.cursym)
+		rel2.Off = int32(c.pc + 4)
+		rel2.Siz = 4
+		rel2.Sym = p.From.Sym
+		rel2.Add = p.From.Offset
+		rel2.Type = objabi.R_ADDRMIPS_PAGEOFF
+
+	case 60: /* mov tlsvar_ie, r ==> lw o(REGSB), REGTMP + rdhwr + add r3, REGTMP + lw (REGTMP), r */
+		o1 = OP_IRR(c.opirr(-AMOVW), uint32(0), uint32(REGSB), uint32(REGTMP))
+		rel := obj.Addrel(c.cursym)
+		rel.Off = int32(c.pc)
+		rel.Siz = 4
+		rel.Sym = p.From.Sym
+		rel.Add = p.From.Offset
+		rel.Type = objabi.R_ADDRMIPSTLS_GOT
+		// clobbers R3 !
+		o2 = (037<<26 + 073) | (29 << 11) | (3 << 16) // rdhwr $29, r3
+		o3 = OP_RRR(c.oprrr(add), uint32(REG_R3), uint32(REGTMP), uint32(REGTMP))
+		o4 = OP_IRR(c.opirr(-p.As), uint32(0), uint32(REGTMP), uint32(p.To.Reg))
+
+	case 61: /* mov r, tlsvar_ie ==> lw o(REGSB), REGTMP + rdhwr + add r3, REGTMP + sw r, (REGTMP) */
+		o1 = OP_IRR(c.opirr(-AMOVW), uint32(0), uint32(REGSB), uint32(REGTMP))
+		rel := obj.Addrel(c.cursym)
+		rel.Off = int32(c.pc)
+		rel.Siz = 4
+		rel.Sym = p.To.Sym
+		rel.Add = p.To.Offset
+		rel.Type = objabi.R_ADDRMIPSTLS_GOT
+		// clobbers R3 !
+		o2 = (037<<26 + 073) | (29 << 11) | (3 << 16) // rdhwr $29, r3
+		o3 = OP_RRR(c.oprrr(add), uint32(REG_R3), uint32(REGTMP), uint32(REGTMP))
+		o4 = OP_IRR(c.opirr(p.As), uint32(0), uint32(REGTMP), uint32(p.From.Reg))
+
+	case 62: /* mov $tlsvar_ie, r ==> lw o(REGSB), REGTMP + rdhwr + add r3, REGTMP, r */
+		o1 = OP_IRR(c.opirr(-AMOVW), uint32(0), uint32(REGSB), uint32(REGTMP))
+		rel := obj.Addrel(c.cursym)
+		rel.Off = int32(c.pc + 4)
+		rel.Siz = 4
+		rel.Sym = p.To.Sym
+		rel.Add = p.To.Offset
+		rel.Type = objabi.R_ADDRMIPSTLS_GOT
+		// clobbers R3 !
+		o2 = (037<<26 + 073) | (29 << 11) | (3 << 16) // rdhwr $29, r3
+		o3 = OP_RRR(c.oprrr(add), uint32(REG_R3), uint32(REGTMP), uint32(p.To.Reg))
+
+	case 63: /* jmp lbra_pic ==> lw o(REGSB), REGTMP + add + jmp (REGTMP)*/
+
+		if p.To.Sym == nil {
+			p.To.Sym = c.cursym.Func.Text.From.Sym
+			p.To.Offset = p.Pcond.Pc
+		}
+
+		o1 = OP_IRR(c.opirr(-AMOVW), uint32(0), uint32(REGSB), uint32(REGTMP))
+		rel := obj.Addrel(c.cursym)
+		rel.Off = int32(c.pc)
+		rel.Siz = 4
+		rel.Sym = p.To.Sym
+		rel.Add = p.To.Offset
+		rel.Type = objabi.R_ADDRMIPS_GOTPAGE
+		o2 = OP_IRR(c.opirr(add), uint32(0), uint32(REGTMP), uint32(REGTMP))
+		rel2 := obj.Addrel(c.cursym)
+		rel2.Off = int32(c.pc + 4)
+		rel2.Siz = 4
+		rel2.Sym = p.To.Sym
+		rel2.Add = p.To.Offset
+		rel2.Type = objabi.R_ADDRMIPS_PAGEOFF
+		o3 = OP_RRR(c.oprrr(p.As), uint32(0), uint32(REGTMP), uint32(o.param))
+		rel3 := obj.Addrel(c.cursym)
+		rel3.Off = int32(c.pc + 8)
+		rel3.Siz = 0
+		rel3.Type = objabi.R_CALLIND
+
 	}
 
 	out[0] = o1

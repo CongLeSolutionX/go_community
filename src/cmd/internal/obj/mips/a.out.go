@@ -256,12 +256,15 @@ const (
 	C_DCON   /* other 64 (could subdivide further) */
 	C_SACON  /* $n(REG) where n <= int16 */
 	C_SECON
-	C_LACON /* $n(REG) where int16 < n <= int32 */
-	C_LECON
-	C_DACON /* $n(REG) where int32 < n */
-	C_STCON /* $tlsvar */
+	C_LACON     /* $n(REG) where int16 < n <= int32 */
+	C_LECON     /* $lext (constant) */
+	C_LECON_PIC /* $lext_pic (constant) */
+	C_DACON     /* $n(REG) where int32 < n */
+	C_STCON     /* $tlsvar */
+	C_STCON_IE  /* $tlsvar InitialExec (constant)*/
 	C_SBRA
 	C_LBRA
+	C_LBRA_PIC /* pic long jump*/
 	C_SAUTO
 	C_LAUTO
 	C_SEXT
@@ -271,7 +274,9 @@ const (
 	C_LOREG
 	C_GOK
 	C_ADDR
+	C_ADDR_PIC /* $lext_pic (memory)*/
 	C_TLS
+	C_TLS_IE /* $tlsvar InitialExec (memory)*/
 	C_TEXTSIZE
 
 	C_NCLASS /* must be the last */
@@ -402,6 +407,9 @@ const (
 	AMOVDV
 	AMOVVF
 	AMOVVD
+
+	/* pseudos */
+	ACPLOAD /* computes the gloabal pointer */
 
 	ALAST
 
