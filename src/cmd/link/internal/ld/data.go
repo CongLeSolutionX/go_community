@@ -181,7 +181,7 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 		// We need to be able to reference dynimport symbols when linking against
 		// shared libraries, and Solaris, Darwin and AIX need it always
 		if ctxt.HeadType != objabi.Hsolaris && ctxt.HeadType != objabi.Hdarwin && ctxt.HeadType != objabi.Haix && r.Sym != nil && r.Sym.Type == sym.SDYNIMPORT && !ctxt.DynlinkingGo() && !r.Sym.Attr.SubSymbol() {
-			if !(ctxt.Arch.Family == sys.PPC64 && ctxt.LinkMode == LinkExternal && r.Sym.Name == ".TOC.") {
+			if !(ctxt.LinkMode == LinkExternal && ((ctxt.Arch.Family == sys.PPC64 && r.Sym.Name == ".TOC.") || (ctxt.Arch.Family == sys.MIPS && r.Sym.Name == "_gp_disp"))) {
 				Errorf(s, "unhandled relocation for %s (type %d (%s) rtype %d (%s))", r.Sym.Name, r.Sym.Type, r.Sym.Type, r.Type, sym.RelocName(ctxt.Arch, r.Type))
 			}
 		}
@@ -2115,7 +2115,6 @@ func assignAddress(ctxt *Link, sect *sym.Section, n int, s *sym.Symbol, va uint6
 		// Create new section, set the starting Vaddr
 		sect = addsection(ctxt.Arch, &Segtext, ".text", 05)
 		sect.Vaddr = va
-		s.Sect = sect
 
 		// Create a symbol for the start of the secondary text sections
 		ntext := ctxt.Syms.Lookup(fmt.Sprintf("runtime.text.%d", n), 0)
