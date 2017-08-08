@@ -22,6 +22,30 @@
       "revId": "111d56b50e886cf466b8fd1189d67495090a779d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba4effaf_c90f473a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2020,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-08-08T04:58:48Z",
+      "side": 1,
+      "message": "Thanks for catching that, I didn\u0027t notice the WriteHeader above. I\u0027ll look for a good fix and update this CL when ready.",
+      "parentUuid": "fb1b7d5f_cf65f9fb",
+      "range": {
+        "startLine": 2012,
+        "startChar": 0,
+        "endLine": 2020,
+        "endChar": 60
+      },
+      "revId": "111d56b50e886cf466b8fd1189d67495090a779d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
