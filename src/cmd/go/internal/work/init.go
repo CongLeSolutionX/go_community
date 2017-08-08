@@ -105,7 +105,7 @@ func buildModeInit() {
 			codegenArg = "-fPIC"
 		} else {
 			switch platform {
-			case "linux/amd64", "linux/arm", "linux/arm64", "linux/386", "linux/ppc64le", "linux/s390x",
+			case "linux/amd64", "linux/arm", "linux/arm64", "linux/386", "linux/ppc64le", "linux/s390x", "linux/mips", "linux/mipsle",
 				"android/amd64", "android/arm", "android/arm64", "android/386",
 				"freebsd/amd64":
 				codegenArg = "-shared"
