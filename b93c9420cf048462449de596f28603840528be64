@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e349dae4_fb15a0f4",
+        "filename": "src/cmd/compile/internal/gc/dcl.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-08T18:24:26Z",
+      "side": 1,
+      "message": "You missed the first half of the substitution: \"are not real functions\". And while we\u0027re at it, probably it should be \"get funcsyms\" instead of \"get a funcsym\".",
+      "revId": "b93c9420cf048462449de596f28603840528be64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "949fc188_ad867577",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-08T18:24:26Z",
+      "side": 1,
+      "message": "s/in/in an/",
+      "revId": "b93c9420cf048462449de596f28603840528be64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a3cdf3e_d2d44a77",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-08T18:24:26Z",
+      "side": 1,
+      "message": "Thanks for adding this. I think we should add:\n\n// ... ...of caller function,\n// so that the function prolog does not clobber the closure register.",
+      "revId": "b93c9420cf048462449de596f28603840528be64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
