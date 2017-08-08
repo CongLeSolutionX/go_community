@@ -16,6 +16,12 @@ import (
 	"time"
 )
 
+// DefaultMaxFieldSize is the default maximum size allowed when
+// parsing the Header.Comment and Header.Name fields.
+// The default value is chosen to use memory comparable to what is required
+// for GZIP decompression.
+const DefaultMaxFieldSize = 1 << 15 // 32 KiB
+
 const (
 	gzipID1     = 0x1f
 	gzipID2     = 0x8b
@@ -33,6 +39,8 @@ var (
 	// ErrHeader is returned when reading GZIP data that has an invalid header.
 	ErrHeader = errors.New("gzip: invalid header")
 )
+
+var errHeaderSize = errors.New("gzip: header field too long")
 
 var le = binary.LittleEndian
 
@@ -80,6 +88,7 @@ type Reader struct {
 	buf          [512]byte
 	err          error
 	multistream  bool
+	maxFieldSize int
 }
 
 // NewReader creates a new Reader reading the given reader.
@@ -100,10 +109,12 @@ func NewReader(r io.Reader) (*Reader, error) {
 // Reset discards the Reader z's state and makes it equivalent to the
 // result of its original state from NewReader, but reading from r instead.
 // This permits reusing a Reader rather than allocating a new one.
+// The MaxFieldSize is not affected by Reset.
 func (z *Reader) Reset(r io.Reader) error {
 	*z = Reader{
 		decompressor: z.decompressor,
 		multistream:  true,
+		maxFieldSize: z.maxFieldSize,
 	}
 	if rr, ok := r.(flate.Reader); ok {
 		z.r = rr
@@ -134,37 +145,56 @@ func (z *Reader) Multistream(ok bool) {
 	z.multistream = ok
 }
 
+// MaxFieldSize controls the amount of memory allowed to parse the
+// Header.Comment and Header.Name fields.
+// A positive value permits parsing strings of length no longer than n, while
+// a value of zero configures Reader to use DefaultMaxFieldSize as n, and
+// a negative value configures Reader to parse arbitrarily long strings.
+//
+// If a GZIP stream has a header with excessively long fields, then NewReader
+// and Read will return an error.
+func (z *Reader) MaxFieldSize(n int) {
+	z.maxFieldSize = n
+}
+
 // readString reads a NUL-terminated string from z.r.
 // It treats the bytes read as being encoded as ISO 8859-1 (Latin-1) and
 // will output a string encoded using UTF-8.
 // This method always updates z.digest with the data read.
 func (z *Reader) readString() (string, error) {
-	var err error
+	maxSize := z.maxFieldSize
+	if maxSize == 0 {
+		maxSize = DefaultMaxFieldSize
+	}
+
 	needConv := false
-	for i := 0; ; i++ {
-		if i >= len(z.buf) {
-			return "", ErrHeader
-		}
-		z.buf[i], err = z.r.ReadByte()
+	buf := z.buf[:0]
+	for {
+		b, err := z.r.ReadByte()
 		if err != nil {
 			return "", err
 		}
-		if z.buf[i] > 0x7f {
-			needConv = true
-		}
-		if z.buf[i] == 0 {
+		if b > 0 {
+			buf = append(buf, b)
+			if maxSize > 0 && len(buf) > maxSize {
+				return "", errHeaderSize
+			}
+			if b > 0x7f {
+				needConv = true
+			}
+		} else {
 			// Digest covers the NUL terminator.
-			z.digest = crc32.Update(z.digest, crc32.IEEETable, z.buf[:i+1])
+			z.digest = crc32.Update(z.digest, crc32.IEEETable, append(buf, 0))
 
 			// Strings are ISO 8859-1, Latin-1 (RFC 1952, section 2.3.1).
 			if needConv {
-				s := make([]rune, 0, i)
-				for _, v := range z.buf[:i] {
+				s := make([]rune, 0, len(buf))
+				for _, v := range buf {
 					s = append(s, rune(v))
 				}
 				return string(s), nil
 			}
-			return string(z.buf[:i]), nil
+			return string(buf), nil
 		}
 	}
 }

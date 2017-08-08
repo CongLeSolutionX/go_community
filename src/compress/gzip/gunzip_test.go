@@ -7,6 +7,7 @@ package gzip
 import (
 	"bytes"
 	"compress/flate"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
@@ -508,5 +509,57 @@ func TestTruncatedStreams(t *testing.T) {
 		if err != io.ErrUnexpectedEOF {
 			t.Errorf("io.Copy(%d) on truncated stream: got %v, want %v", i, err, io.ErrUnexpectedEOF)
 		}
+	}
+}
+
+func makeLongHeaderFile(t *testing.T, n int) []byte {
+	b := new(bytes.Buffer)
+	zw := NewWriter(b)
+	zw.Name = strings.Repeat("a", n)
+	zw.Comment = strings.Repeat("a", n)
+	if err := zw.Close(); err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	return b.Bytes()
+}
+
+func TestLongHeaders(t *testing.T) {
+	fileEdge := makeLongHeaderFile(t, DefaultMaxFieldSize)
+	fileLong := makeLongHeaderFile(t, DefaultMaxFieldSize+1)
+	fileHuge := makeLongHeaderFile(t, 1<<20)
+
+	// Test that the default Reader can handle fields up to DefaultMaxFieldSize.
+	if _, err := NewReader(bytes.NewReader(fileEdge)); err != nil {
+		t.Errorf("unexpected NewReader error: %v", err)
+	}
+	if _, err := NewReader(bytes.NewReader(fileLong)); err != errHeaderSize {
+		t.Errorf("unexpected NewReader error: got %v, want %v", err, errHeaderSize)
+	}
+
+	tests := []struct {
+		n                         int   // Maximum field size
+		edgeErr, longErr, hugeErr error // Expected error for each size class
+	}{
+		{DefaultMaxFieldSize + 1, nil, nil, errHeaderSize},
+		{0, nil, errHeaderSize, errHeaderSize},
+		{-1, nil, nil, nil},
+		{1, errHeaderSize, errHeaderSize, errHeaderSize},
+		{DefaultMaxFieldSize, nil, errHeaderSize, errHeaderSize},
+	}
+
+	var r Reader
+	for _, tt := range tests {
+		t.Run(fmt.Sprintf("MaxFieldSize(%d)", tt.n), func(t *testing.T) {
+			r.MaxFieldSize(tt.n)
+			if err := r.Reset(bytes.NewReader(fileEdge)); err != tt.edgeErr {
+				t.Errorf("Reset(edge) = %v, want %v", err, tt.edgeErr)
+			}
+			if err := r.Reset(bytes.NewReader(fileLong)); err != tt.longErr {
+				t.Errorf("Reset(long) = %v, want %v", err, tt.longErr)
+			}
+			if err := r.Reset(bytes.NewReader(fileHuge)); err != tt.hugeErr {
+				t.Errorf("Reset(huge) = %v, want %v", err, tt.hugeErr)
+			}
+		})
 	}
 }
