@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2057d2f_dbbac53e",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-08-08T01:47:34Z",
+      "side": 1,
+      "message": "I think in such cases, examples with Reverse would be nicer to visualize\nas bits so we could make them exciting such as:\n\nx :\u003d 7\nfmt.Printf(\"%064b\\n\", x)\nfmt.Printf(\"%064b\\n\", bits.Reverse(7))\n// Output:\n0000000000000000000000000000000000000000000000000000000000000111\n1110000000000000000000000000000000000000000000000000000000000000",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a35e159_555768bf",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-08-08T01:47:34Z",
+      "side": 1,
+      "message": "Ditto here, so:\nx :\u003d uint16(7)\nfmt.Printf(\"%016b\\n\", x)\nfmt.Printf(\"%016b\\n\", bits.Reverse16(x))\n// Output:\n0000000000000111\n1110000000000000",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a391d42_72c71d11",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-08-08T01:47:34Z",
+      "side": 1,
+      "message": "Ditto here but with a padding of 32",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49887e0f_65530d05",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-08-08T01:47:34Z",
+      "side": 1,
+      "message": "Here too but with a padding of 64",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "696449e7_a65c70fb",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-08-08T01:47:34Z",
+      "side": 1,
+      "message": "Ditto but with a padding of 8",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
