@@ -22,6 +22,57 @@
       "revId": "fabf9153a973f2a0eb6b2bae7d5a78c291a26512",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7602c561_75e04193",
+        "filename": "src/runtime/alg.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-08T01:20:26Z",
+      "side": 1,
+      "message": "Consider s/dx/p/, to avoid the x86-ism.",
+      "revId": "fabf9153a973f2a0eb6b2bae7d5a78c291a26512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee8d0072_7992fc64",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-08T01:20:26Z",
+      "side": 1,
+      "message": "First line should explain what getclosureptr does. Then continue as you do here.\n\ns/in/in an/",
+      "revId": "fabf9153a973f2a0eb6b2bae7d5a78c291a26512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc3d352c_e47733ed",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-08T01:20:26Z",
+      "side": 1,
+      "message": "Mention //go:nosplit here as well.",
+      "revId": "fabf9153a973f2a0eb6b2bae7d5a78c291a26512",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
