@@ -621,6 +621,9 @@ func (s *regAllocState) init(f *Func) {
 			// available for global load/stores. See gen/386.rules (search for Flag_shared).
 		case "s390x":
 			s.allocatable &^= 1 << 11 // R11
+			// nothing to do, R10 & R11 already reserved
+		case "mips", "mipsle":
+			s.allocatable &^= 1 << 25 // RSB(R28)
 		default:
 			s.f.fe.Fatalf(src.NoXPos, "arch %s not implemented", s.f.Config.arch)
 		}
