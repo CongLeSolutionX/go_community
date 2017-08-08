@@ -16,6 +16,24 @@
       "revId": "ac29f30dbb35d8812c865aed6a6ae738a480def3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e37195d5_5477a355",
+        "filename": "src/math/big/ftoa.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-08-08T14:54:22Z",
+      "side": 0,
+      "message": "But int(x.prec) will fail on 32-bits architectures when x.prec is maxUint32.\n\nYou could do int64(x.prec) but then you\u0027ll have to make s of type int64 and then below the uint(-s) cast could cause issues again on 32-bits archs.",
+      "parentUuid": "40e60288_7dda9add",
+      "revId": "ac29f30dbb35d8812c865aed6a6ae738a480def3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
