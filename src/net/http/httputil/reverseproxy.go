@@ -9,6 +9,7 @@ package httputil
 import (
 	"context"
 	"io"
+	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
@@ -199,10 +200,11 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	res, err := transport.RoundTrip(outreq)
-	if err != nil {
-		p.logf("http: proxy error: %v", err)
-		rw.WriteHeader(http.StatusBadGateway)
-		return
+	if res == nil {
+		res = &http.Response{
+			StatusCode: http.StatusBadGateway,
+			Body:       ioutil.NopCloser(strings.NewReader("")),
+		}
 	}
 
 	// Remove hop-by-hop headers listed in the
@@ -220,11 +222,15 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	if p.ModifyResponse != nil {
-		if err := p.ModifyResponse(res); err != nil {
+		if err != nil {
 			p.logf("http: proxy error: %v", err)
-			rw.WriteHeader(http.StatusBadGateway)
-			return
 		}
+		err = p.ModifyResponse(res)
+	}
+	if err != nil {
+		p.logf("http: proxy error: %v", err)
+		rw.WriteHeader(http.StatusBadGateway)
+		return
 	}
 
 	copyHeader(rw.Header(), res.Header)
