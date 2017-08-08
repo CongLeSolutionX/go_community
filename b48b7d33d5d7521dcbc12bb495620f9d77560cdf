@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28538471_b206851f",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6480
+      },
+      "writtenOn": "2017-08-08T03:11:27Z",
+      "side": 1,
+      "message": "Nice.",
+      "range": {
+        "startLine": 25,
+        "startChar": 28,
+        "endLine": 25,
+        "endChar": 41
+      },
+      "revId": "b48b7d33d5d7521dcbc12bb495620f9d77560cdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
