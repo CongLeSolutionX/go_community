@@ -46,6 +46,30 @@
       "revId": "111d56b50e886cf466b8fd1189d67495090a779d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9af34e7a_765e0ebb",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2020,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-08-08T05:48:32Z",
+      "side": 1,
+      "message": "This is resolved in latest patch set, PTAL.",
+      "parentUuid": "ba4effaf_c90f473a",
+      "range": {
+        "startLine": 2012,
+        "startChar": 0,
+        "endLine": 2020,
+        "endChar": 60
+      },
+      "revId": "111d56b50e886cf466b8fd1189d67495090a779d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
