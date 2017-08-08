@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28317ccd_b1fd486e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2017-08-08T19:33:04Z",
+      "side": 1,
+      "message": "this should be math/bits",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "59d5cca89c92df43d0a5b97f660f90b077670652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d415269_c505f15d",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2017-08-08T19:33:04Z",
+      "side": 1,
+      "message": "these extra cases do not add much info, basically all odd numbers will return 0\n\nthink this is an example, not a test where you need to cover all cases",
+      "range": {
+        "startLine": 178,
+        "startChar": 34,
+        "endLine": 178,
+        "endChar": 39
+      },
+      "revId": "59d5cca89c92df43d0a5b97f660f90b077670652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d6a0a2d_fd88e901",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 5955
+      },
+      "writtenOn": "2017-08-08T19:33:04Z",
+      "side": 1,
+      "message": "Consider using math.MaxUint8, 16, etc",
+      "revId": "59d5cca89c92df43d0a5b97f660f90b077670652",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
