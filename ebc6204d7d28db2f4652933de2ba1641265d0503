@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "346aa6cd_731eb617",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 21363
+      },
+      "writtenOn": "2017-08-08T15:36:31Z",
+      "side": 1,
+      "message": "You\u0027re definitely right. I\u0027ve updated the examples to be in the format that you suggested.",
+      "parentUuid": "d2057d2f_dbbac53e",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a35e159_555768bf",
         "filename": "src/math/bits/example_test.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d9a5806_50a4460a",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 21363
+      },
+      "writtenOn": "2017-08-08T15:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a35e159_555768bf",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "14d3fb4f_3249c1cc",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 21363
+      },
+      "writtenOn": "2017-08-08T15:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a391d42_72c71d11",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49887e0f_65530d05",
         "filename": "src/math/bits/example_test.go",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "f2590436_c4e91c9d",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 21363
+      },
+      "writtenOn": "2017-08-08T15:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49887e0f_65530d05",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "696449e7_a65c70fb",
         "filename": "src/math/bits/example_test.go",
         "patchSetId": 1
@@ -84,6 +156,24 @@
       "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a82a4529_4b88c891",
+        "filename": "src/math/bits/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 21363
+      },
+      "writtenOn": "2017-08-08T15:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "696449e7_a65c70fb",
+      "revId": "ebc6204d7d28db2f4652933de2ba1641265d0503",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
