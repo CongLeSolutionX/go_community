@@ -108,21 +108,21 @@ TEXT runtime·gosave(SB),NOSPLIT|NOFRAME,$0-4
 // void gogo(Gobuf*)
 // restore state from Gobuf; longjmp
 TEXT runtime·gogo(SB),NOSPLIT,$8-4
-	MOVW	buf+0(FP), R3
-	MOVW	gobuf_g(R3), g	// make sure g is not nil
+	MOVW	buf+0(FP), R4
+	MOVW	gobuf_g(R4), g	// make sure g is not nil
 	JAL	runtime·save_g(SB)
 
 	MOVW	0(g), R2
-	MOVW	gobuf_sp(R3), R29
-	MOVW	gobuf_lr(R3), R31
-	MOVW	gobuf_ret(R3), R1
-	MOVW	gobuf_ctxt(R3), REGCTXT
-	MOVW	R0, gobuf_sp(R3)
-	MOVW	R0, gobuf_ret(R3)
-	MOVW	R0, gobuf_lr(R3)
-	MOVW	R0, gobuf_ctxt(R3)
-	MOVW	gobuf_pc(R3), R4
-	JMP	(R4)
+	MOVW	gobuf_sp(R4), R29
+	MOVW	gobuf_lr(R4), R31
+	MOVW	gobuf_ret(R4), R1
+	MOVW	gobuf_ctxt(R4), REGCTXT
+	MOVW	R0, gobuf_sp(R4)
+	MOVW	R0, gobuf_ret(R4)
+	MOVW	R0, gobuf_lr(R4)
+	MOVW	R0, gobuf_ctxt(R4)
+	MOVW	gobuf_pc(R4), R5
+	JMP	(R5)
 
 // void mcall(fn func(*g))
 // Switch to m->g0's stack, call fn(g).
@@ -405,12 +405,15 @@ TEXT runtime·procyield(SB),NOSPLIT,$0-4
 // void jmpdefer(fv, sp);
 // called from deferreturn.
 // 1. grab stored LR for caller
-// 2. sub 8 bytes to get back to JAL deferreturn
+// 2. sub 8(16 for pic) bytes to get back to JAL deferreturn
 // 3. JMP to fn
 TEXT runtime·jmpdefer(SB),NOSPLIT,$0-8
 	MOVW	0(R29), R31
+#ifdef GOBUILDMODE_shared
+	ADDU	$-16, R31
+#else
 	ADDU	$-8, R31
-
+#endif
 	MOVW	fv+0(FP), REGCTXT
 	MOVW	argp+4(FP), R29
 	ADDU	$-4, R29
@@ -438,7 +441,7 @@ TEXT ·asmcgocall(SB),NOSPLIT,$0-12
 	MOVW	fn+0(FP), R25
 	MOVW	arg+4(FP), R4
 
-	MOVW	R29, R3	// save original stack pointer
+	MOVW	R29, R7	// save original stack pointer
 	MOVW	g, R2
 
 	// Figure out if we need to switch to m->g0 stack.
@@ -456,14 +459,19 @@ TEXT ·asmcgocall(SB),NOSPLIT,$0-12
 	// Now on a scheduling stack (a pthread-created stack).
 g0:
 	// Save room for two of our pointers and O32 frame.
-	ADDU	$-24, R29
+	ADDU	$-28, R29
 	AND	$~7, R29	// O32 ABI expects 8-byte aligned stack on function entry
 	MOVW	R2, 16(R29)	// save old g on stack
 	MOVW	(g_stack+stack_hi)(R2), R2
-	SUBU	R3, R2
+	SUBU	R7, R2
 	MOVW	R2, 20(R29)	// save depth in old g stack (can't just save SP, as stack might be copied during a callback)
+#ifdef GOBUILDMODE_shared
+	MOVW	RSB, 24(R29)
+#endif
 	JAL	(R25)
-
+#ifdef GOBUILDMODE_shared
+	MOVW	24(R29), RSB
+#endif
 	// Restore g, stack pointer. R2 is return value.
 	MOVW	16(R29), g
 	JAL	runtime·save_g(SB)
@@ -599,17 +607,20 @@ droppedm:
 
 // void setg(G*); set g. for use by needm.
 // This only happens if iscgo, so jump straight to save_g
-TEXT runtime·setg(SB),NOSPLIT,$0-4
+TEXT runtime·setg(SB),NOSPLIT,$-4-4
 	MOVW	gg+0(FP), g
-	JAL	runtime·save_g(SB)
-	RET
+	JMP	runtime·save_g(SB)
+
 
 // void setg_gcc(G*); set g in C TLS.
-// Must obey the gcc calling convention.
-TEXT setg_gcc<>(SB),NOSPLIT,$0
-	MOVW	R4, g
-	JAL	runtime·save_g(SB)
-	RET
+// On entry R6 contains new g and R5 contains address of setg_gcc
+TEXT setg_gcc<>(SB),NOSPLIT,$-4
+#ifdef GOBUILDMODE_shared
+	CPLOAD	R5, RSB
+#endif
+	MOVW	R6, g
+	JMP	runtime·save_g(SB)
+
 
 TEXT runtime·abort(SB),NOSPLIT,$0-0
 	UNDEF
@@ -637,6 +648,9 @@ TEXT runtime·return0(SB),NOSPLIT,$0
 // Called from cgo wrappers, this function returns g->m->curg.stack.hi.
 // Must obey the gcc calling convention.
 TEXT _cgo_topofstack(SB),NOSPLIT|NOFRAME,$0
+#ifdef GOBUILDMODE_shared
+	CPLOAD	R25, RSB
+#endif
 	// g (R30), R3 and REGTMP (R23) might be clobbered by load_g. R30 and R23
 	// are callee-save in the gcc calling convention, so save them.
 	MOVW	R23, R8
@@ -650,9 +664,7 @@ TEXT _cgo_topofstack(SB),NOSPLIT|NOFRAME,$0
 
 	MOVW	R8, R23
 	MOVW	R9, g
-	MOVW	R10, R31
-
-	RET
+	JMP	(R10)
 
 // The top-most function running on a goroutine
 // returns to goexit+PCQuantum.
@@ -734,7 +746,7 @@ flush:
 	MOVW	R25, 92(R29)
 	// R26 is reserved by kernel.
 	// R27 is reserved by kernel.
-	MOVW	R28, 96(R29)
+	MOVW	RSB, 96(R29)
 	// R29 is SP.
 	// R30 is g.
 	// R31 is LR, which was saved by the prologue.
@@ -765,5 +777,5 @@ flush:
 	MOVW	84(R29), R22
 	MOVW	88(R29), R24
 	MOVW	92(R29), R25
-	MOVW	96(R29), R28
+	MOVW	96(R29), RSB
 	JMP	ret

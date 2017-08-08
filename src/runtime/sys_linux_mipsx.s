@@ -248,11 +248,17 @@ TEXT runtime·sigfwd(SB),NOSPLIT,$0-16
 	MOVW	info+8(FP), R5
 	MOVW	ctx+12(FP), R6
 	MOVW	fn+0(FP), R25
+#ifdef GOBUILDMODE_shared
+	MOVW	RSB, R21
+#endif
 	MOVW	R29, R22
 	SUBU	$16, R29
 	AND	$~7, R29	// shadow space for 4 args aligned to 8 bytes as per O32 ABI
 	JAL	(R25)
 	MOVW	R22, R29
+#ifdef GOBUILDMODE_shared
+	MOVW	R21, RSB
+#endif
 	RET
 
 TEXT runtime·sigtramp(SB),NOSPLIT,$12
@@ -270,6 +276,9 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$12
 	RET
 
 TEXT runtime·cgoSigtramp(SB),NOSPLIT,$0
+#ifdef GOBUILDMODE_shared
+	CPLOAD R25, RSB
+#endif
 	JMP	runtime·sigtramp(SB)
 
 TEXT runtime·mmap(SB),NOSPLIT,$20-32
