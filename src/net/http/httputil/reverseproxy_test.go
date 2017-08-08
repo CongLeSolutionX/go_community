@@ -631,6 +631,77 @@ func TestReverseProxyModifyResponse(t *testing.T) {
 	}
 }
 
+// Issue 21255. Test ModifyResponse when an error from transport.RoundTrip occurs,
+// and that the proxy returns either StatusBadGateway, StatusOK, or a nil Response.
+func TestReverseProxyModifyResponse_OnError(t *testing.T) {
+	backend := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Add("X-Error", fmt.Sprintf("%v", r.Header.Get("X-Error") == "true"))
+	}))
+	backend.Config.ErrorLog = log.New(ioutil.Discard, "", 0) // quiet for tests
+	defer backend.Close()
+
+	ub, _ := url.Parse(backend.URL)
+	bProxy := NewSingleHostReverseProxy(ub)
+	bProxy.ModifyResponse = func(res *http.Response) error {
+		e := res.Header.Get("X-Error") == "true"
+		if !e {
+			return nil
+		}
+		return errors.New("tried to by-pass proxy")
+	}
+
+	// ensures a nil *http.Response and nil error.
+	nilBackend := httptest.NewUnstartedServer(nil)
+	nilBackend.Config.ErrorLog = log.New(ioutil.Discard, "", 0) // quiet for tests
+	defer nilBackend.Close()
+
+	ubNil, _ := url.Parse(nilBackend.URL)
+	nilProxy := NewSingleHostReverseProxy(ubNil)
+	nilProxy.ModifyResponse = func(res *http.Response) error {
+		return nil
+	}
+
+	frontendProxy := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("X-Resp") != "true" && r.Header.Get("X-Error") != "true" {
+			nilProxy.ServeHTTP(w, r)
+		} else {
+			bProxy.ServeHTTP(w, r)
+		}
+	}))
+
+	cases := []struct {
+		r        string
+		e        string
+		isNil    bool
+		wantCode int
+	}{
+		{r: "true", e: "true", wantCode: http.StatusBadGateway},
+		{r: "true", e: "false", wantCode: http.StatusOK},
+		{r: "false", e: "true", wantCode: http.StatusBadGateway},
+		{r: "false", e: "false", isNil: true},
+	}
+
+	for i, c := range cases {
+		req, _ := http.NewRequest("GET", frontendProxy.URL, nil)
+		req.Header.Add("X-Resp", c.r)
+		req.Header.Add("X-Error", c.e)
+		res, err := http.DefaultClient.Do(req)
+		if c.isNil {
+			if res != nil {
+				t.Errorf("#%d: got res %d; expected %d\n", i, res, nil)
+			}
+		} else {
+			if err != nil {
+				t.Fatalf("failed to reach proxy: %v", err)
+			}
+			if res.StatusCode != c.wantCode {
+				t.Errorf("#%d: got res.StatusCode %d; expected %d\n", i, res.StatusCode, c.wantCode)
+			}
+			res.Body.Close()
+		}
+	}
+}
+
 // Issue 16659: log errors from short read
 func TestReverseProxy_CopyBuffer(t *testing.T) {
 	backendServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
