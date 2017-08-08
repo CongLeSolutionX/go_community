@@ -76,3 +76,43 @@ func ExampleOnesCount64() {
 	// 1110
 	// 3
 }
+
+func ExampleReverse() {
+	fmt.Printf("%b\n", 7)
+	fmt.Println(bits.Reverse(7))
+	// Output:
+	// 111
+	// 16140901064495857664
+}
+
+func ExampleReverse16() {
+	fmt.Printf("%b\n", 7)
+	fmt.Println(bits.Reverse16(7))
+	// Output:
+	// 111
+	// 57344
+}
+
+func ExampleReverse32() {
+	fmt.Printf("%b\n", 7)
+	fmt.Println(bits.Reverse32(7))
+	// Output:
+	// 111
+	// 3758096384
+}
+
+func ExampleReverse64() {
+	fmt.Printf("%b\n", 7)
+	fmt.Println(bits.Reverse64(7))
+	// Output:
+	// 111
+	// 16140901064495857664
+}
+
+func ExampleReverse8() {
+	fmt.Printf("%b\n", 7)
+	fmt.Println(bits.Reverse8(7))
+	// Output:
+	// 111
+	// 224
+}
