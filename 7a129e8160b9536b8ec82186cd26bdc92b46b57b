@@ -22,6 +22,30 @@
       "revId": "7a129e8160b9536b8ec82186cd26bdc92b46b57b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66545ce0_2cf96299",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-08T03:02:14Z",
+      "side": 1,
+      "message": "I declared an unexported constant for kibiByte, making this even more clear.",
+      "parentUuid": "90a18232_857b4b90",
+      "range": {
+        "startLine": 23,
+        "startChar": 28,
+        "endLine": 23,
+        "endChar": 35
+      },
+      "revId": "7a129e8160b9536b8ec82186cd26bdc92b46b57b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
