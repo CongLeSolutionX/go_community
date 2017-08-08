@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb1b7d5f_cf65f9fb",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2020,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-08-08T04:31:48Z",
+      "side": 1,
+      "message": "This is wrong.\n\nYou\u0027re calling WriteHeader first, which means the Set does nothing.",
+      "range": {
+        "startLine": 2012,
+        "startChar": 0,
+        "endLine": 2020,
+        "endChar": 60
+      },
+      "revId": "111d56b50e886cf466b8fd1189d67495090a779d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
