@@ -11,6 +11,10 @@
  * Save registers and call fn with two arguments.
  */
 TEXT crosscall2(SB),NOSPLIT|NOFRAME,$0
+#ifdef GOBUILDMODE_shared
+	// Go PIC code uses RSB(R28) so we initialize its value on entry as per O32 ABI
+	CPLOAD	R25, RSB
+#endif
 	/*
 	 * We still need to save all callee save register as before, and then
 	 *  push 3 args for fn (R5, R6, R7).

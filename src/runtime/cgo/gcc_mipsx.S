@@ -38,10 +38,8 @@ crosscall1:
 	sdc1	$f28, 72($29)
 	sdc1	$f30, 80($29)
 #endif
-	move	$20, $4 // save R4
-	move	$4, $6
 	jalr	$5	// call setg_gcc
-	jalr	$20	// call fn
+	jalr	$4	// call fn
 
 	lw	$16, 4($29)
 	lw	$17, 8($29)
