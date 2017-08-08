@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "58290835_3322d206",
+        "filename": "src/internal/cpu/cpu_ppc64x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-08-08T18:44:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e8f0caad_89825e5b",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "0ca462a825884526a45e06999ef67ee13de52939",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e05d6ac0_6b9f602d",
         "filename": "src/internal/cpu/cpu_ppc64x.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-08T17:08:41Z",
       "side": 1,
       "message": "These seem to be all single bits. Could we specify the position here and make isSet use a shift similar to the x86 feature detection code?\n\nWe can also pull the isSet function into the generic part if it turns out to be similar enough to the x86 version so they can be merged.",
+      "range": {
+        "startLine": 24,
+        "startChar": 32,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "0ca462a825884526a45e06999ef67ee13de52939",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "363cc53e_df66c638",
+        "filename": "src/internal/cpu/cpu_ppc64x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-08-08T18:44:08Z",
+      "side": 1,
+      "message": "I\u0027d rather leave this part as it is to be consistent with what the kernel/glibc exposes in its headers. That\u0027s why I also kept the constant names the same as in the kernel: most ppc64 developers know these names/masks from memory.",
+      "parentUuid": "e05d6ac0_6b9f602d",
       "range": {
         "startLine": 24,
         "startChar": 32,
