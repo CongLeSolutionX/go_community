@@ -115,7 +115,7 @@ func hidePanic() {
 // supportsDynlink reports whether or not the code generator for the given
 // architecture supports the -shared and -dynlink flags.
 func supportsDynlink(arch *sys.Arch) bool {
-	return arch.InFamily(sys.AMD64, sys.ARM, sys.ARM64, sys.I386, sys.PPC64, sys.S390X)
+	return arch.InFamily(sys.AMD64, sys.ARM, sys.ARM64, sys.I386, sys.PPC64, sys.S390X, sys.MIPS)
 }
 
 // timing data for compiler phases
