@@ -262,7 +262,7 @@ var pkgDeps = map[string][]string{
 	"image/png":                {"L4", "compress/zlib"},
 	"index/suffixarray":        {"L4", "regexp"},
 	"internal/singleflight":    {"sync"},
-	"internal/trace":           {"L4", "OS"},
+	"internal/trace":           {"L4", "OS", "container/heap"},
 	"math/big":                 {"L4"},
 	"mime":                     {"L4", "OS", "syscall", "internal/syscall/windows/registry"},
 	"mime/quotedprintable":     {"L4"},
