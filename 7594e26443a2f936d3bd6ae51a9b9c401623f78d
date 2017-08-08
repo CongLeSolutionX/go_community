@@ -16,6 +16,24 @@
       "revId": "7594e26443a2f936d3bd6ae51a9b9c401623f78d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf9b1b87_5a1d98d5",
+        "filename": "src/math/bits/bits_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 21363
+      },
+      "writtenOn": "2017-08-08T22:01:49Z",
+      "side": 1,
+      "message": "Yes, this change to bits_test.go is unrelated. I was getting this error when I tried running the tests before the fix:\n\n# math/bits\nbits_test.go:710:12: expected type, found \u0027\u003d\u0027\nFAIL\tmath/bits [setup failed]\n\nSo I corrected it before moving forward.",
+      "parentUuid": "234140ea_f2ce2ee0",
+      "revId": "7594e26443a2f936d3bd6ae51a9b9c401623f78d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
