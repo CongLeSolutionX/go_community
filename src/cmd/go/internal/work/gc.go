@@ -228,6 +228,15 @@ func (gcToolchain) asm(b *Builder, a *Action, sfiles []string) ([]string, error)
 		}
 	}
 
+	// Enable detection of c-shared buildmode in assembly via #ifdef GOBUILDMODE_shared
+	if (p.ImportPath == "runtime" || p.ImportPath == "runtime/cgo") && (cfg.Goarch == "mips" || cfg.Goarch == "mipsle") {
+		for _, arg := range forcedAsmflags {
+			if arg == "-shared" {
+				args = append(args, "-D=GOBUILDMODE_shared=1")
+			}
+		}
+	}
+
 	if cfg.Goarch == "mips" || cfg.Goarch == "mipsle" {
 		// Define GOMIPS_value from cfg.GOMIPS.
 		args = append(args, "-D", "GOMIPS_"+cfg.GOMIPS)
