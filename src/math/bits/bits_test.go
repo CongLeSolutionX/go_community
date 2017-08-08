@@ -707,7 +707,7 @@ func TestLen(t *testing.T) {
 // ----------------------------------------------------------------------------
 // Testing support
 
-type entry = struct {
+type entry struct {
 	nlz, ntz, pop int
 }
 
