@@ -58,6 +58,7 @@ type ReverseProxy struct {
 	// ModifyResponse is an optional function that
 	// modifies the Response from the backend.
 	// If it returns an error, the proxy returns a StatusBadGateway error.
+	// Otherwise, if the response is nil, ServeHTTP will panic.
 	ModifyResponse func(*http.Response) error
 }
 
@@ -199,32 +200,33 @@ func (p *ReverseProxy) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	res, err := transport.RoundTrip(outreq)
+
+	if res != nil {
+		// Remove hop-by-hop headers listed in the
+		// "Connection" header of the response.
+		if c := res.Header.Get("Connection"); c != "" {
+			for _, f := range strings.Split(c, ",") {
+				if f = strings.TrimSpace(f); f != "" {
+					res.Header.Del(f)
+				}
+			}
+		}
+
+		for _, h := range hopHeaders {
+			res.Header.Del(h)
+		}
+	}
+
+	if p.ModifyResponse != nil {
+		if err != nil {
+			p.logf("http: proxy error: %v", err)
+		}
+		err = p.ModifyResponse(res)
+	}
 	if err != nil {
 		p.logf("http: proxy error: %v", err)
 		rw.WriteHeader(http.StatusBadGateway)
 		return
-	}
-
-	// Remove hop-by-hop headers listed in the
-	// "Connection" header of the response.
-	if c := res.Header.Get("Connection"); c != "" {
-		for _, f := range strings.Split(c, ",") {
-			if f = strings.TrimSpace(f); f != "" {
-				res.Header.Del(f)
-			}
-		}
-	}
-
-	for _, h := range hopHeaders {
-		res.Header.Del(h)
-	}
-
-	if p.ModifyResponse != nil {
-		if err := p.ModifyResponse(res); err != nil {
-			p.logf("http: proxy error: %v", err)
-			rw.WriteHeader(http.StatusBadGateway)
-			return
-		}
 	}
 
 	copyHeader(rw.Header(), res.Header)
