@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "321c3c3c_479315c4",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-08-09T15:27:04Z",
+      "side": 1,
+      "message": "I think you should be using PPC64 ppc64 instead of just ppc.  It is referred to as ppc64(le) throughout golang, using ppc here is confusing, especially for those who might know ppc as referring to 32 bit.",
+      "revId": "0ca462a825884526a45e06999ef67ee13de52939",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8f0caad_89825e5b",
         "filename": "src/internal/cpu/cpu_ppc64x.go",
         "patchSetId": 1
