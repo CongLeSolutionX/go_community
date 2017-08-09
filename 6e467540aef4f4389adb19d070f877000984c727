@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d218e65_4bd00619",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-08-09T04:21:49Z",
+      "side": 1,
+      "message": "reword this per the normal style (start with a lowercase verb)\n\nLook at git log for examples. See https://golang.org/doc/contribute.html where it says:\n\n    It should complete the sentence \"This change modifies Go to _____.\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "6e467540aef4f4389adb19d070f877000984c727",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
