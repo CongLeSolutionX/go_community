@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fbc7ef8_28c003ea",
+        "filename": "src/internal/poll/fd_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T23:05:08Z",
+      "side": 1,
+      "message": "No need for \\n in error string.\n\nSame below as well.",
+      "range": {
+        "startLine": 56,
+        "startChar": 54,
+        "endLine": 56,
+        "endChar": 56
+      },
+      "revId": "34d4715b64104b455db3b66dddf5479b152ef322",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
