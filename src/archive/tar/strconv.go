@@ -163,6 +163,11 @@ func (f *formatter) formatOctal(b []byte, x int64) {
 	f.formatString(b, s)
 }
 
+func fitsInOctal(n int, x int64) bool {
+	octBits := uint(n-1) * 3
+	return x >= 0 && (n >= 22 || x < 1<<octBits)
+}
+
 // parsePAXTime takes a string of the form %d.%d as described in the PAX
 // specification. Note that this implementation allows for negative timestamps,
 // which is allowed for by the PAX specification, but not always portable.
@@ -249,4 +254,13 @@ func formatPAXRecord(k, v string) string {
 		record = fmt.Sprintf("%d %s=%s\n", size, k, v)
 	}
 	return record
+}
+
+func validPAXRecord(k, v string) bool {
+	switch k {
+	case paxPath, paxLinkpath, paxUname, paxGname:
+		return strings.IndexByte(v, 0) < 0
+	default:
+		return strings.IndexByte(k, 0) < 0
+	}
 }
