@@ -606,7 +606,15 @@ opswitch:
 
 		n.Right = walkexpr(n.Right, &ll)
 		n.Right = addinit(n.Right, ll.Slice())
-		n = walkinrange(n, init)
+		res, sucsess := walkinrange(n, init)
+		n = res
+		if !sucsess && n.Left.Op == OANDAND && n.Op == OANDAND { //&& n.Left.Right.isIntOrdering() && n.Right.isIntOrdering() {
+			// We have cond1 && cond2 && cond3, cond1 and cond2 cannot be replaced by walkinrange, try cond2 and cond3 now.
+			tmp := n.Left
+			n.Left = tmp.Left
+			n.Right = nod(OANDAND, tmp.Right, n.Right)
+			n.Right, _ = walkinrange(n.Right, init)
+		}
 
 	case OPRINT, OPRINTN:
 		walkexprlist(n.List.Slice(), init)
@@ -3435,7 +3443,7 @@ func (n *Node) isIntOrdering() bool {
 // n must be an OANDAND or OOROR node.
 // The result of walkinrange MUST be assigned back to n, e.g.
 // 	n.Left = walkinrange(n.Left)
-func walkinrange(n *Node, init *Nodes) *Node {
+func walkinrange(n *Node, init *Nodes) (*Node, bool) {
 	// We are looking for something equivalent to a opl b OP b opr c, where:
 	// * a, b, and c have integer type
 	// * b is side-effect-free
@@ -3444,7 +3452,7 @@ func walkinrange(n *Node, init *Nodes) *Node {
 	l := n.Left
 	r := n.Right
 	if !l.isIntOrdering() || !r.isIntOrdering() {
-		return n
+		return n, false
 	}
 
 	// Find b, if it exists, and rename appropriately.
@@ -3458,7 +3466,7 @@ func walkinrange(n *Node, init *Nodes) *Node {
 		}
 		if i == 3 {
 			// Tried all permutations and couldn't find an appropriate b == x.
-			return n
+			return n, false
 		}
 		if i&1 == 0 {
 			a, opl, b = b, brrev(opl), a
@@ -3488,7 +3496,7 @@ func walkinrange(n *Node, init *Nodes) *Node {
 	}
 	if cmpdir(opl) != cmpdir(opr) {
 		// Not a range check; something like b < a && b < c.
-		return n
+		return n, false
 	}
 
 	switch opl {
@@ -3506,7 +3514,7 @@ func walkinrange(n *Node, init *Nodes) *Node {
 	// Unfortunately, by this point, most len/cap expressions have been
 	// stored into temporary variables.
 	if !Isconst(a, CTINT) || !Isconst(c, CTINT) {
-		return n
+		return n, false
 	}
 
 	if opl == OLT {
@@ -3515,7 +3523,7 @@ func walkinrange(n *Node, init *Nodes) *Node {
 		// If a is not the maximum constant for b's type,
 		// we can increment a and switch to ≤.
 		if a.Int64() >= maxintval[b.Type.Etype].Int64() {
-			return n
+			return n, false
 		}
 		a = nodintconst(a.Int64() + 1)
 		opl = OLE
@@ -3526,7 +3534,7 @@ func walkinrange(n *Node, init *Nodes) *Node {
 		// Bad news. Something like 5 <= x && x < 3.
 		// Rare in practice, and we still need to generate side-effects,
 		// so just leave it alone.
-		return n
+		return n, false
 	}
 
 	// We have a ≤ b && b < c (or a ≤ b && b ≤ c).
@@ -3549,7 +3557,7 @@ func walkinrange(n *Node, init *Nodes) *Node {
 	// ...but then reset cmp's type to match n's type.
 	cmp.Type = n.Type
 	cmp = walkexpr(cmp, init)
-	return cmp
+	return cmp, true
 }
 
 // return 1 if integer n must be in range [0, max), 0 otherwise
