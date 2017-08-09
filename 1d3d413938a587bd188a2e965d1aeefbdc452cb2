@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0771134_234d69bf",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T22:28:39Z",
+      "side": 1,
+      "message": "Is there a reason to export this?  In particular, if we export it, we can never change it without breaking the Go 1 guarantee.  Is that what we want?",
+      "revId": "1d3d413938a587bd188a2e965d1aeefbdc452cb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43330fe4_e43a5fbf",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T22:28:39Z",
+      "side": 1,
+      "message": "Does \"excessively long\" mean \"longer than n\"?  If so, say so.",
+      "revId": "1d3d413938a587bd188a2e965d1aeefbdc452cb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
