@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f52dae17_8263d378",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-08-09T15:06:56Z",
+      "side": 1,
+      "message": "I don\u0027t think you should be adding an opset for ACOPY since that appears in the optab.  The only ones that need the explicit opset are those not in the optab but have the same set of operands as the mnemonic in the case.",
+      "revId": "27df95f362e8054883658943c0f5f5df5e4543a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d4688be_45907f6b",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-08-09T15:06:56Z",
+      "side": 1,
+      "message": "Same as above.  When there is only one entry, it should be added to last case found under this switch.",
+      "revId": "27df95f362e8054883658943c0f5f5df5e4543a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd305aa5_9009fe32",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1228,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-08-09T15:06:56Z",
+      "side": 1,
+      "message": "Same as ADARN.",
+      "revId": "27df95f362e8054883658943c0f5f5df5e4543a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d4e6d4f_f04f23c8",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-08-09T15:06:56Z",
+      "side": 1,
+      "message": "Same as ADARN.",
+      "revId": "27df95f362e8054883658943c0f5f5df5e4543a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d612ae8f_05b41e95",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1334,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-08-09T15:06:56Z",
+      "side": 1,
+      "message": "Same as ADARN.",
+      "revId": "27df95f362e8054883658943c0f5f5df5e4543a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce343e2c_1f87c4f3",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1406,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-08-09T15:06:56Z",
+      "side": 1,
+      "message": "Remove this line.",
+      "revId": "27df95f362e8054883658943c0f5f5df5e4543a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
