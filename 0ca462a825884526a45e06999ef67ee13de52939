@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d763e131_be4db56d",
+        "filename": "src/internal/cpu/cpu.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-08-09T15:44:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "321c3c3c_479315c4",
+      "revId": "0ca462a825884526a45e06999ef67ee13de52939",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8f0caad_89825e5b",
         "filename": "src/internal/cpu/cpu_ppc64x.go",
         "patchSetId": 1
