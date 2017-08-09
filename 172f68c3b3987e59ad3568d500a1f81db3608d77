@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ab93ed4_bf85e3f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T18:07:37Z",
+      "side": 1,
+      "message": "Write as\n\nhttps://golang.org/cl/53450",
+      "revId": "172f68c3b3987e59ad3568d500a1f81db3608d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2da7a8b4_d809da40",
+        "filename": "src/cmd/link/linkmain_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T18:07:37Z",
+      "side": 1,
+      "message": "You are writing constants to w, no real need to use it at all.  Put a constant outside of the function.\n\nconst invalidMainDecl \u003d `\npackage main\n\nvar main \u003d func() {}\n`\n\nand then ioutil.WriteFile(..., string(invalidMainDecl), 0666)",
+      "revId": "172f68c3b3987e59ad3568d500a1f81db3608d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c16a387_d492a785",
+        "filename": "src/cmd/link/linkmain_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T18:07:37Z",
+      "side": 1,
+      "message": "Check the error return of os.Chdir.",
+      "revId": "172f68c3b3987e59ad3568d500a1f81db3608d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad4b5333_364f1808",
+        "filename": "src/cmd/link/linkmain_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T18:07:37Z",
+      "side": 1,
+      "message": "Write the err \u003d\u003d nil case separately and do something like t.Error(\"build succeeded unexpectedly\")",
+      "revId": "172f68c3b3987e59ad3568d500a1f81db3608d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90538a88_96743681",
+        "filename": "src/cmd/link/linkmain_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T18:07:37Z",
+      "side": 1,
+      "message": "t.Errorf.",
+      "revId": "172f68c3b3987e59ad3568d500a1f81db3608d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
