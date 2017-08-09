@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e521e1fb_5d699e48",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-09T22:46:33Z",
+      "side": 1,
+      "message": "I can only imagine vague use-cases. I\u0027ll unexport it until someone provides a good use-case for it.",
+      "parentUuid": "e0771134_234d69bf",
+      "revId": "1d3d413938a587bd188a2e965d1aeefbdc452cb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43330fe4_e43a5fbf",
         "filename": "src/compress/gzip/gunzip.go",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "1d3d413938a587bd188a2e965d1aeefbdc452cb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8bceb19_08c4efe1",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-09T22:46:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43330fe4_e43a5fbf",
+      "revId": "1d3d413938a587bd188a2e965d1aeefbdc452cb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
