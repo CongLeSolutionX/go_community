@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "38eb2be7_1d7ef421",
+        "filename": "src/internal/cpu/cpu_ppc64x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-09T17:28:02Z",
+      "side": 1,
+      "message": "We can convert to uint inside archauxv. I think due to ints having been 32bit only in the past of the compiler even on 64bit architectures uintptr was used more often.",
+      "parentUuid": "d4172486_81d73188",
+      "range": {
+        "startLine": 14,
+        "startChar": 10,
+        "endLine": 14,
+        "endChar": 17
+      },
+      "revId": "0ca462a825884526a45e06999ef67ee13de52939",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e05d6ac0_6b9f602d",
         "filename": "src/internal/cpu/cpu_ppc64x.go",
         "patchSetId": 1
@@ -152,6 +176,30 @@
       "revId": "0ca462a825884526a45e06999ef67ee13de52939",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc68dbce_3ce44561",
+        "filename": "src/internal/cpu/cpu_ppc64x.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-09T17:28:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "363cc53e_df66c638",
+      "range": {
+        "startLine": 24,
+        "startChar": 32,
+        "endLine": 24,
+        "endChar": 42
+      },
+      "revId": "0ca462a825884526a45e06999ef67ee13de52939",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
