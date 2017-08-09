@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f9dae95_7f54a268",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-09T05:40:09Z",
+      "side": 1,
+      "message": "nit: disable?",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "ea2beb83904e94eff68c6f56c28d1afb09168471",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5998de66_70c4e058",
+        "filename": "src/net/http/fs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-09T05:40:09Z",
+      "side": 1,
+      "message": "Can you explain why this change is correct? What bug is this fixing? I see no special mention of HEAD requests in the definition of If-Range:\nhttps://tools.ietf.org/html/rfc7233#section-3.2\n\nThe definition of HEAD says \"The server SHOULD send the same header fields in response to a HEAD request as it would have sent if the request had been a GET\".\nhttps://tools.ietf.org/html/rfc7231#section-4.3.2\n\nThis implies we \"SHOULD\" check the If-Range header when processing HEAD requests.",
+      "revId": "ea2beb83904e94eff68c6f56c28d1afb09168471",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
