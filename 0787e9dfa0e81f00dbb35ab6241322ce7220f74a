@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "215f9b08_34a0e934",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T21:41:31Z",
+      "side": 1,
+      "message": "\u0026^\u003d here and below",
+      "range": {
+        "startLine": 85,
+        "startChar": 10,
+        "endLine": 85,
+        "endChar": 14
+      },
+      "revId": "0787e9dfa0e81f00dbb35ab6241322ce7220f74a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e13f1297_ad146044",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-09T21:41:31Z",
+      "side": 1,
+      "message": "hdrCpy.ModTime \u003d hdrCpy.ModeTime.Truncate(time.Second)",
+      "revId": "0787e9dfa0e81f00dbb35ab6241322ce7220f74a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
