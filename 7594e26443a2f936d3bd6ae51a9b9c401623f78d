@@ -70,6 +70,24 @@
       "revId": "7594e26443a2f936d3bd6ae51a9b9c401623f78d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8c49a7c_7eb6eadd",
+        "filename": "src/math/bits/bits_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 21363
+      },
+      "writtenOn": "2017-08-09T15:13:28Z",
+      "side": 1,
+      "message": "Sorry, I do have go 1.8 installed, but was building and testing with go 1.4*",
+      "parentUuid": "5a1a148d_4a28c91a",
+      "revId": "7594e26443a2f936d3bd6ae51a9b9c401623f78d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
