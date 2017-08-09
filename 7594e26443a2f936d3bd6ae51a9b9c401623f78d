@@ -52,6 +52,24 @@
       "revId": "7594e26443a2f936d3bd6ae51a9b9c401623f78d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a1a148d_4a28c91a",
+        "filename": "src/math/bits/bits_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 21363
+      },
+      "writtenOn": "2017-08-09T00:03:25Z",
+      "side": 1,
+      "message": "I do have go 1.5 installed, but was building and testing with go 1.4. I must have don\u0027t something incorrect that caused the go 1.8 toolchain to be used. I reverted that change though.",
+      "parentUuid": "f226881e_fd2ac227",
+      "revId": "7594e26443a2f936d3bd6ae51a9b9c401623f78d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
