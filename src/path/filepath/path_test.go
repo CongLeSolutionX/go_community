@@ -771,18 +771,6 @@ var EvalSymlinksTests = []EvalSymlinksTest{
 	{"test/linkabs", "/"},
 }
 
-// findEvalSymlinksTestDirsDest searches testDirs
-// for matching path and returns correspondent dest.
-func findEvalSymlinksTestDirsDest(t *testing.T, testDirs []EvalSymlinksTest, path string) string {
-	for _, d := range testDirs {
-		if d.path == path {
-			return d.dest
-		}
-	}
-	t.Fatalf("did not find %q in testDirs slice", path)
-	return ""
-}
-
 // simpleJoin builds a file name from the directory and path.
 // It does not use Join because we don't want ".." to be evaluated.
 func simpleJoin(dir, path string) string {
@@ -842,8 +830,11 @@ func TestEvalSymlinks(t *testing.T) {
 	for _, d := range tests {
 		path := simpleJoin(tmpDir, d.path)
 		dest := simpleJoin(tmpDir, d.dest)
-		if filepath.IsAbs(d.dest) || os.IsPathSeparator(d.dest[0]) {
+		if filepath.IsAbs(d.dest) {
 			dest = d.dest
+		} else if runtime.GOOS == "windows" && os.IsPathSeparator(d.dest[0]) {
+			// add C: in front of \...
+			dest = tmpDir[:2] + d.dest
 		}
 		if p, err := filepath.EvalSymlinks(path); err != nil {
 			t.Errorf("EvalSymlinks(%q) error: %v", d.path, err)
@@ -873,11 +864,10 @@ func TestEvalSymlinks(t *testing.T) {
 			if p == "." {
 				return
 			}
-			want := filepath.Clean(findEvalSymlinksTestDirsDest(t, testdirs, d.path))
-			if p == want {
+			if filepath.Clean(p) == filepath.Clean(dest) {
 				return
 			}
-			t.Errorf(`EvalSymlinks(".") in %q directory returns %q, want "." or %q`, d.path, p, want)
+			t.Errorf(`EvalSymlinks(".") in %q directory returns %q, want %q or %q`, d.path, p, ".", dest)
 		}()
 
 		// test EvalSymlinks("C:.") on Windows
@@ -900,17 +890,16 @@ func TestEvalSymlinks(t *testing.T) {
 
 				p, err := filepath.EvalSymlinks(volDot)
 				if err != nil {
-					t.Errorf(`EvalSymlinks("%s") in %q directory error: %v`, volDot, d.path, err)
+					t.Errorf(`EvalSymlinks(%q) in %q directory error: %v`, volDot, d.path, err)
 					return
 				}
 				if p == volDot {
 					return
 				}
-				want := filepath.Clean(findEvalSymlinksTestDirsDest(t, testdirs, d.path))
-				if p == want {
+				if filepath.Clean(p) == filepath.Clean(dest) {
 					return
 				}
-				t.Errorf(`EvalSymlinks("%s") in %q directory returns %q, want %q or %q`, volDot, d.path, p, volDot, want)
+				t.Errorf(`EvalSymlinks(%q) in %q directory returns %q, want %q or %q`, volDot, d.path, p, volDot, dest)
 			}()
 		}
 
@@ -923,23 +912,28 @@ func TestEvalSymlinks(t *testing.T) {
 				}
 			}()
 
-			err := os.Chdir(simpleJoin(tmpDir, "test"))
+			dir := simpleJoin(tmpDir, "test")
+			err := os.Chdir(dir)
 			if err != nil {
 				t.Error(err)
 				return
 			}
 
 			path := simpleJoin("..", d.path)
-			dest := simpleJoin("..", d.dest)
-			if filepath.IsAbs(d.dest) || os.IsPathSeparator(d.dest[0]) {
-				dest = d.dest
-			}
+			dest2 := simpleJoin("..", d.dest)
 
-			if p, err := filepath.EvalSymlinks(path); err != nil {
-				t.Errorf("EvalSymlinks(%q) error: %v", d.path, err)
-			} else if filepath.Clean(p) != filepath.Clean(dest) {
-				t.Errorf("EvalSymlinks(%q)=%q, want %q", path, p, dest)
+			p, err := filepath.EvalSymlinks(path)
+			if err != nil {
+				t.Errorf(`EvalSymlinks(%q) in %q directory error: %v`, path, dir, err)
+				return
 			}
+			if filepath.Clean(p) == filepath.Clean(dest2) {
+				return
+			}
+			if filepath.Clean(p) == filepath.Clean(dest) {
+				return
+			}
+			t.Errorf(`EvalSymlinks(%q) in %q directory returns %q, want %q or %q`, path, dir, p, dest2, dest)
 		}()
 
 		// test EvalSymlinks where parameter is relative path
@@ -956,11 +950,17 @@ func TestEvalSymlinks(t *testing.T) {
 				t.Error(err)
 				return
 			}
-			if p, err := filepath.EvalSymlinks(d.path); err != nil {
+			p, err := filepath.EvalSymlinks(d.path)
+			if err != nil {
 				t.Errorf("EvalSymlinks(%q) error: %v", d.path, err)
-			} else if filepath.Clean(p) != filepath.Clean(d.dest) {
-				t.Errorf("EvalSymlinks(%q)=%q, want %q", d.path, p, d.dest)
 			}
+			if filepath.Clean(p) == filepath.Clean(d.dest) {
+				return
+			}
+			if filepath.Clean(p) == filepath.Clean(dest) {
+				return
+			}
+			t.Errorf("EvalSymlinks(%q)=%q, want %q or %q", d.path, p, d.dest, dest)
 		}()
 	}
 }

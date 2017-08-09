@@ -44,7 +44,7 @@ func walkLink(path string, linksWalked *int) (newpath string, islink bool, err e
 	if fi.Mode()&os.ModeSymlink == 0 {
 		return path, false, nil
 	}
-	newpath, err = os.Readlink(path)
+	newpath, err = readLink(path)
 	if err != nil {
 		return "", false, err
 	}
