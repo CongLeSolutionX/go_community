@@ -2122,6 +2122,9 @@ func undefsym(ctxt *Link, s *Symbol) {
 		if r.Sym.Type == Sxxx || r.Sym.Type == SXREF {
 			Errorf(s, "undefined: %q", r.Sym.Name)
 		}
+		if r.Sym.Name == "main.main" && r.Sym.Type != STEXT {
+			Errorf(s, "main.main must be a function")
+		}
 		if !r.Sym.Attr.Reachable() && r.Type != objabi.R_WEAKADDROFF {
 			Errorf(s, "relocation target %q", r.Sym.Name)
 		}
