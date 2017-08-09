@@ -673,9 +673,10 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		adj := duffAdj(v.AuxInt)
 		var p *obj.Prog
 		if adj != 0 {
-			p = s.Prog(x86.AADDQ)
-			p.From.Type = obj.TYPE_CONST
+			p = s.Prog(x86.ALEAQ)
+			p.From.Type = obj.TYPE_MEM
 			p.From.Offset = adj
+			p.From.Reg = x86.REG_DI
 			p.To.Type = obj.TYPE_REG
 			p.To.Reg = x86.REG_DI
 		}
