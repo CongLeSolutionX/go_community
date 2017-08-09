@@ -5,8 +5,11 @@
 package filepath
 
 import (
+	"errors"
+	"internal/syscall/windows"
 	"strings"
 	"syscall"
+	"unsafe"
 )
 
 // normVolumeName is like VolumeName, but makes drive letter upper case.
@@ -106,10 +109,61 @@ func toNorm(path string, normBase func(string) (string, error)) (string, error) 
 	return volume + normPath, nil
 }
 
-func evalSymlinks(path string) (string, error) {
-	path, err := walkSymlinks(path)
+// useGetFinalPathNameByHandle uses Windows GetFinalPathNameByHandle
+// to retrieve the final path for the specified file.
+func useGetFinalPathNameByHandle(path string) (string, error) {
+	if path == "" {
+		return path, nil
+	}
+
+	// Use Windows I/O manager to dereference the symbolic link, as per
+	// https://blogs.msdn.microsoft.com/oldnewthing/20100212-00/?p=14963/
+	p, err := syscall.UTF16PtrFromString(path)
 	if err != nil {
 		return "", err
 	}
-	return toNorm(path, normBase)
+	h, err := syscall.CreateFile(p, 0, 0, nil,
+		syscall.OPEN_EXISTING, syscall.FILE_FLAG_BACKUP_SEMANTICS, 0)
+	if err != nil {
+		return "", err
+	}
+	defer syscall.CloseHandle(h)
+
+	buf := make([]uint16, 100)
+	for {
+		n, err := windows.GetFinalPathNameByHandle(h, &buf[0], uint32(len(buf)), windows.VOLUME_NAME_DOS)
+		if err != nil {
+			return "", err
+		}
+		if n < uint32(len(buf)) {
+			break
+		}
+		buf = make([]uint16, n)
+	}
+	s := syscall.UTF16ToString((*[1 << 29]uint16)(unsafe.Pointer(&buf[0]))[:])
+	if len(s) > 4 && s[:4] == `\\?\` {
+		s = s[4:]
+		if len(s) > 3 && s[:3] == `UNC` {
+			// return path like \\server\share\...
+			return `\` + s[3:], nil
+		}
+		return s, nil
+	}
+	return "", errors.New("GetFinalPathNameByHandle returned unexpected path=" + s)
+}
+
+func evalSymlinks(path string) (string, error) {
+	newpath, err := walkSymlinks(path)
+	if err == nil {
+		return toNorm(newpath, normBase)
+	}
+	if windows.LoadGetFinalPathNameByHandle() != nil {
+		// we must be using old version of Windows
+		return "", err
+	}
+	newpath, err = useGetFinalPathNameByHandle(path)
+	if err == nil {
+		return toNorm(newpath, normBase)
+	}
+	return "", err
 }
