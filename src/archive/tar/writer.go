@@ -77,7 +77,18 @@ var (
 // WriteHeader calls Flush if it is not the first header.
 // Calling after a Close will return ErrWriteAfterClose.
 func (tw *Writer) WriteHeader(hdr *Header) error {
-	return tw.writeHeader(hdr, true)
+	// TODO(dsnet): Add PAX timestamps with nanosecond support.
+	hdrCpy := *hdr
+	hdrCpy.ModTime = time.Unix(hdrCpy.ModTime.Unix(), 0) // Strip nanoseconds
+
+	// Compute a bit-map of allowed formats.
+	allowedFormats, _ := hdrCpy.allowedFormats()
+	if allowedFormats != formatUnknown {
+		// TODO(dsnet): Now that we know the exact formats that are supported,
+		// we should call specialized versions of each writer.
+		return tw.writeHeader(&hdrCpy, true)
+	}
+	return ErrHeader
 }
 
 // WriteHeader writes hdr and prepares to accept the file's contents.
