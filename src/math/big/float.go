@@ -415,7 +415,7 @@ func (z *Float) round(sbit uint) {
 	// bits > z.prec: mantissa too large => round
 	r := uint(bits - z.prec - 1) // rounding bit position; r >= 0
 	rbit := z.mant.bit(r) & 1    // rounding bit; be safe and ensure it's a single bit
-	if sbit == 0 {
+	if sbit == 0 && (rbit == 0 || z.mode == ToNearestEven) {
 		// TODO(gri) if rbit != 0 we don't need to compute sbit for some rounding modes (optimization)
 		sbit = z.mant.sticky(r)
 	}
