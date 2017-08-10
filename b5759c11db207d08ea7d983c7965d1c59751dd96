@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0287b415_1dd5c31b",
+        "filename": "src/cmd/link/testdata/linkmain_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-10T15:43:37Z",
+      "side": 1,
+      "message": "This comment seems wrong.",
+      "revId": "b5759c11db207d08ea7d983c7965d1c59751dd96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
