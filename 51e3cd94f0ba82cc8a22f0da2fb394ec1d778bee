@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "33bbf9bd_5497c600",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2017-08-10T17:07:29Z",
+      "side": 1,
+      "message": "Yes this is on purpose, because ModifyResponse is given the chance to edit the response on an error (see #21255). The test case where both the response and error are nil cover this possibility, showing that the user gets a nil response, and ServeHTTP panics.",
+      "parentUuid": "31b9bc29_7432d23a",
+      "revId": "51e3cd94f0ba82cc8a22f0da2fb394ec1d778bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "91bba80d_d7f61f20",
         "filename": "src/net/http/httputil/reverseproxy_test.go",
         "patchSetId": 2
