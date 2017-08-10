@@ -18,6 +18,133 @@ func ExampleDuration() {
 	fmt.Printf("The call took %v to run.\n", t1.Sub(t0))
 }
 
+func ExampleDuration_ParseDuration() {
+	durations := []string{
+		"1.9ns",
+		"2.9µs",
+		"5.8ms",
+		"5s",
+		"-8.13m",
+		"21h",
+		"9999999h",
+	}
+
+	for _, d := range durations {
+		x, err := time.ParseDuration(d)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Printf("%s = %dns\n", d, x)
+		}
+	}
+	// Output:
+	// 1.9ns = 1ns
+	// 2.9µs = 2900ns
+	// 5.8ms = 5800000ns
+	// 5s = 5000000000ns
+	// -8.13m = -487800000000ns
+	// 21h = 75600000000000ns
+	// time: invalid duration 9999999h
+}
+
+func ExampleDuration_Hours() {
+	t1 := time.Date(2016, time.August, 15, 0, 0, 0, 0, time.UTC)   // go1.7
+	t2 := time.Date(2017, time.February, 16, 0, 0, 0, 0, time.UTC) // go1.8
+	fmt.Printf("%f", t2.Sub(t1).Hours())
+	// Output: 4440.000000
+}
+
+func ExampleDuration_Minutes() {
+	t1 := time.Date(2016, time.August, 15, 0, 0, 0, 0, time.UTC)   // go1.7
+	t2 := time.Date(2017, time.February, 16, 0, 0, 0, 0, time.UTC) // go1.8
+	fmt.Printf("%f", t2.Sub(t1).Minutes())
+	// Output: 266400.000000
+}
+
+func ExampleDuration_Nanoseconds() {
+	t1 := time.Date(2016, time.August, 15, 0, 0, 0, 0, time.UTC)   // go1.7
+	t2 := time.Date(2017, time.February, 16, 0, 0, 0, 0, time.UTC) // go1.8
+	fmt.Printf("%d", t2.Sub(t1).Nanoseconds())
+	// Output: 15984000000000000
+}
+
+func ExampleDuration_Round() {
+	d, err := time.ParseDuration("1h15m30.918273645s")
+	if err != nil {
+		panic(err)
+	}
+
+	round := []time.Duration{
+		time.Nanosecond,
+		time.Microsecond,
+		time.Millisecond,
+		time.Second,
+		2 * time.Second,
+		time.Minute,
+		10 * time.Minute,
+		time.Hour,
+	}
+
+	for _, r := range round {
+		fmt.Printf("d.Round(%6s) = %s\n", r, d.Round(r).String())
+	}
+	// Output:
+	// d.Round(   1ns) = 1h15m30.918273645s
+	// d.Round(   1µs) = 1h15m30.918274s
+	// d.Round(   1ms) = 1h15m30.918s
+	// d.Round(    1s) = 1h15m31s
+	// d.Round(    2s) = 1h15m30s
+	// d.Round(  1m0s) = 1h16m0s
+	// d.Round( 10m0s) = 1h20m0s
+	// d.Round(1h0m0s) = 1h0m0s
+}
+
+func ExampleDuration_Seconds() {
+	t1 := time.Date(2016, time.August, 15, 0, 0, 0, 0, time.UTC)   // go1.7
+	t2 := time.Date(2017, time.February, 16, 0, 0, 0, 0, time.UTC) // go1.8
+	fmt.Printf("%f", t2.Sub(t1).Seconds())
+	// Output: 15984000.000000
+}
+
+func ExampleDuration_String() {
+	t1 := time.Date(2016, time.August, 15, 0, 0, 0, 0, time.UTC)   // go1.7
+	t2 := time.Date(2017, time.February, 16, 0, 0, 0, 0, time.UTC) // go1.8
+	fmt.Println(t2.Sub(t1).String())
+	// Output: 4440h0m0s
+}
+
+func ExampleDuration_Truncate() {
+	d, err := time.ParseDuration("1h15m30.918273645s")
+	if err != nil {
+		panic(err)
+	}
+
+	trunc := []time.Duration{
+		time.Nanosecond,
+		time.Microsecond,
+		time.Millisecond,
+		time.Second,
+		2 * time.Second,
+		time.Minute,
+		10 * time.Minute,
+		time.Hour,
+	}
+
+	for _, t := range trunc {
+		fmt.Printf("t.Truncate(%6s) = %s\n", t, d.Truncate(t).String())
+	}
+	// Output:
+	// t.Truncate(   1ns) = 1h15m30.918273645s
+	// t.Truncate(   1µs) = 1h15m30.918273s
+	// t.Truncate(   1ms) = 1h15m30.918s
+	// t.Truncate(    1s) = 1h15m30s
+	// t.Truncate(    2s) = 1h15m30s
+	// t.Truncate(  1m0s) = 1h15m0s
+	// t.Truncate( 10m0s) = 1h10m0s
+	// t.Truncate(1h0m0s) = 1h0m0s
+
+}
+
 var c chan int
 
 func handle(int) {}
