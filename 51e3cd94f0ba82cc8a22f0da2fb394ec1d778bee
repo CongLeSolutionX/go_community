@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31b9bc29_7432d23a",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-10T08:38:51Z",
+      "side": 1,
+      "message": "You removed the StatusBadGateway and return from here, so now if RoundTrip errors but ModifyResponse doesn\u0027t, the behaviour should be different from what I can tell.\n\nIs this on purpose? I don\u0027t think this is covered in the tests.",
+      "revId": "51e3cd94f0ba82cc8a22f0da2fb394ec1d778bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91bba80d_d7f61f20",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-10T08:38:51Z",
+      "side": 1,
+      "message": "You can simplify to: if res.Header.Get(\"X-Error\") !\u003d \"true\" {",
+      "revId": "51e3cd94f0ba82cc8a22f0da2fb394ec1d778bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ffe3b1d_5f14f8cd",
+        "filename": "src/net/http/httputil/reverseproxy_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-10T08:38:51Z",
+      "side": 1,
+      "message": "Sub-tests could be useful here. Then you can get rid of the #%d bits, and use i (or descritive names) for each sub-test.",
+      "revId": "51e3cd94f0ba82cc8a22f0da2fb394ec1d778bee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
