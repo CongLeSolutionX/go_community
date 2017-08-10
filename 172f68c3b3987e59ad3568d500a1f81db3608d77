@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "51ea6263_43934e96",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2126,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-10T09:19:01Z",
+      "side": 1,
+      "message": "simpler\n\nErrorf(\"main.main must be a function\")",
+      "revId": "172f68c3b3987e59ad3568d500a1f81db3608d77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2da7a8b4_d809da40",
         "filename": "src/cmd/link/linkmain_test.go",
         "patchSetId": 2
