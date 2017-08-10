@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c97e3be1_8c825035",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-10T17:30:24Z",
+      "side": 1,
+      "message": "Comment whether end is inclusive or exclusive.",
+      "revId": "5a7dddadd342ad84b875e2dbe56f9708cf7287d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32eddc81_b6800316",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-10T17:30:24Z",
+      "side": 1,
+      "message": "Is the compiler smart enough to know that span fits on the stack most of the time?\n\nWhat happens if you do?\n\n var spanArr [32]span\n spans :\u003d spanArr[:0]\n\nAlso, is the compiler smart enough to also know not to zero-out this memory?",
+      "range": {
+        "startLine": 356,
+        "startChar": 1,
+        "endLine": 356,
+        "endChar": 29
+      },
+      "revId": "5a7dddadd342ad84b875e2dbe56f9708cf7287d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
