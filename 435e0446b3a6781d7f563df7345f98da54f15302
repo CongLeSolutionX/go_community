@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25b6150e_3fa63e3a",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-10T17:35:25Z",
+      "side": 1,
+      "message": "I assume you\u0027re referring to the release date of Go1.7?\n\nWhen I first saw this, instead it made me think about whether this was some\ncompatibility issue where it only works on Go1.7 and not Go1.8. I would just remove these comments.",
+      "range": {
+        "startLine": 53,
+        "startChar": 64,
+        "endLine": 53,
+        "endChar": 72
+      },
+      "revId": "435e0446b3a6781d7f563df7345f98da54f15302",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
