@@ -136,3 +136,43 @@ func ExampleReverse8() {
 	// 00010011
 	// 11001000
 }
+
+func ExampleRotateLeft8() {
+	fmt.Printf("%08b\n", 19)
+	fmt.Printf("%08b\n", bits.RotateLeft8(19, 2))
+	fmt.Printf("%08b\n", bits.RotateLeft8(19, -2))
+	// Output:
+	// 00010011
+	// 01001100
+	// 11000100
+}
+
+func ExampleRotateLeft16() {
+	fmt.Printf("%016b\n", 19)
+	fmt.Printf("%016b\n", bits.RotateLeft16(19, 2))
+	fmt.Printf("%016b\n", bits.RotateLeft16(19, -2))
+	// Output:
+	// 0000000000010011
+	// 0000000001001100
+	// 1100000000000100
+}
+
+func ExampleRotateLeft32() {
+	fmt.Printf("%032b\n", 19)
+	fmt.Printf("%032b\n", bits.RotateLeft32(19, 2))
+	fmt.Printf("%032b\n", bits.RotateLeft32(19, -2))
+	// Output:
+	// 00000000000000000000000000010011
+	// 00000000000000000000000001001100
+	// 11000000000000000000000000000100
+}
+
+func ExampleRotateLeft64() {
+	fmt.Printf("%064b\n", 19)
+	fmt.Printf("%064b\n", bits.RotateLeft64(19, 2))
+	fmt.Printf("%064b\n", bits.RotateLeft64(19, -2))
+	// Output:
+	// 0000000000000000000000000000000000000000000000000000000000010011
+	// 0000000000000000000000000000000000000000000000000000000001001100
+	// 1100000000000000000000000000000000000000000000000000000000000100
+}
