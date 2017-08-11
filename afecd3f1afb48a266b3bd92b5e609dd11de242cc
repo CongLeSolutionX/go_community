@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "704c5944_59ed2922",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-11T01:47:09Z",
+      "side": 1,
+      "message": "in external linking mode",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "afecd3f1afb48a266b3bd92b5e609dd11de242cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dba3cc5_7d7c437e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-11T01:47:09Z",
+      "side": 1,
+      "message": "Do you mean \"when\" the object format is ELF?",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "afecd3f1afb48a266b3bd92b5e609dd11de242cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b344dcda_313f1ff8",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-11T01:47:09Z",
+      "side": 1,
+      "message": "How is this related to the change description?",
+      "revId": "afecd3f1afb48a266b3bd92b5e609dd11de242cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dbbc87e_636fd66d",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-11T01:47:09Z",
+      "side": 1,
+      "message": "I don\u0027t see how this could be correct.  Should this instead be\n    if Linkmode \u003d\u003d LinkExternal {\n        log.Fatalf(\"internal error: dynreloc called in external linking mode\")\n    }",
+      "revId": "afecd3f1afb48a266b3bd92b5e609dd11de242cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ea39ef6_c24e3965",
+        "filename": "src/cmd/link/internal/s390x/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-11T01:47:09Z",
+      "side": 1,
+      "message": "There are no s390 Mach-O files, so this changes seems odd.",
+      "revId": "afecd3f1afb48a266b3bd92b5e609dd11de242cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
