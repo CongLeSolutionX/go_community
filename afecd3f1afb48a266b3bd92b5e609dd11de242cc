@@ -220,6 +220,24 @@
     },
     {
       "key": {
+        "uuid": "62248ce5_efb1a74a",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-08-11T05:31:22Z",
+      "side": 1,
+      "message": "Sorry, I think my English is very bad. I need to update patch summary. Actually, dynreloc is called in external linking mode when the object file format is PE or Mach-O. All I want to say is -- even if the function is called in external linking mode, I suppose it doesn\u0027t do something useful now. So I want to insert early return to make sure that fact (assumption?).",
+      "parentUuid": "ff2ae592_124c26b7",
+      "revId": "afecd3f1afb48a266b3bd92b5e609dd11de242cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ea39ef6_c24e3965",
         "filename": "src/cmd/link/internal/s390x/asm.go",
         "patchSetId": 1
