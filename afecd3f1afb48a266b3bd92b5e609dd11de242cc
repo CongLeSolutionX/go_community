@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "6c219e33_9af1a0dd",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-11T02:16:34Z",
+      "side": 1,
+      "message": "Let me put it this way: if something does call this function in external linking mode, we have to do something.  We can\u0027t simply return.  We can call log.Fatal as I suggested, or we can execute the function as usual, or we can do something else.  I don\u0027t see how simply returning could ever be correct.",
+      "parentUuid": "6bbc8b61_3a600492",
+      "revId": "afecd3f1afb48a266b3bd92b5e609dd11de242cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ea39ef6_c24e3965",
         "filename": "src/cmd/link/internal/s390x/asm.go",
         "patchSetId": 1
