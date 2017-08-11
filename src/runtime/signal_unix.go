@@ -399,6 +399,9 @@ func dieFromSignal(sig uint32) {
 	// initialized.
 	fn := atomic.Loaduintptr(&fwdSig[sig])
 	setsig(sig, fn)
+	// On Darwin, sigtramp is called even for non-Go signal handlers.
+	// Mark the signal as unhandled to ensure it is forwarded.
+	atomic.Store(&handlingSig[sig], 0)
 	raise(sig)
 
 	// That should have killed us. On some systems, though, raise
