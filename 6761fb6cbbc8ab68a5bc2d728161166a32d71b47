@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be58482b_8c67e5bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-11T21:19:24Z",
+      "side": 1,
+      "message": "internal",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 11
+      },
+      "revId": "6761fb6cbbc8ab68a5bc2d728161166a32d71b47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9196ed6d_2f19e291",
+        "filename": "src/internal/cpu/cpu_ppc64x.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-11T21:19:24Z",
+      "side": 1,
+      "message": "i think we can drop the has here. e.g. darn and scv below do not have a has either.",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "6761fb6cbbc8ab68a5bc2d728161166a32d71b47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
