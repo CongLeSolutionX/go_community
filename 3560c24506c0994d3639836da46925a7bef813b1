@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "382f5745_e33881f3",
+        "filename": "src/runtime/signal_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-11T18:23:09Z",
+      "side": 1,
+      "message": "Good catch.  As a general rule we always set handlingSig before calling setsig, and we should do that here too.",
+      "revId": "3560c24506c0994d3639836da46925a7bef813b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
