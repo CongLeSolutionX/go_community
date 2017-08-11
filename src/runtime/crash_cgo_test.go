@@ -418,8 +418,8 @@ func TestCatchPanic(t *testing.T) {
 	case "plan9", "windows":
 		t.Skipf("no signals on %s", runtime.GOOS)
 	case "darwin":
-		if runtime.GOARCH == "amd64" {
-			t.Skipf("crash() on darwin/amd64 doesn't raise SIGABRT")
+		if runtime.GOARCH == "amd64" || runtime.GOARCH == "386" {
+			t.Skipf("crash() on darwin/%s doesn't raise SIGABRT", runtime.GOARCH)
 		}
 	}
 
