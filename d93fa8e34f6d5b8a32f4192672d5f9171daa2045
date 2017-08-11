@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30f2ebdc_fa0291ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-11T08:58:48Z",
+      "side": 1,
+      "message": "The actual test simply tests that main.main is a function when linking. The message here implies something else. How about simply:\n\ncmd/link: report error if main.main is not a function",
+      "revId": "d93fa8e34f6d5b8a32f4192672d5f9171daa2045",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b134670b_ef463cda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-11T08:58:48Z",
+      "side": 1,
+      "message": "No need to explain the prior attempt. It doesn\u0027t help understand the issue. Just leave this away.",
+      "revId": "d93fa8e34f6d5b8a32f4192672d5f9171daa2045",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28e4dbe0_9f4732ee",
+        "filename": "src/cmd/link/linkmain_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-11T08:58:48Z",
+      "side": 1,
+      "message": "If there\u0027s no error, this should not continue after the if.\nReturn here or make this a t.Fatal.",
+      "revId": "d93fa8e34f6d5b8a32f4192672d5f9171daa2045",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "296ffd8a_8ce7ca63",
+        "filename": "src/cmd/link/linkmain_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-11T08:58:48Z",
+      "side": 1,
+      "message": "We want the build to fail; but we want the correct error message. The error message here is misleading. How about:\n\nt.Errorf(\"Failing build produced unexpected output: %s (%v)\", out, err)",
+      "revId": "d93fa8e34f6d5b8a32f4192672d5f9171daa2045",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
