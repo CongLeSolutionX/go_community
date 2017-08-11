@@ -202,6 +202,24 @@
     },
     {
       "key": {
+        "uuid": "ff2ae592_124c26b7",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-11T05:08:29Z",
+      "side": 1,
+      "message": "I believe you that dynreloc is never called in external linking mode.\n\nHowever, there will be bugs as the linker changes, and we want to make the code reasonably robust.  If this function simply returns in external linking mode, then it is not robust if a bug is ever introduced that causes the function to be called.  That will become a lurking bug, because it will silently do nothing.  It is much better for that case if the code either crashes or do something useful.",
+      "parentUuid": "c50e8d9a_04ba5d0d",
+      "revId": "afecd3f1afb48a266b3bd92b5e609dd11de242cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ea39ef6_c24e3965",
         "filename": "src/cmd/link/internal/s390x/asm.go",
         "patchSetId": 1
