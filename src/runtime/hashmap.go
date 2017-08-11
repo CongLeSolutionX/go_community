@@ -1137,7 +1137,7 @@ func evacuate(t *maptype, h *hmap, oldbucket uintptr) {
 					dst.k = add(unsafe.Pointer(dst.b), dataOffset)
 					dst.v = add(dst.k, bucketCnt*uintptr(t.keysize))
 				}
-				dst.b.tophash[dst.i] = top
+				dst.b.tophash[dst.i&(bucketCnt-1)] = top // mask dst.i as an optimization, to avoid a bounds check
 				if t.indirectkey {
 					*(*unsafe.Pointer)(dst.k) = k2 // copy pointer
 				} else {
