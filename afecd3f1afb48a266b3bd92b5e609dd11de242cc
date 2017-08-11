@@ -184,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "c50e8d9a_04ba5d0d",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-08-11T02:39:16Z",
+      "side": 1,
+      "message": "I\u0027m sorry, I can\u0027t understand. Are you expecting that dynreloc never be called in external linking mode? Or are you thinking that dynreloc in external linking mode have some roles?",
+      "parentUuid": "6c219e33_9af1a0dd",
+      "revId": "afecd3f1afb48a266b3bd92b5e609dd11de242cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ea39ef6_c24e3965",
         "filename": "src/cmd/link/internal/s390x/asm.go",
         "patchSetId": 1
