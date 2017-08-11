@@ -266,12 +266,12 @@ func formatPAXRecord(k, v string) (string, error) {
 	const padding = 3 // Extra padding for ' ', '=', and '\n'
 	size := len(k) + len(v) + padding
 	size += len(strconv.Itoa(size))
-	record := fmt.Sprintf("%d %s=%s\n", size, k, v)
+	record := fmt.Sprint(size) + " " + k + "=" + v + "\n"
 
 	// Final adjustment if adding size field increased the record size.
 	if len(record) != size {
 		size = len(record)
-		record = fmt.Sprintf("%d %s=%s\n", size, k, v)
+		record = fmt.Sprint(size) + " " + k + "=" + v + "\n"
 	}
 	return record, nil
 }
