@@ -111,6 +111,7 @@ func growslice(et *_type, old slice, cap int) slice {
 		}
 	}
 
+	var overflow bool
 	var lenmem, newlenmem, capmem uintptr
 	const ptrSize = unsafe.Sizeof((*byte)(nil))
 	switch et.size {
@@ -118,20 +119,23 @@ func growslice(et *_type, old slice, cap int) slice {
 		lenmem = uintptr(old.len)
 		newlenmem = uintptr(cap)
 		capmem = roundupsize(uintptr(newcap))
+		overflow = uintptr(newcap) > _MaxMem
 		newcap = int(capmem)
 	case ptrSize:
 		lenmem = uintptr(old.len) * ptrSize
 		newlenmem = uintptr(cap) * ptrSize
 		capmem = roundupsize(uintptr(newcap) * ptrSize)
+		overflow = uintptr(newcap) > _MaxMem/ptrSize
 		newcap = int(capmem / ptrSize)
 	default:
 		lenmem = uintptr(old.len) * et.size
 		newlenmem = uintptr(cap) * et.size
 		capmem = roundupsize(uintptr(newcap) * et.size)
+		overflow = uintptr(newcap) > maxSliceCap(et.size)
 		newcap = int(capmem / et.size)
 	}
 
-	if cap < old.cap || uintptr(newcap) > maxSliceCap(et.size) {
+	if cap < old.cap || overflow || capmem > _MaxMem {
 		panic(errorString("growslice: cap out of range"))
 	}
 
