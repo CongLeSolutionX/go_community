@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a88c8989_e7510ffb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-12T23:22:55Z",
+      "side": 1,
+      "message": "Nit, usually there isn\u0027t a colon here:\n\n Fixes #21278",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 6
+      },
+      "revId": "641583abcf1ad1fe01994bf4e37d2aac1649351f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
