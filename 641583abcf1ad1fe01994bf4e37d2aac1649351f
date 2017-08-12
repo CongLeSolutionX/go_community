@@ -22,6 +22,23 @@
       "revId": "641583abcf1ad1fe01994bf4e37d2aac1649351f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5209e625_f1f683f1",
+        "filename": "src/strconv/atoi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-12T23:28:47Z",
+      "side": 1,
+      "message": "Why isn\u0027t this changed too?\n\nIt\u0027s changed in your follow-up change: CL/55135",
+      "revId": "641583abcf1ad1fe01994bf4e37d2aac1649351f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
