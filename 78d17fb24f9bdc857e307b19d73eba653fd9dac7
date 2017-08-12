@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "022e9cb5_83a4a33e",
+        "filename": "src/archive/tar/strconv.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-12T01:37:30Z",
+      "side": 1,
+      "message": "This could be even faster by directly calling strconv.Itoa directly.",
+      "range": {
+        "startLine": 269,
+        "startChar": 11,
+        "endLine": 269,
+        "endChar": 27
+      },
+      "revId": "78d17fb24f9bdc857e307b19d73eba653fd9dac7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d96e7a67_f6e86dd8",
+        "filename": "src/archive/tar/strconv_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-12T01:37:30Z",
+      "side": 1,
+      "message": "I\u0027d rather not add benchmarks for micro-optimizations like this.\n\nIf you want to add some higher-level benchmarks that measures how long it takes to write an archive with some number of files, then that\u0027s fine.",
+      "revId": "78d17fb24f9bdc857e307b19d73eba653fd9dac7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
