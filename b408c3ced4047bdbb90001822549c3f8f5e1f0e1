@@ -16,6 +16,24 @@
       "revId": "b408c3ced4047bdbb90001822549c3f8f5e1f0e1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff0e043_c9b73c25",
+        "filename": "src/strconv/atoi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-13T10:37:35Z",
+      "side": 1,
+      "message": "Indeed and i had made a bigger local commit that contains that already :)\n\nThere will be more changes in this part of the code. e.g. bit size tests. I just try to do not to much at once as there are many different cleanups and features and some changes require earlier commits to get in first so i have not uploaded/broken up all of it into smaller CLs yet.\n\nThanks for review. If you want i can add you directly to all the other related changes.",
+      "parentUuid": "deb56e5b_3cbbece7",
+      "revId": "b408c3ced4047bdbb90001822549c3f8f5e1f0e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
