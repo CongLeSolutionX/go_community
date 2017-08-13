@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea89b4d3_9cebf353",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-08-13T14:47:22Z",
+      "side": 1,
+      "message": "There is more, package is actually stated twice. I only had eyes for the typo, sry :D\nAlso would rephrase a bit (if you change again):\nApplies the optimizations from ... and ... done to the strings package to the bytes package.",
+      "revId": "7163389da13c4b8e138333d9b34f5c29877e1aad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
