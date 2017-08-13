@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deb56e5b_3cbbece7",
+        "filename": "src/strconv/atoi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-13T10:28:53Z",
+      "side": 1,
+      "message": "with the goto gone, you might be able to clean up some of these vars declared way too early (which was likely because of the goto).",
+      "revId": "b408c3ced4047bdbb90001822549c3f8f5e1f0e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
