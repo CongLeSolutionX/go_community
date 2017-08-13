@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbfbbe47_520afabb",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-08-13T21:48:03Z",
+      "side": 1,
+      "message": "Could this construct diverge in some crazy fashion after an overflow?",
+      "range": {
+        "startLine": 108,
+        "startChar": 3,
+        "endLine": 110,
+        "endChar": 4
+      },
+      "revId": "7f67ff4b666c680ff40fb8241b17a4b04f58f3f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
