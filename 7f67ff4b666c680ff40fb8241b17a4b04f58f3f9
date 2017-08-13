@@ -46,6 +46,30 @@
       "revId": "7f67ff4b666c680ff40fb8241b17a4b04f58f3f9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05d89270_b672387b",
+        "filename": "src/runtime/slice.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-13T22:31:26Z",
+      "side": 1,
+      "message": "After some experimentation - the answer is YES (at least on darwin 386 tip) to \"go infinite loop crazy?\" \n\nx \u003d make([]byte, 1\u003c\u003c30-1, 1\u003c\u003c30-1)\nx \u003d append(x, x...)\n\nhttps://play.golang.org/p/Y-P-O4yWno",
+      "parentUuid": "bd814f24_b4dd8a8a",
+      "range": {
+        "startLine": 108,
+        "startChar": 3,
+        "endLine": 110,
+        "endChar": 4
+      },
+      "revId": "7f67ff4b666c680ff40fb8241b17a4b04f58f3f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
