@@ -16,6 +16,24 @@
       "revId": "7163389da13c4b8e138333d9b34f5c29877e1aad",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc5302f1_ecce6811",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-13T14:54:47Z",
+      "side": 1,
+      "message": "done. And i thought this would be a simple copy and paste CL :D",
+      "parentUuid": "ea89b4d3_9cebf353",
+      "revId": "7163389da13c4b8e138333d9b34f5c29877e1aad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
