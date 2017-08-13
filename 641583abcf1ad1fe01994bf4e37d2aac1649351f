@@ -39,6 +39,24 @@
       "revId": "641583abcf1ad1fe01994bf4e37d2aac1649351f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab6a08fd_f9e265f5",
+        "filename": "src/strconv/atoi.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-13T05:02:22Z",
+      "side": 1,
+      "message": "i thought its the Uint64 overflow test which can only\nbe triggered by overflowing within Uint64. But since\nits first it could trigger with 63bit maybe too.",
+      "parentUuid": "5209e625_f1f683f1",
+      "revId": "641583abcf1ad1fe01994bf4e37d2aac1649351f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
