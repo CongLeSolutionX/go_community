@@ -22,6 +22,30 @@
       "revId": "053677887dca4660c65dc803472c5f304361ccf8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3435dab_8e2baf87",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-14T18:35:03Z",
+      "side": 1,
+      "message": "indeed. good catch.",
+      "parentUuid": "f5c37afa_a34e2922",
+      "range": {
+        "startLine": 271,
+        "startChar": 59,
+        "endLine": 271,
+        "endChar": 64
+      },
+      "revId": "053677887dca4660c65dc803472c5f304361ccf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
