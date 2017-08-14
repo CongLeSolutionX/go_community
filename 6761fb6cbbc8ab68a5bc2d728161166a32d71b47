@@ -93,6 +93,30 @@
       "revId": "6761fb6cbbc8ab68a5bc2d728161166a32d71b47",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a62e314c_11e96112",
+        "filename": "src/internal/cpu/cpu_ppc64x.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-14T12:47:51Z",
+      "side": 1,
+      "message": "I see - i thought it was only the values that were the same not the exact same naming too. But checking back you said constant names too.",
+      "parentUuid": "b501efcf_1a7d8b06",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "6761fb6cbbc8ab68a5bc2d728161166a32d71b47",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
