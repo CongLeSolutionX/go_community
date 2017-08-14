@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42e3f53e_1fc3e5ac",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-14T16:26:53Z",
+      "side": 1,
+      "message": "IMO this would be cleaner using a named return variable for the error, then you could call this with defer.\n\nAlternately (and possibly better), you could move most of this method to a new method, Transport.roundTrip, which would return extra logging info (the conn id and req id) in addition to resp and err.",
+      "revId": "113a50ea38e3ac26c1a910b47732f2fe374e738a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d9d84b8_a8cc6b03",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 466,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-14T16:26:53Z",
+      "side": 1,
+      "message": "This comment says \"log at the wire level\"\nhttps://github.com/golang/go/issues/18733#issuecomment-295578129\n\nI\u0027d expect that to mean:\n- For outgoing data, log just before it is sent on the wire\n- For incoming data, log just as it is parsed\n\nDid you intend to do that here, rather than just logging fields of Request?",
+      "revId": "113a50ea38e3ac26c1a910b47732f2fe374e738a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04fa2e3d_f7843305",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-14T16:26:53Z",
+      "side": 1,
+      "message": "I wonder how much of this you could implement with httptrace? It would be cool if you could implement this entirely with httptrace. Essentially: if the environment variables are set, RoundTrip creates a ClientTrace object that stores the req id and does logging where desired.\n\nDoing this might require updates to httptrace. I haven\u0027t thought this through completely, so maybe those updates would be prohibitively complex. Hardest part might be finding a place to store the conn id. Perhaps you could leave the conn id in pconn, then dynamically cast GotConnInfo\u0027s net.Conn to a pconn.\n\nAlso see https://github.com/golang/go/issues/19761.\n\nWDYT?",
+      "revId": "113a50ea38e3ac26c1a910b47732f2fe374e738a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a454fdc_f00ee3fb",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-14T16:26:53Z",
+      "side": 1,
+      "message": "See above comment about httptrace. Scanning through your change, almost all logging calls follow a call to httptrace.",
+      "revId": "113a50ea38e3ac26c1a910b47732f2fe374e738a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ca5776_3f53d3aa",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1532,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-14T16:26:53Z",
+      "side": 1,
+      "message": "nit everywhere: ID, not Id",
+      "range": {
+        "startLine": 1532,
+        "startChar": 12,
+        "endLine": 1532,
+        "endChar": 14
+      },
+      "revId": "113a50ea38e3ac26c1a910b47732f2fe374e738a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64e28b3f_340a32d2",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-14T16:26:53Z",
+      "side": 1,
+      "message": "Can you explain why you\u0027re taking an address here rather than just copying the value? Ditto for currWriteReqId.",
+      "revId": "113a50ea38e3ac26c1a910b47732f2fe374e738a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
