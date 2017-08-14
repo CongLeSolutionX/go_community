@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5c37afa_a34e2922",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-14T18:18:34Z",
+      "side": 1,
+      "message": "Use list instead of array? Arrays are a specific data type in Go, of which the return type is not.\n\nIt is also consistent with the word later about an \"empty list\".",
+      "range": {
+        "startLine": 271,
+        "startChar": 59,
+        "endLine": 271,
+        "endChar": 64
+      },
+      "revId": "053677887dca4660c65dc803472c5f304361ccf8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
