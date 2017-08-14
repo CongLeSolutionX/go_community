@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55e571d3_85b66f03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-14T19:13:12Z",
+      "side": 1,
+      "message": "s/correctify/correct/",
+      "revId": "a93fce7a5d421705bc246113186b06f2794e53dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9add4268_30771f49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-14T19:13:12Z",
+      "side": 1,
+      "message": "Only set MH_NOUNDEFS if there are no undefined symbols. Doesn\u0027t seem to matter, but may as well do it right.",
+      "revId": "a93fce7a5d421705bc246113186b06f2794e53dd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
