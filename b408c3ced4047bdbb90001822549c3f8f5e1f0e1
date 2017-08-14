@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ef0aaf76_a16b6092",
+        "filename": "src/strconv/atoi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-14T18:28:45Z",
+      "side": 1,
+      "message": "Let\u0027s not over-complicate the errors API on errors that are generally not actionable. \nBoth baseError and bitsError are most likely the result of programmer error, \nand I don\u0027t really see anyone needing to check for that error value.\nOn the other hand, ErrRange and ErrSyntax are actually useful.\n\nIf anything, we should just adjust the comment to make it clear that ErrRange and ErrSyntax are not the only error values that can be returned.\n\n // the reason the conversion failed (e.g., ErrRange, ErrSyntax, etc)",
+      "parentUuid": "23c42709_540bd05f",
+      "range": {
+        "startLine": 19,
+        "startChar": 16,
+        "endLine": 19,
+        "endChar": 70
+      },
+      "revId": "b408c3ced4047bdbb90001822549c3f8f5e1f0e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "deb56e5b_3cbbece7",
         "filename": "src/strconv/atoi.go",
         "patchSetId": 2
@@ -190,6 +214,30 @@
       "side": 1,
       "message": "sounds good",
       "parentUuid": "1556106e_1bac7606",
+      "range": {
+        "startLine": 140,
+        "startChar": 3,
+        "endLine": 146,
+        "endChar": 32
+      },
+      "revId": "b408c3ced4047bdbb90001822549c3f8f5e1f0e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62cbbeab_fd84ef55",
+        "filename": "src/strconv/atoi.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-14T18:28:45Z",
+      "side": 1,
+      "message": "This comment seems accurate.\n\nIt claims the following 3 properties:\n * _, ok :\u003d err.(*NumError); ok\n * if s is not representable; then NumError.Err \u003d\u003d ErrRange\n * if s is invalid; then NumError.Err  \u003d\u003d ErrSyntax\n\nIt makes no claims for the what the NumError.Err is for all other possible combinations of inputs.",
+      "parentUuid": "1f171283_c7993806",
       "range": {
         "startLine": 140,
         "startChar": 3,
