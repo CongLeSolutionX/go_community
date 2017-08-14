@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a1f10976_7cafac05",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-14T16:36:11Z",
+      "side": 1,
+      "message": "This is logging code that is disabled by default. I think it\u0027s mostly fine. Maybe we can use fewer string concats, but I\u0027d save that for nits at the end.",
+      "parentUuid": "81dfd94b_97336326",
+      "revId": "9b13c45b7119d69e0c1a8cf3bed17fc0506fc566",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d237dcde_6e7c03f2",
         "filename": "src/net/http/transport.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-05-17T04:01:45Z",
       "side": 1,
       "message": "readLoop blocks on Peek(1). This is problematic because once the first byte comes in, it reads a chunk of bytes (4096) and buffers them. Those are bytes that won\u0027t again be read from the connection. So we have to log it here, but req id is not known. My non-ideal solution to this was to say that these bytes were read during a Peek. This is somewhat confusing and not precise. I don\u0027t know how to avoid this. If buffering is turned off, that will hurt performance. If we don\u0027t rely on the reqId \nthat\u0027s passed to the read loop and use an independent counter instead, that could be wrong if the req id is incremented but a request doesn\u0027t go through. Am I wrong/missing something?",
+      "revId": "9b13c45b7119d69e0c1a8cf3bed17fc0506fc566",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a250e40_ba9fad6c",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-08-14T16:36:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure we need to log at this level. Is it actually useful to log the number of bytes read/written from the connection? Seems more useful to log # of bytes only for request/response bodies.\n\nIn the peek case, we\u0027re either getting EOF or response headers. For response headers, instead of logging \"read N bytes\", I\u0027d log \"got response \u003creqid\u003e \u003cstatuscode\u003e\", \"header 1\", \"header2\".",
+      "parentUuid": "d237dcde_6e7c03f2",
       "revId": "9b13c45b7119d69e0c1a8cf3bed17fc0506fc566",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
