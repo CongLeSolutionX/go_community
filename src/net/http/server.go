@@ -313,6 +313,9 @@ func (c *conn) hijackLocked() (rwc net.Conn, buf *bufio.ReadWriter, err error) {
 // but otherwise it's somewhat arbitrary.
 const bufferBeforeChunkingSize = 2048
 
+// This is the buffer size before conn write
+const bufferBeforeConnWriteSize = 4096
+
 // chunkWriter writes to a response's conn buffer, and is the writer
 // wrapped by the response.bufw buffered writer.
 //
@@ -353,6 +356,22 @@ func (cw *chunkWriter) Write(p []byte) (n int, err error) {
 	if cw.res.req.Method == "HEAD" {
 		// Eat writes.
 		return len(p), nil
+	}
+	// when the data size is more than conn buffer length+1
+	// we send data by seperate writes so client will not close
+	// early because of getting all data
+	// issue https://github.com/golang/go/issues/20528
+	if size := len(p); size > bufferBeforeConnWriteSize+1 {
+		var p1, p2 int
+		p1, err = cw.Write(p[:bufferBeforeConnWriteSize+1])
+		if err != nil {
+			return
+		}
+		p2, err = cw.Write(p[bufferBeforeConnWriteSize+1:])
+		if err != nil {
+			return
+		}
+		return p1 + p2, nil
 	}
 	if cw.chunking {
 		_, err = fmt.Fprintf(cw.res.conn.bufw, "%x\r\n", len(p))
@@ -1736,7 +1755,7 @@ func (c *conn) serve(ctx context.Context) {
 
 	c.r = &connReader{conn: c}
 	c.bufr = newBufioReader(c.r)
-	c.bufw = newBufioWriterSize(checkConnErrorWriter{c}, 4<<10)
+	c.bufw = newBufioWriterSize(checkConnErrorWriter{c}, bufferBeforeConnWriteSize)
 
 	for {
 		w, err := c.readRequest(ctx)
