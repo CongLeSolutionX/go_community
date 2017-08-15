@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5fc3c14_8fd4876f",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T04:36:38Z",
+      "side": 1,
+      "message": "Pretty minor, but please add a period at the end of the sentence.",
+      "revId": "5b2cbee03d39794137ab70e15ac28ee3eb55dfa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
