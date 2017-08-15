@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe85939b_22b4c09a",
+        "filename": "src/math/big/int.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-15T11:27:39Z",
+      "side": 1,
+      "message": "maybe s/x and y/x or y/",
+      "range": {
+        "startLine": 450,
+        "startChar": 41,
+        "endLine": 450,
+        "endChar": 42
+      },
+      "revId": "ceb7cad9bcf6886728f3412dea7158a018574a46",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
