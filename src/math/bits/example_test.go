@@ -116,35 +116,83 @@ func ExampleRotateLeft64() {
 }
 
 func ExampleReverse8() {
-	fmt.Printf("%08b\n", 19)
-	fmt.Printf("%08b\n", bits.Reverse8(19))
+	fmt.Printf("%08b\n", 15)
+	fmt.Printf("%08b\n", bits.Reverse8(15))
 	// Output:
-	// 00010011
-	// 11001000
+	// 00001111
+	// 11110000
 }
 
 func ExampleReverse16() {
-	fmt.Printf("%016b\n", 19)
-	fmt.Printf("%016b\n", bits.Reverse16(19))
+	fmt.Printf("%016b\n", 15)
+	fmt.Printf("%016b\n", bits.Reverse16(15))
 	// Output:
-	// 0000000000010011
-	// 1100100000000000
+	// 0000000000001111
+	// 1111000000000000
 }
 
 func ExampleReverse32() {
-	fmt.Printf("%032b\n", 19)
-	fmt.Printf("%032b\n", bits.Reverse32(19))
+	fmt.Printf("%032b\n", 15)
+	fmt.Printf("%032b\n", bits.Reverse32(15))
 	// Output:
-	// 00000000000000000000000000010011
-	// 11001000000000000000000000000000
+	// 00000000000000000000000000001111
+	// 11110000000000000000000000000000
 }
 
 func ExampleReverse64() {
-	fmt.Printf("%064b\n", 19)
-	fmt.Printf("%064b\n", bits.Reverse64(19))
+	fmt.Printf("%064b\n", 15)
+	fmt.Printf("%064b\n", bits.Reverse64(15))
 	// Output:
-	// 0000000000000000000000000000000000000000000000000000000000010011
-	// 1100100000000000000000000000000000000000000000000000000000000000
+	// 0000000000000000000000000000000000000000000000000000000000001111
+	// 1111000000000000000000000000000000000000000000000000000000000000
+}
+
+func ExampleReverseBytes16() {
+	fmt.Printf("%016b\n", 15)
+	fmt.Printf("%016b\n", bits.ReverseBytes16(15))
+	// Output:
+	// 0000000000001111
+	// 0000111100000000
+}
+
+func ExampleReverseBytes32() {
+	fmt.Printf("%032b\n", 15)
+	fmt.Printf("%032b\n", bits.ReverseBytes32(15))
+	// Output:
+	// 00000000000000000000000000001111
+	// 00001111000000000000000000000000
+}
+
+func ExampleReverseBytes64() {
+	fmt.Printf("%064b\n", 15)
+	fmt.Printf("%064b\n", bits.ReverseBytes64(15))
+	// Output:
+	// 0000000000000000000000000000000000000000000000000000000000001111
+	// 0000111100000000000000000000000000000000000000000000000000000000
+}
+
+func ExampleLen8() {
+	fmt.Printf("Len8(%08b) = %d\n", 8, bits.Len8(8))
+	// Output:
+	// Len8(00001000) = 4
+}
+
+func ExampleLen16() {
+	fmt.Printf("Len16(%016b) = %d\n", 8, bits.Len16(8))
+	// Output:
+	// Len16(0000000000001000) = 4
+}
+
+func ExampleLen32() {
+	fmt.Printf("Len32(%032b) = %d\n", 8, bits.Len32(8))
+	// Output:
+	// Len32(00000000000000000000000000001000) = 4
+}
+
+func ExampleLen64() {
+	fmt.Printf("Len64(%064b) = %d\n", 8, bits.Len64(8))
+	// Output:
+	// Len64(0000000000000000000000000000000000000000000000000000000000001000) = 4
 }
 
 func ExampleReverseBytes16() {

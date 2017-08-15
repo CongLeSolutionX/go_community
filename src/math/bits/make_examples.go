@@ -11,12 +11,17 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"go/format"
 	"io/ioutil"
 	"log"
 	"math/bits"
+	"reflect"
+	"strings"
+	"text/template"
 )
 
-const header = `// Copyright 2017 The Go Authors. All rights reserved.
+const (
+	header = `// Copyright 2017 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
@@ -28,79 +33,130 @@ import (
 	"fmt"
 	"math/bits"
 )
+
 `
 
-func main() {
-	w := bytes.NewBuffer([]byte(header))
+	regT = `
+func Example{{ .Name }}{{ .Size }}() {
+	fmt.Printf("{{ .Name }}{{ .Size }}(%0{{ .Size }}b) = %d\n", {{ .FirstArg }}, bits.{{ .Name }}{{ .Size }}({{ .Input }}))
+	// Output:
+	// {{ .Name }}{{ .Size }}({{ .FirstArgBytes }}) = {{ .Output }}
+}
+`
 
-	for _, e := range []struct {
-		name string
-		in   int
-		out  [4]interface{}
+	revT = `
+func Example{{ .Name }}{{ .Size }}() {
+	fmt.Printf("%0{{ .Size }}b\n", {{ .FirstArg }})
+	fmt.Printf("%0{{ .Size }}b\n", bits.{{ .Name }}{{ .Size }}({{ .Input }}))
+	// Output:
+	// {{ .FirstArgBytes }}
+	// {{ .OutputBytes }}
+}
+`
+)
+
+var funcs = map[string]interface{}{
+	"LeadingZeros8":   bits.LeadingZeros8,
+	"LeadingZeros16":  bits.LeadingZeros16,
+	"LeadingZeros32":  bits.LeadingZeros32,
+	"LeadingZeros64":  bits.LeadingZeros64,
+	"TrailingZeros8":  bits.TrailingZeros8,
+	"TrailingZeros16": bits.TrailingZeros16,
+	"TrailingZeros32": bits.TrailingZeros32,
+	"TrailingZeros64": bits.TrailingZeros64,
+	"OnesCount8":      bits.OnesCount8,
+	"OnesCount16":     bits.OnesCount16,
+	"OnesCount32":     bits.OnesCount32,
+	"OnesCount64":     bits.OnesCount64,
+	"RotateLeft8":     bits.RotateLeft8,
+	"RotateLeft16":    bits.RotateLeft16,
+	"RotateLeft32":    bits.RotateLeft32,
+	"RotateLeft64":    bits.RotateLeft64,
+	"Reverse8":        bits.Reverse8,
+	"Reverse16":       bits.Reverse16,
+	"Reverse32":       bits.Reverse32,
+	"Reverse64":       bits.Reverse64,
+	"ReverseBytes16":  bits.ReverseBytes16,
+	"ReverseBytes32":  bits.ReverseBytes32,
+	"ReverseBytes64":  bits.ReverseBytes64,
+	"Len8":            bits.Len8,
+	"Len16":           bits.Len16,
+	"Len32":           bits.Len32,
+	"Len64":           bits.Len64,
+}
+
+type data struct {
+	Name   string
+	Args   []interface{}
+	Size   int
+	Output reflect.Value
+}
+
+func (d data) FirstArg() interface{} {
+	return d.Args[0]
+}
+
+func (d data) FirstArgBytes() string {
+	return fmt.Sprintf(fmt.Sprintf("%%0%db", d.Size), d.FirstArg())
+}
+
+func (d data) OutputBytes() string {
+	return fmt.Sprintf(fmt.Sprintf("%%0%db", d.Size), d.Output)
+}
+
+func (d data) Input() string {
+	strArgs := make([]string, 0, len(d.Args))
+	for _, arg := range d.Args {
+		strArgs = append(strArgs, fmt.Sprintf("%d", arg))
+	}
+	return strings.Join(strArgs, ", ")
+}
+
+func main() {
+	expls := []struct {
+		name     string
+		in       []interface{}
+		template string
 	}{
-		{
-			name: "LeadingZeros",
-			in:   1,
-			out:  [4]interface{}{bits.LeadingZeros8(1), bits.LeadingZeros16(1), bits.LeadingZeros32(1), bits.LeadingZeros64(1)},
-		},
-		{
-			name: "TrailingZeros",
-			in:   14,
-			out:  [4]interface{}{bits.TrailingZeros8(14), bits.TrailingZeros16(14), bits.TrailingZeros32(14), bits.TrailingZeros64(14)},
-		},
-		{
-			name: "OnesCount",
-			in:   14,
-			out:  [4]interface{}{bits.OnesCount8(14), bits.OnesCount16(14), bits.OnesCount32(14), bits.OnesCount64(14)},
-		},
-		{
-			name: "RotateLeft",
-			in:   15,
-			out:  [4]interface{}{bits.RotateLeft8(15, 2), bits.RotateLeft16(15, 2), bits.RotateLeft32(15, 2), bits.RotateLeft64(15, 2)},
-		},
-		{
-			name: "Reverse",
-			in:   19,
-			out:  [4]interface{}{bits.Reverse8(19), bits.Reverse16(19), bits.Reverse32(19), bits.Reverse64(19)},
-		},
-		{
-			name: "ReverseBytes",
-			in:   15,
-			out:  [4]interface{}{nil, bits.ReverseBytes16(15), bits.ReverseBytes32(15), bits.ReverseBytes64(15)},
-		},
-		{
-			name: "Len",
-			in:   8,
-			out:  [4]interface{}{bits.Len8(8), bits.Len16(8), bits.Len32(8), bits.Len64(8)},
-		},
-	} {
-		for i, size := range []int{8, 16, 32, 64} {
-			if e.out[i] == nil {
-				continue // function doesn't exist
+		{"LeadingZeros", []interface{}{1}, regT},
+		{"TrailingZeros", []interface{}{14}, regT},
+		{"OnesCount", []interface{}{14}, regT},
+		{"RotateLeft", []interface{}{15, 2}, revT},
+		{"Reverse", []interface{}{15}, revT},
+		{"ReverseBytes", []interface{}{15}, revT},
+		{"Len", []interface{}{8}, regT},
+	}
+
+	buf := bytes.NewBufferString(header)
+	for _, e := range expls {
+		tmpl, err := template.New(e.name).Parse(e.template)
+		if err != nil {
+			log.Fatalf("template parsing failed: %s", err)
+		}
+
+		for _, size := range []int{8, 16, 32, 64} {
+			f, ok := funcs[fmt.Sprintf("%s%d", e.name, size)]
+			if !ok {
+				continue
 			}
-			f := fmt.Sprintf("%s%d", e.name, size)
-			fmt.Fprintf(w, "\nfunc Example%s() {\n", f)
-			switch e.name {
-			case "RotateLeft", "Reverse", "ReverseBytes":
-				fmt.Fprintf(w, "\tfmt.Printf(\"%%0%db\\n\", %d)\n", size, e.in)
-				if e.name == "RotateLeft" {
-					fmt.Fprintf(w, "\tfmt.Printf(\"%%0%db\\n\", bits.%s(%d, 2))\n", size, f, e.in)
-				} else {
-					fmt.Fprintf(w, "\tfmt.Printf(\"%%0%db\\n\", bits.%s(%d))\n", size, f, e.in)
-				}
-				fmt.Fprintf(w, "\t// Output:\n")
-				fmt.Fprintf(w, "\t// %0*b\n", size, e.in)
-				fmt.Fprintf(w, "\t// %0*b\n", size, e.out[i])
-			default:
-				fmt.Fprintf(w, "\tfmt.Printf(\"%s(%%0%db) = %%d\\n\", %d, bits.%s(%d))\n", f, size, e.in, f, e.in)
-				fmt.Fprintf(w, "\t// Output:\n")
-				fmt.Fprintf(w, "\t// %s(%0*b) = %d\n", f, size, e.in, e.out[i])
+			t := reflect.TypeOf(f)
+			in := make([]reflect.Value, 0, t.NumIn())
+			for i, arg := range e.in {
+				in = append(in, reflect.ValueOf(arg).Convert(t.In(i)))
 			}
-			fmt.Fprintf(w, "}\n")
+			out := reflect.ValueOf(f).Call(in)[0]
+			d := data{Name: e.name, Args: e.in, Size: size, Output: out}
+			if err = tmpl.Execute(buf, d); err != nil {
+				log.Fatalf("template execution failed: %s", err)
+			}
 		}
 	}
 
-	if err := ioutil.WriteFile("example_test.go", w.Bytes(), 0666); err != nil {
-		log.Fatal(err)
+	out, err := format.Source(buf.Bytes())
+	if err != nil {
+		log.Fatalf("source code formating failed: %s", err)
+	}
+	if err = ioutil.WriteFile("example_test.go", out, 0666); err != nil {
+		log.Fatalf("could not write file: %s", err)
 	}
 }
