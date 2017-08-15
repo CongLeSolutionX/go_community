@@ -12,6 +12,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/src"
+	"time"
 )
 
 // A Node is a single node in the syntax tree.
@@ -379,6 +380,8 @@ type Func struct {
 
 	Inl     Nodes // copy of the body for use in inlining
 	InlCost int32
+	InlSize int
+	InlTime time.Duration
 	Depth   int32
 
 	Label int32 // largest auto-generated label in this function

@@ -650,6 +650,8 @@ func Main(archInit func(*Arch)) {
 	flusherrors()
 	timings.Stop()
 
+	fmt.Printf("unique %v %v %v _ used %v %v %v _ dup %v %v %v\n", uniqfunccount, uniqfuncsize, int64(uniqfunctime), usedfunccount, usedfuncsize, int64(usedfunctime), dupfunccount, dupfuncsize, int64(dupfunctime))
+
 	if benchfile != "" {
 		if err := writebench(benchfile); err != nil {
 			log.Fatalf("cannot write benchmark data: %v", err)

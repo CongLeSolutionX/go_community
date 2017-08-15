@@ -17,6 +17,7 @@ import (
 	"math/big"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // The overall structure of Import is symmetric to Export: For each
@@ -167,6 +168,9 @@ func Import(imp *types.Pkg, in *bufio.Reader) {
 
 	objcount = 0
 	for i0 := -1; ; {
+		t0 := time.Now()
+		r0 := p.read
+
 		i := p.int() // index of function with inlineable body
 		if i < 0 {
 			break
@@ -201,11 +205,19 @@ func Import(imp *types.Pkg, in *bufio.Reader) {
 			}
 			f.Func.Inl.Set(body)
 			funcbody()
+			f.Func.InlSize = p.read - r0
+			f.Func.InlTime = time.Since(t0)
+			uniqfunccount += 1
+			uniqfuncsize += f.Func.InlSize
+			uniqfunctime += f.Func.InlTime
 		} else {
 			// function already imported - read body but discard declarations
 			dclcontext = PDISCARD // throw away any declarations
 			p.stmtList()
 			dclcontext = PEXTERN
+			dupfunccount += 1
+			dupfuncsize += p.read - r0
+			dupfunctime += time.Since(t0)
 		}
 
 		objcount++
@@ -231,6 +243,13 @@ func Import(imp *types.Pkg, in *bufio.Reader) {
 		testdclstack()
 	}
 }
+
+var (
+	uniqfuncsize, uniqfunccount             int
+	dupfuncsize, dupfunccount               int
+	usedfuncsize, usedfunccount             int
+	uniqfunctime, dupfunctime, usedfunctime time.Duration
+)
 
 func (p *importer) formatErrorf(format string, args ...interface{}) {
 	if debugFormat {
