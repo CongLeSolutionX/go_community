@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4185e4a2_c2d96bf1",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 664,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-15T18:03:32Z",
+      "side": 1,
+      "message": "This comment text reads oddly now, since it is positive \"we are writing...to the same slice\" but the check is negative \"!samesafeexper\". Consider rewording in generic terms, like roughly \"check for an optimization that applies in these scenarios\". Then it\u0027s clear we\u0027re ruling out nodes that don\u0027t match those scenarios.",
+      "revId": "219bd9e3a1d2b406866526ab9b9db54f1b664183",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "315d207b_e5de128e",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-15T18:03:32Z",
+      "side": 1,
+      "message": "This half of the comment belongs with !s.canSSA, a few lines down.",
+      "revId": "219bd9e3a1d2b406866526ab9b9db54f1b664183",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4767aba_2b625cfd",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-15T18:03:32Z",
+      "side": 1,
+      "message": "Given the comment above, I think this would now be clearer as \u0027if s.canSSA { if Debug_append { Warnl } break }\u0027 and then have the s.append + return be the final case.",
+      "revId": "219bd9e3a1d2b406866526ab9b9db54f1b664183",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
