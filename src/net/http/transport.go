@@ -1660,7 +1660,6 @@ func (pc *persistConn) readLoop() {
 				waitForBodyRead <- false
 				<-eofc // will be closed by deferred call at the end of the function
 				return nil
-
 			},
 			fn: func(err error) error {
 				isEOF := err == io.EOF
@@ -2184,6 +2183,23 @@ func (es *bodyEOFSignal) Close() error {
 	}
 	es.closed = true
 	if es.earlyCloseFn != nil && es.rerr != io.EOF {
+		// We still get chance to reuse connection if we wait for at most 20ms(TBD) in early close case, see issue 20528
+		if es.rerr == nil {
+			waitForFinalRead := make(chan error)
+			go func() {
+				p := []byte{}
+				_, err := es.body.Read(p)
+				waitForFinalRead <- err
+			}()
+			select {
+			case <-time.After(time.Millisecond * 20):
+				return es.earlyCloseFn()
+			case err := <-waitForFinalRead:
+				if err != nil {
+					return es.fn(err)
+				}
+			}
+		}
 		return es.earlyCloseFn()
 	}
 	err := es.body.Close()
