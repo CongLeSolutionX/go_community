@@ -1034,8 +1034,9 @@ func Readlink(path string, buf []byte) (n int, err error) {
 					// do nothing
 				case len(s) >= 4 && s[:4] == `UNC\`: // \??\UNC\foo\bar
 					s = `\\` + s[4:]
-				default:
-					// unexpected; do nothing
+				default: // NT namespaces
+					// TODO handle known protocols
+					s = path
 				}
 			} else {
 				// unexpected; do nothing
@@ -1047,6 +1048,12 @@ func Readlink(path string, buf []byte) (n int, err error) {
 		s = UTF16ToString(p[data.SubstituteNameOffset/2 : (data.SubstituteNameOffset+data.SubstituteNameLength)/2])
 		if len(s) >= 4 && s[:4] == `\??\` { // \??\C:\foo\bar
 			s = s[4:]
+			if len(s) >= 2 && s[1] == ':' { // \??\C:\foo\bar
+				// do nothing
+			} else { // NT namespaces
+				// TODO handle known protocols
+				s = path
+			}
 		} else {
 			// unexpected; do nothing
 		}

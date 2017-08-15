@@ -165,3 +165,8 @@ type SHARE_INFO_2 struct {
 
 //sys  NetShareAdd(serverName *uint16, level uint32, buf *byte, parmErr *uint16) (neterr error) = netapi32.NetShareAdd
 //sys  NetShareDel(serverName *uint16, netName *uint16, reserved uint32) (neterr error) = netapi32.NetShareDel
+
+const DRIVE_REMOTE = 4
+
+//sys  GetDriveType(pathName *uint16) (driveType uint32) = kernel32.GetDriveType
+//sys  GetVolumePathName(pathName *uint16, volumeName *uint16, bufLen uint32) (err error) = kernel32.GetVolumePathName

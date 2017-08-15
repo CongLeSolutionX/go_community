@@ -51,6 +51,8 @@ var (
 	procGetCurrentThread      = modkernel32.NewProc("GetCurrentThread")
 	procNetShareAdd           = modnetapi32.NewProc("NetShareAdd")
 	procNetShareDel           = modnetapi32.NewProc("NetShareDel")
+	procGetDriveType          = modkernel32.NewProc("GetDriveType")
+	procGetVolumePathName     = modkernel32.NewProc("GetVolumePathName")
 	procImpersonateSelf       = modadvapi32.NewProc("ImpersonateSelf")
 	procRevertToSelf          = modadvapi32.NewProc("RevertToSelf")
 	procOpenThreadToken       = modadvapi32.NewProc("OpenThreadToken")
@@ -153,6 +155,24 @@ func NetShareDel(serverName *uint16, netName *uint16, reserved uint32) (neterr e
 	r0, _, _ := syscall.Syscall(procNetShareDel.Addr(), 3, uintptr(unsafe.Pointer(serverName)), uintptr(unsafe.Pointer(netName)), uintptr(reserved))
 	if r0 != 0 {
 		neterr = syscall.Errno(r0)
+	}
+	return
+}
+
+func GetDriveType(pathName *uint16) (driveType uint32) {
+	r0, _, _ := syscall.Syscall(procGetDriveType.Addr(), 1, uintptr(unsafe.Pointer(pathName)), 0, 0)
+	driveType = uint32(r0)
+	return
+}
+
+func GetVolumePathName(pathName *uint16, volumeName *uint16, bufLen uint32) (err error) {
+	r1, _, e1 := syscall.Syscall(procGetVolumePathName.Addr(), 3, uintptr(unsafe.Pointer(pathName)), uintptr(unsafe.Pointer(volumeName)), uintptr(bufLen))
+	if r1 == 0 {
+		if e1 != 0 {
+			err = errnoErr(e1)
+		} else {
+			err = syscall.EINVAL
+		}
 	}
 	return
 }
