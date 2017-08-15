@@ -16,6 +16,24 @@
       "revId": "6131c49589adf3ee4d2f373d3d25266d545edc53",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfbca5cc_552357bd",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-15T06:24:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d494643_7c575f88",
+      "revId": "6131c49589adf3ee4d2f373d3d25266d545edc53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
