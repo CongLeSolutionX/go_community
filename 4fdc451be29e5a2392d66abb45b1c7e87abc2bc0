@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3697cfa_b0fd6b57",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "Needs a copyright notice.\n\nA brief explanatory comment would not be out of place.",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad6778e7_fa58a66f",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "Since we are assuming that we are on GNU/Linux here, it\u0027s simpler to read the file /proc/sys/vm/overcommit_memory.",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82c9e4af_3141f3d9",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "This says \"assuming no overcommit\" but it doesn\u0027t call t.Skip.",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1612d9b3_5c035175",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "Note that this kind of loop is no longer required in 1.9.  As of https://golang.org/cl/37586 os/exec always uses the last instance of an environment variable, so you don\u0027t have to look for any previous instances.",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "510a0b5a_2d84adca",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "Using strings.Split here is unfortunately too simple, because some of the arguments may be quoted and this actually happens in practice.  See the handling of GOGCCFLAGS in misc/cgo/testcarchive/carchive_test.go.",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34691740_c3ee3cfc",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "No offense, but do you think you might be getting a little sync.Map happy?  A map[string]*config with a mutex would seem to provide acceptable performance here.",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee152c44_74d4746f",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "This is probably not an issue here, but for completeness note that clang says \"unsupported option\" so you might want to check \"unsupported\" here as well (GCC says \"unrecognized command line option\").",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bed61071_9d924edc",
+        "filename": "misc/cgo/testsanitizers/cshared_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "Needs copyright notice.",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55ce4f77_e944b33f",
+        "filename": "misc/cgo/testsanitizers/msan_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "Copyright notice.",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a83f8cb4_0b7989d1",
+        "filename": "misc/cgo/testsanitizers/tsan_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T21:25:48Z",
+      "side": 1,
+      "message": "Copyright notice.",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
