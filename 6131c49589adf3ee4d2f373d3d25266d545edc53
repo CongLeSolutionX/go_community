@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d494643_7c575f88",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 9055
+      },
+      "writtenOn": "2017-08-15T03:42:51Z",
+      "side": 1,
+      "message": "I think STP would be a better mnemonic, since there\u0027s a paired 32-bit variant that we can call STPW if/when it is added. (Otherwise we\u0027ll have to call it MOVQW or something opaque like that.)",
+      "revId": "6131c49589adf3ee4d2f373d3d25266d545edc53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
