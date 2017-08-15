@@ -398,7 +398,7 @@ func SetFinalizer(obj interface{}, finalizer interface{}) {
 			// ok - satisfies empty interface
 			goto okarg
 		}
-		if _, ok := assertE2I2(ityp, *efaceOf(&obj)); ok {
+		if assertE2I2(ityp, *efaceOf(&obj)) {
 			goto okarg
 		}
 	}

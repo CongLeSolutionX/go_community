@@ -581,19 +581,13 @@ func assertE2I(inter *interfacetype, e eface) (r iface) {
 	return
 }
 
-func assertE2I2(inter *interfacetype, e eface) (r iface, b bool) {
+func assertE2I2(inter *interfacetype, e eface) bool {
 	t := e._type
 	if t == nil {
-		return
+		return false
 	}
 	tab := getitab(inter, t, true)
-	if tab == nil {
-		return
-	}
-	r.tab = tab
-	r.data = e.data
-	b = true
-	return
+	return tab != nil
 }
 
 //go:linkname reflect_ifaceE2I reflect.ifaceE2I
