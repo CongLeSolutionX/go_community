@@ -5,6 +5,8 @@
 package filepath
 
 import (
+	"internal/syscall/windows"
+	"os"
 	"strings"
 	"syscall"
 )
@@ -106,10 +108,48 @@ func toNorm(path string, normBase func(string) (string, error)) (string, error) 
 	return volume + normPath, nil
 }
 
+func isNetworkPath(path string) (bool, error) {
+	p, err := syscall.UTF16PtrFromString(path)
+	if err != nil {
+		return false, err
+	}
+	buf := make([]uint16, 100)
+	for {
+		err := windows.GetVolumePathName(p, &buf[0], uint32(len(buf)))
+		if err != nil {
+			// TODO reallocate buffer nicely.
+			return false, err
+		}
+		break
+	}
+	return windows.GetDriveType(&buf[0]) == windows.DRIVE_REMOTE, nil
+}
+
+// readLink returns the destination of the symbolic link path.
+func readLink(path string) (string, bool, error) {
+	p, err := os.Readlink(path)
+	if err != nil {
+		if perr, ok := err.(*os.PathError); ok {
+			if e, ok := perr.Err.(syscall.NtFormatError); ok {
+				_ = e // TODO handle known protocols
+				return path, false, nil
+			}
+		}
+		return "", false, err
+	}
+	return p, true, nil
+}
+
 func evalSymlinks(path string) (string, error) {
-	path, err := walkSymlinks(path)
+	isNet, err := isNetworkPath(path)
 	if err != nil {
 		return "", err
+	}
+	if !isNet {
+		path, err = walkSymlinks(path)
+		if err != nil {
+			return "", err
+		}
 	}
 	return toNorm(path, normBase)
 }
