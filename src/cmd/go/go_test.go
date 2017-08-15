@@ -4354,7 +4354,7 @@ func TestBuildmodePIE(t *testing.T) {
 	tg.tempFile("main.go", `package main; func main() { print("hello") }`)
 	src := tg.path("main.go")
 	obj := tg.path("main")
-	tg.run("build", "-buildmode=pie", "-o", obj, src)
+	tg.run("build", "-buildmode=pie", "-installsuffix=test", "-o", obj, src)
 
 	switch runtime.GOOS {
 	case "linux", "android":
