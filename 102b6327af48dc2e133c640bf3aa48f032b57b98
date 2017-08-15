@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d34ac222_110a151c",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-08-15T20:21:49Z",
+      "side": 1,
+      "message": "That\u0027s a good idea, thanks. Done.",
+      "parentUuid": "71d1685a_90f03443",
+      "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "210e4561_9731a90c",
         "filename": "src/crypto/elliptic/elliptic_test.go",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dd3fc8c_a324f252",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-08-15T20:21:49Z",
+      "side": 1,
+      "message": "\u003e Couple of things got me confused in this test:\n\u003e \n\u003e - I believe these tests reflect http://www.secg.org/sec1-v1.99.dif.pdf 2.2.1, Adam is that what you were after?\n\u003e      - Inf + Inf \u003d Inf\n\u003e      - (x,y) + Inf \u003d P\n\u003e      - (x,y) + (x,-y) \u003d Inf\n\u003e      ...\n\nI was not looking at that document, but it states some of the same identities that are being tested here, yes.\n\n\u003e -  negative of a point is (x, -y). The variable called minusOne (-1) \u003d N - 1 doesn\u0027t achieve that effect. You still get a pass since you effectively do N * G \u003d\u003d 0 * G\n\nminusOne is -1 mod the group order. Using that as a scalar gives -G. The map (x,y) -\u003e (x,-y) is true for the group, rather than the field of scalars.\n\n\u003e      - Would think of adding a test  (gx, gy) + (gx, (p-gy)%p)\n\nThat\u0027s effectively what\u0027s happening here with G + (-G).\n\n\u003e - Sign() as check for infinity. I would want a Math major to comment/correct me, being a self-taught CS guy..\n\u003e     - x.Sign(): Thinking pictorially, x \u003d 0 is still a valid point. ( y^2 \u003d\u003d b (mod p))\n\u003e     - y.Sign(): This one seems to make sense, except I can\u0027t explain why x^3 + a x \u003d\u003d -b (mod p) is not solvable\n\u003e     - The standard trick for infinity check seems to be (Z \u003d\u003d 0) check  (see my other comment)\n\nThis interface returns affine coordinates, so we cannot check the value of Z. Rather, ∞ is mapped to (0,0). This is unambiguous because (0,0) is not on the curve.",
+      "parentUuid": "210e4561_9731a90c",
+      "range": {
+        "startLine": 503,
+        "startChar": 0,
+        "endLine": 506,
+        "endChar": 34
+      },
+      "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "a43a3657_3b066f06",
+        "filename": "src/crypto/elliptic/p256_amd64.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-08-15T20:21:49Z",
+      "side": 1,
+      "message": "\u003e - Generally, it seems that the problem is with p256(Base)Mult, so the fixes should go there (i.e. this infinity issue also exists for ECDHE and ECDSA.Sign not just ECDSA.Verify)\n\nI believe that p256[Base]Mult is fine. The problem is that point addition is incomplete and that the exceptional cases were not handled in the asm.\n\n\u003e - \u0027Guide to Elliptic Curve Cryptography\u0027 by Menezes Section 3.2.2, suggests that Jacobian projective coordinates, point at infinity corresponds to (1, 1, 0), though given that the conversion back to cartesian plane involves division by Z ((x,y) \u003d\u003d (X/Z^2, Y/Z^3)), any zero value of Z will give you infinity\n\u003e      - Need to leave for the night (and out for a bit, so will be responding slowly) so haven\u0027t confirmed it, but I believe what really is missing are the checks specified by (in the above book) Algorithm 3.21  Step 1 for doubling and Algorithm 3.22 for addition, Step 1, Step 2 (\u00271\u0027 is in montgomery domain here) and Step 9.* Everything else just works out implicitly through the impressive ecc math magic..\n\nI don\u0027t have a copy of that book to hand, but I\u0027m sure there are other places where this could be addressed. However, doing it here makes the most sense to me.",
+      "parentUuid": "ef8b2c7f_9d1a8b32",
+      "range": {
+        "startLine": 236,
+        "startChar": 1,
+        "endLine": 242,
+        "endChar": 0
+      },
+      "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1eaebf29_bc8e6836",
         "filename": "src/crypto/elliptic/p256_asm_amd64.s",
         "patchSetId": 3
@@ -76,6 +142,24 @@
       "writtenOn": "2017-05-05T21:03:06Z",
       "side": 1,
       "message": "This doesn\u0027t explicitly check for U1\u003d\u003dU2 \u0026 S1 !\u003d S2 like the referenced paper at https://eprint.iacr.org/2013/816.pdf:\n\n    if (U1 \u003d\u003d U2) then\n     if (S1 !\u003d S2) return POINT_AT_INFINITY\n     else return POINT_DOUBLE (X1, Y1, Z1)\n     abort\n    end\n\nI tested by modifying the asm to return a flag for each condition, and it occurs in the \"1×G + (-1)×G \u003d ∞\" test case which correctly returns infinity.",
+      "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b0beec8_279aaf93",
+        "filename": "src/crypto/elliptic/p256_asm_amd64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 2107,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-08-15T20:21:49Z",
+      "side": 1,
+      "message": "You\u0027re correct, but I believe that this is ok because this function correctly returns ∞ for a + (-a), I believe.\n\nThe pseudo-code is at https://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-3.html#addition-add-2007-bl\n\nConsider the case where zScale \u003d z2/z1, x2 \u003d x1*zScale^2, y2 \u003d -y1*zScale^3. (x2,y2,z2) is the negation of (x1,y1,z1) in that case.\n\nNow:\n\nU1 \u003d x1*z2^2 \u003d x1*zScale^2*z1^2\nU2 \u003d x2*z1^2 \u003d x1*zScale^2*z1^2\nH \u003d U2-U1 \u003d 0\n⋮\nz3 \u003d …*H \u003d 0\n\nSo for a + (-a) I believe the output z value will always be zero, which indicates the point at infinity. Thus we only need to catch the case where the inputs are equal and do a point doubling in constant time.",
+      "parentUuid": "1eaebf29_bc8e6836",
       "revId": "102b6327af48dc2e133c640bf3aa48f032b57b98",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
