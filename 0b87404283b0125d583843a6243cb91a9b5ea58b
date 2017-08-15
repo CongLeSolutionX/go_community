@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f57aa123_47f40aaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-15T17:48:13Z",
+      "side": 1,
+      "message": "suggestion for a more specific commit title:\nuncomment tests for PCMPESTRI and PHMINPOSUW\n\nand a note in the below text that they have been implemented (maybe even with a reference if it was recently or alone in a specific commit)",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 72
+      },
+      "revId": "0b87404283b0125d583843a6243cb91a9b5ea58b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
