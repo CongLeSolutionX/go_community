@@ -605,6 +605,14 @@ func mkinlcall1(n *Node, fn *Node, isddd bool) *Node {
 		fmt.Printf("%v: Before inlining: %+v\n", n.Line(), n)
 	}
 
+	if fn.Func.InlSize > 0 {
+		usedfunccount += 1
+		usedfuncsize += fn.Func.InlSize
+		usedfunctime += fn.Func.InlTime
+		fn.Func.InlSize = 0
+		fn.Func.InlTime = 0
+	}
+
 	ninit := n.Ninit
 
 	// Find declarations corresponding to inlineable body.
