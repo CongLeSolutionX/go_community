@@ -858,7 +858,7 @@ var foldPath = make(map[string]string)
 
 // load populates p using information from bp, err, which should
 // be the result of calling build.Context.Import.
-func (p *Package) load(stk *ImportStack, bp *build.Package, err error) *Package {
+func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 	p.copyBuild(bp)
 
 	// The localPrefix is the path we interpret ./ imports relative to.
@@ -875,7 +875,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) *Package 
 			ImportStack: stk.Copy(),
 			Err:         err.Error(),
 		}
-		return p
+		return
 	}
 
 	useBindir := p.Name == "main"
@@ -892,7 +892,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) *Package 
 			newPath := strings.Replace(p.ImportPath, "code.google.com/p/go.", "golang.org/x/", 1)
 			e := fmt.Sprintf("the %v command has moved; use %v instead.", p.ImportPath, newPath)
 			p.Error = &PackageError{Err: e}
-			return p
+			return
 		}
 		_, elem := filepath.Split(p.Dir)
 		full := cfg.BuildContext.GOOS + "_" + cfg.BuildContext.GOARCH + "/" + elem
@@ -1046,7 +1046,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) *Package 
 			ImportStack: stk.Copy(),
 			Err:         fmt.Sprintf("case-insensitive file name collision: %q and %q", f1, f2),
 		}
-		return p
+		return
 	}
 
 	// Build list of imported packages and full dependency list.
@@ -1137,7 +1137,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) *Package 
 			ImportStack: stk.Copy(),
 			Err:         fmt.Sprintf("C source files not allowed when not using cgo or SWIG: %s", strings.Join(p.CFiles, " ")),
 		}
-		return p
+		return
 	}
 
 	// Check for case-insensitive collisions of import paths.
@@ -1149,7 +1149,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) *Package 
 			ImportStack: stk.Copy(),
 			Err:         fmt.Sprintf("case-insensitive import collision: %q and %q", p.ImportPath, other),
 		}
-		return p
+		return
 	}
 
 	if p.BinaryOnly {
@@ -1161,7 +1161,6 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) *Package 
 	} else {
 		computeBuildID(p)
 	}
-	return p
 }
 
 // usesSwig reports whether the package needs to run SWIG.
