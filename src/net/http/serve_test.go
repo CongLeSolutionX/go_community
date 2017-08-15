@@ -1106,6 +1106,47 @@ func TestHTTP10KeepAlive304Response(t *testing.T) {
 		HandlerFunc(send304))
 }
 
+// Issue 20528
+func TestTCPConnectionReuseWithContentLargerThanBuffer(t *testing.T) {
+	setParallel(t)
+	defer afterTest(t)
+	ts := httptest.NewTLSServer(HandlerFunc(func(w ResponseWriter, r *Request) {
+		data := map[string]string{}
+		for i := 0; i < 500; i++ {
+			k := fmt.Sprintf("key%d", i)
+			v := fmt.Sprintf("value%d", i)
+			data[k] = v
+		}
+		data["Addr"] = r.RemoteAddr
+		bs, _ := json.Marshal(data)
+		w.(Flusher).Flush() // force chunked encoding
+		w.Write(bs)
+	}))
+	ts.Config.ErrorLog = log.New(ioutil.Discard, "", 0)
+	defer ts.Close()
+	var addrs [2]map[string]string
+	client := Client{
+		Transport: &Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		},
+	}
+	for i := range addrs {
+		res, err := client.Get(ts.URL)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := json.NewDecoder(res.Body).Decode(&addrs[i]); err != nil {
+			t.Fatal(err)
+		}
+		res.Body.Close()
+	}
+	if addrs[0]["Addr"] != addrs[1]["Addr"] {
+		t.Fatalf("connection not reused")
+	}
+}
+
 // Issue 15703
 func TestKeepAliveFinalChunkWithEOF(t *testing.T) {
 	setParallel(t)
