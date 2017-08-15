@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35143695_cef9a1f9",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T04:06:00Z",
+      "side": 1,
+      "message": "If we change lastRead to int8, it would likely be better to move it after bootstrap, so that bootstrap is aligned to an int boundary.",
+      "revId": "6578d585de6775a45a5ab1ee64de630f87946c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95ffe89d_be98836e",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-15T04:06:00Z",
+      "side": 1,
+      "message": "I don\u0027t see why this is better than the existing code.  It makes sense to only call b.Reset if b.off !\u003d 0.",
+      "revId": "6578d585de6775a45a5ab1ee64de630f87946c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
