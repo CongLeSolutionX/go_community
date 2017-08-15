@@ -5,14 +5,13 @@
 package amd64
 
 import (
-	"fmt"
-	"math"
-
 	"cmd/compile/internal/gc"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/obj/x86"
+	"fmt"
+	"math"
 )
 
 // markMoves marks any MOVXconst ops that need to avoid clobbering flags.
@@ -400,6 +399,41 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Reg = v.Args[1].Reg()
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = r
+
+	// RLH: code from 40295
+	case ssa.OpAMD64CMOVQCSstoreidx1:
+		// RLH: code from 40295
+		// panic unless f.pass.test == 1 for the writebarrier pass.
+		// This just blows up until I can figure out how to turn this off
+		// with a command line flag
+		panic("f.pass.test == 0")
+		// XXX This is nonsense. x86 doesn't have a conditional *store* :(
+		p := s.Prog(v.Op.Asm())
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = v.Args[2].Reg()
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = v.Args[0].Reg()
+		p.To.Scale = 1
+		p.To.Index = v.Args[1].Reg()
+		gc.AddAux(&p.To, v)
+		// v.Args[3] is flags, so implicit here.
+
+	case ssa.OpAMD64LoweredCardMark:
+		// Jump over store if unsigned >=
+		// Forces an out of line write barrier call.
+		j := s.Prog(x86.AJCC)
+		j.To.Type = obj.TYPE_BRANCH
+
+		p := s.Prog(x86.AMOVB)
+		p.From.Type = obj.TYPE_CONST
+		p.From.Offset = 1
+		p.To.Type = obj.TYPE_MEM
+		p.To.Reg = v.Args[0].Reg()
+		p.To.Scale = 1
+		p.To.Index = v.Args[1].Reg()
+
+		j.To.Val = s.Pc()
+		// RLH: end code from 40295
 
 	case ssa.OpAMD64MULQconst, ssa.OpAMD64MULLconst:
 		r := v.Reg()

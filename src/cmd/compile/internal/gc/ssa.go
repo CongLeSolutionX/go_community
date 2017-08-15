@@ -48,6 +48,13 @@ func initssaconfig() {
 		Float32Ptr: types.NewPtr(types.Types[TFLOAT32]),
 		Float64Ptr: types.NewPtr(types.Types[TFLOAT64]),
 		BytePtrPtr: types.NewPtr(types.NewPtr(types.Types[TUINT8])),
+
+		// RLH: code from 40295
+		// This doesn't work if we're going by the builtins.
+		// I'm going to have to lift the card marking stuff
+		// into some other variable that I can get at.
+		CardMarks: syslook("cardMarks").Typ(),
+		// RLH: end code from 40295
 	}
 	// Generate a few pointer types that are uncommon in the frontend but common in the backend.
 	// Caching is disabled in the backend, so generating these here avoids allocations.
@@ -88,6 +95,7 @@ func initssaconfig() {
 	assertI2I = sysfunc("assertI2I")
 	assertI2I2 = sysfunc("assertI2I2")
 	goschedguarded = sysfunc("goschedguarded")
+	cardMarks = sysfunc("cardMarks")
 	writeBarrier = sysfunc("writeBarrier")
 	writebarrierptr = sysfunc("writebarrierptr")
 	typedmemmove = sysfunc("typedmemmove")
@@ -5103,6 +5111,8 @@ func (e *ssafn) Syslook(name string) *obj.LSym {
 		return goschedguarded
 	case "writeBarrier":
 		return writeBarrier
+	case "cardMarks":
+		return cardMarks
 	case "writebarrierptr":
 		return writebarrierptr
 	case "typedmemmove":

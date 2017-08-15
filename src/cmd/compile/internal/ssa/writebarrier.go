@@ -26,6 +26,11 @@ func needwb(v *Value) bool {
 	return true
 }
 
+// RLH code from 40295
+const cardBytes = 512
+
+// RLH end code from 40295
+
 // writebarrier pass inserts write barriers for store ops (Store, Move, Zero)
 // when necessary (the condition above). It rewrites store ops to branches
 // and runtime calls, like
@@ -38,12 +43,31 @@ func needwb(v *Value) bool {
 //
 // A sequence of WB stores for many pointer fields of a single type will
 // be emitted together, with a single branch.
+var onceWB = true
+
 func writebarrier(f *Func) {
 	if !f.fe.UseWriteBarrier() {
+		// There are compile tests that have this turned off.
 		return
 	}
 
 	var sb, sp, wbaddr, const0 *Value
+	// RLH code from 40295
+	var cardShift, arenaStartAddr, cardMarksAddr, cardMarksMappedAddr *Value
+	// supress not used complaints during debugging.
+	_ = cardShift
+	_ = arenaStartAddr
+	_ = cardMarksAddr
+	_ = cardMarksMappedAddr
+
+	// To compiler with card marking on us -gcflags as follows.
+	// go build -gcflags -d=ssa/writebarrier/test=1 ./bench.go
+	cardMarkOn := f.pass.test == 1
+	if onceWB && cardMarkOn {
+		onceWB = false
+		//		fmt.Printf("f.pass.test=%v, cardMarkOn=%v\n", f.pass.test, cardMarkOn)
+	}
+	// RLH end code from 40295
 	var writebarrierptr, typedmemmove, typedmemclr *obj.LSym
 	var stores, after []*Value
 	var sset *sparseSet
@@ -96,11 +120,37 @@ func writebarrier(f *Func) {
 			}
 			wbsym := f.fe.Syslook("writeBarrier")
 			wbaddr = f.Entry.NewValue1A(initpos, OpAddr, f.Config.Types.UInt32Ptr, wbsym, sb)
+			// RLH code from 40295
+			if cardMarkOn {
+				cardMarksSym := &ExternSymbol{Sym: f.fe.Syslook("cardMarks")}
+				tmptyp := f.Config.Types.CardMarks
+				cardMarks := f.Entry.NewValue1A(initpos, OpAddr, tmptyp, cardMarksSym, sb)
+				for i := 0; i < tmptyp.NumFields(); i++ {
+					var fval **Value
+					switch tmptyp.FieldName(i) {
+					case "arenaStart":
+						fval = &arenaStartAddr
+					case "cardMarks":
+						fval = &cardMarksAddr
+					case "cardMarksMapped":
+						fval = &cardMarksMappedAddr
+					}
+					if fval != nil {
+						ftyp, off := tmptyp.FieldType(i), tmptyp.FieldOff(i)
+						*fval = f.Entry.NewValue1I(initpos, OpOffPtr, ftyp.PtrTo(), off, cardMarks)
+					}
+				}
+			}
+			// RLH end code form 40295
 			writebarrierptr = f.fe.Syslook("writebarrierptr")
 			typedmemmove = f.fe.Syslook("typedmemmove")
 			typedmemclr = f.fe.Syslook("typedmemclr")
 			const0 = f.ConstInt32(initpos, f.Config.Types.UInt32, 0)
-
+			// RLH code from 40295
+			if cardMarkOn {
+				cardShift = f.ConstInt8(initpos, f.Config.Types.UInt8, int8(log2(cardBytes)))
+			}
+			// RLH end code from 40295
 			// allocate auxiliary data structures for computing store order
 			sset = f.newSparseSet(f.NumValues())
 			defer f.retSparseSet(sset)
@@ -162,7 +212,13 @@ func writebarrier(f *Func) {
 		// set up control flow for write barrier test
 		// load word, test word, avoiding partial register write from load byte.
 		cfgtypes := &f.Config.Types
-		flag := b.NewValue2(pos, OpLoad, cfgtypes.UInt32, wbaddr, mem)
+		// RLH 40293 code plus changed cfgtypes to types in previous line.
+		var flag *Value
+		_ = flag
+
+		// For both card marking as well as normal runs we want the following. The card marking
+		// logic is part of the "else" branch which is when the GC is not running.
+		flag = b.NewValue2(pos, OpLoad, cfgtypes.UInt32, wbaddr, mem)
 		flag = b.NewValue2(pos, OpNeq32, cfgtypes.Bool, flag, const0)
 		b.Kind = BlockIf
 		b.SetControl(flag)
@@ -177,6 +233,9 @@ func writebarrier(f *Func) {
 		// and simple store version to bElse
 		memThen := mem
 		memElse := mem
+		// RLH code for 40295
+		var arenaStart, cardMarks, cardMarksMapped *Value
+		// RLH end code for 40295
 		for _, w := range stores {
 			ptr := w.Args[0]
 			pos := w.Pos
@@ -214,6 +273,26 @@ func writebarrier(f *Func) {
 			switch w.Op {
 			case OpStoreWB:
 				memElse = bElse.NewValue3A(pos, OpStore, types.TypeMem, w.Aux, ptr, val, memElse)
+				// RLH code from 40925
+				if cardMarkOn {
+					// Card mark
+					// card = (ptr - runtime.cardMarks.arenaStart) / cardBytes
+					// if card < runtime.cardMarks.mapped {
+					//   *(runtime.cardMarks.base+card) = 1
+					// }
+
+					if arenaStart == nil {
+						arenaStart = bElse.NewValue2(pos, OpLoad, cfgtypes.Uintptr, arenaStartAddr, memElse)
+						cardMarks = bElse.NewValue2(pos, OpLoad, cfgtypes.Uintptr, cardMarksAddr, memElse)
+						cardMarksMapped = bElse.NewValue2(pos, OpLoad, cfgtypes.Uintptr, cardMarksMappedAddr, memElse)
+					}
+					arenaOff := bElse.NewValue2(pos, OpSubPtr, cfgtypes.Uintptr, ptr, arenaStart)
+					shift := OpRsh64Ux8 // TODO: 32 bit
+					card := bElse.NewValue2(pos, shift, cfgtypes.Uintptr, arenaOff, cardShift)
+					//					print("cardMarkOn at writebarrier.go:295 creating OpCardMark\n")
+					memElse = bElse.NewValue4(pos, OpCardMark, types.TypeMem, cardMarks, cardMarksMapped, card, memElse)
+				}
+				// RLH end code for 40295
 			case OpMoveWB:
 				memElse = bElse.NewValue3I(pos, OpMove, types.TypeMem, w.AuxInt, ptr, val, memElse)
 				memElse.Aux = w.Aux

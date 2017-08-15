@@ -14,6 +14,7 @@
 package runtime
 
 import (
+	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -141,12 +142,32 @@ import (
 //go:systemstack
 func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 	if cardMarkOn {
-		if writeBarrier.gen {
-			//	println("gcmarkwb slot=", slot, inheap(uintptr(unsafe.Pointer(slot))), "ptr=", hex(ptr), inheap(ptr))
-			cardMarkWB(uintptr(unsafe.Pointer(slot)), ptr)
-		}
+		// The first GC must be a full GC since there are write barriers that happen
+		// during initialization that may be incorrect. Detect this by checking if
+		// mheap_.sweepgen == 0.
+		systemstack(func() {
+			if writeBarrier.gen {
+				if atomic.Load(&gcphase) == _GCoff && memstats.numgc > 0 {
+					// GC is off
+					//	println("gcmarkwb slot=", slot, inheap(uintptr(unsafe.Pointer(slot))), "ptr=", hex(ptr), inheap(ptr))
+					s := spanOf(uintptr(unsafe.Pointer(slot)))
+					if s != nil && s.state == _MSpanInUse {
+						unfilteredMarkCard(uintptr(unsafe.Pointer(slot)))
+						cardMarkWB(uintptr(unsafe.Pointer(slot)), ptr)
+						if atomic.Load(&gcphase) != _GCoff {
+							throw("why")
+						}
+					} else if s != nil && s.state != _MSpanManual {
+						println("in gemarkwb_m spanOf(slot).state should be _MSpanInUse but =",
+							mSpanStateNames[spanOf(uintptr(unsafe.Pointer(slot))).state])
+						throw("why")
+					}
+				}
+			}
+		})
 	}
-	if writeBarrier.needed {
+	// enabled is set always so only shade object if the gcphase is _GCmark of _GCmarktermination.
+	if writeBarrier.needed && (atomic.Load(&gcphase) != _GCoff) {
 		// Note: This turns bad pointer writes into bad
 		// pointer reads, which could be confusing. We avoid
 		// reading from obviously bad pointers, which should
@@ -215,17 +236,19 @@ func writebarrierptr(dst *uintptr, src uintptr) {
 		cgoCheckWriteBarrier(dst, src)
 	}
 	// RLH 40294 code
-	if cardMarkOn {
-		if writeBarrier.gen {
-			if inheap(uintptr(unsafe.Pointer(dst))) {
-				if card := cardIndex(uintptr(unsafe.Pointer(dst))); 0 < card || card <= mheap_.cardMarksMapped {
-					*addb(mheap_.cardMarks, card) = 255
+	/*
+		if cardMarkOn {
+			if writeBarrier.gen {
+				if inheap(uintptr(unsafe.Pointer(dst))) {
+					if card := cardIndex(uintptr(unsafe.Pointer(dst))); 0 < card || card <= mheap_.cardMarksMapped {
+						*addb(mheap_.cardMarks, card) = 66 // Done below
+					}
 				}
 			}
 		}
-	}
+	*/
 	// RLH end 40294 code
-	if !writeBarrier.needed {
+	if !writeBarrier.needed && !cardMarkOn && !writeBarrier.gen {
 		*dst = src
 		return
 	}
@@ -248,14 +271,16 @@ func writebarrierptr_prewrite(dst *uintptr, src uintptr) {
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
 	}
+	/* handled by writebarrierptr_prewrite1(dst, src) below
 	// RLH 40294 code
 	if cardMarkOn {
 		if writeBarrier.gen {
 			if card := cardIndex(uintptr(unsafe.Pointer(dst))); card < mheap_.cardMarksMapped {
-				*addb(mheap_.cardMarks, card) = 255
+				*addb(mheap_.cardMarks, card) = 255 // handled by writebarrierptr_prewrite1(dst, src)
 			}
 		}
 	}
+	*/
 	// RLH end 40294 code
 	if !writeBarrier.needed {
 		return

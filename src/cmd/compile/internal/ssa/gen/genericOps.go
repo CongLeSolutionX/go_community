@@ -327,6 +327,10 @@ var genericOps = []opData{
 	{name: "MoveWB", argLength: 3, typ: "Mem", aux: "TypSize"}, // arg0=destptr, arg1=srcptr, arg2=mem, auxint=size, aux=type.  Returns memory.
 	{name: "ZeroWB", argLength: 2, typ: "Mem", aux: "TypSize"}, // arg0=destptr, arg1=mem, auxint=size, aux=type. Returns memory.
 
+	// RLH 40295 code
+	{name: "CardMark", argLength: 4, typ: "Mem"}, // arg0=cardMarks, arg1=cardMarksMapped, arg2=card, arg3=mem. Returns memory.
+	// RLH end 40295 code
+
 	// Function calls. Arguments to the call have already been written to the stack.
 	// Return values appear on the stack. The method receiver, if any, is treated
 	// as a phantom first argument.

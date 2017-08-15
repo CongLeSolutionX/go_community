@@ -423,6 +423,7 @@ func inHeapOrStack(b uintptr) bool {
 
 // spanOf returns the span of p. If p does not point into the heap or
 // no span contains p, spanOf returns nil.
+//go:nosplit
 func spanOf(p uintptr) *mspan {
 	if p == 0 || p < mheap_.arena_start || p >= mheap_.arena_used {
 		return nil
@@ -723,6 +724,13 @@ func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) *mspan {
 				h.busylarge.insertBack(s)
 			}
 		}
+		offset := s.base() - uintptr(unsafe.Pointer(mheap_.arena_start))
+		index := offset / _CardBytes // turns into a shift.
+		cardsPerPage := _PageSize / _CardBytes
+		markedCards := s.scanCards(index, s.npages*uintptr(cardsPerPage))
+		if markedCards != 0 {
+			println("span just made available has marked card which it should not have.")
+		}
 	}
 	// heap_scan and heap_live were updated.
 	if gcBlackenEnabled != 0 {
@@ -792,6 +800,14 @@ func (h *mheap) allocManual(npage uintptr, stat *uint64) *mspan {
 		s.limit = s.base() + s.npages<<_PageShift
 		// Manually manged memory doesn't count toward heap_sys.
 		memstats.heap_sys -= uint64(s.npages << _PageShift)
+
+		offset := s.base() - uintptr(unsafe.Pointer(mheap_.arena_start))
+		index := offset / _CardBytes // turns into a shift.
+		cardsPerPage := _PageSize / _CardBytes
+		markedCards := s.scanCards(index, s.npages*uintptr(cardsPerPage))
+		if markedCards != 0 {
+			println("span (_MSpanManual in allocManual just made available has marked card which it should not have.")
+		}
 	}
 
 	// This unlock acts as a release barrier. See mheap.alloc_m.
@@ -858,6 +874,14 @@ HaveSpan:
 		t.state = _MSpanManual
 		h.freeSpanLocked(t, false, false, s.unusedsince)
 		s.state = _MSpanFree
+
+		offset := s.base() - uintptr(unsafe.Pointer(mheap_.arena_start))
+		index := offset / _CardBytes // turns into a shift.
+		cardsPerPage := _PageSize / _CardBytes
+		markedCards := s.scanCards(index, s.npages*uintptr(cardsPerPage))
+		if markedCards != 0 {
+			println("span _MSpanManual in allocSpanLocked just made available has marked card which it should not have.")
+		}
 	}
 	s.unusedsince = 0
 
@@ -930,6 +954,14 @@ func (h *mheap) grow(npage uintptr) bool {
 	s.state = _MSpanInUse
 	h.pagesInUse += uint64(s.npages)
 	h.freeSpanLocked(s, false, true, 0)
+
+	offset := s.base() - uintptr(unsafe.Pointer(mheap_.arena_start))
+	index := offset / _CardBytes // turns into a shift.
+	cardsPerPage := _PageSize / _CardBytes
+	markedCards := s.scanCards(index, s.npages*uintptr(cardsPerPage))
+	if markedCards != 0 {
+		println("span _MspanInUse in grow made available has marked card which it should not have.")
+	}
 	return true
 }
 
@@ -1031,6 +1063,15 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 		memstats.heap_idle += uint64(s.npages << _PageShift)
 	}
 	s.state = _MSpanFree
+
+	offset := s.base() - uintptr(unsafe.Pointer(mheap_.arena_start))
+	index := offset / _CardBytes // turns into a shift.
+	cardsPerPage := _PageSize / _CardBytes
+	markedCards := s.scanCards(index, s.npages*uintptr(cardsPerPage))
+	if markedCards != 0 {
+		println("span _MSpanFree just made free marked card which it should not have.")
+	}
+
 	if s.inList() {
 		h.busyList(s.npages).remove(s)
 	}
@@ -1069,6 +1110,14 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 			}
 			// RLH end change
 			before.state = _MSpanDead
+
+			offset := s.base() - uintptr(unsafe.Pointer(mheap_.arena_start))
+			index := offset / _CardBytes // turns into a shift.
+			cardsPerPage := _PageSize / _CardBytes
+			markedCards := s.scanCards(index, s.npages*uintptr(cardsPerPage))
+			if markedCards != 0 {
+				println("span just made _MSpanDead  1112 in freeSpanLocked has marked card which it should not have.")
+			}
 			h.spanalloc.free(unsafe.Pointer(before))
 		}
 	}
@@ -1093,6 +1142,13 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 			}
 			// RLH change end
 			after.state = _MSpanDead
+			offset := s.base() - uintptr(unsafe.Pointer(mheap_.arena_start))
+			index := offset / _CardBytes // turns into a shift.
+			cardsPerPage := _PageSize / _CardBytes
+			markedCards := s.scanCards(index, s.npages*uintptr(cardsPerPage))
+			if markedCards != 0 {
+				println("span just made _MSpanDead 1143 in freeSpanLocked has marked card which it should not have.")
+			}
 			h.spanalloc.free(unsafe.Pointer(after))
 		}
 	}
@@ -1239,6 +1295,14 @@ func (span *mspan) init(base uintptr, npages uintptr) {
 	span.freeindex = 0
 	span.allocBits = nil
 	span.gcmarkBits = nil
+	s := span
+	offset := s.base() - uintptr(unsafe.Pointer(mheap_.arena_start))
+	index := offset / _CardBytes // turns into a shift.
+	cardsPerPage := _PageSize / _CardBytes
+	markedCards := s.scanCards(index, s.npages*uintptr(cardsPerPage))
+	if markedCards != 0 {
+		println("span just made _MSpanDead in init has marked card which it should not have.")
+	}
 }
 
 func (span *mspan) inList() bool {

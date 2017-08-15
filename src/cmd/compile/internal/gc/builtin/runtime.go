@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// NOTE: If you change this file you must run "go generate"
+// NOTE: If you change this file you must run
+// go run mkbuiltin.go in the parent directory
 // to update builtin.go. This is not done automatically
 // to avoid depending on having a working compiler binary.
 
@@ -128,7 +129,14 @@ var writeBarrier struct {
 	pad     [3]byte
 	needed  bool
 	cgo     bool
+	gen     bool
 	alignme uint64
+}
+
+var cardMarks struct {
+	arenaStart      uintptr
+	cardMarks       *byte
+	cardMarksMapped uintptr
 }
 
 func writebarrierptr(dst *any, src any)

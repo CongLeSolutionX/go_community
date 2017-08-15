@@ -300,8 +300,12 @@ const (
 //go:nosplit
 func setGCPhase(x uint32) {
 	atomic.Store(&gcphase, x)
-	writeBarrier.needed = gcphase == _GCmark || gcphase == _GCmarktermination
-	writeBarrier.enabled = writeBarrier.needed || writeBarrier.cgo
+	writeBarrier.needed = gcphase != _GCoff
+	// When writeBarrier.enabled is true the compiler will do an out of bandwidth call.
+	// Since this will be always on when gcgen and gctrace is running you will need to check
+	// writeBarrier.needed || writeBarrier.cgo in situations where we now check writeBarrier.enabled.
+	// This is not a perminant solution.
+	writeBarrier.enabled = writeBarrier.needed || writeBarrier.cgo || (debug.gcgen == 1 && debug.gctrace >= 1)
 }
 
 // gcMarkWorkerMode represents the mode that a concurrent mark worker
@@ -1448,6 +1452,22 @@ top:
 			traceGCSTWStart(0)
 		}
 		systemstack(stopTheWorldWithSema)
+
+		// World is stopped.
+		if debug.gctrace > 0 && debug.gcgen >= 1 {
+			if atomic.Load(&gcphase) == _GCoff {
+				throw("why is gcphase == _GCoff? Perhaps a card marking bug.")
+			}
+			// Temp dump of what a span looks like.
+			// Does this happen after the sweep, in which case the allocBits might have been changed.
+			println("--------------")
+			printHeapCardInfo()
+			println("--------------")
+
+			if atomic.Load(&gcphase) == _GCoff {
+				throw("why is gcphase now == _GCoff? Perhaps a card marking bug.")
+			}
+		}
 		// The gcphase is _GCmark, it will transition to _GCmarktermination
 		// below. The important thing is that the wb remains active until
 		// all marking is complete. This includes writes made by the GC.
@@ -1478,7 +1498,6 @@ top:
 }
 
 func gcMarkTermination(nextTriggerRatio float64) {
-	// World is stopped.
 	// Start marktermination which includes enabling the write barrier.
 	atomic.Store(&gcBlackenEnabled, 0)
 	gcBlackenPromptly = false
@@ -1659,9 +1678,7 @@ func gcMarkTermination(nextTriggerRatio float64) {
 		}
 		print("\n")
 		printunlock()
-		// Temp dump of what a span looks like.
-		// Does this happen after the sweep, in which case the allocBits might have been changed.
-		printHeapCardInfo()
+
 	}
 
 	semrelease(&worldsema)

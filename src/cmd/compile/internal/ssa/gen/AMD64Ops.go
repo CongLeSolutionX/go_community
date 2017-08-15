@@ -330,7 +330,9 @@ func init() {
 		//
 		{name: "CMOVQEQ", argLength: 3, reg: gp21, asm: "CMOVQEQ", resultInArg0: true}, // if arg2 encodes "equal" return arg1 else arg0
 		{name: "CMOVLEQ", argLength: 3, reg: gp21, asm: "CMOVLEQ", resultInArg0: true}, // if arg2 encodes "equal" return arg1 else arg0
-
+		// RLH 40295 code
+		{name: "CMOVQCSstoreidx1", argLength: 5, reg: gpstoreidx, asm: "CMOVQCS", aux: "SymOff", symEffect: "Write"}, // if arg3 encodes unsigned <, store arg2 to arg0+1*arg1+auxint+aux. arg4=mem
+		// RLH end 40295 code
 		{name: "BSWAPQ", argLength: 1, reg: gp11, asm: "BSWAPQ", resultInArg0: true, clobberFlags: true}, // arg0 swap bytes
 		{name: "BSWAPL", argLength: 1, reg: gp11, asm: "BSWAPL", resultInArg0: true, clobberFlags: true}, // arg0 swap bytes
 
@@ -547,6 +549,11 @@ func init() {
 		{name: "LoweredGetCallerPC", reg: gp01},
 		//arg0=ptr,arg1=mem, returns void.  Faults if ptr is nil.
 		{name: "LoweredNilCheck", argLength: 2, reg: regInfo{inputs: []regMask{gpsp}}, clobberFlags: true, nilCheck: true, faultOnNilArg0: true},
+
+		// RLH 40295 code
+		// If arg2 CS flag is set (unsigned less-than), store 1 to arg0+arg1. arg3=mem
+		{name: "LoweredCardMark", argLength: 4, reg: regInfo{inputs: []regMask{gpsp, gpsp}}},
+		// end 40295 code
 
 		// MOVQconvert converts between pointers and integers.
 		// We have a special op for this so as to not confuse GC

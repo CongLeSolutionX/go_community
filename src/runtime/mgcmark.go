@@ -35,6 +35,14 @@ const (
 	// this number in gcMarkRootPrepare
 	rootCardMarkSpans = (512 << 10) / (8 << 10)
 
+	// Assuming one can scan about 1MB of heap in 1ms and that
+	// we want to keep the amount of work done by the root scanning
+	// code to between 100us to 1ms then the number of pages one
+	// unit of card marking should do is .5 MB or 512KB. If each
+	// card represents 512 bytes in the heap then root work is
+	// divided into 1024 (1K) shards of cards.
+	rootCardMarkShardSize = 1024
+
 	// maxObletBytes is the maximum bytes of an object to scan at
 	// once. Larger objects will be split up into "oblets" of at
 	// most this size. Since we can scan 1–2 MB/ms, 128 KB bounds
@@ -117,7 +125,10 @@ func gcMarkRootPrepare() {
 		// is concerned.
 		if cardMarkOn {
 			if writeBarrier.gen {
-				work.nMatureRoots = len(mheap_.spans) / rootCardMarkSpans // the number of span entries to scan / granularity
+				n := int((mheap_.arena_used - mheap_.arena_start) / _CardBytes)
+				work.nMatureRoots = n / rootCardMarkShardSize
+				// Each call to markrootMature does rootCardMarkShardSize
+				// cards starting at shard*rootCardMarkShardSize
 			} else {
 				// 0 will noop the scanning of ther roots in mature space. RLH
 				work.nMatureRoots = 0
@@ -280,7 +291,7 @@ func markroot(gcw *gcWork, i uint32) {
 			println("runtime: cardMark shard = ", i-baseMature, "i=", i, "baseSpans=", baseSpans, "baseMature=", baseMature, "work.nMatureRoots", work.nMatureRoots)
 			throw("Unexpected mature roots encountered")
 		}
-		// Get the number of marked cards for this shard of roots and add it to the total using atomic instruction.
+		// Get the number of marked cards for this shard of cards and add it to the total using atomic instruction.
 		markrootMature(gcw, int(i-baseMature))
 
 	default:
@@ -476,66 +487,18 @@ func markrootMature(gcw *gcWork, shard int) {
 	if !writeBarrier.gen {
 		throw("writeBarrier.gen is false.")
 	}
-	start := shard * rootCardMarkSpans // The first span to check
-	end := start + rootCardMarkSpans
-	// if start refers to a span that is partially in the previous shard then it is
-	// the responsibility of the previous shard to deal with this span. Find the
-	// start of the next span.
-	if shard != 0 && mheap_.spans[start] == mheap_.spans[start-1] {
-		skipSpan := mheap_.spans[start]
-		start++
-		for mheap_.spans[start] == skipSpan {
-			start++
-			if start == end {
-				// This span starts in a previous shard and ends in a later shard
-				// There is nothing to do here.
-				return
-			}
-		}
+	cardMarks, scanCards, noScanCards, pointerCount, matureToYoungPointerCount, ignoredCards, markedAllYoungCount :=
+		gatherCardShardInfo(shard)
+
+	if debug.gctrace >= 1 {
+		atomic.Xadduintptr(&totalCardMarks, cardMarks)
+		atomic.Xadduintptr(&totalScanCards, scanCards)
+		atomic.Xadduintptr(&totalNoScanCards, noScanCards)
+		atomic.Xadduintptr(&totalPointerCount, pointerCount)
+		atomic.Xadduintptr(&totalMatureToYoungPointerCount, matureToYoungPointerCount)
+		atomic.Xadduintptr(&totalIgnoredCards, ignoredCards)
+		atomic.Xadduintptr(&totalMarkedAllYoungCount, markedAllYoungCount)
 	}
-	spans := mheap_.spans[start:end] // a slice of the spans to check
-
-	// How do we deal with span entries that are not associated with
-	// the start of a span? For example a span uses 2 pages so the
-	// second entry is bogus.
-
-	// Note that work.spans may not include spans that were
-	// allocated between entering the scan phase and now. This is
-	// okay because any objects with finalizers in those spans
-	// must have been allocated and given finalizers after we
-	// entered the scan phase, so addfinalizer will have ensured
-	// the above invariants for them.
-
-	spanLen := len(spans)
-	var cardMarks, scanCards, noScanCards, pointerCount, matureToYoungPointerCount, ignoredCards uintptr
-	for i := 0; i < spanLen; {
-		aspan := spans[i]
-		if aspan == nil {
-			i++
-			ignoredCards++
-			cardMarks++
-			continue
-		}
-
-		var tempCardMarks, tempScanCards, tempNoScanCards, tempPointerCount, tempMatureToYoungPointerCount, tempIgnoredCards uintptr
-
-		tempCardMarks, tempScanCards, tempNoScanCards, tempPointerCount, tempMatureToYoungPointerCount, tempIgnoredCards =
-			aspan.gatherSpanCardInfo()
-		cardMarks += tempCardMarks
-		scanCards += tempScanCards
-		noScanCards += tempNoScanCards
-		pointerCount += tempPointerCount
-		matureToYoungPointerCount += tempMatureToYoungPointerCount
-		ignoredCards += tempIgnoredCards
-		i = i + int(aspan.npages)
-	}
-
-	atomic.Xadduintptr(&totalCardMarks, cardMarks)
-	atomic.Xadduintptr(&totalScanCards, scanCards)
-	atomic.Xadduintptr(&totalNoScanCards, noScanCards)
-	atomic.Xadduintptr(&totalPointerCount, pointerCount)
-	atomic.Xadduintptr(&totalMatureToYoungPointerCount, matureToYoungPointerCount)
-	atomic.Xadduintptr(&totalIgnoredCards, ignoredCards)
 	return
 }
 
