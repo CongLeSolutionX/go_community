@@ -453,6 +453,8 @@ func rewriteValueAMD64(v *Value) bool {
 		return rewriteValueAMD64_OpBswap32_0(v)
 	case OpBswap64:
 		return rewriteValueAMD64_OpBswap64_0(v)
+	case OpCardMark:
+		return rewriteValueAMD64_OpCardMark_0(v)
 	case OpClosureCall:
 		return rewriteValueAMD64_OpClosureCall_0(v)
 	case OpCom16:
@@ -39920,6 +39922,30 @@ func rewriteValueAMD64_OpBswap64_0(v *Value) bool {
 		x := v.Args[0]
 		v.reset(OpAMD64BSWAPQ)
 		v.AddArg(x)
+		return true
+	}
+}
+func rewriteValueAMD64_OpCardMark_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	// match: (CardMark cardMarks mapped card mem)
+	// cond:
+	// result: (LoweredCardMark cardMarks card (CMPQ card mapped) mem)
+	for {
+		//		print("rewriteValueAMD64_OpCardMark_0")
+		_ = v.Args[3]
+		cardMarks := v.Args[0]
+		mapped := v.Args[1]
+		card := v.Args[2]
+		mem := v.Args[3]
+		v.reset(OpAMD64LoweredCardMark)
+		v.AddArg(cardMarks)
+		v.AddArg(card)
+		v0 := b.NewValue0(v.Pos, OpAMD64CMPQ, types.TypeFlags)
+		v0.AddArg(card)
+		v0.AddArg(mapped)
+		v.AddArg(v0)
+		v.AddArg(mem)
 		return true
 	}
 }

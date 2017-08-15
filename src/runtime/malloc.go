@@ -218,6 +218,10 @@ var physPageSize uintptr
 // Unfortunately mallocinit happens before the call to parsedebugvars. The
 // constant cardMarkOn is used to toggle whether the card mark structures
 // need to be initialized.
+
+// Initialize cardMarkingOn to ture but turn it off once there is enough
+// initialaization done that you can parse GODEBUG=gcgen=0
+//
 const cardMarkOn = true
 
 func mallocinit() {
@@ -404,6 +408,7 @@ func mallocinit() {
 	// RLH 40294 code
 	if cardMarkOn {
 		mheap_.cardMarks = (*byte)(unsafe.Pointer(p1))
+		//	println("mheap_.cardMarks=", mheap_.cardMarks, "&(mheap_.cards[0])=", &(mheap_.cards[0]))
 	}
 	// RLH end 40294 code
 	p1 += bitmapSize

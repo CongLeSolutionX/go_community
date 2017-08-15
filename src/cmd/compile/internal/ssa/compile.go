@@ -351,6 +351,14 @@ var passes = [...]pass{
 	{name: "fuse", fn: fuse},
 	{name: "dse", fn: dse},
 	{name: "writebarrier", fn: writebarrier, required: true}, // expand write barrier ops
+	// RLH code from 40293
+	// Time to do make.bash with and without these two lines is TBD and put in change (CL) message.
+	// < 1% is reasonable.
+	// Since we are not interested in an out of line always on card marking scheme the following
+	// optimization passes are not needed.
+	// {name: "XXX post writebarrier late opt", fn: opt, required: true}, // XXX Clean up silly write barrier conditional
+	// {name: "XXX post writebarrier generic deadcode", fn: deadcode},
+	// RLH end code from 40293
 	{name: "insert resched checks", fn: insertLoopReschedChecks,
 		disabled: objabi.Preemptibleloops_enabled == 0}, // insert resched checks in loops.
 	{name: "tighten", fn: tighten}, // move values closer to their uses

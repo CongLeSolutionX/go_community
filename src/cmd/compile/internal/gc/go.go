@@ -286,6 +286,7 @@ var (
 	assertI2I2,
 	goschedguarded,
 	writeBarrier,
+	cardMarks,
 	writebarrierptr,
 	typedmemmove,
 	typedmemclr,

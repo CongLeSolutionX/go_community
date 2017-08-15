@@ -70,6 +70,9 @@ type Types struct {
 	Float32Ptr *types.Type
 	Float64Ptr *types.Type
 	BytePtrPtr *types.Type
+	// RLH: code from 40295
+	CardMarks *types.Type // runtime.cardMarks type
+	// RLH: end code from 40295
 }
 
 type Logger interface {

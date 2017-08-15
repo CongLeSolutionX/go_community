@@ -550,6 +550,7 @@ const (
 	OpAMD64BSRL
 	OpAMD64CMOVQEQ
 	OpAMD64CMOVLEQ
+	OpAMD64CMOVQCSstoreidx1
 	OpAMD64BSWAPQ
 	OpAMD64BSWAPL
 	OpAMD64POPCNTQ
@@ -654,6 +655,7 @@ const (
 	OpAMD64LoweredGetG
 	OpAMD64LoweredGetClosurePtr
 	OpAMD64LoweredNilCheck
+	OpAMD64LoweredCardMark
 	OpAMD64MOVQconvert
 	OpAMD64MOVLconvert
 	OpAMD64FlagEQ
@@ -1864,6 +1866,7 @@ const (
 	OpStoreWB
 	OpMoveWB
 	OpZeroWB
+	OpCardMark
 	OpClosureCall
 	OpStaticCall
 	OpInterCall
@@ -6559,6 +6562,20 @@ var opcodeTable = [...]opInfo{
 		},
 	},
 	{
+		name:      "CMOVQCSstoreidx1",
+		auxType:   auxSymOff,
+		argLen:    5,
+		symEffect: SymWrite,
+		asm:       x86.ACMOVQCS,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{1, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+				{2, 65535},      // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+				{0, 4295032831}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15 SB
+			},
+		},
+	},
+	{
 		name:         "BSWAPQ",
 		argLen:       1,
 		resultInArg0: true,
@@ -7923,6 +7940,16 @@ var opcodeTable = [...]opInfo{
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+			},
+		},
+	},
+	{
+		name:   "LoweredCardMark",
+		argLen: 4,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
+				{1, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
 			},
 		},
 	},
@@ -22604,6 +22631,11 @@ var opcodeTable = [...]opInfo{
 		name:    "ZeroWB",
 		auxType: auxTypSize,
 		argLen:  2,
+		generic: true,
+	},
+	{
+		name:    "CardMark",
+		argLen:  4,
 		generic: true,
 	},
 	{

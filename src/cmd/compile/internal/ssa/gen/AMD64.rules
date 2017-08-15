@@ -454,6 +454,13 @@
 	&& s%8 == 0 ->
 	(REPSTOSQ destptr (MOVQconst [s/8]) (MOVQconst [0]) mem)
 
+// RLH 40295 code
+// Card marking.
+(CardMark cardMarks mapped card mem) ->
+//	(CMOVQCSstoreidx1 cardMarks card (MOVQconst [1]) (CMPQ card mapped) mem)
+	(LoweredCardMark cardMarks card (CMPQ card mapped) mem)
+// RLH end 40295 code
+
 // Lowering constants
 (Const8   [val]) -> (MOVLconst [val])
 (Const16  [val]) -> (MOVLconst [val])

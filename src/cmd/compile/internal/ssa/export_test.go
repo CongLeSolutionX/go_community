@@ -203,8 +203,126 @@ func init() {
 		Float32Ptr: types.NewPtr(types.Types[types.TFLOAT32]),
 		Float64Ptr: types.NewPtr(types.Types[types.TFLOAT64]),
 		BytePtrPtr: types.NewPtr(types.NewPtr(types.Types[types.TUINT8])),
+		CardMarks:  types.New(types.TSTRUCT), // types.New(types.TSTRUCT),
 	}
 }
+
+//func getCM() *types.Type {
+//	result := types.New(types.TSTRUCT)
+//	return result
+//}
+
+/*** RLH just for now Simply delete before submitting.
+
+// It seems that none of the fields of CardMarks have to be provided.
+
+func (t *Type) Fields() *Fields {
+	switch t.Etype {
+	case TSTRUCT:
+		return &t.Extra.(*Struct).fields
+	case TINTER:
+		Dowidth(t)
+		return &t.Extra.(*Interface).Fields
+	}
+	Fatalf("Fields: type %v does not have fields", t)
+	return nil
+}
+
+// Field returns the i'th field/method of struct/interface type t.
+func (t *Type) Field(i int) *Field {
+	return t.Fields().Slice()[i]
+}
+
+// FieldSlice returns a slice containing all fields/methods of
+// struct/interface type t.
+func (t *Type) FieldSlice() []*Field {
+	return t.Fields().Slice()
+}
+
+// SetFields sets struct/interface type t's fields/methods to fields.
+func (t *Type) SetFields(fields []*Field) {
+	// If we've calculated the width of t before,
+	// then some other type such as a function signature
+	// might now have the wrong type.
+	// Rather than try to track and invalidate those,
+	// enforce that SetFields cannot be called once
+	// t's width has been calculated.
+	if t.WidthCalculated() {
+		Fatalf("SetFields of %v: width previously calculated", t)
+	}
+	t.wantEtype(TSTRUCT)
+	for _, f := range fields {
+		// If type T contains a field F with a go:notinheap
+		// type, then T must also be go:notinheap. Otherwise,
+		// you could heap allocate T and then get a pointer F,
+		// which would be a heap pointer to a go:notinheap
+		// type.
+		if f.Type != nil && f.Type.NotInHeap() {
+			t.SetNotInHeap(true)
+			break
+		}
+	}
+	t.Fields().Set(fields)
+}
+type Fields struct {
+	s *[]*Field
+}
+// A Field represents a field in a struct or a method in an interface or
+// associated with a named type.
+type Field struct {
+	flags bitset8
+
+	Embedded uint8 // embedded field
+	Funarg   Funarg
+
+	Sym   *Sym
+	Nname *Node
+
+	Type *Type // field type
+
+	// Offset in bytes of this field or method within its enclosing struct
+	// or interface Type.
+	Offset int64
+
+	Note string // literal string annotation
+}
+
+func rlhgenCMStruct() *types.Type {
+	newStruct := types.New(types.TSTRUCT)
+	_ = newStruct
+	//	newStruct.fields = new(types.Fields)
+	// Create the 3 fields.
+	f1 := types.NewField()
+	//	f1.flags = 0
+	f1.Embedded = 0
+	f1.Sym = nil
+	f1.Nname = nil
+	f1.Type = nil
+	f1.Offset = 0
+	f1.Note = ""
+	f2 := types.NewField()
+	f2.Embedded = 0
+	f2.Sym = nil
+	f2.Nname = nil
+	f2.Type = nil
+	f2.Offset = 0
+	f2.Note = ""
+	f3 := types.NewField()
+	f3.Embedded = 0
+	f3.Sym = nil
+	f3.Nname = nil
+	f3.Type = nil
+	f3.Offset = 0
+	f3.Note = ""
+	//newStruct.fields[0] = f1
+	_ = f1
+	_ = f2
+	_ = f3
+	return newStruct
+	//newStruct.fields[1] = f2
+	//newStruct.fields[2] = f3
+}
+************/
 
 func (d DummyFrontend) DerefItab(sym *obj.LSym, off int64) *obj.LSym { return nil }
 

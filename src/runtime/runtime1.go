@@ -397,6 +397,9 @@ func parsedebugvars() {
 	}
 	if debug.gcgen >= 1 {
 		// Turn card marking on.
+		if !cardMarkOn {
+			throw("cardMarkOn is false initialization has failed")
+		}
 		writeBarrier.gen = true
 	}
 }
