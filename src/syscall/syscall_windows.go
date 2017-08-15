@@ -1003,6 +1003,8 @@ func LoadCreateSymbolicLink() error {
 	return procCreateSymbolicLinkW.Find()
 }
 
+var ErrNtNamespace = errorspkg.New("NT namespace")
+
 // Readlink returns the destination of the named symbolic link.
 func Readlink(path string, buf []byte) (n int, err error) {
 	fd, err := CreateFile(StringToUTF16Ptr(path), GENERIC_READ, 0, nil, OPEN_EXISTING,
@@ -1035,7 +1037,7 @@ func Readlink(path string, buf []byte) (n int, err error) {
 				case len(s) >= 4 && s[:4] == `UNC\`: // \??\UNC\foo\bar
 					s = `\\` + s[4:]
 				default:
-					// unexpected; do nothing
+					err = ErrNtNamespace
 				}
 			} else {
 				// unexpected; do nothing
@@ -1045,8 +1047,13 @@ func Readlink(path string, buf []byte) (n int, err error) {
 		data := (*mountPointReparseBuffer)(unsafe.Pointer(&rdb.reparseBuffer))
 		p := (*[0xffff]uint16)(unsafe.Pointer(&data.PathBuffer[0]))
 		s = UTF16ToString(p[data.SubstituteNameOffset/2 : (data.SubstituteNameOffset+data.SubstituteNameLength)/2])
-		if len(s) >= 4 && s[:4] == `\??\` { // \??\C:\foo\bar
+		if len(s) >= 4 && s[:4] == `\??\` {
 			s = s[4:]
+			if len(s) >= 2 && s[1] == ':' { // \??\C:\foo\bar
+				// do nothing
+			} else {
+				err = ErrNtNamespace
+			}
 		} else {
 			// unexpected; do nothing
 		}
@@ -1057,5 +1064,5 @@ func Readlink(path string, buf []byte) (n int, err error) {
 	}
 	n = copy(buf, []byte(s))
 
-	return n, nil
+	return n, err
 }
