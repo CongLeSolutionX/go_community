@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3adcdf29_34ebe516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-15T11:22:06Z",
+      "side": 1,
+      "message": "clearer:\n\ndon\u0027t print an line after \"struct {\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 25,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "fe50eb1043209de864dced55968e9fdec9b6ddb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d664418_8eca41dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-15T11:22:06Z",
+      "side": 1,
+      "message": "s/defination/definition/\n\nbut the title already says all - you can just leave the paragraph away",
+      "revId": "fe50eb1043209de864dced55968e9fdec9b6ddb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e269e5ca_c628e3a1",
+        "filename": "src/go/printer/printer.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-15T11:22:06Z",
+      "side": 1,
+      "message": "simpler:\n\nif bytes.HasSuffix(p.output, []byte(\"struct {\")) { ...\n\nand import \"bytes\"\n\nbut that said: what if we don\u0027t have a comment? what if the source text is\n\ntype T struct {\n\n   f int\n}\n\nwe also don\u0027t want the empty line. Does that work as well?",
+      "range": {
+        "startLine": 429,
+        "startChar": 12,
+        "endLine": 429,
+        "endChar": 18
+      },
+      "revId": "fe50eb1043209de864dced55968e9fdec9b6ddb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af78bf6a_74084cf0",
+        "filename": "src/go/printer/testdata/comments3.golden",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-15T11:22:06Z",
+      "side": 1,
+      "message": "Please leave away extra stuff that has nothing to do with the problem. Understood that this is the exact  test case, but we don\u0027t want to just test the exact test case. We want to make sure it works in general. This file should have many different situations (and if you want, you can have the example in the issue as well, at the end).\n\nThis should have tests for inputs such as:\n\ntype T struct { // foo\n\n   // bar\n   x int\n}\n\ntype T struct { /* foo */\n\n   // bar\n   x int\n}\n\ntype T struct { // foo\n\n   x int\n}\n\ntype T struct { /* foo */\n\n   x int\n}\n\ntype T struct {\n\n   x int\n}\n\ntype T struct {\n\n   x int\n}\n\netc. In all cases we want to make sure there\u0027s no extra empty line. Otherwise we only introduces yet another special case which will lead to even more issues.",
+      "revId": "fe50eb1043209de864dced55968e9fdec9b6ddb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44018f4c_a593202b",
+        "filename": "src/go/printer/testdata/comments4.input",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-15T11:22:06Z",
+      "side": 1,
+      "message": "this file doesn\u0027t have a golden file - is it missing?",
+      "revId": "fe50eb1043209de864dced55968e9fdec9b6ddb0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
