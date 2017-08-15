@@ -16,6 +16,24 @@
       "revId": "5b2cbee03d39794137ab70e15ac28ee3eb55dfa6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d64e3c16_b7657134",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2017-08-15T04:47:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5fc3c14_8fd4876f",
+      "revId": "5b2cbee03d39794137ab70e15ac28ee3eb55dfa6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
