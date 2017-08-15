@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a39004d3_6ceb1599",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-15T18:26:14Z",
+      "side": 1,
+      "message": "golang.org/cl/22337",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "1e2c43df983f89c749a862838119ecc6e8a7895d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88258679_31cf90ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-15T18:26:14Z",
+      "side": 1,
+      "message": "golang.org/cl/18853",
+      "range": {
+        "startLine": 11,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 53
+      },
+      "revId": "1e2c43df983f89c749a862838119ecc6e8a7895d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
