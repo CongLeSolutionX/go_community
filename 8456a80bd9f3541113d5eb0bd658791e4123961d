@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c2f1d0c_43a62781",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-08-15T17:17:31Z",
+      "side": 1,
+      "message": "s/Larget/Larger/g",
+      "revId": "8456a80bd9f3541113d5eb0bd658791e4123961d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62076b44_ae3723ff",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-08-15T17:17:31Z",
+      "side": 1,
+      "message": "s/seprate/seperate/g",
+      "revId": "8456a80bd9f3541113d5eb0bd658791e4123961d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdee3c25_89fbfc2a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-08-15T17:17:31Z",
+      "side": 1,
+      "message": "issue https://golang.org/issues/20528",
+      "revId": "8456a80bd9f3541113d5eb0bd658791e4123961d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
