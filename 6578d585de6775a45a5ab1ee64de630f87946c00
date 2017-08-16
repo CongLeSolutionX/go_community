@@ -33,6 +33,23 @@
       "revId": "6578d585de6775a45a5ab1ee64de630f87946c00",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "174d373c_33266305",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T19:54:25Z",
+      "side": 1,
+      "message": "Is this a dead store now (the same as the one removed from ReadByte)?",
+      "revId": "6578d585de6775a45a5ab1ee64de630f87946c00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
