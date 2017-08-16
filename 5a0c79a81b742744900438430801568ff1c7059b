@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "49ae21f5_91aabe41",
+        "filename": "src/go/internal/srcimporter/srcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-16T09:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09d8b46f_36ebb6cf",
+      "range": {
+        "startLine": 137,
+        "startChar": 36,
+        "endLine": 137,
+        "endChar": 37
+      },
+      "revId": "5a0c79a81b742744900438430801568ff1c7059b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c618aa91_6464d44d",
         "filename": "src/go/internal/srcimporter/srcimporter.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-08-15T19:13:53Z",
       "side": 1,
       "message": "It\u0027s possible that err here is one of the soft errors.  Best to make \u0027safe\u0027 into \u0027firstHardErr\u0027 and then use that value here.  You can ignore the error returned by Check.",
+      "revId": "5a0c79a81b742744900438430801568ff1c7059b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c27ea761_7104a1a1",
+        "filename": "src/go/internal/srcimporter/srcimporter.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-16T09:39:19Z",
+      "side": 1,
+      "message": "Good point. But I cannot ignore the error returned by Check - it\u0027s the one to test in the condition for the \u0027if\u0027. Otherwise we don\u0027t get an error if there\u0027s only soft errors. We still want to get an error in that case, it\u0027s just that we also want to get a package. And in case of only soft errors, I need to return one of them.",
+      "parentUuid": "c618aa91_6464d44d",
       "revId": "5a0c79a81b742744900438430801568ff1c7059b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
