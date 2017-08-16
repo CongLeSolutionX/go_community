@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57690a4c_7317b476",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-16T20:38:38Z",
+      "side": 1,
+      "message": "Why not put the c :\u003d cap(b.buf) at the start of the if statement, since the expression is used there too.",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 133,
+        "endChar": 27
+      },
+      "revId": "c4f274f6a15a1fdd043a6931060b1d18cc9b8136",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
