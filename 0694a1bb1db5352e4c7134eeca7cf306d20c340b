@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0e6d421_a2c5700a",
+        "filename": "src/cmd/link/linkmain_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2017-08-16T11:13:28Z",
+      "side": 1,
+      "message": "have you tried with -pkgdir\u003d$TMPDIR ?",
+      "revId": "0694a1bb1db5352e4c7134eeca7cf306d20c340b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
