@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9a36737_33e1feb9",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-16T20:50:31Z",
+      "side": 1,
+      "message": "I think this is a confusing API.  And I don\u0027t see the point.  Let\u0027s just bump the maximum header size from 512 bytes to 32M.\n\nOr, if we really need to support larger sizes, then let\u0027s do it by adding NewVeryLongCommentReader.\n\nOr, let\u0027s permit longer comments and simply read and discard the bytes past the maximum we are willing to preserve.",
+      "revId": "fa55deee5ece8a5763801d81587c5276534dbf92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
