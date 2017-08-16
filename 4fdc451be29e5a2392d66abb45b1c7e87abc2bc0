@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0912b015_be056314",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "\u003e Needs a copyright notice.\n\nDone.\n\n\u003e A brief explanatory comment would not be out of place.\n\nPorted the header comment from test.bash.\n\n(What is the convention for package comments for \"_test\" packages?)",
+      "parentUuid": "c3697cfa_b0fd6b57",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad6778e7_fa58a66f",
         "filename": "misc/cgo/testsanitizers/cc_test.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8add0f2f_02917520",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad6778e7_fa58a66f",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dd3f6bf8_df2a96c4",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "Oops!",
+      "parentUuid": "82c9e4af_3141f3d9",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1612d9b3_5c035175",
         "filename": "misc/cgo/testsanitizers/cc_test.go",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e7893cf_d05729b1",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "Nice!",
+      "parentUuid": "1612d9b3_5c035175",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "3fcd496d_d356537e",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "That\u0027s interesting, because the \"dist\" command itself uses strings.Split:\nhttps://github.com/golang/go/blob/8127dbf76ad16350b72bbe29728836a90e60e3dc/src/cmd/dist/test.go#L1087\nIs that a bug in dist?\n\nFor now, copied the code outright; happy to put it someplace else if it belongs. (Perhaps a function in the go/build package?)",
+      "parentUuid": "510a0b5a_2d84adca",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34691740_c3ee3cfc",
         "filename": "misc/cgo/testsanitizers/cc_test.go",
         "patchSetId": 4
@@ -101,6 +191,24 @@
       "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c662beb6_08150fd3",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34691740_c3ee3cfc",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "46037ac3_348e8d8f",
+        "filename": "misc/cgo/testsanitizers/cc_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee152c44_74d4746f",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bed61071_9d924edc",
         "filename": "misc/cgo/testsanitizers/cshared_test.go",
         "patchSetId": 4
@@ -135,6 +261,24 @@
       "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47bfbc2e_3b3a3749",
+        "filename": "misc/cgo/testsanitizers/cshared_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bed61071_9d924edc",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -155,6 +299,24 @@
     },
     {
       "key": {
+        "uuid": "5360d0f0_9f25b3cd",
+        "filename": "misc/cgo/testsanitizers/msan_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55ce4f77_e944b33f",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a83f8cb4_0b7989d1",
         "filename": "misc/cgo/testsanitizers/tsan_test.go",
         "patchSetId": 4
@@ -169,6 +331,24 @@
       "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7a02097_2a2abc8a",
+        "filename": "misc/cgo/testsanitizers/tsan_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T22:35:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a83f8cb4_0b7989d1",
+      "revId": "4fdc451be29e5a2392d66abb45b1c7e87abc2bc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
