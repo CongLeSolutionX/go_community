@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94d01bcd_a808bf05",
+        "filename": "src/runtime/iface.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-16T16:28:53Z",
+      "side": 1,
+      "message": "or",
+      "range": {
+        "startLine": 608,
+        "startChar": 42,
+        "endLine": 608,
+        "endChar": 48
+      },
+      "revId": "94bbed4dc542c7871ef386a60e192e58eb6bf9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
