@@ -16,6 +16,24 @@
       "revId": "932ee1f2d97e481df76702b0bee9f7b73a78fa6d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "198c34d1_f0113fdd",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 21240
+      },
+      "writtenOn": "2017-08-16T06:06:03Z",
+      "side": 1,
+      "message": "1.ack. will update;\n2. my thought is that since the buffer size is bufferBeforeConnWriteSize, so when size \u003e bufferBeforeConnWriteSize+1, we could alwasy write bufferBeforeConnWriteSize+1 so could trigger directly write instead of buffer write.",
+      "parentUuid": "6da6de68_d2232b5f",
+      "revId": "932ee1f2d97e481df76702b0bee9f7b73a78fa6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
