@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "770e6d97_c432d4c7",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1439,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "(nit) \"in serial\" seems awkward.\n\nPerhaps \"Each interval is run [sequentially / in sequence / in series] and …\"",
+      "range": {
+        "startLine": 1439,
+        "startChar": 7,
+        "endLine": 1439,
+        "endChar": 30
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cae74bc_214a7d55",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1440,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "Em-dash (—) or double-dash (--)?\n\nOr avoid the issue altogether and use a colon?\n\n(https://golang.org/issue/21327#issuecomment-320529201)",
+      "range": {
+        "startLine": 1440,
+        "startChar": 48,
+        "endLine": 1440,
+        "endChar": 49
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ec57beb_3ede23c7",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "What is the allowed range for the values in vals? (Do we need to consider overflow here?)",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cf20924_f4306c94",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "2^31 nanoseconds is only 2+𝜀 seconds. Is this robust on 32-bit platforms?",
+      "range": {
+        "startLine": 303,
+        "startChar": 18,
+        "endLine": 303,
+        "endChar": 38
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a756893_2156cd9b",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "Would it make sense to revise our estimate for n after each split, or to start over with a different n if we produce too few splits?\n\nIt seems like this will make it really easy to fall into cases where we request K splits but get far fewer even though the total N is quite large.",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 4
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e7bc3d0_50e0ec3e",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "aveNsPerOp is [sum(prevNsPerOp) / intervals],\nso [n / aveNsPerOp] is [n * intervals / sum(prevNsPerOp)],\nand [n /\u003d intervals] here gives [n * intervals / (sum(prevNsPerOp) * intervals)]\n\nSeems like we could compute this with less rounding error by going straight to:\nn \u003d benchTimeNs / sum(prevNsPerOp)\n\nWhat am I missing?",
+      "range": {
+        "startLine": 328,
+        "startChar": 0,
+        "endLine": 331,
+        "endChar": 15
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cf57358_80282ec3",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "Why append here instead of writing directly to b.w?",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90597c37_b642f40d",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "I don\u0027t really understand this comment: why is it ok for subbenchmarks not to have a breakdown by interval?",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6da21539_0b265360",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "Should there be a new case here with intervals \u003e 1?",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a6b6a08_626ef46d",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-16T21:13:33Z",
+      "side": 1,
+      "message": "It\u0027s not obvious to me why this expectation follows from the benchmark setup. (It would be helpful to log a clearer description of what exactly the setup is: the test name is a bit ambiguous.)",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
