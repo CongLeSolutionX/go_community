@@ -43,28 +43,31 @@ See also: go fix, go vet.
 
 func runFmt(cmd *base.Command, args []string) {
 	gofmt := gofmtPath()
-	procs := runtime.GOMAXPROCS(0)
-	var wg sync.WaitGroup
-	wg.Add(procs)
-	fileC := make(chan string, 2*procs)
-	for i := 0; i < procs; i++ {
-		go func() {
-			defer wg.Done()
-			for file := range fileC {
-				base.Run(str.StringList(gofmt, "-l", "-w", file))
-			}
-		}()
-	}
+	var allFiles []string
 	for _, pkg := range load.Packages(args) {
 		// Use pkg.gofiles instead of pkg.Dir so that
 		// the command only applies to this package,
 		// not to packages in subdirectories.
 		files := base.RelPaths(pkg.InternalAllGoFiles())
-		for _, file := range files {
-			fileC <- file
-		}
+		allFiles = append(allFiles, files...)
 	}
-	close(fileC)
+
+	// Send files to different gofmts to overlap I/O.
+	procs := 2 * runtime.GOMAXPROCS(0)
+	perProc := (len(allFiles) + procs - 1) / procs
+	var wg sync.WaitGroup
+	for len(allFiles) > 0 {
+		files := allFiles
+		if len(files) > perProc {
+			files = files[:perProc]
+		}
+		allFiles = allFiles[len(files):]
+		wg.Add(1)
+		go func() {
+			base.Run(str.StringList(gofmt, "-l", "-w", files))
+			wg.Done()
+		}()
+	}
 	wg.Wait()
 }
 
