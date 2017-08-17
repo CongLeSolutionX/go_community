@@ -1371,10 +1371,8 @@ func TestChunkedNoContent(t *testing.T) {
 			res, err := c.Get(ts.URL)
 			if err != nil {
 				t.Errorf("closingBody=%v, req %d/%d: %v", closeBody, i, n, err)
-			} else {
-				if closeBody {
-					res.Body.Close()
-				}
+			} else if closeBody {
+				res.Body.Close()
 			}
 		}
 	}

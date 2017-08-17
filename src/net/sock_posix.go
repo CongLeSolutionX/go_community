@@ -143,10 +143,8 @@ func (fd *netFD) dial(ctx context.Context, laddr, raddr sockaddr) error {
 			return err
 		}
 		fd.isConnected = true
-	} else {
-		if err := fd.init(); err != nil {
-			return err
-		}
+	} else if err := fd.init(); err != nil {
+		return err
 	}
 	// Record the local and remote addresses from the actual socket.
 	// Get the local address by calling Getsockname.

@@ -336,18 +336,16 @@ func sinPi(x float64) float64 {
 	if z != x { // inexact
 		x = Mod(x, 2)
 		n = int(x * 4)
+	} else if x >= Two53 { // x must be even
+		x = 0
+		n = 0
 	} else {
-		if x >= Two53 { // x must be even
-			x = 0
-			n = 0
-		} else {
-			if x < Two52 {
-				z = x + Two52 // exact
-			}
-			n = int(1 & Float64bits(z))
-			x = float64(n)
-			n <<= 2
+		if x < Two52 {
+			z = x + Two52 // exact
 		}
+		n = int(1 & Float64bits(z))
+		x = float64(n)
+		n <<= 2
 	}
 	switch n {
 	case 0:

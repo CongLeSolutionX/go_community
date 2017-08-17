@@ -101,13 +101,11 @@ func growslice(et *_type, old slice, cap int) slice {
 	doublecap := newcap + newcap
 	if cap > doublecap {
 		newcap = cap
+	} else if old.len < 1024 {
+		newcap = doublecap
 	} else {
-		if old.len < 1024 {
-			newcap = doublecap
-		} else {
-			for newcap < cap {
-				newcap += newcap / 4
-			}
+		for newcap < cap {
+			newcap += newcap / 4
 		}
 	}
 

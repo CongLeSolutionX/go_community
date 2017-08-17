@@ -896,10 +896,8 @@ func validateTestMultipartContents(t *testing.T, req *Request, allMem bool) {
 	defer fdb.Close()
 	if allMem {
 		assertMem("fileb", fdb)
-	} else {
-		if _, ok := fdb.(*os.File); !ok {
-			t.Errorf("fileb has unexpected underlying type %T", fdb)
-		}
+	} else if _, ok := fdb.(*os.File); !ok {
+		t.Errorf("fileb has unexpected underlying type %T", fdb)
 	}
 
 	testMissingFile(t, req)

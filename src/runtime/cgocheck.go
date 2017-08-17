@@ -177,14 +177,12 @@ func cgoCheckBits(src unsafe.Pointer, gcbits *byte, off, size uintptr) {
 		}
 		if off > 0 {
 			off -= sys.PtrSize
-		} else {
-			if bits&1 != 0 {
-				v := *(*unsafe.Pointer)(add(src, i))
-				if cgoIsGoPointer(v) {
-					systemstack(func() {
-						throw(cgoWriteBarrierFail)
-					})
-				}
+		} else if bits&1 != 0 {
+			v := *(*unsafe.Pointer)(add(src, i))
+			if cgoIsGoPointer(v) {
+				systemstack(func() {
+					throw(cgoWriteBarrierFail)
+				})
 			}
 		}
 	}
