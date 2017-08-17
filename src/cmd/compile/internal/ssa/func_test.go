@@ -239,6 +239,11 @@ func If(cond, sub, alt string) ctrl {
 	return ctrl{BlockIf, cond, []string{sub, alt}}
 }
 
+// IfFault specifies a BlockIfFault.
+func IfFault(sub, alt string) ctrl {
+	return ctrl{BlockIfFault, "", []string{sub, alt}}
+}
+
 // Exit specifies a BlockExit.
 func Exit(arg string) ctrl {
 	return ctrl{BlockExit, arg, []string{}}

@@ -74,6 +74,10 @@ func NewFunc(fe Frontend) *Func {
 	return &Func{fe: fe, NamedValues: make(map[LocalSlot][]*Value)}
 }
 
+func (f *Func) Fe() Frontend {
+	return f.fe
+}
+
 // NumBlocks returns an integer larger than the id of any Block in the Func.
 func (f *Func) NumBlocks() int {
 	return f.bid.num()

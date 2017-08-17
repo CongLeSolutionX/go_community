@@ -1,4 +1,4 @@
-// errorcheckwithauto -0 -l -live -wb=0 -d=ssa/insert_resched_checks/off
+// errorcheckwithauto -0 -l -live -wb=0 -d=ssa/preempt_loops/off
 // +build !ppc64,!ppc64le
 // ppc64 needs a better tighten pass to make f18 pass
 // rescheduling checks need to be turned off because there are some live variables across the inserted check call

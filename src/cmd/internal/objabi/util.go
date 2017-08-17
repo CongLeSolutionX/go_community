@@ -95,7 +95,6 @@ var exper = []struct {
 }{
 	{"fieldtrack", &Fieldtrack_enabled},
 	{"framepointer", &framepointer_enabled},
-	{"preemptibleloops", &Preemptibleloops_enabled},
 	{"clobberdead", &Clobberdead_enabled},
 }
 

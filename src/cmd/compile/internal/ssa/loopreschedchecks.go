@@ -65,6 +65,19 @@ func insertLoopReschedChecks(f *Func) {
 		return
 	}
 
+	if !f.DebugTest { // for GOSSAHASH testing
+		return
+	}
+
+	// TODO expand this to other architectures as BlockIf is implemented there.
+	testWithFault := f.Config.arch == "amd64"
+	switch f.pass.test {
+	case 1:
+		testWithFault = false
+	case 2:
+		testWithFault = true // two, true, it rhymes.
+	}
+
 	backedges := backedges(f)
 	if len(backedges) == 0 { // no backedges means no rescheduling checks.
 		return
@@ -206,27 +219,37 @@ func insertLoopReschedChecks(f *Func) {
 		// the header, and the other phi functions within header are
 		// adjusted for the additional input.
 
-		test := f.NewBlock(BlockIf)
+		var test *Block
+		if testWithFault {
+			test = f.NewBlock(BlockIfFault)
+		} else {
+			test = f.NewBlock(BlockIf)
+		}
 		sched := f.NewBlock(BlockPlain)
 
 		test.Pos = bb.Pos
 		sched.Pos = bb.Pos
 
-		// if sp < g.limit { goto sched }
-		// goto header
+		// Comment below includes the stack-bounds-check logic,
+		// which may make more sense on architectures where reference
+		// to a global variable is less convenient.
 
-		cfgtypes := &f.Config.Types
-		pt := cfgtypes.Uintptr
-		g := test.NewValue1(bb.Pos, OpGetG, pt, mem0)
-		sp := test.NewValue0(bb.Pos, OpSP, pt)
-		cmpOp := OpLess64U
-		if pt.Size() == 4 {
-			cmpOp = OpLess32U
+		if !testWithFault {
+			// if sp < g.limit { goto sched }
+			// goto header
+			types := &f.Config.Types
+			pt := types.Uintptr
+			g := test.NewValue1(bb.Pos, OpGetG, pt, mem0)
+			sp := test.NewValue0(bb.Pos, OpSP, pt)
+			cmpOp := OpLess64U
+			if pt.Size() == 4 {
+				cmpOp = OpLess32U
+			}
+			limaddr := test.NewValue1I(bb.Pos, OpOffPtr, pt, 2*pt.Size(), g)
+			lim := test.NewValue2(bb.Pos, OpLoad, pt, limaddr, mem0)
+			cmp := test.NewValue2(bb.Pos, cmpOp, types.Bool, sp, lim)
+			test.SetControl(cmp)
 		}
-		limaddr := test.NewValue1I(bb.Pos, OpOffPtr, pt, 2*pt.Size(), g)
-		lim := test.NewValue2(bb.Pos, OpLoad, pt, limaddr, mem0)
-		cmp := test.NewValue2(bb.Pos, cmpOp, cfgtypes.Bool, sp, lim)
-		test.SetControl(cmp)
 
 		// if true, goto sched
 		test.AddEdgeTo(sched)

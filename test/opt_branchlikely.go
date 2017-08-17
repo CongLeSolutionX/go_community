@@ -1,5 +1,5 @@
 // +build amd64
-// errorcheck -0 -d=ssa/likelyadjust/debug=1,ssa/insert_resched_checks/off
+// errorcheck -0 -d=ssa/likelyadjust/debug=1,ssa/preempt_loops/off
 // rescheduling check insertion is turend off because the inserted conditional branches perturb the errorcheck
 
 // Copyright 2016 The Go Authors. All rights reserved.
