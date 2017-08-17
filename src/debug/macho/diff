@@ -1,0 +1,61 @@
+diff --git a/src/debug/macho/file.go b/src/debug/macho/file.go
+index 223346f10d..04ba0f4c20 100644
+--- a/src/debug/macho/file.go
++++ b/src/debug/macho/file.go
+@@ -143,6 +143,11 @@ type Dysymtab struct {
+ 	IndirectSyms []uint32 // indices into Symtab.Syms
+ }
+ 
++type Rpath struct {
++	LoadBytes
++	Path string
++}
++
+ /*
+  * Mach-O reader
+  */
+@@ -249,6 +254,19 @@ func NewFile(r io.ReaderAt) (*File, error) {
+ 		default:
+ 			f.Loads[i] = LoadBytes(cmddat)
+ 
++		case LoadCmdRpath:
++			var hdr RpathCmd
++			b := bytes.NewReader(cmddat)
++			if err := binary.Read(b, bo, &hdr); err != nil {
++				return nil, err
++			}
++			l := new(Rpath)
++			if hdr.Path >= uint32(len(cmddat)) {
++				return nil, &FormatError{offset, "invalid path in rpath command", hdr.Path}
++			}
++			l.Path = cstring(cmddat[hdr.Path:])
++			f.Loads[i] = l
++
+ 		case LoadCmdDylib:
+ 			var hdr DylibCmd
+ 			b := bytes.NewReader(cmddat)
+diff --git a/src/debug/macho/macho.go b/src/debug/macho/macho.go
+index 6535ba787b..8150a084f7 100644
+--- a/src/debug/macho/macho.go
++++ b/src/debug/macho/macho.go
+@@ -87,6 +87,7 @@ const (
+ 	LoadCmdDylib      LoadCmd = 12
+ 	LoadCmdDylinker   LoadCmd = 15
+ 	LoadCmdSegment64  LoadCmd = 25
++	LoadCmdRpath      LoadCmd = 0x8000001c
+ )
+ 
+ var cmdStrings = []intName{
+@@ -107,6 +108,12 @@ const (
+ 	FlagPIE      uint32 = 0x200000
+ )
+ 
++type RpathCmd struct {
++	Cmd  LoadCmd
++	Len  uint32
++	Path uint32
++}
++
+ // A Segment64 is a 64-bit Mach-O segment load command.
+ type Segment64 struct {
+ 	Cmd     LoadCmd
