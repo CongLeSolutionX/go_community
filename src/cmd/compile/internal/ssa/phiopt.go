@@ -35,7 +35,7 @@ func phiopt(f *Func) {
 		for len(b0.Succs) == 1 && len(b0.Preds) == 1 {
 			pb0, b0 = b0, b0.Preds[0].b
 		}
-		if b0.Kind != BlockIf {
+		if b0.Kind != BlockIf && b0.Kind != BlockIfFault {
 			continue
 		}
 		pb1, b1 := b, b.Preds[1].b

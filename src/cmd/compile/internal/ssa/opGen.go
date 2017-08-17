@@ -113,6 +113,7 @@ const (
 
 	BlockPlain
 	BlockIf
+	BlockIfFault
 	BlockDefer
 	BlockRet
 	BlockRetJmp
@@ -219,13 +220,14 @@ var blockString = [...]string{
 	BlockS390XGTF: "GTF",
 	BlockS390XGEF: "GEF",
 
-	BlockPlain:  "Plain",
-	BlockIf:     "If",
-	BlockDefer:  "Defer",
-	BlockRet:    "Ret",
-	BlockRetJmp: "RetJmp",
-	BlockExit:   "Exit",
-	BlockFirst:  "First",
+	BlockPlain:   "Plain",
+	BlockIf:      "If",
+	BlockIfFault: "IfFault",
+	BlockDefer:   "Defer",
+	BlockRet:     "Ret",
+	BlockRetJmp:  "RetJmp",
+	BlockExit:    "Exit",
+	BlockFirst:   "First",
 }
 
 func (k BlockKind) String() string { return blockString[k] }

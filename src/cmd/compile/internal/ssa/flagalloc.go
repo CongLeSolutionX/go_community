@@ -53,8 +53,8 @@ func flagalloc(f *Func) {
 		if v != nil && v.Type.IsFlags() && end[b.ID] != v {
 			end[b.ID] = nil
 		}
-		if b.Kind == BlockDefer {
-			// Defer blocks internally use/clobber the flags value.
+		if b.Kind == BlockDefer || b.Kind == BlockIfFault {
+			// Defer and IfFault blocks internally use/clobber the flags value.
 			end[b.ID] = nil
 		}
 	}

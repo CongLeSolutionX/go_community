@@ -84,6 +84,10 @@ func checkFunc(f *Func) {
 			if !b.Control.Type.IsBoolean() {
 				f.Fatalf("if block %s has non-bool control value %s", b, b.Control.LongString())
 			}
+		case BlockIfFault:
+			if len(b.Succs) != 2 {
+				f.Fatalf("IfFault block %s len(Succs)==%d, want 2", b, len(b.Succs))
+			}
 		case BlockDefer:
 			if len(b.Succs) != 2 {
 				f.Fatalf("defer block %s len(Succs)==%d, want 2", b, len(b.Succs))

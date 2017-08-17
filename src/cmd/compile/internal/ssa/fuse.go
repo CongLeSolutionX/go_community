@@ -34,7 +34,7 @@ func fuse(f *Func) {
 //   }
 // TODO: If ss doesn't contain any OpPhis, are s0 and s1 dead code anyway.
 func fuseBlockIf(b *Block) bool {
-	if b.Kind != BlockIf {
+	if b.Kind != BlockIf && b.Kind != BlockIfFault {
 		return false
 	}
 

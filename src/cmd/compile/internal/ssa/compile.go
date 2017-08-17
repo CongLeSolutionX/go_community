@@ -5,7 +5,6 @@
 package ssa
 
 import (
-	"cmd/internal/objabi"
 	"cmd/internal/src"
 	"fmt"
 	"log"
@@ -351,9 +350,8 @@ var passes = [...]pass{
 	{name: "fuse", fn: fuse},
 	{name: "dse", fn: dse},
 	{name: "writebarrier", fn: writebarrier, required: true}, // expand write barrier ops
-	{name: "insert resched checks", fn: insertLoopReschedChecks,
-		disabled: objabi.Preemptibleloops_enabled == 0}, // insert resched checks in loops.
-	{name: "tighten", fn: tighten}, // move values closer to their uses
+	{name: "preempt loops", fn: insertLoopReschedChecks},     // check for preemption in loops.
+	{name: "tighten", fn: tighten},                           // move values closer to their uses
 	{name: "lower", fn: lower, required: true},
 	{name: "lowered cse", fn: cse},
 	{name: "elim unread autos", fn: elimUnreadAutos},
@@ -384,11 +382,11 @@ type constraint struct {
 }
 
 var passOrder = [...]constraint{
-	// "insert resched checks" uses mem, better to clean out stores first.
-	{"dse", "insert resched checks"},
-	// insert resched checks adds new blocks containing generic instructions
-	{"insert resched checks", "lower"},
-	{"insert resched checks", "tighten"},
+	// "preempt loops" uses mem, better to clean out stores first.
+	{"dse", "preempt loops"},
+	// preempt loops adds new blocks containing generic instructions
+	{"preempt loops", "lower"},
+	{"preempt loops", "tighten"},
 
 	// prove relies on common-subexpression elimination for maximum benefits.
 	{"generic cse", "prove"},

@@ -500,12 +500,13 @@ var genericOps = []opData{
 //    First               nil    [always,never]
 
 var genericBlocks = []blockData{
-	{name: "Plain"},  // a single successor
-	{name: "If"},     // 2 successors, if control goto Succs[0] else goto Succs[1]
-	{name: "Defer"},  // 2 successors, Succs[0]=defer queued, Succs[1]=defer recovered. control is call op (of memory type)
-	{name: "Ret"},    // no successors, control value is memory result
-	{name: "RetJmp"}, // no successors, jumps to b.Aux.(*gc.Sym)
-	{name: "Exit"},   // no successors, control value generates a panic
+	{name: "Plain"},   // a single successor
+	{name: "If"},      // 2 successors, if control goto Succs[0] else goto Succs[1]
+	{name: "IfFault"}, // 2 successors, if *control faults goto Succs[0] else goto Succs[1] (fault is rare)
+	{name: "Defer"},   // 2 successors, Succs[0]=defer queued, Succs[1]=defer recovered. control is call op (of memory type)
+	{name: "Ret"},     // no successors, control value is memory result
+	{name: "RetJmp"},  // no successors, jumps to b.Aux.(*gc.Sym)
+	{name: "Exit"},    // no successors, control value generates a panic
 
 	// transient block state used for dead code removal
 	{name: "First"}, // 2 successors, always takes the first one (second is dead)

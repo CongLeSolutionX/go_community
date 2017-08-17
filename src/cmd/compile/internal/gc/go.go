@@ -287,6 +287,7 @@ var (
 	goschedguarded,
 	writeBarrier,
 	writebarrierptr,
+	reschedulePage,
 	typedmemmove,
 	typedmemclr,
 	Udiv *obj.LSym
