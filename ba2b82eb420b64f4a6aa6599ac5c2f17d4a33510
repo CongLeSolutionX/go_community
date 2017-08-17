@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4aaca4a_81d9c770",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 19455
+      },
+      "writtenOn": "2017-08-17T14:25:22Z",
+      "side": 1,
+      "message": "This should explain:\n\n(1) that this interface is optional to implement\n(2) which benefit it provides.\n\nMaybe something like: \"Connector may be optionally implemented to provide an alternative way to open a database connection without requiring a DSN string. It may for example be implemented by a struct exposing the connection options to the user\"",
+      "revId": "ba2b82eb420b64f4a6aa6599ac5c2f17d4a33510",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb9dfc77_8fab2a0d",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 19455
+      },
+      "writtenOn": "2017-08-17T14:25:22Z",
+      "side": 1,
+      "message": "Should connector be capitalised, since we refer to the interface \"Connector\"?\n\nAlso: s/with/which/",
+      "revId": "ba2b82eb420b64f4a6aa6599ac5c2f17d4a33510",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
