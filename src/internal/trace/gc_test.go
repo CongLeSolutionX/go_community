@@ -99,6 +99,25 @@ func TestMMUTrace(t *testing.T) {
 			t.Errorf("want %f, got %f mutator utilization in window %s", want, got, window)
 		}
 	}
+
+	// Test MUD with band optimization against MUD without band
+	// optimization. We don't have a simple testing implementation
+	// of MUDs (the simplest implementation is still quite
+	// complex), but this is still a pretty good test.
+	defer func(old int) { bandsPerSeries = old }(bandsPerSeries)
+	bandsPerSeries = 1
+	mmuCurve2 := NewMMUCurve(mu)
+	quantiles := []float64{0, 1 - .999, 1 - .99}
+	for window := time.Microsecond; window < time.Second; window *= 10 {
+		mud1 := mmuCurve.MUD(window, quantiles)
+		mud2 := mmuCurve2.MUD(window, quantiles)
+		for i := range mud1 {
+			if !aeq(mud1[i], mud2[i]) {
+				t.Errorf("for quantiles %v at window %v, want %v, got %v", quantiles, window, mud2, mud1)
+				break
+			}
+		}
+	}
 }
 
 func BenchmarkMMU(b *testing.B) {
