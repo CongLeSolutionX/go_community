@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d50bcb2_b04b8590",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 2427,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-18T17:06:07Z",
+      "side": 1,
+      "message": "You can encode these \u003d\u003d in the rule by just reusing the identifier.\n\n(MOVQstore [off] {sym} ptr a:(ADDQconst [c] l:(MOVQload [off] {sym} ptr2 mem)) mem)\n\nYou\u0027d still need ptr \u0026 ptr2 for the isSamePtr call.",
+      "range": {
+        "startLine": 2427,
+        "startChar": 4,
+        "endLine": 2427,
+        "endChar": 30
+      },
+      "revId": "1cc81436659533a460c311e8248f6293ad7d54db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
