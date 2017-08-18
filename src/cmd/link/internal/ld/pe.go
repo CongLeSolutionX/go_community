@@ -314,33 +314,22 @@ var dosstub = []uint8{
 	0x00,
 }
 
-var rsrcsym *Symbol
-
-var PESECTHEADR int32
-
-var PEFILEHEADR int32
-
-var pe64 int
-
-var pensect int
-
-var nextsectoff int
-
-var nextfileoff int
-
-var textsect int
-
-var datasect int
-
-var bsssect int
-
-var fh IMAGE_FILE_HEADER
-
-var oh IMAGE_OPTIONAL_HEADER
-
-var oh64 PE64_IMAGE_OPTIONAL_HEADER
-
-var dd []IMAGE_DATA_DIRECTORY
+var (
+	rsrcsym     *Symbol
+	PESECTHEADR int32
+	PEFILEHEADR int32
+	pe64        int
+	pensect     int
+	nextsectoff int
+	nextfileoff int
+	textsect    int
+	datasect    int
+	bsssect     int
+	fh          IMAGE_FILE_HEADER
+	oh          IMAGE_OPTIONAL_HEADER
+	oh64        PE64_IMAGE_OPTIONAL_HEADER
+	dd          []IMAGE_DATA_DIRECTORY
+)
 
 type Imp struct {
 	s       *Symbol
@@ -357,11 +346,11 @@ type Dll struct {
 	next     *Dll
 }
 
-var dr *Dll
-
-var dexport [1024]*Symbol
-
-var nexport int
+var (
+	dr      *Dll
+	dexport [1024]*Symbol
+	nexport int
+)
 
 // peStringTable is a COFF string table.
 type peStringTable struct {
