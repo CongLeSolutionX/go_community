@@ -348,15 +348,11 @@ func debuginfo(fnsym *obj.LSym, curfn interface{}) []dwarf.Scope {
 
 	var varScopes []ScopeID
 	for _, decl := range decls {
-		var scope ScopeID
-		if !decl.Name.Captured() && !decl.Name.Byval() {
-			// n.Pos of captured variables is their first
-			// use in the closure but they should always
-			// be assigned to scope 0 instead.
-			// TODO(mdempsky): Verify this.
-			scope = findScope(fn.Func.Marks, decl.Pos)
+		pos := decl.Pos
+		if decl.Name.Defn != nil && (decl.Name.Captured() || decl.Name.Byval()) {
+			pos = decl.Name.Defn.Pos
 		}
-		varScopes = append(varScopes, scope)
+		varScopes = append(varScopes, findScope(fn.Func.Marks, pos))
 	}
 	return assembleScopes(fnsym, fn, dwarfVars, varScopes)
 }
