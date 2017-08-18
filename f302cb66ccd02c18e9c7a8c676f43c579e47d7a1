@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b77418f9_f29cdbcb",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-18T17:09:05Z",
+      "side": 1,
+      "message": "This comment no longer seems correct, in that permissive now has some additional effect.",
+      "revId": "f302cb66ccd02c18e9c7a8c676f43c579e47d7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe87312d_32afa2db",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-18T17:09:05Z",
+      "side": 1,
+      "message": "Document the permissive parameter.",
+      "revId": "f302cb66ccd02c18e9c7a8c676f43c579e47d7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "610f08da_66ec4a52",
+        "filename": "src/net/mail/message.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-18T17:09:05Z",
+      "side": 1,
+      "message": "There must be some difference between these cases; it doesn\u0027t make sense to use the same comment for both.",
+      "revId": "f302cb66ccd02c18e9c7a8c676f43c579e47d7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d7ce68c_413b877d",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-18T17:09:05Z",
+      "side": 1,
+      "message": "Should have a comment here, as these are not from RFC 54322 Appendix A.1.2.",
+      "revId": "f302cb66ccd02c18e9c7a8c676f43c579e47d7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7f22ee7_46d438b9",
+        "filename": "src/net/mail/message_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-18T17:09:05Z",
+      "side": 1,
+      "message": "Isn\u0027t this the same as the preceding case?",
+      "revId": "f302cb66ccd02c18e9c7a8c676f43c579e47d7a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
