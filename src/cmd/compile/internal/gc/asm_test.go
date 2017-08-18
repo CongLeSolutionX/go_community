@@ -24,9 +24,10 @@ import (
 // architecture-specific, and they are grouped in arrays of tests, one
 // for each architecture.
 //
-// Each asmTest consists in a function to be compiled and an array of
-// regexps that will be matched to the generated assembly. For
-// example, the following amd64 test
+// Each asmTest consists of a function to compile, an array of
+// positiveRegexps that will be matched to the generated assembly and
+// an array of negativeRegexps that must not match generated assembly.
+// For example, the following amd64 test
 //
 //   {
 // 	  `
@@ -35,10 +36,11 @@ import (
 // 	  }
 // 	  `,
 // 	  []string{"\tSHLQ\t[$]6,"},
+//	  []string{"MULQ"}
 //   }
 //
 // verifies that the code the compiler generates for a multiplication
-// by 64 contains a 'SHLQ' instruction.
+// by 64 contains a 'SHLQ' instruction and does not contain a MULQ.
 //
 // Since all the tests for a given architecture are dumped in the same
 // file, the function names must be unique. As a workaround for this
@@ -52,6 +54,7 @@ import (
 // 	  }
 // 	  `,
 // 	  []string{"\tSHLQ\t[$]6,"},
+//	  []string{"MULQ"}
 //   }
 //
 // Each '$'-function will be given a unique name of form f<N>_<arch>,
@@ -124,14 +127,20 @@ func funcAsm(t *testing.T, asm string, funcName string) string {
 type asmTest struct {
 	// function to compile
 	function string
-	// regexps that must match the generated assembly
-	regexps []string
+	// positiveRegexps that must match the generated assembly
+	positiveRegexps []string
+	negativeRegexps []string
 }
 
 func (at asmTest) verifyAsm(t *testing.T, fa string) {
-	for _, r := range at.regexps {
+	for _, r := range at.positiveRegexps {
 		if b, err := regexp.MatchString(r, fa); !b || err != nil {
 			t.Errorf("expected:%s\ngo:%s\nasm:%s\n", r, at.function, fa)
+		}
+	}
+	for _, r := range at.negativeRegexps {
+		if b, err := regexp.MatchString(r, fa); b || err != nil {
+			t.Errorf("not expected:%s\ngo:%s\nasm:%s\n", r, at.function, fa)
 		}
 	}
 }
@@ -214,7 +223,7 @@ var allAsmTests = []*asmTests{
 	{
 		arch:    "amd64",
 		os:      "linux",
-		imports: []string{"encoding/binary", "math/bits", "unsafe"},
+		imports: []string{"encoding/binary", "math/bits", "unsafe", "runtime"},
 		tests:   linuxAMD64Tests,
 	},
 	{
@@ -262,6 +271,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tSHLQ\t\\$6,"},
+		[]string{},
 	},
 	{
 		`
@@ -270,6 +280,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tSHLQ\t\\$5,", "\tLEAQ\t\\(.*\\)\\(.*\\*2\\),"},
+		[]string{},
 	},
 	// Load-combining tests.
 	{
@@ -279,6 +290,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVQ\t\\(.*\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -287,6 +299,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVQ\t\\(.*\\)\\(.*\\*1\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -295,6 +308,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVL\t\\(.*\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -303,6 +317,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVL\t\\(.*\\)\\(.*\\*1\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -311,6 +326,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -319,6 +335,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -327,6 +344,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -335,6 +353,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -343,6 +362,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPL\t"},
+		[]string{},
 	},
 	{
 		`
@@ -351,6 +371,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPL\t"},
+		[]string{},
 	},
 	{
 		`
@@ -359,6 +380,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPL\t"},
+		[]string{},
 	},
 	{
 		`
@@ -367,6 +389,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPL\t"},
+		[]string{},
 	},
 	{
 		`
@@ -375,6 +398,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLW\t\\$8,"},
+		[]string{},
 	},
 	{
 		`
@@ -383,6 +407,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLW\t\\$8,"},
+		[]string{},
 	},
 	{
 		`
@@ -391,6 +416,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLW\t\\$8,"},
+		[]string{},
 	},
 	{
 		`
@@ -399,6 +425,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLW\t\\$8,"},
+		[]string{},
 	},
 	// Structure zeroing.  See issue #18370.
 	{
@@ -411,6 +438,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tXORPS\tX., X", "\tMOVUPS\tX., \\(.*\\)", "\tMOVQ\t\\$0, 16\\(.*\\)"},
+		[]string{},
 	},
 	// SSA-able composite literal initialization. Issue 18872.
 	{
@@ -424,6 +452,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVQ\t[$]1", "\tMOVQ\t[$]2", "\tMOVQ\t[$]3", "\tMOVQ\t[$]4"},
+		[]string{},
 	},
 	// Also test struct containing pointers (this was special because of write barriers).
 	{
@@ -436,6 +465,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tXORPS\tX., X", "\tMOVUPS\tX., \\(.*\\)", "\tMOVQ\t\\$0, 16\\(.*\\)", "\tCALL\truntime\\.writebarrierptr\\(SB\\)"},
+		[]string{},
 	},
 	// Rotate tests
 	{
@@ -445,6 +475,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLQ\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -453,6 +484,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLQ\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -461,6 +493,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLQ\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -469,6 +502,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLL\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -477,6 +511,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLL\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -485,6 +520,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLL\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -493,6 +529,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLW\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -501,6 +538,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLW\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -509,6 +547,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLW\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -517,6 +556,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLB\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -525,6 +565,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLB\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -533,6 +574,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLB\t[$]7,"},
+		[]string{},
 	},
 	// Rotate after inlining (see issue 18254).
 	{
@@ -545,6 +587,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLL\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -553,6 +596,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVQ\t[$]5,"},
+		[]string{},
 	},
 	// Direct use of constants in fast map access calls. Issue 19015.
 	{
@@ -563,6 +607,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVQ\t[$]5,"},
+		[]string{},
 	},
 	{
 		`
@@ -571,6 +616,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\"abc\""},
+		[]string{},
 	},
 	{
 		`
@@ -580,6 +626,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\"abc\""},
+		[]string{},
 	},
 	// Bit test ops on amd64, issue 18943.
 	{
@@ -592,6 +639,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBTQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -600,6 +648,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBTQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -611,6 +660,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBTQ\t\\$60"},
+		[]string{},
 	},
 	{
 		`
@@ -619,6 +669,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBTQ\t\\$60"},
+		[]string{},
 	},
 	// Intrinsic tests for math/bits
 	{
@@ -628,6 +679,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSFQ\t", "\tMOVL\t\\$64,", "\tCMOVQEQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -636,6 +688,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSFQ\t", "\tORQ\t[^$]", "\tMOVQ\t\\$4294967296,"},
+		[]string{},
 	},
 	{
 		`
@@ -644,6 +697,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSFQ\t", "\tORQ\t\\$65536,"},
+		[]string{},
 	},
 	{
 		`
@@ -652,6 +706,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSFQ\t", "\tORQ\t\\$256,"},
+		[]string{},
 	},
 	{
 		`
@@ -660,6 +715,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -668,6 +724,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSWAPL\t"},
+		[]string{},
 	},
 	{
 		`
@@ -676,6 +733,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROLW\t\\$8,"},
+		[]string{},
 	},
 	{
 		`
@@ -684,6 +742,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -692,6 +751,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -700,6 +760,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	/* see ssa.go
 	{
@@ -709,6 +770,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	*/
 	{
@@ -718,6 +780,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -726,6 +789,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -734,6 +798,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -742,6 +807,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	/* see ssa.go
 	{
@@ -751,6 +817,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	*/
 	{
@@ -760,6 +827,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tBSRQ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -767,6 +835,7 @@ var linuxAMD64Tests = []*asmTest{
 			return bits.OnesCount64(x)
 		}`,
 		[]string{"\tPOPCNTQ\t", "support_popcnt"},
+		[]string{},
 	},
 	{
 		`
@@ -774,6 +843,7 @@ var linuxAMD64Tests = []*asmTest{
 			return bits.OnesCount32(x)
 		}`,
 		[]string{"\tPOPCNTL\t", "support_popcnt"},
+		[]string{},
 	},
 	{
 		`
@@ -781,6 +851,7 @@ var linuxAMD64Tests = []*asmTest{
 			return bits.OnesCount16(x)
 		}`,
 		[]string{"\tPOPCNTL\t", "support_popcnt"},
+		[]string{},
 	},
 	{
 		`
@@ -788,6 +859,7 @@ var linuxAMD64Tests = []*asmTest{
 			return bits.OnesCount(x)
 		}`,
 		[]string{"\tPOPCNTQ\t", "support_popcnt"},
+		[]string{},
 	},
 	// multiplication merging tests
 	{
@@ -796,6 +868,7 @@ var linuxAMD64Tests = []*asmTest{
 			return 15*n + 31*n
 		}`,
 		[]string{"\tIMULQ\t[$]46"}, // 46*n
+		[]string{},
 	},
 	{
 		`
@@ -803,6 +876,7 @@ var linuxAMD64Tests = []*asmTest{
 			return 5*n + 7*(n+1) + 11*(n+2)
 		}`,
 		[]string{"\tIMULQ\t[$]23", "\tADDQ\t[$]29"}, // 23*n + 29
+		[]string{},
 	},
 	{
 		`
@@ -810,6 +884,7 @@ var linuxAMD64Tests = []*asmTest{
 			return a*n + 19*n
 		}`,
 		[]string{"\tADDQ\t[$]19", "\tIMULQ"}, // (a+19)*n
+		[]string{},
 	},
 
 	// see issue 19595.
@@ -821,6 +896,7 @@ var linuxAMD64Tests = []*asmTest{
 			*q += x
 		}`,
 		[]string{"\tADDQ\t\\("},
+		[]string{},
 	},
 	{
 		`
@@ -831,6 +907,7 @@ var linuxAMD64Tests = []*asmTest{
 			}
 		}`,
 		[]string{"\tADDQ\t[A-Z]"},
+		[]string{},
 	},
 	// Floating-point strength reduction
 	{
@@ -839,6 +916,7 @@ var linuxAMD64Tests = []*asmTest{
 			return f * 2.0
 		}`,
 		[]string{"\tADDSD\t"},
+		[]string{},
 	},
 	{
 		`
@@ -846,6 +924,7 @@ var linuxAMD64Tests = []*asmTest{
 			return f / 16.0
 		}`,
 		[]string{"\tMULSD\t"},
+		[]string{},
 	},
 	{
 		`
@@ -853,6 +932,7 @@ var linuxAMD64Tests = []*asmTest{
 			return f / 0.125
 		}`,
 		[]string{"\tMULSD\t"},
+		[]string{},
 	},
 	{
 		`
@@ -860,6 +940,7 @@ var linuxAMD64Tests = []*asmTest{
 			return f / 0.5
 		}`,
 		[]string{"\tADDSD\t"},
+		[]string{},
 	},
 	// Check that compare to constant string uses 2/4/8 byte compares
 	{
@@ -868,6 +949,7 @@ var linuxAMD64Tests = []*asmTest{
 		    return a == "xx"
 		}`,
 		[]string{"\tCMPW\t[A-Z]"},
+		[]string{},
 	},
 	{
 		`
@@ -875,6 +957,7 @@ var linuxAMD64Tests = []*asmTest{
 		    return a == "xxxx"
 		}`,
 		[]string{"\tCMPL\t[A-Z]"},
+		[]string{},
 	},
 	{
 		`
@@ -882,6 +965,7 @@ var linuxAMD64Tests = []*asmTest{
 		    return a == "xxxxxxxx"
 		}`,
 		[]string{"\tCMPQ\t[A-Z]"},
+		[]string{},
 	},
 	// Non-constant rotate
 	{
@@ -890,6 +974,7 @@ var linuxAMD64Tests = []*asmTest{
 			return x << z | x >> (64-z)
 		}`,
 		[]string{"\tROLQ\t"},
+		[]string{},
 	},
 	{
 		`func rot64r(x uint64, y int) uint64 {
@@ -897,6 +982,7 @@ var linuxAMD64Tests = []*asmTest{
 			return x >> z | x << (64-z)
 		}`,
 		[]string{"\tRORQ\t"},
+		[]string{},
 	},
 	{
 		`func rot32l(x uint32, y int) uint32 {
@@ -904,6 +990,7 @@ var linuxAMD64Tests = []*asmTest{
 			return x << z | x >> (32-z)
 		}`,
 		[]string{"\tROLL\t"},
+		[]string{},
 	},
 	{
 		`func rot32r(x uint32, y int) uint32 {
@@ -911,6 +998,7 @@ var linuxAMD64Tests = []*asmTest{
 			return x >> z | x << (32-z)
 		}`,
 		[]string{"\tRORL\t"},
+		[]string{},
 	},
 	{
 		`func rot16l(x uint16, y int) uint16 {
@@ -918,6 +1006,7 @@ var linuxAMD64Tests = []*asmTest{
 			return x << z | x >> (16-z)
 		}`,
 		[]string{"\tROLW\t"},
+		[]string{},
 	},
 	{
 		`func rot16r(x uint16, y int) uint16 {
@@ -925,6 +1014,7 @@ var linuxAMD64Tests = []*asmTest{
 			return x >> z | x << (16-z)
 		}`,
 		[]string{"\tRORW\t"},
+		[]string{},
 	},
 	{
 		`func rot8l(x uint8, y int) uint8 {
@@ -932,6 +1022,7 @@ var linuxAMD64Tests = []*asmTest{
 			return x << z | x >> (8-z)
 		}`,
 		[]string{"\tROLB\t"},
+		[]string{},
 	},
 	{
 		`func rot8r(x uint8, y int) uint8 {
@@ -939,6 +1030,7 @@ var linuxAMD64Tests = []*asmTest{
 			return x >> z | x << (8-z)
 		}`,
 		[]string{"\tRORB\t"},
+		[]string{},
 	},
 	// Check that array compare uses 2/4/8 byte compares
 	{
@@ -947,6 +1039,7 @@ var linuxAMD64Tests = []*asmTest{
 		    return a == b
 		}`,
 		[]string{"\tCMPW\t[A-Z]"},
+		[]string{},
 	},
 	{
 		`
@@ -954,6 +1047,7 @@ var linuxAMD64Tests = []*asmTest{
 		    return a == b
 		}`,
 		[]string{"\tCMPL\t[A-Z]"},
+		[]string{},
 	},
 	{
 		`
@@ -961,6 +1055,7 @@ var linuxAMD64Tests = []*asmTest{
 		    return a == b
 		}`,
 		[]string{"\tCMPQ\t[A-Z]"},
+		[]string{},
 	},
 	{
 		`
@@ -968,6 +1063,7 @@ var linuxAMD64Tests = []*asmTest{
 		    return *((*[4]byte)(a)) != *((*[4]byte)(b))
 		}`,
 		[]string{"\tCMPL\t[A-Z]"},
+		[]string{},
 	},
 	{
 		// make sure assembly output has matching offset and base register.
@@ -979,6 +1075,56 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"b\\+40\\(SP\\)"},
+		[]string{},
+	},
+	{
+		// check load combining
+		`
+		func f73(a, b byte) (byte,byte) {
+		    return f73(f73(a,b))
+		}
+		`,
+		[]string{"\tMOVW\t"},
+		[]string{},
+	},
+	{
+		`
+		func f74(a, b uint16) (uint16,uint16) {
+		    return f74(f74(a,b))
+		}
+		`,
+		[]string{"\tMOVL\t"},
+		[]string{},
+	},
+	{
+		`
+		func f75(a, b uint32) (uint32,uint32) {
+		    return f75(f75(a,b))
+		}
+		`,
+		[]string{"\tMOVQ\t"},
+		[]string{},
+	},
+	{
+		`
+		func f76(a, b uint64) (uint64,uint64) {
+		    return f76(f76(a,b))
+		}
+		`,
+		[]string{"\tMOVUPS\t"},
+		[]string{},
+	},
+	// Make sure we don't put pointers in SSE registers across safe points.
+	{
+		`
+		func $(p, q *[2]*int)  {
+		    a, b := p[0], p[1]
+		    runtime.GC()
+		    q[0], q[1] = a, b
+		}
+		`,
+		[]string{},
+		[]string{"MOVUPS"},
 	},
 	{
 		// check that stack store is optimized away
@@ -989,6 +1135,7 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"TEXT\t.*, [$]0-8"},
+		[]string{},
 	},
 }
 
@@ -1000,6 +1147,7 @@ var linux386Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVL\t\\(.*\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -1008,6 +1156,7 @@ var linux386Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVL\t\\(.*\\)\\(.*\\*1\\),"},
+		[]string{},
 	},
 
 	// multiplication merging tests
@@ -1017,6 +1166,7 @@ var linux386Tests = []*asmTest{
 			return 9*n + 14*n
 		}`,
 		[]string{"\tIMULL\t[$]23"}, // 23*n
+		[]string{},
 	},
 	{
 		`
@@ -1024,6 +1174,7 @@ var linux386Tests = []*asmTest{
 			return 19*a + a*n
 		}`,
 		[]string{"\tADDL\t[$]19", "\tIMULL"}, // (n+19)*a
+		[]string{},
 	},
 	{
 		// check that stack store is optimized away
@@ -1034,6 +1185,7 @@ var linux386Tests = []*asmTest{
 		}
 		`,
 		[]string{"TEXT\t.*, [$]0-4"},
+		[]string{},
 	},
 }
 
@@ -1045,6 +1197,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVWBR\t\\(.*\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -1053,6 +1206,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVWBR\t\\(.*\\)\\(.*\\*1\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -1061,6 +1215,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVDBR\t\\(.*\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -1069,6 +1224,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVDBR\t\\(.*\\)\\(.*\\*1\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -1077,6 +1233,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVWZ\t\\(.*\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -1085,6 +1242,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVWZ\t\\(.*\\)\\(.*\\*1\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -1093,6 +1251,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVD\t\\(.*\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -1101,6 +1260,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVD\t\\(.*\\)\\(.*\\*1\\),"},
+		[]string{},
 	},
 	{
 		`
@@ -1109,6 +1269,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tRLLG\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -1117,6 +1278,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tRLLG\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -1125,6 +1287,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tRLLG\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -1133,6 +1296,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tRLL\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -1141,6 +1305,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tRLL\t[$]7,"},
+		[]string{},
 	},
 	{
 		`
@@ -1149,6 +1314,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tRLL\t[$]7,"},
+		[]string{},
 	},
 	// Fused multiply-add/sub instructions.
 	{
@@ -1158,6 +1324,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFMADD\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1166,6 +1333,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFMSUB\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1174,6 +1342,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFMADDS\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1182,6 +1351,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFMSUBS\t"},
+		[]string{},
 	},
 	// Intrinsic tests for math/bits
 	{
@@ -1191,6 +1361,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1199,6 +1370,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t", "\tMOVWZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1207,6 +1379,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t", "\tOR\t\\$65536,"},
+		[]string{},
 	},
 	{
 		`
@@ -1215,6 +1388,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t", "\tOR\t\\$256,"},
+		[]string{},
 	},
 	// Intrinsic tests for math/bits
 	{
@@ -1224,6 +1398,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVDBR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1232,6 +1407,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVWBR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1240,6 +1416,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1248,6 +1425,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1256,6 +1434,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1264,6 +1443,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1272,6 +1452,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1280,6 +1461,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1288,6 +1470,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1296,6 +1479,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1304,6 +1488,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1312,6 +1497,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"\tFLOGR\t"},
+		[]string{},
 	},
 	{
 		// check that stack store is optimized away
@@ -1322,6 +1508,7 @@ var linuxS390XTests = []*asmTest{
 		}
 		`,
 		[]string{"TEXT\t.*, [$]0-8"},
+		[]string{},
 	},
 }
 
@@ -1333,6 +1520,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVW\tR[0-9]+@>25,"},
+		[]string{},
 	},
 	{
 		`
@@ -1341,6 +1529,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVW\tR[0-9]+@>25,"},
+		[]string{},
 	},
 	{
 		`
@@ -1349,6 +1538,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVW\tR[0-9]+@>25,"},
+		[]string{},
 	},
 	{
 		`
@@ -1357,6 +1547,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1365,6 +1556,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1373,6 +1565,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1381,6 +1574,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1389,6 +1583,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1397,6 +1592,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1405,6 +1601,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1413,6 +1610,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1421,6 +1619,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1429,6 +1628,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		// make sure assembly output has matching offset and base register.
@@ -1440,6 +1640,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"b\\+4\\(FP\\)"},
+		[]string{},
 	},
 	{
 		// check that stack store is optimized away
@@ -1450,6 +1651,7 @@ var linuxARMTests = []*asmTest{
 		}
 		`,
 		[]string{"TEXT\t.*, [$]-4-4"},
+		[]string{},
 	},
 }
 
@@ -1461,6 +1663,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROR\t[$]57,"},
+		[]string{},
 	},
 	{
 		`
@@ -1469,6 +1672,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROR\t[$]57,"},
+		[]string{},
 	},
 	{
 		`
@@ -1477,6 +1681,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tROR\t[$]57,"},
+		[]string{},
 	},
 	{
 		`
@@ -1485,6 +1690,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tRORW\t[$]25,"},
+		[]string{},
 	},
 	{
 		`
@@ -1493,6 +1699,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tRORW\t[$]25,"},
+		[]string{},
 	},
 	{
 		`
@@ -1501,6 +1708,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tRORW\t[$]25,"},
+		[]string{},
 	},
 	{
 		`
@@ -1509,6 +1717,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tREV\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1517,6 +1726,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tREVW\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1525,6 +1735,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1533,6 +1744,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1541,6 +1753,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1549,6 +1762,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1557,6 +1771,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1565,6 +1780,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1573,6 +1789,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1581,6 +1798,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1589,6 +1807,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1597,6 +1816,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1605,6 +1825,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tAND\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1613,6 +1834,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tAND\t"},
+		[]string{},
 	},
 	{
 		// make sure offsets are folded into load and store.
@@ -1623,6 +1845,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"\tMOVD\t\"\"\\.a\\+[0-9]+\\(FP\\), R[0-9]+", "\tMOVD\tR[0-9]+, \"\"\\.b\\+[0-9]+\\(FP\\)"},
+		[]string{},
 	},
 	{
 		// check that stack store is optimized away
@@ -1633,6 +1856,7 @@ var linuxARM64Tests = []*asmTest{
 		}
 		`,
 		[]string{"TEXT\t.*, [$]-8-8"},
+		[]string{},
 	},
 }
 
@@ -1644,6 +1868,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1652,6 +1877,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1660,6 +1886,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1668,6 +1895,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1676,6 +1904,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1684,6 +1913,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1692,6 +1922,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1700,6 +1931,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1708,6 +1940,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1716,6 +1949,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"\tCLZ\t"},
+		[]string{},
 	},
 	{
 		// check that stack store is optimized away
@@ -1726,6 +1960,7 @@ var linuxMIPSTests = []*asmTest{
 		}
 		`,
 		[]string{"TEXT\t.*, [$]-4-4"},
+		[]string{},
 	},
 }
 
@@ -1738,6 +1973,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tFMADD\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1746,6 +1982,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tFMSUB\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1754,6 +1991,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tFMADDS\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1762,6 +2000,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tFMSUBS\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1770,6 +2009,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tROTLW\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1778,6 +2018,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tROTLW\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1786,6 +2027,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tROTLW\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1794,6 +2036,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tROTL\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1802,6 +2045,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tROTL\t"},
+		[]string{},
 	},
 	{
 		`
@@ -1810,6 +2054,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"\tROTL\t"},
+		[]string{},
 	},
 	{
 		// check that stack store is optimized away
@@ -1820,6 +2065,7 @@ var linuxPPC64LETests = []*asmTest{
 		}
 		`,
 		[]string{"TEXT\t.*, [$]0-8"},
+		[]string{},
 	},
 }
 
