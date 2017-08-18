@@ -932,6 +932,39 @@ var linuxAMD64Tests = []*asmTest{
 		`,
 		[]string{"b\\+40\\(SP\\)"},
 	},
+	{
+		// check load combining
+		`
+		func f73(a, b byte) (byte,byte) {
+		    return f73(f73(a,b))
+		}
+		`,
+		[]string{"\tMOVW\t"},
+	},
+	{
+		`
+		func f74(a, b uint16) (uint16,uint16) {
+		    return f74(f74(a,b))
+		}
+		`,
+		[]string{"\tMOVL\t"},
+	},
+	{
+		`
+		func f75(a, b uint32) (uint32,uint32) {
+		    return f75(f75(a,b))
+		}
+		`,
+		[]string{"\tMOVQ\t"},
+	},
+	{
+		`
+		func f76(a, b uint64) (uint64,uint64) {
+		    return f76(f76(a,b))
+		}
+		`,
+		[]string{"\tMOVUPS\t"},
+	},
 }
 
 var linux386Tests = []*asmTest{
