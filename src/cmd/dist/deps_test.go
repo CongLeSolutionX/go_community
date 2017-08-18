@@ -15,7 +15,6 @@ import (
 )
 
 func TestDeps(t *testing.T) {
-	t.Skip("broken - golang.org/issue/21522")
 	if testing.Short() && testenv.Builder() == "" {
 		t.Skip("skipping in short mode")
 	}
@@ -53,7 +52,13 @@ func TestDeps(t *testing.T) {
 		// Very simple minded diff.
 		t.Log("-current +generated")
 		clines := strings.Split(string(current), "\n")
+		for i, line := range clines {
+			clines[i] = strings.Join(strings.Fields(line), " ")
+		}
 		ulines := strings.Split(string(updated), "\n")
+		for i, line := range ulines {
+			ulines[i] = strings.Join(strings.Fields(line), " ")
+		}
 		for len(clines) > 0 {
 			cl := clines[0]
 			switch {
