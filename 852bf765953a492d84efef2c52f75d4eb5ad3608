@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "94903e87_4a38bab2",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-18T19:35:12Z",
+      "side": 1,
+      "message": "maybe making i a uint and using i/2 (and avoiding the j+1 and extra loop variable)\nhere makes a slight difference for better or worse.",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 8
+      },
+      "revId": "852bf765953a492d84efef2c52f75d4eb5ad3608",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b92763e_7be3ec57",
         "filename": "src/encoding/hex/hex.go",
         "patchSetId": 2
@@ -13,6 +36,47 @@
       "writtenOn": "2017-08-18T18:22:42Z",
       "side": 1,
       "message": "I would prefer to see this table statically initialized, to save startup time.  That can be done by hand, or using a go:generate program.",
+      "revId": "852bf765953a492d84efef2c52f75d4eb5ad3608",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58d48c44_a9433677",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-18T19:35:12Z",
+      "side": 1,
+      "message": "Could even be a string so it can be de-duplicated if the same string in other places is used for fast hex decoding.",
+      "parentUuid": "1b92763e_7be3ec57",
+      "revId": "852bf765953a492d84efef2c52f75d4eb5ad3608",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43497e58_5d1df0b8",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-18T19:35:12Z",
+      "side": 1,
+      "message": "[]byte(\"059ADFaf\")\nmakes it more readable what is decoded.",
+      "range": {
+        "startLine": 173,
+        "startChar": 22,
+        "endLine": 173,
+        "endChar": 61
+      },
       "revId": "852bf765953a492d84efef2c52f75d4eb5ad3608",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
