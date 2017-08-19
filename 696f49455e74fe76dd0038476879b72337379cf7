@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aa1d626_16edcaf8",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 8805
+      },
+      "writtenOn": "2017-08-19T20:04:54Z",
+      "side": 1,
+      "message": "Very good, important logging correct name, as you did",
+      "revId": "696f49455e74fe76dd0038476879b72337379cf7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
