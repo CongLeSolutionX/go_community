@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b8c5e32_26ed39a4",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4470,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-08-20T18:10:54Z",
+      "side": 1,
+      "message": "I\u0027m slightly concerned about you relying on `go run` in a test that cares very much about checking the exit code from the actual Go binary.\n\nWhen using go run, it\u0027s not possible to know precisely what the process exit code is, because the exit code may come either from the binary, or from go run itself. For example, executing go run on invalid Go code will print an error message and use exit code 2. (I know you\u0027re checking for the \"exit code 2\" text that go run itself prints, but that means any such text printed to stderr will make the test pass.)\n\nI know that it\u0027s pretty unlikely that all other checks will pass if the exit code 2 comes from go run, but it still feels like the right (and cleaner) thing to do here is use go build to build a binary, make sure that succeeds, then execute said binary and ensure the exit code 2 comes from it with certainty.",
+      "revId": "4c9bcf2be6ab37e578109909f8c29657b182523a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e93edac_88ff7053",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-08-20T18:10:54Z",
+      "side": 1,
+      "message": "This is an exported identifier, it needs to be documented.",
+      "revId": "4c9bcf2be6ab37e578109909f8c29657b182523a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
