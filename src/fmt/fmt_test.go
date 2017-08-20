@@ -1820,3 +1820,74 @@ func TestParsenum(t *testing.T) {
 		}
 	}
 }
+
+// Test fmt.pp's WriteString() is called when io.WriteString() is used in a custom formatter.
+
+type TestFormatter string
+
+func (tf TestFormatter) Format(f State, c rune) {
+	wid, _ := f.Width()
+	prec, _ := f.Precision()
+	s := strings.Repeat("#", wid) + string(tf) + strings.Repeat("*", prec)
+	io.WriteString(f, s)
+}
+
+type Y struct {
+	TF TestFormatter // a struct field that Formats
+}
+
+func TestPp_WriteString(t *testing.T) {
+	tf := TestFormatter("Formatter")
+	buf := new(bytes.Buffer)
+	Fprintf(buf, "%2.3s", tf)
+	actual := buf.String()
+	expected := "##Formatter***"
+	if actual != expected {
+		t.Fatalf("Expected formatted string to be %s, was %s", expected, actual)
+	}
+}
+
+func TestPp_WriteStringEmptyString(t *testing.T) {
+	tf := TestFormatter("")
+	buf := new(bytes.Buffer)
+	Fprintf(buf, "%2.3s", tf)
+	actual := buf.String()
+	expected := "##***"
+	if actual != expected {
+		t.Fatalf("Expected formatted string to be %s, was %s", expected, actual)
+	}
+}
+
+func TestPp_WriteStringOneByte(t *testing.T) {
+	tf := TestFormatter("x")
+	buf := new(bytes.Buffer)
+	Fprintf(buf, "%2.3s", tf)
+	actual := buf.String()
+	expected := "##x***"
+	if actual != expected {
+		t.Fatalf("Expected formatted string to be %s, was %s", expected, actual)
+	}
+}
+
+func TestPp_WriteStringRune(t *testing.T) {
+	const x = `⌘`
+	tf := TestFormatter(x)
+	buf := new(bytes.Buffer)
+	Fprintf(buf, "%2.3s", tf)
+	actual := buf.String()
+	expected := "##⌘***"
+	if actual != expected {
+		t.Fatalf("Expected formatted string to be %s, was %s", expected, actual)
+	}
+}
+
+func TestPp_WriteStringComplexStruct(t *testing.T) {
+	y := Y{TestFormatter("Complex")}
+	buf := new(bytes.Buffer)
+	Fprintf(buf, "%2.3s", y)
+	actual := buf.String()
+	expected := "{##Complex***}"
+	if actual != expected {
+		t.Fatalf("Expected formatted string to be %s, was %s", expected, actual)
+	}
+}
