@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f728fd6b_80a0ceec",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 4470,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-20T20:20:34Z",
+      "side": 1,
+      "message": "Sure. This was mainly me being a bit lazy and copying code from another test. I did think about it, but I saw no other occurence of \"go build\" then exec, and I didn\u0027t bother.",
+      "parentUuid": "0b8c5e32_26ed39a4",
+      "revId": "4c9bcf2be6ab37e578109909f8c29657b182523a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e93edac_88ff7053",
         "filename": "src/flag/flag.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-08-20T18:10:54Z",
       "side": 1,
       "message": "This is an exported identifier, it needs to be documented.",
+      "revId": "4c9bcf2be6ab37e578109909f8c29657b182523a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24d51080_217ea619",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-20T20:20:34Z",
+      "side": 1,
+      "message": "Right - I forgot about the godoc. I knew this wasn\u0027t going to be merged right away, so I didn\u0027t pay too much attention to the quality of the CL.",
+      "parentUuid": "2e93edac_88ff7053",
       "revId": "4c9bcf2be6ab37e578109909f8c29657b182523a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
