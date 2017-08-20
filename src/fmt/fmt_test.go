@@ -131,6 +131,22 @@ func (byteFormatter) Format(f State, _ rune) {
 
 var byteFormatterSlice = []byteFormatter{'h', 'e', 'l', 'l', 'o'}
 
+// Test fmt.pp's WriteString is called when io.WriteString is used in a custom formatter.
+
+type WriteStringFormatter string
+
+// Mimic io.stringWriter interface to do type assertion.
+type stringWriter interface {
+	WriteString(s string) (n int, err error)
+}
+
+func (sf WriteStringFormatter) Format(f State, c rune) {
+	if sw, ok := f.(stringWriter); ok {
+		// pp implements stringWriter and this calls pp.WriteString
+		sw.WriteString("***" + string(sf) + "***")
+	}
+}
+
 var fmtTests = []struct {
 	fmt string
 	val interface{}
@@ -1016,6 +1032,11 @@ var fmtTests = []struct {
 	{"%☠", SI{&[]interface{}{I(1), G(2)}}, "{%!☠(*[]interface {}=&[1 2])}"},
 	{"%☠", reflect.Value{}, "<invalid reflect.Value>"},
 	{"%☠", map[float64]int{NaN: 1}, "map[%!☠(float64=NaN):%!☠(<nil>)]"},
+
+	// Tests to check if pp implements io.stringWriter.
+	{"%s", WriteStringFormatter(""), "******"},
+	{"%s", WriteStringFormatter("xyz"), "***xyz***"},
+	{"%s", WriteStringFormatter("⌘/⌘"), "***⌘/⌘***"},
 }
 
 // zeroFill generates zero-filled strings of the specified width. The length
