@@ -1820,3 +1820,47 @@ func TestParsenum(t *testing.T) {
 		}
 	}
 }
+
+// Test fmt.pp's WriteString() is called when io.WriteString() is used in a custom formatter.
+
+type WriteStringFormatter struct {
+	s                      string
+	implementsStringWriter bool
+}
+
+func (tf *WriteStringFormatter) Format(f State, c rune) {
+	// Mimic io.stringWriter interface to do type assertion.
+	type stringWriter interface {
+		WriteString(s string) (n int, err error)
+	}
+	if sw, ok := f.(stringWriter); ok {
+		// pp implements stringWriter and this calls pp.WriteString()
+		sw.WriteString("***" + tf.s + "***")
+		tf.implementsStringWriter = true
+	} else {
+		tf.implementsStringWriter = false
+	}
+}
+
+func TestPp_WriteString(t *testing.T) {
+	testCases := []struct {
+		s        string
+		expected string
+	}{
+		{"", "******"},
+		{"formatter", "***formatter***"},
+		{"⌘/⌘", "***⌘/⌘***"},
+	}
+	for _, tc := range testCases {
+		tf := &WriteStringFormatter{tc.s, false}
+		var buf bytes.Buffer
+		Fprintf(&buf, "%s", tf)
+		actual := buf.String()
+		if actual != tc.expected {
+			t.Errorf("got %q, expected %q", actual, tc.expected)
+		}
+		if !tf.implementsStringWriter {
+			t.Errorf("pp does not implement stringWriter interface")
+		}
+	}
+}
