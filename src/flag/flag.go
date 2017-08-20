@@ -982,3 +982,9 @@ func (f *FlagSet) Init(name string, errorHandling ErrorHandling) {
 	f.name = name
 	f.errorHandling = errorHandling
 }
+
+func Fatalf(format string, a ...interface{}) {
+	fmt.Fprintf(CommandLine.out(), format, a...)
+	Usage()
+	os.Exit(2)
+}
