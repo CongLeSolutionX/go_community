@@ -42,15 +42,17 @@ type DotNodeAttributes struct {
 // DotConfig contains attributes about how a graph should be
 // constructed and how it should look.
 type DotConfig struct {
-	Title  string   // The title of the DOT graph
-	Labels []string // The labels for the DOT's legend
+	Title     string   // The title of the DOT graph
+	LegendURL string   // The URL to link to from the legend.
+	Labels    []string // The labels for the DOT's legend
 
-	FormatValue func(int64) string         // A formatting function for values
-	FormatTag   func(int64, string) string // A formatting function for numeric tags
-	Total       int64                      // The total weight of the graph, used to compute percentages
+	FormatValue func(int64) string // A formatting function for values
+	Total       int64              // The total weight of the graph, used to compute percentages
 }
 
-// Compose creates and writes a in the DOT format to the writer, using
+const maxNodelets = 4 // Number of nodelets for labels (both numeric and non)
+
+// ComposeDot creates and writes a in the DOT format to the writer, using
 // the configurations given.
 func ComposeDot(w io.Writer, g *Graph, a *DotAttributes, c *DotConfig) {
 	builder := &builder{w, a, c}
@@ -120,11 +122,19 @@ func (b *builder) finish() {
 // addLegend generates a legend in DOT format.
 func (b *builder) addLegend() {
 	labels := b.config.Labels
-	var title string
-	if len(labels) > 0 {
-		title = labels[0]
+	if len(labels) == 0 {
+		return
 	}
-	fmt.Fprintf(b, `subgraph cluster_L { "%s" [shape=box fontsize=16 label="%s\l"] }`+"\n", title, strings.Join(labels, `\l`))
+	title := labels[0]
+	fmt.Fprintf(b, `subgraph cluster_L { "%s" [shape=box fontsize=16`, title)
+	fmt.Fprintf(b, ` label="%s\l"`, strings.Join(labels, `\l`))
+	if b.config.LegendURL != "" {
+		fmt.Fprintf(b, ` URL="%s" target="_blank"`, b.config.LegendURL)
+	}
+	if b.config.Title != "" {
+		fmt.Fprintf(b, ` tooltip="%s"`, b.config.Title)
+	}
+	fmt.Fprintf(b, "] }\n")
 }
 
 // addNode generates a graph node in DOT format.
@@ -204,13 +214,11 @@ func (b *builder) addNode(node *Node, nodeID int, maxFlat float64) {
 
 // addNodelets generates the DOT boxes for the node tags if they exist.
 func (b *builder) addNodelets(node *Node, nodeID int) bool {
-	const maxNodelets = 4    // Number of nodelets for alphanumeric labels
-	const maxNumNodelets = 4 // Number of nodelets for numeric labels
 	var nodelets string
 
 	// Populate two Tag slices, one for LabelTags and one for NumericTags.
 	var ts []*Tag
-	lnts := make(map[string][]*Tag, 0)
+	lnts := make(map[string][]*Tag)
 	for _, t := range node.LabelTags {
 		ts = append(ts, t)
 	}
@@ -242,12 +250,12 @@ func (b *builder) addNodelets(node *Node, nodeID int) bool {
 		nodelets += fmt.Sprintf(`N%d_%d [label = "%s" fontsize=8 shape=box3d tooltip="%s"]`+"\n", nodeID, i, t.Name, weight)
 		nodelets += fmt.Sprintf(`N%d -> N%d_%d [label=" %s" weight=100 tooltip="%s" labeltooltip="%s"]`+"\n", nodeID, nodeID, i, weight, weight, weight)
 		if nts := lnts[t.Name]; nts != nil {
-			nodelets += b.numericNodelets(nts, maxNumNodelets, flatTags, fmt.Sprintf(`N%d_%d`, nodeID, i))
+			nodelets += b.numericNodelets(nts, maxNodelets, flatTags, fmt.Sprintf(`N%d_%d`, nodeID, i))
 		}
 	}
 
 	if nts := lnts[""]; nts != nil {
-		nodelets += b.numericNodelets(nts, maxNumNodelets, flatTags, fmt.Sprintf(`N%d`, nodeID))
+		nodelets += b.numericNodelets(nts, maxNodelets, flatTags, fmt.Sprintf(`N%d`, nodeID))
 	}
 
 	fmt.Fprint(b, nodelets)
@@ -441,14 +449,9 @@ func tagDistance(t, u *Tag) float64 {
 }
 
 func (b *builder) tagGroupLabel(g []*Tag) (label string, flat, cum int64) {
-	formatTag := b.config.FormatTag
-	if formatTag == nil {
-		formatTag = measurement.Label
-	}
-
 	if len(g) == 1 {
 		t := g[0]
-		return formatTag(t.Value, t.Unit), t.FlatValue(), t.CumValue()
+		return measurement.Label(t.Value, t.Unit), t.FlatValue(), t.CumValue()
 	}
 	min := g[0]
 	max := g[0]
@@ -472,7 +475,11 @@ func (b *builder) tagGroupLabel(g []*Tag) (label string, flat, cum int64) {
 	if dc != 0 {
 		c = c / dc
 	}
-	return formatTag(min.Value, min.Unit) + ".." + formatTag(max.Value, max.Unit), f, c
+
+	// Tags are not scaled with the selected output unit because tags are often
+	// much smaller than other values which appear, so the range of tag sizes
+	// sometimes would appear to be "0..0" when scaled to the selected output unit.
+	return measurement.Label(min.Value, min.Unit) + ".." + measurement.Label(max.Value, max.Unit), f, c
 }
 
 func min64(a, b int64) int64 {

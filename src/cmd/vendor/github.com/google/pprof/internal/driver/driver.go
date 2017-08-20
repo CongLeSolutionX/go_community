@@ -52,10 +52,13 @@ func PProf(eo *plugin.Options) error {
 		return generateReport(p, cmd, pprofVariables, o)
 	}
 
+	if src.HTTPHostport != "" {
+		return serveWebInterface(src.HTTPHostport, p, o)
+	}
 	return interactive(p, o)
 }
 
-func generateReport(p *profile.Profile, cmd []string, vars variables, o *plugin.Options) error {
+func generateRawReport(p *profile.Profile, cmd []string, vars variables, o *plugin.Options) (*command, *report.Report, error) {
 	p = p.Copy() // Prevent modification to the incoming profile.
 
 	vars = applyCommandOverrides(cmd, vars)
@@ -64,12 +67,12 @@ func generateReport(p *profile.Profile, cmd []string, vars variables, o *plugin.
 	relative := vars["relative_percentages"].boolValue()
 	if relative {
 		if err := applyFocus(p, vars, o.UI); err != nil {
-			return err
+			return nil, nil, err
 		}
 	}
 	ropt, err := reportOptions(p, vars)
 	if err != nil {
-		return err
+		return nil, nil, err
 	}
 	c := pprofCommands[cmd[0]]
 	if c == nil {
@@ -79,7 +82,7 @@ func generateReport(p *profile.Profile, cmd []string, vars variables, o *plugin.
 	if len(cmd) == 2 {
 		s, err := regexp.Compile(cmd[1])
 		if err != nil {
-			return fmt.Errorf("parsing argument regexp %s: %v", cmd[1], err)
+			return nil, nil, fmt.Errorf("parsing argument regexp %s: %v", cmd[1], err)
 		}
 		ropt.Symbol = s
 	}
@@ -87,10 +90,19 @@ func generateReport(p *profile.Profile, cmd []string, vars variables, o *plugin.
 	rpt := report.New(p, ropt)
 	if !relative {
 		if err := applyFocus(p, vars, o.UI); err != nil {
-			return err
+			return nil, nil, err
 		}
 	}
 	if err := aggregate(p, vars); err != nil {
+		return nil, nil, err
+	}
+
+	return c, rpt, nil
+}
+
+func generateReport(p *profile.Profile, cmd []string, vars variables, o *plugin.Options) error {
+	c, rpt, err := generateRawReport(p, cmd, vars, o)
+	if err != nil {
 		return err
 	}
 
@@ -160,20 +172,20 @@ func applyCommandOverrides(cmd []string, v variables) variables {
 			v.set("nodecount", "80")
 		}
 	}
-	if trim == false {
+	if !trim {
 		v.set("nodecount", "0")
 		v.set("nodefraction", "0")
 		v.set("edgefraction", "0")
 	}
-	if focus == false {
+	if !focus {
 		v.set("focus", "")
 		v.set("ignore", "")
 	}
-	if tagfocus == false {
+	if !tagfocus {
 		v.set("tagfocus", "")
 		v.set("tagignore", "")
 	}
-	if hide == false {
+	if !hide {
 		v.set("hide", "")
 		v.set("show", "")
 	}
@@ -196,18 +208,13 @@ func aggregate(prof *profile.Profile, v variables) error {
 	case v["functions"].boolValue():
 		inlines = true
 		function = true
-		filename = true
 	case v["noinlines"].boolValue():
 		function = true
-		filename = true
 	case v["addressnoinlines"].boolValue():
 		function = true
 		filename = true
 		linenumber = true
 		address = true
-	case v["functionnameonly"].boolValue():
-		inlines = true
-		function = true
 	default:
 		return fmt.Errorf("unexpected granularity")
 	}
@@ -230,6 +237,14 @@ func reportOptions(p *profile.Profile, vars variables) (*report.Options, error) 
 		return nil, fmt.Errorf("zero divisor specified")
 	}
 
+	var filters []string
+	for _, k := range []string{"focus", "ignore", "hide", "show", "tagfocus", "tagignore", "tagshow", "taghide"} {
+		v := vars[k].value
+		if v != "" {
+			filters = append(filters, k+"="+v)
+		}
+	}
+
 	ropt := &report.Options{
 		CumSort:             vars["cum"].boolValue(),
 		CallTree:            vars["call_tree"].boolValue(),
@@ -242,6 +257,8 @@ func reportOptions(p *profile.Profile, vars variables) (*report.Options, error) 
 		NodeCount:    vars["nodecount"].intValue(),
 		NodeFraction: vars["nodefraction"].floatValue(),
 		EdgeFraction: vars["edgefraction"].floatValue(),
+
+		ActiveFilters: filters,
 
 		SampleValue:       value,
 		SampleMeanDivisor: meanDiv,
