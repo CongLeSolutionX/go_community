@@ -22,6 +22,30 @@
       "revId": "e0fba3b15f3324f0ce4618e3a07348076cd8abf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2eb26a39_25e43807",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-20T21:23:42Z",
+      "side": 1,
+      "message": "Oops! Done.",
+      "parentUuid": "c66e8103_ce3ab76e",
+      "range": {
+        "startLine": 127,
+        "startChar": 21,
+        "endLine": 127,
+        "endChar": 39
+      },
+      "revId": "e0fba3b15f3324f0ce4618e3a07348076cd8abf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
