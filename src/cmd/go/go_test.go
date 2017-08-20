@@ -4456,3 +4456,20 @@ func TestExecBuildX(t *testing.T) {
 		t.Fatalf("got %q; want %q", out, "hello")
 	}
 }
+
+func TestFlagFatalf(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.tempFile("main.go", `package main; import "flag";
+	func main() {
+		flag.Parse()
+		flag.Fatalf("error message\n")
+		println("print after expected exit")
+	}`)
+	path := tg.path("main.go")
+	tg.runFail("run", path)
+	tg.grepStderr(`^error message$`, "Fatalf did not print message")
+	tg.grepStderr(`^Usage of`, "Fatalf did not print usage")
+	tg.grepStderr(`^exit status 2$`, "Fatalf did not exit with status 2")
+	tg.grepStderrNot(`print after expected exit`, "Fatalf did not exit the program")
+}

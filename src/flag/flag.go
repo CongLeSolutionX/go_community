@@ -982,3 +982,12 @@ func (f *FlagSet) Init(name string, errorHandling ErrorHandling) {
 	f.name = name
 	f.errorHandling = errorHandling
 }
+
+// Fatalf prints a formatted message to the command-line FlagGet
+// output, along with its usage information. These are followed by a
+// call to os.Exit(2).
+func Fatalf(format string, a ...interface{}) {
+	fmt.Fprintf(CommandLine.out(), format, a...)
+	Usage()
+	os.Exit(2)
+}
