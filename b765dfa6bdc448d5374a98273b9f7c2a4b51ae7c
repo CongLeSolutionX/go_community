@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "538e14ab_fafc5050",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-21T11:26:56Z",
+      "side": 1,
+      "message": "why this change? This may print too much in some cases",
+      "revId": "b765dfa6bdc448d5374a98273b9f7c2a4b51ae7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
