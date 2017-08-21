@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f5caad_2fdd3645",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 19455
+      },
+      "writtenOn": "2017-08-21T05:07:12Z",
+      "side": 1,
+      "message": "Typo: Connector _is_ an...",
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdf5f0d2_5bb5c4b2",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 19455
+      },
+      "writtenOn": "2017-08-21T05:07:12Z",
+      "side": 1,
+      "message": "There should be a blank line in between.",
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
