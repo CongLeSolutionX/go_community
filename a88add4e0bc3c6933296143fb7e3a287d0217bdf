@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38df67ca_5631fb10",
+        "filename": "src/runtime/runtime_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-21T04:08:54Z",
+      "side": 1,
+      "message": "Really unimportant, but why not simply\n\n    m :\u003d map[string]bool{\n        tophash: true,\n        add: true,\n    }",
+      "revId": "a88add4e0bc3c6933296143fb7e3a287d0217bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b083e2b_6c84581b",
+        "filename": "src/runtime/runtime_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-21T04:08:54Z",
+      "side": 1,
+      "message": "Before t.Fatal\n    t.Logf(\"%s\", out)",
+      "revId": "a88add4e0bc3c6933296143fb7e3a287d0217bdf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
