@@ -1394,6 +1394,10 @@ func (b *Builder) build(a *Action) (err error) {
 		if p1.ImportPath == "unsafe" {
 			continue
 		}
+		if p1.Internal.Pkgfile == "" {
+			// This happens for gccgo-internal packages like runtime.
+			continue
+		}
 		// TODO(rsc): runtime/internal/sys appears twice sometimes,
 		// because of the blind append in ../load/pkg.go that
 		// claims to fix issue 13655. That's probably not the right fix.
@@ -2297,14 +2301,6 @@ func (gcToolchain) gc(b *Builder, p *load.Package, archive, objdir, importcfg st
 		gcargs = append(gcargs, "-dwarf=false")
 	}
 
-	for _, path := range p.Imports {
-		if i := strings.LastIndex(path, "/vendor/"); i >= 0 {
-			gcargs = append(gcargs, "-importmap", path[i+len("/vendor/"):]+"="+path)
-		} else if strings.HasPrefix(path, "vendor/") {
-			gcargs = append(gcargs, "-importmap", path[len("vendor/"):]+"="+path)
-		}
-	}
-
 	gcflags := buildGcflags
 	if compilingRuntime {
 		// Remove -N, if present.
@@ -2712,7 +2708,15 @@ func (tools gccgoToolchain) gc(b *Builder, p *load.Package, archive, objdir, imp
 
 	args := str.StringList(tools.compiler(), "-c", gcargs, "-o", ofile)
 	if importcfg != "" {
-		args = append(args, "-importcfg", importcfg)
+		if b.gccSupportsFlag("-fgo-importcfg=/dev/null") {
+			args = append(args, "-fgo-importcfg="+importcfg)
+		} else {
+			root := objdir + "_importcfgroot_"
+			if err := buildImportcfgSymlinks(b, root, importcfg); err != nil {
+				return "", nil, err
+			}
+			args = append(args, "-I", root)
+		}
 	}
 	args = append(args, buildGccgoflags...)
 	for _, f := range gofiles {
@@ -2721,6 +2725,71 @@ func (tools gccgoToolchain) gc(b *Builder, p *load.Package, archive, objdir, imp
 
 	output, err = b.runOut(p.Dir, p.ImportPath, nil, args)
 	return ofile, output, err
+}
+
+// buildImportcfgSymlinks builds in root a tree of symlinks
+// implementing the directives from importcfg.
+// This serves as a temporary transition mechanism until
+// we can depend on gccgo supporting -importcfg.
+// (The Go 1.9 and later gc compilers already do.)
+func buildImportcfgSymlinks(b *Builder, root, importcfg string) error {
+	data, err := ioutil.ReadFile(importcfg)
+	if err != nil {
+		return err
+	}
+	for lineNum, line := range strings.Split(string(data), "\n") {
+		lineNum++ // 1-based
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		var verb, args string
+		if i := strings.Index(line, " "); i < 0 {
+			verb = line
+		} else {
+			verb, args = line[:i], strings.TrimSpace(line[i+1:])
+		}
+		var before, after string
+		if i := strings.Index(args, "="); i >= 0 {
+			before, after = args[:i], args[i+1:]
+		}
+		switch verb {
+		default:
+			base.Fatalf("%s:%d: unknown directive %q", importcfg, lineNum, verb)
+		case "packagefile":
+			if before == "" || after == "" {
+				return fmt.Errorf(`%s:%d: invalid packagefile: syntax is "packagefile path=filename": %s`, importcfg, lineNum, line)
+			}
+			archive := gccgoArchive(root, before)
+			if err := b.Mkdir(filepath.Dir(archive)); err != nil {
+				return err
+			}
+			if err := os.Symlink(after, archive); err != nil {
+				return err
+			}
+		case "importmap":
+			if before == "" || after == "" {
+				return fmt.Errorf(`%s:%d: invalid importmap: syntax is "importmap old=new": %s`, importcfg, lineNum, line)
+			}
+			beforeA := gccgoArchive(root, before)
+			afterA := gccgoArchive(root, after)
+			if err := b.Mkdir(filepath.Dir(beforeA)); err != nil {
+				return err
+			}
+			if err := b.Mkdir(filepath.Dir(afterA)); err != nil {
+				return err
+			}
+			if err := os.Symlink(afterA, beforeA); err != nil {
+				return err
+			}
+		case "packageshlib":
+			return fmt.Errorf("gccgo -importcfg does not support shared libraries")
+		}
+	}
+	return nil
 }
 
 func (tools gccgoToolchain) asm(b *Builder, p *load.Package, objdir string, sfiles []string) ([]string, error) {
@@ -2744,7 +2813,11 @@ func (tools gccgoToolchain) asm(b *Builder, p *load.Package, objdir string, sfil
 }
 
 func (gccgoToolchain) Pkgpath(basedir string, p *load.Package) string {
-	end := filepath.FromSlash(p.ImportPath + ".a")
+	return gccgoArchive(basedir, p.ImportPath)
+}
+
+func gccgoArchive(basedir, imp string) string {
+	end := filepath.FromSlash(imp + ".a")
 	afile := filepath.Join(basedir, end)
 	// add "lib" to the final element
 	return filepath.Join(filepath.Dir(afile), "lib"+filepath.Base(afile))
