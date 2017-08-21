@@ -16,6 +16,23 @@
       "revId": "fa55deee5ece8a5763801d81587c5276534dbf92",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae66d49b_bf338bb7",
+        "filename": "src/compress/gzip/gunzip.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-21T18:05:09Z",
+      "side": 1,
+      "message": "I think it\u0027s dangerous to increase the header size to anything larger than what compression itself will take (~32KiB). Above that, this field provides attackers with a way to allocate significantly more memory on servers that receive compressed content.\n\nHowever, 32KiB is not large enough to parse some of the very long comments in some files (e.g., OpenBSD packages and others). \n\n\u003e discard the bytes past the maximum we are willing to preserve.\n\nIt seems that Header.Comment are ridiculously long because certain formats abuse the comment string to put machine-parsible information. Truncation would be more reasonable if this were only for human consumption.\n\n\u003e then let\u0027s do it by adding NewVeryLongCommentReader.\n\nI was hoping to add another NewXReader function, but this may be necessary. I do agree the current approach is clunky.",
+      "revId": "fa55deee5ece8a5763801d81587c5276534dbf92",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
