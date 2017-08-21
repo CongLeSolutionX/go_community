@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70526373_e8748e2e",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-21T18:20:22Z",
+      "side": 1,
+      "message": "any downsides to:\n\nif t.indirectkey {\n   *(*unsafe.Pointer)(k) \u003d nil\nelse if t.key.kind\u0026kindNoPointers \u003d\u003d 0 {\n   typedmemclr(t.key, k)\n}",
+      "range": {
+        "startLine": 688,
+        "startChar": 3,
+        "endLine": 694,
+        "endChar": 4
+      },
+      "revId": "2d9c951403b1954c1ae57b11a0b58929c65ee958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
