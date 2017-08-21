@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "19a5c231_c43a005f",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 19925
+      },
+      "writtenOn": "2017-08-21T10:19:49Z",
+      "side": 1,
+      "message": "I\u0027m coding up both approaches now (string and generate) to see which one looks more reasonable.",
+      "parentUuid": "58d48c44_a9433677",
+      "revId": "852bf765953a492d84efef2c52f75d4eb5ad3608",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43497e58_5d1df0b8",
         "filename": "src/encoding/hex/hex_test.go",
         "patchSetId": 2
@@ -83,6 +101,30 @@
     },
     {
       "key": {
+        "uuid": "1b64f5e1_cefb1f13",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 19925
+      },
+      "writtenOn": "2017-08-21T10:19:49Z",
+      "side": 1,
+      "message": "I will make this change.",
+      "parentUuid": "43497e58_5d1df0b8",
+      "range": {
+        "startLine": 173,
+        "startChar": 22,
+        "endLine": 173,
+        "endChar": 61
+      },
+      "revId": "852bf765953a492d84efef2c52f75d4eb5ad3608",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "743fe00e_ae5a1fc7",
         "filename": "src/encoding/hex/hex_test.go",
         "patchSetId": 2
@@ -94,6 +136,24 @@
       "writtenOn": "2017-08-20T16:43:34Z",
       "side": 1,
       "message": "IMO, this can be better written as \"sink \u003d make([]byte, DecodedLen(size))\", so as to not leak any abstractions.\n\nAnd maybe we can do the same thing in BenchmarkEncode too.",
+      "revId": "852bf765953a492d84efef2c52f75d4eb5ad3608",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffbe5f5f_ce564765",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 19925
+      },
+      "writtenOn": "2017-08-21T10:19:49Z",
+      "side": 1,
+      "message": "I\u0027m neutral about this change.  Though if it\u0027s made I agree it should be done in the BenchmarkEncode() too",
+      "parentUuid": "743fe00e_ae5a1fc7",
       "revId": "852bf765953a492d84efef2c52f75d4eb5ad3608",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
