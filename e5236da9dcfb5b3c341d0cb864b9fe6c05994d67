@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a88f7649_31832f6f",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2017-08-21T17:56:09Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right way to fix this, but I don\u0027t have better alternatives:\n\n* decl.Pos is the wrong position for captured variables, in the inner function (see comment in the previous version of this code), but it is the right position in the outer function.\n* decl.Name.Defn is nil for captured variables that were arguments on the outer function, however the decl.Pos for those seems to be correct.\n* decl.Name.Defn is the \"wrong\" thing for variables declared in the header of a type switch, it\u0027s their position in the header, rather than the position of the case statement. In principle this is the right thing, but here we prefer the latter because it makes each instance of the header variable local to the lexical block of its case statement.\n* I think this code is wrong for type switch variables that are also captured, but I don\u0027t know how to fix that.",
+      "revId": "e5236da9dcfb5b3c341d0cb864b9fe6c05994d67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
