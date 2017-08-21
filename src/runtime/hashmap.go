@@ -684,16 +684,22 @@ func mapdelete(t *maptype, h *hmap, key unsafe.Pointer) {
 			if !alg.equal(key, k2) {
 				continue
 			}
-			if t.indirectkey {
-				*(*unsafe.Pointer)(k) = nil
-			} else {
-				typedmemclr(t.key, k)
+			// Only clear key if there are pointers in it.
+			if t.indirectkey || t.key.kind&kindNoPointers == 0 {
+				if t.indirectkey {
+					*(*unsafe.Pointer)(k) = nil
+				} else {
+					typedmemclr(t.key, k)
+				}
 			}
-			v := unsafe.Pointer(uintptr(unsafe.Pointer(b)) + dataOffset + bucketCnt*uintptr(t.keysize) + i*uintptr(t.valuesize))
-			if t.indirectvalue {
-				*(*unsafe.Pointer)(v) = nil
-			} else {
-				typedmemclr(t.elem, v)
+			// Only clear value if there are pointers in it.
+			if t.indirectvalue || t.elem.kind&kindNoPointers == 0 {
+				v := unsafe.Pointer(uintptr(unsafe.Pointer(b)) + dataOffset + bucketCnt*uintptr(t.keysize) + i*uintptr(t.valuesize))
+				if t.indirectvalue {
+					*(*unsafe.Pointer)(v) = nil
+				} else {
+					typedmemclr(t.elem, v)
+				}
 			}
 			b.tophash[i] = empty
 			h.count--
