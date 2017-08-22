@@ -46,6 +46,30 @@
       "revId": "2d9c951403b1954c1ae57b11a0b58929c65ee958",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b183431a_bbb1759a",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-22T23:26:28Z",
+      "side": 1,
+      "message": "Done. Also switched from typedmemclr to memclrHasPointers throughout.",
+      "parentUuid": "1e43d6c0_e6476633",
+      "range": {
+        "startLine": 688,
+        "startChar": 3,
+        "endLine": 694,
+        "endChar": 4
+      },
+      "revId": "2d9c951403b1954c1ae57b11a0b58929c65ee958",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
