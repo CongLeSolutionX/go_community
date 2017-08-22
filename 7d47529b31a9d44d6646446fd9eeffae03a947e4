@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a249de51_91fbe732",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "Done.\n\nI avoided the word \"disk\" since some TAR files never hit disk (e.g., may be sent over the network).",
+      "parentUuid": "8f034054_a2c93bcc",
+      "range": {
+        "startLine": 79,
+        "startChar": 1,
+        "endLine": 80,
+        "endChar": 66
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c382377_637a3404",
         "filename": "src/archive/tar/common.go",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17e1d2b7_64708de1",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c382377_637a3404",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 17
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ee9832fe_27962c6c",
+        "filename": "src/archive/tar/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "I\u0027m in support of a high-level API, but I still believe that the high-level API should just be filling out SparseHoles.",
+      "parentUuid": "7de232b7_b42b527c",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 23
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b8447da_d6bc75df",
         "filename": "src/archive/tar/writer.go",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-22T22:09:41Z",
       "side": 1,
       "message": "Why not just leave this empty? It looks like a gratuitous object allocation that is then always discarded.",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 48
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1114fb9b_7c606915",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "It simplifies the implementation so I dont have to keep checking:\n\n tw.curr !\u003d nil { ... }\n\nin all of the methods.",
+      "parentUuid": "8b8447da_d6bc75df",
       "range": {
         "startLine": 37,
         "startChar": 22,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "bdbfa057_aca23aac",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "The comes with the connotation of numerical overflow. Also, \"overwrite\" corresponds with the fact that ErrWriteTooLong is returned.",
+      "parentUuid": "bc78c0f5_c69cfa20",
+      "range": {
+        "startLine": 444,
+        "startChar": 1,
+        "endLine": 444,
+        "endChar": 10
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81440681_e4004f21",
         "filename": "src/archive/tar/writer.go",
         "patchSetId": 4
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "b3ba9d9f_5f522a6a",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "We should still try to write as much as possible.",
+      "parentUuid": "81440681_e4004f21",
+      "range": {
+        "startLine": 445,
+        "startChar": 1,
+        "endLine": 447,
+        "endChar": 2
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b3ee08d_ee78de0a",
         "filename": "src/archive/tar/writer.go",
         "patchSetId": 4
@@ -160,6 +304,30 @@
       "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d54615b_f280e09b",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b3ee08d_ee78de0a",
+      "range": {
+        "startLine": 468,
+        "startChar": 25,
+        "endLine": 468,
+        "endChar": 35
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +378,30 @@
     },
     {
       "key": {
+        "uuid": "83068771_63103fc1",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "Your idea is still interesting. I like the simplicity of it, but you can\u0027t implement FillZeros with it.",
+      "parentUuid": "8ebe6082_e8d81303",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 469,
+        "endChar": 30
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58d920cf_6d720a40",
         "filename": "src/archive/tar/writer.go",
         "patchSetId": 4
@@ -230,6 +422,30 @@
       "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51f97458_219a7b55",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "The code deplication is unfortunate. It could be simplified with a little function programming, but I feel like it makes it less readable.\n\nWithout FillZeros, there is no way to efficiently populate the data for a sparse file without this method. In fact, the unit tests depend on this to finish writing a 60GB (logical size) file with a sane amount of time.\n\nAlso, if we\u0027re serious about adding ReadFrom, we may just change this method to implement that and switch the unit tests to use ReadFrom instead.",
+      "parentUuid": "58d920cf_6d720a40",
+      "range": {
+        "startLine": 515,
+        "startChar": 0,
+        "endLine": 515,
+        "endChar": 63
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -256,6 +472,30 @@
     },
     {
       "key": {
+        "uuid": "427a92be_16ed5505",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "Comment added.\n\nFor the time being, I\u0027d rather be a little more strict. If this causes issues, we can trivially change it to ignoreWriter, where it reports all writes as a success.",
+      "parentUuid": "16953b94_873dc249",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 557,
+        "endChar": 24
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf565b7_0208bba3",
         "filename": "src/archive/tar/writer.go",
         "patchSetId": 4
@@ -276,6 +516,30 @@
       "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a00e351_7bbe51a4",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T23:10:18Z",
+      "side": 1,
+      "message": "I converted it to just a simple for-loop. comparison with 1k block of zeroes is a nice idea, but I think it\u0027s premature optimization. It\u0027s just reducing O(K*n) to O(k*n).",
+      "parentUuid": "cdf565b7_0208bba3",
+      "range": {
+        "startLine": 560,
+        "startChar": 1,
+        "endLine": 560,
+        "endChar": 48
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
