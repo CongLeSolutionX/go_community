@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c65ec47f_baddcaa5",
+        "filename": "src/runtime/hashmap_fast.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-22T17:13:13Z",
+      "side": 1,
+      "message": "Maybe this would be better as an inlineable function?\n\nfunc bucketMask(b uint8) uintptr {\n     if sys.GoarchAmd64|sys.GoarchAmd64p32|sys.Goarch386 {\n         b \u003d b\u0026(sys.PtrSize*8-1) // help x86 archs remove shift overflow checks\n     }\n     return uintptr(1)\u003c\u003cb\n}",
+      "range": {
+        "startLine": 788,
+        "startChar": 18,
+        "endLine": 788,
+        "endChar": 52
+      },
+      "revId": "9bf8ed46691c9a8505d3cf804b0f313baa19ab1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
