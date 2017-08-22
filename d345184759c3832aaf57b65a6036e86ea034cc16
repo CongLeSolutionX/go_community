@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26d3b6f3_aa84d667",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 2346,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-22T19:37:17Z",
+      "side": 1,
+      "message": "This rule originally worried me because we could be hiding pointers in SSE registers, or possibly the spill locations for those registers.  The garbage collector wouldn\u0027t be able to find those pointers.\n\nI think this ends up being OK because we\u0027re guaranteed to not have a safe point during the lifetime of the SSE register.  But this is subtle enough that it deserves a comment here and a test.\n\nA test would be something like\nfunc f(p, q *[2]*int) {\n   a, b :\u003d p[0], p[1]\n   runtime.GC()\n    q[0], q[1] \u003d a, b\n}\nand make sure we don\u0027t issue any SSE instructions.\n(I\u0027ve always wanted to add a \"don\u0027t match\" regexp to asmTest in asm_test.go. Good a time as any.)",
+      "revId": "d345184759c3832aaf57b65a6036e86ea034cc16",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
