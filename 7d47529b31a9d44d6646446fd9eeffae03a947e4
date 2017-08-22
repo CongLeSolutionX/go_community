@@ -140,6 +140,29 @@
     },
     {
       "key": {
+        "uuid": "1b3ee08d_ee78de0a",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5810
+      },
+      "writtenOn": "2017-08-22T22:16:57Z",
+      "side": 1,
+      "message": "s/fileReader/fileWriter/\n(presumably)",
+      "range": {
+        "startLine": 468,
+        "startChar": 25,
+        "endLine": 468,
+        "endChar": 35
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac5c0b2b_19be85e1",
         "filename": "src/archive/tar/writer.go",
         "patchSetId": 4
