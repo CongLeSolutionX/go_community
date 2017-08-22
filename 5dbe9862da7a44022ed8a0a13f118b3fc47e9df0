@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3eece849_e7792fd3",
+        "filename": "src/crypto/x509/root_darwin_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-22T18:34:59Z",
+      "side": 1,
+      "message": "Nit: no comma.",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "5dbe9862da7a44022ed8a0a13f118b3fc47e9df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
