@@ -186,6 +186,30 @@
     },
     {
       "key": {
+        "uuid": "8ebe6082_e8d81303",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:17:58Z",
+      "side": 1,
+      "message": "eww, my brain tricked on me. MultiWriter does a different thing from MultiReader, so the above cannot be done without a custom ChainedWriter or something which would need to be written anyway, at which point I\u0027m not sure we\u0027re saving much.",
+      "parentUuid": "ac5c0b2b_19be85e1",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 469,
+        "endChar": 30
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58d920cf_6d720a40",
         "filename": "src/archive/tar/writer.go",
         "patchSetId": 4
