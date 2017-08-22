@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e46c51e6_897ff7ff",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3914,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-08-22T06:04:17Z",
+      "side": 1,
+      "message": "nit: There\u0027s only two cases now, so maybe \"either\"?",
+      "range": {
+        "startLine": 3914,
+        "startChar": 23,
+        "endLine": 3914,
+        "endChar": 26
+      },
+      "revId": "5448f5916719b7ce689ffa01e70b8c147e2edf50",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
