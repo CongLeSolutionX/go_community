@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f034054_a2c93bcc",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this sentence, it doesn\u0027t sound right to me. I suggest an alternative:\n\nA sparse file consists of fragments of data, intermixed with holes (described\nby this field); a hole is semantically a block of NUL bytes, but it is not\nactually written to disk.",
+      "range": {
+        "startLine": 79,
+        "startChar": 1,
+        "endLine": 80,
+        "endChar": 66
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c382377_637a3404",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "With my rewording, \"fragments\" is data, so this should be \"holes\".",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 17
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de232b7_b42b527c",
+        "filename": "src/archive/tar/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "This example helps a lot, thanks. I\u0027m only thinking that I would like it go away later when we have proper hole detection and read/write support for sparse files on disk. When those parts are in, this should be an example on how to properly use the high-level API, rather than the low-level one (which can remain lightly documented as it is without this example).",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 23
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b8447da_d6bc75df",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "Why not just leave this empty? It looks like a gratuitous object allocation that is then always discarded.",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 48
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc78c0f5_c69cfa20",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "maybe \"overflow\"?",
+      "range": {
+        "startLine": 444,
+        "startChar": 1,
+        "endLine": 444,
+        "endChar": 10
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81440681_e4004f21",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "Does it really matter? Can\u0027t you just return ErrWriteTooLong right away as soon as an overwrite is detected?",
+      "range": {
+        "startLine": 445,
+        "startChar": 1,
+        "endLine": 447,
+        "endChar": 2
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac5c0b2b_19be85e1",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "I thought of a different implementation, but I\u0027m not sure it\u0027s better. \n\nAssuming a very simple limitedWriter (like io.LimitedReader), that EOFs after the specified number of bytes, one could use a MultiWriter to combine a sequence of alternated limitedWriter{zeroWriter{}} (for holes) and limitedWriter{tw} (for data). This would require much less code.",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 469,
+        "endChar": 30
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58d920cf_6d720a40",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "Why not just io.CopyN(sw, zeroReader{}, n) like above?\n\nI can see the performance argument (though the code duplication is really bad), but I don\u0027t think anybody should be doing this anyway; this is zero-expansion of a sparse file, which shouldn\u0027t normally happen in the first place. When it happens, I don\u0027t think it needs to absolutely be super fast.",
+      "range": {
+        "startLine": 515,
+        "startChar": 0,
+        "endLine": 515,
+        "endChar": 63
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16953b94_873dc249",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "Maybe add a comment: zeroWriter is a writer that expect only zeros to be written, and returns errWriteHole otherwise.\n\nAlso: do we really need to do this check? Can\u0027t we just ignore and assume the user was smart, or let it generate a possibly \"corrupted\" file if his code is buggy?",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 557,
+        "endChar": 24
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdf565b7_0208bba3",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-22T22:09:41Z",
+      "side": 1,
+      "message": "I expect bytes.Equal() with a 1k empty block to be much much faster, because it\u0027s assembly optimized on most platform and would probably check many bytes at a time, plus there\u0027s no allocation (TrimLeft allocates a closure).",
+      "range": {
+        "startLine": 560,
+        "startChar": 1,
+        "endLine": 560,
+        "endChar": 48
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
