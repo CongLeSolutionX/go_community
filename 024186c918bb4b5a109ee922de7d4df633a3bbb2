@@ -22,6 +22,30 @@
       "revId": "024186c918bb4b5a109ee922de7d4df633a3bbb2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36488815_6dfb6bf9",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5535,
+      "author": {
+        "id": 22255
+      },
+      "writtenOn": "2017-08-22T22:29:15Z",
+      "side": 1,
+      "message": "The current behavior (without this fix) causes a panic. I\u0027ve added this so if my fix is removed, the error fails with a better message instead of a simple panic",
+      "parentUuid": "1feb1e5e_975fe278",
+      "range": {
+        "startLine": 5531,
+        "startChar": 1,
+        "endLine": 5535,
+        "endChar": 4
+      },
+      "revId": "024186c918bb4b5a109ee922de7d4df633a3bbb2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
