@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d19a719_0dbd632a",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-23T21:37:54Z",
+      "side": 1,
+      "message": "s/in/of/\nremove \"be\".",
+      "range": {
+        "startLine": 27,
+        "startChar": 42,
+        "endLine": 27,
+        "endChar": 44
+      },
+      "revId": "091d02361b47b2e56517f38ae486164bd797a09a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "401695d6_35571083",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-23T21:37:54Z",
+      "side": 1,
+      "message": "does not contain a",
+      "range": {
+        "startLine": 43,
+        "startChar": 43,
+        "endLine": 43,
+        "endChar": 58
+      },
+      "revId": "091d02361b47b2e56517f38ae486164bd797a09a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cc54799_51f09989",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-23T21:37:54Z",
+      "side": 1,
+      "message": "Comment here why this test exists - to make sure we don\u0027t put pointers in SSE registers across safe points.",
+      "revId": "091d02361b47b2e56517f38ae486164bd797a09a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
