@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e6577d9_1636b9a5",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-23T16:57:06Z",
+      "side": 1,
+      "message": "Use a foreign sentence to demonstrate rune matching?",
+      "revId": "8258dadb9e5214607496c2576ce583769120f007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06afdce1_a12a11d9",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-23T16:57:06Z",
+      "side": 1,
+      "message": "This is misleading. The second argument to LastIndexAny is a cutset. Putting words like \"go\" and \"rodent\" misleads people into thinking that this matches on words.\n\nIn fact, it doesn\u0027t demonstrate that the cutset can be any arbitrary unicode value. Perhaps a sentence with a mixture of english and chinese, and the cutset is a set of chinese characters.",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 60
+      },
+      "revId": "8258dadb9e5214607496c2576ce583769120f007",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
