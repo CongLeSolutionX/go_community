@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f30ad35_79c12193",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-08-23T19:02:48Z",
+      "side": 1,
+      "message": "From the user\u0027s perspective these are just functions (an \"annotation\" would be something like a \"//go:\" comment), so perhaps: \"RaceAcquire, RaceRelease, and RaceReleaseMerge establish ...\"",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bc0d5a1_049e49b3",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-08-23T19:02:48Z",
+      "side": 1,
+      "message": "Simpler: \"These inform the race detector about ...\"",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "738cde0f_dba037f9",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-08-23T19:02:48Z",
+      "side": 1,
+      "message": "I would drop \"synchronization established by non-instrumented runtime\" since this is user-facing documentation on a sort of user-facing API. (Plus, the runtime has to call the unexported versions.)",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44ad7bce_d8503218",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-08-23T19:02:48Z",
+      "side": 1,
+      "message": "The rest of this comment should be split up between the three functions. (The overview above here probably makes the most sense to leave attached to RaceAcquire.)",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f90f49c0_014af340",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-08-23T19:02:48Z",
+      "side": 1,
+      "message": "I don\u0027t know what this last line means. Why would I expect this to affect \"non-synchronization events\"?",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
