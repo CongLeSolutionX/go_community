@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "141c062e_6d7e7dfc",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-23T22:46:35Z",
+      "side": 1,
+      "message": "There is nothing wrong with using :\u003d here or a few lines down.  Let\u0027s keep it.",
+      "range": {
+        "startLine": 508,
+        "startChar": 9,
+        "endLine": 508,
+        "endChar": 10
+      },
+      "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ea6975f_7dabbc87",
+        "filename": "src/encoding/xml/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-23T22:46:35Z",
+      "side": 1,
+      "message": "Keep :\u003d",
+      "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cfa00ea_9774a102",
+        "filename": "src/encoding/xml/xml.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-23T22:46:35Z",
+      "side": 1,
+      "message": "How about \"// Copy creates a new copy of the StartElement.\"\n\n(Note period at end of sentence.)\n\nSimilarly below.",
+      "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
