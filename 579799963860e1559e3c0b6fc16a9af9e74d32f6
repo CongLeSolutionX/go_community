@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b45aa040_fff2374e",
+        "filename": "src/archive/tar/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-23T22:25:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35df1ee6_bc3fc63a",
+      "revId": "579799963860e1559e3c0b6fc16a9af9e74d32f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "910db56b_757fe46d",
         "filename": "src/archive/tar/example_test.go",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "3f1e3801_e8e76b1d",
+        "filename": "src/archive/tar/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-23T22:25:20Z",
+      "side": 1,
+      "message": "I just deleted the whole sentence. The comments below describe how this all works, anyways.",
+      "parentUuid": "910db56b_757fe46d",
+      "range": {
+        "startLine": 78,
+        "startChar": 30,
+        "endLine": 78,
+        "endChar": 38
+      },
+      "revId": "579799963860e1559e3c0b6fc16a9af9e74d32f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d15c6b4e_33f87319",
         "filename": "src/archive/tar/example_test.go",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "579799963860e1559e3c0b6fc16a9af9e74d32f6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "807f318a_502bfd9c",
+        "filename": "src/archive/tar/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-23T22:25:20Z",
+      "side": 1,
+      "message": "The GNU tar tool chokes if it\u0027s not present, so Writer implicitly adds it.\nWhen we read it back, it appears.",
+      "parentUuid": "d15c6b4e_33f87319",
+      "revId": "579799963860e1559e3c0b6fc16a9af9e74d32f6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
