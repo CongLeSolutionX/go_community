@@ -119,6 +119,28 @@ func ExampleContains() {
 	// true
 }
 
+func ExampleContainsAny() {
+	fmt.Println(bytes.Contains([]byte("seafood"), []byte("foo")))
+	fmt.Println(bytes.Contains([]byte("seafood"), []byte("bar")))
+	fmt.Println(bytes.Contains([]byte("seafood"), []byte("")))
+	fmt.Println(bytes.Contains([]byte(""), []byte("")))
+	// Output:
+	// true
+	// false
+	// true
+	// true
+}
+
+func ExampleContainsRune() {
+	fmt.Println(bytes.ContainsRune([]byte("seafood"), 'f'))
+	fmt.Println(bytes.ContainsRune([]byte("seafood"), 'b'))
+	fmt.Println(bytes.ContainsRune([]byte(""), 'a'))
+	// Output:
+	// true
+	// false
+	// false
+}
+
 func ExampleCount() {
 	fmt.Println(bytes.Count([]byte("cheese"), []byte("e")))
 	fmt.Println(bytes.Count([]byte("five"), []byte(""))) // before & after each rune
@@ -199,6 +221,36 @@ func ExampleLastIndex() {
 	// -1
 }
 
+func ExampleLastIndexAny() {
+	fmt.Println(bytes.LastIndexAny([]byte("go gopher"), "go"))
+	fmt.Println(bytes.LastIndexAny([]byte("go gopher"), "rodent"))
+	fmt.Println(bytes.LastIndexAny([]byte("go gopher"), "xyz"))
+	// Output:
+	// 4
+	// 8
+	// -1
+}
+
+func ExampleLastIndexByte() {
+	fmt.Println(bytes.LastIndexByte([]byte("go gopher"), byte('g')))
+	fmt.Println(bytes.LastIndexByte([]byte("go gopher"), byte('r')))
+	fmt.Println(bytes.LastIndexByte([]byte("go gopher"), byte('z')))
+	// Output:
+	// 3
+	// 8
+	// -1
+}
+
+func ExampleLastIndexFunc() {
+	fmt.Println(bytes.LastIndexFunc([]byte("go gopher!"), unicode.IsLetter))
+	fmt.Println(bytes.LastIndexFunc([]byte("go gopher!"), unicode.IsPunct))
+	fmt.Println(bytes.LastIndexFunc([]byte("go gopher!"), unicode.IsNumber))
+	// Output:
+	// 8
+	// 9
+	// -1
+}
+
 func ExampleJoin() {
 	s := [][]byte{[]byte("foo"), []byte("bar"), []byte("baz")}
 	fmt.Printf("%s", bytes.Join(s, []byte(", ")))
@@ -216,6 +268,23 @@ func ExampleReplace() {
 	// Output:
 	// oinky oinky oink
 	// moo moo moo
+}
+
+func ExampleRunes() {
+	rs := bytes.Runes([]byte("go gopher"))
+	for _, r := range rs {
+		fmt.Printf("%#U\n", r)
+	}
+	// Output:
+	// U+0067 'g'
+	// U+006F 'o'
+	// U+0020 ' '
+	// U+0067 'g'
+	// U+006F 'o'
+	// U+0070 'p'
+	// U+0068 'h'
+	// U+0065 'e'
+	// U+0072 'r'
 }
 
 func ExampleSplit() {
@@ -267,6 +336,18 @@ func ExampleTrim() {
 	// Output: ["Achtung! Achtung"]
 }
 
+func ExampleTrimFunc() {
+	fmt.Println(string(bytes.TrimFunc([]byte("go-gopher!"), unicode.IsLetter)))
+	fmt.Println(string(bytes.TrimFunc([]byte("\"go-gopher!\""), unicode.IsLetter)))
+	fmt.Println(string(bytes.TrimFunc([]byte("go-gopher!"), unicode.IsPunct)))
+	fmt.Println(string(bytes.TrimFunc([]byte("1234go-gopher!567"), unicode.IsNumber)))
+	// Output:
+	// -gopher!
+	// "go-gopher!"
+	// go-gopher
+	// go-gopher!
+}
+
 func ExampleMap() {
 	rot13 := func(r rune) rune {
 		switch {
@@ -287,6 +368,16 @@ func ExampleTrimLeft() {
 	// 5400
 }
 
+func ExampleTrimLeftFunc() {
+	fmt.Println(string(bytes.TrimLeftFunc([]byte("go-gopher"), unicode.IsLetter)))
+	fmt.Println(string(bytes.TrimLeftFunc([]byte("go-gopher!"), unicode.IsPunct)))
+	fmt.Println(string(bytes.TrimLeftFunc([]byte("1234go-gopher!567"), unicode.IsNumber)))
+	// Output:
+	// -gopher
+	// go-gopher!
+	// go-gopher!567
+}
+
 func ExampleTrimSpace() {
 	fmt.Printf("%s", bytes.TrimSpace([]byte(" \t\n a lone gopher \n\t\r\n")))
 	// Output: a lone gopher
@@ -296,6 +387,16 @@ func ExampleTrimRight() {
 	fmt.Print(string(bytes.TrimRight([]byte("453gopher8257"), "0123456789")))
 	// Output:
 	// 453gopher
+}
+
+func ExampleTrimRightFunc() {
+	fmt.Println(string(bytes.TrimRightFunc([]byte("go-gopher"), unicode.IsLetter)))
+	fmt.Println(string(bytes.TrimRightFunc([]byte("go-gopher!"), unicode.IsPunct)))
+	fmt.Println(string(bytes.TrimRightFunc([]byte("1234go-gopher!567"), unicode.IsNumber)))
+	// Output:
+	// go-
+	// go-gopher
+	// 1234go-gopher!
 }
 
 func ExampleToUpper() {
