@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7882ffdb_4ae0ca1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-23T14:09:24Z",
+      "side": 1,
+      "message": "maybe add \"on x86\" at the end",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "448071fd28ac54f3f7949faad5f2759b5a464c17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff9a0c7e_cc6f71a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-23T14:09:24Z",
+      "side": 1,
+      "message": "do benchmarks change?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 28
+      },
+      "revId": "448071fd28ac54f3f7949faad5f2759b5a464c17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "178f8ca5_dac754cf",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-23T14:09:24Z",
+      "side": 1,
+      "message": "returns",
+      "range": {
+        "startLine": 181,
+        "startChar": 14,
+        "endLine": 181,
+        "endChar": 20
+      },
+      "revId": "448071fd28ac54f3f7949faad5f2759b5a464c17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a09c2aaf_1065126b",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-23T14:09:24Z",
+      "side": 1,
+      "message": "Good team work :)",
+      "range": {
+        "startLine": 991,
+        "startChar": 30,
+        "endLine": 991,
+        "endChar": 44
+      },
+      "revId": "448071fd28ac54f3f7949faad5f2759b5a464c17",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
