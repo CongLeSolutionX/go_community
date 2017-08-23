@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7bce22e2_edaef3dd",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-23T23:55:23Z",
+      "side": 1,
+      "message": "Because when I look at\n    if err :\u003d f(); err !\u003d nil {\nI\u0027m looking at a self-contained piece of code that does not affect anything else that I can easily verify is correct.  If it does not use :\u003d then I need to verify that the err variable is of type error, which of course it will be, and also that the err variable is not being used to hold some value across the condition, which is harder to verify.",
+      "parentUuid": "e57462e4_ab27907f",
+      "range": {
+        "startLine": 508,
+        "startChar": 9,
+        "endLine": 508,
+        "endChar": 10
+      },
+      "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ea6975f_7dabbc87",
         "filename": "src/encoding/xml/read.go",
         "patchSetId": 1
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "Shouldn\u0027t be using of err variable consistent across all method? Now is there one global method variable and then several locals, but using is inconsistent.",
       "parentUuid": "7ea6975f_7dabbc87",
+      "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4106fca3_ee852701",
+        "filename": "src/encoding/xml/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-23T23:55:23Z",
+      "side": 1,
+      "message": "Same reasoning: using :\u003d makes the statement standalone.",
+      "parentUuid": "6cec2b96_87f16aca",
       "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

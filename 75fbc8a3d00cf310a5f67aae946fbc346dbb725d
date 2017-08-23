@@ -34,6 +34,24 @@
       "revId": "75fbc8a3d00cf310a5f67aae946fbc346dbb725d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81ac84d8_ffbb2a15",
+        "filename": "src/encoding/xml/xml.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-23T23:55:23Z",
+      "side": 0,
+      "message": "Ah yes, sorry.  And in any case nothing below uses the value of ok.",
+      "parentUuid": "54cfc3b3_a7f88870",
+      "revId": "75fbc8a3d00cf310a5f67aae946fbc346dbb725d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
