@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e57462e4_ab27907f",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 13395
+      },
+      "writtenOn": "2017-08-23T23:42:07Z",
+      "side": 1,
+      "message": "There is err variable declared already, why do not use it?\nDtto line bellow.",
+      "parentUuid": "141c062e_6d7e7dfc",
+      "range": {
+        "startLine": 508,
+        "startChar": 9,
+        "endLine": 508,
+        "endChar": 10
+      },
+      "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ea6975f_7dabbc87",
         "filename": "src/encoding/xml/read.go",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-08-23T22:46:35Z",
       "side": 1,
       "message": "Keep :\u003d",
+      "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cec2b96_87f16aca",
+        "filename": "src/encoding/xml/read.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 13395
+      },
+      "writtenOn": "2017-08-23T23:42:07Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be using of err variable consistent across all method? Now is there one global method variable and then several locals, but using is inconsistent.",
+      "parentUuid": "7ea6975f_7dabbc87",
       "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -56,6 +98,24 @@
       "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66d69de2_e7cf6b4c",
+        "filename": "src/encoding/xml/xml.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 13395
+      },
+      "writtenOn": "2017-08-23T23:42:07Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "6cfa00ea_9774a102",
+      "revId": "8d2303458b863d7989eeb04a0aa0442f90d00c45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
