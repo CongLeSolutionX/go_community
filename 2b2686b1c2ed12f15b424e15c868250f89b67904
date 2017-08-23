@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64904cb2_b0f64c47",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-23T23:39:05Z",
+      "side": 1,
+      "message": "Really?  Does anybody actually call them TAR archives?  Even POSIX just calls it the tar format.",
+      "revId": "2b2686b1c2ed12f15b424e15c868250f89b67904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
