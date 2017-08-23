@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d64c2085_94eaecd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-23T16:44:17Z",
+      "side": 1,
+      "message": "Maybe it\u0027s me, but I don\u0027t understand this sentence. Is it \"don\u0027t publish new itab table until growth is finished\"?",
+      "revId": "be662d9c492e9992e1ac1965a007446a84bd1cd8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
