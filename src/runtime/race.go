@@ -4,13 +4,13 @@
 
 // +build race
 
-// Public race detection API, present iff build with -race.
-
 package runtime
 
 import (
 	"unsafe"
 )
+
+// Public race detection API, present iff build with -race.
 
 func RaceRead(addr unsafe.Pointer)
 func RaceWrite(addr unsafe.Pointer)
@@ -23,7 +23,60 @@ func RaceErrors() int {
 	return int(n)
 }
 
-// private interface for the runtime
+//go:nosplit
+
+// RaceAcquire/RaceRelease/RaceReleaseMerge establish happens-before relations
+// between goroutines. These inform the race detector about actual synchronization
+// that it can't see for some reason (e.g. synchronization within RaceDisable/RaceEnable
+// sections of code).
+// RaceAcquire establishes happens-before relation with preceeding RaceReleaseMerge
+// annotations on the same address up to and including the last RaceRelease annotation.
+// In terms of C memory model, RaceAcquire is equivalent to atomic_load(memory_order_acquire),
+// RaceReleaseMerge to atomic_exchange(memory_order_release), and RaceRelease to
+// atomic_store(memory_order_release). See C §5.1.2.4 for the memory model and
+// §7.17.3 for the constants.
+func RaceAcquire(addr unsafe.Pointer) {
+	raceacquire(addr)
+}
+
+//go:nosplit
+
+func RaceRelease(addr unsafe.Pointer) {
+	racerelease(addr)
+}
+
+//go:nosplit
+
+func RaceReleaseMerge(addr unsafe.Pointer) {
+	racereleasemerge(addr)
+}
+
+//go:nosplit
+
+// RaceDisable disables handling of race synchronization events in the current goroutine.
+// Handling is re-enabled with RaceEnable. RaceDisable/RaceEnable can be nested.
+// Non-synchronization events (memory accesses, function entry/exit) are not affected.
+func RaceDisable() {
+	_g_ := getg()
+	if _g_.raceignore == 0 {
+		racecall(&__tsan_go_ignore_sync_begin, _g_.racectx, 0, 0, 0)
+	}
+	_g_.raceignore++
+}
+
+//go:nosplit
+
+// RaceEnable re-enables handling of race events in the current goroutine.
+func RaceEnable() {
+	_g_ := getg()
+	_g_.raceignore--
+	if _g_.raceignore == 0 {
+		racecall(&__tsan_go_ignore_sync_end, _g_.racectx, 0, 0, 0)
+	}
+}
+
+// Private interface for the runtime.
+
 const raceenabled = true
 
 // For all functions accepting callerpc and pc,
@@ -432,44 +485,4 @@ func racereleasemergeg(gp *g, addr unsafe.Pointer) {
 //go:nosplit
 func racefingo() {
 	racecall(&__tsan_finalizer_goroutine, getg().racectx, 0, 0, 0)
-}
-
-//go:nosplit
-
-func RaceAcquire(addr unsafe.Pointer) {
-	raceacquire(addr)
-}
-
-//go:nosplit
-
-func RaceRelease(addr unsafe.Pointer) {
-	racerelease(addr)
-}
-
-//go:nosplit
-
-func RaceReleaseMerge(addr unsafe.Pointer) {
-	racereleasemerge(addr)
-}
-
-//go:nosplit
-
-// RaceDisable disables handling of race events in the current goroutine.
-func RaceDisable() {
-	_g_ := getg()
-	if _g_.raceignore == 0 {
-		racecall(&__tsan_go_ignore_sync_begin, _g_.racectx, 0, 0, 0)
-	}
-	_g_.raceignore++
-}
-
-//go:nosplit
-
-// RaceEnable re-enables handling of race events in the current goroutine.
-func RaceEnable() {
-	_g_ := getg()
-	_g_.raceignore--
-	if _g_.raceignore == 0 {
-		racecall(&__tsan_go_ignore_sync_end, _g_.racectx, 0, 0, 0)
-	}
 }
