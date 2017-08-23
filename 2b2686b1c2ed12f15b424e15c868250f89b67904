@@ -16,6 +16,24 @@
       "revId": "2b2686b1c2ed12f15b424e15c868250f89b67904",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1e3a99b_98251cc7",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-23T23:48:30Z",
+      "side": 1,
+      "message": "Done. Replaced here and elsewhere.",
+      "parentUuid": "64904cb2_b0f64c47",
+      "revId": "2b2686b1c2ed12f15b424e15c868250f89b67904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
