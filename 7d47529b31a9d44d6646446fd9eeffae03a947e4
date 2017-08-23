@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "51160393_4d4422d1",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-23T01:33:30Z",
+      "side": 1,
+      "message": "Flush, Write, ReadFrom, FillZeros would all need it (assuming they get added).",
+      "parentUuid": "806380b2_5fb88eaf",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 48
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4d771e7_2ad73b2c",
         "filename": "src/archive/tar/writer.go",
         "patchSetId": 4
@@ -225,6 +249,30 @@
       "writtenOn": "2017-08-23T01:21:00Z",
       "side": 1,
       "message": "I think this should be tw.w.Write",
+      "range": {
+        "startLine": 181,
+        "startChar": 15,
+        "endLine": 181,
+        "endChar": 28
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebd44c32_c79f8050",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-23T01:33:30Z",
+      "side": 1,
+      "message": "This is correct. On L129, I commented that hdr.Size accounts for the sparse map. I\u0027ll comment down here why we\u0027re using tw.curr. It\u0027s subtle.",
+      "parentUuid": "a4d771e7_2ad73b2c",
       "range": {
         "startLine": 181,
         "startChar": 15,
@@ -532,6 +580,30 @@
       "side": 1,
       "message": "yes, I think the tests should eventually use ReadFrom. The would still be a codepath in which FillZeros can be used (populating holes in non-seekable writers), but I\u0027m not sure if it\u0027s worth to keep it at that point.\n\nMoreover, I would need to study the profile; maybe the slowness without FillZeros was coming from the inefficient zeroWriter using TrimLeft.",
       "parentUuid": "51f97458_219a7b55",
+      "range": {
+        "startLine": 515,
+        "startChar": 0,
+        "endLine": 515,
+        "endChar": 63
+      },
+      "revId": "7d47529b31a9d44d6646446fd9eeffae03a947e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bbc2c67_ee23ef4c",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-23T01:33:30Z",
+      "side": 1,
+      "message": "Regardless of how fast you get zeroWriter.Write, processing through 60GiB through RAM still takes a few seconds. Supposing my RAM bandwidth is 10GB/s, then it would take 6s, which is still a long time to generate a 4KiB TAR file.",
+      "parentUuid": "628ebec9_9c384500",
       "range": {
         "startLine": 515,
         "startChar": 0,
