@@ -3817,6 +3817,16 @@ func (q *actionQueue) pop() *Action {
 }
 
 func InstrumentInit() {
+
+	if cfg.BuildPkgdir != "" && !filepath.IsAbs(cfg.BuildPkgdir) {
+		abs, err := filepath.Abs(cfg.BuildPkgdir)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to get absolute path for pkgdir %s ", cfg.BuildPkgdir)
+			os.Exit(2)
+		}
+		cfg.BuildPkgdir = abs
+	}
+
 	if !cfg.BuildRace && !cfg.BuildMSan {
 		return
 	}
