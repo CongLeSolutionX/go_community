@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b4ce925_6bb5438a",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-24T07:05:06Z",
+      "side": 1,
+      "message": "Note that now once bootsrap is not used anymore buffer now needs to occupy/load an additional cache line on most architectures (including x86) to access lastRead.\n\nI will benchmark and send a CL for discussion to either move it before bootstrap with padding or revert back to int and move lastRead before bootstrap.",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "1ba4556a2c84f552f7c9697ad7323fd6cdbc6970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
