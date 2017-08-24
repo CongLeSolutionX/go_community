@@ -35,6 +35,24 @@
       "revId": "ec920850427f3157a1a7dd038894b047bcf05591",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56dd8abb_6aa6cfbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-24T21:42:56Z",
+      "side": 1,
+      "message": "For the record, it is documented at https://golang.org/doc/contribute.html#commit_changes .",
+      "parentUuid": "59f8dcd8_85992719",
+      "revId": "ec920850427f3157a1a7dd038894b047bcf05591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
