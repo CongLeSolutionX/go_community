@@ -184,10 +184,11 @@ func doPivot(data Interface, lo, hi int) (midlo, midhi int) {
 
 func quickSort(data Interface, a, b, maxDepth int) {
 	for b-a > 12 { // Use ShellSort for slices <= 12 elements
-		if maxDepth == 0 {
-			heapSort(data, a, b)
-			return
-		}
+		// HeapSort disabled for TestAdversary
+		// if maxDepth == 0 {
+		// 	heapSort(data, a, b)
+		// 	return
+		// }
 		maxDepth--
 		mlo, mhi := doPivot(data, a, b)
 		// Avoiding recursion on the larger subproblem guarantees

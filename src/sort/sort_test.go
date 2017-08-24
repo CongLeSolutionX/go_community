@@ -460,6 +460,7 @@ func TestStableBM(t *testing.T) {
 type adversaryTestingData struct {
 	t         *testing.T
 	data      []int // item values, initialized to special gas value and changed by Less
+	indices   []int // indices into data, permuted by Swap
 	maxcmp    int   // number of comparisons allowed
 	ncmp      int   // number of comparisons (calls to Less)
 	nsolid    int   // number of elements that have been set to non-gas values
@@ -475,6 +476,9 @@ func (d *adversaryTestingData) Less(i, j int) bool {
 		d.t.FailNow()
 	}
 	d.ncmp++
+
+	i = d.indices[i]
+	j = d.indices[j]
 
 	if d.data[i] == d.gas && d.data[j] == d.gas {
 		if i == d.candidate {
@@ -498,29 +502,47 @@ func (d *adversaryTestingData) Less(i, j int) bool {
 }
 
 func (d *adversaryTestingData) Swap(i, j int) {
-	d.data[i], d.data[j] = d.data[j], d.data[i]
+	d.indices[i], d.indices[j] = d.indices[j], d.indices[i]
 }
 
 func newAdversaryTestingData(t *testing.T, size int, maxcmp int) *adversaryTestingData {
 	gas := size - 1
 	data := make([]int, size)
+	indices := make([]int, size)
 	for i := 0; i < size; i++ {
 		data[i] = gas
+		indices[i] = i
 	}
-	return &adversaryTestingData{t: t, data: data, maxcmp: maxcmp, gas: gas}
+	return &adversaryTestingData{t: t, data: data, indices: indices, maxcmp: maxcmp, gas: gas}
 }
+
+type counter struct {
+	impl        Interface
+	ncmp, nswap int
+}
+
+func (c *counter) Len() int           { return c.impl.Len() }
+func (c *counter) Less(i, j int) bool { c.ncmp++; return c.impl.Less(i, j) }
+func (c *counter) Swap(i, j int)      { c.nswap++; c.impl.Swap(i, j) }
 
 func TestAdversary(t *testing.T) {
 	const size = 10000            // large enough to distinguish between O(n^2) and O(n*log(n))
 	maxcmp := size * lg(size) * 4 // the factor 4 was found by trial and error
-	d := newAdversaryTestingData(t, size, maxcmp)
-	Sort(d) // This should degenerate to heapsort.
+	d := newAdversaryTestingData(t, size, 1e9 /* maxcmp (disabled) */)
+	Sort(d) // Construct the adversary data.
 	// Check data is fully populated and sorted.
-	for i, v := range d.data {
-		if v != i {
+	for i, idx := range d.indices {
+		if d.data[idx] != i {
 			t.Errorf("adversary data not fully sorted")
 			t.FailNow()
 		}
+	}
+	// Sort the static adversary data and count comparisons.
+	c := &counter{impl: IntSlice(d.data)}
+	Sort(c)
+	t.Logf("size=%d, maxcmp=%d, ncmp=%d", size, maxcmp, c.ncmp)
+	if c.ncmp > maxcmp {
+		t.Fail()
 	}
 }
 
