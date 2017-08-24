@@ -86,6 +86,24 @@
       "revId": "ec6cfb28a44c8d2e42b5cfca64c18080bdb9d982",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d760c33a_92bda78a",
+        "filename": "src/math/abs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-24T22:00:09Z",
+      "side": 1,
+      "message": "Probably even more in real world, where Abs is probably called with different values, and the branches are not fully predicted as in BenchmarkAbs.",
+      "parentUuid": "4c9d63f8_b161b34e",
+      "revId": "ec6cfb28a44c8d2e42b5cfca64c18080bdb9d982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
