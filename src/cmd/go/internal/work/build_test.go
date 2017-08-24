@@ -225,3 +225,31 @@ func TestRespectSetgidDir(t *testing.T) {
 		t.Fatalf("moveOrCopyFile(%q, %q): want %q, got %q", dirGIDFile, pkgfile.Name(), want, got)
 	}
 }
+
+func TestGetAbsPath(t *testing.T) {
+
+	dir, err := os.Getwd()
+	if err != nil {
+		t.Fatalf("os.Getwd err %v", err)
+	}
+	testData := []struct {
+		args     string
+		expected string
+	}{
+		{"test", filepath.Join(dir, "test/")},
+		{"/cache", "/cache"},
+		{"/cache/test", "/cache/test"},
+		{"cache/test", filepath.Join(dir, "cache/test")},
+		{"", ""},
+		{" ", filepath.Join(dir, " ")},
+		{"3", filepath.Join(dir, "3")},
+		{"\\#ttt", filepath.Join(dir, "\\#ttt")},
+		{"#\\", filepath.Join(dir, "#\\")},
+	}
+	for _, data := range testData {
+		result := getAbsPath(data.args)
+		if result != data.expected {
+			t.Fatalf("getAbsPath error expected: %v, got %v", data.expected, result)
+		}
+	}
+}

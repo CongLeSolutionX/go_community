@@ -547,6 +547,7 @@ func libname(args []string, pkgs []*load.Package) (string, error) {
 }
 
 func runInstall(cmd *base.Command, args []string) {
+	cfg.BuildPkgdir = getAbsPath(cfg.BuildPkgdir) // Refer #18703
 	InstrumentInit()
 	BuildModeInit()
 	InstallPackages(args, false)
@@ -3817,6 +3818,7 @@ func (q *actionQueue) pop() *Action {
 }
 
 func InstrumentInit() {
+
 	if !cfg.BuildRace && !cfg.BuildMSan {
 		return
 	}
@@ -3879,4 +3881,16 @@ func FindExecCmd() []string {
 		ExecCmd = []string{path}
 	}
 	return ExecCmd
+}
+
+func getAbsPath(path string) string {
+	if path != "" && !filepath.IsAbs(path) {
+		abs, err := filepath.Abs(path)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Failed to get absolute path for - %s ", path)
+			os.Exit(2)
+		}
+		return abs
+	}
+	return path
 }
