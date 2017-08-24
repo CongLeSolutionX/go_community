@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf675a4e_a47f5b95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2017-08-24T21:03:01Z",
+      "side": 1,
+      "message": "Having \"before\", for some of those would be nice.",
+      "revId": "ec6cfb28a44c8d2e42b5cfca64c18080bdb9d982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a582cd1_10406e59",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2017-08-24T21:03:01Z",
+      "side": 1,
+      "message": "I\u0027m probably missing something, but why can\u0027t we use\n\"MOVD/MOVQ—Move Doubleword/Move Quadword\"?\nInstruction manual has following variants:\n```\n66 0F 6E /r\nMOVD xmm, r/m32\nRM V/V SSE2 Move doubleword from r/m32 to xmm.\n66 REX.W 0F 6E /r\nMOVQ xmm, r/m64\nRM V/N.E. SSE2 Move quadword from r/m64 to xmm.\n66 0F 7E /r\nMOVD r/m32, xmm\nMR V/V SSE2 Move doubleword from xmm register to r/m32.\n66 REX.W 0F 7E /r\nMOVQ r/m64, xmm\nMR V/N.E. SSE2 Move quadword from xmm register to r/m64\n```\nIntel® 64 and IA-32 Architectures\nSoftware Developer’s Manual\nVol. 2B 4-55",
+      "revId": "ec6cfb28a44c8d2e42b5cfca64c18080bdb9d982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e426b23_41e708e6",
+        "filename": "src/math/abs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2017-08-24T21:03:01Z",
+      "side": 1,
+      "message": "Does BenchmarkAbs show any perf changes?",
+      "revId": "ec6cfb28a44c8d2e42b5cfca64c18080bdb9d982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
