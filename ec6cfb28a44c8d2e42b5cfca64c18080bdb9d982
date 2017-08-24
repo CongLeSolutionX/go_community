@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "77220dae_71ddbe70",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-24T21:18:22Z",
+      "side": 1,
+      "message": "Sorry, you\u0027re right, those are SSE2.  Maybe I was thinking of PINSRD.\nI\u0027ll update the CL.",
+      "parentUuid": "7a582cd1_10406e59",
+      "revId": "ec6cfb28a44c8d2e42b5cfca64c18080bdb9d982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e426b23_41e708e6",
         "filename": "src/math/abs.go",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2017-08-24T21:03:01Z",
       "side": 1,
       "message": "Does BenchmarkAbs show any perf changes?",
+      "revId": "ec6cfb28a44c8d2e42b5cfca64c18080bdb9d982",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c9d63f8_b161b34e",
+        "filename": "src/math/abs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-24T21:18:22Z",
+      "side": 1,
+      "message": "Yep, -35%. I\u0027ll add to CL description.",
+      "parentUuid": "2e426b23_41e708e6",
       "revId": "ec6cfb28a44c8d2e42b5cfca64c18080bdb9d982",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
