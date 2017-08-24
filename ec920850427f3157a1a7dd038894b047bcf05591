@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dbdb69b_4e54eb2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-24T21:15:49Z",
+      "side": 1,
+      "message": "We normally write\n\nFixes #21566\n\nI don\u0027t know whether it matters, but may as well be consistent.",
+      "revId": "ec920850427f3157a1a7dd038894b047bcf05591",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
