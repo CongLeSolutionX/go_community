@@ -62,6 +62,29 @@
       "revId": "091d02361b47b2e56517f38ae486164bd797a09a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3465edaf_34e80d80",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-24T12:38:38Z",
+      "side": 1,
+      "message": "extra space",
+      "range": {
+        "startLine": 1122,
+        "startChar": 23,
+        "endLine": 1122,
+        "endChar": 24
+      },
+      "revId": "091d02361b47b2e56517f38ae486164bd797a09a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
