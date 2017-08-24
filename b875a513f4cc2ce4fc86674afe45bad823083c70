@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7ac2edd_ea6583a3",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-24T21:12:09Z",
+      "side": 1,
+      "message": "Should this say \"rounding to T\"?  Or \"rounding to T\u0027s precision?\"  It\u0027s not clear what \"rounding\" means with no description of what you are rounding to.",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55a25c49_821012ad",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-24T21:12:09Z",
+      "side": 1,
+      "message": "But there is no way to write a constant IEEE -0.0.  And converting -0.0 to 0.0 is not rounding.  And the trailing \".0\" is unnecessary.\n\nI see that you are just copying this text but perhaps we can improve it.  How about something like:\n\nT is a floating-point type and x can be rounded to T\u0027s precision without overflow.  Rounding uses IEEE 754 round-to-even rules.  Note that constant values never result in an IEEE negative zero or an IEEE infinity.\n\nThis is still imperfect because it leaves the case of negative zero ambiguous.  A negative zero is \"in the set of values determined by T\" to arguably it could be satisfied by the first case, above.",
+      "range": {
+        "startLine": 1562,
+        "startChar": 4,
+        "endLine": 1562,
+        "endChar": 21
+      },
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bcb939a_df3c8082",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1575,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-24T21:12:09Z",
+      "side": 1,
+      "message": "How about a string example?\n\nHow about an example showing that \u0027a\u0027 can be an int and 97 can be a rune?",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
