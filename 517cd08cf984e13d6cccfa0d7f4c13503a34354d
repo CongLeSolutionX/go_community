@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c25c9601_e84d1680",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 17586
+      },
+      "writtenOn": "2017-08-24T20:24:02Z",
+      "side": 1,
+      "message": "Updates #6853",
+      "revId": "517cd08cf984e13d6cccfa0d7f4c13503a34354d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
