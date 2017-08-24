@@ -46,6 +46,30 @@
       "revId": "1ba4556a2c84f552f7c9697ad7323fd6cdbc6970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "100f35ba_88ac39d5",
+        "filename": "src/bytes/buffer.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-24T15:11:48Z",
+      "side": 1,
+      "message": "b.buf is used often so there can be effects due to additional offset calculation. I observed this when experimenting with fmt buffers.\n\nAt least on quick benchmark run moving buf away from the start results in 4-6% slowdown for Write benchmarks on on my amd64 arch.",
+      "parentUuid": "4a89259e_cbef90ac",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 17
+      },
+      "revId": "1ba4556a2c84f552f7c9697ad7323fd6cdbc6970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
