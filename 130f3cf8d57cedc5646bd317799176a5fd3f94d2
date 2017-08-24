@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2639c257_e04c4199",
+        "filename": "src/syscall/netlink_linux.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-24T20:52:24Z",
+      "side": 1,
+      "message": "No need to test b \u003d\u003d nil.  len([]byte(nil)) \u003d\u003d 0 anyhow.",
+      "revId": "130f3cf8d57cedc5646bd317799176a5fd3f94d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
