@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c6d24ad_91f62bd9",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-08-24T09:49:57Z",
+      "side": 1,
+      "message": "must test bytes.ContainsAny instead of bytes.Contains?",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 0
+      },
+      "revId": "5951f737cad94e542cd9c927788231a78149f955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
