@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "389add09_45d2bb66",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-24T10:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f30ad35_79c12193",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bc0d5a1_049e49b3",
         "filename": "src/runtime/race.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9601327_fae8c9a9",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-24T10:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bc0d5a1_049e49b3",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "f03789e3_7d4d9181",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-24T10:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "738cde0f_dba037f9",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44ad7bce_d8503218",
         "filename": "src/runtime/race.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2017-08-23T19:02:48Z",
       "side": 1,
       "message": "The rest of this comment should be split up between the three functions. (The overview above here probably makes the most sense to leave attached to RaceAcquire.)",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e037aff_11ad3f18",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-24T10:13:31Z",
+      "side": 1,
+      "message": "But this is a single sentence that ties all 3 together. How do you propose to split it?",
+      "parentUuid": "44ad7bce_d8503218",
       "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -93,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "0a207820_f9094a0a",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-24T10:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e4b3678_576b5ca6",
+      "range": {
+        "startLine": 35,
+        "startChar": 3,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fe06798_d79054ef",
         "filename": "src/runtime/race.go",
         "patchSetId": 1
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "3f0bb8ce_b2feb38c",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-24T10:13:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fe06798_d79054ef",
+      "range": {
+        "startLine": 36,
+        "startChar": 20,
+        "endLine": 36,
+        "endChar": 22
+      },
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f90f49c0_014af340",
         "filename": "src/runtime/race.go",
         "patchSetId": 1
@@ -127,6 +247,24 @@
       "writtenOn": "2017-08-23T19:02:48Z",
       "side": 1,
       "message": "I don\u0027t know what this last line means. Why would I expect this to affect \"non-synchronization events\"?",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76adfa6d_5fa0220e",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-24T10:13:31Z",
+      "side": 1,
+      "message": "Because the function is called RaceDisable, which implies that it disables all race events.",
+      "parentUuid": "f90f49c0_014af340",
       "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
