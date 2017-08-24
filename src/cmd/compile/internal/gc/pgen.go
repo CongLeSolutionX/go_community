@@ -150,7 +150,7 @@ func (s *ssafn) AllocFrame(f *ssa.Func) {
 		}
 	}
 
-	if f.Config.NeedsFpScratch && scratchUsed {
+	if scratchUsed {
 		s.scratchFpMem = tempAt(src.NoXPos, s.curfn, types.Types[TUINT64])
 	}
 

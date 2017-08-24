@@ -386,6 +386,16 @@ func init() {
 		{name: "CVTSD2SS", argLength: 1, reg: fp11, asm: "CVTSD2SS"},   // convert float64 to float32
 		{name: "CVTSS2SD", argLength: 1, reg: fp11, asm: "CVTSS2SD"},   // convert float32 to float64
 
+		// Move values between int and float registers, with no conversion.
+		// SSE 4.1 has instructions for these, but we only assume SSE 2 so we can't use them.
+		// Instead, these are implemented as two moves, reg->mem->reg.
+		// Hence the use of scratch space.
+		// TODO: should we have generic versions of these?
+		{name: "MOVQi2f", argLength: 1, reg: gpfp, usesScratch: true}, // move 64 bits from int to float reg
+		{name: "MOVQf2i", argLength: 1, reg: fpgp, usesScratch: true}, // move 64 bits from float to int reg
+		{name: "MOVLi2f", argLength: 1, reg: gpfp, usesScratch: true}, // move 32 bits from int to float reg
+		{name: "MOVLf2i", argLength: 1, reg: fpgp, usesScratch: true}, // move 32 bits from float to int reg
+
 		{name: "PXOR", argLength: 2, reg: fp21, asm: "PXOR", commutative: true, resultInArg0: true}, // exclusive or, applied to X regs for float negation.
 
 		{name: "LEAQ", argLength: 1, reg: gp11sb, asm: "LEAQ", aux: "SymOff", rematerializeable: true, symEffect: "Addr"}, // arg0 + auxint + offset encoded in aux

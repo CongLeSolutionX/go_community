@@ -678,6 +678,42 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		// Break false dependency on destination register.
 		opregreg(s, x86.AXORPS, r, r)
 		opregreg(s, v.Op.Asm(), r, v.Args[0].Reg())
+	case ssa.OpAMD64MOVQi2f:
+		p := s.Prog(x86.AMOVQ)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = v.Args[0].Reg()
+		s.AddrScratch(&p.To)
+		p = s.Prog(x86.AMOVSD)
+		s.AddrScratch(&p.From)
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg()
+	case ssa.OpAMD64MOVLi2f:
+		p := s.Prog(x86.AMOVL)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = v.Args[0].Reg()
+		s.AddrScratch(&p.To)
+		p = s.Prog(x86.AMOVSS)
+		s.AddrScratch(&p.From)
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg()
+	case ssa.OpAMD64MOVQf2i:
+		p := s.Prog(x86.AMOVSD)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = v.Args[0].Reg()
+		s.AddrScratch(&p.To)
+		p = s.Prog(x86.AMOVQ)
+		s.AddrScratch(&p.From)
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg()
+	case ssa.OpAMD64MOVLf2i:
+		p := s.Prog(x86.AMOVSS)
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = v.Args[0].Reg()
+		s.AddrScratch(&p.To)
+		p = s.Prog(x86.AMOVL)
+		s.AddrScratch(&p.From)
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = v.Reg()
 	case ssa.OpAMD64ADDQmem, ssa.OpAMD64ADDLmem, ssa.OpAMD64SUBQmem, ssa.OpAMD64SUBLmem,
 		ssa.OpAMD64ANDQmem, ssa.OpAMD64ANDLmem, ssa.OpAMD64ORQmem, ssa.OpAMD64ORLmem,
 		ssa.OpAMD64XORQmem, ssa.OpAMD64XORLmem, ssa.OpAMD64ADDSDmem, ssa.OpAMD64ADDSSmem,

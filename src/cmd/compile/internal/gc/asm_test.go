@@ -214,7 +214,7 @@ var allAsmTests = []*asmTests{
 	{
 		arch:    "amd64",
 		os:      "linux",
-		imports: []string{"encoding/binary", "math/bits", "unsafe"},
+		imports: []string{"encoding/binary", "math", "math/bits", "unsafe"},
 		tests:   linuxAMD64Tests,
 	},
 	{
@@ -989,6 +989,24 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		[]string{"TEXT\t.*, [$]0-8"},
+	},
+	// math.Abs using integer registers
+	{
+		`
+		func $(x float64) float64 {
+			return math.Abs(x)
+		}
+		`,
+		[]string{"\tSHLQ\t[$]1,", "\tSHRQ\t[$]1,"},
+	},
+	// math.Copysign using integer registers
+	{
+		`
+		func $(x, y float64) float64 {
+			return math.Copysign(x, y)
+		}
+		`,
+		[]string{"\tSHLQ\t[$]1,", "\tSHRQ\t[$]1,", "\tSHRQ\t[$]63,", "\tSHLQ\t[$]63,", "\tORQ\t"},
 	},
 }
 
