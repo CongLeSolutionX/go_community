@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52511c43_9f91c694",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "One tab looks better.",
+      "range": {
+        "startLine": 586,
+        "startChar": 8,
+        "endLine": 586,
+        "endChar": 10
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d987482f_b2cbbc54",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "16-byte unit?",
+      "range": {
+        "startLine": 588,
+        "startChar": 37,
+        "endLine": 588,
+        "endChar": 44
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37288945_1f23d488",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "You can write it directly as MOVQstorezero.\nPerhaps we should rewrite all Zero lowering rules to use MOVXstorezero directly (not necessarily in this CL).",
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e67edf9b_43539f40",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "16",
+      "range": {
+        "startLine": 419,
+        "startChar": 6,
+        "endLine": 419,
+        "endChar": 7
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfcc61be_8d2eeddf",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "16-byte unit?",
+      "range": {
+        "startLine": 361,
+        "startChar": 32,
+        "endLine": 361,
+        "endChar": 39
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c448fc02_4233a3c9",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "Update this comment. Now it is not limited to pre/post-indexed form, and not limited to unscaled 10-bit offset.",
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84a1b728_a45d5837",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3081,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "No need for parantheses.",
+      "range": {
+        "startLine": 3081,
+        "startChar": 28,
+        "endLine": 3081,
+        "endChar": 33
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b600fec2_45683a04",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3104,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 3104,
+        "startChar": 28,
+        "endLine": 3104,
+        "endChar": 33
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d650de6_36a67b25",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3229,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "destination",
+      "range": {
+        "startLine": 3229,
+        "startChar": 28,
+        "endLine": 3229,
+        "endChar": 34
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "414995dd_ae3fc36b",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3256,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-24T13:57:29Z",
+      "side": 1,
+      "message": "destination",
+      "range": {
+        "startLine": 3256,
+        "startChar": 28,
+        "endLine": 3256,
+        "endChar": 34
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
