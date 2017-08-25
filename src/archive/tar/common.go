@@ -151,6 +151,9 @@ type Header struct {
 	Uname string // User name of owner
 	Gname string // Group name of owner
 
+	// The PAX format encodes the timestamps with sub-second resolution, while
+	// the other formats truncate to the nearest second.
+	// AccessTime and ChangeTime are ignored in the USTAR format.
 	ModTime    time.Time // Modification time
 	AccessTime time.Time // Access time (requires either PAX or GNU support)
 	ChangeTime time.Time // Change time (requires either PAX or GNU support)
@@ -338,6 +341,7 @@ func (h *Header) allowedFormats() (format Format, paxHdrs map[string]string, err
 	paxHdrs = make(map[string]string)
 
 	var whyNoUSTAR, whyNoPAX, whyNoGNU string
+	var preferPAX bool // Prefer PAX over USTAR
 	verifyString := func(s string, size int, name, paxKey string) {
 		// NUL-terminator is optional for path and linkpath.
 		// Technically, it is required for uname and gname,
@@ -388,15 +392,19 @@ func (h *Header) allowedFormats() (format Format, paxHdrs map[string]string, err
 		if ts.IsZero() {
 			return // Always okay
 		}
-		needsNano := ts.Nanosecond() != 0
-		hasFieldUSTAR := paxKey == paxMtime
-		if !fitsInBase256(size, ts.Unix()) || needsNano {
+		if !fitsInBase256(size, ts.Unix()) {
 			whyNoGNU = fmt.Sprintf("GNU cannot encode %s=%v", name, ts)
 			format.mustNotBe(FormatGNU)
 		}
-		if !fitsInOctal(size, ts.Unix()) || needsNano || !hasFieldUSTAR {
+		isMtime := paxKey == paxMtime
+		fitsOctal := fitsInOctal(size, ts.Unix())
+		needsNano := ts.Nanosecond() != 0
+		if isMtime && !fitsOctal {
 			whyNoUSTAR = fmt.Sprintf("USTAR cannot encode %s=%v", name, ts)
 			format.mustNotBe(FormatUSTAR)
+		}
+		if !isMtime || !fitsOctal || needsNano {
+			preferPAX = true // USTAR will can loose information
 			if paxKey == paxNone {
 				whyNoPAX = fmt.Sprintf("PAX cannot encode %s=%v", name, ts)
 				format.mustNotBe(FormatPAX)
@@ -493,7 +501,7 @@ func (h *Header) allowedFormats() (format Format, paxHdrs map[string]string, err
 
 	// Check desired format.
 	if wantFormat := h.Format; wantFormat != FormatUnknown {
-		if wantFormat.has(FormatPAX) {
+		if wantFormat.has(FormatPAX) && !preferPAX {
 			wantFormat.mayBe(FormatUSTAR) // PAX implies USTAR allowed too
 		}
 		format.mayOnlyBe(wantFormat) // Set union of formats allowed and format wanted
