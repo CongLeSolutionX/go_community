@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8467a121_2dfae150",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-25T13:40:15Z",
+      "side": 1,
+      "message": "This change is no longer relevant for PS 2. And it seems that it may cause non-387 386 build creates unused scratch slot. Maybe undo it?",
+      "revId": "91252aaed8e9e5ac788274745bd1747e297b8dfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3aed9965_186fa216",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 2442,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-25T13:40:15Z",
+      "side": 1,
+      "message": "This kind of things will be useful on other architectures which have float\u003c-\u003eint register moves, right?",
+      "revId": "91252aaed8e9e5ac788274745bd1747e297b8dfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64b20b59_e0bf37e9",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-25T13:40:15Z",
+      "side": 1,
+      "message": "Each architecture would still need to have its specific version because the instructions are different. Given that some of the rewriting rules are AMD64-specific, like ADDQmem, I think it is probably ok to just have architecture-specific versions.",
+      "revId": "91252aaed8e9e5ac788274745bd1747e297b8dfd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
