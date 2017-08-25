@@ -146,6 +146,24 @@
       "revId": "95a9ed81756fb7f90483015363afd76054ae162d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3226756_170527bc",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-25T22:56:20Z",
+      "side": 1,
+      "message": "The use of \"current file\" seems confusing here, as in this case it refers to the tar file, not to the file stored in the tar file.",
+      "parentUuid": "41297b41_71894a29",
+      "revId": "95a9ed81756fb7f90483015363afd76054ae162d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
