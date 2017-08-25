@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "97d0ac51_ee4e31a0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1551,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-25T10:05:00Z",
+      "side": 1,
+      "message": "The formulation (\"in any of these cases\") is the same as for Assignability. Changed it here (and in Assignability section). Left away \"is defined to be\" - in the past we have eschewed overly formal prose in the spec.\n\nAlso: Note that everywhere else in the spec we always write \"representable by\" rather than \"representable as\". I chose \"by\" here to be consistent. Using \"as\" reads a bit more natural to me, but using \"by\" implies (to me) that we are not looking to \"transform\" the original constant (say 1.0) but rather that we are looking to find a constant from the T set (say 1) which has the same value (1.0 \u003d\u003d 1). But maybe I am reading too much into this.",
+      "parentUuid": "5a4f8dc5_fa9231e0",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7ac2edd_ea6583a3",
         "filename": "doc/go_spec.html",
         "patchSetId": 4
@@ -47,6 +65,24 @@
       "writtenOn": "2017-08-24T21:12:09Z",
       "side": 1,
       "message": "Should this say \"rounding to T\"?  Or \"rounding to T\u0027s precision?\"  It\u0027s not clear what \"rounding\" means with no description of what you are rounding to.",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4765523c_bcbd5e4e",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-25T10:05:00Z",
+      "side": 1,
+      "message": "ACK - as you saw, this is literally copied from the prior wording.",
+      "parentUuid": "a7ac2edd_ea6583a3",
       "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -100,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "543a4161_e3bdd1a7",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-25T10:05:00Z",
+      "side": 1,
+      "message": "iant: There\u0027s no way to write -0.0 but the reason why we added this extra rule in the past was that arguably \"var x \u003d -1e-1000\" might lead to a variable x with value -0, while the same would not be possible for a constant because we can\u0027t represent it.\n\nReformulated.",
+      "parentUuid": "2d769ab6_3a4a4bff",
+      "range": {
+        "startLine": 1562,
+        "startChar": 4,
+        "endLine": 1562,
+        "endChar": 21
+      },
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1edf79d6_4fae1306",
         "filename": "doc/go_spec.html",
         "patchSetId": 4
@@ -111,6 +171,24 @@
       "writtenOn": "2017-08-25T05:22:43Z",
       "side": 1,
       "message": "i would s/a value of//, so we say that T can represent the constant, not that the value of type T does. it\u0027s a small difference but a little clearer.",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "742af245_36318906",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-25T10:05:00Z",
+      "side": 1,
+      "message": "ACK but this sentence is now gone",
+      "parentUuid": "1edf79d6_4fae1306",
       "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -152,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "30ef7d90_33c1c2f1",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1575,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-25T10:05:00Z",
+      "side": 1,
+      "message": "iant: done\nr: not sure what you meant here but I adjusted the explanations",
+      "parentUuid": "50ac4922_db1fba72",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "350f7a25_c9b7ee14",
         "filename": "doc/go_spec.html",
         "patchSetId": 4
@@ -166,6 +262,24 @@
       "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41de6dba_d635b39a",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-25T10:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "350f7a25_c9b7ee14",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +300,24 @@
     },
     {
       "key": {
+        "uuid": "7304b017_1d21e127",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1590,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-25T10:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f174b6dd_bb365d62",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98a21d68_6c7b82bb",
         "filename": "doc/go_spec.html",
         "patchSetId": 4
@@ -200,6 +332,24 @@
       "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2571d08a_e02bfcb2",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1593,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-25T10:05:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98a21d68_6c7b82bb",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
