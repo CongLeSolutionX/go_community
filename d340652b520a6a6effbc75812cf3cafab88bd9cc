@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "758ece7d_d0f7a80f",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52511c43_9f91c694",
+      "range": {
+        "startLine": 586,
+        "startChar": 8,
+        "endLine": 586,
+        "endChar": 10
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d987482f_b2cbbc54",
         "filename": "src/cmd/compile/internal/arm64/ssa.go",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d1b435e5_d3b7b280",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d987482f_b2cbbc54",
+      "range": {
+        "startLine": 588,
+        "startChar": 37,
+        "endLine": 588,
+        "endChar": 44
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37288945_1f23d488",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 4
@@ -59,6 +107,24 @@
       "writtenOn": "2017-08-24T13:57:29Z",
       "side": 1,
       "message": "You can write it directly as MOVQstorezero.\nPerhaps we should rewrite all Zero lowering rules to use MOVXstorezero directly (not necessarily in this CL).",
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78331af1_99af0314",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Ok, let\u0027s rewrite all Zero lowering rules in another CL.",
+      "parentUuid": "37288945_1f23d488",
       "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "6fe9306c_5e7e03a5",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e67edf9b_43539f40",
+      "range": {
+        "startLine": 419,
+        "startChar": 6,
+        "endLine": 419,
+        "endChar": 7
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfcc61be_8d2eeddf",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 4
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "f261908a_5d604efa",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfcc61be_8d2eeddf",
+      "range": {
+        "startLine": 361,
+        "startChar": 32,
+        "endLine": 361,
+        "endChar": 39
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c448fc02_4233a3c9",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 4
@@ -125,6 +239,24 @@
       "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c80259d_47833c5e",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c448fc02_4233a3c9",
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "5c01b98e_1b3c6c97",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3081,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a1b728_a45d5837",
+      "range": {
+        "startLine": 3081,
+        "startChar": 28,
+        "endLine": 3081,
+        "endChar": 33
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b600fec2_45683a04",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 4
@@ -171,6 +327,30 @@
       "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15f89f3b_034d5b4a",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3104,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b600fec2_45683a04",
+      "range": {
+        "startLine": 3104,
+        "startChar": 28,
+        "endLine": 3104,
+        "endChar": 33
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "731e29eb_5a688485",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3229,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d650de6_36a67b25",
+      "range": {
+        "startLine": 3229,
+        "startChar": 28,
+        "endLine": 3229,
+        "endChar": 34
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "414995dd_ae3fc36b",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 4
@@ -217,6 +421,30 @@
       "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4cc6ca5_75fbfaf7",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 3256,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-08-25T10:32:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "414995dd_ae3fc36b",
+      "range": {
+        "startLine": 3256,
+        "startChar": 28,
+        "endLine": 3256,
+        "endChar": 34
+      },
+      "revId": "d340652b520a6a6effbc75812cf3cafab88bd9cc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
