@@ -62,6 +62,24 @@
       "revId": "95a9ed81756fb7f90483015363afd76054ae162d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8deede7e_74ddb9ab",
+        "filename": "src/archive/tar/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-25T22:46:30Z",
+      "side": 1,
+      "message": "Will reword as: If the current file is not fully written, then this returns an error.",
+      "parentUuid": "ae61e81e_5e64db38",
+      "revId": "95a9ed81756fb7f90483015363afd76054ae162d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
