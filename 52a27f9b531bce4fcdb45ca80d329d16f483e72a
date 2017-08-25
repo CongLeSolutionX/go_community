@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a1497619_8ea2c146",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1552,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-08-25T15:41:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6864301f_d41c1545",
+      "revId": "52a27f9b531bce4fcdb45ca80d329d16f483e72a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df4f4905_831084f5",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "52a27f9b531bce4fcdb45ca80d329d16f483e72a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30d34a42_7e0f0de1",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1780,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-08-25T15:41:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "df4f4905_831084f5",
+      "revId": "52a27f9b531bce4fcdb45ca80d329d16f483e72a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
