@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "16e811e7_99c5b53c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 580,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-08-25T05:22:43Z",
+      "side": 1,
+      "message": "\"respective\" is odd here. suggest \"appropriate\" or \"corresponding\".",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a4f8dc5_fa9231e0",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1551,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-08-25T05:22:43Z",
+      "side": 1,
+      "message": "\"in any of these\" implies there may be others. is this an exhaustive list? it should be, so\n\n\n\nA \u003ca href\u003d\"#Constants\"\u003econstant\u003c/a\u003e \u003ccode\u003ex\u003c/code\u003e is defined to be\n\u003ci\u003erepresentable\u003c/i\u003e as a value of type \u003ccode\u003eT\u003c/code\u003e\nif one of the following conditions applies:",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7ac2edd_ea6583a3",
         "filename": "doc/go_spec.html",
         "patchSetId": 4
@@ -42,6 +76,47 @@
     },
     {
       "key": {
+        "uuid": "2d769ab6_3a4a4bff",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-08-25T05:22:43Z",
+      "side": 1,
+      "message": "... never result in an IEEE negative zero, NaN or infinity.",
+      "parentUuid": "55a25c49_821012ad",
+      "range": {
+        "startLine": 1562,
+        "startChar": 4,
+        "endLine": 1562,
+        "endChar": 21
+      },
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1edf79d6_4fae1306",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-08-25T05:22:43Z",
+      "side": 1,
+      "message": "i would s/a value of//, so we say that T can represent the constant, not that the value of type T does. it\u0027s a small difference but a little clearer.",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1bcb939a_df3c8082",
         "filename": "doc/go_spec.html",
         "patchSetId": 4
@@ -53,6 +128,75 @@
       "writtenOn": "2017-08-24T21:12:09Z",
       "side": 1,
       "message": "How about a string example?\n\nHow about an example showing that \u0027a\u0027 can be an int and 97 can be a rune?",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50ac4922_db1fba72",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1575,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-08-25T05:22:43Z",
+      "side": 1,
+      "message": "again, drop the value part and just make it about T\u0027s components.",
+      "parentUuid": "1bcb939a_df3c8082",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "350f7a25_c9b7ee14",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1589,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-08-25T05:22:43Z",
+      "side": 1,
+      "message": "\u0027a\u0027 is a rune; it is not in the set of string values",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f174b6dd_bb365d62",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1590,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-08-25T05:22:43Z",
+      "side": 1,
+      "message": "s/us/is/",
+      "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98a21d68_6c7b82bb",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1593,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-08-25T05:22:43Z",
+      "side": 1,
+      "message": "(42+0i) float32  with zero imaginary part, 42 is representable as float32",
       "revId": "b875a513f4cc2ce4fc86674afe45bad823083c70",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
