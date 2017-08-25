@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fb2b81e_cbc671d4",
+        "filename": "src/crypto/internal/cipherhw/generic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-08-25T22:14:40Z",
+      "side": 1,
+      "message": "This function is about whether there exists hardware AES-GCM support, right? Do you want to indicate true here so that AES-GCM is prioritised? If so, I would probably do that in crypto/tls or add a comment to that effect.",
+      "revId": "f0d761374ae1668f0a7a0547783e3ece59a56a3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
