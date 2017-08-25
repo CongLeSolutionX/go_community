@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab879611_9c66e62c",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-25T05:23:51Z",
+      "side": 1,
+      "message": "Just use d.t.Fatalf.",
+      "revId": "8cc8d40d916fc67a00e1f557aeb8f45da1235b29",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
