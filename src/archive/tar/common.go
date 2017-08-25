@@ -151,6 +151,8 @@ type Header struct {
 	Uname string // User name of owner
 	Gname string // Group name of owner
 
+	// The PAX format encodes the timestamps with sub-second resolution, while
+	// the other formats truncate to the nearest second.
 	ModTime    time.Time // Modification time
 	AccessTime time.Time // Access time (requires either PAX or GNU support)
 	ChangeTime time.Time // Change time (requires either PAX or GNU support)
@@ -388,15 +390,16 @@ func (h *Header) allowedFormats() (format Format, paxHdrs map[string]string, err
 		if ts.IsZero() {
 			return // Always okay
 		}
-		needsNano := ts.Nanosecond() != 0
-		hasFieldUSTAR := paxKey == paxMtime
-		if !fitsInBase256(size, ts.Unix()) || needsNano {
+		if !fitsInBase256(size, ts.Unix()) {
 			whyNoGNU = fmt.Sprintf("GNU cannot encode %s=%v", name, ts)
 			format.mustNotBe(FormatGNU)
 		}
-		if !fitsInOctal(size, ts.Unix()) || needsNano || !hasFieldUSTAR {
+		fitsUSTAR := fitsInOctal(size, ts.Unix()) && paxKey == paxMtime
+		if !fitsUSTAR || h.Format == FormatPAX {
 			whyNoUSTAR = fmt.Sprintf("USTAR cannot encode %s=%v", name, ts)
 			format.mustNotBe(FormatUSTAR)
+		}
+		if !fitsUSTAR || ts.Nanosecond() != 0 {
 			if paxKey == paxNone {
 				whyNoPAX = fmt.Sprintf("PAX cannot encode %s=%v", name, ts)
 				format.mustNotBe(FormatPAX)
