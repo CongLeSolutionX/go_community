@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d890337b_b760b673",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-26T22:31:02Z",
+      "side": 1,
+      "message": "This sentence is confusing for a reader. If I don\u0027t know archive/tar internals, I don\u0027t understand what this sentence is trying to say. What does it mean \"ignores\"? What does it means \"consider a format\"? I tried showing this to a colleague and he couldn\u0027t understand what is this supposed to mean.",
+      "range": {
+        "startLine": 156,
+        "startChar": 1,
+        "endLine": 157,
+        "endChar": 64
+      },
+      "revId": "5e969f2616c9ad8484069547a6572ab570cdd887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "207b13ca_391fbda1",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-26T22:31:02Z",
+      "side": 1,
+      "message": "Compatible to what? It is not clear.\n\n(typo: chooses)",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 211,
+        "endChar": 72
+      },
+      "revId": "5e969f2616c9ad8484069547a6572ab570cdd887",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
