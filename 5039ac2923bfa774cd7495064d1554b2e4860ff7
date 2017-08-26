@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5944e0ad_164ac328",
+        "filename": "src/runtime/hashmap_fast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-26T07:59:15Z",
+      "side": 1,
+      "message": "Could we use writebarrierptr_prewrite and then make the uint64 assignment unconditionally below?",
+      "range": {
+        "startLine": 947,
+        "startChar": 4,
+        "endLine": 954,
+        "endChar": 6
+      },
+      "revId": "5039ac2923bfa774cd7495064d1554b2e4860ff7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
