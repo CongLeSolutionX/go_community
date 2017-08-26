@@ -16,6 +16,24 @@
       "revId": "f0d761374ae1668f0a7a0547783e3ece59a56a3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2cd9fcf_b1abf5b6",
+        "filename": "src/crypto/internal/cipherhw/generic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-08-26T00:48:11Z",
+      "side": 1,
+      "message": "Yes, that\u0027s right. This logic is probably wrong, now that I think about it, but I\u0027ll fix it in a followup so that I can use the same CL in both branches.",
+      "parentUuid": "3fb2b81e_cbc671d4",
+      "revId": "f0d761374ae1668f0a7a0547783e3ece59a56a3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
