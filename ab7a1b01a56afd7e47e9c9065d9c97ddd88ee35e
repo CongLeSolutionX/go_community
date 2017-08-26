@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebc24ae6_9dfaa7a8",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-26T07:57:26Z",
+      "side": 1,
+      "message": "This comment is factually correct, but it doesn\u0027t tell users what really happens. I would change it like this:\n\n // Timestamps can be discarded or truncated by writing, if the current format does not\n // support them; see Format documentation for more details.\n // USTAR format (the default used for basic TAR files without advanced features)\n // ignores AccessTime and ChangeTime, and only encodes ModTime truncated to the\n // nearest second. FormatGNU can encode all three, but still at the nearest second.\n // FormatPAX has full sub-second precision for all three timestamps.",
+      "range": {
+        "startLine": 154,
+        "startChar": 1,
+        "endLine": 156,
+        "endChar": 62
+      },
+      "revId": "ab7a1b01a56afd7e47e9c9065d9c97ddd88ee35e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "140303eb_c4aeef6a",
+        "filename": "src/archive/tar/common.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-26T07:57:26Z",
+      "side": 1,
+      "message": "I would also clarify this text:\n\n // When Writer.WriteHeader is called, if this is FormatUnknown, Writer will\n // choose the most compatible format (preference order: USTAR, PAX, GNU) that \n // is able to encode all the populated (non-zero) fields in the header.\n // If, instead, Format is specified, Writer will try to use the specified\n // format to encode the populated fields in the header, and fail if a field\n // cannot be encoded in that format.\n // The only exceptions to this rule is timestamps (ModTime, AccessTime, ChangeTime),\n // which are encoded as best-effort; they don\u0027t take part in automatic format\n // selection, nor they cause Writer to error out if they need to be truncated or\n // discarded. See ModTime documentation for more details.",
+      "range": {
+        "startLine": 209,
+        "startChar": 1,
+        "endLine": 211,
+        "endChar": 52
+      },
+      "revId": "ab7a1b01a56afd7e47e9c9065d9c97ddd88ee35e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
