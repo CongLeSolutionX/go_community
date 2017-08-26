@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "d7dc6d2d_fba8196d",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-26T10:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48d50789_c51fcfb1",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e4b3678_576b5ca6",
         "filename": "src/runtime/race.go",
         "patchSetId": 1
@@ -301,6 +319,24 @@
       "side": 1,
       "message": "But what effect does the race detector have on function entry/exit even when it\u0027s enabled? Why would disabling it change anything?",
       "parentUuid": "76adfa6d_5fa0220e",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8261f097_8697fc40",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-26T10:30:50Z",
+      "side": 1,
+      "message": "It\u0027s the other way around -- all events (synchronization, function entry/exit, memory accesses) have effect on the race detector. This function only disables effects of synchronization operations on the race detector.\nRace detector never has any semantic effects on the actual events.",
+      "parentUuid": "9e378b76_5b5deaff",
       "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
