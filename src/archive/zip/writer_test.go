@@ -87,6 +87,66 @@ func TestWriter(t *testing.T) {
 	}
 }
 
+// TestWriterComment is test for EOCD comment read/write.
+func TestWriterComment(t *testing.T) {
+	var comments = []string{
+		"hi, hello",
+		"hi, こんにちわ",
+	}
+
+	for _, comment := range comments {
+		// write a zip file
+		buf := new(bytes.Buffer)
+		w := NewWriter(buf)
+		w.Comment = comment
+		if err := w.Close(); err != nil {
+			t.Fatal(err)
+		}
+
+		// read it back
+		r, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if r.Comment != comment {
+			t.Fatalf("Reader.Comment: got %v, want %v", r.Comment, comment)
+		}
+	}
+
+	var letters = "abcdefghjiklmnopqrstuvwxyz"
+	b := make([]byte, 1<<16)
+	for i := range b {
+		b[i] = letters[rand.Int31n(int32(len(letters)))]
+	}
+	var bigComment = string(b)
+
+	buf := new(bytes.Buffer)
+	w := NewWriter(buf)
+	w.Comment = bigComment
+
+	if err := w.Close(); err == nil {
+		t.Fatal("big comment should be error")
+	}
+	if w.closed == true {
+		t.Fatal("writer was closed")
+	}
+
+	w.Comment = ""
+	if err := w.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	// read it back
+	r, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if r.Comment != "" {
+		t.Fatalf("Reader.Comment: got %v, want empty", r.Comment)
+	}
+}
+
 func TestWriterUTF8(t *testing.T) {
 	var utf8Tests = []struct {
 		name    string
