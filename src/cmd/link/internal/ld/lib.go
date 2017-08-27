@@ -1974,6 +1974,9 @@ func genasmsym(ctxt *Link, put func(*Link, *Symbol, string, SymbolType, int64, *
 		if (s.Name == "" || s.Name[0] == '.') && s.Version == 0 && s.Name != ".rathole" && s.Name != ".TOC." {
 			continue
 		}
+		if !s.Attr.Reachable() {
+			continue
+		}
 		switch s.Type & SMASK {
 		case SCONST,
 			SRODATA,
@@ -1998,15 +2001,9 @@ func genasmsym(ctxt *Link, put func(*Link, *Symbol, string, SymbolType, int64, *
 			STYPELINK,
 			SITABLINK,
 			SWINDOWS:
-			if !s.Attr.Reachable() {
-				continue
-			}
 			put(ctxt, s, s.Name, DataSym, Symaddr(s), s.Gotype)
 
 		case SBSS, SNOPTRBSS:
-			if !s.Attr.Reachable() {
-				continue
-			}
 			if len(s.P) > 0 {
 				Errorf(s, "should not be bss (size=%d type=%v special=%v)", len(s.P), s.Type, s.Attr.Special())
 			}
@@ -2016,14 +2013,9 @@ func genasmsym(ctxt *Link, put func(*Link, *Symbol, string, SymbolType, int64, *
 			put(ctxt, nil, s.Name, FileSym, s.Value, nil)
 
 		case SHOSTOBJ:
-			if Headtype == objabi.Hwindows || Iself {
-				put(ctxt, s, s.Name, UndefinedSym, s.Value, nil)
-			}
+			put(ctxt, s, s.Name, UndefinedSym, s.Value, nil)
 
 		case SDYNIMPORT:
-			if !s.Attr.Reachable() {
-				continue
-			}
 			put(ctxt, s, s.Extname, UndefinedSym, 0, nil)
 
 		case STLSBSS:
