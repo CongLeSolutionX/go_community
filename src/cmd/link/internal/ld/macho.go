@@ -675,7 +675,7 @@ func addsym(ctxt *Link, s *Symbol, name string, type_ SymbolType, addr int64, go
 	default:
 		return
 
-	case DataSym, BSSSym, TextSym:
+	case DataSym, BSSSym, TextSym, UndefinedSym:
 		break
 	}
 
@@ -710,17 +710,6 @@ func (x machoscmp) Less(i, j int) bool {
 	return s1.Extname < s2.Extname
 }
 
-func machogenasmsym(ctxt *Link) {
-	genasmsym(ctxt, addsym)
-	for _, s := range ctxt.Syms.Allsym {
-		if s.Type == SDYNIMPORT || s.Type == SHOSTOBJ {
-			if s.Attr.Reachable() {
-				addsym(ctxt, s, "", DataSym, 0, nil)
-			}
-		}
-	}
-}
-
 func machosymorder(ctxt *Link) {
 	// On Mac OS X Mountain Lion, we must sort exported symbols
 	// So we sort them here and pre-allocate dynid for them
@@ -728,10 +717,10 @@ func machosymorder(ctxt *Link) {
 	for i := 0; i < len(dynexp); i++ {
 		dynexp[i].Attr |= AttrReachable
 	}
-	machogenasmsym(ctxt)
+	genasmsym(ctxt, addsym)
 	sortsym = make([]*Symbol, nsortsym)
 	nsortsym = 0
-	machogenasmsym(ctxt)
+	genasmsym(ctxt, addsym)
 	sort.Sort(machoscmp(sortsym[:nsortsym]))
 	for i := 0; i < nsortsym; i++ {
 		sortsym[i].Dynid = int32(i)
