@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54791cd9_95fe8a38",
+        "filename": "src/runtime/hashmap_fast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-08-27T21:54:16Z",
+      "side": 1,
+      "message": "This could still be a constant called keysize, defined in the beginning of this function.",
+      "range": {
+        "startLine": 798,
+        "startChar": 27,
+        "endLine": 798,
+        "endChar": 28
+      },
+      "revId": "bce0da8b090f59880338533d66a658724f4451d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "082431d2_f433be3b",
+        "filename": "src/runtime/hashmap_fast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-08-27T21:54:16Z",
+      "side": 1,
+      "message": "See above, then this would also be a bit more clear/appealing.",
+      "range": {
+        "startLine": 1040,
+        "startChar": 27,
+        "endLine": 1040,
+        "endChar": 40
+      },
+      "revId": "bce0da8b090f59880338533d66a658724f4451d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
