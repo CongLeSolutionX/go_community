@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "829ae663_02db6844",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1338,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-08-27T21:16:43Z",
+      "side": 1,
+      "message": "could also be\ndefault:\n    return 1",
+      "range": {
+        "startLine": 1338,
+        "startChar": 1,
+        "endLine": 1338,
+        "endChar": 9
+      },
+      "revId": "dd3d55054495eb559a7e46500226ec8f5980ea1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
