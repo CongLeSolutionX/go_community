@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79d5cfce_257f37be",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3418,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-08-27T21:35:54Z",
+      "side": 1,
+      "message": "You would also have to patch the comment at the definition of MaxStruct.",
+      "range": {
+        "startLine": 3418,
+        "startChar": 25,
+        "endLine": 3418,
+        "endChar": 38
+      },
+      "revId": "15e05abd8da514175e979c0d91431f24ba4fb0a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
