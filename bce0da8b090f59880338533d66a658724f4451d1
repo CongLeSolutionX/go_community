@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9bcf06e5_cc8140a3",
+        "filename": "src/runtime/hashmap_fast.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2017-08-28T05:21:52Z",
+      "side": 1,
+      "message": "There are three keysizes in this file, for 32, 64, and str. One could write keysize32, but I\u0027d rather see just 4, myself. An alternative would be to do code generation for all the mapfast routines. That might still be worth doing, but I started on it, and it\u0027s non-trivial, mostly because of the faststr hash avoidance tricks. Maybe just generate the growWork/evac routines as a start? Another thing I wanted to do was split this file into hashmap_fast32, _fast64, and _faststr, so that the files could all be easily diffed against each other. Again, I just didn\u0027t get to it. Follow-up CLs are welcome, but in the meantime, I think this CL is fine as it is.",
+      "parentUuid": "54791cd9_95fe8a38",
+      "range": {
+        "startLine": 798,
+        "startChar": 27,
+        "endLine": 798,
+        "endChar": 28
+      },
+      "revId": "bce0da8b090f59880338533d66a658724f4451d1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "082431d2_f433be3b",
         "filename": "src/runtime/hashmap_fast.go",
         "patchSetId": 2
