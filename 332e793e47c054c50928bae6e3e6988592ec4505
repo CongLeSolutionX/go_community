@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "24496a3e_5793af1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-08-28T05:53:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ceab898a_2c1705ef",
+      "revId": "332e793e47c054c50928bae6e3e6988592ec4505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d7ad775_4c5ace63",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2017-08-28T05:15:50Z",
       "side": 1,
       "message": "I don\u0027t understand why this change is correct.  An SFILE symbol, in particular, may not be reachable but that doesn\u0027t mean it should be dropped.",
+      "revId": "332e793e47c054c50928bae6e3e6988592ec4505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a583aa0_32239932",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1977,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-08-28T05:53:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure about SFILE. I suppose that is something like elf.STT_FILE?\nI don\u0027t see any code generate/populate SFILE, perhaps SFILE is unused.",
+      "parentUuid": "1d7ad775_4c5ace63",
       "revId": "332e793e47c054c50928bae6e3e6988592ec4505",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
