@@ -2,6 +2,103 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0edda74_5bf2357b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-28T22:02:36Z",
+      "side": 1,
+      "message": "This comment describes what this field is used for. That\u0027s fine, but you should first describe what the field is.  \"list of empty, BlockPlain blocks\"?",
+      "range": {
+        "startLine": 273,
+        "startChar": 4,
+        "endLine": 273,
+        "endChar": 69
+      },
+      "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0c979c0_6d8db0aa",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-28T22:02:36Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be emptyBlocks?",
+      "range": {
+        "startLine": 274,
+        "startChar": 1,
+        "endLine": 274,
+        "endChar": 11
+      },
+      "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc0624d6_cad18b7c",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-28T22:02:36Z",
+      "side": 1,
+      "message": "This seems like an awfully complicated way to update the block lines as we go. Can\u0027t we just fix them up at the end with a single:\n\nfor _, b :\u003d range f.Blocks {\n    if b.Pos \u003d\u003d src.NoXPos \u0026\u0026 b.Kind \u003d\u003d ssa.BlockPlain {\n         b.Pos \u003d b.Succ[0].Pos\n    }\n}\n\n(maybe we need an inner loop there for multiple empty blocks in a row?)",
+      "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ab1b7c4_ecc728b8",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-28T22:02:36Z",
+      "side": 1,
+      "message": "Won\u0027t the other code in this CL already catch this case?",
+      "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a92576d7_ec7bb39f",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 4670,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-28T22:02:36Z",
+      "side": 1,
+      "message": "This seems like unnecessary abstraction over just b.Pos.",
+      "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4e094bb_c24aa1de",
         "filename": "test/fixedbugs/issue21098.go",
         "patchSetId": 4
@@ -13,6 +110,23 @@
       "writtenOn": "2017-08-27T04:12:44Z",
       "side": 1,
       "message": "Ditto, 2017",
+      "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f76f4d4_d7cb5efe",
+        "filename": "test/fixedbugs/issue21098.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-28T22:02:36Z",
+      "side": 1,
+      "message": "I think rematerializations are now numbered with whatever their use is (the instruction that follows, not precedes).",
       "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
