@@ -37,12 +37,17 @@ package trace
 import (
 	"io"
 	"runtime"
+	"sync"
+	"sync/atomic"
 )
 
 // Start enables tracing for the current program.
 // While tracing, the trace will be buffered and written to w.
 // Start returns an error if tracing is already enabled.
 func Start(w io.Writer) error {
+	tracing.Lock()
+	defer tracing.Unlock()
+
 	if err := runtime.StartTrace(); err != nil {
 		return err
 	}
@@ -55,11 +60,22 @@ func Start(w io.Writer) error {
 			w.Write(data)
 		}
 	}()
+
+	atomic.StoreInt32(&tracing.enabled, 1)
 	return nil
 }
 
 // Stop stops the current tracing, if any.
 // Stop only returns after all the writes for the trace have completed.
 func Stop() {
+	tracing.Lock()
+	defer tracing.Unlock()
+	atomic.StoreInt32(&tracing.enabled, 0)
+
 	runtime.StopTrace()
+}
+
+var tracing struct {
+	sync.Mutex       // gate mutators (Start, Stop)
+	enabled    int32 // accessed via atomic
 }

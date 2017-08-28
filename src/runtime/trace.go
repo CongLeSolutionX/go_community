@@ -64,7 +64,16 @@ const (
 	traceEvGoBlockGC         = 42 // goroutine blocks on GC assist [timestamp, stack]
 	traceEvGCMarkAssistStart = 43 // GC mark assist start [timestamp, stack]
 	traceEvGCMarkAssistDone  = 44 // GC mark assist done [timestamp]
-	traceEvCount             = 45
+
+	traceEvUserSpanStart = 45 // trace.WithSpan [timestamp, internal id, stack, span type string id, span id]
+	traceEvUserSpanEnd   = 46 // User span end [timestamp, internal id, stack, status string id]
+	traceEvUserAttach    = 47 // trace.Attach [timestamp, internal id]
+	traceEvUserLog       = 48 // trace.Log [timestamp, stack id, msg len, msg string]
+
+	traceEvCount = 49
+	// Byte is used but only 6 bits are available for event type.
+	// The remaining 2 bits are used to specify the number of arguments.
+	// That means, the max event type value is 63.
 )
 
 const (
@@ -1081,4 +1090,23 @@ func traceNextGC() {
 	} else {
 		traceEvent(traceEvNextGC, -1, memstats.next_gc)
 	}
+}
+
+// To access runtime functions from runtime/trace.
+// See runtime/trace/annotation.go
+
+//go:linkname trace_UserSpanStart runtime/trace.runtime_traceUserSpanStart
+func trace_UserSpanStart(internalID uint64, typ, id string) {
+}
+
+//go:linkname trace_UserSpanEnd runtime/trace.runtime_traceUserSpanEnd
+func trace_UserSpanEnd(internalID uint64, status string) {
+}
+
+//go:linkname trace_UserAttach runtime/trace.runtime_traceUserAttach
+func trace_UserAttach(internalID uint64, typ, id string) {
+}
+
+//go:linkname trace_UserLog runtime/trace.runtime_traceUserLog
+func trace_UserLog(msg string) {
 }
