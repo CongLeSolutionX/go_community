@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e335adf_6a58fe4c",
+        "filename": "src/runtime/hashmap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-28T21:21:01Z",
+      "side": 0,
+      "message": "I feel like I\u0027d rather leave these here.  They make more sense here, and they are compile-time constant so they compile to nothing.\nI think we move only non-compile-time-constant stuff to the check() function.\nMaybe there isn\u0027t much that is non-compile-time but doesn\u0027t depend on the map type...",
+      "revId": "9515610afbbfafdde13052265f115a5e65d6756f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
