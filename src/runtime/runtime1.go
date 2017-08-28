@@ -302,6 +302,29 @@ func check() {
 	if !checkASM() {
 		throw("assembly checks failed")
 	}
+
+	// Check properties for channels.
+	if hchanSize%maxAlign != 0 {
+		throw("bad hchan alignment")
+	}
+
+	// Check properties for maps.
+	if unsafe.Sizeof(hmap{}) != 8+5*sys.PtrSize {
+		throw("bad hmap size")
+	}
+
+	if bucketCnt < 8 {
+		throw("map bucketsize too small for proper alignment")
+	}
+
+	if evacuatedX+1 != evacuatedY {
+		// evacuate relies on this relationship
+		throw("bad evacuatedN")
+	}
+
+	if unsafe.Sizeof(hiter{})/sys.PtrSize != 12 {
+		throw("bad hiter size") // see ../../cmd/internal/gc/reflect.go
+	}
 }
 
 type dbgVar struct {

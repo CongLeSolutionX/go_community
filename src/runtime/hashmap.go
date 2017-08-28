@@ -285,7 +285,7 @@ func makemap64(t *maptype, hint int64, h *hmap) *hmap {
 // If h != nil, the map can be created directly in h.
 // If h.buckets != nil, bucket pointed to can be used as the first bucket.
 func makemap(t *maptype, hint int, h *hmap) *hmap {
-	if sz := unsafe.Sizeof(hmap{}); sz > 48 || sz != t.hmap.size {
+	if sz := unsafe.Sizeof(hmap{}); sz != t.hmap.size {
 		println("runtime: sizeof(hmap) =", sz, ", t.hmap.size =", t.hmap.size)
 		throw("bad hmap size")
 	}
@@ -322,18 +322,11 @@ func makemap(t *maptype, hint int, h *hmap) *hmap {
 	if t.elem.size%uintptr(t.elem.align) != 0 {
 		throw("value size not a multiple of value align")
 	}
-	if bucketCnt < 8 {
-		throw("bucketsize too small for proper alignment")
-	}
 	if dataOffset%uintptr(t.key.align) != 0 {
 		throw("need padding in bucket (key)")
 	}
 	if dataOffset%uintptr(t.elem.align) != 0 {
 		throw("need padding in bucket (value)")
-	}
-	if evacuatedX+1 != evacuatedY {
-		// evacuate relies on this relationship
-		throw("bad evacuatedN")
 	}
 
 	// initialize Hmap
@@ -735,9 +728,6 @@ func mapiterinit(t *maptype, h *hmap, it *hiter) {
 		return
 	}
 
-	if unsafe.Sizeof(hiter{})/sys.PtrSize != 12 {
-		throw("hash_iter size incorrect") // see ../../cmd/internal/gc/reflect.go
-	}
 	it.t = t
 	it.h = h
 

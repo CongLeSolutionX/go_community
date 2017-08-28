@@ -74,7 +74,7 @@ func makechan(t *chantype, size int) *hchan {
 	if elem.size >= 1<<16 {
 		throw("makechan: invalid channel element type")
 	}
-	if hchanSize%maxAlign != 0 || elem.align > maxAlign {
+	if elem.align > maxAlign {
 		throw("makechan: bad alignment")
 	}
 
