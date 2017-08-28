@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31a0c380_1f09c4e1",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-08-28T11:27:24Z",
+      "side": 1,
+      "message": "What about this TODO?",
+      "range": {
+        "startLine": 1110,
+        "startChar": 6,
+        "endLine": 1110,
+        "endChar": 91
+      },
+      "revId": "372c2e3f8b23b7af3b0ac25240d4f60073e32ce9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
