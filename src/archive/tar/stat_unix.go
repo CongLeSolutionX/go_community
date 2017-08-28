@@ -8,6 +8,9 @@ package tar
 
 import (
 	"os"
+	"os/user"
+	"runtime"
+	"strconv"
 	"syscall"
 )
 
@@ -22,11 +25,33 @@ func statUnix(fi os.FileInfo, h *Header) error {
 	}
 	h.Uid = int(sys.Uid)
 	h.Gid = int(sys.Gid)
-	// TODO(bradfitz): populate username & group.  os/user
-	// doesn't cache LookupId lookups, and lacks group
-	// lookup functions.
+
+	// Best effort at populating Uname and Gname.
+	// The os/user functions may fail for any number of reasons
+	// (not implemented on that platform, cgo not enabled, etc).
+	if u, err := user.LookupId(strconv.Itoa(h.Uid)); err == nil {
+		h.Uname = u.Username
+	}
+	if g, err := user.LookupGroupId(strconv.Itoa(h.Gid)); err == nil {
+		h.Gname = g.Name
+	}
+
 	h.AccessTime = statAtime(sys)
 	h.ChangeTime = statCtime(sys)
-	// TODO(bradfitz): major/minor device numbers?
+
+	// Best effort at populating Devmajor and Devminor.
+	if h.Typeflag == TypeChar || h.Typeflag == TypeBlock {
+		switch runtime.GOOS {
+		case "linux":
+			// Copied from golang.org/x/sys/unix/dev_linux.go.
+			major := uint32((sys.Rdev & 0x00000000000fff00) >> 8)
+			major |= uint32((sys.Rdev & 0xfffff00000000000) >> 32)
+			minor := uint32((sys.Rdev & 0x00000000000000ff) >> 0)
+			minor |= uint32((sys.Rdev & 0x00000ffffff00000) >> 12)
+			h.Devmajor, h.Devminor = int64(major), int64(minor)
+		default:
+			// TODO: Implement others (see https://golang.org/issue/8106)
+		}
+	}
 	return nil
 }
