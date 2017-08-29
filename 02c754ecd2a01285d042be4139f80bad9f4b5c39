@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4732d04a_8820ff34",
+        "filename": "src/archive/tar/stat_unix.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-29T20:46:14Z",
+      "side": 1,
+      "message": "Add a comment describing the key and value types of this sync.Map.",
+      "revId": "02c754ecd2a01285d042be4139f80bad9f4b5c39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
