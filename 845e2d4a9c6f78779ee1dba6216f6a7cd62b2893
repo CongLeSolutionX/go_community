@@ -340,6 +340,24 @@
       "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d72a267_5192f0ec",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-08-29T16:21:12Z",
+      "side": 1,
+      "message": "Oh! I see. That\u0027s not at all how I read this.\n\nPerhaps \"Non-synchronization events (memory accesses, function entry/exit) still affect the race detector.\"?",
+      "parentUuid": "8261f097_8697fc40",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
