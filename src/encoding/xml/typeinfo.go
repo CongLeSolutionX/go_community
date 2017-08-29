@@ -38,6 +38,7 @@ const (
 	fAny
 
 	fOmitEmpty
+	fAllowEmpty
 
 	fMode = fElement | fAttr | fCDATA | fCharData | fInnerXml | fComment | fAny
 
@@ -141,6 +142,8 @@ func structFieldInfo(typ reflect.Type, f *reflect.StructField) (*fieldInfo, erro
 				finfo.flags |= fAny
 			case "omitempty":
 				finfo.flags |= fOmitEmpty
+			case "allowempty":
+				finfo.flags |= fAllowEmpty
 			}
 		}
 
