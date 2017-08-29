@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "248c35c8_899ef99a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-29T18:59:14Z",
+      "side": 1,
+      "message": "Is there any special handling needed for y\u003e64?",
+      "revId": "c3b7672e1ea99a12b1819a42c430805b5d0d623f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc495524_f37336ea",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-29T18:59:14Z",
+      "side": 1,
+      "message": "arg1?",
+      "range": {
+        "startLine": 188,
+        "startChar": 81,
+        "endLine": 188,
+        "endChar": 87
+      },
+      "revId": "c3b7672e1ea99a12b1819a42c430805b5d0d623f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca085a81_dc931480",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-08-29T18:59:14Z",
+      "side": 1,
+      "message": "arg1?",
+      "range": {
+        "startLine": 189,
+        "startChar": 89,
+        "endLine": 189,
+        "endChar": 95
+      },
+      "revId": "c3b7672e1ea99a12b1819a42c430805b5d0d623f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5176882f_adf70bda",
         "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
         "patchSetId": 1
