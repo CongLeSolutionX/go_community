@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "17c72d1a_0bfeb0e7",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1439,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770e6d97_c432d4c7",
+      "range": {
+        "startLine": 1439,
+        "startChar": 7,
+        "endLine": 1439,
+        "endChar": 30
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cae74bc_214a7d55",
         "filename": "src/cmd/go/alldocs.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "739cadb4_948fe90f",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1440,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cae74bc_214a7d55",
+      "range": {
+        "startLine": 1440,
+        "startChar": 48,
+        "endLine": 1440,
+        "endChar": 49
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ec57beb_3ede23c7",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "cb952cc5_95a475d3",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "Ack. See response to int(d.Nanoseconds()) comment.",
+      "parentUuid": "9ec57beb_3ede23c7",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cf20924_f4306c94",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2017-08-16T21:13:33Z",
       "side": 1,
       "message": "2^31 nanoseconds is only 2+𝜀 seconds. Is this robust on 32-bit platforms?",
+      "range": {
+        "startLine": 303,
+        "startChar": 18,
+        "endLine": 303,
+        "endChar": 38
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db167eef_ee78ea28",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "I don\u0027t believe my change added that problem. I\u0027ve addressed it here by operating with int64 and then safely converting back to int just before n is used.",
+      "parentUuid": "9cf20924_f4306c94",
       "range": {
         "startLine": 303,
         "startChar": 18,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "62864085_98ba89c7",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "Your concern is real. I\u0027ve changed the three knobs (2 growth factors, 1 rounding function) such that n increases more slowly in proportion to interval size. These changes respect the findings explained in a12cc719807 for the old case of one interval.\n\nAs an example:\n\nfunc BenchmarkFoo(b *testing.B) {\n\tfor i :\u003d 0; i \u003c b.N; i++ {\n\t\ttime.Sleep(25 * time.Microsecond)\n\t}\n}\n\nrequested_intervals interval_sat operations/interval duration\nn/a                 100          50000               2.1s      # benchsplit not used\n1                   100          50000               2.1s      # same code path as no benchsplit\n10                  100          3000                1.5s\n50                  96           600                 2.4s\n100                 94           300                 2.4s\n500                 93           60                  2.7s\n1000                95           30                  2.8s\n5000                93           6                   5.4s\n\nwhere interval_sat \u003d\u003d actual_intervals/requested_intervals * 100\n\nWould you like me to do something scientific that looks at how the 3 knobs affects various benchmarks (sleeps) and benchsplits over many iterations of each benchmark?",
+      "parentUuid": "8a756893_2156cd9b",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 4
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4e7bc3d0_50e0ec3e",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "831f97bf_164936ce",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e7bc3d0_50e0ec3e",
+      "range": {
+        "startLine": 328,
+        "startChar": 0,
+        "endLine": 331,
+        "endChar": 15
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cf57358_80282ec3",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
@@ -151,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "5617eed5_0608393e",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cf57358_80282ec3",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90597c37_b642f40d",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
@@ -162,6 +318,24 @@
       "writtenOn": "2017-08-16T21:13:33Z",
       "side": 1,
       "message": "I don\u0027t really understand this comment: why is it ok for subbenchmarks not to have a breakdown by interval?",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a04c9d8e_cd474fa6",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "The original patch does support benchsplit for subbenchmarks called from go test Bench* functions.\n\nThe add method here is used for the case of subbenchmarks called from the func Benchmark. In that case, just like the api doesn\u0027t work well supporting multiple b.Run subbenchmarks, so too it doesn\u0027t work well supporting the same benchmark broken down by interval. (BenchmarkResult only has room for one result.)\n\nI\u0027ve changed the comment to clarify this.",
+      "parentUuid": "90597c37_b642f40d",
       "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -185,6 +359,24 @@
     },
     {
       "key": {
+        "uuid": "447fc363_8bc48f8e",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "Considering what\u0027s discussed in https://go-review.googlesource.com/c/go/+/47411/2/src/testing/benchmark.go#579, I\u0027m going to avoid a new case here and remove intervals as a configurable field.",
+      "parentUuid": "6da21539_0b265360",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a6b6a08_626ef46d",
         "filename": "src/testing/sub_test.go",
         "patchSetId": 2
@@ -199,6 +391,24 @@
       "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9db008fe_065b8be3",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-29T02:44:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a6b6a08_626ef46d",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
