@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "93467e61_fe8e9c6b",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-29T19:59:44Z",
+      "side": 1,
+      "message": "One simple alternative might be to take the maximum of benchtime and benchsplit: for example, we could ensure that there are at least benchsplit intervals each representing a duration of at least [benchtime / benchsplit]. Then if we initially overestimate, we end up with one long interval and a bunch of normal-length ones, rather than one long interval and either a bunch of short intervals or a truncated split.",
+      "parentUuid": "62864085_98ba89c7",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 4
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4e7bc3d0_50e0ec3e",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
@@ -336,6 +360,24 @@
       "side": 1,
       "message": "The original patch does support benchsplit for subbenchmarks called from go test Bench* functions.\n\nThe add method here is used for the case of subbenchmarks called from the func Benchmark. In that case, just like the api doesn\u0027t work well supporting multiple b.Run subbenchmarks, so too it doesn\u0027t work well supporting the same benchmark broken down by interval. (BenchmarkResult only has room for one result.)\n\nI\u0027ve changed the comment to clarify this.",
       "parentUuid": "90597c37_b642f40d",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f260a232_5c158936",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-08-29T19:59:44Z",
+      "side": 1,
+      "message": "\u003e The add method here is used for the case of subbenchmarks called from the func Benchmark. In that case, just like the api doesn\u0027t work well supporting multiple b.Run subbenchmarks, so too it doesn\u0027t work well supporting the same benchmark broken down by interval. (BenchmarkResult only has room for one result.)\n\nI still don\u0027t really understand why that\u0027s a problem. We could always add fields to the BenchmarkResult struct in order to return multiple results: for example, we could extend it to something like:\n\ntype BenchmarkResult struct {\n\t…\n\tSubBenchmark map[string]BenchmarkResult  // b.Run argument → result\n\tSplit []BenchmarkResult  // benchsplit iteration → result\n}",
+      "parentUuid": "a04c9d8e_cd474fa6",
       "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
