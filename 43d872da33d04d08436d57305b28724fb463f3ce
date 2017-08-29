@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af08f694_892760f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-29T19:34:16Z",
+      "side": 1,
+      "message": "The last three lines can go, as you\u0027re no longer implementing the logic.",
+      "revId": "43d872da33d04d08436d57305b28724fb463f3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4616013f_6e5e7a3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-29T19:34:16Z",
+      "side": 1,
+      "message": "nit, but period at the end.",
+      "revId": "43d872da33d04d08436d57305b28724fb463f3ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
