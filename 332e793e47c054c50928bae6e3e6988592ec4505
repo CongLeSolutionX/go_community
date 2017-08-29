@@ -141,6 +141,24 @@
       "revId": "332e793e47c054c50928bae6e3e6988592ec4505",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe3e2ba1_4797e538",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1977,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-08-29T04:29:14Z",
+      "side": 1,
+      "message": "No, I didn\u0027t understand correctly. SHOSTOBJ is used even when external linking mode, of course.",
+      "parentUuid": "010eba4b_c35e209e",
+      "revId": "332e793e47c054c50928bae6e3e6988592ec4505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
