@@ -258,6 +258,9 @@
 (PopCount16 x) -> (POPCNTW (MOVHZreg x))
 (PopCount8 x) -> (POPCNTB (MOVBreg x))
 
+(RotateLeft64 x y) -> (ROTL x y)
+(RotateLeft32 x y) -> (ROTLW (MOVWZreg x) y)
+
 (And64 x y) -> (AND x y)
 (And32 x y) -> (AND x y)
 (And16 x y) -> (AND x y)

@@ -485,6 +485,10 @@ func rewriteValuePPC64(v *Value) bool {
 		return rewriteValuePPC64_OpPopCount64_0(v)
 	case OpPopCount8:
 		return rewriteValuePPC64_OpPopCount8_0(v)
+	case OpRotateLeft32:
+		return rewriteValuePPC64_OpRotateLeft32_0(v)
+	case OpRotateLeft64:
+		return rewriteValuePPC64_OpRotateLeft64_0(v)
 	case OpRound32F:
 		return rewriteValuePPC64_OpRound32F_0(v)
 	case OpRound64F:
@@ -8430,6 +8434,40 @@ func rewriteValuePPC64_OpPopCount8_0(v *Value) bool {
 		v0 := b.NewValue0(v.Pos, OpPPC64MOVBreg, typ.Int64)
 		v0.AddArg(x)
 		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValuePPC64_OpRotateLeft32_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	typ := &b.Func.Config.Types
+	_ = typ
+	// match: (RotateLeft32 x y)
+	// cond:
+	// result: (ROTLW (MOVWZreg x) y)
+	for {
+		_ = v.Args[1]
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpPPC64ROTLW)
+		v0 := b.NewValue0(v.Pos, OpPPC64MOVWZreg, typ.Int64)
+		v0.AddArg(x)
+		v.AddArg(v0)
+		v.AddArg(y)
+		return true
+	}
+}
+func rewriteValuePPC64_OpRotateLeft64_0(v *Value) bool {
+	// match: (RotateLeft64 x y)
+	// cond:
+	// result: (ROTL x y)
+	for {
+		_ = v.Args[1]
+		x := v.Args[0]
+		y := v.Args[1]
+		v.reset(OpPPC64ROTL)
+		v.AddArg(x)
+		v.AddArg(y)
 		return true
 	}
 }
