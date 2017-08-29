@@ -22,6 +22,30 @@
       "revId": "372c2e3f8b23b7af3b0ac25240d4f60073e32ce9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5a96a75_4765f61d",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-08-29T01:50:53Z",
+      "side": 1,
+      "message": "This CL does not addresses this TODO - I am just moving this line with TODO. Hopefully this TODO will be addressed in the future CL.",
+      "parentUuid": "31a0c380_1f09c4e1",
+      "range": {
+        "startLine": 1110,
+        "startChar": 6,
+        "endLine": 1110,
+        "endChar": 91
+      },
+      "revId": "372c2e3f8b23b7af3b0ac25240d4f60073e32ce9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
