@@ -105,6 +105,24 @@
       "revId": "332e793e47c054c50928bae6e3e6988592ec4505",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80432053_37deb502",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1977,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-29T03:25:04Z",
+      "side": 1,
+      "message": "That sounds reasonable, but then lets fix that bug.  Let\u0027s not just assume that we are OK, and only discover months later that we are not.",
+      "parentUuid": "09804e75_7c0fbb48",
+      "revId": "332e793e47c054c50928bae6e3e6988592ec4505",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
