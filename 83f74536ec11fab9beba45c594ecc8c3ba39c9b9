@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1489903_c69a5320",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2017-08-29T13:56:30Z",
+      "side": 1,
+      "message": "This should be SYS_exit, see the comment for SYS_exit below.",
+      "revId": "83f74536ec11fab9beba45c594ecc8c3ba39c9b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6d310a4_d09d6118",
+        "filename": "src/runtime/sys_linux_386.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2017-08-29T13:56:30Z",
+      "side": 1,
+      "message": "The syscall is named sys_exit_group on linux, so this should better be named SYS_exit_group. Also all other architectures use SYS_exit_group as the macro name already, so it\u0027s better to be consistent.",
+      "revId": "83f74536ec11fab9beba45c594ecc8c3ba39c9b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d801fe86_a527789d",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2017-08-29T13:56:30Z",
+      "side": 1,
+      "message": "Like in sys_linux_386.go, this should be SYS_exit.",
+      "revId": "83f74536ec11fab9beba45c594ecc8c3ba39c9b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "106d491b_ba613880",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2017-08-29T13:56:30Z",
+      "side": 1,
+      "message": "Like in sys_linux_386.go, this should be SYS_exit_group.",
+      "revId": "83f74536ec11fab9beba45c594ecc8c3ba39c9b9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
