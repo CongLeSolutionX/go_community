@@ -258,9 +258,10 @@ var allAsmTests = []*asmTests{
 		tests:   linuxMIPSTests,
 	},
 	{
-		arch:  "ppc64le",
-		os:    "linux",
-		tests: linuxPPC64LETests,
+		arch:    "ppc64le",
+		os:      "linux",
+		imports: []string{"math/bits"},
+		tests:   linuxPPC64LETests,
 	},
 	{
 		arch:  "amd64",
@@ -1921,6 +1922,23 @@ var linuxPPC64LETests = []*asmTest{
 		`,
 		pos: []string{"\tROTL\t"},
 	},
+	{
+		fn: `
+		func f10(a uint32) uint32 {
+                        return bits.RotateLeft32(a, 9)
+                }
+                `,
+		pos: []string{"\tROTLW\t"},
+	},
+	{
+		fn: `
+		func f11(a uint64) uint64 {
+			return bits.RotateLeft64(a, 37)
+		}
+                `,
+		pos: []string{"\tROTL\t"},
+	},
+
 	{
 		// check that stack store is optimized away
 		fn: `
