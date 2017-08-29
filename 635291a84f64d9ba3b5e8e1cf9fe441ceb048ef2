@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e94e1025_b97e2227",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-08-29T19:08:21Z",
+      "side": 1,
+      "message": "You should just use os/exec.LookPath.",
+      "revId": "635291a84f64d9ba3b5e8e1cf9fe441ceb048ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
