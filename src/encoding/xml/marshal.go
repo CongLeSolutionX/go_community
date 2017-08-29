@@ -60,6 +60,9 @@ const (
 //       if the field value is empty. The empty values are false, 0, any
 //       nil pointer or interface value, and any array, slice, map, or
 //       string of length zero.
+//     - a field with a tag including the "allowempty" option will use
+//       a self closing tag if the field value is empty. The empty values are
+//       the same as those for "omitempty".
 //     - an anonymous struct field is handled as if the fields of its
 //       value were part of the outer struct.
 //
@@ -198,7 +201,7 @@ func (enc *Encoder) EncodeToken(t Token) error {
 	p := &enc.p
 	switch t := t.(type) {
 	case StartElement:
-		if err := p.writeStart(&t); err != nil {
+		if err := p.writeStart(&t, false); err != nil {
 			return err
 		}
 	case EndElement:
@@ -408,6 +411,11 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		return nil
 	}
 
+	emptyTag := false
+	if finfo != nil && finfo.flags&fAllowEmpty != 0 && isEmptyValue(val) {
+		emptyTag = true
+	}
+
 	// Drill into interfaces and pointers.
 	// This can turn into an infinite loop given a cyclic chain,
 	// but it matches the Go 1 behavior.
@@ -434,12 +442,12 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 
 	// Check for text marshaler.
 	if val.CanInterface() && typ.Implements(textMarshalerType) {
-		return p.marshalTextInterface(val.Interface().(encoding.TextMarshaler), defaultStart(typ, finfo, startTemplate))
+		return p.marshalTextInterface(val.Interface().(encoding.TextMarshaler), defaultStart(typ, finfo, startTemplate), emptyTag)
 	}
 	if val.CanAddr() {
 		pv := val.Addr()
 		if pv.CanInterface() && pv.Type().Implements(textMarshalerType) {
-			return p.marshalTextInterface(pv.Interface().(encoding.TextMarshaler), defaultStart(pv.Type(), finfo, startTemplate))
+			return p.marshalTextInterface(pv.Interface().(encoding.TextMarshaler), defaultStart(pv.Type(), finfo, startTemplate), emptyTag)
 		}
 	}
 
@@ -510,8 +518,12 @@ func (p *printer) marshalValue(val reflect.Value, finfo *fieldInfo, startTemplat
 		}
 	}
 
-	if err := p.writeStart(&start); err != nil {
+	if err := p.writeStart(&start, emptyTag); err != nil {
 		return err
+	}
+
+	if emptyTag {
+		return p.cachedWriteError()
 	}
 
 	if val.Kind() == reflect.Struct {
@@ -664,10 +676,15 @@ func (p *printer) marshalInterface(val Marshaler, start StartElement) error {
 }
 
 // marshalTextInterface marshals a TextMarshaler interface value.
-func (p *printer) marshalTextInterface(val encoding.TextMarshaler, start StartElement) error {
-	if err := p.writeStart(&start); err != nil {
+func (p *printer) marshalTextInterface(val encoding.TextMarshaler, start StartElement, emptyTag bool) error {
+	if err := p.writeStart(&start, emptyTag); err != nil {
 		return err
 	}
+
+	if emptyTag {
+		return nil
+	}
+
 	text, err := val.MarshalText()
 	if err != nil {
 		return err
@@ -677,7 +694,7 @@ func (p *printer) marshalTextInterface(val encoding.TextMarshaler, start StartEl
 }
 
 // writeStart writes the given start element.
-func (p *printer) writeStart(start *StartElement) error {
+func (p *printer) writeStart(start *StartElement, selfClosing bool) error {
 	if start.Name.Local == "" {
 		return fmt.Errorf("xml: start tag with no name")
 	}
@@ -710,6 +727,10 @@ func (p *printer) writeStart(start *StartElement) error {
 		p.WriteString(`="`)
 		p.EscapeString(attr.Value)
 		p.WriteByte('"')
+	}
+	if selfClosing {
+		p.WriteByte('/')
+		p.tags = p.tags[:len(p.tags)-1]
 	}
 	p.WriteByte('>')
 	return nil
@@ -1004,7 +1025,7 @@ func (s *parentStack) trim(parents []string) error {
 // push adds parent elements to the stack and writes open tags.
 func (s *parentStack) push(parents []string) error {
 	for i := 0; i < len(parents); i++ {
-		if err := s.p.writeStart(&StartElement{Name: Name{Local: parents[i]}}); err != nil {
+		if err := s.p.writeStart(&StartElement{Name: Name{Local: parents[i]}}, false); err != nil {
 			return err
 		}
 	}
