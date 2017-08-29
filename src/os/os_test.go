@@ -1001,6 +1001,30 @@ func exec(t *testing.T, dir, cmd string, args []string, expect string) {
 	p.Wait()
 }
 
+// findPWD looks in PATH for pwd.
+// It used to be safe to just look for /bin/pwd, but
+// an increasingly large number of distros do not have /bin/pwd
+// any more. Note that this can fail in some pathological cases,
+// e.g. the first pwd we find in $PATH is not actually a binary.
+// If that unlikely event occurs we can deal with it later.
+func findPWD() string {
+	for _, d := range strings.Split(Getenv("PATH"), ":") {
+		_, err := Stat(filepath.Join(d, "pwd"))
+		if err != nil {
+			continue
+		}
+
+		// This is a bit naive, but less naive than the old
+		// test anyway. We assume the first instance of pwd
+		// we find in $PATH is something we can use.
+		return filepath.Join(d, "pwd")
+	}
+
+	// Revert to old behavior; we'll get the error in the
+	// subsequent test.
+	return "/bin/pwd"
+}
+
 func TestStartProcess(t *testing.T) {
 	testenv.MustHaveExec(t)
 
@@ -1014,9 +1038,10 @@ func TestStartProcess(t *testing.T) {
 		dir = Getenv("SystemRoot")
 		args = []string{"/c", "cd"}
 	default:
-		cmd = "/bin/pwd"
+		cmd = findPWD()
 		dir = "/"
 		args = []string{}
+		t.Logf("Testing with %v", cmd)
 	}
 	cmddir, cmdbase := filepath.Split(cmd)
 	args = append([]string{cmdbase}, args...)
