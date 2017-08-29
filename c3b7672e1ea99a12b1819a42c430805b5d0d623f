@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5176882f_adf70bda",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-08-29T17:59:46Z",
+      "side": 1,
+      "message": "Wouldn\u0027t mind Keith\u0027s opinion on adding a generic rotate; we have special case code for other architectures to recognize open-coded rotates, we could handle the intrinsic everywhere and also put the rotate-expression-matcher in the generic phase.",
+      "range": {
+        "startLine": 258,
+        "startChar": 1,
+        "endLine": 259,
+        "endChar": 72
+      },
+      "revId": "c3b7672e1ea99a12b1819a42c430805b5d0d623f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
