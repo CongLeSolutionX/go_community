@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf68b629_c8382176",
+        "filename": "src/internal/trace/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-08-29T19:10:28Z",
+      "side": 1,
+      "message": "Move this out to above the EvGCSTWDone: line 10 line above.",
+      "range": {
+        "startLine": 385,
+        "startChar": 2,
+        "endLine": 395,
+        "endChar": 5
+      },
+      "revId": "18d7bdc0b8ce083ead7a7e4937214ced2a6378ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "238b7730_9d3f82f2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1060,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-08-29T19:10:28Z",
+      "side": 1,
+      "message": "traceStarted perhaps. traceStart feels like a verb indicating you should start the trace..",
+      "range": {
+        "startLine": 1060,
+        "startChar": 27,
+        "endLine": 1060,
+        "endChar": 37
+      },
+      "revId": "18d7bdc0b8ce083ead7a7e4937214ced2a6378ce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
