@@ -2934,6 +2934,16 @@ func init() {
 	addF("math/bits", "OnesCount",
 		makeOnesCountAMD64(ssa.OpPopCount64, ssa.OpPopCount32),
 		sys.AMD64)
+	addF("math/bits", "RotateLeft32",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue2(ssa.OpRotateLeft32, types.Types[TINT32], args[0], args[1])
+		},
+		sys.PPC64)
+	addF("math/bits", "RotateLeft64",
+		func(s *state, n *Node, args []*ssa.Value) *ssa.Value {
+			return s.newValue2(ssa.OpRotateLeft64, types.Types[TINT], args[0], args[1])
+		},
+		sys.PPC64)
 
 	/******** sync/atomic ********/
 

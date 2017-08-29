@@ -255,6 +255,9 @@ var genericOps = []opData{
 	{name: "PopCount32", argLength: 1}, // Count bits in arg[0]
 	{name: "PopCount64", argLength: 1}, // Count bits in arg[0]
 
+	{name: "RotateLeft32", argLength: 2}, // Rotate arg[0] by arg[1]
+	{name: "RotateLeft64", argLength: 2}, // Rotate arg[0] 32 bit by arg[1]
+
 	{name: "Sqrt", argLength: 1},  // sqrt(arg0), float64 only
 	{name: "Floor", argLength: 1}, // floor(arg0), float64 only
 	{name: "Ceil", argLength: 1},  // ceil(arg0), float64 only
