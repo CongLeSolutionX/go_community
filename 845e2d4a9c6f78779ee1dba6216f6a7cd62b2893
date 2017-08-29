@@ -358,6 +358,24 @@
       "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c6d4514_f94564fc",
+        "filename": "src/runtime/race.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-08-29T16:34:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d72a267_5192f0ec",
+      "revId": "845e2d4a9c6f78779ee1dba6216f6a7cd62b2893",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
