@@ -96,7 +96,7 @@ func makefield(name string, t *types.Type) *types.Field {
 	return f
 }
 
-func mapbucket(t *types.Type) *types.Type {
+func bmap(t *types.Type) *types.Type {
 	if t.MapType().Bucket != nil {
 		return t.MapType().Bucket
 	}
@@ -170,7 +170,7 @@ func mapbucket(t *types.Type) *types.Type {
 	// Double-check that overflow field is final memory in struct,
 	// with no padding at end. See comment above.
 	if ovf.Offset != bucket.Width-int64(Widthptr) {
-		Fatalf("bad math in mapbucket for %v", t)
+		Fatalf("bad math in bmap for %v", t)
 	}
 
 	t.MapType().Bucket = bucket
@@ -186,7 +186,7 @@ func hmap(t *types.Type) *types.Type {
 		return t.MapType().Hmap
 	}
 
-	bmap := mapbucket(t)
+	bmap := bmap(t)
 
 	// build a struct:
 	// type hmap struct {
@@ -231,7 +231,7 @@ func hiter(t *types.Type) *types.Type {
 	}
 
 	hmap := hmap(t)
-	bmap := mapbucket(t)
+	bmap := bmap(t)
 
 	// build a struct:
 	// type hiter struct {
@@ -1251,7 +1251,7 @@ ok:
 	case TMAP:
 		s1 := dtypesym(t.Key())
 		s2 := dtypesym(t.Val())
-		s3 := dtypesym(mapbucket(t))
+		s3 := dtypesym(bmap(t))
 		s4 := dtypesym(hmap(t))
 		ot = dcommontype(lsym, ot, t)
 		ot = dsymptr(lsym, ot, s1.Linksym(), 0)
@@ -1274,7 +1274,7 @@ ok:
 			ot = duint8(lsym, ot, 0) // not indirect
 		}
 
-		ot = duint16(lsym, ot, uint16(mapbucket(t).Width))
+		ot = duint16(lsym, ot, uint16(bmap(t).Width))
 		ot = duint8(lsym, ot, uint8(obj.Bool2int(isreflexive(t.Key()))))
 		ot = duint8(lsym, ot, uint8(obj.Bool2int(needkeyupdate(t.Key()))))
 		ot = dextratype(lsym, ot, t, 0)
