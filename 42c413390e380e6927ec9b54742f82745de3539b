@@ -16,6 +16,24 @@
       "revId": "42c413390e380e6927ec9b54742f82745de3539b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1879625_4f4340d0",
+        "filename": "src/archive/tar/stat_unix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-08-29T05:05:04Z",
+      "side": 1,
+      "message": "Wow... I didn\u0027t want to believe that this really was that insanely slow...\n\n os.Stat                          \u003d\u003e   861 ns/op\n user.LookupId+user.LookupGroupId \u003d\u003e 12315 ns/op",
+      "parentUuid": "19283b96_9f3f391d",
+      "revId": "42c413390e380e6927ec9b54742f82745de3539b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
