@@ -292,10 +292,6 @@ func makemap(t *maptype, hint int, h *hmap) *hmap {
 		throw("bad hmap size")
 	}
 
-	if hint < 0 || hint > int(maxSliceCap(t.bucket.size)) {
-		hint = 0
-	}
-
 	if !ismapkey(t.key) {
 		throw("runtime.makemap: unsupported map key type")
 	}
@@ -312,18 +308,25 @@ func makemap(t *maptype, hint int, h *hmap) *hmap {
 	h.hash0 = fastrand()
 
 	// find size parameter which will hold the requested # of elements
+	// If hint is negative then overLoadFactor is false
+	// due to hint being less than bucketCnt. Which results in h.B = 0.
 	B := uint8(0)
 	for overLoadFactor(hint, B) {
 		B++
 	}
 	h.B = B
 
-	// allocate initial hash table
-	// if B == 0, the buckets field is allocated lazily later (in mapassign)
-	// If hint is large zeroing this memory could take a while.
-	if h.B != 0 {
+	// If B > 0, try to allocate initial map buckets.
+	// If B == 0, map buckets are allocated lazily in mapassign later.
+	// If B is large zeroing the memory for map buckets could take a while.
+	if h.B > 0 {
 		var nextOverflow *bmap
 		h.buckets, nextOverflow = makeBucketArray(t, h.B)
+		if h.buckets == nil {
+			// makeBucketArray was not able to allocate any bucket.
+			// Set h.B to reflect no buckets were allocated.
+			h.B = 0
+		}
 		if nextOverflow != nil {
 			h.extra = new(mapextra)
 			h.extra.nextOverflow = nextOverflow
@@ -869,33 +872,52 @@ next:
 	goto next
 }
 
-func makeBucketArray(t *maptype, b uint8) (buckets unsafe.Pointer, nextOverflow *bmap) {
-	base := bucketShift(b)
-	nbuckets := base
+func makeBucketArray(t *maptype, b uint8) (unsafe.Pointer, *bmap) {
+	nbuckets := bucketShift(b)
+	size := uintptr(t.bucketsize)
+	maxbuckets := maxSliceCap(size)
+
 	// For small b, overflow buckets are unlikely.
-	// Avoid the overhead of the calculation.
-	if b >= 4 {
-		// Add on the estimated number of overflow buckets
-		// required to insert the median number of elements
-		// used with this value of b.
-		nbuckets += bucketShift(b - 4)
-		sz := t.bucket.size * nbuckets
-		up := roundupsize(sz)
-		if up != sz {
-			nbuckets = up / t.bucket.size
+	// Avoid the overhead of extra calculations.
+	if b < 4 {
+		if nbuckets > maxbuckets {
+			// Not enough memory to allocate all the buckets.
+			return nil, nil
+		}
+		buckets := mallocgc(nbuckets*size, t.bucket, true)
+		return buckets, nil
+	}
+
+	// Add on the estimated number of overflow buckets
+	// required to insert the median number of elements
+	// used with this value of b.
+	base := nbuckets
+	nbuckets += bucketShift(b - 4)
+	if base > nbuckets || nbuckets > maxbuckets {
+		// Not enough memory to allocate all the buckets.
+		return nil, nil
+	}
+
+	bucketmem := roundupsize(nbuckets * size)
+	if nbuckets*size != bucketmem {
+		nbuckets = bucketmem / size
+		if nbuckets > maxbuckets {
+			// Not enough memory to allocate all the buckets.
+			return nil, nil
 		}
 	}
-	buckets = newarray(t.bucket, int(nbuckets))
-	if base != nbuckets {
-		// We preallocated some overflow buckets.
-		// To keep the overhead of tracking these overflow buckets to a minimum,
-		// we use the convention that if a preallocated overflow bucket's overflow
-		// pointer is nil, then there are more available by bumping the pointer.
-		// We need a safe non-nil pointer for the last overflow bucket; just use buckets.
-		nextOverflow = (*bmap)(add(buckets, base*uintptr(t.bucketsize)))
-		last := (*bmap)(add(buckets, (nbuckets-1)*uintptr(t.bucketsize)))
-		last.setoverflow(t, (*bmap)(buckets))
-	}
+
+	buckets := mallocgc(nbuckets*size, t.bucket, true)
+
+	// We preallocated some overflow buckets.
+	// To keep the overhead of tracking these overflow buckets to a minimum,
+	// we use the convention that if a preallocated overflow bucket's overflow
+	// pointer is nil, then there are more available by bumping the pointer.
+	// We need a safe non-nil pointer for the last overflow bucket; just use buckets.
+	nextOverflow := (*bmap)(add(buckets, base*size))
+	last := (*bmap)(add(buckets, (nbuckets-1)*size))
+	last.setoverflow(t, (*bmap)(buckets))
+
 	return buckets, nextOverflow
 }
 
@@ -910,6 +932,9 @@ func hashGrow(t *maptype, h *hmap) {
 	}
 	oldbuckets := h.buckets
 	newbuckets, nextOverflow := makeBucketArray(t, h.B+bigger)
+	if newbuckets == nil {
+		panic(plainError("runtime: allocation size out of range"))
+	}
 
 	flags := h.flags &^ (iterator | oldIterator)
 	if h.flags&iterator != 0 {
