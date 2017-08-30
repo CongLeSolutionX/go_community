@@ -16,6 +16,24 @@
       "revId": "931c43328a27ef763a6b0bacf9d5d55cd2c1a1b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f3e75de_0227688b",
+        "filename": "src/runtime/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-08-30T16:28:43Z",
+      "side": 1,
+      "message": "obviously a typo. :-) cl/60331",
+      "parentUuid": "6c770584_ad301c0b",
+      "revId": "931c43328a27ef763a6b0bacf9d5d55cd2c1a1b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
