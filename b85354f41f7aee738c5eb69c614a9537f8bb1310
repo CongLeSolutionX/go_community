@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd104dd6_9a2fc648",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3821,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-30T14:24:33Z",
+      "side": 1,
+      "message": "Extraneous blank line added here.",
+      "revId": "b85354f41f7aee738c5eb69c614a9537f8bb1310",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b40d7e2b_9d3a6377",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3890,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-30T14:24:33Z",
+      "side": 1,
+      "message": "\"go %s: failed to get absolute path for %q: %v\", flag.Args()[0], path, err",
+      "revId": "b85354f41f7aee738c5eb69c614a9537f8bb1310",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dcffd1d_55373238",
+        "filename": "src/cmd/go/internal/work/build_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-30T14:24:33Z",
+      "side": 1,
+      "message": "No need for this blank line.",
+      "revId": "b85354f41f7aee738c5eb69c614a9537f8bb1310",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
