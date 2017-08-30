@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7807ac3_4705a316",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-08-30T07:09:06Z",
+      "side": 1,
+      "message": "Could it be that these two if-statements",
+      "range": {
+        "startLine": 109,
+        "startChar": 1,
+        "endLine": 114,
+        "endChar": 2
+      },
+      "revId": "af84ab5a1843efc8a2c58b1c03a5427a4be292cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d8129c2_1f67ac96",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-08-30T07:09:06Z",
+      "side": 1,
+      "message": "cover these two cases?",
+      "range": {
+        "startLine": 188,
+        "startChar": 1,
+        "endLine": 193,
+        "endChar": 2
+      },
+      "revId": "af84ab5a1843efc8a2c58b1c03a5427a4be292cf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
