@@ -249,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "3339a607_67b9a78b",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-08-30T04:11:29Z",
+      "side": 1,
+      "message": "I normally wouldn\u0027t reply without new code, but I want to make sure I understand. Is this what you mean:\nRun the 1st interval just like the old code of one interval except d\u003d\u003dbenchtime/benchsplit instead of d\u003d\u003dbenchtime.\nFor the remaining benchsplit-1 intervals, run each for benchtime/benchsplit / first_interval.nsPerOp() iterations, regardless of how long it takes. If there does not need to be rounding on benchsplit-1 intervals\u0027s iteration count, I think we can expect to not go over benchtime by much.\n\n\"rather than one long interval and either a bunch of short intervals or a truncated split\"\nI assume this is referring to the code currently in this review, which favors uniform interval duration at the cost of overall runtime (slow growth) and truncated splits (\u003c benchsplit). So I see how that is \"one long interval and ... a truncated split\" But I don\u0027t see how it could lead to \"one long interval and ... a bunch of short intervals\". Maybe this is not referring to the code currently in this review.",
+      "parentUuid": "93467e61_fe8e9c6b",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 4
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4e7bc3d0_50e0ec3e",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
