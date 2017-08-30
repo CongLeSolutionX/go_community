@@ -34,6 +34,24 @@
       "revId": "931c43328a27ef763a6b0bacf9d5d55cd2c1a1b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51822492_768f5317",
+        "filename": "src/runtime/trace/trace.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 21000
+      },
+      "writtenOn": "2017-08-30T16:35:54Z",
+      "side": 1,
+      "message": "I should have sent a CL -- it would have been my first contribution and a reason to go throgh the process of setting up all necessary tools, but anyway, thanks :-)",
+      "parentUuid": "4f3e75de_0227688b",
+      "revId": "931c43328a27ef763a6b0bacf9d5d55cd2c1a1b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
