@@ -2361,6 +2361,7 @@ func TestFieldPkgPath(t *testing.T) {
 		Exported   string
 		unexported string
 		OtherPkgFields
+		int // issue 21702
 	}{})
 
 	type pkgpathTest struct {
@@ -2387,6 +2388,7 @@ func TestFieldPkgPath(t *testing.T) {
 		{[]int{2}, "", true},              // OtherPkgFields
 		{[]int{2, 0}, "", false},          // OtherExported
 		{[]int{2, 1}, "reflect", false},   // otherUnexported
+		{[]int{3}, "reflect_test", true},  // int
 	})
 
 	type localOtherPkgFields OtherPkgFields
