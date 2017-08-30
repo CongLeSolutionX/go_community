@@ -69,6 +69,24 @@
       "revId": "798d68b0bfb44b4000e37ffe7f779c48bb1af000",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "656f02ad_f41e8815",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3819,
+      "author": {
+        "id": 24430
+      },
+      "writtenOn": "2017-08-30T01:18:04Z",
+      "side": 1,
+      "message": "Thanks, for feedback. I have made the changes PTAL.",
+      "parentUuid": "98630ae4_9ff1c7e6",
+      "revId": "798d68b0bfb44b4000e37ffe7f779c48bb1af000",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
