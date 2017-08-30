@@ -151,6 +151,30 @@
       "revId": "c3b7672e1ea99a12b1819a42c430805b5d0d623f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90b0c6c2_1852846f",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-08-30T10:12:53Z",
+      "side": 1,
+      "message": "Does it need to be an intrinsic in the first place? Pattern matching works on all other platforms, and it\u0027s reasonable to expect to work for existing code (while you can\u0027t really expect to pattern-match stuff like popcnt)",
+      "parentUuid": "5176882f_adf70bda",
+      "range": {
+        "startLine": 258,
+        "startChar": 1,
+        "endLine": 259,
+        "endChar": 72
+      },
+      "revId": "c3b7672e1ea99a12b1819a42c430805b5d0d623f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
