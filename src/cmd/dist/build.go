@@ -93,125 +93,125 @@ func find(p string, l []string) int {
 
 // xinit handles initialization of the various global state, like goroot and goarch.
 func xinit() {
-	b := os.Getenv("GOROOT")
-	if b == "" {
-		fatal("$GOROOT must be set")
+	v := os.Getenv("GOROOT")
+	if v == "" {
+		fatalf("$GOROOT must be set")
 	}
-	goroot = filepath.Clean(b)
+	goroot = filepath.Clean(v)
 
-	b = os.Getenv("GOROOT_FINAL")
-	if b == "" {
-		b = goroot
+	v = os.Getenv("GOROOT_FINAL")
+	if v == "" {
+		v = goroot
 	}
-	goroot_final = b
+	goroot_final = v
 
-	b = os.Getenv("GOBIN")
-	if b == "" {
-		b = pathf("%s/bin", goroot)
+	v = os.Getenv("GOBIN")
+	if v == "" {
+		v = pathf("%s/bin", goroot)
 	}
-	gobin = b
+	gobin = v
 
-	b = os.Getenv("GOOS")
-	if b == "" {
-		b = gohostos
+	v = os.Getenv("GOOS")
+	if v == "" {
+		v = gohostos
 	}
-	goos = b
+	goos = v
 	if find(goos, okgoos) < 0 {
-		fatal("unknown $GOOS %s", goos)
+		fatalf("unknown $GOOS %s", goos)
 	}
 
-	b = os.Getenv("GOARM")
-	if b == "" {
-		b = xgetgoarm()
+	v = os.Getenv("GOARM")
+	if v == "" {
+		v = xgetgoarm()
 	}
-	goarm = b
+	goarm = v
 
-	b = os.Getenv("GO386")
-	if b == "" {
+	v = os.Getenv("GO386")
+	if v == "" {
 		if cansse2() {
-			b = "sse2"
+			v = "sse2"
 		} else {
-			b = "387"
+			v = "387"
 		}
 	}
-	go386 = b
+	go386 = v
 
 	if p := pathf("%s/src/all.bash", goroot); !isfile(p) {
-		fatal("$GOROOT is not set correctly or not exported\n"+
+		fatalf("$GOROOT is not set correctly or not exported\n"+
 			"\tGOROOT=%s\n"+
 			"\t%s does not exist", goroot, p)
 	}
 
-	b = os.Getenv("GOHOSTARCH")
-	if b != "" {
-		gohostarch = b
+	v = os.Getenv("GOHOSTARCH")
+	if v != "" {
+		gohostarch = v
 	}
 	if find(gohostarch, okgoarch) < 0 {
-		fatal("unknown $GOHOSTARCH %s", gohostarch)
+		fatalf("unknown $GOHOSTARCH %s", gohostarch)
 	}
 
-	b = os.Getenv("GOARCH")
-	if b == "" {
-		b = gohostarch
+	v = os.Getenv("GOARCH")
+	if v == "" {
+		v = gohostarch
 	}
-	goarch = b
+	goarch = v
 	if find(goarch, okgoarch) < 0 {
-		fatal("unknown $GOARCH %s", goarch)
+		fatalf("unknown $GOARCH %s", goarch)
 	}
 
-	b = os.Getenv("GO_EXTLINK_ENABLED")
-	if b != "" {
-		if b != "0" && b != "1" {
-			fatal("unknown $GO_EXTLINK_ENABLED %s", b)
+	v = os.Getenv("GO_EXTLINK_ENABLED")
+	if v != "" {
+		if v != "0" && v != "1" {
+			fatalf("unknown $GO_EXTLINK_ENABLED %s", v)
 		}
-		goextlinkenabled = b
+		goextlinkenabled = v
 	}
 
 	gogcflags = os.Getenv("BOOT_GO_GCFLAGS")
 
-	b = os.Getenv("CC")
-	if b == "" {
+	v = os.Getenv("CC")
+	if v == "" {
 		// Use clang on OS X, because gcc is deprecated there.
 		// Xcode for OS X 10.9 Mavericks will ship a fake "gcc" binary that
 		// actually runs clang. We prepare different command
 		// lines for the two binaries, so it matters what we call it.
 		// See golang.org/issue/5822.
 		if defaultclang {
-			b = "clang"
+			v = "clang"
 		} else {
-			b = "gcc"
+			v = "gcc"
 		}
 	}
-	defaultcc = b
+	defaultcc = v
 
 	defaultcflags = os.Getenv("CFLAGS")
 
 	defaultldflags = os.Getenv("LDFLAGS")
 
-	b = os.Getenv("CC_FOR_TARGET")
-	if b == "" {
-		b = defaultcc
+	v = os.Getenv("CC_FOR_TARGET")
+	if v == "" {
+		v = defaultcc
 	}
-	defaultcctarget = b
+	defaultcctarget = v
 
-	b = os.Getenv("CXX_FOR_TARGET")
-	if b == "" {
-		b = os.Getenv("CXX")
-		if b == "" {
+	v = os.Getenv("CXX_FOR_TARGET")
+	if v == "" {
+		v = os.Getenv("CXX")
+		if v == "" {
 			if defaultclang {
-				b = "clang++"
+				v = "clang++"
 			} else {
-				b = "g++"
+				v = "g++"
 			}
 		}
 	}
-	defaultcxxtarget = b
+	defaultcxxtarget = v
 
-	b = os.Getenv("PKG_CONFIG")
-	if b == "" {
-		b = "pkg-config"
+	v = os.Getenv("PKG_CONFIG")
+	if v == "" {
+		v = "pkg-config"
 	}
-	defaultpkgconfigtarget = b
+	defaultpkgconfigtarget = v
 
 	// For tools being invoked but also for os.ExpandEnv.
 	os.Setenv("GO386", go386)
@@ -247,9 +247,9 @@ func chomp(s string) string {
 }
 
 func branchtag(branch string) (tag string, precise bool) {
-	b := run(goroot, CheckExit, "git", "log", "--decorate=full", "--format=format:%d", "master.."+branch)
+	log := run(goroot, CheckExit, "git", "log", "--decorate=full", "--format=format:%d", "master.."+branch)
 	tag = branch
-	for row, line := range strings.Split(b, "\n") {
+	for row, line := range strings.Split(log, "\n") {
 		// Each line is either blank, or looks like
 		//	  (tag: refs/tags/go1.4rc2, refs/remotes/origin/release-branch.go1.4, refs/heads/release-branch.go1.4)
 		// We need to find an element starting with refs/tags/.
@@ -301,7 +301,7 @@ func findgoversion() string {
 
 	// Show a nicer error message if this isn't a Git repo.
 	if !isGitRepo() {
-		fatal("FAILED: not a Git repo; must put a VERSION file in $GOROOT")
+		fatalf("FAILED: not a Git repo; must put a VERSION file in $GOROOT")
 	}
 
 	// Otherwise, use Git.
@@ -448,7 +448,7 @@ func setup() {
 	if strings.HasPrefix(goversion, "release.") || (strings.HasPrefix(goversion, "go") && !strings.Contains(goversion, "beta")) {
 		for _, dir := range unreleased {
 			if p := pathf("%s/%s", goroot, dir); isdir(p) {
-				fatal("%s should not exist in release build", p)
+				fatalf("%s should not exist in release build", p)
 			}
 		}
 	}
@@ -666,7 +666,7 @@ func install(dir string) {
 		}
 		// Did not rebuild p.
 		if find(p, missing) >= 0 {
-			fatal("missing file %s", p)
+			fatalf("missing file %s", p)
 		}
 	built:
 	}
@@ -987,7 +987,7 @@ func cmdbootstrap() {
 	xflagparse(0)
 
 	if isdir(pathf("%s/src/pkg", goroot)) {
-		fatal("\n\n"+
+		fatalf("\n\n"+
 			"The Go package sources have moved to $GOROOT/src.\n"+
 			"*** %s still exists. ***\n"+
 			"It probably contains stale files that may confuse the build.\n"+
@@ -1127,7 +1127,7 @@ func checkCC() {
 		if len(output) > 0 {
 			outputHdr = "\nCommand output:\n\n"
 		}
-		fatal("cannot invoke C compiler %q: %v\n\n"+
+		fatalf("cannot invoke C compiler %q: %v\n\n"+
 			"Go needs a system C compiler for use with cgo.\n"+
 			"To set a C compiler, set CC=the-compiler.\n"+
 			"To disable cgo, set CGO_ENABLED=0.\n%s%s", defaultcc, err, outputHdr, output)
@@ -1143,7 +1143,7 @@ func defaulttarg() string {
 	src := pathf("%s/src/", goroot)
 	real_src := xrealwd(src)
 	if !strings.HasPrefix(pwd, real_src) {
-		fatal("current directory %s is not under %s", pwd, real_src)
+		fatalf("current directory %s is not under %s", pwd, real_src)
 	}
 	pwd = pwd[len(real_src):]
 	// guard against xrealwd returning the directory without the trailing /
@@ -1247,9 +1247,9 @@ func cmdlist() {
 	}
 	out, err := json.MarshalIndent(results, "", "\t")
 	if err != nil {
-		fatal("json marshal error: %v", err)
+		fatalf("json marshal error: %v", err)
 	}
 	if _, err := os.Stdout.Write(out); err != nil {
-		fatal("write failed: %v", err)
+		fatalf("write failed: %v", err)
 	}
 }
