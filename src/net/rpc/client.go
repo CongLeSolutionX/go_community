@@ -6,12 +6,14 @@ package rpc
 
 import (
 	"bufio"
+	"context"
 	"encoding/gob"
 	"errors"
 	"io"
 	"log"
 	"net"
 	"net/http"
+	"runtime/trace"
 	"sync"
 )
 
@@ -25,13 +27,15 @@ func (e ServerError) Error() string {
 
 var ErrShutdown = errors.New("connection is shut down")
 
-// Call represents an active RPC.
+// Call represents an active RPC on client side.
 type Call struct {
 	ServiceMethod string      // The name of the service and method to call.
 	Args          interface{} // The argument to the function (*struct).
 	Reply         interface{} // The reply from the function (*struct).
 	Error         error       // After completion, the error status.
 	Done          chan *Call  // Strobes when call is complete.
+	ctx           context.Context
+	onFinish      func(string)
 }
 
 // Client represents an RPC Client.
@@ -68,6 +72,14 @@ type ClientCodec interface {
 	Close() error
 }
 
+func findServer(codec ClientCodec) string {
+	peer := "peer unknown"
+	if conn, ok := codec.(net.Conn); ok {
+		peer = conn.RemoteAddr().String()
+	}
+	return peer
+}
+
 func (client *Client) send(call *Call) {
 	client.reqMutex.Lock()
 	defer client.reqMutex.Unlock()
@@ -84,6 +96,11 @@ func (client *Client) send(call *Call) {
 	client.seq++
 	client.pending[seq] = call
 	client.mutex.Unlock()
+
+	peer := findServer(client.codec)
+	call.ctx, call.onFinish = trace.WithSpan(bgctx, call.ServiceMethod, uniqID(peer, seq))
+	detach := trace.Attach(call.ctx)
+	defer detach()
 
 	// Encode and send the request.
 	client.request.Seq = seq
@@ -116,6 +133,11 @@ func (client *Client) input() {
 		delete(client.pending, seq)
 		client.mutex.Unlock()
 
+		var detachSpan func()
+		if call != nil && call.ctx != nil {
+			detachSpan = trace.Attach(call.ctx)
+		}
+
 		switch {
 		case call == nil:
 			// We've got no pending call. That usually means that
@@ -143,6 +165,9 @@ func (client *Client) input() {
 				call.Error = errors.New("reading body " + err.Error())
 			}
 			call.done()
+		}
+		if detachSpan != nil {
+			detachSpan()
 		}
 	}
 	// Terminate pending calls.
@@ -178,6 +203,15 @@ func (call *Call) done() {
 		if debugLog {
 			log.Println("rpc: discarding Call reply due to insufficient Done chan capacity")
 		}
+		trace.Log("insufficient Done chan capacity")
+	}
+	if call.onFinish == nil {
+		return
+	}
+	if err := call.Error; err != nil {
+		call.onFinish(err.Error())
+	} else {
+		call.onFinish("")
 	}
 }
 
