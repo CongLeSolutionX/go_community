@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "47dc8c41_0f1b4288",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-31T13:17:57Z",
+      "side": 1,
+      "message": "#14844 is about the spec issue, which this CL eventually clarifies and then fixes. I filed a new issue for cmd/compile (#21693).",
+      "parentUuid": "e1aa0dbe_c98ca6e1",
+      "revId": "7d2a75a60cf00e25d4dcfb602e1c9b46d9bc6176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "beb76a70_3cf1c460",
         "filename": "doc/go_spec.html",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-08-30T13:49:23Z",
       "side": 1,
       "message": "I don\u0027t understand how this is correct.  In\n    var u \u003d 1.0 \u003c\u003c s\nThe shift expression\u0027s context does not dictate a type other than int, but I think we agree that this is invalid, as shown in the table below.",
+      "revId": "7d2a75a60cf00e25d4dcfb602e1c9b46d9bc6176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8288e5b_439939cf",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 3449,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-08-31T13:17:57Z",
+      "side": 1,
+      "message": "Fair enough. What I mean is that there\u0027s no other rules that dictate a type. I\u0027ll try to come up with a better formulation. (Maybe I should just enumerate the cases - index and slice indices, make size arguments).",
+      "parentUuid": "beb76a70_3cf1c460",
       "revId": "7d2a75a60cf00e25d4dcfb602e1c9b46d9bc6176",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
