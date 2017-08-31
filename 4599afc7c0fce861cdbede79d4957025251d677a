@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b4ea3cfd_74d7204d",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-08-31T12:56:06Z",
+      "side": 1,
+      "message": "Without checking compiler output i think buf can not be stack allocated because buf is passed to reader and writer below which mean src or dst could hold on to the backing array even past the lifetime of this function.",
+      "parentUuid": "9044275e_6f2ddbdb",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4018da7_e4e31fe2",
         "filename": "src/io/io.go",
         "patchSetId": 1
