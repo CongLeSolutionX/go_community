@@ -128,13 +128,16 @@ package rpc
 
 import (
 	"bufio"
+	"context"
 	"encoding/gob"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net"
 	"net/http"
 	"reflect"
+	"runtime/trace"
 	"strings"
 	"sync"
 	"unicode"
@@ -372,7 +375,7 @@ func (m *methodType) NumCalls() (n uint) {
 	return n
 }
 
-func (s *service) call(server *Server, sending *sync.Mutex, mtype *methodType, req *Request, argv, replyv reflect.Value, codec ServerCodec) {
+func (s *service) call(server *Server, sending *sync.Mutex, mtype *methodType, req *Request, argv, replyv reflect.Value, codec ServerCodec) string {
 	mtype.Lock()
 	mtype.numCalls++
 	mtype.Unlock()
@@ -387,6 +390,7 @@ func (s *service) call(server *Server, sending *sync.Mutex, mtype *methodType, r
 	}
 	server.sendResponse(sending, req, replyv.Interface(), codec, errmsg)
 	server.freeRequest(req)
+	return errmsg
 }
 
 type gobServerCodec struct {
@@ -395,6 +399,11 @@ type gobServerCodec struct {
 	enc    *gob.Encoder
 	encBuf *bufio.Writer
 	closed bool
+	peer   string
+}
+
+func (c *gobServerCodec) Peer() string {
+	return c.peer
 }
 
 func (c *gobServerCodec) ReadRequestHeader(r *Request) error {
@@ -443,21 +452,40 @@ func (c *gobServerCodec) Close() error {
 // connection. To use an alternate codec, use ServeCodec.
 func (server *Server) ServeConn(conn io.ReadWriteCloser) {
 	buf := bufio.NewWriter(conn)
+	peer := ""
+	if conn, ok := conn.(net.Conn); ok {
+		peer = conn.RemoteAddr().String()
+	}
 	srv := &gobServerCodec{
 		rwc:    conn,
 		dec:    gob.NewDecoder(conn),
 		enc:    gob.NewEncoder(buf),
 		encBuf: buf,
+		peer:   peer,
 	}
 	server.ServeCodec(srv)
+}
+
+type call struct {
+	ctx  context.Context
+	done func(string)
+}
+
+func findPeer(codec ServerCodec) string {
+	peer := "peer unknown"
+	if conn, ok := codec.(net.Conn); ok {
+		peer = conn.RemoteAddr().String()
+	}
+	return peer
 }
 
 // ServeCodec is like ServeConn but uses the specified codec to
 // decode requests and encode responses.
 func (server *Server) ServeCodec(codec ServerCodec) {
+	peer := findPeer(codec)
 	sending := new(sync.Mutex)
 	for {
-		service, mtype, req, argv, replyv, keepReading, err := server.readRequest(codec)
+		service, mtype, req, keepReading, err := server.readRequest(codec)
 		if err != nil {
 			if debugLog && err != io.EOF {
 				log.Println("rpc:", err)
@@ -472,16 +500,36 @@ func (server *Server) ServeCodec(codec ServerCodec) {
 			}
 			continue
 		}
-		go service.call(server, sending, mtype, req, argv, replyv, codec)
+		_, traceEnd := trace.WithSpan(bgctx, req.ServiceMethod, uniqID(peer, req.Seq))
+		argv, replyv, err := server.readRequestContd(codec, mtype)
+		if err != nil {
+			if debugLog && err != io.EOF {
+				log.Println("rpc:", err)
+			}
+			if !keepReading {
+				break
+			}
+			server.sendResponse(sending, req, invalidRequest, codec, err.Error())
+			server.freeRequest(req)
+			traceEnd(err.Error())
+			continue
+		}
+		go func() {
+			st := service.call(server, sending, mtype, req, argv, replyv, codec)
+			traceEnd(st)
+		}()
 	}
 	codec.Close()
 }
 
+var bgctx = context.Background()
+
 // ServeRequest is like ServeCodec but synchronously serves a single request.
 // It does not close the codec upon completion.
 func (server *Server) ServeRequest(codec ServerCodec) error {
+	peer := findPeer(codec)
 	sending := new(sync.Mutex)
-	service, mtype, req, argv, replyv, keepReading, err := server.readRequest(codec)
+	service, mtype, req, keepReading, err := server.readRequest(codec)
 	if err != nil {
 		if !keepReading {
 			return err
@@ -493,8 +541,22 @@ func (server *Server) ServeRequest(codec ServerCodec) error {
 		}
 		return err
 	}
-	service.call(server, sending, mtype, req, argv, replyv, codec)
-	return nil
+	var retErr error
+	trace.Do(bgctx, req.ServiceMethod, uniqID(peer, req.Seq), func(_ context.Context) string {
+		argv, replyv, retErr := server.readRequestContd(codec, mtype)
+		if retErr != nil {
+			if !keepReading {
+				return retErr.Error()
+			}
+			if req != nil {
+				server.sendResponse(sending, req, invalidRequest, codec, retErr.Error())
+				server.freeRequest(req)
+			}
+			return retErr.Error()
+		}
+		return service.call(server, sending, mtype, req, argv, replyv, codec)
+	})
+	return retErr
 }
 
 func (server *Server) getRequest() *Request {
@@ -537,7 +599,11 @@ func (server *Server) freeResponse(resp *Response) {
 	server.respLock.Unlock()
 }
 
-func (server *Server) readRequest(codec ServerCodec) (service *service, mtype *methodType, req *Request, argv, replyv reflect.Value, keepReading bool, err error) {
+func uniqID(peerAddr string, seq uint64) string {
+	return fmt.Sprintf("%s:%x", peerAddr, seq)
+}
+
+func (server *Server) readRequest(codec ServerCodec) (service *service, mtype *methodType, req *Request, keepReading bool, err error) {
 	service, mtype, req, keepReading, err = server.readRequestHeader(codec)
 	if err != nil {
 		if !keepReading {
@@ -547,7 +613,10 @@ func (server *Server) readRequest(codec ServerCodec) (service *service, mtype *m
 		codec.ReadRequestBody(nil)
 		return
 	}
+	return
+}
 
+func (server *Server) readRequestContd(codec ServerCodec, mtype *methodType) (argv, replyv reflect.Value, err error) {
 	// Decode the argument value.
 	argIsValue := false // if true, need to indirect before calling.
 	if mtype.ArgType.Kind() == reflect.Ptr {
