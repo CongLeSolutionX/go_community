@@ -335,7 +335,7 @@ func ReadFull(r Reader, buf []byte) (n int, err error) {
 // If dst implements the ReaderFrom interface,
 // the copy is implemented using it.
 func CopyN(dst Writer, src Reader, n int64) (written int64, err error) {
-	written, err = Copy(dst, LimitReader(src, n))
+	written, err = copyN(dst, src, n)
 	if written == n {
 		return n, nil
 	}
@@ -344,6 +344,49 @@ func CopyN(dst Writer, src Reader, n int64) (written int64, err error) {
 		err = EOF
 	}
 	return
+}
+
+func copyN(dst Writer, src Reader, n int64) (int64, error) {
+	// If the writer has a ReadFrom method, use it to do the copy.
+	if rt, ok := dst.(ReaderFrom); ok {
+		return rt.ReadFrom(LimitReader(src, n))
+	}
+
+	l := 32 * 1024 // same size as in copyBuffer
+	if n < int64(l) {
+		l = int(n)
+	}
+	buf := make([]byte, l)
+
+	var written int64
+	for nn := n; nn > 0; {
+		if nn < int64(len(buf)) {
+			buf = buf[:nn]
+		}
+
+		nr, errR := src.Read(buf)
+		nn -= int64(nr)
+		if nr > 0 {
+			nw, errW := dst.Write(buf[:nr])
+			if nw > 0 {
+				written += int64(nw)
+			}
+			if errW != nil {
+				return written, errW
+			}
+			if nr != nw {
+				return written, ErrShortWrite
+			}
+		}
+
+		if errR != nil {
+			if errR != EOF {
+				return written, errR
+			}
+			return written, nil
+		}
+	}
+	return written, nil
 }
 
 // Copy copies from src to dst until either EOF is reached
