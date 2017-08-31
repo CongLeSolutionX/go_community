@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b912c9d_d43f6412",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-31T17:44:12Z",
+      "side": 1,
+      "message": "Just n.Left \u003d tmp?",
+      "revId": "9f24bcf6e3ad2beb6689c219e51a5f06a29ed514",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
