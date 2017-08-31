@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9044275e_6f2ddbdb",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 15270
+      },
+      "writtenOn": "2017-08-31T12:17:33Z",
+      "side": 1,
+      "message": "No, it doesn\u0027t work so :(\nI made it constant sized, but it allocated the buf on heap anyway",
+      "parentUuid": "ce55e8f4_eb830a85",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f4018da7_e4e31fe2",
         "filename": "src/io/io.go",
         "patchSetId": 1
@@ -132,6 +150,24 @@
       "writtenOn": "2017-08-31T12:01:59Z",
       "side": 1,
       "message": "delete this",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "768c9356_e7e9bd0e",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 15270
+      },
+      "writtenOn": "2017-08-31T12:17:33Z",
+      "side": 1,
+      "message": "By deleting this compiler complains about missing return at end of function.",
+      "parentUuid": "2a59fcfb_e86df9f3",
       "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
