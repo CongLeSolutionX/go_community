@@ -16,6 +16,24 @@
       "revId": "c5ee29dd2922106d97a937562cc60cd46b8e5d0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1811cba_8c98fe9d",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 15270
+      },
+      "writtenOn": "2017-08-31T17:23:22Z",
+      "side": 1,
+      "message": "Because earlier src was always io.LimitedReader and it doesn\u0027t implement WriterTo interface so in the documentation it doesn\u0027t say that it can use src.WriteTo function.\nI can implement it in next CL.",
+      "parentUuid": "c4a01c3b_f8f0256e",
+      "revId": "c5ee29dd2922106d97a937562cc60cd46b8e5d0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
