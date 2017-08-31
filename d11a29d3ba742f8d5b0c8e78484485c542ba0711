@@ -16,6 +16,24 @@
       "revId": "d11a29d3ba742f8d5b0c8e78484485c542ba0711",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69abf237_88cd644a",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-08-31T19:37:55Z",
+      "side": 1,
+      "message": "Mmm. Most offsets are quite small, so I guess the question is whether it\u0027s worth having an extra abbrev to save a byte when the offset is 128-256. Looking at the DWARF for a random test, there are a few of those, but a pretty small minority. So I\u0027d say not worth it.",
+      "parentUuid": "c4051d96_58acdf15",
+      "revId": "d11a29d3ba742f8d5b0c8e78484485c542ba0711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
