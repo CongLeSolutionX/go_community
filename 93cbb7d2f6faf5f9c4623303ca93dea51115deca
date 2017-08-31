@@ -22,6 +22,30 @@
       "revId": "93cbb7d2f6faf5f9c4623303ca93dea51115deca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "172fdbb8_d3a96fac",
+        "filename": "misc/cgo/test/issue21708.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-08-31T22:19:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "decded53_295bc284",
+      "range": {
+        "startLine": 14,
+        "startChar": 31,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "93cbb7d2f6faf5f9c4623303ca93dea51115deca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
