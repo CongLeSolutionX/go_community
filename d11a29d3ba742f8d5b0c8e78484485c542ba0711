@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4051d96_58acdf15",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-08-31T19:22:53Z",
+      "side": 1,
+      "message": "For extra credit, use an appropriately sized DW_FORM_dataN opcode.",
+      "revId": "d11a29d3ba742f8d5b0c8e78484485c542ba0711",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
