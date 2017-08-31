@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "945f0626_2a94ca30",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-31T12:01:59Z",
+      "side": 1,
+      "message": "i would prefer if you didn\u0027t use named return values here. This isn\u0027t a public method, so documenting the return values is not an issue in this case.",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce55e8f4_eb830a85",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-31T12:01:59Z",
+      "side": 1,
+      "message": "i wonder, if you make this a constant sized allocation; always 32k, then this buffer should be stack allocatable -- or have a better chance of it.",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4018da7_e4e31fe2",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-31T12:01:59Z",
+      "side": 1,
+      "message": "for nn :\u003d n; nn \u003e 0; {",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2236f417_9cd0f84d",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-31T12:01:59Z",
+      "side": 1,
+      "message": "return written, ew",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "901c79c2_26595385",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-31T12:01:59Z",
+      "side": 1,
+      "message": "return written, ErrShortWrite",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af855d76_2de935ab",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-31T12:01:59Z",
+      "side": 1,
+      "message": "return written, er",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f61fdfb3_f99dba92",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-31T12:01:59Z",
+      "side": 1,
+      "message": "return written, nil",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a59fcfb_e86df9f3",
+        "filename": "src/io/io.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-08-31T12:01:59Z",
+      "side": 1,
+      "message": "delete this",
+      "revId": "4599afc7c0fce861cdbede79d4957025251d677a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
