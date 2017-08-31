@@ -264,7 +264,7 @@ func writefile(b, file string, flag int) {
 	}
 	mode := os.FileMode(0666)
 	if flag&writeExec != 0 {
-		mode = 0777
+		mode = os.FileMode(0777)
 	}
 	err := ioutil.WriteFile(file, new, mode)
 	if err != nil {
