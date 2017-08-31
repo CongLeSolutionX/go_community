@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4385abb7_62e3493d",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2978,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-08-31T16:11:52Z",
+      "side": 1,
+      "message": "I suggest splitting this into four bullets.\n\n  * a constant index x must be non-negative and representable by int (regardless of type).\n  * a constant index x that is untyped is given the type int.\n  * a non-constant index x must be of integer type.\n  * the index x is in range if 0 \u003c\u003d x \u003c len(a); otherwise it is out of range.\n\nThe second bullet adds the clarification needed for this CL.",
+      "revId": "5fce303078bba938b9f31251debcce94f89c043a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7396a619_7f9f3bc6",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 3449,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-08-31T16:11:52Z",
+      "side": 1,
+      "message": "I suggest deleting this new text (see note at top of reply).",
+      "revId": "5fce303078bba938b9f31251debcce94f89c043a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33a6b976_22ad67a8",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 5733,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-08-31T16:11:52Z",
+      "side": 1,
+      "message": "I suggest replacing this line with:\n\nEach of the size arguments n and m must be of integer type or an untyped constant;\nif the argument is an untyped constant, it is given type int.\n\n(The change from plural to singular makes clearer that it\u0027s OK for one to be untyped and the other not to be; they don\u0027t have to match. The second sentence is the important change for this CL.)",
+      "revId": "5fce303078bba938b9f31251debcce94f89c043a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
