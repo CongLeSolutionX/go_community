@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bafc03d4_91beab05",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-31T17:49:46Z",
+      "side": 1,
+      "message": "You should add a rule to generate MOVLstoreidx8 here also.",
+      "revId": "8427f05012cfaf9e0ef1afba41a5eefcc8f274ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f01055d2_3517a775",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1235,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-31T17:49:46Z",
+      "side": 1,
+      "message": "and here.",
+      "revId": "8427f05012cfaf9e0ef1afba41a5eefcc8f274ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5de1b9c4_c9a8daab",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-08-31T17:49:46Z",
+      "side": 1,
+      "message": "and here",
+      "revId": "8427f05012cfaf9e0ef1afba41a5eefcc8f274ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
