@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "3872b285_e84a9139",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-08-31T14:40:17Z",
+      "side": 1,
+      "message": "I think we should include a context in here.\nConnect(ctx context.Context) (Conn, error)\n\nThen we can pipe the ctx when sql.conn needs to create a connection on demand.\n\nConnect docs needs to specify the provided context is for dialing only. Read docs on net.DialContext for how it would be used. Drivers should not store this context internally.",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fdf5f0d2_5bb5c4b2",
         "filename": "src/database/sql/driver/driver.go",
         "patchSetId": 3
@@ -30,6 +53,75 @@
       "writtenOn": "2017-08-21T05:07:12Z",
       "side": 1,
       "message": "There should be a blank line in between.",
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa2f6edd_4a63379b",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-08-31T14:40:17Z",
+      "side": 1,
+      "message": "A bit verbose and includes details the consumer of the sql package doesn\u0027t really need to know.\nMaybe:\n// OpenDB opens a database using a Connector, allowing drivers to\n// bypass a string based data source name.",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 591,
+        "endChar": 42
+      },
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f26ef7e_ac3a23ba",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-08-31T14:40:17Z",
+      "side": 1,
+      "message": "use context.Background() here for now and rely on general connection timeouts.",
+      "range": {
+        "startLine": 915,
+        "startChar": 32,
+        "endLine": 915,
+        "endChar": 34
+      },
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cb3403a_004c2a47",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1033,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-08-31T14:40:17Z",
+      "side": 1,
+      "message": "This should use the provided ctx argument.",
+      "range": {
+        "startLine": 1033,
+        "startChar": 32,
+        "endLine": 1033,
+        "endChar": 34
+      },
       "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
