@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c162add0_c3d4a713",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 2978,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-09-01T14:47:10Z",
+      "side": 1,
+      "message": "Nice catch, thanks.",
+      "parentUuid": "058be6dd_acbe8699",
+      "revId": "5fce303078bba938b9f31251debcce94f89c043a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7396a619_7f9f3bc6",
         "filename": "doc/go_spec.html",
         "patchSetId": 2
