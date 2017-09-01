@@ -22,6 +22,30 @@
       "revId": "6433815c41f0a2738cfa689be5d452073efda478",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c821f59a_36f48347",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1566,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-09-01T13:22:05Z",
+      "side": 1,
+      "message": "Thank you. As you said, this program indeed hangs before and finishes quickly after the fix. In my opinion, the old behavior isn\u0027t as bad, though. If the two return Value have the same pointer, it is a valid pointer and won\u0027t crash the GC, although it does prevent the int from being collected. So in some sense this is a stronger test. Do we want to ensure this behavior?",
+      "parentUuid": "e7765c86_ee445098",
+      "range": {
+        "startLine": 1560,
+        "startChar": 0,
+        "endLine": 1566,
+        "endChar": 2
+      },
+      "revId": "6433815c41f0a2738cfa689be5d452073efda478",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
