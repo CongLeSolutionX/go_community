@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4336863f_9faa5362",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1553,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-01T17:50:09Z",
+      "side": 1,
+      "message": "Might want to add a comment explaining the second term, since none of the other checks in this function have something like that.",
+      "revId": "afa0386dd958d7cb421ecdacececf311d8b2834a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d0342d5_57bf9b7d",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 3
@@ -36,6 +53,23 @@
     },
     {
       "key": {
+        "uuid": "384e4b0c_f45fa36f",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1568,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-01T17:50:09Z",
+      "side": 1,
+      "message": "// out[0] should not alias out[1]\u0027s memory, so the finalizer should run.",
+      "revId": "afa0386dd958d7cb421ecdacececf311d8b2834a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c8c29a8_14c4af30",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 3
@@ -47,6 +81,23 @@
       "writtenOn": "2017-09-01T16:55:04Z",
       "side": 1,
       "message": "Now that we have runtime.KeepAlive, do we still need to use the global \"sink\" variable?\n\nSeems like this could just be a `runtime.KeepAlive(v)` call after the loop.",
+      "revId": "afa0386dd958d7cb421ecdacececf311d8b2834a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8675652_b9faf819",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1577,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-01T17:50:09Z",
+      "side": 1,
+      "message": "Maybe a runtime.Gosched() or a short sleep would be good. If this is run with GOMAXPROCS\u003d1 it\u0027s at least in principle possible to starve out the finalizer queue.",
       "revId": "afa0386dd958d7cb421ecdacececf311d8b2834a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
