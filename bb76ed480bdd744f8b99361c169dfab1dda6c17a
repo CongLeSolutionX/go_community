@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a7d6b5a_932af9de",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-01T17:57:32Z",
+      "side": 1,
+      "message": "This change seems unnecessary.",
+      "revId": "bb76ed480bdd744f8b99361c169dfab1dda6c17a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "addf06c7_4c08fefa",
+        "filename": "src/cmd/dist/buildgo.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-01T17:57:32Z",
+      "side": 1,
+      "message": "This change seems unnecessary.  There is nothing wrong with calling buf.WriteString.",
+      "revId": "bb76ed480bdd744f8b99361c169dfab1dda6c17a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
