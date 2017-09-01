@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d0342d5_57bf9b7d",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-09-01T16:55:04Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to GC at the start of this test any more. (Might improve test latency to omit it.)",
+      "revId": "afa0386dd958d7cb421ecdacececf311d8b2834a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c8c29a8_14c4af30",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-09-01T16:55:04Z",
+      "side": 1,
+      "message": "Now that we have runtime.KeepAlive, do we still need to use the global \"sink\" variable?\n\nSeems like this could just be a `runtime.KeepAlive(v)` call after the loop.",
+      "revId": "afa0386dd958d7cb421ecdacececf311d8b2834a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
