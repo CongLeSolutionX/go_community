@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "260090b4_0fe38658",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1561,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-09-01T16:55:37Z",
+      "side": 1,
+      "message": "Without this line the finalizer doesn\u0027t run. In a standalone program it is ok without this. I\u0027m not sure why...\n\nBefore the fix, the finalizer doesn\u0027t run with or without this line.",
+      "revId": "afa0386dd958d7cb421ecdacececf311d8b2834a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c8c29a8_14c4af30",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 3
