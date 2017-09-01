@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "7b2c080a_f5c6c169",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-01T14:17:35Z",
+      "side": 1,
+      "message": "s/pass/past/g",
+      "revId": "6433815c41f0a2738cfa689be5d452073efda478",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73e2c023_895edeba",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-01T14:17:35Z",
+      "side": 1,
+      "message": "past",
+      "range": {
+        "startLine": 1555,
+        "startChar": 17,
+        "endLine": 1555,
+        "endChar": 21
+      },
+      "revId": "6433815c41f0a2738cfa689be5d452073efda478",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e7765c86_ee445098",
         "filename": "src/reflect/all_test.go",
         "patchSetId": 1
@@ -42,6 +82,53 @@
         "startChar": 0,
         "endLine": 1566,
         "endChar": 2
+      },
+      "revId": "6433815c41f0a2738cfa689be5d452073efda478",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a95e1125_bac01963",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1566,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-01T14:17:35Z",
+      "side": 1,
+      "message": "In general I hate tests that depend on finalizers, but there\u0027s really no good way to test for these sorts of issues [1], so directly testing for the pointer aliasing using a finalizer might be the best we can do.\n\nI would put in a time out (see other finalizer tests), and you don\u0027t need the exhaust list (at least, currently, and a bunch of other tests will break if something like that does become necessary, so we\u0027ll fix them then).\n\n[1] I wonder if we should make one? I\u0027ve filed golang.org/issue/21730",
+      "parentUuid": "c821f59a_36f48347",
+      "range": {
+        "startLine": 1560,
+        "startChar": 0,
+        "endLine": 1566,
+        "endChar": 2
+      },
+      "revId": "6433815c41f0a2738cfa689be5d452073efda478",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79f30dff_ec227610",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-01T14:17:35Z",
+      "side": 1,
+      "message": "point",
+      "range": {
+        "startLine": 462,
+        "startChar": 49,
+        "endLine": 462,
+        "endChar": 55
       },
       "revId": "6433815c41f0a2738cfa689be5d452073efda478",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
