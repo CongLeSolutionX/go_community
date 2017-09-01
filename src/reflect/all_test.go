@@ -15,6 +15,7 @@ import (
 	"os"
 	. "reflect"
 	"runtime"
+	"runtime/debug"
 	"sort"
 	"strconv"
 	"strings"
@@ -1527,6 +1528,10 @@ func takesNonEmpty(n nonEmptyStruct) int {
 	return n.member
 }
 
+func returnEmpty2(int) emptyStruct {
+	return emptyStruct{}
+}
+
 func TestCallWithStruct(t *testing.T) {
 	r := ValueOf(returnEmpty).Call(nil)
 	if len(r) != 1 || r[0].Type() != TypeOf(emptyStruct{}) {
@@ -1543,6 +1548,21 @@ func TestCallWithStruct(t *testing.T) {
 	r = ValueOf(takesNonEmpty).Call([]Value{ValueOf(nonEmptyStruct{member: 42})})
 	if len(r) != 1 || r[0].Type() != TypeOf(1) || r[0].Int() != 42 {
 		t.Errorf("takesNonEmpty returned %#v", r)
+	}
+}
+
+func TestCallReturnsEmpty(t *testing.T) {
+	// Issue 21717: pass-the-end pointer write in Call with
+	// nonzero-sized frame and zero-sized return value.
+	runtime.GC()
+	old := debug.SetGCPercent(1)
+	defer debug.SetGCPercent(old)
+	for i := 0; i < 10000; i++ {
+		r := ValueOf(returnEmpty2).Call([]Value{ValueOf(42)})
+		if len(r) != 1 || r[0].Interface() != (emptyStruct{}) {
+			t.Errorf("returnEmpty2 returned %#v instead", r)
+		}
+		sink = new(int)
 	}
 }
 
