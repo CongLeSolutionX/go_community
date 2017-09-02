@@ -2192,6 +2192,13 @@ func (mux *ServeMux) match(path string) (h Handler, pattern string) {
 	return
 }
 
+// shouldRedirect returns true if the given path is not ended with "/"
+// and its handler is not registered.
+func (mux *ServeMux) shouldRedirect(path string) bool {
+	n := len(path)
+	return n > 0 && path[n-1] != '/' && !mux.m[path].explicit && mux.m[path+"/"].explicit
+}
+
 // Handler returns the handler to use for the given request,
 // consulting r.Method, r.Host, and r.URL.Path. It always returns
 // a non-nil handler. If the path is not in its canonical form, the
@@ -2211,6 +2218,16 @@ func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string) {
 
 	// CONNECT requests are not canonicalized.
 	if r.Method == "CONNECT" {
+		// If r.URL.Path is /tree and its handler is not registered,
+		// the /tree -> /tree/ redirect applies to CONNECT requests
+		// but the path canonicalization does not.
+		// It can be overridden by an explicit registration.
+		if path := r.URL.Path; mux.shouldRedirect(path) {
+			path = path + "/"
+			url := &url.URL{Path: path, RawQuery: r.URL.RawQuery}
+			return RedirectHandler(url.String(), StatusMovedPermanently), path
+		}
+
 		return mux.handler(r.Host, r.URL.Path)
 	}
 
@@ -2218,6 +2235,16 @@ func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string) {
 	// before passing to mux.handler.
 	host := stripHostPort(r.Host)
 	path := cleanPath(r.URL.Path)
+
+	// If the given path is /tree and its handler is not registered,
+	// redirect for /tree/.
+	// It can be overridden by an explicit registration.
+	if mux.shouldRedirect(path) {
+		path = path + "/"
+		url := &url.URL{Path: path, RawQuery: r.URL.RawQuery}
+		return RedirectHandler(url.String(), StatusMovedPermanently), path
+	}
+
 	if path != r.URL.Path {
 		_, pattern = mux.handler(host, path)
 		url := *r.URL
@@ -2284,23 +2311,6 @@ func (mux *ServeMux) Handle(pattern string, handler Handler) {
 
 	if pattern[0] != '/' {
 		mux.hosts = true
-	}
-
-	// Helpful behavior:
-	// If pattern is /tree/, insert an implicit permanent redirect for /tree.
-	// It can be overridden by an explicit registration.
-	n := len(pattern)
-	if n > 0 && pattern[n-1] == '/' && !mux.m[pattern[0:n-1]].explicit {
-		// If pattern contains a host name, strip it and use remaining
-		// path for redirect.
-		path := pattern
-		if pattern[0] != '/' {
-			// In pattern, at least the last character is a '/', so
-			// strings.Index can't be -1.
-			path = pattern[strings.Index(pattern, "/"):]
-		}
-		url := &url.URL{Path: path}
-		mux.m[pattern[0:n-1]] = muxEntry{h: RedirectHandler(url.String(), StatusMovedPermanently), pattern: pattern}
 	}
 }
 
