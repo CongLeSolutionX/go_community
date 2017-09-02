@@ -339,3 +339,199 @@ func ExampleTime_Truncate() {
 	// t.Truncate( 1m0s) = 12:15:00
 	// t.Truncate(10m0s) = 12:10:00
 }
+
+func ExampleLocation() {
+	london, err := time.LoadLocation("Europe/London") // Or GMT
+	if err != nil {
+		fmt.Printf("Could not find location: %v\n", err)
+		return
+	}
+	newYork, err := time.LoadLocation("America/New_York") // Or EST
+	if err != nil {
+		fmt.Printf("Could not find location: %v\n", err)
+		return
+	}
+
+	timeInLondon := time.Date(2009, 1, 1, 0, 0, 0, 0, london)
+	timeInNewYork := time.Date(2009, 1, 1, 0, 0, 0, 0, newYork)
+	timeDifference := timeInNewYork.Sub(timeInLondon)
+	fmt.Printf("London is %v ahead of New York.\n", timeDifference)
+
+	// Output:
+	// London is 5h0m0s ahead of New York.
+}
+
+func ExampleTime_Add() {
+	start := time.Date(2009, 1, 1, 12, 0, 0, 0, time.UTC)
+	afterTenSeconds := start.Add(time.Second * 10)
+	afterTenMinutes := start.Add(time.Minute * 10)
+	afterTenHours := start.Add(time.Hour * 10)
+	afterTenDays := start.Add(time.Hour * 24 * 10)
+
+	fmt.Printf("start = %v\n", start)
+	fmt.Printf("start.Add(time.Second * 10) = %v\n", afterTenSeconds)
+	fmt.Printf("start.Add(time.Minute * 10) = %v\n", afterTenMinutes)
+	fmt.Printf("start.Add(time.Hour * 10) = %v\n", afterTenHours)
+	fmt.Printf("start.Add(time.Hour * 24 * 10) = %v\n", afterTenDays)
+
+	// Output:
+	// start = 2009-01-01 12:00:00 +0000 UTC
+	// start.Add(time.Second * 10) = 2009-01-01 12:00:10 +0000 UTC
+	// start.Add(time.Minute * 10) = 2009-01-01 12:10:00 +0000 UTC
+	// start.Add(time.Hour * 10) = 2009-01-01 22:00:00 +0000 UTC
+	// start.Add(time.Hour * 24 * 10) = 2009-01-11 12:00:00 +0000 UTC
+}
+
+func ExampleTime_AddDate() {
+	start := time.Date(2009, 1, 1, 0, 0, 0, 0, time.UTC)
+	oneDayLater := start.AddDate(0, 0, 1)
+	oneMonthLater := start.AddDate(0, 1, 0)
+	oneYearLater := start.AddDate(1, 0, 0)
+
+	fmt.Printf("oneDayLater: start.AddDate(0, 0, 1) = %v\n", oneDayLater)
+	fmt.Printf("oneMonthLater: start.AddDate(0, 1, 0) = %v\n", oneMonthLater)
+	fmt.Printf("oneYearLater: start.AddDate(1, 0, 0) = %v\n", oneYearLater)
+
+	// Output:
+	// oneDayLater: start.AddDate(0, 0, 1) = 2009-01-02 00:00:00 +0000 UTC
+	// oneMonthLater: start.AddDate(0, 1, 0) = 2009-02-01 00:00:00 +0000 UTC
+	// oneYearLater: start.AddDate(1, 0, 0) = 2010-01-01 00:00:00 +0000 UTC
+}
+
+func ExampleTime_After() {
+	year2000 := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)
+	year3000 := time.Date(3000, 1, 1, 0, 0, 0, 0, time.UTC)
+
+	isYear3000AfterYear2000 := year3000.After(year2000) // True
+	isYear2000AfterYear3000 := year2000.After(year3000) // False
+
+	fmt.Printf("year3000.After(year2000) = %v\n", isYear3000AfterYear2000)
+	fmt.Printf("year2000.After(year3000) = %v\n", isYear2000AfterYear3000)
+
+	// Output:
+	// year3000.After(year2000) = true
+	// year2000.After(year3000) = false
+}
+
+func ExampleTime_Before() {
+	year2000 := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)
+	year3000 := time.Date(3000, 1, 1, 0, 0, 0, 0, time.UTC)
+
+	isYear2000BeforeYear3000 := year2000.Before(year3000) // True
+	isYear3000BeforeYear2000 := year3000.Before(year2000) // False
+
+	fmt.Printf("year2000.Before(year3000) = %v\n", isYear2000BeforeYear3000)
+	fmt.Printf("year3000.Before(year2000) = %v\n", isYear3000BeforeYear2000)
+
+	// Output:
+	// year2000.Before(year3000) = true
+	// year3000.Before(year2000) = false
+}
+
+func ExampleTime_Date() {
+	d := time.Date(2000, 2, 1, 12, 30, 0, 0, time.UTC)
+	year, month, day := d.Date()
+
+	fmt.Printf("year = %v\n", year)
+	fmt.Printf("month = %v\n", month)
+	fmt.Printf("day = %v\n", day)
+
+	// Output:
+	// year = 2000
+	// month = February
+	// day = 1
+}
+
+func ExampleTime_Day() {
+	d := time.Date(2000, 2, 1, 12, 30, 0, 0, time.UTC)
+	day := d.Day()
+
+	fmt.Printf("day = %v\n", day)
+
+	// Output:
+	// day = 1
+}
+
+func ExampleTime_Equal() {
+	london, err := time.LoadLocation("GMT")
+	if err != nil {
+		fmt.Printf("Could not find location: %v\n", err)
+		return
+	}
+	newYork, err := time.LoadLocation("EST")
+	if err != nil {
+		fmt.Printf("Could not find location: %v\n", err)
+		return
+	}
+
+	// Unlike the equal operator, Equal is aware that d1 and d2 are the
+	// same instant but in different time zones.
+	d1 := time.Date(2000, 2, 1, 12, 30, 0, 0, london)
+	d2 := time.Date(2000, 2, 1, 7, 30, 0, 0, newYork)
+
+	datesEqualUsingEqualOperator := d1 == d2
+	datesEqualUsingFunction := d1.Equal(d2)
+
+	fmt.Printf("datesEqualUsingEqualOperator = %v\n", datesEqualUsingEqualOperator)
+	fmt.Printf("datesEqualUsingFunction = %v\n", datesEqualUsingFunction)
+
+	// Output:
+	// datesEqualUsingEqualOperator = false
+	// datesEqualUsingFunction = true
+}
+
+func ExampleTime_MarshalJSON() {
+	timeWithNanoseconds := time.Date(2000, 2, 1, 12, 13, 14, 15, time.UTC)
+	withNanoseconds, _ := timeWithNanoseconds.MarshalJSON()
+
+	timeWithoutNanoseconds := time.Date(2000, 2, 1, 12, 13, 14, 0, time.UTC)
+	withoutNanoseconds, _ := timeWithoutNanoseconds.MarshalJSON()
+
+	fmt.Printf("withNanoseconds = %v\n", string(withNanoseconds))
+	fmt.Printf("withoutNanoseconds = %v\n", string(withoutNanoseconds))
+
+	// Output:
+	// withNanoseconds = "2000-02-01T12:13:14.000000015Z"
+	// withoutNanoseconds = "2000-02-01T12:13:14Z"
+}
+
+func ExampleTime_MarshalText() {
+	timeWithNanoseconds := time.Date(2000, 2, 1, 12, 13, 14, 15, time.UTC)
+	withNanoseconds, _ := timeWithNanoseconds.MarshalText()
+
+	timeWithoutNanoseconds := time.Date(2000, 2, 1, 12, 13, 14, 0, time.UTC)
+	withoutNanoseconds, _ := timeWithoutNanoseconds.MarshalText()
+
+	fmt.Printf("withNanoseconds = %v\n", string(withNanoseconds))
+	fmt.Printf("withoutNanoseconds = %v\n", string(withoutNanoseconds))
+
+	// Output:
+	// withNanoseconds = 2000-02-01T12:13:14.000000015Z
+	// withoutNanoseconds = 2000-02-01T12:13:14Z
+}
+
+func ExampleTime_String() {
+	timeWithNanoseconds := time.Date(2000, 2, 1, 12, 13, 14, 15, time.UTC)
+	withNanoseconds := timeWithNanoseconds.String()
+
+	timeWithoutNanoseconds := time.Date(2000, 2, 1, 12, 13, 14, 0, time.UTC)
+	withoutNanoseconds := timeWithoutNanoseconds.String()
+
+	fmt.Printf("withNanoseconds = %v\n", string(withNanoseconds))
+	fmt.Printf("withoutNanoseconds = %v\n", string(withoutNanoseconds))
+
+	// Output:
+	// withNanoseconds = 2000-02-01 12:13:14.000000015 +0000 UTC
+	// withoutNanoseconds = 2000-02-01 12:13:14 +0000 UTC
+}
+
+func ExampleTime_Sub() {
+	start := time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC)
+	end := time.Date(2000, 1, 1, 12, 0, 0, 0, time.UTC)
+
+	difference := end.Sub(start)
+	fmt.Printf("difference = %v\n", difference)
+
+	// Output:
+	// difference = 12h0m0s
+}
