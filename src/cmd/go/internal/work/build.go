@@ -3148,7 +3148,85 @@ func (b *Builder) GxxCmd(objdir string) []string {
 
 // gfortranCmd returns a gfortran command line prefix.
 func (b *Builder) gfortranCmd(objdir string) []string {
-	return b.ccompilerCmd("FC", "gfortran", objdir)
+	return b.fcompilerCmd("FC", "gfortran", objdir)
+}
+
+// fcompilerCmd returns a command line prefix for the given environment
+// variable and using the default command when the variable is empty.
+func (b *Builder) fcompilerCmd(envvar, defcmd, objdir string) []string {
+	// NOTE: env.go's mkEnv knows that the first three
+	// strings returned are "gfortran", "-I", objdir (and cuts them off).
+
+	compiler := envList(envvar, defcmd)
+	a := []string{compiler[0], "-I", objdir}
+	a = append(a, compiler[1:]...)
+
+	// Definitely want -fPIC but on Windows gcc complains
+	// "-fPIC ignored for target (all code is position independent)"
+	if cfg.Goos != "windows" {
+		a = append(a, "-fPIC")
+	}
+	a = append(a, b.gccArchArgs()...)
+	// gcc-4.5 and beyond require explicit "-pthread" flag
+	// for multithreading with pthread library.
+	if cfg.BuildContext.CgoEnabled {
+		switch cfg.Goos {
+		case "windows":
+			a = append(a, "-mthreads")
+		default:
+			a = append(a, "-pthread")
+		}
+	}
+
+	// disable word wrapping in error messages
+	a = append(a, "-fmessage-length=0")
+
+	init := true
+	supportsFlag := func(flag string) bool {
+		if init {
+			if cfg.BuildN || cfg.BuildX {
+				b.Showcmd(b.WorkDir, "touch trivial.f90")
+			}
+			src := filepath.Join(b.WorkDir, "trivial.f90")
+			if err := ioutil.WriteFile(src, []byte{}, 0666); err != nil {
+				return false
+			}
+			init = false
+		}
+		cmdArgs := []string{compiler[0], flag, "-c", "trivial.f90"}
+		if cfg.BuildN || cfg.BuildX {
+			b.Showcmd(b.WorkDir, "%s", joinUnambiguously(cmdArgs))
+			if cfg.BuildN {
+				return false
+			}
+		}
+		cmd := exec.Command(cmdArgs[0], cmdArgs[1:]...)
+		cmd.Dir = b.WorkDir
+		cmd.Env = base.MergeEnvLists([]string{"LC_ALL=C"}, base.EnvForDir(cmd.Dir, os.Environ()))
+		out, err := cmd.CombinedOutput()
+		supported := err == nil && !bytes.Contains(out, []byte("unrecognized"))
+		return supported
+	}
+
+	// Tell gcc not to include the work directory in object files.
+	if supportsFlag("-fdebug-prefix-map=a=b") {
+		a = append(a, "-fdebug-prefix-map="+b.WorkDir+"=/tmp/go-build")
+	}
+
+	// Tell gcc not to include flags in object files, which defeats the
+	// point of -fdebug-prefix-map above.
+	if supportsFlag("-gno-record-gcc-switches") {
+		a = append(a, "-gno-record-gcc-switches")
+	}
+
+	// On OS X, some of the compilers behave as if -fno-common
+	// is always set, and the Mach-O linker in 6l/8l assumes this.
+	// See https://golang.org/issue/3253.
+	if cfg.Goos == "darwin" {
+		a = append(a, "-fno-common")
+	}
+
+	return a
 }
 
 // ccompilerCmd returns a command line prefix for the given environment
