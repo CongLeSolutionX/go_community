@@ -2199,7 +2199,7 @@ func (mux *ServeMux) match(path string) (h Handler, pattern string) {
 // to the canonical path. If the host contains a port, it is ignored
 // when matching handlers.
 //
-// The path and host are used unchanged for CONNECT requests.
+// The path and host are used unchanged for CONNECT requests except redirection.
 //
 // Handler also returns the registered pattern that matches the
 // request or, in the case of internally-generated redirects,
@@ -2208,16 +2208,26 @@ func (mux *ServeMux) match(path string) (h Handler, pattern string) {
 // If there is no registered handler that applies to the request,
 // Handler returns a ``page not found'' handler and an empty pattern.
 func (mux *ServeMux) Handler(r *Request) (h Handler, pattern string) {
-
-	// CONNECT requests are not canonicalized.
-	if r.Method == "CONNECT" {
-		return mux.handler(r.Host, r.URL.Path)
-	}
-
 	// All other requests have any port stripped and path cleaned
 	// before passing to mux.handler.
 	host := stripHostPort(r.Host)
 	path := cleanPath(r.URL.Path)
+
+	// Helpful behavior:
+	// If pattern is /tree/, insert an implicit permanent redirect for /tree.
+	// It can be overridden by an explicit registration.
+	n := len(path)
+	if _, exist := mux.m[path]; !exist && n > 0 && path[n-1] != '/' && mux.m[path+"/"].explicit {
+		path = path + "/"
+		url := &url.URL{Path: path, RawQuery: r.URL.RawQuery}
+		return RedirectHandler(url.String(), StatusMovedPermanently), path
+	}
+
+	// CONNECT requests are not canonicalized except redirection.
+	if r.Method == "CONNECT" {
+		return mux.handler(r.Host, r.URL.Path)
+	}
+
 	if path != r.URL.Path {
 		_, pattern = mux.handler(host, path)
 		url := *r.URL
@@ -2284,23 +2294,6 @@ func (mux *ServeMux) Handle(pattern string, handler Handler) {
 
 	if pattern[0] != '/' {
 		mux.hosts = true
-	}
-
-	// Helpful behavior:
-	// If pattern is /tree/, insert an implicit permanent redirect for /tree.
-	// It can be overridden by an explicit registration.
-	n := len(pattern)
-	if n > 0 && pattern[n-1] == '/' && !mux.m[pattern[0:n-1]].explicit {
-		// If pattern contains a host name, strip it and use remaining
-		// path for redirect.
-		path := pattern
-		if pattern[0] != '/' {
-			// In pattern, at least the last character is a '/', so
-			// strings.Index can't be -1.
-			path = pattern[strings.Index(pattern, "/"):]
-		}
-		url := &url.URL{Path: path}
-		mux.m[pattern[0:n-1]] = muxEntry{h: RedirectHandler(url.String(), StatusMovedPermanently), pattern: pattern}
 	}
 }
 
