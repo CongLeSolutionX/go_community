@@ -23,6 +23,53 @@ func seq(lo, hi int) chan int {
 	return c
 }
 
+func testblankvars() {
+	seq := "abcdefghijklmnopqrstuvwxyz"
+	l := len(seq)
+	sum := 325
+
+	n := 0
+	for range seq {
+		n++
+	}
+	if n != l {
+		println("for range: wrong count", n, "want", l)
+		panic("fail")
+	}
+	n = 0
+	for _ = range seq {
+		n++
+	}
+	if n != l {
+		println("for _ = range: wrong count", n, "want", l)
+		panic("fail")
+	}
+	n = 0
+	for _, _ = range seq {
+		n++
+	}
+	if n != l {
+		println("for _, _ = range: wrong count", n, "want", l)
+		panic("fail")
+	}
+	s := 0
+	for i, _ := range seq {
+		s += i
+	}
+	if s != sum {
+		println("for i, _ := range: wrong sum", s, "want", sum)
+		panic("fail")
+	}
+	s = 0
+	for i, _ := range seq {
+		s += i
+	}
+	if s != sum {
+		println("for _, v := range: wrong sum", s, "want", sum)
+		panic("fail")
+	}
+}
+
 func testchan() {
 	s := ""
 	for i := range seq('a', 'z') {
@@ -38,6 +85,7 @@ func testchan() {
 	}
 	if n != 26 {
 		println("testchan wrong count", n, "want 26")
+		panic("fail")
 	}
 }
 
@@ -426,6 +474,7 @@ func testcalls() {
 }
 
 func main() {
+	testblankvars()
 	testchan()
 	testarray()
 	testarray1()
