@@ -71,12 +71,7 @@ func Round(x float64) float64 {
 	//   }
 	//   return t
 	// }
-	const (
-		signMask = 1 << 63
-		fracMask = 1<<shift - 1
-		half     = 1 << (shift - 1)
-		one      = bias << shift
-	)
+	const half = 1 << (shift - 1)
 
 	bits := Float64bits(x)
 	e := uint(bits>>shift) & mask
@@ -84,7 +79,7 @@ func Round(x float64) float64 {
 		// Round abs(x) < 1 including denormals.
 		bits &= signMask // +-0
 		if e == bias-1 {
-			bits |= one // +-1
+			bits |= uvone // +-1
 		}
 	} else if e < bias+shift {
 		// Round any abs(x) >= 1 containing a fractional component [0,1).
@@ -94,6 +89,45 @@ func Round(x float64) float64 {
 		e -= bias
 		bits += half >> e
 		bits &^= fracMask >> e
+	}
+	return Float64frombits(bits)
+}
+
+// RoundToEven returns the nearest integer, rounding ties to even.
+//
+// Special cases are:
+//	RoundToEven(±0) = ±0
+//	RoundToEven(±Inf) = ±Inf
+//	RoundToEven(NaN) = NaN
+func RoundToEven(x float64) float64 {
+	// RoundToEven is a faster implementation of:
+	//
+	// func RoundToEven(x float64) float64 {
+	//   t := math.Trunc(x)
+	//   odd := math.Remainder(t, 2) != 0
+	//   if d := math.Abs(x - t); d > 0.5 || (d == 0.5 && odd) {
+	//     return t + math.Copysign(1, x)
+	//   }
+	//   return t
+	// }
+	const halfMinusULP = (1 << (shift - 1)) - 1
+
+	bits := Float64bits(x)
+	e := uint(bits>>shift) & mask
+	if e >= bias {
+		// Round abs(x) >= 1.
+		// - Large numbers without fractional components, infinity, and NaN are unchanged.
+		// - Add 0.499.. or 0.5 before truncating depending on whether the truncated
+		//   number is even or odd (respectively).
+		e -= bias
+		bits += (halfMinusULP + (bits>>(shift-e))&1) >> e
+		bits &^= fracMask >> e
+	} else if e == bias-1 && bits&fracMask != 0 {
+		// Round 0.5 < abs(x) < 1.
+		bits = bits&signMask | uvone // +-1
+	} else {
+		// Round abs(x) <= 0.5 including denormals.
+		bits &= signMask // +-0
 	}
 	return Float64frombits(bits)
 }
