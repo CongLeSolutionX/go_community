@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49c71218_7706a950",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1677,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-09-03T21:36:01Z",
+      "side": 1,
+      "message": "There is a similar piece of logic in runtime/type.go:typesEqual that I believe you need to update.\n\n(I do wish we had some kind of test that worked these two functions against one another.)",
+      "revId": "463303eaa01cf6f0c6feb1ff67102b57837f3c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
