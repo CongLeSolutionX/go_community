@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0a36db3f_ac5df7b2",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 23866
+      },
+      "writtenOn": "2017-09-03T13:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17f5caad_2fdd3645",
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3872b285_e84a9139",
         "filename": "src/database/sql/driver/driver.go",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "d5204571_47c9a9c2",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 23866
+      },
+      "writtenOn": "2017-09-03T13:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3872b285_e84a9139",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 10
+      },
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdf5f0d2_5bb5c4b2",
         "filename": "src/database/sql/driver/driver.go",
         "patchSetId": 3
@@ -56,6 +98,24 @@
       "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e99ad230_e1435189",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 23866
+      },
+      "writtenOn": "2017-09-03T13:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdf5f0d2_5bb5c4b2",
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "28827b68_e811ff52",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 23866
+      },
+      "writtenOn": "2017-09-03T13:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa2f6edd_4a63379b",
+      "range": {
+        "startLine": 589,
+        "startChar": 0,
+        "endLine": 591,
+        "endChar": 42
+      },
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f26ef7e_ac3a23ba",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 3
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "10a48ed2_58b4f95e",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 23866
+      },
+      "writtenOn": "2017-09-03T13:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f26ef7e_ac3a23ba",
+      "range": {
+        "startLine": 915,
+        "startChar": 32,
+        "endLine": 915,
+        "endChar": 34
+      },
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cb3403a_004c2a47",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 3
@@ -125,6 +233,30 @@
       "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c726362d_7ef9ff56",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1033,
+      "author": {
+        "id": 23866
+      },
+      "writtenOn": "2017-09-03T13:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cb3403a_004c2a47",
+      "range": {
+        "startLine": 1033,
+        "startChar": 32,
+        "endLine": 1033,
+        "endChar": 34
+      },
+      "revId": "6e7abe194c51de700e641dfb281296d0d43bdd9d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
