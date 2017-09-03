@@ -1924,14 +1924,15 @@ func doversion() {
 type SymbolType int8
 
 const (
-	TextSym      SymbolType = 'T'
-	DataSym                 = 'D'
-	BSSSym                  = 'B'
-	UndefinedSym            = 'U'
-	TLSSym                  = 't'
-	FrameSym                = 'm'
-	ParamSym                = 'p'
-	AutoSym                 = 'a'
+	TextSym       SymbolType = 'T'
+	DataSym                  = 'D'
+	BSSSym                   = 'B'
+	UndefinedSym             = 'U'
+	TLSSym                   = 't'
+	FrameSym                 = 'm'
+	ParamSym                 = 'p'
+	AutoSym                  = 'a'
+	DwarfConstSym            = 'c'
 )
 
 func genasmsym(ctxt *Link, put func(*Link, *Symbol, string, SymbolType, int64, *Symbol)) {
@@ -2003,6 +2004,9 @@ func genasmsym(ctxt *Link, put func(*Link, *Symbol, string, SymbolType, int64, *
 				continue
 			}
 			put(ctxt, s, s.Name, DataSym, Symaddr(s), s.Gotype)
+
+		case SDWARFCONST:
+			put(ctxt, s, s.Name, DwarfConstSym, 0, s.Gotype)
 
 		case SBSS, SNOPTRBSS:
 			if !s.Attr.Reachable() {

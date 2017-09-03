@@ -334,7 +334,7 @@ overwrite:
 			}
 		}
 	}
-	if s.Type == SDWARFINFO {
+	if s.Type == SDWARFINFO || s.Type == SDWARFCONST {
 		r.patchDWARFName(s)
 	}
 }
@@ -342,7 +342,7 @@ overwrite:
 func (r *objReader) patchDWARFName(s *Symbol) {
 	// This is kind of ugly. Really the package name should not
 	// even be included here.
-	if s.Size < 1 || s.P[0] != dwarf.DW_ABRV_FUNCTION {
+	if s.Size < 1 || (s.P[0] != dwarf.DW_ABRV_FUNCTION && s.P[0] != dwarf.DW_ABRV_INT_CONSTANT) {
 		return
 	}
 	e := bytes.IndexByte(s.P, 0)

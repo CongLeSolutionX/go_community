@@ -87,6 +87,8 @@ var dwtypes dwarf.DWDie
 
 var dwglobals dwarf.DWDie
 
+var dwconsts []*Symbol
+
 func newattr(die *dwarf.DWDie, attr uint16, cls int, value int64, data interface{}) *dwarf.DWAttr {
 	a := new(dwarf.DWAttr)
 	a.Link = die.Attr
@@ -816,6 +818,11 @@ func defdwsymb(ctxt *Link, sym *Symbol, s string, t SymbolType, v int64, gotype 
 	default:
 		return
 
+	case DwarfConstSym:
+		importDebugSymbol(ctxt, sym)
+		dwconsts = append(dwconsts, sym)
+		return
+
 	case DataSym, BSSSym:
 		dv = newdie(ctxt, &dwglobals, dwarf.DW_ABRV_VARIABLE, s, int(sym.Version))
 		newabslocexprattr(dv, v, sym)
@@ -972,6 +979,21 @@ func getCompilationDir() string {
 	return "/"
 }
 
+func importDebugSymbol(ctxt *Link, dsym *Symbol) {
+	dsym.Attr |= AttrNotInSymbolTable | AttrReachable
+	dsym.Type = SDWARFINFO
+	for _, r := range dsym.R {
+		if r.Type == objabi.R_DWARFREF && r.Sym.Size == 0 {
+			if Buildmode == BuildmodeShared {
+				// These type symbols may not be present in BuildmodeShared. Skip.
+				continue
+			}
+			n := nameFromDIESym(r.Sym)
+			defgotype(ctxt, ctxt.Syms.Lookup("type."+n, 0))
+		}
+	}
+}
+
 func writelines(ctxt *Link, syms []*Symbol) ([]*Symbol, []*Symbol) {
 	var dwarfctxt dwarf.Context = dwctxt{ctxt}
 	ls := ctxt.Syms.Lookup(".debug_line", 0)
@@ -1064,18 +1086,7 @@ func writelines(ctxt *Link, syms []*Symbol) ([]*Symbol, []*Symbol) {
 		epcs = s
 
 		dsym := ctxt.Syms.Lookup(dwarf.InfoPrefix+s.Name, int(s.Version))
-		dsym.Attr |= AttrNotInSymbolTable | AttrReachable
-		dsym.Type = SDWARFINFO
-		for _, r := range dsym.R {
-			if r.Type == objabi.R_DWARFREF && r.Sym.Size == 0 {
-				if Buildmode == BuildmodeShared {
-					// These type symbols may not be present in BuildmodeShared. Skip.
-					continue
-				}
-				n := nameFromDIESym(r.Sym)
-				defgotype(ctxt, ctxt.Syms.Lookup("type."+n, 0))
-			}
-		}
+		importDebugSymbol(ctxt, dsym)
 		funcs = append(funcs, dsym)
 
 		finddebugruntimepath(s)
@@ -1329,6 +1340,10 @@ func writeinfo(ctxt *Link, syms []*Symbol, funcs []*Symbol, abbrevsym *Symbol) [
 		if funcs != nil {
 			cu = append(cu, funcs...)
 			funcs = nil
+		}
+		if dwconsts != nil {
+			cu = append(cu, dwconsts...)
+			dwconsts = nil
 		}
 		cu = putdies(ctxt, dwarfctxt, cu, compunit.Child)
 		var cusize int64
