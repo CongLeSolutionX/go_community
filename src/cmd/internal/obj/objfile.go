@@ -499,3 +499,14 @@ func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym) {
 		ctxt.Diag("emitting DWARF for %s failed: %v", s.Name, err)
 	}
 }
+
+// DwarfIntConst creates a link symbol for an integer constant with the
+// given name, type and value.
+func (ctxt *Link) DwarfIntConst(myimportpath, name, typename string, val int64) {
+	s := ctxt.LookupInit(dwarf.ConstInfoPrefix+myimportpath, func(s *LSym) {
+		s.Type = objabi.SDWARFINFO
+		s.Set(AttrDuplicateOK, true)
+		ctxt.Data = append(ctxt.Data, s)
+	})
+	dwarf.PutIntConst(dwCtxt{ctxt}, s, ctxt.Lookup(dwarf.InfoPrefix+typename), myimportpath+"."+name, val)
+}
