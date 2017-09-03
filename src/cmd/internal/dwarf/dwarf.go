@@ -234,6 +234,7 @@ const (
 	DW_ABRV_COMPUNIT
 	DW_ABRV_FUNCTION
 	DW_ABRV_VARIABLE
+	DW_ABRV_INT_CONSTANT
 	DW_ABRV_AUTO
 	DW_ABRV_AUTO_LOCLIST
 	DW_ABRV_PARAM
@@ -307,6 +308,17 @@ var abbrevs = [DW_NABRV]dwAbbrev{
 			{DW_AT_location, DW_FORM_block1},
 			{DW_AT_type, DW_FORM_ref_addr},
 			{DW_AT_external, DW_FORM_flag},
+		},
+	},
+
+	/* INT CONSTANT */
+	{
+		DW_TAG_constant,
+		DW_CHILDREN_no,
+		[]dwAttrForm{
+			{DW_AT_name, DW_FORM_string},
+			{DW_AT_type, DW_FORM_ref_addr},
+			{DW_AT_const_value, DW_FORM_sdata},
 		},
 	},
 

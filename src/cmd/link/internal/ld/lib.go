@@ -1932,6 +1932,7 @@ const (
 	FrameSym                = 'm'
 	ParamSym                = 'p'
 	AutoSym                 = 'a'
+	ConstSym                = 'c'
 )
 
 func genasmsym(ctxt *Link, put func(*Link, *Symbol, string, SymbolType, int64, *Symbol)) {
@@ -2003,6 +2004,9 @@ func genasmsym(ctxt *Link, put func(*Link, *Symbol, string, SymbolType, int64, *
 				continue
 			}
 			put(ctxt, s, s.Name, DataSym, Symaddr(s), s.Gotype)
+
+		case SDWARFINTCONST:
+			put(ctxt, s, s.Name, ConstSym, 0, s.Gotype)
 
 		case SBSS, SNOPTRBSS:
 			if !s.Attr.Reachable() {

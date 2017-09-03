@@ -214,7 +214,7 @@ func (f *Func) initLSym() {
 	Ctxt.InitTextSym(f.lsym, flag)
 }
 
-func ggloblnod(nam *Node) {
+func ggloblnod(nam *Node) *obj.LSym {
 	s := nam.Sym.Linksym()
 	s.Gotype = ngotype(nam).Linksym()
 	flags := 0
@@ -225,6 +225,7 @@ func ggloblnod(nam *Node) {
 		flags |= obj.NOPTR
 	}
 	Ctxt.Globl(s, nam.Type.Width, flags)
+	return s
 }
 
 func ggloblsym(s *obj.LSym, width int32, flags int16) {

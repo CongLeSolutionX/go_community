@@ -204,24 +204,59 @@ func addptabs() {
 	}
 }
 
+func dumpGlobal(n *Node) *obj.LSym {
+	if n.Type == nil {
+		Fatalf("external %v nil type\n", n)
+	}
+	if n.Class() == PFUNC {
+		return nil
+	}
+	if n.Sym.Pkg != localpkg {
+		return nil
+	}
+	dowidth(n.Type)
+	return ggloblnod(n)
+}
+
+func dumpGlobalConst(n *Node) {
+	// only export typed constants
+	if n.Type == nil {
+		return
+	}
+	// only export integer constants for now
+	switch n.Type.Etype {
+	case TINT8:
+	case TINT16:
+	case TINT32:
+	case TINT64:
+	case TINT:
+	case TUINT8:
+	case TUINT16:
+	case TUINT32:
+	case TUINT64:
+	case TUINT:
+	case TUINTPTR:
+		// ok
+	default:
+		return
+	}
+	s := dumpGlobal(n)
+	if s == nil {
+		return
+	}
+	s.Type = objabi.SDWARFINTCONST
+	s.WriteInt(Ctxt, 0, 8, n.Int64())
+}
+
 func dumpglobls() {
 	// add globals
 	for _, n := range externdcl {
-		if n.Op != ONAME {
-			continue
+		switch n.Op {
+		case ONAME:
+			dumpGlobal(n)
+		case OLITERAL:
+			dumpGlobalConst(n)
 		}
-
-		if n.Type == nil {
-			Fatalf("external %v nil type\n", n)
-		}
-		if n.Class() == PFUNC {
-			continue
-		}
-		if n.Sym.Pkg != localpkg {
-			continue
-		}
-		dowidth(n.Type)
-		ggloblnod(n)
 	}
 
 	obj.SortSlice(funcsyms, func(i, j int) bool {

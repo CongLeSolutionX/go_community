@@ -816,6 +816,13 @@ func defdwsymb(ctxt *Link, sym *Symbol, s string, t SymbolType, v int64, gotype 
 	default:
 		return
 
+	case ConstSym:
+		dv = newdie(ctxt, &dwglobals, dwarf.DW_ABRV_INT_CONSTANT, s, int(sym.Version))
+		newrefattr(dv, dwarf.DW_AT_type, defgotype(ctxt, gotype))
+		val := ctxt.Arch.ByteOrder.Uint64(sym.P)
+		newattr(dv, dwarf.DW_AT_const_value, dwarf.DW_FORM_sdata, int64(val), nil)
+		return
+
 	case DataSym, BSSSym:
 		dv = newdie(ctxt, &dwglobals, dwarf.DW_ABRV_VARIABLE, s, int(sym.Version))
 		newabslocexprattr(dv, v, sym)
