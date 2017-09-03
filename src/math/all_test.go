@@ -541,6 +541,7 @@ var round = []float64{
 	2,
 	-9,
 }
+var rint = round
 var signbit = []bool{
 	false,
 	false,
@@ -1780,6 +1781,19 @@ var vfroundSC = [][2]float64{
 	{4503599627370495.5, 4503599627370496}, // 1 bit fraction, rounding to 0 bit fraction
 	{4503599627370497, 4503599627370497},   // large integer
 }
+var vfrintSC = [][2]float64{
+	{0, 0},
+	{1.390671161567e-309, 0}, // denormal
+	{0.49999999999999994, 0}, // 0.5-epsilon
+	{0.5, 0},
+	{0.5000000000000001, 1}, // 0.5+epsilon
+	{-1.5, -2},
+	{NaN(), NaN()},
+	{Inf(1), Inf(1)},
+	{2251799813685249.5, 2251799813685250}, // 1 bit fraction
+	{4503599627370495.5, 4503599627370496}, // 1 bit fraction, rounding to 0 bit fraction
+	{4503599627370497, 4503599627370497},   // large integer
+}
 
 var vfsignbitSC = []float64{
 	Inf(-1),
@@ -2752,6 +2766,19 @@ func TestRound(t *testing.T) {
 	}
 }
 
+func TestRint(t *testing.T) {
+	for i := 0; i < len(vf); i++ {
+		if f := Rint(vf[i]); !alike(rint[i], f) {
+			t.Errorf("Rint(%g) = %g, want %g", vf[i], f, rint[i])
+		}
+	}
+	for i := 0; i < len(vfrintSC); i++ {
+		if f := Rint(vfrintSC[i][0]); !alike(vfrintSC[i][1], f) {
+			t.Errorf("Rint(%g) = %g, want %g", vfrintSC[i][0], f, vfrintSC[i][1])
+		}
+	}
+}
+
 func TestSignbit(t *testing.T) {
 	for i := 0; i < len(vf); i++ {
 		if f := Signbit(vf[i]); signbit[i] != f {
@@ -3405,6 +3432,14 @@ func BenchmarkRound(b *testing.B) {
 	x := 0.0
 	for i := 0; i < b.N; i++ {
 		x = Round(roundNeg)
+	}
+	GlobalF = x
+}
+
+func BenchmarkRint(b *testing.B) {
+	x := 0.0
+	for i := 0; i < b.N; i++ {
+		x = Rint(roundNeg)
 	}
 	GlobalF = x
 }
