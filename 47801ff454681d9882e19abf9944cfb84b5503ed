@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9aebb1e_579e9065",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-09-03T14:20:50Z",
+      "side": 1,
+      "message": "Comment sections need to be connected with an empty comment line:\n// Blah\n//\n// blah 2\n\n\t// Connect returns a connection to the database.\n\t// Connect may return a cached connection (one previously\n\t// closed), but doing so is unnecessary; the sql package\n\t// maintains a pool of idle connections for efficient re-use.\n\t//\n\t// The provided context.Context is for dialing purposes only\n\t// (see net.DialContext) and should not be stored or used for\n\t// other purposes.\n\t//\n\t// The returned connection is only used by one goroutine at a",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 39
+      },
+      "revId": "47801ff454681d9882e19abf9944cfb84b5503ed",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
