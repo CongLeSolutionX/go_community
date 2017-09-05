@@ -640,14 +640,24 @@ func (q *waitq) dequeueSudoG(sgp *sudog) {
 		}
 		// end of queue
 		x.next = nil
-		q.last = x
+		// Avoid using pointer writes into waitq which is part of a hchan
+		// which has no pointers that the GC should be concerned about.
+		// Avoid confusing the GC write barrier by doing pointer writes
+		// into hchan (or waitq)
+		// q.last = x
+		*((*uintptr)(unsafe.Pointer(&q.last))) = uintptr(unsafe.Pointer(x))
 		sgp.prev = nil
 		return
 	}
 	if y != nil {
 		// start of queue
 		y.prev = nil
-		q.first = y
+		// Avoid using pointer writes into waitq which is part of a hchan
+		// which has no pointers that the GC should be concerned about.
+		// Avoid confusing the GC write barrier by doing pointer writes
+		// into hchan (or waitq)
+		// q.first = y
+		*((*uintptr)(unsafe.Pointer(&q.first))) = uintptr(unsafe.Pointer(y))
 		sgp.next = nil
 		return
 	}
@@ -655,7 +665,9 @@ func (q *waitq) dequeueSudoG(sgp *sudog) {
 	// x==y==nil. Either sgp is the only element in the queue,
 	// or it has already been removed. Use q.first to disambiguate.
 	if q.first == sgp {
-		q.first = nil
-		q.last = nil
+		// q.first = nil
+		*((*uintptr)(unsafe.Pointer(&q.first))) = uintptr(unsafe.Pointer(nil))
+		// q.last = nil
+		*((*uintptr)(unsafe.Pointer(&q.last))) = uintptr(unsafe.Pointer(nil))
 	}
 }

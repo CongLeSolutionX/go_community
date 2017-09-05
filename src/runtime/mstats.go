@@ -151,6 +151,18 @@ type mstats struct {
 	// unlike heap_live, heap_marked does not change until the
 	// next mark termination.
 	heap_marked uint64
+
+	// heap_promoted is the number of bytes promoted since the
+	// previous full GC cycle.
+	heap_promoted uint64
+
+	// heap_minor_cycle_count is the number of minor GC cycles performed
+	// since the last full GC cycle.
+	// heap_promoted / heap_minor_cycles is the average number of
+	// bytes promoted for each cycle.
+	// If heap_promoted + heap_promoted / heap_minor_cycles exceeds
+	// gc_trigger then the next GC cycle will be a full GC cycle.
+	heap_minor_cycle_count uint64
 }
 
 var memstats mstats

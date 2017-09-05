@@ -125,8 +125,9 @@ func gcMarkRootPrepare() {
 		// is concerned.
 		if cardMarkOn {
 			if writeBarrier.gen {
-				n := int((mheap_.arena_used - mheap_.arena_start) / _CardBytes)
-				work.nMatureRoots = n / rootCardMarkShardSize
+				ncards := int((mheap_.arena_used - mheap_.arena_start) / _CardBytes)
+				work.nMatureRoots = (ncards + rootCardMarkShardSize - 1) / rootCardMarkShardSize
+				println("Setting up cards ncards=", ncards, "shards work.nMatureRoots=", work.nMatureRoots)
 				// Each call to markrootMature does rootCardMarkShardSize
 				// cards starting at shard*rootCardMarkShardSize
 			} else {
@@ -290,6 +291,10 @@ func markroot(gcw *gcWork, i uint32) {
 		if !cardMarkOn {
 			println("runtime: cardMark shard = ", i-baseMature, "i=", i, "baseSpans=", baseSpans, "baseMature=", baseMature, "work.nMatureRoots", work.nMatureRoots)
 			throw("Unexpected mature roots encountered")
+		}
+		if gcGenOn {
+			// debugging for generational gc.
+			println("markroot:924 doing shard", i-baseMature)
 		}
 		// Get the number of marked cards for this shard of cards and add it to the total using atomic instruction.
 		markrootMature(gcw, int(i-baseMature))
@@ -481,6 +486,17 @@ func markrootMature(gcw *gcWork, shard int) {
 	// TODO(austin): There are several ideas for making this more
 	// efficient in issue #11485.
 
+	if atomic.Load(&gcphase) == _GCoff {
+		throw("why markrootMature is gcphase == _GCoff")
+	}
+	if gcGenOn {
+		// part of generational GC
+		println("markrootMature shard ", shard)
+	}
+
+	if atomic.Load(&gcphase) == _GCoff {
+		throw("why markrootMature is gcphase == _GCoff")
+	}
 	if work.markrootDone {
 		throw("markrootMature during second markroot")
 	}
@@ -488,7 +504,7 @@ func markrootMature(gcw *gcWork, shard int) {
 		throw("writeBarrier.gen is false.")
 	}
 	cardMarks, scanCards, noScanCards, pointerCount, matureToYoungPointerCount, ignoredCards, markedAllYoungCount :=
-		gatherCardShardInfo(shard)
+		gatherCardShardInfo(shard, gcw)
 
 	if debug.gctrace >= 1 {
 		atomic.Xadduintptr(&totalCardMarks, cardMarks)
@@ -498,6 +514,9 @@ func markrootMature(gcw *gcWork, shard int) {
 		atomic.Xadduintptr(&totalMatureToYoungPointerCount, matureToYoungPointerCount)
 		atomic.Xadduintptr(&totalIgnoredCards, ignoredCards)
 		atomic.Xadduintptr(&totalMarkedAllYoungCount, markedAllYoungCount)
+	}
+	if atomic.Load(&gcphase) == _GCoff {
+		throw("why markrootMature is gcphase == _GCoff")
 	}
 	return
 }
@@ -1320,7 +1339,12 @@ func greyobject(obj, base, off uintptr, hbits heapBits, span *mspan, gcw *gcWork
 		throw("greyobject: obj not pointer-aligned")
 	}
 	mbits := span.markBitsForIndex(objIndex)
-
+	if gcGenOn && debug.gcgen >= 1 {
+		if span.allocBits != span.gcmarkBits {
+			println("span.allocBits=", span.allocBits, ", span.gcmarkBits=", span.gcmarkBits, ", span.base()=", hex(span.base()))
+			throw("span.allocBits != span.gcmarkBits")
+		}
+	}
 	if useCheckmark {
 		if !mbits.isMarked() {
 			printlock()

@@ -297,6 +297,7 @@ func (s *mspan) isFree(index uintptr) bool {
 	return *bytep&mask == 0
 }
 
+//go:nosplit
 func (s *mspan) objIndex(p uintptr) uintptr {
 	byteOffset := p - s.base()
 	if byteOffset == 0 {
@@ -317,6 +318,7 @@ func objBase(p uintptr) uintptr {
 	return s.base() + idx*s.elemsize
 }
 
+//go:nosplit
 func allocBitsForAddr(p uintptr) markBits {
 	s := spanOf(p)
 	allocBitIndex := s.objIndex(p)
@@ -339,6 +341,7 @@ func (s *mspan) markBitsForBase() markBits {
 }
 
 // isMarked reports whether mark bit m is set.
+//go:nosplit
 func (m markBits) isMarked() bool {
 	return *m.bytep&m.mask != 0
 }
@@ -455,7 +458,7 @@ func heapBitsForObject(p, refBase, refOff uintptr) (base uintptr, hbits heapBits
 			} else {
 				print(" to unused region of span")
 			}
-			print(" idx=", hex(idx), " span.base()=", hex(s.base()), " span.limit=", hex(s.limit), " span.state=", s.state, "\n")
+			print(" idx=", hex(idx), " span.base()=", hex(s.base()), " span.limit=", hex(s.limit), " span.state=", mSpanStateNames[s.state], "\n")
 			if refBase != 0 {
 				print("runtime: found in object at *(", hex(refBase), "+", hex(refOff), ")\n")
 				gcDumpObject("object", refBase, refOff)
@@ -787,7 +790,13 @@ func (h heapBits) initSpan(s *mspan) {
 	s.allocBits = nil
 	s.gcmarkBits = nil
 	s.gcmarkBits = newMarkBits(s.nelems)
-	s.allocBits = newAllocBits(s.nelems)
+
+	if gcGenOn && (debug.gcgen >= 1 || cardMarkOn) {
+		// Needed for generational but no characteristics
+		s.allocBits = s.gcmarkBits
+	} else {
+		s.allocBits = newAllocBits(s.nelems)
+	}
 
 	// Clear bits corresponding to objects.
 	if total%heapBitmapScale != 0 {
@@ -902,6 +911,10 @@ func (s *mspan) countAlloc() int {
 		mask := uint8((1 << bitsInLastByte) - 1)
 		bits := mrkBits & mask
 		count += int(oneBitCount[bits])
+	}
+	if cardMarkOn && s.gcmarkBits != s.allocBits {
+		// debug.gcgen might be 0 so don't throw.
+		// throw("why")
 	}
 	return count
 }

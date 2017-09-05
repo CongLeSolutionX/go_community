@@ -204,7 +204,15 @@ func (b *bmap) overflow(t *maptype) *bmap {
 }
 
 func (b *bmap) setoverflow(t *maptype, ovf *bmap) {
-	*(**bmap)(add(unsafe.Pointer(b), uintptr(t.bucketsize)-sys.PtrSize)) = ovf
+	if t.bucket.kind&kindNoPointers != 0 {
+		// We shouldn't write a pointer into a bucket that normally does not hold pointers sine
+		// the GC may have allocated the bucket in a pointer free (noscan) span.
+		// To avoid the GC write barrier and card mark logic from complaining,
+		// write the pointer as a uintptr
+		*(*uintptr)(add(unsafe.Pointer(b), uintptr(t.bucketsize)-sys.PtrSize)) = uintptr(unsafe.Pointer(ovf))
+	} else {
+		*(**bmap)(add(unsafe.Pointer(b), uintptr(t.bucketsize)-sys.PtrSize)) = ovf
+	}
 }
 
 func (b *bmap) keys() unsafe.Pointer {

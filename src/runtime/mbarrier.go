@@ -152,13 +152,18 @@ func gcmarkwb_m(slot *uintptr, ptr uintptr) {
 					//	println("gcmarkwb slot=", slot, inheap(uintptr(unsafe.Pointer(slot))), "ptr=", hex(ptr), inheap(ptr))
 					s := spanOf(uintptr(unsafe.Pointer(slot)))
 					if s != nil && s.state == _MSpanInUse {
+						if s.spanclass.noscan() {
+							println("slot=", slot, "destination ptr=", hex(ptr), "s.base()=", hex(s.base()),
+								"s.elemsize=", s.elemsize)
+							throw("mbarrier.go:156 In write barrier but writing  pointer into to a noscan span")
+						}
 						unfilteredMarkCard(uintptr(unsafe.Pointer(slot)))
 						cardMarkWB(uintptr(unsafe.Pointer(slot)), ptr)
 						if atomic.Load(&gcphase) != _GCoff {
 							throw("why")
 						}
 					} else if s != nil && s.state != _MSpanManual {
-						println("in gemarkwb_m spanOf(slot).state should be _MSpanInUse but =",
+						println("in gcmarkwb_m spanOf(slot).state should be _MSpanInUse but =",
 							mSpanStateNames[spanOf(uintptr(unsafe.Pointer(slot))).state])
 						throw("why")
 					}

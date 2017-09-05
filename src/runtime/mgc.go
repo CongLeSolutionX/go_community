@@ -195,6 +195,10 @@ func gcinit() {
 	// This will go into computing the initial GC goal.
 	memstats.heap_marked = uint64(float64(heapminimum) / (1 + memstats.triggerRatio))
 
+	if gcGenOn {
+		// used in generational but not heap characteristics.}
+		println("mgc.go:198:gcinit faking mstats.heap_marked=", memstats.heap_marked)
+	}
 	// Set gcpercent from the environment. This will also compute
 	// and set the GC trigger and goal.
 	_ = setGCPercent(readgogc())
@@ -305,7 +309,7 @@ func setGCPhase(x uint32) {
 	// Since this will be always on when gcgen and gctrace is running you will need to check
 	// writeBarrier.needed || writeBarrier.cgo in situations where we now check writeBarrier.enabled.
 	// This is not a perminant solution.
-	writeBarrier.enabled = writeBarrier.needed || writeBarrier.cgo || (debug.gcgen == 1 && debug.gctrace >= 1)
+	writeBarrier.enabled = writeBarrier.needed || writeBarrier.cgo || (debug.gcgen >= 1 && debug.gctrace >= 1)
 }
 
 // gcMarkWorkerMode represents the mode that a concurrent mark worker
@@ -457,8 +461,20 @@ func (c *gcControllerState) startCycle() {
 	// real heap_marked may not have a meaningful value (on the
 	// first cycle) or may be much smaller (resulting in a large
 	// error response).
+	if gcGenOn {
+		// used in generational but not heap characteristics.
+		println("mgc.go:461:startCycle memstats.. .heap_marked=", memstats.heap_marked,
+			", .heap_scan", memstats.heap_scan, ", .heap_live=", memstats.heap_live, ", .heap_alloc=", memstats.heap_alloc,
+			", memstats.heap_marked=", memstats.heap_marked)
+	}
 	if memstats.gc_trigger <= heapminimum {
 		memstats.heap_marked = uint64(float64(memstats.gc_trigger) / (1 + memstats.triggerRatio))
+
+		if gcGenOn {
+			// used in generational but not heap characteristics.
+			println("  mgc.go:464:startCycle set to minimum uint64(float64(memstats.gc_trigger)=", memstats.gc_trigger,
+				" / (1 + memstats.triggerRatio))", memstats.triggerRatio, " adjusted mstats.heap_marked=", memstats.heap_marked)
+		}
 	}
 
 	// Re-compute the heap goal for this cycle in case something
@@ -1264,6 +1280,11 @@ func gcStart(mode gcMode, trigger gcTrigger) {
 	// Ok, we're doing it! Stop everybody else
 	semacquire(&worldsema)
 
+	if gcGenOn {
+		// used in generational but not heap characteristics.
+		println("mgc.go:gcstart:1271 gcstart memstats.heap_marked=", memstats.heap_marked, ", work.bytesMarked =", work.bytesMarked)
+	}
+
 	if trace.enabled {
 		traceGCStart()
 	}
@@ -2017,8 +2038,18 @@ func gcMark(start_time int64) {
 
 	cachestats()
 
+	if gcGenOn {
+		// used in generational but not heap characteristics.
+		println("2017 gcmark memstats.heap_marked=", memstats.heap_marked, ", work.bytesMarked =", work.bytesMarked)
+	}
+
 	// Update the marked heap stat.
 	memstats.heap_marked = work.bytesMarked
+
+	if gcGenOn {
+		// used in generational but not heap characteristics.
+		println("2021 gcmark memstats.heap_marked=", memstats.heap_marked, ", work.bytesMarked =", work.bytesMarked)
+	}
 
 	// Update other GC heap size stats. This must happen after
 	// cachestats (which flushes local statistics to these) and

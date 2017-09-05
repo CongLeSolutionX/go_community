@@ -313,6 +313,7 @@ type mspan struct {
 	specials    *special   // linked list of special records sorted by offset.
 }
 
+//go:nosplit
 func (s *mspan) base() uintptr {
 	return s.startAddr
 }
@@ -434,6 +435,7 @@ func spanOf(p uintptr) *mspan {
 // spanOfUnchecked is equivalent to spanOf, but the caller must ensure
 // that p points into the heap (that is, mheap_.arena_start <= p <
 // mheap_.arena_used).
+//go:nosplit
 func spanOfUnchecked(p uintptr) *mspan {
 	return mheap_.spans[(p-mheap_.arena_start)>>_PageShift]
 }
@@ -1318,7 +1320,16 @@ func (list *mSpanList) init() {
 func (list *mSpanList) remove(span *mspan) {
 	if span.list != list {
 		print("runtime: failed MSpanList_Remove span.npages=", span.npages,
-			" span=", span, " prev=", span.prev, " span.list=", span.list, " list=", list, "\n")
+			" span=", span, " prev=", span.prev, " span.list=", span.list, " list=", list,
+			"span.base()=", hex(span.base()), ", span.elemsize=", span.elemsize, "\n")
+		print("mheap_.arena_start=", hex(mheap_.arena_start), ", mheap_.arena_used=", hex(mheap_.arena_used),
+			", mheap_.arena_end=", hex(mheap_.arena_end))
+		if list.first != nil {
+			print("runtime: failed MSpanList_Remove list.first.npages=", list.first.npages,
+				" list.first=", list.first,
+				"list.first.base()=", hex(list.first.base()),
+				", list.first.elemsize=", span.elemsize, "\n")
+		}
 		throw("MSpanList_Remove")
 	}
 	if list.first == span {
@@ -1619,12 +1630,14 @@ func freespecial(s *special, p unsafe.Pointer, size uintptr) {
 type gcBits uint8
 
 // bytep returns a pointer to the n'th byte of b.
+//go:nosplit
 func (b *gcBits) bytep(n uintptr) *uint8 {
 	return addb((*uint8)(b), n)
 }
 
 // bitp returns a pointer to the byte containing bit n and a mask for
 // selecting that bit from *bytep.
+//go:nosplit
 func (b *gcBits) bitp(n uintptr) (bytep *uint8, mask uint8) {
 	return b.bytep(n / 8), 1 << (n % 8)
 }

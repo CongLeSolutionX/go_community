@@ -28,6 +28,10 @@ const (
 	debugChan = false
 )
 
+// This data structure does not and cannot contain pointers
+// that are of interest to the GC. Any changes that might
+// introduce such pointers will need to provide makechan below
+// with the proper type information when the channel is allocated.
 type hchan struct {
 	qcount   uint           // total data in the queue
 	dataqsiz uint           // size of the circular queue
@@ -92,20 +96,38 @@ func makechan(t *chantype, size int) *hchan {
 		// Queue or element size is zero.
 		c = (*hchan)(mallocgc(hchanSize, nil, true))
 		// Race detector uses this location for synchronization.
-		c.buf = unsafe.Pointer(c)
+		*((*uintptr)(unsafe.Pointer(&c.buf))) = uintptr(unsafe.Pointer(c))
 	case elem.kind&kindNoPointers != 0:
 		// Elements do not contain pointers.
 		// Allocate hchan and buf in one call.
 		c = (*hchan)(mallocgc(hchanSize+uintptr(size)*elem.size, nil, true))
-		c.buf = add(unsafe.Pointer(c), hchanSize)
+		// but without using pointers since c, for better or worse
+		// was allocated in a noscan span.
+		if size > 0 && elem.size != 0 {
+			//c.buf = add(unsafe.Pointer(c), hchanSize) but without using pointers since c, for better or worse
+			// was allocated in a noscan span.
+			*((*uintptr)(unsafe.Pointer(&c.buf))) = uintptr(unsafe.Pointer(add(unsafe.Pointer(c), hchanSize)))
+		} else {
+			// race detector uses this location for synchronization
+			// Also prevents us from pointing beyond the allocation (see issue 9401).
+			// This avoids the write of a pointer that will confuse the write barrier
+			// since the call to mallocgc above explicitly allocates memory that holds
+			// no pointers so it is placed in a noscan span.
+			// Since this pointer field points to the memory holding the pointer
+			// a non-moving GC does not need to know about this pointer.
+			*((*uintptr)(unsafe.Pointer(&c.buf))) = uintptr(unsafe.Pointer(c))
+		}
 	default:
-		// Elements contain pointers.
 		c = new(hchan)
 		c.buf = mallocgc(uintptr(size)*elem.size, elem, true)
 	}
 
 	c.elemsize = uint16(elem.size)
-	c.elemtype = elem
+	// Since c is a hchan the pointers inside the data structure can not be seen or considered
+	// by the GC. This requires some type coercion so that the compiler does not dump out
+	// write barrier calls for slots in spans that are declared noscan.
+	//	c.elemtype = elem but without the write barrier.
+	*((*uintptr)(unsafe.Pointer(&c.elemtype))) = uintptr(unsafe.Pointer(elem))
 	c.dataqsiz = uint(size)
 
 	if debugChan {
@@ -690,13 +712,19 @@ func (q *waitq) enqueue(sgp *sudog) {
 	x := q.last
 	if x == nil {
 		sgp.prev = nil
-		q.first = sgp
-		q.last = sgp
+		// avoid use of pointers in the waitq which is part of a hchan
+		// q.first = sgp
+		*((*uintptr)(unsafe.Pointer(&q.first))) = uintptr(unsafe.Pointer(sgp))
+		// avoid use of pointers in the waitq which is part of a hchan
+		// q.last = sgp
+		*((*uintptr)(unsafe.Pointer(&q.last))) = uintptr(unsafe.Pointer(sgp))
 		return
 	}
 	sgp.prev = x
 	x.next = sgp
-	q.last = sgp
+	// avoid use of pointers in the waitq which is part of a hchan
+	// q.last = sgp
+	*((*uintptr)(unsafe.Pointer(&q.last))) = uintptr(unsafe.Pointer(sgp))
 }
 
 func (q *waitq) dequeue() *sudog {
@@ -707,11 +735,14 @@ func (q *waitq) dequeue() *sudog {
 		}
 		y := sgp.next
 		if y == nil {
-			q.first = nil
-			q.last = nil
+			// q.first = nil
+			*((*uintptr)(unsafe.Pointer(&q.first))) = uintptr(unsafe.Pointer(nil))
+			// q.last = nil
+			*((*uintptr)(unsafe.Pointer(&q.last))) = uintptr(unsafe.Pointer(nil))
 		} else {
 			y.prev = nil
-			q.first = y
+			// q.first = y
+			*((*uintptr)(unsafe.Pointer(&q.first))) = uintptr(unsafe.Pointer(y))
 			sgp.next = nil // mark as removed (see dequeueSudog)
 		}
 

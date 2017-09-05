@@ -39,8 +39,9 @@ func finishsweep_m() {
 	for sweepone() != ^uintptr(0) {
 		sweep.npausesweep++
 	}
-
-	nextMarkBitArenaEpoch()
+	if !(cardMarkOn || debug.gcgen >= 1) {
+		nextMarkBitArenaEpoch()
+	}
 }
 
 func bgsweep(c chan int) {
@@ -293,11 +294,20 @@ func (s *mspan) sweep(preserve bool) bool {
 		freeToHeap = true
 	}
 	nfreed := s.allocCount - nalloc
-	if nalloc > s.allocCount {
-		print("runtime: nelems=", s.nelems, " nalloc=", nalloc, " previous allocCount=", s.allocCount, " nfreed=", nfreed, "\n")
-		throw("sweep increased allocation count")
+	if debug.gcgen == 0 {
+		if nalloc > s.allocCount {
+			print("runtime: nelems=", s.nelems, " nalloc=", nalloc, " previous allocCount=", s.allocCount, " nfreed=", nfreed, "\n")
+			throw("sweep increased allocation count")
+		}
 	}
-
+	if gcGenOn {
+		print("runtime:mgcswepp.go:303 s.base()=", hex(s.base()), "s.npages= ", s.npages, ", nelems=", s.nelems, ", s.elemsize=", s.elemsize,
+			", nalloc=", nalloc,
+			", previous s.allocCount=", s.allocCount, ". nfreed=", nfreed,
+			", same as nfreed: s.allocCount - nalloc=", s.allocCount-nalloc,
+			", wasempty=", s.nextFreeIndex() == s.nelems,
+			", s.allocBits=", s.allocBits, ", s.gcmarkBits", s.gcmarkBits, "\n")
+	}
 	s.allocCount = nalloc
 	wasempty := s.nextFreeIndex() == s.nelems
 	s.freeindex = 0 // reset allocation index to start of span.
@@ -307,14 +317,27 @@ func (s *mspan) sweep(preserve bool) bool {
 
 	// gcmarkBits becomes the allocBits.
 	// get a fresh cleared gcmarkBits in preparation for next GC
-	s.allocBits = s.gcmarkBits
+	if gcGenOn && (s.allocBits != s.gcmarkBits) {
+		// not needed for heap characteristics but needed for generational code
+		println("runtime:317 should be the same s.allocBits=", s.allocBits, ", s.gcmarkBits=", s.gcmarkBits)
+	}
+	if gcGenOn && s.allocBits != s.gcmarkBits {
+		// This needs to change as soon as we have full GC cycles.
+		if false {
+			throw("allocBits != s.gcmarkBits")
+		}
+		s.allocBits = s.gcmarkBits
+	} else {
+		s.allocBits = s.gcmarkBits
+	}
 	// Generational GC uses the allocBits as the sticky bits for
 	// collecting statistics and then discards them with the above
 	// statement. To turn on generational GC minor GC cycles need
 	// to start with the allocBits as the gcmarkBits.
 	// For now we go ahead and allocate new mark bits but
 	// this is not needed if the next GC is a minor GC.
-	if true || debug.gcgen == 0 {
+	if !gcGenOn || debug.gcgen == 0 {
+		// needed for characteristics but not for generational GC.
 		s.gcmarkBits = newMarkBits(s.nelems)
 	}
 
