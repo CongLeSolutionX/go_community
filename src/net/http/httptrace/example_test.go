@@ -5,13 +5,16 @@
 package httptrace_test
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
 	"net/http/httptrace"
+	rtrace "runtime/trace"
 )
 
 func Example() {
+
 	req, _ := http.NewRequest("GET", "http://example.com", nil)
 	trace := &httptrace.ClientTrace{
 		GotConn: func(connInfo httptrace.GotConnInfo) {
@@ -21,9 +24,13 @@ func Example() {
 			fmt.Printf("DNS Info: %+v\n", dnsInfo)
 		},
 	}
-	req = req.WithContext(httptrace.WithClientTrace(req.Context(), trace))
-	_, err := http.DefaultTransport.RoundTrip(req)
-	if err != nil {
-		log.Fatal(err)
-	}
+
+	rtrace.Do(req.Context(), "Example", "one", func(ctx context.Context) string {
+		req = req.WithContext(httptrace.WithClientTrace(ctx, trace))
+		_, err := http.DefaultTransport.RoundTrip(req)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return err.Error()
+	})
 }
