@@ -7,6 +7,14 @@ import (
 	"unsafe"
 )
 
+// nextGCCycleIsFull indicates whether the next GC cycle will be a full cycle
+// or a minor generational cycle. The first cycle is always a full GC cycle since
+// the size of the heap is small. The first cycle after every full cycle is
+// always a minor generational cycle.
+// See memstats.heap_promoted and memstats.heap_minor_cycle_count for
+// more information.
+var nextGCCycleIsFull = true
+
 var grandTotalCardMarks = uintptr(0)
 var grandTotalScanCards = uintptr(0)
 var grandTotalNoScanCards = uintptr(0)
@@ -69,7 +77,8 @@ func gatherCardMarkWBInfo(src, dst uintptr) {
 				if isYoung(dst) {
 					if !isMatureToYoung(src, dst) {
 						println("runtime !isMatureToYoun(src,dst) src=", hex(src), "dst=", hex(dst),
-							"isMature(src)=", isMature(src), "isYoung(dst)=", isYoung(dst))
+							"isMature(src)=", isMature(src), "isYoung(dst)=", isYoung(dst), "isMatureToYoung(src, dst)=",
+							isMatureToYoung(src, dst))
 						throw("why")
 					}
 					offset := src - uintptr(unsafe.Pointer(mheap_.arena_start))
@@ -118,11 +127,12 @@ func (aspan *mspan) xxgatherSpanCardInfo() (cardMarks, scanCards, noScanCards, p
 // gatherCardShardInfo take a shard passed as an index starting at shard*rootCardMarkShardSize and
 // ended rootCardMarkShardSize later.
 // It returns various counters intended to be used to quantify heap makeup.
-func gatherCardShardInfo(shard int) (cardMarkCount, scanCards, noScanCards, pointerCount,
+func gatherCardShardInfo(shard int, gcw *gcWork) (cardMarkCount, scanCards, noScanCards, pointerCount,
 	matureToYoungPointerCount, ignoredCards, markedAllYoungCount uintptr) {
 	trace := false
 	cardTableIndex := uintptr(shard * rootCardMarkShardSize)
 	cardMarks := addb(mheap_.cardMarks, cardTableIndex)
+
 	if trace {
 		println("cardTableIndex", cardTableIndex, "rootCardMarkShardSize", rootCardMarkShardSize,
 			"cardMarks=", cardMarks, "mheap_.cardMarks=", mheap_.cardMarks)
@@ -135,9 +145,17 @@ func gatherCardShardInfo(shard int) (cardMarkCount, scanCards, noScanCards, poin
 	if trace {
 		println("scanning shard", shard, "card from ", cardTableIndex, "to ", cardTableIndex+rootCardMarkShardSize)
 	}
-	for ind := cardTableIndex; ind < cardTableIndex+rootCardMarkShardSize; ind++ {
+	lastCard := cardTableIndex + rootCardMarkShardSize
+	ncards := uintptr((mheap_.arena_used - mheap_.arena_start) / _CardBytes)
+	if lastCard > ncards {
+		println("lastCard =", lastCard, "but ncards= ", ncards)
+		lastCard = ncards
+	}
+	for ind := cardTableIndex; ind < lastCard; ind++ {
 		markVal := *(addb(mheap_.cardMarks, ind))
-
+		if markVal != 0 {
+			*(addb(mheap_.cardMarks, ind)) = 0 // Clear the card mark
+		}
 		cardStart := mheap_.arena_start + uintptr(ind)*_CardBytes
 		aspan := spanOf(cardStart)
 		if aspan.state == _MSpanManual {
@@ -166,9 +184,8 @@ func gatherCardShardInfo(shard int) (cardMarkCount, scanCards, noScanCards, poin
 			println("runtime: BAD_WHY Perhaps _MSpanManual issue. ------------- runtime: aspan.state is not _MspanInUse is ", mSpanStateNames[aspan.state])
 			throw("aspan.state != _MSpanInUse has card mark set.")
 		}
-		if aspan.spanclass.noscan() {
-			continue
-			// println("aspan is noscan() and card is marked ", mSpanStateNames[aspan.state], "markVal=", markVal, "shard=", shard)
+		if aspan.spanclass.noscan() && memstats.numgc >= 1 {
+			println("aspan is noscan() and card is marked ", mSpanStateNames[aspan.state], "markVal=", markVal, "shard=", shard)
 			throw("Marked card in noscan span")
 		}
 		if trace {
@@ -177,7 +194,6 @@ func gatherCardShardInfo(shard int) (cardMarkCount, scanCards, noScanCards, poin
 
 		scanCards++
 		cardMarkCount++
-		*(addb(mheap_.cardMarks, ind)) = 0 // Clear the card mark
 		objSize := aspan.elemsize
 		objIndex := aspan.objIndex(cardStart)
 		objStart := objIndex*objSize + aspan.base()
@@ -205,6 +221,7 @@ func gatherCardShardInfo(shard int) (cardMarkCount, scanCards, noScanCards, poin
 			}
 			matureObjectFound = true
 			objIndex++
+			// The source (objStart) is in a mature object which means that it is marked.
 			promoteReferents(objStart, cardStart, cardEnd, objSize)
 			if debug.gctrace >= 1 {
 				tcount, tnilPtr, tmatureToYoungPointerCount, tslotToNonHeap, tmatureObjectFound :=
@@ -220,6 +237,18 @@ func gatherCardShardInfo(shard int) (cardMarkCount, scanCards, noScanCards, poin
 		// Count the number of cards that did not contain a mature object.
 		if !matureObjectFound {
 			markedAllYoungCount++
+		}
+	}
+
+	// Double check that the card is all zeros at this point.
+
+	for ind := cardTableIndex; ind < cardTableIndex+rootCardMarkShardSize; ind++ {
+		if *(addb(mheap_.cardMarks, ind)) != 0 {
+			cardStart := mheap_.arena_start + uintptr(ind)*_CardBytes
+			aspan := spanOf(cardStart)
+			println("aspan.state is", mSpanStateNames[aspan.state], "aspan.base()=", hex(aspan.base()))
+			println("ind=", ind, "cardTableIndex=", cardTableIndex, "")
+			throw("mark found in card that was just scanned and cleared.")
 		}
 	}
 
@@ -414,9 +443,21 @@ func printHeapCardInfo() {
 			if s == nil {
 				println("------------- span associated with marked card is nil.")
 			} else {
-				println("------------- stray card mark span state:", mSpanStateNames[s.state],
-					", start address", hex(s.startAddr), ", s.npages:", s.npages, ", s.sweepgen:", s.sweepgen,
-					"s.elemsize:", s.elemsize, "*(addb(cardBase, i)), should be 66 =", *(addb(cardBase, i)))
+				if memstats.numgc > 1 {
+					println("------ BAD ------- stray card mark span state:", mSpanStateNames[s.state],
+						", start address", hex(s.startAddr), "s.base()=", hex(s.base()),
+						"\n                s.npages:", s.npages, ", s.sweepgen:", s.sweepgen,
+						"s.elemsize:", s.elemsize, "*(addb(cardBase, i)), should be 66 or 42 ", *(addb(cardBase, i)),
+						"should be false - s.spanclass.noscan()=", s.spanclass.noscan(),
+						"\n                i=", i, "cardBase=", cardBase, "card is ", addb(cardBase, i),
+						"s.startAddr=", hex(s.startAddr), "elems in span=", s.nelems, "elemsize=", s.elemsize,
+						"/hex ", hex(s.elemsize),
+						"s.nelems*s.elemsize=", s.nelems*s.elemsize,
+						"mheap_.arena_start=", mheap_.arena_start, "mheap_arena_used=", mheap_.arena_used,
+						"rootCardMarkShardSize", rootCardMarkShardSize)
+					println("rootCardMarkShardSize*512*mheap_.cardMarksMapped =", rootCardMarkShardSize*512*mheap_.cardMarksMapped,
+						"mheap_.arena_used - mheap_.areana_start=", mheap_.arena_used-mheap_.arena_start)
+				}
 			}
 			*(addb(cardBase, i)) = 0
 		}
@@ -505,6 +546,9 @@ func unfilteredMarkCard(ptr uintptr) {
 	if *addb(mheap_.cardMarks, index) == 0 {
 		*addb(mheap_.cardMarks, index) = 42
 		atomic.Xadduintptr(&totalUnfilteredMarks, 1)
+		if atomic.Load(&gcphase) != _GCoff {
+			throw("why printHeapCardInfo bottom")
+		}
 	}
 
 	if atomic.Load(&gcphase) != _GCoff {
@@ -666,6 +710,7 @@ func promoteReferents(b, cardStart, cardEnd, objSize uintptr) {
 	// is the size of the object to scan, or it points to an
 	// oblet, in which case we compute the size to scan below.
 
+	//println("promoteReferents b=", hex(b))
 	var hbits heapBits
 	var scanStart uintptr
 	scanEnd := b + objSize
@@ -727,6 +772,17 @@ func promoteReferents(b, cardStart, cardEnd, objSize uintptr) {
 			//		if !isAllocBitSet(dst) {
 			// Ultimately this where the payload of making dst mature is done.
 			// set alloc bit is done here in order to promote dst to mature.
+			// shade needs to know that it is alterning the allocbits if we are doing a
+			// minor collection. This can be accomplished by pointing the mark bits and
+			// the alloc bits at the same bit array.
+			if gcGenOn {
+				// generational will need this but characterizations doesn't
+				shade(dst)
+				if !dstSpan.allocBitsForIndex(dstIndex).isMarked() {
+					println(" better be true dstSpan.allocBitsForIndex(dstIndex).isMarked()=", dstSpan.allocBitsForIndex(dstIndex).isMarked())
+					throw("allocBit not set after shading.")
+				}
+			}
 			matureToYoungDoIt++
 		}
 		// Ignore slots that are not in mature objects since we don't know if they are valid.

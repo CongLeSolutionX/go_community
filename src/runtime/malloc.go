@@ -224,6 +224,12 @@ var physPageSize uintptr
 //
 const cardMarkOn = true
 
+// cardMarkOn is sufficient to gather heap characterizations related to
+// card marking but is not sufficient for actually running a generational
+// GC. genOn provides this functionality. For now genOn can only be true
+// when cardMarkOn is true.
+const gcGenOn = false
+
 func mallocinit() {
 	if class_to_size[_TinySizeClass] != _TinySize {
 		throw("bad TinySizeClass")
@@ -605,7 +611,7 @@ func (c *mcache) nextFree(spc spanClass) (v gclinkptr, s *mspan, shouldhelpgc bo
 	if freeIndex == s.nelems {
 		// The span is full.
 		if uintptr(s.allocCount) != s.nelems {
-			println("runtime: s.allocCount=", s.allocCount, "s.nelems=", s.nelems)
+			println("runtime: s.allocCount=", s.allocCount, "s.nelems=", s.nelems, "s.base()=", hex(s.base()))
 			throw("s.allocCount != s.nelems && freeIndex == s.nelems")
 		}
 		systemstack(func() {
