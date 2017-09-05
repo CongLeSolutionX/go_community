@@ -29,6 +29,7 @@ import (
 	"time"
 
 	"golang_org/x/net/lex/httplex"
+	"runtime/trace"
 )
 
 // Errors used by the HTTP server.
@@ -607,6 +608,7 @@ func (srv *Server) newConn(rwc net.Conn) *conn {
 	if debugServerConnections {
 		c.rwc = newLoggingConn("server", c.rwc)
 	}
+
 	return c
 }
 
@@ -985,8 +987,9 @@ func (c *conn) readRequest(ctx context.Context) (w *response, err error) {
 	}
 
 	w = &response{
-		conn:          c,
-		cancelCtx:     cancelCtx,
+		conn:      c,
+		cancelCtx: cancelCtx,
+
 		req:           req,
 		reqBody:       req.Body,
 		handlerHeader: make(Header),
@@ -1730,7 +1733,7 @@ func (c *conn) serve(ctx context.Context) {
 
 	// HTTP/1.x from here on.
 
-	ctx, cancelCtx := context.WithCancel(ctx)
+	baseCtx, cancelCtx := context.WithCancel(ctx)
 	c.cancelCtx = cancelCtx
 	defer cancelCtx()
 
@@ -1739,6 +1742,8 @@ func (c *conn) serve(ctx context.Context) {
 	c.bufw = newBufioWriterSize(checkConnErrorWriter{c}, 4<<10)
 
 	for {
+		ctx, traceEnd := trace.WithSpan(baseCtx, "processRequest", "")
+
 		w, err := c.readRequest(ctx)
 		if c.r.remain != c.server.initialReadLimitSize() {
 			// If we read any bytes off the wire, we're active.
@@ -1756,9 +1761,11 @@ func (c *conn) serve(ctx context.Context) {
 				const publicErr = "431 Request Header Fields Too Large"
 				fmt.Fprintf(c.rwc, "HTTP/1.1 "+publicErr+errorHeaders+publicErr)
 				c.closeWriteAndWait()
+				traceEnd("unknown: too large")
 				return
 			}
 			if isCommonNetReadError(err) {
+				traceEnd("unknown: common net read error")
 				return // don't reply
 			}
 
@@ -1768,6 +1775,7 @@ func (c *conn) serve(ctx context.Context) {
 			}
 
 			fmt.Fprintf(c.rwc, "HTTP/1.1 "+publicErr+errorHeaders+publicErr)
+			traceEnd(publicErr)
 			return
 		}
 
@@ -1780,6 +1788,7 @@ func (c *conn) serve(ctx context.Context) {
 			}
 		} else if req.Header.get("Expect") != "" {
 			w.sendExpectationFailed()
+			traceEnd("unknown: send expectation failed")
 			return
 		}
 
@@ -1791,7 +1800,7 @@ func (c *conn) serve(ctx context.Context) {
 			if w.conn.bufr.Buffered() > 0 {
 				w.conn.r.closeNotifyFromPipelinedRequest()
 			}
-			w.conn.r.startBackgroundRead()
+			w.conn.r.startBackgroundRead() // starts a goroutine
 		}
 
 		// HTTP cannot have multiple simultaneous active requests.[*]
@@ -1803,16 +1812,21 @@ func (c *conn) serve(ctx context.Context) {
 		// was never deployed in the wild and the answer is HTTP/2.
 		serverHandler{c.server}.ServeHTTP(w, w.req)
 		w.cancelCtx()
-		if c.hijacked() {
+		if c.hijacked() { // XXX(hyangah): figure out how to trace (reqEnd should be forwarded to the hijacker?
+			traceEnd("hijacked")
 			return
 		}
 		w.finishRequest()
+		traceEnd(fmt.Sprintf("%q code:%d", w.req.URL.Path, w.status))
+		trace.Attach(baseCtx)
+
 		if !w.shouldReuseConnection() {
 			if w.requestBodyLimitHit || w.closedRequestBodyEarly() {
 				c.closeWriteAndWait()
 			}
 			return
 		}
+
 		c.setState(c.rwc, StateIdle)
 		c.curReq.Store((*response)(nil))
 
@@ -2700,6 +2714,8 @@ func (srv *Server) Serve(l net.Listener) error {
 	baseCtx := context.Background() // base is always background, per Issue 16220
 	ctx := context.WithValue(baseCtx, ServerContextKey, srv)
 	for {
+		trace.Attach(ctx)
+		trace.Log("Server.Serve")
 		rw, e := l.Accept()
 		if e != nil {
 			select {
@@ -2722,10 +2738,18 @@ func (srv *Server) Serve(l net.Listener) error {
 			}
 			return e
 		}
+
 		tempDelay = 0
 		c := srv.newConn(rw)
+		reqCtx := ctx
+		if trace.IsEnabled() {
+			ctx, end := trace.WithSpan(ctx, "server", rw.RemoteAddr().String())
+			c.rwc = &tracingConn{Conn: c.rwc, end: end}
+			reqCtx = ctx
+		}
+
 		c.setState(c.rwc, StateNew) // before Serve can return
-		go c.serve(ctx)
+		go c.serve(reqCtx)
 	}
 }
 
@@ -3180,6 +3204,30 @@ func (h initNPNRequest) ServeHTTP(rw ResponseWriter, req *Request) {
 		req.RemoteAddr = h.c.RemoteAddr().String()
 	}
 	h.h.ServeHTTP(rw, req)
+}
+
+// tracingConn is used for tracing.
+type tracingConn struct {
+	net.Conn
+	end func(status string)
+}
+
+func (c *tracingConn) Write(p []byte) (n int, err error) {
+	n, err = c.Conn.Write(p)
+	trace.Logf("w %dbytes err=%v", n, err)
+	return
+}
+
+func (c *tracingConn) Read(p []byte) (n int, err error) {
+	n, err = c.Conn.Read(p)
+	trace.Logf("r %dbytes, err=%v", n, err)
+	return
+}
+
+func (c *tracingConn) Close() (err error) {
+	err = c.Conn.Close()
+	c.end(err.Error())
+	return
 }
 
 // loggingConn is used for debugging.
