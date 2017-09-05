@@ -22,6 +22,30 @@
       "revId": "bede8aacf425b7baffc95802d08b3ace31a6b8b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47604482_f30fea41",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1636,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-09-05T20:45:23Z",
+      "side": 1,
+      "message": "Interface equality doesn\u0027t check their pointers (idata) are equal for empty object, though (https://play.golang.org/p/58v3d0MPFZ). If it did, it seems too strict in normal use case.\n\nMaybe it\u0027s not worth adding this test?\n\nMaybe we want to check the two Value are equal (including unexported fields)? Seems too strict (rule out other possible implementation), but it does ensure it doesn\u0027t return wild pointers.",
+      "parentUuid": "6f8d0283_1e4c943b",
+      "range": {
+        "startLine": 1636,
+        "startChar": 87,
+        "endLine": 1636,
+        "endChar": 135
+      },
+      "revId": "bede8aacf425b7baffc95802d08b3ace31a6b8b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
