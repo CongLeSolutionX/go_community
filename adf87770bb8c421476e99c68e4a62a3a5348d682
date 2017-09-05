@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "591ad8e4_f5ce5d78",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2711,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-09-05T21:10:59Z",
+      "side": 1,
+      "message": "Let me know if you\u0027d prefer to drop this and assume symlinks for the long term. It would keep gccgo from working on systems without symlinks though.",
+      "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
