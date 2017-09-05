@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec62f644_89311dcb",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-09-05T18:51:29Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this zero extension, the upper 32 bits should be ignored.",
+      "range": {
+        "startLine": 262,
+        "startChar": 30,
+        "endLine": 262,
+        "endChar": 38
+      },
+      "revId": "ab010287c58d2b81d642327b1fed366b170d3df2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d9ca81c_5c5970fb",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-09-05T18:51:29Z",
+      "side": 1,
+      "message": "You could also add rules to convert from ROTL{,W} to ROTL{,W}const when y is constant. Something like:\n\n(ROTL x (MOVDconst [c]) -\u003e (ROTLconst x [c\u002663])",
+      "revId": "ab010287c58d2b81d642327b1fed366b170d3df2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
