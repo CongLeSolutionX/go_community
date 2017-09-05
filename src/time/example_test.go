@@ -127,6 +127,13 @@ func ExampleDate() {
 	// Output: Go launched at 2009-11-10 15:00:00 -0800 PST
 }
 
+func ExampleNewTicker() {
+	ticker := time.NewTicker(time.Second)
+	for t := range ticker.C {
+		fmt.Println(t)
+	}
+}
+
 func ExampleTime_Format() {
 	// Parse a time value from a string in the standard Unix format.
 	t, err := time.Parse(time.UnixDate, "Sat Mar  7 11:06:39 PST 2015")
