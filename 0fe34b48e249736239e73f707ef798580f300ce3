@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3862bd82_8f84c7b5",
+        "filename": "src/net/rpc/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-09-06T18:16:24Z",
+      "side": 1,
+      "message": "Associate this background goroutine with the call context (span) while processing on the request.",
+      "range": {
+        "startLine": 137,
+        "startChar": 37,
+        "endLine": 137,
+        "endChar": 0
+      },
+      "revId": "0fe34b48e249736239e73f707ef798580f300ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2c1ba56_5879799e",
+        "filename": "src/net/rpc/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-09-06T18:16:24Z",
+      "side": 1,
+      "message": "back to the background goroutine\u0027s original span.\n\n(NOTE: panic complicates it but let\u0027s ignore it for now)",
+      "range": {
+        "startLine": 170,
+        "startChar": 15,
+        "endLine": 170,
+        "endChar": 0
+      },
+      "revId": "0fe34b48e249736239e73f707ef798580f300ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "086cf487_1e9c4f47",
+        "filename": "src/net/rpc/client.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-09-06T18:16:24Z",
+      "side": 1,
+      "message": "trace ends here.\n\nTODO(hyangah): what if this goroutine is not yet associated with the context?",
+      "range": {
+        "startLine": 212,
+        "startChar": 28,
+        "endLine": 212,
+        "endChar": 0
+      },
+      "revId": "0fe34b48e249736239e73f707ef798580f300ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0927b816_9f488e45",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-09-06T18:16:24Z",
+      "side": 1,
+      "message": "before calling this, we should set trace.Attach(backgroundContext) to make sure the time for readRequest is not accounted as the previous request\u0027s execution time. (fix it)",
+      "range": {
+        "startLine": 488,
+        "startChar": 1,
+        "endLine": 488,
+        "endChar": 2
+      },
+      "revId": "0fe34b48e249736239e73f707ef798580f300ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46c4f08d_c0f46e18",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-09-06T18:16:24Z",
+      "side": 1,
+      "message": "this goroutine will be associated with the span created above, and marks the span ends when the call is over.",
+      "range": {
+        "startLine": 517,
+        "startChar": 0,
+        "endLine": 517,
+        "endChar": 13
+      },
+      "revId": "0fe34b48e249736239e73f707ef798580f300ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
