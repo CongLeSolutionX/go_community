@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c6af0f0_6945af51",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1748,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-09-06T18:04:22Z",
+      "side": 1,
+      "message": "Unfortunate that we can get any more detailed information about the request yet until we start reading the request. As a workaround, I currently stuff in the path info when calling traceEnd. Should we allow to set the trace type and the id after the span is created?\n\nSomething like\n\nspan :\u003d trace.NewSpan(baseCtx, \"net/http.serve\")\nctx, traceEnd :\u003d trace.NewContext(baseCtx, span)\n\nw, err :\u003d c.readRequest(ctx)\n\nspan.SetID(someid(w))\n\n...",
+      "range": {
+        "startLine": 1748,
+        "startChar": 64,
+        "endLine": 1748,
+        "endChar": 0
+      },
+      "revId": "0a8c897714ec8d0e97e52d35a49a1a69d9f24043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec422981_e8e4ce0d",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1806,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-09-06T18:04:22Z",
+      "side": 1,
+      "message": "Any goroutines newly created by this call will inherit the span.",
+      "revId": "0a8c897714ec8d0e97e52d35a49a1a69d9f24043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96176f56_066c2525",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1825,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-09-06T18:04:22Z",
+      "side": 1,
+      "message": "processing a request is done; reattach to the background context.",
+      "range": {
+        "startLine": 1825,
+        "startChar": 67,
+        "endLine": 1825,
+        "endChar": 0
+      },
+      "revId": "0a8c897714ec8d0e97e52d35a49a1a69d9f24043",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
