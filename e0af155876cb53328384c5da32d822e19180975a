@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85f6ea1c_cf8892dc",
+        "filename": "src/cmd/asm/internal/asm/testdata/amd64enc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 5889,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2017-09-06T16:23:09Z",
+      "side": 1,
+      "message": "Comment misaligned.",
+      "revId": "e0af155876cb53328384c5da32d822e19180975a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
