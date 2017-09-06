@@ -34,6 +34,24 @@
       "revId": "3cc13f2ec21787b708c616f010a07557987828b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dc98f07_28d2c95b",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1681,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2017-09-06T18:24:20Z",
+      "side": 1,
+      "message": "Oops. I am so sorry. I realized the mistake here. Sorry, still new to this.\n\nI will create a new ytab and update the code.",
+      "parentUuid": "4782f965_072a1b62",
+      "revId": "3cc13f2ec21787b708c616f010a07557987828b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
