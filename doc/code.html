@@ -111,6 +111,13 @@ and dependencies in a single workspace.
 </p>
 
 <p>
+Note that symbolic links (<i>symlinks</i>) should <b>not</b> be used to link
+files or directories into your workspace. While Go's toolchain handles symlinks
+correctly in most cases, they are not fully supported and may cause subtle,
+unexpected problems.
+</p>
+
+<p>
 Commands and libraries are built from different kinds of source packages.
 We will discuss the distinction <a href="#PackageNames">later</a>.
 </p>
