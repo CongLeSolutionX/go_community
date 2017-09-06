@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "d378216a_16b15d0b",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-06T21:50:20Z",
+      "side": 1,
+      "message": "Replaced it (and prevBlocks/emptyPlainBlocks) with a loop at the end and a recursion that is unlikely to be deep (I think, cannot be deeper than conditional nesting).  I think I need to convert the test that I used to check my work into a real test; not 100% sure what\u0027s the best location for that test (it would be some variant on github.com/dr2chase/debnex; that currently also captures some behavior that is in fact a bug; I think we check that in and then file bugs against the badness observed, and repair the test as the bugs are squashed).",
+      "parentUuid": "835ed0bb_c488a59c",
+      "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ab1b7c4_ecc728b8",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 4
@@ -142,6 +160,24 @@
       "writtenOn": "2017-08-28T22:02:36Z",
       "side": 1,
       "message": "Won\u0027t the other code in this CL already catch this case?",
+      "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cbba0e9_94a44d10",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-06T21:50:20Z",
+      "side": 1,
+      "message": "Short answer is \"no\". Take this out, and nexting around and around in this loop\n\n\tfor scanner.Scan() {\n\t\ts :\u003d scanner.Text()\n\t\ti, err :\u003d strconv.ParseInt(s, 10, 64)\n\t\tif err !\u003d nil {\n\t\t\tfmt.Fprintf(os.Stderr, \"There was an error: %v\\n\", err)\n\t\t\treturn\n\t\t}\n\t\thist \u003d ensure(int(i), hist)\n\t\thist[int(i)]++\n\t}\n\tt :\u003d 0\n\nincludes the \"t:\u003d0\" line, like so:\n\n43:             for scanner.Scan() {\n/Users/drchase/GoogleDrive/work/go/src/bufio/scan.go\n107:            return string(s.token)\n./sample/hist.go\n45:                     i, err :\u003d strconv.ParseInt(s, 10, 64)\n46:                     if err !\u003d nil {\n50:                     hist \u003d ensure(int(i), hist)\n51:                     hist[int(i)]++\n51:                     hist[int(i)]++\n53:             t :\u003d 0\n43:             for scanner.Scan() {\n/Users/drchase/GoogleDrive/work/go/src/bufio/scan.go\n107:            return string(s.token)\n./sample/hist.go\n45:                     i, err :\u003d strconv.ParseInt(s, 10, 64)\n46:                     if err !\u003d nil {\n50:                     hist \u003d ensure(int(i), hist)\n51:                     hist[int(i)]++\n51:                     hist[int(i)]++\n53:             t :\u003d 0\n43:             for scanner.Scan() {\n/Users/drchase/GoogleDrive/work/go/src/bufio/scan.go\n107:            return string(s.token)\n\n(by-the-way, I *love* my new debug playback tool)",
+      "parentUuid": "8ab1b7c4_ecc728b8",
       "revId": "aaad58413289159f7af03e8a1fd233f1897b8d4d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
