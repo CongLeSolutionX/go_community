@@ -16,6 +16,24 @@
       "revId": "e0af155876cb53328384c5da32d822e19180975a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdff92d8_b4787fa8",
+        "filename": "src/cmd/asm/internal/asm/testdata/amd64enc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 5889,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2017-09-06T17:23:30Z",
+      "side": 1,
+      "message": "Thanks. Fixed.",
+      "parentUuid": "85f6ea1c_cf8892dc",
+      "revId": "e0af155876cb53328384c5da32d822e19180975a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
