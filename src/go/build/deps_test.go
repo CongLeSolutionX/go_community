@@ -404,6 +404,7 @@ var pkgDeps = map[string][]string{
 		"net/http/httptrace",
 		"net/http/internal",
 		"runtime/debug",
+		"runtime/trace",
 	},
 	"net/http/internal":  {"L4"},
 	"net/http/httptrace": {"context", "crypto/tls", "internal/nettrace", "net", "reflect", "time"},
@@ -416,7 +417,7 @@ var pkgDeps = map[string][]string{
 	"net/http/httptest":  {"L4", "NET", "OS", "crypto/tls", "flag", "net/http", "net/http/internal", "crypto/x509"},
 	"net/http/httputil":  {"L4", "NET", "OS", "context", "net/http", "net/http/internal"},
 	"net/http/pprof":     {"L4", "OS", "html/template", "net/http", "runtime/pprof", "runtime/trace"},
-	"net/rpc":            {"L4", "NET", "encoding/gob", "html/template", "net/http"},
+	"net/rpc":            {"L4", "NET", "context", "encoding/gob", "html/template", "net/http", "runtime/trace"},
 	"net/rpc/jsonrpc":    {"L4", "NET", "encoding/json", "net/rpc"},
 }
 
