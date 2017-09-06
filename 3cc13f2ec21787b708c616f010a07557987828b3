@@ -16,6 +16,24 @@
       "revId": "3cc13f2ec21787b708c616f010a07557987828b3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4782f965_072a1b62",
+        "filename": "src/cmd/internal/obj/x86/asm6.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1681,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2017-09-06T18:20:39Z",
+      "side": 1,
+      "message": "That\u0027s true. But there are already existing instructions above this which use yvex_xy3. Shouldn\u0027t we maintain consistency among all these instructions ?\n\nAnd is there anything wrong as such in allowing ymm registers ? Several parts of the codebase already use ymm registers.",
+      "parentUuid": "b5716392_ece4f8f6",
+      "revId": "3cc13f2ec21787b708c616f010a07557987828b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
