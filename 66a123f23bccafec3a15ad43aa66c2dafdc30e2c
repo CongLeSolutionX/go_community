@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d17dc10b_2f1ad83c",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-09-06T00:52:33Z",
+      "side": 1,
+      "message": "Thanks for pointing this out.\nTo verify the problem described below, I also added a test case for /testThree?foo is fowarded to /testThree handler.",
+      "parentUuid": "4c35fdf5_359cf753",
+      "revId": "66a123f23bccafec3a15ad43aa66c2dafdc30e2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3212d00b_75445766",
         "filename": "src/net/http/server.go",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d8c818f0_b52dbceb",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2218,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-09-06T00:52:33Z",
+      "side": 1,
+      "message": "Fixed by checking the existence of a handler associated with a pure path.\nPTAL.",
+      "parentUuid": "3212d00b_75445766",
+      "revId": "66a123f23bccafec3a15ad43aa66c2dafdc30e2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4d379d5_9d599d2c",
         "filename": "src/net/http/server.go",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "66a123f23bccafec3a15ad43aa66c2dafdc30e2c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0892e7ef_bba078eb",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2226,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-09-06T00:52:33Z",
+      "side": 1,
+      "message": "Right. This comment is not correct, because the following behavior exists.\nhttps://github.com/golang/go/blob/d55d7b93978e1a10b6588962f999d3ebd6d65a3d/src/net/http/serve_test.go#L351\n\nTo protect the behavior, I think some code should be required to put above this line.",
+      "parentUuid": "c4d379d5_9d599d2c",
+      "revId": "66a123f23bccafec3a15ad43aa66c2dafdc30e2c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
