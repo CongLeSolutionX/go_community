@@ -34,6 +34,24 @@
       "revId": "2c19d0a0ccb2c3f7714248ecbb011a0f810f011b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac60ec72_d82f4183",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 2227,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-09-06T16:54:02Z",
+      "side": 1,
+      "message": "No worries, thanks!",
+      "parentUuid": "74d2fcf9_560e326f",
+      "revId": "2c19d0a0ccb2c3f7714248ecbb011a0f810f011b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
