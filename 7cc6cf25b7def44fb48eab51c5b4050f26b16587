@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cd30ce6_cc1ac733",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-07T22:17:02Z",
+      "side": 1,
+      "message": "I\u0027m concerned about adding examples with Output lines that load specific locations, as they may cause all.bash to fail on systems that do not provide those locations.  We\u0027ve had various instances of these in the past.  Note that the tests in zoneinfo_test.go use time.ForceZipFileForTesting, but I don\u0027t see how to get that into a useful example.",
+      "revId": "7cc6cf25b7def44fb48eab51c5b4050f26b16587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
