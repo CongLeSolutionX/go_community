@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "7267508c_c0804c3b",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-09-07T20:53:31Z",
+      "side": 1,
+      "message": "Good idea. Please do this. Also add a case where the path needs to be canonicalized (see the implementation of cleanPath).",
+      "parentUuid": "c9c02346_966ca957",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8632cf5c_a7c0d5b0",
         "filename": "src/net/http/server.go",
         "patchSetId": 8
@@ -82,6 +100,24 @@
       "side": 1,
       "message": "I guess the compatibility is not broken because actual behavior is not changed. \nThe processing of appending \"/\" to path was used to be implemented by adding new handler, now the feature is implemented by redirecting at the runtime. \nThe result is the same, I think. Thoughts?\n\nP.S.\nSo it does not have to add the \"CONNECT\" test actually, but the behavior has not been protected for quite a while.",
       "parentUuid": "04074f9e_5025c23e",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdea2e17_bedcfa1b",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2213,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-09-07T20:53:31Z",
+      "side": 1,
+      "message": "This looks correct to me. The old behavior added the redirect even for CONNECT requests, and the new code does as well.",
+      "parentUuid": "81a701a5_aea72e5a",
       "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
