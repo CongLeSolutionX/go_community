@@ -52,6 +52,24 @@
       "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15716b36_99d8ee6a",
+        "filename": "src/cmd/internal/objabi/symkind.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-09-07T20:18:14Z",
+      "side": 1,
+      "message": "Right. I was hoping that we could change the linker\u0027s DWARF processing so it started from the SDWARFINFO symbols instead of the functions, but then it\u0027s hard to figure out whether the symbol is the DIE for a function, and whether that function is actually reachable in the final binary. We could use a naming convention for that, but maybe a new symbol type is easier?\n\nIf so, I wonder if it would be better to have the new type be SDWARFFUNCINFO (or some such) and use SDWARFINFO for the constants. Hopefully that would convey the idea that the FUNCINFO ones are processed specially (for reachability) and then the linker could convert them to just INFO in writelines(). I dunno.",
+      "parentUuid": "483afe4c_063f00ac",
+      "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
