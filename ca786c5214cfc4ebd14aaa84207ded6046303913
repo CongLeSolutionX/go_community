@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "81a701a5_aea72e5a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2213,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-09-07T08:03:20Z",
+      "side": 1,
+      "message": "I guess the compatibility is not broken because actual behavior is not changed. \nThe processing of appending \"/\" to path was used to be implemented by adding new handler, now the feature is implemented by redirecting at the runtime. \nThe result is the same, I think. Thoughts?\n\nP.S.\nSo it does not have to add the \"CONNECT\" test actually, but the behavior has not been protected for quite a while.",
+      "parentUuid": "04074f9e_5025c23e",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "acfa196a_7ccf55d5",
         "filename": "src/net/http/server.go",
         "patchSetId": 8
@@ -117,6 +135,24 @@
       "side": 1,
       "message": "Ah I see, thanks for pointing that out to me, okay in that case the only\ndifference then requires passing the path into the extracted function.\nHowever, if you aren\u0027t comfortable with doing that or don\u0027t think it improves\nreadability, please feel free to skip the suggestion :)",
       "parentUuid": "142ae57d_9db3aa6e",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a87c58a1_231e3231",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2228,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-09-07T08:03:20Z",
+      "side": 1,
+      "message": "Receiving your advice, I\u0027ve tried to extract the logic as a new method.\nCould you take a look?",
+      "parentUuid": "05547e26_59f4b3e9",
       "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
