@@ -88,6 +88,24 @@
       "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9405c6ca_959c2a50",
+        "filename": "src/cmd/internal/objabi/symkind.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-09-07T21:12:47Z",
+      "side": 1,
+      "message": "As long as there\u0027s no reason we would need to emit a relocation to a specific DIE, that seems okay, though IMO unpleasant.\n\nMaybe reachability should be a flag in the object file format. I guess right now the linker just knows to start from main() and everything else is implicit?",
+      "parentUuid": "d406006a_e333d5bd",
+      "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
