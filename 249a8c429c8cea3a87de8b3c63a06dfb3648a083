@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "016720d1_ebc66e56",
+        "filename": "src/cmd/vet/method.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-07T00:29:22Z",
+      "side": 1,
+      "message": "Or maybe nicer just replace this with\nt \u003d append(t, f.Type)",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 3
+      },
+      "revId": "249a8c429c8cea3a87de8b3c63a06dfb3648a083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b9dd543_77244cd5",
         "filename": "src/cmd/vet/method.go",
         "patchSetId": 1
@@ -22,6 +45,30 @@
       "revId": "249a8c429c8cea3a87de8b3c63a06dfb3648a083",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0b5e8a8_710123b2",
+        "filename": "src/cmd/vet/method.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-07T00:29:22Z",
+      "side": 1,
+      "message": "abandon",
+      "parentUuid": "4b9dd543_77244cd5",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 3
+      },
+      "revId": "249a8c429c8cea3a87de8b3c63a06dfb3648a083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
