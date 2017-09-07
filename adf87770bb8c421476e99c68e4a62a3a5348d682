@@ -16,6 +16,23 @@
       "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e529cdaa_6895174c",
+        "filename": "src/cmd/go/testdata/src/complex/nest/sub/test12/p.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-09-07T08:52:28Z",
+      "side": 1,
+      "message": "May as well put copyright headers on testdata.",
+      "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
