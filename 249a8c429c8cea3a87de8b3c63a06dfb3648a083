@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3be0a17a_9d3fbf7c",
+        "filename": "src/cmd/vet/method.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-09-07T08:26:19Z",
+      "side": 1,
+      "message": "I\u0027m not convinced this is a valid simplification - seems like a different program to me. Will submit as-is - feel free to post another CL. I\u0027m not touching these lines after all.",
+      "parentUuid": "016720d1_ebc66e56",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 140,
+        "endChar": 3
+      },
+      "revId": "249a8c429c8cea3a87de8b3c63a06dfb3648a083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4b9dd543_77244cd5",
         "filename": "src/cmd/vet/method.go",
         "patchSetId": 1
