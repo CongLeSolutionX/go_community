@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acc62e4a_aa02851f",
+        "filename": "doc/code.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-07T22:21:42Z",
+      "side": 1,
+      "message": "I don\u0027t think this parenthetical note is needed.",
+      "range": {
+        "startLine": 114,
+        "startChar": 25,
+        "endLine": 114,
+        "endChar": 42
+      },
+      "revId": "97eeb6acd410a6d707fd006db4c923abba0467bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42cc65fd_9867cf8d",
+        "filename": "doc/code.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-07T22:21:42Z",
+      "side": 1,
+      "message": "This sentence is unfortunately, and understandably, vague.  I don\u0027t think it adds anything to the documentation.  I would omit it.",
+      "range": {
+        "startLine": 115,
+        "startChar": 42,
+        "endLine": 115,
+        "endChar": 47
+      },
+      "revId": "97eeb6acd410a6d707fd006db4c923abba0467bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
