@@ -105,6 +105,24 @@
     },
     {
       "key": {
+        "uuid": "05547e26_59f4b3e9",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2228,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-09-07T07:26:27Z",
+      "side": 1,
+      "message": "Ah I see, thanks for pointing that out to me, okay in that case the only\ndifference then requires passing the path into the extracted function.\nHowever, if you aren\u0027t comfortable with doing that or don\u0027t think it improves\nreadability, please feel free to skip the suggestion :)",
+      "parentUuid": "142ae57d_9db3aa6e",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f0721ef7_b66eb97d",
         "filename": "src/net/http/server.go",
         "patchSetId": 8
