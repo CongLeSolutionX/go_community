@@ -70,6 +70,24 @@
       "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d406006a_e333d5bd",
+        "filename": "src/cmd/internal/objabi/symkind.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-07T20:55:34Z",
+      "side": 1,
+      "message": "I just chatted with Russ a bit about this.\n\nMaybe what would be cleanest is to put together a *single* SDWARFINFO symbol in the compiler that contains all of the const DIEs and give it a well-known name like \"go.dwarfconsts\". Then when the linker reads in the object, when it sees this name, just add it to the list of global symbols.",
+      "parentUuid": "15716b36_99d8ee6a",
+      "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
