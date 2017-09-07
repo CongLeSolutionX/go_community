@@ -16,6 +16,24 @@
       "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d1425af_f63ad5bd",
+        "filename": "src/cmd/internal/objabi/symkind.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-09-07T18:31:48Z",
+      "side": 1,
+      "message": "Yeah, that\u0027s what I was trying to suggest earlier. Looking harder, I\u0027m not sure yet how to collect them, but I still think it\u0027s better than an explosion of symbol types.",
+      "parentUuid": "0d53ed1e_e06d5bf8",
+      "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
