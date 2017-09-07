@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b9dd543_77244cd5",
+        "filename": "src/cmd/vet/method.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-07T00:25:00Z",
+      "side": 1,
+      "message": "for i :\u003d 0; i \u003c\u003d len(f.Names); i++ {\n    t \u003d append(t, f.Type)\n}",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 143,
+        "endChar": 3
+      },
+      "revId": "249a8c429c8cea3a87de8b3c63a06dfb3648a083",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
