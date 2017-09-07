@@ -106,6 +106,24 @@
       "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8d6240a_9e3c4e4e",
+        "filename": "src/cmd/internal/objabi/symkind.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-07T21:26:45Z",
+      "side": 1,
+      "message": "I think even if we needed to emit a relocation to a specific DIE this would be fine, but since we don\u0027t have to, it\u0027s even more fine.\n\nReachability isn\u0027t always implicit from main. For example, if you search for AttrReachable in cmd/link/internal/ld, you\u0027ll find a lot of things that are explicitly marked reachable. For example (*Link).loadlib and (*Link).symtab do this for several symbols.",
+      "parentUuid": "9405c6ca_959c2a50",
+      "revId": "df955f54eac4f17bf5bde0d4e5d3b510bd103476",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
