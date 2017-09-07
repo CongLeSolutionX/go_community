@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54724861_04b74542",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-09-07T06:45:32Z",
+      "side": 1,
+      "message": "We can make this clearer by combining the line below with the content of writeBackQuery so:\nfmt.Fprintf(w, \"%s:bar\", r.URL.RawQuery)",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9c02346_966ca957",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-09-07T06:45:32Z",
+      "side": 1,
+      "message": "Btw, since we are changing the behavior for \"CONNECT\" requests, could we modify\nthis test table to include a method, and also test for \"CONNECT\" requests:\ntests :\u003d [...]struct{\n   path   string\n   method string\n   want   string\n}{\n\nand then in the code:\nreq, _ :\u003d NewRequest(tt.method, ts.URL + tt.path, nil)\nres, err :\u003d ts.Client().Do(req)",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8632cf5c_a7c0d5b0",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2197,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-09-07T06:45:32Z",
+      "side": 1,
+      "message": "Could we perhaps give it a more descriptive name, such as redirectToPathSlash?",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04074f9e_5025c23e",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2213,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-09-07T06:45:32Z",
+      "side": 1,
+      "message": "With the change started on Line 2225 for r.Method \u003d\u003d \"CONNECT\", this comment\nis no longer valid, as we now modify the path, by appending \"/\" to it.\nNow that worries me about whether we are breaking compatibility, @tombergan\nwhat are your thoughts on this?",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acfa196a_7ccf55d5",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2228,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-09-07T06:45:32Z",
+      "side": 1,
+      "message": "this code is duplicated also on 2242-2248, perhaps we can extract it to:\n\nif u, ok :\u003d mux.redirectToPathSlash(r.URL); ok {\n   return RedirectHandler(slashAddedURL.String(), StatusMovedPermanently), path\n}\n\nwhere redirectToPathSlash is:\n\n// redirectToPathSlash determines if u\u0027s Path needs appending \"/\" to it.\n// This occurs when a handler for u.Path + \"/\" was already registered, but\n// not for u.Path itself. If the path needs appending to, it creates a new\n// URL, setting the Path to u.Path + \"/\" and returning true to indicate so.\nfunc (mux *ServeMux) redirectToPathSlash(u *url.URL) (*url.URL, bool) {\n    path :\u003d r.URL.Path\n    if !mux.shouldRedirect(path) {\n       return u, false\n    }\n    path \u003d path + \"/\"\n    u \u003d \u0026url.URL{Path: path, RawQuery: uRawQuery}\n    return u, true\n}",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0721ef7_b66eb97d",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2244,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-09-07T06:45:32Z",
+      "side": 1,
+      "message": "Please see the update suggested on Line 2228",
+      "revId": "ca786c5214cfc4ebd14aaa84207ded6046303913",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
