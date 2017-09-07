@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "20428b29_558d1a9c",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-07T21:24:40Z",
+      "side": 1,
+      "message": "Looks like you could call tg.Parallel here.",
+      "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "591ad8e4_f5ce5d78",
         "filename": "src/cmd/go/internal/work/build.go",
         "patchSetId": 1
@@ -16,6 +33,52 @@
       "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be901be6_112bb68c",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2711,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-07T21:24:40Z",
+      "side": 1,
+      "message": "I\u0027m fine with this approach--thanks--but we can\u0027t use gccSupportsFlag here.  The problem is that gccSupportsFlag tests exactly whether \"gcc\" supports -fgo-importcfg, but it won\u0027t; only gccgo will ever support that option.  We need something like gccSupportsFlag that invokes GccgoName rather than $CC.",
+      "range": {
+        "startLine": 2711,
+        "startChar": 7,
+        "endLine": 2711,
+        "endChar": 22
+      },
+      "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2829a2a9_24b6de2b",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2733,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-07T21:24:40Z",
+      "side": 1,
+      "message": "-fgo-importcfg",
+      "range": {
+        "startLine": 2733,
+        "startChar": 37,
+        "endLine": 2733,
+        "endChar": 47
+      },
+      "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     },
     {
       "key": {
@@ -48,6 +111,24 @@
       "side": 1,
       "message": "In general we haven\u0027t done that. There are 159 Go files in the testdata tree and only 8 that have a copyright notice.",
       "parentUuid": "e529cdaa_6895174c",
+      "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96c6629e_7409442d",
+        "filename": "src/cmd/go/testdata/src/complex/nest/sub/test12/p.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-07T21:24:40Z",
+      "side": 1,
+      "message": "This is clearly a separate issue for a different CL but 1) I tend to think that the files ought to have a copyright header; 2) therefore it follows that I think there are too many of these files and I would rather pull all the trivial ones into one place.",
+      "parentUuid": "1a4e359d_35bb2b37",
       "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
