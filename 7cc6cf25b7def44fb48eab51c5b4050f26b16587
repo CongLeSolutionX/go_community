@@ -16,6 +16,24 @@
       "revId": "7cc6cf25b7def44fb48eab51c5b4050f26b16587",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "913dc70e_a27dc3c3",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 24533
+      },
+      "writtenOn": "2017-09-08T16:57:41Z",
+      "side": 1,
+      "message": "Thanks Ian, I can see the potential problem, however, I can see that ExampleParseInLocation loads in Europe/Berlin though, so maybe it\u0027s actually OK.\n\nIf not, how about this, which avoids LoadLocation altogether?\n\nfunc ExampleLocation() {\n\tsecondsInOneMinute :\u003d 1 * 60\n\tsecondsInOneHour :\u003d secondsInOneMinute * 60\n\tsecondsEastOfUTC :\u003d secondsInOneHour * 8\n\n\t// China doesn\u0027t have daylight saving. It uses a fixed 8 hour offset from UTC.\n\tbeijing :\u003d time.FixedZone(\"Beijing Time\", secondsEastOfUTC)\n\n\t// If the system has a timezone database present, it\u0027s also possible\n\t// to load a location from that, e.g.:\n\t//    newYork, err :\u003d time.LoadLocation(\"America/New_York\")\n\n\t// Times include a location. Common locations are also time.Local and time.UTC.\n\ttimeInUTC :\u003d time.Date(2009, 1, 1, 0, 0, 0, 0, time.UTC)\n\ttimeInBeijing :\u003d timeInUTC.In(beijing)\n\n\tfmt.Printf(\"UTC: %v\\n\", timeInUTC)\n\tfmt.Printf(\"Beijing: %v\\n\", timeInBeijing)\n\n\t// Output:\n\t// UTC: 2009-01-01 00:00:00 +0000 UTC\n\t// Beijing: 2009-01-01 08:00:00 +0800 Beijing Time\n}",
+      "parentUuid": "5cd30ce6_cc1ac733",
+      "revId": "7cc6cf25b7def44fb48eab51c5b4050f26b16587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
