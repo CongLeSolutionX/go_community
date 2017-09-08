@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e2651bb_ff4e7eb4",
+        "filename": "src/runtime/runtime-gdb_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-08T19:39:09Z",
+      "side": 1,
+      "message": "Why not search for a plain substring?",
+      "revId": "06be955e41ac7640d1deb64c27107bcd9b34c960",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
