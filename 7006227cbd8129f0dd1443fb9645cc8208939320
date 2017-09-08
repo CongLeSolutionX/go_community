@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "984f3353_163964bf",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-09-08T18:16:06Z",
+      "side": 1,
+      "message": "Maybe a nit, but I would prefer \"go.constinfo.\" -- we don\u0027t prefix any of the others with DWARF (though maybe we should?) and I kind of like that they say what .debug section they go into. And I think ConstInfo is a little easier to understand than InfoConst; this is information about a constant, not constants about information, whatever that would be :P",
+      "range": {
+        "startLine": 26,
+        "startChar": 44,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "7006227cbd8129f0dd1443fb9645cc8208939320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3bf0a2c_3e155208",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-09-08T18:16:06Z",
+      "side": 1,
+      "message": "I think Austin/Russ\u0027s suggestion was literally a constant symbol name, not one that contained the package. I personally like this better, but my aesthetic sense about this stuff is clearly not well calibrated, so I\u0027d be curious to hear from Austin.",
+      "range": {
+        "startLine": 506,
+        "startChar": 73,
+        "endLine": 506,
+        "endChar": 0
+      },
+      "revId": "7006227cbd8129f0dd1443fb9645cc8208939320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a6ab7f4_863ad947",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-09-08T18:16:06Z",
+      "side": 1,
+      "message": "importInfoSymbol? The whole file is for debug.",
+      "range": {
+        "startLine": 975,
+        "startChar": 50,
+        "endLine": 975,
+        "endChar": 0
+      },
+      "revId": "7006227cbd8129f0dd1443fb9645cc8208939320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
