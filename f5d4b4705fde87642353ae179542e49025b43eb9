@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84cfd43b_9b106a75",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-08T12:33:36Z",
+      "side": 1,
+      "message": "One of the key points of using NewTicker is that you must stop the ticker.  I\u0027d like to see an example that does not run forever, and that demonstrates stopping the ticker, probably via\n    defer ticker.Stop()",
+      "revId": "f5d4b4705fde87642353ae179542e49025b43eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
