@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee30c637_134dd203",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-08T22:31:16Z",
+      "side": 1,
+      "message": "Thanks.  I think it would be slightly clearer to put the `defer ticker.Stop()` immediately after the `timer :\u003d time.NewTicker(time.Second)`.",
+      "revId": "3b59207934edaae92706424c38c01e6ae658e419",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
