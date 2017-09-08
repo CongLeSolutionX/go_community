@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "0188be41_0d382118",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-09-08T19:39:08Z",
+      "side": 1,
+      "message": "Not sure. I think you\u0027d have to iterate over ctxt.Syms.AllSyms since Lookup would only find one. Maybe I misunderstood the suggestion.",
+      "parentUuid": "d04ff8cd_fc60e054",
+      "range": {
+        "startLine": 506,
+        "startChar": 73,
+        "endLine": 506,
+        "endChar": 0
+      },
+      "revId": "7006227cbd8129f0dd1443fb9645cc8208939320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a6ab7f4_863ad947",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 3
