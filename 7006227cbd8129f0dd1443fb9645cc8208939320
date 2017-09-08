@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "11cc37ec_e3a5b1fe",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2017-09-08T19:32:29Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem too complicated if limited to TIDEAL constants that fit into a int64 and we\u0027re ok with them having int64 as their type in debug_info.\n\nPersonally, the constants I\u0027m interested in are the ones with a user defined type, because I intend to use them to pretty print variables.",
+      "parentUuid": "d723e640_d538e64f",
+      "revId": "7006227cbd8129f0dd1443fb9645cc8208939320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "984f3353_163964bf",
         "filename": "src/cmd/internal/dwarf/dwarf.go",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "92751be5_b09c1cec",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2017-09-08T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "984f3353_163964bf",
+      "range": {
+        "startLine": 26,
+        "startChar": 44,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "7006227cbd8129f0dd1443fb9645cc8208939320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3bf0a2c_3e155208",
         "filename": "src/cmd/internal/obj/objfile.go",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2017-09-08T18:16:06Z",
       "side": 1,
       "message": "I think Austin/Russ\u0027s suggestion was literally a constant symbol name, not one that contained the package. I personally like this better, but my aesthetic sense about this stuff is clearly not well calibrated, so I\u0027d be curious to hear from Austin.",
+      "range": {
+        "startLine": 506,
+        "startChar": 73,
+        "endLine": 506,
+        "endChar": 0
+      },
+      "revId": "7006227cbd8129f0dd1443fb9645cc8208939320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d04ff8cd_fc60e054",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2017-09-08T19:32:29Z",
+      "side": 1,
+      "message": "How\u0027s this going to work with duplicated symbols in the linker?",
+      "parentUuid": "c3bf0a2c_3e155208",
       "range": {
         "startLine": 506,
         "startChar": 73,
@@ -85,6 +151,30 @@
       "revId": "7006227cbd8129f0dd1443fb9645cc8208939320",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6de34602_d4620824",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2017-09-08T19:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a6ab7f4_863ad947",
+      "range": {
+        "startLine": 975,
+        "startChar": 50,
+        "endLine": 975,
+        "endChar": 0
+      },
+      "revId": "7006227cbd8129f0dd1443fb9645cc8208939320",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
