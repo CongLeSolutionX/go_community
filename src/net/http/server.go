@@ -293,7 +293,16 @@ func (c *conn) hijackLocked() (rwc net.Conn, buf *bufio.ReadWriter, err error) {
 	if c.hijackedv {
 		return nil, nil, ErrHijacked
 	}
-	c.r.abortPendingRead()
+	if c.r.inRead {
+		go func() {
+			defer func() {
+				if err := recover(); err != nil && !c.r.inBackgroundRead {
+					panic(err)
+				}
+			}()
+			c.r.abortPendingRead()
+		}()
+	}
 
 	c.hijackedv = true
 	rwc = c.rwc
@@ -624,13 +633,14 @@ type readResult struct {
 type connReader struct {
 	conn *conn
 
-	mu      sync.Mutex // guards following
-	hasByte bool
-	byteBuf [1]byte
-	cond    *sync.Cond
-	inRead  bool
-	aborted bool  // set true before conn.rwc deadline is set to past
-	remain  int64 // bytes remaining
+	mu               sync.Mutex // guards following
+	hasByte          bool
+	byteBuf          [1]byte
+	cond             *sync.Cond
+	inRead           bool
+	inBackgroundRead bool
+	aborted          bool  // set true before conn.rwc deadline is set to past
+	remain           int64 // bytes remaining
 }
 
 func (cr *connReader) lock() {
@@ -657,6 +667,7 @@ func (cr *connReader) startBackgroundRead() {
 }
 
 func (cr *connReader) backgroundRead() {
+	cr.inBackgroundRead = true
 	n, err := cr.conn.rwc.Read(cr.byteBuf[:])
 	cr.lock()
 	if n == 1 {
@@ -676,6 +687,7 @@ func (cr *connReader) backgroundRead() {
 	cr.inRead = false
 	cr.unlock()
 	cr.cond.Broadcast()
+	cr.inBackgroundRead = false
 }
 
 func (cr *connReader) abortPendingRead() {
