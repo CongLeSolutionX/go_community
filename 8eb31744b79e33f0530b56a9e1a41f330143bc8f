@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24b5f3d0_6ea74d6b",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 4195,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T07:12:33Z",
+      "side": 1,
+      "message": "I think it might help if this comment briefly mentioned that this is implemented by having the go tool pass a -X option setting runtime/internal/sys.DefaultGoroot.  That way when this test breaks we have a chance of finding the relevant code.",
+      "revId": "8eb31744b79e33f0530b56a9e1a41f330143bc8f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
