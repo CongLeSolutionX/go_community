@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "614dc7ba_23fb4f43",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:58:27Z",
+      "side": 1,
+      "message": "Maybe I\u0027m too old-fashioned, but I think I disagree.  I agree that the code is not performance relevant, but I actually find \u00261 to be clearer than %2.  I wouldn\u0027t say anything in new code, but in existing code I\u0027d just as soon leave it alone.",
+      "parentUuid": "2d16d9a8_25440b3c",
+      "revId": "bb76ed480bdd744f8b99361c169dfab1dda6c17a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "addf06c7_4c08fefa",
         "filename": "src/cmd/dist/buildgo.go",
         "patchSetId": 1
