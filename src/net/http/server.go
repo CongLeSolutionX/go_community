@@ -293,7 +293,9 @@ func (c *conn) hijackLocked() (rwc net.Conn, buf *bufio.ReadWriter, err error) {
 	if c.hijackedv {
 		return nil, nil, ErrHijacked
 	}
-	c.r.abortPendingRead()
+	if c.r.inRead {
+		go c.r.abortPendingRead()
+	}
 
 	c.hijackedv = true
 	rwc = c.rwc
@@ -643,6 +645,9 @@ func (cr *connReader) lock() {
 func (cr *connReader) unlock() { cr.mu.Unlock() }
 
 func (cr *connReader) startBackgroundRead() {
+	if cr.conn.hijacked() {
+		return
+	}
 	cr.lock()
 	defer cr.unlock()
 	if cr.inRead {
