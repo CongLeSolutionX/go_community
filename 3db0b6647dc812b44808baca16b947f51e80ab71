@@ -1,0 +1,260 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14fd57fb_b7299ce2",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1824,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "I don\u0027t really understand why the tests below test this.  It seems to me that io.WriteString will write out the expected string whether or not it calls the WriteString method.  Do these tests fail without the rest of the change?\n\nI also don\u0027t understand why you have so many different tests below.  What additional thing are you testing?\n\nWhat if you simply write\n\n    var _ interface { WriteString(s string) (n int, err error) } \u003d f\n\n?",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f75299_6ee4e447",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1829,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "This is a test, so test the error and ok return values.  Under the circumstances it\u0027s OK to panic if they are not as expected.",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb769bd7_c0b6bef8",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1841,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "Just write\n    var buf bytes.Buffer\nand pass \u0026buf to Fprintf.",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c56ec9d_f7fad594",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1846,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "Minor, but call t.Errorf here--this is not a fatal error.",
+      "range": {
+        "startLine": 1846,
+        "startChar": 4,
+        "endLine": 1846,
+        "endChar": 10
+      },
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed6c2b2a_551469e6",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1846,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "The convention in this file is \"got %q, expected %q\".  In general Go test error message are got/want--print the value you got, then the value you want.",
+      "range": {
+        "startLine": 1846,
+        "startChar": 12,
+        "endLine": 1846,
+        "endChar": 54
+      },
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4882fbea_bb212c6b",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "var buf bytes.Buffer",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5ee6242_309a2aa0",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1857,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "Use Errorf, use got/want.",
+      "range": {
+        "startLine": 1857,
+        "startChar": 4,
+        "endLine": 1857,
+        "endChar": 10
+      },
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67a11a68_6161dfed",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1863,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "var buf bytes.Buffer",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81fd0140_35698d30",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1863,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "var buf bytes.Buffer",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "086ddf8a_d32f40fe",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1868,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "Errorf, got/want.",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78f608ee_61d7081d",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1875,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "var buf bytes.Buffer",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "103c5f9c_39b2cbb5",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1880,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "Errorf, got/want",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "461a54cf_27726694",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1886,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "var buf bytes.Buffer",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeb1f51a_b7a5b7e2",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1891,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:59:04Z",
+      "side": 1,
+      "message": "Errorf, got/want",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
