@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ecf0264_7b42de42",
+        "filename": "doc/diagnostics.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-09T09:29:32Z",
+      "side": 1,
+      "message": "As long as you\u0027re here:\n\ns/in system/in a system/\ns/is safe/is a safe/",
+      "revId": "27212645e6c61c0d2e6f2c15db4a9c7e937991e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
