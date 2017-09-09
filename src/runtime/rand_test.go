@@ -10,10 +10,12 @@ import (
 	"testing"
 )
 
+var sink32 uint32
+
 func BenchmarkFastrand(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			Fastrand()
+			sink32 = Fastrand()
 		}
 	})
 }
@@ -31,8 +33,6 @@ func BenchmarkFastrandHashiter(b *testing.B) {
 		}
 	})
 }
-
-var sink32 uint32
 
 func BenchmarkFastrandn(b *testing.B) {
 	for n := uint32(2); n <= 5; n++ {

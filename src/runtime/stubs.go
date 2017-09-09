@@ -96,11 +96,14 @@ var hashLoad = float32(loadFactorNum) / float32(loadFactorDen)
 //go:nosplit
 func fastrand() uint32 {
 	mp := getg().m
-	fr := mp.fastrand
-	mx := uint32(int32(fr)>>31) & 0xa8888eef
-	fr = fr<<1 ^ mx
-	mp.fastrand = fr
-	return fr
+	// Implement xorshift64+: 2 32-bit xorshift sequences added together.
+	// Shift triplet [23,3,24] was taken from Marsiglia's paper.
+	// This generator passes SmallCrush.
+	s1, s0 := mp.fastrand[0], mp.fastrand[1]
+	s1 ^= s1 << 23
+	s1 = s1 ^ s0 ^ s1>>3 ^ s0>>24
+	mp.fastrand[0], mp.fastrand[1] = s0, s1
+	return s0 + s1
 }
 
 //go:nosplit
