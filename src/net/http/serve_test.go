@@ -3093,6 +3093,49 @@ func TestCloseNotifierChanLeak(t *testing.T) {
 	}
 }
 
+type countableConn struct {
+	rwTestConn
+	count int
+}
+
+func (c *countableConn) Read(b []byte) (int, error) {
+	c.SetReadDeadline(time.Now().Add(5 * time.Second))
+	c.count++
+	return c.Reader.Read(b)
+}
+
+// Hijacked connection should not be affected by background read process.
+// Issue #21133
+func TestServerHijackNotBlockedByBackgroundProcess(t *testing.T) {
+	req := reqBytes("GET / HTTP/1.1\nHost: golang.org")
+	var buf bytes.Buffer
+	wrotec := make(chan bool, 1)
+	conn := &countableConn{
+		count: 0,
+		rwTestConn: rwTestConn{
+			Reader: bytes.NewReader(req),
+			Writer: &buf,
+			closec: make(chan bool, 1),
+		},
+	}
+	handler := HandlerFunc(func(rw ResponseWriter, r *Request) {
+		conn, _, err := rw.(Hijacker).Hijack()
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		if have, want := conn.(*countableConn).count, 1; have != want {
+			t.Errorf("expected read count, want: %d, have: %d", want, have)
+		}
+		wrotec <- true
+		conn.Close()
+	})
+	ln := &oneConnListener{conn: conn}
+	go Serve(ln, handler)
+	<-conn.closec
+	<-wrotec
+}
+
 // Tests that we can use CloseNotifier in one request, and later call Hijack
 // on a second request on the same connection.
 //
