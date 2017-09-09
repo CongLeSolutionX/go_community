@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e11b94ca_908c00ea",
+        "filename": "src/runtime/stubs.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 7215
+      },
+      "writtenOn": "2017-09-09T14:23:18Z",
+      "side": 1,
+      "message": "17-7-16 is generated using Marsiglia\u0027s framework from xorshift distribution.\nAll generated triplets are https://gist.github.com/funny-falcon/6eef3202b64e3648760884954d3814ca\nThey includes all example triplets from xorshift paper - it verifies generation.",
+      "revId": "33fa76d5fbbfef2f66dfaa5e04b1ec1cc917070f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
