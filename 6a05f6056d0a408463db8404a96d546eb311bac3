@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b94f722_3b4dc379",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-09-11T18:23:56Z",
+      "side": 1,
+      "message": "Ditto comment below -- I expect this will always be true.",
+      "revId": "6a05f6056d0a408463db8404a96d546eb311bac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a51218f5_9b575b5a",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-09-11T18:23:56Z",
+      "side": 1,
+      "message": "+1 to needing a test. I\u0027m not sure this can ever be true because startBackgroundRead happens before conn.serve calls ServeHTTP, which is the thing that would callHijack.",
+      "revId": "6a05f6056d0a408463db8404a96d546eb311bac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
