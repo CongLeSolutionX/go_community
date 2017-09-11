@@ -22,6 +22,30 @@
       "revId": "fd29d03f70238abf460f56209a2ccc76dec6509e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "205c9568_b370eb79",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2023,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-09-11T13:59:47Z",
+      "side": 1,
+      "message": "Yes, I think you\u0027re right. Thanks for pointing this out. I\u0027ll send a followup CL.",
+      "parentUuid": "ee223fc9_4740373e",
+      "range": {
+        "startLine": 2023,
+        "startChar": 2,
+        "endLine": 2023,
+        "endChar": 60
+      },
+      "revId": "fd29d03f70238abf460f56209a2ccc76dec6509e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
