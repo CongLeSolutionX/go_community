@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c62dc6cc_e3e84d23",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-09-11T23:25:03Z",
+      "side": 1,
+      "message": "Yes. This is true. However, I hated that wasteful execution of goroutine.",
+      "parentUuid": "8b94f722_3b4dc379",
+      "revId": "6a05f6056d0a408463db8404a96d546eb311bac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a51218f5_9b575b5a",
         "filename": "src/net/http/server.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-11T18:23:56Z",
       "side": 1,
       "message": "+1 to needing a test. I\u0027m not sure this can ever be true because startBackgroundRead happens before conn.serve calls ServeHTTP, which is the thing that would callHijack.",
+      "revId": "6a05f6056d0a408463db8404a96d546eb311bac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d0b7d7a_19a42737",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-09-11T23:25:03Z",
+      "side": 1,
+      "message": "This change is for avoiding execution if startBackgroundRead is registered by registerOnHitEOF in rare case.",
+      "parentUuid": "a51218f5_9b575b5a",
       "revId": "6a05f6056d0a408463db8404a96d546eb311bac3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
