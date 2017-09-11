@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f55905a_239aab34",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-09-11T16:27:39Z",
+      "side": 1,
+      "message": "We just need a newline between methods, so:\n\n\n\t// ...\n\tConnect(context.Context) (Conn, error)\n\n\t// ...\n\tDriver() Driver",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 51
+      },
+      "revId": "8100f1c2baa6923788114b8a00ecbfab39b311bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35d2cd26_7bbfd437",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-09-11T16:27:39Z",
+      "side": 1,
+      "message": "// Driver returns the underlying Driver of the Connector ...",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 16
+      },
+      "revId": "8100f1c2baa6923788114b8a00ecbfab39b311bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
