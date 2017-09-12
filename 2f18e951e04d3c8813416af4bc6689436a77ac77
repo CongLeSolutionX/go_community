@@ -22,6 +22,30 @@
       "revId": "2f18e951e04d3c8813416af4bc6689436a77ac77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cdeef98_e8f0a4a3",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-09-12T15:56:14Z",
+      "side": 1,
+      "message": "I tried to lock it. How about this?",
+      "parentUuid": "a3d1e244_08088d5d",
+      "range": {
+        "startLine": 299,
+        "startChar": 38,
+        "endLine": 299,
+        "endChar": 60
+      },
+      "revId": "2f18e951e04d3c8813416af4bc6689436a77ac77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
