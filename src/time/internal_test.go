@@ -22,7 +22,7 @@ func empty(arg interface{}, seq uintptr) {}
 func CheckRuntimeTimerOverflow() {
 	// We manually create a runtimeTimer to bypass the overflow
 	// detection logic in NewTimer: we're testing the underlying
-	// runtime.addtimer function.
+	// runtime.startTimer function.
 	r := &runtimeTimer{
 		when: runtimeNano() + (1<<63 - 1),
 		f:    empty,
