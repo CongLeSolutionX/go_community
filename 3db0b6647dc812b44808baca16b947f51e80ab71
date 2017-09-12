@@ -55,6 +55,47 @@
     },
     {
       "key": {
+        "uuid": "7042c83e_968c4cb2",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1824,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-12T05:21:59Z",
+      "side": 1,
+      "message": "forgot \" for the output.\n{\"%2.3s\", TestFormatter(\"Formatter\"), \"##Formatter***\"},\n\nOn second thought just table driven tests:\n\"\"\n\"Formatter\"\n\"⌘/⌘\"\nare only 3 lines in the table driven tests and should suffice.",
+      "parentUuid": "e05955c2_88267a3b",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56aea3c4_f9997313",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-12T05:21:59Z",
+      "side": 1,
+      "message": "WriteStringFormatter seems to be transport what it tests.",
+      "range": {
+        "startLine": 1826,
+        "startChar": 5,
+        "endLine": 1826,
+        "endChar": 18
+      },
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2f75299_6ee4e447",
         "filename": "src/fmt/fmt_test.go",
         "patchSetId": 2
@@ -84,6 +125,52 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "b2f75299_6ee4e447",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17658565_41d55b2e",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1831,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-12T05:21:59Z",
+      "side": 1,
+      "message": "wid and prec are as far as i remember are already extensively tested elsewhere so i think it would be clearer to drop the prec and wid usage here and just use e.g. a constant *** prefix and suffix ***.",
+      "range": {
+        "startLine": 1831,
+        "startChar": 0,
+        "endLine": 1831,
+        "endChar": 71
+      },
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a878b292_a4948618",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1832,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-12T05:21:59Z",
+      "side": 1,
+      "message": "This does not test that WriteString exists on pp.\n\ncan be replaced by something like:\nif sw, ok :\u003d tf.(stringWriter); ok {\n\treturn sw.WriteString(\"***\"+s+\"***\")\n}\nreturn tf.Write([]byte(tf))",
+      "range": {
+        "startLine": 1832,
+        "startChar": 1,
+        "endLine": 1832,
+        "endChar": 21
+      },
       "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
