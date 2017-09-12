@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77a4a874_ffb0c07c",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-12T17:26:32Z",
+      "side": 1,
+      "message": "This actually changes the current code in that we will now run a race detector check that we did not run before.  Are you sure that is correct?",
+      "revId": "817e65e97b0554c90ced5435d4f8ead8d86ce307",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
