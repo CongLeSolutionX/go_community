@@ -69,6 +69,24 @@
       "revId": "6a05f6056d0a408463db8404a96d546eb311bac3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e51ed6e7_3b5dbed1",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-09-12T00:39:42Z",
+      "side": 1,
+      "message": "I am confused. If this only fixes the case where startBackgroundRead happens after ServeHTTP (due to startBackgroundRead being called by onHitEOF), then why does the CL description mark the bug fixed?\n\nAlso, I am wondering if there is a different way to fix this that handles all cases at once?",
+      "parentUuid": "9d0b7d7a_19a42737",
+      "revId": "6a05f6056d0a408463db8404a96d546eb311bac3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
