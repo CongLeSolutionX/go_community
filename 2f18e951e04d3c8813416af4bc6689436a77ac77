@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3d1e244_08088d5d",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-09-12T15:47:01Z",
+      "side": 1,
+      "message": "you\u0027re now accessing this field (which line 636 says is guarded by cr.mu) without cr.mu held.\n\nthis seems wrong.",
+      "range": {
+        "startLine": 299,
+        "startChar": 38,
+        "endLine": 299,
+        "endChar": 60
+      },
+      "revId": "2f18e951e04d3c8813416af4bc6689436a77ac77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
