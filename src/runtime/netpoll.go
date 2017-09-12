@@ -200,11 +200,11 @@ func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
 	pd.seq++ // invalidate current timers
 	// Reset current timers.
 	if pd.rt.f != nil {
-		deltimer(&pd.rt)
+		stopTimer(&pd.rt)
 		pd.rt.f = nil
 	}
 	if pd.wt.f != nil {
-		deltimer(&pd.wt)
+		stopTimer(&pd.wt)
 		pd.wt.f = nil
 	}
 	// Setup new timers.
@@ -225,21 +225,21 @@ func poll_runtime_pollSetDeadline(pd *pollDesc, d int64, mode int) {
 		// if they differ the descriptor was reused or timers were reset.
 		pd.rt.arg = pd
 		pd.rt.seq = pd.seq
-		addtimer(&pd.rt)
+		startTimer(&pd.rt)
 	} else {
 		if pd.rd > 0 {
 			pd.rt.f = netpollReadDeadline
 			pd.rt.when = pd.rd
 			pd.rt.arg = pd
 			pd.rt.seq = pd.seq
-			addtimer(&pd.rt)
+			startTimer(&pd.rt)
 		}
 		if pd.wd > 0 {
 			pd.wt.f = netpollWriteDeadline
 			pd.wt.when = pd.wd
 			pd.wt.arg = pd
 			pd.wt.seq = pd.seq
-			addtimer(&pd.wt)
+			startTimer(&pd.wt)
 		}
 	}
 	// If we set the new deadline in the past, unblock currently pending IO if any.
@@ -273,11 +273,11 @@ func poll_runtime_pollUnblock(pd *pollDesc) {
 	rg = netpollunblock(pd, 'r', false)
 	wg = netpollunblock(pd, 'w', false)
 	if pd.rt.f != nil {
-		deltimer(&pd.rt)
+		stopTimer(&pd.rt)
 		pd.rt.f = nil
 	}
 	if pd.wt.f != nil {
-		deltimer(&pd.wt)
+		stopTimer(&pd.wt)
 		pd.wt.f = nil
 	}
 	unlock(&pd.lock)
