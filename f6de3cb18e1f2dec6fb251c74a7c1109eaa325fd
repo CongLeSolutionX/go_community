@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74fbb32e_2effd95e",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1745,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-09-12T09:19:54Z",
+      "side": 1,
+      "message": "But it was not necessary attached, so caller won\u0027t necessary ever detach.",
+      "revId": "f6de3cb18e1f2dec6fb251c74a7c1109eaa325fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
