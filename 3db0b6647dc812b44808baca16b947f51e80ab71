@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "e05955c2_88267a3b",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1824,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-12T04:56:28Z",
+      "side": 1,
+      "message": "Please use the table driven fmtTests above if possible instead of a new test function for each case.\n\ne.g. (not tested)\n{\"%2.3s\", TestFormatter(\"Formatter\"), ##Formatter***},",
+      "parentUuid": "0d9279d5_4a9a053b",
+      "revId": "3db0b6647dc812b44808baca16b947f51e80ab71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2f75299_6ee4e447",
         "filename": "src/fmt/fmt_test.go",
         "patchSetId": 2
