@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9c32131_4c74efb6",
+        "filename": "src/unicode/utf8/utf8.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-09-13T00:20:32Z",
+      "side": 1,
+      "message": "you don\u0027t need this else, although it\u0027s a minor detail.\ni might have written this as a switch, although that might break inlinability. but see other comment.",
+      "revId": "6237ab2c3155ed4c4fa064d1f0cb4f81eda10be1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
