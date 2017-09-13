@@ -16,6 +16,24 @@
       "revId": "817e65e97b0554c90ced5435d4f8ead8d86ce307",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcd10083_e4675875",
+        "filename": "src/runtime/netpoll.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2017-09-13T16:37:50Z",
+      "side": 1,
+      "message": "I don\u0027t actually know. This code is executed only when race detector is enabled. The following quick test passes:\n\n    go test -race -short runtime net\n\ncc\u0027ing @dvyukov and @rsc, who should know more about race detector.",
+      "parentUuid": "77a4a874_ffb0c07c",
+      "revId": "817e65e97b0554c90ced5435d4f8ead8d86ce307",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
