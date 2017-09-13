@@ -534,6 +534,19 @@ func (h heapBits) isPointer() bool {
 	return h.bits()&bitPointer != 0
 }
 
+// Sets scan bit, and maybe ptr bit also.
+func (h heapBits) setBits(ptr bool) {
+	b := *h.bitp
+	b &^= uint8(bitPointer|bitScan) << (h.shift & 7)
+	// TODO: how bad is it that we're potentially clearing ptr bits?
+	if ptr {
+		b |= uint8(bitPointer|bitScan) << (h.shift & 7)
+	} else {
+		b |= uint8(bitScan) << (h.shift & 7)
+	}
+	*h.bitp = b
+}
+
 // isCheckmarked reports whether the heap bits have the checkmarked bit set.
 // It must be told how large the object at h is, because the encoding of the
 // checkmark bit varies by size.

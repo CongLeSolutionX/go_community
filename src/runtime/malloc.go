@@ -1029,6 +1029,36 @@ func reflect_unsafe_New(typ *_type) unsafe.Pointer {
 	return mallocgc(typ.size, typ, true)
 }
 
+//go:linkname reflect_unsafe_NewAt reflect.unsafe_NewAt
+func reflect_unsafe_NewAt(typ *_type, ptr unsafe.Pointer) {
+	h := heapBitsForAddr(uintptr(ptr))
+	p := typ.gcdata // start of 1-bit pointer mask (or GC program)
+	if typ.kind&kindGCProg != 0 {
+		// Expand gc program, using the object itself for storage.
+		runGCProg(p, nil, (*byte)(ptr), int(typ.size))
+		p = (*byte)(ptr)
+	}
+	nw := typ.size / sys.PtrSize
+	nb := typ.ptrdata / sys.PtrSize
+	for i := uintptr(0); i < nb; i++ {
+		h.setBits(*addb(p, i/8)>>(i%8)&1 != 0)
+		h = h.next()
+	}
+	// Set the rest of the scan bits since we may place more
+	// pointer-ful data after this.
+	for i := nb; i < nw; i++ {
+		h.setBits(false)
+		h = h.next()
+	}
+
+	if typ.kind&kindGCProg != 0 {
+		// Zero out temporary ptrmask buffer inside object.
+		memclrNoHeapPointers(ptr, nw/wordsPerBitmapByte)
+	}
+
+	gomcache().local_scan += typ.size
+}
+
 // newarray allocates an array of n elements of type typ.
 func newarray(typ *_type, n int) unsafe.Pointer {
 	if n == 1 {
@@ -1043,6 +1073,16 @@ func newarray(typ *_type, n int) unsafe.Pointer {
 //go:linkname reflect_unsafe_NewArray reflect.unsafe_NewArray
 func reflect_unsafe_NewArray(typ *_type, n int) unsafe.Pointer {
 	return newarray(typ, n)
+}
+
+//go:linkname reflect_unsafe_NewArrayAt reflect.unsafe_NewArrayAt
+func reflect_unsafe_NewArrayAt(typ *_type, n int, ptr unsafe.Pointer) {
+	if n < 0 || uintptr(n) > maxSliceCap(typ.size) {
+		panic(plainError("runtime: allocation size out of range"))
+	}
+	for i := 0; i < n; i++ {
+		reflect_unsafe_NewAt(typ, add(ptr, uintptr(i)*typ.size))
+	}
 }
 
 func profilealloc(mp *m, x unsafe.Pointer, size uintptr) {

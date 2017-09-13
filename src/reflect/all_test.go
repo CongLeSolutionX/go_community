@@ -6479,3 +6479,55 @@ func TestIssue22073(t *testing.T) {
 	// Shouldn't panic.
 	m.Call(nil)
 }
+
+func TestArena(t *testing.T) {
+	type tricky struct {
+		p *int
+		s [31]byte
+	}
+	a := NewArena(1024)
+	ts := make([]*tricky, 0)
+	ss := make([]*byte, 0)
+	for i := 0; i < 1024; i++ {
+		// Pointer-ful allocation.
+		xv := a.New(TypeOf(tricky{}))
+		if xv == nil {
+			break
+		}
+		x := xv.(*tricky)
+		x.p = new(int)
+		*x.p = i
+		for j := range x.s {
+			x.s[j] = byte(i + j)
+		}
+		ts = append(ts, x)
+		runtime.GC()
+
+		// Scalar allocation.
+		sv := a.New(TypeOf(byte(0)))
+		if sv == nil {
+			break
+		}
+		s := sv.(*byte)
+		*s = byte(i)
+		ss = append(ss, s)
+		runtime.GC()
+
+		// XXX Test slice allocation
+	}
+	for i, x := range ts {
+		if got := *x.p; got != i {
+			t.Errorf("want *ts[%d].p = %d, got %d", i, i, got)
+		}
+		for j := range x.s {
+			if x.s[j] != byte(i+j) {
+				t.Errorf("want ts[%d].s[%d] = %d, got %d", i, j, byte(i+j), x.s[j])
+			}
+		}
+	}
+	for i, s := range ss {
+		if got := *s; got != byte(i) {
+			t.Errorf("want *ss[%d] = %d, got %d", i, byte(i), got)
+		}
+	}
+}
