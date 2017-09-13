@@ -2279,9 +2279,16 @@ func (c *typeConv) Ident(s string) *ast.Ident {
 
 // Opaque type of n bytes.
 func (c *typeConv) Opaque(n int64) ast.Expr {
-	return &ast.ArrayType{
-		Len: c.intExpr(n),
-		Elt: c.byte,
+	return &ast.StructType{
+		Fields: &ast.FieldList{
+			List: []*ast.Field{{
+				Names: []*ast.Ident{ast.NewIdent("_")},
+				Type: &ast.ArrayType{
+					Len: c.intExpr(n),
+					Elt: c.byte,
+				},
+			}},
+		},
 	}
 }
 
