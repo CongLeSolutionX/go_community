@@ -1823,7 +1823,7 @@ func (c *typeConv) Type(dtype dwarf.Type, pos token.Pos) *Type {
 	case *dwarf.ArrayType:
 		if dt.StrideBitSize > 0 {
 			// Cannot represent bit-sized elements in Go.
-			t.Go = c.Opaque(t.Size)
+			t.Go = c.Bytes(t.Size)
 			break
 		}
 		count := dt.Count
@@ -2277,11 +2277,23 @@ func (c *typeConv) Ident(s string) *ast.Ident {
 	return ast.NewIdent(s)
 }
 
-// Opaque type of n bytes.
-func (c *typeConv) Opaque(n int64) ast.Expr {
+// Bytes array of length n
+func (c *typeConv) Bytes(n int64) ast.Expr {
 	return &ast.ArrayType{
 		Len: c.intExpr(n),
 		Elt: c.byte,
+	}
+}
+
+// Opaque type of n bytes.
+func (c *typeConv) Opaque(n int64) ast.Expr {
+	return &ast.StructType{
+		Fields: &ast.FieldList{
+			List: []*ast.Field{{
+				Names: []*ast.Ident{ast.NewIdent("_")},
+				Type:  c.Bytes(n),
+			}},
+		},
 	}
 }
 
@@ -2297,7 +2309,7 @@ func (c *typeConv) intExpr(n int64) ast.Expr {
 func (c *typeConv) pad(fld []*ast.Field, sizes []int64, size int64) ([]*ast.Field, []int64) {
 	n := len(fld)
 	fld = fld[0 : n+1]
-	fld[n] = &ast.Field{Names: []*ast.Ident{c.Ident("_")}, Type: c.Opaque(size)}
+	fld[n] = &ast.Field{Names: []*ast.Ident{c.Ident("_")}, Type: c.Bytes(size)}
 	sizes = sizes[0 : n+1]
 	sizes[n] = size
 	return fld, sizes
