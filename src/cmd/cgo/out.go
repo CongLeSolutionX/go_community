@@ -119,11 +119,6 @@ func (p *Package) writeDefs() {
 		fmt.Fprintf(fgo2, "%s", buf.Bytes())
 		fmt.Fprintf(fgo2, "\n\n")
 	}
-	if *gccgo {
-		fmt.Fprintf(fgo2, "type _Ctype_void byte\n")
-	} else {
-		fmt.Fprintf(fgo2, "type _Ctype_void [0]byte\n")
-	}
 
 	if *gccgo {
 		fmt.Fprint(fgo2, gccgoGoProlog)
@@ -384,9 +379,13 @@ func (p *Package) writeDefsFunc(fgo2 io.Writer, n *Name, callsMalloc *bool) {
 		// Add "error" to return type list.
 		// Type list is known to be 0 or 1 element - it's a C function.
 		err := &ast.Field{Type: ast.NewIdent("error")}
-		l := gtype.Results.List
+		var l []*ast.Field
+		if gtype.Results != nil {
+			l = gtype.Results.List
+		}
 		if len(l) == 0 {
-			l = []*ast.Field{err}
+			empty := &ast.Field{Type: &ast.StructType{Fields: &ast.FieldList{}}}
+			l = []*ast.Field{empty, err}
 		} else {
 			l = []*ast.Field{l[0], err}
 		}
@@ -436,13 +435,17 @@ func (p *Package) writeDefsFunc(fgo2 io.Writer, n *Name, callsMalloc *bool) {
 			fmt.Fprint(fgo2, "\te := syscall.GetErrno()\n")
 			fmt.Fprint(fgo2, "\tif e != 0 {\n")
 			fmt.Fprint(fgo2, "\t\treturn ")
-			if !void {
+			if void {
+				fmt.Fprint(fgo2, "struct{}{}, ")
+			} else {
 				fmt.Fprint(fgo2, "r, ")
 			}
 			fmt.Fprint(fgo2, "e\n")
 			fmt.Fprint(fgo2, "\t}\n")
 			fmt.Fprint(fgo2, "\treturn ")
-			if !void {
+			if void {
+				fmt.Fprint(fgo2, "struct{}{}, ")
+			} else {
 				fmt.Fprint(fgo2, "r, ")
 			}
 			fmt.Fprint(fgo2, "nil\n")
@@ -480,7 +483,7 @@ func (p *Package) writeDefsFunc(fgo2 io.Writer, n *Name, callsMalloc *bool) {
 	fmt.Fprintf(fgo2, "var %s = unsafe.Pointer(&__cgofn_%s)\n", cname, cname)
 
 	nret := 0
-	if !void {
+	if !void || n.AddError {
 		d.Type.Results.List[0].Names = []*ast.Ident{ast.NewIdent("r1")}
 		nret = 1
 	}

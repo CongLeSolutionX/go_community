@@ -80,7 +80,7 @@ func expect(t *testing.T, file string, errors []*regexp.Regexp) {
 			}
 		}
 		if !found {
-			t.Errorf("expected error output to contain %#q", re)
+			t.Errorf("expected error output to match %#q", re)
 		}
 	}
 
@@ -121,6 +121,11 @@ func TestReportsTypeErrors(t *testing.T) {
 		"issue16591.go",
 		"issue18452.go",
 		"issue18889.go",
+		"issue21878a.go",
+		"issue21878b.go",
+		"issue21878c.go",
+		"issue21878d.go",
+		"issue21878e.go",
 	} {
 		check(t, file)
 	}
