@@ -34,6 +34,121 @@
       "revId": "c5ee29dd2922106d97a937562cc60cd46b8e5d0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36706d23_69580370",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T05:49:09Z",
+      "side": 1,
+      "message": "Could you add a comment why this size or if it is just a reasonable size chosen by guestimate. Then others know if it is open to tuning.",
+      "range": {
+        "startLine": 355,
+        "startChar": 12,
+        "endLine": 355,
+        "endChar": 21
+      },
+      "revId": "c5ee29dd2922106d97a937562cc60cd46b8e5d0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d2a56a9_3381ac72",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T05:49:09Z",
+      "side": 1,
+      "message": "Maybe we could make l int so 32bit platforms can use the fastpath for make with int argument.",
+      "range": {
+        "startLine": 359,
+        "startChar": 21,
+        "endLine": 359,
+        "endChar": 22
+      },
+      "revId": "c5ee29dd2922106d97a937562cc60cd46b8e5d0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc0d6434_a94ad7d2",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T05:49:09Z",
+      "side": 1,
+      "message": "I was wondering here if errW and errR would be better to understand this are errors.",
+      "range": {
+        "startLine": 367,
+        "startChar": 6,
+        "endLine": 367,
+        "endChar": 8
+      },
+      "revId": "c5ee29dd2922106d97a937562cc60cd46b8e5d0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a5af1a2_abc2dd30",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T05:49:09Z",
+      "side": 1,
+      "message": "can this be moved into the for loop header by declaring nr with written before the loop?",
+      "range": {
+        "startLine": 368,
+        "startChar": 2,
+        "endLine": 368,
+        "endChar": 17
+      },
+      "revId": "c5ee29dd2922106d97a937562cc60cd46b8e5d0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "843edd7a_56c69f69",
+        "filename": "src/io/io.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T05:49:09Z",
+      "side": 1,
+      "message": "I think we can drop the 0.",
+      "range": {
+        "startLine": 370,
+        "startChar": 27,
+        "endLine": 370,
+        "endChar": 28
+      },
+      "revId": "c5ee29dd2922106d97a937562cc60cd46b8e5d0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
