@@ -16,6 +16,24 @@
       "revId": "e5236da9dcfb5b3c341d0cb864b9fe6c05994d67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f663a1c_fbb7b8d6",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-09-14T20:43:52Z",
+      "side": 1,
+      "message": "It looks like an alternative fix is in dcl.go\u0027s oldname: change\n\n    c \u003d newname(s)\n\ninto\n\n    c \u003d newnamel(n.Pos, s)\n    c.Name.Curfn \u003d Curfn\n\nand then here you can just unconditionally use decl.Pos. But that changes the line numbers for a lot of errorcheck diagnostics.\n\nI think changing line numbers on diagnostics is fine, but it\u0027ll be a lot of tedious work fixing all of them, so I want to make sure it\u0027s actually semantically appropriate before committing to that approach.\n\nThis CL seems like an improvement at least, even if this is still a little suspicious. I think it would help to include your code review explanation as a comment in the code, so we can revisit it further later.",
+      "parentUuid": "a88f7649_31832f6f",
+      "revId": "e5236da9dcfb5b3c341d0cb864b9fe6c05994d67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
