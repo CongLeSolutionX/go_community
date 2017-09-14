@@ -524,7 +524,6 @@ Here is a _cgo_gotypes.go containing definitions for needed C types:
 
 	type _Ctype_char int8
 	type _Ctype_int int32
-	type _Ctype_void [0]byte
 
 The _cgo_gotypes.go file also contains the definitions of the
 functions. They all have similar bodies that invoke runtime·cgocall

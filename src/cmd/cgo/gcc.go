@@ -756,7 +756,7 @@ func (p *Package) rewriteCall(f *File, call *Call, name *Name) bool {
 					ftype.Results = &ast.FieldList{
 						List: []*ast.Field{
 							&ast.Field{
-								Type: ast.NewIdent("_Ctype_void"),
+								Type: &ast.StructType{Fields: &ast.FieldList{}},
 							},
 						},
 					}
@@ -1653,9 +1653,7 @@ type typeConv struct {
 	uint8, uint16, uint32, uint64, uintptr ast.Expr
 	float32, float64                       ast.Expr
 	complex64, complex128                  ast.Expr
-	void                                   ast.Expr
 	string                                 ast.Expr
-	goVoid                                 ast.Expr // _Ctype_void, denotes C's void
 	goVoidPtr                              ast.Expr // unsafe.Pointer or *byte
 
 	ptrSize int64
@@ -1690,9 +1688,7 @@ func (c *typeConv) Init(ptrSize, intSize int64) {
 	c.float64 = c.Ident("float64")
 	c.complex64 = c.Ident("complex64")
 	c.complex128 = c.Ident("complex128")
-	c.void = c.Ident("void")
 	c.string = c.Ident("string")
-	c.goVoid = c.Ident("_Ctype_void")
 
 	// Normally cgo translates void* to unsafe.Pointer,
 	// but for historical reasons -godefs uses *byte instead.
@@ -2129,7 +2125,7 @@ func (c *typeConv) Type(dtype dwarf.Type, pos token.Pos) *Type {
 		}
 
 	case *dwarf.VoidType:
-		t.Go = c.goVoid
+		error_(pos, "instantiated value of type C.void")
 		t.C.Set("void")
 		t.Align = 1
 	}
@@ -2255,19 +2251,19 @@ func (c *typeConv) FuncType(dtype *dwarf.FuncType, pos token.Pos) *FuncType {
 		gp[i] = &ast.Field{Type: p[i].Go}
 	}
 	var r *Type
-	var gr []*ast.Field
-	if _, ok := base(dtype.ReturnType).(*dwarf.VoidType); ok {
-		gr = []*ast.Field{{Type: c.goVoid}}
-	} else if dtype.ReturnType != nil {
+	var gr *ast.FieldList
+	switch base(dtype.ReturnType).(type) {
+	case nil, *dwarf.VoidType:
+	default:
 		r = c.Type(unqual(dtype.ReturnType), pos)
-		gr = []*ast.Field{{Type: r.Go}}
+		gr = &ast.FieldList{List: []*ast.Field{{Type: r.Go}}}
 	}
 	return &FuncType{
 		Params: p,
 		Result: r,
 		Go: &ast.FuncType{
 			Params:  &ast.FieldList{List: gp},
-			Results: &ast.FieldList{List: gr},
+			Results: gr,
 		},
 	}
 }
