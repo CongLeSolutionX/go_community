@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "592b39dc_6b812620",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-09-14T05:59:23Z",
+      "side": 1,
+      "message": "@aclements, this code seem to now be obsolete, at least as per the last modification of this file at https://github.com/golang/go/commit/9417c022c6d7e6457fd6de89f92bb9c52a04819b#diff-56c7df71bce32f8e50115128ae30941e",
+      "revId": "faec7f6f17a9a98e2f160c4414cc9e1f3eb47ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
