@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62ac5796_78ef27a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T07:23:13Z",
+      "side": 1,
+      "message": "Add some explanation after the title and an empty line why this change is made.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "362042f6_252046f6",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T07:23:13Z",
+      "side": 1,
+      "message": "drop this. We can write why this is used in the fmtTests below.",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 89
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2796f07d_c37f8478",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T07:23:13Z",
+      "side": 1,
+      "message": "can this be lower first char (w) like the other formatters?",
+      "range": {
+        "startLine": 136,
+        "startChar": 5,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a59e52b0_beb74f54",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T07:23:13Z",
+      "side": 1,
+      "message": "\"Copy of io.stringWriter interface which is used by writeStringFormatter for type assertion.\"\n\nand please move interface declaration above writeStringFormatter.",
+      "range": {
+        "startLine": 138,
+        "startChar": 3,
+        "endLine": 138,
+        "endChar": 56
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0214a55_9c9399fd",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T07:23:13Z",
+      "side": 1,
+      "message": "drop. I think it is clear that WriteString is called. Also f might not be a pp if something else is passed as f into this function.",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 61
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e56df6e3_142366b8",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T07:23:13Z",
+      "side": 1,
+      "message": "I think the string cast is not needed here.",
+      "range": {
+        "startLine": 146,
+        "startChar": 25,
+        "endLine": 146,
+        "endChar": 32
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ae51b5c_85322903",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T07:23:13Z",
+      "side": 1,
+      "message": "WriteString method.",
+      "range": {
+        "startLine": 1036,
+        "startChar": 36,
+        "endLine": 1036,
+        "endChar": 51
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8729fdec_62bdcd89",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T07:23:13Z",
+      "side": 1,
+      "message": "please put this new test block under the other formatters below byteFormatterSlice.",
+      "range": {
+        "startLine": 1037,
+        "startChar": 0,
+        "endLine": 1039,
+        "endChar": 50
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
