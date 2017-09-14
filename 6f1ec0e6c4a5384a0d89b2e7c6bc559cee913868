@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ce1ea60_8d6dcd53",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2007,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-09-14T21:50:42Z",
+      "side": 1,
+      "message": "On my environment (darwin/amd64), test code pass here, not :2018. So this CL is unnecessary for me. If you can provide the portable test, that\u0027s ideal.",
+      "revId": "6f1ec0e6c4a5384a0d89b2e7c6bc559cee913868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "747c6b00_fc2318f8",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2013,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-09-14T21:50:42Z",
+      "side": 1,
+      "message": "If I understand your intention correctly,\nYou may want to change this like:\n struct{ _ [0]byte }\n?\n\nSo you can avoid:\n\nblob :\u003d struct{}{}\n\nvar _ C.some_type \u003d blob",
+      "revId": "6f1ec0e6c4a5384a0d89b2e7c6bc559cee913868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60d3800d_a158931a",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2155,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-09-14T21:50:42Z",
+      "side": 1,
+      "message": "This comment is deprecated now.",
+      "revId": "6f1ec0e6c4a5384a0d89b2e7c6bc559cee913868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
