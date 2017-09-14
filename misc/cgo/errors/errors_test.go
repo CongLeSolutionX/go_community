@@ -105,6 +105,7 @@ func sizeofLongDouble(t *testing.T) int {
 
 func TestReportsTypeErrors(t *testing.T) {
 	for _, file := range []string{
+		"bitfield.go",
 		"err1.go",
 		"err2.go",
 		"err3.go",

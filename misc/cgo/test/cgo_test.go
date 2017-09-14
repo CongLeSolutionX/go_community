@@ -11,6 +11,7 @@ import "testing"
 // These wrappers are here for gotest to find.
 
 func TestAlign(t *testing.T)                 { testAlign(t) }
+func TestBitfield(t *testing.T)              { testBitfield(t) }
 func TestConst(t *testing.T)                 { testConst(t) }
 func TestEnum(t *testing.T)                  { testEnum(t) }
 func TestAtol(t *testing.T)                  { testAtol(t) }
