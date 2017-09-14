@@ -16,6 +16,24 @@
       "revId": "9b8eec0a2c51c01f97fafd005d214a41513e7612",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4d4f26a_dc9f941a",
+        "filename": "misc/cgo/errors/src/issue21878c.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-09-14T22:21:39Z",
+      "side": 1,
+      "message": "For proper *C.void support, unsafe.Pointer would have to be defined as an alias for *C.void. I don\u0027t think that\u0027s plausible, so I\u0027m going in the other direction: eliminating it.\n\nIt is not possible to write expressions of type `void` in C code, and pointers to void are already translated to unsafe.Pointer in Go before this change. So the only way you can even talk about `*C.void` right now is in Go, and in those cases folks ought to be using unsafe.Pointer already.\n\nThe correct way to write your example is without reference to C.void:\n\n```\npackage main\n\n// void* foo(void *x) {\n//   return x;\n// }\nimport \"C\"\n\nimport \"unsafe\"\n\nfunc main() {\n\ta :\u003d unsafe.Pointer(C.CString(\"hello\"))\n\tvar _ unsafe.Pointer \u003d C.foo(a)\n}\n```",
+      "parentUuid": "875bd0e0_d7deb7a9",
+      "revId": "9b8eec0a2c51c01f97fafd005d214a41513e7612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
