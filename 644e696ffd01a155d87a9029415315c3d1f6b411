@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "e89b1ec3_ed01dd43",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T17:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "362042f6_252046f6",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 89
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2796f07d_c37f8478",
         "filename": "src/fmt/fmt_test.go",
         "patchSetId": 4
@@ -59,6 +83,30 @@
       "writtenOn": "2017-09-14T07:23:13Z",
       "side": 1,
       "message": "can this be lower first char (w) like the other formatters?",
+      "range": {
+        "startLine": 136,
+        "startChar": 5,
+        "endLine": 136,
+        "endChar": 6
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21cd0069_08ba25e9",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T17:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2796f07d_c37f8478",
       "range": {
         "startLine": 136,
         "startChar": 5,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "e3f1ba77_85d763af",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T17:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a59e52b0_beb74f54",
+      "range": {
+        "startLine": 138,
+        "startChar": 3,
+        "endLine": 138,
+        "endChar": 56
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0214a55_9c9399fd",
         "filename": "src/fmt/fmt_test.go",
         "patchSetId": 4
@@ -105,6 +177,30 @@
       "writtenOn": "2017-09-14T07:23:13Z",
       "side": 1,
       "message": "drop. I think it is clear that WriteString is called. Also f might not be a pp if something else is passed as f into this function.",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 61
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b45a3677_14c8e72e",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T17:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0214a55_9c9399fd",
       "range": {
         "startLine": 145,
         "startChar": 2,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "303af42c_bf72a5ae",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T17:13:41Z",
+      "side": 1,
+      "message": "String cast is necessary here because without it \u0027\"***\" + sf + \"***\"\u0027 is of type writeStringFormatter and sw.WriteString() gives an error:\n\n  ./fmt_test.go:143:29: cannot use \"***\" + sf + \"***\" (type writeStringFormatter) as type string in argument to sw.WriteString",
+      "parentUuid": "e56df6e3_142366b8",
+      "range": {
+        "startLine": 146,
+        "startChar": 25,
+        "endLine": 146,
+        "endChar": 32
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ae51b5c_85322903",
         "filename": "src/fmt/fmt_test.go",
         "patchSetId": 4
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "0919b4a8_49088311",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1036,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T17:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ae51b5c_85322903",
+      "range": {
+        "startLine": 1036,
+        "startChar": 36,
+        "endLine": 1036,
+        "endChar": 51
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8729fdec_62bdcd89",
         "filename": "src/fmt/fmt_test.go",
         "patchSetId": 4
@@ -174,6 +318,30 @@
       "writtenOn": "2017-09-14T07:23:13Z",
       "side": 1,
       "message": "please put this new test block under the other formatters below byteFormatterSlice.",
+      "range": {
+        "startLine": 1037,
+        "startChar": 0,
+        "endLine": 1039,
+        "endChar": 50
+      },
+      "revId": "644e696ffd01a155d87a9029415315c3d1f6b411",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4fabfa14_fc489266",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1039,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T17:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8729fdec_62bdcd89",
       "range": {
         "startLine": 1037,
         "startChar": 0,
