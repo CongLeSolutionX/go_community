@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "c80fa638_960a122b",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T04:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0c0d8d5_4fde2f6b",
+      "range": {
+        "startLine": 1826,
+        "startChar": 26,
+        "endLine": 1826,
+        "endChar": 32
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6ee832a_760f7548",
         "filename": "src/fmt/fmt_test.go",
         "patchSetId": 3
@@ -68,6 +92,30 @@
       "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29f85a7c_6932def0",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1835,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T04:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6ee832a_760f7548",
+      "range": {
+        "startLine": 1832,
+        "startChar": 0,
+        "endLine": 1835,
+        "endChar": 2
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "0c59b889_1d7c6e03",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1838,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T04:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07175241_89362a36",
+      "range": {
+        "startLine": 1838,
+        "startChar": 25,
+        "endLine": 1838,
+        "endChar": 27
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "172f7c13_a5319568",
         "filename": "src/fmt/fmt_test.go",
         "patchSetId": 3
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "307ba993_8da21a5a",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T04:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "172f7c13_a5319568",
+      "range": {
+        "startLine": 1839,
+        "startChar": 1,
+        "endLine": 1842,
+        "endChar": 2
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e305d46c_8889e343",
         "filename": "src/fmt/fmt_test.go",
         "patchSetId": 3
@@ -128,6 +224,30 @@
       "writtenOn": "2017-09-14T04:41:02Z",
       "side": 1,
       "message": "please use the existing fmtTests table above or please let\nme know if that is not possible even when removing the implementsStringWriter checking.",
+      "range": {
+        "startLine": 1850,
+        "startChar": 0,
+        "endLine": 1852,
+        "endChar": 23
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edd001cb_fba5055d",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T04:57:46Z",
+      "side": 1,
+      "message": "Sorry, I thought you meant I have to add something in addition to fmtTests. I can use fmtTests here, but it contains values of types other than strings too. Is that okay? Isn\u0027t that an overkill?",
+      "parentUuid": "e305d46c_8889e343",
       "range": {
         "startLine": 1850,
         "startChar": 0,
@@ -160,6 +280,30 @@
       "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bc53e96_a22b959d",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 24258
+      },
+      "writtenOn": "2017-09-14T04:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "593bf1d3_9ec63ce2",
+      "range": {
+        "startLine": 1862,
+        "startChar": 0,
+        "endLine": 1864,
+        "endChar": 3
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
