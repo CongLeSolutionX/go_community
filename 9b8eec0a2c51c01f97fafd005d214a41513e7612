@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "875bd0e0_d7deb7a9",
+        "filename": "misc/cgo/errors/src/issue21878c.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-09-14T22:12:18Z",
+      "side": 1,
+      "message": "This looks legitimate.\nCurrent *C.void support is incomplete though.\n\nhttps://golang.org/cmd/cgo/ says:\n\n\u003e The C type void* is represented by Go\u0027s unsafe.Pointer\n\nSo, I suppose, following code should also be valid.\n```\npackage main\n\n// void* foo(void *x) {\n//   return x;\n// }\nimport \"C\"\n\nfunc main() {\n\ta :\u003d (*C.void)(C.CString(\"hello\")) // \u003d\u003e (unsafe.Pointer)(C.CString(\"hello\"))\n\t_ \u003d C.foo(a)\n}\n```",
+      "revId": "9b8eec0a2c51c01f97fafd005d214a41513e7612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
