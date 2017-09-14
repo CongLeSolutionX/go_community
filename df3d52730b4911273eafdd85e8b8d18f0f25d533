@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8f2cdf8_932371f5",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-09-14T23:33:04Z",
+      "side": 1,
+      "message": "The precision here is overkill, as is the screen shot. If we really want to know what the page used to look like at some future point, there is archive.org.\n\n// As of Sep 2017, -msan is only supported on linux/amd64.\n// https://github.com/google/sanitizers/wiki/MemorySanitizer#getting-memorysanitizer",
+      "revId": "df3d52730b4911273eafdd85e8b8d18f0f25d533",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
