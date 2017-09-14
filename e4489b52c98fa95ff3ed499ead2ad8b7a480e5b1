@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ef99cc3_6ab3a9a7",
+        "filename": "src/io/io.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T06:32:25Z",
+      "side": 1,
+      "message": "if n \u003c int64(l) {\n  l \u003d int(n)\n}\nbuf \u003d make([]byte, l)\n\notherwise n is still int64.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 361,
+        "endChar": 2
+      },
+      "revId": "e4489b52c98fa95ff3ed499ead2ad8b7a480e5b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
