@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e2fc6e3_1d4b6cc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T04:41:02Z",
+      "side": 1,
+      "message": "drop () on all function names in comments.",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c0d8d5_4fde2f6b",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T04:41:02Z",
+      "side": 1,
+      "message": "we can just use a string here.",
+      "range": {
+        "startLine": 1826,
+        "startChar": 26,
+        "endLine": 1826,
+        "endChar": 32
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6ee832a_760f7548",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1835,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T04:41:02Z",
+      "side": 1,
+      "message": "I would just declare this outside the function.",
+      "range": {
+        "startLine": 1832,
+        "startChar": 0,
+        "endLine": 1835,
+        "endChar": 2
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07175241_89362a36",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1838,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T04:41:02Z",
+      "side": 1,
+      "message": "using sf as name might better reflect the new type name.",
+      "range": {
+        "startLine": 1838,
+        "startChar": 25,
+        "endLine": 1838,
+        "endChar": 27
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "172f7c13_a5319568",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T04:41:02Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 1839,
+        "startChar": 1,
+        "endLine": 1842,
+        "endChar": 2
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e305d46c_8889e343",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1852,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T04:41:02Z",
+      "side": 1,
+      "message": "please use the existing fmtTests table above or please let\nme know if that is not possible even when removing the implementsStringWriter checking.",
+      "range": {
+        "startLine": 1850,
+        "startChar": 0,
+        "endLine": 1852,
+        "endChar": 23
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "593bf1d3_9ec63ce2",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-14T04:41:02Z",
+      "side": 1,
+      "message": "the *** is enough to signal if writestring was used or not.\nSo we can just use the existing fmtTests test infrastructure above.",
+      "range": {
+        "startLine": 1862,
+        "startChar": 0,
+        "endLine": 1864,
+        "endChar": 3
+      },
+      "revId": "345e70b6404084dc4a8495c73c248d68ab1de5c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
