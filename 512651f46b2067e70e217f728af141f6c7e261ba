@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b71bf3c6_03231164",
+        "filename": "src/crypto/internal/boring/goboringcrypto_linux_amd64.syso",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-09-15T14:54:47Z",
+      "side": 1,
+      "message": "(I\u0027m not sure why the syso is updated in this change. Not a problem if there\u0027s a reason.)",
+      "revId": "512651f46b2067e70e217f728af141f6c7e261ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "420bc04e_0909681a",
+        "filename": "src/crypto/internal/boring/hmac.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-09-15T14:54:47Z",
+      "side": 1,
+      "message": "(leftover debugging.)",
+      "revId": "512651f46b2067e70e217f728af141f6c7e261ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
