@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da57a70d_a5d6414d",
+        "filename": "src/cmd/cgo/ast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-15T20:37:01Z",
+      "side": 1,
+      "message": "This is specifically the assignment of a single value to two variables, as in\n    a, b \u003d f()\n    a, ok \u003d m[k]",
+      "revId": "ad637145bb2530a5f4011f43990165cbc2a7f32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d730382_800a004f",
+        "filename": "src/cmd/cgo/ast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-15T20:37:01Z",
+      "side": 1,
+      "message": "This is any function call other than ctxCall2, including functions that return results.",
+      "revId": "ad637145bb2530a5f4011f43990165cbc2a7f32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7567ea89_955b0eae",
+        "filename": "src/cmd/cgo/ast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-15T20:37:01Z",
+      "side": 1,
+      "message": "This is specifically a function call whose result is being assigned to two variables, as in\n    a, b \u003d f()",
+      "revId": "ad637145bb2530a5f4011f43990165cbc2a7f32b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
