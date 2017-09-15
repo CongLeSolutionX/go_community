@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "570a09ab_8c815305",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-15T20:54:45Z",
+      "side": 1,
+      "message": "To more gracefully degrade on build systems that don\u0027t pass -p, Russ suggests making this just do nothing if myimportpath \u003d\u003d \"\".",
+      "revId": "247136501689d7ebec39ff94755064476862e9be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e192119_da2106e5",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-15T20:54:45Z",
+      "side": 1,
+      "message": "... and then drop this, obviously",
+      "revId": "247136501689d7ebec39ff94755064476862e9be",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
