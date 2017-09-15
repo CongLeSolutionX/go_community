@@ -16,6 +16,24 @@
       "revId": "2973c75fba00c2552c6d9a3371376212925d9380",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5f54b5a_fd478224",
+        "filename": "src/crypto/rsa/pss.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-09-15T15:08:26Z",
+      "side": 1,
+      "message": "BoringSSL does the check: https://boringssl.googlesource.com/boringssl/+/fips-20170615/crypto/fipsmodule/rsa/rsa_impl.c#602",
+      "parentUuid": "4eb0ac70_2a4a93bc",
+      "revId": "2973c75fba00c2552c6d9a3371376212925d9380",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
