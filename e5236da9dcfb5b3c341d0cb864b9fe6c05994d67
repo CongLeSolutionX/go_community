@@ -34,6 +34,24 @@
       "revId": "e5236da9dcfb5b3c341d0cb864b9fe6c05994d67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35c9666e_9bf19682",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 5821
+      },
+      "writtenOn": "2017-09-15T12:08:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f663a1c_fbb7b8d6",
+      "revId": "e5236da9dcfb5b3c341d0cb864b9fe6c05994d67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
