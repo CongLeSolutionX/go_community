@@ -6,6 +6,8 @@
 package html
 
 import (
+	"bytes"
+	"io"
 	"strings"
 	"unicode/utf8"
 )
@@ -163,12 +165,35 @@ func unescapeEntity(b []byte, dst, src int) (dst1, src1 int) {
 	return dst1, src1
 }
 
-var htmlEscaper = strings.NewReplacer(
-	`&`, "&amp;",
-	`'`, "&#39;", // "&#39;" is shorter than "&apos;" and apos was not in HTML until HTML5.
-	`<`, "&lt;",
-	`>`, "&gt;",
-	`"`, "&#34;", // "&#34;" is shorter than "&quot;".
+var (
+	htmlEscapeTable = []byte{
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 1, 0, 0, 0, 2, 3, 0, 0, 0, 0, 0, 0, 0, 4,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 6, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	}
+
+	htmlEscapes = []string{
+		"",
+		"&#34;",
+		"&amp;",
+		"&#39;",
+		"&#47;",
+		"&lt;",
+		"&gt;",
+	}
 )
 
 // EscapeString escapes special characters like "<" to become "&lt;". It
@@ -176,7 +201,24 @@ var htmlEscaper = strings.NewReplacer(
 // UnescapeString(EscapeString(s)) == s always holds, but the converse isn't
 // always true.
 func EscapeString(s string) string {
-	return htmlEscaper.Replace(s)
+	var esc byte
+
+	src := bytes.NewBufferString(s)
+	dst := bytes.NewBufferString("")
+
+	for {
+		b, err := src.ReadByte()
+		if err == io.EOF {
+			break
+		}
+		if esc = htmlEscapeTable[b]; esc > 0 {
+			dst.WriteString(htmlEscapes[esc])
+		} else {
+			dst.WriteByte(b)
+		}
+	}
+
+	return dst.String()
 }
 
 // UnescapeString unescapes entities like "&lt;" to become "<". It unescapes a
