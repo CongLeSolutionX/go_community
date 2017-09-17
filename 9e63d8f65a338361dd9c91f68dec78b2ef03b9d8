@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78eecdee_368fec71",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 4305,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-09-17T00:56:39Z",
+      "side": 1,
+      "message": "These changes are a bit hairy.\nBasically, launch() now starts each interval\u0027s n at 1. Previously it would start at 100. For slow operations starting at 100 would be fine because run1 would get to the benchtime limit and launch was a noop and it would use the results from run1 as the final result. For the default case of benchsplit\u003d\u003d1, slow operations will have the old behavior as you can see in the new if check at the top of launch. The simplest solution brenchsplit\u003e1 and non-slow queries was to just start each interval at 1.",
+      "range": {
+        "startLine": 4305,
+        "startChar": 31,
+        "endLine": 4305,
+        "endChar": 32
+      },
+      "revId": "9e63d8f65a338361dd9c91f68dec78b2ef03b9d8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

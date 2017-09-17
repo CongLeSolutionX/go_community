@@ -22,6 +22,30 @@
       "revId": "0e715d64ecace67afdb2bf90c4a35ed553fa5f07",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa452efd_46e6f760",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-09-17T00:56:39Z",
+      "side": 1,
+      "message": "Ack. (This code has been removed altogether.)",
+      "parentUuid": "c6706b49_bc9e137d",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 2
+      },
+      "revId": "0e715d64ecace67afdb2bf90c4a35ed553fa5f07",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

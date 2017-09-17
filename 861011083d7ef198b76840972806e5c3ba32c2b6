@@ -297,6 +297,30 @@
     },
     {
       "key": {
+        "uuid": "ab19e00f_9eb4a48d",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-09-17T00:56:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a8b9b03_f3150b77",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 317,
+        "endChar": 4
+      },
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e7bc3d0_50e0ec3e",
         "filename": "src/testing/benchmark.go",
         "patchSetId": 2
@@ -426,6 +450,24 @@
       "side": 1,
       "message": "\u003e The add method here is used for the case of subbenchmarks called from the func Benchmark. In that case, just like the api doesn\u0027t work well supporting multiple b.Run subbenchmarks, so too it doesn\u0027t work well supporting the same benchmark broken down by interval. (BenchmarkResult only has room for one result.)\n\nI still don\u0027t really understand why that\u0027s a problem. We could always add fields to the BenchmarkResult struct in order to return multiple results: for example, we could extend it to something like:\n\ntype BenchmarkResult struct {\n\t…\n\tSubBenchmark map[string]BenchmarkResult  // b.Run argument → result\n\tSplit []BenchmarkResult  // benchsplit iteration → result\n}",
       "parentUuid": "a04c9d8e_cd474fa6",
+      "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb505ea3_08b343ac",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-09-17T00:56:39Z",
+      "side": 1,
+      "message": "I\u0027ve added `split []BenchmarkResult` to BenchmarkResult, but made it private - I forgot that func Benchmark can\u0027t actually specify benchsplit so there\u0027s no reason to make it public.\n\nI think adding \"SubBenchmark map[string]BenchmarkResult\" is a compelling idea and I even implemented a bunch of it locally (including a recursive implementation of BenchmarkResult\u0027s String()), but I am not including it in this review because it\u0027s an orthogonal change based on what I wrote above. (For backwards compatibility, it could keep the \"simulation\" in the top level fields and put the actual results in SubBenchmark.)",
+      "parentUuid": "f260a232_5c158936",
       "revId": "861011083d7ef198b76840972806e5c3ba32c2b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
