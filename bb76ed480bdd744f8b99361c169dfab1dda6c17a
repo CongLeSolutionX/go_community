@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "db9eb671_9d5c9599",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 873,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-18T10:07:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "614dc7ba_23fb4f43",
+      "revId": "bb76ed480bdd744f8b99361c169dfab1dda6c17a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "addf06c7_4c08fefa",
         "filename": "src/cmd/dist/buildgo.go",
         "patchSetId": 1
