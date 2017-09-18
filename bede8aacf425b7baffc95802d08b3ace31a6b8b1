@@ -46,6 +46,30 @@
       "revId": "bede8aacf425b7baffc95802d08b3ace31a6b8b1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9169fe7_aa955ff5",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1636,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-09-18T14:09:01Z",
+      "side": 1,
+      "message": "Hmm. We could test r[0].InterfaceData() \u003d\u003d r[2].InterfaceData() (assuming that works), along with a comment like the one I suggested, but perhaps being more explicit that this is not an implementation requirement.\n\nI\u0027d also be fine with just dropping this test.",
+      "parentUuid": "47604482_f30fea41",
+      "range": {
+        "startLine": 1636,
+        "startChar": 87,
+        "endLine": 1636,
+        "endChar": 135
+      },
+      "revId": "bede8aacf425b7baffc95802d08b3ace31a6b8b1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
