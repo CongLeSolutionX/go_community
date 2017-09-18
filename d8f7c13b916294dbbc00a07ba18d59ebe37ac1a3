@@ -46,6 +46,30 @@
       "revId": "d8f7c13b916294dbbc00a07ba18d59ebe37ac1a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1534a774_76d64a52",
+        "filename": "src/io/io.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 15270
+      },
+      "writtenOn": "2017-09-18T08:03:46Z",
+      "side": 1,
+      "message": "But there is no need to do this: IMHO the readability of code will be worse",
+      "parentUuid": "d74385c5_55db4259",
+      "range": {
+        "startLine": 368,
+        "startChar": 2,
+        "endLine": 368,
+        "endChar": 17
+      },
+      "revId": "d8f7c13b916294dbbc00a07ba18d59ebe37ac1a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
