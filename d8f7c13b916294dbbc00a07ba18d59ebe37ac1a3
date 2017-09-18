@@ -94,6 +94,30 @@
       "revId": "d8f7c13b916294dbbc00a07ba18d59ebe37ac1a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c8105d9_0ee38633",
+        "filename": "src/io/io.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-18T08:06:27Z",
+      "side": 1,
+      "message": "As said defering the final review. So can be either way.",
+      "parentUuid": "2b532404_d5ae19c7",
+      "range": {
+        "startLine": 368,
+        "startChar": 2,
+        "endLine": 368,
+        "endChar": 17
+      },
+      "revId": "d8f7c13b916294dbbc00a07ba18d59ebe37ac1a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
