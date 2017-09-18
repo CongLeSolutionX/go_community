@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a186110b_fbb216fd",
+        "filename": "src/io/io.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2017-09-18T07:55:02Z",
+      "side": 1,
+      "message": "I do not see that there was an answer or change for the previous comment:\ncan this be moved into the for loop header by declaring nr with written before the loop?",
+      "range": {
+        "startLine": 368,
+        "startChar": 2,
+        "endLine": 368,
+        "endChar": 17
+      },
+      "revId": "d8f7c13b916294dbbc00a07ba18d59ebe37ac1a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
