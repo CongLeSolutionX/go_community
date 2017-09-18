@@ -33,6 +33,24 @@
       "revId": "512651f46b2067e70e217f728af141f6c7e261ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e997ece5_25ecb1d3",
+        "filename": "src/crypto/internal/boring/hmac.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-09-18T00:15:18Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "420bc04e_0909681a",
+      "revId": "512651f46b2067e70e217f728af141f6c7e261ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
