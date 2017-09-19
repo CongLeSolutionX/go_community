@@ -16,6 +16,24 @@
       "revId": "4008bd4c0ef39a6b76e4e3da149fec0873e46afd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8676c55c_b44f0aae",
+        "filename": "src/cmd/nm/nm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2017-09-19T14:04:21Z",
+      "side": 1,
+      "message": "I\u0027d like to support cgo library in the next CL. I\u0027ll parameterize this also.",
+      "parentUuid": "0aa58bf1_945aa25e",
+      "revId": "4008bd4c0ef39a6b76e4e3da149fec0873e46afd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
