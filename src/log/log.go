@@ -147,25 +147,18 @@ func (l *Logger) formatHeader(buf *[]byte, t time.Time, file string, line int) {
 // provided for generality, although at the moment on all pre-defined
 // paths it will be 2.
 func (l *Logger) Output(calldepth int, s string) error {
-	// Get time early if we need it.
-	var now time.Time
-	if l.flag&(Ldate|Ltime|Lmicroseconds) != 0 {
-		now = time.Now()
-	}
+	now := time.Now() // get this early.
 	var file string
 	var line int
 	l.mu.Lock()
 	defer l.mu.Unlock()
 	if l.flag&(Lshortfile|Llongfile) != 0 {
-		// Release lock while getting caller info - it's expensive.
-		l.mu.Unlock()
 		var ok bool
 		_, file, line, ok = runtime.Caller(calldepth)
 		if !ok {
 			file = "???"
 			line = 0
 		}
-		l.mu.Lock()
 	}
 	l.buf = l.buf[:0]
 	l.formatHeader(&l.buf, now, file, line)
