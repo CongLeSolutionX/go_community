@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bdebcfc_cf2ed3b2",
+        "filename": "src/log/log.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-09-19T19:50:56Z",
+      "side": 1,
+      "message": "This still doesn\u0027t quite work. The time.Now call needs to occur at the beginning the method, otherwise the Lock acquire on L150 can interfere with the accuracy of the recorded timestamp.\n\nI recommend we just do the equivalent of a revert of CL 38056 for this method.\n\nEspecially if this change may be cherry picked into the Go1.9 branch, we need to be certain this CL is correct.",
+      "revId": "e50da8bb85bdbb9e49917b2d677daf8b95ba4a96",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
