@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f57f8c83_b4b3466a",
+        "filename": "src/cmd/dist/buildgo.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-19T09:14:06Z",
+      "side": 1,
+      "message": "I could also check if this file is different from the original. I\u0027m not sure what is happening on windows since for the new filename a / is used as separator.",
+      "range": {
+        "startLine": 53,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 7
+      },
+      "revId": "324b2fa7ad8dce40f99943fe8f302b03cc1a0886",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
