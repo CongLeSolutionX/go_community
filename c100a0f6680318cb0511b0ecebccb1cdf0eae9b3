@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62016fb7_aa036309",
+        "filename": "src/log/log.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-09-19T20:03:58Z",
+      "side": 0,
+      "message": "This was part of the original code. I think you accidentally removed these.",
+      "revId": "c100a0f6680318cb0511b0ecebccb1cdf0eae9b3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
