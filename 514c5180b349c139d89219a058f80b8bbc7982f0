@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcb031c1_804f8b39",
+        "filename": "src/cmd/compile/internal/gc/syntax.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-09-19T13:14:09Z",
+      "side": 1,
+      "message": "OFALL came before OXFALL - shouldn\u0027t the _ be after OFALL to keep the numbering identical? (may matter for import/export when importing an older installed library with an exported inlined function containing a switch)",
+      "range": {
+        "startLine": 566,
+        "startChar": 14,
+        "endLine": 566,
+        "endChar": 25
+      },
+      "revId": "514c5180b349c139d89219a058f80b8bbc7982f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a57b3a12_68a80ab8",
+        "filename": "test/fixedbugs/issue14540.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-09-19T13:14:09Z",
+      "side": 1,
+      "message": "add a fallthrough in final switch case as well (should fail)",
+      "revId": "514c5180b349c139d89219a058f80b8bbc7982f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
