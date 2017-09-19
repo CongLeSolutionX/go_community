@@ -16,6 +16,23 @@
       "revId": "b434d81c7b05338d2b76ba59384517480c5121df",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e9a86f1_4fa4bf83",
+        "filename": "src/log/log.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-09-19T18:00:20Z",
+      "side": 1,
+      "message": "Also, this changes the timestamp, which is not okay.\nThe call to Write is performed under the lock and could take a long time, drastically altering the recorded timestamp.\n\nEither flag should be protected by a more narrow scoped Lock or be an atomic integer.",
+      "revId": "b434d81c7b05338d2b76ba59384517480c5121df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
