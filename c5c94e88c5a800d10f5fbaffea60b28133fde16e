@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c44b7156_cc4cb633",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-20T20:33:48Z",
+      "side": 1,
+      "message": "Maybe\n// count of temporarily created WB ops remaining to be rewritten in the current block\n\nI had a little confusion the first time I read the comment, decided it was probably okay,\nthen decided that if I was confused at first that was still something good to fix.",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 70
+      },
+      "revId": "c5c94e88c5a800d10f5fbaffea60b28133fde16e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
