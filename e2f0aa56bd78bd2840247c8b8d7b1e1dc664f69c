@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "b9c2f578_22e548a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-20T11:44:13Z",
+      "side": 1,
+      "message": "s/do/to",
+      "range": {
+        "startLine": 11,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "e2f0aa56bd78bd2840247c8b8d7b1e1dc664f69c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3ce13b5_c6bc14d6",
         "filename": "src/cmd/compile/internal/syntax/source.go",
         "patchSetId": 1
