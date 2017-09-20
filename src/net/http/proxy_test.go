@@ -51,6 +51,7 @@ var cacheKeysTests = []struct {
 	key    string
 }{
 	{"", "http", "foo.com", "|http|foo.com"},
+	{"", "http", "[fe80::1%1]", "|http|[fe80::1]"},
 	{"", "https", "foo.com", "|https|foo.com"},
 	{"http://foo.com", "http", "foo.com", "http://foo.com|http|"},
 	{"http://foo.com", "https", "foo.com", "http://foo.com|https|foo.com"},
