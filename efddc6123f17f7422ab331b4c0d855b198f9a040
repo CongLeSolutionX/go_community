@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6e0e709a_35cbcd5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-20T09:25:37Z",
+      "side": 1,
+      "message": "Should I mention, that we abandoned (10)?",
+      "range": {
+        "startLine": 22,
+        "startChar": 5,
+        "endLine": 22,
+        "endChar": 18
+      },
+      "revId": "efddc6123f17f7422ab331b4c0d855b198f9a040",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05318150_09d379e5",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 6
