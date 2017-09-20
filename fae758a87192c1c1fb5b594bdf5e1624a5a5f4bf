@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "848299f5_3f24daa3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-20T18:44:10Z",
+      "side": 1,
+      "message": "Write these links as https://golang.org/cl/22598 and https://golang.org/cl/63611.",
+      "revId": "fae758a87192c1c1fb5b594bdf5e1624a5a5f4bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
