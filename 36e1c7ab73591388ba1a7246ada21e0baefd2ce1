@@ -46,6 +46,30 @@
       "revId": "36e1c7ab73591388ba1a7246ada21e0baefd2ce1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8505d19b_e4141902",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-09-20T17:29:25Z",
+      "side": 1,
+      "message": "I expect the benchmarks to show less than 3% variance. I\u0027m concerned that this benchmark is not measuring Copy, but some other property of the runtime.",
+      "parentUuid": "3b0a8078_948bfd72",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 25
+      },
+      "revId": "36e1c7ab73591388ba1a7246ada21e0baefd2ce1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
