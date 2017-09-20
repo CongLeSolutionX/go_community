@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4ddce81_9fb734c5",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-09-20T20:29:18Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure this test is dead code: TFORW types should all be resolved during typechecking, but maybe not.\n\nAdd\n\n    // TODO(mdempsky): Investigate whether this can happen.",
+      "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12b69d14_d21ffd0c",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1850,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-09-20T20:29:18Z",
+      "side": 1,
+      "message": "I\u0027d probably just call this Outer. In this case, t and iface are both interfaces, and \"Fields\" here actually refers to their methods.",
+      "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5961cfc6_adbc7456",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-09-20T20:29:18Z",
+      "side": 1,
+      "message": "This rewrite feels clumsy to me, but I don\u0027t see a better alternative.",
+      "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "358a5887_3cee5f15",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2051,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-09-20T20:29:18Z",
+      "side": 1,
+      "message": "nit: move this above the append.",
+      "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
