@@ -1180,10 +1180,6 @@ func (p *exporter) expr(n *Node) {
 	//	unimplemented - handled by default case
 
 	case OLITERAL:
-		if n.Val().Ctype() == CTNIL && n.Orig != nil && n.Orig != n {
-			p.expr(n.Orig)
-			break
-		}
 		p.op(OLITERAL)
 		p.pos(n)
 		p.typ(unidealType(n.Type, n.Val()))
