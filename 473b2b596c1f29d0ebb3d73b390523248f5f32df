@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbed11f6_a191885f",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-09-20T05:15:32Z",
+      "side": 1,
+      "message": "s/which is //",
+      "revId": "473b2b596c1f29d0ebb3d73b390523248f5f32df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d2e7198_f9801c13",
+        "filename": "src/fmt/fmt_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-09-20T05:15:32Z",
+      "side": 1,
+      "message": "change this to\n\n// pp.WriteString\n\nfor consistency with the other comments.",
+      "revId": "473b2b596c1f29d0ebb3d73b390523248f5f32df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cca27934_c2a86878",
+        "filename": "src/fmt/print.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-09-20T05:15:32Z",
+      "side": 1,
+      "message": "s/ for ease/, for efficiency./",
+      "revId": "473b2b596c1f29d0ebb3d73b390523248f5f32df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
