@@ -34,10 +34,7 @@ func TestIntendedInlining(t *testing.T) {
 			"bucketMask",
 			"fastrand",
 			"noescape",
-
-			// TODO: These were modified at some point to be
-			// made inlineable, but have since been broken.
-			// "nextFreeFast",
+			"nextFreeFast",
 		},
 		"unicode/utf8": {
 			"FullRune",
