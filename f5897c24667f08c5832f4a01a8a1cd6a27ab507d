@@ -22,6 +22,30 @@
       "revId": "f5897c24667f08c5832f4a01a8a1cd6a27ab507d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d5f6dd_48bca891",
+        "filename": "src/cmd/compile/internal/syntax/source.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-09-20T17:18:38Z",
+      "side": 0,
+      "message": "Yeah, I can\u0027t believe this went unnoticed for as long as it did.",
+      "parentUuid": "3a70c520_22aac46f",
+      "range": {
+        "startLine": 169,
+        "startChar": 25,
+        "endLine": 169,
+        "endChar": 26
+      },
+      "revId": "f5897c24667f08c5832f4a01a8a1cd6a27ab507d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
