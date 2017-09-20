@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da9e95a9_197514cf",
+        "filename": "misc/cgo/testshared/src/globallib/global.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-09-20T19:42:59Z",
+      "side": 1,
+      "message": "Would this take too long? If so maybe only set a few elements at the beginning, middle, and end?",
+      "revId": "14e8a2eaeb22df72fb7fbf392ba0859dc0706a11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
