@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a5d3fb6_5d167760",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-09-20T16:46:57Z",
+      "side": 1,
+      "message": "These variances are too high, they need to be no more than 2% for a reasonable confidence that this change is an improvement for large copys.",
+      "revId": "098eb01600fe0e90aee21d204924c67188fe26d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
