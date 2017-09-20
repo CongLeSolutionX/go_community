@@ -16,6 +16,24 @@
       "revId": "106716939950c628b09c3d7c12f9b463475e3389",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dd5e381_53fc66b0",
+        "filename": "src/cmd/internal/obj/s390x/objz.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-09-20T16:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acb3f59a_e17db827",
+      "revId": "106716939950c628b09c3d7c12f9b463475e3389",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
