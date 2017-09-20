@@ -1285,7 +1285,7 @@ type connectMethod struct {
 
 func (cm *connectMethod) key() connectMethodKey {
 	proxyStr := ""
-	targetAddr := cm.targetAddr
+	targetAddr := removeZone(cm.targetAddr)
 	if cm.proxyURL != nil {
 		proxyStr = cm.proxyURL.String()
 		if strings.HasPrefix(cm.proxyURL.Scheme, "http") && cm.targetScheme == "http" {
