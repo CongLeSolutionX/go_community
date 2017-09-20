@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "4dc883bb_df5d1918",
+        "filename": "src/io/io.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-20T04:03:22Z",
+      "side": 1,
+      "message": "This new function should have a small function comment.",
+      "revId": "d8f7c13b916294dbbc00a07ba18d59ebe37ac1a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f188523_304be4e2",
+        "filename": "src/io/io.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-20T04:03:22Z",
+      "side": 1,
+      "message": "I tend to agree that the change to nn shouldn\u0027t go up here, but then I think this would be a tiny bit clearer as\n    nn :\u003d n\n    for nn \u003e 0 {\nOr perhaps just use n.  There\u0027s no real reason to use nn, since n is never used again after nn is initialized.",
+      "revId": "d8f7c13b916294dbbc00a07ba18d59ebe37ac1a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a186110b_fbb216fd",
         "filename": "src/io/io.go",
         "patchSetId": 5
