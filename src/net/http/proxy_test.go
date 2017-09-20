@@ -54,6 +54,8 @@ var cacheKeysTests = []struct {
 	{"", "https", "foo.com", "|https|foo.com"},
 	{"http://foo.com", "http", "foo.com", "http://foo.com|http|"},
 	{"http://foo.com", "https", "foo.com", "http://foo.com|https|foo.com"},
+	{"", "http", "[fe80::1%zone]", "|http|[fe80::1]"},
+	{"", "https", "[fe80::1%zone]", "|https|[fe80::1]"},
 }
 
 func TestCacheKeys(t *testing.T) {
