@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb73af80_55bc3352",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-09-20T07:45:24Z",
+      "side": 1,
+      "message": "This should go to poolLocalInternal, then pad size calculation won\u0027t change.",
+      "revId": "6ae54963f28e20ba71d39742a35aa398126fd7d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c46657ad_2641b36c",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-09-20T07:45:24Z",
+      "side": 1,
+      "message": "I think if anything, smaller, 32-bit platforms need smaller cache size, not larger. So I would just do 5 with a proper comment.",
+      "revId": "6ae54963f28e20ba71d39742a35aa398126fd7d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "723d9173_146b1e5f",
+        "filename": "src/sync/pool_internal_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2017-09-20T07:45:24Z",
+      "side": 1,
+      "message": "src$ find -name \"export_test.go\"\n./strings/export_test.go\n./time/export_test.go\n./fmt/export_test.go\n./reflect/export_test.go\n./debug/dwarf/export_test.go\n./internal/poll/export_test.go\n./internal/syscall/windows/registry/export_test.go\n./bufio/export_test.go\n./strconv/export_test.go\n./testing/export_test.go\n./sync/export_test.go\n./os/export_test.go\n./sort/export_test.go\n./runtime/export_test.go\n./flag/export_test.go\n./net/http/export_test.go\n./unicode/utf16/export_test.go\n./bytes/export_test.go\n./syscall/export_test.go\n./math/export_test.go\n./cmd/compile/internal/ssa/export_test.go\n./path/filepath/export_test.go\n\n\nI think you should name it the same way.",
+      "revId": "6ae54963f28e20ba71d39742a35aa398126fd7d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
