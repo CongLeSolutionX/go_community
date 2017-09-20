@@ -16,6 +16,24 @@
       "revId": "14e8a2eaeb22df72fb7fbf392ba0859dc0706a11",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1b562ca_e93e3471",
+        "filename": "misc/cgo/testshared/src/globallib/global.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-09-20T20:19:33Z",
+      "side": 1,
+      "message": "This is about 1MB so I think it will be pretty fast even on low powered chips. The speed of the test seems to be dominated by the compilation, we might want to think about bundling some of these tests together if we\u0027re worried about the time these tests take.",
+      "parentUuid": "da9e95a9_197514cf",
+      "revId": "14e8a2eaeb22df72fb7fbf392ba0859dc0706a11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
