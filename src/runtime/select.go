@@ -7,6 +7,7 @@ package runtime
 // This file contains the implementation of Go select statements.
 
 import (
+	"runtime/internal/atomic"
 	"unsafe"
 )
 
@@ -134,7 +135,7 @@ func selectgo(cas0 *scase, order0 *uint16, ncases int) (int, bool) {
 	}
 
 	var t0 int64
-	if blockprofilerate > 0 {
+	if atomic.Load64(&blockprofilerate) > 0 {
 		t0 = cputicks()
 		for i := 0; i < ncases; i++ {
 			scases[i].releasetime = -1
