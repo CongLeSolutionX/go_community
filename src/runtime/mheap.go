@@ -587,7 +587,8 @@ func (h *mheap) reclaimList(list *mSpanList, npages uintptr) uintptr {
 	sg := mheap_.sweepgen
 retry:
 	for s := list.first; s != nil; s = s.next {
-		if s.sweepgen == sg-2 && atomic.Cas(&s.sweepgen, sg-2, sg-1) {
+		ssweepgen := atomic.Load(&s.sweepgen)
+		if ssweepgen == sg-2 && atomic.Cas(&s.sweepgen, sg-2, sg-1) {
 			list.remove(s)
 			// swept spans are at the end of the list
 			list.insertBack(s) // Puts it back on a busy list. s is not in the treap at this point.
@@ -603,7 +604,7 @@ retry:
 			// the span could have been moved elsewhere
 			goto retry
 		}
-		if s.sweepgen == sg-1 {
+		if ssweepgen == sg-1 {
 			// the span is being swept by background sweeper, skip
 			continue
 		}
@@ -990,8 +991,8 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 			throw("MHeap_FreeSpanLocked - invalid stack free")
 		}
 	case _MSpanInUse:
-		if s.allocCount != 0 || s.sweepgen != h.sweepgen {
-			print("MHeap_FreeSpanLocked - span ", s, " ptr ", hex(s.base()), " allocCount ", s.allocCount, " sweepgen ", s.sweepgen, "/", h.sweepgen, "\n")
+		if ssweepgen := atomic.Load(&s.sweepgen); s.allocCount != 0 || ssweepgen != h.sweepgen {
+			print("MHeap_FreeSpanLocked - span ", s, " ptr ", hex(s.base()), " allocCount ", s.allocCount, " sweepgen ", ssweepgen, "/", h.sweepgen, "\n")
 			throw("MHeap_FreeSpanLocked - invalid free")
 		}
 		h.pagesInUse -= uint64(s.npages)
