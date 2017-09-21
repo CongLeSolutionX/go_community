@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c43555a_866e8ff2",
+        "filename": "doc/install.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 10210
+      },
+      "writtenOn": "2017-09-21T09:26:35Z",
+      "side": 1,
+      "message": "Sorry to be a pain but 10-STABLE could cause confusion as \"STABLE\" is actually more up to date than any release, so as per 1.9 release notes I would advise using \"10.3 or later\".",
+      "revId": "91503e0455397a609ee81fe750b7f415051fd375",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
