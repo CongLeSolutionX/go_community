@@ -58,7 +58,7 @@ retry:
 			s.sweep(true)
 			goto havespan
 		}
-		if s.sweepgen == sg-1 {
+		if atomic.Load(&s.sweepgen) == sg-1 {
 			// the span is being swept by background sweeper, skip
 			continue
 		}
@@ -88,7 +88,7 @@ retry:
 			// it is already in the empty list, so just retry
 			goto retry
 		}
-		if s.sweepgen == sg-1 {
+		if atomic.Load(&s.sweepgen) == sg-1 {
 			// the span is being swept by background sweeper, skip
 			continue
 		}
