@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01397f6a_1cc4f3f3",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-09-21T16:16:09Z",
+      "side": 1,
+      "message": "There\u0027s also a s.sweepgen here. Maybe load s.sweepgen once into a temporary before this line?",
+      "revId": "6c18b7acb12df588a7fc9aebbe7efb1e793ea659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a34fc99_20497238",
+        "filename": "src/runtime/mcentral.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-09-21T16:16:09Z",
+      "side": 1,
+      "message": "Same down here.",
+      "revId": "6c18b7acb12df588a7fc9aebbe7efb1e793ea659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4baeba74_eb2b3c50",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-09-21T16:16:09Z",
+      "side": 1,
+      "message": "Atomics aren\u0027t necessary here. All modifiers of finq.cnt are guarded by this lock.\nWe use the atomic.Xadd below just so we can have readers outside the lock.",
+      "revId": "6c18b7acb12df588a7fc9aebbe7efb1e793ea659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031134b2_17be706f",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-09-21T16:16:09Z",
+      "side": 1,
+      "message": "This runs only during stop the world, so it also doesn\u0027t need atomics.",
+      "revId": "6c18b7acb12df588a7fc9aebbe7efb1e793ea659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8e97198_25b30434",
+        "filename": "src/runtime/mfinal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-09-21T16:16:09Z",
+      "side": 1,
+      "message": "Same here. fb is acquired under the lock above and unlinked, so there\u0027s no need for an atomic here.",
+      "revId": "6c18b7acb12df588a7fc9aebbe7efb1e793ea659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f69e12e3_bf2e227e",
+        "filename": "src/runtime/mgcsweep.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-09-21T16:16:09Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to add atomics in this function. This function has exclusive write access to the mspan and is the only one writing s.sweepgen.\nThe atomic write of s.sweepgen below is just for readers outside the exclusive access.",
+      "revId": "6c18b7acb12df588a7fc9aebbe7efb1e793ea659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2a41bc1_74bf8233",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-09-21T16:16:09Z",
+      "side": 1,
+      "message": "atomic load s.sweepgen in to temp, use here and below?",
+      "revId": "6c18b7acb12df588a7fc9aebbe7efb1e793ea659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c38663c1_8de8ff92",
+        "filename": "src/runtime/mheap.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-09-21T16:16:09Z",
+      "side": 1,
+      "message": "I suspect this one is unnecessary, as we have the mheap lock.\nNot totally sure, though.",
+      "revId": "6c18b7acb12df588a7fc9aebbe7efb1e793ea659",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
