@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a214797_c1dd98ef",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-21T18:27:50Z",
+      "side": 1,
+      "message": "SurvivedBlock, or SurvivesBlockEnd?",
+      "range": {
+        "startLine": 103,
+        "startChar": 1,
+        "endLine": 103,
+        "endChar": 14
+      },
+      "revId": "c524a263de041f827e2434c079d9092e3f305953",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
