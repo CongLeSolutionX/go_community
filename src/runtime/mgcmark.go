@@ -327,9 +327,11 @@ func markrootSpans(gcw *gcWork, shard int) {
 			continue
 		}
 		// Check that this span was swept (it may be cached or uncached).
-		if !useCheckmark && !(s.sweepgen == sg || s.sweepgen == sg+3) {
+		// sweepgen should not be changing at this point, but it could be if something went wrong.
+		// Hence, we defensively do an atomic load.
+		if sweepgen := atomic.Load(&s.sweepgen); !useCheckmark && !(sweepgen == sg || sweepgen == sg+3) {
 			// sweepgen was updated (+2) during non-checkmark GC pass
-			print("sweep ", s.sweepgen, " ", sg, "\n")
+			print("sweep ", sweepgen, " ", sg, "\n")
 			throw("gc: unswept span")
 		}
 

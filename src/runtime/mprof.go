@@ -438,11 +438,9 @@ var mutexprofilerate uint64 // fraction sampled
 // (For n>1 the details of sampling may change.)
 func SetMutexProfileFraction(rate int) int {
 	if rate < 0 {
-		return int(mutexprofilerate)
+		return int(atomic.Load64(&mutexprofilerate))
 	}
-	old := mutexprofilerate
-	atomic.Store64(&mutexprofilerate, uint64(rate))
-	return int(old)
+	return int(atomic.Xchg64(&mutexprofilerate, uint64(rate)))
 }
 
 //go:linkname mutexevent sync.event

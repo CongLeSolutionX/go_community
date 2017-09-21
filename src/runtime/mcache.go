@@ -128,7 +128,7 @@ func (c *mcache) refill(spc spanClass) {
 	}
 	if s != &emptymspan {
 		// Mark this span as no longer cached.
-		if s.sweepgen != mheap_.sweepgen+3 {
+		if atomic.Load(&s.sweepgen) != mheap_.sweepgen+3 {
 			throw("bad sweepgen in refill")
 		}
 		atomic.Store(&s.sweepgen, mheap_.sweepgen)
@@ -146,7 +146,7 @@ func (c *mcache) refill(spc spanClass) {
 
 	// Indicate that this span is cached and prevent asynchronous
 	// sweeping in the next sweep phase.
-	s.sweepgen = mheap_.sweepgen + 3
+	atomic.Store(&s.sweepgen, mheap_.sweepgen+3)
 
 	c.alloc[spc] = s
 }
