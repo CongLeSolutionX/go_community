@@ -174,7 +174,8 @@ func chansend(c *hchan, ep unsafe.Pointer, block bool, callerpc uintptr) bool {
 	}
 
 	var t0 int64
-	if blockprofilerate > 0 {
+	// TODO: Relaxed load?
+	if atomic.Load64(&blockprofilerate) > 0 {
 		t0 = cputicks()
 	}
 
@@ -446,7 +447,8 @@ func chanrecv(c *hchan, ep unsafe.Pointer, block bool) (selected, received bool)
 	}
 
 	var t0 int64
-	if blockprofilerate > 0 {
+	// TODO: Relaxed load?
+	if atomic.Load64(&blockprofilerate) > 0 {
 		t0 = cputicks()
 	}
 

@@ -358,9 +358,11 @@ func markrootSpans(gcw *gcWork, shard int) {
 		if s.state != mSpanInUse {
 			continue
 		}
-		if !useCheckmark && s.sweepgen != sg {
+		// sweepgen should not be changing at this point, but it could be if something went wrong.
+		// Hence, we defensively do an atomic load.
+		if sweepgen := atomic.Load(&s.sweepgen); !useCheckmark && sweepgen != sg {
 			// sweepgen was updated (+2) during non-checkmark GC pass
-			print("sweep ", s.sweepgen, " ", sg, "\n")
+			print("sweep ", sweepgen, " ", sg, "\n")
 			throw("gc: unswept span")
 		}
 
