@@ -31,7 +31,7 @@ func AbsFile(dir, file, pathPrefix string) string {
 		abs = filepath.Join(dir, file)
 	}
 
-	if pathPrefix != "" && hasPathPrefix(abs, pathPrefix) {
+	if pathPrefix := matchingPathPrefix(abs, filepath.SplitList(pathPrefix)); pathPrefix != "" {
 		if abs == pathPrefix {
 			abs = ""
 		} else {
@@ -45,6 +45,21 @@ func AbsFile(dir, file, pathPrefix string) string {
 	}
 
 	return abs
+}
+
+// Selects a path prefix that matches s or else, if none matches, returns "".
+func matchingPathPrefix(s string, pathPrefices []string) string {
+	sel, ln := -1, 0
+	for i := range pathPrefices {
+		if len(pathPrefices[i]) > ln && hasPathPrefix(s, pathPrefices[i]) {
+			sel, ln = i, len(pathPrefices[i])
+		}
+	}
+
+	if sel == -1 {
+		return ""
+	}
+	return pathPrefices[sel]
 }
 
 // Does s have t as a path prefix?
