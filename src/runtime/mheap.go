@@ -603,7 +603,7 @@ retry:
 			// the span could have been moved elsewhere
 			goto retry
 		}
-		if s.sweepgen == sg-1 {
+		if atomic.Load(&s.sweepgen) == sg-1 {
 			// the span is being swept by background sweeper, skip
 			continue
 		}
