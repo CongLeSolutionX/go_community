@@ -22,6 +22,30 @@
       "revId": "972a42ab8547fc2e1993f7ae2175223ced0ecaf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d337358c_9da5c00a",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 24681
+      },
+      "writtenOn": "2017-09-21T00:17:26Z",
+      "side": 1,
+      "message": "sure, maybe it can even be signaturePKCS1 given that the signature algorithms are called pkcs1_with_sha256. There should not be confusion with PSS from PKCS#1 v2.2 right?",
+      "parentUuid": "4675c945_46d75a71",
+      "range": {
+        "startLine": 141,
+        "startChar": 1,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "972a42ab8547fc2e1993f7ae2175223ced0ecaf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
