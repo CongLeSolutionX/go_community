@@ -18,20 +18,21 @@ var (
 	Debug      = flag.Bool("debug", false, "dump instructions as they are parsed")
 	OutputFile = flag.String("o", "", "output file; default foo.o for /a/b/c/foo.s as first argument")
 	PrintOut   = flag.Bool("S", false, "print assembly and machine code")
-	TrimPath   = flag.String("trimpath", "", "remove prefix from recorded source file paths")
 	Shared     = flag.Bool("shared", false, "generate code that can be linked into a shared library")
 	Dynlink    = flag.Bool("dynlink", false, "support references to Go symbols defined in other shared libraries")
 	AllErrors  = flag.Bool("e", false, "no limit on number of errors reported")
 )
 
 var (
-	D MultiFlag
-	I MultiFlag
+	D        MultiFlag
+	I        MultiFlag
+	TrimPath MultiFlagDir
 )
 
 func init() {
 	flag.Var(&D, "D", "predefined symbol with optional simple value -D=identifier=value; can be set multiple times")
 	flag.Var(&I, "I", "include directory; can be set multiple times")
+	flag.Var(&TrimPath, "trimpath", "remove prefix from recorded source file paths; can be set multiple times")
 	objabi.AddVersionFlag() // -V
 }
 
@@ -46,6 +47,22 @@ func (m *MultiFlag) String() string {
 }
 
 func (m *MultiFlag) Set(val string) error {
+	(*m) = append(*m, val)
+	return nil
+}
+
+// MultiFlagDir is a specialized MultiFlag, its `String()` conforms to pathspec format.
+// This is used to pass more than one directory to objapi.AbsFile in a single string for legacy reasons.
+type MultiFlagDir []string
+
+func (m *MultiFlagDir) String() string {
+	if len(*m) == 0 {
+		return ""
+	}
+	return strings.Join(*m, string(filepath.ListSeparator))
+}
+
+func (m *MultiFlagDir) Set(val string) error {
 	(*m) = append(*m, val)
 	return nil
 }

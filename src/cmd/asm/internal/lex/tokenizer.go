@@ -43,7 +43,7 @@ func NewTokenizer(name string, r io.Reader, file *os.File) *Tokenizer {
 	s.IsIdentRune = isIdentRune
 	return &Tokenizer{
 		s:    &s,
-		base: src.NewFileBase(name, objabi.AbsFile(objabi.WorkingDir(), name, *flags.TrimPath)),
+		base: src.NewFileBase(name, objabi.AbsFile(objabi.WorkingDir(), name, flags.TrimPath.String())),
 		line: 1,
 		file: file,
 	}

@@ -92,6 +92,9 @@ Flags:
 		Compile with race detector enabled.
 	-trimpath prefix
 		Remove prefix from recorded source file paths.
+		The option may be repeated to remove more than one prefix,
+		and may contain more than one prefix. In the latter case use
+		the same delimiter as in $GOPATH.
 	-u
 		Disallow importing packages not marked as safe; implies -nolocalimports.
 

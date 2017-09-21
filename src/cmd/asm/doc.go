@@ -39,6 +39,9 @@ Flags:
 		Generate code that can be linked into a shared library.
 	-trimpath prefix
 		Remove prefix from recorded source file paths.
+		The option may be repeated to remove more than one prefix,
+		and may contain more than one prefix. In the latter case use
+		the same delimiter as in $GOPATH.
 Input language:
 
 The assembler uses mostly the same syntax for all architectures,
