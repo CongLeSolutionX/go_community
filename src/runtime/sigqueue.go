@@ -196,11 +196,11 @@ func signal_enable(s uint32) {
 		return
 	}
 
-	w := sig.wanted[s/32]
+	w := atomic.Load(&sig.wanted[s/32])
 	w |= 1 << (s & 31)
 	atomic.Store(&sig.wanted[s/32], w)
 
-	i := sig.ignored[s/32]
+	i := atomic.Load(&sig.ignored[s/32])
 	i &^= 1 << (s & 31)
 	atomic.Store(&sig.ignored[s/32], i)
 
@@ -215,7 +215,7 @@ func signal_disable(s uint32) {
 	}
 	sigdisable(s)
 
-	w := sig.wanted[s/32]
+	w := atomic.Load(&sig.wanted[s/32])
 	w &^= 1 << (s & 31)
 	atomic.Store(&sig.wanted[s/32], w)
 }
@@ -228,11 +228,11 @@ func signal_ignore(s uint32) {
 	}
 	sigignore(s)
 
-	w := sig.wanted[s/32]
+	w := atomic.Load(&sig.wanted[s/32])
 	w &^= 1 << (s & 31)
 	atomic.Store(&sig.wanted[s/32], w)
 
-	i := sig.ignored[s/32]
+	i := atomic.Load(&sig.ignored[s/32])
 	i |= 1 << (s & 31)
 	atomic.Store(&sig.ignored[s/32], i)
 }
@@ -240,7 +240,7 @@ func signal_ignore(s uint32) {
 // sigInitIgnored marks the signal as already ignored.  This is called at
 // program start by siginit.
 func sigInitIgnored(s uint32) {
-	i := sig.ignored[s/32]
+	i := atomic.Load(&sig.ignored[s/32])
 	i |= 1 << (s & 31)
 	atomic.Store(&sig.ignored[s/32], i)
 }

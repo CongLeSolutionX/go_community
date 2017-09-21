@@ -723,7 +723,7 @@ func minit() {
 func unminit() {
 	tp := &getg().m.thread
 	stdcall1(_CloseHandle, *tp)
-	*tp = 0
+	atomic.Storeuintptr(tp, 0)
 }
 
 // Calling stdcall on os stack.
@@ -871,7 +871,7 @@ func profileloop1(param uintptr) uint32 {
 	stdcall2(_SetThreadPriority, currentThread, _THREAD_PRIORITY_HIGHEST)
 
 	for {
-		stdcall2(_WaitForSingleObject, profiletimer, _INFINITE)
+		stdcall2(_WaitForSingleObject, atomic.Loaduintptr(&profiletimer), _INFINITE)
 		first := (*m)(atomic.Loadp(unsafe.Pointer(&allm)))
 		for mp := first; mp != nil; mp = mp.alllink {
 			thread := atomic.Loaduintptr(&mp.thread)
@@ -891,7 +891,7 @@ func profileloop1(param uintptr) uint32 {
 }
 
 func setProcessCPUProfiler(hz int32) {
-	if profiletimer == 0 {
+	if atomic.Loaduintptr(&profiletimer) == 0 {
 		timer := stdcall3(_CreateWaitableTimerA, 0, 0, 0)
 		atomic.Storeuintptr(&profiletimer, timer)
 		thread := stdcall6(_CreateThread, 0, 0, funcPC(profileloop), 0, 0, 0)
@@ -910,6 +910,6 @@ func setThreadCPUProfiler(hz int32) {
 		}
 		due = int64(ms) * -10000
 	}
-	stdcall6(_SetWaitableTimer, profiletimer, uintptr(unsafe.Pointer(&due)), uintptr(ms), 0, 0, 0)
+	stdcall6(_SetWaitableTimer, atomic.Loaduintptr(&profiletimer), uintptr(unsafe.Pointer(&due)), uintptr(ms), 0, 0, 0)
 	atomic.Store((*uint32)(unsafe.Pointer(&getg().m.profilehz)), uint32(hz))
 }

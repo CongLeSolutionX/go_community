@@ -118,7 +118,7 @@ func semacquire1(addr *uint32, lifo bool, profile semaProfileFlags) {
 	s.releasetime = 0
 	s.acquiretime = 0
 	s.ticket = 0
-	if profile&semaBlockProfile != 0 && blockprofilerate > 0 {
+	if profile&semaBlockProfile != 0 && atomic.Load64(&blockprofilerate) > 0 {
 		t0 = cputicks()
 		s.releasetime = -1
 	}
@@ -497,7 +497,7 @@ func notifyListWait(l *notifyList, t uint32) {
 	s.ticket = t
 	s.releasetime = 0
 	t0 := int64(0)
-	if blockprofilerate > 0 {
+	if atomic.Load64(&blockprofilerate) > 0 {
 		t0 = cputicks()
 		s.releasetime = -1
 	}
