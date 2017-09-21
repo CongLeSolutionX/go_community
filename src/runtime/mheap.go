@@ -581,7 +581,7 @@ func (h *mheap) reclaimList(list *mSpanList, npages uintptr) uintptr {
 	sg := mheap_.sweepgen
 retry:
 	for s := list.first; s != nil; s = s.next {
-		if s.sweepgen == sg-2 && atomic.Cas(&s.sweepgen, sg-2, sg-1) {
+		if atomic.Cas(&s.sweepgen, sg-2, sg-1) {
 			list.remove(s)
 			// swept spans are at the end of the list
 			list.insertBack(s) // Puts it back on a busy list. s is not in the treap at this point.
@@ -597,8 +597,8 @@ retry:
 			// the span could have been moved elsewhere
 			goto retry
 		}
-		if s.sweepgen == sg-1 {
-			// the span is being sweept by background sweeper, skip
+		if atomic.Load(&s.sweepgen) == sg-1 {
+			// the span is being swept by background sweeper, skip
 			continue
 		}
 		// already swept empty span,

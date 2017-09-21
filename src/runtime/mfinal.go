@@ -126,7 +126,7 @@ func queuefinalizer(p unsafe.Pointer, fn *funcval, nret uintptr, fint *_type, ot
 //go:nowritebarrier
 func iterate_finq(callback func(*funcval, unsafe.Pointer, uintptr, *_type, *ptrtype)) {
 	for fb := allfin; fb != nil; fb = fb.alllink {
-		for i := uint32(0); i < fb.cnt; i++ {
+		for i := uint32(0); i < atomic.Load(&fb.cnt); i++ {
 			f := &fb.fin[i]
 			callback(f.fn, f.arg, f.nret, f.fint, f.ot)
 		}
