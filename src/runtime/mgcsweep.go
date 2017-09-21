@@ -118,13 +118,13 @@ func sweepone() uintptr {
 			// This can happen if direct sweeping already
 			// swept this span, but in that case the sweep
 			// generation should always be up-to-date.
-			if !(s.sweepgen == sg || s.sweepgen == sg+3) {
-				print("runtime: bad span s.state=", s.state, " s.sweepgen=", s.sweepgen, " sweepgen=", sg, "\n")
+			if sweepgen := atomic.Load(&s.sweepgen); !(sweepgen == sg || sweepgen == sg+3) {
+				print("runtime: bad span s.state=", s.state, " s.sweepgen=", sweepgen, " sweepgen=", sg, "\n")
 				throw("non in-use span in unswept list")
 			}
 			continue
 		}
-		if s.sweepgen == sg-2 && atomic.Cas(&s.sweepgen, sg-2, sg-1) {
+		if atomic.Load(&s.sweepgen) == sg-2 && atomic.Cas(&s.sweepgen, sg-2, sg-1) {
 			break
 		}
 	}
@@ -211,9 +211,9 @@ func (s *mspan) sweep(preserve bool) bool {
 		throw("mspan.sweep: m is not locked")
 	}
 	sweepgen := mheap_.sweepgen
-	if s.state != mSpanInUse || s.sweepgen != sweepgen-1 {
-		print("mspan.sweep: state=", s.state, " sweepgen=", s.sweepgen, " mheap.sweepgen=", sweepgen, "\n")
-		throw("mspan.sweep: bad span state")
+	if ssweepgen := atomic.Load(&s.sweepgen); s.state != mSpanInUse || ssweepgen != sweepgen-1 {
+		print("MSpan_Sweep: state=", s.state, " sweepgen=", ssweepgen, " mheap.sweepgen=", sweepgen, "\n")
+		throw("MSpan_Sweep: bad span state")
 	}
 
 	if trace.enabled {
@@ -351,9 +351,9 @@ func (s *mspan) sweep(preserve bool) bool {
 	if freeToHeap || nfreed == 0 {
 		// The span must be in our exclusive ownership until we update sweepgen,
 		// check for potential races.
-		if s.state != mSpanInUse || s.sweepgen != sweepgen-1 {
-			print("mspan.sweep: state=", s.state, " sweepgen=", s.sweepgen, " mheap.sweepgen=", sweepgen, "\n")
-			throw("mspan.sweep: bad span state after sweep")
+		if ssweepgen := atomic.Load(&s.sweepgen); s.state != mSpanInUse || ssweepgen != sweepgen-1 {
+			print("MSpan_Sweep: state=", s.state, " sweepgen=", ssweepgen, " mheap.sweepgen=", sweepgen, "\n")
+			throw("MSpan_Sweep: bad span state after sweep")
 		}
 		// Serialization point.
 		// At this point the mark bits are cleared and allocation ready
