@@ -583,8 +583,8 @@ retry:
 			// the span could have been moved elsewhere
 			goto retry
 		}
-		if s.sweepgen == sg-1 {
-			// the span is being sweept by background sweeper, skip
+		if atomic.Load(&s.sweepgen) == sg-1 {
+			// the span is being swept by background sweeper, skip
 			continue
 		}
 		// already swept empty span,
@@ -999,8 +999,9 @@ func (h *mheap) freeSpanLocked(s *mspan, acctinuse, acctidle bool, unusedsince i
 			throw("MHeap_FreeSpanLocked - invalid stack free")
 		}
 	case _MSpanInUse:
-		if s.allocCount != 0 || s.sweepgen != h.sweepgen {
-			print("MHeap_FreeSpanLocked - span ", s, " ptr ", hex(s.base()), " allocCount ", s.allocCount, " sweepgen ", s.sweepgen, "/", h.sweepgen, "\n")
+		sweepgen := atomic.Load(&s.sweepgen)
+		if s.allocCount != 0 || sweepgen != h.sweepgen {
+			print("MHeap_FreeSpanLocked - span ", s, " ptr ", hex(s.base()), " allocCount ", s.allocCount, " sweepgen ", sweepgen, "/", h.sweepgen, "\n")
 			throw("MHeap_FreeSpanLocked - invalid free")
 		}
 		h.pagesInUse -= uint64(s.npages)

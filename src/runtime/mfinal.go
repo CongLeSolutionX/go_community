@@ -86,7 +86,7 @@ func queuefinalizer(p unsafe.Pointer, fn *funcval, nret uintptr, fint *_type, ot
 	}
 
 	lock(&finlock)
-	if finq == nil || finq.cnt == uint32(len(finq.fin)) {
+	if finq == nil || atomic.Load(&finq.cnt) == uint32(len(finq.fin)) {
 		if finc == nil {
 			finc = (*finblock)(persistentalloc(_FinBlockSize, 0, &memstats.gc_sys))
 			finc.alllink = allfin
@@ -112,7 +112,7 @@ func queuefinalizer(p unsafe.Pointer, fn *funcval, nret uintptr, fint *_type, ot
 		block.next = finq
 		finq = block
 	}
-	f := &finq.fin[finq.cnt]
+	f := &finq.fin[atomic.Load(&finq.cnt)]
 	atomic.Xadd(&finq.cnt, +1) // Sync with markroots
 	f.fn = fn
 	f.nret = nret
@@ -126,7 +126,7 @@ func queuefinalizer(p unsafe.Pointer, fn *funcval, nret uintptr, fint *_type, ot
 //go:nowritebarrier
 func iterate_finq(callback func(*funcval, unsafe.Pointer, uintptr, *_type, *ptrtype)) {
 	for fb := allfin; fb != nil; fb = fb.alllink {
-		for i := uint32(0); i < fb.cnt; i++ {
+		for i := uint32(0); i < atomic.Load(&fb.cnt); i++ {
 			f := &fb.fin[i]
 			callback(f.fn, f.arg, f.nret, f.fint, f.ot)
 		}
@@ -180,7 +180,7 @@ func runfinq() {
 			racefingo()
 		}
 		for fb != nil {
-			for i := fb.cnt; i > 0; i-- {
+			for i := atomic.Load(&fb.cnt); i > 0; i-- {
 				f := &fb.fin[i-1]
 
 				framesz := unsafe.Sizeof((interface{})(nil)) + f.nret
