@@ -87,7 +87,7 @@ retry:
 			if b.spineCap != 0 {
 				// Blocks are allocated off-heap, so
 				// no write barriers.
-				memmove(newSpine, b.spine, b.spineCap*sys.PtrSize)
+				memmove(newSpine, atomic.Loadp(unsafe.Pointer(&b.spine)), b.spineCap*sys.PtrSize)
 			}
 			// Spine is allocated off-heap, so no write barrier.
 			atomic.StorepNoWB(unsafe.Pointer(&b.spine), newSpine)
@@ -103,7 +103,7 @@ retry:
 
 		// Allocate a new block and add it to the spine.
 		block = (*gcSweepBlock)(persistentalloc(unsafe.Sizeof(gcSweepBlock{}), sys.CacheLineSize, &memstats.gc_sys))
-		blockp := add(b.spine, sys.PtrSize*top)
+		blockp := add(atomic.Loadp(unsafe.Pointer(&b.spine)), sys.PtrSize*top)
 		// Blocks are allocated off-heap, so no write barrier.
 		atomic.StorepNoWB(blockp, unsafe.Pointer(block))
 		atomic.Storeuintptr(&b.spineLen, spineLen+1)
@@ -127,7 +127,7 @@ func (b *gcSweepBuf) pop() *mspan {
 	// There are no concurrent spine or block modifications during
 	// pop, so we can omit the atomics.
 	top, bottom := cursor/gcSweepBlockEntries, cursor%gcSweepBlockEntries
-	blockp := (**gcSweepBlock)(add(b.spine, sys.PtrSize*uintptr(top)))
+	blockp := (**gcSweepBlock)(add(atomic.Loadp(unsafe.Pointer(&b.spine)), sys.PtrSize*uintptr(top)))
 	block := *blockp
 	s := block.spans[bottom]
 	// Clear the pointer for block(i).

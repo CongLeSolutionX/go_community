@@ -179,7 +179,7 @@ func signal_enable(s uint32) {
 		return
 	}
 
-	w := sig.wanted[s/32]
+	w := atomic.Load(&sig.wanted[s/32])
 	w |= 1 << (s & 31)
 	atomic.Store(&sig.wanted[s/32], w)
 
@@ -198,7 +198,7 @@ func signal_disable(s uint32) {
 	}
 	sigdisable(s)
 
-	w := sig.wanted[s/32]
+	w := atomic.Load(&sig.wanted[s/32])
 	w &^= 1 << (s & 31)
 	atomic.Store(&sig.wanted[s/32], w)
 }
@@ -211,7 +211,7 @@ func signal_ignore(s uint32) {
 	}
 	sigignore(s)
 
-	w := sig.wanted[s/32]
+	w := atomic.Load(&sig.wanted[s/32])
 	w &^= 1 << (s & 31)
 	atomic.Store(&sig.wanted[s/32], w)
 

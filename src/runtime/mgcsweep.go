@@ -100,8 +100,9 @@ func sweepone() uintptr {
 			// This can happen if direct sweeping already
 			// swept this span, but in that case the sweep
 			// generation should always be up-to-date.
-			if s.sweepgen != sg {
-				print("runtime: bad span s.state=", s.state, " s.sweepgen=", s.sweepgen, " sweepgen=", sg, "\n")
+			sweepgen := atomic.Load(&s.sweepgen)
+			if sweepgen != sg {
+				print("runtime: bad span s.state=", s.state, " s.sweepgen=", sweepgen, " sweepgen=", sg, "\n")
 				throw("non in-use span in unswept list")
 			}
 			continue
@@ -139,6 +140,7 @@ func gosweepone() uintptr {
 	return ret
 }
 
+// mheap_.lock must be held or the world must be stopped.
 //go:nowritebarrier
 func gosweepdone() bool {
 	return mheap_.sweepdone != 0
@@ -321,6 +323,7 @@ func (s *mspan) sweep(preserve bool) bool {
 	if freeToHeap || nfreed == 0 {
 		// The span must be in our exclusive ownership until we update sweepgen,
 		// check for potential races.
+		s.sweepgen = atomic.Load(&s.sweepgen)
 		if s.state != mSpanInUse || s.sweepgen != sweepgen-1 {
 			print("MSpan_Sweep: state=", s.state, " sweepgen=", s.sweepgen, " mheap.sweepgen=", sweepgen, "\n")
 			throw("MSpan_Sweep: bad span state after sweep")

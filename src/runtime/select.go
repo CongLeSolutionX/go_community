@@ -7,6 +7,7 @@ package runtime
 // This file contains the implementation of Go select statements.
 
 import (
+	"runtime/internal/atomic"
 	"runtime/internal/sys"
 	"unsafe"
 )
@@ -211,7 +212,7 @@ func selectgo(sel *hselect) int {
 	scases := *(*[]scase)(unsafe.Pointer(&scaseslice))
 
 	var t0 int64
-	if blockprofilerate > 0 {
+	if atomic.Load64(&blockprofilerate) > 0 {
 		t0 = cputicks()
 		for i := 0; i < int(sel.ncase); i++ {
 			scases[i].releasetime = -1
