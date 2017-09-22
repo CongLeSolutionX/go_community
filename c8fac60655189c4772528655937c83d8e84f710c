@@ -16,6 +16,24 @@
       "revId": "c8fac60655189c4772528655937c83d8e84f710c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d810c9d_c0a52c19",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-09-22T05:15:01Z",
+      "side": 1,
+      "message": "Here\u0027s a suggestion based on combining your idea here with the general structure of https://github.com/cespare/misc/pull/1.\n\nThree channels:\np :\u003d \u0026pipe{\n\tsem: make(chan token, 1),\n\twrCh: make(chan []byte),\n\tdone: make(chan struct),\n}\n\n(plus a sync.Mutex or sync.Once guarding channel-closing and error-setting).\n\n\nWrite is as follows:\n\nfunc (p *pipe) Write(b []byte) (n int, err error) {\n\tselect {\n\tcase \u003c-p.done:\n\t\treturn …\n\tcase p.sem \u003c- token{}:\n\t\tdefer func() { \u003c-p.sem }()\n\t}\n\n\tinitLen :\u003d len(b)\n\tfor {\n\t\tselect {\n\t\tcase p.wrCh \u003c- b:\n\t\t\tb \u003d \u003c-p.wrCh\n\t\tcase \u003c-p.done:\n\t\t\treturn initLen - len(b), …\n\t\t}\n\t\tif len(b) \u003d\u003d 0 {\n\t\t\treturn initLen, nil\n\t\t}\n\t}\n}\n\nRead is similar to what you have now, but returns the slice over the first channel (to reduce the number of channels needed):\n\nfunc (p *pipe) Read(b []byte) (n int, err error) {\n\tselect {\n\tcase \u003c-p.done:\n\t\treturn 0, p.readCloseError()\n\tdefault:\n\t}\n\n\tselect {\n\tcase bw :\u003d \u003c-p.wrCh:\n\t\tnr :\u003d copy(b, bw)\n\t\tp.wrCh \u003c- b[nr:]\n\t\treturn nr, nil\n\tcase \u003c-p.done:\n\t\treturn 0, p.readCloseError()\n\t}\n}",
+      "parentUuid": "2a4cb72f_b500f731",
+      "revId": "c8fac60655189c4772528655937c83d8e84f710c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
