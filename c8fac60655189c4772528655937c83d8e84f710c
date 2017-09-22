@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a4cb72f_b500f731",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-09-22T04:09:41Z",
+      "side": 1,
+      "message": "I like the idea of using channels for the rendezvous, but I think you need a more explicit locking discipline for “head of the Write queue”.\n\nThe comment for the Pipe function says, “the individual calls will be gated sequentially”. That seems to imply that the payload of each Write must be fully exhausted before the next Write is allowed to proceed, but I don\u0027t see how this implementation satisfies that property.\n\nFurthermore, if you have multiple concurrent Read calls *and* multiple concurrent Write calls, I think it\u0027s possible for the rdCh send from one Read to go to the opposite (unpaired) Write.\n\n(Does this pass tests with a high GOMAXPROCS? If so, we may need to revisit the thoroughness of the tests...)",
+      "revId": "c8fac60655189c4772528655937c83d8e84f710c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
