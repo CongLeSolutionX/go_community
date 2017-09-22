@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "e8234662_f7a7c64b",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1850,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-09-22T16:53:53Z",
+      "side": 1,
+      "message": "Declarations and label names live in disjoint name spaces, so there\u0027s no risk of collision anyway. I\u0027m not sure why to be honest. I feel like I\u0027ve just seen \"Outer:\" a lot, so I picked it up.\n\nI think I\u0027ll have to ask on golang-dev (separate from this CL).",
+      "parentUuid": "f9b4ccfb_d66574d5",
+      "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5961cfc6_adbc7456",
         "filename": "src/cmd/compile/internal/gc/typecheck.go",
         "patchSetId": 1
