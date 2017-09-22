@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8266dc4_b4b8f8b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-09-22T06:50:22Z",
+      "side": 1,
+      "message": "net/http: remove IPv6 zone identifier from the key for persistent connections",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e90eee21_5b614852",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-09-22T06:50:22Z",
+      "side": 1,
+      "message": "A client",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 6
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd4e7447_3c8d5898",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-09-22T06:50:22Z",
+      "side": 1,
+      "message": "http://[IPv6 link-local address%zone ID]/",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 65
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cd1bfe4_b39ded1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-09-22T06:50:22Z",
+      "side": 1,
+      "message": "IPv6 link-local address",
+      "range": {
+        "startLine": 12,
+        "startChar": 42,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94b9d489_f7c0ecfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-09-22T06:50:22Z",
+      "side": 1,
+      "message": "redirection",
+      "range": {
+        "startLine": 13,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 36
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64892163_2c96021c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-09-22T06:50:22Z",
+      "side": 1,
+      "message": "as per RFC 6874",
+      "range": {
+        "startLine": 15,
+        "startChar": 45,
+        "endLine": 15,
+        "endChar": 55
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db7d55d3_51832452",
+        "filename": "src/net/http/proxy_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-09-22T06:50:22Z",
+      "side": 1,
+      "message": "move this line to the bottom, also https:\n\n        {\"\", \"http\", \"[fe80::1%zone]\", \"|http|[fe80::1]\"},\n        {\"\", \"https\", \"[fe80::1%zone]\", \"|https|[fe80::1]\"},\n}",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 54,
+        "endChar": 48
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af91284a_43cffee2",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-09-22T06:50:22Z",
+      "side": 1,
+      "message": "still not sure whether this change is safe. what happens when the client has two connections simultaneously like the following?\nhttp://[fe80::1%zone1]/ and http://[fe80::1%zone2]/",
+      "range": {
+        "startLine": 1288,
+        "startChar": 15,
+        "endLine": 1288,
+        "endChar": 40
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
