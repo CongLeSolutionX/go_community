@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4edb386_bc3e5883",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 4522,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-22T21:20:05Z",
+      "side": 1,
+      "message": "I\u0027d love to know a little bit more about what\u0027s going on here.",
+      "range": {
+        "startLine": 4522,
+        "startChar": 8,
+        "endLine": 4522,
+        "endChar": 35
+      },
+      "revId": "6ea8b511771c41128c707dcd83ffb1e158952e85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
