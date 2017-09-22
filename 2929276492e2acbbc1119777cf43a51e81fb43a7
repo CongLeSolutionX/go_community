@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fccdf0f2_9b262bbf",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-09-22T10:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4ddce81_9fb734c5",
+      "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12b69d14_d21ffd0c",
         "filename": "src/cmd/compile/internal/gc/subr.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-20T20:29:18Z",
       "side": 1,
       "message": "I\u0027d probably just call this Outer. In this case, t and iface are both interfaces, and \"Fields\" here actually refers to their methods.",
+      "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9b4ccfb_d66574d5",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1850,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-09-22T10:58:58Z",
+      "side": 1,
+      "message": "Done. I didn\u0027t know having label names be \"exported\" was a thing. Is there an advantage? Perhaps less chance of a collision with a local var?",
+      "parentUuid": "12b69d14_d21ffd0c",
       "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "05fa8468_fc1b9ade",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-09-22T10:58:58Z",
+      "side": 1,
+      "message": "I agree it feels a bit clumsy. I believe it\u0027s because it\u0027s of the form:\n\nif x {\n   if y {\n        converted \u003d true\n   }\n}\n\nif !convertd \u0026\u0026 z {\n}\n\nSo it almost seems like you could merge into:\n\nif x \u0026\u0026 y {\n} else if z {\n}\n\nBut we can\u0027t, because \"if aop \u003d assignop(l.Type, r.Type, nil); aop !\u003d 0 \u0026\u0026 r.Type.Etype !\u003d TBLANK\" would be a different program. And even if it isn\u0027t, it smells like work that could be unnecessary.\n\nIn any case, I feel like the bool is better than a goto.",
+      "parentUuid": "5961cfc6_adbc7456",
+      "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "358a5887_3cee5f15",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -67,6 +121,24 @@
       "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95af3067_2aeafe4f",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2051,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-09-22T10:58:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "358a5887_3cee5f15",
+      "revId": "2929276492e2acbbc1119777cf43a51e81fb43a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
