@@ -22,6 +22,30 @@
       "revId": "6ea8b511771c41128c707dcd83ffb1e158952e85",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33de768a_5ae84d66",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 4522,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-09-22T21:29:58Z",
+      "side": 1,
+      "message": "Sure. I tried to cover this in the CL description and the comment on VarLoc.Start, but I\u0027ll try again here and you can tell me what I should add to those.\n\nNot all blocks have values in them; they may exist only for their control flow instructions, which are implicit in the SSA representation. If you have a variable that\u0027s live in such a block, there\u0027s no value to use as its Start position, so I made a sentinel value, BlockStart, that indicates that the value is live at entry to the block. That sentinel is converted here to be the first Prog in the block, which should correspond to its first Value for non-empty blocks or the first control flow instruction for empty blocks.",
+      "parentUuid": "d4edb386_bc3e5883",
+      "range": {
+        "startLine": 4522,
+        "startChar": 8,
+        "endLine": 4522,
+        "endChar": 35
+      },
+      "revId": "6ea8b511771c41128c707dcd83ffb1e158952e85",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
