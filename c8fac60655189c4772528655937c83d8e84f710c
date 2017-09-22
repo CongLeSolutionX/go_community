@@ -34,6 +34,24 @@
       "revId": "c8fac60655189c4772528655937c83d8e84f710c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ade139f4_74342f59",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-09-22T19:21:36Z",
+      "side": 1,
+      "message": "The use of a single \"chan []byte\" is interesting, but it actually creates the possibility of a race unless we add a semaphore to Read as well. This can occur if there are concurrent Read operations, in which case, one of the Reads can accidentally pick up the response from a Read, instead of the Write it was intended for. The use of two channels makes it very clear that wrCh is only in the direction of Write-\u003eRead, and rdCh is only in the direction of Read-\u003eWrite, with no possibility of other competing goroutines swooping in and stealing the result.\n\nAlso, we can\u0027t do this:\n\tselect {\n\tcase \u003c-p.done:\n\t\treturn …\n\tcase p.sem \u003c- token{}:\n\t\tdefer func() { \u003c-p.sem }()\n\t}\n\nSince \u003c-p.done should take precedence over the availability of the semaphore.\nWell technically, it will work out since we are guaranteed that there are no Readers since Read has the same check, and so we will hit the \"case \u003c-p.done\" case down below, but that\u0027s a roundabout way to reason about this.\n\n\u003e I think you need a more explicit locking discipline for “head of the Write queue”.\n\nThere were no tests guaranteeing this behavior, so I intentionally dropped, but based on the reading of the documentation behavior, I think we should keep it. I added a simple mutex to serialize the entirety of the Write and added some tests to heavily test concurrent reads and writes.\n\nThis passes:\n $ go.dev test -run PipeConcurrent -count\u003d1000\n $ go.dev test -race -run PipeConcurrent -count\u003d100",
+      "parentUuid": "2d810c9d_c0a52c19",
+      "revId": "c8fac60655189c4772528655937c83d8e84f710c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
