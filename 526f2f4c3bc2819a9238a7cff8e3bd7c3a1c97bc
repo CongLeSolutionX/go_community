@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "21529c40_bb92a25b",
+        "filename": "src/net/pipe.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-09-22T22:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b73dc0fa_baea4624",
+      "revId": "526f2f4c3bc2819a9238a7cff8e3bd7c3a1c97bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab5f50d0_6e56822c",
         "filename": "src/net/pipe.go",
         "patchSetId": 8
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "7518ddfe_376c1ae9",
+        "filename": "src/net/pipe.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-09-22T22:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab5f50d0_6e56822c",
+      "range": {
+        "startLine": 53,
+        "startChar": 11,
+        "endLine": 53,
+        "endChar": 28
+      },
+      "revId": "526f2f4c3bc2819a9238a7cff8e3bd7c3a1c97bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d0a9c9e_3cbc978c",
         "filename": "src/net/pipe.go",
         "patchSetId": 8
@@ -53,6 +95,24 @@
       "writtenOn": "2017-09-22T14:26:28Z",
       "side": 1,
       "message": "You\u0027ve gone to a bit of effort to permit the pipeDeadline cancel field to be nil, but the effect of this case and the call to readDeadline.wait below is that the cancel field will essentially never be nil.  Seems like you can make the code a bit simpler by making the cancel channels when you make the pipe.",
+      "revId": "526f2f4c3bc2819a9238a7cff8e3bd7c3a1c97bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7add242d_9444341f",
+        "filename": "src/net/pipe.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-09-22T22:06:44Z",
+      "side": 1,
+      "message": "The check for nil makes the zero value of pipeDeadline ready for use, which is convenient.\nGiven that this is only used in pipe.go, I guess implementation simplicity is better than usage simplicity.",
+      "parentUuid": "7d0a9c9e_3cbc978c",
       "revId": "526f2f4c3bc2819a9238a7cff8e3bd7c3a1c97bc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
