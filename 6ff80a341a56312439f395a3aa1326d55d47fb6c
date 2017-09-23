@@ -207,6 +207,30 @@
       "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd69b12b_6d4b2f4e",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2017-09-23T06:16:10Z",
+      "side": 1,
+      "message": "I tested this situation. Two requests will both be sent to one server. And libcurl has the same behavior.\n\nThe code is\n\n package main\n\n import (\n\t\"fmt\"\n\t\"io/ioutil\"\n\t\"log\"\n\t\"net/http\"\n )\n\n const ip \u003d \"fe80::1234\"\n\n func request(zone string) {\n\turl :\u003d fmt.Sprintf(\"http://[%v%%25%v]:8888\", ip, zone)\n\tresponse, err :\u003d http.Get(url)\n\tif err !\u003d nil {\n\t\tpanic(err)\n\t}\n\tdefer response.Body.Close()\n\tbody, err :\u003d ioutil.ReadAll(response.Body)\n\tif err !\u003d nil {\n\t\tpanic(err)\n\t}\n\tlog.Println(string(body))\n }\n\n func main() {\n\trequest(\"en0\")\n\trequest(\"en4\")\n }\n\nlibcurl:\n\n #include \u003cstdio.h\u003e\n #include \u003ccurl/curl.h\u003e\n\n int main() {\n    CURL *curl;\n    const char* url1 \u003d \"http://[fe80::1234%25en0]:8888\";\n    const char* url2 \u003d \"http://[fe80::1234%25en4]:8888\";\n    curl_global_init(CURL_GLOBAL_DEFAULT);\n    curl \u003d curl_easy_init();\n    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);\n\n    curl_easy_setopt(curl, CURLOPT_URL, url1);\n    printf(\"   %d\\n\", curl_easy_perform(curl));\n    curl_easy_setopt(curl, CURLOPT_URL, url2);\n    printf(\"   %d\\n\", curl_easy_perform(curl));\n\n    curl_easy_cleanup(curl);\n    curl_global_cleanup();\n    return 0;\n }",
+      "parentUuid": "e3284700_093d5c23",
+      "range": {
+        "startLine": 1288,
+        "startChar": 15,
+        "endLine": 1288,
+        "endChar": 40
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
