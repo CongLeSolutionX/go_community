@@ -183,6 +183,30 @@
       "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3284700_093d5c23",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-09-23T03:15:21Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m also worried about that.",
+      "parentUuid": "af91284a_43cffee2",
+      "range": {
+        "startLine": 1288,
+        "startChar": 15,
+        "endLine": 1288,
+        "endChar": 40
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
