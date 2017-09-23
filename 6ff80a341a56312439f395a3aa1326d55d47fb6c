@@ -231,6 +231,30 @@
       "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a140703_dc026799",
+        "filename": "src/net/http/transport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1288,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2017-09-23T06:43:08Z",
+      "side": 1,
+      "message": "The posted change is the cURL way to resolve the issue.\nThere are other solutions.\n\n1. Add zone ID at this line and then send the second request.\nhttps://github.com/golang/go/blob/6872a8e1c9904af5f6c23e42e01b027c8cd1c813/src/net/http/client.go#L534\n\n2. Add zone ID in the outgoing request and let server to response it. This is behavior of Python and Java 8 HTTP client.\n(I\u0027m not suggesting this. I just list other implementation\u0027s behavior)\n\n3. When establishing the TCP connection, select a default zone for it. This is behavior of Java 8/9 TCP Socket implementation.\nIf en0 is the default, a request to \u0027http://[fe80::1234]/\u0027 will be sent to en0 by Java.\nA Request to \u0027http://[fe80::1234%en1]/\u0027 will be sent to en1 but the second request will be sent to en0. (Java 9 removes zone ID from outgoing request)\n\nDepending on how to write server code, Go 1.9, cURL, Python, Java 8 and Java 9 can give many different results.\nMaybe IETF should specify how to handle this.",
+      "parentUuid": "dd69b12b_6d4b2f4e",
+      "range": {
+        "startLine": 1288,
+        "startChar": 15,
+        "endLine": 1288,
+        "endChar": 40
+      },
+      "revId": "6ff80a341a56312439f395a3aa1326d55d47fb6c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
