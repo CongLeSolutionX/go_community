@@ -26,41 +26,6 @@ func ctxDriverPrepare(ctx context.Context, ci driver.Conn, query string) (driver
 	return si, err
 }
 
-func ctxDriverExec(ctx context.Context, execer driver.Execer, query string, nvdargs []driver.NamedValue) (driver.Result, error) {
-	if execerCtx, is := execer.(driver.ExecerContext); is {
-		return execerCtx.ExecContext(ctx, query, nvdargs)
-	}
-	dargs, err := namedValueToValue(nvdargs)
-	if err != nil {
-		return nil, err
-	}
-
-	select {
-	default:
-	case <-ctx.Done():
-		return nil, ctx.Err()
-	}
-	return execer.Exec(query, dargs)
-}
-
-func ctxDriverQuery(ctx context.Context, queryer driver.Queryer, query string, nvdargs []driver.NamedValue) (driver.Rows, error) {
-	if queryerCtx, is := queryer.(driver.QueryerContext); is {
-		ret, err := queryerCtx.QueryContext(ctx, query, nvdargs)
-		return ret, err
-	}
-	dargs, err := namedValueToValue(nvdargs)
-	if err != nil {
-		return nil, err
-	}
-
-	select {
-	default:
-	case <-ctx.Done():
-		return nil, ctx.Err()
-	}
-	return queryer.Query(query, dargs)
-}
-
 func ctxDriverStmtExec(ctx context.Context, si driver.Stmt, nvdargs []driver.NamedValue) (driver.Result, error) {
 	if siCtx, is := si.(driver.StmtExecContext); is {
 		return siCtx.ExecContext(ctx, nvdargs)
