@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d54f18a6_dcbd8b13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-24T23:11:30Z",
+      "side": 1,
+      "message": "s/Optimize/optimize/",
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "312631d9_51d4cd0c",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-24T23:11:30Z",
+      "side": 1,
+      "message": "Don\u0027t define these up here--this isn\u0027t C.  At least for si the initial vale is important, so define it below, near ilen and olen, using\n    si :\u003d 0",
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "053105ab_ca719526",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-24T23:11:30Z",
+      "side": 1,
+      "message": "Calling decodeQuantum each time around the loop seems pointless.  Seems like you should only call it when decoede64 encounters a character it doesn\u0027t recognize.",
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ec3bc9_bd49b3ad",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-24T23:11:30Z",
+      "side": 1,
+      "message": "Calling Uint32 here does not seem like a win.  That will read four bytes and turn them into a 32-bit integer, which you then pull apart below.  Why not simply refers to src[0], src[1], src[2], src[3]?",
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f31731e6_89024db7",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-24T23:11:30Z",
+      "side": 1,
+      "message": "Instead of writing `n \u003e 63` seems like you should write `n \u003d\u003d 0xff`, since that is the signal that there is no output for a given input.",
+      "range": {
+        "startLine": 524,
+        "startChar": 46,
+        "endLine": 524,
+        "endChar": 52
+      },
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d88b4773_18c84490",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-24T23:11:30Z",
+      "side": 1,
+      "message": "Similarly, why not set dst[0], etc.",
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
