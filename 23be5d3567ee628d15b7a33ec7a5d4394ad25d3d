@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90de2030_8446832e",
+        "filename": "src/math/floor.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 13220
+      },
+      "writtenOn": "2017-09-25T15:49:16Z",
+      "side": 1,
+      "message": "These should be RoundTiesToEven as well",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 19
+      },
+      "revId": "23be5d3567ee628d15b7a33ec7a5d4394ad25d3d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
