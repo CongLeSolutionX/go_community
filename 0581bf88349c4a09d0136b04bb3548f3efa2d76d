@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a97de9c_346f144a",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-25T13:29:45Z",
+      "side": 1,
+      "message": "Could also be dropped completely, as -1 will be the result for empty chars and there is no need for it to be fast as no one should be using it anyway.",
+      "range": {
+        "startLine": 169,
+        "startChar": 1,
+        "endLine": 171,
+        "endChar": 2
+      },
+      "revId": "0581bf88349c4a09d0136b04bb3548f3efa2d76d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa78d14b_eee131cc",
+        "filename": "src/strings/strings.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-25T13:29:45Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 196,
+        "startChar": 1,
+        "endLine": 198,
+        "endChar": 2
+      },
+      "revId": "0581bf88349c4a09d0136b04bb3548f3efa2d76d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
