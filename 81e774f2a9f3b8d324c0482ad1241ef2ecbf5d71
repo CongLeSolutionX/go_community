@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69c8e2bc_b4bebdef",
+        "filename": "src/compress/bzip2/bzip2_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-25T23:01:36Z",
+      "side": 1,
+      "message": "I see no benefit to these line breaks.  It\u0027s not like the string is readable.  Just use a single long line.",
+      "revId": "81e774f2a9f3b8d324c0482ad1241ef2ecbf5d71",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
