@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "478aec2e_4c89f883",
+        "filename": "src/internal/poll/fd_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-25T17:18:30Z",
+      "side": 1,
+      "message": "In fd_unix.go the similar parameter is named `pollable`.  I suggest we use that name here also.",
+      "revId": "de3d20e506693a71e37dd9fbacae9a71e1df8115",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
