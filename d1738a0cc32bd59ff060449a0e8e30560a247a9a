@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fbf6c2c6_ad2c9077",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-25T15:04:13Z",
+      "side": 1,
+      "message": "I think you missed this part.\nTypically we refer to a function Foo just with \"Foo\" not \"Foo function\". Thats why you can remove \"functions\" here.\nAlso the dot is omitted, as can be seen in the link I gave.\nAnd I suggested \"(Last)IndexAny\" to save some characters, as I think there is a soft limit of 50 chars for the first line of the commit message. But I guess this last point is more of a personal taste, as long as you stay in a reasonable range of chars.",
+      "parentUuid": "83331c73_2616e072",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "d1738a0cc32bd59ff060449a0e8e30560a247a9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9f2054a_49977cd1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
