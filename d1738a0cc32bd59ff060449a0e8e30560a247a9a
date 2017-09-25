@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83331c73_2616e072",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-25T14:42:56Z",
+      "side": 1,
+      "message": "(Last)IndexAny [no dot]",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "d1738a0cc32bd59ff060449a0e8e30560a247a9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9f2054a_49977cd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-25T14:42:56Z",
+      "side": 1,
+      "message": "Now you have to say that you removed the check on len(chars).\nRemove the \"I believe...\" part.\nAlso see https://golang.org/doc/contribute.html#commit_changes",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "d1738a0cc32bd59ff060449a0e8e30560a247a9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
