@@ -22,6 +22,30 @@
       "revId": "91c98a222b1e735e2997479940af36f057f61516",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6882716_24f61803",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-09-25T13:54:11Z",
+      "side": 1,
+      "message": "Nice change! May I suggest the following?\n\nall: prefer strings.IndexByte over strings.Index where possible.\n\nstrings.IndexByte was introduced in 1.2 and it can be used\neffectively and explicitly wherever the second argument to\nstrings.Index is one byte.\n\nThis avoids generating unnecessary string symbols and saves a few\ncalls to string.Index.",
+      "parentUuid": "593c8995_1bfc8826",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "91c98a222b1e735e2997479940af36f057f61516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
