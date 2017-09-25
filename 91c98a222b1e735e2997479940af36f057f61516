@@ -46,6 +46,30 @@
       "revId": "91c98a222b1e735e2997479940af36f057f61516",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc13b65e_da6c0cd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-25T14:04:09Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, I have worked it in.",
+      "parentUuid": "d6882716_24f61803",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 13
+      },
+      "revId": "91c98a222b1e735e2997479940af36f057f61516",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
