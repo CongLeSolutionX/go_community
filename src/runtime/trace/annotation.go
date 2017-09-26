@@ -80,9 +80,11 @@ type task struct {
 	// TODO(hyangah): record parent id?
 }
 
+var seq uint64 = 0
+
 func newID() uint64 {
-	// TODO(hyangah): implement
-	return 0
+	// TODO(hyangah): use per-P cache
+	return atomic.AddUint64(&seq, 1)
 }
 
 const bgTask = uint64(0)
@@ -99,7 +101,8 @@ func Log(ctx context.Context, key, value string) {
 // Logf is like Log, but the value is formatted using the specified format spec.
 func Logf(ctx context.Context, key, format string, args ...interface{}) {
 	if IsEnabled() {
-		Log(ctx, key, fmt.Sprintf(format, args...))
+		id := taskID(ctx)
+		runtime_traceUserLog(id, key, fmt.Sprintf(format, args...))
 	}
 }
 
@@ -110,6 +113,16 @@ func Logf(ctx context.Context, key, format string, args ...interface{}) {
 // If the context doesn't carry a task, the span is considered
 // a span for the background task.
 func WithSpan(ctx context.Context, name string, fn func(context.Context)) {
+	// TODO: Consider exposing StartSpan and end function.
+	// - Use of WithSpan makes the stack traces captured from
+	//   span start and end are identical.
+	// - Refactoring the existing code to use WithSpan is sometimes
+	//   hard and makes the code less readable.
+	//     e.g. code block nested deep in the loop with various
+	//          exit point with return values
+	// - Refactoring the code to use this API with closure can
+	//   cause different GC behavior such as retaining some parameters
+	//   longer.
 	const start = uint64(0)
 	const end = uint64(1)
 	id := taskID(ctx)
