@@ -215,13 +215,13 @@ func loadSystemRoots() (*CertPool, error) {
 		return nil, errors.New("crypto/x509: failed to load darwin system roots with cgo")
 	}
 
-	defer C.CFRelease(C.CFTypeRef(data))
+	defer C.CFRelease(C.CFTypeRef(unsafe.Pointer(data)))
 	buf := C.GoBytes(unsafe.Pointer(C.CFDataGetBytePtr(data)), C.int(C.CFDataGetLength(data)))
 	roots.AppendCertsFromPEM(buf)
 	if untrustedData == nil {
 		return roots, nil
 	}
-	defer C.CFRelease(C.CFTypeRef(untrustedData))
+	defer C.CFRelease(C.CFTypeRef(unsafe.Pointer(untrustedData)))
 	buf = C.GoBytes(unsafe.Pointer(C.CFDataGetBytePtr(untrustedData)), C.int(C.CFDataGetLength(untrustedData)))
 	untrustedRoots := NewCertPool()
 	untrustedRoots.AppendCertsFromPEM(buf)
