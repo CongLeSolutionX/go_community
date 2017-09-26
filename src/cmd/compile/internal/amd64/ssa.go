@@ -16,6 +16,13 @@ import (
 	"cmd/internal/objabi"
 )
 
+// reschedulePagePad is the offset of the check address in
+// Syslook("reschedulePage").
+//
+// This must be kept in sync with the runtime:
+// ../../../../runtime/mgc.go:reschedulePagePad
+const reschedulePagePad = 64 << 10
+
 // markMoves marks any MOVXconst ops that need to avoid clobbering flags.
 func ssaMarkMoves(s *gc.SSAGenState, b *ssa.Block) {
 	flive := b.FlagsLiveAtEnd
@@ -1025,6 +1032,7 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		// p.To.Reg = x86.REG_AX
 		p.To.Name = obj.NAME_EXTERN
 		p.To.Sym = rssym
+		p.To.Offset = reschedulePagePad
 
 		if b.Succs[1].Block() != next {
 			p := s.Prog(obj.AJMP)
