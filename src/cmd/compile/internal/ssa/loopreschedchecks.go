@@ -61,7 +61,7 @@ func insertLoopReschedChecks(f *Func) {
 	//    and modify destination phi function appropriately with new
 	//    definitions for mem.
 
-	if f.NoSplit { // nosplit functions don't reschedule.
+	if f.NoLoopResched {
 		return
 	}
 

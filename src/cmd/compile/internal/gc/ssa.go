@@ -133,8 +133,13 @@ func buildssa(fn *Node, worker int) *ssa.Func {
 	s.f.Cache.Reset()
 	s.f.DebugTest = s.f.DebugHashMatch("GOSSAHASH", name)
 	s.f.Name = name
-	if fn.Func.Pragma&Nosplit != 0 {
-		s.f.NoSplit = true
+	if fn.Func.Pragma&Nosplit != 0 || compiling_runtime {
+		// Disable loop rescheduling checks for nosplit
+		// functions (since nosplit often means a function
+		// must not be preempted) and for the runtime in
+		// general (since there are a lot of places in the
+		// runtime that mustn't be preempted).
+		s.f.NoLoopResched = true
 	}
 	defer func() {
 		if s.f.WBPos.IsKnown() {
