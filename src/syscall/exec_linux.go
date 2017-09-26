@@ -99,8 +99,14 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 // This is go:noinline because the point is to keep the stack frames
 // of this and forkAndExecInChild separate.
 //
+// This is go:nosplit to disable loop preemption checks, since this
+// could race with STW and then fault on the preemption check. (There
+// is otherwise no reason for this to be nosplit. Growing the stack is
+// fine, and preemption in the prologue is fine.)
+//
 //go:noinline
 //go:norace
+//go:nosplit
 func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (r1 uintptr, err1 Errno, p [2]int, locked bool) {
 	// Defined in linux/prctl.h starting with Linux 4.3.
 	const (
