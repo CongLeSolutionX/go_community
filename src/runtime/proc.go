@@ -256,11 +256,23 @@ func Gosched() {
 	mcall(gosched_m)
 }
 
-// goschedguarded yields the processor like gosched, but also checks
-// for forbidden states and opts out of the yield in those cases.
+// safepoint yields the processor at an explicit safe-point.
+// Calls to it are inserted by the compiler.
+// It throws if the caller is in a non-preemptible state.
 //go:nosplit
-func goschedguarded() {
-	mcall(goschedguarded_m)
+func safepoint() {
+	m := getg().m
+	if m.locks != 0 || m.mallocing != 0 || m.preemptoff != "" || m.p.ptr().status != _Prunning {
+		// The compiler should not have inserted a safepoint
+		// in these situations.
+		//
+		// We could just ignore this, but with fault-based
+		// preemption, if we return, the caller would keep
+		// taking the fault on every iteration. Better to just
+		// catch the problem.
+		throw("safepoint at bad time")
+	}
+	mcall(gopreempt_m)
 }
 
 // Puts the current goroutine into a waiting state and calls unlockf.
@@ -2340,19 +2352,6 @@ func goschedImpl(gp *g) {
 
 // Gosched continuation on g0.
 func gosched_m(gp *g) {
-	if trace.enabled {
-		traceGoSched()
-	}
-	goschedImpl(gp)
-}
-
-// goschedguarded is a forbidden-states-avoided version of gosched_m
-func goschedguarded_m(gp *g) {
-
-	if gp.m.locks != 0 || gp.m.mallocing != 0 || gp.m.preemptoff != "" || gp.m.p.ptr().status != _Prunning {
-		gogo(&gp.sched) // never return
-	}
-
 	if trace.enabled {
 		traceGoSched()
 	}

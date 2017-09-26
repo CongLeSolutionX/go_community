@@ -87,7 +87,7 @@ func initssaconfig() {
 	assertE2I2 = sysfunc("assertE2I2")
 	assertI2I = sysfunc("assertI2I")
 	assertI2I2 = sysfunc("assertI2I2")
-	goschedguarded = sysfunc("goschedguarded")
+	safepoint = sysfunc("safepoint")
 	writeBarrier = sysfunc("writeBarrier")
 	writebarrierptr = sysfunc("writebarrierptr")
 	reschedulePage = sysfunc("reschedulePage")
@@ -5124,8 +5124,8 @@ func (e *ssafn) UseWriteBarrier() bool {
 
 func (e *ssafn) Syslook(name string) *obj.LSym {
 	switch name {
-	case "goschedguarded":
-		return goschedguarded
+	case "safepoint":
+		return safepoint
 	case "writeBarrier":
 		return writeBarrier
 	case "writebarrierptr":
