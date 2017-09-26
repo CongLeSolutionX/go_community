@@ -99,6 +99,11 @@ func checkCopyLocksCallExpr(f *File, ce *ast.CallExpr) {
 			return
 		}
 	}
+	if selector, ok := ce.Fun.(*ast.SelectorExpr); ok {
+		if fmt.Sprintf("%s.%s", selector.X, selector.Sel) == "unsafe.Sizeof" {
+			return
+		}
+	}
 	for _, x := range ce.Args {
 		if path := lockPathRhs(f, x); path != nil {
 			f.Badf(x.Pos(), "call of %s copies lock value: %v", f.gofmt(ce.Fun), path)
