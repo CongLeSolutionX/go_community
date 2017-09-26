@@ -7,7 +7,10 @@
 
 package testdata
 
-import "sync"
+import (
+	"sync"
+	unsafe1 "unsafe"
+)
 
 func OkFunc(*sync.Mutex) {}
 func BadFunc(sync.Mutex) {} // ERROR "BadFunc passes lock by value: sync.Mutex"
@@ -117,6 +120,13 @@ func AcceptedCases() {
 	x := EmbeddedRwMutex{} // composite literal on RHS is OK (#16227)
 	x = BadRet()           // function call on RHS is OK (#16227)
 	x = *OKRet()           // indirection of function call on RHS is OK (#16227)
+}
+
+func SizeofMutex() {
+	var mu sync.Mutex
+	unsafe1.Sizeof(mu) // OK
+	unsafe := struct{ Sizeof func(interface{}) }{}
+	unsafe.Sizeof(mu) // ERROR "call of unsafe.Sizeof copies lock value: sync.Mutex"
 }
 
 // TODO: Unfortunate cases
