@@ -16,6 +16,29 @@
       "revId": "1f6737aa0ddd184e79d9f1939815c8215953607e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47883728_9607e0c8",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-09-26T14:33:23Z",
+      "side": 1,
+      "message": "You don\u0027t need the Sprintf, just do one more type assertion.\nThe following would also check if unsafe is one of the imports and if it was renamed.\nSome parts of this also can be cached if performance is a concern.\n\n       if id, ok :\u003d selector.X.(*ast.Ident); ok \u0026\u0026 selector.Sel.Name \u003d\u003d \"Sizeof\" {\n            for _, imp :\u003d range f.file.Imports {\n                if imp.Path.Value \u003d\u003d `\"unsafe\"` {\n                    if id.Name \u003d\u003d \"unsafe\" {\n                        return\n                    }\n                    if imp.Name !\u003d nil \u0026\u0026 imp.Name.Name \u003d\u003d id.Name {\n                        return\n                    }\n                    break\n                }\n            }  \n        }",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 3
+      },
+      "revId": "1f6737aa0ddd184e79d9f1939815c8215953607e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
