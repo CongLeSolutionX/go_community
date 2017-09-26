@@ -2061,6 +2061,12 @@ func (c *typeConv) Type(dtype dwarf.Type, pos token.Pos) *Type {
 		name := c.Ident("_Ctype_" + dt.Name)
 		goIdent[name.Name] = name
 		sub := c.Type(dt.Type, pos)
+		if badPointerTypedefs[goos+"."+dt.Name] {
+			// Treat this typedef as a uintptr.
+			s := *sub
+			s.Go = c.uintptr
+			sub = &s
+		}
 		t.Go = name
 		if unionWithPointer[sub.Go] {
 			unionWithPointer[t.Go] = true
@@ -2551,3 +2557,50 @@ func fieldPrefix(fld []*ast.Field) string {
 	}
 	return prefix
 }
+
+// badPointerTypedefs lists C typedefs which should not be considered pointers in Go.
+// These typedefs are listed in GOOS.name format.
+// A typedef is bad if C code sometimes stores non-pointers in this type.
+// (Typically, the low bits of a pointer are used as tag bits.)
+// TODO: Currently our best solution is to find these manually and fix them as
+// they come up. A better solution is desired.
+var badPointerTypedefs = map[string]bool{
+	"darwin.CFNumberRef": true, // darwin uses low byte as a tag, packs up to 56-bit numbers in high bytes
+	"darwin.CFDateRef":   true, // same here, but float seconds since epoch packed somehow?
+	"darwin.CFTypeRef":   true, // parent class of the above (the void* of CF*Refs)
+}
+
+// Comment from Darwin's CFInternal.h
+/*
+// Tagged pointer support
+// Low-bit set means tagged object, next 3 bits (currently)
+// define the tagged object class, next 4 bits are for type
+// information for the specific tagged object class.  Thus,
+// the low byte is for type info, and the rest of a pointer
+// (32 or 64-bit) is for payload, whatever the tagged class.
+//
+// Note that the specific integers used to identify the
+// specific tagged classes can and will change from release
+// to release (that's why this stuff is in CF*Internal*.h),
+// as can the definition of type info vs payload above.
+//
+#if __LP64__
+#define CF_IS_TAGGED_OBJ(PTR)	((uintptr_t)(PTR) & 0x1)
+#define CF_TAGGED_OBJ_TYPE(PTR)	((uintptr_t)(PTR) & 0xF)
+#else
+#define CF_IS_TAGGED_OBJ(PTR)	0
+#define CF_TAGGED_OBJ_TYPE(PTR)	0
+#endif
+
+enum {
+    kCFTaggedObjectID_Invalid = 0,
+    kCFTaggedObjectID_Atom = (0 << 1) + 1,
+    kCFTaggedObjectID_Undefined3 = (1 << 1) + 1,
+    kCFTaggedObjectID_Undefined2 = (2 << 1) + 1,
+    kCFTaggedObjectID_Integer = (3 << 1) + 1,
+    kCFTaggedObjectID_DateTS = (4 << 1) + 1,
+    kCFTaggedObjectID_ManagedObjectID = (5 << 1) + 1, // Core Data
+    kCFTaggedObjectID_Date = (6 << 1) + 1,
+    kCFTaggedObjectID_Undefined7 = (7 << 1) + 1,
+};
+*/
