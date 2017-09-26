@@ -8,6 +8,8 @@ package filepath_test
 
 import (
 	"fmt"
+	"log"
+	"os"
 	"path/filepath"
 )
 
@@ -78,4 +80,14 @@ func ExampleJoin() {
 	// a/b/c
 	// a/b/c
 	// a/b/c
+}
+func ExampleWalk() {
+	dir := "dir/to/walk"
+	err := filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
+		fmt.Printf("visited file: %q in rootdir: %q\n", path, dir)
+		return nil
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 }
