@@ -23,7 +23,7 @@ func panicwrap()
 
 func gopanic(interface{})
 func gorecover(*int32) interface{}
-func goschedguarded()
+func savepoint()
 
 func printbool(bool)
 func printfloat(float64)

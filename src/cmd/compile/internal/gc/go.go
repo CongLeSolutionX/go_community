@@ -287,7 +287,7 @@ var (
 	assertE2I2,
 	assertI2I,
 	assertI2I2,
-	goschedguarded,
+	safepoint,
 	writeBarrier,
 	writebarrierptr,
 	reschedulePage,
