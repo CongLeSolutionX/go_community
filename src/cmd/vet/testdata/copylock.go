@@ -3,6 +3,7 @@ package testdata
 import (
 	"sync"
 	"sync/atomic"
+	"unsafe"
 )
 
 func OkFunc() {
@@ -100,6 +101,11 @@ func LenAndCapOnLockArrays() {
 
 	cap := func(interface{}) {}
 	cap(a) // ERROR "call of cap copies lock value: sync.Mutex"
+}
+
+func SizeofOnLock() {
+	var mu sync.Mutex
+	unsafe.Sizeof(mu) // OK
 }
 
 // SyncTypesCheck checks copying of sync.* types except sync.Mutex
