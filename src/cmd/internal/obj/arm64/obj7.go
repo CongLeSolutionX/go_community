@@ -234,11 +234,11 @@ func progedit(ctxt *obj.Link, p *obj.Prog, newprog obj.ProgAlloc) {
 	// C_xCON, however the C_REG cases in asmout don't expect a
 	// constant, so they will use the register fields and assemble
 	// a R0. To prevent that, rewrite $0 as ZR.
-	if p.From.Type == obj.TYPE_CONST && p.From.Offset == 0 {
+	if p.From.Type == obj.TYPE_CONST && p.From.Offset == 0 && p.As != obj.APCDATA {
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = REGZERO
 	}
-	if p.To.Type == obj.TYPE_CONST && p.To.Offset == 0 {
+	if p.To.Type == obj.TYPE_CONST && p.To.Offset == 0 && p.As != obj.APCDATA {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REGZERO
 	}

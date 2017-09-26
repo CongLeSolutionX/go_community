@@ -13,6 +13,7 @@ package objabi
 const (
 	PCDATA_StackMapIndex       = 0
 	PCDATA_InlTreeIndex        = 1
+	PCDATA_ReschedulePC        = 2
 	FUNCDATA_ArgsPointerMaps   = 0
 	FUNCDATA_LocalsPointerMaps = 1
 	FUNCDATA_InlTree           = 2

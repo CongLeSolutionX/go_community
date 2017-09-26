@@ -13,6 +13,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
 	"cmd/internal/obj/x86"
+	"cmd/internal/objabi"
 )
 
 // markMoves marks any MOVXconst ops that need to avoid clobbering flags.
@@ -1006,11 +1007,17 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 			s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
 		}
 	case ssa.BlockIfFault:
+		p := s.Prog(obj.APCDATA)
+		p.From.Type = obj.TYPE_CONST
+		p.From.Offset = objabi.PCDATA_ReschedulePC
+		p.To.Type = obj.TYPE_BRANCH
+		s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
+
 		// No spare register to target but we can do a test-byte and stomp on condition codes,
 		// which are dead down the fault branch.
 		rssym := b.Func.Fe().Syslook("reschedulePage")
 
-		p := s.Prog(x86.ATESTB)
+		p = s.Prog(x86.ATESTB)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = x86.REG_AX
 
