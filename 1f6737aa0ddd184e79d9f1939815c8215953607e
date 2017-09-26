@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73c088f4_986af139",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-26T13:34:00Z",
+      "side": 1,
+      "message": "Calling fmt.Sprintf here is needless work.  Just write if selector.X \u003d\u003d \"unsafe\" \u0026\u0026 selector.Sel \u003d\u003d \"Sizeof\".",
+      "revId": "1f6737aa0ddd184e79d9f1939815c8215953607e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
