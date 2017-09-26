@@ -153,12 +153,6 @@ const (
 	sweepMinHeapDistance = 1024 * 1024
 )
 
-var (
-	reschedulePageBeforePad [4096]uint8
-	reschedulePage          uint8
-	reschedulePageAfterPad  [4096]uint8
-)
-
 // heapminimum is the minimum heap size at which to trigger GC.
 // For small heaps, this overrides the usual GOGC*live set rule.
 //
