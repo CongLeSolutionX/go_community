@@ -349,6 +349,7 @@ var yfuncdata = []ytab{
 
 var ypcdata = []ytab{
 	{Yi32, Ynone, Yi32, Zpseudo, 0},
+	{Yi32, Ynone, Ybr, Zpseudo, 0},
 }
 
 var yxorb = []ytab{

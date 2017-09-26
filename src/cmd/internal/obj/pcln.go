@@ -238,12 +238,20 @@ func pctopcdata(ctxt *Link, sym *LSym, oldval int32, p *Prog, phase int32, arg i
 	if phase == 0 || p.As != APCDATA || p.From.Offset != int64(arg.(uint32)) {
 		return oldval
 	}
-	if int64(int32(p.To.Offset)) != p.To.Offset {
-		ctxt.Diag("overflow in PCDATA instruction: %v", p)
-		log.Fatalf("bad code")
+	switch p.To.Type {
+	case TYPE_CONST:
+		if int64(int32(p.To.Offset)) != p.To.Offset {
+			ctxt.Diag("overflow in PCDATA instruction: %v", p)
+			log.Fatalf("bad code")
+		}
+		return int32(p.To.Offset)
+	case TYPE_BRANCH:
+		// Encode PC relative to function start.
+		return int32(p.To.Val.(*Prog).Pc)
 	}
-
-	return int32(p.To.Offset)
+	ctxt.Diag("bad target type in PCDATA: %s", p)
+	log.Fatalf("bad code")
+	return 0
 }
 
 func linkpcln(ctxt *Link, cursym *LSym) {
