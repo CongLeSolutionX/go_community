@@ -41,8 +41,8 @@ type Func struct {
 	HTMLWriter *HTMLWriter // html writer, for debugging
 	DebugTest  bool        // default true unless $GOSSAHASH != ""; as a debugging aid, make new code conditional on this and use GOSSAHASH to binary search for failing cases
 
-	scheduled bool // Values in Blocks are in final order
-	NoSplit   bool // true if function is marked as nosplit.  Used by schedule check pass.
+	scheduled     bool // Values in Blocks are in final order
+	NoLoopResched bool // true if function should not have loop rescheduling checks
 
 	WBPos src.XPos // line number of first write barrier
 
