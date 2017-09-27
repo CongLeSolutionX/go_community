@@ -13,6 +13,7 @@
 package crc32
 
 import (
+	"encoding/binary"
 	"hash"
 	"sync"
 )
@@ -158,6 +159,20 @@ func (d *digest) Size() int { return Size }
 func (d *digest) BlockSize() int { return 1 }
 
 func (d *digest) Reset() { d.crc = 0 }
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, 4)
+	binary.BigEndian.PutUint32(b, d.crc)
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != 4 {
+		return hash.ErrMarshalState
+	}
+	d.crc = binary.BigEndian.Uint32(data)
+	return nil
+}
 
 // Update returns the result of adding the bytes in p to the crc.
 func Update(crc uint32, tab *Table, p []byte) uint32 {

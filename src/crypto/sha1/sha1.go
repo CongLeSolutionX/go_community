@@ -10,6 +10,7 @@ package sha1
 
 import (
 	"crypto"
+	"encoding/binary"
 	"hash"
 )
 
@@ -32,12 +33,52 @@ const (
 	init4 = 0xC3D2E1F0
 )
 
+const marshaledDigestSize = 5*4 + chunk + 8 + 8
+
 // digest represents the partial evaluation of a checksum.
 type digest struct {
 	h   [5]uint32
 	x   [chunk]byte
 	nx  int
 	len uint64
+}
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, marshaledDigestSize)
+
+	binary.BigEndian.PutUint32(b, d.h[0])
+	binary.BigEndian.PutUint32(b[4:], d.h[1])
+	binary.BigEndian.PutUint32(b[8:], d.h[2])
+	binary.BigEndian.PutUint32(b[12:], d.h[3])
+	binary.BigEndian.PutUint32(b[16:], d.h[4])
+
+	copy(b[20:], d.x[:])
+
+	binary.BigEndian.PutUint64(b[84:], uint64(d.nx))
+
+	binary.BigEndian.PutUint64(b[92:], d.len)
+
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != marshaledDigestSize {
+		return hash.ErrMarshalState
+	}
+
+	d.h[0] = binary.BigEndian.Uint32(data)
+	d.h[1] = binary.BigEndian.Uint32(data[4:])
+	d.h[2] = binary.BigEndian.Uint32(data[8:])
+	d.h[3] = binary.BigEndian.Uint32(data[12:])
+	d.h[4] = binary.BigEndian.Uint32(data[16:])
+
+	copy(d.x[:], data[20:])
+
+	d.nx = int(binary.BigEndian.Uint64(data[84:]))
+
+	d.len = binary.BigEndian.Uint64(data[92:])
+
+	return nil
 }
 
 func (d *digest) Reset() {
