@@ -8,6 +8,8 @@ package sha256
 
 import (
 	"crypto"
+	"encoding/binary"
+	"errors"
 	"hash"
 )
 
@@ -45,6 +47,8 @@ const (
 	init7_224 = 0xBEFA4FA4
 )
 
+const marshaledDigestSize = 8*4 + chunk + 8 + 8 + 1
+
 // digest represents the partial evaluation of a checksum.
 type digest struct {
 	h     [8]uint32
@@ -52,6 +56,62 @@ type digest struct {
 	nx    int
 	len   uint64
 	is224 bool // mark if this digest is SHA-224
+}
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, marshaledDigestSize)
+
+	binary.BigEndian.PutUint32(b, d.h[0])
+	binary.BigEndian.PutUint32(b[4:], d.h[1])
+	binary.BigEndian.PutUint32(b[8:], d.h[2])
+	binary.BigEndian.PutUint32(b[12:], d.h[3])
+	binary.BigEndian.PutUint32(b[16:], d.h[4])
+	binary.BigEndian.PutUint32(b[20:], d.h[5])
+	binary.BigEndian.PutUint32(b[24:], d.h[6])
+	binary.BigEndian.PutUint32(b[28:], d.h[7])
+
+	copy(b[32:], d.x[:])
+
+	binary.BigEndian.PutUint64(b[96:], uint64(d.nx))
+
+	binary.BigEndian.PutUint64(b[104:], d.len)
+
+	if d.is224 {
+		b[112] = 1
+	} else {
+		b[112] = 0
+	}
+
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != marshaledDigestSize {
+		return errors.New("crypto/sha256: invalid state length")
+	}
+
+	d.h[0] = binary.BigEndian.Uint32(data)
+	d.h[1] = binary.BigEndian.Uint32(data[4:])
+	d.h[2] = binary.BigEndian.Uint32(data[8:])
+	d.h[3] = binary.BigEndian.Uint32(data[12:])
+	d.h[4] = binary.BigEndian.Uint32(data[16:])
+	d.h[5] = binary.BigEndian.Uint32(data[20:])
+	d.h[6] = binary.BigEndian.Uint32(data[24:])
+	d.h[7] = binary.BigEndian.Uint32(data[28:])
+
+	copy(d.x[:], data[32:])
+
+	d.nx = int(binary.BigEndian.Uint64(data[96:]))
+
+	d.len = binary.BigEndian.Uint64(data[104:])
+
+	if data[112] != 0 {
+		d.is224 = true
+	} else {
+		d.is224 = false
+	}
+
+	return nil
 }
 
 func (d *digest) Reset() {

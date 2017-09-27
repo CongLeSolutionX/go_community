@@ -12,6 +12,8 @@ package md5
 
 import (
 	"crypto"
+	"encoding/binary"
+	"errors"
 	"hash"
 )
 
@@ -33,6 +35,8 @@ const (
 	init3 = 0x10325476
 )
 
+const marshaledDigestSize = 4*4 + chunk + 8 + 8
+
 // digest represents the partial evaluation of a checksum.
 type digest struct {
 	s   [4]uint32
@@ -48,6 +52,42 @@ func (d *digest) Reset() {
 	d.s[3] = init3
 	d.nx = 0
 	d.len = 0
+}
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, marshaledDigestSize)
+
+	binary.BigEndian.PutUint32(b, d.s[0])
+	binary.BigEndian.PutUint32(b[4:], d.s[1])
+	binary.BigEndian.PutUint32(b[8:], d.s[2])
+	binary.BigEndian.PutUint32(b[12:], d.s[3])
+
+	copy(b[16:], d.x[:])
+
+	binary.BigEndian.PutUint64(b[80:], uint64(d.nx))
+
+	binary.BigEndian.PutUint64(b[88:], d.len)
+
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != marshaledDigestSize {
+		return errors.New("crypto/md5: invalid state length")
+	}
+
+	d.s[0] = binary.BigEndian.Uint32(data)
+	d.s[1] = binary.BigEndian.Uint32(data[4:])
+	d.s[2] = binary.BigEndian.Uint32(data[8:])
+	d.s[3] = binary.BigEndian.Uint32(data[12:])
+
+	copy(d.x[:], data[16:])
+
+	d.nx = int(binary.BigEndian.Uint64(data[80:]))
+
+	d.len = binary.BigEndian.Uint64(data[88:])
+
+	return nil
 }
 
 // New returns a new hash.Hash computing the MD5 checksum.

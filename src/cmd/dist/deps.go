@@ -417,15 +417,19 @@ var builddeps = map[string][]string{
 	},
 
 	"crypto/sha1": {
-		"crypto",       // crypto/sha1
-		"hash",         // crypto/sha1
-		"internal/cpu", // crypto/sha1
+		"crypto",          // crypto/sha1
+		"encoding/binary", // crypto/sha1
+		"errors",          // crypto/sha1
+		"hash",            // crypto/sha1
+		"internal/cpu",    // crypto/sha1
 	},
 
 	"crypto/sha256": {
-		"crypto",       // crypto/sha256
-		"hash",         // crypto/sha256
-		"internal/cpu", // crypto/sha256
+		"crypto",          // crypto/sha256
+		"encoding/binary", // crypto/sha256
+		"errors",          // crypto/sha256
+		"hash",            // crypto/sha256
+		"internal/cpu",    // crypto/sha256
 	},
 
 	"debug/dwarf": {
@@ -633,7 +637,9 @@ var builddeps = map[string][]string{
 	},
 
 	"hash/adler32": {
-		"hash", // hash/adler32
+		"encoding/binary", // hash/adler32
+		"errors",          // hash/adler32
+		"hash",            // hash/adler32
 	},
 
 	"internal/cpu": {
