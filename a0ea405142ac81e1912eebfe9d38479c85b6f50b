@@ -105,6 +105,24 @@
       "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40dcb7b7_8ea7cd34",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-09-27T16:29:50Z",
+      "side": 1,
+      "message": "Done. The diff is smaller and it is easier to see what actually changed. Thanks.",
+      "parentUuid": "20bc048b_4d9a8dc8",
+      "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
