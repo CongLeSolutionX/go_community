@@ -12,6 +12,7 @@ package md5
 
 import (
 	"crypto"
+	"errors"
 	"hash"
 )
 
@@ -33,6 +34,8 @@ const (
 	init3 = 0x10325476
 )
 
+const marshaledDigestSize = 4 + 4*4 + chunk + 4 + 8
+
 // digest represents the partial evaluation of a checksum.
 type digest struct {
 	s   [4]uint32
@@ -48,6 +51,45 @@ func (d *digest) Reset() {
 	d.s[3] = init3
 	d.nx = 0
 	d.len = 0
+}
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, marshaledDigestSize)
+	b[0], b[1], b[2], b[3] = 'm', 'd', '5', 0x01
+
+	b[4], b[5], b[6], b[7] = byte(d.s[0]>>24), byte(d.s[0]>>16), byte(d.s[0]>>8), byte(d.s[0])
+	b[8], b[9], b[10], b[11] = byte(d.s[1]>>24), byte(d.s[1]>>16), byte(d.s[1]>>8), byte(d.s[1])
+	b[12], b[13], b[14], b[15] = byte(d.s[2]>>24), byte(d.s[2]>>16), byte(d.s[2]>>8), byte(d.s[2])
+	b[16], b[17], b[18], b[19] = byte(d.s[3]>>24), byte(d.s[3]>>16), byte(d.s[3]>>8), byte(d.s[3])
+
+	copy(b[20:], d.x[:])
+
+	b[84], b[85], b[86], b[87] = byte(d.nx>>24), byte(d.nx>>16), byte(d.nx>>8), byte(d.nx)
+
+	b[88], b[89], b[90], b[91] = byte(d.len>>56), byte(d.len>>48), byte(d.len>>40), byte(d.len>>32)
+	b[92], b[93], b[94], b[95] = byte(d.len>>24), byte(d.len>>16), byte(d.len>>8), byte(d.len)
+
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != marshaledDigestSize || data[0] != 'm' || data[1] != 'd' || data[2] != '5' || data[3] != 0x01 {
+		return errors.New("crypto/md5: invalid state")
+	}
+
+	d.s[0] = uint32(data[4])<<24 | uint32(data[5])<<16 | uint32(data[6])<<8 | uint32(data[7])
+	d.s[1] = uint32(data[8])<<24 | uint32(data[9])<<16 | uint32(data[10])<<8 | uint32(data[11])
+	d.s[2] = uint32(data[12])<<24 | uint32(data[13])<<16 | uint32(data[14])<<8 | uint32(data[15])
+	d.s[3] = uint32(data[16])<<24 | uint32(data[17])<<16 | uint32(data[18])<<8 | uint32(data[19])
+
+	copy(d.x[:], data[20:])
+
+	d.nx = int(data[84])<<24 | int(data[85])<<16 | int(data[86])<<8 | int(data[87])
+
+	d.len = uint64(data[88])<<56 | uint64(data[89])<<48 | uint64(data[90])<<40 | uint64(data[91])<<32 |
+		uint64(data[92])<<24 | uint64(data[93])<<16 | uint64(data[94])<<8 | uint64(data[95])
+
+	return nil
 }
 
 // New returns a new hash.Hash computing the MD5 checksum.

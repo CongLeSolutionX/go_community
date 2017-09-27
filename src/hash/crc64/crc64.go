@@ -7,7 +7,10 @@
 // information.
 package crc64
 
-import "hash"
+import (
+	"errors"
+	"hash"
+)
 
 // The size of a CRC-64 checksum in bytes.
 const Size = 8
@@ -88,6 +91,37 @@ func (d *digest) BlockSize() int { return 1 }
 
 func (d *digest) Reset() { d.crc = 0 }
 
+const (
+	magic         = "crc\x02"
+	marshaledSize = len(magic) + 8 + 8
+)
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, 0, marshaledSize)
+	b = append(b, magic...)
+	tabSum := tableSum(d.tab)
+	b = append(b, byte(tabSum>>56), byte(tabSum>>48), byte(tabSum>>40), byte(tabSum>>32), byte(tabSum>>24), byte(tabSum>>16), byte(tabSum>>8), byte(tabSum))
+	b = append(b, byte(d.crc>>56), byte(d.crc>>48), byte(d.crc>>40), byte(d.crc>>32), byte(d.crc>>24), byte(d.crc>>16), byte(d.crc>>8), byte(d.crc))
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(b []byte) error {
+	if len(b) < len(magic) || string(b[:len(magic)]) != magic {
+		return errors.New("hash/crc64: invalid hash state identifier")
+	}
+	if len(b) != marshaledSize {
+		return errors.New("hash/crc64: invalid hash state size")
+	}
+	marshaledTabSum := uint64(b[4])<<56 | uint64(b[5])<<48 | uint64(b[6])<<40 | uint64(b[7])<<32 |
+		uint64(b[8])<<24 | uint64(b[9])<<16 | uint64(b[10])<<8 | uint64(b[11])
+	if tableSum(d.tab) != marshaledTabSum {
+		return errors.New("hash/crc64: tables do not match")
+	}
+	d.crc = uint64(b[12])<<56 | uint64(b[13])<<48 | uint64(b[14])<<40 | uint64(b[15])<<32 |
+		uint64(b[16])<<24 | uint64(b[17])<<16 | uint64(b[18])<<8 | uint64(b[19])
+	return nil
+}
+
 func update(crc uint64, tab *Table, p []byte) uint64 {
 	crc = ^crc
 	// Table comparison is somewhat expensive, so avoid it for small sizes
@@ -145,3 +179,21 @@ func (d *digest) Sum(in []byte) []byte {
 // Checksum returns the CRC-64 checksum of data
 // using the polynomial represented by the Table.
 func Checksum(data []byte, tab *Table) uint64 { return update(0, tab, data) }
+
+// tableSum returns the ISO checksum of table t.
+func tableSum(t *Table) uint64 {
+	var b [2048]byte
+	if t != nil {
+		for i := 0; i < len(t); i++ {
+			b[i*8] = byte(t[i] >> 56)
+			b[i*8+1] = byte(t[i] >> 48)
+			b[i*8+2] = byte(t[i] >> 40)
+			b[i*8+3] = byte(t[i] >> 32)
+			b[i*8+4] = byte(t[i] >> 24)
+			b[i*8+5] = byte(t[i] >> 16)
+			b[i*8+6] = byte(t[i] >> 8)
+			b[i*8+7] = byte(t[i])
+		}
+	}
+	return Checksum(b[:], &slicing8TableISO[0])
+}

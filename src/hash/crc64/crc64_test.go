@@ -5,6 +5,7 @@
 package crc64
 
 import (
+	"encoding"
 	"io"
 	"testing"
 )
@@ -69,6 +70,48 @@ func TestGolden(t *testing.T) {
 			t.Errorf("ECMA crc64(%s) = 0x%x want 0x%x", g.in, s, g.outECMA)
 			t.FailNow()
 		}
+	}
+}
+
+func TestGoldenMarshal(t *testing.T) {
+	table := MakeTable(ISO)
+	for _, g := range golden {
+		h := New(table)
+		h2 := New(table)
+
+		io.WriteString(h, g.in[:len(g.in)/2])
+
+		state, err := h.(encoding.BinaryMarshaler).MarshalBinary()
+		if err != nil {
+			t.Errorf("could not marshal: %v", err)
+			continue
+		}
+
+		if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state); err != nil {
+			t.Errorf("could not unmarshal: %v", err)
+			continue
+		}
+
+		io.WriteString(h, g.in[len(g.in)/2:])
+		io.WriteString(h2, g.in[len(g.in)/2:])
+
+		if h.Sum64() != h2.Sum64() {
+			t.Errorf("ISO crc64(%s) = 0x%x != marshaled (0x%x)", g.in, h.Sum64(), h2.Sum64())
+		}
+	}
+}
+
+func TestMarshalTableMismatch(t *testing.T) {
+	h1 := New(MakeTable(ISO))
+	h2 := New(MakeTable(ECMA))
+
+	state1, err := h1.(encoding.BinaryMarshaler).MarshalBinary()
+	if err != nil {
+		t.Errorf("could not marshal: %v", err)
+	}
+
+	if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state1); err == nil {
+		t.Errorf("no error when one was expected")
 	}
 }
 
