@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb3ec9af_998b556a",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-09-27T07:08:19Z",
+      "side": 1,
+      "message": "This is very complicated. You should be able to do this much more simply. Compare with this code in atomic.go:\n\n\t\tcall, ok :\u003d right.(*ast.CallExpr)\n\t\tif !ok {\n\t\t\tcontinue\n\t\t}\n\t\tsel, ok :\u003d call.Fun.(*ast.SelectorExpr)\n\t\tif !ok {\n\t\t\tcontinue\n\t\t}\n\t\tpkg, ok :\u003d sel.X.(*ast.Ident)\n\t\tif !ok || pkg.Name !\u003d \"atomic\" {\n\t\t\tcontinue\n\t\t}",
+      "revId": "2495a197aeabda484508955e43cc6681516e9662",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a53d8302_f0c2803d",
+        "filename": "src/cmd/vet/testdata/copylock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-09-27T07:08:19Z",
+      "side": 1,
+      "message": "sizeofMutex",
+      "revId": "2495a197aeabda484508955e43cc6681516e9662",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c960f189_9c46fa60",
+        "filename": "src/cmd/vet/testdata/copylock_func.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-09-27T07:08:19Z",
+      "side": 1,
+      "message": "SizeofOneLock\n\nbut i would just call it\n\nSizeofMutex.",
+      "revId": "2495a197aeabda484508955e43cc6681516e9662",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbeca1b_7b12316a",
+        "filename": "src/cmd/vet/testdata/copylock_func.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-09-27T07:08:19Z",
+      "side": 1,
+      "message": "Why are you doing this odd dance with unsafe and unsafe1? Why not import \"unsafe\" instead?",
+      "revId": "2495a197aeabda484508955e43cc6681516e9662",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
