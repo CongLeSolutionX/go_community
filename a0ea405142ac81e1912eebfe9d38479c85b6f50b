@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48b838b9_67a6f5c4",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2017-09-27T05:49:37Z",
+      "side": 1,
+      "message": "Is there merit for making field into dc as dc.execerCtx or dc.execer for the cache?",
+      "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e9ff9d6_d6d4dc54",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2017-09-27T05:49:37Z",
+      "side": 1,
+      "message": "I don\u0027t make sure, there are some common part between queryDC and execDC.",
+      "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
