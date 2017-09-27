@@ -69,6 +69,8 @@ const (
 	NodeTemplate                   // A template invocation action.
 	NodeVariable                   // A $ variable.
 	NodeWith                       // A with action.
+	NodeBreak                      // A break action.
+	NodeContinue                   // A continue action.
 )
 
 // Nodes.
@@ -794,6 +796,68 @@ func (t *Tree) newRange(pos Pos, line int, pipe *PipeNode, list, elseList *ListN
 
 func (r *RangeNode) Copy() Node {
 	return r.tr.newRange(r.Pos, r.Line, r.Pipe.CopyPipe(), r.List.CopyList(), r.ElseList.CopyList())
+}
+
+// BreakNode represents a {{break}} action.
+type BreakNode struct {
+	NodeType
+	Pos
+	tr *Tree
+}
+
+func (t *Tree) newBreak(pos Pos) *BreakNode {
+	return &BreakNode{NodeType: NodeBreak, Pos: pos, tr: t}
+}
+
+func (b *BreakNode) Type() NodeType {
+	return b.NodeType
+}
+
+func (b *BreakNode) String() string {
+	return "{{break}}"
+}
+
+func (b *BreakNode) Copy() Node {
+	return b.tr.newBreak(b.Pos)
+}
+
+func (b *BreakNode) Position() Pos {
+	return b.Pos
+}
+
+func (b *BreakNode) tree() *Tree {
+	return b.tr
+}
+
+// ContinueNode represents a {{continue}} action.
+type ContinueNode struct {
+	NodeType
+	Pos
+	tr *Tree
+}
+
+func (t *Tree) newContinue(pos Pos) *ContinueNode {
+	return &ContinueNode{NodeType: NodeContinue, Pos: pos, tr: t}
+}
+
+func (b *ContinueNode) Type() NodeType {
+	return b.NodeType
+}
+
+func (b *ContinueNode) String() string {
+	return "{{continue}}"
+}
+
+func (b *ContinueNode) Copy() Node {
+	return b.tr.newContinue(b.Pos)
+}
+
+func (b *ContinueNode) Position() Pos {
+	return b.Pos
+}
+
+func (b *ContinueNode) tree() *Tree {
+	return b.tr
 }
 
 // WithNode represents a {{with}} action and its commands.
