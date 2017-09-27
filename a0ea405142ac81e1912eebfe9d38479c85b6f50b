@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6268b883_4fe549c6",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-09-27T05:59:46Z",
+      "side": 1,
+      "message": "I have thought about it before, but without doing some type of profiling I\u0027d hate to do that as that would probably make it more complicated.\n\nMy guess is that the cost of a type assertion or two will be dominated by the query cost, but I haven\u0027t measured.",
+      "parentUuid": "48b838b9_67a6f5c4",
+      "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e9ff9d6_d6d4dc54",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-27T05:49:37Z",
       "side": 1,
       "message": "I don\u0027t make sure, there are some common part between queryDC and execDC.",
+      "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15b130cb_b57f0b16",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-09-27T05:59:46Z",
+      "side": 1,
+      "message": "I agree. The best I was able to do prior was to factor out common functions (namedValueToValue) and put in a common file (ctxutil.go), but, I\u0027m not sure how to preserve the general structure and still call the correct functions. Maybe this is a case for some form of generics. I\u0027m not sure how to improve this though, unless you think I should put the similar code back in ctxutil.go so it is together again.",
+      "parentUuid": "5e9ff9d6_d6d4dc54",
       "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
