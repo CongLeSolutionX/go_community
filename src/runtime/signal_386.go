@@ -31,6 +31,8 @@ func dumpregs(c *sigctxt) {
 //go:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr { return uintptr(c.eip()) }
 
+func (c *sigctxt) sigsetpc(pc uintptr) { c.set_eip(uint32(pc)) }
+
 func (c *sigctxt) sigsp() uintptr { return uintptr(c.esp()) }
 func (c *sigctxt) siglr() uintptr { return 0 }
 func (c *sigctxt) fault() uintptr { return uintptr(c.sigaddr()) }

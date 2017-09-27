@@ -501,6 +501,7 @@ func schedinit() {
 	goenvs()
 	parsedebugvars()
 	gcinit()
+	reschedinit()
 
 	sched.lastpoll = uint64(nanotime())
 	procs := ncpu
@@ -1032,6 +1033,8 @@ func stopTheWorldWithSema() {
 	wait := sched.stopwait > 0
 	unlock(&sched.lock)
 
+	preemptLoops()
+
 	// wait for remaining P's to stop voluntarily
 	if wait {
 		for {
@@ -1043,6 +1046,9 @@ func stopTheWorldWithSema() {
 			preemptall()
 		}
 	}
+
+	// Now that all Ps are stopped, undo loop preemption.
+	unpreemptLoops()
 
 	// sanity checks
 	bad := ""

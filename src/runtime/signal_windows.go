@@ -71,6 +71,16 @@ func exceptionhandler(info *exceptionrecord, r *context, gp *g) int32 {
 		return _EXCEPTION_CONTINUE_SEARCH
 	}
 
+	if info.exceptioncode == _EXCEPTION_ACCESS_VIOLATION && uintptr(info.exceptioninformation[1]) == reschedFaultAddr() {
+		// This is a rescheduling fault. Switch the PC to the
+		// preempt path.
+		newPC := reschedulePC(r.ip())
+		if newPC != 0 {
+			r.setip(newPC)
+			return _EXCEPTION_CONTINUE_EXECUTION
+		}
+	}
+
 	// Make it look like a call to the signal func.
 	// Have to pass arguments out of band since
 	// augmenting the stack frame would break

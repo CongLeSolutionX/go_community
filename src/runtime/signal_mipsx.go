@@ -56,6 +56,8 @@ func (c *sigctxt) sigsp() uintptr { return uintptr(c.sp()) }
 func (c *sigctxt) siglr() uintptr { return uintptr(c.link()) }
 func (c *sigctxt) fault() uintptr { return uintptr(c.sigaddr()) }
 
+func (c *sigctxt) sigsetpc(pc uintptr) { c.set_pc(uint32(pc)) }
+
 // preparePanic sets up the stack to look like a call to sigpanic.
 func (c *sigctxt) preparePanic(sig uint32, gp *g) {
 	// We arrange link, and pc to pretend the panicking
