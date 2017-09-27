@@ -7,7 +7,9 @@
 package sha512
 
 import (
+	"bytes"
 	"crypto/rand"
+	"encoding"
 	"encoding/hex"
 	"hash"
 	"io"
@@ -276,6 +278,37 @@ func TestGolden(t *testing.T) {
 		testHash(t, "SHA512/256", test.in, test.out256, sum256[:], New512_256())
 		testHash(t, "SHA384", test.in, test.out384, sum384[:], New384())
 		testHash(t, "SHA512", test.in, test.out512, sum512[:], New())
+	}
+}
+
+func TestGoldenMarshal(t *testing.T) {
+	for _, test := range golden {
+		testGoldenMarshal(t, "SHA512/224", New512_224(), New512_224(), test.in)
+		testGoldenMarshal(t, "SHA512/256", New512_256(), New512_256(), test.in)
+		testGoldenMarshal(t, "SHA384", New384(), New384(), test.in)
+		testGoldenMarshal(t, "SHA512", New(), New(), test.in)
+	}
+}
+
+func testGoldenMarshal(t *testing.T, name string, h, h2 hash.Hash, in string) {
+	io.WriteString(h, in[:len(in)/2])
+
+	state, err := h.(encoding.BinaryMarshaler).MarshalBinary()
+	if err != nil {
+		t.Errorf("could not marshal: %v", err)
+		return
+	}
+
+	if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state); err != nil {
+		t.Errorf("could not unmarshal: %v", err)
+		return
+	}
+
+	io.WriteString(h, in[len(in)/2:])
+	io.WriteString(h2, in[len(in)/2:])
+
+	if actual, actual2 := h.Sum(nil), h2.Sum(nil); !bytes.Equal(actual, actual2) {
+		t.Errorf("%s(%q) = 0x%x != marshaled 0x%x", name, in, actual, actual2)
 	}
 }
 

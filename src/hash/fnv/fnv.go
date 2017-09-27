@@ -9,6 +9,7 @@
 package fnv
 
 import (
+	"encoding/binary"
 	"hash"
 )
 
@@ -214,4 +215,92 @@ func (s *sum128a) Sum(in []byte) []byte {
 		byte(s[0]>>56), byte(s[0]>>48), byte(s[0]>>40), byte(s[0]>>32), byte(s[0]>>24), byte(s[0]>>16), byte(s[0]>>8), byte(s[0]),
 		byte(s[1]>>56), byte(s[1]>>48), byte(s[1]>>40), byte(s[1]>>32), byte(s[1]>>24), byte(s[1]>>16), byte(s[1]>>8), byte(s[1]),
 	)
+}
+
+func (s *sum32) MarshalBinary() ([]byte, error) {
+	b := make([]byte, 4)
+	binary.BigEndian.PutUint32(b, uint32(*s))
+	return b, nil
+}
+
+func (s *sum32a) MarshalBinary() ([]byte, error) {
+	b := make([]byte, 4)
+	binary.BigEndian.PutUint32(b, uint32(*s))
+	return b, nil
+}
+
+func (s *sum64) MarshalBinary() ([]byte, error) {
+	b := make([]byte, 8)
+	binary.BigEndian.PutUint64(b, uint64(*s))
+	return b, nil
+}
+
+func (s *sum64a) MarshalBinary() ([]byte, error) {
+	b := make([]byte, 8)
+	binary.BigEndian.PutUint64(b, uint64(*s))
+	return b, nil
+}
+
+func (s *sum128) MarshalBinary() ([]byte, error) {
+	b := make([]byte, 8*2)
+	binary.BigEndian.PutUint64(b, uint64(s[0]))
+	binary.BigEndian.PutUint64(b[8:], uint64(s[1]))
+	return b, nil
+}
+
+func (s *sum128a) MarshalBinary() ([]byte, error) {
+	b := make([]byte, 8*2)
+	binary.BigEndian.PutUint64(b, uint64(s[0]))
+	binary.BigEndian.PutUint64(b[8:], uint64(s[1]))
+	return b, nil
+}
+
+func (s *sum32) UnmarshalBinary(data []byte) error {
+	if len(data) != 4 {
+		return hash.ErrMarshalState
+	}
+	*s = sum32(binary.BigEndian.Uint32(data))
+	return nil
+}
+
+func (s *sum32a) UnmarshalBinary(data []byte) error {
+	if len(data) != 4 {
+		return hash.ErrMarshalState
+	}
+	*s = sum32a(binary.BigEndian.Uint32(data))
+	return nil
+}
+
+func (s *sum64) UnmarshalBinary(data []byte) error {
+	if len(data) != 8 {
+		return hash.ErrMarshalState
+	}
+	*s = sum64(binary.BigEndian.Uint64(data))
+	return nil
+}
+
+func (s *sum64a) UnmarshalBinary(data []byte) error {
+	if len(data) != 8 {
+		return hash.ErrMarshalState
+	}
+	*s = sum64a(binary.BigEndian.Uint64(data))
+	return nil
+}
+
+func (s *sum128) UnmarshalBinary(data []byte) error {
+	if len(data) != 8*2 {
+		return hash.ErrMarshalState
+	}
+	s[0] = binary.BigEndian.Uint64(data)
+	s[1] = binary.BigEndian.Uint64(data[8:])
+	return nil
+}
+
+func (s *sum128a) UnmarshalBinary(data []byte) error {
+	if len(data) != 8*2 {
+		return hash.ErrMarshalState
+	}
+	s[0] = binary.BigEndian.Uint64(data)
+	s[1] = binary.BigEndian.Uint64(data[8:])
+	return nil
 }

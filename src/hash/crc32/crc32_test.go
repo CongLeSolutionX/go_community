@@ -5,8 +5,10 @@
 package crc32
 
 import (
+	"encoding"
 	"fmt"
 	"hash"
+	"io"
 	"math/rand"
 	"testing"
 )
@@ -103,6 +105,35 @@ func TestSimple(t *testing.T) {
 	testGoldenCastagnoli(t, func(b []byte) uint32 {
 		return simpleUpdate(0, tab, b)
 	})
+}
+
+func TestGoldenMarshal(t *testing.T) {
+	h := New(IEEETable)
+	h2 := New(IEEETable)
+	for _, g := range golden {
+		h.Reset()
+		h2.Reset()
+
+		io.WriteString(h, g.in[:len(g.in)/2])
+
+		state, err := h.(encoding.BinaryMarshaler).MarshalBinary()
+		if err != nil {
+			t.Errorf("could not marshal: %v", err)
+			continue
+		}
+
+		if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state); err != nil {
+			t.Errorf("could not unmarshal: %v", err)
+			continue
+		}
+
+		io.WriteString(h, g.in[len(g.in)/2:])
+		io.WriteString(h2, g.in[len(g.in)/2:])
+
+		if h.Sum32() != h2.Sum32() {
+			t.Errorf("IEEE(%s) = 0x%x != marshaled 0x%x", g.in, h.Sum32(), h2.Sum32())
+		}
+	}
 }
 
 // TestSimple tests the slicing-by-8 algorithm.

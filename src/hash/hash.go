@@ -5,9 +5,22 @@
 // Package hash provides interfaces for hash functions.
 package hash
 
-import "io"
+import (
+	"errors"
+	"io"
+)
+
+// ErrMarshalState is returned from the UnmarshalBinary method of Hash
+// implementations when the marshaled state data is invalid.
+var ErrMarshalState = errors.New("invalid marshal state")
 
 // Hash is the common interface implemented by all hash functions.
+//
+// Hash implementations in the standard library (e.g. hash/crc32 and
+// crypto/sha256) implement the encoding.BinaryMarshaler and
+// encoding.BinaryUnmarshaler interfaces. Marshaling a hash implementation
+// allows its internal state to be saved and used for additional processing
+// later, without having to re-write the data previously written to the hash.
 type Hash interface {
 	// Write (via the embedded io.Writer interface) adds more data to the running hash.
 	// It never returns an error.
