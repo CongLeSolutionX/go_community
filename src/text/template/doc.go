@@ -110,6 +110,14 @@ data, defined in detail in the corresponding sections that follow.
 		T0 is executed; otherwise, dot is set to the successive elements
 		of the array, slice, or map and T1 is executed.
 
+	{{break}}
+		Breaks out of the innermost range action. Can only be used
+		inside of a range.
+
+	{{continue}}
+		Begins the next iteration of the innermost range action. Can
+		only be used inside of a range.
+
 	{{template "name"}}
 		The template with the specified name is executed with nil data.
 
