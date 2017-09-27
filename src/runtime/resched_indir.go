@@ -20,6 +20,29 @@ import "unsafe"
 
 // reschedulePage is the address of a page that will be unmapped to
 // interrupt preemptible loops.
-//
-// (Use a dummy value for now that's always safe to dereference.)
-var reschedulePage unsafe.Pointer = unsafe.Pointer(&zerobase)
+var reschedulePage unsafe.Pointer
+
+func reschedinit() {
+	var dummyStat uint64
+	reschedulePage = sysAlloc(physPageSize, &dummyStat)
+	if reschedulePage == nil {
+		throw("failed to allocate rescheduling page")
+	}
+}
+
+// reschedFaultAddr returns the address at which preemptible loops
+// will fault.
+func reschedFaultAddr() uintptr {
+	return uintptr(reschedulePage)
+}
+
+func preemptLoops() {
+	// Force loop preemption by unmapping the rescheduling page.
+	sysFault(reschedulePage, physPageSize)
+}
+
+func unpreemptLoops() {
+	// Remap the loop preemption page.
+	var dummyStat uint64
+	sysMap(reschedulePage, physPageSize, true, &dummyStat)
+}

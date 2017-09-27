@@ -913,3 +913,18 @@ type inlinedCall struct {
 	line   int32 // line number of the call site
 	func_  int32 // offset into pclntab for name of called function
 }
+
+// reschedulePC returns the PC of the loop preemption path given a
+// loop rescheduling fault at pc. It returns 0 if pc is not a
+// rescheduling point (though it is not guaranteed to detect this).
+func reschedulePC(pc uintptr) uintptr {
+	fi := findfunc(pc)
+	if !fi.valid() {
+		return 0
+	}
+	newOff := pcdatavalue(fi, _PCDATA_ReschedulePC, pc, nil)
+	if newOff < 0 {
+		return 0
+	}
+	return fi.entry + uintptr(newOff)
+}
