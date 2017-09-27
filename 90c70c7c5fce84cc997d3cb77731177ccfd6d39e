@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8360e862_eafff6fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2017-09-27T00:22:10Z",
+      "side": 1,
+      "message": "unixsock_linux_test.go?\n\nalso pls move Linux-specific tests in unixsock_test.go to unixsock_linux_test.go too.",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "90c70c7c5fce84cc997d3cb77731177ccfd6d39e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
