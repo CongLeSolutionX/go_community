@@ -5,6 +5,8 @@
 package adler32
 
 import (
+	"encoding"
+	"io"
 	"strings"
 	"testing"
 )
@@ -84,6 +86,30 @@ func TestGolden(t *testing.T) {
 			t.Errorf("optimized implementation: Checksum(%q) = 0x%x want 0x%x", in, got, g.out)
 			continue
 		}
+	}
+}
+
+func TestGoldenMarshal(t *testing.T) {
+	h := New()
+	h2 := New()
+	for _, g := range golden {
+		io.WriteString(h, g.in)
+
+		state, err := h.(encoding.BinaryMarshaler).MarshalBinary()
+		if err != nil {
+			t.Fatalf("could not marshal: %v", err)
+		}
+
+		if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state); err != nil {
+			t.Fatalf("could not unmarshal: %v", err)
+		}
+
+		if h.Sum32() != h2.Sum32() {
+			t.Fatalf("checksum(%q) = 0x%x != marshaled (0x%x)", g.in, h.Sum32(), h2.Sum32())
+		}
+
+		h.Reset()
+		h2.Reset()
 	}
 }
 

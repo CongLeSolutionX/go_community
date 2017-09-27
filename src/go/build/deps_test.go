@@ -104,10 +104,10 @@ var pkgDeps = map[string][]string{
 	"encoding/base64":     {"L2"},
 	"encoding/binary":     {"L2", "reflect"},
 	"hash":                {"L2"}, // interfaces
-	"hash/adler32":        {"L2", "hash"},
-	"hash/crc32":          {"L2", "hash"},
-	"hash/crc64":          {"L2", "hash"},
-	"hash/fnv":            {"L2", "hash"},
+	"hash/adler32":        {"L2", "hash", "encoding/binary"},
+	"hash/crc32":          {"L2", "hash", "encoding/binary"},
+	"hash/crc64":          {"L2", "hash", "encoding/binary"},
+	"hash/fnv":            {"L2", "hash", "encoding/binary"},
 	"image":               {"L2", "image/color"}, // interfaces
 	"image/color":         {"L2"},                // interfaces
 	"image/color/palette": {"L2", "image/color"},
