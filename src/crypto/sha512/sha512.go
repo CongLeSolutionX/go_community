@@ -8,6 +8,8 @@ package sha512
 
 import (
 	"crypto"
+	"encoding/binary"
+	"errors"
 	"hash"
 )
 
@@ -72,6 +74,8 @@ const (
 	init7_384 = 0x47b5481dbefa4fa4
 )
 
+const marshaledDigestSize = 8*8 + chunk + 8 + 8 + 8
+
 // digest represents the partial evaluation of a checksum.
 type digest struct {
 	h        [8]uint64
@@ -122,6 +126,54 @@ func (d *digest) Reset() {
 	}
 	d.nx = 0
 	d.len = 0
+}
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, marshaledDigestSize)
+
+	binary.BigEndian.PutUint64(b, d.h[0])
+	binary.BigEndian.PutUint64(b[8:], d.h[1])
+	binary.BigEndian.PutUint64(b[16:], d.h[2])
+	binary.BigEndian.PutUint64(b[24:], d.h[3])
+	binary.BigEndian.PutUint64(b[32:], d.h[4])
+	binary.BigEndian.PutUint64(b[40:], d.h[5])
+	binary.BigEndian.PutUint64(b[48:], d.h[6])
+	binary.BigEndian.PutUint64(b[56:], d.h[7])
+
+	copy(b[64:], d.x[:])
+
+	binary.BigEndian.PutUint64(b[192:], uint64(d.nx))
+
+	binary.BigEndian.PutUint64(b[200:], d.len)
+
+	binary.BigEndian.PutUint64(b[208:], uint64(d.function))
+
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != marshaledDigestSize {
+		return errors.New("crypto/sha512: invalid state length")
+	}
+
+	d.h[0] = binary.BigEndian.Uint64(data)
+	d.h[1] = binary.BigEndian.Uint64(data[8:])
+	d.h[2] = binary.BigEndian.Uint64(data[16:])
+	d.h[3] = binary.BigEndian.Uint64(data[24:])
+	d.h[4] = binary.BigEndian.Uint64(data[32:])
+	d.h[5] = binary.BigEndian.Uint64(data[40:])
+	d.h[6] = binary.BigEndian.Uint64(data[48:])
+	d.h[7] = binary.BigEndian.Uint64(data[56:])
+
+	copy(d.x[:], data[64:])
+
+	d.nx = int(binary.BigEndian.Uint64(data[192:]))
+
+	d.len = binary.BigEndian.Uint64(data[200:])
+
+	d.function = crypto.Hash(binary.BigEndian.Uint64(data[208:]))
+
+	return nil
 }
 
 // New returns a new hash.Hash computing the SHA-512 checksum.

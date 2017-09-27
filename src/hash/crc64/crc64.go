@@ -7,7 +7,11 @@
 // information.
 package crc64
 
-import "hash"
+import (
+	"encoding/binary"
+	"errors"
+	"hash"
+)
 
 // The size of a CRC-64 checksum in bytes.
 const Size = 8
@@ -87,6 +91,20 @@ func (d *digest) Size() int { return Size }
 func (d *digest) BlockSize() int { return 1 }
 
 func (d *digest) Reset() { d.crc = 0 }
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, 8)
+	binary.BigEndian.PutUint64(b, d.crc)
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != 8 {
+		return errors.New("hash/crc64: invalid state length")
+	}
+	d.crc = binary.BigEndian.Uint64(data)
+	return nil
+}
 
 func update(crc uint64, tab *Table, p []byte) uint64 {
 	crc = ^crc

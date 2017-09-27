@@ -6,8 +6,10 @@ package fnv
 
 import (
 	"bytes"
+	"encoding"
 	"encoding/binary"
 	"hash"
+	"io"
 	"testing"
 )
 
@@ -94,6 +96,57 @@ func testGolden(t *testing.T, hash hash.Hash, gold []golden) {
 		}
 		if actual := hash.Sum(nil); !bytes.Equal(g.sum, actual) {
 			t.Errorf("hash(%q) = 0x%x want 0x%x", g.text, actual, g.sum)
+		}
+	}
+}
+
+func TestGoldenMarshal32(t *testing.T) {
+	testGoldenMarshal(t, New32(), New32(), golden32)
+}
+
+func TestGoldenMarshal32a(t *testing.T) {
+	testGoldenMarshal(t, New32a(), New32a(), golden32a)
+}
+
+func TestGoldenMarshal64(t *testing.T) {
+	testGoldenMarshal(t, New64(), New64(), golden64)
+}
+
+func TestGoldenMarshal64a(t *testing.T) {
+	testGoldenMarshal(t, New64a(), New64a(), golden64a)
+}
+
+func TestGoldenMarshal128(t *testing.T) {
+	testGoldenMarshal(t, New128(), New128(), golden128)
+}
+
+func TestGoldenMarshal128a(t *testing.T) {
+	testGoldenMarshal(t, New128a(), New128a(), golden128a)
+}
+
+func testGoldenMarshal(t *testing.T, h, h2 hash.Hash, gold []golden) {
+	for _, g := range gold {
+		h.Reset()
+		h2.Reset()
+
+		io.WriteString(h, g.text[:len(g.text)/2])
+
+		state, err := h.(encoding.BinaryMarshaler).MarshalBinary()
+		if err != nil {
+			t.Errorf("could not marshal: %v", err)
+			continue
+		}
+
+		if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state); err != nil {
+			t.Errorf("could not unmarshal: %v", err)
+			continue
+		}
+
+		io.WriteString(h, g.text[len(g.text)/2:])
+		io.WriteString(h2, g.text[len(g.text)/2:])
+
+		if actual, actual2 := h.Sum(nil), h2.Sum(nil); !bytes.Equal(actual, actual2) {
+			t.Errorf("hash(%q) = 0x%x != marshaled 0x%x", g.text, actual, actual2)
 		}
 	}
 }
