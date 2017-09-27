@@ -34,6 +34,16 @@ func sighandler(sig uint32, info *siginfo, ctxt unsafe.Pointer, gp *g) {
 		return
 	}
 
+	if sig == _SIGSEGV && c.fault() == reschedFaultAddr() {
+		// This is a rescheduling fault. Switch the PC to the
+		// preempt path.
+		newPC := reschedulePC(c.sigpc())
+		if newPC != 0 {
+			c.sigsetpc(newPC)
+			return
+		}
+	}
+
 	flags := int32(_SigThrow)
 	if sig < uint32(len(sigtable)) {
 		flags = sigtable[sig].flags

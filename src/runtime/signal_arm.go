@@ -36,6 +36,8 @@ func dumpregs(c *sigctxt) {
 //go:nowritebarrierrec
 func (c *sigctxt) sigpc() uintptr { return uintptr(c.pc()) }
 
+func (c *sigctxt) sigsetpc(pc uintptr) { c.set_pc(uint32(pc)) }
+
 func (c *sigctxt) sigsp() uintptr { return uintptr(c.sp()) }
 func (c *sigctxt) siglr() uintptr { return uintptr(c.lr()) }
 
