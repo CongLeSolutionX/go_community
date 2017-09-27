@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f4a08252_55a3b1ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 24943
+      },
+      "writtenOn": "2017-09-27T00:32:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e15e905d_deddaa16",
+      "revId": "7a5b35ba2e134636cb36848b7af66ed1a6e80bf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "570ac547_de6a6d99",
         "filename": "src/path/filepath/example_unix_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-09-26T23:37:49Z",
       "side": 1,
       "message": "An example with output will be run on all systems, including non-Unix systems.  Right now I think this example will cause a test failure on Windows systems, which is not OK.  Since it\u0027s probably hard to write an example that will run on both Windows and Unix, it would be better to write an example that doesn\u0027t use an Output line.\n\nThis problem is going to affect your other examples too.\n\nAlso in general this example should be simpler.  An example is not a test.  I\u0027m actually not sure how much it helps to have an example of IsAbs at all.",
+      "revId": "7a5b35ba2e134636cb36848b7af66ed1a6e80bf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83cdd424_03a8e5f9",
+        "filename": "src/path/filepath/example_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 24943
+      },
+      "writtenOn": "2017-09-27T00:32:22Z",
+      "side": 1,
+      "message": "The examples were modelled from ExampleSplit, but if you think they will fail on windows (I don\u0027t have windows), then I could remove the output. The value for me was to see the actual output of the functions with various input without having to search through the test files. I agree the actual usage is pretty simple and doesn\u0027t require an example. \n\nWithout the output, I don\u0027t see the value of the examples. The answers I was looking for were in the test files, just not available from the documentation page.\n\nAre we in agreement that without the output they have no value?",
+      "parentUuid": "570ac547_de6a6d99",
       "revId": "7a5b35ba2e134636cb36848b7af66ed1a6e80bf0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
