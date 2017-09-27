@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c4ce8334_85012520",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2017-09-27T07:32:34Z",
+      "side": 1,
+      "message": "The more complicated code can check if unsafe is one of the imports and if it was renamed, which is suggested by Marvin Stenger.\nThe test (unsafe and unsafe1) is added for this.\n\nIf handling this situation is not necessary, I think the first patch set is better, which is\n\n if fmt.Sprintf(\"%s.%s\", selector.X, selector.Sel) \u003d\u003d \"unsafe.Sizeof\" {\n     return\n }",
+      "parentUuid": "cb3ec9af_998b556a",
+      "revId": "2495a197aeabda484508955e43cc6681516e9662",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a53d8302_f0c2803d",
         "filename": "src/cmd/vet/testdata/copylock.go",
         "patchSetId": 2
