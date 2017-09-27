@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "bebe0f53_3001a8c8",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1279,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2017-09-27T06:17:39Z",
+      "side": 1,
+      "message": "Okay, I don\u0027t have strong opinion.",
+      "parentUuid": "6268b883_4fe549c6",
+      "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e9ff9d6_d6d4dc54",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I agree. The best I was able to do prior was to factor out common functions (namedValueToValue) and put in a common file (ctxutil.go), but, I\u0027m not sure how to preserve the general structure and still call the correct functions. Maybe this is a case for some form of generics. I\u0027m not sure how to improve this though, unless you think I should put the similar code back in ctxutil.go so it is together again.",
       "parentUuid": "5e9ff9d6_d6d4dc54",
+      "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20bc048b_4d9a8dc8",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2017-09-27T06:17:39Z",
+      "side": 1,
+      "message": "Yes, I think so. Early refactoring often goes wrong.",
+      "parentUuid": "15b130cb_b57f0b16",
       "revId": "a0ea405142ac81e1912eebfe9d38479c85b6f50b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
