@@ -13,6 +13,7 @@
 package crc32
 
 import (
+	"errors"
 	"hash"
 	"sync"
 )
@@ -159,6 +160,34 @@ func (d *digest) BlockSize() int { return 1 }
 
 func (d *digest) Reset() { d.crc = 0 }
 
+func (d *digest) MarshalBinary() ([]byte, error) {
+	tabSum := tableSum(d.tab)
+	return []byte{
+		'c', 'r', 'c',
+		0x01,
+		byte(tabSum >> 24),
+		byte(tabSum >> 16),
+		byte(tabSum >> 8),
+		byte(tabSum),
+		byte(d.crc >> 24),
+		byte(d.crc >> 16),
+		byte(d.crc >> 8),
+		byte(d.crc),
+	}, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != 12 || data[0] != 'c' || data[1] != 'r' || data[2] != 'c' || data[3] != 0x01 {
+		return errors.New("hash/crc32: invalid state")
+	}
+	tabSum := tableSum(d.tab)
+	if tabSum != uint32(data[4])<<24|uint32(data[5])<<16|uint32(data[6])<<8|uint32(data[7]) {
+		return errors.New("hash/crc32: invalid state")
+	}
+	d.crc = uint32(data[8])<<24 | uint32(data[9])<<16 | uint32(data[10])<<8 | uint32(data[11])
+	return nil
+}
+
 // Update returns the result of adding the bytes in p to the crc.
 func Update(crc uint32, tab *Table, p []byte) uint32 {
 	switch tab {
@@ -204,4 +233,18 @@ func Checksum(data []byte, tab *Table) uint32 { return Update(0, tab, data) }
 func ChecksumIEEE(data []byte) uint32 {
 	ieeeOnce.Do(ieeeInit)
 	return updateIEEE(0, data)
+}
+
+// tableSum returns the IEEE checksum of table t.
+func tableSum(t *Table) uint32 {
+	var b [1024]byte
+	if t != nil {
+		for i := 0; i < len(t); i++ {
+			b[i*4] = byte(t[i] >> 24)
+			b[i*4+1] = byte(t[i] >> 16)
+			b[i*4+2] = byte(t[i] >> 8)
+			b[i*4+3] = byte(t[i])
+		}
+	}
+	return ChecksumIEEE(b[:])
 }

@@ -7,7 +7,10 @@
 // information.
 package crc64
 
-import "hash"
+import (
+	"errors"
+	"hash"
+)
 
 // The size of a CRC-64 checksum in bytes.
 const Size = 8
@@ -88,6 +91,45 @@ func (d *digest) BlockSize() int { return 1 }
 
 func (d *digest) Reset() { d.crc = 0 }
 
+func (d *digest) MarshalBinary() ([]byte, error) {
+	tabSum := tableSum(d.tab)
+	return []byte{
+		'c', 'r', 'c',
+		0x02,
+		byte(tabSum >> 56),
+		byte(tabSum >> 48),
+		byte(tabSum >> 40),
+		byte(tabSum >> 32),
+		byte(tabSum >> 24),
+		byte(tabSum >> 16),
+		byte(tabSum >> 8),
+		byte(tabSum),
+		byte(d.crc >> 56),
+		byte(d.crc >> 48),
+		byte(d.crc >> 40),
+		byte(d.crc >> 32),
+		byte(d.crc >> 24),
+		byte(d.crc >> 16),
+		byte(d.crc >> 8),
+		byte(d.crc),
+	}, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != 20 || data[0] != 'c' || data[1] != 'r' || data[2] != 'c' || data[3] != 0x02 {
+		return errors.New("hash/crc64: invalid state")
+	}
+	tabSum := tableSum(d.tab)
+	marshaledTabSum := uint64(data[4])<<56 | uint64(data[5])<<48 | uint64(data[6])<<40 | uint64(data[7])<<32 |
+		uint64(data[8])<<24 | uint64(data[9])<<16 | uint64(data[10])<<8 | uint64(data[11])
+	if tabSum != marshaledTabSum {
+		return errors.New("hash/crc64: invalid state")
+	}
+	d.crc = uint64(data[12])<<56 | uint64(data[13])<<48 | uint64(data[14])<<40 | uint64(data[15])<<32 |
+		uint64(data[16])<<24 | uint64(data[17])<<16 | uint64(data[18])<<8 | uint64(data[19])
+	return nil
+}
+
 func update(crc uint64, tab *Table, p []byte) uint64 {
 	crc = ^crc
 	// Table comparison is somewhat expensive, so avoid it for small sizes
@@ -145,3 +187,21 @@ func (d *digest) Sum(in []byte) []byte {
 // Checksum returns the CRC-64 checksum of data
 // using the polynomial represented by the Table.
 func Checksum(data []byte, tab *Table) uint64 { return update(0, tab, data) }
+
+// tableSum returns the ISO checksum of table t.
+func tableSum(t *Table) uint64 {
+	var b [2048]byte
+	if t != nil {
+		for i := 0; i < len(t); i++ {
+			b[i*8] = byte(t[i] >> 56)
+			b[i*8+1] = byte(t[i] >> 48)
+			b[i*8+2] = byte(t[i] >> 40)
+			b[i*8+3] = byte(t[i] >> 32)
+			b[i*8+4] = byte(t[i] >> 24)
+			b[i*8+5] = byte(t[i] >> 16)
+			b[i*8+6] = byte(t[i] >> 8)
+			b[i*8+7] = byte(t[i])
+		}
+	}
+	return Checksum(b[:], &slicing8TableISO[0])
+}

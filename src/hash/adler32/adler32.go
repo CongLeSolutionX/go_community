@@ -12,7 +12,10 @@
 //	significant-byte first (network) order.
 package adler32
 
-import "hash"
+import (
+	"errors"
+	"hash"
+)
 
 const (
 	// mod is the largest prime that is less than 65536.
@@ -43,6 +46,25 @@ func New() hash.Hash32 {
 func (d *digest) Size() int { return Size }
 
 func (d *digest) BlockSize() int { return 4 }
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	return []byte{
+		'a', 'd', 'l',
+		0x01,
+		byte(*d >> 24),
+		byte(*d >> 16),
+		byte(*d >> 8),
+		byte(*d),
+	}, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != 8 || data[0] != 'a' || data[1] != 'd' || data[2] != 'l' || data[3] != 0x01 {
+		return errors.New("hash/adler32: invalid state")
+	}
+	*d = digest(data[4])<<24 | digest(data[5])<<16 | digest(data[6])<<8 | digest(data[7])
+	return nil
+}
 
 // Add p to the running checksum d.
 func update(d digest, p []byte) digest {

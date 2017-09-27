@@ -8,6 +8,7 @@ package sha256
 
 import (
 	"crypto"
+	"errors"
 	"hash"
 )
 
@@ -45,6 +46,8 @@ const (
 	init7_224 = 0xBEFA4FA4
 )
 
+const marshaledDigestSize = 4 + 8*4 + chunk + 8 + 8
+
 // digest represents the partial evaluation of a checksum.
 type digest struct {
 	h     [8]uint32
@@ -52,6 +55,58 @@ type digest struct {
 	nx    int
 	len   uint64
 	is224 bool // mark if this digest is SHA-224
+}
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, marshaledDigestSize)
+	b[0], b[1], b[2] = 's', 'h', 'a'
+	if d.is224 {
+		b[3] = 0x02
+	} else {
+		b[3] = 0x03
+	}
+
+	b[4], b[5], b[6], b[7] = byte(d.h[0]>>24), byte(d.h[0]>>16), byte(d.h[0]>>8), byte(d.h[0])
+	b[8], b[9], b[10], b[11] = byte(d.h[1]>>24), byte(d.h[1]>>16), byte(d.h[1]>>8), byte(d.h[1])
+	b[12], b[13], b[14], b[15] = byte(d.h[2]>>24), byte(d.h[2]>>16), byte(d.h[2]>>8), byte(d.h[2])
+	b[16], b[17], b[18], b[19] = byte(d.h[3]>>24), byte(d.h[3]>>16), byte(d.h[3]>>8), byte(d.h[3])
+	b[20], b[21], b[22], b[23] = byte(d.h[4]>>24), byte(d.h[4]>>16), byte(d.h[4]>>8), byte(d.h[4])
+	b[24], b[25], b[26], b[27] = byte(d.h[5]>>24), byte(d.h[5]>>16), byte(d.h[5]>>8), byte(d.h[5])
+	b[28], b[29], b[30], b[31] = byte(d.h[6]>>24), byte(d.h[6]>>16), byte(d.h[6]>>8), byte(d.h[6])
+	b[32], b[33], b[34], b[35] = byte(d.h[7]>>24), byte(d.h[7]>>16), byte(d.h[7]>>8), byte(d.h[7])
+
+	copy(b[36:], d.x[:])
+
+	b[100], b[101], b[102], b[103] = byte(d.nx>>24), byte(d.nx>>16), byte(d.nx>>8), byte(d.nx)
+
+	b[104], b[105], b[106], b[107] = byte(d.len>>56), byte(d.len>>48), byte(d.len>>40), byte(d.len>>32)
+	b[108], b[109], b[110], b[111] = byte(d.len>>24), byte(d.len>>16), byte(d.len>>8), byte(d.len)
+
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != marshaledDigestSize || data[0] != 's' || data[1] != 'h' || data[2] != 'a' || (d.is224 && data[3] != 0x02) || (!d.is224 && data[3] != 0x03) {
+		return errors.New("crypto/sha256: invalid state")
+	}
+
+	d.h[0] = uint32(data[4])<<24 | uint32(data[5])<<16 | uint32(data[6])<<8 | uint32(data[7])
+	d.h[1] = uint32(data[8])<<24 | uint32(data[9])<<16 | uint32(data[10])<<8 | uint32(data[11])
+	d.h[2] = uint32(data[12])<<24 | uint32(data[13])<<16 | uint32(data[14])<<8 | uint32(data[15])
+	d.h[3] = uint32(data[16])<<24 | uint32(data[17])<<16 | uint32(data[18])<<8 | uint32(data[19])
+	d.h[4] = uint32(data[20])<<24 | uint32(data[21])<<16 | uint32(data[22])<<8 | uint32(data[23])
+	d.h[5] = uint32(data[24])<<24 | uint32(data[25])<<16 | uint32(data[26])<<8 | uint32(data[27])
+	d.h[6] = uint32(data[28])<<24 | uint32(data[29])<<16 | uint32(data[30])<<8 | uint32(data[31])
+	d.h[7] = uint32(data[32])<<24 | uint32(data[33])<<16 | uint32(data[34])<<8 | uint32(data[35])
+
+	copy(d.x[:], data[36:])
+
+	d.nx = int(data[100])<<24 | int(data[101])<<16 | int(data[102])<<8 | int(data[103])
+
+	d.len = uint64(data[104])<<56 | uint64(data[105])<<48 | uint64(data[106])<<40 | uint64(data[107])<<32 |
+		uint64(data[108])<<24 | uint64(data[109])<<16 | uint64(data[110])<<8 | uint64(data[111])
+
+	return nil
 }
 
 func (d *digest) Reset() {

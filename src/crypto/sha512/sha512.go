@@ -8,6 +8,7 @@ package sha512
 
 import (
 	"crypto"
+	"errors"
 	"hash"
 )
 
@@ -72,6 +73,8 @@ const (
 	init7_384 = 0x47b5481dbefa4fa4
 )
 
+const marshaledDigestSize = 4 + 8*8 + chunk + 8 + 8
+
 // digest represents the partial evaluation of a checksum.
 type digest struct {
 	h        [8]uint64
@@ -122,6 +125,87 @@ func (d *digest) Reset() {
 	}
 	d.nx = 0
 	d.len = 0
+}
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, marshaledDigestSize)
+	b[0], b[1], b[2] = 's', 'h', 'a'
+	switch d.function {
+	case crypto.SHA384:
+		b[3] = 0x04
+	case crypto.SHA512_224:
+		b[3] = 0x05
+	case crypto.SHA512_256:
+		b[3] = 0x06
+	case crypto.SHA512:
+		b[3] = 0x07
+	}
+
+	b[4], b[5], b[6], b[7] = byte(d.h[0]>>56), byte(d.h[0]>>48), byte(d.h[0]>>40), byte(d.h[0]>>32)
+	b[8], b[9], b[10], b[11] = byte(d.h[0]>>24), byte(d.h[0]>>16), byte(d.h[0]>>8), byte(d.h[0])
+	b[12], b[13], b[14], b[15] = byte(d.h[1]>>56), byte(d.h[1]>>48), byte(d.h[1]>>40), byte(d.h[1]>>32)
+	b[16], b[17], b[18], b[19] = byte(d.h[1]>>24), byte(d.h[1]>>16), byte(d.h[1]>>8), byte(d.h[1])
+	b[20], b[21], b[22], b[23] = byte(d.h[2]>>56), byte(d.h[2]>>48), byte(d.h[2]>>40), byte(d.h[2]>>32)
+	b[24], b[25], b[26], b[27] = byte(d.h[2]>>24), byte(d.h[2]>>16), byte(d.h[2]>>8), byte(d.h[2])
+	b[28], b[29], b[30], b[31] = byte(d.h[3]>>56), byte(d.h[3]>>48), byte(d.h[3]>>40), byte(d.h[3]>>32)
+	b[32], b[33], b[34], b[35] = byte(d.h[3]>>24), byte(d.h[3]>>16), byte(d.h[3]>>8), byte(d.h[3])
+	b[36], b[37], b[38], b[39] = byte(d.h[4]>>56), byte(d.h[4]>>48), byte(d.h[4]>>40), byte(d.h[4]>>32)
+	b[40], b[41], b[42], b[43] = byte(d.h[4]>>24), byte(d.h[4]>>16), byte(d.h[4]>>8), byte(d.h[4])
+	b[44], b[45], b[46], b[47] = byte(d.h[5]>>56), byte(d.h[5]>>48), byte(d.h[5]>>40), byte(d.h[5]>>32)
+	b[48], b[49], b[50], b[51] = byte(d.h[5]>>24), byte(d.h[5]>>16), byte(d.h[5]>>8), byte(d.h[5])
+	b[52], b[53], b[54], b[55] = byte(d.h[6]>>56), byte(d.h[6]>>48), byte(d.h[6]>>40), byte(d.h[6]>>32)
+	b[56], b[57], b[58], b[59] = byte(d.h[6]>>24), byte(d.h[6]>>16), byte(d.h[6]>>8), byte(d.h[6])
+	b[60], b[61], b[62], b[63] = byte(d.h[7]>>56), byte(d.h[7]>>48), byte(d.h[7]>>40), byte(d.h[7]>>32)
+	b[64], b[65], b[66], b[67] = byte(d.h[7]>>24), byte(d.h[7]>>16), byte(d.h[7]>>8), byte(d.h[7])
+
+	copy(b[68:], d.x[:])
+
+	b[196], b[197], b[198], b[199] = byte(d.nx>>24), byte(d.nx>>16), byte(d.nx>>8), byte(d.nx)
+
+	b[200], b[201], b[202], b[203] = byte(d.len>>56), byte(d.len>>48), byte(d.len>>40), byte(d.len>>32)
+	b[204], b[205], b[206], b[207] = byte(d.len>>24), byte(d.len>>16), byte(d.len>>8), byte(d.len)
+
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != marshaledDigestSize || data[0] != 's' || data[1] != 'h' || data[2] != 'a' {
+		return errors.New("crypto/sha512: invalid state")
+	}
+	switch {
+	case d.function == crypto.SHA384 && data[3] == 0x04:
+	case d.function == crypto.SHA512_224 && data[3] == 0x05:
+	case d.function == crypto.SHA512_256 && data[3] == 0x06:
+	case d.function == crypto.SHA512 && data[3] == 0x07:
+	default:
+		return errors.New("crypto/sha512: invalid state")
+	}
+
+	d.h[0] = uint64(data[4])<<56 | uint64(data[5])<<48 | uint64(data[6])<<40 | uint64(data[7])<<32 |
+		uint64(data[8])<<24 | uint64(data[9])<<16 | uint64(data[10])<<8 | uint64(data[11])
+	d.h[1] = uint64(data[12])<<56 | uint64(data[13])<<48 | uint64(data[14])<<40 | uint64(data[15])<<32 |
+		uint64(data[16])<<24 | uint64(data[17])<<16 | uint64(data[18])<<8 | uint64(data[19])
+	d.h[2] = uint64(data[20])<<56 | uint64(data[21])<<48 | uint64(data[22])<<40 | uint64(data[23])<<32 |
+		uint64(data[24])<<24 | uint64(data[25])<<16 | uint64(data[26])<<8 | uint64(data[27])
+	d.h[3] = uint64(data[28])<<56 | uint64(data[29])<<48 | uint64(data[30])<<40 | uint64(data[31])<<32 |
+		uint64(data[32])<<24 | uint64(data[33])<<16 | uint64(data[34])<<8 | uint64(data[35])
+	d.h[4] = uint64(data[36])<<56 | uint64(data[37])<<48 | uint64(data[38])<<40 | uint64(data[39])<<32 |
+		uint64(data[40])<<24 | uint64(data[41])<<16 | uint64(data[42])<<8 | uint64(data[43])
+	d.h[5] = uint64(data[44])<<56 | uint64(data[45])<<48 | uint64(data[46])<<40 | uint64(data[47])<<32 |
+		uint64(data[48])<<24 | uint64(data[49])<<16 | uint64(data[50])<<8 | uint64(data[51])
+	d.h[6] = uint64(data[52])<<56 | uint64(data[53])<<48 | uint64(data[54])<<40 | uint64(data[55])<<32 |
+		uint64(data[56])<<24 | uint64(data[57])<<16 | uint64(data[58])<<8 | uint64(data[59])
+	d.h[7] = uint64(data[60])<<56 | uint64(data[61])<<48 | uint64(data[62])<<40 | uint64(data[63])<<32 |
+		uint64(data[64])<<24 | uint64(data[65])<<16 | uint64(data[66])<<8 | uint64(data[67])
+
+	copy(d.x[:], data[68:])
+
+	d.nx = int(data[196])<<24 | int(data[197])<<16 | int(data[198])<<8 | int(data[199])
+
+	d.len = uint64(data[200])<<56 | uint64(data[201])<<48 | uint64(data[202])<<40 | uint64(data[203])<<32 |
+		uint64(data[204])<<24 | uint64(data[205])<<16 | uint64(data[206])<<8 | uint64(data[207])
+
+	return nil
 }
 
 // New returns a new hash.Hash computing the SHA-512 checksum.

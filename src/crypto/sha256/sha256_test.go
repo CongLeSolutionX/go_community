@@ -7,7 +7,9 @@
 package sha256
 
 import (
+	"bytes"
 	"crypto/rand"
+	"encoding"
 	"fmt"
 	"io"
 	"testing"
@@ -130,6 +132,57 @@ func TestGolden(t *testing.T) {
 			}
 			c.Reset()
 		}
+	}
+}
+
+func TestGoldenMarshal256(t *testing.T) {
+	testGoldenMarshal(t, 256, golden)
+}
+
+func TestGoldenMarshal224(t *testing.T) {
+	testGoldenMarshal(t, 224, golden224)
+}
+
+func testGoldenMarshal(t *testing.T, size int, gold []sha256Test) {
+	h := New()
+	h2 := New()
+	for _, g := range gold {
+		h.Reset()
+		h2.Reset()
+
+		io.WriteString(h, g.in[:len(g.in)/2])
+
+		state, err := h.(encoding.BinaryMarshaler).MarshalBinary()
+		if err != nil {
+			t.Errorf("could not marshal: %v", err)
+			continue
+		}
+
+		if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state); err != nil {
+			t.Errorf("could not unmarshal: %v", err)
+			continue
+		}
+
+		io.WriteString(h, g.in[len(g.in)/2:])
+		io.WriteString(h2, g.in[len(g.in)/2:])
+
+		if actual, actual2 := h.Sum(nil), h2.Sum(nil); !bytes.Equal(actual, actual2) {
+			t.Errorf("sha%d(%q) = 0x%x != marshaled 0x%x", size, g.in, actual, actual2)
+		}
+	}
+}
+
+func TestMarshalTypeMismatch(t *testing.T) {
+	h1 := New()
+	h2 := New224()
+
+	state1, err := h1.(encoding.BinaryMarshaler).MarshalBinary()
+	if err != nil {
+		t.Errorf("could not marshal: %v", err)
+	}
+
+	if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state1); err == nil {
+		t.Errorf("no error when one was expected")
 	}
 }
 

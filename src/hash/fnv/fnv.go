@@ -9,6 +9,7 @@
 package fnv
 
 import (
+	"errors"
 	"hash"
 )
 
@@ -214,4 +215,158 @@ func (s *sum128a) Sum(in []byte) []byte {
 		byte(s[0]>>56), byte(s[0]>>48), byte(s[0]>>40), byte(s[0]>>32), byte(s[0]>>24), byte(s[0]>>16), byte(s[0]>>8), byte(s[0]),
 		byte(s[1]>>56), byte(s[1]>>48), byte(s[1]>>40), byte(s[1]>>32), byte(s[1]>>24), byte(s[1]>>16), byte(s[1]>>8), byte(s[1]),
 	)
+}
+
+func (s *sum32) MarshalBinary() ([]byte, error) {
+	return []byte{
+		'f', 'n', 'v',
+		0x01,
+		byte(*s >> 24),
+		byte(*s >> 16),
+		byte(*s >> 8),
+		byte(*s),
+	}, nil
+}
+
+func (s *sum32a) MarshalBinary() ([]byte, error) {
+	return []byte{
+		'f', 'n', 'v',
+		0x02,
+		byte(*s >> 24),
+		byte(*s >> 16),
+		byte(*s >> 8),
+		byte(*s),
+	}, nil
+}
+
+func (s *sum64) MarshalBinary() ([]byte, error) {
+	return []byte{
+		'f', 'n', 'v',
+		0x03,
+		byte(*s >> 56),
+		byte(*s >> 48),
+		byte(*s >> 40),
+		byte(*s >> 32),
+		byte(*s >> 24),
+		byte(*s >> 16),
+		byte(*s >> 8),
+		byte(*s),
+	}, nil
+}
+
+func (s *sum64a) MarshalBinary() ([]byte, error) {
+	return []byte{
+		'f', 'n', 'v',
+		0x04,
+		byte(*s >> 56),
+		byte(*s >> 48),
+		byte(*s >> 40),
+		byte(*s >> 32),
+		byte(*s >> 24),
+		byte(*s >> 16),
+		byte(*s >> 8),
+		byte(*s),
+	}, nil
+}
+
+func (s *sum128) MarshalBinary() ([]byte, error) {
+	return []byte{
+		'f', 'n', 'v',
+		0x05,
+		byte(s[0] >> 56),
+		byte(s[0] >> 48),
+		byte(s[0] >> 40),
+		byte(s[0] >> 32),
+		byte(s[0] >> 24),
+		byte(s[0] >> 16),
+		byte(s[0] >> 8),
+		byte(s[0]),
+		byte(s[1] >> 56),
+		byte(s[1] >> 48),
+		byte(s[1] >> 40),
+		byte(s[1] >> 32),
+		byte(s[1] >> 24),
+		byte(s[1] >> 16),
+		byte(s[1] >> 8),
+		byte(s[1]),
+	}, nil
+}
+
+func (s *sum128a) MarshalBinary() ([]byte, error) {
+	return []byte{
+		'f', 'n', 'v',
+		0x06,
+		byte(s[0] >> 56),
+		byte(s[0] >> 48),
+		byte(s[0] >> 40),
+		byte(s[0] >> 32),
+		byte(s[0] >> 24),
+		byte(s[0] >> 16),
+		byte(s[0] >> 8),
+		byte(s[0]),
+		byte(s[1] >> 56),
+		byte(s[1] >> 48),
+		byte(s[1] >> 40),
+		byte(s[1] >> 32),
+		byte(s[1] >> 24),
+		byte(s[1] >> 16),
+		byte(s[1] >> 8),
+		byte(s[1]),
+	}, nil
+}
+
+func (s *sum32) UnmarshalBinary(data []byte) error {
+	if len(data) != 8 || data[0] != 'f' || data[1] != 'n' || data[2] != 'v' || data[3] != 0x01 {
+		return errors.New("hash/fnv: invalid state")
+	}
+	*s = sum32(data[4])<<24 | sum32(data[5])<<16 | sum32(data[6])<<8 | sum32(data[7])
+	return nil
+}
+
+func (s *sum32a) UnmarshalBinary(data []byte) error {
+	if len(data) != 8 || data[0] != 'f' || data[1] != 'n' || data[2] != 'v' || data[3] != 0x02 {
+		return errors.New("hash/fnv: invalid state")
+	}
+	*s = sum32a(data[4])<<24 | sum32a(data[5])<<16 | sum32a(data[6])<<8 | sum32a(data[7])
+	return nil
+}
+
+func (s *sum64) UnmarshalBinary(data []byte) error {
+	if len(data) != 12 || data[0] != 'f' || data[1] != 'n' || data[2] != 'v' || data[3] != 0x03 {
+		return errors.New("hash/fnv: invalid state")
+	}
+	*s = sum64(data[4])<<56 | sum64(data[5])<<48 | sum64(data[6])<<40 | sum64(data[7])<<32 |
+		sum64(data[8])<<24 | sum64(data[9])<<16 | sum64(data[10])<<8 | sum64(data[11])
+	return nil
+}
+
+func (s *sum64a) UnmarshalBinary(data []byte) error {
+	if len(data) != 12 || data[0] != 'f' || data[1] != 'n' || data[2] != 'v' || data[3] != 0x04 {
+		return errors.New("hash/fnv: invalid state")
+	}
+	*s = sum64a(data[4])<<56 | sum64a(data[5])<<48 | sum64a(data[6])<<40 | sum64a(data[7])<<32 |
+		sum64a(data[8])<<24 | sum64a(data[9])<<16 | sum64a(data[10])<<8 | sum64a(data[11])
+	return nil
+}
+
+func (s *sum128) UnmarshalBinary(data []byte) error {
+	if len(data) != 20 || data[0] != 'f' || data[1] != 'n' || data[2] != 'v' || data[3] != 0x05 {
+		return errors.New("hash/fnv: invalid state")
+	}
+	s[0] = uint64(data[4])<<56 | uint64(data[5])<<48 | uint64(data[6])<<40 | uint64(data[7])<<32 |
+		uint64(data[8])<<24 | uint64(data[9])<<16 | uint64(data[10])<<8 | uint64(data[11])
+	s[1] = uint64(data[12])<<56 | uint64(data[13])<<48 | uint64(data[14])<<40 | uint64(data[15])<<32 |
+		uint64(data[16])<<24 | uint64(data[17])<<16 | uint64(data[18])<<8 | uint64(data[19])
+	return nil
+}
+
+func (s *sum128a) UnmarshalBinary(data []byte) error {
+	if len(data) != 20 || data[0] != 'f' || data[1] != 'n' || data[2] != 'v' || data[3] != 0x06 {
+		return errors.New("hash/fnv: invalid state")
+	}
+	s[0] = uint64(data[4])<<56 | uint64(data[5])<<48 | uint64(data[6])<<40 | uint64(data[7])<<32 |
+		uint64(data[8])<<24 | uint64(data[9])<<16 | uint64(data[10])<<8 | uint64(data[11])
+	s[1] = uint64(data[12])<<56 | uint64(data[13])<<48 | uint64(data[14])<<40 | uint64(data[15])<<32 |
+		uint64(data[16])<<24 | uint64(data[17])<<16 | uint64(data[18])<<8 | uint64(data[19])
+	return nil
 }

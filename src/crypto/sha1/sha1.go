@@ -10,6 +10,7 @@ package sha1
 
 import (
 	"crypto"
+	"errors"
 	"hash"
 )
 
@@ -32,12 +33,55 @@ const (
 	init4 = 0xC3D2E1F0
 )
 
+const marshaledDigestSize = 4 + 5*4 + chunk + 4 + 8
+
 // digest represents the partial evaluation of a checksum.
 type digest struct {
 	h   [5]uint32
 	x   [chunk]byte
 	nx  int
 	len uint64
+}
+
+func (d *digest) MarshalBinary() ([]byte, error) {
+	b := make([]byte, marshaledDigestSize)
+	b[0], b[1], b[2], b[3] = 's', 'h', 'a', 0x01
+
+	b[4], b[5], b[6], b[7] = byte(d.h[0]>>24), byte(d.h[0]>>16), byte(d.h[0]>>8), byte(d.h[0])
+	b[8], b[9], b[10], b[11] = byte(d.h[1]>>24), byte(d.h[1]>>16), byte(d.h[1]>>8), byte(d.h[1])
+	b[12], b[13], b[14], b[15] = byte(d.h[2]>>24), byte(d.h[2]>>16), byte(d.h[2]>>8), byte(d.h[2])
+	b[16], b[17], b[18], b[19] = byte(d.h[3]>>24), byte(d.h[3]>>16), byte(d.h[3]>>8), byte(d.h[3])
+	b[20], b[21], b[22], b[23] = byte(d.h[4]>>24), byte(d.h[4]>>16), byte(d.h[4]>>8), byte(d.h[4])
+
+	copy(b[24:], d.x[:])
+
+	b[88], b[89], b[90], b[91] = byte(d.nx>>24), byte(d.nx>>16), byte(d.nx>>8), byte(d.nx)
+
+	b[92], b[93], b[94], b[95] = byte(d.len>>56), byte(d.len>>48), byte(d.len>>40), byte(d.len>>32)
+	b[96], b[97], b[98], b[99] = byte(d.len>>24), byte(d.len>>16), byte(d.len>>8), byte(d.len)
+
+	return b, nil
+}
+
+func (d *digest) UnmarshalBinary(data []byte) error {
+	if len(data) != marshaledDigestSize || data[0] != 's' || data[1] != 'h' || data[2] != 'a' || data[3] != 0x01 {
+		return errors.New("crypto/sha1: invalid state")
+	}
+
+	d.h[0] = uint32(data[4])<<24 | uint32(data[5])<<16 | uint32(data[6])<<8 | uint32(data[7])
+	d.h[1] = uint32(data[8])<<24 | uint32(data[9])<<16 | uint32(data[10])<<8 | uint32(data[11])
+	d.h[2] = uint32(data[12])<<24 | uint32(data[13])<<16 | uint32(data[14])<<8 | uint32(data[15])
+	d.h[3] = uint32(data[16])<<24 | uint32(data[17])<<16 | uint32(data[18])<<8 | uint32(data[19])
+	d.h[4] = uint32(data[20])<<24 | uint32(data[21])<<16 | uint32(data[22])<<8 | uint32(data[23])
+
+	copy(d.x[:], data[24:])
+
+	d.nx = int(data[88])<<24 | int(data[89])<<16 | int(data[90])<<8 | int(data[91])
+
+	d.len = uint64(data[92])<<56 | uint64(data[93])<<48 | uint64(data[94])<<40 | uint64(data[95])<<32 |
+		uint64(data[96])<<24 | uint64(data[97])<<16 | uint64(data[98])<<8 | uint64(data[99])
+
+	return nil
 }
 
 func (d *digest) Reset() {
