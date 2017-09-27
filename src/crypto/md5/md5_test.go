@@ -5,7 +5,9 @@
 package md5
 
 import (
+	"bytes"
 	"crypto/rand"
+	"encoding"
 	"fmt"
 	"io"
 	"testing"
@@ -78,6 +80,35 @@ func TestGolden(t *testing.T) {
 				t.Fatalf("md5[%d](%s) = %s want %s", j, g.in, s, g.out)
 			}
 			c.Reset()
+		}
+	}
+}
+
+func TestGoldenMarshal(t *testing.T) {
+	h := New()
+	h2 := New()
+	for _, g := range golden {
+		h.Reset()
+		h2.Reset()
+
+		io.WriteString(h, g.in[:len(g.in)/2])
+
+		state, err := h.(encoding.BinaryMarshaler).MarshalBinary()
+		if err != nil {
+			t.Errorf("could not marshal: %v", err)
+			continue
+		}
+
+		if err := h2.(encoding.BinaryUnmarshaler).UnmarshalBinary(state); err != nil {
+			t.Errorf("could not unmarshal: %v", err)
+			continue
+		}
+
+		io.WriteString(h, g.in[len(g.in)/2:])
+		io.WriteString(h2, g.in[len(g.in)/2:])
+
+		if actual, actual2 := h.Sum(nil), h2.Sum(nil); !bytes.Equal(actual, actual2) {
+			t.Errorf("md5(%q) = 0x%x != marshaled 0x%x", g.in, actual, actual2)
 		}
 	}
 }
