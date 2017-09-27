@@ -39,6 +39,30 @@
       "revId": "1f6737aa0ddd184e79d9f1939815c8215953607e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2df559c4_11f59b34",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2017-09-27T06:44:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47883728_9607e0c8",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 105,
+        "endChar": 3
+      },
+      "revId": "1f6737aa0ddd184e79d9f1939815c8215953607e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
