@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16c55bcb_79691bcb",
+        "filename": "src/database/sql/sql_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3167,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-09-27T13:08:27Z",
+      "side": 1,
+      "message": "Sleep for 100 nanoseconds? The race detector doesn\u0027t need a sleep to detect overlapping memory accesses. Is this needed? What justification is there for the 100ns value?",
+      "revId": "a26dd2e6a836f0e4a33b7cb98ddb0cd840c81687",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
