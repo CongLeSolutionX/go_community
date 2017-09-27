@@ -69,6 +69,24 @@
       "revId": "7a5b35ba2e134636cb36848b7af66ed1a6e80bf0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "271e9b72_7813157f",
+        "filename": "src/path/filepath/example_unix_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-27T00:52:01Z",
+      "side": 1,
+      "message": "Yes, without the output these aren\u0027t too useful, unfortunately.\n\nPerhaps the docs needs to be improved.",
+      "parentUuid": "83cdd424_03a8e5f9",
+      "revId": "7a5b35ba2e134636cb36848b7af66ed1a6e80bf0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
