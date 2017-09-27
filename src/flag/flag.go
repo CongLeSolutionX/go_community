@@ -71,6 +71,7 @@ import (
 	"reflect"
 	"sort"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -448,9 +449,9 @@ func UnquoteUsage(flag *Flag) (name string, usage string) {
 	return
 }
 
-// PrintDefaults prints to standard error the default values of all
-// defined command-line flags in the set. See the documentation for
-// the global function PrintDefaults for more information.
+// PrintDefaults prints, to standard error unless configured otherwise, the
+// default values of all defined command-line flags in the set. See the
+// documentation for the global function PrintDefaults for more information.
 func (f *FlagSet) PrintDefaults() {
 	f.VisitAll(func(flag *Flag) {
 		s := fmt.Sprintf("  -%s", flag.Name) // Two spaces before -; see next two comments.
@@ -458,16 +459,20 @@ func (f *FlagSet) PrintDefaults() {
 		if len(name) > 0 {
 			s += " " + name
 		}
-		// Boolean flags of one ASCII letter are so common we
-		// treat them specially, putting their usage on the same line.
-		if len(s) <= 4 { // space, space, '-', 'x'.
-			s += "\t"
-		} else {
-			// Four spaces before the tab triggers good alignment
-			// for both 4- and 8-space tab stops.
-			s += "\n    \t"
+		lines := strings.Split(usage, "\n")
+		for i, line := range lines {
+			// Boolean flags of one ASCII letter are so common we
+			// treat them specially, putting their usage on the same line.
+			if i == 0 && len(s) <= 4 { // space, space, '-', 'x'.
+				s += "\t"
+			} else {
+				// Four spaces before the tab triggers good alignment
+				// for both 4- and 8-space tab stops.
+				s += "\n    \t"
+			}
+			s += line
 		}
-		s += usage
+
 		if !isZeroValue(flag, flag.DefValue) {
 			if _, ok := flag.Value.(*stringValue); ok {
 				// put quotes on the value
