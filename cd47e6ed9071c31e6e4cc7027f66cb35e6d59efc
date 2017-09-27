@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "798e8ba7_108dee6a",
+        "filename": "src/cmd/cgo/gcc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2561,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-09-27T04:07:25Z",
+      "side": 1,
+      "message": "s/which/that/",
+      "range": {
+        "startLine": 2561,
+        "startChar": 39,
+        "endLine": 2561,
+        "endChar": 44
+      },
+      "revId": "cd47e6ed9071c31e6e4cc7027f66cb35e6d59efc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
