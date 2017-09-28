@@ -132,6 +132,24 @@
       "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adbef3ff_4d88e45c",
+        "filename": "src/cmd/go/testdata/src/complex/nest/sub/test12/p.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-09-28T20:53:55Z",
+      "side": 1,
+      "message": "The nice thing about having multiple files is that you can run the tests by hand. For example in addition to the actual cmd/go TestWhatever function, I can run\n\nGOPATH\u003d.../src/cmd/go/testdata go build -compiler gccgo complex\n\nas a simple test while I work. If the files are packed into some bigger single file just to get rid of having tiny files, this is lost, and it seems important to me at least.\n\nIf we have to do something I\u0027d do a global copyright-addition sweep.\n\nBut certainly not for this CL anyway.",
+      "parentUuid": "96c6629e_7409442d",
+      "revId": "adf87770bb8c421476e99c68e4a62a3a5348d682",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
