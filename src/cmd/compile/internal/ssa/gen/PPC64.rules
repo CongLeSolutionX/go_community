@@ -70,12 +70,6 @@
 (Cvt32Fto64F x) -> x // Note x will have the wrong type for patterns dependent on Float32/Float64
 (Cvt64Fto32F x) -> (FRSP x)
 
-(MOVDload [off] {sym} ptr (FMOVDstore [off] {sym} ptr x _)) -> (MFVSRD x)
-(FMOVDload [off] {sym} ptr (MOVDstore [off] {sym} ptr x _)) -> (MTVSRD x)
-
-(FMOVDstore [off] {sym} ptr (MTVSRD x) mem) -> (MOVDstore [off] {sym} ptr x mem)
-(MOVDstore [off] {sym} ptr (MFVSRD x) mem) -> (FMOVDstore [off] {sym} ptr x mem)
-
 (Round32F x) -> (LoweredRound32F x)
 (Round64F x) -> (LoweredRound64F x)
 
@@ -83,6 +77,8 @@
 (Floor x) -> (FFLOOR x)
 (Ceil x) -> (FCEIL x)
 (Trunc x) -> (FTRUNC x)
+(Copysign x y) -> (FCPSGN y x)
+(Abs x) -> (FABS x)
 
 // Lowering constants
 (Const8   [val]) -> (MOVDconst [val])
@@ -733,6 +729,20 @@
 // TODO deal with subtract-from-const
 
 (ADDconst [c] (MOVDaddr [d] {sym} x)) -> (MOVDaddr [c+d] {sym} x)
+
+// Use register moves instead of stores and loads to move int<->float values
+// Common with math Float64bits, Float64frombits
+(MOVDload [off] {sym} ptr (FMOVDstore [off] {sym} ptr x _)) -> (MFVSRD x)
+(FMOVDload [off] {sym} ptr (MOVDstore [off] {sym} ptr x _)) -> (MTVSRD x)
+
+(FMOVDstore [off] {sym} ptr (MTVSRD x) mem) -> (MOVDstore [off] {sym} ptr x mem)
+(MOVDstore [off] {sym} ptr (MFVSRD x) mem) -> (FMOVDstore [off] {sym} ptr x mem)
+
+(MTVSRD (MOVDconst [c])) -> (FMOVDconst [c])
+(MFVSRD (FMOVDconst [c])) -> (MOVDconst [c])
+
+(MTVSRD x:(MOVDload [off] {sym} ptr mem)) && !config.BigEndian && x.Uses == 1 && clobber(x) -> @x.Block (FMOVDload [off] {sym} ptr mem)
+(MFVSRD x:(FMOVDload [off] {sym} ptr mem)) && !config.BigEndian && x.Uses == 1 && clobber(x) -> @x.Block (MOVDload [off] {sym} ptr mem)
 
 // Fold offsets for stores.
 (MOVDstore [off1] {sym} (ADDconst [off2] x) val mem) && is16Bit(off1+off2) -> (MOVDstore [off1+off2] {sym} x val mem)
