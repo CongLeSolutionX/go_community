@@ -6,12 +6,14 @@ package rpc
 
 import (
 	"bufio"
+	"context"
 	"encoding/gob"
 	"errors"
 	"io"
 	"log"
 	"net"
 	"net/http"
+	"runtime/trace"
 	"sync"
 )
 
@@ -31,7 +33,9 @@ type Call struct {
 	Args          interface{} // The argument to the function (*struct).
 	Reply         interface{} // The reply from the function (*struct).
 	Error         error       // After completion, the error status.
-	Done          chan *Call  // Strobes when call is complete.
+	Ctx           context.Context
+	Done          chan *Call // Strobes when call is complete.
+	endTrace      func()
 }
 
 // Client represents an RPC Client.
@@ -84,6 +88,8 @@ func (client *Client) send(call *Call) {
 	client.seq++
 	client.pending[seq] = call
 	client.mutex.Unlock()
+
+	trace.Logf(call.Ctx, "seq", "%x", seq)
 
 	// Encode and send the request.
 	client.request.Seq = seq
@@ -169,6 +175,11 @@ func (client *Client) input() {
 }
 
 func (call *Call) done() {
+	if call.Error != nil {
+		trace.Logf(call.Ctx, "error", "%v", call.Error)
+	}
+	call.endTrace()
+
 	select {
 	case call.Done <- call:
 		// ok
@@ -296,6 +307,7 @@ func (client *Client) Go(serviceMethod string, args interface{}, reply interface
 	call.ServiceMethod = serviceMethod
 	call.Args = args
 	call.Reply = reply
+	call.Ctx, call.endTrace = trace.NewContext(context.TODO(), "[client] "+serviceMethod)
 	if done == nil {
 		done = make(chan *Call, 10) // buffered.
 	} else {
