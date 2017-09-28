@@ -268,10 +268,12 @@ var genericOps = []opData{
 	//   ±∞  → ±∞ (sign preserved)
 	//   ±0  → ±0 (sign preserved)
 	//   NaN → NaN
-	{name: "Floor", argLength: 1}, // round arg0 toward -∞
-	{name: "Ceil", argLength: 1},  // round arg0 toward +∞
-	{name: "Trunc", argLength: 1}, // round arg0 toward 0
-	{name: "Round", argLength: 1}, // round arg0 to nearest, ties away from 0
+	{name: "Floor", argLength: 1},    // round arg0 toward -∞
+	{name: "Ceil", argLength: 1},     // round arg0 toward +∞
+	{name: "Trunc", argLength: 1},    // round arg0 toward 0
+	{name: "Round", argLength: 1},    // round arg0 to nearest, ties away from 0
+	{name: "Abs", argLength: 1},      // abs arg[0]
+	{name: "Copysign", argLength: 2}, // copysign from arg[0] to arg[1]
 
 	// Data movement, max argument length for Phi is indefinite so just pick
 	// a really large number

@@ -15,6 +15,9 @@ import (
 )
 
 func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
+	if f.pass.dump[f.Name] {
+		fmt.Printf("### Starting rewrite for: %s ###\n", f.Name)
+	}
 	// repeat rewrites until we find no more rewrites
 	for {
 		change := false
@@ -59,7 +62,15 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 		if !change {
 			break
 		}
+		if f.pass.dump[f.Name] {
+			fmt.Printf("### Finished rewrite ... ###\n")
+			f.String()
+		}
 	}
+	if f.pass.dump[f.Name] {
+		fmt.Printf("### All rewrites done ###\n")
+	}
+
 	// remove clobbered values
 	for _, b := range f.Blocks {
 		j := 0
