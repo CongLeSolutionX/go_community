@@ -46,6 +46,30 @@
       "revId": "972a42ab8547fc2e1993f7ae2175223ced0ecaf2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "194096ad_6589f97c",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 24681
+      },
+      "writtenOn": "2017-09-28T12:15:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d337358c_9da5c00a",
+      "range": {
+        "startLine": 141,
+        "startChar": 1,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "972a42ab8547fc2e1993f7ae2175223ced0ecaf2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
