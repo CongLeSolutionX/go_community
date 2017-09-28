@@ -249,6 +249,9 @@ func init() {
 		{name: "FFLOOR", argLength: 1, reg: fp11, asm: "FRIM"},                              // floor(arg0), float64
 		{name: "FCEIL", argLength: 1, reg: fp11, asm: "FRIP"},                               // ceil(arg0), float64
 		{name: "FTRUNC", argLength: 1, reg: fp11, asm: "FRIZ"},                              // trunc(arg0), float64
+		{name: "FABS", argLength: 1, reg: fp11, asm: "FABS", typ: "Float64"},                // abs arg0 (floating point)
+		{name: "FNABS", argLength: 1, reg: fp11, asm: "FNABS", typ: "Float64"},              // -abs arg0 (floating point)
+		{name: "FCPSGN", argLength: 2, reg: fp21, asm: "FCPSGN"},                            // copysign arg0 -> arg1
 
 		{name: "ORconst", argLength: 1, reg: gp11, asm: "OR", aux: "Int64"},                                                                                     // arg0|aux
 		{name: "XORconst", argLength: 1, reg: gp11, asm: "XOR", aux: "Int64"},                                                                                   // arg0^aux
