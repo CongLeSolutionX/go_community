@@ -128,13 +128,16 @@ package rpc
 
 import (
 	"bufio"
+	"context"
 	"encoding/gob"
 	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net"
 	"net/http"
 	"reflect"
+	"runtime/trace"
 	"strings"
 	"sync"
 	"unicode"
@@ -173,6 +176,8 @@ type Request struct {
 	ServiceMethod string   // format: "Service.Method"
 	Seq           uint64   // sequence number chosen by client
 	next          *Request // for free list in Server
+	Ctx           context.Context
+	endTrace      func()
 }
 
 // Response is a header written before every RPC return. It is used internally
@@ -348,21 +353,29 @@ func suitableMethods(typ reflect.Type, reportErr bool) map[string]*methodType {
 var invalidRequest = struct{}{}
 
 func (server *Server) sendResponse(sending *sync.Mutex, req *Request, reply interface{}, codec ServerCodec, errmsg string) {
-	resp := server.getResponse()
-	// Encode the response header
-	resp.ServiceMethod = req.ServiceMethod
-	if errmsg != "" {
-		resp.Error = errmsg
-		reply = invalidRequest
-	}
-	resp.Seq = req.Seq
-	sending.Lock()
-	err := codec.WriteResponse(resp, reply)
-	if debugLog && err != nil {
-		log.Println("rpc: writing response:", err)
-	}
-	sending.Unlock()
-	server.freeResponse(resp)
+	trace.WithSpan(req.Ctx, "sendResponse", func(ctx context.Context) {
+		resp := server.getResponse()
+		// Encode the response header
+		resp.ServiceMethod = req.ServiceMethod
+		if errmsg != "" {
+			resp.Error = errmsg
+			reply = invalidRequest
+		}
+		resp.Seq = req.Seq
+		if errmsg != "" {
+			trace.Log(ctx, "error", errmsg)
+		}
+
+		sending.Lock()
+		trace.WithSpan(ctx, "codec.WriteResponse", func(ctx context.Context) {
+			err := codec.WriteResponse(resp, reply)
+			if debugLog && err != nil {
+				log.Println("rpc: writing response:", err)
+			}
+		})
+		sending.Unlock()
+		server.freeResponse(resp)
+	})
 }
 
 func (m *methodType) NumCalls() (n uint) {
@@ -373,20 +386,25 @@ func (m *methodType) NumCalls() (n uint) {
 }
 
 func (s *service) call(server *Server, sending *sync.Mutex, mtype *methodType, req *Request, argv, replyv reflect.Value, codec ServerCodec) {
-	mtype.Lock()
-	mtype.numCalls++
-	mtype.Unlock()
-	function := mtype.method.Func
-	// Invoke the method, providing a new value for the reply.
-	returnValues := function.Call([]reflect.Value{s.rcvr, argv, replyv})
-	// The return value for the method is an error.
-	errInter := returnValues[0].Interface()
-	errmsg := ""
-	if errInter != nil {
-		errmsg = errInter.(error).Error()
+	if endTrace := req.endTrace; endTrace != nil {
+		defer endTrace()
 	}
-	server.sendResponse(sending, req, replyv.Interface(), codec, errmsg)
-	server.freeRequest(req)
+	trace.WithSpan(req.Ctx, "service.call", func(ctx context.Context) {
+		mtype.Lock()
+		mtype.numCalls++
+		mtype.Unlock()
+		function := mtype.method.Func
+		// Invoke the method, providing a new value for the reply.
+		returnValues := function.Call([]reflect.Value{s.rcvr, argv, replyv})
+		// The return value for the method is an error.
+		errInter := returnValues[0].Interface()
+		errmsg := ""
+		if errInter != nil {
+			errmsg = errInter.(error).Error()
+		}
+		server.sendResponse(sending, req, replyv.Interface(), codec, errmsg)
+		server.freeRequest(req)
+	})
 }
 
 type gobServerCodec struct {
@@ -442,6 +460,12 @@ func (c *gobServerCodec) Close() error {
 // ServeConn uses the gob wire format (see package gob) on the
 // connection. To use an alternate codec, use ServeCodec.
 func (server *Server) ServeConn(conn io.ReadWriteCloser) {
+	ctx, end := trace.NewContext(context.Background(), "[server] rpc.ServeConn")
+	defer end()
+
+	if conn, ok := (conn).(net.Conn); ok {
+		trace.Log(ctx, "peer", conn.RemoteAddr().String())
+	}
 	buf := bufio.NewWriter(conn)
 	srv := &gobServerCodec{
 		rwc:    conn,
@@ -467,8 +491,12 @@ func (server *Server) ServeCodec(codec ServerCodec) {
 			}
 			// send a response if we actually managed to read a header.
 			if req != nil {
+				endTrace := req.endTrace
 				server.sendResponse(sending, req, invalidRequest, codec, err.Error())
 				server.freeRequest(req)
+				if endTrace != nil {
+					endTrace()
+				}
 			}
 			continue
 		}
@@ -488,6 +516,7 @@ func (server *Server) ServeRequest(codec ServerCodec) error {
 		}
 		// send a response if we actually managed to read a header.
 		if req != nil {
+			defer req.endTrace()
 			server.sendResponse(sending, req, invalidRequest, codec, err.Error())
 			server.freeRequest(req)
 		}
@@ -588,29 +617,35 @@ func (server *Server) readRequestHeader(codec ServerCodec) (svc *service, mtype 
 		return
 	}
 
-	// We read the header successfully. If we see an error now,
-	// we can still recover and move on to the next request.
-	keepReading = true
+	req.Ctx, req.endTrace = trace.NewContext(context.TODO(), fmt.Sprintf("[server] %s", req.ServiceMethod))
+	trace.WithSpan(req.Ctx, "readRequestHeader", func(ctx context.Context) {
+		trace.Logf(ctx, "seq", "%x", req.Seq)
 
-	dot := strings.LastIndex(req.ServiceMethod, ".")
-	if dot < 0 {
-		err = errors.New("rpc: service/method request ill-formed: " + req.ServiceMethod)
-		return
-	}
-	serviceName := req.ServiceMethod[:dot]
-	methodName := req.ServiceMethod[dot+1:]
+		// We read the header successfully. If we see an error now,
+		// we can still recover and move on to the next request.
+		keepReading = true
 
-	// Look up the request.
-	svci, ok := server.serviceMap.Load(serviceName)
-	if !ok {
-		err = errors.New("rpc: can't find service " + req.ServiceMethod)
-		return
-	}
-	svc = svci.(*service)
-	mtype = svc.method[methodName]
-	if mtype == nil {
-		err = errors.New("rpc: can't find method " + req.ServiceMethod)
-	}
+		dot := strings.LastIndex(req.ServiceMethod, ".")
+		if dot < 0 {
+			err = errors.New("rpc: service/method request ill-formed: " + req.ServiceMethod)
+			return
+		}
+		serviceName := req.ServiceMethod[:dot]
+		methodName := req.ServiceMethod[dot+1:]
+
+		// Look up the request.
+		svci, ok := server.serviceMap.Load(serviceName)
+		if !ok {
+			err = errors.New("rpc: can't find service " + req.ServiceMethod)
+			return
+		}
+		svc = svci.(*service)
+		mtype = svc.method[methodName]
+		if mtype == nil {
+			err = errors.New("rpc: can't find method " + req.ServiceMethod)
+		}
+	})
+
 	return
 }
 
