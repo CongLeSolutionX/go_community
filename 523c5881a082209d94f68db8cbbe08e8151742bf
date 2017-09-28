@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13194a62_15b1dee5",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-09-28T14:22:51Z",
+      "side": 1,
+      "message": "This works, but I think it would be a bit clearer to restore the original version and make the 1-line change replacing\n\n    s +\u003d usage\n\nwith\n\n    s +\u003d strings.Replace(s, \"\\n\", \"\\n    \\t\", -1)\n\nI had a hard time following the combination of the loop and the first-line logic.",
+      "revId": "523c5881a082209d94f68db8cbbe08e8151742bf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
