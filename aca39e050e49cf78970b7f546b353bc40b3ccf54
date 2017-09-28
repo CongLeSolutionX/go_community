@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "40342ba2_3af0d76a",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-28T17:54:01Z",
+      "side": 1,
+      "message": "How would you feel about renaming \"Pos\" to \"LastPos\"?\nIts current description\n  \"// Source position for block\u0027s control operation\"\nleaves it somewhat ambiguous for plain and zero-successor blocks.",
+      "parentUuid": "f68a3b9b_5a35e5fe",
+      "revId": "aca39e050e49cf78970b7f546b353bc40b3ccf54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a358a56_fc4d1d0d",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "fd54ef03_4d12b391",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-28T17:54:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a358a56_fc4d1d0d",
+      "revId": "aca39e050e49cf78970b7f546b353bc40b3ccf54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f048581_c9d122c8",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 10
@@ -47,6 +83,24 @@
       "writtenOn": "2017-09-28T17:28:24Z",
       "side": 1,
       "message": "You already do this in endBlock, right?\nSame throughout this file.",
+      "revId": "aca39e050e49cf78970b7f546b353bc40b3ccf54",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb048cc6_3a70bef3",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-28T17:54:01Z",
+      "side": 1,
+      "message": "Not quite -- endBlock leaves it unset for plain empty blocks.\nThese cases (which are all control flow-related) set it no matter what.\nPerhaps a comment would help?",
+      "parentUuid": "3f048581_c9d122c8",
       "revId": "aca39e050e49cf78970b7f546b353bc40b3ccf54",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

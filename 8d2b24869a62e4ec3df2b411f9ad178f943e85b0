@@ -33,6 +33,24 @@
       "revId": "8d2b24869a62e4ec3df2b411f9ad178f943e85b0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c9f895_72cc138c",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-28T17:54:01Z",
+      "side": 1,
+      "message": "Done. It uses a (also deleted after run) tempdir.",
+      "parentUuid": "8da8a177_7e8ede5f",
+      "revId": "8d2b24869a62e4ec3df2b411f9ad178f943e85b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
