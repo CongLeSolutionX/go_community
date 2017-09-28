@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd2993dd_7da0f3f6",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-09-28T20:48:58Z",
+      "side": 1,
+      "message": "I thought all new code should use yyerrorl?",
+      "revId": "d818e4679fcdfbe47d79a8aca61d76af741ce54d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc19d17a_32e613a6",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-09-28T20:48:58Z",
+      "side": 1,
+      "message": "Since all you do is check two ints against zero, perhaps collapse both into a bool? The name could be something like \"newOrError\".",
+      "revId": "d818e4679fcdfbe47d79a8aca61d76af741ce54d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
