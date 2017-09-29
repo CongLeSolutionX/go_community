@@ -1011,19 +1011,27 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 		p.To.Type = obj.TYPE_BRANCH
 		s.Branches = append(s.Branches, gc.Branch{P: p, B: b.Succs[0].Block()})
 
-		// No spare register to target but we can do a test-byte and stomp on condition codes,
-		// which are dead down the fault branch.
-		rssym := b.Func.Fe().Syslook("reschedulePage")
-
 		p = s.Prog(x86.ATESTB)
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = x86.REG_AX
 
-		p.To.Type = obj.TYPE_MEM
-		// p.To.Reg = x86.REG_AX
-		p.To.Name = obj.NAME_EXTERN
-		p.To.Sym = rssym
-		p.To.Offset = reschedulePagePad
+		if b.Func.Config.ReschedTest == 'i' {
+			// Indirect fault test. b.Control contains the
+			// address to test.
+			p.To.Type = obj.TYPE_MEM
+			p.To.Reg = b.Control.Reg()
+		} else {
+			// No spare register to target but we can do a test-byte and stomp on condition codes,
+			// which are dead down the fault branch.
+			rssym := b.Func.Fe().Syslook("reschedulePage")
+
+			// Direct fault test. (reschedulePage +
+			// reschedulePagePad) is the address to test.
+			p.To.Type = obj.TYPE_MEM
+			p.To.Name = obj.NAME_EXTERN
+			p.To.Sym = rssym
+			p.To.Offset = reschedulePagePad
+		}
 
 		if b.Succs[1].Block() != next {
 			p := s.Prog(obj.AJMP)
