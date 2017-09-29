@@ -70,12 +70,11 @@ func insertLoopReschedChecks(f *Func) {
 	}
 
 	// TODO expand this to other architectures as BlockIf is implemented there.
-	testWithFault := f.Config.arch == "amd64"
+	testType := f.Config.ReschedTest
 	switch f.pass.test {
 	case 1:
-		testWithFault = false
-	case 2:
-		testWithFault = true // two, true, it rhymes.
+		// Force stack bound check
+		testType = 's'
 	}
 
 	backedges := backedges(f)
@@ -177,6 +176,7 @@ func insertLoopReschedChecks(f *Func) {
 	}
 
 	// Rewrite backedges to include reschedule checks.
+	var sb *Value
 	for _, emc := range tofixBackedges {
 		e := emc.e
 		headerMemPhi := emc.m
@@ -220,9 +220,10 @@ func insertLoopReschedChecks(f *Func) {
 		// adjusted for the additional input.
 
 		var test *Block
-		if testWithFault {
+		switch testType {
+		case 'd', 'i': // Fault-based check
 			test = f.NewBlock(BlockIfFault)
-		} else {
+		case 's': // Stack bound check
 			test = f.NewBlock(BlockIf)
 		}
 		sched := f.NewBlock(BlockPlain)
@@ -234,7 +235,8 @@ func insertLoopReschedChecks(f *Func) {
 		// which may make more sense on architectures where reference
 		// to a global variable is less convenient.
 
-		if !testWithFault {
+		switch testType {
+		case 's': // Stack bound check
 			// if sp < g.limit { goto sched }
 			// goto header
 			types := &f.Config.Types
@@ -249,6 +251,27 @@ func insertLoopReschedChecks(f *Func) {
 			lim := test.NewValue2(bb.Pos, OpLoad, pt, limaddr, mem0)
 			cmp := test.NewValue2(bb.Pos, cmpOp, types.Bool, sp, lim)
 			test.SetControl(cmp)
+
+		case 'i': // Indirect fault-based check
+			types := &f.Config.Types
+			// Find or create the SB, which may have been
+			// dead-code eliminated by this point.
+			if sb == nil {
+				for _, v := range f.Entry.Values {
+					if v.Op == OpSB {
+						sb = v
+						break
+					}
+				}
+			}
+			if sb == nil {
+				sb = f.Entry.NewValue0(f.Entry.Pos, OpSB, f.Config.Types.Uintptr)
+			}
+			// reschedulePage is a pointer to where to test.
+			rssym := f.fe.Syslook("reschedulePage")
+			rsaddr := test.NewValue1A(bb.Pos, OpAddr, types.BytePtrPtr, rssym, sb)
+			rs := test.NewValue2(bb.Pos, OpLoad, types.BytePtr, rsaddr, mem0)
+			test.SetControl(rs)
 		}
 
 		// if true, goto sched

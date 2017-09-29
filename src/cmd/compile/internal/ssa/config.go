@@ -36,6 +36,7 @@ type Config struct {
 	useSSE          bool          // Use SSE for non-float operations
 	nacl            bool          // GOOS=nacl
 	use387          bool          // GO386=387
+	ReschedTest     byte          // Loop preemption check: 'd' direct, 'i' indirect, 's' stack bound check
 	NeedsFpScratch  bool          // No direct move between GP and FP register sets
 	BigEndian       bool          //
 	sparsePhiCutoff uint64        // Sparse phi location algorithm used above this #blocks*#variables score
@@ -276,6 +277,26 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 	c.optimize = optimize
 	c.nacl = objabi.GOOS == "nacl"
 	c.useSSE = true
+
+	c.ReschedTest = 's' // Stack bound check requires no runtime support
+	if arch == "amd64" {
+		// TODO expand this to other architectures as BlockIf is implemented there.
+		//
+		// That direct and indirect reschedule checks require
+		// different runtime support, so any changes here need
+		// to be reflected in the build tags in
+		// runtime/resched_*.go.
+		switch objabi.GOOS {
+		case "windows":
+			// Windows only supports indirect reschedule check.
+			c.ReschedTest = 'i'
+		case "plan9":
+			// No support for fault-based checks.
+		default:
+			// Unixes all support direct reschedule check.
+			c.ReschedTest = 'd'
+		}
+	}
 
 	// Don't use Duff's device nor SSE on Plan 9 AMD64, because
 	// floating point operations are not allowed in note handler.
