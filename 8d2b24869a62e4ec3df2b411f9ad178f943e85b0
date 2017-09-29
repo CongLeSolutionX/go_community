@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa3de720_0043e303",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-29T22:09:41Z",
+      "side": 1,
+      "message": "Decided to test it both ways, since we\u0027re definitely go to want that ability in the future.",
+      "parentUuid": "e6013d6b_66f3b001",
+      "revId": "8d2b24869a62e4ec3df2b411f9ad178f943e85b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8da8a177_7e8ede5f",
         "filename": "src/cmd/compile/internal/ssa/debug_test.go",
         "patchSetId": 7

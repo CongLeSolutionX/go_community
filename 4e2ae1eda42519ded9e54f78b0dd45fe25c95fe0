@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6f76e25_0f546178",
+        "filename": "src/cmd/compile/internal/ssa/testdata/hist-dbg.delve-nexts",
+        "patchSetId": 17
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-09-29T22:09:41Z",
+      "side": 1,
+      "message": "This is a bug, not sure of the cause but I think I\u0027d like that to be a new bug.",
+      "range": {
+        "startLine": 6,
+        "startChar": 7,
+        "endLine": 6,
+        "endChar": 13
+      },
+      "revId": "4e2ae1eda42519ded9e54f78b0dd45fe25c95fe0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
