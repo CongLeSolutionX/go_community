@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "841c6d6b_7bbbac1e",
+        "filename": "doc/gccgo_install.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-09-29T16:54:56Z",
+      "side": 1,
+      "message": "This phrase is strange to me since it treats \"GCC 8\" as a point in time. However, GCC 8 is not released it based on the wording in the previous sentence. Perhaps replace with \"As it currently stands, \" or similar wording.",
+      "range": {
+        "startLine": 69,
+        "startChar": 54,
+        "endLine": 69,
+        "endChar": 66
+      },
+      "revId": "5641458b5863dc0f277ff3cefb9fe24019f63399",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
