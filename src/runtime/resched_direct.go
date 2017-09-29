@@ -2,6 +2,19 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// +build darwin dragonfly freebsd linux nacl netbsd openbsd solaris
+// +build amd64
+
+// This implements direct fault-based loop preemption. In this model,
+// the compiler inserts a load from reschedulePage.check at
+// preemptible points in loops. To preempt all loops, the runtime
+// unmaps the page containing this field and traps the resulting
+// memory faults and redirects the user code to the PC of the flush
+// path recorded in _PCDATA_ReschedulePC.
+//
+// On amd64 and 386, this check can be done in a single instruction
+// that clobbers no registers.
+
 package runtime
 
 // reschedulePagePad is the bytes of padding around the loop
