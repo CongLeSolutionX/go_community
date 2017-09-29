@@ -531,3 +531,93 @@ DTypeFunc()
 GoroutinesCmd()
 GoroutineCmd()
 GoIfaceCmd()
+
+#
+#  Loop preemption signal handling
+#
+
+sigsegvState = None
+
+class PreemptLoops(gdb.Breakpoint):
+	def __init__(self):
+		gdb.Breakpoint.__init__(self, "'runtime.preemptLoops'", internal=True)
+
+	def stop(self):
+		# Temporarily ignore SIGSEGV, which is produced by
+		# preemptible loops. This is racy: the world is
+		# stopping, but isn't stopped yet, so it's still
+		# possible to get a real SIGSEGV. It would be much
+		# better to trap the SIGSEGV and ignore those caused
+		# by preemption checks, but GDB won't let us do that.
+		global sigsegvState
+		sigsegvState = self.__sigState("SIGSEGV")
+		gdb.execute("handle SIGSEGV nostop noprint pass")
+
+	def __sigState(self, sig):
+		def yn(yesNo, arg):
+			if yesNo == "Yes":
+				return arg
+			if yesNo == "No":
+				return "no" + arg
+			raise gdb.error("expected Yes or No; got %r", yesNo)
+		sigState = gdb.execute("info signal " + sig, to_string=True)
+		for line in sigState.splitlines():
+			parts = line.split()
+			if parts[0] == "SIGSEGV" and len(parts) == 6:
+				return "%s %s %s" % (yn(parts[1], "stop"), yn(parts[2], "print"), yn(parts[3], "pass"))
+		raise gdb.error("failed to parse info signal %s:\n%r" % (sig, sigState))
+PreemptLoops()
+
+class UnpreemptLoops(gdb.Breakpoint):
+	def __init__(self):
+		gdb.Breakpoint.__init__(self, "'runtime.unpreemptLoops'", internal=True)
+
+	def stop(self):
+		# Re-enable SIGSEGV when at the end of this function.
+		UnpreemptLoopsFinish()
+UnpreemptLoops()
+
+class UnpreemptLoopsFinish(gdb.FinishBreakpoint):
+	def __init__(self):
+		gdb.FinishBreakpoint.__init__(self, internal=True)
+
+	def stop(self):
+		if sigsegvState == None:
+			return
+		gdb.execute("handle SIGSEGV %s" % sigsegvState)
+
+	def out_of_scope(self):
+		self.stop()
+
+# Unfortunately, preemption SIGSEGVs could be pending on other threads
+# when we re-enable trapping SIGSEGV above. Those would go through to
+# the user, so as a fall-back we check for these and continue
+# execution. This would be a better solution overall, were it not for
+# the fact that GDB prints a message about the signal before invoking
+# this callback, so there's no way to silently handle the signal.
+def stopIgnorePreempt(event):
+	if not isinstance(event, gdb.SignalEvent):
+		return
+	if event.stop_signal != "SIGSEGV":
+		return
+	try:
+		# Get the faulting address.
+		addr = gdb.parse_and_eval("$_siginfo._sifields._sigfault.si_addr")
+	except gdb.error:
+		return
+	try:
+		# Check against direct-mode preemption.
+		check = gdb.parse_and_eval("&'runtime.reschedulePage'.check")
+	except gdb.error:
+		try:
+			# Check against indirect-mode preemption.
+			check = gdb.parse_and_eval("'runtime.reschedulePage'")
+		except gdb.error:
+			return
+	if addr == check:
+		# This is a preemption fault. GDB already printed a
+		# message about the signal, so tell the user we're
+		# going to ignore it.
+		print("Ignoring SIGSEGV (caused by loop preemption)")
+		gdb.execute("continue")
+gdb.events.stop.connect(stopIgnorePreempt)

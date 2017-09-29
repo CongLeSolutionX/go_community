@@ -381,3 +381,32 @@ func TestGdbAutotmpTypes(t *testing.T) {
 		}
 	}
 }
+
+func TestGdbLoopPreemption(t *testing.T) {
+	// Test that gdb ignores loop-preemption signals.
+	t.Parallel()
+	checkGdbEnvironment(t)
+	checkGdbVersion(t)
+	checkGdbPython(t)
+
+	exe, err := buildTestProg(t, "testprog")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Execute gdb commands.
+	args := []string{"-nx", "-q", "--batch",
+		"-iex", fmt.Sprintf("add-auto-load-safe-path %s/src/runtime", runtime.GOROOT()),
+		"-ex", "set startup-with-shell off",
+		"-ex", "info auto-load python-scripts",
+		"-ex", "set python print-stack full",
+		"-ex", "run LoopPreemption",
+		exe,
+	}
+	got, _ := exec.Command("gdb", args...).CombinedOutput()
+
+	if !bytes.Contains(got, []byte("\nOK\n")) {
+		t.Error("could not find \"OK\" in output")
+		t.Fatalf("gdb output:\n%v", string(got))
+	}
+}
