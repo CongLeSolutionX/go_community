@@ -38,40 +38,6 @@ import (
 	"fmt"
 )
 
-// Symbol is an entry in the symbol table.
-type Symbol struct {
-	Name        string
-	Extname     string
-	Type        SymKind
-	Version     int16
-	Attr        Attribute
-	Localentry  uint8
-	Dynid       int32
-	Plt         int32
-	Got         int32
-	Align       int32
-	Elfsym      int32
-	LocalElfsym int32
-	Value       int64
-	Size        int64
-	// ElfType is set for symbols read from shared libraries by ldshlibsyms. It
-	// is not set for symbols defined by the packages being linked or by symbols
-	// read by ldelf (and so is left as elf.STT_NOTYPE).
-	ElfType     elf.SymType
-	Sub         *Symbol
-	Outer       *Symbol
-	Gotype      *Symbol
-	Reachparent *Symbol
-	File        string
-	Dynimplib   string
-	Dynimpvers  string
-	Sect        *Section
-	FuncInfo    *FuncInfo
-	// P contains the raw symbol data.
-	P []byte
-	R []Reloc
-}
-
 func (s *Symbol) String() string {
 	if s.Version == 0 {
 		return s.Name
