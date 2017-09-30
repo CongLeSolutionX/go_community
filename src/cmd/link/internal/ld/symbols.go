@@ -30,6 +30,12 @@
 
 package ld
 
+import (
+	"crypto/sha1"
+	"encoding/base64"
+	"strings"
+)
+
 type Symbols struct {
 	symbolBatch []Symbol
 
@@ -81,4 +87,51 @@ func (syms *Symbols) ROLookup(name string, v int) *Symbol {
 func (syms *Symbols) IncVersion() int {
 	syms.hash = append(syms.hash, make(map[string]*Symbol))
 	return len(syms.hash) - 1
+}
+
+func (syms *Symbols) TypeSymbolMangling() bool {
+	return Buildmode == BuildmodeShared || *FlagLinkshared || Buildmode == BuildmodePlugin || syms.ROLookup("plugin.Open", 0) != nil
+}
+
+func (syms *Symbols) TypeSymbolMangle(name string) string {
+	if !syms.TypeSymbolMangling() {
+		return name
+	}
+	if !strings.HasPrefix(name, "type.") {
+		return name
+	}
+	if strings.HasPrefix(name, "type.runtime.") {
+		return name
+	}
+	if len(name) <= 14 && !strings.Contains(name, "@") { // Issue 19529
+		return name
+	}
+	hash := sha1.Sum([]byte(name))
+	prefix := "type."
+	if name[5] == '.' {
+		prefix = "type.."
+	}
+	return prefix + base64.StdEncoding.EncodeToString(hash[:6])
+}
+
+// Rename renames a symbol.
+func (syms *Symbols) Rename(old, new string, v int) {
+	s := syms.hash[v][old]
+	s.Name = new
+	if s.Extname == old {
+		s.Extname = new
+	}
+	delete(syms.hash[v], old)
+
+	dup := syms.hash[v][new]
+	if dup == nil {
+		syms.hash[v][new] = s
+	} else {
+		if s.Type == 0 {
+			*s = *dup
+		} else if dup.Type == 0 {
+			*dup = *s
+			syms.hash[v][new] = s
+		}
+	}
 }
