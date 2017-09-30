@@ -113,7 +113,7 @@ const (
 
 // abiSymKindToSymKind maps values read from object files (which are
 // of type cmd/internal/objabi.SymKind) to values of type SymKind.
-var abiSymKindToSymKind = [...]SymKind{
+var ABISymKindToSymKind = [...]SymKind{
 	Sxxx,
 	STEXT,
 	SRODATA,

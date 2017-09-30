@@ -658,8 +658,8 @@ func (ctxt *Link) loadlib() {
 			if isRuntimeDepPkg(lib.Pkg) != doInternal {
 				continue
 			}
-			ctxt.Textp = append(ctxt.Textp, lib.textp...)
-			for _, s := range lib.dupTextSyms {
+			ctxt.Textp = append(ctxt.Textp, lib.Textp...)
+			for _, s := range lib.DupTextSyms {
 				if !s.Attr.OnList() {
 					ctxt.Textp = append(ctxt.Textp, s)
 					s.Attr |= AttrOnList
@@ -1474,6 +1474,10 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *Library, length int64, pn string, fil
 	lib.addImports(ctxt, pn)
 	return nil
 }
+
+// LoadObjFile is implemented in the package cmd/link/internal/objfile.
+// This is a variable to break the import cycle between the two packages.
+var LoadObjFile func(arch *sys.Arch, syms *Symbols, f *bio.Reader, lib *Library, length int64, pn string)
 
 func readelfsymboldata(ctxt *Link, f *elf.File, sym *elf.Symbol) []byte {
 	data := make([]byte, sym.Size)

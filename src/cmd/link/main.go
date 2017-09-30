@@ -12,6 +12,7 @@ import (
 	"cmd/link/internal/ld"
 	"cmd/link/internal/mips"
 	"cmd/link/internal/mips64"
+	"cmd/link/internal/objfile"
 	"cmd/link/internal/ppc64"
 	"cmd/link/internal/s390x"
 	"cmd/link/internal/x86"
@@ -34,6 +35,8 @@ import (
 // via the ld.Thearch.Archinit function.
 
 func main() {
+	ld.LoadObjFile = objfile.LoadObjFile
+
 	switch objabi.GOARCH {
 	default:
 		fmt.Fprintf(os.Stderr, "link: unknown architecture %q\n", objabi.GOARCH)

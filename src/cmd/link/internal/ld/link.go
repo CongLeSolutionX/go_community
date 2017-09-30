@@ -231,10 +231,10 @@ type Library struct {
 	Pkg           string
 	Shlib         string
 	hash          string
-	importStrings []string
+	ImportStrings []string
 	imports       []*Library
-	textp         []*Symbol // text symbols defined in this library
-	dupTextSyms   []*Symbol // dupok text symbols defined in this library
+	Textp         []*Symbol // text symbols defined in this library
+	DupTextSyms   []*Symbol // dupok text symbols defined in this library
 }
 
 func (l Library) String() string {
@@ -243,13 +243,13 @@ func (l Library) String() string {
 
 func (l *Library) addImports(ctxt *Link, pn string) {
 	pkg := objabi.PathToPrefix(l.Pkg)
-	for _, importStr := range l.importStrings {
+	for _, importStr := range l.ImportStrings {
 		lib := addlib(ctxt, pkg, pn, importStr)
 		if lib != nil {
 			l.imports = append(l.imports, lib)
 		}
 	}
-	l.importStrings = nil
+	l.ImportStrings = nil
 }
 
 type FuncInfo struct {
