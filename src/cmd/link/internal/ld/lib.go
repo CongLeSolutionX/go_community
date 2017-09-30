@@ -629,9 +629,30 @@ func (ctxt *Link) loadlib() {
 		}
 	}
 
+	// If type. symbols are visible in the symbol table, rename them
+	// using a SHA-1 prefix. This reduces binary size (the full
+	// string of a type symbol can be multiple kilobytes) and removes
+	// characters that upset external linkers.
+	//
+	// Keep the type.. prefix, which parts of the linker (like the
+	// DWARF generator) know means the symbol is not decodable.
+	//
+	// Leave type.runtime. symbols alone, because other parts of
+	// the linker manipulates them, and also symbols whose names
+	// would not be shortened by this process.
+	if ctxt.Syms.TypeSymbolMangling() {
+		*FlagW = true // disable DWARF generation
+		for _, s := range ctxt.Syms.Allsym {
+			newName := ctxt.Syms.TypeSymbolMangle(s.Name)
+			if newName != s.Name {
+				ctxt.Syms.Rename(s.Name, newName, int(s.Version))
+			}
+		}
+	}
+
 	// If package versioning is required, generate a hash of the
 	// the packages used in the link.
-	if Buildmode == BuildmodeShared || Buildmode == BuildmodePlugin || ctxt.Syms.ROLookup("plugin.Open", 0) != nil {
+	if Buildmode == BuildmodeShared || Buildmode == BuildmodePlugin || ctxt.CanUsePlugins() {
 		for _, lib := range ctxt.Library {
 			if lib.Shlib == "" {
 				genhash(ctxt, lib)
