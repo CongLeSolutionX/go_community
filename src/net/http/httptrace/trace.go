@@ -156,6 +156,9 @@ type ClientTrace struct {
 type WroteRequestInfo struct {
 	// Err is any error encountered while writing the Request.
 	Err error
+
+	// Header stores headers that are set or modified by the http library.
+	Header map[string][]string
 }
 
 // compose modifies t such that it respects the previously-registered hooks in old,

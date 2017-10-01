@@ -495,7 +495,8 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	if trace != nil && trace.WroteRequest != nil {
 		defer func() {
 			trace.WroteRequest(httptrace.WroteRequestInfo{
-				Err: err,
+				Err:    err,
+				Header: extraHeaders,
 			})
 		}()
 	}

@@ -3516,7 +3516,8 @@ func testTransportEventTrace(t *testing.T, h2 bool, noHooks bool) {
 		Wait100Continue: func() { logf("Wait100Continue") },
 		Got100Continue:  func() { logf("Got100Continue") },
 		WroteRequest: func(e httptrace.WroteRequestInfo) {
-			logf("WroteRequest: %+v", e)
+			logf("WroteRequest error: %v", e.Err)
+			logf("WroteRequest headers: %v", e.Header)
 			close(gotWroteReqEvent)
 		},
 	}
@@ -3582,10 +3583,11 @@ func testTransportEventTrace(t *testing.T, h2 bool, noHooks bool) {
 		wantOnce("tls handshake done")
 	} else {
 		wantOnce("PutIdleConn = <nil>")
+		wantOnce("WroteRequest headers: map[Accept-Encoding:[gzip]]")
 	}
 	wantOnce("Wait100Continue")
 	wantOnce("Got100Continue")
-	wantOnce("WroteRequest: {Err:<nil>}")
+	wantOnce("WroteRequest error: <nil>")
 	if strings.Contains(got, " to udp ") {
 		t.Errorf("should not see UDP (DNS) connections")
 	}
