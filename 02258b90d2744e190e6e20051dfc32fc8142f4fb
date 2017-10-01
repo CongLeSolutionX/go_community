@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0c266f1f_9d5d21f9",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-01T14:32:11Z",
+      "side": 1,
+      "message": "For now the stutter is useful. The ctxt parameter simultaneously has too 1. many fields, and 2. not enough. This CL is about the second problem, trying to fold globals into parameters. For the first problem, I hope to reduce a lot of the ctxt parameters to just some small set of fields. (See for example, CL 67313.)\n\nIt looks like a lot of functions only need *sys.Arch and *OutBuf. Given that *sys.Arch is in *OutBuf, if we make it generally accessible it may turn out just passing out works. (Or maybe we should pass both, that\u0027s a problem for later CLs.) It\u0027s easier to look at code and work out what\u0027s being used if *OutBuf is not embedded.",
+      "parentUuid": "f90a7347_83d2071a",
+      "revId": "02258b90d2744e190e6e20051dfc32fc8142f4fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "628faa4e_6e86e402",
         "filename": "src/cmd/link/internal/ld/outbuf.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "75870bda_0c131a5a",
+        "filename": "src/cmd/link/internal/ld/outbuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-01T14:32:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "628faa4e_6e86e402",
+      "revId": "02258b90d2744e190e6e20051dfc32fc8142f4fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b891720_e73bd50a",
         "filename": "src/cmd/link/internal/ld/sym.go",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "02258b90d2744e190e6e20051dfc32fc8142f4fb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "684cff35_a0e29f85",
+        "filename": "src/cmd/link/internal/ld/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-01T14:32:11Z",
+      "side": 1,
+      "message": "I like the idea of making the *sys.Arch in OutBuf the one canonical copy of *sys.Arch inside *Link, I\u0027ll look into that in a folllowup CL. (Even with that though, there will be lots of functions that take arch as a parameter, not out.)\n\nEmbedded I\u0027m avoiding, as described in the earlier comment.",
+      "parentUuid": "0b891720_e73bd50a",
+      "revId": "02258b90d2744e190e6e20051dfc32fc8142f4fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
