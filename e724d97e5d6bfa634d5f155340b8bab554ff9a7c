@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f5ee674_a7fa91cf",
+        "filename": "src/cmd/link/internal/objfile/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-01T12:50:08Z",
+      "side": 1,
+      "message": "Does this need an update now after renaming?",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "e724d97e5d6bfa634d5f155340b8bab554ff9a7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a649ca3_9292d050",
+        "filename": "src/cmd/link/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-01T12:50:08Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this be nicer in an init()?",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 37
+      },
+      "revId": "e724d97e5d6bfa634d5f155340b8bab554ff9a7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
