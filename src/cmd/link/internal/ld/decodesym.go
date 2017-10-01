@@ -54,8 +54,7 @@ func decodeInuxi(arch *sys.Arch, p []byte, sz int) uint64 {
 	case 8:
 		return arch.ByteOrder.Uint64(p)
 	default:
-		Exitf("dwarf: decode inuxi %d", sz)
-		panic("unreachable")
+		panic(fmt.Sprintf("decodesym: bad size: %d", sz))
 	}
 }
 
