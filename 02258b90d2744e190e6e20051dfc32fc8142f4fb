@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f90a7347_83d2071a",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-01T03:44:59Z",
+      "side": 1,
+      "message": "probably too big a change for this PR, but why not embed *OutBuf here, then you could avoid the ctxt.Out.Write stutter",
+      "revId": "02258b90d2744e190e6e20051dfc32fc8142f4fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "628faa4e_6e86e402",
+        "filename": "src/cmd/link/internal/ld/outbuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-01T03:44:59Z",
+      "side": 1,
+      "message": "Flush doesn\u0027t return an error, it terminates the program.",
+      "revId": "02258b90d2744e190e6e20051dfc32fc8142f4fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b891720_e73bd50a",
+        "filename": "src/cmd/link/internal/ld/sym.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-01T03:44:59Z",
+      "side": 1,
+      "message": "If OutBuf was embedded directly, and Outbuf held the arch, then maybe you could do something like this\n\ntype Link struct {\n     *OutBuf\n     ...\n}\n\ntype OutBuf struct {\n     *Arch\n     ....\n}\n\nctxt :\u003d \u0026Link {\n      OutBuf: \u0026OutBuf{\n              Arch: arch,\n      },\n      ...\n}\n\nAnd nothing would be the wiser.",
+      "revId": "02258b90d2744e190e6e20051dfc32fc8142f4fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
