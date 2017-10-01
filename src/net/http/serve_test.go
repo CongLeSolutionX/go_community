@@ -2438,6 +2438,28 @@ func TestTimeoutHandlerEmptyResponse(t *testing.T) {
 	}
 }
 
+// https://golang.org/issues/22084
+func TestTimeoutHandlerPanicRecovery(t *testing.T) {
+	if os.Getenv("TEST_PANIC_RECOVERY") == "yes" {
+		server := httptest.NewServer(TimeoutHandler(
+			HandlerFunc(func(w ResponseWriter, r *Request) {
+				panic(ErrAbortHandler)
+			}), time.Second, ""))
+		defer server.Close()
+		server.Client().Get(server.URL)
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestTimeoutHandlerPanicRecovery")
+	cmd.Env = append([]string{"TEST_PANIC_RECOVERY=yes"}, os.Environ()...)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		if bytes.Contains(out, []byte("panic: "+ErrAbortHandler.Error())) {
+			t.Fatalf("TimeoutHandler leaked wrapped handler panic")
+		}
+		t.Fatalf("Test failure: %v, with output: %s", err, out)
+	}
+}
+
 func TestRedirectBadPath(t *testing.T) {
 	// This used to crash. It's not valid input (bad path), but it
 	// shouldn't crash.
