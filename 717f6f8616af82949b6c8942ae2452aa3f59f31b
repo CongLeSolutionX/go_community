@@ -22,6 +22,30 @@
       "revId": "717f6f8616af82949b6c8942ae2452aa3f59f31b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e5b8a3_75c184ee",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-02T18:23:17Z",
+      "side": 1,
+      "message": "not sure, the original code used a static array of 16 segments, but this might be a hangover from the old C code.",
+      "parentUuid": "5c2d3e7a_10944094",
+      "range": {
+        "startLine": 159,
+        "startChar": 10,
+        "endLine": 159,
+        "endChar": 42
+      },
+      "revId": "717f6f8616af82949b6c8942ae2452aa3f59f31b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
