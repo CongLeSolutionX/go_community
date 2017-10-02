@@ -62,7 +62,7 @@ func writebarrier(f *Func) {
 
 	// To compiler with card marking on us -gcflags as follows.
 	// go build -gcflags -d=ssa/writebarrier/test=1 ./bench.go
-	cardMarkOn := f.pass.test == 1
+	cardMarkOn := f.pass.test == 1 && f.DebugTest
 	if onceWB && cardMarkOn {
 		onceWB = false
 		//		fmt.Printf("f.pass.test=%v, cardMarkOn=%v\n", f.pass.test, cardMarkOn)
@@ -122,7 +122,7 @@ func writebarrier(f *Func) {
 			wbaddr = f.Entry.NewValue1A(initpos, OpAddr, f.Config.Types.UInt32Ptr, wbsym, sb)
 			// RLH code from 40295
 			if cardMarkOn {
-				cardMarksSym := &ExternSymbol{Sym: f.fe.Syslook("cardMarks")}
+				cardMarksSym := f.fe.Syslook("cardMarks")
 				tmptyp := f.Config.Types.CardMarks
 				cardMarks := f.Entry.NewValue1A(initpos, OpAddr, tmptyp, cardMarksSym, sb)
 				for i := 0; i < tmptyp.NumFields(); i++ {
@@ -290,6 +290,7 @@ func writebarrier(f *Func) {
 					shift := OpRsh64Ux8 // TODO: 32 bit
 					card := bElse.NewValue2(pos, shift, cfgtypes.Uintptr, arenaOff, cardShift)
 					//					print("cardMarkOn at writebarrier.go:295 creating OpCardMark\n")
+					f.Warnl(w.Pos, "cardMarkOn at writebarrier.go:295 creating OpCardMark\n")
 					memElse = bElse.NewValue4(pos, OpCardMark, types.TypeMem, cardMarks, cardMarksMapped, card, memElse)
 				}
 				// RLH end code for 40295
