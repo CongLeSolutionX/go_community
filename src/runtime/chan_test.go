@@ -433,6 +433,10 @@ func TestSelectStress(t *testing.T) {
 
 func TestSelectFairness(t *testing.T) {
 	const trials = 10000
+	if runtime.GOOS == "linux" && runtime.GOARCH == "ppc64le" {
+		// See issue #22047
+		t.Skip("suspect intermittent failures")
+	}
 	c1 := make(chan byte, trials+1)
 	c2 := make(chan byte, trials+1)
 	for i := 0; i < trials+1; i++ {
