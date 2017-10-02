@@ -127,7 +127,9 @@ func gcMarkRootPrepare() {
 			if writeBarrier.gen {
 				ncards := int((mheap_.arena_used - mheap_.arena_start) / _CardBytes)
 				work.nMatureRoots = (ncards + rootCardMarkShardSize - 1) / rootCardMarkShardSize
-				println("Setting up cards ncards=", ncards, "shards work.nMatureRoots=", work.nMatureRoots)
+				if debug.gctrace >= 1 {
+					println("Setting up cards ncards=", ncards, "shards work.nMatureRoots=", work.nMatureRoots)
+				}
 				// Each call to markrootMature does rootCardMarkShardSize
 				// cards starting at shard*rootCardMarkShardSize
 			} else {

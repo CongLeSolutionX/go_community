@@ -731,6 +731,8 @@ func (h *mheap) alloc_m(npage uintptr, spanclass spanClass, large bool) *mspan {
 		cardsPerPage := _PageSize / _CardBytes
 		markedCards := s.scanCards(index, s.npages*uintptr(cardsPerPage))
 		if markedCards != 0 {
+			println("offset=", hex(offset), " index=", index, " markedCards=", markedCards,
+				" memstats.numgc=", memstats.numgc)
 			println("span just made available has marked card which it should not have.")
 		}
 	}

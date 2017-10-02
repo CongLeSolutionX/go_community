@@ -205,10 +205,14 @@ func (b *bmap) overflow(t *maptype) *bmap {
 
 func (b *bmap) setoverflow(t *maptype, ovf *bmap) {
 	if t.bucket.kind&kindNoPointers != 0 {
-		// We shouldn't write a pointer into a bucket that normally does not hold pointers sine
-		// the GC may have allocated the bucket in a pointer free (noscan) span.
-		// To avoid the GC write barrier and card mark logic from complaining,
-		// write the pointer as a uintptr
+		// bmap is defined as a struct { tophash [bucketCnt]uint8 }.
+		// which is a type that contains no pointers.
+		// The GC will note this and happily allocate the bmap in a
+		// noscan span.
+		// The GC write barrier's card mark logic will trip over any
+		// attempts to write a pointer into an area of the heap that
+		// does not expect pointer. To avoid this check we
+		// must coerce the write into a uintptr write.
 		*(*uintptr)(add(unsafe.Pointer(b), uintptr(t.bucketsize)-sys.PtrSize)) = uintptr(unsafe.Pointer(ovf))
 	} else {
 		*(**bmap)(add(unsafe.Pointer(b), uintptr(t.bucketsize)-sys.PtrSize)) = ovf
