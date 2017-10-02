@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e554ec7d_788eec5c",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-10-02T01:29:36Z",
+      "side": 1,
+      "message": "@tombergan\n\nAs it seems you intended, to help with https://go-review.googlesource.com/c/go/+/43534, we can pass all the headers here: req.Header + extraHeaders + user agent (resolved below)\n\nI don\u0027t think it was a design decision to keep the httptrace api as minimalist as it is just to keep it lightweight. It seems that the only real concern was the circular dependency: https://twitter.com/fischdeezy/status/914595951410589697 and having map[string][]string with all the headers would add a lot of value.\n\nIs that the reason you linked this issue to 43534 - to motivate exposing all headers?",
+      "range": {
+        "startLine": 499,
+        "startChar": 12,
+        "endLine": 499,
+        "endChar": 24
+      },
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92222195_8b791671",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-10-02T01:29:36Z",
+      "side": 1,
+      "message": "I guess technically this one is also set by the library.",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 553,
+        "endChar": 30
+      },
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
