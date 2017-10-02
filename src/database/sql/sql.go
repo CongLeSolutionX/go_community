@@ -334,6 +334,7 @@ type DB struct {
 	// It is closed during db.Close(). The close tells the connectionOpener
 	// goroutine to exit.
 	openerCh    chan struct{}
+	resetterCh  chan driverConnError
 	closed      bool
 	dep         map[finalCloser]depSet
 	lastPut     map[*driverConn]string // stacktrace of last conn's put; debug only
@@ -341,6 +342,8 @@ type DB struct {
 	maxOpen     int                    // <= 0 means unlimited
 	maxLifetime time.Duration          // maximum amount of time a connection may be reused
 	cleanerCh   chan struct{}
+
+	stop func() // cancel stops in progress connection opens and resets.
 }
 
 // connReuseStrategy determines how (*DB).conn returns database connections.
@@ -375,7 +378,18 @@ type driverConn struct {
 	dbmuClosed bool     // same as closed, but guarded by db.mu, for removeClosedStmtLocked
 }
 
+// driverConnError holds both the connection and the error returned from the
+// calling code.
+type driverConnError struct {
+	dc  *driverConn
+	err error
+}
+
 func (dc *driverConn) releaseConn(err error) {
+	if _, ok := dc.ci.(driver.ResetSessioner); ok {
+		dc.db.resetterCh <- driverConnError{dc: dc, err: err}
+		return
+	}
 	dc.db.putConn(dc, err)
 }
 
@@ -604,14 +618,18 @@ func (t dsnConnector) Driver() driver.Driver {
 // function should be called just once. It is rarely necessary to
 // close a DB.
 func OpenDB(c driver.Connector) *DB {
+	ctx, cancel := context.WithCancel(context.Background())
 	db := &DB{
 		connector:    c,
 		openerCh:     make(chan struct{}, connectionRequestQueueSize),
+		resetterCh:   make(chan driverConnError, 50),
 		lastPut:      make(map[*driverConn]string),
 		connRequests: make(map[uint64]chan connRequest),
+		stop:         cancel,
 	}
 
-	go db.connectionOpener()
+	go db.connectionOpener(ctx)
+	go db.connectionResetter(ctx)
 
 	return db
 }
@@ -693,10 +711,12 @@ func (db *DB) Close() error {
 		db.mu.Unlock()
 		return nil
 	}
+	db.stop()
 	close(db.openerCh)
 	if db.cleanerCh != nil {
 		close(db.cleanerCh)
 	}
+	close(db.resetterCh)
 	var err error
 	fns := make([]func() error, 0, len(db.freeConn))
 	for _, dc := range db.freeConn {
@@ -901,18 +921,32 @@ func (db *DB) maybeOpenNewConnections() {
 }
 
 // Runs in a separate goroutine, opens new connections when requested.
-func (db *DB) connectionOpener() {
+func (db *DB) connectionOpener(ctx context.Context) {
 	for range db.openerCh {
-		db.openNewConnection()
+		db.openNewConnection(ctx)
+	}
+}
+
+// connectionResetter runs in a separate goroutine to reset connections async
+// to exported API.
+func (db *DB) connectionResetter(ctx context.Context) {
+	for dce := range db.resetterCh {
+		withLock(dce.dc, func() {
+			err := dce.dc.ci.(driver.ResetSessioner).ResetSession(ctx)
+			if err != nil {
+				dce.err = err
+			}
+		})
+		db.putConn(dce.dc, dce.err)
 	}
 }
 
 // Open one new connection
-func (db *DB) openNewConnection() {
+func (db *DB) openNewConnection(ctx context.Context) {
 	// maybeOpenNewConnctions has already executed db.numOpen++ before it sent
 	// on db.openerCh. This function must execute db.numOpen-- if the
 	// connection fails or is closed before returning.
-	ci, err := db.connector.Connect(context.Background())
+	ci, err := db.connector.Connect(ctx)
 	db.mu.Lock()
 	defer db.mu.Unlock()
 	if db.closed {
