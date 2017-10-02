@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20de3210_e34065d2",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 6120
+      },
+      "writtenOn": "2017-10-02T18:47:40Z",
+      "side": 1,
+      "message": "The word \"time\" here may imply the wrong idea to driver writers. I think you can just remove that word to improve clarity.",
+      "revId": "ef570bd5a54d57acebc4e4c8deeecd2568e035df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43163575_9827164a",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 6120
+      },
+      "writtenOn": "2017-10-02T18:47:40Z",
+      "side": 1,
+      "message": "I\u0027m not sure what \"does not block user code\" means or is trying to convey.",
+      "revId": "ef570bd5a54d57acebc4e4c8deeecd2568e035df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e94ee572_4a51b011",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 6120
+      },
+      "writtenOn": "2017-10-02T18:47:40Z",
+      "side": 1,
+      "message": "\"be running on this connection when\" -\u003e \"run on this connection while\"",
+      "revId": "ef570bd5a54d57acebc4e4c8deeecd2568e035df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "342420ac_efbd4d34",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 6120
+      },
+      "writtenOn": "2017-10-02T18:47:40Z",
+      "side": 1,
+      "message": "What happens to the connection if another kind of error is returned? Can a user see any of these errors?",
+      "revId": "ef570bd5a54d57acebc4e4c8deeecd2568e035df",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
