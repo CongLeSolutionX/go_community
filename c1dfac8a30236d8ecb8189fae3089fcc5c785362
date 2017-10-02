@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "932e2330_aa028aaf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-02T17:36:52Z",
+      "side": 1,
+      "message": "nit: s/Fixes/Updates/. To fix, we also need to update golang.org/x/net/http2.",
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0924e00_150ebc1b",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-02T17:36:52Z",
+      "side": 1,
+      "message": "Another option is to add WroteHeaderField(key string, value []string). This avoids allocating the map unless actually needed by the client. It also leaves room for us to add WroteTrailerField, which we might need to implement #18733. WDYT?",
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e554ec7d_788eec5c",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
@@ -25,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "f7b3d018_5b01df16",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-02T17:36:52Z",
+      "side": 1,
+      "message": "\u003e @tombergan\n\u003e Is that the reason you linked this issue to 43534 - to motivate exposing all headers?\n\nYes I think so, although that was nearly two months ago so I don\u0027t remember for sure :)\n\nIt would be less confusing if the httptrace API returned all headers, rather than only the changed headers, since in the latter case, the user needs to manually apply that diff to understand which headers were sent.",
+      "parentUuid": "e554ec7d_788eec5c",
+      "range": {
+        "startLine": 499,
+        "startChar": 12,
+        "endLine": 499,
+        "endChar": 24
+      },
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92222195_8b791671",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
@@ -36,6 +94,30 @@
       "writtenOn": "2017-10-02T01:29:36Z",
       "side": 1,
       "message": "I guess technically this one is also set by the library.",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 553,
+        "endChar": 30
+      },
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94a911fe_c3d29b96",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-02T17:36:52Z",
+      "side": 1,
+      "message": "Yes, also host (above) and Body, Content-Length, Close, and Trailer (see tw.WriteHeader below).",
+      "parentUuid": "92222195_8b791671",
       "range": {
         "startLine": 553,
         "startChar": 0,
