@@ -34,6 +34,24 @@
       "revId": "603cb8d3170d4752925e1fd745db5cb2fa337a94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de7edd0a_09d1c7ba",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2452,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-02T18:33:54Z",
+      "side": 1,
+      "message": "That doesn\u0027t look like too much of a mess to me. We\u0027re already living with that possibility for the other panic tests. I see no need to make this panic test a special snowflake. If there\u0027s some way to clean up the error messages in all panic tests and all build environments, that would be great, but it doesn\u0027t seem important enough to skip the tests on some environments.",
+      "parentUuid": "0d999159_8d19148b",
+      "revId": "603cb8d3170d4752925e1fd745db5cb2fa337a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
