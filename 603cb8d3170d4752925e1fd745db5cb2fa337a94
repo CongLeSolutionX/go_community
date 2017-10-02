@@ -16,6 +16,24 @@
       "revId": "603cb8d3170d4752925e1fd745db5cb2fa337a94",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d999159_8d19148b",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2452,
+      "author": {
+        "id": 9870
+      },
+      "writtenOn": "2017-10-02T18:12:24Z",
+      "side": 1,
+      "message": "Just tried this approach and it mostly works, with the exception that output of a plain `go test` run *before* the fix became a mess like this:\n\n\nhttp (issue22084) ¶ go test\npanic: intentional death for testing\n\ngoroutine 5402 [running]:\nnet/http_test.testHandlerPanic.func1(0x152d220, 0xc4200b6c80, 0xc420452200)\n\t/Users/artyom/Repositories/go/src/net/http/serve_test.go:2608 +0x153\nnet/http.HandlerFunc.ServeHTTP(0xc420808030, 0x152d220, 0xc4200b6c80, 0xc420452200)\n\t/Users/artyom/Repositories/go/src/net/http/server.go:1921 +0x44\nnet/http.(*timeoutHandler).ServeHTTP.func1(0xc4205a6040, 0xc4200b6c80, 0xc420452200, 0xc4200825a0)\n\t/Users/artyom/Repositories/go/src/net/http/server.go:3091 +0x53\ncreated by net/http.(*timeoutHandler).ServeHTTP\n\t/Users/artyom/Repositories/go/src/net/http/server.go:3085 +0x187\nexit status 2\nFAIL\tnet/http\t8.016s\n\n\nIs there a way around this without resorting to a separate child process?\n\nWould it be ok to leave subprocess-starting test as it is, but skip it on builders that don\u0027t support this with testenv.MustHaveExec(t)?",
+      "parentUuid": "2fc07f9b_d89a9ea1",
+      "revId": "603cb8d3170d4752925e1fd745db5cb2fa337a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
