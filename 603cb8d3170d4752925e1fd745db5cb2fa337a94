@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fc07f9b_d89a9ea1",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2452,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-02T17:13:30Z",
+      "side": 1,
+      "message": "This makes some assumptions about how the test is run. See a trybot failure here:\nhttps://storage.googleapis.com/go-build-log/603cb8d3/nacl-386_78d71c3d.log\n\nI think it would be straightforward to integrate this into testHandlerPanic, perhaps by adding a wrapHandlerFunc parameter:\nhttps://github.com/golang/go/blob/master/src/net/http/serve_test.go#L2569",
+      "revId": "603cb8d3170d4752925e1fd745db5cb2fa337a94",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
