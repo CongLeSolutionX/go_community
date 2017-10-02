@@ -107,6 +107,12 @@ type fakeConn struct {
 	// bad connection tests; see isBad()
 	bad       bool
 	stickyBad bool
+
+	skipDirtySession bool // tests that use Conn should set this to true.
+
+	// dirtySession test ResetSession, true if a query has executed
+	// until ResetSession is called.
+	dirtySession bool
 }
 
 func (c *fakeConn) touchMem() {
@@ -298,12 +304,30 @@ func (c *fakeConn) isBad() bool {
 	if c.stickyBad {
 		return true
 	} else if c.bad {
+		if c.db == nil {
+			return false
+		}
 		// alternate between bad conn and not bad conn
 		c.db.badConn = !c.db.badConn
 		return c.db.badConn
 	} else {
 		return false
 	}
+}
+
+func (c *fakeConn) isDirtyAndMark() bool {
+	if c.skipDirtySession {
+		return false
+	}
+	if c.currTx != nil {
+		c.dirtySession = true
+		return false
+	}
+	if c.dirtySession == true {
+		return true
+	}
+	c.dirtySession = true
+	return false
 }
 
 func (c *fakeConn) Begin() (driver.Tx, error) {
@@ -335,6 +359,14 @@ var testStrictClose *testing.T
 // fails to close. If nil, the check is disabled.
 func setStrictFakeConnClose(t *testing.T) {
 	testStrictClose = t
+}
+
+func (c *fakeConn) ResetSession(ctx context.Context) error {
+	c.dirtySession = false
+	if c.isBad() {
+		return driver.ErrBadConn
+	}
+	return nil
 }
 
 func (c *fakeConn) Close() (err error) {
@@ -662,6 +694,9 @@ func (s *fakeStmt) ExecContext(ctx context.Context, args []driver.NamedValue) (d
 	if s.c.stickyBad || (hookExecBadConn != nil && hookExecBadConn()) {
 		return nil, driver.ErrBadConn
 	}
+	if s.c.isDirtyAndMark() {
+		return nil, errors.New("session is dirty")
+	}
 
 	err := checkSubsetTypes(s.c.db.allowAny, args)
 	if err != nil {
@@ -773,6 +808,9 @@ func (s *fakeStmt) QueryContext(ctx context.Context, args []driver.NamedValue) (
 
 	if s.c.stickyBad || (hookQueryBadConn != nil && hookQueryBadConn()) {
 		return nil, driver.ErrBadConn
+	}
+	if s.c.isDirtyAndMark() {
+		return nil, errors.New("session is dirty")
 	}
 
 	err := checkSubsetTypes(s.c.db.allowAny, args)
