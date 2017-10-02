@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a61a595_4916574a",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-02T21:44:50Z",
+      "side": 0,
+      "message": "I guess this should have been err2. I fixed that.",
+      "range": {
+        "startLine": 505,
+        "startChar": 39,
+        "endLine": 505,
+        "endChar": 42
+      },
+      "revId": "cb3dc8ba79823b0eae4727e0b7f70d5c3dfaff98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4b0a8a4_0c7976b6",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-02T21:44:50Z",
+      "side": 0,
+      "message": "This can never be true. Seek returns \u003e\u003d 0",
+      "range": {
+        "startLine": 567,
+        "startChar": 4,
+        "endLine": 567,
+        "endChar": 46
+      },
+      "revId": "cb3dc8ba79823b0eae4727e0b7f70d5c3dfaff98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9909b60_9f269e7c",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-02T21:44:50Z",
+      "side": 0,
+      "message": "This would be nil, so I\u0027ve removed that.",
+      "range": {
+        "startLine": 568,
+        "startChar": 50,
+        "endLine": 568,
+        "endChar": 53
+      },
+      "revId": "cb3dc8ba79823b0eae4727e0b7f70d5c3dfaff98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8172c364_6db2a244",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-02T21:44:50Z",
+      "side": 0,
+      "message": "Here again should probably be err2. I fixed that.",
+      "range": {
+        "startLine": 572,
+        "startChar": 50,
+        "endLine": 572,
+        "endChar": 53
+      },
+      "revId": "cb3dc8ba79823b0eae4727e0b7f70d5c3dfaff98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dfeef53_93af4b6a",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-02T21:44:50Z",
+      "side": 0,
+      "message": "This continue looks wrong. I replaced this logging + return, as in all the other cases.",
+      "range": {
+        "startLine": 651,
+        "startChar": 3,
+        "endLine": 651,
+        "endChar": 11
+      },
+      "revId": "cb3dc8ba79823b0eae4727e0b7f70d5c3dfaff98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
