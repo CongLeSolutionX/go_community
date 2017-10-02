@@ -4474,7 +4474,7 @@ func TestListTests(t *testing.T) {
 }
 
 func TestBuildmodePIE(t *testing.T) {
-	if runtime.Compiler == "gccgo" {
+	if true || runtime.Compiler == "gccgo" {
 		t.Skipf("skipping test because buildmode=pie is not supported on gccgo")
 	}
 
