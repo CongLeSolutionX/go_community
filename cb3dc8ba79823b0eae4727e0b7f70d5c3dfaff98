@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "52692d1d_4f451332",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-02T23:09:33Z",
+      "side": 0,
+      "message": "nice catch, this shows how many times this path has been hit.",
+      "parentUuid": "6a61a595_4916574a",
+      "range": {
+        "startLine": 505,
+        "startChar": 39,
+        "endLine": 505,
+        "endChar": 42
+      },
+      "revId": "cb3dc8ba79823b0eae4727e0b7f70d5c3dfaff98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a4b0a8a4_0c7976b6",
         "filename": "src/cmd/link/internal/ld/ldmacho.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-10-02T21:44:50Z",
       "side": 0,
       "message": "This can never be true. Seek returns \u003e\u003d 0",
+      "range": {
+        "startLine": 567,
+        "startChar": 4,
+        "endLine": 567,
+        "endChar": 46
+      },
+      "revId": "cb3dc8ba79823b0eae4727e0b7f70d5c3dfaff98",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bc8b5ed_4da4b200",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-02T23:09:33Z",
+      "side": 0,
+      "message": "does seek call Exitf and quit on the spot?",
+      "parentUuid": "a4b0a8a4_0c7976b6",
       "range": {
         "startLine": 567,
         "startChar": 4,

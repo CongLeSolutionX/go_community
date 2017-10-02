@@ -22,6 +22,40 @@
       "revId": "7c5570cfb54eed741e6d4fc349f34e15cb0135d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03602bb1_afe18207",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-02T23:09:33Z",
+      "side": 1,
+      "message": "Should these log.Fatal\u0027s be replaced with Exitf\u0027s?",
+      "revId": "7c5570cfb54eed741e6d4fc349f34e15cb0135d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71ae2166_00d94166",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-02T23:09:33Z",
+      "side": 1,
+      "message": "Is this continue correct? Using Errorf to indicate a warning is incorrect here, so once Errorf fires, the object will not be written and the process is DOA. Should continue be replaced with return?",
+      "revId": "7c5570cfb54eed741e6d4fc349f34e15cb0135d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
