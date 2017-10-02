@@ -22,6 +22,30 @@
       "revId": "8dd160e58352178eecbb6d6e649940a42e005777",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8eb4c571_5ad0eda2",
+        "filename": "src/cmd/vet/rangeloop.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-02T17:44:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7a2c67b_de6d1274",
+      "range": {
+        "startLine": 70,
+        "startChar": 16,
+        "endLine": 70,
+        "endChar": 22
+      },
+      "revId": "8dd160e58352178eecbb6d6e649940a42e005777",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
