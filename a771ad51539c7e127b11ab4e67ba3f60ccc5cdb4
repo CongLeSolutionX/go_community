@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a732f389_898b082d",
+        "filename": "test/fixedbugs/issue22083.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-02T23:03:41Z",
+      "side": 1,
+      "message": "panicking",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "a771ad51539c7e127b11ab4e67ba3f60ccc5cdb4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
