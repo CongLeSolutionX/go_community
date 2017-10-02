@@ -154,9 +154,9 @@ var machohdr MachoHdr
 
 var load []MachoLoad
 
-var seg [16]MachoSeg
+const maxMachoSeg = 16
 
-var nseg int
+var seg = make([]MachoSeg, 0, maxMachoSeg)
 
 var ndebug int
 
@@ -204,16 +204,16 @@ func newMachoLoad(type_ uint32, ndata uint32) *MachoLoad {
 }
 
 func newMachoSeg(name string, msect int) *MachoSeg {
-	if nseg >= len(seg) {
+	if len(seg) >= maxMachoSeg {
 		Exitf("too many segs")
 	}
 
-	s := &seg[nseg]
-	nseg++
-	s.name = name
-	s.msect = uint32(msect)
-	s.sect = make([]MachoSect, msect)
-	return s
+	seg = append(seg, MachoSeg{
+		name:  name,
+		msect: uint32(msect),
+		sect:  make([]MachoSect, msect),
+	})
+	return &seg[len(seg)-1]
 }
 
 func newMachoSect(seg *MachoSeg, name string, segname string) *MachoSect {
@@ -243,10 +243,10 @@ func machowrite() int {
 		loadsize += 4 * (len(load[i].data) + 2)
 	}
 	if macho64 {
-		loadsize += 18 * 4 * nseg
+		loadsize += 18 * 4 * len(seg)
 		loadsize += 20 * 4 * nsect
 	} else {
-		loadsize += 14 * 4 * nseg
+		loadsize += 14 * 4 * len(seg)
 		loadsize += 17 * 4 * nsect
 	}
 
@@ -262,7 +262,7 @@ func machowrite() int {
 	} else {
 		Thearch.Lput(MH_EXECUTE) /* file type - mach executable */
 	}
-	Thearch.Lput(uint32(len(load)) + uint32(nseg) + uint32(ndebug))
+	Thearch.Lput(uint32(len(load)) + uint32(len(seg)) + uint32(ndebug))
 	Thearch.Lput(uint32(loadsize))
 	if nkind[SymKindUndef] == 0 {
 		Thearch.Lput(MH_NOUNDEFS) /* flags - no undefines */
@@ -273,7 +273,7 @@ func machowrite() int {
 		Thearch.Lput(0) /* reserved */
 	}
 
-	for i := 0; i < nseg; i++ {
+	for i := range seg {
 		s := &seg[i]
 		if macho64 {
 			Thearch.Lput(LC_SEGMENT_64)
