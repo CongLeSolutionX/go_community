@@ -240,19 +240,6 @@ func writebarrierptr(dst *uintptr, src uintptr) {
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
 	}
-	// RLH 40294 code
-	/*
-		if cardMarkOn {
-			if writeBarrier.gen {
-				if inheap(uintptr(unsafe.Pointer(dst))) {
-					if card := cardIndex(uintptr(unsafe.Pointer(dst))); 0 < card || card <= mheap_.cardMarksMapped {
-						*addb(mheap_.cardMarks, card) = 66 // Done below
-					}
-				}
-			}
-		}
-	*/
-	// RLH end 40294 code
 	if !writeBarrier.needed && !cardMarkOn && !writeBarrier.gen {
 		*dst = src
 		return
@@ -276,17 +263,6 @@ func writebarrierptr_prewrite(dst *uintptr, src uintptr) {
 	if writeBarrier.cgo {
 		cgoCheckWriteBarrier(dst, src)
 	}
-	/* handled by writebarrierptr_prewrite1(dst, src) below
-	// RLH 40294 code
-	if cardMarkOn {
-		if writeBarrier.gen {
-			if card := cardIndex(uintptr(unsafe.Pointer(dst))); card < mheap_.cardMarksMapped {
-				*addb(mheap_.cardMarks, card) = 255 // handled by writebarrierptr_prewrite1(dst, src)
-			}
-		}
-	}
-	*/
-	// RLH end 40294 code
 	if !writeBarrier.needed {
 		return
 	}

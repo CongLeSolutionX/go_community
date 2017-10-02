@@ -594,23 +594,6 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 		throw("bulkBarrierPreWrite: unaligned arguments")
 	}
 
-	/* handled by writebarrierptr_prewrite1 below
-	if !writeBarrier.needed {
-		// RLH 40294 code
-		if cardMarkOn {
-			if writeBarrier.gen {
-				if card1 := cardIndex(dst); card1 < mheap_.cardMarksMapped {
-					card2 := cardIndex(dst + size - 1)
-					for card := card1; card <= card2; card++ {
-						*addb(mheap_.cardMarks, card) = 255 // handled by writebarrierptr_prewrite1 below
-					}
-				}
-			}
-		}
-		// RLH end 40294 code
-		return
-	}
-	*/
 	if !inheap(dst) {
 		gp := getg().m.curg
 		if gp != nil && gp.stack.lo <= dst && dst < gp.stack.hi {
@@ -635,18 +618,6 @@ func bulkBarrierPreWrite(dst, src, size uintptr) {
 		return
 	}
 
-	/* handled by writebarrierptr_prewrite1 below
-	// RLH 40294 code
-	if cardMarkOn {
-		if writeBarrier.gen {
-			card1, card2 := (dst-mheap_.arena_start)/_CardBytes, (dst-mheap_.arena_start+size-1)/_CardBytes
-			for card := card1; card <= card2; card++ {
-				*addb(mheap_.cardMarks, card) = 255 // handled below
-			}
-		}
-	}
-	// RLH end 40294 code
-	*/
 	h := heapBitsForAddr(dst)
 	if src == 0 {
 		for i := uintptr(0); i < size; i += sys.PtrSize {
@@ -731,22 +702,6 @@ func typeBitsBulkBarrier(typ *_type, dst, src, size uintptr) {
 		println("runtime: typeBitsBulkBarrier with type ", typ.string(), " with GC prog")
 		throw("runtime: invalid typeBitsBulkBarrier")
 	}
-	/* done by writebarrierptr_prewrite below
-	// RLH 40294 code
-	if cardMarkOn {
-		if typ.kind&kindNoPointers == 0 {
-			if writeBarrier.gen {
-				if card1 := cardIndex(uintptr(unsafe.Pointer(dst))); card1 < mheap_.cardMarksMapped {
-					card2 := cardIndex(uintptr(unsafe.Pointer(dst)) + typ.ptrdata - 1)
-					for card := card1; card <= card2; card++ {
-						*addb(mheap_.cardMarks, card) = 255 // done by writebarrierptr_prewrite below
-					}
-				}
-			}
-		}
-	}
-	*/
-	// RLH end 40294 code
 	if !writeBarrier.needed {
 		return
 	}
