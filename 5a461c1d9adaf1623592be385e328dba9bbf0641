@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85644e0f_1346fbd5",
+        "filename": "src/runtime/chan_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-02T21:41:07Z",
+      "side": 1,
+      "message": "Looks like a good place to write\n    testenv.SkipFlaky(t, 22047)\nusing the internal/testenv package.",
+      "revId": "5a461c1d9adaf1623592be385e328dba9bbf0641",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
