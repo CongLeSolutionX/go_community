@@ -16,6 +16,24 @@
       "revId": "1d44c4e37847a975c40f8f15df7914939b540f6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "128d0750_b438b8b2",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-03T19:21:28Z",
+      "side": 1,
+      "message": "I read through more of the context and it sounds like you were looking for something that would be in every binary (which runtime.go isn\u0027t, somewhat surprisingly). But, at least at current tip, GOMAXPROCS does not appear in every binary.\n\nI\u0027m going to change this to proc.go instead, since that really has to be in every binary.",
+      "parentUuid": "7715de2c_31f3eadf",
+      "revId": "1d44c4e37847a975c40f8f15df7914939b540f6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
