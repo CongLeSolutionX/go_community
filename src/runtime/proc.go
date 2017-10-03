@@ -259,7 +259,12 @@ func Gosched() {
 // safepoint yields the processor at an explicit safe-point.
 // Calls to it are inserted by the compiler.
 // It throws if the caller is in a non-preemptible state.
-//go:nosplit
+//
+// This must NOT be nosplit because we want it to observe a stack
+// preemption and be able to initiate a stack self-scan. This is also
+// why we disable inlining.
+//
+//go:noinline
 func safepoint() {
 	m := getg().m
 	if m.locks != 0 || m.mallocing != 0 || m.preemptoff != "" || m.p.ptr().status != _Prunning {
@@ -849,6 +854,12 @@ func scang(gp *g, gcw *gcWork) {
 	const yieldDelay = 10 * 1000
 	var nextYield int64
 
+	// If we fail to preempt a goroutine for longer than
+	// globalDelayNS, use the global preemption hammer.
+	const globalDelayNS = 5 * 1000 * 1000
+	var globalThresh int64
+	preemptForced := false
+
 	// Endeavor to get gcscandone set to true,
 	// either by doing the stack scan ourselves or by coercing gp to scan itself.
 	// gp.gcscandone can transition from false to true when we're not looking
@@ -856,7 +867,15 @@ func scang(gp *g, gcw *gcWork) {
 	// castogscanstatus we have to double-check that the scan is still not done.
 loop:
 	for i := 0; !gp.gcscandone; i++ {
-		switch s := readgstatus(gp); s {
+		s := readgstatus(gp)
+		if preemptForced && s != _Grunning {
+			// We got its attention.
+			unpreemptLoops()
+			unlock(&gcGlobalPreempt)
+			preemptForced = false
+		}
+
+		switch s {
 		default:
 			dumpgstatus(gp)
 			throw("stopg: invalid status")
@@ -907,11 +926,24 @@ loop:
 			}
 		}
 
+		now := nanotime()
 		if i == 0 {
-			nextYield = nanotime() + yieldDelay
+			nextYield = now + yieldDelay
+			if haveGlobalPreempt {
+				globalThresh = now + globalDelayNS
+			} else {
+				globalThresh = -1 << 63
+			}
 		}
-		if nanotime() < nextYield {
+		if now < nextYield {
 			procyield(10)
+		} else if haveGlobalPreempt && !preemptForced && s == _Grunning && now > globalThresh {
+			// We've been waiting a long time. The
+			// goroutine is probably in a long loop.
+			// Use a global preemption to force it out.
+			lock(&gcGlobalPreempt)
+			preemptLoops()
+			preemptForced = true
 		} else {
 			osyield()
 			nextYield = nanotime() + yieldDelay/2
@@ -919,6 +951,10 @@ loop:
 	}
 
 	gp.preemptscan = false // cancel scan request if no longer needed
+	if preemptForced {
+		unpreemptLoops()
+		unlock(&gcGlobalPreempt)
+	}
 }
 
 // The GC requests that this routine be moved from a scanmumble state to a mumble state.
@@ -1283,7 +1319,7 @@ func forEachP(fn func(*p)) {
 
 	// Wait for remaining Ps to run fn.
 	if wait {
-		for {
+		for i := 0; ; i++ {
 			// Wait for 100us, then try to re-preempt in
 			// case of any races.
 			//
@@ -1293,6 +1329,25 @@ func forEachP(fn func(*p)) {
 				break
 			}
 			preemptall()
+			if haveGlobalPreempt && i >= 10 {
+				// Someone doesn't want to preempt.
+				// Force a global preemption.
+				//
+				// This can race with a wakeup of
+				// safePointNote, so we have to play
+				// by the protocol here.
+				stopTheWorldWithSema()
+				for _, p := range allp[:gomaxprocs] {
+					if atomic.Cas(&p.runSafePointFn, 1, 0) {
+						fn(p)
+						sched.safePointWait--
+						if sched.safePointWait == 0 {
+							notewakeup(&sched.safePointNote)
+						}
+					}
+				}
+				startTheWorldWithSema(false)
+			}
 		}
 	}
 	if sched.safePointWait != 0 {

@@ -6,6 +6,8 @@
 
 package runtime
 
+const haveGlobalPreempt = false
+
 func reschedinit() {
 }
 

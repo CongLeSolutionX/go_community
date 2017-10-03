@@ -18,6 +18,8 @@ package runtime
 
 import "unsafe"
 
+const haveGlobalPreempt = true
+
 // reschedulePage is the address of a page that will be unmapped to
 // interrupt preemptible loops.
 var reschedulePage unsafe.Pointer

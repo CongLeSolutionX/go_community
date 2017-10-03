@@ -19,6 +19,8 @@ package runtime
 
 import "unsafe"
 
+const haveGlobalPreempt = true
+
 // reschedulePagePad is the bytes of padding around the loop
 // rescheduling byte. This must be at least the physical page size.
 // Since this only uses BSS space, there's not much need to keep this

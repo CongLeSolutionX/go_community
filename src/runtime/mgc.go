@@ -173,6 +173,11 @@ const defaultHeapMinimum = 4 << 20
 // Initialized from $GOGC.  GOGC=off means no GC.
 var gcpercent int32
 
+// gcGlobalPreempt serializes global preemption during concurrent GC.
+//
+// Currently this is used only by stack scanning.
+var gcGlobalPreempt mutex
+
 func gcinit() {
 	if unsafe.Sizeof(workbuf{}) != _WorkbufSize {
 		throw("size of Workbuf is suboptimal")

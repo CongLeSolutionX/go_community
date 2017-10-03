@@ -722,3 +722,11 @@ func matmult(done chan<- struct{}, A, B, C Matrix, i0, i1, j0, j1, k0, k1, thres
 func TestStealOrder(t *testing.T) {
 	runtime.RunStealOrderTest()
 }
+
+func TestLoopPreemption(t *testing.T) {
+	output := runTestProg(t, "testprog", "LoopPreemption")
+	want := "OK\n"
+	if output != want {
+		t.Fatalf("want %q, got %q", want, output)
+	}
+}
