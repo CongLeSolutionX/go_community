@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a903703_ad2f6803",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-03T22:59:48Z",
+      "side": 1,
+      "message": "These work for float32s too right? Could you add rules to remove float32 casts surrounding them, i.e. float32(math.Abs(float64(x))) where x is float32? This isn\u0027t common in the std lib, but it would seem the obvious way for users to do 32-bit Abs. Just a thought.\n\nAlso, could match (FNEG (FABS x)) -\u003e (FNABS x) ? (and the inverse probably too)",
+      "range": {
+        "startLine": 79,
+        "startChar": 23,
+        "endLine": 81,
+        "endChar": 19
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be074921_733fa83e",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-03T22:59:48Z",
+      "side": 1,
+      "message": "Just a note: I\u0027m fairly certain these rules (and the equivalent load rules below) are why you can\u0027t use rules alone to match these two functions. If you delete them I think it would be possible to do the required transformations reliably without intrinsics. Of course then you would lose the benefit of these rules.",
+      "range": {
+        "startLine": 736,
+        "startChar": 73,
+        "endLine": 739,
+        "endChar": 80
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b69c6bf_4731deef",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-03T22:59:48Z",
+      "side": 1,
+      "message": "Are these ever triggered? The generic rules should have already taken care of this (hopefully). If they are triggered then there is perhaps a missing generic optimization.\n\nWhich reminds me, it might be worth adding generic rules to constant fold all the math intrinsics (maybe just the new ones in this CL).",
+      "range": {
+        "startLine": 741,
+        "startChar": 0,
+        "endLine": 742,
+        "endChar": 44
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "321fcd96_4588f257",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-03T22:59:48Z",
+      "side": 1,
+      "message": "Why is there an endianness check here and not in the store rules?",
+      "range": {
+        "startLine": 744,
+        "startChar": 45,
+        "endLine": 744,
+        "endChar": 62
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b779a988_729b1bf9",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-03T22:59:48Z",
+      "side": 1,
+      "message": "These rules would also need to be deleted to match using rules alone reliably.",
+      "range": {
+        "startLine": 744,
+        "startChar": 0,
+        "endLine": 745,
+        "endChar": 135
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84c3d8de_ccb9b765",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-03T22:59:48Z",
+      "side": 1,
+      "message": "These have different special cases to the rounding functions so move them to their own block(s) and add their special cases there (namely that they set/clear the sign bit even if the input is NaN or ±0). Also, it seems to be the practice to write arg0 instead of arg[0].",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 276,
+        "endChar": 68
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
