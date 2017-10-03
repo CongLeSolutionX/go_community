@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "446c9728_4cf12e00",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-03T14:49:27Z",
+      "side": 1,
+      "message": "Why do you need to convert to the pointer to array type?  Can\u0027t you just pass buf?  It\u0027s already a []uint16, and we certainly don\u0027t want syscall.UTF16ToString to run past the end.",
+      "range": {
+        "startLine": 151,
+        "startChar": 30,
+        "endLine": 151,
+        "endChar": 44
+      },
+      "revId": "5e0920a1cb2aa55b6f1fdeca66e4c2deff986062",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86612901_1442b41d",
+        "filename": "src/path/filepath/symlink_windows.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-03T14:49:27Z",
+      "side": 1,
+      "message": "s/walked/walk/",
+      "revId": "5e0920a1cb2aa55b6f1fdeca66e4c2deff986062",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
