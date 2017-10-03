@@ -116,6 +116,30 @@
       "revId": "970f0f3d3a4d0a696afdd196946c71258b7a53ef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "995ba5a8_e0f5e279",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-10-03T17:57:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847b19ab_e07aa75c",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 8
+      },
+      "revId": "970f0f3d3a4d0a696afdd196946c71258b7a53ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
