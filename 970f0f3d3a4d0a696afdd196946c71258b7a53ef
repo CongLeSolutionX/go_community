@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34cf5b70_ac5d949e",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-03T14:56:44Z",
+      "side": 1,
+      "message": "Minor, but the existing values use lower case letters, so lets use lower case letters for the new values too.",
+      "range": {
+        "startLine": 112,
+        "startChar": 25,
+        "endLine": 112,
+        "endChar": 29
+      },
+      "revId": "970f0f3d3a4d0a696afdd196946c71258b7a53ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3b0768e_44e0f960",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-03T14:56:44Z",
+      "side": 1,
+      "message": "Since we are also using v12 and v13 in the macro names, suppose we say \"High Sierra (v13)\".",
+      "range": {
+        "startLine": 119,
+        "startChar": 52,
+        "endLine": 119,
+        "endChar": 63
+      },
+      "revId": "970f0f3d3a4d0a696afdd196946c71258b7a53ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "847b19ab_e07aa75c",
+        "filename": "src/runtime/sys_darwin_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-03T14:56:44Z",
+      "side": 1,
+      "message": "Period at end of sentence.  Also \"High Sierra (v13)\".  Or \"v13 (High Sierra)\".",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 8
+      },
+      "revId": "970f0f3d3a4d0a696afdd196946c71258b7a53ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
