@@ -16,6 +16,24 @@
       "revId": "af802dee41892342179ca241845b63d5924b44bd",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efe0698e_a78bb25e",
+        "filename": "src/cmd/link/internal/ld/decodesym.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-03T23:36:26Z",
+      "side": 1,
+      "message": "Done.\n\nSorry about that, this is leftover cruft from a failed experiment in making Exitf a method. (Turns out it\u0027s a disaster.)",
+      "parentUuid": "579e178d_9fa61e50",
+      "revId": "af802dee41892342179ca241845b63d5924b44bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
