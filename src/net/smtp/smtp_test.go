@@ -193,6 +193,12 @@ func TestBasic(t *testing.T) {
 		t.Fatalf("AUTH failed: %s", err)
 	}
 
+	if err := c.Rcpt("golang-nuts@googlegroups.com>\r\nDATA\r\nInjected message body\r\n.\r\nQUIT\r\n"); err == nil {
+		t.Fatalf("RCPT should have failed due to a message injection attempt")
+	}
+	if err := c.Mail("user@gmail.com>\r\nDATA\r\nAnother injected message body\r\n.\r\nQUIT\r\n"); err == nil {
+		t.Fatalf("MAIL should have failed due to a message injection attempt")
+	}
 	if err := c.Mail("user@gmail.com"); err != nil {
 		t.Fatalf("MAIL failed: %s", err)
 	}
@@ -505,6 +511,16 @@ func TestSendMail(t *testing.T) {
 			}
 		}
 	}(strings.Split(server, "\r\n"))
+
+	err = SendMail(l.Addr().String(), nil, "test@example.com", []string{"other@example.com>\n\rDATA\r\nInjected message body\r\n.\r\nQUIT\r\n"}, []byte(strings.Replace(`From: test@example.com
+To: other@example.com
+Subject: SendMail test
+
+SendMail is working for me.
+`, "\n", "\r\n", -1)))
+	if err == nil {
+		t.Errorf("Expected SendMail to be rejected due to a message injection attempt")
+	}
 
 	err = SendMail(l.Addr().String(), nil, "test@example.com", []string{"other@example.com"}, []byte(strings.Replace(`From: test@example.com
 To: other@example.com
