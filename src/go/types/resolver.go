@@ -126,6 +126,10 @@ func (check *Checker) filename(fileNo int) string {
 }
 
 func (check *Checker) importPackage(pos token.Pos, path, dir string) *Package {
+	if path == "unsafe" {
+		return Unsafe
+	}
+
 	// If we already have a package for the given (path, dir)
 	// pair, use it instead of doing a full import.
 	// Checker.impMap only caches packages that are marked Complete
