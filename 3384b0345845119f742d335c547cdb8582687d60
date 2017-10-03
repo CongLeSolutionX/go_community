@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f40853d2_81fcaede",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-03T02:52:40Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these Symbol methods move to symbol.go?",
+      "revId": "3384b0345845119f742d335c547cdb8582687d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b10cdda6_fc9f4f23",
+        "filename": "src/cmd/link/internal/ld/symbol.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-03T02:52:40Z",
+      "side": 1,
+      "message": "The old uses the global variable SysArch here.  What is your plan for that?",
+      "revId": "3384b0345845119f742d335c547cdb8582687d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cd290c9_d5058b05",
+        "filename": "src/cmd/link/internal/ld/symbol.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-03T02:52:40Z",
+      "side": 1,
+      "message": "As a function, this was not exported.  Why export it now?  Same for some of the other methods, such as adduintxx.",
+      "revId": "3384b0345845119f742d335c547cdb8582687d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
