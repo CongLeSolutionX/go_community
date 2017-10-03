@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7715de2c_31f3eadf",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-03T19:13:04Z",
+      "side": 1,
+      "message": "Alex, do you remember why you made this change? runtime/debug.go is often dead-code eliminated from binaries (especially simple ones), so they wind up without the debug script section. I was about to change it to look for runtime.go, which seemed like the obvious candidate, but I see that\u0027s what it used to be. :)",
+      "revId": "1d44c4e37847a975c40f8f15df7914939b540f6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
