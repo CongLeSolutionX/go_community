@@ -1223,11 +1223,13 @@ func mstart1() {
 // fn will run on every CPU executing Go code, but it acts as a global
 // memory barrier. GC uses this as a "ragged barrier."
 //
-// The caller must hold worldsema.
+// The caller must hold worldsema and must be preemptible.
+//
+// This must run on the system stack so it can preempt the calling
+// user goroutine.
 //
 //go:systemstack
 func forEachP(fn func(*p)) {
-	mp := acquirem()
 	_p_ := getg().m.p.ptr()
 
 	lock(&sched.lock)
@@ -1306,7 +1308,6 @@ func forEachP(fn func(*p)) {
 	lock(&sched.lock)
 	sched.safePointFn = nil
 	unlock(&sched.lock)
-	releasem(mp)
 }
 
 // runSafePointFn runs the safe point function, if any, for this P.
