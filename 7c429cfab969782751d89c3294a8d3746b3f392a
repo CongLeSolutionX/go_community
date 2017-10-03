@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "554d8332_67684276",
+        "filename": "src/cmd/link/internal/ld/symbols.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-03T03:01:41Z",
+      "side": 1,
+      "message": "Definitely needs a comment.",
+      "revId": "7c429cfab969782751d89c3294a8d3746b3f392a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
