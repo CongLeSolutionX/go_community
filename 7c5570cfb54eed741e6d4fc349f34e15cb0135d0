@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "3b009c22_2c5790c8",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-03T13:04:29Z",
+      "side": 1,
+      "message": "Also why is here Exitf used?",
+      "range": {
+        "startLine": 648,
+        "startChar": 3,
+        "endLine": 648,
+        "endChar": 8
+      },
+      "revId": "7c5570cfb54eed741e6d4fc349f34e15cb0135d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "03602bb1_afe18207",
         "filename": "src/cmd/link/internal/ld/ldmacho.go",
         "patchSetId": 1
