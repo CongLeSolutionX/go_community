@@ -34,6 +34,42 @@
       "revId": "1d44c4e37847a975c40f8f15df7914939b540f6b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d344dfad_c7e2d417",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-10-04T03:58:23Z",
+      "side": 1,
+      "message": "I changed runtime/runtime.go to runtime/debug.go, because this code was broken with runtime/runtime.go. I selected runtime/debug.go because it was working for me at the time, and I had no one to ask for other suggestions. And I added the test so it does not get broken silently.",
+      "parentUuid": "7715de2c_31f3eadf",
+      "revId": "1d44c4e37847a975c40f8f15df7914939b540f6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6accecbb_8afad82b",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-10-04T03:58:23Z",
+      "side": 1,
+      "message": "SGTM. I trust you :-).",
+      "parentUuid": "128d0750_b438b8b2",
+      "revId": "1d44c4e37847a975c40f8f15df7914939b540f6b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
