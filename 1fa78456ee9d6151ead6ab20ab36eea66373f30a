@@ -45,6 +45,30 @@
       "revId": "1fa78456ee9d6151ead6ab20ab36eea66373f30a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5df00a8_177367ac",
+        "filename": "src/cmd/compile/internal/gc/builtin/runtime.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-04T15:39:50Z",
+      "side": 1,
+      "message": "Fascinating. I don\u0027t know how this compiles at all.",
+      "parentUuid": "4f9a8f9c_27f38ff4",
+      "range": {
+        "startLine": 26,
+        "startChar": 5,
+        "endLine": 26,
+        "endChar": 14
+      },
+      "revId": "1fa78456ee9d6151ead6ab20ab36eea66373f30a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
