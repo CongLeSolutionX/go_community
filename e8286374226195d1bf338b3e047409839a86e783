@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0bcac7b_1c52816a",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-04T23:30:31Z",
+      "side": 1,
+      "message": "Consistently it would start with 2 + 1.",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 14
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "764f1e9c_d566c728",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-04T23:30:31Z",
+      "side": 1,
+      "message": "Why the +1? Could not infer that.",
+      "range": {
+        "startLine": 91,
+        "startChar": 32,
+        "endLine": 91,
+        "endChar": 34
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e875dd_c41a9acb",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-04T23:30:31Z",
+      "side": 1,
+      "message": "HASHSIZE",
+      "range": {
+        "startLine": 99,
+        "startChar": 10,
+        "endLine": 99,
+        "endChar": 12
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7b7ab28_103cdcc7",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-04T23:30:31Z",
+      "side": 1,
+      "message": "This if only triggers for size 0? Then it would be redundant with the one below.",
+      "range": {
+        "startLine": 183,
+        "startChar": 1,
+        "endLine": 187,
+        "endChar": 2
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba458608_6cd77e29",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-04T23:30:31Z",
+      "side": 1,
+      "message": "could use\nvar buf [1]byte",
+      "range": {
+        "startLine": 208,
+        "startChar": 1,
+        "endLine": 208,
+        "endChar": 23
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
