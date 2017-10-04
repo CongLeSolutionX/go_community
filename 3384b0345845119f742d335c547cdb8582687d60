@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1ff2bb7a_15400b33",
+        "filename": "src/cmd/link/internal/ld/link.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-04T01:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f40853d2_81fcaede",
+      "revId": "3384b0345845119f742d335c547cdb8582687d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b10cdda6_fc9f4f23",
         "filename": "src/cmd/link/internal/ld/symbol.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "db2929ba_57fe719a",
+        "filename": "src/cmd/link/internal/ld/symbol.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-04T01:13:43Z",
+      "side": 1,
+      "message": "Not quite sure what you\u0027re asking. I plan to use the arch parameter instead of SysArch.",
+      "parentUuid": "b10cdda6_fc9f4f23",
+      "revId": "3384b0345845119f742d335c547cdb8582687d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cd290c9_d5058b05",
         "filename": "src/cmd/link/internal/ld/symbol.go",
         "patchSetId": 1
@@ -50,6 +86,24 @@
       "revId": "3384b0345845119f742d335c547cdb8582687d60",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe6f5ca8_1c4201f5",
+        "filename": "src/cmd/link/internal/ld/symbol.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-04T01:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cd290c9_d5058b05",
+      "revId": "3384b0345845119f742d335c547cdb8582687d60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
