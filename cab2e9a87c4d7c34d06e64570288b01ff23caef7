@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ceae06a_8316f7e9",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-10-04T18:16:31Z",
+      "side": 1,
+      "message": "Thinking about this some more, if we used a `chan token` for wrMu we could eliminate these fields: we can close wrCh instead of using a separate channel.\n\nThe locking discipline would make it something like:\n\nfunc (p *pipe) unblock() {\n\tselect {\n\tcase p.sem \u003c- token{}:\n\t\tdefer func() { \u003c-p.sem}()\n\t\tselect {\n\t\tcase \u003c-p.wrCh:\n\t\t\treturn  // Already unblocked.\n\t\tdefault:\n\t\t}\n\tcase _, ok :\u003d \u003c-p.wrCh:\n\t\tif !ok {\n\t\t\treturn  // Already unblocked.\n\t\t}\n\t\t// Interrupted a pending Write, which is now blocked on our reply.\n\t}\n\tclose(p.wrCh)\n}\n\nfunc (p *pipe) CloseRead(err error) error {\n\t…\n\tp.rerr.Store(err)\n\tp.unblock()\n\treturn nil\n}\n\nfunc (p *pipe) CloseWrite(err error) error {\n\t…\n\tp.werr.Store(err)\n\tp.unblock()\n\treturn nil\n}\n\nfunc (p *pipe) Write(b []byte) (n int, err error) {\n\tp.sem \u003c- token{}\n\tdefer func() { \u003c-p.sem }()\n\n\tselect {\n\tcase \u003c-p.wrCh:\n\t\treturn 0, p.writeCloseError()\n\tdefault:\n\t}\n\n\tfor {\n\t\tp.wrCh \u003c- b\n\t\tselect {\n\t\tcase \u003c-p.wrCh:\n\t\t\t// Interrupted by unblock.\n\t\t\treturn n, p.writeCloseError()\n\t\tcase dn :\u003d \u003c-p.rdCh:\n\t\t\tn +\u003d dn\n\t\t\tb \u003d b[dn:]\n\t\t}\n\t\tif len(b) \u003d\u003d 0 {\n\t\t\treturn n, nil\n\t\t}\n\t}\n}\n\nfunc (p *pipe) Read(b []byte) (n int, err error) {\n\tfor bw :\u003d range p.wrCh {\n\t\tnr :\u003d copy(b, bw)\n\t\tp.rdCh \u003c- nr\n\t\tif nr \u003e 0 {\n\t\t\treturn nr, nil\n\t\t}\n\t}\n\treturn 0, p.readCloseError()\n}",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c8a5929_0f789e03",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-10-04T18:16:31Z",
+      "side": 1,
+      "message": "“Implementations of Read are discouraged from returning a zero byte count with a nil error, except when len(p) \u003d\u003d 0.”\n\nWhat happens in this draft if the caller issues a `Write(nil)` on the PipeWriter concurrent to a `Read(p)` with a non-zero-length `p`? (And what was the behavior before this change?)",
+      "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

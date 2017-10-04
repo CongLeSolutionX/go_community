@@ -52,6 +52,24 @@
       "revId": "c8fac60655189c4772528655937c83d8e84f710c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ab6bd38_6008b94e",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-10-04T18:16:31Z",
+      "side": 1,
+      "message": "\u003e one of the Reads can accidentally pick up the response from a Read, instead of the Write it was intended for.\n\nAh, good point. Even if we have Read explicitly check for a 0-length payload, we could get into an arbitrarily long cycle of 0-sends among Readers before the slice finally returns to the Writer.\n\n\u003e Also, we can\u0027t do this:\n\u003e \tselect {\n\u003e \tcase \u003c-p.done:\n\u003e \t\treturn …\n\u003e \tcase p.sem \u003c- token{}:\n\u003e \t\tdefer func() { \u003c-p.sem }()\n\u003e \t}\n\u003e \n\u003e Since \u003c-p.done should take precedence over the availability of the semaphore.\n\nI was thinking that Close would tombstone p.sem (by sending to it without a corresponding receive). That does mean that Close would potentially need to wait for a pending Write call to wake up and return, but that should happen quickly once p.done is closed anyway.",
+      "parentUuid": "ade139f4_74342f59",
+      "revId": "c8fac60655189c4772528655937c83d8e84f710c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
