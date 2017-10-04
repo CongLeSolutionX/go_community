@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e601460e_766cd224",
+        "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-04T21:58:45Z",
+      "side": 1,
+      "message": "Here I never know. Where in the spec it guarantees, that the memory slot for files differs for each iteration?",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 19
+      },
+      "revId": "381663e34e319a741e8ee6bc995be42197381fca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eae312a_be7fd226",
+        "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-04T21:58:45Z",
+      "side": 1,
+      "message": "Since I don\u0027t know I would provide files as a parameter to the closure.",
+      "range": {
+        "startLine": 66,
+        "startChar": 5,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "381663e34e319a741e8ee6bc995be42197381fca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
