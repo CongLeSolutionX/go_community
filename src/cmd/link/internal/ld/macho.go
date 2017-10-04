@@ -923,6 +923,14 @@ func machorelocsect(ctxt *Link, sect *Section, syms []*Symbol) {
 				Errorf(sym, "missing xsym in relocation")
 				continue
 			}
+
+			// dsymutil is responsible for relocating DWARF references, and
+			// doesn't need any help to do it. Worse, it will get confused by
+			// stray relocations that happen to match functions. Drop them all.
+			if r.Sym != nil && r.Sym.Sect != nil && strings.HasPrefix(r.Sym.Sect.Name, ".debug") {
+				continue
+			}
+
 			if !r.Xsym.Attr.Reachable() {
 				Errorf(sym, "unreachable reloc %d (%s) target %v", r.Type, RelocName(ctxt.Arch, r.Type), r.Xsym.Name)
 			}
