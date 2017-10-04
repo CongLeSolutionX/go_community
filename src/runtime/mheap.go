@@ -154,12 +154,13 @@ type mheap struct {
 		pad      [sys.CacheLineSize - unsafe.Sizeof(mcentral{})%sys.CacheLineSize]byte
 	}
 
-	spanalloc             fixalloc // allocator for span*
-	cachealloc            fixalloc // allocator for mcache*
-	treapalloc            fixalloc // allocator for treapNodes* used by large objects
-	specialfinalizeralloc fixalloc // allocator for specialfinalizer*
-	specialprofilealloc   fixalloc // allocator for specialprofile*
-	speciallock           mutex    // lock for special record allocators.
+	spanalloc             fixalloc          // allocator for span*
+	cachealloc            fixalloc          // allocator for mcache*
+	treapalloc            fixalloc          // allocator for treapNodes* used by large objects
+	specialfinalizeralloc fixalloc          // allocator for specialfinalizer*
+	specialprofilealloc   fixalloc          // allocator for specialprofile*
+	speciallock           mutex             // lock for special record allocators.
+	unused                *specialfinalizer // never set, just here to force the specialfinalizer type into DWARF
 }
 
 var mheap_ mheap
