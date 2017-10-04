@@ -7,6 +7,7 @@ package aes
 import (
 	"crypto/cipher"
 	"strconv"
+	"unsafe"
 )
 
 // The AES block size in bytes.
@@ -51,6 +52,9 @@ func newCipherGeneric(key []byte) (cipher.Block, error) {
 func (c *aesCipher) BlockSize() int { return BlockSize }
 
 func (c *aesCipher) Encrypt(dst, src []byte) {
+	if inexactOverlap(dst, src) {
+		panic("crypto/cipher: invalid buffer overlap")
+	}
 	if len(src) < BlockSize {
 		panic("crypto/aes: input not full block")
 	}
@@ -61,6 +65,9 @@ func (c *aesCipher) Encrypt(dst, src []byte) {
 }
 
 func (c *aesCipher) Decrypt(dst, src []byte) {
+	if inexactOverlap(dst, src) {
+		panic("crypto/cipher: invalid buffer overlap")
+	}
 	if len(src) < BlockSize {
 		panic("crypto/aes: input not full block")
 	}
@@ -68,4 +75,17 @@ func (c *aesCipher) Decrypt(dst, src []byte) {
 		panic("crypto/aes: output not full block")
 	}
 	decryptBlockGo(c.dec, dst, src)
+}
+
+func anyOverlap(x, y []byte) bool {
+	return len(x) > 0 && len(y) > 0 &&
+		uintptr(unsafe.Pointer(&x[0])) <= uintptr(unsafe.Pointer(&y[len(y)-1])) &&
+		uintptr(unsafe.Pointer(&y[0])) <= uintptr(unsafe.Pointer(&x[len(x)-1]))
+}
+
+func inexactOverlap(x, y []byte) bool {
+	if len(x) == 0 || len(y) == 0 || &x[0] == &y[0] {
+		return false
+	}
+	return anyOverlap(x, y)
 }
