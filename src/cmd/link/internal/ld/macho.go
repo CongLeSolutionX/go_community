@@ -923,6 +923,11 @@ func machorelocsect(ctxt *Link, sect *Section, syms []*Symbol) {
 				Errorf(sym, "missing xsym in relocation")
 				continue
 			}
+
+			if r.Sym != nil && r.Sym.Sect != nil && strings.Contains(r.Sym.Sect.Name, ".debug") {
+				ctxt.Logf("dropping relocation from %v (in %v) to %v (in %v)\n", sym, sym.Sect.Name, r.Sym, r.Sym.Sect.Name)
+			}
+
 			if !r.Xsym.Attr.Reachable() {
 				Errorf(sym, "unreachable reloc %d (%s) target %v", r.Type, RelocName(ctxt.Arch, r.Type), r.Xsym.Name)
 			}
