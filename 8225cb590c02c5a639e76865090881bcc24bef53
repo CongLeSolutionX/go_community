@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb09d3b7_90674ad6",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-05T21:56:39Z",
+      "side": 1,
+      "message": "Minor: blank line before this function.",
+      "revId": "8225cb590c02c5a639e76865090881bcc24bef53",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
