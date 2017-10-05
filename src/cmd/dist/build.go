@@ -465,6 +465,9 @@ var deptab = []struct {
 	prefix string   // prefix of target
 	dep    []string // dependency tweaks for targets with that prefix
 }{
+	{"cmd/cgo", []string{
+		"zdefaultcc.go",
+	}},
 	{"cmd/go/internal/cfg", []string{
 		"zdefaultcc.go",
 		"zosarch.go",
