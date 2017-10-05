@@ -1124,18 +1124,14 @@ func LinkerDeps(p *Package) []string {
 	var deps []string
 
 	// External linking mode forces an import of runtime/cgo.
-	// TODO(rsc): The GOROOT exception here is mainly to avoid a circular
-	// dependency when building cmd/cgo, which the build of
-	// runtime/cgo needs, but as of CL 68338 we now build
-	// cmd/cgo during cmd/dist, so that exception is no longer
-	// needed. At some point it may be worthwhile to remove the
-	// GOROOT exception here.
-	// Note that the condition here should also match the condition
-	// in ../work/build.go's gcToolchain.ld that controls disabling
-	// external linking during the link step.
-	if cfg.ExternalLinkingForced(p.Goroot) {
-		deps = append(deps, "runtime/cgo")
-	}
+	// Instead of trying to predict whether the current invocation
+	// will use external linking, which would require both parsing
+	// the command line and also having a copy of the linker's
+	// subtle rules for determining the default, just assume
+	// runtime/cgo is needed. It takes almost no time to build,
+	// and it's probably up-to-date and doesn't need building.
+	deps = append(deps, "runtime/cgo")
+
 	// On ARM with GOARM=5, it forces an import of math, for soft floating point.
 	if cfg.Goarch == "arm" {
 		deps = append(deps, "math")
