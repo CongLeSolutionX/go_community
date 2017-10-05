@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9236878c_42017719",
+        "filename": "src/cmd/link/internal/ld/symtab.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-05T11:33:24Z",
+      "side": 1,
+      "message": "could this sort helper go into sym/ as well?",
+      "revId": "0092daad9a751bfb23abddf203a5986d341dc073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fea5f2e_d44e8f21",
+        "filename": "src/cmd/link/internal/sym/library.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-05T11:33:24Z",
+      "side": 1,
+      "message": "Could you please give this type a godoc comment and maybe document the fields.",
+      "revId": "0092daad9a751bfb23abddf203a5986d341dc073",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
