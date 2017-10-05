@@ -34,6 +34,24 @@
       "revId": "faec7f6f17a9a98e2f160c4414cc9e1f3eb47ee7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eaf3c30_678c0d8c",
+        "filename": "src/runtime/cgo/gcc_libinit.c",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-10-05T20:15:08Z",
+      "side": 1,
+      "message": "@aclements, so as per that commit that I linked above, the code in this function and file was removed. Anyways that doesn\u0027t matter, since you are now using the file :)",
+      "parentUuid": "6c4edba9_5208b7ec",
+      "revId": "faec7f6f17a9a98e2f160c4414cc9e1f3eb47ee7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
