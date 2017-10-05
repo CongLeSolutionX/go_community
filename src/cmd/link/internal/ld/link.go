@@ -60,6 +60,9 @@ type Link struct {
 
 	Loaded bool // set after all inputs have been loaded as symbols
 
+	Linkmode  LinkMode
+	Buildmode BuildMode
+
 	Tlsg         *sym.Symbol
 	Libdir       []string
 	Library      []*sym.Library

@@ -11,11 +11,6 @@ import (
 	"log"
 )
 
-var (
-	Linkmode  LinkMode
-	Buildmode BuildMode
-)
-
 // A BuildMode indicates the sort of object we are building.
 //
 // Possible build modes are the same as those for the -buildmode flag
@@ -196,7 +191,7 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 	}
 
 	// Some build modes require work the internal linker cannot do (yet).
-	switch Buildmode {
+	switch ctxt.Buildmode {
 	case BuildmodeCArchive:
 		return true, "buildmode=c-archive"
 	case BuildmodeCShared:
@@ -220,13 +215,13 @@ func mustLinkExternal(ctxt *Link) (res bool, reason string) {
 	return false, ""
 }
 
-// determineLinkMode sets Linkmode.
+// determineLinkMode sets ctxt.Linkmode.
 //
 // It is called after flags are processed and inputs are processed,
-// so the Linkmode variable has an initial value from the -linkmode
+// so the ctxt.Linkmode variable has an initial value from the -linkmode
 // flag and the iscgo externalobj variables are set.
 func determineLinkMode(ctxt *Link) {
-	switch Linkmode {
+	switch ctxt.Linkmode {
 	case LinkAuto:
 		// The environment variable GO_EXTLINK_ENABLED controls the
 		// default value of -linkmode. If it is not set when the
@@ -237,18 +232,18 @@ func determineLinkMode(ctxt *Link) {
 			if needed, reason := mustLinkExternal(ctxt); needed {
 				Exitf("internal linking requested via GO_EXTLINK_ENABLED, but external linking required: %s", reason)
 			}
-			Linkmode = LinkInternal
+			ctxt.Linkmode = LinkInternal
 		case "1":
-			Linkmode = LinkExternal
+			ctxt.Linkmode = LinkExternal
 		default:
 			if needed, _ := mustLinkExternal(ctxt); needed {
-				Linkmode = LinkExternal
+				ctxt.Linkmode = LinkExternal
 			} else if iscgo && externalobj {
-				Linkmode = LinkExternal
-			} else if Buildmode == BuildmodePIE {
-				Linkmode = LinkExternal // https://golang.org/issue/18968
+				ctxt.Linkmode = LinkExternal
+			} else if ctxt.Buildmode == BuildmodePIE {
+				ctxt.Linkmode = LinkExternal // https://golang.org/issue/18968
 			} else {
-				Linkmode = LinkInternal
+				ctxt.Linkmode = LinkInternal
 			}
 		}
 	case LinkInternal:

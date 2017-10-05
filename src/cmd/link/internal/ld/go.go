@@ -172,7 +172,7 @@ func loadcgo(ctxt *Link, file string, pkg string, p string) {
 				havedynamic = 1
 
 				if Headtype == objabi.Hdarwin {
-					machoadddynlib(lib)
+					machoadddynlib(lib, ctxt.Linkmode)
 				} else {
 					dynlib = append(dynlib, lib)
 				}
@@ -223,7 +223,7 @@ func loadcgo(ctxt *Link, file string, pkg string, p string) {
 			local = expandpkg(local, pkg)
 			s = ctxt.Syms.Lookup(local, 0)
 
-			switch Buildmode {
+			switch ctxt.Buildmode {
 			case BuildmodeCShared, BuildmodeCArchive, BuildmodePlugin:
 				if s == ctxt.Syms.Lookup("main", 0) {
 					continue
@@ -293,7 +293,7 @@ err:
 var seenlib = make(map[string]bool)
 
 func adddynlib(ctxt *Link, lib string) {
-	if seenlib[lib] || Linkmode == LinkExternal {
+	if seenlib[lib] || ctxt.Linkmode == LinkExternal {
 		return
 	}
 	seenlib[lib] = true
@@ -310,7 +310,7 @@ func adddynlib(ctxt *Link, lib string) {
 }
 
 func Adddynsym(ctxt *Link, s *sym.Symbol) {
-	if s.Dynid >= 0 || Linkmode == LinkExternal {
+	if s.Dynid >= 0 || ctxt.Linkmode == LinkExternal {
 		return
 	}
 
