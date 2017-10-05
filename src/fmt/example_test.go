@@ -27,3 +27,14 @@ func ExampleStringer() {
 	fmt.Println(a)
 	// Output: Gopher (2)
 }
+
+func ExamplePrintln() {
+	fmt.Println("Hello Gophers")
+	//Output: Hello Gophers
+}
+
+func ExamplePrintf() {
+	gopher := "Gopher"
+	fmt.Printf("Hello %v", gopher)
+	//Output: Hello Gopher
+}
