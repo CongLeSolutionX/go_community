@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d179a9b4_dd7c288a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-05T22:19:57Z",
+      "side": 1,
+      "message": "Please write the reference as https://golang.org/cl/66372.  Thanks.",
+      "revId": "32b4906134c4fa9b173a40844ade362d2f300279",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
