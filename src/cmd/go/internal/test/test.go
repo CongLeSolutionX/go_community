@@ -823,10 +823,17 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 			forceCgo = true
 		}
 	}
-	deps := testMainDeps
-	if cfg.ExternalLinkingForced() || forceCgo {
-		deps = str.StringList(deps, "runtime/cgo")
+	deps := testMainDeps // cap==len, so safe for append
+	for _, d := range load.LinkerDeps(p) {
+		deps = append(deps, d)
+		if d == "runtime/cgo" {
+			forceCgo = false
+		}
 	}
+	if forceCgo {
+		deps = append(deps, "runtime/cgo")
+	}
+
 	for _, dep := range deps {
 		if dep == ptest.ImportPath {
 			pmain.Internal.Imports = append(pmain.Internal.Imports, ptest)
