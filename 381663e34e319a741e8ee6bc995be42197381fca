@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6f51fbe3_1edfc712",
+        "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-05T09:08:39Z",
+      "side": 1,
+      "message": "Thanks for pointing me there.",
+      "parentUuid": "fa50f723_43a3e45b",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 19
+      },
+      "revId": "381663e34e319a741e8ee6bc995be42197381fca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eae312a_be7fd226",
         "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
         "patchSetId": 1
