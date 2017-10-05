@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fa50f723_43a3e45b",
+        "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-05T08:39:35Z",
+      "side": 1,
+      "message": "The spec does not say anything about memory slots - that\u0027s a compiler optimization. The spec says that each time you declare a variable you get a fresh variable. If the compiler puts the variable from multiple iterations in the same memory slot in a way that they don\u0027t all look like distinct variables, that\u0027s a compiler bug. See also \nhttps://golang.org/doc/faq#closures_and_goroutines. If you want to discuss further, this code review is not the right forum. See golang.org/wiki/Questions.",
+      "parentUuid": "e601460e_766cd224",
+      "range": {
+        "startLine": 60,
+        "startChar": 2,
+        "endLine": 60,
+        "endChar": 19
+      },
+      "revId": "381663e34e319a741e8ee6bc995be42197381fca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eae312a_be7fd226",
         "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "381663e34e319a741e8ee6bc995be42197381fca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71afa051_384dac48",
+        "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-05T08:39:35Z",
+      "side": 1,
+      "message": "Marking resolved.",
+      "parentUuid": "0eae312a_be7fd226",
+      "range": {
+        "startLine": 66,
+        "startChar": 5,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "381663e34e319a741e8ee6bc995be42197381fca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
