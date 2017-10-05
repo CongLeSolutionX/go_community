@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6059a553_813c3009",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-05T22:26:26Z",
+      "side": 1,
+      "message": "Is there a missing \"don\u0027t\" here somewhere?\nIf Windows/Solaris put the system-allocated stack in _g_.stack before mstart, then the logic above should have set osStack.",
+      "revId": "70490baebabdfaf50da1243acfa95edc9b6e4b38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbd8e6a_e4531fd6",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-05T22:26:26Z",
+      "side": 1,
+      "message": "It seems kind of pointless to put M\u0027s on the freem list if osStack is true.\nThere\u0027s nothing to do when the m is popped off the freem list.  Other than to drop all references to the m so it can be garbage collected, but that\u0027s just as easy to do here.\nJust \"if osStack { handoffp(releasep()); return }\" return up at line 1281.",
+      "revId": "70490baebabdfaf50da1243acfa95edc9b6e4b38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50a395a6_e39ab9f9",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 4035,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-05T22:26:26Z",
+      "side": 1,
+      "message": "Maybe where you increment nmfreed, we should just decrement mcount instead?",
+      "revId": "70490baebabdfaf50da1243acfa95edc9b6e4b38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
