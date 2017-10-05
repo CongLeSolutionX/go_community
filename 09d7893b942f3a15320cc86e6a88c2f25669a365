@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "415e947c_1047daf6",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-05T21:35:35Z",
+      "side": 1,
+      "message": "s/writen/written/",
+      "revId": "09d7893b942f3a15320cc86e6a88c2f25669a365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22c5f1f0_9471b710",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-05T21:35:35Z",
+      "side": 1,
+      "message": "The old code returns end \u003d\u003d false in this case.  I can\u0027t figure out why it changed.  Was it wrong before?",
+      "revId": "09d7893b942f3a15320cc86e6a88c2f25669a365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56534a27_e136553f",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-05T21:35:35Z",
+      "side": 1,
+      "message": "This method should have a comment explaining what it does, perhaps simply the doc comment it used to have.",
+      "revId": "09d7893b942f3a15320cc86e6a88c2f25669a365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32860739_044bcadc",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-05T21:35:35Z",
+      "side": 1,
+      "message": "It looks like ninc doesn\u0027t need to be defined across the whole function.  You should add `var ninc int` before each call to decodeQuantum.",
+      "revId": "09d7893b942f3a15320cc86e6a88c2f25669a365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9f7f343_7cccfce0",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-05T21:35:35Z",
+      "side": 1,
+      "message": "Remove this blank line.",
+      "revId": "09d7893b942f3a15320cc86e6a88c2f25669a365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

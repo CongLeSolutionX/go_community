@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04d789c8_ed8facaa",
+        "filename": "src/cmd/dist/deps.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-05T21:35:35Z",
+      "side": 0,
+      "message": "This change and the one for path/filepath seems unrelated.  Not sure what caused that.",
+      "revId": "6b8a3c88894cdd2f501a6497c1fc5cfd89861a7f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
