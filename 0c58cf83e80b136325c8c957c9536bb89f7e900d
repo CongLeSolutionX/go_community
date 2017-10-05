@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "b154da92_631186d2",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-05T17:02:41Z",
+      "side": 1,
+      "message": "Right. These rules help in cases where Abs and Copysign aren\u0027t used. I think the goal should be to optimize as many cases as possible.",
+      "parentUuid": "be074921_733fa83e",
+      "range": {
+        "startLine": 736,
+        "startChar": 73,
+        "endLine": 739,
+        "endChar": 80
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b69c6bf_4731deef",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2017-10-03T22:59:48Z",
       "side": 1,
       "message": "Are these ever triggered? The generic rules should have already taken care of this (hopefully). If they are triggered then there is perhaps a missing generic optimization.\n\nWhich reminds me, it might be worth adding generic rules to constant fold all the math intrinsics (maybe just the new ones in this CL).",
+      "range": {
+        "startLine": 741,
+        "startChar": 0,
+        "endLine": 742,
+        "endChar": 44
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b293da0_91c6a56a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-05T17:02:41Z",
+      "side": 1,
+      "message": "Yes I added them because there was a case. I\u0027m not sure what you mean by adding generic rules to fold the math intrinsics?",
+      "parentUuid": "0b69c6bf_4731deef",
       "range": {
         "startLine": 741,
         "startChar": 0,
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "eb44455e_fa67d21d",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-05T17:02:41Z",
+      "side": 1,
+      "message": "There must have been a flaw in my testing process. This doesn\u0027t need to be here.",
+      "parentUuid": "321fcd96_4588f257",
+      "range": {
+        "startLine": 744,
+        "startChar": 45,
+        "endLine": 744,
+        "endChar": 62
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b779a988_729b1bf9",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 2
@@ -105,6 +177,30 @@
       "writtenOn": "2017-10-03T22:59:48Z",
       "side": 1,
       "message": "These rules would also need to be deleted to match using rules alone reliably.",
+      "range": {
+        "startLine": 744,
+        "startChar": 0,
+        "endLine": 745,
+        "endChar": 135
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cec4df13_c9502d06",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-05T17:02:41Z",
+      "side": 1,
+      "message": "Same comment as above.",
+      "parentUuid": "b779a988_729b1bf9",
       "range": {
         "startLine": 744,
         "startChar": 0,
