@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcfd1232_45d92942",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-05T17:15:06Z",
+      "side": 1,
+      "message": "insert before empty line:\n\nif debugFloat {\n   x.validate()\n}",
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5d5a623_62ec1732",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-05T17:15:06Z",
+      "side": 1,
+      "message": "s/with/of/",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "627e8e6f_f27dba16",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-05T17:15:06Z",
+      "side": 1,
+      "message": "This and the next one can be combined:\n\n// handle ±0 and +∞\nif x.form !\u003d finite {\n   z.acc \u003d Exact\n   z.form \u003d x.form\n   z.neg \u003d x.neg // IEEE754-2008 requires √±0 \u003d ±0\n   return z\n}",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 10
+      },
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c46d12f_1e09cbf8",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-05T17:15:06Z",
+      "side": 1,
+      "message": "This should always happen (also for \u003c0, 0 and inf arguments). Also, we\u0027re inside the math/big package, don\u0027t use the accessor:\n\nif z.prec \u003d\u003d 0 {\n   z.prec \u003d x.prec\n}",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 4
+      },
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f99d9fe_d12a82d5",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-05T17:15:06Z",
+      "side": 1,
+      "message": "this is not needed if you set the prec as suggested - SetPrec does a lot of work that\u0027s not needed here",
+      "range": {
+        "startLine": 46,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 10
+      },
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de7d48af_5a531e75",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-05T17:15:06Z",
+      "side": 1,
+      "message": "factor out creation of 2.0 and 0.5 Floats - see comment further down",
+      "range": {
+        "startLine": 56,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 16
+      },
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa01d82_614508fd",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-05T17:15:06Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dee5b9de_aeef4b69",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-05T17:15:06Z",
+      "side": 1,
+      "message": "this value is not modified, and it\u0027s also used higher up. Create once, globally:\n\nvar (\n   half \u003d NewFloat(0.5)\n   two  \u003d NewFloat(2.0)\n)",
+      "range": {
+        "startLine": 120,
+        "startChar": 1,
+        "endLine": 120,
+        "endChar": 5
+      },
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06ad1dc6_181e0d41",
+        "filename": "src/math/big/sqrtf_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-05T17:15:06Z",
+      "side": 1,
+      "message": "s/x64/got/",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 5
+      },
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
