@@ -16,6 +16,24 @@
       "revId": "c9471cda46b99a5b6a80328d27b99509608cf7ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ab8c176_a7a56701",
+        "filename": "src/cmd/go/internal/cache/hash.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-05T08:26:58Z",
+      "side": 1,
+      "message": "I don\u0027t know. Fixed.",
+      "parentUuid": "cc562508_11895777",
+      "revId": "c9471cda46b99a5b6a80328d27b99509608cf7ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
