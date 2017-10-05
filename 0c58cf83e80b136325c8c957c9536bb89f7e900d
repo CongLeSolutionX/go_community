@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "913ee533_b425c147",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-05T17:14:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b154da92_631186d2",
+      "range": {
+        "startLine": 736,
+        "startChar": 73,
+        "endLine": 739,
+        "endChar": 80
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b69c6bf_4731deef",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 2
@@ -107,6 +131,30 @@
       "side": 1,
       "message": "Yes I added them because there was a case. I\u0027m not sure what you mean by adding generic rules to fold the math intrinsics?",
       "parentUuid": "0b69c6bf_4731deef",
+      "range": {
+        "startLine": 741,
+        "startChar": 0,
+        "endLine": 742,
+        "endChar": 44
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f826c7b3_8074f40a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 742,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-05T17:14:23Z",
+      "side": 1,
+      "message": "Currently the generic rules will constant fold through almost all operations, but they won\u0027t currently for math intrinsics. To get around this we could add generic rules like this:\n\n(Abs (Const64F [x])) -\u003e (Const64F [f2i(math.Abs(i2f(x)))])",
+      "parentUuid": "8b293da0_91c6a56a",
       "range": {
         "startLine": 741,
         "startChar": 0,
@@ -210,6 +258,30 @@
       "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28de9ff9_872f0d80",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-05T17:14:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cec4df13_c9502d06",
+      "range": {
+        "startLine": 744,
+        "startChar": 0,
+        "endLine": 745,
+        "endChar": 135
+      },
+      "revId": "0c58cf83e80b136325c8c957c9536bb89f7e900d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
