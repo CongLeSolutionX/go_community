@@ -16,6 +16,24 @@
       "revId": "7b0e4cf3efc96f3902d3d16bf573a8d6c90bcd43",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5fded0c_0fdc817f",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-05T15:03:01Z",
+      "side": 1,
+      "message": "I\u0027m confused about this: normally the linker knows that if it\u0027s using external linking it should force an implicit import of runtime/cgo. That applies to all binaries. I don\u0027t understand why tests are being treated specially and have an explicit import in the generated testmain.go. This may be related to my question in the cmd/dist CL two above this one in the stack.\n\nIs it possible that the real fix to all this is to make cfg.ExternalLinkingForced return true for all darwin/arm and darwin/arm64 targets?",
+      "parentUuid": "63ce62cb_a8ffc15c",
+      "revId": "7b0e4cf3efc96f3902d3d16bf573a8d6c90bcd43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
