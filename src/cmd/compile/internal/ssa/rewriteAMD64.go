@@ -453,6 +453,8 @@ func rewriteValueAMD64(v *Value) bool {
 		return rewriteValueAMD64_OpBswap32_0(v)
 	case OpBswap64:
 		return rewriteValueAMD64_OpBswap64_0(v)
+	case OpCeil:
+		return rewriteValueAMD64_OpCeil_0(v)
 	case OpClosureCall:
 		return rewriteValueAMD64_OpClosureCall_0(v)
 	case OpCom16:
@@ -543,6 +545,8 @@ func rewriteValueAMD64(v *Value) bool {
 		return rewriteValueAMD64_OpEqB_0(v)
 	case OpEqPtr:
 		return rewriteValueAMD64_OpEqPtr_0(v)
+	case OpFloor:
+		return rewriteValueAMD64_OpFloor_0(v)
 	case OpGeq16:
 		return rewriteValueAMD64_OpGeq16_0(v)
 	case OpGeq16U:
@@ -871,6 +875,8 @@ func rewriteValueAMD64(v *Value) bool {
 		return rewriteValueAMD64_OpSub8_0(v)
 	case OpSubPtr:
 		return rewriteValueAMD64_OpSubPtr_0(v)
+	case OpTrunc:
+		return rewriteValueAMD64_OpTrunc_0(v)
 	case OpTrunc16to8:
 		return rewriteValueAMD64_OpTrunc16to8_0(v)
 	case OpTrunc32to16:
@@ -39925,6 +39931,18 @@ func rewriteValueAMD64_OpBswap64_0(v *Value) bool {
 		return true
 	}
 }
+func rewriteValueAMD64_OpCeil_0(v *Value) bool {
+	// match: (Ceil x)
+	// cond:
+	// result: (ROUNDSD [2] x)
+	for {
+		x := v.Args[0]
+		v.reset(OpAMD64ROUNDSD)
+		v.AuxInt = 2
+		v.AddArg(x)
+		return true
+	}
+}
 func rewriteValueAMD64_OpClosureCall_0(v *Value) bool {
 	// match: (ClosureCall [argwid] entry closure mem)
 	// cond:
@@ -40672,6 +40690,18 @@ func rewriteValueAMD64_OpEqPtr_0(v *Value) bool {
 		return true
 	}
 	return false
+}
+func rewriteValueAMD64_OpFloor_0(v *Value) bool {
+	// match: (Floor x)
+	// cond:
+	// result: (ROUNDSD [1] x)
+	for {
+		x := v.Args[0]
+		v.reset(OpAMD64ROUNDSD)
+		v.AuxInt = 1
+		v.AddArg(x)
+		return true
+	}
 }
 func rewriteValueAMD64_OpGeq16_0(v *Value) bool {
 	b := v.Block
@@ -44590,6 +44620,18 @@ func rewriteValueAMD64_OpSubPtr_0(v *Value) bool {
 		return true
 	}
 	return false
+}
+func rewriteValueAMD64_OpTrunc_0(v *Value) bool {
+	// match: (Trunc x)
+	// cond:
+	// result: (ROUNDSD [3] x)
+	for {
+		x := v.Args[0]
+		v.reset(OpAMD64ROUNDSD)
+		v.AuxInt = 3
+		v.AddArg(x)
+		return true
+	}
 }
 func rewriteValueAMD64_OpTrunc16to8_0(v *Value) bool {
 	// match: (Trunc16to8 x)

@@ -556,6 +556,7 @@ const (
 	OpAMD64POPCNTQ
 	OpAMD64POPCNTL
 	OpAMD64SQRTSD
+	OpAMD64ROUNDSD
 	OpAMD64SBBQcarrymask
 	OpAMD64SBBLcarrymask
 	OpAMD64SETEQ
@@ -6632,6 +6633,20 @@ var opcodeTable = [...]opInfo{
 		name:   "SQRTSD",
 		argLen: 1,
 		asm:    x86.ASQRTSD,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 4294901760}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
+			},
+			outputs: []outputInfo{
+				{0, 4294901760}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
+			},
+		},
+	},
+	{
+		name:    "ROUNDSD",
+		auxType: auxInt8,
+		argLen:  1,
+		asm:     x86.AROUNDSD,
 		reg: regInfo{
 			inputs: []inputInfo{
 				{0, 4294901760}, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
