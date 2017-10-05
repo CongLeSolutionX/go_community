@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "c710fc92_3c55bf49",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 16720
+      },
+      "writtenOn": "2017-10-05T21:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "312631d9_51d4cd0c",
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "053105ab_ca719526",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 7
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "ee4417b7_af524a4f",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 16720
+      },
+      "writtenOn": "2017-10-05T21:16:26Z",
+      "side": 1,
+      "message": "decodeQuantum isn\u0027t called every loop thanks to the continue, just above.\nMaybe a clearer construct is:\nfor ... {\n  if ok :\u003d enc.decode64(dst[n:], src[si:]); ok {\n    ...\n  } else {\n    enc.decodeQuantum(dst[n:], src, si)\n    ...\n  }\n}",
+      "parentUuid": "053105ab_ca719526",
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f8ec3bc9_bd49b3ad",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 7
@@ -64,6 +100,24 @@
       "writtenOn": "2017-09-24T23:11:30Z",
       "side": 1,
       "message": "Calling Uint32 here does not seem like a win.  That will read four bytes and turn them into a 32-bit integer, which you then pull apart below.  Why not simply refers to src[0], src[1], src[2], src[3]?",
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e84928c_7f385bce",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 16720
+      },
+      "writtenOn": "2017-10-05T21:16:26Z",
+      "side": 1,
+      "message": "Indeed, I took my inspiration from aklomp/base64 too literally.",
+      "parentUuid": "f8ec3bc9_bd49b3ad",
       "revId": "4a2404f11a99e0227a96625102089c8183118584",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -93,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "65be8082_2698368a",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 16720
+      },
+      "writtenOn": "2017-10-05T21:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f31731e6_89024db7",
+      "range": {
+        "startLine": 524,
+        "startChar": 46,
+        "endLine": 524,
+        "endChar": 52
+      },
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d88b4773_18c84490",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 7
@@ -104,6 +182,24 @@
       "writtenOn": "2017-09-24T23:11:30Z",
       "side": 1,
       "message": "Similarly, why not set dst[0], etc.",
+      "revId": "4a2404f11a99e0227a96625102089c8183118584",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "419bef9f_0540362b",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 16720
+      },
+      "writtenOn": "2017-10-05T21:16:26Z",
+      "side": 1,
+      "message": "That one will be more complicated as you go from an uint32 to bytes. binary.BigEndian.PutUint32 seems to be the correct and efficient function to do this.",
+      "parentUuid": "d88b4773_18c84490",
       "revId": "4a2404f11a99e0227a96625102089c8183118584",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
