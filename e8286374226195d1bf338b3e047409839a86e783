@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e45db351_5d7f35de",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-05T08:54:53Z",
+      "side": 1,
+      "message": "Mkdir should be enough here.",
+      "range": {
+        "startLine": 58,
+        "startChar": 15,
+        "endLine": 58,
+        "endChar": 23
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0bcac7b_1c52816a",
         "filename": "src/cmd/go/internal/cache/cache.go",
         "patchSetId": 1
@@ -48,6 +71,53 @@
     },
     {
       "key": {
+        "uuid": "5bfb172b_4b43042c",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-05T08:54:53Z",
+      "side": 1,
+      "message": "Got it. You use this to check that there is only the action entry in the file f and nothing more.",
+      "parentUuid": "764f1e9c_d566c728",
+      "range": {
+        "startLine": 91,
+        "startChar": 32,
+        "endLine": 91,
+        "endChar": 34
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87402c0a_e1754897",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-05T08:54:53Z",
+      "side": 1,
+      "message": "This part could be way nicer using regexp:\nhttps://gist.github.com/stemar94/2e757a26ed97dd201279112c18203da7",
+      "range": {
+        "startLine": 95,
+        "startChar": 1,
+        "endLine": 98,
+        "endChar": 91
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "40e875dd_c41a9acb",
         "filename": "src/cmd/go/internal/cache/cache.go",
         "patchSetId": 1
@@ -64,6 +134,53 @@
         "startChar": 10,
         "endLine": 99,
         "endChar": 12
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db35ab84_8ba1acb8",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-05T08:54:53Z",
+      "side": 1,
+      "message": "HashSize, sry for shouting",
+      "parentUuid": "40e875dd_c41a9acb",
+      "range": {
+        "startLine": 99,
+        "startChar": 10,
+        "endLine": 99,
+        "endChar": 12
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "787a36cc_d851c9da",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-05T08:54:53Z",
+      "side": 1,
+      "message": "This could be:\nvar out OutputID\nh.Sum(out[:])",
+      "range": {
+        "startLine": 150,
+        "startChar": 1,
+        "endLine": 152,
+        "endChar": 18
       },
       "revId": "e8286374226195d1bf338b3e047409839a86e783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
