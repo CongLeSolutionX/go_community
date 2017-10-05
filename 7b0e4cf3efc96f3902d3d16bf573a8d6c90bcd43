@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63ce62cb_a8ffc15c",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-05T14:53:59Z",
+      "side": 1,
+      "message": "On darwin/arm I believe we still want to set NeedCgo below, which is now false.",
+      "revId": "7b0e4cf3efc96f3902d3d16bf573a8d6c90bcd43",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
