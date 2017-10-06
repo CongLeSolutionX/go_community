@@ -522,7 +522,6 @@ var Anames = []string{
 	"DPPD",
 	"DPPS",
 	"EMMS",
-	"EXTRACTPS",
 	"FXRSTOR",
 	"FXRSTOR64",
 	"FXSAVE",
