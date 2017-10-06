@@ -243,7 +243,7 @@ func ldpeError(ctxt *Link, input *bio.Reader, pkg string, length int64, pn strin
 				fallthrough
 
 			case IMAGE_REL_I386_REL32, IMAGE_REL_AMD64_REL32,
-				IMAGE_REL_AMD64_ADDR32, // R_X86_64_PC32
+				IMAGE_REL_AMD64_ADDR32, // elf.R_X86_64_PC32
 				IMAGE_REL_AMD64_ADDR32NB:
 				rp.Type = objabi.R_PCREL
 
@@ -255,7 +255,7 @@ func ldpeError(ctxt *Link, input *bio.Reader, pkg string, length int64, pn strin
 				// load addend from image
 				rp.Add = int64(int32(Le32(sectdata[rsect][rp.Off:])))
 
-			case IMAGE_REL_AMD64_ADDR64: // R_X86_64_64
+			case IMAGE_REL_AMD64_ADDR64: // elf.R_X86_64_64
 				rp.Siz = 8
 
 				rp.Type = objabi.R_ADDR
