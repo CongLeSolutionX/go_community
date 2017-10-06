@@ -16,6 +16,24 @@
       "revId": "86656da33308a88a51b08bf44f585083d2cf7c6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66026ddf_55ce7986",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-06T13:36:03Z",
+      "side": 0,
+      "message": "I removed it, because the use of typeSymbolMangle is already guarded by an outer block calling typeSymbolMangling so it is never triggered. L573. (And removing it means this function does not need a ctxt parameter.)",
+      "parentUuid": "92d1ceca_8dfb6ca3",
+      "revId": "86656da33308a88a51b08bf44f585083d2cf7c6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
