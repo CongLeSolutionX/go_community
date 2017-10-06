@@ -165,7 +165,7 @@ func (e *escaper) escapeAction(c context, n *parse.ActionNode) context {
 				c.state == stateAttr && c.delim == delimSpaceOrTagEnd && ident == "html" {
 				return context{
 					state: stateError,
-					err:   errorf(ErrPredefinedEscaper, n, n.Line, "predefined escaper %q disallowed in template", ident),
+					err:   errorf(ErrPredefinedEscaper, n, n.Line, "predefined escaper %q disallowed in template; see ErrPrefinedEscaper at golang.org/pkg/html/template#ErrorCode", ident),
 				}
 			}
 		}
