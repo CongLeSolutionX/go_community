@@ -22,6 +22,30 @@
       "revId": "2ac55028d496fda6395a34754a5d7019e87b01e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e90ca322_dc458186",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1738,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-06T00:32:09Z",
+      "side": 1,
+      "message": "No, it\u0027s actually necessary. Suppose mcount \u003d 1, nmidle \u003d 0, and nmsys \u003d 0. If the template thread starts (mcount++ \u003d\u003e mcount - nmidle - nmsys \u003d\u003d 2), then the last user thread goes idle (nmidle++ \u003d\u003e mcount - nmidle - nmsys \u003d\u003d 1), then this runs (nmsys++ \u003d\u003e mcount - nmidle - nmsys \u003d\u003d 0), the deadlock would be detected here.",
+      "parentUuid": "15c7ead4_d511a1d8",
+      "range": {
+        "startLine": 1738,
+        "startChar": 1,
+        "endLine": 1738,
+        "endChar": 10
+      },
+      "revId": "2ac55028d496fda6395a34754a5d7019e87b01e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
