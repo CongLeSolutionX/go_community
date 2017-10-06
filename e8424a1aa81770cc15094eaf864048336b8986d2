@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f9c0b5e_af7169ff",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-06T16:01:34Z",
+      "side": 1,
+      "message": "Would you prefer \"bad(err)\" at those spots and define\nbad :\u003d func(err error) {Errorf(nil, \"%s: malformed mach-o file: %v\", pn, err)}\nat the start of this function?\nAt the moment I\u0027m not really convinced of all the replication.",
+      "range": {
+        "startLine": 420,
+        "startChar": 2,
+        "endLine": 420,
+        "endChar": 55
+      },
+      "revId": "e8424a1aa81770cc15094eaf864048336b8986d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
