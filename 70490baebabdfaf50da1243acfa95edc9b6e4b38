@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ac02db4d_3a16e8c7",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1171,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-06T01:34:36Z",
+      "side": 1,
+      "message": "Hmm. I think this is right. On Windows/Solaris, _g_.stack is set on entry to mstart, so _g_.stack.lo !\u003d 0, so osStack is false before this.",
+      "parentUuid": "6059a553_813c3009",
+      "revId": "70490baebabdfaf50da1243acfa95edc9b6e4b38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afbd8e6a_e4531fd6",
         "filename": "src/runtime/proc.go",
         "patchSetId": 12
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c02ca96b_100a84e2",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-06T01:34:36Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "afbd8e6a_e4531fd6",
+      "revId": "70490baebabdfaf50da1243acfa95edc9b6e4b38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50a395a6_e39ab9f9",
         "filename": "src/runtime/proc.go",
         "patchSetId": 12
@@ -47,6 +83,24 @@
       "writtenOn": "2017-10-05T22:26:26Z",
       "side": 1,
       "message": "Maybe where you increment nmfreed, we should just decrement mcount instead?",
+      "revId": "70490baebabdfaf50da1243acfa95edc9b6e4b38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43f37cdb_85953868",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 4035,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-06T01:34:36Z",
+      "side": 1,
+      "message": "We use mcount to assign M IDs, so it has to be monotonic.\n\nThough I did just notice that there are a few places that use mcount but should be using mcount-nmfreed, so I\u0027ve fixed those.",
+      "parentUuid": "50a395a6_e39ab9f9",
       "revId": "70490baebabdfaf50da1243acfa95edc9b6e4b38",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
