@@ -69,6 +69,24 @@
       "revId": "6f12aa5edd6e736f770c17787b0756f66af4bcd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "668787ab_23be6dc2",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-06T21:22:17Z",
+      "side": 1,
+      "message": "Whoops, forgot that there were hidden lines that ^F wouldn\u0027t search.  Sorry.",
+      "parentUuid": "d1eb69f3_63d05ef8",
+      "revId": "6f12aa5edd6e736f770c17787b0756f66af4bcd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
