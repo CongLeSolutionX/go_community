@@ -4066,6 +4066,8 @@ func checkdead() {
 	if grunning == 0 { // possible if main goroutine calls runtime·Goexit()
 		throw("no goroutines (main called runtime.Goexit) - deadlock!")
 	}
+	println("fatal error: all goroutines are asleep - deadlock!") // Trick tests
+	println(sched.mnext, sched.nmfreed, sched.nmidle, sched.nmidlelocked, sched.nmsys)
 
 	// Maybe jump time forward for playground.
 	gp := timejump()
