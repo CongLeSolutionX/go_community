@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f07d2a06_59e930ef",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-06T20:09:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7886d0e1_5468bf77",
+      "revId": "6f12aa5edd6e736f770c17787b0756f66af4bcd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3f60c48_17bda48b",
         "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "6f12aa5edd6e736f770c17787b0756f66af4bcd1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1eb69f3_63d05ef8",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-06T20:09:02Z",
+      "side": 1,
+      "message": "It is used throughout this code (for example, L205).\n\nThe original definition is in cmd/link/internal/ld/util.go. It is used by both ldmacho.go and ldelf.go. There is no obvious shared home for it, and it\u0027s very small, so I plan to duplicate it in both the loadmacho and loadelf packages.",
+      "parentUuid": "d3f60c48_17bda48b",
+      "revId": "6f12aa5edd6e736f770c17787b0756f66af4bcd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
