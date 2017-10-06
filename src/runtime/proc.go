@@ -4042,6 +4042,7 @@ func checkdead() {
 		print("runtime: checkdead: nmidle=", sched.nmidle, " nmidlelocked=", sched.nmidlelocked, " mcount=", mcount(), " nmsys=", sched.nmsys, "\n")
 		throw("checkdead: inconsistent counts")
 	}
+	println(sched.mnext, sched.nmfreed, sched.nmidle, sched.nmidlelocked, sched.nmsys)
 
 	grunning := 0
 	lock(&allglock)
