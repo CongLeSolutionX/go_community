@@ -36,6 +36,7 @@ import (
 	"cmd/internal/bio"
 	"cmd/internal/objabi"
 	"cmd/internal/sys"
+	"cmd/link/internal/loadelf"
 	"cmd/link/internal/loadmacho"
 	"cmd/link/internal/objfile"
 	"cmd/link/internal/sym"
@@ -874,7 +875,7 @@ func ldhostobj(ld func(*Link, *bio.Reader, string, int64, string), f *bio.Reader
 	}
 
 	// DragonFly declares errno with __thread, which results in a symbol
-	// type of R_386_TLS_GD or R_X86_64_TLSGD. The Go linker does not
+	// type of elf.R_386_TLS_GD or elf.R_X86_64_TLSGD. The Go linker does not
 	// currently know how to handle TLS relocations, hence we have to
 	// force external linking for any libraries that link in code that
 	// uses errno. This can be removed if the Go linker ever supports
@@ -1381,6 +1382,15 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 
 	magic := uint32(c1)<<24 | uint32(c2)<<16 | uint32(c3)<<8 | uint32(c4)
 	if magic == 0x7f454c46 { // \x7F E L F
+		ldelf := func(ctxt *Link, f *bio.Reader, pkg string, length int64, pn string) {
+			textp, flags, err := loadelf.Load(ctxt.Arch, ctxt.Syms, f, pkg, length, pn, ehdr.flags)
+			if err != nil {
+				Errorf(nil, "%v", err)
+				return
+			}
+			ehdr.flags = flags
+			ctxt.Textp = append(ctxt.Textp, textp...)
+		}
 		return ldhostobj(ldelf, f, pkg, length, pn, file)
 	}
 
