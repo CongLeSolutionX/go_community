@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12aa49c6_c237db5d",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-06T00:37:31Z",
+      "side": 1,
+      "message": "This seems a little bit weird, to me, that the predecessor\u0027s \"last\" position is set to b\u0027s last position.  I would think we\u0027d want to set to b.Values[0].Pos, if b has any values.  That\u0027s the first position in b, which is closest to the end of p.",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa8512e4_49205177",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-06T00:37:31Z",
+      "side": 1,
+      "message": "The comment is a bit off.  Varkill and varlive do get line numbers, it\u0027s just that you don\u0027t want them to update the current line number.\n\"..., so we don\u0027t use their line numbers ...\"",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2a170bc_07ae3260",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-06T00:37:31Z",
+      "side": 1,
+      "message": "t.Skip?",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb31254f_d89b23d5",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-06T00:37:31Z",
+      "side": 1,
+      "message": "Why are these not some sort of error?\nI wouldn\u0027t expect an EOF from gdb unless it crashed.",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d514f03_73c231d8",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-06T00:37:31Z",
+      "side": 1,
+      "message": "There isn\u0027t any stdlib Go function which does this?",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
