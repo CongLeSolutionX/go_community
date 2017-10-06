@@ -744,30 +744,33 @@ func (i SymVis) GoString() string { return stringName(uint32(i), stvStrings, tru
 type R_X86_64 int
 
 const (
-	R_X86_64_NONE     R_X86_64 = 0  /* No relocation. */
-	R_X86_64_64       R_X86_64 = 1  /* Add 64 bit symbol value. */
-	R_X86_64_PC32     R_X86_64 = 2  /* PC-relative 32 bit signed sym value. */
-	R_X86_64_GOT32    R_X86_64 = 3  /* PC-relative 32 bit GOT offset. */
-	R_X86_64_PLT32    R_X86_64 = 4  /* PC-relative 32 bit PLT offset. */
-	R_X86_64_COPY     R_X86_64 = 5  /* Copy data from shared object. */
-	R_X86_64_GLOB_DAT R_X86_64 = 6  /* Set GOT entry to data address. */
-	R_X86_64_JMP_SLOT R_X86_64 = 7  /* Set GOT entry to code address. */
-	R_X86_64_RELATIVE R_X86_64 = 8  /* Add load address of shared object. */
-	R_X86_64_GOTPCREL R_X86_64 = 9  /* Add 32 bit signed pcrel offset to GOT. */
-	R_X86_64_32       R_X86_64 = 10 /* Add 32 bit zero extended symbol value */
-	R_X86_64_32S      R_X86_64 = 11 /* Add 32 bit sign extended symbol value */
-	R_X86_64_16       R_X86_64 = 12 /* Add 16 bit zero extended symbol value */
-	R_X86_64_PC16     R_X86_64 = 13 /* Add 16 bit signed extended pc relative symbol value */
-	R_X86_64_8        R_X86_64 = 14 /* Add 8 bit zero extended symbol value */
-	R_X86_64_PC8      R_X86_64 = 15 /* Add 8 bit signed extended pc relative symbol value */
-	R_X86_64_DTPMOD64 R_X86_64 = 16 /* ID of module containing symbol */
-	R_X86_64_DTPOFF64 R_X86_64 = 17 /* Offset in TLS block */
-	R_X86_64_TPOFF64  R_X86_64 = 18 /* Offset in static TLS block */
-	R_X86_64_TLSGD    R_X86_64 = 19 /* PC relative offset to GD GOT entry */
-	R_X86_64_TLSLD    R_X86_64 = 20 /* PC relative offset to LD GOT entry */
-	R_X86_64_DTPOFF32 R_X86_64 = 21 /* Offset in TLS block */
-	R_X86_64_GOTTPOFF R_X86_64 = 22 /* PC relative offset to IE GOT entry */
-	R_X86_64_TPOFF32  R_X86_64 = 23 /* Offset in static TLS block */
+	R_X86_64_NONE          R_X86_64 = 0  /* No relocation. */
+	R_X86_64_64            R_X86_64 = 1  /* Add 64 bit symbol value. */
+	R_X86_64_PC32          R_X86_64 = 2  /* PC-relative 32 bit signed sym value. */
+	R_X86_64_GOT32         R_X86_64 = 3  /* PC-relative 32 bit GOT offset. */
+	R_X86_64_PLT32         R_X86_64 = 4  /* PC-relative 32 bit PLT offset. */
+	R_X86_64_COPY          R_X86_64 = 5  /* Copy data from shared object. */
+	R_X86_64_GLOB_DAT      R_X86_64 = 6  /* Set GOT entry to data address. */
+	R_X86_64_JMP_SLOT      R_X86_64 = 7  /* Set GOT entry to code address. */
+	R_X86_64_RELATIVE      R_X86_64 = 8  /* Add load address of shared object. */
+	R_X86_64_GOTPCREL      R_X86_64 = 9  /* Add 32 bit signed pcrel offset to GOT. */
+	R_X86_64_32            R_X86_64 = 10 /* Add 32 bit zero extended symbol value */
+	R_X86_64_32S           R_X86_64 = 11 /* Add 32 bit sign extended symbol value */
+	R_X86_64_16            R_X86_64 = 12 /* Add 16 bit zero extended symbol value */
+	R_X86_64_PC16          R_X86_64 = 13 /* Add 16 bit signed extended pc relative symbol value */
+	R_X86_64_8             R_X86_64 = 14 /* Add 8 bit zero extended symbol value */
+	R_X86_64_PC8           R_X86_64 = 15 /* Add 8 bit signed extended pc relative symbol value */
+	R_X86_64_DTPMOD64      R_X86_64 = 16 /* ID of module containing symbol */
+	R_X86_64_DTPOFF64      R_X86_64 = 17 /* Offset in TLS block */
+	R_X86_64_TPOFF64       R_X86_64 = 18 /* Offset in static TLS block */
+	R_X86_64_TLSGD         R_X86_64 = 19 /* PC relative offset to GD GOT entry */
+	R_X86_64_TLSLD         R_X86_64 = 20 /* PC relative offset to LD GOT entry */
+	R_X86_64_DTPOFF32      R_X86_64 = 21 /* Offset in TLS block */
+	R_X86_64_GOTTPOFF      R_X86_64 = 22 /* PC relative offset to IE GOT entry */
+	R_X86_64_TPOFF32       R_X86_64 = 23 /* Offset in static TLS block */
+	R_X86_64_PC64          R_X86_64 = 24 /* PC relative 64-bit sign extended symbol value. */
+	R_X86_64_GOTPCRELX     R_X86_64 = 41
+	R_X86_64_REX_GOTPCRELX R_X86_64 = 42
 )
 
 var rx86_64Strings = []intName{
@@ -1147,8 +1150,14 @@ const (
 	R_ARM_GOTPC         R_ARM = 25 /* Add PC-relative GOT table address. */
 	R_ARM_GOT32         R_ARM = 26 /* Add PC-relative GOT offset. */
 	R_ARM_PLT32         R_ARM = 27 /* Add PC-relative PLT offset. */
+	R_ARM_CALL          R_ARM = 28
+	R_ARM_JUMP24        R_ARM = 29
+	R_ARM_V4BX          R_ARM = 40
+	R_ARM_GOT_PREL      R_ARM = 96
 	R_ARM_GNU_VTENTRY   R_ARM = 100
 	R_ARM_GNU_VTINHERIT R_ARM = 101
+	R_ARM_TLS_IE32      R_ARM = 107
+	R_ARM_TLS_LE32      R_ARM = 108
 	R_ARM_RSBREL32      R_ARM = 250
 	R_ARM_THM_RPC22     R_ARM = 251
 	R_ARM_RREL32        R_ARM = 252
@@ -1231,6 +1240,7 @@ const (
 	R_386_TLS_DTPMOD32 R_386 = 35 /* GOT entry containing TLS index */
 	R_386_TLS_DTPOFF32 R_386 = 36 /* GOT entry containing TLS offset */
 	R_386_TLS_TPOFF32  R_386 = 37 /* GOT entry of -ve static TLS offset */
+	R_386_GOT32X             = 43
 )
 
 var r386Strings = []intName{
