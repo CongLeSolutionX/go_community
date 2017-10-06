@@ -256,11 +256,9 @@ func (r *reader) readValue(decl *ast.GenDecl) {
 			if n, imp := baseTypeName(s.Type); !imp {
 				name = n
 			}
-		case decl.Tok == token.CONST:
-			// no type is present but we have a constant declaration;
-			// use the previous type name (w/o more type information
-			// we cannot handle the case of unnamed variables with
-			// initializer expressions except for some trivial cases)
+		case decl.Tok == token.CONST && len(s.Values) == 0:
+			// no type or value is present but we have a constant declaration;
+			// use the previous type name (possibly the empty string)
 			name = prev
 		}
 		if name != "" {
