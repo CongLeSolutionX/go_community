@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1d0e2a0c_6381d553",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-06T17:49:07Z",
+      "side": 1,
+      "message": "I agree, and I am testing to see if this improves anything.",
+      "parentUuid": "12aa49c6_c237db5d",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa8512e4_49205177",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 21
@@ -33,6 +51,24 @@
       "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "720bf35c_556017f1",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-06T17:49:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa8512e4_49205177",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1cf17ec5_633725bb",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-06T17:49:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2a170bc_07ae3260",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb31254f_d89b23d5",
         "filename": "src/cmd/compile/internal/ssa/debug_test.go",
         "patchSetId": 21
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "b17e3872_f8dbdee2",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-06T17:49:07Z",
+      "side": 1,
+      "message": "An EOF is either expected, which is okay, or it isn\u0027t, in which case the caller\u0027s matching against the reference output will fail.",
+      "parentUuid": "bb31254f_d89b23d5",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d514f03_73c231d8",
         "filename": "src/cmd/compile/internal/ssa/debug_test.go",
         "patchSetId": 21
@@ -81,6 +153,24 @@
       "writtenOn": "2017-10-06T00:37:31Z",
       "side": 1,
       "message": "There isn\u0027t any stdlib Go function which does this?",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c22d220a_f602599b",
+        "filename": "src/cmd/compile/internal/ssa/debug_test.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-06T17:49:07Z",
+      "side": 1,
+      "message": "Not specific to the shell, I don\u0027t think.\nI went looking for appropriately named functions and didn\u0027t stumble across what I needed.",
+      "parentUuid": "7d514f03_73c231d8",
       "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
