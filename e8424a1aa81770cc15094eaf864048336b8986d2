@@ -46,6 +46,30 @@
       "revId": "e8424a1aa81770cc15094eaf864048336b8986d2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "262f144d_151c69ea",
+        "filename": "src/cmd/link/internal/ld/ldmacho.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-06T16:19:00Z",
+      "side": 1,
+      "message": "I can wait for your CL to get submitted, seems even easier if I rebase on your version.",
+      "parentUuid": "76534c7b_7449b7fc",
+      "range": {
+        "startLine": 420,
+        "startChar": 2,
+        "endLine": 420,
+        "endChar": 55
+      },
+      "revId": "e8424a1aa81770cc15094eaf864048336b8986d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
