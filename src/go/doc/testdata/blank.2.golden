@@ -23,9 +23,9 @@ CONSTANTS
 
 	// Constants with an imported type that needs to be propagated. 
 	const (
-		Default		os.FileMode	= 0644
-		Useless				= 0312
-		WideOpen			= 0777
+		Default		= 0644
+		Useless		= 0312
+		WideOpen	= 0777
 	)
 
 	// Package constants. 
