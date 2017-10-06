@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7886d0e1_5468bf77",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-06T17:28:10Z",
+      "side": 1,
+      "message": "Let\u0027s give this file a copyright header.  Every file needs a copyright header.\n\nFor that matter, this needs a package comment.",
+      "revId": "6f12aa5edd6e736f770c17787b0756f66af4bcd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f60c48_17bda48b",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-06T17:28:10Z",
+      "side": 1,
+      "message": "I don\u0027t see any uses of cstring.",
+      "revId": "6f12aa5edd6e736f770c17787b0756f66af4bcd1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
