@@ -531,7 +531,7 @@ type schedt struct {
 	midle        muintptr // idle m's waiting for work
 	nmidle       int32    // number of idle m's waiting for work
 	nmidlelocked int32    // number of locked m's waiting for work
-	mcount       int32    // number of m's that have been created
+	mnext        int32    // number of m's that have been created and next M ID
 	maxmcount    int32    // maximum number of m's allowed (or die)
 	nmsys        int32    // number of system m's not counted for deadlock
 

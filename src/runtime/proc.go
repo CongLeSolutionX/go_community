@@ -517,7 +517,7 @@ func dumpgstatus(gp *g) {
 
 func checkmcount() {
 	// sched lock is held
-	if sched.mcount > sched.maxmcount {
+	if mcount() > sched.maxmcount {
 		print("runtime: program exceeds ", sched.maxmcount, "-thread limit\n")
 		throw("thread exhaustion")
 	}
@@ -532,8 +532,8 @@ func mcommoninit(mp *m) {
 	}
 
 	lock(&sched.lock)
-	mp.id = sched.mcount
-	sched.mcount++
+	mp.id = sched.mnext
+	sched.mnext++
 	checkmcount()
 
 	mp.fastrand[0] = 1597334677 * uint32(mp.id)
@@ -3375,7 +3375,7 @@ func gcount() int32 {
 }
 
 func mcount() int32 {
-	return sched.mcount
+	return sched.mnext
 }
 
 var prof struct {
@@ -3916,12 +3916,12 @@ func checkdead() {
 		return
 	}
 
-	run := sched.mcount - sched.nmidle - sched.nmidlelocked - sched.nmsys
+	run := mcount() - sched.nmidle - sched.nmidlelocked - sched.nmsys
 	if run > 0 {
 		return
 	}
 	if run < 0 {
-		print("runtime: checkdead: nmidle=", sched.nmidle, " nmidlelocked=", sched.nmidlelocked, " mcount=", sched.mcount, " nmsys=", sched.nmsys, "\n")
+		print("runtime: checkdead: nmidle=", sched.nmidle, " nmidlelocked=", sched.nmidlelocked, " mcount=", mcount(), " nmsys=", sched.nmsys, "\n")
 		throw("checkdead: inconsistent counts")
 	}
 
@@ -4235,7 +4235,7 @@ func schedtrace(detailed bool) {
 	}
 
 	lock(&sched.lock)
-	print("SCHED ", (now-starttime)/1e6, "ms: gomaxprocs=", gomaxprocs, " idleprocs=", sched.npidle, " threads=", sched.mcount, " spinningthreads=", sched.nmspinning, " idlethreads=", sched.nmidle, " runqueue=", sched.runqsize)
+	print("SCHED ", (now-starttime)/1e6, "ms: gomaxprocs=", gomaxprocs, " idleprocs=", sched.npidle, " threads=", mcount(), " spinningthreads=", sched.nmspinning, " idlethreads=", sched.nmidle, " runqueue=", sched.runqsize)
 	if detailed {
 		print(" gcwaiting=", sched.gcwaiting, " nmidlelocked=", sched.nmidlelocked, " stopwait=", sched.stopwait, " sysmonwait=", sched.sysmonwait, "\n")
 	}
