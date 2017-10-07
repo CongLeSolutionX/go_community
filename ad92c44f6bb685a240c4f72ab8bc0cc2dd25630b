@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48e87c40_c34799ef",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-07T23:41:58Z",
+      "side": 1,
+      "message": "R_X86_64_RELATIVE64 \u003d 38\nR_X86_64_PC32_BND \u003d 39\nR_X86_64_PLT32_BND \u003d 40",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4c3cfd5_b09ee3d0",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-07T23:41:58Z",
+      "side": 1,
+      "message": "R_ARM_IRELATIVE \u003d 160\nR_ARM_RXPC25 \u003d 249",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b808934_bf4e86d1",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-07T23:41:58Z",
+      "side": 1,
+      "message": "R_386_SIZE32 \u003d 38",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71c12bcc_b6e8fec8",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1942,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-07T23:41:58Z",
+      "side": 1,
+      "message": "R_PPC_VLE_REL8 \u003d 216\n  R_PPC_VLE_REL15 \u003d 217\n  R_PPC_VLE_REL24 \u003d 218\n  R_PPC_VLE_LO16A \u003d 219\n  R_PPC_VLE_LO16D \u003d 220\n  R_PPC_VLE_HI16A \u003d 221\n  R_PPC_VLE_HI16D \u003d 222\n  R_PPC_VLE_HA16A \u003d 223\n  R_PPC_VLE_HA16D \u003d 224\n  R_PPC_VLE_SDA21 \u003d 225\n  R_PPC_VLE_SDA21_LO \u003d 226\n  R_PPC_VLE_SDAREL_LO16A \u003d 227\n  R_PPC_VLE_SDAREL_LO16D \u003d 228\n  R_PPC_VLE_SDAREL_HI16A \u003d 229\n  R_PPC_VLE_SDAREL_HI16D \u003d 230\n  R_PPC_VLE_SDAREL_HA16A \u003d 231\n  R_PPC_VLE_SDAREL_HA16D \u003d 232\n\n\n  R_POWERPC_REL16DX_HA \u003d 246\n  R_PPC64_JMP_IREL \u003d 247\n  R_POWERPC_IRELATIVE \u003d 248\n\n  R_PPC_TOC16 \u003d 255\n\nInteresting.  A number of the earlier relocs are normally called R_POWERPC_, but in this file they are all R_PPC64.  Not sure what we should do here.  Perhaps the R_PPC relocs listed above should be omitted.",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
