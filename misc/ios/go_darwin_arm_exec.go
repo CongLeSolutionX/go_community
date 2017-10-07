@@ -456,6 +456,7 @@ func parseArgs(binArgs []string) (opts options, remainingArgs []string) {
 	}
 	f := flag.NewFlagSet("", flag.ContinueOnError)
 	f.DurationVar(&opts.timeout, "test.timeout", 10*time.Minute, "")
+	opts.timeout = time.Minute
 	f.BoolVar(&opts.lldb, "lldb", false, "")
 	f.Parse(flagArgs)
 	return opts, remainingArgs
