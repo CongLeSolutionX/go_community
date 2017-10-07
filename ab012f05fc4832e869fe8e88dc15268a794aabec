@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62ee4e1c_677a83cd",
+        "filename": "misc/cgo/testcarchive/main6.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-07T23:22:17Z",
+      "side": 1,
+      "message": "Seems simpler to just block SIGPROF using sigprocmask.\n\nBut either way it\u0027s hard for me to be comfortable with this patch.  It sounds like there is a bug with turning off profiling in a c-archive.  I would very much prefer to fix that bug rather than to change the test to hide the bug.  While I assume there are few programs that use a c-archive that does profiling, we shouldn\u0027t expect those programs to know that they need to block SIGPROF in some way.",
+      "revId": "ab012f05fc4832e869fe8e88dc15268a794aabec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
