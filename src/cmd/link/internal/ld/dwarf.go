@@ -1498,7 +1498,7 @@ func dwarfgeneratedebugsyms(ctxt *Link) {
 
 	if ctxt.LinkMode == LinkExternal {
 		switch {
-		case Iself:
+		case ctxt.IsELF:
 		case Headtype == objabi.Hdarwin:
 		case Headtype == objabi.Hwindows:
 		default:
