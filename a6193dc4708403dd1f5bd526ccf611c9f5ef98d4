@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6bc1a535_ff297926",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 21
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-07T21:56:12Z",
+      "side": 1,
+      "message": "It actually makes one thing slightly worse, but I cannot quite tell why, so I am keeping this change but left a TODO and will look into it further.",
+      "parentUuid": "1d0e2a0c_6381d553",
+      "revId": "a6193dc4708403dd1f5bd526ccf611c9f5ef98d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa8512e4_49205177",
         "filename": "src/cmd/compile/internal/gc/ssa.go",
         "patchSetId": 21
