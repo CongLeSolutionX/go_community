@@ -546,6 +546,9 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	if err != nil {
 		return err
 	}
+	if trace != nil && trace.WroteHeaderField != nil {
+		trace.WroteHeaderField("Host", []string{host})
+	}
 
 	// Use the defaultUserAgent unless the Header contains one, which
 	// may be blank to not send the header.
@@ -558,6 +561,9 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 		if err != nil {
 			return err
 		}
+		if trace != nil && trace.WroteHeaderField != nil {
+			trace.WroteHeaderField("User-Agent", []string{userAgent})
+		}
 	}
 
 	// Process Body,ContentLength,Close,Trailer
@@ -565,18 +571,18 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	if err != nil {
 		return err
 	}
-	err = tw.WriteHeader(w)
+	err = tw.writeHeader(w, trace)
 	if err != nil {
 		return err
 	}
 
-	err = r.Header.WriteSubset(w, reqWriteExcludeHeader)
+	err = r.Header.writeSubset(w, reqWriteExcludeHeader, trace)
 	if err != nil {
 		return err
 	}
 
 	if extraHeaders != nil {
-		err = extraHeaders.Write(w)
+		err = extraHeaders.write(w, trace)
 		if err != nil {
 			return err
 		}
@@ -615,7 +621,7 @@ func (r *Request) write(w io.Writer, usingProxy bool, extraHeaders Header, waitF
 	}
 
 	// Write body and trailer
-	err = tw.WriteBody(w)
+	err = tw.writeBody(w)
 	if err != nil {
 		if tw.bodyReadError == err {
 			err = requestBodyReadError{err}
