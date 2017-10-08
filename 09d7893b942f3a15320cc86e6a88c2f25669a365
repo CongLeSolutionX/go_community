@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "e30b5938_33b3482c",
+        "filename": "src/encoding/base64/base64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 16720
+      },
+      "writtenOn": "2017-10-08T17:00:50Z",
+      "side": 1,
+      "message": "This must be a mistake on my part.\nAfter looking at the code and at the reason why changing \"false\" to \"true\" didn\u0027t raise any error in the unit tests, it seems this \u0027end\u0027 value isn\u0027t used anywhere. I\u0027ll remove it.",
+      "parentUuid": "22c5f1f0_9471b710",
+      "revId": "09d7893b942f3a15320cc86e6a88c2f25669a365",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56534a27_e136553f",
         "filename": "src/encoding/base64/base64.go",
         "patchSetId": 8
