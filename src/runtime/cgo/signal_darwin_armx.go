@@ -9,5 +9,11 @@ package cgo
 
 import _ "unsafe"
 
-//go:cgo_export_static panicmem xx_cgo_panicmem
+//go:linkname xx_cgo_panicmem xx_cgo_panicmem
+//go:cgo_export_static xx_cgo_panicmem xx_cgo_panicmem
+//go:nosplit
+func xx_cgo_panicmem() {
+	panicmem()
+}
+
 func panicmem()
