@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84ba376f_be4c8759",
+        "filename": "src/cmd/link/internal/loadmacho/ldmacho.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-08T14:53:09Z",
+      "side": 0,
+      "message": "I missed this. The old code is setting an error but then it continues around the loop, entirely hiding the error. Presumably this is what is breaking the 10.8 builder.",
+      "revId": "840f2c167f1d5196559d8a1e77c370960e66d34e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
