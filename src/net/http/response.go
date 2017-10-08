@@ -287,13 +287,13 @@ func (r *Response) Write(w io.Writer) error {
 	if err != nil {
 		return err
 	}
-	err = tw.WriteHeader(w)
+	err = tw.WriteHeader(w, nil)
 	if err != nil {
 		return err
 	}
 
 	// Rest of header
-	err = r.Header.WriteSubset(w, respExcludeHeader)
+	err = r.Header.WriteSubset(w, respExcludeHeader, nil)
 	if err != nil {
 		return err
 	}

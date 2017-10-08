@@ -6,6 +6,7 @@ package http
 
 import (
 	"io"
+	"net/http/httptrace"
 	"net/textproto"
 	"sort"
 	"strings"
@@ -55,8 +56,8 @@ func (h Header) Del(key string) {
 }
 
 // Write writes a header in wire format.
-func (h Header) Write(w io.Writer) error {
-	return h.WriteSubset(w, nil)
+func (h Header) Write(w io.Writer, trace *httptrace.ClientTrace) error {
+	return h.WriteSubset(w, nil, trace)
 }
 
 func (h Header) clone() Header {
@@ -144,12 +145,13 @@ func (h Header) sortedKeyValues(exclude map[string]bool) (kvs []keyValues, hs *h
 
 // WriteSubset writes a header in wire format.
 // If exclude is not nil, keys where exclude[key] == true are not written.
-func (h Header) WriteSubset(w io.Writer, exclude map[string]bool) error {
+func (h Header) WriteSubset(w io.Writer, exclude map[string]bool, trace *httptrace.ClientTrace) error {
 	ws, ok := w.(writeStringer)
 	if !ok {
 		ws = stringWriter{w}
 	}
 	kvs, sorter := h.sortedKeyValues(exclude)
+	var formattedVals []string
 	for _, kv := range kvs {
 		for _, v := range kv.values {
 			v = headerNewlineToSpace.Replace(v)
@@ -159,6 +161,13 @@ func (h Header) WriteSubset(w io.Writer, exclude map[string]bool) error {
 					return err
 				}
 			}
+			if trace != nil && trace.WroteHeaderField != nil {
+				formattedVals = append(formattedVals, v)
+			}
+		}
+		if trace != nil && trace.WroteHeaderField != nil {
+			trace.WroteHeaderField(kv.key, formattedVals)
+			formattedVals = nil
 		}
 	}
 	headerSorterPool.Put(sorter)

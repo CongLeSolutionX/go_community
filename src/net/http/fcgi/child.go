@@ -118,7 +118,7 @@ func (r *response) WriteHeader(code int) {
 	}
 
 	fmt.Fprintf(r.w, "Status: %d %s\r\n", code, http.StatusText(code))
-	r.header.Write(r.w)
+	r.header.Write(r.w, nil)
 	r.w.WriteString("\r\n")
 }
 

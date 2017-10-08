@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"net/http/httptrace"
 	"net/http/internal"
 	"net/textproto"
 	"sort"
@@ -268,10 +269,13 @@ func (t *transferWriter) shouldSendContentLength() bool {
 	return false
 }
 
-func (t *transferWriter) WriteHeader(w io.Writer) error {
+func (t *transferWriter) WriteHeader(w io.Writer, trace *httptrace.ClientTrace) error {
 	if t.Close && !hasToken(t.Header.get("Connection"), "close") {
 		if _, err := io.WriteString(w, "Connection: close\r\n"); err != nil {
 			return err
+		}
+		if trace != nil && trace.WroteHeaderField != nil {
+			trace.WroteHeaderField("Connection", []string{"close"})
 		}
 	}
 
@@ -285,9 +289,15 @@ func (t *transferWriter) WriteHeader(w io.Writer) error {
 		if _, err := io.WriteString(w, strconv.FormatInt(t.ContentLength, 10)+"\r\n"); err != nil {
 			return err
 		}
+		if trace != nil && trace.WroteHeaderField != nil {
+			trace.WroteHeaderField("Content-Length", []string{strconv.FormatInt(t.ContentLength, 10)})
+		}
 	} else if chunked(t.TransferEncoding) {
 		if _, err := io.WriteString(w, "Transfer-Encoding: chunked\r\n"); err != nil {
 			return err
+		}
+		if trace != nil && trace.WroteHeaderField != nil {
+			trace.WroteHeaderField("Transfer-Encoding", []string{"chunked"})
 		}
 	}
 
@@ -308,6 +318,9 @@ func (t *transferWriter) WriteHeader(w io.Writer) error {
 			// so being lazy for now.
 			if _, err := io.WriteString(w, "Trailer: "+strings.Join(keys, ",")+"\r\n"); err != nil {
 				return err
+			}
+			if trace != nil && trace.WroteHeaderField != nil {
+				trace.WroteHeaderField("Trailer", keys)
 			}
 		}
 	}
@@ -360,7 +373,7 @@ func (t *transferWriter) WriteBody(w io.Writer) error {
 	if chunked(t.TransferEncoding) {
 		// Write Trailer header
 		if t.Trailer != nil {
-			if err := t.Trailer.Write(w); err != nil {
+			if err := t.Trailer.Write(w, nil); err != nil {
 				return err
 			}
 		}

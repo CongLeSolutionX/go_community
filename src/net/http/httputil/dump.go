@@ -235,7 +235,7 @@ func DumpRequest(req *http.Request, body bool) ([]byte, error) {
 		fmt.Fprintf(&b, "Connection: close\r\n")
 	}
 
-	err = req.Header.WriteSubset(&b, reqWriteExcludeHeaderDump)
+	err = req.Header.WriteSubset(&b, reqWriteExcludeHeaderDump, nil)
 	if err != nil {
 		return nil, err
 	}

@@ -387,7 +387,7 @@ func (cw *chunkWriter) close() {
 		// zero chunk to mark EOF
 		bw.WriteString("0\r\n")
 		if trailers := cw.res.finalTrailers(); trailers != nil {
-			trailers.Write(bw) // the writer handles noting errors
+			trailers.Write(bw, nil) // the writer handles noting errors
 		}
 		// final blank line after the trailers (whether
 		// present or not)
@@ -1382,7 +1382,7 @@ func (cw *chunkWriter) writeHeader(p []byte) {
 	}
 
 	writeStatusLine(w.conn.bufw, w.req.ProtoAtLeast(1, 1), code, w.statusBuf[:])
-	cw.header.WriteSubset(w.conn.bufw, excludeHeader)
+	cw.header.WriteSubset(w.conn.bufw, excludeHeader, nil)
 	setHeader.Write(w.conn.bufw)
 	w.conn.bufw.Write(crlf)
 }

@@ -200,7 +200,7 @@ func (r *response) WriteHeader(code int) {
 		r.header.Add("Content-Type", "text/html; charset=utf-8")
 	}
 
-	r.header.Write(r.bufw)
+	r.header.Write(r.bufw, nil)
 	r.bufw.WriteString("\r\n")
 	r.bufw.Flush()
 }

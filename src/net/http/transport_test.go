@@ -3499,6 +3499,8 @@ func testTransportEventTrace(t *testing.T, h2 bool, noHooks bool) {
 	})
 
 	req, _ := NewRequest("POST", cst.scheme()+"://dns-is-faked.golang:"+port, strings.NewReader("some body"))
+	req.Header.Add("x-Foo-Multiple-Vals", "bar")
+	req.Header.Add("x-Foo-Multiple-Vals", "baz")
 	trace := &httptrace.ClientTrace{
 		GetConn:              func(hostPort string) { logf("Getting conn for %v ...", hostPort) },
 		GotConn:              func(ci httptrace.GotConnInfo) { logf("got conn: %+v", ci) },
@@ -3512,6 +3514,9 @@ func testTransportEventTrace(t *testing.T, h2 bool, noHooks bool) {
 				t.Errorf("ConnectDone: %v", err)
 			}
 			logf("ConnectDone: connected to %s %s = %v", network, addr, err)
+		},
+		WroteHeaderField: func(key string, value []string) {
+			logf("WroteHeaderField: %s: %v", key, value)
 		},
 		Wait100Continue: func() { logf("Wait100Continue") },
 		Got100Continue:  func() { logf("Got100Continue") },
@@ -3582,6 +3587,8 @@ func testTransportEventTrace(t *testing.T, h2 bool, noHooks bool) {
 		wantOnce("tls handshake done")
 	} else {
 		wantOnce("PutIdleConn = <nil>")
+		wantOnce("WroteHeaderField: Accept-Encoding: [gzip]")
+		wantOnce("WroteHeaderField: X-Foo-Multiple-Vals: [bar baz]")
 	}
 	wantOnce("Wait100Continue")
 	wantOnce("Got100Continue")
