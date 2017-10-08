@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9ac52bea_b814d1a8",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-08T15:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48e87c40_c34799ef",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4c3cfd5_b09ee3d0",
         "filename": "src/debug/elf/elf.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "361f393b_61547183",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-08T15:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4c3cfd5_b09ee3d0",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "b188ecdf_dd625e57",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-08T15:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b808934_bf4e86d1",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71c12bcc_b6e8fec8",
         "filename": "src/debug/elf/elf.go",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2017-10-07T23:41:58Z",
       "side": 1,
       "message": "R_PPC_VLE_REL8 \u003d 216\n  R_PPC_VLE_REL15 \u003d 217\n  R_PPC_VLE_REL24 \u003d 218\n  R_PPC_VLE_LO16A \u003d 219\n  R_PPC_VLE_LO16D \u003d 220\n  R_PPC_VLE_HI16A \u003d 221\n  R_PPC_VLE_HI16D \u003d 222\n  R_PPC_VLE_HA16A \u003d 223\n  R_PPC_VLE_HA16D \u003d 224\n  R_PPC_VLE_SDA21 \u003d 225\n  R_PPC_VLE_SDA21_LO \u003d 226\n  R_PPC_VLE_SDAREL_LO16A \u003d 227\n  R_PPC_VLE_SDAREL_LO16D \u003d 228\n  R_PPC_VLE_SDAREL_HI16A \u003d 229\n  R_PPC_VLE_SDAREL_HI16D \u003d 230\n  R_PPC_VLE_SDAREL_HA16A \u003d 231\n  R_PPC_VLE_SDAREL_HA16D \u003d 232\n\n\n  R_POWERPC_REL16DX_HA \u003d 246\n  R_PPC64_JMP_IREL \u003d 247\n  R_POWERPC_IRELATIVE \u003d 248\n\n  R_PPC_TOC16 \u003d 255\n\nInteresting.  A number of the earlier relocs are normally called R_POWERPC_, but in this file they are all R_PPC64.  Not sure what we should do here.  Perhaps the R_PPC relocs listed above should be omitted.",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6412087b_894db789",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1942,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-08T15:13:43Z",
+      "side": 1,
+      "message": "Hmm. The PPC and PPC64 numbering spaces appear to overlap with incompatible definitions. For example:\n\n  R_PPC_EMB_RELSDA \u003d 116\n  R_PPC64_REL24_NOTOC \u003d 116\n\nSo I assume PPC constants don\u0027t work on PPC64, and so I don\u0027t want to add them here as R_PPC64.\n\nOn the other hand, R_POWERPC does not appear to overlap with either, so I assume those are relocations that make sense on both 32-bit and 64-bit. So we could safely (if confusingly) introduce them here renamed as R_PPC64. I\u0027ve done that.",
+      "parentUuid": "71c12bcc_b6e8fec8",
       "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
