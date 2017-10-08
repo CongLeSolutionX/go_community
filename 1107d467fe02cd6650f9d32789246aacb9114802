@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8c496d9_baa8c478",
+        "filename": "src/runtime/cgo/signal_darwin_armx.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-08T14:46:00Z",
+      "side": 1,
+      "message": "With this approach, what happens if you simply remove gcc_signal2_darwin_armx.c?  I don\u0027t see why it is needed.",
+      "revId": "1107d467fe02cd6650f9d32789246aacb9114802",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
