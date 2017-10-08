@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d951039_ffa7a13e",
+        "filename": "src/cmd/vet/testdata/assign.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-10-08T23:35:07Z",
+      "side": 1,
+      "message": "to keep these expressions tidy, we often just use a . rather than escaping the character.",
+      "revId": "bf4e9a3632cef04f77d6115bc900fd238ac755d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
