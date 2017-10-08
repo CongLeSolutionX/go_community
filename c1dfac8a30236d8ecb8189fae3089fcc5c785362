@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fa35658d_685a16d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-10-08T19:47:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "932e2330_aa028aaf",
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0924e00_150ebc1b",
         "filename": "src/net/http/httptrace/trace.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bba8659_022d9c00",
+        "filename": "src/net/http/httptrace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-10-08T19:47:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e0924e00_150ebc1b",
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "cafb8643_01a8d094",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-10-08T19:47:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f7b3d018_5b01df16",
+      "range": {
+        "startLine": 499,
+        "startChar": 12,
+        "endLine": 499,
+        "endChar": 24
+      },
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92222195_8b791671",
         "filename": "src/net/http/request.go",
         "patchSetId": 1
@@ -118,6 +178,30 @@
       "side": 1,
       "message": "Yes, also host (above) and Body, Content-Length, Close, and Trailer (see tw.WriteHeader below).",
       "parentUuid": "92222195_8b791671",
+      "range": {
+        "startLine": 553,
+        "startChar": 0,
+        "endLine": 553,
+        "endChar": 30
+      },
+      "revId": "c1dfac8a30236d8ecb8189fae3089fcc5c785362",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f8b70b4_62a3e08e",
+        "filename": "src/net/http/request.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2017-10-08T19:47:32Z",
+      "side": 1,
+      "message": "I assumed it was a mistake when you included \"Body\".",
+      "parentUuid": "94a911fe_c3d29b96",
       "range": {
         "startLine": 553,
         "startChar": 0,
