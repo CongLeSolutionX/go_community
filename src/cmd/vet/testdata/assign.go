@@ -6,8 +6,11 @@
 
 package testdata
 
+import "math/rand"
+
 type ST struct {
 	x int
+	l []int
 }
 
 func (s *ST) SetX(x int) {
@@ -15,4 +18,12 @@ func (s *ST) SetX(x int) {
 	x = x // ERROR "self-assignment of x to x"
 	// Another mistake
 	s.x = s.x // ERROR "self-assignment of s.x to s.x"
+
+	// Bail on any calls to avoid false positivse
+	s.l[0] = s.l[0] // ERROR "self-assignment of s.l\[0\] to s.l\[0\]"
+	s.l[num()] = s.l[num()]
+	rng := rand.New(rand.NewSource(0))
+	s.l[rng.Intn(len(s.l))] = s.l[rng.Intn(len(s.l))]
 }
+
+func num() int { return 2 }

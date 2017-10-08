@@ -40,10 +40,31 @@ func checkAssignStmt(f *File, node ast.Node) {
 		if reflect.TypeOf(lhs) != reflect.TypeOf(rhs) {
 			continue // short-circuit the heavy-weight gofmt check
 		}
+		if !constExpr(lhs) || !constExpr(rhs) {
+			continue // may not be constant expressions
+		}
 		le := f.gofmt(lhs)
 		re := f.gofmt(rhs)
 		if le == re {
 			f.Badf(stmt.Pos(), "self-assignment of %s to %s", re, le)
 		}
 	}
+}
+
+// constExpr returns whether expr can be a constant expression or not.
+// It currently only checks that expr doesn't contain any CallExpr
+// nodes, which may use randomness, depend on disk/network, etc.
+func constExpr(expr ast.Expr) bool {
+	anyCall := false
+	ast.Inspect(expr, func(node ast.Node) bool {
+		if anyCall {
+			return false
+		}
+		switch node.(type) {
+		case *ast.CallExpr:
+			anyCall = true
+		}
+		return true
+	})
+	return !anyCall
 }
