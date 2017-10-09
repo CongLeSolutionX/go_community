@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a911e0d_71f51c61",
+        "filename": "src/runtime/cgo/gcc_signal2_darwin_armx.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-09T23:50:00Z",
+      "side": 1,
+      "message": "Assuming __attribute__((weak)) is completely meaningless/ignored here, then let\u0027s drop it to avoid future confusion.",
+      "revId": "8786ffd9572c4d2714dc77b830872511f62b196b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
