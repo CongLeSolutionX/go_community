@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "711160ed_48056d36",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-09T21:19:53Z",
+      "side": 1,
+      "message": "Reworded slightly and added a link to the issue.",
+      "parentUuid": "52ae5606_3b0cb697",
+      "revId": "c021e2d8968ca4aa0e6509fab2ad55bcb10f7174",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a8700c_bd67b5b5",
         "filename": "src/cmd/link/internal/ld/macho.go",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "c021e2d8968ca4aa0e6509fab2ad55bcb10f7174",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19400bd7_37659bae",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-09T21:19:53Z",
+      "side": 1,
+      "message": "Because it\u0027s rewriting the DWARF entirely, it shouldn\u0027t need any relocations that point to it. (This condition assumes that the only references to DWARF are in DWARF, which is always true AFAIK.) The only thing that it does understand are function relocations, and those aren\u0027t in a .debug section.\n\nNow that I\u0027m thinking about it, this does leave in some relocations that could confuse it: relocations to data. I think that\u0027s unavoidable :(",
+      "parentUuid": "84a8700c_bd67b5b5",
+      "revId": "c021e2d8968ca4aa0e6509fab2ad55bcb10f7174",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
