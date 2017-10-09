@@ -70,6 +70,23 @@
       "revId": "57cff5e7978a1d3a10221a746430d67f27575435",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96d39325_b363b979",
+        "filename": "src/runtime/cgo/signal_darwin_arm.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-09T18:57:48Z",
+      "side": 1,
+      "message": "I\u0027m really sorry for the continued runaround, but it would be good to use a symbol name that was a bit more qualified here, because now we\u0027re operating in the C name space and might collide with some user-defined symbol in the code using Go. xx_cgo_panicmem is probably better than plain panicmem.",
+      "revId": "57cff5e7978a1d3a10221a746430d67f27575435",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
