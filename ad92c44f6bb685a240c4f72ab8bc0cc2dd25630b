@@ -157,6 +157,24 @@
       "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde9d29d_f0e12fbc",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1942,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-09T20:50:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49427cdc_ffd3e674",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
