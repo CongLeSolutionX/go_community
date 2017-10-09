@@ -16,6 +16,41 @@
       "revId": "1107d467fe02cd6650f9d32789246aacb9114802",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9e40084_d99572ae",
+        "filename": "src/runtime/cgo/signal_darwin_armx.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-09T13:58:02Z",
+      "side": 1,
+      "message": "The weak symbol is needed because cgo does a test compilation of all the C source files, and that compilation fails with an undefined symbol xx_cgo_panicmem.",
+      "parentUuid": "c8c496d9_baa8c478",
+      "revId": "1107d467fe02cd6650f9d32789246aacb9114802",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d6994fb_a16437b1",
+        "filename": "src/runtime/cgo/signal_darwin_armx.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-09T13:58:02Z",
+      "side": 1,
+      "message": "I\u0027m skeptical that this wrapper can possibly work. The assembly is doing things like trying to unwind its own stack frame. Extra stack frames seem like they would break that.\n\nIf the linkname must match, then you don\u0027t need a wrapper. Just change the assembly to say xx_cgo_panicmem instead of ·panicmem. (That is, change the name and drop the center dot.)",
+      "revId": "1107d467fe02cd6650f9d32789246aacb9114802",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
