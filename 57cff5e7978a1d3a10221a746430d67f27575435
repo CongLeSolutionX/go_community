@@ -22,6 +22,30 @@
       "revId": "57cff5e7978a1d3a10221a746430d67f27575435",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a192656e_0a1a7976",
+        "filename": "src/runtime/cgo/gcc_signal2_darwin_armx.c",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2017-10-09T17:57:53Z",
+      "side": 1,
+      "message": "This is the changes I did, compared to PS2:\n\ndiff --git a/src/runtime/cgo/gcc_signal2_darwin_armx.c b/src/runtime/cgo/gcc_signal2_darwin_armx.c\ndeleted file mode 100644\nindex 54b7e32658..0000000000\n--- a/src/runtime/cgo/gcc_signal2_darwin_armx.c\n+++ /dev/null\n@@ -1,13 +0,0 @@\n-// Copyright 2017 The Go Authors. All rights reserved.\n-// Use of this source code is governed by a BSD-style\n-// license that can be found in the LICENSE file.\n-\n-// +build lldb\n-// +build darwin\n-// +build arm arm64\n-\n-// Used by gcc_signal_darwin_armx.c when doing the test build during cgo.\n-// We hope that for real binaries the definition provided by Go will take precedence\n-// and the linker will drop this .o file altogether, which is why this definition\n-// is all by itself in its own file.\n-void __attribute__((weak)) xx_cgo_panicmem(void) {}\ndiff --git a/src/runtime/cgo/gcc_signal_darwin_armx.c b/src/runtime/cgo/gcc_signal_darwin_armx.c\nindex 3ab1d8b0d6..82233f598b 100644\n--- a/src/runtime/cgo/gcc_signal_darwin_armx.c\n+++ b/src/runtime/cgo/gcc_signal_darwin_armx.c\n@@ -39,7 +39,7 @@\n #include \"libcgo.h\"\n #include \"libcgo_unix.h\"\n \n-void xx_cgo_panicmem(void);\n+void xx_cgo_panicmem(void) __attribute__ ((weak));\n uintptr_t x_cgo_panicmem \u003d (uintptr_t)xx_cgo_panicmem;\n \n static pthread_mutex_t mach_exception_handler_port_set_mu;\n\n\niostest.bash still fails with:\n\n# runtime/cgo\nUndefined symbols for architecture arm64:\n  \"_xx_cgo_panicmem\", referenced from:\n      _x_cgo_panicmem in _x007.o\nld: symbol(s) not found for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n2017/10/09 19:56:08 building mach exception handler: exit status 2",
+      "parentUuid": "bd484c52_cba1c212",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 18
+      },
+      "revId": "57cff5e7978a1d3a10221a746430d67f27575435",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
