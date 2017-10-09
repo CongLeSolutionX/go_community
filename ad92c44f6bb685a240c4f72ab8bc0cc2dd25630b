@@ -139,6 +139,24 @@
       "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49427cdc_ffd3e674",
+        "filename": "src/debug/elf/elf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1942,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-09T05:08:39Z",
+      "side": 1,
+      "message": "Roughly correct but more complex.  The R_POWERPC relocs are for ppc32 and ppc64.  The R_PPC relocs are only for ppc32.  But the R_PPC_EMB relocs are for something else entirely, the PowerPC Embedded Application Binary Interface, a separate ELF standard based on the original ppc32 standard but modified for use on embedded systems.  Unfortunately for reasons I don\u0027t understand the ppc64 standard uses reloc numbers already in use for the ppc EABI, hence the conflict between R_PPC_EMB and R_PPC64.  At least for now we should just ignore R_PPC_EMB, which is not widely used.\n\nI think it\u0027s kind of confusing to rename the R_POWERPC relocs to R_PPC64 when all the other references use the R_POWERPC name.  So personally I think we should stick to R_POWERPC.  But I see that there is already a problem in that we are using a different type for the ppc32 and ppc64 relocs.  This is unnecessary but hard to change now.  And so that means we can\u0027t use R_POWERPC.  Argh.  I guess renaming them as R_PPC64 is the best we can do though far from ideal.\n\nPlease add some comments about this, though.  Thanks.",
+      "parentUuid": "6412087b_894db789",
+      "revId": "ad92c44f6bb685a240c4f72ab8bc0cc2dd25630b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
