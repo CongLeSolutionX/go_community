@@ -51,6 +51,24 @@
       "revId": "1107d467fe02cd6650f9d32789246aacb9114802",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d947ea5_dcf20295",
+        "filename": "src/runtime/cgo/signal_darwin_armx.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-09T14:03:25Z",
+      "side": 1,
+      "message": "I misunderstood what \"linkname must match\" means. The equivalent of this code would be to make the assembly say ·xx_cgo_panicmem, with a center dot. But I assume you tried that. Why doesn\u0027t that work?\n\nAlso note that runtime/cgo exports crosscall2 (defined in assembly) from callbacks.go, so something like this should be possible. Maybe just copy what that does?",
+      "parentUuid": "6d6994fb_a16437b1",
+      "revId": "1107d467fe02cd6650f9d32789246aacb9114802",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
