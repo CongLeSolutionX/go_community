@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce038749_168e183f",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 6473
+      },
+      "writtenOn": "2017-10-09T21:05:11Z",
+      "side": 1,
+      "message": "I don\u0027t have any sense of how much the performance matters here but could we do something like this instead: https://play.golang.org/p/KrTGwLRO8O",
+      "revId": "f2d22dadcd15d6ed4a953204bc105435c4b53190",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
