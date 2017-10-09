@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1d272b63_f68143e8",
+        "filename": "src/go/doc/reader.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-09T17:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "420e01b4_ff9612da",
+      "range": {
+        "startLine": 304,
+        "startChar": 28,
+        "endLine": 304,
+        "endChar": 37
+      },
+      "revId": "1e869943326f9ef96b29ba19a25afa44d846343e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "800ed536_f168aa8f",
         "filename": "src/go/doc/testdata/blank.0.golden",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "dd3cf6dd_bf555f4b",
+        "filename": "src/go/doc/testdata/blank.0.golden",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-09T17:43:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "800ed536_f168aa8f",
+      "revId": "1e869943326f9ef96b29ba19a25afa44d846343e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22fb3aa2_22d8ef35",
         "filename": "src/go/doc/testdata/blank.go",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2017-10-09T02:29:52Z",
       "side": 1,
       "message": "The old comment was completely wrong: the constants other than zero don\u0027t have an imported type, they have untyped int.",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 34
+      },
+      "revId": "1e869943326f9ef96b29ba19a25afa44d846343e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a0c8ee8_50c999fc",
+        "filename": "src/go/doc/testdata/blank.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-09T17:43:35Z",
+      "side": 1,
+      "message": "Adjusted.",
+      "parentUuid": "22fb3aa2_22d8ef35",
       "range": {
         "startLine": 32,
         "startChar": 3,
