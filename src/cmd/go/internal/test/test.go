@@ -682,7 +682,7 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 			// non-test copy of a package.
 			err := &load.PackageError{
 				ImportStack:   testImportStack(stk[0], p1, p.ImportPath),
-				Err:           "import cycle not allowed in test",
+				Err:           fmt.Errorf("import cycle not allowed in test"),
 				IsImportCycle: true,
 			}
 			return nil, nil, nil, err
