@@ -210,7 +210,7 @@ func runExe(t *testing.T, env []string, args ...string) string {
 
 func runCC(t *testing.T, args ...string) string {
 	t.Helper()
-	return run(t, nil, append(cc, args...)...)
+	return run(t, nil, append(append([]string(nil), cc...), args...)...)
 }
 
 func createHeaders() error {
