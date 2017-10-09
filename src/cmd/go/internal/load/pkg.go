@@ -238,7 +238,7 @@ func isStandardImportPath(path string) bool {
 type PackageError struct {
 	ImportStack   []string // shortest path from package named on command line to this one
 	Pos           string   // position of error
-	Err           string   // the error itself
+	Err           error    // the error itself
 	IsImportCycle bool     `json:"-"` // the error is an import cycle
 	Hard          bool     `json:"-"` // whether the error is soft or hard; soft errors are ignored in some places
 }
@@ -246,17 +246,17 @@ type PackageError struct {
 func (p *PackageError) Error() string {
 	// Import cycles deserve special treatment.
 	if p.IsImportCycle {
-		return fmt.Sprintf("%s\npackage %s\n", p.Err, strings.Join(p.ImportStack, "\n\timports "))
+		return fmt.Sprintf("%s\npackage %s\n", p.Err.Error(), strings.Join(p.ImportStack, "\n\timports "))
 	}
 	if p.Pos != "" {
 		// Omit import stack. The full path to the file where the error
 		// is the most important thing.
-		return p.Pos + ": " + p.Err
+		return p.Pos + ": " + p.Err.Error()
 	}
 	if len(p.ImportStack) == 0 {
-		return p.Err
+		return p.Err.Error()
 	}
-	return "package " + strings.Join(p.ImportStack, "\n\timports ") + ": " + p.Err
+	return "package " + strings.Join(p.ImportStack, "\n\timports ") + ": " + p.Err.Error()
 }
 
 // An ImportStack is a stack of import paths.
@@ -425,7 +425,7 @@ func LoadImport(path, srcDir string, parent *Package, stk *ImportStack, importPo
 		if origPath != cleanImport(origPath) {
 			p.Error = &PackageError{
 				ImportStack: stk.Copy(),
-				Err:         fmt.Sprintf("non-canonical import path: %q should be %q", origPath, pathpkg.Clean(origPath)),
+				Err:         fmt.Errorf("non-canonical import path: %q should be %q", origPath, pathpkg.Clean(origPath)),
 			}
 			p.Incomplete = true
 		}
@@ -445,7 +445,7 @@ func LoadImport(path, srcDir string, parent *Package, stk *ImportStack, importPo
 		perr := *p
 		perr.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         fmt.Sprintf("import %q is a program, not an importable package", path),
+			Err:         fmt.Errorf("import %q is a program, not an importable package", path),
 		}
 		return setErrorPos(&perr, importPos)
 	}
@@ -454,7 +454,7 @@ func LoadImport(path, srcDir string, parent *Package, stk *ImportStack, importPo
 		perr := *p
 		perr.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         fmt.Sprintf("local import %q in non-local package", path),
+			Err:         fmt.Errorf("local import %q in non-local package", path),
 		}
 		return setErrorPos(&perr, importPos)
 	}
@@ -594,7 +594,7 @@ func reusePackage(p *Package, stk *ImportStack) *Package {
 		if p.Error == nil {
 			p.Error = &PackageError{
 				ImportStack:   stk.Copy(),
-				Err:           "import cycle not allowed",
+				Err:           fmt.Errorf("import cycle not allowed"),
 				IsImportCycle: true,
 			}
 		}
@@ -670,7 +670,7 @@ func disallowInternal(srcDir string, p *Package, stk *ImportStack) *Package {
 	perr := *p
 	perr.Error = &PackageError{
 		ImportStack: stk.Copy(),
-		Err:         "use of internal package not allowed",
+		Err:         fmt.Errorf("use of internal package not allowed"),
 	}
 	perr.Incomplete = true
 	return &perr
@@ -716,7 +716,7 @@ func disallowVendor(srcDir, path string, p *Package, stk *ImportStack) *Package 
 		perr := *p
 		perr.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         "must be imported as " + path[i+len("vendor/"):],
+			Err:         fmt.Errorf("must be imported as %s", path[i+len("vendor/"):]),
 		}
 		perr.Incomplete = true
 		return &perr
@@ -770,7 +770,7 @@ func disallowVendorVisibility(srcDir string, p *Package, stk *ImportStack) *Pack
 	perr := *p
 	perr.Error = &PackageError{
 		ImportStack: stk.Copy(),
-		Err:         "use of vendored package not allowed",
+		Err:         fmt.Errorf("use of vendored package not allowed"),
 	}
 	perr.Incomplete = true
 	return &perr
@@ -858,7 +858,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		err = base.ExpandScanner(err)
 		p.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         err.Error(),
+			Err:         err,
 		}
 		return
 	}
@@ -875,7 +875,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		// Report an error when the old code.google.com/p/go.tools paths are used.
 		if GoTools[p.ImportPath] == StalePath {
 			newPath := strings.Replace(p.ImportPath, "code.google.com/p/go.", "golang.org/x/", 1)
-			e := fmt.Sprintf("the %v command has moved; use %v instead.", p.ImportPath, newPath)
+			e := fmt.Errorf("the %v command has moved; use %v instead.", p.ImportPath, newPath)
 			p.Error = &PackageError{Err: e}
 			return
 		}
@@ -996,7 +996,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 	if f1 != "" {
 		p.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         fmt.Sprintf("case-insensitive file name collision: %q and %q", f1, f2),
+			Err:         fmt.Errorf("case-insensitive file name collision: %q and %q", f1, f2),
 		}
 		return
 	}
@@ -1011,7 +1011,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 		if p.Standard && p.Error == nil && !p1.Standard && p1.Error == nil {
 			p.Error = &PackageError{
 				ImportStack: stk.Copy(),
-				Err:         fmt.Sprintf("non-standard import %q in standard package %q", path, p.ImportPath),
+				Err:         fmt.Errorf("non-standard import %q in standard package %q", path, p.ImportPath),
 			}
 			pos := p.Internal.Build.ImportPos[path]
 			if len(pos) > 0 {
@@ -1091,7 +1091,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 	if len(p.CFiles) > 0 && !p.UsesCgo() && !p.UsesSwig() && cfg.BuildContext.Compiler == "gc" {
 		p.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         fmt.Sprintf("C source files not allowed when not using cgo or SWIG: %s", strings.Join(p.CFiles, " ")),
+			Err:         fmt.Errorf("C source files not allowed when not using cgo or SWIG: %s", strings.Join(p.CFiles, " ")),
 		}
 		return
 	}
@@ -1103,7 +1103,7 @@ func (p *Package) load(stk *ImportStack, bp *build.Package, err error) {
 	} else if other != p.ImportPath {
 		p.Error = &PackageError{
 			ImportStack: stk.Copy(),
-			Err:         fmt.Sprintf("case-insensitive import collision: %q and %q", p.ImportPath, other),
+			Err:         fmt.Errorf("case-insensitive import collision: %q and %q", p.ImportPath, other),
 		}
 		return
 	}
@@ -1813,7 +1813,7 @@ func LoadPackage(arg string, stk *ImportStack) *Package {
 		if p.Error == nil && p.Name != "main" {
 			p.Error = &PackageError{
 				ImportStack: stk.Copy(),
-				Err:         fmt.Sprintf("expected package main but found package %s in %s", p.Name, p.Dir),
+				Err:         fmt.Errorf("expected package main but found package %s in %s", p.Name, p.Dir),
 			}
 		}
 		return p
