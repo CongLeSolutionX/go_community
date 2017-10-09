@@ -70,6 +70,24 @@
       "revId": "c8fac60655189c4772528655937c83d8e84f710c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d35749e_509adbce",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-09T21:13:41Z",
+      "side": 1,
+      "message": "The advantage of a sync.Mutex approach is that only the Write method needs to know about the mutex. While, the \"tombstone\" channel approach now has both Write and Close also accessing that field.\n\nCorrect me if I\u0027m wrong, the main advantage of a semaphore channel is that you can select over it, while you can\u0027t do that with a sync.Mutex? I don\u0027t believe selecting over the done channel at the same time as the semaphore provides a much of a benefit (concurrent Writers is already a pretty rare use-case).",
+      "parentUuid": "6ab6bd38_6008b94e",
+      "revId": "c8fac60655189c4772528655937c83d8e84f710c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

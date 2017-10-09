@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "843ce454_598892aa",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-09T21:13:41Z",
+      "side": 1,
+      "message": "My thoughts:\n* The performance is basically the same as patch set 2 for the case where we\u0027re just bouncing Reads and Writes off of each other (probably most common use case).\n* The main advantage of this is that it reduces the pipe struct by ~24B (sync.Once and chan struct{}).\n* However, it increasing complexity by:\n  * folding the protection of sync.Once into a semaphore channel, which is used by Write as well.\n  * folding the done channel\u0027s broadcast into wrCh. The fact that we need to select over both wrCh and rdCh in Write is unfortunate.\n\nBTW, the original pipe struct occupied 192B. My version in patch set 2 is 80B, while yours is 56B. However, this does not count the bytes allocated when making the channels. Note that both my version and yours have 3 channels.",
+      "parentUuid": "9ceae06a_8316f7e9",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c8a5929_0f789e03",
         "filename": "src/io/pipe.go",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2017-10-04T18:16:31Z",
       "side": 1,
       "message": "“Implementations of Read are discouraged from returning a zero byte count with a nil error, except when len(p) \u003d\u003d 0.”\n\nWhat happens in this draft if the caller issues a `Write(nil)` on the PipeWriter concurrent to a `Read(p)` with a non-zero-length `p`? (And what was the behavior before this change?)",
+      "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf418bba_e1f03834",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-09T21:13:41Z",
+      "side": 1,
+      "message": "A Write(nil) blocks until there is a corresponding Read(p) where p may be any length including zero.\n\nThe \"for once :\u003d true; once || len(b) \u003e 0; once \u003d false\" logic in Write was added to replicate this behavior.",
+      "parentUuid": "2c8a5929_0f789e03",
       "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
