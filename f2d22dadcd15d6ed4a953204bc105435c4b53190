@@ -16,6 +16,24 @@
       "revId": "f2d22dadcd15d6ed4a953204bc105435c4b53190",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5157d882_7871e41c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-09T23:24:13Z",
+      "side": 1,
+      "message": "Thanks, but the performance benefit is essentially non-existent and I\u0027d rather have the tighter variable scoping and clearer code. Otherwise you get here and wonder where root came from.",
+      "parentUuid": "ce038749_168e183f",
+      "revId": "f2d22dadcd15d6ed4a953204bc105435c4b53190",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
