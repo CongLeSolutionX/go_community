@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52ae5606_3b0cb697",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-09T20:18:52Z",
+      "side": 1,
+      "message": "\"stray relocations\" could be fleshed out with the details in the CL description. If I\u0027m following your, it\u0027s that these are relocations that are not to functions, but can be mistaken for such if you match against address values as dsymutil does.",
+      "revId": "c021e2d8968ca4aa0e6509fab2ad55bcb10f7174",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84a8700c_bd67b5b5",
+        "filename": "src/cmd/link/internal/ld/macho.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-09T20:18:52Z",
+      "side": 1,
+      "message": "How does this avoid dropping relocations that dsymutil does understand?",
+      "revId": "c021e2d8968ca4aa0e6509fab2ad55bcb10f7174",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
