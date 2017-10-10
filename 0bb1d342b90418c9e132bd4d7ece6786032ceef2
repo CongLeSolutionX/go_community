@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08c92c5a_3febd985",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-10T14:40:59Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to convert to uint32 in the log message.",
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b02fde93_1ba95607",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-10T14:40:59Z",
+      "side": 1,
+      "message": "Hmmm.",
+      "range": {
+        "startLine": 24,
+        "startChar": 50,
+        "endLine": 24,
+        "endChar": 63
+      },
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6da8995e_47724235",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-10T14:40:59Z",
+      "side": 1,
+      "message": "Hmmmm.",
+      "range": {
+        "startLine": 179,
+        "startChar": 58,
+        "endLine": 179,
+        "endChar": 72
+      },
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11306ae2_9ab8d1fc",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-10T14:40:59Z",
+      "side": 1,
+      "message": "Hmmmmm.",
+      "range": {
+        "startLine": 408,
+        "startChar": 19,
+        "endLine": 408,
+        "endChar": 31
+      },
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a86df474_af773a23",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-10T14:40:59Z",
+      "side": 1,
+      "message": "I think you need to document how initEhdrFlags and ehdrFlags work.",
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
