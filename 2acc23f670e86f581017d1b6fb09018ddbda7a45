@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78306cf8_c664b786",
+        "filename": "doc/install-source.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-10T13:33:43Z",
+      "side": 1,
+      "message": "What problem are we solving here?  The original text seems accurate.  I don\u0027t think we want to get into a discussion of installing a C cross-compiler here.  Suppose we say something more like\n\nBy default, when not cross-compiling, the build process expects that cgo will work and therefore expects that a C compiler will have been installed.  To disable cgo, set the environment variable CGO_ENABLED\u003d0 before running all.bash or make.bash.",
+      "revId": "2acc23f670e86f581017d1b6fb09018ddbda7a45",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
