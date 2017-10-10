@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "67211ed0_4faf534b",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-10-10T15:49:21Z",
+      "side": 1,
+      "message": "\u003e My thoughts:\n\u003e * The performance is basically the same as patch set 2 for the case where we\u0027re just bouncing Reads and Writes off of each other (probably most common use case).\n\u003e * The main advantage of this is that it reduces the pipe struct by ~24B (sync.Once and chan struct{}).\n\u003e * However, it increasing complexity by:\n\u003e   * folding the protection of sync.Once into a semaphore channel, which is used by Write as well.\n\u003e   * folding the done channel\u0027s broadcast into wrCh. The fact that we need to select over both wrCh and rdCh in Write is unfortunate.\n\nYep, I think that\u0027s a fair assessment. So keeping the Mutex version seems mostly harmless.\n\n\n\u003e BTW, the original pipe struct occupied 192B. My version in patch set 2 is 80B, while yours is 56B. However, this does not count the bytes allocated when making the channels. Note that both my version and yours have 3 channels.\n\nYep. But note that 56B potentially puts the whole struct in one cache line, whereas 80B puts rerr and werr in a separate cache line from wrCh and rdCh.  :)\n\n(You could mitigate that somewhat by placing wrMu and once at the end of the struct, so that the second cache miss only occurs for Write and Close calls.)",
+      "parentUuid": "843ce454_598892aa",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c8a5929_0f789e03",
         "filename": "src/io/pipe.go",
         "patchSetId": 2
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "A Write(nil) blocks until there is a corresponding Read(p) where p may be any length including zero.\n\nThe \"for once :\u003d true; once || len(b) \u003e 0; once \u003d false\" logic in Write was added to replicate this behavior.",
       "parentUuid": "2c8a5929_0f789e03",
+      "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bfaadde_336c778d",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-10-10T15:49:21Z",
+      "side": 1,
+      "message": "\u003e A Write(nil) blocks until there is a corresponding Read(p) where p may be any length including zero.\n\u003e \n\u003e The \"for once :\u003d true; once || len(b) \u003e 0; once \u003d false\" logic in Write was added to replicate this behavior.\n\nThat covers Write, not Read: arguably a Write(nil) ought to block until there is any Read(p), but to comply with the io.Reader best practice the Read(p) should not unblock until a Write with a non-empty payload occurs.",
+      "parentUuid": "bf418bba_e1f03834",
       "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
