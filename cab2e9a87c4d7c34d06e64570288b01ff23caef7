@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "66c69668_0511e32a",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-10T18:08:06Z",
+      "side": 1,
+      "message": "I think I\u0027ll keep it as is. There is a stylistic benefit to keep the mutex right above what it protects (and once right above what it protects).\n\nIgnoring the last two atomic.Value fields, the rest of the fields are 48B, and will fit in a single cache line. That being said, I\u0027m not sure if Go\u0027s memory allocator even creates objects on 64B boundaries.",
+      "parentUuid": "67211ed0_4faf534b",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c8a5929_0f789e03",
         "filename": "src/io/pipe.go",
         "patchSetId": 2
@@ -120,6 +144,24 @@
       "side": 1,
       "message": "\u003e A Write(nil) blocks until there is a corresponding Read(p) where p may be any length including zero.\n\u003e \n\u003e The \"for once :\u003d true; once || len(b) \u003e 0; once \u003d false\" logic in Write was added to replicate this behavior.\n\nThat covers Write, not Read: arguably a Write(nil) ought to block until there is any Read(p), but to comply with the io.Reader best practice the Read(p) should not unblock until a Write with a non-empty payload occurs.",
       "parentUuid": "bf418bba_e1f03834",
+      "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7698e95_a4b67688",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-10T18:08:06Z",
+      "side": 1,
+      "message": "r.Read(nil) also blocks: https://play.golang.org/p/rLmfdBBPnH\n\nio.Reader doesn\u0027t explicitly say a read of zero bytes should not block. Let\u0027s keep the previous behavior.\n\nThe new implementation maintains the old behavior where a non-empty Read blocks until there is another Write. Even if that Write is empty, it still unblocks.",
+      "parentUuid": "5bfaadde_336c778d",
       "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
