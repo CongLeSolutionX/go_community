@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa72b18_a6823c67",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-10T21:01:28Z",
+      "side": 1,
+      "message": "Could you add this line to doc.go?\n\nWhen computing coverage of a package that uses cgo,\nthe cover tool must be applied to the output of cgo\npreprocessing, not the input, because it deletes\ncomments that are significant to cgo.",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bc799eb_fb5018de",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-10T21:01:28Z",
+      "side": 1,
+      "message": "\"fixPragmas returns a list of unhandled pragmas.\"",
+      "range": {
+        "startLine": 255,
+        "startChar": 3,
+        "endLine": 255,
+        "endChar": 42
+      },
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "069a349b_0aab7539",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-10T21:01:28Z",
+      "side": 1,
+      "message": "I would move this decl down into the sole function that uses it, at the cost of not following the precedent.",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05c719b0_0c001b02",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-10T21:01:28Z",
+      "side": 1,
+      "message": "\"TestPragmas checks that...\"",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41c79c66_b4de27b9",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-10T21:01:28Z",
+      "side": 1,
+      "message": "t.Logf",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8bde225_83887972",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-10T21:01:28Z",
+      "side": 1,
+      "message": "Instead of mapping offsets to Pos\u0027s (in findPragmas), map Pos\u0027s to offsets here using  fset.Position(pos).offset.",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34b47d0c_872ddc2c",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-10T21:01:28Z",
+      "side": 1,
+      "message": "This is a little fiddly.  Instead of synthesizing the Pos, save the byte offset within each file.",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d09ec63c_bb156cf7",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-10T21:01:28Z",
+      "side": 1,
+      "message": "Save just \u0027offset + i\u0027 here.",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
