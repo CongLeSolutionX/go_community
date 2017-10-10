@@ -22,6 +22,30 @@
       "revId": "cfa9957bf3cc62438708a4d6a129a023b4215412",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9c444f1_bfd86b35",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-10T12:52:19Z",
+      "side": 1,
+      "message": "You\u0027re right, 32-bit is the right restriction. The assembler cannot handle constant in ADDV larger than 32-bit. Added comment, also added a comment to ADDVconst in MIPS64Ops.go.",
+      "parentUuid": "a7df779b_b8fae287",
+      "range": {
+        "startLine": 684,
+        "startChar": 48,
+        "endLine": 684,
+        "endChar": 58
+      },
+      "revId": "cfa9957bf3cc62438708a4d6a129a023b4215412",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
