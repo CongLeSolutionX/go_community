@@ -7,12 +7,16 @@ package main_test
 import (
 	"bytes"
 	"fmt"
+	"go/ast"
+	"go/parser"
+	"go/token"
 	"internal/testenv"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"testing"
 )
 
@@ -87,20 +91,139 @@ func TestCover(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	// compiler directive must appear right next to function declaration.
+	// pragmas must appear right next to function declaration.
 	if got, err := regexp.MatchString(".*\n//go:nosplit\nfunc someFunction().*", string(file)); err != nil || !got {
-		t.Errorf("misplaced compiler directive: got=(%v, %v); want=(true; nil)", got, err)
+		t.Errorf("misplaced pragma: got=(%v, %v); want=(true; nil)", got, err)
 	}
-	// "go:linkname" compiler directive should be present.
+	// "go:linkname" pragma should be present.
 	if got, err := regexp.MatchString(`.*go\:linkname some\_name some\_name.*`, string(file)); err != nil || !got {
-		t.Errorf("'go:linkname' compiler directive not found: got=(%v, %v); want=(true; nil)", got, err)
+		t.Errorf("'go:linkname' pragma not found: got=(%v, %v); want=(true; nil)", got, err)
 	}
 
 	// No other comments should be present in generated code.
 	c := ".*// This comment shouldn't appear in generated go code.*"
 	if got, err := regexp.MatchString(c, string(file)); err != nil || got {
-		t.Errorf("non compiler directive comment %q found. got=(%v, %v); want=(false; nil)", c, got, err)
+		t.Errorf("non pragma comment %q found. got=(%v, %v); want=(false; nil)", c, got, err)
 	}
+}
+
+var testPragmas = filepath.Join(testdata, "pragmas.go")
+
+// TestPragmas checks that pragma comments are preserved and positioned
+// correctly. Pragmas that occur before top-level declarations should remain
+// above those declarations, even if they are not part of the block of
+// documentation comments.
+func TestPragmas(t *testing.T) {
+	// Read the source file and find all the pragmas. We'll keep track of whether
+	// each one has been seen in the output.
+	source, err := ioutil.ReadFile(testPragmas)
+	if err != nil {
+		t.Fatal(err)
+	}
+	sourcePragmas := findPragmas(source)
+
+	// go tool cover -mode=set ./testdata/pragmas.go
+	cmd := exec.Command(testenv.GoToolPath(t), "tool", "cover", "-mode=set", testPragmas)
+	cmd.Stderr = os.Stderr
+	output, err := cmd.Output()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Check that all pragmas are present in the output.
+	outputPragmas := findPragmas(output)
+	foundPragma := make(map[string]bool)
+	for _, p := range sourcePragmas {
+		foundPragma[p.name] = false
+	}
+	for _, p := range outputPragmas {
+		if found, ok := foundPragma[p.name]; !ok {
+			t.Errorf("unexpected pragma in output: %s", p.text)
+		} else if found {
+			t.Errorf("pragma found multiple times in output: %s", p.text)
+		}
+		foundPragma[p.name] = true
+	}
+	var missing []string
+	for name, found := range foundPragma {
+		if !found {
+			missing = append(missing, name)
+		}
+	}
+	if len(missing) > 0 {
+		t.Errorf("the following pragmas were missing: %s", strings.Join(missing, ", "))
+	}
+
+	// Check that pragmas that start with the name of top-level declarations
+	// come before the beginning of the named declaration and after the end
+	// of the previous declaration.
+	fset := token.NewFileSet()
+	astFile, err := parser.ParseFile(fset, testPragmas, output, 0)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	prevEnd := 0
+	for _, decl := range astFile.Decls {
+		var name string
+		switch d := decl.(type) {
+		case *ast.FuncDecl:
+			name = d.Name.Name
+		case *ast.GenDecl:
+			if len(d.Specs) != 1 {
+				continue
+			}
+			if spec, ok := d.Specs[0].(*ast.TypeSpec); ok {
+				name = spec.Name.Name
+			}
+		}
+		pos := fset.Position(decl.Pos()).Offset
+		end := fset.Position(decl.End()).Offset
+		if name == "" {
+			prevEnd = end
+			continue
+		}
+		for _, p := range outputPragmas {
+			if !strings.HasPrefix(p.name, name) {
+				continue
+			}
+			if p.offset < prevEnd || pos < p.offset {
+				t.Errorf("pragma %s does not appear before definition %s", p.text, name)
+			}
+		}
+		prevEnd = end
+	}
+}
+
+type pragmaInfo struct {
+	text   string // full text of the comment, not including newline
+	name   string // text after //go:
+	offset int    // byte offset of first slash in comment
+}
+
+func findPragmas(source []byte) []pragmaInfo {
+	var pragmas []pragmaInfo
+	pragmaPrefix := []byte("\n//go:")
+	offset := 0
+	for {
+		i := bytes.Index(source[offset:], pragmaPrefix)
+		if i == -1 {
+			break
+		}
+		p := source[offset+i:]
+		j := bytes.IndexByte(p[1:], '\n') + 1
+		if j == -1 {
+			j = len(p)
+		}
+		pragma := pragmaInfo{
+			text:   string(p[1:j]),
+			name:   string(p[len(pragmaPrefix):j]),
+			offset: offset + i,
+		}
+		pragmas = append(pragmas, pragma)
+		offset += i + j
+	}
+	return pragmas
 }
 
 // Makes sure that `cover -func=profile.cov` reports accurate coverage.
