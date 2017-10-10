@@ -154,12 +154,11 @@ type Block struct {
 // File is a wrapper for the state of a file used in the parser.
 // The basic parse tree walker is a method of this type.
 type File struct {
-	fset       *token.FileSet
-	name       string // Name of file.
-	astFile    *ast.File
-	blocks     []Block
-	atomicPkg  string                // Package name for "sync/atomic" in this file.
-	directives map[*ast.Comment]bool // Map of compiler directives to whether it's processed in ast.Visitor or not.
+	fset      *token.FileSet
+	name      string // Name of file.
+	astFile   *ast.File
+	blocks    []Block
+	atomicPkg string // Package name for "sync/atomic" in this file.
 }
 
 // Visit implements the ast.Visitor interface.
@@ -244,23 +243,60 @@ func (f *File) Visit(node ast.Node) ast.Visitor {
 			ast.Walk(f, n.Assign)
 			return nil
 		}
-	case *ast.CommentGroup:
-		var list []*ast.Comment
-		// Drop all but the //go: comments, some of which are semantically important.
-		// We drop all others because they can appear in places that cause our counters
-		// to appear in syntactically incorrect places. //go: appears at the beginning of
-		// the line and is syntactically safe.
-		for _, c := range n.List {
-			if f.isDirective(c) {
-				list = append(list, c)
-
-				// Mark compiler directive as handled.
-				f.directives[c] = true
-			}
-		}
-		n.List = list
 	}
 	return f
+}
+
+// fixPragmas identifies //go: comments (known as pragmas) and attaches them to
+// the documentation group of the following top-level definitions. All other
+// comments are dropped since non-documentation comments tend to get printed in
+// the wrong place after the AST is modified.
+//
+// fixPragmas returns a list of unhandled pragmas. These comments could not
+// be attached to a top-level declaration and should be be printed at
+// the end of the file.
+func (f *File) fixPragmas() []*ast.Comment {
+	// Scan comments in the file and collect pragmas. Detach all comments.
+	var pragmas []*ast.Comment
+	for _, cg := range f.astFile.Comments {
+		for _, c := range cg.List {
+			// Skip pragmas that will be included by initialComments, i.e., those
+			// before the package declaration but not in the file doc comment group.
+			if f.isPragma(c) && (c.Pos() >= f.astFile.Package || cg == f.astFile.Doc) {
+				pragmas = append(pragmas, c)
+			}
+		}
+		cg.List = nil
+	}
+	f.astFile.Comments = nil // force printer to use node comments
+
+	// Iterate over top-level declarations and attach preceding pragmas.
+	di := 0
+	for _, decl := range f.astFile.Decls {
+		var doc **ast.CommentGroup
+		switch d := decl.(type) {
+		case *ast.FuncDecl:
+			doc = &d.Doc
+		case *ast.GenDecl:
+			doc = &d.Doc
+		default:
+			continue
+		}
+
+		for di < len(pragmas) && pragmas[di].Pos() < decl.Pos() {
+			c := pragmas[di]
+			if *doc == nil {
+				*doc = new(ast.CommentGroup)
+			}
+			c.Slash = decl.Pos() - 1 // must be strictly less than decl.Pos()
+			(*doc).List = append((*doc).List, pragmas[di])
+			di++
+		}
+	}
+
+	// Return trailing pragmas. These cannot apply to a specific declaration
+	// and may be printed at the end of the file.
+	return pragmas[di:]
 }
 
 // unquote returns the unquoted string.
@@ -369,25 +405,15 @@ func annotate(name string) {
 	}
 
 	file := &File{
-		fset:       fset,
-		name:       name,
-		astFile:    parsedFile,
-		directives: map[*ast.Comment]bool{},
+		fset:    fset,
+		name:    name,
+		astFile: parsedFile,
 	}
 	if *mode == "atomic" {
 		file.atomicPkg = file.addImport(atomicPackagePath)
 	}
 
-	for _, cg := range parsedFile.Comments {
-		for _, c := range cg.List {
-			if file.isDirective(c) {
-				file.directives[c] = false
-			}
-		}
-	}
-	// Remove comments. Or else they interfere with new AST.
-	parsedFile.Comments = nil
-
+	unhandledPragmas := file.fixPragmas()
 	ast.Walk(file, file.astFile)
 	fd := os.Stdout
 	if *output != "" {
@@ -399,28 +425,25 @@ func annotate(name string) {
 	}
 	fd.Write(initialComments(content)) // Retain '// +build' directives.
 
-	// Retain compiler directives that are not processed in ast.Visitor.
-	// Some compiler directives like "go:linkname" and "go:cgo_"
-	// can be not attached to anything in the tree and hence will not be printed by printer.
-	// So, we have to explicitly print them here.
-	for cd, handled := range file.directives {
-		if !handled {
-			fmt.Fprintln(fd, cd.Text)
-		}
-	}
-
 	file.print(fd)
 	// After printing the source tree, add some declarations for the counters etc.
 	// We could do this by adding to the tree, but it's easier just to print the text.
 	file.addVariables(fd)
+
+	// Print pragmas that are not processed in fixPragmas. Some
+	// pragmas are not attached to anything in the tree hence will not
+	// be printed by printer. So, we have to explicitly print them here.
+	for _, c := range unhandledPragmas {
+		fmt.Fprintln(fd, c.Text)
+	}
 }
 
 func (f *File) print(w io.Writer) {
 	printer.Fprint(w, f.fset, f.astFile)
 }
 
-// isDirective reports whether a comment is a compiler directive.
-func (f *File) isDirective(c *ast.Comment) bool {
+// isPragma reports whether a comment is a compiler pragma.
+func (f *File) isPragma(c *ast.Comment) bool {
 	return strings.HasPrefix(c.Text, "//go:") && f.fset.Position(c.Slash).Column == 1
 }
 
