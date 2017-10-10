@@ -16,6 +16,24 @@
       "revId": "8786ffd9572c4d2714dc77b830872511f62b196b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f44ff825_a621d23f",
+        "filename": "src/runtime/cgo/gcc_signal2_darwin_armx.c",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2017-10-10T08:49:10Z",
+      "side": 1,
+      "message": "The build fails without it (which was the reason I included the attribute in the original patchset):\n\n##### Testing packages.\n# bufio (testmain)\n/Users/elias/go-tip/pkg/tool/darwin_amd64/link: running /Users/elias/go-tip/misc/ios/clangwrap.sh failed: exit status 1\nduplicate symbol _xx_cgo_panicmem in:\n    /var/folders/f6/d2bhfqss2716nxm8gkv1fmb80000gn/T/go-link-291652089/go.o\n    /var/folders/f6/d2bhfqss2716nxm8gkv1fmb80000gn/T/go-link-291652089/000006.o\nld: 1 duplicate symbol for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n\nSo it seems clang does _something_ with weak symbols; perhaps simply allowing duplicate definitions?\n\nI\u0027m going to submit this CL as is to get the builders moving again. However, I\u0027ll happily do a follow-up CL if you come up with a way to get rid of the weak attribute. It\u0027s worth the trouble when the mobile platforms get to look more like the others.",
+      "parentUuid": "1a911e0d_71f51c61",
+      "revId": "8786ffd9572c4d2714dc77b830872511f62b196b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
