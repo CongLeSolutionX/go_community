@@ -210,9 +210,13 @@ installation method is standard on the system.
 </p>
 
 <p>
-To build without <code>cgo</code>, set the environment variable
-<code>CGO_ENABLED=0</code> before running <code>all.bash</code> or
-<code>make.bash</code>.
+The <code>CGO_ENABLED</code> environment variable controls cgo usage
+during the build. To build without <code>cgo</code>, set
+<code>CGO_ENABLED=0</code> before running <code>all.bash</code>
+or <code>make.bash</code>.
+<code>CGO_ENABLED</code> is set to 1 by default, except when
+cross-compiling, when the default is 0.
+
 </p>
 
 <h2 id="fetch">Fetch the repository</h2>
