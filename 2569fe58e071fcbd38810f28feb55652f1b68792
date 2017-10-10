@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bc129cef_e45879ca",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-10T21:33:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa72b18_a6823c67",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4bc799eb_fb5018de",
         "filename": "src/cmd/cover/cover.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-10T21:01:28Z",
       "side": 1,
       "message": "\"fixPragmas returns a list of unhandled pragmas.\"",
+      "range": {
+        "startLine": 255,
+        "startChar": 3,
+        "endLine": 255,
+        "endChar": 42
+      },
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eea89d9_555847d6",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-10T21:33:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bc799eb_fb5018de",
       "range": {
         "startLine": 255,
         "startChar": 3,
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "c0820e3e_e069b6d8",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-10T21:33:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "069a349b_0aab7539",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "05c719b0_0c001b02",
         "filename": "src/cmd/cover/cover_test.go",
         "patchSetId": 1
@@ -70,6 +130,24 @@
       "writtenOn": "2017-10-10T21:01:28Z",
       "side": 1,
       "message": "\"TestPragmas checks that...\"",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01672c0f_65d6a78b",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-10T21:33:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05c719b0_0c001b02",
       "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "ebfd6892_68fe8d67",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-10T21:33:39Z",
+      "side": 1,
+      "message": "Removed. I meant to take this out.",
+      "parentUuid": "41c79c66_b4de27b9",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8bde225_83887972",
         "filename": "src/cmd/cover/cover_test.go",
         "patchSetId": 1
@@ -104,6 +200,24 @@
       "writtenOn": "2017-10-10T21:01:28Z",
       "side": 1,
       "message": "Instead of mapping offsets to Pos\u0027s (in findPragmas), map Pos\u0027s to offsets here using  fset.Position(pos).offset.",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb246cef_291d69e5",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-10T21:33:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8bde225_83887972",
       "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -127,6 +241,24 @@
     },
     {
       "key": {
+        "uuid": "871a5f3b_b65a5b14",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-10T21:33:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34b47d0c_872ddc2c",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d09ec63c_bb156cf7",
         "filename": "src/cmd/cover/cover_test.go",
         "patchSetId": 1
@@ -138,6 +270,24 @@
       "writtenOn": "2017-10-10T21:01:28Z",
       "side": 1,
       "message": "Save just \u0027offset + i\u0027 here.",
+      "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa0546c7_daf325d0",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-10T21:33:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d09ec63c_bb156cf7",
       "revId": "2569fe58e071fcbd38810f28feb55652f1b68792",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
