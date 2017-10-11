@@ -62,9 +62,9 @@ var gdb = "gdb" // Might be "ggdb" on Darwin, because gdb no longer part of XCod
 func TestNexting(t *testing.T) {
 	// Skip this test in an ordinary run.bash.  Too many things
 	// can cause it to break.
-	if testing.Short() {
-		t.Skip("skipping in short mode; see issue #22206")
-	}
+	// if testing.Short() {
+	// 	t.Skip("skipping in short mode; see issue #22206")
+	// }
 
 	testenv.MustHaveGoBuild(t)
 
@@ -170,7 +170,6 @@ func testNexting(t *testing.T, base, tag, gcflags string) {
 
 type dbgr interface {
 	start()
-	do(s string)
 	stepnext(s string) bool // step or next, possible with parameter, gets line etc.  returns true for success, false for unsure response
 	quit()
 	hist() *nextHist
@@ -439,16 +438,12 @@ func (s *delveState) start() {
 		panic(fmt.Sprintf("There was an error [start] running '%s', %v\n", line, err))
 	}
 	s.ioState.readExpecting(-1, 5000, "Type 'help' for list of commands.")
-	expect("Breakpoint [0-9]+ set at ", s.ioState.writeRead("b main.main\n"))
+	expect("Breakpoint [0-9]+ set at ", s.ioState.writeReadExpect("b main.main\n", "[(]dlv[)] "))
 	s.stepnext("c")
 }
 
 func (s *delveState) quit() {
-	s.do("q")
-}
-
-func (s *delveState) do(ss string) {
-	expect("", s.ioState.writeRead(ss+"\n"))
+	expect("", s.ioState.writeRead("q\n"))
 }
 
 /* Gdb */
@@ -496,7 +491,7 @@ func (s *gdbState) start() {
 		line := asCommandLine("", s.cmd)
 		panic(fmt.Sprintf("There was an error [start] running '%s', %v\n", line, err))
 	}
-	s.ioState.readExpecting(-1, 5000, "[(]gdb[)] ")
+	s.ioState.readExpecting(-1, -1, "[(]gdb[)] ")
 	x := s.ioState.writeReadExpect("b main.main\n", "[(]gdb[)] ")
 	expect("Breakpoint [0-9]+ at", x)
 	s.stepnext(run)
@@ -544,7 +539,7 @@ func (s *gdbState) stepnext(ss string) bool {
 			substitutions = v[slashIndex:]
 			v = v[:slashIndex]
 		}
-		response := s.ioState.writeRead("p " + v + "\n").String()
+		response := s.ioState.writeReadExpect("p "+v+"\n", "[(]gdb[)] ").String()
 		// expect something like "$1 = ..."
 		dollar := strings.Index(response, "$")
 		cr := strings.Index(response, "\n")
@@ -598,10 +593,6 @@ func (s *gdbState) quit() {
 	if strings.Contains(response.o, "Quit anyway? (y or n)") {
 		s.ioState.writeRead("Y\n")
 	}
-}
-
-func (s *gdbState) do(ss string) {
-	expect("", s.ioState.writeRead(ss+"\n"))
 }
 
 type ioState struct {
@@ -679,10 +670,8 @@ func (s *ioState) hist() *nextHist {
 	return s.history
 }
 
-const (
-	interlineDelay = 300
-)
-
+// writeRead writes ss, then reads stdout and stderr, waiting 500ms to
+// be sure all the output has appeared.
 func (s *ioState) writeRead(ss string) tstring {
 	if *verbose {
 		fmt.Printf("=> %s", ss)
@@ -691,31 +680,32 @@ func (s *ioState) writeRead(ss string) tstring {
 	if err != nil {
 		panic(fmt.Sprintf("There was an error writing '%s', %v\n", ss, err))
 	}
-	return s.readWithDelay(-1, interlineDelay)
+	return s.readExpecting(-1, 500, "")
 }
 
-func (s *ioState) writeReadExpect(ss, expect string) tstring {
+// writeReadExpect writes ss, then reads stdout and stderr until something
+// that matches expectRE appears.  expectRE should not be ""
+func (s *ioState) writeReadExpect(ss, expectRE string) tstring {
 	if *verbose {
 		fmt.Printf("=> %s", ss)
+	}
+	if expectRE == "" {
+		panic("expectRE should not be empty; use .* instead")
 	}
 	_, err := io.WriteString(s.stdin, ss)
 	if err != nil {
 		panic(fmt.Sprintf("There was an error writing '%s', %v\n", ss, err))
 	}
-	return s.readExpecting(-1, interlineDelay, expect)
+	return s.readExpecting(-1, -1, expectRE)
 }
 
-func (s *ioState) readWithDelay(millis, interlineTimeout int) tstring {
-	return s.readExpecting(millis, interlineTimeout, "")
-}
-
-func (s *ioState) readExpecting(millis, interlineTimeout int, expected string) tstring {
+func (s *ioState) readExpecting(millis, interlineTimeout int, expectedRE string) tstring {
 	timeout := time.Millisecond * time.Duration(millis)
 	interline := time.Millisecond * time.Duration(interlineTimeout)
 	s.last = tstring{}
 	var re *regexp.Regexp
-	if expected != "" {
-		re = regexp.MustCompile(expected)
+	if expectedRE != "" {
+		re = regexp.MustCompile(expectedRE)
 	}
 loop:
 	for {
