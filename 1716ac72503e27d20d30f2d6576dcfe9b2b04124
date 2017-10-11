@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82b83956_0a24e09c",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-11T14:01:37Z",
+      "side": 1,
+      "message": "vet try bot found something real here",
+      "revId": "1716ac72503e27d20d30f2d6576dcfe9b2b04124",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fedaea51_bd5b6917",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-11T14:01:37Z",
+      "side": 1,
+      "message": "Does ImportPath do the right thing when dealing with vendoring?\n\nIt looks like ImportPath is the string from the import block, not the resolved vendor path. Which means a program that uses both x/y/z and subtree/vendor/x/y/z will use \"x/y/z\" as the key to hasDep for both packages. (Or did I miss a transformation of ImportPath somewhere?)",
+      "revId": "1716ac72503e27d20d30f2d6576dcfe9b2b04124",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
