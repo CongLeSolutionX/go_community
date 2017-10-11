@@ -1268,7 +1268,13 @@ func mexit(osStack bool) {
 	unminit()
 
 	// Free the gsignal stack.
-	if m.gsignal != nil {
+	//
+	// TODO(austin): android/arm and android/arm64 have gsignal
+	// stacks that are 12K and outside the Go heap. I don't know
+	// where these come from. Checking stack.lo is a quick fix.
+	// Example failure:
+	// https://build.golang.org/log/248565e9a644fdc87cb956eb21f47e88f9bdc46b
+	if m.gsignal != nil && inHeapOrStack(m.gsignal.stack.lo) {
 		stackfree(m.gsignal.stack)
 	}
 
