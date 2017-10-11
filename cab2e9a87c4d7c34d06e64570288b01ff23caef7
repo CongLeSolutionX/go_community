@@ -165,6 +165,24 @@
       "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a968c6ed_a1bd0b77",
+        "filename": "src/io/pipe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-10-11T18:13:01Z",
+      "side": 1,
+      "message": "\u003e The new implementation maintains the old behavior where a non-empty Read blocks until there is another Write. Even if that Write is empty, it still unblocks.\n\nAh, that\u0027s unfortunate.\n\nThe io.Pipe documentation says:\n“Reads and Writes on the pipe are matched one to one except when multiple Reads are needed to consume a single Write.”\n\nThat\u0027s directly at odds with the io.Reader recommendation, but too late to fix in Go 1.",
+      "parentUuid": "e7698e95_a4b67688",
+      "revId": "cab2e9a87c4d7c34d06e64570288b01ff23caef7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
