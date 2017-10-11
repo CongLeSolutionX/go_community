@@ -162,7 +162,7 @@ func typecheck(n *Node, top int) *Node {
 		// We can already diagnose variables used as types.
 		case ONAME:
 			if top&(Erv|Etype) == Etype {
-				yyerror("%v is not a type", n)
+				yyerrorl(n.Pos, "%v is not a type", n)
 			}
 
 		case OTYPE:
@@ -174,7 +174,7 @@ func typecheck(n *Node, top int) *Node {
 
 		case OLITERAL:
 			if top&(Erv|Etype) == Etype {
-				yyerror("%v is not a type", n)
+				yyerrorl(n.Pos, "%v is not a type", n)
 				break
 			}
 			var trace string
@@ -188,7 +188,7 @@ func typecheck(n *Node, top int) *Node {
 				x := typecheck_tcstack[i]
 				trace += fmt.Sprintf("\n\t%v %v", x.Line(), x)
 			}
-			yyerror("typechecking loop involving %v%s", n, trace)
+			yyerrorl(n.Pos, "typechecking loop involving %v%s", n, trace)
 		}
 
 		lineno = lno
@@ -2188,22 +2188,22 @@ func checksliceindex(l *Node, r *Node, tp *types.Type) bool {
 		return false
 	}
 	if !t.IsInteger() {
-		yyerror("invalid slice index %v (type %v)", r, t)
+		yyerrorl(r.Pos, "invalid slice index %v (type %v)", r, t)
 		return false
 	}
 
 	if r.Op == OLITERAL {
 		if r.Int64() < 0 {
-			yyerror("invalid slice index %v (index must be non-negative)", r)
+			yyerrorl(r.Pos, "invalid slice index %v (index must be non-negative)", r)
 			return false
 		} else if tp != nil && tp.NumElem() >= 0 && r.Int64() > tp.NumElem() {
-			yyerror("invalid slice index %v (out of bounds for %d-element array)", r, tp.NumElem())
+			yyerrorl(r.Pos, "invalid slice index %v (out of bounds for %d-element array)", r, tp.NumElem())
 			return false
 		} else if Isconst(l, CTSTR) && r.Int64() > int64(len(l.Val().U.(string))) {
-			yyerror("invalid slice index %v (out of bounds for %d-byte string)", r, len(l.Val().U.(string)))
+			yyerrorl(r.Pos, "invalid slice index %v (out of bounds for %d-byte string)", r, len(l.Val().U.(string)))
 			return false
 		} else if r.Val().U.(*Mpint).Cmp(maxintval[TINT]) > 0 {
-			yyerror("invalid slice index %v (index too large)", r)
+			yyerrorl(r.Pos, "invalid slice index %v (index too large)", r)
 			return false
 		}
 	}
@@ -2213,7 +2213,7 @@ func checksliceindex(l *Node, r *Node, tp *types.Type) bool {
 
 func checksliceconst(lo *Node, hi *Node) bool {
 	if lo != nil && hi != nil && lo.Op == OLITERAL && hi.Op == OLITERAL && lo.Val().U.(*Mpint).Cmp(hi.Val().U.(*Mpint)) > 0 {
-		yyerror("invalid slice index: %v > %v", lo, hi)
+		yyerrorl(lo.Pos, "invalid slice index: %v > %v", lo, hi)
 		return false
 	}
 
@@ -2255,7 +2255,7 @@ func checkdefergo(n *Node) {
 		if n.Left.Orig != nil && n.Left.Orig.Op == OCONV {
 			break
 		}
-		yyerror("%s discards result of %v", what, n.Left)
+		yyerrorl(n.Pos, "%s discards result of %v", what, n.Left)
 		return
 	}
 
@@ -2269,7 +2269,7 @@ func checkdefergo(n *Node) {
 		// The syntax made sure it was a call, so this must be
 		// a conversion.
 		n.SetDiag(true)
-		yyerror("%s requires function call, not conversion", what)
+		yyerrorl(n.Pos, "%s requires function call, not conversion", what)
 	}
 }
 
@@ -3184,7 +3184,7 @@ func islvalue(n *Node) bool {
 
 func checklvalue(n *Node, verb string) {
 	if !islvalue(n) {
-		yyerror("cannot %s %v", verb, n)
+		yyerrorl(n.Pos, "cannot %s %v", verb, n)
 	}
 }
 
@@ -3552,16 +3552,11 @@ func copytype(n *Node, t *types.Type) {
 	}
 
 	// Double-check use of type as embedded type.
-	lno := lineno
-
 	if embedlineno.IsKnown() {
-		lineno = embedlineno
 		if t.IsPtr() || t.IsUnsafePtr() {
-			yyerror("embedded type cannot be a pointer")
+			yyerrorl(embedlineno, "embedded type cannot be a pointer")
 		}
 	}
-
-	lineno = lno
 }
 
 func typecheckdeftype(n *Node) {
@@ -3792,7 +3787,7 @@ ret:
 
 func checkmake(t *types.Type, arg string, n *Node) bool {
 	if !n.Type.IsInteger() && n.Type.Etype != TIDEAL {
-		yyerror("non-integer %s argument in make(%v) - %v", arg, t, n.Type)
+		yyerrorl(n.Pos, "non-integer %s argument in make(%v) - %v", arg, t, n.Type)
 		return false
 	}
 
@@ -3802,11 +3797,11 @@ func checkmake(t *types.Type, arg string, n *Node) bool {
 	case CTINT, CTRUNE, CTFLT, CTCPLX:
 		n.SetVal(toint(n.Val()))
 		if n.Val().U.(*Mpint).CmpInt64(0) < 0 {
-			yyerror("negative %s argument in make(%v)", arg, t)
+			yyerrorl(n.Pos, "negative %s argument in make(%v)", arg, t)
 			return false
 		}
 		if n.Val().U.(*Mpint).Cmp(maxintval[TINT]) > 0 {
-			yyerror("%s argument too large in make(%v)", arg, t)
+			yyerrorl(n.Pos, "%s argument too large in make(%v)", arg, t)
 			return false
 		}
 	}
