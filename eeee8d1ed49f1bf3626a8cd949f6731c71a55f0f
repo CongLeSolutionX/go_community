@@ -34,6 +34,24 @@
       "revId": "eeee8d1ed49f1bf3626a8cd949f6731c71a55f0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cbd55f4_0fc9762c",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:14:34Z",
+      "side": 1,
+      "message": "Ah, OK.  Missed the fact that we are calling unminit here.",
+      "parentUuid": "69d2a5b5_065c88c9",
+      "revId": "eeee8d1ed49f1bf3626a8cd949f6731c71a55f0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
