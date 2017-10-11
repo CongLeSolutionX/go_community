@@ -1,0 +1,225 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fe8e702_e0c9f704",
+        "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "This is not a flag.  gofmtFlags or gofmtConfig.",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "809dc680_7df6f7a3",
+        "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "Fmt accepts the options accepted by the gofmt command.",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5470b08_915730cf",
+        "filename": "src/cmd/go/internal/fmtcmd/fmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "Period at end of sentence.\n\nBut this isn\u0027t backward compatibility as such.  This is the difference between `go fmt` and `gofmt`.  The comment here can just refer to the `go fmt` docs, which actually say \"runs the command \u0027gofmt -l -w\u0027\".",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c11cac88_dc07767b",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "gofmtConfig or gofmtFlags.",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "102fc111_9f3bd716",
+        "filename": "src/cmd/gofmt/gofmt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "You can probably just use flag.CommandLine instead of creating another flag set.",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81cf0747_d3f5ffb2",
+        "filename": "src/cmd/gofmt/long_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "Why this change?",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "799ccd24_e4c7d2d7",
+        "filename": "src/cmd/internal/gofmt/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "Needs a package comment.",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b901663_854f8ddc",
+        "filename": "src/cmd/internal/gofmt/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "Perhaps a better name here would be Config.  This is not a flag.",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc0c42b_dd17f781",
+        "filename": "src/cmd/internal/gofmt/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "DefineFlags",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d266eaa_64773162",
+        "filename": "src/cmd/internal/gofmt/flag_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "Make it simpler.\n\nif !reflect.DeepEqual(got, expected) {\n    t.Errorf(\"Args() \u003d\u003d %v want %v\", got, expected)\n}",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14784828_a6412bf8",
+        "filename": "src/cmd/internal/gofmt/flag_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "May as well use t.Error here.  And always say what you got.\n\nif got :\u003d f.Args(); len(got) !\u003d 0 {\n    t.Error(\"Args() \u003d\u003d %v, expected empty slice\", got)\n}",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e82d044_d88b087e",
+        "filename": "src/cmd/internal/gofmt/flag_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "Don\u0027t write `x !\u003d false`, write `!x`.",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7c1cedd_a60eb90d",
+        "filename": "src/cmd/internal/gofmt/flag_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-11T22:32:23Z",
+      "side": 1,
+      "message": "Say what it is.",
+      "revId": "ad3b2ea9b8cd9627b327c5df58e7f717a8044eae",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
