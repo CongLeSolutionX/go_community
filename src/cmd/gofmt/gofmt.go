@@ -21,19 +21,13 @@ import (
 	"runtime"
 	"runtime/pprof"
 	"strings"
+
+	"cmd/internal/gofmt"
 )
 
 var (
-	// main operation modes
-	list        = flag.Bool("l", false, "list files whose formatting differs from gofmt's")
-	write       = flag.Bool("w", false, "write result to (source) file instead of stdout")
-	rewriteRule = flag.String("r", "", "rewrite rule (e.g., 'a[b:len(a)] -> a[b:]')")
-	simplifyAST = flag.Bool("s", false, "simplify code")
-	doDiff      = flag.Bool("d", false, "display diffs instead of rewriting files")
-	allErrors   = flag.Bool("e", false, "report all errors (not just the first 10 on different lines)")
-
-	// debugging
-	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to this file")
+	gofmtFlag gofmt.Flag
+	flagSet   = flag.NewFlagSet(os.Args[0], flag.ExitOnError)
 )
 
 const (
@@ -48,6 +42,10 @@ var (
 	parserMode parser.Mode
 )
 
+func init() {
+	gofmtFlag.InitGofmtFlag(flagSet)
+}
+
 func report(err error) {
 	scanner.PrintError(os.Stderr, err)
 	exitCode = 2
@@ -55,12 +53,12 @@ func report(err error) {
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "usage: gofmt [flags] [path ...]\n")
-	flag.PrintDefaults()
+	flagSet.PrintDefaults()
 }
 
 func initParserMode() {
 	parserMode = parser.ParseComments
-	if *allErrors {
+	if gofmtFlag.AllErrors {
 		parserMode |= parser.AllErrors
 	}
 }
@@ -108,7 +106,7 @@ func processFile(filename string, in io.Reader, out io.Writer, stdin bool) error
 
 	ast.SortImports(fileSet, file)
 
-	if *simplifyAST {
+	if gofmtFlag.SimplifyAST {
 		simplify(file)
 	}
 
@@ -119,10 +117,10 @@ func processFile(filename string, in io.Reader, out io.Writer, stdin bool) error
 
 	if !bytes.Equal(src, res) {
 		// formatting has changed
-		if *list {
+		if gofmtFlag.List {
 			fmt.Fprintln(out, filename)
 		}
-		if *write {
+		if gofmtFlag.Write {
 			// make a temporary backup before overwriting original
 			bakname, err := backupFile(filename+".", src, perm)
 			if err != nil {
@@ -138,7 +136,7 @@ func processFile(filename string, in io.Reader, out io.Writer, stdin bool) error
 				return err
 			}
 		}
-		if *doDiff {
+		if gofmtFlag.DoDiff {
 			data, err := diff(src, res, filename)
 			if err != nil {
 				return fmt.Errorf("computing diff: %s", err)
@@ -148,7 +146,7 @@ func processFile(filename string, in io.Reader, out io.Writer, stdin bool) error
 		}
 	}
 
-	if !*list && !*write && !*doDiff {
+	if !gofmtFlag.List && !gofmtFlag.Write && !gofmtFlag.DoDiff {
 		_, err = out.Write(res)
 	}
 
@@ -172,19 +170,20 @@ func walkDir(path string) {
 }
 
 func main() {
+	args := os.Args[1:]
 	// call gofmtMain in a separate function
 	// so that it can use defer and have them
 	// run before the exit.
-	gofmtMain()
+	gofmtMain(args)
 	os.Exit(exitCode)
 }
 
-func gofmtMain() {
-	flag.Usage = usage
-	flag.Parse()
+func gofmtMain(args []string) {
+	flagSet.Usage = usage
+	flagSet.Parse(args)
 
-	if *cpuprofile != "" {
-		f, err := os.Create(*cpuprofile)
+	if gofmtFlag.Cpuprofile != "" {
+		f, err := os.Create(gofmtFlag.Cpuprofile)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "creating cpu profile: %s\n", err)
 			exitCode = 2
@@ -198,8 +197,8 @@ func gofmtMain() {
 	initParserMode()
 	initRewrite()
 
-	if flag.NArg() == 0 {
-		if *write {
+	if flagSet.NArg() == 0 {
+		if gofmtFlag.Write {
 			fmt.Fprintln(os.Stderr, "error: cannot use -w with standard input")
 			exitCode = 2
 			return
@@ -210,8 +209,8 @@ func gofmtMain() {
 		return
 	}
 
-	for i := 0; i < flag.NArg(); i++ {
-		path := flag.Arg(i)
+	for i := 0; i < flagSet.NArg(); i++ {
+		path := flagSet.Arg(i)
 		switch dir, err := os.Stat(path); {
 		case err != nil:
 			report(err)

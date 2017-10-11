@@ -31,7 +31,7 @@ var (
 	nfiles  int // number of files processed
 )
 
-func gofmt(fset *token.FileSet, filename string, src *bytes.Buffer) error {
+func doGofmt(fset *token.FileSet, filename string, src *bytes.Buffer) error {
 	f, _, _, err := parse(fset, filename, src.Bytes(), false)
 	if err != nil {
 		return err
@@ -68,7 +68,7 @@ func testFile(t *testing.T, b1, b2 *bytes.Buffer, filename string) {
 	}
 
 	// gofmt file
-	if err = gofmt(fset, filename, b1); err != nil {
+	if err = doGofmt(fset, filename, b1); err != nil {
 		t.Errorf("1st gofmt failed: %v", err)
 		return
 	}
@@ -78,7 +78,7 @@ func testFile(t *testing.T, b1, b2 *bytes.Buffer, filename string) {
 	b2.Write(b1.Bytes())
 
 	// gofmt result again
-	if err = gofmt(fset, filename, b2); err != nil {
+	if err = doGofmt(fset, filename, b2); err != nil {
 		t.Errorf("2nd gofmt failed: %v", err)
 		return
 	}

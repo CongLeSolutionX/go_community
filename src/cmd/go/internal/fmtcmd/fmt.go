@@ -15,15 +15,19 @@ import (
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
 	"cmd/go/internal/str"
+	"cmd/internal/gofmt"
 )
+
+var gofmtFlag gofmt.Flag
 
 func init() {
 	base.AddBuildFlagsNX(&CmdFmt.Flag)
+	gofmtFlag.InitGofmtFlag(&CmdFmt.Flag)
 }
 
 var CmdFmt = &base.Command{
 	Run:       runFmt,
-	UsageLine: "fmt [-n] [-x] [packages]",
+	UsageLine: "fmt [-n] [-x] [gofmtFlags] [packages]",
 	Short:     "run gofmt on package sources",
 	Long: `
 Fmt runs the command 'gofmt -l -w' on the packages named
@@ -34,8 +38,7 @@ For more about specifying packages, see 'go help packages'.
 
 The -n flag prints commands that would be executed.
 The -x flag prints commands as they are executed.
-
-To run gofmt with specific options, run gofmt itself.
+The 'gofmtFlags' accepts the equivalent of the options of gofmt command.
 
 See also: go fix, go vet.
 	`,
@@ -47,11 +50,18 @@ func runFmt(cmd *base.Command, args []string) {
 	var wg sync.WaitGroup
 	wg.Add(procs)
 	fileC := make(chan string, 2*procs)
+
+	// For backward compatibility: `-l` and `-w` options are handled as default
+	gofmtFlag.List = true
+	gofmtFlag.Write = true
+
+	gofmtOptions := gofmtFlag.Args()
+
 	for i := 0; i < procs; i++ {
 		go func() {
 			defer wg.Done()
 			for file := range fileC {
-				base.Run(str.StringList(gofmt, "-l", "-w", file))
+				base.Run(str.StringList(gofmt, gofmtOptions, file))
 			}
 		}()
 	}

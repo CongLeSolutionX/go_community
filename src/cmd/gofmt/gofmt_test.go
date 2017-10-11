@@ -58,8 +58,9 @@ func gofmtFlags(filename string, maxLines int) string {
 
 func runTest(t *testing.T, in, out string) {
 	// process flags
-	*simplifyAST = false
-	*rewriteRule = ""
+	gofmtFlag.SimplifyAST = false
+	gofmtFlag.RewriteRule = ""
+
 	stdin := false
 	for _, flag := range strings.Split(gofmtFlags(in, 20), " ") {
 		elts := strings.SplitN(flag, "=", 2)
@@ -72,9 +73,9 @@ func runTest(t *testing.T, in, out string) {
 		case "":
 			// no flags
 		case "-r":
-			*rewriteRule = value
+			gofmtFlag.RewriteRule = value
 		case "-s":
-			*simplifyAST = true
+			gofmtFlag.SimplifyAST = true
 		case "-stdin":
 			// fake flag - pretend input is from stdin
 			stdin = true

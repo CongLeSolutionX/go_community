@@ -156,10 +156,11 @@ var builddeps = map[string][]string{
 		"cmd/go/internal/cfg",  // cmd/go/internal/fmtcmd
 		"cmd/go/internal/load", // cmd/go/internal/fmtcmd
 		"cmd/go/internal/str",  // cmd/go/internal/fmtcmd
-		"os",            // cmd/go/internal/fmtcmd
-		"path/filepath", // cmd/go/internal/fmtcmd
-		"runtime",       // cmd/go/internal/fmtcmd
-		"sync",          // cmd/go/internal/fmtcmd
+		"cmd/internal/gofmt",   // cmd/go/internal/fmtcmd
+		"os",                   // cmd/go/internal/fmtcmd
+		"path/filepath",        // cmd/go/internal/fmtcmd
+		"runtime",              // cmd/go/internal/fmtcmd
+		"sync",                 // cmd/go/internal/fmtcmd
 	},
 
 	"cmd/go/internal/generate": {
@@ -364,6 +365,10 @@ var builddeps = map[string][]string{
 		"strings",                 // cmd/go/internal/work
 		"sync",                    // cmd/go/internal/work
 		"time",                    // cmd/go/internal/work
+	},
+
+	"cmd/internal/gofmt": {
+		"flag", // cmd/internal/gofmt
 	},
 
 	"cmd/internal/objabi": {
