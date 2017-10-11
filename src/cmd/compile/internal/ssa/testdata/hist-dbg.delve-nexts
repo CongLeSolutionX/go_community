@@ -107,7 +107,3 @@
 61:				continue
 59:		for i, a := range hist {
 68:	}
-  src/runtime/proc.go
-201:		if atomic.Load(&runningPanicDefers) != 0 {
-210:		if atomic.Load(&panicking) != 0 {
-214:		exit(0)
