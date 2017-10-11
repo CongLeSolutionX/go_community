@@ -28,11 +28,15 @@ var dryrun = flag.Bool("n", false, "just print the command line and first bits")
 var delve = flag.Bool("d", false, "use delve instead of gdb")
 var force = flag.Bool("f", false, "force run under not linux-amd64; also do not use tempdir")
 
+var repeats = flag.Bool("r", false, "detect repeats in debug steps")
+var inlines = flag.Bool("i", false, "do inlining for gdb (makes testing flaky until inline debug info is correct)")
+
 var hexRe = regexp.MustCompile("0x[a-zA-Z0-9]+")
 var numRe = regexp.MustCompile("-?[0-9]+")
 var stringRe = regexp.MustCompile("\"([^\\\"]|(\\.))*\"")
 
-var gdb = "gdb" // Might be "ggdb" on Darwin, because gdb no longer part of XCode
+var gdb = "gdb"      // Might be "ggdb" on Darwin, because gdb no longer part of XCode
+var debugger = "gdb" // For naming files, etc.
 
 // TestNexting go-builds a file, then uses a debugger (default gdb, optionally delve)
 // to next through the generated executable, recording each line landed at, and
@@ -41,6 +45,23 @@ var gdb = "gdb" // Might be "ggdb" on Darwin, because gdb no longer part of XCod
 // Flag -d changes the debugger to delve (and uses delve-specific reference files)
 // Flag -v is ever-so-slightly verbose.
 // Flag -n is for dry-run, and prints the shell and first debug commands.
+//
+// Because this test (combined with existing compiler deficiencies) is flaky,
+// for gdb-based testing by default inlining is disabled
+// (otherwise output depends on library internals)
+// and for both gdb and dlv by default repeated lines in the next stream are ignored
+// (because this appears to be timing-dependent in gdb, and the cleanest fix is in code common to gdb and dlv).
+//
+// Also by default, any source code outside of .../testdata/ is not mentioned
+// in the debugging histories.  This deals both with inlined library code once
+// the compiler is generating clean inline records, and also deals with
+// runtime code between return from main and process exit.
+//
+// These choices can be reversed with -i (inlining on) and -r (repeats detected) which
+// will also cause their own failures against the expected outputs.  Note that if the compiler
+// and debugger were behaving properly, the inlined code and repeated lines would not appear,
+// so the expected output is closer to what we hope to see, though it also encodes all our
+// current bugs.
 //
 // The file being tested may contain comments of the form
 // //DBG-TAG=(v1,v2,v3)
@@ -60,12 +81,6 @@ var gdb = "gdb" // Might be "ggdb" on Darwin, because gdb no longer part of XCod
 // go test debug_test.go -args -u -d
 
 func TestNexting(t *testing.T) {
-	// Skip this test in an ordinary run.bash.  Too many things
-	// can cause it to break.
-	if testing.Short() {
-		t.Skip("skipping in short mode; see issue #22206")
-	}
-
 	testenv.MustHaveGoBuild(t)
 
 	if !*delve && !*force && !(runtime.GOOS == "linux" && runtime.GOARCH == "amd64") {
@@ -80,6 +95,7 @@ func TestNexting(t *testing.T) {
 	}
 
 	if *delve {
+		debugger = "dlv"
 		_, err := exec.LookPath("dlv")
 		if err != nil {
 			t.Fatal("dlv specified on command line with -d but no dlv on path")
@@ -98,14 +114,19 @@ func TestNexting(t *testing.T) {
 		}
 	}
 
-	t.Run("dbg", func(t *testing.T) {
+	t.Run("dbg-"+debugger, func(t *testing.T) {
 		testNexting(t, "hist", "dbg", "-N -l")
 	})
-	t.Run("opt", func(t *testing.T) {
+	t.Run("opt-"+debugger, func(t *testing.T) {
 		// If this is test is run with a runtime compiled with -N -l, it is very likely to fail.
 		// This occurs in the noopt builders (for example).
 		if gogcflags := os.Getenv("GO_GCFLAGS"); *force || (!strings.Contains(gogcflags, "-N") && !strings.Contains(gogcflags, "-l")) {
-			testNexting(t, "hist", "opt", "")
+			if *delve || *inlines {
+				testNexting(t, "hist", "opt", "")
+			} else {
+				// For gdb, disable inlining so that a compiler test does not depend on library code.
+				testNexting(t, "hist", "opt", "-l")
+			}
 		} else {
 			t.Skip("skipping for unoptimized runtime")
 		}
@@ -119,8 +140,8 @@ func testNexting(t *testing.T, base, tag, gcflags string) {
 	// optionally, write out testdata/sample.nexts
 
 	exe := filepath.Join("testdata", base)
-	logbase := exe + "-" + tag
-	tmpbase := logbase + "-test"
+	logbase := exe + "." + tag
+	tmpbase := filepath.Join("testdata", "test-"+base+"."+tag)
 
 	if !*force {
 		tmpdir, err := ioutil.TempDir("", "debug_test")
@@ -141,15 +162,13 @@ func testNexting(t *testing.T, base, tag, gcflags string) {
 		runGo(t, "", "build", "-o", exe, "-gcflags", gcflags, filepath.Join("testdata", base+".go"))
 	}
 	var h1 *nextHist
-	var nextlog, tmplog string
+
+	nextlog := logbase + "-" + debugger + ".nexts"
+	tmplog := tmpbase + "-" + debugger + ".nexts"
 	if *delve {
 		h1 = dlvTest(tag, exe, 1000)
-		nextlog = logbase + ".delve-nexts"
-		tmplog = tmpbase + ".delve-nexts"
 	} else {
 		h1 = gdbTest(tag, exe, 1000)
-		nextlog = logbase + ".gdb-nexts"
-		tmplog = tmpbase + ".gdb-nexts"
 	}
 	if *dryrun {
 		fmt.Printf("# Tag for above is %s\n", tag)
@@ -176,7 +195,6 @@ func testNexting(t *testing.T, base, tag, gcflags string) {
 
 type dbgr interface {
 	start()
-	do(s string)
 	stepnext(s string) bool // step or next, possible with parameter, gets line etc.  returns true for success, false for unsure response
 	quit()
 	hist() *nextHist
@@ -310,7 +328,11 @@ func (h *nextHist) read(filename string) {
 	}
 }
 
-func (h *nextHist) add(file, line, text string) {
+func (h *nextHist) add(file, line, text string) bool {
+	// Only record source code in testdata unless the inlines flag is set
+	if !*inlines && !strings.Contains(file, "/testdata/") {
+		return false
+	}
 	fi := h.f2i[file]
 	if fi == 0 {
 		h.fs = append(h.fs, file)
@@ -327,9 +349,16 @@ func (h *nextHist) add(file, line, text string) {
 			panic(fmt.Sprintf("Non-numeric line: %s, error %v\n", line, err))
 		}
 	}
-	h.ps = append(h.ps, pos{line: uint16(li), file: fi})
-	h.texts = append(h.texts, text)
-	h.vars = append(h.vars, []string{})
+	l := len(h.ps)
+	p := pos{line: uint16(li), file: fi}
+
+	if l == 0 || *repeats || h.ps[l-1] != p {
+		h.ps = append(h.ps, p)
+		h.texts = append(h.texts, text)
+		h.vars = append(h.vars, []string{})
+		return true
+	}
+	return false
 }
 
 func (h *nextHist) addVar(text string) {
@@ -428,7 +457,9 @@ func (s *delveState) stepnext(ss string) bool {
 		s.ioState.history.add(s.file, s.line, excerpt)
 		return true
 	}
-	fmt.Printf("DID NOT MATCH EXPECTED NEXT OUTPUT\nO='%s'\nE='%s'\n", x.o, x.e)
+	if *verbose {
+		fmt.Printf("DID NOT MATCH EXPECTED NEXT OUTPUT\nO='%s'\nE='%s'\n", x.o, x.e)
+	}
 	return false
 }
 
@@ -445,16 +476,12 @@ func (s *delveState) start() {
 		panic(fmt.Sprintf("There was an error [start] running '%s', %v\n", line, err))
 	}
 	s.ioState.readExpecting(-1, 5000, "Type 'help' for list of commands.")
-	expect("Breakpoint [0-9]+ set at ", s.ioState.writeRead("b main.main\n"))
+	expect("Breakpoint [0-9]+ set at ", s.ioState.writeReadExpect("b main.main\n", "[(]dlv[)] "))
 	s.stepnext("c")
 }
 
 func (s *delveState) quit() {
-	s.do("q")
-}
-
-func (s *delveState) do(ss string) {
-	expect("", s.ioState.writeRead(ss+"\n"))
+	expect("", s.ioState.writeRead("q\n"))
 }
 
 /* Gdb */
@@ -493,7 +520,7 @@ func (s *gdbState) start() {
 	}
 	if *dryrun {
 		fmt.Printf("%s\n", asCommandLine("", s.cmd))
-		fmt.Printf("b main.main\n")
+		fmt.Printf("tbreak main.main\n")
 		fmt.Printf("%s\n", run)
 		return
 	}
@@ -502,7 +529,7 @@ func (s *gdbState) start() {
 		line := asCommandLine("", s.cmd)
 		panic(fmt.Sprintf("There was an error [start] running '%s', %v\n", line, err))
 	}
-	s.ioState.readExpecting(-1, 5000, "[(]gdb[)] ")
+	s.ioState.readExpecting(-1, -1, "[(]gdb[)] ")
 	x := s.ioState.writeReadExpect("b main.main\n", "[(]gdb[)] ")
 	expect("Breakpoint [0-9]+ at", x)
 	s.stepnext(run)
@@ -513,8 +540,11 @@ func (s *gdbState) stepnext(ss string) bool {
 	excerpts := s.atLineRe.FindStringSubmatch(x.o)
 	locations := s.funcFileLinePCre.FindStringSubmatch(x.o)
 	excerpt := ""
+	addedLine := false
 	if len(excerpts) == 0 && len(locations) == 0 {
-		fmt.Printf("DID NOT MATCH %s", x.o)
+		if *verbose {
+			fmt.Printf("DID NOT MATCH %s", x.o)
+		}
 		return false
 	}
 	if len(excerpts) > 0 {
@@ -531,16 +561,20 @@ func (s *gdbState) stepnext(ss string) bool {
 		s.line = locations[3]
 		s.file = fn
 		s.function = locations[1]
-		s.ioState.history.add(s.file, s.line, excerpt)
+		addedLine = s.ioState.history.add(s.file, s.line, excerpt)
 	}
 	if len(excerpts) > 0 {
 		if *verbose {
 			fmt.Printf("  %s\n", excerpts[2])
 		}
 		s.line = excerpts[2]
-		s.ioState.history.add(s.file, s.line, excerpt)
+		addedLine = s.ioState.history.add(s.file, s.line, excerpt)
 	}
 
+	if !addedLine {
+		// True if this was a repeat line
+		return true
+	}
 	// Look for //gdb-<tag>=(v1,v2,v3) and print v1, v2, v3
 	vars := varsToPrint(excerpt, "//gdb-"+s.tag+"=(")
 	for _, v := range vars {
@@ -550,7 +584,7 @@ func (s *gdbState) stepnext(ss string) bool {
 			substitutions = v[slashIndex:]
 			v = v[:slashIndex]
 		}
-		response := s.ioState.writeRead("p " + v + "\n").String()
+		response := s.ioState.writeReadExpect("p "+v+"\n", "[(]gdb[)] ").String()
 		// expect something like "$1 = ..."
 		dollar := strings.Index(response, "$")
 		cr := strings.Index(response, "\n")
@@ -604,10 +638,6 @@ func (s *gdbState) quit() {
 	if strings.Contains(response.o, "Quit anyway? (y or n)") {
 		s.ioState.writeRead("Y\n")
 	}
-}
-
-func (s *gdbState) do(ss string) {
-	expect("", s.ioState.writeRead(ss+"\n"))
 }
 
 type ioState struct {
@@ -685,10 +715,8 @@ func (s *ioState) hist() *nextHist {
 	return s.history
 }
 
-const (
-	interlineDelay = 300
-)
-
+// writeRead writes ss, then reads stdout and stderr, waiting 500ms to
+// be sure all the output has appeared.
 func (s *ioState) writeRead(ss string) tstring {
 	if *verbose {
 		fmt.Printf("=> %s", ss)
@@ -697,31 +725,32 @@ func (s *ioState) writeRead(ss string) tstring {
 	if err != nil {
 		panic(fmt.Sprintf("There was an error writing '%s', %v\n", ss, err))
 	}
-	return s.readWithDelay(-1, interlineDelay)
+	return s.readExpecting(-1, 500, "")
 }
 
-func (s *ioState) writeReadExpect(ss, expect string) tstring {
+// writeReadExpect writes ss, then reads stdout and stderr until something
+// that matches expectRE appears.  expectRE should not be ""
+func (s *ioState) writeReadExpect(ss, expectRE string) tstring {
 	if *verbose {
 		fmt.Printf("=> %s", ss)
+	}
+	if expectRE == "" {
+		panic("expectRE should not be empty; use .* instead")
 	}
 	_, err := io.WriteString(s.stdin, ss)
 	if err != nil {
 		panic(fmt.Sprintf("There was an error writing '%s', %v\n", ss, err))
 	}
-	return s.readExpecting(-1, interlineDelay, expect)
+	return s.readExpecting(-1, -1, expectRE)
 }
 
-func (s *ioState) readWithDelay(millis, interlineTimeout int) tstring {
-	return s.readExpecting(millis, interlineTimeout, "")
-}
-
-func (s *ioState) readExpecting(millis, interlineTimeout int, expected string) tstring {
+func (s *ioState) readExpecting(millis, interlineTimeout int, expectedRE string) tstring {
 	timeout := time.Millisecond * time.Duration(millis)
 	interline := time.Millisecond * time.Duration(interlineTimeout)
 	s.last = tstring{}
 	var re *regexp.Regexp
-	if expected != "" {
-		re = regexp.MustCompile(expected)
+	if expectedRE != "" {
+		re = regexp.MustCompile(expectedRE)
 	}
 loop:
 	for {
