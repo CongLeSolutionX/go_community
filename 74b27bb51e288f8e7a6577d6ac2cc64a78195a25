@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eed29a73_b2adc77a",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-11T18:00:07Z",
+      "side": 1,
+      "message": "Unfortunately, I don\u0027t think this is right. n.Pos for ONAME nodes is where they were declared, not where they\u0027re used. I think this will move the error message somewhere else.\n\nSame for the OLITERAL below.",
+      "revId": "74b27bb51e288f8e7a6577d6ac2cc64a78195a25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97b3d169_8dbc2d95",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-11T18:00:07Z",
+      "side": 1,
+      "message": "r here might be an ONAME or named OLITERAL, which would give a bad position for this error message.\n\nSame for the ones below.",
+      "revId": "74b27bb51e288f8e7a6577d6ac2cc64a78195a25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
