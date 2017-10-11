@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "209079ef_8c8fa5aa",
+        "filename": "src/cmd/go/internal/load/pkg.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 915,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-11T14:54:16Z",
+      "side": 1,
+      "message": "Fixed.\n\nI did not plan this, but good opportunity to point out that with compile and link actions properly separated we are getting very close to being able to run vet automatically during \"go test\". My hope is that vet can be overlapped with the execution of the link step and add no wall time latency to the process.",
+      "parentUuid": "82b83956_0a24e09c",
+      "revId": "1716ac72503e27d20d30f2d6576dcfe9b2b04124",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fedaea51_bd5b6917",
         "filename": "src/cmd/go/internal/work/build.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "1716ac72503e27d20d30f2d6576dcfe9b2b04124",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7c11930_e2a9cd72",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-11T14:54:16Z",
+      "side": 1,
+      "message": "The confusion is understandable, but throughout the go command (and also the command-line API), \"import path\" means the full path, i.e. \"subtree/vendor/x/y/z\" not \"x/y/z\".\n\nFor what it\u0027s worth, even golang.org/s/go15vendor defines vendoring as saying that import \"p\" is interpreted (under some conditions) as if it really said import \"d/vendor/p\".",
+      "parentUuid": "fedaea51_bd5b6917",
+      "revId": "1716ac72503e27d20d30f2d6576dcfe9b2b04124",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
