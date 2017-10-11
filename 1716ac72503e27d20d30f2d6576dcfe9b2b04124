@@ -69,6 +69,24 @@
       "revId": "1716ac72503e27d20d30f2d6576dcfe9b2b04124",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fdad8a3_d5b428fa",
+        "filename": "src/cmd/go/internal/work/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-11T15:32:08Z",
+      "side": 1,
+      "message": "Ah, I see I missed \"importPath \u003d path\" when I was reading pkg.go. Looks good.",
+      "parentUuid": "f7c11930_e2a9cd72",
+      "revId": "1716ac72503e27d20d30f2d6576dcfe9b2b04124",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
