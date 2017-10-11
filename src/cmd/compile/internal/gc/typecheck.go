@@ -2241,7 +2241,7 @@ func checkdefergo(n *Node) {
 		if n.Left.Orig != nil && n.Left.Orig.Op == OCONV {
 			break
 		}
-		yyerror("%s discards result of %v", what, n.Left)
+		yyerrorl(n.Pos, "%s discards result of %v", what, n.Left)
 		return
 	}
 
@@ -2255,7 +2255,7 @@ func checkdefergo(n *Node) {
 		// The syntax made sure it was a call, so this must be
 		// a conversion.
 		n.SetDiag(true)
-		yyerror("%s requires function call, not conversion", what)
+		yyerrorl(n.Pos, "%s requires function call, not conversion", what)
 	}
 }
 
@@ -3552,16 +3552,11 @@ func copytype(n *Node, t *types.Type) {
 	}
 
 	// Double-check use of type as embedded type.
-	lno := lineno
-
 	if embedlineno.IsKnown() {
-		lineno = embedlineno
 		if t.IsPtr() || t.IsUnsafePtr() {
-			yyerror("embedded type cannot be a pointer")
+			yyerrorl(embedlineno, "embedded type cannot be a pointer")
 		}
 	}
-
-	lineno = lno
 }
 
 func typecheckdeftype(n *Node) {
@@ -3785,11 +3780,11 @@ func checkmake(t *types.Type, arg string, n *Node) bool {
 	case CTINT, CTRUNE, CTFLT, CTCPLX:
 		n.SetVal(toint(n.Val()))
 		if n.Val().U.(*Mpint).CmpInt64(0) < 0 {
-			yyerror("negative %s argument in make(%v)", arg, t)
+			yyerrorl(n.Pos, "negative %s argument in make(%v)", arg, t)
 			return false
 		}
 		if n.Val().U.(*Mpint).Cmp(maxintval[TINT]) > 0 {
-			yyerror("%s argument too large in make(%v)", arg, t)
+			yyerrorl(n.Pos, "%s argument too large in make(%v)", arg, t)
 			return false
 		}
 	}
