@@ -16,6 +16,24 @@
       "revId": "eeee8d1ed49f1bf3626a8cd949f6731c71a55f0f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69d2a5b5_065c88c9",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-11T22:01:53Z",
+      "side": 1,
+      "message": "Then unminitSignalStack will set m.gsignal.stack.lo to 0.",
+      "parentUuid": "9172932e_8ea8d99f",
+      "revId": "eeee8d1ed49f1bf3626a8cd949f6731c71a55f0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
