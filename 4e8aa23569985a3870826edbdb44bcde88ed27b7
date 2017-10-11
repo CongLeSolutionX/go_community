@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21c01ed2_925ab0df",
+        "filename": "misc/nacl/testzip.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-11T21:15:46Z",
+      "side": 1,
+      "message": "This is the first time I\u0027ve ever noticed this file.",
+      "revId": "4e8aa23569985a3870826edbdb44bcde88ed27b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88cb7989_f67a35d6",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2017-10-11T21:15:46Z",
+      "side": 1,
+      "message": "You can make this local to the function below.",
+      "revId": "4e8aa23569985a3870826edbdb44bcde88ed27b7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
