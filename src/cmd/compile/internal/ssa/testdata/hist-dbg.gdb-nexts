@@ -1,6 +1,5 @@
   src/cmd/compile/internal/ssa/testdata/hist.go
 35:	func main() {
-35:	func main() {
 36:		hist := make([]int, 10)
 37:		var reader io.Reader = strings.NewReader(cannedInput) //gdb-dbg=(hist/A,cannedInput/A)
 $1 =  []int = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
@@ -133,7 +132,6 @@ $24 = 26
 59:		for i, a := range hist {
 68:	}
   src/runtime/proc.go
-201:		if atomic.Load(&runningPanicDefers) != 0 {
 201:		if atomic.Load(&runningPanicDefers) != 0 {
 210:		if atomic.Load(&panicking) != 0 {
 214:		exit(0)
