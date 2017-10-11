@@ -3792,7 +3792,7 @@ ret:
 
 func checkmake(t *types.Type, arg string, n *Node) bool {
 	if !n.Type.IsInteger() && n.Type.Etype != TIDEAL {
-		yyerror("non-integer %s argument in make(%v) - %v", arg, t, n.Type)
+		yyerrorl(n.Pos, "non-integer %s argument in make(%v) - %v", arg, t, n.Type)
 		return false
 	}
 
@@ -3802,11 +3802,11 @@ func checkmake(t *types.Type, arg string, n *Node) bool {
 	case CTINT, CTRUNE, CTFLT, CTCPLX:
 		n.SetVal(toint(n.Val()))
 		if n.Val().U.(*Mpint).CmpInt64(0) < 0 {
-			yyerror("negative %s argument in make(%v)", arg, t)
+			yyerrorl(n.Pos, "negative %s argument in make(%v)", arg, t)
 			return false
 		}
 		if n.Val().U.(*Mpint).Cmp(maxintval[TINT]) > 0 {
-			yyerror("%s argument too large in make(%v)", arg, t)
+			yyerrorl(n.Pos, "%s argument too large in make(%v)", arg, t)
 			return false
 		}
 	}
