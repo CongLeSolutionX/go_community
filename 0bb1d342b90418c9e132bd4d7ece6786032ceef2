@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2e96cb28_d3eb4fb7",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-11T20:18:26Z",
+      "side": 1,
+      "message": "Done.\n\nI\u0027ve gone through this CL reverting my over-zealous scripting.",
+      "parentUuid": "08c92c5a_3febd985",
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b02fde93_1ba95607",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0912f11_82fc4319",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-11T20:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b02fde93_1ba95607",
+      "range": {
+        "startLine": 24,
+        "startChar": 50,
+        "endLine": 24,
+        "endChar": 63
+      },
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "10e87df9_e2e3ae2a",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-11T20:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6da8995e_47724235",
+      "range": {
+        "startLine": 179,
+        "startChar": 58,
+        "endLine": 179,
+        "endChar": 72
+      },
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11306ae2_9ab8d1fc",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 3
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "03f4b2cf_2d92789a",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-11T20:18:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11306ae2_9ab8d1fc",
+      "range": {
+        "startLine": 408,
+        "startChar": 19,
+        "endLine": 408,
+        "endChar": 31
+      },
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a86df474_af773a23",
         "filename": "src/cmd/link/internal/loadelf/ldelf.go",
         "patchSetId": 3
@@ -99,6 +189,24 @@
       "writtenOn": "2017-10-10T14:40:59Z",
       "side": 1,
       "message": "I think you need to document how initEhdrFlags and ehdrFlags work.",
+      "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "110985f2_abe9305a",
+        "filename": "src/cmd/link/internal/loadelf/ldelf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-11T20:18:26Z",
+      "side": 1,
+      "message": "Done.\n\nThis is making an implicit piece of spaghetti wiring explicit, so it\u0027s not pretty. I\u0027ve added a TODO about finding a better way.",
+      "parentUuid": "a86df474_af773a23",
       "revId": "0bb1d342b90418c9e132bd4d7ece6786032ceef2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
