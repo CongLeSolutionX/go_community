@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93e513b3_f2823b9d",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-11T20:43:31Z",
+      "side": 1,
+      "message": "Why does this error have to be exported? Under what circumstance would someone want to programatically perform control flow on this type?",
+      "range": {
+        "startLine": 123,
+        "startChar": 5,
+        "endLine": 123,
+        "endChar": 23
+      },
+      "revId": "cc373b61c73185b0180fa6aab887ca1bbbf6f51c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
