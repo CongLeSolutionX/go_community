@@ -7,6 +7,9 @@ package hex
 import (
 	"bytes"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"strings"
 	"testing"
 )
 
@@ -108,6 +111,96 @@ func TestInvalidStringErr(t *testing.T) {
 		} else if err != test.err {
 			t.Errorf("#%d: got: %v want: %v", i, err, test.err)
 		}
+	}
+}
+
+func TestEncoderDecoder(t *testing.T) {
+	var buf bytes.Buffer
+
+	for _, multiplier := range []int{1, 128, 192} {
+		for i, test := range encDecTests {
+			buf.Reset()
+
+			input := bytes.Repeat(test.dec, multiplier)
+			output := strings.Repeat(test.enc, multiplier)
+
+			enc := NewEncoder(&buf)
+			if n, _ := io.Copy(enc, bytes.NewReader(input)); n != int64(len(input)) {
+				t.Errorf("#%d (multipler %d) bytes written: got: %#v want: %#v", i, multiplier, n, len(input))
+				continue
+			}
+
+			if encDst := buf.String(); encDst != output {
+				t.Errorf("#%d (multipler %d): got: %#v want: %#v", i, multiplier, encDst, output)
+				continue
+			}
+
+			dec := NewDecoder(&buf)
+			decDst, err := ioutil.ReadAll(dec)
+			if err != nil {
+				t.Errorf("#%d (multipler %d): unexpected error value: %s", i, multiplier, err)
+				continue
+			}
+			if !bytes.Equal(decDst, input) {
+				t.Errorf("#%d (multipler %d): got: %#v want: #%v", i, multiplier, decDst, input)
+			}
+		}
+	}
+}
+
+var errDecoderTests = []errTest{
+	{"0", io.ErrUnexpectedEOF},
+	{"0g", InvalidByteError('g')},
+	{"00gg", InvalidByteError('g')},
+	{"0\x01", InvalidByteError('\x01')},
+}
+
+func TestDecoderErr(t *testing.T) {
+	for i, test := range errDecoderTests {
+		dec := NewDecoder(strings.NewReader(test.in))
+		_, err := ioutil.ReadAll(dec)
+		if err == nil {
+			t.Errorf("#%d: expected %v; got none", i, test.err)
+		} else if err != test.err {
+			t.Errorf("#%d: got: %v want: %v", i, err, test.err)
+		}
+	}
+}
+
+func TestDecoderUnevenErr(t *testing.T) {
+	dec := NewDecoder(strings.NewReader("ffeed"))
+	var out [1]byte
+
+	_, err := dec.Read(nil)
+	if err != nil {
+		t.Fatalf("expected nil error; got %v", err)
+	}
+
+	n, err := dec.Read(out[:])
+	if n != 1 {
+		t.Fatalf("expected n = %v; got %d", 1, n)
+	}
+	if err != nil {
+		t.Fatalf("expected no error; got %s", err)
+	}
+	if out[0] != 0xff {
+		t.Fatalf("expected out[0] = 0xff; got 0x%x", out[0])
+	}
+
+	n, err = dec.Read(out[:])
+	if n != 1 {
+		t.Fatalf("expected n = %v; got %d", 1, n)
+	}
+	if err != nil {
+		t.Fatalf("expected no error; got %s", err)
+	}
+	if out[0] != 0xee {
+		t.Fatalf("expected out[0] = 0xee; got 0x%x", out[0])
+	}
+
+	_, err = dec.Read(out[:])
+	if err != io.ErrUnexpectedEOF {
+		t.Fatalf("expected ErrUnexpectedEOF; got %v", err)
 	}
 }
 
