@@ -113,6 +113,104 @@ func Dump(data []byte) string {
 	return buf.String()
 }
 
+// Encoder
+
+// encoderDecoderBufferSize is the number of hexadecimal characters to buffer in encoder and decoder.
+const encoderDecoderBufferSize = 1024
+
+type encoder struct {
+	w   io.Writer
+	err error
+	out [encoderDecoderBufferSize]byte // output buffer
+}
+
+// NewEncoder returns an io.Writer that writes lowercase hexadecimal characters to w.
+func NewEncoder(w io.Writer) io.Writer {
+	return &encoder{w: w}
+}
+
+func (e *encoder) Write(p []byte) (n int, err error) {
+	if e.err != nil {
+		return 0, err
+	}
+
+	for len(p) > 0 {
+		chunkSize := encoderDecoderBufferSize / 2
+		if len(p) < chunkSize {
+			chunkSize = len(p)
+		}
+
+		var written int
+		encoded := Encode(e.out[:], p[:chunkSize])
+		written, e.err = e.w.Write(e.out[:encoded])
+		n += written
+		if e.err != nil {
+			return n, e.err
+		}
+
+		p = p[chunkSize:]
+	}
+	return
+}
+
+// Decoder
+
+type decoder struct {
+	r   io.Reader
+	err error
+	in  [encoderDecoderBufferSize]byte // input hex character buffer
+	nin int                            // number of valid bytes in in
+
+	out    []byte                             // leftover output
+	outbuf [encoderDecoderBufferSize / 2]byte // output buffer
+}
+
+// NewDecoder returns an io.Reader that decodes hexadecimal characters from r.
+//
+// NewDecoder expects that r contain only an even number of hexadecimal characters.
+func NewDecoder(r io.Reader) io.Reader {
+	return &decoder{r: r}
+}
+
+func (d *decoder) Read(p []byte) (n int, err error) {
+	if len(p) == 0 {
+		return 0, nil
+	}
+
+	if len(d.out) > 0 {
+		// left over output
+		n = copy(p, d.out)
+		d.out = d.out[n:]
+		return n, nil
+	}
+
+	if d.err != nil {
+		return 0, d.err
+	}
+
+	var read int
+	read, d.err = io.ReadAtLeast(d.r, d.in[d.nin:], 2-d.nin)
+	if d.err != nil {
+		if d.err == io.EOF && d.nin == 1 {
+			d.err = io.ErrUnexpectedEOF
+		}
+		return 0, d.err
+	}
+	d.nin += read
+
+	var decoded int
+	decoded, d.err = Decode(d.outbuf[:], d.in[:d.nin&^1])
+	if d.err != nil {
+		return 0, d.err
+	}
+	d.in[0] = d.in[d.nin-1] // potential left over byte
+	d.nin &= 1
+
+	n = copy(p, d.outbuf[:decoded])
+	d.out = d.outbuf[n:decoded]
+	return n, nil
+}
+
 // Dumper returns a WriteCloser that writes a hex dump of all written data to
 // w. The format of the dump matches the output of `hexdump -C` on the command
 // line.
