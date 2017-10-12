@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3055d068_77c58265",
+        "filename": "src/cmd/cover/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-10-12T00:41:41Z",
+      "side": 1,
+      "message": "what is \u0027it\u0027? this is ambiguous.",
+      "revId": "468f5564a6367591fad4af678395a09a8845a508",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
