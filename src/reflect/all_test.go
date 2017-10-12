@@ -668,6 +668,25 @@ func TestCopy(t *testing.T) {
 	}
 }
 
+func TestCopyString(t *testing.T) {
+	s := make([]byte, 8)
+
+	n := Copy(ValueOf(s), ValueOf(""))
+	if expecting := bytes.Repeat([]byte{0}, 8); n != 0 || !bytes.Equal(s, expecting) {
+		t.Errorf("expecting n = 0, s = %v; got n = %d, s = %v", expecting, n, s)
+	}
+
+	n = Copy(ValueOf(s), ValueOf("hello"))
+	if expecting := []byte("hello\x00\x00\x00"); n != 5 || !bytes.Equal(s, expecting) {
+		t.Errorf("expecting n = 5, s = %v; got n = %d, s = %v", expecting, n, s)
+	}
+
+	n = Copy(ValueOf(s), ValueOf("helloworld"))
+	if expecting := []byte("hellowor"); n != 8 || !bytes.Equal(s, expecting) {
+		t.Errorf("expecting n = 8, s = %v; got n = %d, s = %v", expecting, n, s)
+	}
+}
+
 func TestCopyArray(t *testing.T) {
 	a := [8]int{1, 2, 3, 4, 10, 9, 8, 7}
 	b := [11]int{11, 22, 33, 44, 1010, 99, 88, 77, 66, 55, 44}

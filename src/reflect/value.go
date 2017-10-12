@@ -1864,8 +1864,28 @@ func AppendSlice(s, t Value) Value {
 // It returns the number of elements copied.
 // Dst and src each must have kind Slice or Array, and
 // dst and src must have the same element type.
+//
+// As a special case, dst's underlying value can be a slice of bytes and
+// src have kind String.
 func Copy(dst, src Value) int {
 	dk := dst.kind()
+	sk := src.kind()
+
+	if sk == String && dk == Slice && dst.typ.Elem().Kind() == Uint8 {
+		// special case
+		dst.mustBeExported()
+		src.mustBeExported()
+
+		ds := *(*sliceHeader)(dst.ptr)
+		sh := *(*stringHeader)(src.ptr)
+		ss := sliceHeader{
+			Data: sh.Data,
+			Len:  sh.Len,
+			Cap:  sh.Len,
+		}
+		return typedslicecopy(dst.typ.Elem().common(), ds, ss)
+	}
+
 	if dk != Array && dk != Slice {
 		panic(&ValueError{"reflect.Copy", dk})
 	}
@@ -1874,7 +1894,6 @@ func Copy(dst, src Value) int {
 	}
 	dst.mustBeExported()
 
-	sk := src.kind()
 	if sk != Array && sk != Slice {
 		panic(&ValueError{"reflect.Copy", sk})
 	}
