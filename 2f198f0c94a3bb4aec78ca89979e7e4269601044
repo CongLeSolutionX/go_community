@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2844e02d_3c0d8f17",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-12T18:59:17Z",
+      "side": 1,
+      "message": "Perhaps a TODO to add these constants to debug/pe.",
+      "revId": "2f198f0c94a3bb4aec78ca89979e7e4269601044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "def128ed_d10bbaed",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-12T18:59:17Z",
+      "side": 1,
+      "message": "I would flip these two lines so that the constants are in numerical order.",
+      "revId": "2f198f0c94a3bb4aec78ca89979e7e4269601044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be4d3c6a_08ec06fe",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-12T18:59:17Z",
+      "side": 1,
+      "message": "Needs a package comment.",
+      "revId": "2f198f0c94a3bb4aec78ca89979e7e4269601044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e38b7ffd_f95ae6e8",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-12T18:59:17Z",
+      "side": 1,
+      "message": "Add a leading zero so all the numbers are the same length.  Also DISCARFDABLE seems to be out of order.",
+      "range": {
+        "startLine": 107,
+        "startChar": 36,
+        "endLine": 107,
+        "endChar": 45
+      },
+      "revId": "2f198f0c94a3bb4aec78ca89979e7e4269601044",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
