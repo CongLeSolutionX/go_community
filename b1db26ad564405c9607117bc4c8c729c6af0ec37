@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f242b251_b8a1bec5",
+        "filename": "src/image/gif/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2017-10-12T06:11:57Z",
+      "side": 1,
+      "message": "Drop the (). In Go, unlike e.g. C++ comment style, \"foo\" usually refers to the function and \"foo()\" refers to the result of calling that function (with no arguments).",
+      "revId": "b1db26ad564405c9607117bc4c8c729c6af0ec37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c59e946_9a507440",
+        "filename": "src/image/gif/writer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2017-10-12T06:11:57Z",
+      "side": 1,
+      "message": "TestColorTablesMatch",
+      "range": {
+        "startLine": 474,
+        "startChar": 5,
+        "endLine": 474,
+        "endChar": 26
+      },
+      "revId": "b1db26ad564405c9607117bc4c8c729c6af0ec37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "002a79e1_195bb96a",
+        "filename": "src/image/gif/writer_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 5899
+      },
+      "writtenOn": "2017-10-12T06:11:57Z",
+      "side": 1,
+      "message": "s/decode()/decoder.decode/",
+      "revId": "b1db26ad564405c9607117bc4c8c729c6af0ec37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
