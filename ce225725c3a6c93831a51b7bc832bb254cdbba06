@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2c4f78cf_6ff7ed1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-12T10:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5ce15b0_823ee973",
+      "range": {
+        "startLine": 17,
+        "startChar": 14,
+        "endLine": 17,
+        "endChar": 17
+      },
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6a9a7c7_3c8b6a2f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "2de35323_e3cd4a6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-12T10:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20063845_422f1052",
+      "range": {
+        "startLine": 20,
+        "startChar": 36,
+        "endLine": 20,
+        "endChar": 70
+      },
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb53dc99_87c5aa41",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -89,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "aa46e610_3de82429",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-12T10:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb53dc99_87c5aa41",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "988ebafb_6e4043bf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -103,6 +169,24 @@
       "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87559d8d_c61a7972",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-12T10:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "988ebafb_6e4043bf",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -129,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "7ab9a1b8_fa66d4b8",
+        "filename": "src/cmd/compile/internal/arm64/ggen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-12T10:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5b24123_9b47d66f",
+      "range": {
+        "startLine": 20,
+        "startChar": 11,
+        "endLine": 20,
+        "endChar": 26
+      },
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39823f85_6c7ef934",
         "filename": "src/cmd/internal/obj/arm64/obj7.go",
         "patchSetId": 1
@@ -140,6 +248,24 @@
       "writtenOn": "2017-09-05T14:45:19Z",
       "side": 1,
       "message": "I don\u0027t understand this instruction. Why let FP \u003d SP here?\n\nProbably we should always do the LDP path as long as frame size is not 0. I think we saved LR and FP whenever frame size is not 0, even for leaf function.",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2762472f_b4ad54da",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-12T10:33:30Z",
+      "side": 1,
+      "message": "Maintaining FP for accurate profiling. Otherwise, FP won\u0027t be correct after returning to caller.",
+      "parentUuid": "39823f85_6c7ef934",
       "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -163,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "20e7bb8c_71121773",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-12T10:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dac7cdb_029e271c",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c9dab27_0b9438b2",
         "filename": "src/runtime/cgo/asm_arm64.s",
         "patchSetId": 1
@@ -174,6 +318,24 @@
       "writtenOn": "2017-09-05T14:45:19Z",
       "side": 1,
       "message": "FP and LR are the same as R29, R30. Why do it twice?",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b294303_ba48a0f4",
+        "filename": "src/runtime/cgo/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-12T10:33:30Z",
+      "side": 1,
+      "message": "FP and LR are just place holders so that callee can get correct parameters.",
+      "parentUuid": "7c9dab27_0b9438b2",
       "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -194,6 +356,24 @@
       "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882201d0_bba08fea",
+        "filename": "src/runtime/stack.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-12T10:33:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd6bae6e_c2bfe2b3",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
