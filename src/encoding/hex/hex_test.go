@@ -7,6 +7,9 @@ package hex
 import (
 	"bytes"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"strings"
 	"testing"
 )
 
@@ -103,6 +106,56 @@ func TestInvalidErr(t *testing.T) {
 func TestInvalidStringErr(t *testing.T) {
 	for i, test := range errTests {
 		_, err := DecodeString(test.in)
+		if err == nil {
+			t.Errorf("#%d: expected %v; got none", i, test.err)
+		} else if err != test.err {
+			t.Errorf("#%d: got: %v want: %v", i, err, test.err)
+		}
+	}
+}
+
+func TestEncoderDecoder(t *testing.T) {
+	var buf bytes.Buffer
+
+	for _, multiplier := range []int{1, 128, 192} {
+		for i, test := range encDecTests {
+			buf.Reset()
+
+			input := bytes.Repeat(test.dec, multiplier)
+			output := strings.Repeat(test.enc, multiplier)
+
+			enc := NewEncoder(&buf)
+			enc.Write(input)
+
+			if encDst := buf.String(); encDst != output {
+				t.Errorf("#%d (multipler %d): got: %#v want: %#v", i, multiplier, encDst, output)
+				continue
+			}
+
+			dec := NewDecoder(&buf)
+			decDst, err := ioutil.ReadAll(dec)
+			if err != nil {
+				t.Errorf("#%d (multipler %d): unexpected error value: %s", i, multiplier, err)
+				continue
+			}
+			if !bytes.Equal(decDst, input) {
+				t.Errorf("#%d (multipler %d): got: %#v want: #%v", i, multiplier, decDst, input)
+			}
+		}
+	}
+}
+
+var errDecoderTests = []errTest{
+	{"0", io.ErrUnexpectedEOF},
+	{"0g", InvalidByteError('g')},
+	{"00gg", InvalidByteError('g')},
+	{"0\x01", InvalidByteError('\x01')},
+}
+
+func TestDecoderErr(t *testing.T) {
+	for i, test := range errDecoderTests {
+		dec := NewDecoder(strings.NewReader(test.in))
+		_, err := ioutil.ReadAll(dec)
 		if err == nil {
 			t.Errorf("#%d: expected %v; got none", i, test.err)
 		} else if err != test.err {
