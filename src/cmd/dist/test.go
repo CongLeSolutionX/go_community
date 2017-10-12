@@ -931,6 +931,7 @@ func (t *tester) cgoTest(dt *distTest) error {
 // running in parallel with earlier tests, or if it has some other reason
 // for needing the earlier tests to be done.
 func (t *tester) runPending(nextTest *distTest) {
+	checkNotStale("go", "std", "cmd")
 	worklist := t.worklist
 	t.worklist = nil
 	for _, w := range worklist {
@@ -980,6 +981,7 @@ func (t *tester) runPending(nextTest *distTest) {
 			log.Printf("Failed: %v", w.err)
 			t.failed = true
 		}
+		checkNotStale("go", "std", "cmd")
 	}
 	if t.failed && !t.keepGoing {
 		log.Fatal("FAILED")
