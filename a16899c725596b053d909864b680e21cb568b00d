@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e65b1c1_930b5317",
+        "filename": "src/runtime/cgo/gcc_arm.S",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-13T21:33:49Z",
+      "side": 1,
+      "message": "The pop instruction sets pc, so we will never reach this ret instruction.  That is, the function does have a return instruction, it\u0027s just hard to see.",
+      "revId": "a16899c725596b053d909864b680e21cb568b00d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
