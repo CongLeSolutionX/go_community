@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7dcafac_a873a32e",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-13T00:22:51Z",
+      "side": 1,
+      "message": "Is it important to save this error?",
+      "range": {
+        "startLine": 123,
+        "startChar": 1,
+        "endLine": 123,
+        "endChar": 10
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de302614_3503b232",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-13T00:22:51Z",
+      "side": 1,
+      "message": "Why not only have that allocated in the stack frame of Write? Not sure though, what size it has to be therefore.",
+      "range": {
+        "startLine": 124,
+        "startChar": 1,
+        "endLine": 124,
+        "endChar": 52
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bea445b6_54b92c2d",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-13T00:22:51Z",
+      "side": 1,
+      "message": "same question here",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 160,
+        "endChar": 10
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "143c8c59_3344bb92",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-10-13T00:22:51Z",
+      "side": 1,
+      "message": "Again could be placed in the stack frame. Then we would need an extra byte for the left over one. Probably not worth, but wanted to mention it.",
+      "range": {
+        "startLine": 161,
+        "startChar": 1,
+        "endLine": 162,
+        "endChar": 8
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
