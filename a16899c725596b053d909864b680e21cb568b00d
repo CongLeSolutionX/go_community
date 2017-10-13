@@ -16,6 +16,24 @@
       "revId": "a16899c725596b053d909864b680e21cb568b00d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a361b67c_0af87758",
+        "filename": "src/runtime/cgo/gcc_arm.S",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-13T21:46:40Z",
+      "side": 1,
+      "message": "Ah, quite right.",
+      "parentUuid": "2e65b1c1_930b5317",
+      "revId": "a16899c725596b053d909864b680e21cb568b00d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
