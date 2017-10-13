@@ -4,13 +4,8 @@
 
 #include "textflag.h"
 
-TEXT _rt0_386_openbsd(SB),NOSPLIT,$8
-	MOVL	8(SP), AX
-	LEAL	12(SP), BX
-	MOVL	AX, 0(SP)
-	MOVL	BX, 4(SP)
-	CALL	main(SB)
-	INT	$3
+TEXT _rt0_386_openbsd(SB),NOSPLIT,$-8
+	JMP	_rt0_386(SB)
 
-TEXT main(SB),NOSPLIT,$0
-	JMP	runtime·rt0_go(SB)
+TEXT _rt0_386_openbsd_lib(SB),NOSPLIT,$0
+	JMP	_rt0_386_lib(SB)
