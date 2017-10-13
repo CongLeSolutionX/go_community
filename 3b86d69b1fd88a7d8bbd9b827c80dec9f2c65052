@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00478643_d106f5a7",
+        "filename": "src/crypto/tls/prf.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-10-13T18:25:52Z",
+      "side": 1,
+      "message": "\"signature scheme\" or \"SignatureScheme\"",
+      "range": {
+        "startLine": 194,
+        "startChar": 41,
+        "endLine": 194,
+        "endChar": 55
+      },
+      "revId": "3b86d69b1fd88a7d8bbd9b827c80dec9f2c65052",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
