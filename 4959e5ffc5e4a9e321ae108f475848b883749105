@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df665fd7_59ec9814",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1868,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-13T01:50:56Z",
+      "side": 1,
+      "message": "I think this is clearer if written as\n\nAs a special case, src can have kind String if the element type of dst is kind Uint8.",
+      "revId": "4959e5ffc5e4a9e321ae108f475848b883749105",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
