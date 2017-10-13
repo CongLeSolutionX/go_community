@@ -15,8 +15,4 @@ TEXT _rt0_386_nacl(SB),NOSPLIT,$8
 	LEAL	argv+16(FP), BX
 	MOVL	AX, 0(SP)
 	MOVL	BX, 4(SP)
-	CALL	main(SB)
-	INT	$3
-
-TEXT main(SB),NOSPLIT,$0
-	JMP	runtime·rt0_go(SB)
+	JMP	_rt0_go(SB)
