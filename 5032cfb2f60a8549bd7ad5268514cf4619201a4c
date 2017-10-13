@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "245f51c1_85fa89c2",
+        "filename": "src/reflect/all_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-13T00:34:26Z",
+      "side": 1,
+      "message": "The usual convention, not strictly adhered to, is to say what you got first, then what you want.\n    got n \u003d %d s \u003d %v, want n \u003d 0 s \u003d %v",
+      "range": {
+        "startLine": 676,
+        "startChar": 12,
+        "endLine": 676,
+        "endChar": 55
+      },
+      "revId": "5032cfb2f60a8549bd7ad5268514cf4619201a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af49703a_a17e0f1f",
+        "filename": "src/reflect/value.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1868,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-13T00:34:26Z",
+      "side": 1,
+      "message": "Since this Copy function, unlike the language\u0027s copy function, accepts arrays, we should probably also permit copying a string into an array of byte.  And with that I think it would be clearer to not write a special case at the top but to instead permit sk \u003d\u003d String (when dst is Slice/Array Uint8) and handle it below.",
+      "revId": "5032cfb2f60a8549bd7ad5268514cf4619201a4c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
