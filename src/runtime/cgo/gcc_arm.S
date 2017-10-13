@@ -35,6 +35,7 @@ EXT(crosscall_arm1):
 	.word 0xe12fff34 // blx r4 // fn()
 
 	pop {r4, r5, r6, r7, r8, r9, r10, r11, ip, pc}
+	ret
 
 
 #ifdef __ELF__
