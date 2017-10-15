@@ -58,7 +58,7 @@ func (r *Reader) readForm(maxMemory int64) (_ *Form, err error) {
 
 		var b bytes.Buffer
 
-		if filename == "" {
+		if _, ok := p.Header["Content-Type"]; !ok {
 			// value, store as string in memory
 			n, err := io.CopyN(&b, p, maxValueBytes+1)
 			if err != nil && err != io.EOF {
