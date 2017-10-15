@@ -34,6 +34,24 @@
       "revId": "fd9fac2c7c9ca94795cfcb1270c8373d645af17b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5fdd0b4_aaf77e9e",
+        "filename": "src/cmd/link/internal/loadpe/ldpe.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-10-15T00:09:42Z",
+      "side": 0,
+      "message": "SGTM. Thanks for explaining.\n\nAlex",
+      "parentUuid": "b9854132_e36e2f33",
+      "revId": "fd9fac2c7c9ca94795cfcb1270c8373d645af17b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
