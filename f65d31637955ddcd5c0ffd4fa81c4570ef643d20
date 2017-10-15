@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88337fa0_1fb60241",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-10-15T07:13:24Z",
+      "side": 1,
+      "message": "Missing space, could we make it consistent with the usage of \"// Output\"\nso:\n// Output: Hello Gophers",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 33,
+        "endChar": 9
+      },
+      "revId": "f65d31637955ddcd5c0ffd4fa81c4570ef643d20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "012c16f6_cdc55e19",
+        "filename": "src/fmt/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-10-15T07:13:24Z",
+      "side": 1,
+      "message": "Same thing here about the missing space between // and Output, so:\n// Output: Hello Gopher",
+      "revId": "f65d31637955ddcd5c0ffd4fa81c4570ef643d20",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
