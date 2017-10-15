@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4215426_c0c22437",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-15T02:17:55Z",
+      "side": 1,
+      "message": "I think you can rename \"i1\" to \"i\", and \"n1\" to \"m\".",
+      "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8518dc41_8a2f8db7",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-15T02:17:55Z",
+      "side": 1,
+      "message": "Lines 460-463 are identical to lines 465-470. We could reorganize this like:\n\n    switch {\n    case m.Op \u003d\u003d OINDEXMAP:\n        if !m.Left.IsAutoTmp() { ... }\n        if !m.Right.IsAutoTmp() { ... }\n        fallthrough\n    case instrumenting \u0026\u0026 n.Op \u003d\u003d OAS2FUNC \u0026\u0026 !isblank(m):\n        t :\u003d ordertemp(...)\n        ...\n    }",
+      "range": {
+        "startLine": 460,
+        "startChar": 4,
+        "endLine": 463,
+        "endChar": 26
+      },
+      "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb0e495_13664163",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-15T02:17:55Z",
+      "side": 1,
+      "message": "n.List.Index(i1) is m.",
+      "range": {
+        "startLine": 464,
+        "startChar": 59,
+        "endLine": 464,
+        "endChar": 75
+      },
+      "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86d46904_35b96aae",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-15T02:17:55Z",
+      "side": 1,
+      "message": "You can move\n\n    if len(all) \u003d\u003d 1 {\n        return all\n    }\n\nat the very top, before the \"range all\" loop.",
+      "range": {
+        "startLine": 2349,
+        "startChar": 22,
+        "endLine": 2349,
+        "endChar": 35
+      },
+      "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
