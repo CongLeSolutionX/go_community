@@ -508,6 +508,7 @@ func TestInterfaceAddrsWithNetsh(t *testing.T) {
 func checkGetmac(t *testing.T) {
 	out, err := runCmd("getmac", "/?")
 	if err != nil {
+		t.Logf("getmac outputBytes: %x\nstr: %q", err.Error(), err.Error())
 		if strings.Contains(err.Error(), "term 'getmac' is not recognized as the name of a cmdlet") {
 			t.Skipf("getmac not available")
 		}
