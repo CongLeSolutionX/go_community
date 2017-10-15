@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "25836a46_b19cee93",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-10-15T17:15:52Z",
+      "side": 1,
+      "message": "Whoops, I misread the code. Which also explains the failure. You\u0027re right.",
+      "parentUuid": "bb090081_9c02a322",
+      "range": {
+        "startLine": 460,
+        "startChar": 4,
+        "endLine": 463,
+        "endChar": 26
+      },
+      "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dbb0e495_13664163",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 1
