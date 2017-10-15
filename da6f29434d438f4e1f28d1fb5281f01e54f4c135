@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3d9a5432_d17144df",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-10-15T01:09:50Z",
+      "side": 1,
+      "message": "Indeed.",
+      "parentUuid": "63d404f0_15097b32",
+      "range": {
+        "startLine": 529,
+        "startChar": 22,
+        "endLine": 529,
+        "endChar": 31
+      },
+      "revId": "da6f29434d438f4e1f28d1fb5281f01e54f4c135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4929a384_9a712900",
         "filename": "src/crypto/elliptic/elliptic_test.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "da6f29434d438f4e1f28d1fb5281f01e54f4c135",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bb97e1e_2f6a286c",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-10-15T01:09:50Z",
+      "side": 1,
+      "message": "I found a point with a y small enough such that p+y\u003c2^256.",
+      "parentUuid": "4929a384_9a712900",
+      "range": {
+        "startLine": 546,
+        "startChar": 32,
+        "endLine": 546,
+        "endChar": 110
+      },
+      "revId": "da6f29434d438f4e1f28d1fb5281f01e54f4c135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
