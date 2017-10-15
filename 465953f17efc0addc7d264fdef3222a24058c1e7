@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6b9a792f_d577b068",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-10-15T16:51:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f4215426_c0c22437",
+      "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8518dc41_8a2f8db7",
         "filename": "src/cmd/compile/internal/gc/order.go",
         "patchSetId": 1
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-15T02:17:55Z",
       "side": 1,
       "message": "Lines 460-463 are identical to lines 465-470. We could reorganize this like:\n\n    switch {\n    case m.Op \u003d\u003d OINDEXMAP:\n        if !m.Left.IsAutoTmp() { ... }\n        if !m.Right.IsAutoTmp() { ... }\n        fallthrough\n    case instrumenting \u0026\u0026 n.Op \u003d\u003d OAS2FUNC \u0026\u0026 !isblank(m):\n        t :\u003d ordertemp(...)\n        ...\n    }",
+      "range": {
+        "startLine": 460,
+        "startChar": 4,
+        "endLine": 463,
+        "endChar": 26
+      },
+      "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb090081_9c02a322",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-10-15T16:51:58Z",
+      "side": 1,
+      "message": "But they\u0027re not the same. One does nod(OAS, m, m), the other does nod(OAS, m, t). Otherwise they do seem the same.",
+      "parentUuid": "8518dc41_8a2f8db7",
       "range": {
         "startLine": 460,
         "startChar": 4,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "468c24b0_f0005504",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-10-15T16:51:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dbb0e495_13664163",
+      "range": {
+        "startLine": 464,
+        "startChar": 59,
+        "endLine": 464,
+        "endChar": 75
+      },
+      "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86d46904_35b96aae",
         "filename": "src/cmd/compile/internal/gc/walk.go",
         "patchSetId": 1
@@ -85,6 +151,30 @@
       "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33866c80_f2ef4c58",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2349,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-10-15T16:51:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "86d46904_35b96aae",
+      "range": {
+        "startLine": 2349,
+        "startChar": 22,
+        "endLine": 2349,
+        "endChar": 35
+      },
+      "revId": "465953f17efc0addc7d264fdef3222a24058c1e7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
