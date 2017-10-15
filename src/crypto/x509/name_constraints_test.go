@@ -10,6 +10,7 @@ import (
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/x509/pkix"
+	"encoding/asn1"
 	"encoding/pem"
 	"fmt"
 	"io/ioutil"
@@ -40,14 +41,20 @@ const (
 type nameConstraintsTest struct {
 	roots         []constraintsSpec
 	intermediates [][]constraintsSpec
-	leaf          []string
+	leaf          leafSpec
 	expectedError string
 	noOpenSSL     bool
 }
 
 type constraintsSpec struct {
-	ok  []string
-	bad []string
+	ok   []string
+	bad  []string
+	ekus []string
+}
+
+type leafSpec struct {
+	sans []string
+	ekus []string
 }
 
 var nameConstraintsTests = []nameConstraintsTest{
@@ -56,7 +63,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 		roots: []constraintsSpec{
 			constraintsSpec{},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #1: dummy test for the certificate generation process itself: single
@@ -70,7 +79,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #2: dummy test for the certificate generation process itself: two
@@ -87,7 +98,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #3: matching DNS constraint in root
@@ -102,7 +115,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #4: matching DNS constraint in intermediate.
@@ -117,7 +132,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #5: .example.com only matches subdomains.
@@ -132,7 +149,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 		expectedError: "\"example.com\" is not permitted",
 	},
 
@@ -148,7 +167,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf: []string{"dns:foo.example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.example.com"},
+		},
 	},
 
 	// #7: .example.com matches multiple levels of subdomains
@@ -163,7 +184,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:foo.bar.example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.bar.example.com"},
+		},
 	},
 
 	// #8: specifying a permitted list of names does not exclude other name
@@ -179,7 +202,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"ip:10.1.1.1"},
+		leaf: leafSpec{
+			sans: []string{"ip:10.1.1.1"},
+		},
 	},
 
 	// #9: specifying a permitted list of names does not exclude other name
@@ -195,7 +220,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #10: intermediates can try to permit other names, which isn't
@@ -214,7 +241,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #11: intermediates cannot add permitted names that the root doesn't
@@ -232,7 +261,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf:          []string{"dns:foo.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.com"},
+		},
 		expectedError: "\"foo.com\" is not permitted",
 	},
 
@@ -250,7 +281,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf: []string{"dns:foo.bar.example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.bar.example.com"},
+		},
 	},
 
 	// #13: intermediates can further limit their scope and that limitation
@@ -268,7 +301,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf:          []string{"dns:foo.notbar.example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.notbar.example.com"},
+		},
 		expectedError: "\"foo.notbar.example.com\" is not permitted",
 	},
 
@@ -284,7 +319,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:foo.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.com"},
+		},
 	},
 
 	// #15: roots exclusions are effective.
@@ -299,7 +336,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"dns:foo.example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.example.com"},
+		},
 		expectedError: "\"foo.example.com\" is excluded",
 	},
 
@@ -316,7 +355,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf: []string{"dns:foo.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.com"},
+		},
 	},
 
 	// #17: intermediate exclusions are effective.
@@ -331,7 +372,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf:          []string{"dns:foo.example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.example.com"},
+		},
 		expectedError: "\"foo.example.com\" is excluded",
 	},
 
@@ -347,7 +390,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:foo.com", "ip:10.1.1.1"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.com", "ip:10.1.1.1"},
+		},
 	},
 
 	// #19: IP-based exclusions are permitted and don't affect unrelated IP
@@ -363,7 +408,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"ip:192.168.1.1"},
+		leaf: leafSpec{
+			sans: []string{"ip:192.168.1.1"},
+		},
 	},
 
 	// #20: IP-based exclusions are effective
@@ -378,7 +425,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"ip:10.0.0.1"},
+		leaf: leafSpec{
+			sans: []string{"ip:10.0.0.1"},
+		},
 		expectedError: "\"10.0.0.1\" is excluded",
 	},
 
@@ -396,7 +445,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf:          []string{"ip:11.0.0.1"},
+		leaf: leafSpec{
+			sans: []string{"ip:11.0.0.1"},
+		},
 		expectedError: "\"11.0.0.1\" is excluded",
 	},
 
@@ -416,7 +467,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf:      []string{"dns:foo.example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.example.com"},
+		},
 		noOpenSSL: true, // OpenSSL's chain building is not informed by constraints.
 	},
 
@@ -436,7 +489,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf:      []string{"dns:foo.example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:foo.example.com"},
+		},
 		noOpenSSL: true, // OpenSSL's chain building is not informed by constraints.
 	},
 
@@ -454,7 +509,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:      []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 		noOpenSSL: true, // OpenSSL's chain building is not informed by constraints.
 	},
 
@@ -472,7 +529,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:      []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 		noOpenSSL: true, // OpenSSL's chain building is not informed by constraints.
 	},
 
@@ -502,7 +561,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf:      []string{"dns:bar.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:bar.com"},
+		},
 		noOpenSSL: true, // OpenSSL's chain building is not informed by constraints.
 	},
 
@@ -532,7 +593,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				},
 			},
 		},
-		leaf:          []string{"dns:bar.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:bar.com"},
+		},
 		expectedError: "\"bar.com\" is not permitted",
 	},
 
@@ -546,7 +609,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"unknown:"},
+		leaf: leafSpec{
+			sans: []string{"unknown:"},
+		},
 	},
 
 	// #29: unknown name types are allowed even in constrained chains.
@@ -561,7 +626,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"unknown:"},
+		leaf: leafSpec{
+			sans: []string{"unknown:"},
+		},
 	},
 
 	// #30: without SANs, a certificate is rejected in a constrained chain.
@@ -576,7 +643,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{},
+		leaf: leafSpec{
+			sans: []string{},
+		},
 		expectedError: "leaf doesn't have a SAN extension",
 		noOpenSSL:     true, // OpenSSL doesn't require SANs in this case.
 	},
@@ -594,7 +663,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"ip:2000:abcd:1234::"},
+		leaf: leafSpec{
+			sans: []string{"ip:2000:abcd:1234::"},
+		},
 	},
 
 	// #32: IPv6 addresses work in constraints: root restrictions are
@@ -610,7 +681,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"ip:2000:1234:abcd::"},
+		leaf: leafSpec{
+			sans: []string{"ip:2000:1234:abcd::"},
+		},
 		expectedError: "\"2000:1234:abcd::\" is not permitted",
 	},
 
@@ -626,7 +699,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"ip:2000:abcd::", "dns:foo.com"},
+		leaf: leafSpec{
+			sans: []string{"ip:2000:abcd::", "dns:foo.com"},
+		},
 	},
 
 	// #34: IPv6 exclusions don't affect unrelated addresses.
@@ -641,7 +716,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"ip:2000:1234::"},
+		leaf: leafSpec{
+			sans: []string{"ip:2000:1234::"},
+		},
 	},
 
 	// #35: IPv6 exclusions are effective.
@@ -656,7 +733,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"ip:2000:abcd::"},
+		leaf: leafSpec{
+			sans: []string{"ip:2000:abcd::"},
+		},
 		expectedError: "\"2000:abcd::\" is excluded",
 	},
 
@@ -672,7 +751,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"ip:10.0.0.1"},
+		leaf: leafSpec{
+			sans: []string{"ip:10.0.0.1"},
+		},
 		expectedError: "\"10.0.0.1\" is not permitted",
 	},
 
@@ -688,7 +769,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"ip:2000:abcd::"},
+		leaf: leafSpec{
+			sans: []string{"ip:2000:abcd::"},
+		},
 		expectedError: "\"2000:abcd::\" is not permitted",
 	},
 
@@ -704,7 +787,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #39: a permitted subtree of an unknown type doesn't affect other
@@ -720,7 +805,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #40: exact email constraints work
@@ -735,7 +822,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"email:foo@example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:foo@example.com"},
+		},
 	},
 
 	// #41: exact email constraints are effective
@@ -750,7 +839,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"email:bar@example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:bar@example.com"},
+		},
 		expectedError: "\"bar@example.com\" is not permitted",
 	},
 
@@ -766,7 +857,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:      []string{"email:\"\\f\\o\\o\"@example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:\"\\f\\o\\o\"@example.com"},
+		},
 		noOpenSSL: true, // OpenSSL doesn't canonicalise email addresses before matching
 	},
 
@@ -782,7 +875,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"email:foo@example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:foo@example.com"},
+		},
 	},
 
 	// #44: a leading dot matches hosts one level deep
@@ -797,7 +892,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"email:foo@sub.example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:foo@sub.example.com"},
+		},
 	},
 
 	// #45: a leading dot does not match the host itself
@@ -812,7 +909,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"email:foo@example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:foo@example.com"},
+		},
 		expectedError: "\"foo@example.com\" is not permitted",
 	},
 
@@ -828,7 +927,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"email:foo@sub.sub.example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:foo@sub.sub.example.com"},
+		},
 	},
 
 	// #47: the local part of an email is case-sensitive
@@ -843,7 +944,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"email:Foo@example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:Foo@example.com"},
+		},
 		expectedError: "\"Foo@example.com\" is not permitted",
 	},
 
@@ -859,7 +962,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"email:foo@example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:foo@example.com"},
+		},
 	},
 
 	// #49: the domain part of a DNS constraint is also not case-sensitive.
@@ -874,7 +979,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 	},
 
 	// #50: trailing dots don't confuse DNS matches
@@ -889,7 +996,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:      []string{"dns:example.com"},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+		},
 		noOpenSSL: true, // OpenSSL doesn't canonicalise domain names before matching
 	},
 
@@ -905,7 +1014,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:      []string{"email:foo@example.com"},
+		leaf: leafSpec{
+			sans: []string{"email:foo@example.com"},
+		},
 		noOpenSSL: true, // OpenSSL doesn't canonicalise domain names before matching
 	},
 
@@ -921,11 +1032,13 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{
-			"uri:http://example.com/bar",
-			"uri:http://example.com:8080/",
-			"uri:https://example.com./",
-			"uri:https://example.com./wibble#bar",
+		leaf: leafSpec{
+			sans: []string{
+				"uri:http://example.com/bar",
+				"uri:http://example.com:8080/",
+				"uri:https://example.com./",
+				"uri:https://example.com./wibble#bar",
+			},
 		},
 	},
 
@@ -941,7 +1054,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"uri:http://1.2.3.4/"},
+		leaf: leafSpec{
+			sans: []string{"uri:http://1.2.3.4/"},
+		},
 		expectedError: "URI with IP",
 	},
 
@@ -957,7 +1072,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"uri:http://1.2.3.4:43/"},
+		leaf: leafSpec{
+			sans: []string{"uri:http://1.2.3.4:43/"},
+		},
 		expectedError: "URI with IP",
 	},
 
@@ -973,7 +1090,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"uri:http://[2006:abcd::1]/"},
+		leaf: leafSpec{
+			sans: []string{"uri:http://[2006:abcd::1]/"},
+		},
 		expectedError: "URI with IP",
 	},
 
@@ -989,7 +1108,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"uri:http://[2006:abcd::1]:16/"},
+		leaf: leafSpec{
+			sans: []string{"uri:http://[2006:abcd::1]:16/"},
+		},
 		expectedError: "URI with IP",
 	},
 
@@ -1005,7 +1126,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"uri:http://bar.com/"},
+		leaf: leafSpec{
+			sans: []string{"uri:http://bar.com/"},
+		},
 		expectedError: "\"http://bar.com/\" is not permitted",
 	},
 
@@ -1021,7 +1144,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"uri:http://foo.com/"},
+		leaf: leafSpec{
+			sans: []string{"uri:http://foo.com/"},
+		},
 		expectedError: "\"http://foo.com/\" is excluded",
 	},
 
@@ -1037,7 +1162,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf: []string{"uri:http://www.foo.com/"},
+		leaf: leafSpec{
+			sans: []string{"uri:http://www.foo.com/"},
+		},
 	},
 
 	// #60: excluding an IPv4-mapped-IPv6 address also excludes the IPv4
@@ -1053,7 +1180,9 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"ip:1.2.3.4"},
+		leaf: leafSpec{
+			sans: []string{"ip:1.2.3.4"},
+		},
 		expectedError: "\"1.2.3.4\" is excluded",
 	},
 
@@ -1070,8 +1199,168 @@ var nameConstraintsTests = []nameConstraintsTest{
 				constraintsSpec{},
 			},
 		},
-		leaf:          []string{"ip:::ffff:1.2.3.4"},
+		leaf: leafSpec{
+			sans: []string{"ip:::ffff:1.2.3.4"},
+		},
 		expectedError: "\"1.2.3.4\" is excluded",
+	},
+
+	// #62: omitting extended key usage in a CA certificate implies that
+	// any usage is ok.
+	nameConstraintsTest{
+		roots: []constraintsSpec{
+			constraintsSpec{},
+		},
+		intermediates: [][]constraintsSpec{
+			[]constraintsSpec{
+				constraintsSpec{},
+			},
+		},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+			ekus: []string{"serverAuth", "other"},
+		},
+	},
+
+	// #63: The “any” EKU also means that any usage is ok.
+	nameConstraintsTest{
+		roots: []constraintsSpec{
+			constraintsSpec{},
+		},
+		intermediates: [][]constraintsSpec{
+			[]constraintsSpec{
+				constraintsSpec{
+					ekus: []string{"any"},
+				},
+			},
+		},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+			ekus: []string{"serverAuth", "other"},
+		},
+	},
+
+	// #64: A specified key usage in an intermediate forbids other usages
+	// in the leaf.
+	nameConstraintsTest{
+		roots: []constraintsSpec{
+			constraintsSpec{},
+		},
+		intermediates: [][]constraintsSpec{
+			[]constraintsSpec{
+				constraintsSpec{
+					ekus: []string{"email"},
+				},
+			},
+		},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+			ekus: []string{"serverAuth"},
+		},
+		expectedError: "EKU not permitted",
+	},
+
+	// #65: A specified key usage in an intermediate forbids other usages
+	// in the leaf, even if we don't recognise them.
+	nameConstraintsTest{
+		roots: []constraintsSpec{
+			constraintsSpec{},
+		},
+		intermediates: [][]constraintsSpec{
+			[]constraintsSpec{
+				constraintsSpec{
+					ekus: []string{"email"},
+				},
+			},
+		},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+			ekus: []string{"other"},
+		},
+		expectedError: "EKU not permitted",
+	},
+
+	// #66: trying to add extra permitted key usages in an intermediate
+	// (after a limitation in the root) is acceptable so long as the leaf
+	// certificate doesn't use them.
+	nameConstraintsTest{
+		roots: []constraintsSpec{
+			constraintsSpec{
+				ekus: []string{"serverAuth"},
+			},
+		},
+		intermediates: [][]constraintsSpec{
+			[]constraintsSpec{
+				constraintsSpec{
+					ekus: []string{"serverAuth", "email"},
+				},
+			},
+		},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+			ekus: []string{"serverAuth"},
+		},
+	},
+
+	// #67: trying to add extra permitted key usages in an intermediate
+	// (after a limitation in the root) doesn't allow those usages in a
+	// leaf.
+	nameConstraintsTest{
+		roots: []constraintsSpec{
+			constraintsSpec{
+				ekus: []string{"serverAuth"},
+			},
+		},
+		intermediates: [][]constraintsSpec{
+			[]constraintsSpec{
+				constraintsSpec{
+					ekus: []string{"serverAuth", "email"},
+				},
+			},
+		},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+			ekus: []string{"serverAuth", "email"},
+		},
+		expectedError: "EKU not permitted",
+	},
+
+	// #68: in order to support COMODO chains, SGC key usages permit
+	// serverAuth and clientAuth.
+	nameConstraintsTest{
+		roots: []constraintsSpec{
+			constraintsSpec{},
+		},
+		intermediates: [][]constraintsSpec{
+			[]constraintsSpec{
+				constraintsSpec{
+					ekus: []string{"netscapeSGC"},
+				},
+			},
+		},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+			ekus: []string{"serverAuth", "clientAuth"},
+		},
+	},
+
+	// #69: in order to support COMODO chains, SGC key usages permit
+	// serverAuth and clientAuth.
+	nameConstraintsTest{
+		roots: []constraintsSpec{
+			constraintsSpec{},
+		},
+		intermediates: [][]constraintsSpec{
+			[]constraintsSpec{
+				constraintsSpec{
+					ekus: []string{"msSGC"},
+				},
+			},
+		},
+		leaf: leafSpec{
+			sans: []string{"dns:example.com"},
+			ekus: []string{"serverAuth", "clientAuth"},
+		},
 	},
 }
 
@@ -1185,10 +1474,39 @@ func addConstraintsToTemplate(constraints constraintsSpec, template *Certificate
 		})
 	}
 
+	if template.ExtKeyUsage, template.UnknownExtKeyUsage, err = parseEKUs(constraints.ekus); err != nil {
+		return err
+	}
+
 	return nil
 }
 
-func TestNameConstraintCases(t *testing.T) {
+func parseEKUs(ekuStrs []string) (ekus []ExtKeyUsage, unknowns []asn1.ObjectIdentifier, err error) {
+	for _, s := range ekuStrs {
+		switch s {
+		case "serverAuth":
+			ekus = append(ekus, ExtKeyUsageServerAuth)
+		case "clientAuth":
+			ekus = append(ekus, ExtKeyUsageClientAuth)
+		case "email":
+			ekus = append(ekus, ExtKeyUsageEmailProtection)
+		case "netscapeSGC":
+			ekus = append(ekus, ExtKeyUsageNetscapeServerGatedCrypto)
+		case "msSGC":
+			ekus = append(ekus, ExtKeyUsageMicrosoftServerGatedCrypto)
+		case "any":
+			ekus = append(ekus, ExtKeyUsageAny)
+		case "other":
+			unknowns = append(unknowns, asn1.ObjectIdentifier{2, 4, 1, 2, 3})
+		default:
+			return nil, nil, fmt.Errorf("unknown EKU %q", s)
+		}
+	}
+
+	return
+}
+
+func TestConstraintCases(t *testing.T) {
 	privateKeys := sync.Pool{
 		New: func() interface{} {
 			priv, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
@@ -1268,7 +1586,7 @@ func TestNameConstraintCases(t *testing.T) {
 			IsCA: false,
 		}
 
-		for _, name := range test.leaf {
+		for _, name := range test.leaf.sans {
 			switch {
 			case strings.HasPrefix(name, "dns:"):
 				template.DNSNames = append(template.DNSNames, name[4:])
@@ -1294,7 +1612,7 @@ func TestNameConstraintCases(t *testing.T) {
 				// This is a special case for testing unknown
 				// name types. A custom SAN extension is
 				// injected into the certificate.
-				if len(test.leaf) != 1 {
+				if len(test.leaf.sans) != 1 {
 					panic("when using unknown name types, it must be the sole name")
 				}
 
@@ -1312,6 +1630,11 @@ func TestNameConstraintCases(t *testing.T) {
 			default:
 				t.Fatalf("#%d: unknown name type %q", i, name)
 			}
+		}
+
+		var err error
+		if template.ExtKeyUsage, template.UnknownExtKeyUsage, err = parseEKUs(test.leaf.ekus); err != nil {
+			t.Fatalf("#%d: cannot create leaf: %s", i, err)
 		}
 
 		derBytes, err := CreateCertificate(rand.Reader, template, parent, &leafKey.PublicKey, parentKey)
