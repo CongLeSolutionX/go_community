@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d983640_1e2afef6",
+        "filename": "src/net/http/header.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-16T17:13:01Z",
+      "side": 1,
+      "message": "We cannot change this public method. See the Go 1 API compatibility guarantee. This will have to be done inside net/http/transport.go.",
+      "revId": "13802d2a0b357092e8e144406bad435fe391d66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
