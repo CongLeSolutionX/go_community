@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ed13fc2_f40c189f",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-16T04:06:42Z",
+      "side": 1,
+      "message": "The original code would seem to require\n    m.s.Type \u003d sym.SWINDOWS\nhere.",
+      "revId": "d4a53806f209bec3d4650051b1616eaf1fbca637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
