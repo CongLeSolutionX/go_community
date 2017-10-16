@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "572f2439_ef76ba0c",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-16T22:21:37Z",
+      "side": 1,
+      "message": "That is a surprisingly complex question.  When saving SSE registers on the stack, the stack must be aligned.  But of course historically 386 stacks are only aligned to a 4-byte boundary.  So GCC sets the default stack alignment to a 16-byte boundary, and adds code to the main function that realigns the stack if necessary.  That means that as long as you stay within GCC-compiled code, you will be using a 16-byte boundary stack.  GCC also provides a -mstackrealign option, and a force_align_arg_pointer function attribute, that you can use to compile specific functions to realign the stack if necessary.  So it is correct for asmcgocall in asm_386.s to align the stack.  Of course we could modify cgo to add the force_align_arg_pointer to the generated functions, but aligning the stack seems simpler.\n\nIn practice 386 functions rarely save SSE (or AVX) registers to the stack, so in practice it\u0027s usually OK to call a 386 function with a misaligned stack.  And historically that is what we have been doing in this code, which is why I left it as a TODO.",
+      "parentUuid": "ac605b76_d9e6d875",
+      "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71c2df6c_cdc7ec0c",
         "filename": "src/runtime/rt0_android_386.s",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5298537_cef5600e",
+        "filename": "src/runtime/rt0_android_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-16T22:21:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71c2df6c_cdc7ec0c",
+      "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "c44f6851_315ec1fc",
+        "filename": "src/runtime/rt0_android_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-16T22:21:37Z",
+      "side": 1,
+      "message": "Yes: the main symbol is for external linking.",
+      "parentUuid": "08158562_c0c1d207",
+      "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6b6e56f_41f25a34",
         "filename": "src/runtime/rt0_windows_386.s",
         "patchSetId": 6
@@ -64,6 +118,24 @@
       "writtenOn": "2017-10-16T19:31:31Z",
       "side": 1,
       "message": "This doesn\u0027t appear to be equivalent. The arguments were being loaded from 12(SP) and 16(SP), but _rt0_386 loads them from 8(SP) and 12(SP). Also, the frame size of this is still 12, which I think will make the stack references extra wrong.",
+      "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2022e25a_a04f7837",
+        "filename": "src/runtime/rt0_windows_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-16T22:21:37Z",
+      "side": 1,
+      "message": "I fixed the frame size (not sure how it was working).  Other than that I think the code winds up being equivalent.  Either way the values are loaded from FRAMESIZE(SP).",
+      "parentUuid": "d6b6e56f_41f25a34",
       "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true

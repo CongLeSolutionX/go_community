@@ -16,6 +16,24 @@
       "revId": "31cd20a70e22eeaba287067265fadb57df134b82",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fc24a7b_9c81d276",
+        "filename": "src/runtime/rt0_android_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-16T22:21:37Z",
+      "side": 0,
+      "message": "Whoops, restored.",
+      "parentUuid": "95f0a37c_628d52fa",
+      "revId": "31cd20a70e22eeaba287067265fadb57df134b82",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
