@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0db5908f_6dc250b5",
+        "filename": "src/cmd/internal/obj/x86/aenum.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-16T20:13:50Z",
+      "side": 1,
+      "message": "This needs a \"generated file\" header, even though this is not generated at the moment. Then the header will be preserved in the update with x86avxgen. Otherwise, you\u0027ll need to generate the header in x86avxgen.",
+      "revId": "dbe05fd7d307df293d90b9acb937cab18ea3fb7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
