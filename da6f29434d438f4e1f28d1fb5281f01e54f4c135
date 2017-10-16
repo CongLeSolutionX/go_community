@@ -117,6 +117,30 @@
       "revId": "da6f29434d438f4e1f28d1fb5281f01e54f4c135",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13fcf191_051930a1",
+        "filename": "src/crypto/elliptic/elliptic_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-10-16T16:11:45Z",
+      "side": 1,
+      "message": "One machine, two hours :)",
+      "parentUuid": "bf50368e_70588ac5",
+      "range": {
+        "startLine": 546,
+        "startChar": 32,
+        "endLine": 546,
+        "endChar": 110
+      },
+      "revId": "da6f29434d438f4e1f28d1fb5281f01e54f4c135",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
