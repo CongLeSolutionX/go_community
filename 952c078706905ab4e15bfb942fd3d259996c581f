@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c2d4ff3b_905a2ba9",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done. ast.File documentation says these should be in order. Agree that it\u0027s good to document and verify this assumption though. Does log.Fatalf make sense here?",
+      "parentUuid": "8a961ce4_7dbccf8f",
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2848850a_60b4dd83",
         "filename": "src/cmd/cover/cover.go",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2017-10-16T18:23:00Z",
       "side": 1,
       "message": "The only thing that may show up here are BadDecls. Add a comment to that effect.",
+      "range": {
+        "startLine": 283,
+        "startChar": 3,
+        "endLine": 283,
+        "endChar": 11
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34eb07d2_7604fe5c",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2848850a_60b4dd83",
       "range": {
         "startLine": 283,
         "startChar": 3,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "57245ef8_45daaaa2",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7432c96a_c0503253",
+      "range": {
+        "startLine": 292,
+        "startChar": 37,
+        "endLine": 292,
+        "endChar": 48
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12a9b2bf_7be964be",
         "filename": "src/cmd/cover/cover.go",
         "patchSetId": 5
@@ -76,6 +142,30 @@
       "writtenOn": "2017-10-16T18:23:00Z",
       "side": 1,
       "message": "I know we\u0027re not consistent with this, but I think we tend to call these things \"directives\" rather than \"pragmas\".",
+      "range": {
+        "startLine": 445,
+        "startChar": 3,
+        "endLine": 445,
+        "endChar": 11
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6cd3583_79650310",
+        "filename": "src/cmd/cover/cover.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Globally renamed back to directives. I was basing this on references to pragmas in the compiler\u0027s parser. There\u0027s not much public documentation either way.",
+      "parentUuid": "12a9b2bf_7be964be",
       "range": {
         "startLine": 445,
         "startChar": 3,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "2ebe3355_6b6f8af3",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4087c6f_059c7bfc",
+      "range": {
+        "startLine": 96,
+        "startChar": 49,
+        "endLine": 96,
+        "endChar": 50
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93902863_951d6041",
         "filename": "src/cmd/cover/cover_test.go",
         "patchSetId": 5
@@ -122,6 +236,30 @@
       "writtenOn": "2017-10-16T18:23:00Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 100,
+        "startChar": 64,
+        "endLine": 100,
+        "endChar": 68
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d351a38_82da1e54",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93902863_951d6041",
       "range": {
         "startLine": 100,
         "startChar": 64,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "4fc2fca1_d7c96a6f",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4460f55_f9ebd85e",
+      "range": {
+        "startLine": 106,
+        "startChar": 55,
+        "endLine": 106,
+        "endChar": 59
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d86e16c0_e921fe1f",
         "filename": "src/cmd/cover/cover_test.go",
         "patchSetId": 5
@@ -168,6 +330,30 @@
       "writtenOn": "2017-10-16T18:23:00Z",
       "side": 1,
       "message": "why don\u0027t you just report the error? (no need to collect them first)",
+      "range": {
+        "startLine": 149,
+        "startChar": 3,
+        "endLine": 149,
+        "endChar": 10
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a1e836c_88409d53",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d86e16c0_e921fe1f",
       "range": {
         "startLine": 149,
         "startChar": 3,
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "3731d191_7101a8eb",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Added cases for unknown. The test data has an empty decl and a decl with multiple types. I\u0027m not testing non-function, non-type declarations, since there aren\u0027t any pragmas for them.",
+      "parentUuid": "79ecab43_da1f4529",
+      "range": {
+        "startLine": 172,
+        "startChar": 12,
+        "endLine": 172,
+        "endChar": 17
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0b26b26a_0bf8bebb",
         "filename": "src/cmd/cover/cover_test.go",
         "patchSetId": 5
@@ -214,6 +424,30 @@
       "writtenOn": "2017-10-16T18:23:00Z",
       "side": 1,
       "message": "i \u003c 0\n\n(Personal preference: I don\u0027t like testing against -1 in cases like this. Using -1 implies that there\u0027s a special meaning to the value; and that perhaps -2 means something else. But we only care about the fact that there\u0027s no valid index. All indices \u003c 0 are not valid; so let\u0027s just check that. A nice side effect is that testing against 0 rather than -1 produces better code because CPUs usually have instructions testing against 0, and no constant -1 has to be loaded.)",
+      "range": {
+        "startLine": 209,
+        "startChar": 7,
+        "endLine": 209,
+        "endChar": 8
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43b5c841_880383fa",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b26b26a_0bf8bebb",
       "range": {
         "startLine": 209,
         "startChar": 7,
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "2c3de602_78b02e8a",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "I ended up just incrementing i. It feels more natural for it to point to the beginning of the comment, but I need to continue matching the newline before the comment.",
+      "parentUuid": "7b450ef6_67bb457d",
+      "range": {
+        "startLine": 212,
+        "startChar": 22,
+        "endLine": 212,
+        "endChar": 23
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b33bfda6_1f0f6fd0",
         "filename": "src/cmd/cover/cover_test.go",
         "patchSetId": 5
@@ -272,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "a88eaa38_df4983a7",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b33bfda6_1f0f6fd0",
+      "range": {
+        "startLine": 214,
+        "startChar": 9,
+        "endLine": 214,
+        "endChar": 10
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34c3d953_73f11d09",
         "filename": "src/cmd/cover/cover_test.go",
         "patchSetId": 5
@@ -283,6 +565,30 @@
       "writtenOn": "2017-10-16T18:23:00Z",
       "side": 1,
       "message": "add a comment: // reached EOF",
+      "range": {
+        "startLine": 215,
+        "startChar": 10,
+        "endLine": 215,
+        "endChar": 11
+      },
+      "revId": "952c078706905ab4e15bfb942fd3d259996c581f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0565858_2fe29ad5",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 17092
+      },
+      "writtenOn": "2017-10-16T21:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34c3d953_73f11d09",
       "range": {
         "startLine": 215,
         "startChar": 10,
