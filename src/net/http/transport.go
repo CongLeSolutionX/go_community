@@ -38,7 +38,8 @@ import (
 // as directed by the $HTTP_PROXY and $NO_PROXY (or $http_proxy and
 // $no_proxy) environment variables.
 var DefaultTransport RoundTripper = &Transport{
-	Proxy: ProxyFromEnvironment,
+	Proxy:      ProxyFromEnvironment,
+	ProxySetup: DefaultProxySetup,
 	DialContext: (&net.Dialer{
 		Timeout:   30 * time.Second,
 		KeepAlive: 30 * time.Second,
@@ -96,6 +97,9 @@ type Transport struct {
 	//
 	// If Proxy is nil or returns a nil *URL, no proxy is used.
 	Proxy func(*Request) (*url.URL, error)
+
+	// ProxySetup specifies setup function to setup the proxy connection.
+	ProxySetup func(ctx ProxySetupContext) error
 
 	// DialContext specifies the dial function for creating unencrypted TCP connections.
 	// If DialContext is nil (and the deprecated Dial below is also nil),
@@ -297,6 +301,45 @@ func ProxyFromEnvironment(req *Request) (*url.URL, error) {
 		return nil, fmt.Errorf("invalid proxy address %q: %v", proxy, err)
 	}
 	return proxyURL, nil
+}
+
+// ProxySetupContext contains all necessary information to setup a proxy
+// connection.
+type ProxySetupContext struct {
+	TargetScheme       string
+	TargetAddr         string
+	Conn               net.Conn // TCP connection to the proxy
+	ProxyAuth          string
+	ProxyConnectHeader Header
+}
+
+// DefaultProxySetup is the default function to setup the proxy connection.
+func DefaultProxySetup(ctx ProxySetupContext) error {
+	switch {
+	case ctx.TargetScheme == "https":
+		connectReq := &Request{
+			Method: "CONNECT",
+			URL:    &url.URL{Opaque: ctx.TargetAddr},
+			Host:   ctx.TargetAddr,
+			Header: ctx.ProxyConnectHeader,
+		}
+		connectReq.Write(ctx.Conn)
+
+		// Read response.
+		// Okay to use and discard buffered reader here, because
+		// TLS server will not speak until spoken to.
+		br := bufio.NewReader(ctx.Conn)
+		resp, err := ReadResponse(br, connectReq)
+		if err != nil {
+			return err
+		}
+		if resp.StatusCode != 200 {
+			f := strings.SplitN(resp.Status, " ", 2)
+			return errors.New(f[1])
+		}
+	}
+
+	return nil
 }
 
 // ProxyURL returns a proxy function (for use in a Transport)
@@ -1165,41 +1208,57 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 		}
 	case cm.targetScheme == "http":
 		pconn.isProxy = true
-		if pa := cm.proxyAuth(); pa != "" {
+		pa := cm.proxyAuth()
+		if pa != "" {
 			pconn.mutateHeaderFunc = func(h Header) {
 				h.Set("Proxy-Authorization", pa)
 			}
 		}
-	case cm.targetScheme == "https":
-		conn := pconn.conn
-		hdr := t.ProxyConnectHeader
-		if hdr == nil {
-			hdr = make(Header)
-		}
-		connectReq := &Request{
-			Method: "CONNECT",
-			URL:    &url.URL{Opaque: cm.targetAddr},
-			Host:   cm.targetAddr,
-			Header: hdr,
-		}
-		if pa := cm.proxyAuth(); pa != "" {
-			connectReq.Header.Set("Proxy-Authorization", pa)
-		}
-		connectReq.Write(conn)
 
-		// Read response.
-		// Okay to use and discard buffered reader here, because
-		// TLS server will not speak until spoken to.
-		br := bufio.NewReader(conn)
-		resp, err := ReadResponse(br, connectReq)
+		proxySetup := t.ProxySetup
+		if proxySetup == nil {
+			proxySetup = DefaultProxySetup
+		}
+		conn := pconn.conn
+		proxyCtx := ProxySetupContext{
+			TargetScheme:       "http",
+			TargetAddr:         cm.targetAddr,
+			Conn:               conn,
+			ProxyAuth:          pa,
+			ProxyConnectHeader: t.ProxyConnectHeader,
+		}
+		err := proxySetup(proxyCtx)
 		if err != nil {
 			conn.Close()
 			return nil, err
 		}
-		if resp.StatusCode != 200 {
-			f := strings.SplitN(resp.Status, " ", 2)
+	case cm.targetScheme == "https":
+		hdr := t.ProxyConnectHeader
+		if hdr == nil {
+			hdr = make(Header)
+		}
+
+		pa := cm.proxyAuth()
+		if pa != "" {
+			hdr.Set("Proxy-Authorization", pa)
+		}
+
+		proxySetup := t.ProxySetup
+		if proxySetup == nil {
+			proxySetup = DefaultProxySetup
+		}
+		conn := pconn.conn
+		proxyCtx := ProxySetupContext{
+			TargetScheme:       "https",
+			TargetAddr:         cm.targetAddr,
+			Conn:               conn,
+			ProxyAuth:          pa,
+			ProxyConnectHeader: hdr,
+		}
+		err := proxySetup(proxyCtx)
+		if err != nil {
 			conn.Close()
-			return nil, errors.New(f[1])
+			return nil, err
 		}
 	}
 

@@ -4187,6 +4187,92 @@ func TestTransportProxyConnectHeader(t *testing.T) {
 	}
 }
 
+// Test the Transport.ProxySetup using a multiple rounds scenario.
+func TestProxySetupMultipleRounds(t *testing.T) {
+	defer afterTest(t)
+
+	responseBody := "The Content"
+
+	iterationNo := 0
+	ts := httptest.NewServer(HandlerFunc(func(rw ResponseWriter, r *Request) {
+		iterationNo += 1
+
+		if iterationNo < 3 {
+			rw.WriteHeader(StatusProxyAuthRequired)
+		} else {
+			rw.WriteHeader(StatusOK)
+		}
+
+		var respBody string
+		if iterationNo < 3 {
+			respBody = fmt.Sprintf("Proxy Round %d", iterationNo)
+		} else {
+			respBody = responseBody
+		}
+		rw.Write([]byte(respBody))
+	}))
+	defer ts.Close()
+
+	proxySetup := func(ctx ProxySetupContext) error {
+		connectReq := &Request{
+			Method: "CONNECT",
+			URL:    &url.URL{Opaque: ctx.TargetAddr},
+			Host:   ctx.TargetAddr,
+			Header: nil,
+		}
+
+		connectReq.Write(ctx.Conn)
+
+		br := bufio.NewReader(ctx.Conn)
+		resp, _ := ReadResponse(br, connectReq)
+		respBody, _ := ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
+		if string(respBody) != "Proxy Round 1" {
+			t.Errorf("Expected response body 'Proxy Round 1', got '%s'", string(respBody))
+			return errors.New("wrong response")
+		}
+
+		connectReq = &Request{
+			Method: "CONNECT",
+			URL:    &url.URL{Opaque: ctx.TargetAddr},
+			Host:   ctx.TargetAddr,
+			Header: nil,
+		}
+		connectReq.Write(ctx.Conn)
+
+		resp, _ = ReadResponse(br, connectReq)
+		respBody, _ = ioutil.ReadAll(resp.Body)
+		resp.Body.Close()
+		if string(respBody) != "Proxy Round 2" {
+			t.Errorf("Expected response body 'Proxy Round 2', got '%s'", string(respBody))
+			return errors.New("wrong response")
+		}
+
+		return nil
+	}
+
+	c := ts.Client()
+	c.Transport.(*Transport).Proxy = func(r *Request) (*url.URL, error) {
+		return url.Parse(ts.URL)
+	}
+	c.Transport.(*Transport).ProxySetup = proxySetup
+
+	resp, err := c.Get("http://dummy.tld/")
+	if err != nil {
+		t.Fatal("expected success")
+	}
+	if iterationNo != 3 {
+		t.Fatalf("Expected 3 calls to proxy, got %d", iterationNo)
+	}
+	if resp.StatusCode != 200 {
+		t.Fatalf("Expected status code 200, got %v", resp.Status)
+	}
+	content, _ := ioutil.ReadAll(resp.Body)
+	if string(content) != responseBody {
+		t.Fatalf("Expected '%s' response body", responseBody)
+	}
+}
+
 var errFakeRoundTrip = errors.New("fake roundtrip")
 
 type funcRoundTripper func()
