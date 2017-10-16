@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4db3294_4f45f8c2",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-16T14:53:50Z",
+      "side": 1,
+      "message": "scond is probably better, because of Prog.Scond.\n\nAlso add comments to make it clear that this field contains the flags accepted by the instruction, and flags are optional.",
+      "revId": "c24da33c1fc98680e452ab0bddddb4aae19ac6b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbb4461f_f47db774",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-16T14:53:50Z",
+      "side": 1,
+      "message": "Update this comment.",
+      "revId": "c24da33c1fc98680e452ab0bddddb4aae19ac6b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21d71dae_542a6409",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-16T14:53:50Z",
+      "side": 1,
+      "message": "Could this be done in oplook?\nAlso, can o be nil at this point?",
+      "revId": "c24da33c1fc98680e452ab0bddddb4aae19ac6b0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
