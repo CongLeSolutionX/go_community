@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a48ae3a_4ce19290",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-10-16T18:13:14Z",
+      "side": 1,
+      "message": "Why are you doing this double-jump to a new function, to handle the SIMD case? You use SIMD when size \u003e 16, but then the trailing code is duplicated between the two functions. Can\u0027t you simply use a single function, with no duplication?",
+      "revId": "60ddc828f7cbe0a031554f45ef497e4d89092607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
