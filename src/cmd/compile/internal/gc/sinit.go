@@ -668,6 +668,8 @@ func isStaticCompositeLiteral(n *Node) bool {
 		return true
 	case OLITERAL:
 		return true
+	case OCLOSURE:
+		return hasemptycvars(n)
 	case OCONVIFACE:
 		// See staticassign's OCONVIFACE case for comments.
 		val := n
