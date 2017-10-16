@@ -462,13 +462,13 @@ func gdata(nam *Node, nr *Node, wid int) {
 			Fatalf("gdata ADDR left op %v", nr.Left.Op)
 		}
 		to := nr.Left
-		s.WriteAddr(Ctxt, nam.Xoffset, wid, to.Sym.Linksym(), to.Xoffset)
+		s.WriteAddr(Ctxt, nam.Xoffset, Widthptr, to.Sym.Linksym(), to.Xoffset)
 
 	case ONAME:
 		if nr.Class() != PFUNC {
 			Fatalf("gdata NAME not PFUNC %d", nr.Class())
 		}
-		s.WriteAddr(Ctxt, nam.Xoffset, wid, funcsym(nr.Sym).Linksym(), nr.Xoffset)
+		s.WriteAddr(Ctxt, nam.Xoffset, Widthptr, funcsym(nr.Sym).Linksym(), nr.Xoffset)
 
 	default:
 		Fatalf("gdata unhandled op %v %v\n", nr, nr.Op)

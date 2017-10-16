@@ -668,6 +668,8 @@ func isStaticCompositeLiteral(n *Node) bool {
 		return true
 	case OLITERAL:
 		return true
+	case OCLOSURE:
+		return hasemptycvars(n)
 	case OCONVIFACE:
 		// See staticassign's OCONVIFACE case for comments.
 		val := n
@@ -748,6 +750,10 @@ func fixedlit(ctxt initContext, kind initKind, n *Node, var_ *Node, init *Nodes)
 		}
 
 		islit := isliteral(value)
+		if value.Op == OCLOSURE && hasemptycvars(value) {
+			value = value.Func.Closure.Func.Nname
+			islit = true
+		}
 		if (kind == initKindStatic && !islit) || (kind == initKindDynamic && islit) {
 			continue
 		}
