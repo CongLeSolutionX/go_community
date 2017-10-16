@@ -16,6 +16,24 @@
       "revId": "d4a53806f209bec3d4650051b1616eaf1fbca637",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16571c65_fc07bd50",
+        "filename": "src/cmd/link/internal/ld/pe.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2017-10-16T22:19:39Z",
+      "side": 1,
+      "message": "Done.\n\nI wonder how this didn\u0027t break any tests...",
+      "parentUuid": "7ed13fc2_f40c189f",
+      "revId": "d4a53806f209bec3d4650051b1616eaf1fbca637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
