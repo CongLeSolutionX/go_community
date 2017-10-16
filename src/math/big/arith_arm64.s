@@ -76,26 +76,41 @@ TEXT ·addVW(SB),NOSPLIT,$0
 	MOVD	z_len+8(FP), R0
 	MOVD	x+24(FP), R1
 	MOVD	y+48(FP), R2
-	CBZ	R0, return_y
+	CBZ	R0, L0
 	MOVD.P	8(R1), R4
-	ADDS	R2, R4
+	ADDS	R2, R4		// z[0] = x[0] + y
 	MOVD.P	R4, 8(R3)
 	SUB	$1, R0
-loop:
-	CBZ	R0, done // careful not to touch the carry flag
+	CBZ	R0, L1		// 1x
+	TBZ	$0, R0, L2
 	MOVD.P	8(R1), R4
 	ADCS	$0, R4
 	MOVD.P	R4, 8(R3)
 	SUB	$1, R0
-	B	loop
-done:
-	CSET	HS, R0 // extract carry flag
-	MOVD	R0, c+56(FP)
-	RET
-return_y: // z is empty; copy y to c
+L2:				// 2x
+	TBZ	$1, R0, L4
+	LDP.P	16(R1), (R4, R5)
+	ADCS	$0, R4, R8	// c, z[i] = x[i] + c
+	ADCS	$0, R5, R9
+	STP.P	(R8, R9), 16(R3)
+	SUB	$2, R0
+L4:				// 4x
+	CBZ	R0, L1		// careful not to touch the carry flag
+	LDP.P	32(R1), (R4, R5)
+	LDP	-16(R1), (R6, R7)
+	ADCS	$0, R4, R8
+	ADCS	$0, R5, R9
+	ADCS	$0, R6, R10
+	ADCS	$0, R7, R11
+	STP.P	(R8, R9), 32(R3)
+	STP	(R10, R11), -16(R3)
+	SUB	$4, R0
+	B	L4
+L1:
+	CSET	HS, R2		// extract carry flag
+L0:
 	MOVD	R2, c+56(FP)
 	RET
-
 
 // func subVW(z, x []Word, y Word) (c Word)
 TEXT ·subVW(SB),NOSPLIT,$0
@@ -103,23 +118,39 @@ TEXT ·subVW(SB),NOSPLIT,$0
 	MOVD	z_len+8(FP), R0
 	MOVD	x+24(FP), R1
 	MOVD	y+48(FP), R2
-	CBZ	R0, rety
+	CBZ	R0, L0
 	MOVD.P	8(R1), R4
-	SUBS	R2, R4
+	SUBS	R2, R4		// z[0] = x[0] - y
 	MOVD.P	R4, 8(R3)
 	SUB	$1, R0
-loop:
-	CBZ	R0, done // careful not to touch the carry flag
+	CBZ	R0, L1		// 1x
+	TBZ	$0, R0, L2
 	MOVD.P	8(R1), R4
 	SBCS	$0, R4
 	MOVD.P	R4, 8(R3)
 	SUB	$1, R0
-	B	loop
-done:
-	CSET	LO, R0 // extract carry flag
-	MOVD	R0, c+56(FP)
-	RET
-rety: // z is empty; copy y to c
+L2:				// 2x
+	TBZ	$1, R0, L4
+	LDP.P	16(R1), (R4, R5)
+	SBCS	$0, R4, R8	// c, z[i] = x[i] + c
+	SBCS	$0, R5, R9
+	STP.P	(R8, R9), 16(R3)
+	SUB	$2, R0
+L4:				// 4x
+	CBZ	R0, L1		// careful not to touch the carry flag
+	LDP.P	32(R1), (R4, R5)
+	LDP	-16(R1), (R6, R7)
+	SBCS	$0, R4, R8
+	SBCS	$0, R5, R9
+	SBCS	$0, R6, R10
+	SBCS	$0, R7, R11
+	STP.P	(R8, R9), 32(R3)
+	STP	(R10, R11), -16(R3)
+	SUB	$4, R0
+	B	L4
+L1:
+	CSET	LO, R2		// extract carry flag
+L0:
 	MOVD	R2, c+56(FP)
 	RET
 
