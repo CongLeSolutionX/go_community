@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6aa58fc0_1c518a6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-16T23:09:32Z",
+      "side": 1,
+      "message": "mime/multipart: permit empty file name\n\nFixes #19183",
+      "revId": "25be1d88f0270e9bacac31417ba90c49170ea097",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
