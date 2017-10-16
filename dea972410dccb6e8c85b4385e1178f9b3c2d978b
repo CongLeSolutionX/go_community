@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac605b76_d9e6d875",
+        "filename": "src/runtime/asm_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-16T19:31:31Z",
+      "side": 1,
+      "message": "Does 32-bit have stack alignment requirements?",
+      "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71c2df6c_cdc7ec0c",
+        "filename": "src/runtime/rt0_android_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-16T19:31:31Z",
+      "side": 1,
+      "message": "I think the frame size should just be 0. Negative frame sizes don\u0027t mean anything on 386.",
+      "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08158562_c0c1d207",
+        "filename": "src/runtime/rt0_android_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-16T19:31:31Z",
+      "side": 1,
+      "message": "Same thing about frame size.\n\nJust making sure I understand... is main here for cgo binaries that have to have libc as the entry point?",
+      "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6b6e56f_41f25a34",
+        "filename": "src/runtime/rt0_windows_386.s",
+        "patchSetId": 6
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-16T19:31:31Z",
+      "side": 1,
+      "message": "This doesn\u0027t appear to be equivalent. The arguments were being loaded from 12(SP) and 16(SP), but _rt0_386 loads them from 8(SP) and 12(SP). Also, the frame size of this is still 12, which I think will make the stack references extra wrong.",
+      "revId": "dea972410dccb6e8c85b4385e1178f9b3c2d978b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
