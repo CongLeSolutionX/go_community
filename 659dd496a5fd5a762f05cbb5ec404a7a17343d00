@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07590cfe_b51a4190",
+        "filename": "src/cmd/cover/cover_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-16T22:10:22Z",
+      "side": 1,
+      "message": "comment?",
+      "range": {
+        "startLine": 169,
+        "startChar": 12,
+        "endLine": 169,
+        "endChar": 18
+      },
+      "revId": "659dd496a5fd5a762f05cbb5ec404a7a17343d00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
