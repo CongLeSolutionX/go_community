@@ -28,6 +28,9 @@ func newCipher(key []byte) (cipher.Block, error) {
 	n := len(key) + 28
 	c := aesCipherAsm{aesCipher{make([]uint32, n), make([]uint32, n)}}
 	arm64ExpandKey(key, c.enc, c.dec)
+	if cpu.ARM64.HasAES && cpu.ARM64.HasPMULL {
+		return &aesCipherGCM{c}, nil
+	}
 	return &c, nil
 }
 
