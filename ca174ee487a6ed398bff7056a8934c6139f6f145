@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f589a2f2_8612b399",
+        "filename": "src/text/template/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2017-10-17T00:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e338b5d9_2bd3fe1c",
+      "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aea9391_7c0494f6",
         "filename": "src/text/template/exec.go",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "622cd1f2_87cac53f",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2017-10-17T00:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4aea9391_7c0494f6",
+      "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bfe54cf_c3e7fb54",
         "filename": "src/text/template/exec.go",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bcecc92_cc90baf4",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2017-10-17T00:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bfe54cf_c3e7fb54",
+      "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -102,6 +156,24 @@
       "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbc7ddde_29337efe",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2017-10-17T00:35:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee12c8ba_f2f24ec8",
+      "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
