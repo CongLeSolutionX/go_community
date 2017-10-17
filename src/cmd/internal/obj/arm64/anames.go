@@ -385,5 +385,11 @@ var Anames = []string{
 	"VSUB",
 	"VFMLA",
 	"VFMLS",
+	"PMULL",
+	"PMULL2",
+	"VEXT",
+	"VRBIT",
+	"VUSHR",
+	"VSHL",
 	"LAST",
 }

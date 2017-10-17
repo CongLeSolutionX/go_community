@@ -207,11 +207,15 @@ func ARM64RegisterExtension(a *obj.Addr, ext string, reg, num int16, isAmount, i
 			return errors.New("invalid register extension")
 		}
 		a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_4S & 15) << 5)
+	case "D1":
+		a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_1D & 15) << 5)
 	case "D2":
 		if isIndex {
 			return errors.New("invalid register extension")
 		}
 		a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_2D & 15) << 5)
+	case "Q1":
+		a.Reg = arm64.REG_ARNG + (reg & 31) + ((arm64.ARNG_1Q & 15) << 5)
 	case "B":
 		if !isIndex {
 			return nil
@@ -266,7 +270,7 @@ func ARM64RegisterArrangement(reg int16, name, arng string) (int64, error) {
 		curSize = 1
 		curQ = 1
 	case "S2":
-		curSize = 1
+		curSize = 2
 		curQ = 0
 	case "S4":
 		curSize = 2

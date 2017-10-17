@@ -592,6 +592,9 @@ var optab = []Optab{
 	{AVLD1, C_ZOREG, C_NONE, C_LIST, 81, 4, 0, 0, 0},
 	{AVLD1, C_LOREG, C_NONE, C_LIST, 81, 4, 0, 0, C_XPOST},
 	{AVLD1, C_ROFF, C_NONE, C_LIST, 81, 4, 0, 0, C_XPOST},
+	{AVLD1, C_LOREG, C_NONE, C_ELEM, 97, 4, 0, 0, C_XPOST},
+	{AVLD1, C_ROFF, C_NONE, C_ELEM, 97, 4, 0, 0, C_XPOST},
+	{AVLD1, C_LOREG, C_NONE, C_ELEM, 97, 4, 0, 0, 0},
 	{AVMOV, C_ELEM, C_NONE, C_REG, 73, 4, 0, 0, 0},
 	{AVMOV, C_REG, C_NONE, C_ARNG, 82, 4, 0, 0, 0},
 	{AVMOV, C_ELEM, C_NONE, C_ELEM, 92, 4, 0, 0, 0},
@@ -602,13 +605,22 @@ var optab = []Optab{
 	{AVST1, C_LIST, C_NONE, C_ZOREG, 84, 4, 0, 0, 0},
 	{AVST1, C_LIST, C_NONE, C_LOREG, 84, 4, 0, 0, C_XPOST},
 	{AVST1, C_LIST, C_NONE, C_ROFF, 84, 4, 0, 0, C_XPOST},
+	{AVST1, C_ELEM, C_NONE, C_LOREG, 96, 4, 0, 0, C_XPOST},
+	{AVST1, C_ELEM, C_NONE, C_ROFF, 96, 4, 0, 0, C_XPOST},
+	{AVST1, C_ELEM, C_NONE, C_LOREG, 96, 4, 0, 0, 0},
 	{AVDUP, C_ELEM, C_NONE, C_ARNG, 79, 4, 0, 0, 0},
 	{AVADDV, C_ARNG, C_NONE, C_VREG, 85, 4, 0, 0, 0},
 	{AVCNT, C_ARNG, C_NONE, C_ARNG, 29, 4, 0, 0, 0},
 	{AVMOVI, C_ADDCON, C_NONE, C_ARNG, 86, 4, 0, 0, 0},
 	{AVFMLA, C_ARNG, C_ARNG, C_ARNG, 72, 4, 0, 0, 0},
+	{APMULL, C_ARNG, C_ARNG, C_ARNG, 90, 4, 0, 0, 0},
+	{APMULL2, C_ARNG, C_ARNG, C_ARNG, 90, 4, 0, 0, 0},
+	{AVEXT, C_VCON, C_ARNG, C_ARNG, 93, 4, 0, 0, 0},
+	{AVRBIT, C_ARNG, C_NONE, C_ARNG, 94, 4, 0, 0, 0},
+	{AVUSHR, C_VCON, C_ARNG, C_ARNG, 95, 4, 0, 0, 0},
+	{AVSHL, C_VCON, C_ARNG, C_ARNG, 98, 4, 0, 0, 0},
 
-	{obj.AUNDEF, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0},
+	{obj.AUNDEF, C_NONE, C_NONE, C_NONE, 99, 4, 0, 0, 0},
 	{obj.APCDATA, C_VCON, C_NONE, C_VCON, 0, 0, 0, 0, 0},
 	{obj.AFUNCDATA, C_VCON, C_NONE, C_ADDR, 0, 0, 0, 0, 0},
 	{obj.ANOP, C_NONE, C_NONE, C_NONE, 0, 0, 0, 0, 0},
@@ -2145,6 +2157,14 @@ func buildop(ctxt *obj.Link) {
 		case AVFMLA:
 			oprangeset(AVFMLS, t)
 
+		case APMULL,
+			APMULL2,
+			AVEXT,
+			AVRBIT,
+			AVUSHR,
+			AVSHL:
+			break
+
 		case ASHA1H,
 			AVCNT,
 			AVMOV,
@@ -3512,7 +3532,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rt := int(p.To.Reg)
 		imm5 := 0
 		o1 = 1<<30 | 7<<25 | 7<<10
-		index := int(p.From.Index)
+		index :=int(p.To.Index)
 		switch (p.To.Reg >> 5) & 15 {
 		case ARNG_B:
 			c.checkindex(p, index, 15)
@@ -3810,12 +3830,354 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 		o1 |= (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
 
+	case 90: /* pmull{2} Vn.<T>, Vm.<T>, Vd */
+		af := int((p.From.Reg >> 5) & 15)
+		at := int((p.To.Reg >> 5) & 15)
+		a := int((p.Reg >> 5) & 15)
+
+		Q := 0
+		size := 0
+		if p.As == APMULL {
+			Q = 0
+		} else {
+			Q = 1
+		}
+
+		fArng := 0
+		switch at {
+		case ARNG_8H:
+			if Q == 0 {
+				fArng = ARNG_8B
+			} else {
+				fArng = ARNG_16B
+			}
+			size = 0
+		case ARNG_1Q:
+			if Q == 0 {
+				fArng = ARNG_1D
+			} else {
+				fArng = ARNG_2D
+			}
+			size = 3
+		default:
+			c.ctxt.Diag("invalid arrangement on Vd.<T>: %v", p)
+		}
+
+		if af != a {
+			c.ctxt.Diag("invalid arrangement on op Vn.<T>, Vm.<T>: %v", p)
+		} else if af != fArng {
+			c.ctxt.Diag("invalid arrangement on Vm.<T>: %v", p)
+		}
+
+		o1 = c.oprrr(p, p.As)
+		rf := int((p.From.Reg) & 31)
+		rt := int((p.To.Reg) & 31)
+		r := int((p.Reg) & 31)
+
+		o1 |= ((uint32(Q&1) << 30) | (uint32(size&3) << 22) | (uint32(r&31) << 16) | (uint32(rf&31) << 5) | uint32(rt&31))
+
+	case 93: /* vext $imm4, Vn.<T>, Vm.<T>, Vd.<T> */
+		var b uint32
+		af := int(((p.GetFrom3().Reg) >> 5) & 15)
+		at := int((p.To.Reg >> 5) & 15)
+		a := int((p.Reg >> 5) & 15)
+		index := int(p.From.Offset)
+
+		if af != a || af != at {
+			c.ctxt.Diag("invalid arrangement on op Vn.<T>, Vm.<T>, Vd.<T>: %v", p)
+			break
+		}
+
+		Q := 0
+		if af == ARNG_8B {
+			Q = 0
+			b = 7
+		} else if af == ARNG_16B {
+			Q = 1
+			b = 15
+		} else {
+			c.ctxt.Diag("invalid arrangement, should be 8B or 16B: %v", p)
+			break
+		}
+
+		if index < 0 || uint32(index) > b {
+			c.ctxt.Diag("illegal offset: %v", p)
+		}
+
+		o1 = c.opirr(p, p.As)
+		rf := int((p.GetFrom3().Reg) & 31)
+		rt := int((p.To.Reg) & 31)
+		r := int((p.Reg) & 31)
+
+		o1 |= (uint32(Q&1) << 30) | (uint32(rf&31) << 16) | (uint32(index&15) << 11) | (uint32(r&31) << 5) | uint32(rt&31)
+
+	case 94: /* vrbit Vn.<T>, Vd.<T>*/
+		af := int((p.From.Reg >> 5) & 15)
+		at := int((p.To.Reg >> 5) & 15)
+
+		if af != at {
+			c.ctxt.Diag("invalid arrangement on op Vn.<T>, Vd.<T>: %v", p)
+		}
+
+		Q := 0
+		if af == ARNG_8B {
+			Q = 0
+		} else if af == ARNG_16B {
+			Q = 1
+		} else {
+			c.ctxt.Diag("invalid arrangement on op Vn.<T>, Vd.<T>: %v", p)
+		}
+
+		o1 = c.oprrr(p, p.As)
+		rf := int((p.From.Reg) & 31)
+		rt := int((p.To.Reg) & 31)
+
+		o1 |= (uint32(Q&1) << 30) | (uint32(rf&31) << 5) | uint32(rt&31)
+
+	case 95: /* vushr $shift, Vn.<T>, Vd.<T> */
+		at := int((p.To.Reg >> 5) & 15)
+		af := int((p.Reg >> 5) & 15)
+		shift := int(p.From.Offset)
+
+		if af != at {
+			c.ctxt.Diag("invalid arrangement on op Vn.<T>, Vd.<T>: %v", p)
+		}
+
+		Q := 0
+		imax := 0
+		esize := 0
+
+		if af == ARNG_8B || af == ARNG_4H || af == ARNG_2S {
+			Q = 0
+		} else if af == ARNG_16B || af == ARNG_8H || af == ARNG_4S || af == ARNG_2D {
+			Q = 1
+		} else {
+			c.ctxt.Diag("invalid arrangement on op Vn.<T>, Vd.<T>: %v", p)
+		}
+
+		if af == ARNG_8B || af == ARNG_16B {
+			imax = 15
+			esize = 8
+		} else if af == ARNG_4H || af == ARNG_8H {
+			imax = 31
+			esize = 16
+		} else if af == ARNG_2S || af == ARNG_4S {
+			imax = 63
+			esize = 32
+		} else if af == ARNG_2D {
+			imax = 127
+			esize = 64
+		}
+
+		immhimmb := esize * 2 - shift
+		if immhimmb < esize || immhimmb > imax {
+			c.ctxt.Diag("wrong shift range: %v", p)
+		}
+
+		o1 = c.oprrr(p, p.As)
+		rt := int((p.To.Reg) & 31)
+		rf := int((p.Reg) & 31)
+
+		o1 |= (uint32(Q&1) << 30) | (uint32(immhimmb&127) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
+
+	case 96: /* vst1 Vt1.<T>[index], offset(Rn) */
+		af := int((p.From.Reg >> 5) & 15)
+		rt := int((p.From.Reg) & 31)
+		rf := int((p.To.Reg) & 31)
+		r := int(p.To.Index & 31)
+		index := int(p.From.Index)
+		offset := int32(c.regoff(&p.To))
+
+		if o.scond == C_XPOST {
+			if (p.To.Index != 0) && (offset != 0) {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			if p.To.Index == 0 && offset == 0 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+		}
+
+		if offset != 0 {
+			r = 31
+		}
+
+		Q := 0
+		S := 0
+		size := 0
+		opcode := 0
+		switch af {
+		case ARNG_B:
+			c.checkindex(p, index, 15)
+			if o.scond == C_XPOST && offset != 0 && offset != 1 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			Q = index >> 3
+			S = (index >> 2) & 1
+			size = index & 3
+			opcode = 0
+		case ARNG_H:
+			c.checkindex(p, index, 7)
+			if o.scond == C_XPOST && offset != 0 && offset != 2 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			Q = index >> 2
+			S = (index >> 1) & 1
+			size = (index & 1) << 1
+			opcode = 2
+		case ARNG_S:
+			c.checkindex(p, index, 3)
+			if o.scond == C_XPOST && offset != 0 && offset != 4 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			Q = index >> 1
+			S = index & 1
+			size = 0
+			opcode = 4
+		case ARNG_D:
+			c.checkindex(p, index, 1)
+			if o.scond == C_XPOST && offset != 0 && offset != 8 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			Q = index
+			S = 0
+			size = 1
+			opcode = 4
+		}
+
+		if o.scond == C_XPOST {
+			o1 |= 27 << 23
+		} else {
+			o1 |= 26 << 23
+		}
+
+		o1 |= (uint32(Q&1) << 30) | (uint32(r&31) << 16) | (uint32(opcode&7) << 13) | (uint32(S&1) << 12) | (uint32(size&3) << 10) | (uint32(rf&31) << 5) | uint32(rt&31)
+
+	case 97: /* vld1 <Vt>.<T>[<index>], [offset]<Xn> */
+		at := int((p.To.Reg >> 5) & 15)
+		rt := int((p.To.Reg) & 31)
+		rf := int((p.From.Reg) & 31)
+		r := int(p.From.Index & 31)
+		index := int(p.To.Index)
+		offset := int32(c.regoff(&p.From))
+
+		if o.scond == C_XPOST {
+			if (p.From.Index != 0) && (offset != 0) {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			if p.From.Index == 0 && offset == 0 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+		}
+
+		if offset != 0 {
+			r = 31
+		}
+
+		Q := 0
+		S := 0
+		size := 0
+		opcode := 0
+		switch at {
+		case ARNG_B:
+			c.checkindex(p, index, 15)
+			if o.scond == C_XPOST && offset != 0 && offset != 1 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			Q = index >> 3
+			S = (index >> 2) & 1
+			size = index & 3
+			opcode = 0
+		case ARNG_H:
+			c.checkindex(p, index, 7)
+			if o.scond == C_XPOST && offset != 0 && offset != 2 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			Q = index >> 2
+			S = (index >> 1) & 1
+			size = (index & 1) << 1
+			opcode = 2
+		case ARNG_S:
+			c.checkindex(p, index, 3)
+			if o.scond == C_XPOST && offset != 0 && offset != 4 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			Q = index >> 1
+			S = index & 1
+			size = 0
+			opcode = 4
+		case ARNG_D:
+			c.checkindex(p, index, 1)
+			if o.scond == C_XPOST && offset != 0 && offset != 8 {
+				c.ctxt.Diag("invalid offset: %v", p)
+			}
+			Q = index
+			S = 0
+			size = 1
+			opcode = 4
+		default:
+			c.ctxt.Diag("invalid arrangement: %v", p)
+		}
+
+		if o.scond == C_XPOST {
+			o1 |= 110 << 21
+		} else {
+			o1 |= 106 << 21
+		}
+
+		o1 |= (uint32(Q&1) << 30) | (uint32(r&31) << 16) | (uint32(opcode&7) << 13) | (uint32(S&1) << 12) | (uint32(size&3) << 10) | (uint32(rf&31) << 5) | uint32(rt&31)
+
+	case 98: /* vshl $shift, <Vn>.<T>, <Vd>.<T> */
+		at := int((p.To.Reg >> 5) & 15)
+		af := int((p.Reg >> 5) & 15)
+		shift := int(p.From.Offset)
+
+		if af != at {
+			c.ctxt.Diag("invalid arrangement on op Vn.<T>, Vd.<T>: %v\n", p)
+		}
+
+		Q := 0
+		imax := 0
+		esize := 0
+
+		if af == ARNG_8B || af == ARNG_4H || af == ARNG_2S {
+			Q = 0
+		} else if af == ARNG_16B || af == ARNG_8H || af == ARNG_4S || af == ARNG_2D {
+			Q = 1
+		} else {
+			c.ctxt.Diag("invalid arrangement on op Vn.<T>, Vd.<T>: %v\n", p)
+		}
+
+		if af == ARNG_8B || af == ARNG_16B {
+			imax = 15
+			esize = 8
+		} else if af == ARNG_4H || af == ARNG_8H {
+			imax = 31
+			esize = 16
+		} else if af == ARNG_2S || af == ARNG_4S {
+			imax = 63
+			esize = 32
+		} else if af == ARNG_2D {
+			imax = 127
+			esize = 64
+		}
+
+		immhimmb := esize + shift
+		if immhimmb > imax {
+			c.ctxt.Diag("invalid arrangement on op Vn.<T>, Vd.<T>: %v\n", p)
+		}
+
+		o1 = c.oprrr(p, p.As)
+		rt := int((p.To.Reg) & 31)
+		rf := int((p.Reg) & 31)
+
+		o1 |= (uint32(Q&1) << 30) | (uint32(immhimmb&127) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
+
 	// This is supposed to be something that stops execution.
 	// It's not supposed to be reached, ever, but if it is, we'd
 	// like to be able to tell how we got there. Assemble as
 	// 0xbea71700 which is guaranteed to raise undefined instruction
 	// exception.
-	case 90:
+	case 99:
 		o1 = 0xbea71700
 
 	case 92: /* vmov Vn.<T>[index], Vd.<T>[index] */
@@ -3857,7 +4219,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		default:
 			c.ctxt.Diag("invalid arrangement: %v", p)
 		}
-		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(imm4&0xf) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
+		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(imm4&0xf) << 11) | (uint32(rf&31) << 5) | uint32(rt&31)
 
 		break
 
@@ -4475,6 +4837,18 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As) uint32 {
 
 	case AVFMLS:
 		return 7<<25 | 1<<23 | 1<<21 | 3<<14 | 3<<10
+
+	case APMULL, APMULL2:
+		return 14<<24 | 1<<21 | 56<<10
+
+	case AVRBIT:
+		return 46<<24 | 1<<22 | 16<<17 | 5<<12 | 2<<10
+
+	case AVUSHR:
+		return 94<<23 | 1<<10
+
+	case AVSHL:
+		return 30<<23 | 21<<10
 	}
 
 	c.ctxt.Diag("%v: bad rrr %d %v", p, a, a)
@@ -4661,6 +5035,9 @@ func (c *ctxt7) opirr(p *obj.Prog, a obj.As) uint32 {
 
 	case AHINT:
 		return SYSOP(0, 0, 3, 2, 0, 0, 0x1F)
+
+	case AVEXT:
+		return 46<<24 | 0<<23 | 0<<21 | 0<<15
 	}
 
 	c.ctxt.Diag("%v: bad irr %v", p, a)
