@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "e338b5d9_2bd3fe1c",
+        "filename": "src/text/template/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-10-17T00:24:59Z",
+      "side": 1,
+      "message": "Begins the next iteration of the surrounding range loop.\n\nsame rewrite above. you don\u0027t need the \"Can...\" sentence.",
+      "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aea9391_7c0494f6",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-10-17T00:24:59Z",
+      "side": 1,
+      "message": "// nesting level of range loops.\n\n(you don\u0027t need \"current\")\n\nalso be sure to include the period and please put a period on the \"node\" comment.",
+      "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bfe54cf_c3e7fb54",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-10-17T00:24:59Z",
+      "side": 1,
+      "message": "periods on the end, for consistency.",
+      "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "22f4a46c_f252dcee",
         "filename": "src/text/template/exec.go",
         "patchSetId": 2
@@ -34,6 +85,23 @@
       "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee12c8ba_f2f24ec8",
+        "filename": "src/text/template/parse/lex.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-10-17T00:24:59Z",
+      "side": 1,
+      "message": "these should be kept in alphabetical order.\nsame for the map below.",
+      "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
