@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23e42da3_dc1b6714",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 5034,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-17T23:02:58Z",
+      "side": 1,
+      "message": "I\u0027d still lean towards wording that uses the construction \"len(x)\" rather than referring to \"length\".\n\nWhat about something like:\n\n    The range expression x is evaluated once before beginning the loop,\n    with one exception: if len(x) is a _constant_expression_\n    and at most one iteration variable is present,\n    the range expression is not evaluated.\n\nWhere _constant_expression_ links to #Length_and_capacity.",
+      "revId": "7d27a6deca2b824eea84d183ec6f58f0aeb741e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
