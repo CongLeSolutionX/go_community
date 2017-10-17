@@ -53,12 +53,24 @@ Go Assembly for ARM64 Reference Manual
         <T> Is an arrangement specifier and can have the following values:
         B8, B16
 
+    VEXT:  Extracts vector elements from src SIMD registers to dst SIMD register
+      VEXT	$index, <Vm>.<T>, <Vn>.<T>, <Vd>.<T>
+        <T> Is an arrangment specifier and can be B8, B16
+        $index is the lowest numberred byte element to be exracted.
+
     VLD1: Load multiple single-element structures
       VLD1	(Rn), [<Vt>.<T>, <Vt2>.<T> ...]     // no offset
       VLD1.P	imm(Rn), [<Vt>.<T>, <Vt2>.<T> ...]  // immediate offset variant
       VLD1.P	(Rn)(Rm), [<Vt>.<T>, <Vt2>.<T> ...] // register offset variant
         <T> Is an arrangement specifier and can have the following values:
         B8, B16, H4, H8, S2, S4, D1, D2
+
+    VLD1: Load one single-element structures
+      VLD1	(Rn), <Vt>.<T>[index]     // no offset
+      VLD1.P	imm(Rn), <Vt>.<T>[index]  // immediate offset variant
+      VLD1.P	(Rn)(Rm), <Vt>.<T>[index] // register offset variant
+        <T> Is an arrangement specifier and can have the following values:
+        B, H, S D
 
     VMOV: move
       VMOV	<Vn>.<T>[index], Rd // Move vector element to general-purpose register.
@@ -84,9 +96,13 @@ Go Assembly for ARM64 Reference Manual
         <T> Is an element size specifier and can have the following values:
         B, H, S, D
 
+      VMOV	<Vn>.<T>[index2], <Vd>.<T>[index1]  // Move vector element to another.
+        <T> Is an element size specifier and can have the following values:
+        B, H, S, D
+
     VMOVI: Move Immediate (vector).
       VMOVI	$imm8, <Vd>.<T>
-        <T> is an arrangement specifier and can have the following values:
+        <T> Is an arrangement specifier and can have the following values:
         8B, 16B
 
     VMOVS: Load SIMD&FP Register (immediate offset). ARMv8: LDR (immediate, SIMD&FP)
@@ -103,10 +119,20 @@ Go Assembly for ARM64 Reference Manual
         <T> Is an arrangement specifier and can have the following values:
         B8, B16
 
+    VRBIT: Reverse bit order (vector)
+      VRBIT	<Vn>.<T>, <Vd>.<T>
+        <T> Is an arrangment specifier and can be B8, B16
+
     VREV32: Reverse elements in 32-bit words (vector).
       REV32 <Vn>.<T>, <Vd>.<T>
         <T> Is an arrangement specifier and can have the following values:
         B8, B16, H4, H8
+
+    VSHL: Shift Left(immediate)
+      VSHL 	$shift, <Vn>.<T>, <Vd>.<T>
+        <T> Is an arrangement specifier and can have the following values:
+        B8, B16, H4, H8, S2, S4, D1, D2
+        $shift Is the left shift amount
 
     VST1: Store multiple single-element structures
       VST1	[<Vt>.<T>, <Vt2>.<T> ...], (Rn)         // no offset
@@ -115,7 +141,26 @@ Go Assembly for ARM64 Reference Manual
         <T> Is an arrangement specifier and can have the following values:
         B8, B16, H4, H8, S2, S4, D1, D2
 
+    VST1: Store one single-element structures
+      VST1	<Vt>.<T>.<Index>, (Rn)         // no offset
+      VST1.P	<Vt>.<T>.<Index>, imm(Rn)      // immediate offset variant
+      VST1.P	<Vt>.<T>.<Index>, (Rn)(Rm)     // register offset variant
+        <T> Is an arrangement specifier and can have the following values:
+        B, H, S, D
+
+    VUSHR: Unsigned shift right(immediate)
+      VUSHR	$shift, <Vn>.<T>, <Vm>.<T>
+        <T> Is an arrangement specifier and can have the following values:
+        B8, B16, H4, H8, S2, S4, D1, D2
+        $shift is the right shift amount
+
+
 4. Alphabetical list of cryptographic extension instructions
+
+    PMULL{2}:  Polynomial multiply long.
+      PMULL{2}	<Vn>.<Tb>, <Vm>.<Tb>, <Vd>.<Ta> // PMULL multiplies corresponding elements in the lower half of the vectors of two source SIMD registers and PMULL{2} operates in the upper half
+        <Ta> Is an arrangement specifier, it can be H8, 1Q
+	<Tb> Is an arrangement specifier, it can be B8, B16, D1, D2
 
     SHA1C, SHA1M, SHA1P: SHA1 hash update.
       SHA1C	<Vm>.S4, Vn, Vd
@@ -138,6 +183,5 @@ Go Assembly for ARM64 Reference Manual
     SHA256H, SHA256H2: SHA256 hash update.
       SHA256H	<Vm>.S4, Vn, Vd
       SHA256H2	<Vm>.S4, Vn, Vd
-
 
 */
