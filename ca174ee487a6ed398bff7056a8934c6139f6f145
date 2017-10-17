@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22f4a46c_f252dcee",
+        "filename": "src/text/template/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-17T00:11:29Z",
+      "side": 1,
+      "message": "I suggest that instead of being careful to do it below, you simply write\n    defer func() { s.rangeDepth-- }",
+      "revId": "ca174ee487a6ed398bff7056a8934c6139f6f145",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
