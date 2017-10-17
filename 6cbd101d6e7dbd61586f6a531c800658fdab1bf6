@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bfa19e7_d8e5cba4",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-17T17:11:50Z",
+      "side": 1,
+      "message": "\"while\" or \"when\"?  I guess you mean \"while\".  Or maybe \"No queries will run on this connection until this method returns.\"",
+      "range": {
+        "startLine": 229,
+        "startChar": 49,
+        "endLine": 229,
+        "endChar": 59
+      },
+      "revId": "6cbd101d6e7dbd61586f6a531c800658fdab1bf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e28e1dde_4928421e",
+        "filename": "src/database/sql/fakedb_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-17T17:11:50Z",
+      "side": 1,
+      "message": "s/test/tests/ I think",
+      "range": {
+        "startLine": 129,
+        "startChar": 17,
+        "endLine": 129,
+        "endChar": 21
+      },
+      "revId": "6cbd101d6e7dbd61586f6a531c800658fdab1bf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b31bb1ec_593df312",
+        "filename": "src/database/sql/fakedb_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-17T17:11:50Z",
+      "side": 1,
+      "message": "Just write\n    if c.dirtySession {",
+      "range": {
+        "startLine": 346,
+        "startChar": 4,
+        "endLine": 346,
+        "endChar": 26
+      },
+      "revId": "6cbd101d6e7dbd61586f6a531c800658fdab1bf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5917cfd8_226e9992",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-17T17:11:50Z",
+      "side": 1,
+      "message": "It also assumes that the connection is locked, and unlocks it, which is probably worth mentioning in the function comment.",
+      "revId": "6cbd101d6e7dbd61586f6a531c800658fdab1bf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
