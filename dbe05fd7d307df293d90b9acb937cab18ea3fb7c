@@ -34,6 +34,24 @@
       "revId": "dbe05fd7d307df293d90b9acb937cab18ea3fb7c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0cbf1c7_43177b06",
+        "filename": "src/cmd/internal/obj/x86/aenum.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-17T15:11:56Z",
+      "side": 1,
+      "message": "I think you can omit the copyright header for generated file.",
+      "parentUuid": "9b1ef8f1_297f8acd",
+      "revId": "dbe05fd7d307df293d90b9acb937cab18ea3fb7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
