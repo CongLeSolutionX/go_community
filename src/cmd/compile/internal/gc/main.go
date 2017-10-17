@@ -11,6 +11,7 @@ import (
 	"bytes"
 	"cmd/compile/internal/ssa"
 	"cmd/compile/internal/types"
+	"cmd/internal/dwarf"
 	"cmd/internal/obj"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
@@ -238,6 +239,8 @@ func Main(archInit func(*Arch)) {
 	flag.StringVar(&mutexprofile, "mutexprofile", "", "write mutex profile to `file`")
 	flag.StringVar(&benchfile, "bench", "", "append benchmark times to `file`")
 	objabi.Flagparse(usage)
+
+	recordFlags("B", "N", "l", "msan", "race", "shared", "dynlink")
 
 	Ctxt.Flag_shared = flag_dynlink || flag_shared
 	Ctxt.Flag_dynlink = flag_dynlink
@@ -1194,4 +1197,58 @@ func concurrentBackendAllowed() bool {
 		return false
 	}
 	return true
+}
+
+// recordFlags records the specified command-line flags to be placed
+// in the DWARF info.
+func recordFlags(flags ...string) {
+	if myimportpath == "" {
+		// We can't record the flags if we don't know what the
+		// package name is.
+		return
+	}
+
+	type BoolFlag interface {
+		IsBoolFlag() bool
+	}
+	type CountFlag interface {
+		IsCountFlag() bool
+	}
+	var cmd bytes.Buffer
+	for _, name := range flags {
+		f := flag.Lookup(name)
+		if f == nil {
+			continue
+		}
+		getter := f.Value.(flag.Getter)
+		if bf, ok := f.Value.(BoolFlag); ok && bf.IsBoolFlag() {
+			val, ok := getter.Get().(bool)
+			if ok {
+				if val {
+					fmt.Fprintf(&cmd, " -%s", f.Name)
+				}
+				continue
+			}
+		}
+		if cf, ok := f.Value.(CountFlag); ok && cf.IsCountFlag() {
+			val, ok := getter.Get().(int)
+			if ok && 0 <= val && val <= 1 {
+				if val == 1 {
+					fmt.Fprintf(&cmd, " -%s", f.Name)
+				}
+				continue
+			}
+		}
+		fmt.Fprintf(&cmd, " -%s=%v", f.Name, getter.Get())
+	}
+
+	cmdline := cmd.String()
+	if cmdline == "" {
+		return
+	}
+	cmdline = cmdline[1:]
+	s := Ctxt.Lookup(dwarf.CUInfoPrefix + "producer." + myimportpath)
+	s.Type = objabi.SDWARFINFO
+	Ctxt.Data = append(Ctxt.Data, s)
+	s.P = []byte(cmdline)
 }
