@@ -1,0 +1,534 @@
+// Copyright 2017 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
+
+#include "textflag.h"
+
+#define mul128P64(r0, r1, a, b, t0, t1, z) \
+	VPMULL	b.D1, a.D1, r0.Q1;\
+	VPMULL2	b.D2, a.D2, r1.Q1;\
+	VEXT	$8, b.B16, b.B16, t0.B16;\
+	VPMULL	t0.D1, a.D1, t1.Q1;\
+	VPMULL2	t0.D2, a.D2, t0.Q1;\
+	VEOR	t0.B16, t1.B16, t0.B16;\
+	VEXT	$8, t0.B16, z.B16, t1.B16;\
+	VEOR	t1.B16, r0.B16, r0.B16;\
+	VEXT	$8, z.B16, t0.B16, t1.B16;\
+	VEOR	t1.B16, r1.B16, r1.B16
+
+#define rdcP64(r, a0, a1, t0, t1, p, z) \
+	VPMULL2	p.D2, a1.D2, t0.Q1;\
+	VEXT	$8, z.B16, t0.B16, t1.B16;\
+	VEOR	t1.B16, a1.B16, a1.B16;\
+	VEXT	$8, t0.B16, z.B16, t1.B16;\
+	VEOR	t1.B16, a0.B16, a0.B16;\
+	VPMULL	p.D1, a1.D1, t0.Q1;\
+	VEOR	t0.B16, a0.B16, r.B16
+
+#define ghashBlockIter(h) \
+	VLD1.P 16(R11), [V24.B16];\
+	VRBIT	V24.B16, V24.B16;\
+	mul128P64(V22, V23, V24, h, V25, V16, V19);\
+	VEOR	V20.B16, V22.B16, V20.B16;\
+	VEOR	V21.B16, V23.B16, V21.B16
+
+// func gcmMul(dst, a, b *byte)
+TEXT ·gcmMul(SB),NOSPLIT,$0
+	MOVD	dst+0(FP), R9
+	MOVD	a+8(FP), R10
+	MOVD	b+16(FP), R11
+
+	// constant used in reduction
+	VMOVI	$0x87, V18.B16
+	VUSHR	$56, V18.D2, V18.D2
+	// zero register used in reduction
+	VMOVI	$0, V19.B16
+
+	// load a
+	VLD1	(R10), [V2.B16]
+	// load b
+	VLD1	(R11), [V3.B16]
+	// c = a * b
+	mul128P64(V0, V1, V2, V3, V25, V20, V19)
+	rdcP64(V2, V0, V1, V22, V23, V18, V19)
+
+	VST1	[V2.B16], (R9)
+	RET
+
+// func gcmHash(y, productTable *byte, input []byte)
+TEXT ·gcmHash(SB),NOSPLIT,$0
+	MOVD	y+0(FP), R9
+	MOVD	productTable+8(FP), R10
+	MOVD	input+16(FP), R11
+	MOVD	input_len+24(FP), R12
+
+	CBZ	R12, exit
+
+	// load y
+	VLD1	(R9), [V24.B16]
+	// load H^1 -- H^8
+	VLD1.P	64(R10), [V0.B16, V1.B16, V2.B16, V3.B16]
+	VLD1	(R10), [V4.B16, V5.B16, V6.B16, V7.B16]
+	// constant used in reduction
+	VMOVI	$0x87, V18.B16
+	VUSHR	$56, V18.D2, V18.D2
+	// zero register used in reduction
+	VMOVI	$0, V19.B16
+
+	CMP	$127, R12
+	BLT	less_than_127
+ghash_block:
+	// load input
+	VLD1.P	16(R11), [V22.B16]
+	// convert to GCM format
+	VRBIT	V22.B16, V22.B16
+	// process one block
+	VEOR	V24.B16, V22.B16, V24.B16
+	mul128P64(V20, V21, V24, V7, V25, V16, V19)
+
+	ghashBlockIter(V6)
+	ghashBlockIter(V5)
+	ghashBlockIter(V4)
+	ghashBlockIter(V3)
+	ghashBlockIter(V2)
+	ghashBlockIter(V1)
+	ghashBlockIter(V0)
+
+	rdcP64(V24, V20, V21, V22, V23, V18, V19)
+
+	SUB	$128, R12
+	CMP	$127, R12
+	BGT	ghash_block
+less_than_127:
+	CBZ	R12, done
+
+	VLD1.P	16(R11), [V22.B16]
+	VRBIT	V22.B16, V22.B16
+	VEOR	V24.B16, V22.B16, V24.B16
+
+	mul128P64(V22, V23, V24, V0, V25, V20, V19)
+	rdcP64(V24, V22, V23, V20, V21, V18, V19)
+
+	SUB	$16, R12
+	JMP	less_than_127
+done:
+	VST1	[V24.B16], (R9)
+
+exit:
+	RET
+
+// func gcmAesCtrEncAsm(out, plaintext *byte, datalen uint32, counter *byte, ks *uint32, nk int)
+// out: cipher after encoding
+// plaintext: encoded message
+// datalen: message length
+// counter: the nonce used to encode, this counter will not be increased in this function
+// ks: round keys for AES encoding
+// nk: rounds for AES encoding
+TEXT ·gcmAesCtrEncAsm(SB),NOSPLIT,$0
+	MOVD	out+0(FP), R0
+	MOVD	plaintext+8(FP), R1
+	MOVWU	datalen+16(FP), R2
+	MOVD	counter+24(FP), R3
+	MOVD	ks+32(FP), R4
+	MOVD	nk+40(FP), R7
+
+	CBZ	R2, done
+
+	// V5 = nonce
+	VLD1.P	16(R3), [V5.B16]
+	VMOV	V5.S[3], R5
+	REV32	R5, R5
+
+	VMOV	V5.B16, V6.B16
+	VMOV	V5.B16, V15.B16
+	VMOV	V5.B16, V24.B16
+	VMOV	V5.B16, V25.B16
+
+	ADD	$1, R5, R6
+	REV32	R6, R12
+	VMOV	R12, V6.S[3]
+	ADD	$2, R5, R8
+	REV32	R8, R13
+	VMOV	R13, V15.S[3]
+	ADD	$3, R5, R9
+	REV32	R9, R14
+	VMOV	R14, V24.S[3]
+	ADD	$4, R5, R10
+	REV32	R10, R15
+	VMOV	R15, V25.S[3]
+
+	// load round key
+	CMP	$12, R7
+	BLT	round_10
+	BEQ	round_12
+
+round_14:
+	VLD1.P 32(R4), [V9.B16, V10.B16]
+
+round_12:
+	VLD1.P	32(R4), [V11.B16, V12.B16]
+
+round_10:
+	VLD1.P	64(R4), [V16.B16, V17.B16, V18.B16, V19.B16]
+	VLD1.P	64(R4), [V20.B16, V21.B16, V22.B16, V23.B16]
+	VLD1.P	48(R4), [V1.B16, V2.B16, V3.B16]
+
+	// tell if compute parallelly
+	CMP	$80, R2
+	BLT	leftover
+
+full_block:
+	VMOV	V5.B16, V0.B16
+	VMOV	V6.B16, V7.B16
+	VMOV	V15.B16, V26.B16
+	VMOV	V24.B16, V29.B16
+	VMOV	V25.B16, V30.B16
+	CMP	$12, R7
+	BLT	full_lenc128
+	BEQ	full_lenc196
+
+full_lenc256:
+	AESE	V9.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V9.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V9.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V9.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V9.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+	AESE	V10.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V10.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V10.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V10.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V10.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+full_lenc196:
+	AESE	V11.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V11.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V11.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V11.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V11.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+	AESE	V12.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V12.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V12.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V12.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V12.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+full_lenc128:
+	// counter += 5
+	ADD	$5, R5, R5
+	ADD	$5, R6, R6
+	ADD	$5, R8, R8
+	ADD	$5, R9, R9
+	ADD	$5, R10, R10
+	REV32	R5, R12
+	REV32	R6, R3
+	REV32	R8, R13
+	REV32	R9, R14
+	REV32	R10, R15
+	VMOV	R12, V5.S[3]
+	VMOV	R3, V6.S[3]
+	VMOV	R13, V15.S[3]
+	VMOV	R14, V24.S[3]
+	VMOV	R15, V25.S[3]
+
+	AESE	V16.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V16.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V16.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V16.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V16.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+	AESE	V17.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V17.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V17.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V17.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V17.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+	AESE	V18.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V18.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V18.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V18.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V18.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+	AESE	V19.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V19.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V19.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V19.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V19.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+	AESE	V20.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V20.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V20.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V20.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V20.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+	AESE	V21.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V21.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V21.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V21.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V21.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+	AESE	V22.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V22.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V22.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V22.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V22.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+	AESE	V23.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V23.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V23.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V23.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V23.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+	AESE	V1.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V1.B16, V7.B16
+	AESMC	V7.B16, V7.B16
+	AESE	V1.B16, V26.B16
+	AESMC	V26.B16, V26.B16
+	AESE	V1.B16, V29.B16
+	AESMC	V29.B16, V29.B16
+	AESE	V1.B16, V30.B16
+	AESMC	V30.B16, V30.B16
+
+	AESE	V2.B16, V0.B16
+	AESE	V2.B16, V7.B16
+	AESE	V2.B16, V26.B16
+	AESE	V2.B16, V29.B16
+	AESE	V2.B16, V30.B16
+	VEOR	V0.B16, V3.B16, V0.B16
+	VEOR	V7.B16, V3.B16, V7.B16
+	VEOR	V26.B16, V3.B16, V26.B16
+	VEOR	V29.B16, V3.B16, V29.B16
+	VEOR	V30.B16, V3.B16, V30.B16
+
+	// encrypt(eor) plaintext with above counter encryption result.
+	VLD1.P	16(R1), [V4.B16]
+	VEOR	V4.B16, V0.B16, V4.B16
+	VLD1.P	16(R1), [V0.B16]
+	VEOR	V0.B16, V7.B16, V0.B16
+	VLD1.P	16(R1), [V27.B16]
+	VEOR	V27.B16, V26.B16, V27.B16
+	VLD1.P	16(R1), [V28.B16]
+	VEOR	V28.B16, V29.B16, V28.B16
+	VLD1.P	16(R1), [V31.B16]
+	VEOR	V31.B16, V30.B16, V31.B16
+
+	// store
+	VST1.P	[V4.B16], 16(R0)
+	VST1.P	[V0.B16], 16(R0)
+	VST1.P	[V27.B16], 16(R0)
+	VST1.P	[V28.B16], 16(R0)
+	VST1.P	[V31.B16], 16(R0)
+
+	SUBS	$80, R2, R2
+	CBZ	R2, done
+	CMP	$80, R2
+	BGT	full_block
+
+leftover:
+	CMP	$16, R2
+	BLT	leftover_last
+
+	VMOV	V5.B16, V0.B16
+	CMP	$12, R7
+	BLT	leftover_lenc128
+	BEQ	leftover_lenc196
+
+	// AES counter
+leftover_lenc256:
+	AESE	V9.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V10.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+
+leftover_lenc196:
+	AESE	V11.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V12.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+
+leftover_lenc128:
+	// counter += 1
+	ADD	$1, R5, R5
+	REV32	R5, R12
+	VMOV	R12, V5.S[3]
+
+	AESE	V16.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V17.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V18.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V19.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V20.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V21.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V22.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V23.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V1.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V2.B16, V0.B16
+	VEOR	V0.B16, V3.B16, V0.B16
+
+	// encrypt plaintext
+	VLD1.P	16(R1), [V4.B16]
+	VEOR	V4.B16, V0.B16, V4.B16
+	// len -= 16
+	SUBS	$16, R2, R2
+	// store
+	VST1.P	[V4.B16], 16(R0)
+	JMP	leftover
+
+leftover_last:
+	// clear V4 register
+	VEOR	V4.B16, V4.B16, V4.B16
+	CBZ	R2, done
+	SUBS	$1, R2, R11
+	ADD	R1, R11, R1
+	// load remain bytes
+leftover_load_loop:
+	VMOV	V4.B16, V8.B16
+	VSHL	$8, V4.D2, V4.D2
+	VMOV	V8.B[7], V4.B[8]
+	VLD1	(R1), V4.B[0]
+	SUB	$1, R1
+	SUB	$1, R2
+	CBNZ	R2, leftover_load_loop
+
+	VMOV	V5.B16, V0.B16
+	CMP	$12, R7
+	BLT	leftover_last_lenc128
+	BEQ	leftover_last_lenc196
+
+	// AES counter
+leftover_last_lenc256:
+	AESE	V9.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V10.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+
+leftover_last_lenc196:
+	AESE	V11.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V12.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+
+leftover_last_lenc128:
+	AESE	V16.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V17.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V18.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V19.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V20.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V21.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V22.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V23.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V1.B16, V0.B16
+	AESMC	V0.B16, V0.B16
+	AESE	V2.B16, V0.B16
+	VEOR	V0.B16, V3.B16, V0.B16
+
+	// encrypt plaintext
+	VEOR	V4.B16, V0.B16, V4.B16
+
+	// store remain cipher
+	ADD	$1, R11, R2
+leftover_loop_store:
+	VMOV	V4.B16, V8.B16
+	VST1.P	V4.B[0], 1(R0)
+	VUSHR	$8, V4.D2, V4.D2
+	VMOV	V8.B[8], V4.B[7]
+	SUBS	$1, R2
+	CBNZ	R2, leftover_loop_store
+
+done:
+	RET
+
+// func gcmConvertBytes(out, in *byte)
+TEXT ·gcmConvertBytes(SB),NOSPLIT,$0
+	MOVD	out+0(FP), R0
+	MOVD	in+8(FP), R1
+
+	VLD1	(R1), [V0.B16]
+	VRBIT	V0.B16, V0.B16
+
+	VST1	[V0.B16], (R0)
+	RET
+
+// func gcmMergeLen(out *[]byte, len0, len1 uint64)
+TEXT ·gcmMergeLen(SB),NOSPLIT,$0
+	MOVD	out+0(FP), R0
+	LDP	len0+8(FP), (R1, R2)
+	REV	R1, R1
+	REV	R2, R2
+	STP	(R1, R2), (R0)
+	RET
