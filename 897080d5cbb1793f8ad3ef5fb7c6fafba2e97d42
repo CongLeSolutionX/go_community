@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03b1ca9c_376822ae",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1942,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-17T21:12:06Z",
+      "side": 1,
+      "message": "The doc comment on prepareOnConnLocked says the caller is expected to hold dc\u0027s lock, but as far as I can tell the lock is not held here. Should this use withLock like at line 1922?",
+      "revId": "897080d5cbb1793f8ad3ef5fb7c6fafba2e97d42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "accc66cb_bba0d260",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2492,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-17T21:12:06Z",
+      "side": 1,
+      "message": "If it\u0027s the case that uses of rs.rowsi need to be protected by holding rs.dc, isn\u0027t this use still incorrectly unprotected?",
+      "revId": "897080d5cbb1793f8ad3ef5fb7c6fafba2e97d42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7559208a_e2d29170",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2586,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-17T21:12:06Z",
+      "side": 1,
+      "message": "And this use?",
+      "revId": "897080d5cbb1793f8ad3ef5fb7c6fafba2e97d42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3bc4de7_8b8aecb2",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2600,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-17T21:12:06Z",
+      "side": 1,
+      "message": "And this use?",
+      "revId": "897080d5cbb1793f8ad3ef5fb7c6fafba2e97d42",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
