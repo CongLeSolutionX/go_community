@@ -18,6 +18,7 @@ type aesCipherAsm struct {
 }
 
 var hasAES = cpu.ARM64.HasAES
+var hasPMULL = cpu.ARM64.HasPMULL
 
 func newCipher(key []byte) (cipher.Block, error) {
 	if !hasAES {
@@ -26,6 +27,9 @@ func newCipher(key []byte) (cipher.Block, error) {
 	n := len(key) + 28
 	c := aesCipherAsm{aesCipher{make([]uint32, n), make([]uint32, n)}}
 	armExpandKey(key, c.enc, c.dec)
+	if hasAES && hasPMULL {
+		return &aesCipherGCM{c}, nil
+	}
 	return &c, nil
 }
 
