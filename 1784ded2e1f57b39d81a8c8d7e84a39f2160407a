@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68599740_9e6a1322",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-17T23:18:45Z",
+      "side": 1,
+      "message": "This is not correct: Just because you happen to have an import with the right name, doesn\u0027t mean that you cannot have a local definition that shadows that name. You need to look at the type given to the selector expression and see if it\u0027s a builtin like the code above.",
+      "revId": "1784ded2e1f57b39d81a8c8d7e84a39f2160407a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a8d836c_02ce408c",
+        "filename": "src/cmd/vet/testdata/copylock_func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-17T23:18:45Z",
+      "side": 1,
+      "message": "If one also imports \"unsafe\" without rename, the test fails (doesn\u0027t provide an error) even though the mutex is copied in the new example.",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "1784ded2e1f57b39d81a8c8d7e84a39f2160407a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
