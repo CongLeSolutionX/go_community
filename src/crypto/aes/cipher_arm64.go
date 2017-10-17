@@ -19,15 +19,16 @@ type aesCipherAsm struct {
 	aesCipher
 }
 
-var hasAES = cpu.ARM64.HasAES
-
 func newCipher(key []byte) (cipher.Block, error) {
-	if !hasAES {
+	if !cpu.ARM64.HasAES {
 		return newCipherGeneric(key)
 	}
 	n := len(key) + 28
 	c := aesCipherAsm{aesCipher{make([]uint32, n), make([]uint32, n)}}
 	armExpandKey(key, c.enc, c.dec)
+	if cpu.ARM64.HasAES && cpu.ARM64.HasPMULL {
+		return &aesCipherGCM{c}, nil
+	}
 	return &c, nil
 }
 
@@ -44,13 +45,13 @@ func (c *aesCipherAsm) Encrypt(dst, src []byte) {
 }
 
 func (c *aesCipherAsm) Decrypt(dst, src []byte) {
-        if len(src) < BlockSize {
-                panic("crypto/aes: input not full block")
-        }
-        if len(dst) < BlockSize {
-                panic("crypto/aes: output not full block")
-        }
-        decryptBlockAsm(len(c.dec)/4-1, &c.dec[0], &dst[0], &src[0])
+	if len(src) < BlockSize {
+		panic("crypto/aes: input not full block")
+	}
+	if len(dst) < BlockSize {
+		panic("crypto/aes: output not full block")
+	}
+	decryptBlockAsm(len(c.dec)/4-1, &c.dec[0], &dst[0], &src[0])
 }
 
 func armExpandKey(key []byte, enc, dec []uint32) {
@@ -68,5 +69,5 @@ func armExpandKey(key []byte, enc, dec []uint32) {
 // expandKey is used by BenchmarkExpand to ensure that the asm implementation
 // of key expansion is used for the benchmark when it is available.
 func expandKey(key []byte, enc, dec []uint32) {
-    expandKeyGo(key, enc, dec)
+	expandKeyGo(key, enc, dec)
 }
