@@ -86,6 +86,8 @@ func arrange(a int) string {
 		return "S"
 	case ARNG_D:
 		return "D"
+	case ARNG_1Q:
+		return "Q1"
 	default:
 		return ""
 	}
@@ -240,6 +242,8 @@ func rlconv(list int64) string {
 		t = "D1"
 	case 7:
 		t = "D2"
+	case 8:
+		t = "Q1"
 	}
 	for i := 0; i < regCnt; i++ {
 		if str == "" {
