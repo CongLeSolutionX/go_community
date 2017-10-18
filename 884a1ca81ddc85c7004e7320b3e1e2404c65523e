@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "022a58db_72f3e795",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 5034,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-10-18T20:27:52Z",
+      "side": 1,
+      "message": "what about\nc :\u003d make(chan int)\nfor x :\u003d range c { ... }\n\nit\u0027s actually defined elsewhere that len(c) is not CONSTANT, but it is always the constant 0. you decide whether that needs clarification. it\u0027s a bit... fiddly.",
+      "revId": "884a1ca81ddc85c7004e7320b3e1e2404c65523e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
