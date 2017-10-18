@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0360c49_8d229be4",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1256,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-18T16:46:01Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem like there was much point to converting to string; may as well call cmd.Bytes().",
+      "revId": "461560cd22e493c7d1ac0610f1f94bb4c7138c37",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
