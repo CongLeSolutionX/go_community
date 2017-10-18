@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ead0e918_35494f3c",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-18T13:11:54Z",
+      "side": 1,
+      "message": "Maybe add some sort of comment explaining how this list was chosen?",
+      "range": {
+        "startLine": 243,
+        "startChar": 0,
+        "endLine": 243,
+        "endChar": 64
+      },
+      "revId": "76b0c8efbcb282a771a0e5d2aa09b655bae17adf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
