@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7c09086_8de9a388",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-18T00:31:26Z",
+      "side": 1,
+      "message": "This seems a bit round-about. Just:\n\nif z.prec \u003d\u003d 0 {\n   z.prec \u003d x.prec\n}",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 5
+      },
+      "revId": "f3626e8f6ab11ad8c8ab46e234c8acbcdff840a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72081654_63371324",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-18T00:31:26Z",
+      "side": 1,
+      "message": "remove this line",
+      "range": {
+        "startLine": 49,
+        "startChar": 3,
+        "endLine": 49,
+        "endChar": 7
+      },
+      "revId": "f3626e8f6ab11ad8c8ab46e234c8acbcdff840a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d74cb963_a8996e88",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-18T00:31:26Z",
+      "side": 1,
+      "message": "use ** instead of superscript to be consistent with the comments below - as is we have many different notations",
+      "range": {
+        "startLine": 51,
+        "startChar": 17,
+        "endLine": 51,
+        "endChar": 18
+      },
+      "revId": "f3626e8f6ab11ad8c8ab46e234c8acbcdff840a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1005d7a_3e0e7023",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-18T00:31:26Z",
+      "side": 1,
+      "message": "it\u0027s not really 1/2*b, it\u0027s b \u003e\u003e 1 when b is odd",
+      "range": {
+        "startLine": 53,
+        "startChar": 17,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "f3626e8f6ab11ad8c8ab46e234c8acbcdff840a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d62c3fac_adbcc44e",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-18T00:31:26Z",
+      "side": 1,
+      "message": "if z.prec \u003c\u003d 128 { ...",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 8
+      },
+      "revId": "f3626e8f6ab11ad8c8ab46e234c8acbcdff840a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c876c966_125acb86",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-18T00:31:26Z",
+      "side": 1,
+      "message": "where is the constant 128 coming from? Isn\u0027t it machine dependent? Should it be a value that can be found through calibration?",
+      "revId": "f3626e8f6ab11ad8c8ab46e234c8acbcdff840a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b629b78_36536462",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-18T00:31:26Z",
+      "side": 1,
+      "message": "this is only used internally - there\u0027s no need to return the result since it\u0027s assigned to z",
+      "range": {
+        "startLine": 84,
+        "startChar": 16,
+        "endLine": 84,
+        "endChar": 27
+      },
+      "revId": "f3626e8f6ab11ad8c8ab46e234c8acbcdff840a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a091ee28_69efe212",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-18T00:31:26Z",
+      "side": 1,
+      "message": "this is only used internally - there\u0027s no need to return the result since it\u0027s assigned to z",
+      "range": {
+        "startLine": 114,
+        "startChar": 16,
+        "endLine": 114,
+        "endChar": 26
+      },
+      "revId": "f3626e8f6ab11ad8c8ab46e234c8acbcdff840a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
