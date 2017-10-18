@@ -16,6 +16,24 @@
       "revId": "cdeb898b51042bb4659dfb74579b2c10c76f0099",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbbff20a_926b4f51",
+        "filename": "src/cmd/compile/internal/gc/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-18T19:32:01Z",
+      "side": 1,
+      "message": "Sure, though hopefully that flag will go away in the not-too-distant future.\n\n(That said, I wouldn\u0027t want anything to base any decisions on this. It would be better to just look for location lists and use them if present.)",
+      "parentUuid": "8c971daa_e627b075",
+      "revId": "cdeb898b51042bb4659dfb74579b2c10c76f0099",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
