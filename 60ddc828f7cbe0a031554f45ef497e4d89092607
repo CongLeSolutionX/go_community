@@ -69,6 +69,24 @@
       "revId": "60ddc828f7cbe0a031554f45ef497e4d89092607",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f255641_2cb44f6d",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-18T13:59:31Z",
+      "side": 1,
+      "message": "Why not also share the less-than-16-byte part? It seems memeqbody already handles less-than-16-byte tail, so just jump there regardless?",
+      "parentUuid": "37d753a4_ec994478",
+      "revId": "60ddc828f7cbe0a031554f45ef497e4d89092607",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7863201_ba1c8238",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 722,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-18T13:59:31Z",
+      "side": 1,
+      "message": "Is one-byte so common that it\u0027s worth a special case?",
+      "revId": "8c963c62f63ae8914ce7ae32c926ac38d763105b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c943966_6a1df7a4",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-18T13:59:31Z",
+      "side": 1,
+      "message": "This comment looks confusing to me. Probably just remove.",
+      "revId": "8c963c62f63ae8914ce7ae32c926ac38d763105b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
