@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "68e84444_b8714fb2",
+        "filename": "src/cmd/vet/copylock.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2017-10-18T09:29:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68599740_9e6a1322",
+      "revId": "1784ded2e1f57b39d81a8c8d7e84a39f2160407a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a8d836c_02ce408c",
         "filename": "src/cmd/vet/testdata/copylock_func.go",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "1784ded2e1f57b39d81a8c8d7e84a39f2160407a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ee1dbe_4ceda21a",
+        "filename": "src/cmd/vet/testdata/copylock_func.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 22895
+      },
+      "writtenOn": "2017-10-18T09:29:15Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "0a8d836c_02ce408c",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "1784ded2e1f57b39d81a8c8d7e84a39f2160407a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
