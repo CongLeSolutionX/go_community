@@ -233,40 +233,14 @@ func decomposeUser(f *Func) {
 	// We must do the opt pass before any deadcode elimination or we will
 	// lose the name->value correspondence.
 	i := 0
-	var fnames []LocalSlot
 	var newNames []LocalSlot
 	for _, name := range f.Names {
 		t := name.Type
 		switch {
 		case t.IsStruct():
-			n := t.NumFields()
-			fnames = fnames[:0]
-			for i := 0; i < n; i++ {
-				fnames = append(fnames, f.fe.SplitStruct(name, i))
-			}
-			for _, v := range f.NamedValues[name] {
-				for i := 0; i < n; i++ {
-					x := v.Block.NewValue1I(v.Pos, OpStructSelect, t.FieldType(i), int64(i), v)
-					f.NamedValues[fnames[i]] = append(f.NamedValues[fnames[i]], x)
-				}
-			}
-			delete(f.NamedValues, name)
-			newNames = append(newNames, fnames...)
+			newNames = append(newNames, decomposeUserStruct(f, name)...)
 		case t.IsArray():
-			if t.NumElem() == 0 {
-				// TODO(khr): Not sure what to do here.  Probably nothing.
-				// Names for empty arrays aren't important.
-				break
-			}
-			if t.NumElem() != 1 {
-				f.Fatalf("array not of size 1")
-			}
-			elemName := f.fe.SplitArray(name)
-			for _, v := range f.NamedValues[name] {
-				e := v.Block.NewValue1I(v.Pos, OpArraySelect, t.ElemType(), 0, v)
-				f.NamedValues[elemName] = append(f.NamedValues[elemName], e)
-			}
-
+			newNames = append(newNames, decomposeUserArray(f, name)...)
 		default:
 			f.Names[i] = name
 			i++
@@ -276,6 +250,78 @@ func decomposeUser(f *Func) {
 	f.Names = append(f.Names, newNames...)
 }
 
+func decomposeUserArray(f *Func, name LocalSlot) []LocalSlot {
+	t := name.Type
+	if t.NumElem() == 0 {
+		// TODO(khr): Not sure what to do here.  Probably nothing.
+		// Names for empty arrays aren't important.
+		return []LocalSlot{}
+	}
+	if t.NumElem() != 1 {
+		// shouldn't get here due to CanSSA
+		f.Fatalf("array not of size 1")
+	}
+	elemName := f.fe.SplitArray(name)
+	for _, v := range f.NamedValues[name] {
+		e := v.Block.NewValue1I(v.Pos, OpArraySelect, t.ElemType(), 0, v)
+		f.NamedValues[elemName] = append(f.NamedValues[elemName], e)
+	}
+	// delete the name for the array as a whole
+	delete(f.NamedValues, name)
+
+	if t.ElemType().IsArray() {
+		ret := decomposeUserArray(f, elemName)
+		delete(f.NamedValues, elemName)
+		return ret
+	} else if t.ElemType().IsStruct() {
+		ret := decomposeUserStruct(f, elemName)
+		delete(f.NamedValues, elemName)
+		return ret
+	}
+
+	// no need to record the name, as it's being decomposed further
+	return []LocalSlot{elemName}
+}
+
+func decomposeUserStruct(f *Func, name LocalSlot) []LocalSlot {
+	fnames := []LocalSlot{} // slots for struct in name
+	ret := []LocalSlot{}    // slots for struct in name plus nested struct slots
+	t := name.Type
+	n := t.NumFields()
+
+	for i := 0; i < n; i++ {
+		fs := f.fe.SplitStruct(name, i)
+		fnames = append(fnames, fs)
+		// arrays and structs will be decomposed further, so
+		// there's no need to record a name
+		if !fs.Type.IsArray() && !fs.Type.IsStruct() {
+			ret = append(ret, fs)
+		}
+	}
+
+	// create named values for each struct field
+	for _, v := range f.NamedValues[name] {
+		for i := 0; i < len(fnames); i++ {
+			x := v.Block.NewValue1I(v.Pos, OpStructSelect, t.FieldType(i), int64(i), v)
+			f.NamedValues[fnames[i]] = append(f.NamedValues[fnames[i]], x)
+		}
+	}
+	// remove the name of the struct as a whole
+	delete(f.NamedValues, name)
+
+	// now that this f.NamedValues contains values for the struct
+	// fields, recurse into nested structs
+	for i := 0; i < n; i++ {
+		if name.Type.FieldType(i).IsStruct() {
+			ret = append(ret, decomposeUserStruct(f, fnames[i])...)
+			delete(f.NamedValues, fnames[i])
+		} else if name.Type.FieldType(i).IsArray() {
+			ret = append(ret, decomposeUserArray(f, fnames[i])...)
+			delete(f.NamedValues, fnames[i])
+		}
+	}
+	return ret
+}
 func decomposeUserPhi(v *Value) {
 	switch {
 	case v.Type.IsStruct():
