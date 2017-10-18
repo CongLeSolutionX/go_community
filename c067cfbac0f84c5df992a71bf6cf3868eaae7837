@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "80ac4a4b_f30f7bc7",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-18T00:34:58Z",
+      "side": 1,
+      "message": "I see. Yes, you may have to reset z.prec, but do it directly, not via a method call. Save it immediately before the MantExp call, and restore afterwards. That makes it clearer. And add a comment, otherwise this logic is really hard to understand for a reader.",
+      "parentUuid": "977eb521_e5037a4b",
+      "range": {
+        "startLine": 46,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 10
+      },
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de7d48af_5a531e75",
         "filename": "src/math/big/sqrtf.go",
         "patchSetId": 7
