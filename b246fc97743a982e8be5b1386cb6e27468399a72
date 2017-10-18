@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03e8f0fb_16e2bf4b",
+        "filename": "src/net/http/serve_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 3114,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-18T19:41:38Z",
+      "side": 1,
+      "message": "How does the test verify that this deadline doesn\u0027t affect the hijack? The test very well could pass only with an extra 5 second delay. The test needs to verify that the hijack response takes less than 5s and/or use a much longer deadline here.",
+      "revId": "b246fc97743a982e8be5b1386cb6e27468399a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e45e4a69_360f6cf9",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-18T19:41:38Z",
+      "side": 1,
+      "message": "This field is being accessed without holding connReader.mu.",
+      "revId": "b246fc97743a982e8be5b1386cb6e27468399a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e09d01d5_058342a0",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-18T19:41:38Z",
+      "side": 1,
+      "message": "What is going on here? I have no idea.",
+      "range": {
+        "startLine": 298,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 6
+      },
+      "revId": "b246fc97743a982e8be5b1386cb6e27468399a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d10bf46e_17cf0a6c",
+        "filename": "src/net/http/server.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-18T19:41:38Z",
+      "side": 1,
+      "message": "Why isn\u0027t this just before line 692?",
+      "revId": "b246fc97743a982e8be5b1386cb6e27468399a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
