@@ -108,12 +108,23 @@ func (d DummyFrontend) SplitInt64(s LocalSlot) (LocalSlot, LocalSlot) {
 	}
 	return LocalSlot{N: s.N, Type: dummyTypes.UInt32, Off: s.Off + 4}, LocalSlot{N: s.N, Type: dummyTypes.UInt32, Off: s.Off}
 }
+
 func (d DummyFrontend) SplitStruct(s LocalSlot, i int) LocalSlot {
 	return LocalSlot{N: s.N, Type: s.Type.FieldType(i), Off: s.Off + s.Type.FieldOff(i)}
 }
 func (d DummyFrontend) SplitArray(s LocalSlot) LocalSlot {
 	return LocalSlot{N: s.N, Type: s.Type.ElemType(), Off: s.Off}
 }
+
+// func (d DummyFrontend) SplitStruct(s LocalSlot, i int) LocalSlot {
+// 	a := s.N.(*DummyAuto)
+// 	return LocalSlot{&DummyAuto{s: a.s + "." + s.Type.FieldName(i)}, s.Type.FieldType(i), s.Off + s.Type.FieldOff(i)}
+// }
+// func (d DummyFrontend) SplitArray(s LocalSlot) LocalSlot {
+// 	a := s.N.(*DummyAuto)
+// 	return LocalSlot{&DummyAuto{s: a.s + "[0]"}, s.Type.ElemType(), s.Off}
+// }
+
 func (DummyFrontend) Line(_ src.XPos) string {
 	return "unknown.go:0"
 }
