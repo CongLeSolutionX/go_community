@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05babc48_27a46aa5",
+        "filename": "test/fixedbugs/issue13265.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-18T14:34:05Z",
+      "side": 1,
+      "message": "s/2016/2017/\n\n2017 is the year of the gopher.",
+      "revId": "c89ec9cf27eb8c64eea78d01b59914db1476fcf6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
