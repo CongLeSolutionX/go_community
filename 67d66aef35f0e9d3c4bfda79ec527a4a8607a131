@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fcb3180_62bd74d5",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-18T07:53:42Z",
+      "side": 1,
+      "message": "There is a bit of inconsistency between these examples. I would call the return value of `ring.New` by the name of `head`, and the value you are iterating with (now called `head`) by the name of `r`. That will make it clear that you are storing the `head` to go from the \"start\".",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b31c1fe_58ac49e0",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-18T07:53:42Z",
+      "side": 1,
+      "message": "Since this is an example, I would love to see more inline comments here. For example:\n```\n// Set the value of each element in the ring and move on to the next one.\n```",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f985d13e_994225d7",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-18T07:53:42Z",
+      "side": 1,
+      "message": "I think there\u0027s no need to type cast here.",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86da8c17_d4fc6a05",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-18T07:53:42Z",
+      "side": 1,
+      "message": "In the previous loop you have a hash tag (#) before the index, but not here, please make them consistent.",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b654342_00720ba5",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-18T07:53:42Z",
+      "side": 1,
+      "message": "The same here, I would switch the names \"r\" and \"head\" to be more specific",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12f94aae_ab08198e",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-18T07:53:42Z",
+      "side": 1,
+      "message": "Would prefer to see comment here, even if considered obvious. Most examples in the stdlib have many inline comments.",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd707e56_e1af706f",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-18T07:53:42Z",
+      "side": 1,
+      "message": "Since this is an example for Link, I would illustrate only Link here to simplify. I would remove the Do iteration and the printing of the output, as that has already been demonstrated in the previous examples.",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
