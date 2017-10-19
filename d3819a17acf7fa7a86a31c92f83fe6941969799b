@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "9eddc85e_15614a2c",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "I don\u0027t think this is necessary.",
+      "range": {
+        "startLine": 116,
+        "startChar": 3,
+        "endLine": 116,
+        "endChar": 10
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1903030c_3a5465df",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "I think bufferSize is fine.",
+      "range": {
+        "startLine": 119,
+        "startChar": 6,
+        "endLine": 119,
+        "endChar": 30
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e7dcafac_a873a32e",
         "filename": "src/encoding/hex/hex.go",
         "patchSetId": 3
@@ -25,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "ae761337_876f1a3c",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "I think it\u0027s fine to keep this to be consistent with decoder.",
+      "parentUuid": "e7dcafac_a873a32e",
+      "range": {
+        "startLine": 123,
+        "startChar": 1,
+        "endLine": 123,
+        "endChar": 10
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de302614_3503b232",
         "filename": "src/encoding/hex/hex.go",
         "patchSetId": 3
@@ -41,6 +111,122 @@
         "startChar": 1,
         "endLine": 124,
         "endChar": 52
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0efa4df_a098eec8",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "It is not possible to stack allocate buffers that get passed to an io.Writer since the compiler can\u0027t prove that the buffer won\u0027t escape.",
+      "parentUuid": "de302614_3503b232",
+      "range": {
+        "startLine": 124,
+        "startChar": 1,
+        "endLine": 124,
+        "endChar": 52
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e05c729_6b25ac3a",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "for len(p) \u003e 0 \u0026\u0026 e.err \u003d\u003d nil\n\nThen we can drop the check on L133 and L147",
+      "range": {
+        "startLine": 137,
+        "startChar": 1,
+        "endLine": 137,
+        "endChar": 17
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b524672_6e30535b",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "len(e.out) is more readable.",
+      "range": {
+        "startLine": 138,
+        "startChar": 15,
+        "endLine": 138,
+        "endChar": 39
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "088fd804_2bab36b8",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "written/2.\n\nThis should count the number of input bytes written, not the encoded hex bytes.",
+      "range": {
+        "startLine": 146,
+        "startChar": 7,
+        "endLine": 146,
+        "endChar": 14
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "161eacb2_1e8e44cf",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "Comment not necesary.",
+      "range": {
+        "startLine": 156,
+        "startChar": 3,
+        "endLine": 156,
+        "endChar": 10
       },
       "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
@@ -71,6 +257,30 @@
     },
     {
       "key": {
+        "uuid": "65c4cdac_354e320a",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "When the decoder hits an error, it\u0027s not obvious how it resumes.\nAlso, many people expect io.Reader errors to be sticky.",
+      "parentUuid": "bea445b6_54b92c2d",
+      "range": {
+        "startLine": 160,
+        "startChar": 1,
+        "endLine": 160,
+        "endChar": 10
+      },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "143c8c59_3344bb92",
         "filename": "src/encoding/hex/hex.go",
         "patchSetId": 3
@@ -88,6 +298,40 @@
         "endLine": 162,
         "endChar": 8
       },
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c900b756_21141c65",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "Delete blank line.",
+      "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a37e3a01_8f8c89c8",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T07:49:14Z",
+      "side": 1,
+      "message": "This seems more complicated than necessary. How about this:\n\nhttps://play.golang.org/p/IrK51dZfjQ",
       "revId": "d3819a17acf7fa7a86a31c92f83fe6941969799b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
