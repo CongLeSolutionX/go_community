@@ -22,6 +22,29 @@
       "revId": "92d4d8f9efc78fb9b50993dbb62d236aa2a9c981",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "655d0fe0_942a59ca",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T17:27:21Z",
+      "side": 1,
+      "message": "This needs to have the table information in it somehow, preferably the original polynomial, but at the very least a hash of the table.\n\nThis should fail for me.\n h :\u003d New(IEEETable)\n h.Write([]byte(\"something\"))\n state, _ :\u003d h.(encoding.BinaryMarshaler).MarshalBinary()\n\n h2 :\u003d New(Castagnoli)\n err :\u003d h2.(encoding.BinaryUnmarshaler).UnmarshalBinary()",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 1
+      },
+      "revId": "92d4d8f9efc78fb9b50993dbb62d236aa2a9c981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
