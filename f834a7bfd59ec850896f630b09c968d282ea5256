@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6f799f6_18077bb1",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T20:28:08Z",
+      "side": 1,
+      "message": "Just called enc.Write([]byte(input))",
+      "range": {
+        "startLine": 128,
+        "startChar": 14,
+        "endLine": 128,
+        "endChar": 50
+      },
+      "revId": "f834a7bfd59ec850896f630b09c968d282ea5256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b41e83f7_135e799f",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T20:28:08Z",
+      "side": 1,
+      "message": "Check error please",
+      "range": {
+        "startLine": 128,
+        "startChar": 9,
+        "endLine": 128,
+        "endChar": 10
+      },
+      "revId": "f834a7bfd59ec850896f630b09c968d282ea5256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dd183b8_4de81b25",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T20:28:08Z",
+      "side": 1,
+      "message": "It\u0027s generally more useful to keep the actual input in the test name if its not too long.\n \"encoder.Write(%q*%d) \u003d (%d, %v), want (%d, nil)\", test.dev, multiplier, n, err, len(input)\n\nUse this style here and below.",
+      "range": {
+        "startLine": 129,
+        "startChar": 14,
+        "endLine": 129,
+        "endChar": 97
+      },
+      "revId": "f834a7bfd59ec850896f630b09c968d282ea5256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9a3d4e6_13b169f2",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T20:28:08Z",
+      "side": 1,
+      "message": "Define the table inside the function to avoid polluting the global namespace.\n\n func TestDecodeErr(t *testing.T) {\n     tests :\u003d []struct{\n         in string\n         wantOut string\n         wantErr error\n     } {\n         {\"\", \"\", nil},\n         {\"0\", \"\", io.ErrUnexpectedEOF},\n         {\"0g\", \"\", InvalidByteError(\u0027g\u0027)},\n         {\"00gg\", \"\\x00\", InvalidByteError(\u0027g\u0027)},\n         {\"0\\x01\", \"\", InvalidByteError(\u0027\\x01\u0027)},\n         {\"ffeed\", \"\\xff\\xee\", io.ErrUnexpectedEOF},\n     }\n\n     for _, tt :\u003d range tests {\n         dec :\u003d NewDecoder(strings.NewReader(test.in))\n         got, err :\u003d ioutil.ReadAll(dec)\n         if string(got) !\u003d wantOut || err !\u003d wantErr {\n             t.Errorf(\"NewDecoder(%q) \u003d (%q, %v), want (%q, %v)\", got, err, wantOut, wantErr)\n         }\n     }\n }\n\nAlso, the Go style is to use got/want instead of got/expected.",
+      "revId": "f834a7bfd59ec850896f630b09c968d282ea5256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c957fa2f_e87bdc9a",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T20:28:08Z",
+      "side": 1,
+      "message": "Delete this. We can encapsulate this logic into TestDecodeErr.",
+      "revId": "f834a7bfd59ec850896f630b09c968d282ea5256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
