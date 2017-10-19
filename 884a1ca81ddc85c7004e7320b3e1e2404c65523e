@@ -16,6 +16,24 @@
       "revId": "884a1ca81ddc85c7004e7320b3e1e2404c65523e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33f04b91_f533aa5c",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 5034,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-19T00:01:32Z",
+      "side": 1,
+      "message": "I think what we have is ok. In the spec, when we talk about constants, we mean compile-time constants. This is not a compile-time constant in the spec sense; it requires context knowledge. For instance:\nvar x \u003d 0\nfor i :\u003d range x { ... }\nwould suffer from the same problem.\n\nThe nice thing about the new wording is that it relies on the definition of const-ness for len(x) which is already defined elsewhere as you pointed out, and which is what is (the length) actually used in the implementation.",
+      "parentUuid": "022a58db_72f3e795",
+      "revId": "884a1ca81ddc85c7004e7320b3e1e2404c65523e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
