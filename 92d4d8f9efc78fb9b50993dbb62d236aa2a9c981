@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4449d2a5_94f827ea",
+        "filename": "src/cmd/dist/deps.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T06:38:16Z",
+      "side": 1,
+      "message": "encoding/binary unfortunately has a large dependency tree since it depends on reflect.\nNone of the prior dependencies had an indirect dependency on reflect, so that is new dependency.",
+      "range": {
+        "startLine": 419,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 3
+      },
+      "revId": "92d4d8f9efc78fb9b50993dbb62d236aa2a9c981",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
