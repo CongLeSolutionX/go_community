@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "67af625b_3a2c8173",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T20:34:08Z",
+      "side": 1,
+      "message": "Let\u0027s not do premature optimization in tests. It\u0027s better to write the code naturally as is.",
+      "range": {
+        "startLine": 118,
+        "startChar": 1,
+        "endLine": 118,
+        "endChar": 21
+      },
+      "revId": "f834a7bfd59ec850896f630b09c968d282ea5256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19f9d0e2_0d8d3d1c",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T20:34:08Z",
+      "side": 1,
+      "message": "Here do:\n var encBuf bytes.Buffer\n enc :\u003d NewEncoder(\u0026encBuf)",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 26
+      },
+      "revId": "f834a7bfd59ec850896f630b09c968d282ea5256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6f799f6_18077bb1",
         "filename": "src/encoding/hex/hex_test.go",
         "patchSetId": 4
@@ -41,6 +87,30 @@
         "startChar": 9,
         "endLine": 128,
         "endChar": 10
+      },
+      "revId": "f834a7bfd59ec850896f630b09c968d282ea5256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75723942_b7ef3255",
+        "filename": "src/encoding/hex/hex_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-19T20:34:08Z",
+      "side": 1,
+      "message": "Actually, to test that we\u0027re chunking the input, do:\n\n  r :\u003d struct{ io.Reader }{bytes.NewReader(input)} // io.Reader only; not io.WriterTo\n  ... \u003d io.CopyBuffer(enc, r, make([]byte, 7))\n\nDo the same below to read out of the buffer:\n  var decBuf bytes.Buffer\n  w :\u003d struct{ io.Writer }{\u0026decBuf} // io.Writer only; not io.ReaderFrom\n  ... \u003d io.CopyBuffer(w, dec, make([]byte, 7))",
+      "parentUuid": "e6f799f6_18077bb1",
+      "range": {
+        "startLine": 128,
+        "startChar": 14,
+        "endLine": 128,
+        "endChar": 50
       },
       "revId": "f834a7bfd59ec850896f630b09c968d282ea5256",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
