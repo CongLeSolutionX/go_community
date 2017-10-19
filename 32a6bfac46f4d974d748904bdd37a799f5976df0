@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "17a00a81_c7cbdac9",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1115,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-10-19T16:55:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4a10d141_36584194",
+      "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a197716_8e094a9e",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 1
@@ -50,6 +68,24 @@
       "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a58815f_435c2e32",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-10-19T16:55:01Z",
+      "side": 1,
+      "message": "No. 64-byte alignment starts at preloop.",
+      "parentUuid": "5a197716_8e094a9e",
+      "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "4b32fb9f_d5ba5164",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1157,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-10-19T16:55:01Z",
+      "side": 1,
+      "message": "Yes. This is a 5-cycle latency instruction.",
+      "parentUuid": "906853f0_4dd03bec",
+      "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a35b8a1b_5c175a89",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 1
@@ -84,6 +138,24 @@
       "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34dc7c6d_aba0368d",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1166,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-10-19T16:55:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a35b8a1b_5c175a89",
+      "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "3ff9be0e_26ca37ee",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-10-19T16:55:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "288d5d00_bd41e8d4",
+      "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acd4cb7b_620944fd",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 1
@@ -118,6 +208,24 @@
       "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8e1946d_cfd11925",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-10-19T16:55:01Z",
+      "side": 1,
+      "message": "This is the most efficient approach for the loop. Each vcmpequb. changes cr6, so it would require one branch instruction per compare.",
+      "parentUuid": "acd4cb7b_620944fd",
+      "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "a619cd4f_72f1792a",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-10-19T16:55:01Z",
+      "side": 1,
+      "message": "No. Look at the code above. It\u0027s the same algorithm, but used for 4 vector registers.",
+      "parentUuid": "095dd644_7426ddc2",
+      "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65036b4b_b83e57e8",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 1
@@ -152,6 +278,24 @@
       "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b9cf453_2dfd1b54",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1308,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-10-19T16:55:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "65036b4b_b83e57e8",
+      "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
