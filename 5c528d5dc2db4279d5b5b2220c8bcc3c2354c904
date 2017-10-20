@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba1cfc29_d70953c8",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-20T07:50:13Z",
+      "side": 1,
+      "message": "Should we call this ExampleRing() to be consistent?",
+      "revId": "5c528d5dc2db4279d5b5b2220c8bcc3c2354c904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "386f1e97_191d0a80",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-20T07:50:13Z",
+      "side": 1,
+      "message": "Since you\u0027ve removed `head` in the other examples completely, let\u0027s use just `r` here too. Then there will be no confusion.",
+      "revId": "5c528d5dc2db4279d5b5b2220c8bcc3c2354c904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cee6ca7_192a7421",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-20T07:50:13Z",
+      "side": 1,
+      "message": "Perhaps I\u0027m exaggerating but what if we were to put comments above all of these declarations in all of the examples saying:\n// Create a new ring of \u003cN\u003e elements.\n\nI don\u0027t feel strongly about it, but I feel it would make the examples more friendly, at least in my eyes.",
+      "revId": "5c528d5dc2db4279d5b5b2220c8bcc3c2354c904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "195d4f88_235abe35",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-20T07:50:13Z",
+      "side": 1,
+      "message": "Same remark here, as in the first example. I think it was a wise decision on your end to use only `r` and drop `head`. So let\u0027s do the same here. It will eradicate all confusion.",
+      "revId": "5c528d5dc2db4279d5b5b2220c8bcc3c2354c904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41e415f6_b2fbe8b7",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-20T07:50:13Z",
+      "side": 1,
+      "message": "Are you trying to illustrate here that attempting to write more than the capacity will overwrite the element with value 0 using value 5? If so, it might be worthwhile leaving a comment. Alternatively we can change the for to start at i :\u003d 1; i \u003c 6",
+      "revId": "5c528d5dc2db4279d5b5b2220c8bcc3c2354c904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8260a299_bedf23fb",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5465
+      },
+      "writtenOn": "2017-10-20T07:50:13Z",
+      "side": 1,
+      "message": "I\u0027m really starting to like the look and feel of the first two examples, where I feel that the inline comments are sprinkled into the code to guide me through the flow of it and I can clearly read and understand what\u0027s going on.\n\nOn that note, I wouldn\u0027t shy away from adding more comments, especially above this line, which is the key point in the example.",
+      "revId": "5c528d5dc2db4279d5b5b2220c8bcc3c2354c904",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
