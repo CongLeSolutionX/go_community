@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d069108f_cb620a01",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-10-20T05:35:04Z",
+      "side": 1,
+      "message": "Interestingly I see it the other way, head is what am iterating with i.e the new Next().\nBut by the time we can argue about the naming, then perhaps I should reconsider perhaps only just using head which might even be a simpler use.",
+      "parentUuid": "6fcb3180_62bd74d5",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b31c1fe_58ac49e0",
         "filename": "src/container/ring/example_test.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-10-18T07:53:42Z",
       "side": 1,
       "message": "Since this is an example, I would love to see more inline comments here. For example:\n```\n// Set the value of each element in the ring and move on to the next one.\n```",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85b55347_1ee82b08",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-10-20T05:35:04Z",
+      "side": 1,
+      "message": "Great suggestion, I\u0027ll add the comment. Thanks.",
+      "parentUuid": "3b31c1fe_58ac49e0",
       "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "8c8b661a_3cd2b9ad",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-10-20T05:35:04Z",
+      "side": 1,
+      "message": "Yeah, initially I had wanted to add say 5 to the value, but didn\u0027t implement that.\nI\u0027ll fix that, thanks.",
+      "parentUuid": "f985d13e_994225d7",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "86da8c17_d4fc6a05",
         "filename": "src/container/ring/example_test.go",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "226fbd7c_49585a63",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-10-20T05:35:04Z",
+      "side": 1,
+      "message": "Roger that, thanks.",
+      "parentUuid": "86da8c17_d4fc6a05",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b654342_00720ba5",
         "filename": "src/container/ring/example_test.go",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2017-10-18T07:53:42Z",
       "side": 1,
       "message": "The same here, I would switch the names \"r\" and \"head\" to be more specific",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca7d5ca5_5f04619b",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-10-20T05:35:04Z",
+      "side": 1,
+      "message": "I\u0027ve removed the usage of head in this example entirely, so we can use r for all of them.",
+      "parentUuid": "3b654342_00720ba5",
       "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -115,6 +205,24 @@
       "writtenOn": "2017-10-18T07:53:42Z",
       "side": 1,
       "message": "Since this is an example for Link, I would illustrate only Link here to simplify. I would remove the Do iteration and the printing of the output, as that has already been demonstrated in the previous examples.",
+      "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65bd9742_35daae98",
+        "filename": "src/container/ring/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-10-20T05:35:04Z",
+      "side": 1,
+      "message": "Great point about the simplicity @gabriel, but I think that the purpose of the Do on r1 and r2\nis to visualize the content before and after the link as well as show that the linking buffer\nis advanced by next first.",
+      "parentUuid": "cd707e56_e1af706f",
       "revId": "67d66aef35f0e9d3c4bfda79ec527a4a8607a131",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
