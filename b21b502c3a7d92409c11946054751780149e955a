@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b65353c_e1f4c32a",
+        "filename": "src/encoding/hex/hex.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-20T23:42:01Z",
+      "side": 1,
+      "message": "I think this comment is no longer correct.",
+      "range": {
+        "startLine": 175,
+        "startChar": 43,
+        "endLine": 175,
+        "endChar": 69
+      },
+      "revId": "b21b502c3a7d92409c11946054751780149e955a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
