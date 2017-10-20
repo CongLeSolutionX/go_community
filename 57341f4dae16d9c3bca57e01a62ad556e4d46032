@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f59347aa_c02e04b0",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-20T20:58:36Z",
+      "side": 1,
+      "message": "const (\n\tmagic          \u003d \"sha\\x01\" // 3B for hash type, 1B for version tag\n\tserializedSize \u003d len(magic) + 5*4 + chunk + 4 + 8\n)",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 51
+      },
+      "revId": "57341f4dae16d9c3bca57e01a62ad556e4d46032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebf57ee4_9c057cac",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-20T20:58:36Z",
+      "side": 1,
+      "message": "I recommend defining functions for appendUint32, appendUint64, consumeUint32, and consumeUint32. https://play.golang.org/p/c3RmPAHBz1\n\nThus, this can simply be:\n\tb :\u003d make([]byte, 0, serializedSize)\n\tb \u003d append(b, magic...)\n\tb \u003d appendUint32(b, d.h[0])\n\tb \u003d appendUint32(b, d.h[1])\n\tb \u003d appendUint32(b, d.h[2])\n\tb \u003d appendUint32(b, d.h[3])\n\tb \u003d appendUint32(b, d.h[4])\n\tb \u003d append(b, d.x[:]...)\n\tb \u003d appendUint64(b, uint64(d.nx))\n\tb \u003d appendUint64(b, d.len)\n\treturn b\n\nWhich is much more readable and has the major advantage of not manually keeping track of the index in b.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 50
+      },
+      "revId": "57341f4dae16d9c3bca57e01a62ad556e4d46032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
