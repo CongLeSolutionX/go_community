@@ -254,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "ec5bf3fc_408e7796",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-21T14:00:22Z",
+      "side": 1,
+      "message": "It\u0027s what we can reach with at most 3 newton iterations starting from a float64 53-bits-prec guess from Math.Sqrt (this is platform independent).\n\n\"3 newton iteration\" is arbitrary, and yes, it may need some kind of calibration, but I wasn\u0027t sure if that was fist-change material or something for a future CL. IIRC 128 is not far from the optimal threshold anyway (at least on my i7 machine).",
+      "parentUuid": "c876c966_125acb86",
+      "revId": "f3626e8f6ab11ad8c8ab46e234c8acbcdff840a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b629b78_36536462",
         "filename": "src/math/big/sqrt.go",
         "patchSetId": 10
