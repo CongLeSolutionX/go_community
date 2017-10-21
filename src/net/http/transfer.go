@@ -378,11 +378,12 @@ type transferReader struct {
 	ProtoMajor    int
 	ProtoMinor    int
 	// Output
-	Body             io.ReadCloser
-	ContentLength    int64
-	TransferEncoding []string
-	Close            bool
-	Trailer          Header
+	Body                io.ReadCloser
+	ContentLength       int64
+	TransferEncoding    []string
+	TransferEncodingRaw string
+	Close               bool
+	Trailer             Header
 }
 
 func (t *transferReader) protoAtLeast(m, n int) bool {
@@ -523,12 +524,14 @@ func readTransfer(msg interface{}, r *bufio.Reader) (err error) {
 		rr.Body = t.Body
 		rr.ContentLength = t.ContentLength
 		rr.TransferEncoding = t.TransferEncoding
+		rr.TransferEncodingRaw = t.TransferEncodingRaw
 		rr.Close = t.Close
 		rr.Trailer = t.Trailer
 	case *Response:
 		rr.Body = t.Body
 		rr.ContentLength = t.ContentLength
 		rr.TransferEncoding = t.TransferEncoding
+		rr.TransferEncodingRaw = t.TransferEncodingRaw
 		rr.Close = t.Close
 		rr.Trailer = t.Trailer
 	}
@@ -576,6 +579,7 @@ func (t *transferReader) fixTransferEncoding() error {
 	if len(te) > 1 {
 		return &badStringError{"too many transfer encodings", strings.Join(te, ",")}
 	}
+
 	if len(te) > 0 {
 		// RFC 7230 3.3.2 says "A sender MUST NOT send a
 		// Content-Length header field in any message that
@@ -595,6 +599,17 @@ func (t *transferReader) fixTransferEncoding() error {
 		// Reportedly, these appear in the wild.
 		delete(t.Header, "Content-Length")
 		t.TransferEncoding = te
+
+		// Preserve the case for the transfer-encoding
+		// values sent by the client, it is possible that
+		// Transfer-Encoding is set to 'Chunked', but
+		// r.TransferEncoding stores it as 'chunked'.
+		// We need to preserve what was sent by the client,
+		// changing r.TransferEncoding possibly now might
+		// break clients. Clients which require specifically
+		// raw value without the transformation	can be kept
+		// in a separate field r.TransferEncodingRaw
+		t.TransferEncodingRaw = raw
 		return nil
 	}
 

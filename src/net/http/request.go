@@ -188,8 +188,14 @@ type Request struct {
 	// innermost. An empty list denotes the "identity" encoding.
 	// TransferEncoding can usually be ignored; chunked encoding is
 	// automatically added and removed as necessary when sending and
-	// receiving requests.
+	// receiving requests. NOTE: all the values are in lowercase regardless
+	// of its original case sent by the client, if you are looking values
+	// to be without this transformation look at TransferEncodingRaw.
 	TransferEncoding []string
+
+	// TransferEncodingRaw keeps the raw value of the Transfer-Encoding header
+	// as is without any case transformation of its values.
+	TransferEncodingRaw string
 
 	// Close indicates whether to close the connection after
 	// replying to this request (for servers) or after sending this

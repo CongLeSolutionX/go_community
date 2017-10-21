@@ -66,8 +66,15 @@ type Response struct {
 	ContentLength int64
 
 	// Contains transfer encodings from outer-most to inner-most. Value is
-	// nil, means that "identity" encoding is used.
+	// nil, means that "identity" encoding is used. NOTE: all the values are
+	// in lowercase regardless of its original case sent by the client, if
+	// you are looking values to be without this transformation look at
+	// TransferEncodingRaw.
 	TransferEncoding []string
+
+	// TransferEncodingRaw keeps the raw value of the Transfer-Encoding header
+	// as is without any case transformation of its values.
+	TransferEncodingRaw string
 
 	// Close records whether the header directed that the connection be
 	// closed after reading Body. The value is advice for clients: neither
