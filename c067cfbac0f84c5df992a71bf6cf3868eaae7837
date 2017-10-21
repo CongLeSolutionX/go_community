@@ -249,6 +249,30 @@
     },
     {
       "key": {
+        "uuid": "13dfb4af_ce13c2d3",
+        "filename": "src/math/big/sqrtf.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-21T13:55:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80ac4a4b_f30f7bc7",
+      "range": {
+        "startLine": 46,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 10
+      },
+      "revId": "c067cfbac0f84c5df992a71bf6cf3868eaae7837",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de7d48af_5a531e75",
         "filename": "src/math/big/sqrtf.go",
         "patchSetId": 7
