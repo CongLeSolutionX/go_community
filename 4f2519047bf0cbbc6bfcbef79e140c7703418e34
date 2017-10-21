@@ -1,0 +1,285 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfcd3799_f684d7bd",
+        "filename": "src/crypto/md5/md5.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "Please adjust to be in the same style as the other implementations.",
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e49fd15_1b16a825",
+        "filename": "src/crypto/sha256/sha256.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "Delete. Seems unused.",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 26
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50f47342_5ad892a8",
+        "filename": "src/crypto/sha512/sha512.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "Delete",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 76,
+        "endChar": 26
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07d0f110_7f9f5903",
+        "filename": "src/crypto/sha512/sha512.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "Add a default case returning an error.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 2
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70f646d7_77704114",
+        "filename": "src/hash/adler32/adler32.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "len(magic)",
+      "range": {
+        "startLine": 69,
+        "startChar": 26,
+        "endLine": 69,
+        "endChar": 27
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3380e92e_ecc83aa6",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "b \u003d appendUint32(b tableSum(d.tab))",
+      "range": {
+        "startLine": 172,
+        "startChar": 1,
+        "endLine": 172,
+        "endChar": 28
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ae688b8_84ce6631",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "if tableSum(d.tab) !\u003d readUint32(b[4:])",
+      "range": {
+        "startLine": 185,
+        "startChar": 1,
+        "endLine": 185,
+        "endChar": 33
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "285fdd6b_9ffc91f7",
+        "filename": "src/hash/crc32/crc32.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "Could be simpler as:\n\n var a [1024]byte\n b :\u003d a[:0]\n if t !\u003d nil {\n     for _, x :\u003d range t {\n         b \u003d appendUint32(b, x)\n     }\n }\n return ChecksumIEEE(b)",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 2
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e71d14b_6cdc5bb3",
+        "filename": "src/hash/crc64/crc64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "Clean this up in the same way as crc32.",
+      "range": {
+        "startLine": 202,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 2
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d789ba4a_9b0657c8",
+        "filename": "src/hash/crc64/crc64.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "Just do MakeTable(ISO). \nIt\u0027s more readable and doesn\u0027t require the future readers to see what this is all about.\nPerformance is more or less the same.",
+      "range": {
+        "startLine": 214,
+        "startChar": 23,
+        "endLine": 214,
+        "endChar": 43
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dec6438_874a1ab5",
+        "filename": "src/hash/fnv/fnv_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "The addition of sub-tests in testing has made this pattern obsolete. I know the tests above are in the old style, let\u0027s address that in a separate CL since this one is large enough.\n\n\tfunc TestGoldenMarshal(t *testing.T) {\n\t\ttests :\u003d struct{\n\t\t\tname    string\n\t\t\tnewHash func() hash.Hash\n\t\t\tgold    []golden\n\t\t}{\n\t\t\t{\"32\",  func() hash.Hash{return New32()},  golden32},\n\t\t\t{\"32a\", func() hash.Hash{return New32a()}, golden32a},\n\t\t\t...\n\t\t}\n\t\tfor _, tt :\u003d range tests {\n\t\t\tt.Run(tt.name, func(t *testing.T) {\n\t\t\t\t...\n\t\t\t})\n\t\t}\n\t}\n\nPlease change here and elsewhere.",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 70
+      },
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fed3290_b0021b52",
+        "filename": "src/hash/fnv/fnv_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "In order to test that we don\u0027t change the serialized format, you need to test that the state here is as expected.\n\nYou can add a \"halfState\" field to golden and comment what its for and that its only used in TestGoldenMarshal.\n\nPlease change here and elsewhere.",
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a301115_0d21906a",
+        "filename": "src/hash/hash.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-21T18:58:01Z",
+      "side": 1,
+      "message": "Add this is as another paragraph:\n\n //\n // Compatibility: Any future changes to hash or crypto packages will endeavor\n // to maintain compatibility with state encoded using previous versions.\n // That is, any released versions of the packages should be able to\n // decode data written with any previously released version,\n // subject to issues such as security fixes.\n // See the Go compatibility document for background: https://golang.org/doc/go1compat\n\nThe wording is based on that is from encoding/gob.",
+      "revId": "4f2519047bf0cbbc6bfcbef79e140c7703418e34",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
