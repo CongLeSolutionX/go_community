@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95305709_49d26089",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2017-10-21T01:35:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f59347aa_c02e04b0",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 51
+      },
+      "revId": "57341f4dae16d9c3bca57e01a62ad556e4d46032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ebf57ee4_9c057cac",
         "filename": "src/crypto/sha1/sha1.go",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "57341f4dae16d9c3bca57e01a62ad556e4d46032",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f4646f4_38ed6837",
+        "filename": "src/crypto/sha1/sha1.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2017-10-21T01:35:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebf57ee4_9c057cac",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 50
+      },
+      "revId": "57341f4dae16d9c3bca57e01a62ad556e4d46032",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
