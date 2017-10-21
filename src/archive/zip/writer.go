@@ -33,6 +33,11 @@ type Writer struct {
 
 	// Comment is the central directory comment and must be set before Close is called.
 	Comment string
+
+	commentLen int
+
+	// NameEncoder to translate encoding of filename and comment.
+	NameEncoder func(string) (string, error)
 }
 
 type header struct {
@@ -65,7 +70,7 @@ func (w *Writer) Flush() error {
 // Close finishes writing the zip file by writing the central directory.
 // It does not (and cannot) close the underlying writer.
 func (w *Writer) Close() error {
-	if len(w.Comment) > uint16max {
+	if w.commentLen > uint16max {
 		return errors.New("zip: Writer.Comment too long")
 	}
 
@@ -114,9 +119,23 @@ func (w *Writer) Close() error {
 			b.uint32(h.UncompressedSize)
 		}
 
-		b.uint16(uint16(len(h.Name)))
+		name := h.Name
+		if w.NameEncoder != nil {
+			var err error
+			if name, err = w.NameEncoder(name); err != nil {
+				return err
+			}
+		}
+		b.uint16(uint16(len(name)))
 		b.uint16(uint16(len(h.Extra)))
-		b.uint16(uint16(len(h.Comment)))
+		comment := h.Comment
+		if w.NameEncoder != nil {
+			var err error
+			if comment, err = w.NameEncoder(comment); err != nil {
+				return err
+			}
+		}
+		b.uint16(uint16(len(comment)))
 		b = b[4:] // skip disk number start and internal file attr (2x uint16)
 		b.uint32(h.ExternalAttrs)
 		if h.offset > uint32max {
@@ -127,13 +146,13 @@ func (w *Writer) Close() error {
 		if _, err := w.cw.Write(buf[:]); err != nil {
 			return err
 		}
-		if _, err := io.WriteString(w.cw, h.Name); err != nil {
+		if _, err := io.WriteString(w.cw, name); err != nil {
 			return err
 		}
 		if _, err := w.cw.Write(h.Extra); err != nil {
 			return err
 		}
-		if _, err := io.WriteString(w.cw, h.Comment); err != nil {
+		if _, err := io.WriteString(w.cw, comment); err != nil {
 			return err
 		}
 	}
@@ -184,16 +203,24 @@ func (w *Writer) Close() error {
 	var buf [directoryEndLen]byte
 	b := writeBuf(buf[:])
 	b.uint32(uint32(directoryEndSignature))
-	b = b[4:]                        // skip over disk number and first disk number (2x uint16)
-	b.uint16(uint16(records))        // number of entries this disk
-	b.uint16(uint16(records))        // number of entries total
-	b.uint32(uint32(size))           // size of directory
-	b.uint32(uint32(offset))         // start of directory
-	b.uint16(uint16(len(w.Comment))) // byte size of EOCD comment
+	b = b[4:]                 // skip over disk number and first disk number (2x uint16)
+	b.uint16(uint16(records)) // number of entries this disk
+	b.uint16(uint16(records)) // number of entries total
+	b.uint32(uint32(size))    // size of directory
+	b.uint32(uint32(offset))  // start of directory
+	comment := w.Comment
+	if w.NameEncoder != nil {
+		var err error
+		if comment, err = w.NameEncoder(comment); err != nil {
+			return err
+		}
+	}
+	w.commentLen = len(comment)
+	b.uint16(uint16(w.commentLen)) // byte size of EOCD comment
 	if _, err := w.cw.Write(buf[:]); err != nil {
 		return err
 	}
-	if _, err := io.WriteString(w.cw, w.Comment); err != nil {
+	if _, err := io.WriteString(w.cw, comment); err != nil {
 		return err
 	}
 
@@ -249,7 +276,7 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 
 	fh.Flags |= 0x8 // we will write a data descriptor
 
-	if hasValidUTF8(fh.Name) || hasValidUTF8(fh.Comment) {
+	if w.NameEncoder == nil && (hasValidUTF8(fh.Name) || hasValidUTF8(fh.Comment)) {
 		fh.Flags |= 0x800 // filename or comment have valid utf-8 string
 	}
 
@@ -279,7 +306,7 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 	w.dir = append(w.dir, h)
 	fw.header = h
 
-	if err := writeHeader(w.cw, fh); err != nil {
+	if err := w.writeHeader(fh); err != nil {
 		return nil, err
 	}
 
@@ -287,9 +314,9 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 	return fw, nil
 }
 
-func writeHeader(w io.Writer, h *FileHeader) error {
+func (w *Writer) writeHeader(h *FileHeader) error {
 	const maxUint16 = 1<<16 - 1
-	if len(h.Name) > maxUint16 {
+	if h.nameLen > maxUint16 {
 		return errLongName
 	}
 	if len(h.Extra) > maxUint16 {
@@ -307,15 +334,22 @@ func writeHeader(w io.Writer, h *FileHeader) error {
 	b.uint32(0) // since we are writing a data descriptor crc32,
 	b.uint32(0) // compressed size,
 	b.uint32(0) // and uncompressed size should be zero
-	b.uint16(uint16(len(h.Name)))
+	b.uint16(uint16(h.nameLen))
 	b.uint16(uint16(len(h.Extra)))
-	if _, err := w.Write(buf[:]); err != nil {
+	if _, err := w.cw.Write(buf[:]); err != nil {
 		return err
 	}
-	if _, err := io.WriteString(w, h.Name); err != nil {
+	name := h.Name
+	if w.NameEncoder != nil {
+		var err error
+		if name, err = w.NameEncoder(name); err != nil {
+			return err
+		}
+	}
+	if _, err := io.WriteString(w.cw, name); err != nil {
 		return err
 	}
-	_, err := w.Write(h.Extra)
+	_, err := w.cw.Write(h.Extra)
 	return err
 }
 

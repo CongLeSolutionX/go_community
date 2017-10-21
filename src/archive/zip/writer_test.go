@@ -6,6 +6,7 @@ package zip
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -315,4 +316,48 @@ func BenchmarkCompressedZipGarbage(b *testing.B) {
 			runOnce(&buf)
 		}
 	})
+}
+
+func TestWriterNameEncoder(t *testing.T) {
+	// write a zip file
+	buf := new(bytes.Buffer)
+	w := NewWriter(buf)
+
+	w.Comment = "テスト"
+	w.NameEncoder = func(s string) (string, error) {
+		return fmt.Sprintf("%02X", []byte(s)), nil
+	}
+
+	h := &FileHeader{
+		Name:    "こんにちわ",
+		Comment: "世界",
+		Method:  Deflate,
+	}
+	zh, err := w.CreateHeader(h)
+	if err != nil {
+		t.Fatal(err)
+	}
+	zh.Write([]byte{})
+
+	if err := w.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	// read it back
+	r, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if r.Comment != "E38386E382B9E38388" {
+		t.Fatalf("w.Comment: got %v, want %v", r.Comment, "E38386E382B9E38388")
+	}
+	if r.File[0].Flags != 0x8 {
+		t.Fatalf("h.Flags: got %v, want %v", r.File[0].Flags, 0x8)
+	}
+	if r.File[0].Name != "E38193E38293E381ABE381A1E3828F" {
+		t.Fatalf("h.Name: got %v, want %v", r.File[0].Name, "E38193E38293E381ABE381A1E3828F")
+	}
+	if r.File[0].Comment != "E4B896E7958C" {
+		t.Fatalf("h.Comment: got %v, want %v", r.File[0].Comment, "E4B896E7958C")
+	}
 }

@@ -74,6 +74,8 @@ type FileHeader struct {
 	// are allowed.
 	Name string
 
+	nameLen int
+
 	CreatorVersion     uint16
 	ReaderVersion      uint16
 	Flags              uint16
