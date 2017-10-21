@@ -562,12 +562,18 @@ func (t *transferReader) fixTransferEncoding() error {
 	// invariant that must be maintained is that, if present,
 	// chunked encoding must always come first.
 	for _, encoding := range encodings {
-		encoding = strings.ToLower(strings.TrimSpace(encoding))
+		// Preserve the case for the transfer-encoding
+		// values sent by the client, it is possible that
+		// Transfer-Encoding is set to 'Chunked' but it is
+		// known as 'chunked', but we need to preserve the
+		// case without overwriting what was sent by the
+		// client.
+		encodinglc := strings.ToLower(strings.TrimSpace(encoding))
 		// "identity" encoding is not recorded
-		if encoding == "identity" {
+		if encodinglc == "identity" {
 			break
 		}
-		if encoding != "chunked" {
+		if encodinglc != "chunked" {
 			return &badStringError{"unsupported transfer encoding", encoding}
 		}
 		te = te[0 : len(te)+1]
