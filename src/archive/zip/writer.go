@@ -33,6 +33,9 @@ type Writer struct {
 
 	// Comment is the central directory comment and must be set before Close is called.
 	Comment string
+
+	// NonUTF8 is set when user want to write non-UTF8 filename or comment.
+	NonUTF8 bool
 }
 
 type header struct {
@@ -249,7 +252,7 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 
 	fh.Flags |= 0x8 // we will write a data descriptor
 
-	if hasValidUTF8(fh.Name) || hasValidUTF8(fh.Comment) {
+	if !w.NonUTF8 && (hasValidUTF8(fh.Name) || hasValidUTF8(fh.Comment)) {
 		fh.Flags |= 0x800 // filename or comment have valid utf-8 string
 	}
 

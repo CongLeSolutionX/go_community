@@ -316,3 +316,41 @@ func BenchmarkCompressedZipGarbage(b *testing.B) {
 		}
 	})
 }
+
+func TestWriterNonUTF8(t *testing.T) {
+	// write a zip file
+	buf := new(bytes.Buffer)
+	w := NewWriter(buf)
+	w.NonUTF8 = true
+	w.Comment = "\x83\x65\x83\x58\x83\x67"
+	h := &FileHeader{
+		Name:    "\x82\xb1\x82\xf1\x82\xc9\x82\xbf\x82\xed",
+		Comment: "\x90\xa2\x8a\x45",
+		Method:  Deflate,
+	}
+	zh, err := w.CreateHeader(h)
+	if err != nil {
+		t.Fatal(err)
+	}
+	zh.Write([]byte{})
+	if err := w.Close(); err != nil {
+		t.Fatal(err)
+	}
+	// read it back
+	r, err := NewReader(bytes.NewReader(buf.Bytes()), int64(buf.Len()))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if r.Comment != "\x83\x65\x83\x58\x83\x67" {
+		t.Fatalf("w.Comment: got %v, want %v", r.Comment, "\x83\x65\x83\x58\x83\x67")
+	}
+	if r.File[0].Flags != 0x8 {
+		t.Fatalf("h.Flags: got %v, want %v", r.File[0].Flags, 0x8)
+	}
+	if r.File[0].Name != "\x82\xb1\x82\xf1\x82\xc9\x82\xbf\x82\xed" {
+		t.Fatalf("h.Name: got %v, want %v", r.File[0].Name, "\x82\xb1\x82\xf1\x82\xc9\x82\xbf\x82\xed")
+	}
+	if r.File[0].Comment != "\x90\xa2\x8a\x45" {
+		t.Fatalf("h.Comment: got %v, want %v", r.File[0].Comment, "\x90\xa2\x8a\x45")
+	}
+}
