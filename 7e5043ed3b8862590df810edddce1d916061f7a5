@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec70a79c_7312340a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2017-10-22T16:01:47Z",
+      "side": 1,
+      "message": "crypto/hmac: add Sum and Equal examples",
+      "revId": "7e5043ed3b8862590df810edddce1d916061f7a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d9eb899_424a0c9a",
+        "filename": "src/crypto/hmac/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2017-10-22T16:01:47Z",
+      "side": 1,
+      "message": "Let\u0027s use sha256 in examples, even if HMAC-SHA1 is fine.",
+      "revId": "7e5043ed3b8862590df810edddce1d916061f7a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ffec51f_5a99e046",
+        "filename": "src/crypto/hmac/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2017-10-22T16:01:47Z",
+      "side": 1,
+      "message": "A real world example would involve checking the MAC on an authenticated message after splitting it. Ideally, it would start from the output of ExampleSum, which would be message || MAC.",
+      "revId": "7e5043ed3b8862590df810edddce1d916061f7a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
