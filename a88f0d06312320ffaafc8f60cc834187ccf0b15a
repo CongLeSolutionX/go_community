@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "202e4528_da4c5bdf",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-10-23T20:12:46Z",
+      "side": 1,
+      "message": "NonUTF8 indicates that the filename and comment are non-UTF8 strings.",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 72
+      },
+      "revId": "a88f0d06312320ffaafc8f60cc834187ccf0b15a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
