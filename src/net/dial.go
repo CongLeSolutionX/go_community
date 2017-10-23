@@ -64,6 +64,10 @@ type Dialer struct {
 	// Resolver optionally specifies an alternate resolver to use.
 	Resolver *Resolver
 
+	// Control optionally specifies a control function that is called after
+	// initialization of the socket, but before dialing.
+	Control ControlFunc
+
 	// Cancel is an optional channel whose closure indicates that
 	// the dial should be canceled. Not all types of dials support
 	// cancelation.
@@ -544,16 +548,16 @@ func dialSingle(ctx context.Context, dp *dialParam, ra Addr) (c Conn, err error)
 	switch ra := ra.(type) {
 	case *TCPAddr:
 		la, _ := la.(*TCPAddr)
-		c, err = dialTCP(ctx, dp.network, la, ra)
+		c, err = dialTCP(ctx, dp.network, la, ra, dp.Control)
 	case *UDPAddr:
 		la, _ := la.(*UDPAddr)
-		c, err = dialUDP(ctx, dp.network, la, ra)
+		c, err = dialUDP(ctx, dp.network, la, ra, dp.Control)
 	case *IPAddr:
 		la, _ := la.(*IPAddr)
-		c, err = dialIP(ctx, dp.network, la, ra)
+		c, err = dialIP(ctx, dp.network, la, ra, dp.Control)
 	case *UnixAddr:
 		la, _ := la.(*UnixAddr)
-		c, err = dialUnix(ctx, dp.network, la, ra)
+		c, err = dialUnix(ctx, dp.network, la, ra, dp.Control)
 	default:
 		return nil, &OpError{Op: "dial", Net: dp.network, Source: la, Addr: ra, Err: &AddrError{Err: "unexpected address type", Addr: dp.address}}
 	}
@@ -582,6 +586,13 @@ func dialSingle(ctx context.Context, dp *dialParam, ra Addr) (c Conn, err error)
 // See func Dial for a description of the network and address
 // parameters.
 func Listen(network, address string) (Listener, error) {
+	return ListenControl(network, address, nil)
+}
+
+// ListenControl announces on the local network address.
+//
+// See func Listen and type ControlFunc for a description of parameters.
+func ListenControl(network, address string, control ControlFunc) (Listener, error) {
 	addrs, err := DefaultResolver.resolveAddrList(context.Background(), "listen", network, address, nil)
 	if err != nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: nil, Err: err}
@@ -589,9 +600,9 @@ func Listen(network, address string) (Listener, error) {
 	var l Listener
 	switch la := addrs.first(isIPv4).(type) {
 	case *TCPAddr:
-		l, err = ListenTCP(network, la)
+		l, err = listenTCP(context.Background(), network, la, control)
 	case *UnixAddr:
-		l, err = ListenUnix(network, la)
+		l, err = listenUnix(context.Background(), network, la, control)
 	default:
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: la, Err: &AddrError{Err: "unexpected address type", Addr: address}}
 	}

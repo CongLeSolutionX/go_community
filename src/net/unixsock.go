@@ -200,7 +200,7 @@ func DialUnix(network string, laddr, raddr *UnixAddr) (*UnixConn, error) {
 	default:
 		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: UnknownNetworkError(network)}
 	}
-	c, err := dialUnix(context.Background(), network, laddr, raddr)
+	c, err := dialUnix(context.Background(), network, laddr, raddr, nil)
 	if err != nil {
 		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
 	}
@@ -308,6 +308,10 @@ func (l *UnixListener) File() (f *os.File, err error) {
 //
 // The network must be "unix" or "unixpacket".
 func ListenUnix(network string, laddr *UnixAddr) (*UnixListener, error) {
+	return listenUnix(context.Background(), network, laddr, nil)
+}
+
+func listenUnix(ctx context.Context, network string, laddr *UnixAddr, control ControlFunc) (*UnixListener, error) {
 	switch network {
 	case "unix", "unixpacket":
 	default:
@@ -316,7 +320,7 @@ func ListenUnix(network string, laddr *UnixAddr) (*UnixListener, error) {
 	if laddr == nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: laddr.opAddr(), Err: errMissingAddress}
 	}
-	ln, err := listenUnix(context.Background(), network, laddr)
+	ln, err := doListenUnix(context.Background(), network, laddr, control)
 	if err != nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: laddr.opAddr(), Err: err}
 	}
@@ -335,7 +339,7 @@ func ListenUnixgram(network string, laddr *UnixAddr) (*UnixConn, error) {
 	if laddr == nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: nil, Err: errMissingAddress}
 	}
-	c, err := listenUnixgram(context.Background(), network, laddr)
+	c, err := listenUnixgram(context.Background(), network, laddr, nil)
 	if err != nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: laddr.opAddr(), Err: err}
 	}

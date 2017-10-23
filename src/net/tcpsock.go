@@ -212,7 +212,7 @@ func DialTCP(network string, laddr, raddr *TCPAddr) (*TCPConn, error) {
 	if raddr == nil {
 		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: nil, Err: errMissingAddress}
 	}
-	c, err := dialTCP(context.Background(), network, laddr, raddr)
+	c, err := dialTCP(context.Background(), network, laddr, raddr, nil)
 	if err != nil {
 		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
 	}
@@ -320,6 +320,10 @@ func (l *TCPListener) File() (f *os.File, err error) {
 // If the Port field of laddr is 0, a port number is automatically
 // chosen.
 func ListenTCP(network string, laddr *TCPAddr) (*TCPListener, error) {
+	return listenTCP(context.Background(), network, laddr, nil)
+}
+
+func listenTCP(ctx context.Context, network string, laddr *TCPAddr, control ControlFunc) (*TCPListener, error) {
 	switch network {
 	case "tcp", "tcp4", "tcp6":
 	default:
@@ -328,7 +332,7 @@ func ListenTCP(network string, laddr *TCPAddr) (*TCPListener, error) {
 	if laddr == nil {
 		laddr = &TCPAddr{}
 	}
-	ln, err := listenTCP(context.Background(), network, laddr)
+	ln, err := doListenTCP(ctx, network, laddr, control)
 	if err != nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: laddr.opAddr(), Err: err}
 	}

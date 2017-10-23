@@ -7,11 +7,13 @@ package net
 import (
 	"bufio"
 	"context"
+	"errors"
 	"internal/poll"
 	"internal/testenv"
 	"io"
 	"runtime"
 	"sync"
+	"syscall"
 	"testing"
 	"time"
 )
@@ -146,8 +148,8 @@ const (
 // In some environments, the slow IPs may be explicitly unreachable, and fail
 // more quickly than expected. This test hook prevents dialTCP from returning
 // before the deadline.
-func slowDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
-	c, err := doDialTCP(ctx, net, laddr, raddr)
+func slowDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr, control ControlFunc) (*TCPConn, error) {
+	c, err := doDialTCP(ctx, net, laddr, raddr, control)
 	if ParseIP(slowDst4).Equal(raddr.IP) || ParseIP(slowDst6).Equal(raddr.IP) {
 		// Wait for the deadline, or indefinitely if none exists.
 		<-ctx.Done()
@@ -463,7 +465,7 @@ func TestDialParallelSpuriousConnection(t *testing.T) {
 
 	origTestHookDialTCP := testHookDialTCP
 	defer func() { testHookDialTCP = origTestHookDialTCP }()
-	testHookDialTCP = func(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
+	testHookDialTCP = func(ctx context.Context, net string, laddr, raddr *TCPAddr, control ControlFunc) (*TCPConn, error) {
 		// Sleep long enough for Happy Eyeballs to kick in, and inhibit cancelation.
 		// This forces dialParallel to juggle two successful connections.
 		time.Sleep(fallbackDelay * 2)
@@ -471,7 +473,7 @@ func TestDialParallelSpuriousConnection(t *testing.T) {
 		// Now ignore the provided context (which will be canceled) and use a
 		// different one to make sure this completes with a valid connection,
 		// which we hope to be closed below:
-		return doDialTCP(context.Background(), net, laddr, raddr)
+		return doDialTCP(context.Background(), net, laddr, raddr, control)
 	}
 
 	d := Dialer{
@@ -909,4 +911,90 @@ func TestDialListenerAddr(t *testing.T) {
 		t.Fatalf("for addr %q, dial error: %v", addr, err)
 	}
 	c.Close()
+}
+
+func TestListenControl(t *testing.T) {
+	switch runtime.GOOS {
+	case "plan9":
+		t.Skipf("not supported on %s", runtime.GOOS)
+	}
+
+	var called bool
+	l, err := ListenControl("tcp", ":0", func(string, Addr, syscall.RawConn) error {
+		called = true
+		return nil
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	l.Close()
+	if !called {
+		t.Fatalf("Control not called")
+	}
+
+	// Test that error propagates
+	sentinel := errors.New("sentinel error")
+	l, err = ListenControl("tcp", ":0", func(string, Addr, syscall.RawConn) error {
+		return sentinel
+	})
+	if err == nil {
+		l.Close()
+		t.Fatalf("missing expected error")
+	}
+	if l != nil {
+		l.Close()
+		t.Fatalf("unexpected listener")
+	}
+	if oe, ok := err.(*OpError); !ok || oe.Err != sentinel {
+		t.Fatalf("listen error = %v (%T); want OpError with Err == sentinel", err, err)
+	}
+}
+
+func TestDialControl(t *testing.T) {
+	switch runtime.GOOS {
+	case "plan9":
+		t.Skipf("not supported on %s", runtime.GOOS)
+	}
+
+	ln, err := newLocalListener("tcp")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer ln.Close()
+
+	var called bool
+	d := Dialer{
+		Control: func(string, Addr, syscall.RawConn) error {
+			called = true
+			return nil
+		},
+	}
+	c, err := d.Dial("tcp", ln.Addr().String())
+	if err != nil {
+		t.Fatal(err)
+	}
+	c.Close()
+	if !called {
+		t.Fatalf("Control not called")
+	}
+
+	// Test that error propagates
+	sentinel := errors.New("sentinel error")
+	d = Dialer{
+		Control: func(string, Addr, syscall.RawConn) error {
+			return sentinel
+		},
+	}
+	c, err = d.Dial("tcp", ln.Addr().String())
+	if err == nil {
+		c.Close()
+		t.Fatalf("missing expected error")
+	}
+	if c != nil {
+		c.Close()
+		t.Fatalf("unexpected connection")
+	}
+	if oe, ok := err.(*OpError); !ok || oe.Err != sentinel {
+		t.Fatalf("dial error = %v (%T); want OpError with Err == sentinel", err, err)
+	}
 }

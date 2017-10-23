@@ -209,7 +209,7 @@ func newIPConn(fd *netFD) *IPConn { return &IPConn{conn{fd}} }
 // If the IP field of raddr is nil or an unspecified IP address, the
 // local system is assumed.
 func DialIP(network string, laddr, raddr *IPAddr) (*IPConn, error) {
-	c, err := dialIP(context.Background(), network, laddr, raddr)
+	c, err := dialIP(context.Background(), network, laddr, raddr, nil)
 	if err != nil {
 		return nil, &OpError{Op: "dial", Net: network, Source: laddr.opAddr(), Addr: raddr.opAddr(), Err: err}
 	}
@@ -224,7 +224,7 @@ func DialIP(network string, laddr, raddr *IPAddr) (*IPConn, error) {
 // ListenIP listens on all available IP addresses of the local system
 // except multicast IP addresses.
 func ListenIP(network string, laddr *IPAddr) (*IPConn, error) {
-	c, err := listenIP(context.Background(), network, laddr)
+	c, err := listenIP(context.Background(), network, laddr, nil)
 	if err != nil {
 		return nil, &OpError{Op: "listen", Net: network, Source: nil, Addr: laddr.opAddr(), Err: err}
 	}

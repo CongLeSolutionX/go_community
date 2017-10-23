@@ -14,14 +14,14 @@ func (c *TCPConn) readFrom(r io.Reader) (int64, error) {
 	return genericReadFrom(c, r)
 }
 
-func dialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
+func dialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr, control ControlFunc) (*TCPConn, error) {
 	if testHookDialTCP != nil {
-		return testHookDialTCP(ctx, net, laddr, raddr)
+		return testHookDialTCP(ctx, net, laddr, raddr, control)
 	}
-	return doDialTCP(ctx, net, laddr, raddr)
+	return doDialTCP(ctx, net, laddr, raddr, control)
 }
 
-func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error) {
+func doDialTCP(ctx context.Context, net string, laddr, raddr *TCPAddr, control ControlFunc) (*TCPConn, error) {
 	switch net {
 	case "tcp", "tcp4", "tcp6":
 	default:
@@ -69,7 +69,7 @@ func (ln *TCPListener) file() (*os.File, error) {
 	return f, nil
 }
 
-func listenTCP(ctx context.Context, network string, laddr *TCPAddr) (*TCPListener, error) {
+func doListenTCP(ctx context.Context, network string, laddr *TCPAddr, control ControlFunc) (*TCPListener, error) {
 	fd, err := listenPlan9(ctx, network, laddr)
 	if err != nil {
 		return nil, err
