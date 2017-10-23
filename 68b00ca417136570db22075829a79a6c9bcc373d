@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "619cfd19_1bc7d5eb",
+        "filename": "src/math/bits.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-23T21:01:05Z",
+      "side": 1,
+      "message": "Can this go back to \u0027fracMask\u0027 please? This is the mask for the fractional part. sign and significand have the same prefix and are easy to confuse at a glance.",
+      "revId": "68b00ca417136570db22075829a79a6c9bcc373d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
