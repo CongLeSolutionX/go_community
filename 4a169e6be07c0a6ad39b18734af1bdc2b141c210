@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6570cc69_4e8c81a6",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-23T17:36:32Z",
+      "side": 1,
+      "message": "if _, found :\u003d; found {\n?",
+      "range": {
+        "startLine": 488,
+        "startChar": 12,
+        "endLine": 488,
+        "endChar": 0
+      },
+      "revId": "4a169e6be07c0a6ad39b18734af1bdc2b141c210",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55a032fc_440e2967",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-23T17:36:32Z",
+      "side": 1,
+      "message": "Pretty sure the cast to []rune is unnecessary. Might cost a copy, too. Shrug.",
+      "range": {
+        "startLine": 491,
+        "startChar": 28,
+        "endLine": 491,
+        "endChar": 0
+      },
+      "revId": "4a169e6be07c0a6ad39b18734af1bdc2b141c210",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
