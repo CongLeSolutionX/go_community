@@ -1055,7 +1055,7 @@ func (subst *inlsubst) node(n *Node) *Node {
 		return m
 
 	case OGOTO, OLABEL:
-		m := nod(OXXX, nil, nil)
+		m := &Node{}
 		*m = *n
 		m.Pos = subst.updatedPos(m.Pos)
 		m.Ninit.Set(nil)
@@ -1065,7 +1065,7 @@ func (subst *inlsubst) node(n *Node) *Node {
 		return m
 	}
 
-	m := nod(OXXX, nil, nil)
+	m := &Node{}
 	*m = *n
 	m.Pos = subst.updatedPos(m.Pos)
 	m.Ninit.Set(nil)
