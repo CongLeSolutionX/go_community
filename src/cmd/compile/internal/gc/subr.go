@@ -368,9 +368,8 @@ func saveorignode(n *Node) {
 	if n.Orig != nil {
 		return
 	}
-	norig := nod(n.Op, nil, nil)
-	*norig = *n
-	n.Orig = norig
+	norig := *n
+	n.Orig = &norig
 }
 
 // methcmp sorts by symbol, then by package path for unexported symbols.
@@ -1253,7 +1252,7 @@ func safeexpr(n *Node, init *Nodes) *Node {
 		if l == n.Left {
 			return n
 		}
-		r := nod(OXXX, nil, nil)
+		r := &Node{}
 		*r = *n
 		r.Left = l
 		r = typecheck(r, Erv)
@@ -1265,7 +1264,7 @@ func safeexpr(n *Node, init *Nodes) *Node {
 		if l == n.Left {
 			return n
 		}
-		a := nod(OXXX, nil, nil)
+		a := &Node{}
 		*a = *n
 		a.Left = l
 		a = walkexpr(a, init)
@@ -1277,7 +1276,7 @@ func safeexpr(n *Node, init *Nodes) *Node {
 		if l == n.Left && r == n.Right {
 			return n
 		}
-		a := nod(OXXX, nil, nil)
+		a := &Node{}
 		*a = *n
 		a.Left = l
 		a.Right = r

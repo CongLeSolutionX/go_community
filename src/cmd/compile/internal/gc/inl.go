@@ -1055,18 +1055,16 @@ func (subst *inlsubst) node(n *Node) *Node {
 		return m
 
 	case OGOTO, OLABEL:
-		m := nod(OXXX, nil, nil)
-		*m = *n
+		m := *n
 		m.Pos = subst.updatedPos(m.Pos)
 		m.Ninit.Set(nil)
 		p := fmt.Sprintf("%s·%d", n.Left.Sym.Name, inlgen)
 		m.Left = newname(lookup(p))
 
-		return m
+		return &m
 	}
 
-	m := nod(OXXX, nil, nil)
-	*m = *n
+	m := *n
 	m.Pos = subst.updatedPos(m.Pos)
 	m.Ninit.Set(nil)
 
@@ -1081,7 +1079,7 @@ func (subst *inlsubst) node(n *Node) *Node {
 	m.Ninit.Set(append(m.Ninit.Slice(), subst.list(n.Ninit)...))
 	m.Nbody.Set(subst.list(n.Nbody))
 
-	return m
+	return &m
 }
 
 func (subst *inlsubst) updatedPos(xpos src.XPos) src.XPos {

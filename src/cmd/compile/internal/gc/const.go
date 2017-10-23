@@ -607,12 +607,9 @@ func Isconst(n *Node, ct Ctype) bool {
 func saveorig(n *Node) *Node {
 	if n == n.Orig {
 		// duplicate node for n->orig.
-		n1 := nod(OLITERAL, nil, nil)
-
-		n.Orig = n1
-		*n1 = *n
+		n1 := *n
+		n.Orig = &n1
 	}
-
 	return n.Orig
 }
 

@@ -1740,10 +1740,10 @@ func typecheck1(n *Node, top int) *Node {
 		switch n.Op {
 		case OCONVNOP:
 			if n.Left.Op == OLITERAL {
-				r := nod(OXXX, nil, nil)
 				n.Op = OCONV
-				n.Orig = r
-				*r = *n
+				r := *n
+				r.Orig = &r
+				n.Orig = &r
 				n.Op = OLITERAL
 				n.SetVal(n.Left.Val())
 			} else if t.Etype == n.Type.Etype {
@@ -2909,9 +2909,7 @@ func typecheckcomplit(n *Node) *Node {
 	}
 
 	// Save original node (including n.Right)
-	norig := nod(n.Op, nil, nil)
-
-	*norig = *n
+	norig := *n
 
 	setlineno(n.Right)
 	n.Right = typecheck(n.Right, Etype|Ecomplit)
@@ -3142,7 +3140,7 @@ func typecheckcomplit(n *Node) *Node {
 		return n
 	}
 
-	n.Orig = norig
+	n.Orig = &norig
 	if n.Type.IsPtr() {
 		n = nod(OPTRLIT, n, nil)
 		n.SetTypecheck(1)
@@ -3151,7 +3149,7 @@ func typecheckcomplit(n *Node) *Node {
 		n.Left.SetTypecheck(1)
 	}
 
-	n.Orig = norig
+	n.Orig = &norig
 	return n
 }
 
