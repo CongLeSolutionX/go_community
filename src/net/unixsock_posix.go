@@ -13,7 +13,7 @@ import (
 	"syscall"
 )
 
-func unixSocket(ctx context.Context, net string, laddr, raddr sockaddr, mode string) (*netFD, error) {
+func unixSocket(ctx context.Context, net string, laddr, raddr sockaddr, mode string, control ControlFunc) (*netFD, error) {
 	var sotype int
 	switch net {
 	case "unix":
@@ -42,7 +42,7 @@ func unixSocket(ctx context.Context, net string, laddr, raddr sockaddr, mode str
 		return nil, errors.New("unknown mode: " + mode)
 	}
 
-	fd, err := socket(ctx, net, syscall.AF_UNIX, sotype, 0, false, laddr, raddr)
+	fd, err := socket(ctx, net, syscall.AF_UNIX, sotype, 0, false, laddr, raddr, control)
 	if err != nil {
 		return nil, err
 	}
@@ -150,8 +150,8 @@ func (c *UnixConn) writeMsg(b, oob []byte, addr *UnixAddr) (n, oobn int, err err
 	return c.fd.writeMsg(b, oob, sa)
 }
 
-func dialUnix(ctx context.Context, net string, laddr, raddr *UnixAddr) (*UnixConn, error) {
-	fd, err := unixSocket(ctx, net, laddr, raddr, "dial")
+func dialUnix(ctx context.Context, net string, laddr, raddr *UnixAddr, control ControlFunc) (*UnixConn, error) {
+	fd, err := unixSocket(ctx, net, laddr, raddr, "dial", control)
 	if err != nil {
 		return nil, err
 	}
@@ -206,16 +206,16 @@ func (l *UnixListener) SetUnlinkOnClose(unlink bool) {
 	l.unlink = unlink
 }
 
-func listenUnix(ctx context.Context, network string, laddr *UnixAddr) (*UnixListener, error) {
-	fd, err := unixSocket(ctx, network, laddr, nil, "listen")
+func doListenUnix(ctx context.Context, network string, laddr *UnixAddr, control ControlFunc) (*UnixListener, error) {
+	fd, err := unixSocket(ctx, network, laddr, nil, "listen", control)
 	if err != nil {
 		return nil, err
 	}
 	return &UnixListener{fd: fd, path: fd.laddr.String(), unlink: true}, nil
 }
 
-func listenUnixgram(ctx context.Context, network string, laddr *UnixAddr) (*UnixConn, error) {
-	fd, err := unixSocket(ctx, network, laddr, nil, "listen")
+func listenUnixgram(ctx context.Context, network string, laddr *UnixAddr, control ControlFunc) (*UnixConn, error) {
+	fd, err := unixSocket(ctx, network, laddr, nil, "listen", control)
 	if err != nil {
 		return nil, err
 	}

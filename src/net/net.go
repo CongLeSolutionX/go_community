@@ -106,6 +106,11 @@ type Addr interface {
 	String() string  // string form of address (for example, "192.0.2.1:25", "[2001:db8::1]:80")
 }
 
+// ControlFunc is a control function that allows setting up/overriding socket
+// options. It is called immediately after default socket options are setup, but
+// before the socket is used for binding or dialing.
+type ControlFunc func(syscall.RawConn) error
+
 // Conn is a generic stream-oriented network connection.
 //
 // Multiple goroutines may invoke methods on a Conn simultaneously.

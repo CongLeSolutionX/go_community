@@ -8,7 +8,7 @@ import "context"
 
 var (
 	// if non-nil, overrides dialTCP.
-	testHookDialTCP func(ctx context.Context, net string, laddr, raddr *TCPAddr) (*TCPConn, error)
+	testHookDialTCP func(ctx context.Context, net string, laddr, raddr *TCPAddr, control ControlFunc) (*TCPConn, error)
 
 	testHookHostsPath = "/etc/hosts"
 	testHookLookupIP  = func(
