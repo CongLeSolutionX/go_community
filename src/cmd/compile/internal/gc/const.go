@@ -224,8 +224,7 @@ func convlit1(n *Node, t *types.Type, explicit bool, reuse canReuseNode) *Node {
 	if n.Op == OLITERAL && !reuse {
 		// Can't always set n.Type directly on OLITERAL nodes.
 		// See discussion on CL 20813.
-		nn := *n
-		n = &nn
+		n = n.dup()
 		reuse = true
 	}
 
@@ -613,12 +612,8 @@ func Isconst(n *Node, ct Ctype) bool {
 func saveorig(n *Node) *Node {
 	if n == n.Orig {
 		// duplicate node for n->orig.
-		n1 := nod(OLITERAL, nil, nil)
-
-		n.Orig = n1
-		*n1 = *n
+		n.Orig = n.dup()
 	}
-
 	return n.Orig
 }
 
@@ -1365,8 +1360,7 @@ func defaultlitreuse(n *Node, t *types.Type, reuse canReuseNode) *Node {
 	}
 
 	if n.Op == OLITERAL && !reuse {
-		nn := *n
-		n = &nn
+		n = n.dup()
 		reuse = true
 	}
 

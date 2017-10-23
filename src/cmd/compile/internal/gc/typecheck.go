@@ -1701,7 +1701,9 @@ func typecheck1(n *Node, top int) *Node {
 
 	case OCONV:
 		ok |= Erv
-		saveorignode(n)
+		if n.Orig != nil {
+			n.Orig = n.Orig.dup()
+		}
 		checkwidth(n.Type) // ensure width is calculated for backend
 		n.Left = typecheck(n.Left, Erv)
 		n.Left = convlit1(n.Left, n.Type, true, noReuse)
@@ -1724,10 +1726,10 @@ func typecheck1(n *Node, top int) *Node {
 		switch n.Op {
 		case OCONVNOP:
 			if n.Left.Op == OLITERAL {
-				r := nod(OXXX, nil, nil)
 				n.Op = OCONV
+				r := n.dup()
+				r.Orig = r
 				n.Orig = r
-				*r = *n
 				n.Op = OLITERAL
 				n.SetVal(n.Left.Val())
 			} else if t.Etype == n.Type.Etype {
@@ -2889,9 +2891,7 @@ func typecheckcomplit(n *Node) *Node {
 	}
 
 	// Save original node (including n.Right)
-	norig := nod(n.Op, nil, nil)
-
-	*norig = *n
+	norig := n.dup()
 
 	setlineno(n.Right)
 	n.Right = typecheck(n.Right, Etype|Ecomplit)

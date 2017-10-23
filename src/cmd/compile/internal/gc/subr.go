@@ -364,13 +364,9 @@ func nodSym(op Op, left *Node, sym *types.Sym) *Node {
 	return n
 }
 
-func saveorignode(n *Node) {
-	if n.Orig != nil {
-		return
-	}
-	norig := nod(n.Op, nil, nil)
-	*norig = *n
-	n.Orig = norig
+func (n *Node) dup() *Node {
+	n2 := *n
+	return &n2
 }
 
 // methcmp sorts by symbol, then by package path for unexported symbols.
@@ -463,8 +459,8 @@ func treecopy(n *Node, pos src.XPos) *Node {
 
 	switch n.Op {
 	default:
-		m := *n
-		m.Orig = &m
+		m := n.dup()
+		m.Orig = m
 		m.Left = treecopy(n.Left, pos)
 		m.Right = treecopy(n.Right, pos)
 		m.List.Set(listtreecopy(n.List.Slice(), pos))
@@ -475,7 +471,7 @@ func treecopy(n *Node, pos src.XPos) *Node {
 			Dump("treecopy", n)
 			Fatalf("treecopy Name")
 		}
-		return &m
+		return m
 
 	case OPACK:
 		// OPACK nodes are never valid in const value declarations,
@@ -1276,8 +1272,7 @@ func safeexpr(n *Node, init *Nodes) *Node {
 		if l == n.Left {
 			return n
 		}
-		r := nod(OXXX, nil, nil)
-		*r = *n
+		r := n.dup()
 		r.Left = l
 		r = typecheck(r, Erv)
 		r = walkexpr(r, init)
@@ -1288,8 +1283,7 @@ func safeexpr(n *Node, init *Nodes) *Node {
 		if l == n.Left {
 			return n
 		}
-		a := nod(OXXX, nil, nil)
-		*a = *n
+		a := n.dup()
 		a.Left = l
 		a = walkexpr(a, init)
 		return a
@@ -1300,8 +1294,7 @@ func safeexpr(n *Node, init *Nodes) *Node {
 		if l == n.Left && r == n.Right {
 			return n
 		}
-		a := nod(OXXX, nil, nil)
-		*a = *n
+		a := n.dup()
 		a.Left = l
 		a.Right = r
 		a = walkexpr(a, init)
