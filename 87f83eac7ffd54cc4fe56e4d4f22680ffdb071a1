@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1933ed6_206fa0e6",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-23T22:24:07Z",
+      "side": 1,
+      "message": "Sorry I missed it -- this is backwards :(",
+      "range": {
+        "startLine": 487,
+        "startChar": 37,
+        "endLine": 487,
+        "endChar": 0
+      },
+      "revId": "87f83eac7ffd54cc4fe56e4d4f22680ffdb071a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
