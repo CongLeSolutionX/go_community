@@ -42,10 +42,10 @@ func (ln *UnixListener) file() (*os.File, error) {
 	return nil, syscall.EPLAN9
 }
 
-func listenUnix(ctx context.Context, network string, laddr *UnixAddr) (*UnixListener, error) {
+func doListenUnix(ctx context.Context, network string, laddr *UnixAddr, control ControlFunc) (*UnixListener, error) {
 	return nil, syscall.EPLAN9
 }
 
-func listenUnixgram(ctx context.Context, network string, laddr *UnixAddr) (*UnixConn, error) {
+func listenUnixgram(ctx context.Context, network string, laddr *UnixAddr, control ControlFunc) (*UnixConn, error) {
 	return nil, syscall.EPLAN9
 }
