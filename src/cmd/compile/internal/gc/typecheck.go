@@ -1740,7 +1740,7 @@ func typecheck1(n *Node, top int) *Node {
 		switch n.Op {
 		case OCONVNOP:
 			if n.Left.Op == OLITERAL {
-				r := nod(OXXX, nil, nil)
+				r := &Node{}
 				n.Op = OCONV
 				n.Orig = r
 				*r = *n
@@ -2909,8 +2909,7 @@ func typecheckcomplit(n *Node) *Node {
 	}
 
 	// Save original node (including n.Right)
-	norig := nod(n.Op, nil, nil)
-
+	norig := &Node{}
 	*norig = *n
 
 	setlineno(n.Right)
