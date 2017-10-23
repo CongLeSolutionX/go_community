@@ -397,7 +397,7 @@ func inlcopy(n *Node) *Node {
 		return n
 	}
 
-	m := *n
+	m := n.copy()
 	if m.Func != nil {
 		m.Func.Inl.Set(nil)
 	}
@@ -408,7 +408,7 @@ func inlcopy(n *Node) *Node {
 	m.Ninit.Set(inlcopylist(n.Ninit.Slice()))
 	m.Nbody.Set(inlcopylist(n.Nbody.Slice()))
 
-	return &m
+	return m
 }
 
 // Inlcalls/nodelist/node walks fn's statements and expressions and substitutes any
@@ -1187,8 +1187,7 @@ func (subst *inlsubst) node(n *Node) *Node {
 		return m
 
 	case OGOTO, OLABEL:
-		m := nod(OXXX, nil, nil)
-		*m = *n
+		m := n.copy()
 		m.Pos = subst.updatedPos(m.Pos)
 		m.Ninit.Set(nil)
 		p := fmt.Sprintf("%s·%d", n.Left.Sym.Name, inlgen)
@@ -1197,8 +1196,7 @@ func (subst *inlsubst) node(n *Node) *Node {
 		return m
 	}
 
-	m := nod(OXXX, nil, nil)
-	*m = *n
+	m := n.copy()
 	m.Pos = subst.updatedPos(m.Pos)
 	m.Ninit.Set(nil)
 

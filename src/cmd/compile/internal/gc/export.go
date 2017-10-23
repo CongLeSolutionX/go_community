@@ -312,8 +312,7 @@ func importconst(pkg *types.Pkg, s *types.Sym, t *types.Type, n *Node) {
 	}
 
 	if n.Sym != nil {
-		n1 := *n
-		n = &n1
+		n = n.copy()
 	}
 
 	n.Orig = newname(s)
