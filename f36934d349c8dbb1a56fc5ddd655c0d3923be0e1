@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9a127af_3b9cd151",
+        "filename": "src/cmd/link/internal/ld/lib.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1108,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-24T13:46:15Z",
+      "side": 1,
+      "message": "What this needs is a comment explaining why it is so. It looks like none of us know why exactly. So I suppose something like this will do:\n\n// __PAGEZERO segment size determined empirically.\n// XCode 9.0.1 successfully uploads an iOS app with this value.",
+      "revId": "f36934d349c8dbb1a56fc5ddd655c0d3923be0e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
