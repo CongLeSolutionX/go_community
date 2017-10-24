@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec819b86_10a89d1c",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-24T12:44:55Z",
+      "side": 1,
+      "message": "Should this also have a short path for 0-byte?",
+      "revId": "de7bc403f655c076f5c14ade10924e3eb347c676",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e14ea28b_88a45c19",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-24T12:44:55Z",
+      "side": 1,
+      "message": "It\u0027s fine to have a short path for 0-byte case, but I don\u0027t think it is appropriate to say it is for a benchmark. Just remove the \"for benchmark ...\" part from the comment.",
+      "range": {
+        "startLine": 861,
+        "startChar": 31,
+        "endLine": 861,
+        "endChar": 53
+      },
+      "revId": "de7bc403f655c076f5c14ade10924e3eb347c676",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
