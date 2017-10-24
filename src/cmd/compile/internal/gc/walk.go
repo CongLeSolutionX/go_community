@@ -2949,7 +2949,7 @@ func appendslice(n *Node, init *Nodes) *Node {
 	nt.Etype = 1
 	l = append(l, nod(OAS, s, nt))
 
-	if types.Haspointers(l1.Type.Elem()) {
+	if l1.Type.Elem().HasHeapPointer() {
 		// copy(s[len(l1):], l2)
 		nptr1 := nod(OSLICE, s, nil)
 		nptr1.SetSliceBounds(nod(OLEN, l1, nil), nil, nil)
@@ -3122,7 +3122,7 @@ func walkappend(n *Node, init *Nodes, dst *Node) *Node {
 // Also works if b is a string.
 //
 func copyany(n *Node, init *Nodes, runtimecall bool) *Node {
-	if types.Haspointers(n.Left.Type.Elem()) {
+	if n.Left.Type.Elem().HasHeapPointer() {
 		if !Curfn.Func.WBPos.IsKnown() {
 			Curfn.Func.WBPos = n.Pos
 		}
