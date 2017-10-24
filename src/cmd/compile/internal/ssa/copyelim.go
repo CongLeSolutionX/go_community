@@ -23,11 +23,13 @@ func copyelim(f *Func) {
 	}
 
 	// Update named values.
-	for _, name := range f.Names {
-		values := f.NamedValues[name]
-		for i, v := range values {
-			if v.Op == OpCopy {
-				values[i] = v.Args[0]
+	if f.pass.test == 1 {
+		for _, name := range f.Names {
+			values := f.NamedValues[name]
+			for i, v := range values {
+				if v.Op == OpCopy {
+					values[i] = v.Args[0]
+				}
 			}
 		}
 	}
