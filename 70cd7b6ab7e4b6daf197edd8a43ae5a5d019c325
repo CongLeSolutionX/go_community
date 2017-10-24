@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34a78b0f_2612999c",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T21:11:16Z",
+      "side": 1,
+      "message": "see below\n\nu.prec \u003d t.prec",
+      "range": {
+        "startLine": 94,
+        "startChar": 13,
+        "endLine": 94,
+        "endChar": 14
+      },
+      "revId": "70cd7b6ab7e4b6daf197edd8a43ae5a5d019c325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "036bf362_eda98324",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T21:11:16Z",
+      "side": 1,
+      "message": "this comment just duplicates the comment above - remove",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 25
+      },
+      "revId": "70cd7b6ab7e4b6daf197edd8a43ae5a5d019c325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6939cc6c_6c66d553",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T21:11:16Z",
+      "side": 1,
+      "message": "2*z.prec doesn\u0027t change, factor out:\n\nfor prec :\u003d 2*z.prec; sqi.prec \u003c prec; {\n   sqi.prec *\u003d 2\n   sqi.Sub(sqi, g(sqi))\n}",
+      "range": {
+        "startLine": 105,
+        "startChar": 19,
+        "endLine": 105,
+        "endChar": 20
+      },
+      "revId": "70cd7b6ab7e4b6daf197edd8a43ae5a5d019c325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc2a534a_e769ce4f",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T21:11:16Z",
+      "side": 1,
+      "message": "nitpick: can we sort them the functions in the order they are used, please.\n\nsqrtDirect\nsqrtInverse",
+      "revId": "70cd7b6ab7e4b6daf197edd8a43ae5a5d019c325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "277da41a_0f43ee73",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T21:11:16Z",
+      "side": 1,
+      "message": "this is overkill: we don\u0027t care what\u0027s in u here because we\u0027re just setting it in the next line, we just need to set the precision. just:\n\nu.prec \u003d t.prec",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 11
+      },
+      "revId": "70cd7b6ab7e4b6daf197edd8a43ae5a5d019c325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18df75fa_46c1d79a",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T21:11:16Z",
+      "side": 1,
+      "message": "this comment just duplicates the comment above - remove",
+      "range": {
+        "startLine": 132,
+        "startChar": 5,
+        "endLine": 132,
+        "endChar": 6
+      },
+      "revId": "70cd7b6ab7e4b6daf197edd8a43ae5a5d019c325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f37c57c_b07adb35",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T21:11:16Z",
+      "side": 1,
+      "message": "same here: because we increase the precision there\u0027s no rounding involved, so we can just do\n\nsq.prec *\u003d 2",
+      "range": {
+        "startLine": 141,
+        "startChar": 5,
+        "endLine": 141,
+        "endChar": 12
+      },
+      "revId": "70cd7b6ab7e4b6daf197edd8a43ae5a5d019c325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d0e95a_41a9cefb",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T21:11:16Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 145,
+        "startChar": 5,
+        "endLine": 145,
+        "endChar": 12
+      },
+      "revId": "70cd7b6ab7e4b6daf197edd8a43ae5a5d019c325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64fee5ab_f75da59b",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T21:11:16Z",
+      "side": 1,
+      "message": "another way of checking these is to compute the square again and see how far off it is from the input - please add this here",
+      "revId": "70cd7b6ab7e4b6daf197edd8a43ae5a5d019c325",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
