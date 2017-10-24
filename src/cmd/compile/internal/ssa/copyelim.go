@@ -23,11 +23,17 @@ func copyelim(f *Func) {
 	}
 
 	// Update named values.
-	for _, name := range f.Names {
-		values := f.NamedValues[name]
-		for i, v := range values {
-			if v.Op == OpCopy {
-				values[i] = v.Args[0]
+	// This is currently default-disabled to see how well name-propagation in decomposition works.
+	// Copyelim is invoked both as an early or late phase by itself, as well as being a part of
+	// various dead code eliminations. "generic deadcode" is the pass where this update made a
+	// difference before decomposition was repaired.
+	if f.pass.test == 1 {
+		for _, name := range f.Names {
+			values := f.NamedValues[name]
+			for i, v := range values {
+				if v.Op == OpCopy {
+					values[i] = v.Args[0]
+				}
 			}
 		}
 	}
