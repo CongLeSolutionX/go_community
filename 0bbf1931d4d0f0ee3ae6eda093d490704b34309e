@@ -1,0 +1,360 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2afd03ce_59d44e65",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "my mistake, I just realized that b\u003e\u003e1 is not the same as b/2 for b \u003c 0 - should probably go back to the previous notation, maybe with trunc? Or the equivalent mathematical symbol ⎣x⎦.",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 18
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00fca309_46f7b2c2",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "Add at least a comment about 128\n\n// 128bit precision is an empirically chosen threshold",
+      "range": {
+        "startLine": 73,
+        "startChar": 14,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c214d46f_ff357c34",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "indent f like g below (2 blanks)",
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8722d71f_7e62029a",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "move the panic down to the switch - I think that is where it really matters",
+      "range": {
+        "startLine": 118,
+        "startChar": 10,
+        "endLine": 118,
+        "endChar": 11
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "851af3d6_0a11c1ae",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "not aligned with g",
+      "range": {
+        "startLine": 123,
+        "startChar": 5,
+        "endLine": 123,
+        "endChar": 6
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7153b1d_bc287432",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "switch\ncase z.prec \u003e 128:\n   panic\ncase z.prec \u003d\u003d 128:\n   ...\ncase z.prec ...\n\nstill the code seems funny. So for prec \u003d\u003d 127 we only need 2 iterations? Should the threshold be higher\u003e",
+      "range": {
+        "startLine": 139,
+        "startChar": 1,
+        "endLine": 139,
+        "endChar": 7
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f5e4300_e605cc82",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "compatibility is not the right word here, also we\u0027re testing against math.Sqrt, not IEEE - for consistency with tests in float_test.go:\n\n// TestFloatSqrt64 tests that Float.Sqrt of numbers with 53bit mantissa\n// behaves like float math.Sqrt.",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24e3f429_5faba603",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "TestFloatSqrt64",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 16,
+        "endChar": 16
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "325ab19a_70e182a2",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "z :\u003d new(Float).SetPrec(53)\n\nbetter to set explicitly than needing a comment - but see below",
+      "range": {
+        "startLine": 19,
+        "startChar": 16,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cdad950_cd5ae3f7",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "I think you should do this the other way round: As is, we don\u0027t know if Float64 does anything to the result of sqrt. If there\u0027s a bug, it might shorten it, etc.\n\ngot :\u003d new(Float).SetPrec(53)\ngot.Sqrt(NewFloat(r))\nwant :\u003d NewFloat(math.Sqrt(r))\nif got.Cmp(want) !\u003d 0 { ...",
+      "range": {
+        "startLine": 21,
+        "startChar": 19,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e80f5a3_2f46bed0",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "TestFloatSqrt in sync with other test names in float_test.go",
+      "range": {
+        "startLine": 29,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 14
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36690727_ebf7a85b",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "can you please add some smaller values as well? 0.2, 0.1 ?",
+      "range": {
+        "startLine": 37,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 9
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "276411fc_aa4e0a71",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "s/z/got/\n\nalso, use the \"usual\" order of declarations: first introduce x, then got, then want",
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e64305ca_2b1cd206",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "TestFloatSqrtSpecial",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5ddd811_a313307e",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "s/z/got/",
+      "range": {
+        "startLine": 74,
+        "startChar": 3,
+        "endLine": 74,
+        "endChar": 4
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb058030_0f6cef14",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T00:45:02Z",
+      "side": 1,
+      "message": "BenchmarkFloatSqrt",
+      "range": {
+        "startLine": 85,
+        "startChar": 23,
+        "endLine": 85,
+        "endChar": 30
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
