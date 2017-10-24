@@ -2955,6 +2955,12 @@ func appendslice(n *Node, init *Nodes) *Node {
 		nptr1.SetSliceBounds(nod(OLEN, l1, nil), nil, nil)
 		nptr1.Etype = 1
 		nptr2 := l2
+		if !Curfn.Func.WBPos.IsKnown() {
+			Curfn.Func.WBPos = n.Pos
+		}
+		if Debug_wb != 0 {
+			Warnl(n.Pos, "write barrier")
+		}
 		fn := syslook("typedslicecopy")
 		fn = substArgTypes(fn, l1.Type, l2.Type)
 		var ln Nodes
@@ -3117,6 +3123,12 @@ func walkappend(n *Node, init *Nodes, dst *Node) *Node {
 //
 func copyany(n *Node, init *Nodes, runtimecall bool) *Node {
 	if types.Haspointers(n.Left.Type.Elem()) {
+		if !Curfn.Func.WBPos.IsKnown() {
+			Curfn.Func.WBPos = n.Pos
+		}
+		if Debug_wb != 0 {
+			Warnl(n.Pos, "write barrier")
+		}
 		fn := writebarrierfn("typedslicecopy", n.Left.Type, n.Right.Type)
 		return mkcall1(fn, n.Type, init, typename(n.Left.Type.Elem()), n.Left, n.Right)
 	}
