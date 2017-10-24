@@ -3597,6 +3597,8 @@ func TestQueryExecContextOnly(t *testing.T) {
 		t.Fatal("db.Conn", err)
 	}
 	defer conn.Close()
+	coc := conn.dc.ci.(*ctxOnlyConn)
+	coc.fc.skipDirtySession = true
 
 	_, err = conn.ExecContext(ctx, "WIPE")
 	if err != nil {
@@ -3629,7 +3631,6 @@ func TestQueryExecContextOnly(t *testing.T) {
 		t.Fatalf("expected %q, got %q", expectedValue, v1)
 	}
 
-	coc := conn.dc.ci.(*ctxOnlyConn)
 	if !coc.execCtxCalled {
 		t.Error("ExecContext not called")
 	}
