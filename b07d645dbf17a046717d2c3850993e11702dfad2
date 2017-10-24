@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faf9420d_e400eeab",
+        "filename": "src/math/all_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1787,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T20:14:48Z",
+      "side": 1,
+      "message": "Che only difference between the tests above (vfroundSC) and these is this one test case. Can we add a couple more in both places that highlight the difference?",
+      "range": {
+        "startLine": 1787,
+        "startChar": 7,
+        "endLine": 1787,
+        "endChar": 8
+      },
+      "revId": "b07d645dbf17a046717d2c3850993e11702dfad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3438fb03_8a49f6bc",
+        "filename": "src/math/floor.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T20:14:48Z",
+      "side": 1,
+      "message": "move this declaration down to line 89, just after the comment. that\u0027s the only block where this is needed. remove any empty lines here",
+      "revId": "b07d645dbf17a046717d2c3850993e11702dfad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "451a0d5f_95364f5e",
+        "filename": "src/math/floor.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-24T20:14:48Z",
+      "side": 1,
+      "message": "move this declaration down to line 122, just below the comment. remove any empty lines here",
+      "revId": "b07d645dbf17a046717d2c3850993e11702dfad2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
