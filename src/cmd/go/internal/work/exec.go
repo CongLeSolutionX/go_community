@@ -18,6 +18,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"regexp"
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
@@ -694,6 +695,14 @@ func (b *Builder) moveOrCopyFile(a *Action, dst, src string, perm os.FileMode, f
 
 	// If we can update the mode and rename to the dst, do it.
 	// Otherwise fall back to standard copy.
+
+	// On Windows, always copy the file, so that we respect the NTFS
+	// permissions of the parent folder. https://golang.org/issue/22343.
+	// What matters here is not cfg.Goos (the system we are building
+	// for) but runtime.GOOS (the system we are building on).
+	if runtime.GOOS == "windows" {
+		return b.copyFile(a, dst, src, perm, force)
+	}
 
 	// If the destination directory has the group sticky bit set,
 	// we have to copy the file to retain the correct permissions.
