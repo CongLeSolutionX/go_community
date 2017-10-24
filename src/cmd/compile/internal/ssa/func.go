@@ -65,8 +65,11 @@ type Func struct {
 
 	auxmap auxmap // map from aux values to opaque ids used by CSE
 
-	constants map[int64][]*Value // constants cache, keyed by constant value; users must check value's Op and Type
+	constants      map[int64][]*Value // constants cache, keyed by constant value; users must check value's Op and Type
+	explodedValues explodedValueMap   // map of all composite values that have been decomposed; passed between phases.
 }
+
+type explodedValueMap map[*Value][]*Value
 
 // NewFunc returns a new, empty function object.
 // Caller must set f.Config and f.Cache before using f.

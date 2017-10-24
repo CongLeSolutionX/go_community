@@ -9,6 +9,7 @@ func opt(f *Func) {
 	applyRewrite(f, rewriteBlockgeneric, rewriteValuegeneric)
 }
 
+// No longer a standalone phase, subsumed into decomposeBuiltin
 func dec(f *Func) {
 	applyRewrite(f, rewriteBlockdec, rewriteValuedec)
 	if f.Config.RegSize == 4 {

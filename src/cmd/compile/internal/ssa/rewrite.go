@@ -52,6 +52,9 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 
 				// apply rewrite function
 				if rv(v) {
+					if f.explodedValues != nil {
+						f.explodedValues.explodeValue(v)
+					}
 					change = true
 				}
 			}
