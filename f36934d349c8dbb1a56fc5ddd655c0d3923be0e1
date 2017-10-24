@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ba9d10da_1542ee14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2017-10-24T15:35:46Z",
+      "side": 1,
+      "message": "Perhaps \"modify -pagezero_size to please iTunes Connect validation for iOS.\" to make it clear what you\u0027re changing.",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "f36934d349c8dbb1a56fc5ddd655c0d3923be0e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9a127af_3b9cd151",
         "filename": "src/cmd/link/internal/ld/lib.go",
         "patchSetId": 1
