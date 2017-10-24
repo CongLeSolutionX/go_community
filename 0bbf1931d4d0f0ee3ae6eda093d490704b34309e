@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "734f5471_f48d9904",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done. I\u0027ve used the ceil and floor symbols.",
+      "parentUuid": "2afd03ce_59d44e65",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 18
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00fca309_46f7b2c2",
         "filename": "src/math/big/sqrt.go",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a5ea1d87_1be634e2",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00fca309_46f7b2c2",
+      "range": {
+        "startLine": 73,
+        "startChar": 14,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c214d46f_ff357c34",
         "filename": "src/math/big/sqrt.go",
         "patchSetId": 11
@@ -62,6 +110,24 @@
       "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16000e92_88b3bb28",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c214d46f_ff357c34",
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "f65b40c3_06c954b2",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8722d71f_7e62029a",
+      "range": {
+        "startLine": 118,
+        "startChar": 10,
+        "endLine": 118,
+        "endChar": 11
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "851af3d6_0a11c1ae",
         "filename": "src/math/big/sqrt.go",
         "patchSetId": 11
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "1d6569fb_3ec936fa",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "851af3d6_0a11c1ae",
+      "range": {
+        "startLine": 123,
+        "startChar": 5,
+        "endLine": 123,
+        "endChar": 6
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7153b1d_bc287432",
         "filename": "src/math/big/sqrt.go",
         "patchSetId": 11
@@ -122,6 +236,30 @@
       "writtenOn": "2017-10-24T00:45:02Z",
       "side": 1,
       "message": "switch\ncase z.prec \u003e 128:\n   panic\ncase z.prec \u003d\u003d 128:\n   ...\ncase z.prec ...\n\nstill the code seems funny. So for prec \u003d\u003d 127 we only need 2 iterations? Should the threshold be higher\u003e",
+      "range": {
+        "startLine": 139,
+        "startChar": 1,
+        "endLine": 139,
+        "endChar": 7
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bccb59a2_36b16d5a",
+        "filename": "src/math/big/sqrt.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Mmh, I remember adding a third iteration because tests were failing but now with the 128 threshold I see no failures when I remove the 3rd iteration... maybe there was an issue with settings precs and then I fixed it but I forgot to remove the 3rd Newton iteration.\n\nAnyway I\u0027ve removed the 3rd Newton iteration. Now, starting from a 53 bits guess:\n\n- up to prec 64: we iterate once. This gives ~100bits, a safe margin\n- up to prec 128: we iterate twice. This gives ~200bits, a safe margin\n- if prec \u003e 128 we use the inverse\n\nThreshold is still 128. We definitely cannot reach 256 with two iterations; 192 maybe yes, but it\u0027s pretty close I think.",
+      "parentUuid": "a7153b1d_bc287432",
       "range": {
         "startLine": 139,
         "startChar": 1,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "e6ff5902_f3c4cc98",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f5e4300_e605cc82",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 22
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24e3f429_5faba603",
         "filename": "src/math/big/sqrt_test.go",
         "patchSetId": 11
@@ -177,6 +339,30 @@
       "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e62b406_6a6160dc",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24e3f429_5faba603",
+      "range": {
+        "startLine": 16,
+        "startChar": 5,
+        "endLine": 16,
+        "endChar": 16
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "a42e0881_906483d5",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "325ab19a_70e182a2",
+      "range": {
+        "startLine": 19,
+        "startChar": 16,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cdad950_cd5ae3f7",
         "filename": "src/math/big/sqrt_test.go",
         "patchSetId": 11
@@ -223,6 +433,30 @@
       "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d41434cc_f2cceebe",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cdad950_cd5ae3f7",
+      "range": {
+        "startLine": 21,
+        "startChar": 19,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -249,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "439fc5d6_e4f2a7dc",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e80f5a3_2f46bed0",
+      "range": {
+        "startLine": 29,
+        "startChar": 5,
+        "endLine": 29,
+        "endChar": 14
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36690727_ebf7a85b",
         "filename": "src/math/big/sqrt_test.go",
         "patchSetId": 11
@@ -272,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "24979554_396a2b83",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Added 0.125 and 0.03125 (I don\u0027t think we can test arguments with an infinite binary representation -like 0.1- with this method because wolfram treats 0.1 as an exact number in the query but for us big.Float(0.1) gets truncated so we actually converge to the root of 0.099999999...something and the test fails on high precisions).",
+      "parentUuid": "36690727_ebf7a85b",
+      "range": {
+        "startLine": 37,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 9
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "276411fc_aa4e0a71",
         "filename": "src/math/big/sqrt_test.go",
         "patchSetId": 11
@@ -286,6 +568,24 @@
       "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9937c6e_817cbb44",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "276411fc_aa4e0a71",
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -312,6 +612,30 @@
     },
     {
       "key": {
+        "uuid": "e5eb093d_eb5f7610",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e64305ca_2b1cd206",
+      "range": {
+        "startLine": 65,
+        "startChar": 5,
+        "endLine": 65,
+        "endChar": 21
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5ddd811_a313307e",
         "filename": "src/math/big/sqrt_test.go",
         "patchSetId": 11
@@ -335,6 +659,30 @@
     },
     {
       "key": {
+        "uuid": "62a78d01_c590bd32",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5ddd811_a313307e",
+      "range": {
+        "startLine": 74,
+        "startChar": 3,
+        "endLine": 74,
+        "endChar": 4
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb058030_0f6cef14",
         "filename": "src/math/big/sqrt_test.go",
         "patchSetId": 11
@@ -355,6 +703,30 @@
       "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce14f5b0_b17ac3ba",
+        "filename": "src/math/big/sqrt_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-10-24T09:24:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb058030_0f6cef14",
+      "range": {
+        "startLine": 85,
+        "startChar": 23,
+        "endLine": 85,
+        "endChar": 30
+      },
+      "revId": "0bbf1931d4d0f0ee3ae6eda093d490704b34309e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
