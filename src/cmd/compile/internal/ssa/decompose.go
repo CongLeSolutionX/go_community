@@ -4,96 +4,103 @@
 
 package ssa
 
-import "cmd/compile/internal/types"
+import (
+	"cmd/compile/internal/types"
+)
+
+type decomposedValueMap map[*Value][]*Value
 
 // decompose converts phi ops on compound builtin types into phi
-// ops on simple types.
-// (The remaining compound ops are decomposed with rewrite rules.)
+// ops on simple types, then invokes rewrite rules to decompose
+// other ops on those types.
 func decomposeBuiltIn(f *Func) {
+
+	// When an aggregate value is decomposed, its new parts are recorded in this map,
+	// so that field names can be directly bound to where they need to be.
+	dvm := make(decomposedValueMap)
+
+	// Decompose phis
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			if v.Op != OpPhi {
 				continue
 			}
-			decomposeBuiltInPhi(v)
+			decomposeBuiltInPhi(v, dvm)
 		}
 	}
 
+	// Decompose other values
+	applyRewrite(f, rewriteBlockdec, func(v *Value) bool {
+		ret := rewriteValuedec(v)
+		if ret {
+			dvm.noteDecomposed(v)
+		}
+		return ret
+	})
+	if f.Config.RegSize == 4 {
+		applyRewrite(f, rewriteBlockdec64, func(v *Value) bool {
+			ret := rewriteValuedec64(v)
+			if ret {
+				dvm.noteDecomposed(v)
+			}
+			return ret
+		})
+	}
+
 	// Split up named values into their components.
-	// NOTE: the component values we are making are dead at this point.
-	// We must do the opt pass before any deadcode elimination or we will
-	// lose the name->value correspondence.
 	var newNames []LocalSlot
 	for _, name := range f.Names {
 		t := name.Type
 		switch {
 		case t.IsInteger() && t.Size() > f.Config.RegSize:
-			var elemType *types.Type
-			if t.IsSigned() {
-				elemType = f.Config.Types.Int32
-			} else {
-				elemType = f.Config.Types.UInt32
-			}
 			hiName, loName := f.fe.SplitInt64(name)
 			newNames = append(newNames, hiName, loName)
 			for _, v := range f.NamedValues[name] {
-				hi := v.Block.NewValue1(v.Pos, OpInt64Hi, elemType, v)
-				lo := v.Block.NewValue1(v.Pos, OpInt64Lo, f.Config.Types.UInt32, v)
-				f.NamedValues[hiName] = append(f.NamedValues[hiName], hi)
-				f.NamedValues[loName] = append(f.NamedValues[loName], lo)
+				if ev, ok := dvm[v]; ok {
+					f.NamedValues[hiName] = append(f.NamedValues[hiName], ev[0])
+					f.NamedValues[loName] = append(f.NamedValues[loName], ev[1])
+				}
 			}
 			delete(f.NamedValues, name)
 		case t.IsComplex():
-			var elemType *types.Type
-			if t.Size() == 16 {
-				elemType = f.Config.Types.Float64
-			} else {
-				elemType = f.Config.Types.Float32
-			}
 			rName, iName := f.fe.SplitComplex(name)
 			newNames = append(newNames, rName, iName)
 			for _, v := range f.NamedValues[name] {
-				r := v.Block.NewValue1(v.Pos, OpComplexReal, elemType, v)
-				i := v.Block.NewValue1(v.Pos, OpComplexImag, elemType, v)
-				f.NamedValues[rName] = append(f.NamedValues[rName], r)
-				f.NamedValues[iName] = append(f.NamedValues[iName], i)
+				if ev, ok := dvm[v]; ok {
+					f.NamedValues[rName] = append(f.NamedValues[rName], ev[0])
+					f.NamedValues[iName] = append(f.NamedValues[iName], ev[1])
+				}
 			}
 			delete(f.NamedValues, name)
 		case t.IsString():
-			ptrType := f.Config.Types.BytePtr
-			lenType := f.Config.Types.Int
 			ptrName, lenName := f.fe.SplitString(name)
 			newNames = append(newNames, ptrName, lenName)
 			for _, v := range f.NamedValues[name] {
-				ptr := v.Block.NewValue1(v.Pos, OpStringPtr, ptrType, v)
-				len := v.Block.NewValue1(v.Pos, OpStringLen, lenType, v)
-				f.NamedValues[ptrName] = append(f.NamedValues[ptrName], ptr)
-				f.NamedValues[lenName] = append(f.NamedValues[lenName], len)
+				if ev, ok := dvm[v]; ok {
+					f.NamedValues[ptrName] = append(f.NamedValues[ptrName], ev[0])
+					f.NamedValues[lenName] = append(f.NamedValues[lenName], ev[1])
+				}
 			}
 			delete(f.NamedValues, name)
 		case t.IsSlice():
-			ptrType := f.Config.Types.BytePtr
-			lenType := f.Config.Types.Int
 			ptrName, lenName, capName := f.fe.SplitSlice(name)
 			newNames = append(newNames, ptrName, lenName, capName)
 			for _, v := range f.NamedValues[name] {
-				ptr := v.Block.NewValue1(v.Pos, OpSlicePtr, ptrType, v)
-				len := v.Block.NewValue1(v.Pos, OpSliceLen, lenType, v)
-				cap := v.Block.NewValue1(v.Pos, OpSliceCap, lenType, v)
-				f.NamedValues[ptrName] = append(f.NamedValues[ptrName], ptr)
-				f.NamedValues[lenName] = append(f.NamedValues[lenName], len)
-				f.NamedValues[capName] = append(f.NamedValues[capName], cap)
+				if ev, ok := dvm[v]; ok {
+					f.NamedValues[ptrName] = append(f.NamedValues[ptrName], ev[0])
+					f.NamedValues[lenName] = append(f.NamedValues[lenName], ev[1])
+					f.NamedValues[capName] = append(f.NamedValues[capName], ev[2])
+				}
 			}
 			delete(f.NamedValues, name)
 		case t.IsInterface():
-			ptrType := f.Config.Types.BytePtr
 			typeName, dataName := f.fe.SplitInterface(name)
 			newNames = append(newNames, typeName, dataName)
 			for _, v := range f.NamedValues[name] {
-				typ := v.Block.NewValue1(v.Pos, OpITab, ptrType, v)
-				data := v.Block.NewValue1(v.Pos, OpIData, ptrType, v)
-				f.NamedValues[typeName] = append(f.NamedValues[typeName], typ)
-				f.NamedValues[dataName] = append(f.NamedValues[dataName], data)
+				if ev, ok := dvm[v]; ok {
+					f.NamedValues[typeName] = append(f.NamedValues[typeName], ev[0])
+					f.NamedValues[dataName] = append(f.NamedValues[dataName], ev[1])
+				}
 			}
 			delete(f.NamedValues, name)
 		case t.IsFloat():
@@ -108,18 +115,18 @@ func decomposeBuiltIn(f *Func) {
 	f.Names = newNames
 }
 
-func decomposeBuiltInPhi(v *Value) {
+func decomposeBuiltInPhi(v *Value, dvm decomposedValueMap) {
 	switch {
 	case v.Type.IsInteger() && v.Type.Size() > v.Block.Func.Config.RegSize:
-		decomposeInt64Phi(v)
+		decomposeInt64Phi(v, dvm)
 	case v.Type.IsComplex():
-		decomposeComplexPhi(v)
+		decomposeComplexPhi(v, dvm)
 	case v.Type.IsString():
-		decomposeStringPhi(v)
+		decomposeStringPhi(v, dvm)
 	case v.Type.IsSlice():
-		decomposeSlicePhi(v)
+		decomposeSlicePhi(v, dvm)
 	case v.Type.IsInterface():
-		decomposeInterfacePhi(v)
+		decomposeInterfacePhi(v, dvm)
 	case v.Type.IsFloat():
 		// floats are never decomposed, even ones bigger than RegSize
 	case v.Type.Size() > v.Block.Func.Config.RegSize:
@@ -127,7 +134,17 @@ func decomposeBuiltInPhi(v *Value) {
 	}
 }
 
-func decomposeStringPhi(v *Value) {
+// noteDecomposed handles the case where a Foo-valued Phi or Load
+// is converted to a FooMake of its parts; the name needs
+// to be pushed to its args with appropriate field-name suffixing.
+func (dvm decomposedValueMap) noteDecomposed(v *Value) {
+	// TODO This appears to be over-general; so far all cases are handled
+	// merely by recording the args, which don't need to be stored in a map
+	// because they are attached to the value already.
+	dvm[v] = v.Args
+}
+
+func decomposeStringPhi(v *Value, dvm decomposedValueMap) {
 	types := &v.Block.Func.Config.Types
 	ptrType := types.BytePtr
 	lenType := types.Int
@@ -141,9 +158,10 @@ func decomposeStringPhi(v *Value) {
 	v.reset(OpStringMake)
 	v.AddArg(ptr)
 	v.AddArg(len)
+	dvm.noteDecomposed(v)
 }
 
-func decomposeSlicePhi(v *Value) {
+func decomposeSlicePhi(v *Value, dvm decomposedValueMap) {
 	types := &v.Block.Func.Config.Types
 	ptrType := types.BytePtr
 	lenType := types.Int
@@ -160,9 +178,10 @@ func decomposeSlicePhi(v *Value) {
 	v.AddArg(ptr)
 	v.AddArg(len)
 	v.AddArg(cap)
+	dvm.noteDecomposed(v)
 }
 
-func decomposeInt64Phi(v *Value) {
+func decomposeInt64Phi(v *Value, dvm decomposedValueMap) {
 	cfgtypes := &v.Block.Func.Config.Types
 	var partType *types.Type
 	if v.Type.IsSigned() {
@@ -180,9 +199,10 @@ func decomposeInt64Phi(v *Value) {
 	v.reset(OpInt64Make)
 	v.AddArg(hi)
 	v.AddArg(lo)
+	dvm.noteDecomposed(v)
 }
 
-func decomposeComplexPhi(v *Value) {
+func decomposeComplexPhi(v *Value, dvm decomposedValueMap) {
 	cfgtypes := &v.Block.Func.Config.Types
 	var partType *types.Type
 	switch z := v.Type.Size(); z {
@@ -203,9 +223,10 @@ func decomposeComplexPhi(v *Value) {
 	v.reset(OpComplexMake)
 	v.AddArg(real)
 	v.AddArg(imag)
+	dvm.noteDecomposed(v)
 }
 
-func decomposeInterfacePhi(v *Value) {
+func decomposeInterfacePhi(v *Value, dvm decomposedValueMap) {
 	ptrType := v.Block.Func.Config.Types.BytePtr
 
 	itab := v.Block.NewValue0(v.Pos, OpPhi, ptrType)
@@ -217,30 +238,29 @@ func decomposeInterfacePhi(v *Value) {
 	v.reset(OpIMake)
 	v.AddArg(itab)
 	v.AddArg(data)
+	dvm.noteDecomposed(v)
 }
 
 func decomposeUser(f *Func) {
+	dvm := make(decomposedValueMap)
 	for _, b := range f.Blocks {
 		for _, v := range b.Values {
 			if v.Op != OpPhi {
 				continue
 			}
-			decomposeUserPhi(v)
+			decomposeUserPhi(v, dvm)
 		}
 	}
 	// Split up named values into their components.
-	// NOTE: the component values we are making are dead at this point.
-	// We must do the opt pass before any deadcode elimination or we will
-	// lose the name->value correspondence.
 	i := 0
 	var newNames []LocalSlot
 	for _, name := range f.Names {
 		t := name.Type
 		switch {
 		case t.IsStruct():
-			newNames = append(newNames, decomposeUserStruct(f, name)...)
+			newNames = append(newNames, decomposeUserStruct(f, name, dvm)...)
 		case t.IsArray():
-			newNames = append(newNames, decomposeUserArray(f, name)...)
+			newNames = append(newNames, decomposeUserArray(f, name, dvm)...)
 		default:
 			f.Names[i] = name
 			i++
@@ -250,7 +270,7 @@ func decomposeUser(f *Func) {
 	f.Names = append(f.Names, newNames...)
 }
 
-func decomposeUserArray(f *Func, name LocalSlot) []LocalSlot {
+func decomposeUserArray(f *Func, name LocalSlot, dvm decomposedValueMap) []LocalSlot {
 	t := name.Type
 	if t.NumElem() == 0 {
 		// TODO(khr): Not sure what to do here.  Probably nothing.
@@ -263,18 +283,19 @@ func decomposeUserArray(f *Func, name LocalSlot) []LocalSlot {
 	}
 	elemName := f.fe.SplitArray(name)
 	for _, v := range f.NamedValues[name] {
-		e := v.Block.NewValue1I(v.Pos, OpArraySelect, t.ElemType(), 0, v)
-		f.NamedValues[elemName] = append(f.NamedValues[elemName], e)
+		if ev, ok := dvm[v]; ok {
+			f.NamedValues[elemName] = append(f.NamedValues[elemName], ev[0])
+		}
 	}
 	// delete the name for the array as a whole
 	delete(f.NamedValues, name)
 
 	if t.ElemType().IsArray() {
-		ret := decomposeUserArray(f, elemName)
+		ret := decomposeUserArray(f, elemName, dvm)
 		delete(f.NamedValues, elemName)
 		return ret
 	} else if t.ElemType().IsStruct() {
-		ret := decomposeUserStruct(f, elemName)
+		ret := decomposeUserStruct(f, elemName, dvm)
 		delete(f.NamedValues, elemName)
 		return ret
 	}
@@ -283,7 +304,7 @@ func decomposeUserArray(f *Func, name LocalSlot) []LocalSlot {
 	return []LocalSlot{elemName}
 }
 
-func decomposeUserStruct(f *Func, name LocalSlot) []LocalSlot {
+func decomposeUserStruct(f *Func, name LocalSlot, dvm decomposedValueMap) []LocalSlot {
 	fnames := []LocalSlot{} // slots for struct in name
 	ret := []LocalSlot{}    // slots for struct in name plus nested struct slots
 	t := name.Type
@@ -301,9 +322,10 @@ func decomposeUserStruct(f *Func, name LocalSlot) []LocalSlot {
 
 	// create named values for each struct field
 	for _, v := range f.NamedValues[name] {
-		for i := 0; i < len(fnames); i++ {
-			x := v.Block.NewValue1I(v.Pos, OpStructSelect, t.FieldType(i), int64(i), v)
-			f.NamedValues[fnames[i]] = append(f.NamedValues[fnames[i]], x)
+		if ev, ok := dvm[v]; ok {
+			for i := 0; i < len(fnames); i++ {
+				f.NamedValues[fnames[i]] = append(f.NamedValues[fnames[i]], ev[i])
+			}
 		}
 	}
 	// remove the name of the struct as a whole
@@ -313,27 +335,27 @@ func decomposeUserStruct(f *Func, name LocalSlot) []LocalSlot {
 	// fields, recurse into nested structs
 	for i := 0; i < n; i++ {
 		if name.Type.FieldType(i).IsStruct() {
-			ret = append(ret, decomposeUserStruct(f, fnames[i])...)
+			ret = append(ret, decomposeUserStruct(f, fnames[i], dvm)...)
 			delete(f.NamedValues, fnames[i])
 		} else if name.Type.FieldType(i).IsArray() {
-			ret = append(ret, decomposeUserArray(f, fnames[i])...)
+			ret = append(ret, decomposeUserArray(f, fnames[i], dvm)...)
 			delete(f.NamedValues, fnames[i])
 		}
 	}
 	return ret
 }
-func decomposeUserPhi(v *Value) {
+func decomposeUserPhi(v *Value, dvm decomposedValueMap) {
 	switch {
 	case v.Type.IsStruct():
-		decomposeStructPhi(v)
+		decomposeStructPhi(v, dvm)
 	case v.Type.IsArray():
-		decomposeArrayPhi(v)
+		decomposeArrayPhi(v, dvm)
 	}
 }
 
 // decomposeStructPhi replaces phi-of-struct with structmake(phi-for-each-field),
 // and then recursively decomposes the phis for each field.
-func decomposeStructPhi(v *Value) {
+func decomposeStructPhi(v *Value, dvm decomposedValueMap) {
 	t := v.Type
 	n := t.NumFields()
 	var fields [MaxStruct]*Value
@@ -347,16 +369,17 @@ func decomposeStructPhi(v *Value) {
 	}
 	v.reset(StructMakeOp(n))
 	v.AddArgs(fields[:n]...)
+	dvm.noteDecomposed(v)
 
 	// Recursively decompose phis for each field.
 	for _, f := range fields[:n] {
-		decomposeUserPhi(f)
+		decomposeUserPhi(f, dvm)
 	}
 }
 
 // decomposeArrayPhi replaces phi-of-array with arraymake(phi-of-array-element),
 // and then recursively decomposes the element phi.
-func decomposeArrayPhi(v *Value) {
+func decomposeArrayPhi(v *Value, dvm decomposedValueMap) {
 	t := v.Type
 	if t.NumElem() == 0 {
 		v.reset(OpArrayMake0)
@@ -371,9 +394,10 @@ func decomposeArrayPhi(v *Value) {
 	}
 	v.reset(OpArrayMake1)
 	v.AddArg(elem)
+	dvm.noteDecomposed(v)
 
 	// Recursively decompose elem phi.
-	decomposeUserPhi(elem)
+	decomposeUserPhi(elem, dvm)
 }
 
 // MaxStruct is the maximum number of fields a struct
