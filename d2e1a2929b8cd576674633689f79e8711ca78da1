@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7582ffe4_d1eba84b",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4647,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-25T22:08:53Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to be any reason for the .*\\n, may as well omit it.",
+      "range": {
+        "startLine": 4647,
+        "startChar": 57,
+        "endLine": 4647,
+        "endChar": 61
+      },
+      "revId": "d2e1a2929b8cd576674633689f79e8711ca78da1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e08804c3_527613ad",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4654,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-25T22:08:53Z",
+      "side": 1,
+      "message": "You should turn these into numbers using strconv.Atoi, rather than comparing numbers with a string comparison.",
+      "revId": "d2e1a2929b8cd576674633689f79e8711ca78da1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d797ebb_cfdd43de",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4669,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-25T22:08:53Z",
+      "side": 1,
+      "message": "No need for both Errorf and Fatalf, no need to print obj, but should print err.\n\nt.Logf(\"executing upx %s\\n%s\\n\",out\")\nt.Fatalf(\"upx failed with %v\", err)",
+      "revId": "d2e1a2929b8cd576674633689f79e8711ca78da1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6cd0abb_16b962f1",
+        "filename": "src/cmd/go/go_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 4674,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-25T22:08:53Z",
+      "side": 1,
+      "message": "Here you should t.Logf(\"%s\", out)",
+      "revId": "d2e1a2929b8cd576674633689f79e8711ca78da1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
