@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d22d363_2882c7ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-25T05:04:22Z",
+      "side": 1,
+      "message": "nit: lower case \"fix\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "4d31d4afb82bbc531bcec574f033fbba08901ff3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
