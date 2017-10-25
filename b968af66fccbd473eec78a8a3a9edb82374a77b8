@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab771f9_ebd6a3d9",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-25T19:51:35Z",
+      "side": 1,
+      "message": "Don\u0027t need this one, it already has an entry in the main table.",
+      "revId": "b968af66fccbd473eec78a8a3a9edb82374a77b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
