@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d40eb58f_51154b68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-25T16:01:03Z",
+      "side": 1,
+      "message": "Mention the specific case where this causes problems (described in https://github.com/golang/go/issues/22394#issuecomment-339366254, possibly shortly after this CL was sent).",
+      "revId": "e7eb5434bbfbfd7c7392e6c39b700b070aacc480",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
