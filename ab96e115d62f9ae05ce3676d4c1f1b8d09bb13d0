@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3feb209c_df41b666",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-25T21:37:57Z",
+      "side": 1,
+      "message": "I have a suspicion this flexibility is unnecessary, and we can just unconditionally ignore pointers to not-in-heap types. The only reason identifying pointer-containing types is interesting to the compiler is because it affects GC, but the entire point of not-in-heap types is knowing they\u0027re never relevant to GC.\n\nPut differently: my understanding is pointer-to-notinheap-type is no different from uintptr, except it allows *p and p.f as syntactic sugar.\n\nAm I overlooking anything?",
+      "range": {
+        "startLine": 1371,
+        "startChar": 27,
+        "endLine": 1371,
+        "endChar": 42
+      },
+      "revId": "ab96e115d62f9ae05ce3676d4c1f1b8d09bb13d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
