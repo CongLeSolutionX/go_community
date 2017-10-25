@@ -679,7 +679,6 @@ func checkGcd(aBytes, bBytes []byte) bool {
 // algorithm for testing against optimized algorithms.
 // Requirements: a, b > 0
 func euclidGCD(a, b *Int) *Int {
-
 	A := new(Int).Set(a)
 	B := new(Int).Set(b)
 	t := new(Int)
@@ -689,6 +688,7 @@ func euclidGCD(a, b *Int) *Int {
 		t.Rem(A, B)
 		A, B, t = B, t, A
 	}
+
 	return A
 }
 
