@@ -487,6 +487,7 @@ loop:
 	ORQ	BX, CX
 	IMULQ	$100, CX
 	SUBQ	runtime·startNano(SB), CX
+	JEQ	useQPC // issue 22394
 	MOVQ	CX, ret+0(FP)
 	RET
 useQPC:
@@ -507,6 +508,7 @@ loop:
 	ORQ	BX, AX
 	IMULQ	$100, AX
 	SUBQ	runtime·startNano(SB), AX
+	JEQ	useQPC // issue 22394
 	MOVQ	AX, mono+16(FP)
 
 	MOVQ	$_SYSTEM_TIME, DI
