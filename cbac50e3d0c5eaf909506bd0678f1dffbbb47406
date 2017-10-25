@@ -19,6 +19,74 @@
     },
     {
       "key": {
+        "uuid": "ce8998e6_9c517868",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "Even though this is my second pass through this file in so many days, I misread this as gold flags (as in, GNU gold).",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41ec9ec8_dea930cb",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "I assume this doesn\u0027t slow anything down noticeably, because the packages and binaries rebuilt here are no longer rebuilt below when running \"go install std cmd\"?",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09993bf3_7120ff12",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "This is fine as it\u0027s following the existing style, but it\u0027s unusual to see a mutex without mu in its name.",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef909be1_8179885b",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "these comments would be more helpful if they described what was in the keys and values.",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "24c8aba3_c8e8f5a4",
         "filename": "src/cmd/go/internal/work/action.go",
         "patchSetId": 1
@@ -30,6 +98,137 @@
       "writtenOn": "2017-10-25T05:19:21Z",
       "side": 1,
       "message": "Drop debugging.",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c446bc5_1a1ab402",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "There\u0027s a lot of important detail hiding in the next sentence\u0027s \"first slash\" and \"final slash\" phrases. Perhaps that would be more obvious if your example here were more general:\n\n        actionID/[...]/contentID",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4c3afc4_e37a8614",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "nit:\n\nNigel has a strict policy of always treating mutex Lock/Unlock as paragraph boundaries. At first I found it a little tedious, but over time I\u0027ve become convinced it makes it much easier to read mutex code. Following that practice, there would be another newline above this if statement.",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c27077f9_1d982145",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 170,
+        "startChar": 55,
+        "endLine": 170,
+        "endChar": 60
+      },
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e0dcc6_05b339fc",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "same comment as above about mutex paragraphs",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a1e598e_9aa04ac2",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "If this buildID should never appear in the cache, should it contain an easily recognizable string that a human can spot debugging?",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5434f75_96c01376",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "This is relatively rare for host builds, but relatively common for cross-compiles. It is easy to have multiple Android NDKs hanging around and to switch out the C compiler, or jump back and forth between gcc and clang.",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dcbba44_9252019b",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-25T16:57:29Z",
+      "side": 1,
+      "message": "there\u0027s a linker team? :-)",
+      "range": {
+        "startLine": 198,
+        "startChar": 25,
+        "endLine": 198,
+        "endChar": 36
+      },
       "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
