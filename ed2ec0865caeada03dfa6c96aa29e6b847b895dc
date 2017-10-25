@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "feb9d422_72598f67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-25T19:34:15Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "abb0b0e2_6a74e835",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 75
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e9d2a3d_bbafdf6a",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "002beb07_c5e2ea49",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-25T19:34:15Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "4e9d2a3d_bbafdf6a",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 28
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "feb6ad07_620221c6",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 7
@@ -68,6 +116,30 @@
       "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd9c8297_3b14e6f1",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-25T19:34:15Z",
+      "side": 1,
+      "message": "I will do that in another CL.",
+      "parentUuid": "feb6ad07_620221c6",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 67
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "ae1bb484_1defa00e",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-25T19:34:15Z",
+      "side": 1,
+      "message": "In my initial attempt to generate this using rules, I couldn\u0027t get them to generate without adding this. I would get errors saying that I had to specify the type. I think I can remove them now they are intrinsics only.",
+      "parentUuid": "ffa9efbb_57f28b7c",
+      "range": {
+        "startLine": 252,
+        "startChar": 55,
+        "endLine": 252,
+        "endChar": 69
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5266846_7e20e580",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-25T19:34:15Z",
+      "side": 1,
+      "message": "Changing to float64.",
+      "parentUuid": "1972159f_1682061c",
+      "range": {
+        "startLine": 252,
+        "startChar": 99,
+        "endLine": 252,
+        "endChar": 115
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea1b6c99_35f9229e",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
         "patchSetId": 7
@@ -137,6 +257,30 @@
       "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4855d050_38d17198",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-25T19:34:15Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "ea1b6c99_35f9229e",
+      "range": {
+        "startLine": 253,
+        "startChar": 57,
+        "endLine": 253,
+        "endChar": 71
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
