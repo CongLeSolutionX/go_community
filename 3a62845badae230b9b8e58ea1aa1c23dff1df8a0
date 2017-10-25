@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "558a802a_213d77bd",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-25T20:07:57Z",
+      "side": 1,
+      "message": "Right :(\n\nMaybe just putFileRefAttr then, to avoid making up DW_CLS_FILEREF. Or, horror of horrors, you could just call ctxt.AddFileRef directly :P\n\nAnd yes, my experience matches yours, except that I have usually given up dealing with the linker. Shrug.",
+      "parentUuid": "4d5609f5_d8c1a967",
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443d00ee_6c0e9704",
         "filename": "src/cmd/internal/dwarf/dwarf_defs.go",
         "patchSetId": 2
