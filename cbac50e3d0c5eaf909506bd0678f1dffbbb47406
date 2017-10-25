@@ -232,6 +232,30 @@
       "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7ad3228_200cd234",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-25T17:00:42Z",
+      "side": 1,
+      "message": "You are a team of one.",
+      "parentUuid": "5dcbba44_9252019b",
+      "range": {
+        "startLine": 198,
+        "startChar": 25,
+        "endLine": 198,
+        "endChar": 36
+      },
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
