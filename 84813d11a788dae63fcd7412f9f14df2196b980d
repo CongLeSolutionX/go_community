@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f19d1e9_7d777e5b",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-25T10:12:50Z",
+      "side": 1,
+      "message": "could you write this as ?\n\nn1 :\u003d *n\nn.Orig \u003d \u0026n1",
+      "revId": "84813d11a788dae63fcd7412f9f14df2196b980d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2352ef8_4ed3cbaf",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-25T10:12:50Z",
+      "side": 1,
+      "message": "what about\n\nll :\u003d *n\nll.Orig \u003d \u0026ll\n\nthen pass \u0026ll in on line 354 and 363",
+      "revId": "84813d11a788dae63fcd7412f9f14df2196b980d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8595c474_b61f6f89",
+        "filename": "src/cmd/compile/internal/gc/sinit.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-25T10:12:50Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "84813d11a788dae63fcd7412f9f14df2196b980d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
