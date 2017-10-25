@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "dfe2fbb1_69e44e29",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-25T10:16:58Z",
+      "side": 1,
+      "message": "Yes, I don\u0027t like cross-package implementation either.",
+      "parentUuid": "929f6a23_d0706ff9",
+      "revId": "37aa97e73524b9f9e6cf1c76379d5eae509f3c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83fe90e7_27fe92e3",
         "filename": "src/runtime/asm_arm64.s",
         "patchSetId": 1
@@ -165,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "d8d089f8_081de4df",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-25T10:16:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b103aac_089e885c",
+      "revId": "37aa97e73524b9f9e6cf1c76379d5eae509f3c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f602c6b_6d8fc2d2",
         "filename": "src/runtime/asm_arm64.s",
         "patchSetId": 1
@@ -188,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "5bca8ead_94ff3503",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-25T10:16:58Z",
+      "side": 1,
+      "message": "Thanks for the suggestion! UADDLV is better than VADDP and is available on all chips.",
+      "parentUuid": "7f602c6b_6d8fc2d2",
+      "range": {
+        "startLine": 930,
+        "startChar": 0,
+        "endLine": 934,
+        "endChar": 39
+      },
+      "revId": "37aa97e73524b9f9e6cf1c76379d5eae509f3c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "052cae50_5ec06a23",
         "filename": "src/runtime/asm_arm64.s",
         "patchSetId": 1
@@ -208,6 +268,30 @@
       "revId": "37aa97e73524b9f9e6cf1c76379d5eae509f3c9a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5b09e12_bb7b9c31",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-10-25T10:16:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "052cae50_5ec06a23",
+      "range": {
+        "startLine": 939,
+        "startChar": 26,
+        "endLine": 939,
+        "endChar": 33
+      },
+      "revId": "37aa97e73524b9f9e6cf1c76379d5eae509f3c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
