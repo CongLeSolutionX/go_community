@@ -22,6 +22,30 @@
       "revId": "ab96e115d62f9ae05ce3676d4c1f1b8d09bb13d0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc497704_94310e9a",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-25T23:40:59Z",
+      "side": 1,
+      "message": "You may indeed be right, though I\u0027m not positive. Haspointers is used in a lot of places, and many of them have nothing to do with write barriers. For example, it\u0027s used in assignment ordering and in escape analysis, I believe just to understand what the object graph can look like.",
+      "parentUuid": "3feb209c_df41b666",
+      "range": {
+        "startLine": 1371,
+        "startChar": 27,
+        "endLine": 1371,
+        "endChar": 42
+      },
+      "revId": "ab96e115d62f9ae05ce3676d4c1f1b8d09bb13d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
