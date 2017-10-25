@@ -523,7 +523,6 @@ func (z *Int) GCD(x, y, a, b *Int) *Int {
 // See Jebelean, "Improving the multiprecision Euclidean algorithm",
 // Design and Implementation of Symbolic Computation Systems, pp 45-58.
 func (z *Int) lehmerGCD(a, b *Int) *Int {
-
 	// ensure a >= b
 	if a.abs.cmp(b.abs) < 0 {
 		a, b = b, a
@@ -541,24 +540,14 @@ func (z *Int) lehmerGCD(a, b *Int) *Int {
 
 	// loop invariant A >= B
 	for len(B.abs) > 1 {
-
-		// initialize the digits
-		var a1, a2, u0, u1, u2, v0, v1, v2 Word
-
-		m := len(B.abs) // m >= 2
-		n := len(A.abs) // n >= m >= 2
-
-		// extract the top Word of bits from A and B
-		h := nlz(A.abs[n-1])
-		a1 = (A.abs[n-1] << h) | (A.abs[n-2] >> (_W - h))
-		// B may have implicit zero words in the high bits if the lengths differ
-		switch {
-		case n == m:
-			a2 = (B.abs[n-1] << h) | (B.abs[n-2] >> (_W - h))
-		case n == m+1:
-			a2 = (B.abs[n-2] >> (_W - h))
-		default:
-			a2 = 0
+		// extract the top Words a1 and a2 from A and B
+		shift := uint(A.abs.bitLen() - _W)
+		t.abs = t.abs.shr(A.abs, shift)
+		a1 := t.abs[0]
+		t.abs = t.abs.shr(B.abs, shift)
+		var a2 Word
+		if len(t.abs) > 0 {
+			a2 = t.abs[0]
 		}
 
 		// Since we are calculating with full words to avoid overflow,
@@ -567,9 +556,10 @@ func (z *Int) lehmerGCD(a, b *Int) *Int {
 		// For odd  iterations: u0, v1 <= 0 && u1, v0 >= 0
 		// The first iteration starts with k=1 (odd).
 		even := false
+
 		// variables to track the cosequences
-		u0, u1, u2 = 0, 1, 0
-		v0, v1, v2 = 0, 0, 1
+		var u0, u1, u2 Word = 0, 1, 0
+		var v0, v1, v2 Word = 0, 0, 1
 
 		// calculate the quotient and cosequences using Collins' stopping condition
 		for a2 >= v2 && a1-a2 >= v1+v2 {
@@ -585,7 +575,6 @@ func (z *Int) lehmerGCD(a, b *Int) *Int {
 			// simulate the effect of the single precision steps using the cosequences
 			// A = u0*A + v0*B
 			// B = u1*A + v1*B
-
 			t.abs = t.abs.setWord(u0)
 			s.abs = s.abs.setWord(v0)
 			t.neg = !even
@@ -604,9 +593,8 @@ func (z *Int) lehmerGCD(a, b *Int) *Int {
 
 			A.Add(t, s)
 			B.Add(r, w)
-
 		} else {
-			// single-digit calculations failed to simluate any quotients
+			// single-digit calculations failed to produce any quotients;
 			// do a standard Euclidean step
 			t.Rem(A, B)
 			A, B, t = B, t, A
@@ -629,6 +617,7 @@ func (z *Int) lehmerGCD(a, b *Int) *Int {
 			A.abs[0] = a1
 		}
 	}
+
 	*z = *A
 	return z
 }
