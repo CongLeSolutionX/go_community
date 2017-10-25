@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "4d5609f5_d8c1a967",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-25T19:31:19Z",
+      "side": 1,
+      "message": "Hmm, this is proving more difficult than I thought.\n\nAdding \"putAddressAttr\" is of course easy, but what\u0027s difficult is getting rid of the complexity in putattr. The problem is coming not in the compiler but in the linker. The linker has routines like \"newtype\" that cobble together dwarf.DWDie objects with various form/class attrs, then invoke PutAttrs on those dies. Without writing big chunks of the linker I don\u0027t think this is easy to do.\n\nNB: this seems to be the common theme for my various explorations/attempts at DWARF mods -- the compiler change is easy, then you wind up discovering that there is some horribleness in the linker that is preventing you from getting to where you want to go. :-)",
+      "parentUuid": "6286f8fd_73fe963e",
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443d00ee_6c0e9704",
         "filename": "src/cmd/internal/dwarf/dwarf_defs.go",
         "patchSetId": 2
