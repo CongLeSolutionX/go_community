@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d7d3676_a75e8173",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2963,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-25T18:58:52Z",
+      "side": 1,
+      "message": "Maybe refactor into a logWriteBarrier(Curfn, n.Pos) call?",
+      "range": {
+        "startLine": 2958,
+        "startChar": 0,
+        "endLine": 2963,
+        "endChar": 3
+      },
+      "revId": "3467ad6ef1a4182765f301c46449c9bea675c096",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
