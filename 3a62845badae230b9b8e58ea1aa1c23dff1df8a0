@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "6286f8fd_73fe963e",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-25T18:53:39Z",
+      "side": 1,
+      "message": "OK, why not. I\u0027ll take a stab at it in the next patch.",
+      "parentUuid": "dc315d95_e21f34a9",
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443d00ee_6c0e9704",
         "filename": "src/cmd/internal/dwarf/dwarf_defs.go",
         "patchSetId": 2
@@ -326,6 +344,24 @@
       "side": 1,
       "message": "Sorry, yeah, removing the relocations from s.R would be a pain for sure. I was trying to suggest that this function start with if r.Done { continue } and then the error for unprocessed FILEREFs can be unconditional.",
       "parentUuid": "883547f7_c4c8b888",
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38ead7d6_2b22cc1c",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-25T18:53:39Z",
+      "side": 1,
+      "message": "OK, that sounds reasonable. I\u0027ll do that.",
+      "parentUuid": "5a108c6f_c24468fd",
       "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
