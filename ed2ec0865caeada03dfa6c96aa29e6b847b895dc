@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abb0b0e2_6a74e835",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-25T05:00:00Z",
+      "side": 1,
+      "message": "This change doesn\u0027t modify the math package so I would remove \u0027math\u0027 from the package list. Also, ideally commit messages should complete the sentence \"We should change Go to...\". Maybe something like this:\n\ncmd/compile,cmd/internal/obj/ppc64: make math.Abs and math.Copysign intrinsics on ppc64x",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 75
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e9d2a3d_bbafdf6a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-25T05:00:00Z",
+      "side": 1,
+      "message": "Ideally I\u0027d like to see these moved to the optimization section (i.e. below line 657).",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 28
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feb6ad07_620221c6",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-25T05:00:00Z",
+      "side": 1,
+      "message": "I think these should be moved into generic.rules, probably in a follow up CL (though it might make sense to do Abs and Copysign in this CL if you\u0027d like to). I don\u0027t think there is any reason to make them arch-specific. For example:\n\n(Abs (Const64F [c])) -\u003e (Const64F [f2i(math.Abs(i2f(c)))])\n\nThis will work on any arch.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 67
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffa9efbb_57f28b7c",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-25T05:00:00Z",
+      "side": 1,
+      "message": "Delete the typ field (since we don\u0027t set it for the other float ops and I don\u0027t see why FABS is different).",
+      "range": {
+        "startLine": 252,
+        "startChar": 55,
+        "endLine": 252,
+        "endChar": 69
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1972159f_1682061c",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-25T05:00:00Z",
+      "side": 1,
+      "message": "I think we should be more specific than \u0027(floating point)\u0027. Does FABS work on float32 as well as float64? If so I\u0027d make this \u0027, float32/float64\u0027, if not I\u0027d say \u0027, float64\u0027 like ceil, trunc, etc. do.",
+      "range": {
+        "startLine": 252,
+        "startChar": 99,
+        "endLine": 252,
+        "endChar": 115
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea1b6c99_35f9229e",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-25T05:00:00Z",
+      "side": 1,
+      "message": "Ditto, delete the typ field.",
+      "range": {
+        "startLine": 253,
+        "startChar": 57,
+        "endLine": 253,
+        "endChar": 71
+      },
+      "revId": "ed2ec0865caeada03dfa6c96aa29e6b847b895dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
