@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e5d13ec_d7e5454f",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-25T18:20:42Z",
+      "side": 1,
+      "message": "udata? data2 isn\u0027t big enough, but data4 seems silly.",
+      "range": {
+        "startLine": 307,
+        "startChar": 36,
+        "endLine": 307,
+        "endChar": 0
+      },
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3544b04_655ccec0",
+        "filename": "src/cmd/internal/dwarf/dwarf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-25T18:20:42Z",
+      "side": 1,
+      "message": "I\u0027m not fond of this function, and IMO we might have hit the breaking point here.\n\n- the abbrev argument is barely used\n- what \"value\" and \"data\" mean is not obvious without reading the implementation of the attribute you\u0027re writing\n- coverage of form/class combinations is kind of arbitrary, so you can\u0027t use it without reading the implementation\n\nPerhaps we should have putConstantAttr, putSectionRefAttr, putFileRefAttr, putAddressAttr?",
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "443d00ee_6c0e9704",
+        "filename": "src/cmd/internal/dwarf/dwarf_defs.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-25T18:20:42Z",
+      "side": 1,
+      "message": "This is made up, not from section 7, which is a little iffy IMO. More comments on putattr().\n\n(ADDRLOC seems made up too, but we don\u0027t use it...)",
+      "range": {
+        "startLine": 96,
+        "startChar": 15,
+        "endLine": 96,
+        "endChar": 0
+      },
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2802c741_f0878a13",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-25T18:20:42Z",
+      "side": 1,
+      "message": "nit: newline",
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d94c2000_8623a622",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-25T18:20:42Z",
+      "side": 1,
+      "message": "nit: typo",
+      "range": {
+        "startLine": 107,
+        "startChar": 23,
+        "endLine": 107,
+        "endChar": 32
+      },
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3c5e0cb_1a4e46d4",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-25T18:20:42Z",
+      "side": 1,
+      "message": "IMO clearer to move the r.Done \u003d true below the validation than make a copy here. If not, wasDone or alreadyDone or something?\n\nActually, maybe there\u0027s a bigger point: should we even be looking at relocations that are already done? Naively, you would want to just skip them, right?",
+      "revId": "3a62845badae230b9b8e58ea1aa1c23dff1df8a0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
