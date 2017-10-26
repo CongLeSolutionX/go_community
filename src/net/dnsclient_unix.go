@@ -334,25 +334,27 @@ func avoidDNS(name string) bool {
 	return stringsHasSuffixFold(name, ".onion")
 }
 
-// nameList returns a list of names for sequential DNS queries.
+// nameList returns a list of names for sequential DNS queries from a valid domain name.
 func (conf *dnsConfig) nameList(name string) []string {
 	if avoidDNS(name) {
 		return nil
 	}
 
-	// Check name length (see isDomainName).
 	l := len(name)
-	rooted := l > 0 && name[l-1] == '.'
-	if l > 254 || l == 254 && rooted {
-		return nil
+	dotsMissing := conf.ndots
+	for i := 0; i < l; i++ {
+		if name[i] == '.' {
+			dotsMissing--
+			if i+1 == l {
+				// If name is rooted (trailing dot), try only that name.
+				return []string{name}
+			}
+		} else if name[i] == '\\' {
+			// Skip over escaped characters, dot or otherwise.
+			i++
+		}
 	}
-
-	// If name is rooted (trailing dot), try only that name.
-	if rooted {
-		return []string{name}
-	}
-
-	hasNdots := count(name, '.') >= conf.ndots
+	hasNdots := dotsMissing <= 0
 	name += "."
 	l++
 
@@ -364,7 +366,7 @@ func (conf *dnsConfig) nameList(name string) []string {
 	}
 	// Try suffixes that are not too long (see isDomainName).
 	for _, suffix := range conf.search {
-		if l+len(suffix) <= 254 {
+		if isDomainName(name + suffix) {
 			names = append(names, name+suffix)
 		}
 	}

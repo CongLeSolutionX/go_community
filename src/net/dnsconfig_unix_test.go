@@ -192,10 +192,15 @@ func TestDNSNameLength(t *testing.T) {
 	getHostname = func() (string, error) { return "host.domain.local", nil }
 
 	var char63 = ""
+	var escape63 = ""
 	for i := 0; i < 63; i++ {
 		char63 += "a"
+		escape63 += `\128`
 	}
-	longDomain := strings.Repeat(char63+".", 5) + "example"
+	longDomain := strings.Repeat(char63+".", 4)[2:]
+	longestDomain := strings.Repeat(escape63+".", 4)[8:]
+
+	trickyRelativeNames := []string{`foo\.`, `bar\\\.`}
 
 	for _, tt := range dnsReadConfigTests {
 		conf := dnsReadConfig(tt.name)
@@ -210,9 +215,17 @@ func TestDNSNameLength(t *testing.T) {
 			}
 		}
 
-		// Test a name that will be maximally long when prefixing the shortest
+		// Test that tricky relative names are recognized as relative.
+		for _, trickyName := range trickyRelativeNames {
+			names := conf.nameList(trickyName)
+			if len(names) == 0 || (len(names) == 1 && names[0] == trickyName) {
+				t.Errorf("got %v; want suffixed names", names)
+			}
+		}
+
+		// Test names that will be maximally long when prefixing the shortest
 		// suffix (accounting for the intervening dot).
-		longName := longDomain[len(longDomain)-254+1+shortestSuffix:]
+		longName := longDomain[shortestSuffix:]
 		if longName[0] == '.' || longName[1] == '.' {
 			longName = "aa." + longName[3:]
 		}
@@ -221,19 +234,28 @@ func TestDNSNameLength(t *testing.T) {
 				t.Errorf("got %d; want less than or equal to 254", len(fqdn))
 			}
 		}
+		longerName := longestDomain[shortestSuffix*4:]
+		if longerName[0] == '.' {
+			longerName = `\128\128.` + longerName[9:]
+		} else if longerName[0] != '\\' {
+			longerName = `\12` + longerName
+		}
+		for _, fqdn := range conf.nameList(longerName) {
+			if !isDomainName(fqdn) {
+				t.Errorf("got %d; want valid domain name", len(fqdn))
+			}
+		}
 
-		// Now test a name that's too long for suffixing.
+		// Now test names that are too long for suffixing.
 		unsuffixable := "a." + longName[1:]
 		unsuffixableResults := conf.nameList(unsuffixable)
 		if len(unsuffixableResults) != 1 {
 			t.Errorf("suffixed names %v; want []", unsuffixableResults[1:])
 		}
-
-		// Now test a name that's too long for DNS.
-		tooLong := "a." + longDomain
-		tooLongResults := conf.nameList(tooLong)
-		if tooLongResults != nil {
-			t.Errorf("suffixed names %v; want nil", tooLongResults)
+		unsuffixable = `\128.` + longerName[4:]
+		unsuffixableResults = conf.nameList(unsuffixable)
+		if len(unsuffixableResults) != 1 {
+			t.Errorf("more suffixed names %v; want []", unsuffixableResults[1:])
 		}
 	}
 }
