@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c73c247_87b632d3",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-26T02:31:57Z",
+      "side": 1,
+      "message": "Should this be a method on ctxt?\n\nThe name should be \"fileSymbol\" to follow Go style.\n\nAlso, please document what it does. :)",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6bedf1b_298914ce",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-26T02:31:57Z",
+      "side": 1,
+      "message": "Mention that it must be applied to a DW_FORM_data4.",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6048dc21_eb076ed1",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-26T02:31:57Z",
+      "side": 1,
+      "message": "// Relocation already processed by an earlier phase.\n\nThough maybe it would be better to just skip R_DWARFFILEREF relocations here? I\u0027m not actually sure what else r.Done is used for, though I see it already existed, so it clearly has some purpose.",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7138e7d3_63447802",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-26T02:31:57Z",
+      "side": 1,
+      "message": "loop visits",
+      "range": {
+        "startLine": 1193,
+        "startChar": 9,
+        "endLine": 1193,
+        "endChar": 22
+      },
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b4751e7_0317a8e1",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-26T02:31:57Z",
+      "side": 1,
+      "message": "Out of curiosity, why not just remove the R_DWARFFILEREF relocs from f.R? E.g., in addition to ri, keep an \"out\" index that\u0027s incremented for non-R_DWARFFILEREF relocs, and if ri !\u003d out { f.R[out] \u003d f.R[ri] }, then f.R \u003d f.R[:out] at the end.",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0795ed4_56c2a2b0",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-26T02:31:57Z",
+      "side": 1,
+      "message": "Is it ever !ok? What happens then?",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
