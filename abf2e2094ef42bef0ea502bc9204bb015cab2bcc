@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "6f591f01_4d1190dd",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-10-26T18:57:56Z",
+      "side": 1,
+      "message": "This makes sense to me, for whatever it\u0027s worth.",
+      "parentUuid": "3a47ddfc_b093e0c3",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7138e7d3_63447802",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 5
