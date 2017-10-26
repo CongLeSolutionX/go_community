@@ -668,6 +668,7 @@ const (
 	OpAMD64LoweredGetCallerPC
 	OpAMD64LoweredGetCallerSP
 	OpAMD64LoweredNilCheck
+	OpAMD64LoweredWB
 	OpAMD64MOVQconvert
 	OpAMD64MOVLconvert
 	OpAMD64FlagEQ
@@ -1918,6 +1919,7 @@ const (
 	OpStoreWB
 	OpMoveWB
 	OpZeroWB
+	OpWB
 	OpClosureCall
 	OpStaticCall
 	OpInterCall
@@ -8148,6 +8150,20 @@ var opcodeTable = [...]opInfo{
 			inputs: []inputInfo{
 				{0, 65535}, // AX CX DX BX SP BP SI DI R8 R9 R10 R11 R12 R13 R14 R15
 			},
+		},
+	},
+	{
+		name:         "LoweredWB",
+		auxType:      auxSym,
+		argLen:       3,
+		clobberFlags: true,
+		symEffect:    SymNone,
+		reg: regInfo{
+			inputs: []inputInfo{
+				{0, 128}, // DI
+				{1, 1},   // AX
+			},
+			clobbers: 4294901760, // X0 X1 X2 X3 X4 X5 X6 X7 X8 X9 X10 X11 X12 X13 X14 X15
 		},
 	},
 	{
@@ -23333,6 +23349,13 @@ var opcodeTable = [...]opInfo{
 		auxType: auxTypSize,
 		argLen:  2,
 		generic: true,
+	},
+	{
+		name:      "WB",
+		auxType:   auxSym,
+		argLen:    3,
+		symEffect: SymNone,
+		generic:   true,
 	},
 	{
 		name:    "ClosureCall",
