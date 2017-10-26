@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "989c2af9_942268c5",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-26T13:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c73c247_87b632d3",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6bedf1b_298914ce",
         "filename": "src/cmd/internal/objabi/reloctype.go",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "abf74f09_8d84e66a",
+        "filename": "src/cmd/internal/objabi/reloctype.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-26T13:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6bedf1b_298914ce",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6048dc21_eb076ed1",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2017-10-26T02:31:57Z",
       "side": 1,
       "message": "// Relocation already processed by an earlier phase.\n\nThough maybe it would be better to just skip R_DWARFFILEREF relocations here? I\u0027m not actually sure what else r.Done is used for, though I see it already existed, so it clearly has some purpose.",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a47ddfc_b093e0c3",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-26T13:57:46Z",
+      "side": 1,
+      "message": "Comment added. \n\nFrom what I can tell the main use is to signal that a relocation should be passed on to the external linker in some form (assuming that external linking is being used). So you could argue that I am abusing the flag in some sense, but IMHO this seems like an ok thing to do.",
+      "parentUuid": "6048dc21_eb076ed1",
       "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "825dfed4_7f180aab",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-26T13:57:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7138e7d3_63447802",
+      "range": {
+        "startLine": 1193,
+        "startChar": 9,
+        "endLine": 1193,
+        "endChar": 22
+      },
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b4751e7_0317a8e1",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 5
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "9f5d795d_9c3eaae8",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1205,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-26T13:57:46Z",
+      "side": 1,
+      "message": "Yes, that would be one way of doing things.",
+      "parentUuid": "6b4751e7_0317a8e1",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0795ed4_56c2a2b0",
         "filename": "src/cmd/link/internal/ld/dwarf.go",
         "patchSetId": 5
@@ -104,6 +200,24 @@
       "writtenOn": "2017-10-26T02:31:57Z",
       "side": 1,
       "message": "Is it ever !ok? What happens then?",
+      "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07f509f8_95a74b44",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-10-26T13:57:46Z",
+      "side": 1,
+      "message": "Good point. I will add an error path.",
+      "parentUuid": "c0795ed4_56c2a2b0",
       "revId": "abf2e2094ef42bef0ea502bc9204bb015cab2bcc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
