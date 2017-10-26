@@ -66,6 +66,11 @@ const (
 	dnsRcodeNameError      = 3
 	dnsRcodeNotImplemented = 4
 	dnsRcodeRefused        = 5
+
+	// visible ASCII characters with special meaning
+	// in presentation format (see RFC 1035, section 5.1)
+	dnsAlwaysSpecial = `.\"();`
+	dnsSpecial       = dnsAlwaysSpecial + "$@"
 )
 
 // A dnsStruct describes how to iterate over its fields to emulate
@@ -325,55 +330,129 @@ var rr_mk = map[int]func() dnsRR{
 	dnsTypeAAAA:  func() dnsRR { return new(dnsRR_AAAA) },
 }
 
-// Pack a domain name s into msg[off:].
+// packDomainName writes a presentation-format domain name s
+// at msg[off:] in wire format.
 // Domain names are a sequence of counted strings
 // split at the dots. They end with a zero-length string.
+// This function performs only minimal validation of label contents,
+// packing ostensibly-invalid input like ";.example.com".
 func packDomainName(s string, msg []byte, off int) (off1 int, ok bool) {
-	// Add trailing dot to canonicalize name.
-	if n := len(s); n == 0 || s[n-1] != '.' {
-		s += "."
-	}
-
 	// Allow root domain.
-	if s == "." {
+	if s == "" || s == "." {
+		if off+1 > len(msg) {
+			return len(msg), false
+		}
 		msg[off] = 0
 		off++
 		return off, true
 	}
 
-	// Each dot ends a segment of the name.
-	// We trade each dot byte for a length byte.
-	// There is also a trailing zero.
-	// Check that we have all the space we need.
-	tot := len(s) + 1
-	if off+tot > len(msg) {
-		return len(msg), false
-	}
-
 	// Emit sequence of counted strings, chopping at dots.
+	n := len(s)
+	labelLen := 0
+	hasEscape := false
 	begin := 0
-	for i := 0; i < len(s); i++ {
-		if s[i] == '.' {
-			if i-begin >= 1<<6 { // top two bits of length must be clear
+	label := make([]byte, 63)
+	for i := 0; i <= n; i++ {
+		var c byte
+		if i == n {
+			// Add trailing dot to canonicalize name.
+			c = '.'
+		} else {
+			c = s[i]
+		}
+		if c == '.' {
+			// Append a label to msg.
+			if labelLen == 0 {
 				return len(msg), false
 			}
-			if i-begin == 0 {
+			if off+1+labelLen+1 > len(msg) {
 				return len(msg), false
 			}
-
-			msg[off] = byte(i - begin)
+			msg[off] = byte(labelLen)
 			off++
-
-			for j := begin; j < i; j++ {
-				msg[off] = s[j]
-				off++
+			if !hasEscape {
+				off += copy(msg[off:], s[begin:begin+labelLen])
+			} else {
+				off += copy(msg[off:], label[:labelLen])
 			}
+			labelLen = 0
+			hasEscape = false
 			begin = i + 1
+			// Accept already-absolute names.
+			if begin == n {
+				break
+			}
+			continue
+		}
+		// Read a label octet.
+		if c == '\\' {
+			if !hasEscape {
+				hasEscape = true
+				copy(label, s[begin:begin+labelLen])
+			}
+			r, o, ok := readEscape(s, i+1)
+			if !ok {
+				return len(msg), false
+			}
+			i += r
+			label[labelLen] = o
+		} else if hasEscape {
+			label[labelLen] = c
+		}
+		labelLen++
+		if labelLen > 63 {
+			return len(msg), false
 		}
 	}
 	msg[off] = 0
 	off++
 	return off, true
+}
+
+// readEscape reads a presentation-format escape from s at index i
+// (immediately following a backslash).
+// It returns the count of octets consumed (not counting the backslash) and
+// the decoded octet.
+func readEscape(s string, i int) (count int, o byte, ok bool) {
+	if i >= len(s) {
+		// Unterminated escapes are invalid.
+		return 0, 0, false
+	}
+	c := s[i]
+	if c < '0' || '9' < c {
+		if c < ' ' && c != '\t' || '~' < c {
+			// To be conservative, single-character escapes are limited
+			// to tabs and printable ASCII (see RFC 4343, section 2.1).
+			// Note also that even the rather liberal ISC BIND excludes
+			// line feed and carriage return.
+			return 0, 0, false
+		}
+		return 1, c, true
+	}
+	// Numeric escapes use three decimal digits 000 through 255 to represent an octet.
+	i += 2
+	if i >= len(s) {
+		return 0, 0, false
+	}
+	val := 100 * int(c-'0')
+
+	c = s[i-1]
+	if c < '0' || '9' < c {
+		return 0, 0, false
+	}
+	val += 10 * int(c-'0')
+
+	c = s[i]
+	if c < '0' || '9' < c {
+		return 0, 0, false
+	}
+	val += 1 * int(c-'0')
+
+	if val > 255 {
+		return 0, 0, false
+	}
+	return 3, byte(val), true
 }
 
 // Unpack a domain name.
@@ -406,11 +485,28 @@ Loop:
 				break Loop
 			}
 			// literal string
-			if off+c > len(msg) {
+			end := off + c
+			if end > len(msg) {
 				return "", len(msg), false
 			}
-			s += string(msg[off:off+c]) + "."
-			off += c
+			// Escape octets with special meaning.
+			for i := off; i < end; i++ {
+				if o := msg[i]; byteIndex(dnsSpecial, o) != -1 || o <= ' ' || '~' < o {
+					s += string(msg[off:i])
+					s += string([]byte{
+						'\\',
+						'0' + (o / 100),
+						'0' + (o / 10 % 10),
+						'0' + (o % 10),
+					})
+					off = i + 1
+				}
+			}
+			if off < end {
+				s += string(msg[off:end])
+			}
+			s += "."
+			off = end
 		case 0xC0:
 			// pointer to somewhere else in msg.
 			// remember location after first ptr,

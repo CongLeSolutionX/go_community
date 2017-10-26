@@ -205,7 +205,13 @@ func cgoIPLookup(result chan<- ipLookupResult, name string) {
 func cgoLookupIP(ctx context.Context, name string) (addrs []IPAddr, err error, completed bool) {
 	if ctx.Done() == nil {
 		addrs, _, err = cgoLookupIPCNAME(name)
-		return addrs, err, true
+		completed = true
+		// Report lack of completion rather than an error when
+		// getaddrinfo fails to handle valid escape sequences.
+		if dnsError, ok := err.(*DNSError); ok && dnsError.Err == errNoSuchHost.Error() {
+			completed = byteIndex(name, '\\') == -1
+		}
+		return addrs, err, completed
 	}
 	result := make(chan ipLookupResult, 1)
 	go cgoIPLookup(result, name)
@@ -220,7 +226,13 @@ func cgoLookupIP(ctx context.Context, name string) (addrs []IPAddr, err error, c
 func cgoLookupCNAME(ctx context.Context, name string) (cname string, err error, completed bool) {
 	if ctx.Done() == nil {
 		_, cname, err = cgoLookupIPCNAME(name)
-		return cname, err, true
+		completed = true
+		// Report lack of completion rather than an error when
+		// getaddrinfo fails to handle valid escape sequences.
+		if dnsError, ok := err.(*DNSError); ok && dnsError.Err == errNoSuchHost.Error() {
+			completed = byteIndex(name, '\\') == -1
+		}
+		return cname, err, completed
 	}
 	result := make(chan ipLookupResult, 1)
 	go cgoIPLookup(result, name)

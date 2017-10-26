@@ -272,10 +272,13 @@ func TestLookupCNAME(t *testing.T) {
 }
 
 var lookupGoogleHostTests = []struct {
-	name string
+	name            string
+	expectAddresses bool
 }{
-	{"google.com"},
-	{"google.com."},
+	{"google.com", true},
+	{"google.com.", true},
+	{"*.google.com", false},
+	{`\.\000\255.google.com`, false},
 }
 
 func TestLookupGoogleHost(t *testing.T) {
@@ -292,7 +295,7 @@ func TestLookupGoogleHost(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if len(addrs) == 0 {
+		if tt.expectAddresses && len(addrs) == 0 {
 			t.Error("got no record")
 		}
 		for _, addr := range addrs {
@@ -728,10 +731,10 @@ func TestLookupNonLDH(t *testing.T) {
 	}
 
 	// "LDH" stands for letters, digits, and hyphens and is the usual
-	// description of standard DNS names.
+	// description of Internet host names.
 	// This test is checking that other kinds of names are reported
 	// as not found, not reported as invalid names.
-	addrs, err := LookupHost("!!!.###.bogus..domain.")
+	addrs, err := LookupHost("!!!.###.bogus.invalid.")
 	if err == nil {
 		t.Fatalf("lookup succeeded: %v", addrs)
 	}
