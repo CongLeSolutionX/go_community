@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "234c195f_66c5e68e",
+        "filename": "src/cmd/compile/internal/types/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-26T00:20:08Z",
+      "side": 1,
+      "message": "Looking over all the types.Haspointers calls, I\u0027m pretty sure this is true. Basically, rather than just omitting write barriers for *T pointer slots where T is a notinheap type, I think the compiler should start treating those slots as scalar.\n\nI\u0027m a little less confident about esc.go due to lack of familiarity with that code, but I didn\u0027t spot anything that seems problematic.\n\nThat said, I\u0027m leaning towards we should make this change separately, because I think there are other places we might need to change too. E.g., onebitwalktype1 should skip pointer-to-notinheap types.",
+      "parentUuid": "bc497704_94310e9a",
+      "range": {
+        "startLine": 1371,
+        "startChar": 27,
+        "endLine": 1371,
+        "endChar": 42
+      },
+      "revId": "ab96e115d62f9ae05ce3676d4c1f1b8d09bb13d0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "971be1bc_a70a4184",
         "filename": "src/cmd/compile/internal/types/type.go",
         "patchSetId": 1
