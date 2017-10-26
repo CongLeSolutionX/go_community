@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ba2f620_77a327f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-26T23:43:03Z",
+      "side": 1,
+      "message": "For future reference, this should have been \"cmd/internal/obj/x86:\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "c35f239d5226361cfccd3477e112bbea360c6ee2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
