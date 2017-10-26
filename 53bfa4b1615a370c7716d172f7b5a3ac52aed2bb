@@ -16,6 +16,24 @@
       "revId": "53bfa4b1615a370c7716d172f7b5a3ac52aed2bb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7780353b_5bb51801",
+        "filename": "src/cmd/internal/obj/x86/aenum.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2017-10-26T15:21:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0533706_77faae9b",
+      "revId": "53bfa4b1615a370c7716d172f7b5a3ac52aed2bb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
