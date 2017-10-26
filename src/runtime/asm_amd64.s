@@ -2370,3 +2370,80 @@ TEXT runtime·addmoduledata(SB),NOSPLIT,$0-0
 	MOVQ	DI, runtime·lastmoduledatap(SB)
 	POPQ	R15
 	RET
+
+// gcWriteBarrier performs a heap pointer write and informs the GC.
+//
+// gcWriteBarrier does NOT follow the Go ABI. It takes two arguments:
+// - DI is the destination of the write
+// - AX is the value being written at DI
+// It clobbers FLAGS. It does not clobber any general-purpose registers,
+// but may clobber others (e.g., SSE registers).
+//
+// TODO: AX may be a bad choice because regalloc likes to use it.
+TEXT runtime·gcWriteBarrier(SB),NOSPLIT,$0x78
+	// Save the registers clobbered by the fast path.
+	//
+	// TODO: Teach the register allocator that this clobbers some registers
+	// so we don't always have to save them? Use regs it's least likely to
+	// care about.
+	MOVQ	DI, 0x0(SP)	// Also first argument to wbBufFlush
+	// 0x68(SP) is for AX
+	MOVQ	R14, 0x68(SP)
+	MOVQ	R13, 0x70(SP)
+	get_tls(R13)
+	MOVQ	g(R13), R13
+	MOVQ	g_m(R13), R13
+	MOVQ	m_p(R13), R13
+	MOVQ	(p_wbBuf+wbBuf_next)(R13), R14
+	MOVQ	AX, (R14)	// Record value
+	MOVQ	(DI), DI	// TODO: This turns bad writes into bad reads.
+	MOVQ	DI, 8(R14)	// Record *slot
+	// Increment wbBuf.next position.
+	LEAQ	16(R14), R14
+	MOVQ	R14, (p_wbBuf+wbBuf_next)(R13)
+	// Is the buffer full?
+	CMPQ	R14, (p_wbBuf+wbBuf_end)(R13)
+	JEQ	flush
+ret:
+	MOVQ	0x0(SP), DI
+	MOVQ	0x68(SP), R14
+	MOVQ	0x70(SP), R13
+	// Do the write.
+	MOVQ	AX, (DI)
+	RET
+
+flush:
+	// Save all registers that could be clobbered by wbBufFlush.
+	// All code under here is NOSPLIT, so nothing will observe these.
+	MOVQ	AX, 0x8(SP)	// Also second argument to wbBufFlush
+	MOVQ	BX, 0x10(SP)
+	MOVQ	CX, 0x18(SP)
+	MOVQ	DX, 0x20(SP)
+	// DI already saved
+	MOVQ	SI, 0x28(SP)
+	MOVQ	BP, 0x30(SP)
+	MOVQ	R8, 0x38(SP)
+	MOVQ	R9, 0x40(SP)
+	MOVQ	R10, 0x48(SP)
+	MOVQ	R11, 0x50(SP)
+	MOVQ	R12, 0x58(SP)
+	// R13 already saved
+	// R14 already saved
+	MOVQ	R15, 0x60(SP)
+
+	// This takes arguments DI and AX
+	CALL	runtime·wbBufFlush(SB)
+
+	MOVQ	0x8(SP), AX
+	MOVQ	0x10(SP), BX
+	MOVQ	0x18(SP), CX
+	MOVQ	0x20(SP), DX
+	MOVQ	0x28(SP), SI
+	MOVQ	0x30(SP), BP
+	MOVQ	0x38(SP), R8
+	MOVQ	0x40(SP), R9
+	MOVQ	0x48(SP), R10
+	MOVQ	0x50(SP), R11
+	MOVQ	0x58(SP), R12
+	MOVQ	0x60(SP), R15
+	JMP	ret
