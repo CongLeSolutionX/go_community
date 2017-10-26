@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c38b549d_6f211260",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 2396,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-10-26T23:25:31Z",
+      "side": 1,
+      "message": "What about passing getg().m.p (aka R13 after this snippet) as a third argument to this function? It should be a net win if you have several writebarriers in a straight line code.",
+      "range": {
+        "startLine": 2393,
+        "startChar": 1,
+        "endLine": 2396,
+        "endChar": 19
+      },
+      "revId": "7e3fd42f50181d2e690e9a9c66cc7aa4ccc3d626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
