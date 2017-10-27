@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a9394b0e_bb899a48",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-27T15:01:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "605c5ae7_2dd59bcf",
+      "range": {
+        "startLine": 564,
+        "startChar": 88,
+        "endLine": 564,
+        "endChar": 95
+      },
+      "revId": "afc526e014292e7bf6016851ab211eb6d3a45487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d930c4d9_9b31613c",
         "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "20ec61ef_cbbfbe95",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-27T15:01:49Z",
+      "side": 1,
+      "message": "Replaced with \"doesn\u0027t clobber general-purpose registers (the exact clobber set is arch-dependent)\".",
+      "parentUuid": "d930c4d9_9b31613c",
+      "range": {
+        "startLine": 331,
+        "startChar": 43,
+        "endLine": 331,
+        "endChar": 63
+      },
+      "revId": "afc526e014292e7bf6016851ab211eb6d3a45487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e6fe195_3ec6b94b",
         "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
         "patchSetId": 2
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "12904322_dd80b03c",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-27T15:01:49Z",
+      "side": 1,
+      "message": "Yeah. The reason I didn\u0027t do that here is you can have a block that mixes OpStoreWB with other Op*WB operations, which can\u0027t do this (yet). It\u0027ll probably be easier to revisit this after the buffered write barrier works on all arches, since then this won\u0027t have to deal with both eager vs buffered *and* all-OpStoreWB vs not.\n\nI think OpZeroWB could be changed to do the same thing (conditionally invoke a barrier-only operation and then unconditionally do an OpZero). OpMoveWB looks trickier; we\u0027d have to change how cgoCheckMemmove works.\n\nI\u0027ll add some more context to the TODO.",
+      "parentUuid": "6e6fe195_3ec6b94b",
+      "revId": "afc526e014292e7bf6016851ab211eb6d3a45487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1193cbbd_30aff44a",
         "filename": "test/fixedbugs/issue15747.go",
         "patchSetId": 2
@@ -79,6 +145,24 @@
       "revId": "afc526e014292e7bf6016851ab211eb6d3a45487",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5831a2fa_96ea4c51",
+        "filename": "test/fixedbugs/issue15747.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-27T15:01:49Z",
+      "side": 1,
+      "message": "Unfortunately, no. gcWriteBarrier isn\u0027t a call at all from liveness\u0027s perspective, so it doesn\u0027t emit anything for these.",
+      "parentUuid": "1193cbbd_30aff44a",
+      "revId": "afc526e014292e7bf6016851ab211eb6d3a45487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
