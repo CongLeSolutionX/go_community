@@ -22,6 +22,30 @@
       "revId": "7e3fd42f50181d2e690e9a9c66cc7aa4ccc3d626",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfcad1f1_5a61f6b8",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 2396,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-27T01:25:23Z",
+      "side": 1,
+      "message": "Interesting idea. Though one thing I like about this change is that it reduces the generated code required for the write barrier somewhat significantly (cmd/go gets 2.3% smaller). I\u0027ll add a TODO to revisit this, but I\u0027d prefer to leave the generated code side as simple as possible for the moment (especially with the freeze coming up quickly :)",
+      "parentUuid": "c38b549d_6f211260",
+      "range": {
+        "startLine": 2393,
+        "startChar": 1,
+        "endLine": 2396,
+        "endChar": 19
+      },
+      "revId": "7e3fd42f50181d2e690e9a9c66cc7aa4ccc3d626",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
