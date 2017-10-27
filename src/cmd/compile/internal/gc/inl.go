@@ -33,6 +33,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/src"
 	"fmt"
+	"strings"
 )
 
 // Get the function's package. For ordinary functions it's on the ->sym, but for imported methods
@@ -187,6 +188,10 @@ func caninl(fn *Node) {
 	n.Func.Inldcl.Set(inldcl)
 	n.Func.InlCost = maxBudget - visitor.budget
 
+	if inlRoot(n) {
+		inlFlood(n)
+	}
+
 	// hack, TODO, check for better way to link method nodes back to the thing with the ->inl
 	// this is so export can find the body of a method
 	fn.Type.FuncType().Nname = asTypesNode(n)
@@ -198,6 +203,46 @@ func caninl(fn *Node) {
 	}
 
 	Curfn = savefn
+}
+
+// inlRoot reports whether n is an exported function or method, which
+// forms a root of a graph of inlineable functions that need to be
+// exported.
+func inlRoot(n *Node) bool {
+	s := n.Sym.Name
+	if n.IsMethod() {
+		s = s[strings.LastIndex(s, ".")+1:]
+	}
+	return exportname(s)
+}
+
+// inlFlood marks n's inline body for export and recursively ensures
+// all called functions are marked too.
+func inlFlood(n *Node) {
+	if n == nil {
+		return
+	}
+	if n.Op != ONAME || n.Class() != PFUNC {
+		Fatalf("oops: %v, %v, %v", n.Op, n.Class(), n)
+	}
+	if n.Func.Inl.Len() == 0 {
+		return
+	}
+
+	if n.Func.ExportInline() {
+		return
+	}
+	n.Func.SetExportInline(true)
+
+	typecheckinl(n)
+
+	inspectList(n.Func.Inl, func(n *Node) bool {
+		switch n.Op {
+		case OCALLFUNC, OCALLMETH:
+			inlFlood(asNode(n.Left.Type.Nname()))
+		}
+		return true
+	})
 }
 
 // hairyVisitor visits a function body to determine its inlining

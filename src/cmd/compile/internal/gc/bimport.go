@@ -529,6 +529,7 @@ func (p *importer) typ() *types.Type {
 
 			n := newfuncnamel(mpos, methodname(sym, recv[0].Type))
 			n.Type = mt
+			n.SetClass(PFUNC)
 			checkwidth(n.Type)
 			p.funcList = append(p.funcList, n)
 			importlist = append(importlist, n)
