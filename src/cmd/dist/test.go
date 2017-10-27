@@ -188,6 +188,10 @@ func (t *tester) run() {
 		}
 	}
 
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("test", "go")
+	}
+
 	for _, dt := range t.tests {
 		if !t.shouldRunTest(dt.name) {
 			t.partial = true
