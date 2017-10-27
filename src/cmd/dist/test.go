@@ -182,6 +182,11 @@ func (t *tester) run() {
 	// at least runtime/debug test will fail.
 	os.Unsetenv("GOROOT_FINAL")
 
+	// Do NOT put debug prints before the -list return above.
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("test", "go")
+	}
+
 	for _, name := range t.runNames {
 		if !t.isRegisteredTestName(name) {
 			log.Fatalf("unknown test %q", name)
