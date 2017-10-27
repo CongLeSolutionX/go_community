@@ -104,7 +104,19 @@ func (t *tester) run() {
 		log.Fatalf("the -run regular expression flag is mutually exclusive with test name arguments")
 	}
 
+	fmt.Printf("RUN-1 %q\n", flag.Args())
+
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("test", "go")
+	}
+	fmt.Printf("RUN0 %q\n", flag.Args())
+
 	t.runNames = flag.Args()
+	fmt.Printf("RUN %q\n", t.runNames)
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("test", "go")
+	}
+	fmt.Printf("RUN3 %q\n", t.runNames)
 
 	if t.hasBash() {
 		if _, err := exec.LookPath("time"); err == nil {
@@ -158,6 +170,10 @@ func (t *tester) run() {
 			log.Fatalf("failed to parse $GO_TEST_TIMEOUT_SCALE = %q as integer: %v", s, err)
 		}
 	}
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("test", "go")
+	}
+	fmt.Printf("RUN2 %q\n", t.runNames)
 
 	if t.runRxStr != "" {
 		if t.runRxStr[0] == '!' {
@@ -182,11 +198,17 @@ func (t *tester) run() {
 	// at least runtime/debug test will fail.
 	os.Unsetenv("GOROOT_FINAL")
 
+	fmt.Printf("RUN %q\n", t.runNames)
 	for _, name := range t.runNames {
 		if !t.isRegisteredTestName(name) {
 			log.Fatalf("unknown test %q", name)
 		}
 	}
+
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("test", "go")
+	}
+	fmt.Printf("RUN %q\n", t.runNames)
 
 	for _, dt := range t.tests {
 		if !t.shouldRunTest(dt.name) {
