@@ -174,6 +174,8 @@ type exporter struct {
 	typIndex  map[*types.Type]int
 	funcList  []*Func
 
+	marked map[*types.Type]bool
+
 	// position encoding
 	posInfoFormat bool
 	prevFile      string
@@ -229,6 +231,21 @@ func export(out *bufio.Writer, trace bool) int {
 	if p.trace {
 		p.tracef("\n")
 	}
+
+	// Mark all inlineable functions that the importer could call.
+	p.marked = make(map[*types.Type]bool)
+	for _, n := range exportlist {
+		sym := n.Sym
+		if sym.Exported() {
+			// Closures are added to exportlist, but with Exported
+			// already set. The export loops below over them, so
+			// we have to here as well.
+			// TODO(mdempsky): Investigate why. This seems suspicious.
+			continue
+		}
+		p.markType(asNode(sym.Def).Type)
+	}
+	p.marked = nil
 
 	// export objects
 	//
@@ -436,6 +453,64 @@ func unidealType(typ *types.Type, val Val) *types.Type {
 	return typ
 }
 
+// markType recursively visits types reachable from t to identify
+// functions whose inline bodies may be needed.
+func (p *exporter) markType(t *types.Type) {
+	if p.marked[t] {
+		return
+	}
+	p.marked[t] = true
+
+	// If this is a named type, mark all of its methods. Skip
+	// interface types because t.Methods is reused
+	if t.Sym != nil && t.Etype != TINTER {
+		for _, m := range t.Methods().Slice() {
+			if exportname(m.Sym.Name) {
+				p.markType(m.Type)
+			}
+		}
+	}
+
+	// Recursively mark any types that can be produced given a
+	// value of type t: dereferencing an pointer; indexing an
+	// array, slice, or map; receiving from a channel; accessing a
+	// struct field or interface method; or calling a function.
+	//
+	// Notably, we don't mark map key or function parameter types,
+	// because the user already needs some way to construct values
+	// of those types.
+	switch t.Etype {
+	case TPTR32, TPTR64, TARRAY, TSLICE, TCHAN:
+		p.markType(t.Elem())
+
+	case TMAP:
+		p.markType(t.Val())
+
+	case TSTRUCT:
+		for _, f := range t.FieldSlice() {
+			if exportname(f.Sym.Name) || f.Embedded != 0 {
+				p.markType(f.Type)
+			}
+		}
+
+	case TFUNC:
+		// If t is the type of a function or method, then
+		// t.Nname() is the
+		inlFlood(asNode(t.Nname()))
+
+		for _, f := range t.Results().FieldSlice() {
+			p.markType(f.Type)
+		}
+
+	case TINTER:
+		for _, f := range t.FieldSlice() {
+			if exportname(f.Sym.Name) {
+				p.markType(f.Type)
+			}
+		}
+	}
+}
+
 func (p *exporter) obj(sym *types.Sym) {
 	// Exported objects may be from different packages because they
 	// may be re-exported via an exported alias or as dependencies in
@@ -505,7 +580,7 @@ func (p *exporter) obj(sym *types.Sym) {
 			p.paramList(sig.Results(), inlineable)
 
 			var f *Func
-			if inlineable {
+			if inlineable && asNode(sym.Def).Func.ExportInline() {
 				f = asNode(sym.Def).Func
 				// TODO(gri) re-examine reexportdeplist:
 				// Because we can trivially export types
@@ -693,7 +768,7 @@ func (p *exporter) typ(t *types.Type) {
 			p.bool(m.Nointerface()) // record go:nointerface pragma value (see also #16243)
 
 			var f *Func
-			if inlineable {
+			if inlineable && mfn.Func.ExportInline() {
 				f = mfn.Func
 				reexportdeplist(mfn.Func.Inl)
 			}
