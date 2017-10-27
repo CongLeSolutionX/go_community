@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "605c5ae7_2dd59bcf",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-27T13:58:10Z",
+      "side": 1,
+      "message": "typo: runtime",
+      "range": {
+        "startLine": 564,
+        "startChar": 88,
+        "endLine": 564,
+        "endChar": 95
+      },
+      "revId": "afc526e014292e7bf6016851ab211eb6d3a45487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d930c4d9_9b31613c",
+        "filename": "src/cmd/compile/internal/ssa/gen/genericOps.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-27T13:58:10Z",
+      "side": 1,
+      "message": "only clobber flags and FP registers?\nOr, only clobbers flags and some registers that are arch dependent?",
+      "range": {
+        "startLine": 331,
+        "startChar": 43,
+        "endLine": 331,
+        "endChar": 63
+      },
+      "revId": "afc526e014292e7bf6016851ab211eb6d3a45487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e6fe195_3ec6b94b",
+        "filename": "src/cmd/compile/internal/ssa/writebarrier.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-27T13:58:10Z",
+      "side": 1,
+      "message": "Yeah, sounds like a good idea.",
+      "revId": "afc526e014292e7bf6016851ab211eb6d3a45487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1193cbbd_30aff44a",
+        "filename": "test/fixedbugs/issue15747.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-27T13:58:10Z",
+      "side": 1,
+      "message": "Does it work if we simply change \"writebarrierptr\" to \"(writebarrierptr|gcWriteBarrier)\"?",
+      "revId": "afc526e014292e7bf6016851ab211eb6d3a45487",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
