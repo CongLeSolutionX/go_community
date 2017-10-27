@@ -934,7 +934,8 @@ func methodname(s *types.Sym, recv *types.Type) *types.Sym {
 // Add a method, declared as a function.
 // - msym is the method symbol
 // - t is function type (with receiver)
-func addmethod(msym *types.Sym, t *types.Type, local, nointerface bool) {
+// Returns a pointer to the existing or added Field.
+func addmethod(msym *types.Sym, t *types.Type, local, nointerface bool) *types.Field {
 	if msym == nil {
 		Fatalf("no method symbol")
 	}
@@ -943,7 +944,7 @@ func addmethod(msym *types.Sym, t *types.Type, local, nointerface bool) {
 	rf := t.Recv() // ptr to this structure
 	if rf == nil {
 		yyerror("missing receiver")
-		return
+		return nil
 	}
 
 	mt := methtype(rf.Type)
@@ -953,7 +954,7 @@ func addmethod(msym *types.Sym, t *types.Type, local, nointerface bool) {
 		if t != nil && t.IsPtr() {
 			if t.Sym != nil {
 				yyerror("invalid receiver type %v (%v is a pointer type)", pa, t)
-				return
+				return nil
 			}
 			t = t.Elem()
 		}
@@ -972,23 +973,23 @@ func addmethod(msym *types.Sym, t *types.Type, local, nointerface bool) {
 			// but just in case, fall back to generic error.
 			yyerror("invalid receiver type %v (%L / %L)", pa, pa, t)
 		}
-		return
+		return nil
 	}
 
 	if local && mt.Sym.Pkg != localpkg {
 		yyerror("cannot define new methods on non-local type %v", mt)
-		return
+		return nil
 	}
 
 	if msym.IsBlank() {
-		return
+		return nil
 	}
 
 	if mt.IsStruct() {
 		for _, f := range mt.Fields().Slice() {
 			if f.Sym == msym {
 				yyerror("type %v has both field and method named %v", mt, msym)
-				return
+				return nil
 			}
 		}
 	}
@@ -1002,7 +1003,7 @@ func addmethod(msym *types.Sym, t *types.Type, local, nointerface bool) {
 		if !eqtype(t, f.Type) || !eqtype(t.Recv().Type, f.Type.Recv().Type) {
 			yyerror("method redeclared: %v.%v\n\t%v\n\t%v", mt, msym, f.Type, t)
 		}
-		return
+		return f
 	}
 
 	f := types.NewField()
@@ -1012,6 +1013,7 @@ func addmethod(msym *types.Sym, t *types.Type, local, nointerface bool) {
 	f.SetNointerface(nointerface)
 
 	mt.Methods().Append(f)
+	return f
 }
 
 func funccompile(n *Node) {
