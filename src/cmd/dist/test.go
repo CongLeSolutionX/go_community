@@ -39,6 +39,10 @@ func cmdtest() {
 	if noRebuild {
 		t.rebuild = false
 	}
+
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		//	showEnv("test", "go")
+	}
 	t.run()
 }
 
