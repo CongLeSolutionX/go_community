@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cce35336_dd98aa98",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-27T11:20:42Z",
+      "side": 1,
+      "message": "for a followup; who\u0027s calling this function? it feels like most of the callers would be cases you\u0027ve addressed in this CL.",
+      "revId": "138d6cdf1b9ccc7217f2576c74461f9a92d8b9bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36101d2a_1a54b4f4",
+        "filename": "src/cmd/compile/internal/gc/subr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 5150
+      },
+      "writtenOn": "2017-10-27T11:20:42Z",
+      "side": 1,
+      "message": "I\u0027m wondering if Node would benefit from something like a \n\nfunc (n *Node) dup() *Node\n\nmethod, which would encapsulate this \"bitwise copy\" requirement, would be useful to solve the problem of\n\nm :\u003d *n // m and n are not the same type\n\nand would probably inline to the same code.",
+      "revId": "138d6cdf1b9ccc7217f2576c74461f9a92d8b9bd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
