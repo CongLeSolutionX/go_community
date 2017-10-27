@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2492bc8_06e68219",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 2386,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-27T16:23:22Z",
+      "side": 1,
+      "message": "Is there a reason not to do it now? You already have specific register mask for this particular call (LoweredWB). Generated code size?",
+      "revId": "ec37167c549bfce8d15ef2cea2f2c86edbd83a9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c22fe9dd_aec2bb55",
+        "filename": "src/runtime/asm_amd64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 2407,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-27T16:23:22Z",
+      "side": 1,
+      "message": "If we swap the stores and the increment, we may keep DI unchanged (by using R13 as tmp) and don\u0027t need to save/restore it, like\n\n\t// Increment wbBuf.next position.\n\tLEAQ\t16(R14), R14\n\tMOVQ\tR14, (p_wbBuf+wbBuf_next)(R13)\n\tCMPQ\tR14, (p_wbBuf+wbBuf_end)(R13)\n\tMOVQ\tAX, -16(R14)\t// Record value\n\tMOVQ\t(DI), R13\t// TODO: This turns bad writes into bad reads.\n\tMOVQ\tR13, -8(R14)\t// Record *slot\n\t// Is the buffer full? (flags set in CMPQ above)\n\tJEQ\tflush",
+      "range": {
+        "startLine": 2399,
+        "startChar": 0,
+        "endLine": 2407,
+        "endChar": 10
+      },
+      "revId": "ec37167c549bfce8d15ef2cea2f2c86edbd83a9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88cec887_1377bcaf",
+        "filename": "src/runtime/mwbbuf.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-27T16:23:22Z",
+      "side": 1,
+      "message": "uintptr(unsafe.Pointer(\u0026b.buf[len(b.buf)])) ?\n(so it follows the same style as the two cases above)",
+      "range": {
+        "startLine": 89,
+        "startChar": 10,
+        "endLine": 89,
+        "endChar": 61
+      },
+      "revId": "ec37167c549bfce8d15ef2cea2f2c86edbd83a9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
