@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3261ca52_5ef8262b",
+        "filename": "src/net/http/header.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 10820
+      },
+      "writtenOn": "2017-10-27T19:33:11Z",
+      "side": 1,
+      "message": "I also don\u0027t understand why this comment says \"possibly\". There\u0027s no explanation in the original review (https://codereview.appspot.com/7508043/diff/4/src/pkg/net/http/header.go). Seems like it should always be returned to the pool as in your change.",
+      "range": {
+        "startLine": 127,
+        "startChar": 58,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "d84b603f19cb6084539bda62b7fe60093ae40db8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
