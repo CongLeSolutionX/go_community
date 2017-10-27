@@ -95,6 +95,10 @@ func (t *tester) run() {
 		os.Setenv("PATH", fmt.Sprintf("%s%c%s", gobin, os.PathListSeparator, os.Getenv("PATH")))
 	}
 
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("test", "go")
+	}
+
 	slurp, err := exec.Command("go", "env", "CGO_ENABLED").Output()
 	if err != nil {
 		log.Fatalf("Error running go env CGO_ENABLED: %v", err)
