@@ -83,6 +83,10 @@ func TestCgoExternalThreadPanic(t *testing.T) {
 }
 
 func TestCgoExternalThreadSIGPROF(t *testing.T) {
+	if *flagQuick {
+		t.Skip("-quick")
+	}
+
 	t.Parallel()
 	// issue 9456.
 	switch runtime.GOOS {
@@ -124,6 +128,9 @@ func TestCgoExternalThreadSIGPROF(t *testing.T) {
 }
 
 func TestCgoExternalThreadSignal(t *testing.T) {
+	if *flagQuick {
+		t.Skip("-quick")
+	}
 	t.Parallel()
 	// issue 10139
 	switch runtime.GOOS {
@@ -191,6 +198,10 @@ func TestEnsureDropM(t *testing.T) {
 // Test that the program that doesn't need any cgo pointer checking
 // takes about the same amount of time with it as without it.
 func TestCgoCheckBytes(t *testing.T) {
+	if *flagQuick {
+		t.Skip("-quick")
+	}
+
 	t.Parallel()
 	// Make sure we don't count the build time as part of the run time.
 	testenv.MustHaveGoBuild(t)
