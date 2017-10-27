@@ -13,6 +13,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
@@ -180,6 +181,18 @@ func xgetwd() string {
 	wd, err := os.Getwd()
 	if err != nil {
 		fatalf("%s", err)
+	}
+	if runtime.GOOS == "darwin" && strings.HasPrefix(wd, "/private/") {
+		// The builders don't set $PWD correctly during make.bash
+		// but then they apparently do set it correctly during run.bash.
+		// This causes a discrepancy in $GOROOT that makes everything
+		// look out of date during run.bash. Instead of finding the problem
+		// in the builders, fix it here. This is not great but is the best we can do today.
+		f1, err1 := os.Stat(wd)
+		f2, err2 := os.Stat(strings.TrimPrefix(wd, "/private"))
+		if err1 == nil && err2 == nil && os.SameFile(f1, f2) {
+			wd = strings.TrimPrefix(wd, "/private")
+		}
 	}
 	return wd
 }
