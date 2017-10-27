@@ -9,12 +9,14 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
 	"sync"
+	"time"
 )
 
 // Initialization for any invocation.
@@ -983,6 +985,45 @@ func cmdenv() {
 	}
 }
 
+var (
+	timeLogEnabled = os.Getenv("GOBUILDTIMELOGFILE") != ""
+	timeLogMu      sync.Mutex
+	timeLogFile    *os.File
+	timeLogStart   time.Time
+)
+
+func timelog(op, name string) {
+	if !timeLogEnabled {
+		return
+	}
+	timeLogMu.Lock()
+	defer timeLogMu.Unlock()
+	if timeLogFile == nil {
+		f, err := os.OpenFile(os.Getenv("GOBUILDTIMELOGFILE"), os.O_RDWR|os.O_APPEND, 0666)
+		if err != nil {
+			log.Fatal(err)
+		}
+		buf := make([]byte, 100)
+		n, _ := f.Read(buf)
+		s := string(buf[:n])
+		if i := strings.Index(s, "\n"); i >= 0 {
+			s = s[:i]
+		}
+		i := strings.Index(s, " start")
+		if i < 0 {
+			log.Fatal("time log %s does not begin with start line", os.Getenv("GOBULDTIMELOGFILE"))
+		}
+		t, err := time.Parse(time.UnixDate, s[:i])
+		if err != nil {
+			log.Fatal("cannot parse time log line %q: %v", s, err)
+		}
+		timeLogStart = t
+		timeLogFile = f
+	}
+	t := time.Now()
+	fmt.Fprintf(timeLogFile, "%s %+.1fs %s %s\n", t.Format(time.UnixDate), t.Sub(timeLogStart).Seconds(), op, name)
+}
+
 // The bootstrap command runs a build from scratch,
 // stopping at having installed the go_bootstrap command.
 //
@@ -997,6 +1038,9 @@ func cmdenv() {
 // if $X was already present in os.Environ(), most systems preferred
 // that setting, not the new one.
 func cmdbootstrap() {
+	timelog("start", "dist bootstrap")
+	defer timelog("end", "dist bootstrap")
+
 	var noBanner bool
 	var debug bool
 	flag.BoolVar(&rebuildall, "a", rebuildall, "rebuild all")
@@ -1021,6 +1065,7 @@ func cmdbootstrap() {
 
 	setup()
 
+	timelog("build", "toolchain1")
 	checkCC()
 	bootstrapBuildTools()
 
@@ -1037,6 +1082,7 @@ func cmdbootstrap() {
 	os.Setenv("GOARCH", goarch)
 	os.Setenv("GOOS", goos)
 
+	timelog("build", "go_bootstrap")
 	xprintf("##### Building go_bootstrap.\n")
 	for _, dir := range buildlist {
 		installed[dir] = make(chan struct{})
@@ -1072,6 +1118,7 @@ func cmdbootstrap() {
 	//
 	//	toolchain2 = mk(new toolchain, toolchain1, go_bootstrap)
 	//
+	timelog("build", "toolchain2")
 	xprintf("\n##### Building Go toolchain2 using go_bootstrap and Go toolchain1.\n")
 	os.Setenv("CC", defaultcc)
 	if goos == oldgoos && goarch == oldgoarch {
@@ -1103,6 +1150,7 @@ func cmdbootstrap() {
 	//
 	//	toolchain3 = mk(new toolchain, toolchain2, go_bootstrap)
 	//
+	timelog("build", "toolchain3")
 	xprintf("\n##### Building Go toolchain3 using go_bootstrap and Go toolchain2.\n")
 	goInstall(append([]string{"-a"}, toolchain...)...)
 	if debug {
@@ -1114,16 +1162,19 @@ func cmdbootstrap() {
 
 	if goos == oldgoos && goarch == oldgoarch {
 		// Common case - not setting up for cross-compilation.
+		timelog("build", "toolchain")
 		xprintf("\n##### Building packages and commands for %s/%s\n", goos, goarch)
 	} else {
 		// GOOS/GOARCH does not match GOHOSTOS/GOHOSTARCH.
 		// Finish GOHOSTOS/GOHOSTARCH installation and then
 		// run GOOS/GOARCH installation.
+		timelog("build", "host toolchain")
 		xprintf("\n##### Building packages and commands for host, %s/%s\n", goos, goarch)
 		goInstall("std", "cmd")
 		checkNotStale(goBootstrap, "std", "cmd")
 		checkNotStale(cmdGo, "std", "cmd")
 
+		timelog("build", "target toolchain")
 		xprintf("\n##### Building packages and commands for target, %s/%s\n", goos, goarch)
 		goos = oldgoos
 		goarch = oldgoarch
