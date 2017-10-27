@@ -105,6 +105,7 @@ func (t *tester) run() {
 	}
 
 	t.runNames = flag.Args()
+	fmt.Printf("RUN %q\n", t.runNames)
 
 	if t.hasBash() {
 		if _, err := exec.LookPath("time"); err == nil {
@@ -177,10 +178,10 @@ func (t *tester) run() {
 		return
 	}
 
-	// we must unset GOROOT_FINAL before tests, because runtime/debug requires
-	// correct access to source code, so if we have GOROOT_FINAL in effect,
-	// at least runtime/debug test will fail.
-	os.Unsetenv("GOROOT_FINAL")
+	// Do NOT put debug prints before the -list return above.
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("test", "go")
+	}
 
 	for _, name := range t.runNames {
 		if !t.isRegisteredTestName(name) {
