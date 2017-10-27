@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eadf280b_d1436fb6",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e980aac_3cbf6ecb",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce8998e6_9c517868",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 1
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "0c08acc2_dac50945",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1097,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Yes, work done here is not repeated below. I was curious about the times overall so I added timing. Here is what happens now:\n\n     8.5s build toolchain1 (using Go 1.4)\n     6.3s build go_bootstrap\n    21.2s build toolchain2 (using toolchain1)\n    11.2s build toolchain3 (using toolchain2)\n     8.8s build std cmd    (using toolchain3 \u003d toolchain2)\n\nBoth \"build toolchain2\" and \"build toolchain3\" are building the same source files with a semantically equivalent toolchain. The difference is how efficient the generated code inside the toolchain being used is. Toolchain1 was built with Go 1.4 and takes 21.2s to rebuild itself. Toolchain2 was built with the current tree (~Go 1.10) and takes 11.2s to rebuild itself instead!\n\nOf course Go 1.4 only took 8.5s to build the same source code, but it did half as good a job.\n\nThis is a nice demonstration of our progress in the compiler.\n\n(Unlike on some builders, here Go 1.4 really means Go 1.4 not some other version in a directory named go1.4.)",
+      "parentUuid": "41ec9ec8_dea930cb",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09993bf3_7120ff12",
         "filename": "src/cmd/go/internal/work/action.go",
         "patchSetId": 1
@@ -67,6 +103,24 @@
       "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28b62b2d_b6bf5b3e",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "09993bf3_7120ff12",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "ecd72694_ae3a6042",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef909be1_8179885b",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24c8aba3_c8e8f5a4",
         "filename": "src/cmd/go/internal/work/action.go",
         "patchSetId": 1
@@ -101,6 +173,24 @@
       "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b98155d_29a72684",
+        "filename": "src/cmd/go/internal/work/action.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c8aba3_c8e8f5a4",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -121,6 +211,24 @@
     },
     {
       "key": {
+        "uuid": "73ee36c9_30bf91de",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c446bc5_1a1ab402",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4c3afc4_e37a8614",
         "filename": "src/cmd/go/internal/work/buildid.go",
         "patchSetId": 1
@@ -135,6 +243,24 @@
       "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fac13eab_e9daafca",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4c3afc4_e37a8614",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -161,6 +287,30 @@
     },
     {
       "key": {
+        "uuid": "f74a8459_be0a76f0",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Removed comment. I was skeptical of these base.Fatalf at one point but it turns out they match the handling of other unexpectedly terrible events.",
+      "parentUuid": "c27077f9_1d982145",
+      "range": {
+        "startLine": 170,
+        "startChar": 55,
+        "endLine": 170,
+        "endChar": 60
+      },
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61e0dcc6_05b339fc",
         "filename": "src/cmd/go/internal/work/buildid.go",
         "patchSetId": 1
@@ -175,6 +325,24 @@
       "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "546651a8_23a0b427",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61e0dcc6_05b339fc",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -195,6 +363,24 @@
     },
     {
       "key": {
+        "uuid": "88f0fb30_2920037a",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Sure. Changed.",
+      "parentUuid": "8a1e598e_9aa04ac2",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5434f75_96c01376",
         "filename": "src/cmd/go/internal/work/exec.go",
         "patchSetId": 1
@@ -209,6 +395,24 @@
       "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a3b27ea_645e20af",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5434f75_96c01376",
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -247,6 +451,30 @@
       "side": 1,
       "message": "You are a team of one.",
       "parentUuid": "5dcbba44_9252019b",
+      "range": {
+        "startLine": 198,
+        "startChar": 25,
+        "endLine": 198,
+        "endChar": 36
+      },
+      "revId": "cbac50e3d0c5eaf909506bd0678f1dffbbb47406",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f78e4390_4abde277",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-27T21:02:00Z",
+      "side": 1,
+      "message": "Actually this is a bad copy-paste or something (although I wrote this one first). It once said and should again say \"compiler team\". Below, however, yes I do refer to the non-existent \"linker team\".",
+      "parentUuid": "a7ad3228_200cd234",
       "range": {
         "startLine": 198,
         "startChar": 25,
