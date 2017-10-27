@@ -1097,6 +1097,9 @@ func cmdbootstrap() {
 	goldflags = os.Getenv("GO_LDFLAGS")
 	goBootstrap := pathf("%s/go_bootstrap", tooldir)
 	cmdGo := pathf("%s/go", gobin)
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("bootstrap", goBootstrap)
+	}
 	if debug {
 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
 		copyfile(pathf("%s/compile1", tooldir), pathf("%s/compile", tooldir), writeExec)
@@ -1184,6 +1187,9 @@ func cmdbootstrap() {
 	}
 	goInstall("std", "cmd")
 	checkNotStale(goBootstrap, "std", "cmd")
+	if os.Getenv("GO_BUILDER_NAME") != "" {
+		showEnv("bootstrap", cmdGo)
+	}
 	checkNotStale(cmdGo, "std", "cmd")
 	if debug {
 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
@@ -1213,6 +1219,15 @@ func cmdbootstrap() {
 	if !noBanner {
 		banner()
 	}
+}
+
+func showEnv(verb, goCmd string) {
+	fmt.Printf("go tool dist %s: %s env:\n", verb, goCmd)
+	run("", ShowOutput|CheckExit, goCmd, "env")
+	fmt.Printf("\n")
+	os.Setenv("GOCMDDEBUGHASH", "1")
+	run("", CheckExit|ShowOutput, goCmd, "list", "-f={{.Stale}}", "cmd/compile")
+	os.Unsetenv("GOCMDDEBUGHASH")
 }
 
 func goInstall(args ...string) {
