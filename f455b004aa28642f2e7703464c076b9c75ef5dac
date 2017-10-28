@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42355d04_8201ad98",
+        "filename": "src/cmd/compile/internal/amd64/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-28T18:37:32Z",
+      "side": 1,
+      "message": "Use p.SetFrom3(obj.Addr{...})",
+      "revId": "f455b004aa28642f2e7703464c076b9c75ef5dac",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
