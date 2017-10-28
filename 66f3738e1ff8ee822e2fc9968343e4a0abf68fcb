@@ -34,6 +34,24 @@
       "revId": "66f3738e1ff8ee822e2fc9968343e4a0abf68fcb",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab636a7_cfdd090f",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-10-28T02:54:57Z",
+      "side": 1,
+      "message": "Ok... We could loosen that if it\u0027s worth doing. On the other hand, if we move store out of the write barrier, we will not need this.",
+      "parentUuid": "7601f7b5_95199dd7",
+      "revId": "66f3738e1ff8ee822e2fc9968343e4a0abf68fcb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
