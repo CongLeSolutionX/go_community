@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "799a546d_0103f551",
+        "filename": "misc/cgo/testshared/shared_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-28T19:24:42Z",
+      "side": 1,
+      "message": "Probably worth\n    const marker \u003d `build id \"`\nrather than repeating it three times.",
+      "range": {
+        "startLine": 717,
+        "startChar": 33,
+        "endLine": 717,
+        "endChar": 44
+      },
+      "revId": "0dc38ea031d5fdb2c8465e72acfa717381d9dbb5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
