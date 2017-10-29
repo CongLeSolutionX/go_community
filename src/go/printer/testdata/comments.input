@@ -725,4 +725,9 @@ func _() {
 */
 }
 
+var _ = []string{
+// lone comments
+// in composite lit
+}
+
 /* This comment is the last entry in this file. It must be printed and should be followed by a newline */
