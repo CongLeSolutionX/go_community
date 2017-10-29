@@ -725,4 +725,29 @@ func _() {
 */
 }
 
+var _ = []T{/* lone comment */}
+
+var _ = []T{
+/* lone comment */
+}
+
+var _ = []T{
+// lone comments
+// in composite lit
+}
+
+var _ = [][]T{
+	{
+		// lone comments
+		// in composite lit
+	},
+}
+
+var _ = []T{// lone comment
+}
+
+var _ = []T{// lone comments
+// in composite lit
+}
+
 /* This comment is the last entry in this file. It must be printed and should be followed by a newline */
