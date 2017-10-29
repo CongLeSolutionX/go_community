@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b7bff63_8c2ba1c0",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-10-29T20:02:46Z",
+      "side": 1,
+      "message": "s/e/ing/",
+      "range": {
+        "startLine": 137,
+        "startChar": 63,
+        "endLine": 137,
+        "endChar": 64
+      },
+      "revId": "9592988c0813ba3e07cde6d3e5d7378fa4c98fe5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
