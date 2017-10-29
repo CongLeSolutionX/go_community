@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8aef30d1_a8a8fba5",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-29T01:47:39Z",
+      "side": 1,
+      "message": "Seems like we should mention that it\u0027s important that keepalive actually \"use\" the spill location.",
+      "range": {
+        "startLine": 1139,
+        "startChar": 8,
+        "endLine": 1139,
+        "endChar": 31
+      },
+      "revId": "26820c48aff1e49c4d74f8199008c8172702c0f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "947beb81_25f60faf",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-29T01:47:39Z",
+      "side": 1,
+      "message": "I realize this is probably true, but the register allocator is such a complicated piece of code that I\u0027m not certain of it.  That is, could a value end up in a register yet not be live?",
+      "range": {
+        "startLine": 1142,
+        "startChar": 8,
+        "endLine": 1142,
+        "endChar": 66
+      },
+      "revId": "26820c48aff1e49c4d74f8199008c8172702c0f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
