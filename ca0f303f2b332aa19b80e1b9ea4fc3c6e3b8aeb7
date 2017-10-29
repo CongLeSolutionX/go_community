@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6ec5d9d_5ccf5d1b",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-10-29T07:11:04Z",
+      "side": 0,
+      "message": "In case you want to include it in this CL, this should be Time.Format.",
+      "revId": "ca0f303f2b332aa19b80e1b9ea4fc3c6e3b8aeb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d52d1821_3b928bb3",
+        "filename": "src/time/format.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-10-29T07:11:04Z",
+      "side": 0,
+      "message": "Here as well.",
+      "revId": "ca0f303f2b332aa19b80e1b9ea4fc3c6e3b8aeb7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
