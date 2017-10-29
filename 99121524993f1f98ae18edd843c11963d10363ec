@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a15665a2_fec02804",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-10-29T08:59:38Z",
+      "side": 1,
+      "message": "If you indent for this commit to close both issues rather than just the first one, you’ll need to write “fixes” twice. E.g.:\n\n    Fixes #9346.\n    Fixes #22135.\n\nReference: https://help.github.com/articles/closing-issues-using-keywords/#closing-multiple-issues.",
+      "revId": "99121524993f1f98ae18edd843c11963d10363ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
