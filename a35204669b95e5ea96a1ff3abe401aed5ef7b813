@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6420b7ba_ba9ba8c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-29T19:25:39Z",
+      "side": 1,
+      "message": "Commit summaries should complete the sentence \"This change modifies Go to _____.\". In this case I think it should change to:\n\nruntime: remove unnecessary sync from publicationBarrier on s390x",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "a35204669b95e5ea96a1ff3abe401aed5ef7b813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edb41b42_a295f9dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-29T19:25:39Z",
+      "side": 1,
+      "message": "Full stop at end of sentence.",
+      "revId": "a35204669b95e5ea96a1ff3abe401aed5ef7b813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d630f676_dbd40155",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-29T19:25:39Z",
+      "side": 1,
+      "message": "s/one/on/",
+      "range": {
+        "startLine": 9,
+        "startChar": 57,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "a35204669b95e5ea96a1ff3abe401aed5ef7b813",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
