@@ -84,6 +84,22 @@ func ExampleByteOrder_put() {
 	// e8 03 d0 07
 }
 
+func ExampleByteOrder_put32() {
+	b := make([]byte, 4)
+	binary.LittleEndian.PutUint32(b[0:], 0x03e807d0)
+	fmt.Printf("% x\n", b)
+	// Output:
+	// d0 07 e8 03
+}
+
+func ExampleByteOrder_put64() {
+	b := make([]byte, 8)
+	binary.LittleEndian.PutUint64(b[0:], 0x8877665544332211)
+	fmt.Printf("% x\n", b)
+	// Output:
+	// 11 22 33 44 55 66 77 88
+}
+
 func ExampleByteOrder_get() {
 	b := []byte{0xe8, 0x03, 0xd0, 0x07}
 	x1 := binary.LittleEndian.Uint16(b[0:])
@@ -91,6 +107,21 @@ func ExampleByteOrder_get() {
 	fmt.Printf("%#04x %#04x\n", x1, x2)
 	// Output:
 	// 0x03e8 0x07d0
+}
+
+func ExampleByteOrder_get32() {
+	b := []byte{0xe8, 0x03, 0x07, 0xd0}
+	x1 := binary.LittleEndian.Uint32(b[0:])
+	fmt.Printf("%#04x\n", x1)
+	// Output:
+	// 0xd00703e8
+}
+func ExampleByteOrder_get64() {
+	b := []byte{0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11}
+	x1 := binary.LittleEndian.Uint64(b[0:])
+	fmt.Printf("%#08x\n", x1)
+	// Output:
+	// 0x1122334455667788
 }
 
 func ExamplePutUvarint() {
