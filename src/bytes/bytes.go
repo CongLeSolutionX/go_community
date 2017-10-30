@@ -39,7 +39,7 @@ func explode(s []byte, n int) [][]byte {
 			break
 		}
 		_, size = utf8.DecodeRune(s)
-		a[na] = s[0:size]
+		a[na] = s[0:size:size]
 		s = s[size:]
 		na++
 	}
@@ -219,7 +219,7 @@ func genSplit(s, sep []byte, sepSave, n int) [][]byte {
 		if m < 0 {
 			break
 		}
-		a[i] = s[:m+sepSave]
+		a[i] = s[: m+sepSave : m+sepSave]
 		s = s[m+len(sep):]
 		i++
 	}
