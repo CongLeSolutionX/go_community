@@ -46,6 +46,30 @@
       "revId": "559f6f8c470a92082587db16fa27e2cc73ec44c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cb1a3f9_2fe5ad7f",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-10-30T16:04:12Z",
+      "side": 1,
+      "message": "I was thinking the later but ack.",
+      "parentUuid": "62af43c4_52b40ab0",
+      "range": {
+        "startLine": 587,
+        "startChar": 47,
+        "endLine": 590,
+        "endChar": 5
+      },
+      "revId": "559f6f8c470a92082587db16fa27e2cc73ec44c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
