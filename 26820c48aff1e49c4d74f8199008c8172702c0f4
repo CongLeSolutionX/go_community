@@ -45,6 +45,30 @@
       "revId": "26820c48aff1e49c4d74f8199008c8172702c0f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "863d3929_e89e80df",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1142,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-30T19:48:55Z",
+      "side": 1,
+      "message": "No, the register allocator immediately dumps any newly-dead values out of all the registers.\nEven if it didn\u0027t, the fact that it is in a register means it was saved somewhere at the last safepoint (or was computed after the last safepoint), and that\u0027s all that matters.",
+      "parentUuid": "947beb81_25f60faf",
+      "range": {
+        "startLine": 1142,
+        "startChar": 8,
+        "endLine": 1142,
+        "endChar": 66
+      },
+      "revId": "26820c48aff1e49c4d74f8199008c8172702c0f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
