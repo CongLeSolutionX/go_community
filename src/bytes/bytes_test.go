@@ -736,6 +736,13 @@ var splittests = []SplitTest{
 func TestSplit(t *testing.T) {
 	for _, tt := range splittests {
 		a := SplitN([]byte(tt.s), []byte(tt.sep), tt.n)
+
+		// Appending to the results should not change future results.
+		var x []byte
+		for _, v := range a {
+			x = append(v, 'z')
+		}
+
 		result := sliceOfString(a)
 		if !eq(result, tt.a) {
 			t.Errorf(`Split(%q, %q, %d) = %v; want %v`, tt.s, tt.sep, tt.n, result, tt.a)
@@ -744,6 +751,11 @@ func TestSplit(t *testing.T) {
 		if tt.n == 0 {
 			continue
 		}
+
+		if want := tt.a[len(tt.a)-1] + "z"; string(x) != want {
+			t.Errorf("last appended result was %s; want %s", x, want)
+		}
+
 		s := Join(a, []byte(tt.sep))
 		if string(s) != tt.s {
 			t.Errorf(`Join(Split(%q, %q, %d), %q) = %q`, tt.s, tt.sep, tt.n, tt.sep, s)
@@ -782,11 +794,23 @@ var splitaftertests = []SplitTest{
 func TestSplitAfter(t *testing.T) {
 	for _, tt := range splitaftertests {
 		a := SplitAfterN([]byte(tt.s), []byte(tt.sep), tt.n)
+
+		// Appending to the results should not change future results.
+		var x []byte
+		for _, v := range a {
+			x = append(v, 'z')
+		}
+
 		result := sliceOfString(a)
 		if !eq(result, tt.a) {
 			t.Errorf(`Split(%q, %q, %d) = %v; want %v`, tt.s, tt.sep, tt.n, result, tt.a)
 			continue
 		}
+
+		if want := tt.a[len(tt.a)-1] + "z"; string(x) != want {
+			t.Errorf("last appended result was %s; want %s", x, want)
+		}
+
 		s := Join(a, nil)
 		if string(s) != tt.s {
 			t.Errorf(`Join(Split(%q, %q, %d), %q) = %q`, tt.s, tt.sep, tt.n, tt.sep, s)
