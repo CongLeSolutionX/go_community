@@ -11,6 +11,10 @@ import (
 	"strings"
 )
 
+// Cutoff is the biggest object that the linker will allow.
+// See issue 9862 for where the need for this came from.
+const Cutoff int64 = 2e9 // 2 GB (or so; looks better in errors than 2^31)
+
 func envOr(key, value string) string {
 	if x := os.Getenv(key); x != "" {
 		return x

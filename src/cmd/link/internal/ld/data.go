@@ -993,11 +993,9 @@ func (d bySizeAndName) Less(i, j int) bool {
 	return s1.name < s2.name
 }
 
-const cutoff int64 = 2e9 // 2 GB (or so; looks better in errors than 2^31)
-
 func checkdatsize(ctxt *Link, datsize int64, symn sym.SymKind) {
-	if datsize > cutoff {
-		Errorf(nil, "too much data in section %v (over %d bytes)", symn, cutoff)
+	if datsize > objabi.Cutoff {
+		Errorf(nil, "too much data in section %v (over %d bytes)", symn, objabi.Cutoff)
 	}
 }
 
@@ -1637,7 +1635,7 @@ func dodataSect(ctxt *Link, symn sym.SymKind, syms []*sym.Symbol) (result []*sym
 			Errorf(s, "initialize bounds (%d < %d)", s.Size, len(s.P))
 		case s.Size < 0:
 			Errorf(s, "negative size (%d bytes)", s.Size)
-		case s.Size > cutoff:
+		case s.Size > objabi.Cutoff:
 			Errorf(s, "symbol too large (%d bytes)", s.Size)
 		}
 
