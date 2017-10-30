@@ -288,6 +288,12 @@ func findgoversion() string {
 		// its content if available, which is empty at this point.
 		// Only use the VERSION file if it is non-empty.
 		if b != "" {
+			if strings.HasPrefix(b, "devel") {
+				if hostType := os.Getenv("META_BUILDLET_HOST_TYPE"); strings.Contains(hostType, "-cross") {
+					fmt.Fprintf(os.Stderr, "warning: changing VERSION from %q to %q\n", b, hostType)
+					b = hostType
+				}
+			}
 			return b
 		}
 	}
