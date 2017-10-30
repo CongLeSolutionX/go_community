@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "837242ee_d13dea84",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-30T22:56:17Z",
+      "side": 1,
+      "message": "Do you really want to say \"in the lowering\"?  Perhaps \"in the AST\"?",
+      "range": {
+        "startLine": 175,
+        "startChar": 19,
+        "endLine": 175,
+        "endChar": 34
+      },
+      "revId": "6653d935568457f34c4a0fa1e3bc2f89039cc188",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57de5f3a_7bb41238",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-30T22:56:17Z",
+      "side": 1,
+      "message": "s/to later/later/",
+      "revId": "6653d935568457f34c4a0fa1e3bc2f89039cc188",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8728a5cf_f8afd963",
+        "filename": "src/cmd/compile/internal/gc/racewalk.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-30T22:56:17Z",
+      "side": 1,
+      "message": "It\u0027s not really obvious to me how that comment applies to this line.  Perhaps the comment should start with \"Note that\" or something similar?",
+      "revId": "6653d935568457f34c4a0fa1e3bc2f89039cc188",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
