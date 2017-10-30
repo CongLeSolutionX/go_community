@@ -150,8 +150,10 @@ func growslice(et *_type, old slice, cap int) slice {
 	}
 
 	var p unsafe.Pointer
+	var new slice
 	if et.kind&kindNoPointers != 0 {
 		p = mallocgc(capmem, nil, false)
+		new = slice{p, old.len, newcap}
 		memmove(p, old.array, lenmem)
 		// The append() that calls growslice is going to overwrite from old.len to cap (which will be the new length).
 		// Only clear the part that will not be overwritten.
@@ -159,16 +161,11 @@ func growslice(et *_type, old slice, cap int) slice {
 	} else {
 		// Note: can't use rawmem (which avoids zeroing of memory), because then GC can scan uninitialized memory.
 		p = mallocgc(capmem, et, true)
-		if !writeBarrier.enabled {
-			memmove(p, old.array, lenmem)
-		} else {
-			for i := uintptr(0); i < lenmem; i += et.size {
-				typedmemmove(et, add(p, i), add(old.array, i))
-			}
-		}
+		new = slice{p, old.len, newcap}
+		typedslicecopy(et, new, old)
 	}
 
-	return slice{p, old.len, newcap}
+	return new
 }
 
 func slicecopy(to, fm slice, width uintptr) int {
