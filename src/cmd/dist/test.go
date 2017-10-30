@@ -388,21 +388,25 @@ func (t *tester) registerTests() {
 		return
 	}
 
-	// Runtime CPU tests.
-	if !t.compileOnly {
-		testName := "runtime:cpu124"
-		t.tests = append(t.tests, distTest{
-			name:    testName,
-			heading: "GOMAXPROCS=2 runtime -cpu=1,2,4",
-			fn: func(dt *distTest) error {
-				cmd := t.addCmd(dt, "src", "go", "test", "-short", t.timeout(300), t.tags(), "runtime", "-cpu=1,2,4")
-				// We set GOMAXPROCS=2 in addition to -cpu=1,2,4 in order to test runtime bootstrap code,
-				// creation of first goroutines and first garbage collections in the parallel setting.
-				cmd.Env = append(os.Environ(), "GOMAXPROCS=2")
-				return nil
-			},
-		})
+	// When compileOnly is set, we want to be sure no test code runs.
+	// Many of the tests that follow have no way to indicate that, so just
+	// don't queue any of these special one-off tests.
+	if t.compileOnly {
+		return
 	}
+
+	// Runtime CPU tests.
+	t.tests = append(t.tests, distTest{
+		name:    "runtime:cpu124",
+		heading: "GOMAXPROCS=2 runtime -cpu=1,2,4",
+		fn: func(dt *distTest) error {
+			cmd := t.addCmd(dt, "src", "go", "test", "-short", t.timeout(300), t.tags(), "runtime", "-cpu=1,2,4")
+			// We set GOMAXPROCS=2 in addition to -cpu=1,2,4 in order to test runtime bootstrap code,
+			// creation of first goroutines and first garbage collections in the parallel setting.
+			cmd.Env = append(os.Environ(), "GOMAXPROCS=2")
+			return nil
+		},
+	})
 
 	// This test needs its stdout/stderr to be terminals, so we don't run it from cmd/go's tests.
 	// See issue 18153.
