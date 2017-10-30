@@ -170,10 +170,11 @@ func instrumentnode(np **Node, init *Nodes, wr int, skip int) {
 	case OCALLINTER:
 		instrumentnode(&n.Left, init, 0, 0)
 
-	// Instrument dst argument of runtime.writebarrier* calls
-	// as we do not instrument runtime code.
-	// typedslicecopy is instrumented in runtime.
 	case OCALLFUNC:
+		// runtime.typedslicecopy is the only assignment-like
+		// function call in the lowering at this point (write
+		// barriers and typedmemmove are lowered to later), so
+		// typedslicecopy is instrumented in runtime.
 		instrumentnode(&n.Left, init, 0, 0)
 
 	case ONOT,
