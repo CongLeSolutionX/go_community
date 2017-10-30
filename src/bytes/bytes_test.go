@@ -763,6 +763,110 @@ func TestSplit(t *testing.T) {
 	}
 }
 
+func TestSplitAndAppend(t *testing.T) {
+	subStrings := Split([]byte("a,b,c"), []byte(","))
+	a := subStrings[0]
+	b := subStrings[1]
+	c := subStrings[2]
+
+	_ = append(a, 'a', 'a')
+	if !reflect.DeepEqual(b, []byte("b")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"b\"", string(b))
+	}
+	_ = append(b, 'b', 'b')
+
+	if !reflect.DeepEqual(c, []byte("c")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"c\"", string(c))
+	}
+}
+
+func TestSplitNAndAppend(t *testing.T) {
+	subStrings := SplitN([]byte("a,b,c"), []byte(","), 3)
+	a := subStrings[0]
+	b := subStrings[1]
+	c := subStrings[2]
+
+	_ = append(a, 'a', 'a')
+	if !reflect.DeepEqual(b, []byte("b")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"b\"", string(b))
+	}
+	_ = append(b, 'b', 'b')
+
+	if !reflect.DeepEqual(c, []byte("c")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"c\"", string(c))
+	}
+}
+
+func TestSplitAfterAndAppend(t *testing.T) {
+	subStrings := SplitAfter([]byte("a,b,c"), []byte(","))
+	a := subStrings[0]
+	b := subStrings[1]
+	c := subStrings[2]
+
+	_ = append(a, 'a', 'a')
+	if !reflect.DeepEqual(b, []byte("b,")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"b,\"", string(b))
+	}
+	_ = append(b, 'b', 'b')
+
+	if !reflect.DeepEqual(c, []byte("c")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"c\"", string(c))
+	}
+}
+
+func TestSplitAfterNAndAppend(t *testing.T) {
+	subStrings := SplitAfterN([]byte("a,b,c"), []byte(","), 3)
+	a := subStrings[0]
+	b := subStrings[1]
+	c := subStrings[2]
+
+	_ = append(a, 'a', 'a')
+	if !reflect.DeepEqual(b, []byte("b,")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"b,\"", string(b))
+	}
+	_ = append(b, 'b', 'b')
+
+	if !reflect.DeepEqual(c, []byte("c")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"c\"", string(c))
+	}
+}
+
+func TestFieldsAndAppend(t *testing.T) {
+	subStrings := Fields([]byte(" a b c "))
+	a := subStrings[0]
+	b := subStrings[1]
+	c := subStrings[2]
+
+	_ = append(a, 'a', 'a')
+	if !reflect.DeepEqual(b, []byte("b")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"b\"", string(b))
+	}
+	_ = append(b, 'b', 'b')
+
+	if !reflect.DeepEqual(c, []byte("c")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"c\"", string(c))
+	}
+}
+
+func TestFieldsFuncAndAppend(t *testing.T) {
+	subStrings := FieldsFunc([]byte(" a b c "), func(r rune) bool {
+		return r == ' '
+	})
+	a := subStrings[0]
+	b := subStrings[1]
+	c := subStrings[2]
+
+	_ = append(a, 'a', 'a')
+	if !reflect.DeepEqual(b, []byte("b")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"b\"", string(b))
+	}
+	_ = append(b, 'b', 'b')
+
+	if !reflect.DeepEqual(c, []byte("c")) {
+		t.Errorf("Slice is modified by appending to another contains %q instead of \"c\"", string(c))
+	}
+}
+
 var splitaftertests = []SplitTest{
 	{abcd, "a", -1, []string{"a", "bcd"}},
 	{abcd, "z", -1, []string{"abcd"}},

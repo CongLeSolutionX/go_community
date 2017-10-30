@@ -219,7 +219,7 @@ func genSplit(s, sep []byte, sepSave, n int) [][]byte {
 		if m < 0 {
 			break
 		}
-		a[i] = s[:m+sepSave]
+		a[i] = s[:m+sepSave : m+len(sep)]
 		s = s[m+len(sep):]
 		i++
 	}
@@ -302,13 +302,14 @@ func Fields(s []byte) [][]byte {
 			i++
 			continue
 		}
-		a[na] = s[fieldStart:i]
-		na++
+		fieldEnd := i
 		i++
 		// Skip spaces in between fields.
 		for i < len(s) && asciiSpace[s[i]] != 0 {
 			i++
 		}
+		a[na] = s[fieldStart:fieldEnd:i]
+		na++
 		fieldStart = i
 	}
 	if fieldStart < len(s) { // Last field might end at EOF.
@@ -363,7 +364,11 @@ func FieldsFunc(s []byte, f func(rune) bool) [][]byte {
 	// Create subslices from recorded field indices.
 	a := make([][]byte, len(spans))
 	for i, span := range spans {
-		a[i] = s[span.start:span.end]
+		if i+1 < len(spans) {
+			a[i] = s[span.start:span.end:spans[i+1].start]
+		} else {
+			a[i] = s[span.start:span.end]
+		}
 	}
 
 	return a
