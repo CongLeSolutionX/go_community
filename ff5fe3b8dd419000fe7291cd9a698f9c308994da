@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "142b5920_c50f37de",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-30T22:19:46Z",
+      "side": 1,
+      "message": "This scares me a little bit, because it breaks the abstraction of how values store their arg lists.  If any change happens to the underlying value (A SetArg, AddArg, etc.) then the slice stored in this map is stale.\n\nI suspect this works because no modification happens to any value that has been noteDecompsed\u0027ed.  But in that case you can make the map value a struct{} and just use v.Args again later.",
+      "revId": "ff5fe3b8dd419000fe7291cd9a698f9c308994da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69d53aec_4c2557b0",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-30T22:19:46Z",
+      "side": 1,
+      "message": "You keep checking ok on all of these, yet I think it should always be true.\nShouldn\u0027t all SSAable arrays be decomposed, for example?  What could reach this point and not be in the dvm map?\n\nThis makes me think that the dvm map is not useful.\nCan\u0027t we just assume that anything with a decomposable type is decomposed?",
+      "revId": "ff5fe3b8dd419000fe7291cd9a698f9c308994da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
