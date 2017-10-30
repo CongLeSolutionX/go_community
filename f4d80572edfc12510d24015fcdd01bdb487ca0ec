@@ -68,6 +68,29 @@
       "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bef0b301_8a7cc3b0",
+        "filename": "src/runtime/mwbbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-10-30T14:23:34Z",
+      "side": 1,
+      "message": "Warning: I have no numbers to support this idea.\nWould splitting this into two loops help. The first would \"prefetch\" (just load) the mbits giving the HW time to hide the cache miss since we are avoiding any dependent instructions. The second loop would use the values which are presumable now in the cache.",
+      "range": {
+        "startLine": 184,
+        "startChar": 50,
+        "endLine": 192,
+        "endChar": 3
+      },
+      "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
