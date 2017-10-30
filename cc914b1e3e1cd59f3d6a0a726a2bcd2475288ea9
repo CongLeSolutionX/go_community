@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9edeb9c_222e8e6e",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-30T23:14:44Z",
+      "side": 1,
+      "message": "should we do the same here?",
+      "range": {
+        "startLine": 305,
+        "startChar": 24,
+        "endLine": 305,
+        "endChar": 25
+      },
+      "revId": "cc914b1e3e1cd59f3d6a0a726a2bcd2475288ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8037394c_2cddcf5a",
+        "filename": "src/bytes/bytes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-30T23:14:44Z",
+      "side": 1,
+      "message": "and here?\n\nand possibly in FieldsFunc?",
+      "range": {
+        "startLine": 315,
+        "startChar": 23,
+        "endLine": 315,
+        "endChar": 24
+      },
+      "revId": "cc914b1e3e1cd59f3d6a0a726a2bcd2475288ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
