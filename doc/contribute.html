@@ -333,15 +333,22 @@ but most contributors won't do this themselves.)
 Before making a change, make sure you start on the master branch:
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-config">git-codereview</a>:</p>
 <pre>
 $ git checkout master
 $ git sync
 </pre>
-
-<p>
-(In Git terms, <code>git</code> <code>sync</code> runs
-<code>git</code> <code>pull</code> <code>-r</code>.)
-</p>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git checkout master
+$ git pull -r
+</pre>
+</div>
+</div>
 
 <h3 id="subrepos">Contributing to subrepositories (golang.org/x/...)</h3>
 
@@ -420,21 +427,27 @@ It is also possible to prepare a sequence of (usually related) changes in a sing
 See the <a href="https://golang.org/x/review/git-codereview">git-codereview documentation</a> for details.
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-config">git-codereview</a>:</p>
 <pre>
 $ git change <i>&lt;branch&gt;</i>
 </pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git checkout -b <i>&lt;branch&gt;</i>
+$ git branch --set-upstream-to origin/master
+$ git commit
+</pre>
+</div>
+</div>
 
 <p>
 The name <i>&lt;branch&gt;</i> is an arbitrary one you choose to identify the
 local branch containing your changes and will not be used elsewhere.
 This is an offline operation and nothing will be sent to the server yet.
-</p>
-
-<p>
-(In Git terms, <code>git</code> <code>change</code> <code>&lt;branch&gt;</code>
-runs <code>git</code> <code>checkout</code> <code>-b</code> <code>branch</code>,
-then <code>git</code> <code>branch</code> <code>--set-upstream-to</code> <code>origin/master</code>,
-then <code>git</code> <code>commit</code>.)
 </p>
 
 <p>
@@ -527,9 +540,20 @@ If you wish to do more editing, re-stage your changes using
 <code>git</code> <code>add</code>, and then run
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-config">git-codereview</a>:</p>
 <pre>
 $ git change
 </pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git commit --amend
+</pre>
+</div>
+</div>
 
 <p>
 to update the change description and incorporate the staged changes.
@@ -538,11 +562,6 @@ added by a Git commit hook during the initial
 <code>git</code> <code>change</code>.
 That line is used by Gerrit to match successive uploads of the same change.
 Do not edit or delete it.
-</p>
-
-<p>
-(In Git terms, <code>git</code> <code>change</code> with no branch name
-runs <code>git</code> <code>commit</code> <code>--amend</code>.)
 </p>
 
 <h3 id="Testing">Testing</h3>
@@ -579,15 +598,20 @@ This is done via the mail alias setup earlier which despite its name, doesn't
 directly mail anything, it simply sends the change to Gerrit via git push.
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-config">git-codereview</a>:</p>
 <pre>
 $ git mail
 </pre>
-
-<p>
-(In Git terms, <code>git</code> <code>mail</code> pushes the local committed
-changes to Gerrit using <code>git</code> <code>push</code> <code>origin</code>
-<code>HEAD:refs/for/master</code>.)
-</p>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git push origin HEAD:refs/for/master
+</pre>
+</div>
+</div>
 
 <p>
 If your change relates to an open issue, please add a comment to the issue
@@ -648,9 +672,20 @@ $ git commit --amend --author="Author Name &lt;email@address.com&gt;"
 Finally try to resend with:
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-config">git-codereview</a>:</p>
 <pre>
 $ git mail
 </pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git push origin HEAD:refs/for/master
+</pre>
+</div>
+</div>
 
 <h3 id="cc">Specifying a reviewer / CCing others</h3>
 
@@ -669,9 +704,20 @@ using the <code>-r</code> or <code>-cc</code> options.
 Both accept a comma-separated list of email addresses:
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-config">git-codereview</a>:</p>
 <pre>
 $ git mail -r joe@golang.org -cc mabel@example.com,math-nuts@swtch.com
 </pre>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git push origin HEAD:refs/for/master%r=joe@golang.org,cc=mabel@example.com,cc=math-nuts@swtch.com
+</pre>
+</div>
+</div>
 
 <h2 id="review">Going through the review process</h2>
 
@@ -727,14 +773,20 @@ While you were working, others might have submitted changes to the repository.
 To update your local branch, run
 </p>
 
+<div class="codereview-with-plaingit">
+<div class="codereview">
+<p>With <a href="#git-config">git-codereview</a>:</p>
 <pre>
 $ git sync
 </pre>
-
-<p>
-(In git terms, <code>git</code> <code>sync</code> runs
-<code>git</code> <code>pull</code> <code>-r</code>.)
-</p>
+</div>
+<div class="plaingit">
+<p>In Git terms:</p>
+<pre>
+$ git pull -r
+</pre>
+</div>
+</div>
 
 <h3 id="resolving_conflicts">Resolving Conflicts</h3>
 
