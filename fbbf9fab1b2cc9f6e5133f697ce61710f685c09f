@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e00ada7_f023cb7a",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-30T22:36:33Z",
+      "side": 1,
+      "message": "comment?",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 1
+      },
+      "revId": "fbbf9fab1b2cc9f6e5133f697ce61710f685c09f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7374dac9_3b795395",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-30T22:36:33Z",
+      "side": 1,
+      "message": "The export code below loops over them, ... ?\n\n(grammar)",
+      "range": {
+        "startLine": 241,
+        "startChar": 30,
+        "endLine": 241,
+        "endChar": 35
+      },
+      "revId": "fbbf9fab1b2cc9f6e5133f697ce61710f685c09f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9afd093_53aea538",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-30T22:36:33Z",
+      "side": 1,
+      "message": "reused for what? comment is intriguing but stops",
+      "range": {
+        "startLine": 465,
+        "startChar": 41,
+        "endLine": 465,
+        "endChar": 47
+      },
+      "revId": "fbbf9fab1b2cc9f6e5133f697ce61710f685c09f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ea9016f_b321648f",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-30T22:36:33Z",
+      "side": 1,
+      "message": "s/an/a/ (pointer)",
+      "range": {
+        "startLine": 475,
+        "startChar": 35,
+        "endLine": 475,
+        "endChar": 37
+      },
+      "revId": "fbbf9fab1b2cc9f6e5133f697ce61710f685c09f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f204fa8_d85f45ce",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-30T22:36:33Z",
+      "side": 1,
+      "message": "comment ends abruptly",
+      "range": {
+        "startLine": 498,
+        "startChar": 21,
+        "endLine": 498,
+        "endChar": 0
+      },
+      "revId": "fbbf9fab1b2cc9f6e5133f697ce61710f685c09f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
