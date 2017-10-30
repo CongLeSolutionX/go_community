@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3783a9e9_43455de2",
+        "filename": "src/runtime/mwbbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-30T15:50:25Z",
+      "side": 1,
+      "message": "Changed to \"any general purpose registers\". The code here should be shared by all the arches (once we have the buffered write barrier for the others), so I don\u0027t want to go into details of registers here. Instead, I beefed up the comment in the assembly where we spill registers.",
+      "parentUuid": "f5c99dd2_0f68b4eb",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b4119d1_21e9443d",
         "filename": "src/runtime/mwbbuf.go",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb44ecac_5527ae1b",
+        "filename": "src/runtime/mwbbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-30T15:50:25Z",
+      "side": 1,
+      "message": "(Already discussed in person.) This would make sense if the wbBuf were allocated by itself, but it\u0027s embedded in the p struct, so we don\u0027t have much say over its alignment.",
+      "parentUuid": "9b4119d1_21e9443d",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 19
+      },
+      "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c5fb12f0_f934ed5e",
+        "filename": "src/runtime/mwbbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-30T15:50:25Z",
+      "side": 1,
+      "message": "This is, in fact, the first line of heapBitsForObject, which we call next. :) You\u0027re probably right that it\u0027s free to check here, though, and will filter out the call more often, so done.\n\nIt would be nice to have some better integration between this an heapBitsForObject, but that\u0027s a problem for another time.",
+      "parentUuid": "517c5481_883933cb",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 173,
+        "endChar": 15
+      },
+      "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bef0b301_8a7cc3b0",
         "filename": "src/runtime/mwbbuf.go",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc99934e_e753a93a",
+        "filename": "src/runtime/mwbbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-30T15:50:25Z",
+      "side": 1,
+      "message": "Hmm. I have no idea. We\u0027d need somewhere to put the mbits between loops, but maybe a fixed size on-stack buffer would be fine for that. Or we could recompute the address in the second loop. I\u0027ve tried optimizations like this before with scanobject and they\u0027ve never paid off, though.\n\nAdded a TODO, because why not. :)\n\n(Also, if we super-optimize this path, one could imagine scanobject itself just stuffing pointers into the wbBuf. Then this becomes the sole greying code path.)",
+      "parentUuid": "bef0b301_8a7cc3b0",
+      "range": {
+        "startLine": 184,
+        "startChar": 50,
+        "endLine": 192,
+        "endChar": 3
+      },
+      "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
