@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5c99dd2_0f68b4eb",
+        "filename": "src/runtime/mwbbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-10-30T13:58:16Z",
+      "side": 1,
+      "message": "I would add some \"see here\" words about the flag and SSE registers, not sure why it clobbers the SSE registers.",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 45
+      },
+      "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b4119d1_21e9443d",
+        "filename": "src/runtime/mwbbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-10-30T13:58:16Z",
+      "side": 1,
+      "message": "Just changing this to 255 and a few comments and everything is in 1 aligned page.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 19
+      },
+      "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "517c5481_883933cb",
+        "filename": "src/runtime/mwbbuf.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-10-30T13:58:16Z",
+      "side": 1,
+      "message": "does ptr \u003c mheap_.arenastart also filter out non heap pointers for about the same price.\nWould it be correct?",
+      "range": {
+        "startLine": 173,
+        "startChar": 2,
+        "endLine": 173,
+        "endChar": 15
+      },
+      "revId": "f4d80572edfc12510d24015fcdd01bdb487ca0ec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
