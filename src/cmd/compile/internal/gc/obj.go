@@ -445,9 +445,15 @@ func gdata(nam *Node, nr *Node, wid int) {
 			}
 
 		case string:
-			symdata := stringsym(u)
-			s.WriteAddr(Ctxt, nam.Xoffset, Widthptr, symdata, 0)
-			s.WriteInt(Ctxt, nam.Xoffset+int64(Widthptr), Widthptr, int64(len(u)))
+			// stringsym is going to record the size as an in32.
+			// If it would overflow, give a useful error instead.
+			if int32(len(u)) < 0 {
+				yyerrorl(nam.Pos, "string with length %v is too big to write into object file", len(u))
+			} else {
+				symdata := stringsym(u)
+				s.WriteAddr(Ctxt, nam.Xoffset, Widthptr, symdata, 0)
+				s.WriteInt(Ctxt, nam.Xoffset+int64(Widthptr), Widthptr, int64(len(u)))
+			}
 
 		default:
 			Fatalf("gdata unhandled OLITERAL %v", nr)
