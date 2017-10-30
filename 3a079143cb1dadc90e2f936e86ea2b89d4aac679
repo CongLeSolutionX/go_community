@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d6b02fa_7142e20a",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-30T22:01:43Z",
+      "side": 1,
+      "message": "This requires allocation of the temporary return slice.  Any way to avoid that?",
+      "revId": "3a079143cb1dadc90e2f936e86ea2b89d4aac679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e54b0dc9_8191d574",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-30T22:01:43Z",
+      "side": 1,
+      "message": "return nil?",
+      "revId": "3a079143cb1dadc90e2f936e86ea2b89d4aac679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b3a7fc4_6eb2ffc4",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-30T22:01:43Z",
+      "side": 1,
+      "message": "This comment sounds opposite of what I expect.\nAt this point, the name is not being decomposed further, so we should record it?",
+      "revId": "3a079143cb1dadc90e2f936e86ea2b89d4aac679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
