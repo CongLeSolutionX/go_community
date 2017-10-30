@@ -53,6 +53,7 @@ var testFlagDefn = []*cmdflag.Defn{
 	{Name: "parallel", PassToTest: true},
 	{Name: "run", PassToTest: true},
 	{Name: "short", BoolVar: new(bool), PassToTest: true},
+	{Name: "failfast", BoolVar: new(bool), PassToTest: true},
 	{Name: "timeout", PassToTest: true},
 	{Name: "trace", PassToTest: true},
 	{Name: "v", BoolVar: &testV, PassToTest: true},

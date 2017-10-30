@@ -4684,3 +4684,23 @@ func TestUpxCompression(t *testing.T) {
 		t.Fatalf("bad output from compressed go binary:\ngot %q; want %q", out, "hello upx")
 	}
 }
+
+func TestFailFast(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+
+	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
+	tg.runFail("test", "./testdata/src/testfailfast/failfast_test.go", "-test.failfast", "-v")
+
+	var numFails int
+
+	for _, line := range strings.SplitAfter(tg.getStdout(), "\n") {
+		if strings.Contains(line, "--- FAIL: ") {
+			numFails = numFails + 1
+		}
+	}
+
+	if numFails != 1 {
+		t.Fatalf("-test.failfast should stop reporting after the first test failure:\ngot: %d; want: %d", numFails, 1)
+	}
+}

@@ -242,6 +242,9 @@ var (
 	// full test of the package.
 	short = flag.Bool("test.short", false, "run smaller test suite to save time")
 
+	// The failfast flag requests that stop reporting after a test failure.
+	failFast = flag.Bool("test.failfast", false, "stop reporting after the first test failure")
+
 	// The directory in which to create profile files and the like. When run from
 	// "go test", the binary always runs in the source directory for the package;
 	// this flag lets "go test" tell the binary to write the files in the directory where
@@ -269,6 +272,10 @@ var (
 	haveExamples bool // are there examples?
 
 	cpuList []int
+
+	// keep tracks of how many tests have failed.
+	// it's used with test.failfast flag.
+	numFailed uint32
 )
 
 // common holds the elements common between T and B and
@@ -285,6 +292,7 @@ type common struct {
 
 	chatty     bool   // A copy of the chatty flag.
 	finished   bool   // Test function has completed.
+	noReport   bool   // Skips the reporting of a test.
 	hasSub     int32  // written atomically
 	raceErrors int    // number of races detected during test
 	runner     string // function name of tRunner running the test
@@ -695,7 +703,9 @@ func (t *T) Parallel() {
 		for ; root.parent != nil; root = root.parent {
 		}
 		root.mu.Lock()
-		fmt.Fprintf(root.w, "=== CONT  %s\n", t.name)
+		if !t.noReport {
+			fmt.Fprintf(root.w, "=== CONT  %s\n", t.name)
+		}
 		root.mu.Unlock()
 	}
 
@@ -767,6 +777,17 @@ func tRunner(t *T, fn func(t *T)) {
 	t.start = time.Now()
 	t.raceErrors = -race.Errors()
 	fn(t)
+
+	// When test.failfast is set, skip the reporting that came in after
+	// the first failed test.
+	if *failFast {
+		if atomic.LoadUint32(&numFailed) > 0 {
+			t.noReport = true
+		} else if t.failed {
+			// Increase the failed tests count, so we can check it above.
+			atomic.AddUint32(&numFailed, 1)
+		}
+	}
 	t.finished = true
 }
 
@@ -967,7 +988,7 @@ func (m *M) Run() int {
 }
 
 func (t *T) report() {
-	if t.parent == nil {
+	if t.parent == nil || t.noReport {
 		return
 	}
 	dstr := fmtDuration(t.duration)

@@ -142,7 +142,7 @@ control the execution of any test:
 const testFlag2 = `
 	-bench regexp
 	    Run only those benchmarks matching a regular expression.
-	    By default, no benchmarks are run. 
+	    By default, no benchmarks are run.
 	    To run all benchmarks, use '-bench .' or '-bench=.'.
 	    The regular expression is split by unbracketed slash (/)
 	    characters into a sequence of regular expressions, and each
@@ -191,6 +191,9 @@ const testFlag2 = `
 	    Specify a list of GOMAXPROCS values for which the tests or
 	    benchmarks should be executed. The default is the current value
 	    of GOMAXPROCS.
+
+	-failfast
+	    Stops reporting after the first test failure. It is off by default.
 
 	-list regexp
 	    List tests, benchmarks, or examples matching the regular expression.
