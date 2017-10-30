@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22b66a75_6959245c",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5186
+      },
+      "writtenOn": "2017-10-30T14:27:10Z",
+      "side": 1,
+      "message": "Why do these bulk writes us putfast instead of just doing the write barrier? If the move is large, which means it matters, it will result in several wbBufFlush calls. Do we need the extra copy here?\n\nPerhaps there is a win if we prefetch some of the mark bits in wbBufFlush.\\",
+      "range": {
+        "startLine": 587,
+        "startChar": 47,
+        "endLine": 590,
+        "endChar": 5
+      },
+      "revId": "559f6f8c470a92082587db16fa27e2cc73ec44c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
