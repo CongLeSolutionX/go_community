@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84514d92_4cf3c36b",
+        "filename": "src/math/dim_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-30T22:18:18Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to add Dim assembly unfortunately. I played around with optimizing it a little while ago and in the end decided to remove the s390x asm entirely (see CL 64194 and issue #21913). Sorry for the conflict.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 4
+      },
+      "revId": "a1b9a9cbebcbfef7ce960d255e1496fd6713917e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93b915a4_72bd48ce",
+        "filename": "src/math/dim_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-30T22:18:18Z",
+      "side": 1,
+      "message": "delete whitespace",
+      "range": {
+        "startLine": 49,
+        "startChar": 24,
+        "endLine": 49,
+        "endChar": 25
+      },
+      "revId": "a1b9a9cbebcbfef7ce960d255e1496fd6713917e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2329c7f0_00c72ea9",
+        "filename": "src/math/dim_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-30T22:18:18Z",
+      "side": 1,
+      "message": "delete whitespace",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 97,
+        "endChar": 20
+      },
+      "revId": "a1b9a9cbebcbfef7ce960d255e1496fd6713917e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc732b20_ae047f94",
+        "filename": "src/math/dim_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-30T22:18:18Z",
+      "side": 1,
+      "message": "delete whitespace",
+      "range": {
+        "startLine": 118,
+        "startChar": 13,
+        "endLine": 118,
+        "endChar": 17
+      },
+      "revId": "a1b9a9cbebcbfef7ce960d255e1496fd6713917e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
