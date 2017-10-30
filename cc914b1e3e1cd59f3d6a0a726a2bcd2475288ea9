@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "18f03112_7e6091c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-10-30T23:17:20Z",
+      "side": 1,
+      "message": "Issue number looks wrong.",
+      "revId": "cc914b1e3e1cd59f3d6a0a726a2bcd2475288ea9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e9edeb9c_222e8e6e",
         "filename": "src/bytes/bytes.go",
         "patchSetId": 1
