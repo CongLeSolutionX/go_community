@@ -22,6 +22,30 @@
       "revId": "559f6f8c470a92082587db16fa27e2cc73ec44c1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62af43c4_52b40ab0",
+        "filename": "src/runtime/mbitmap.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-10-30T15:57:18Z",
+      "side": 1,
+      "message": "At the moment, this doesn\u0027t actually do any writes. We let memmove later do a bulk copy on the theory that memmove is enough faster than lots of little moves that it\u0027s worth doing all the barriers first and then the bulk move.\n\nOr maybe by \"just doing the write barrier\" you mean directly shading the pointer? That would certainly work, but I suspect this is actually faster (even without the prefetches) because putFast gets inlined, so we only call wbBufFlush every 256 pointers, and wbBufFlush already has some bulk operation optimizations (like doing a bulk copy into the gcWork).",
+      "parentUuid": "22b66a75_6959245c",
+      "range": {
+        "startLine": 587,
+        "startChar": 47,
+        "endLine": 590,
+        "endChar": 5
+      },
+      "revId": "559f6f8c470a92082587db16fa27e2cc73ec44c1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
