@@ -835,7 +835,7 @@ func (t *tester) supportedBuildmode(mode string) bool {
 		return false
 	case "c-shared":
 		switch pair {
-		case "linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-ppc64le",
+		case "linux-386", "linux-amd64", "linux-arm", "linux-arm64", "linux-ppc64le", "linux-s390x",
 			"darwin-amd64", "darwin-386",
 			"android-arm", "android-arm64", "android-386",
 			"windows-amd64", "windows-386":
