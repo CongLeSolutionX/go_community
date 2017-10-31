@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f9fe881_5428479d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-31T03:47:20Z",
+      "side": 1,
+      "message": "s/which/that/ (sorry)",
+      "range": {
+        "startLine": 16,
+        "startChar": 50,
+        "endLine": 16,
+        "endChar": 55
+      },
+      "revId": "987c406ced7b1714a3c68a039bf64aa6ffc25a15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3249139_192f4843",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-31T03:47:20Z",
+      "side": 1,
+      "message": "Remove trailing space.",
+      "range": {
+        "startLine": 20,
+        "startChar": 11,
+        "endLine": 20,
+        "endChar": 12
+      },
+      "revId": "987c406ced7b1714a3c68a039bf64aa6ffc25a15",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
