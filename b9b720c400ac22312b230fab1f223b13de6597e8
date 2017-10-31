@@ -22,6 +22,30 @@
       "revId": "b9b720c400ac22312b230fab1f223b13de6597e8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98211c08_87ea71bb",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-31T19:31:34Z",
+      "side": 1,
+      "message": "Indeed they are. Thanks.",
+      "parentUuid": "3b3e81a3_b8e87cf3",
+      "range": {
+        "startLine": 277,
+        "startChar": 33,
+        "endLine": 277,
+        "endChar": 0
+      },
+      "revId": "b9b720c400ac22312b230fab1f223b13de6597e8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
