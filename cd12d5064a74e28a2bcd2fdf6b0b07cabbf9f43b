@@ -16,6 +16,24 @@
       "revId": "cd12d5064a74e28a2bcd2fdf6b0b07cabbf9f43b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54c9b71e_e11c70d6",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-31T14:00:20Z",
+      "side": 1,
+      "message": "Didn\u0027t fix this in time. Will send a followup.",
+      "parentUuid": "2890a1c3_b2deab73",
+      "revId": "cd12d5064a74e28a2bcd2fdf6b0b07cabbf9f43b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
