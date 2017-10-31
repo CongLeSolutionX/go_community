@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eee72a3b_3ab6729f",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2017-10-31T21:40:24Z",
+      "side": 1,
+      "message": "All these different modes is overly-complicating the tests.\nPlease just use a single boolean flag (similar to unmarshalTest.useNumber) to enable whether this feature is enabled or not.",
+      "range": {
+        "startLine": 384,
+        "startChar": 0,
+        "endLine": 390,
+        "endChar": 1
+      },
+      "revId": "1ca55c228616c84aa1cfde0fc2aa51a2a2b07214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89c0d3a8_68ac3dd0",
+        "filename": "src/encoding/json/decode_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 12850
+      },
+      "writtenOn": "2017-10-31T21:40:24Z",
+      "side": 1,
+      "message": "Keep all these as simple as it was beforehand.",
+      "range": {
+        "startLine": 976,
+        "startChar": 0,
+        "endLine": 991,
+        "endChar": 3
+      },
+      "revId": "1ca55c228616c84aa1cfde0fc2aa51a2a2b07214",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
