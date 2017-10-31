@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2890a1c3_b2deab73",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 22
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-10-31T02:15:49Z",
+      "side": 1,
+      "message": "you want these darwin refs in here?",
+      "revId": "cd12d5064a74e28a2bcd2fdf6b0b07cabbf9f43b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
