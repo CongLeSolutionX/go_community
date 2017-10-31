@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "28bc343c_fc234ea6",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-31T18:00:10Z",
+      "side": 1,
+      "message": "changed the decomposeUserFoo functions to take a slice that they append to and return.",
+      "parentUuid": "5d6b02fa_7142e20a",
+      "revId": "3a079143cb1dadc90e2f936e86ea2b89d4aac679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e54b0dc9_8191d574",
         "filename": "src/cmd/compile/internal/ssa/decompose.go",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "74efef4a_2f88be4e",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-31T18:00:10Z",
+      "side": 1,
+      "message": "Gone, because now the slice is passed in (and out)",
+      "parentUuid": "e54b0dc9_8191d574",
+      "revId": "3a079143cb1dadc90e2f936e86ea2b89d4aac679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b3a7fc4_6eb2ffc4",
         "filename": "src/cmd/compile/internal/ssa/decompose.go",
         "patchSetId": 10
@@ -50,6 +86,24 @@
       "revId": "3a079143cb1dadc90e2f936e86ea2b89d4aac679",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe636cfc_63ffa5fb",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 10
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-31T18:00:10Z",
+      "side": 1,
+      "message": "I think that returning the name records it, and the comment is confusing.\nI removed it.\nCompare to the code for decomposing a struct; non-array, non-struct elements\nget appended to the result slice.",
+      "parentUuid": "2b3a7fc4_6eb2ffc4",
+      "revId": "3a079143cb1dadc90e2f936e86ea2b89d4aac679",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
