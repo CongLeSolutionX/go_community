@@ -284,7 +284,7 @@ func BuildModeInit() {
 		} else {
 			switch platform {
 			case "linux/amd64", "linux/arm", "linux/arm64", "linux/386", "linux/ppc64le",
-				"android/amd64", "android/arm", "android/arm64", "android/386":
+				"android/amd64", "android/arm", "android/arm64", "android/386", "linux/s390x":
 				codegenArg = "-shared"
 			case "darwin/amd64", "darwin/386":
 			case "windows/amd64", "windows/386":
