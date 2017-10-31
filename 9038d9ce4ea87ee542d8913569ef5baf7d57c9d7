@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6d83ede_08970169",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-31T00:52:15Z",
+      "side": 1,
+      "message": "Rephrase:\n\nThe comments in this edge case are written when the closing \u0027}\u0027 is\nwritten. Indent and outdent first so that the indentation is inter-\nspersed before the comment is written.",
+      "range": {
+        "startLine": 12,
+        "startChar": 16,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "9038d9ce4ea87ee542d8913569ef5baf7d57c9d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4160d087_b2c8947c",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-31T00:52:15Z",
+      "side": 1,
+      "message": "nitpick: no period at end - it\u0027s not a proper sentence (and that\u0027s fine)",
+      "range": {
+        "startLine": 867,
+        "startChar": 36,
+        "endLine": 867,
+        "endChar": 37
+      },
+      "revId": "9038d9ce4ea87ee542d8913569ef5baf7d57c9d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6806a1d0_a37790c8",
+        "filename": "src/go/printer/nodes.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-31T00:52:15Z",
+      "side": 1,
+      "message": "Interesting. I suppose this works.",
+      "range": {
+        "startLine": 868,
+        "startChar": 18,
+        "endLine": 868,
+        "endChar": 26
+      },
+      "revId": "9038d9ce4ea87ee542d8913569ef5baf7d57c9d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70e8cf0e_2f976285",
+        "filename": "src/go/printer/testdata/comments.input",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-31T00:52:15Z",
+      "side": 1,
+      "message": "s/[]string/T/\n\nshould do the trick",
+      "range": {
+        "startLine": 728,
+        "startChar": 10,
+        "endLine": 728,
+        "endChar": 16
+      },
+      "revId": "9038d9ce4ea87ee542d8913569ef5baf7d57c9d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7efc55b3_bef84c69",
+        "filename": "src/go/printer/testdata/comments.input",
+        "patchSetId": 1
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-31T00:52:15Z",
+      "side": 1,
+      "message": "Can you add several more examples please:\n\nT{ /* foo */ }\nT{\n/* foo */\n}\nT{// foo\n}\n\netc.",
+      "range": {
+        "startLine": 729,
+        "startChar": 8,
+        "endLine": 729,
+        "endChar": 16
+      },
+      "revId": "9038d9ce4ea87ee542d8913569ef5baf7d57c9d7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
