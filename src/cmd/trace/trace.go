@@ -206,8 +206,16 @@ func httpJsonTrace(w http.ResponseWriter, r *http.Request) {
 		params.startTime = task.firstTimestamp() - 1
 		params.endTime = task.lastTimestamp() + 1
 		params.maing = goid
-		params.gs = task.RelatedGoroutines(events, 0) // find only directly involved goroutines
-		params.showTask = task
+		params.tasks = task.tree()
+		params.tasks = task.tree()
+		gs := map[uint64]bool{}
+		for _, t := range task.tree() {
+			// find only directly involved goroutines
+			for k, v := range t.RelatedGoroutines(events, 0) {
+				gs[k] = v
+			}
+		}
+		params.gs = gs
 	}
 
 	data, err := generateTrace(params)
@@ -297,7 +305,7 @@ type traceParams struct {
 	endTime   int64
 	maing     uint64          // for goroutine-oriented view, place this on the top row
 	gs        map[uint64]bool // Goroutines to be displayed for goroutine-oriented or task-oriented view
-	showTask  *taskDesc       // Task to be displayed
+	tasks     []*taskDesc     // Tasks to be displayed. tasks[0] is the top-most task
 }
 
 type traceContext struct {
@@ -593,6 +601,7 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 	ctx.emit(&ViewerEvent{Name: "thread_name", Phase: "M", Pid: 0, Tid: trace.SyscallP, Arg: &NameArg{"Syscalls"}})
 	ctx.emit(&ViewerEvent{Name: "thread_sort_index", Phase: "M", Pid: 0, Tid: trace.SyscallP, Arg: &SortIndexArg{-3}})
 
+	// Display rows for Ps if we are in the default trace view mode.
 	if !ctx.gtrace && !ctx.taskTrace {
 		for i := 0; i <= maxProc; i++ {
 			ctx.emit(&ViewerEvent{Name: "thread_name", Phase: "M", Pid: 0, Tid: uint64(i), Arg: &NameArg{fmt.Sprintf("Proc %v", i)}})
@@ -600,20 +609,24 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 		}
 	}
 
-	// Display task and its spans
-	taskRow := uint64(trace.GCP + 1)
-	if task := ctx.showTask; task != nil {
-		taskName := fmt.Sprintf("Task %s(%d)", task.name, task.id)
-		ctx.emit(&ViewerEvent{Name: "thread_name", Phase: "M", Pid: 0, Tid: taskRow, Arg: &NameArg{"Tasks"}})
-		ctx.emit(&ViewerEvent{Name: "thread_sort_index", Phase: "M", Pid: 0, Tid: taskRow, Arg: &SortIndexArg{-3}})
-		ctx.emit(&ViewerEvent{Category: "task", Name: taskName, Phase: "b", Time: float64(task.firstTimestamp()) / 1e3, Tid: taskRow, ID: task.id, Cname: "bad"})
-		ctx.emit(&ViewerEvent{Category: "task", Name: taskName, Phase: "e", Time: float64(task.lastTimestamp()) / 1e3, Tid: taskRow, ID: task.id, Cname: "bad"})
+	// Display task and its spans if we are in taskTrace view.
+	if ctx.taskTrace {
+		taskRow := uint64(trace.GCP + 1)
+		for _, task := range ctx.tasks {
+			taskName := fmt.Sprintf("Task %s(%d)", task.name, task.id)
+			ctx.emit(&ViewerEvent{Name: "thread_name", Phase: "M", Pid: 0, Tid: taskRow, Arg: &NameArg{"Tasks"}})
+			ctx.emit(&ViewerEvent{Name: "thread_sort_index", Phase: "M", Pid: 0, Tid: taskRow, Arg: &SortIndexArg{-3}})
+			ctx.emit(&ViewerEvent{Category: "task", Name: taskName, Phase: "b", Time: float64(task.firstTimestamp()) / 1e3, Tid: taskRow, ID: task.id, Cname: "bad"})
+			ctx.emit(&ViewerEvent{Category: "task", Name: taskName, Phase: "e", Time: float64(task.lastTimestamp()) / 1e3, Tid: taskRow, ID: task.id, Cname: "bad"})
 
-		// Spans
-		for _, s := range task.spans {
-			ctx.emitSpan(s)
+			// Spans
+			for _, s := range task.spans {
+				ctx.emitSpan(s)
+			}
 		}
 	}
+
+	// Display goroutine rows if we are either in gtrace or taskTrace view mode.
 	if ctx.gs != nil && (ctx.gtrace || ctx.taskTrace) {
 		for k, v := range ginfos {
 			if !ctx.gs[k] {
@@ -629,7 +642,7 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			ctx.emit(&ViewerEvent{Name: "thread_sort_index", Phase: "M", Pid: 0, Tid: ctx.maing, Arg: &SortIndexArg{-1}})
 		}
 
-		// Row for GC or global state (specified with G=0
+		// Row for GC or global state (specified with G=0)
 		ctx.emit(&ViewerEvent{Name: "thread_sort_index", Phase: "M", Pid: 0, Tid: 0, Arg: &SortIndexArg{-1}})
 	}
 
