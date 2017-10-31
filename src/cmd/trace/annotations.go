@@ -30,6 +30,16 @@ type taskDesc struct {
 	create     *trace.Event
 	end        *trace.Event
 	last       *trace.Event
+
+	parent   *taskDesc
+	children []*taskDesc
+}
+
+func newTaskDesc(id uint64) *taskDesc {
+	return &taskDesc{
+		id:         id,
+		goroutines: make(map[uint64][]*trace.Event),
+	}
 }
 
 type spanDesc struct {
@@ -60,6 +70,21 @@ func (span *spanDesc) duration() time.Duration {
 
 func (task *taskDesc) complete() bool {
 	return task.create != nil && task.end != nil
+}
+
+// tree returns all the task nodes in the subtree rooted by this task.
+func (task *taskDesc) tree() []*taskDesc {
+	if task == nil {
+		return nil
+	}
+	res := []*taskDesc{task}
+	for i := 0; len(res[i:]) > 0; i++ {
+		t := res[i]
+		for _, c := range t.children {
+			res = append(res, c)
+		}
+	}
+	return res
 }
 
 func lastTimestamp() int64 {
@@ -291,10 +316,12 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 			switch ev.Type {
 			case trace.EvGoCreate:
 				what = fmt.Sprintf("created a new goroutine %d", ev.Args[0])
-			case trace.EvGoEnd, trace.EvGoStop:
-				what = "goroutine stopped"
 			case trace.EvUserLog:
-				what = fmt.Sprintf("%v=%v", ev.SArgs[0], ev.SArgs[1])
+				if k, v := ev.SArgs[0], ev.SArgs[1]; k == "" {
+					what = v
+				} else {
+					what = fmt.Sprintf("%v=%v", ev.SArgs[0], ev.SArgs[1])
+				}
 			case trace.EvUserSpan:
 				if ev.Args[1] == 0 {
 					duration := "unknown"
@@ -302,14 +329,12 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 						duration = (time.Duration(ev.Link.Ts-ev.Ts) * time.Nanosecond).String()
 					}
 					what = fmt.Sprintf("span %s started (duration: %v)", ev.SArgs[0], duration)
-				} else {
-					what = fmt.Sprintf("span %s ended", ev.SArgs[0])
 				}
 			case trace.EvUserTaskCreate:
 				what = fmt.Sprintf("task %v (id %d, parent %d) created", ev.SArgs[0], ev.Args[0], ev.Args[1])
 				// TODO: add child task creation events into the parent task events
 			case trace.EvUserTaskEnd:
-				what = "task end"
+				what = "end of task"
 			}
 			events = append(events, event{
 				WhenString: fmt.Sprintf("%2.9f", when.Seconds()),
@@ -584,10 +609,11 @@ var (
 )
 
 type AnnotationAnalysisResult struct {
-	err     error
-	firstTS int64
-	lastTS  int64
-	Tasks   map[uint64]*taskDesc
+	err      error
+	firstTS  int64
+	lastTS   int64
+	Tasks    map[uint64]*taskDesc
+	gcEvents []*trace.Event // GCStart events, sorted.
 }
 
 func annotationAnalysis() (AnnotationAnalysisResult, error) {
@@ -609,6 +635,7 @@ func doAnnotationAnalysis(events []*trace.Event) AnnotationAnalysisResult {
 
 	tasks := map[uint64]*taskDesc{}
 	activeSpans := map[uint64][]*spanDesc{} // goid->span
+	var gcEvents []*trace.Event             // gc start events
 
 	for _, ev := range events {
 		goid := ev.G
@@ -616,15 +643,21 @@ func doAnnotationAnalysis(events []*trace.Event) AnnotationAnalysisResult {
 		switch typ := ev.Type; typ {
 		case trace.EvUserTaskCreate, trace.EvUserSpan, trace.EvUserTaskEnd, trace.EvUserLog:
 			taskid := ev.Args[0]
+			parentID := ev.Args[1]
 
 			task := tasks[taskid]
 			if task == nil {
-				task = &taskDesc{
-					id:         taskid,
-					goroutines: make(map[uint64][]*trace.Event),
-				}
+				task = newTaskDesc(taskid)
 				tasks[taskid] = task
 			}
+			ptask := tasks[parentID]
+			if ptask == nil {
+				ptask = newTaskDesc(parentID)
+				tasks[parentID] = ptask
+			}
+
+			task.parent = ptask
+			ptask.children = append(ptask.children, task)
 
 			task.events = append(task.events, ev)
 
@@ -650,7 +683,7 @@ func doAnnotationAnalysis(events []*trace.Event) AnnotationAnalysisResult {
 					task.spans = append(task.spans, s)
 				case 1: // end
 					if len(spans) == 0 {
-						log.Printf("span end without start", ev)
+						// If tracing happens in the middle of a span, unmatching span end can appear.
 						break
 					}
 					s := spans[len(spans)-1]
@@ -688,12 +721,16 @@ func doAnnotationAnalysis(events []*trace.Event) AnnotationAnalysisResult {
 				}
 			}
 			delete(activeSpans, goid)
+
+		case trace.EvGCStart:
+			gcEvents = append(gcEvents, ev)
 		}
 	}
 	return AnnotationAnalysisResult{
-		Tasks:   tasks,
-		firstTS: events[0].Ts,
-		lastTS:  events[len(events)-1].Ts,
+		Tasks:    tasks,
+		firstTS:  events[0].Ts,
+		lastTS:   events[len(events)-1].Ts,
+		gcEvents: gcEvents,
 	}
 }
 
