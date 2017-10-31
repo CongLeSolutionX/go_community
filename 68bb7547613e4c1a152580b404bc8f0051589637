@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0899bc53_982a097d",
+        "filename": "src/cmd/compile/internal/ssa/copyelim.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-31T19:28:18Z",
+      "side": 1,
+      "message": "I am not sure whether we need it or not, and so I am not sure why we might want to turn it on.\nThe possibility I come up with is if it matters to performance, but we squash out copies in other places, too.\n\nDo we believe it harms debugging if we turn it on?  I suppose I can see what happens.",
+      "parentUuid": "c6623524_f90f8f12",
+      "revId": "68bb7547613e4c1a152580b404bc8f0051589637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32bb1e5c_22da7ef9",
         "filename": "src/cmd/compile/internal/ssa/decompose.go",
         "patchSetId": 8
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "8ba566f3_3dc0fd02",
+        "filename": "src/cmd/compile/internal/ssa/decompose.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-31T19:28:18Z",
+      "side": 1,
+      "message": "We don\u0027t do any loop hoisting at all yet, because it hasn\u0027t generally been winner (sometimes it is a loser).\nWe especially don\u0027t do any control-flow hoisting.  This one\u0027s extra hard because it contains a panic, so we would need to special case for that or do a loop-peel (first iteration executes before the loopy part; often exposes invariant code with side effects).",
+      "parentUuid": "32bb1e5c_22da7ef9",
+      "revId": "68bb7547613e4c1a152580b404bc8f0051589637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31e0a787_f4b0d0f5",
         "filename": "src/cmd/compile/internal/ssa/opt.go",
         "patchSetId": 8
@@ -47,6 +83,24 @@
       "writtenOn": "2017-10-31T19:18:28Z",
       "side": 1,
       "message": "This file is starting to look a little silly. Move into compile.go maybe?",
+      "revId": "68bb7547613e4c1a152580b404bc8f0051589637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf3b7859_d8316955",
+        "filename": "src/cmd/compile/internal/ssa/opt.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-10-31T19:28:18Z",
+      "side": 1,
+      "message": "This one I\u0027d rather leave.",
+      "parentUuid": "31e0a787_f4b0d0f5",
       "revId": "68bb7547613e4c1a152580b404bc8f0051589637",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
