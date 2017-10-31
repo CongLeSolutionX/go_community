@@ -16,6 +16,29 @@
       "revId": "b968af66fccbd473eec78a8a3a9edb82374a77b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a84d25df_583beb8d",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-31T12:28:29Z",
+      "side": 1,
+      "message": "Some of the new indentation uses spaces, whereas most of the existing indentation seems to use tabs. It is probably best to use tabs everywhere to keep the file consistent.",
+      "range": {
+        "startLine": 1098,
+        "startChar": 7,
+        "endLine": 1098,
+        "endChar": 9
+      },
+      "revId": "b968af66fccbd473eec78a8a3a9edb82374a77b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
