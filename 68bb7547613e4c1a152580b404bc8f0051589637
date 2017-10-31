@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b78d1796_0d294154",
+        "filename": "src/cmd/compile/internal/ssa/copyelim.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-10-31T19:42:05Z",
+      "side": 1,
+      "message": "I was expecting this to be David\u0027s in-progress testing and would either be restored or deleted altogether before checking in.",
+      "parentUuid": "0899bc53_982a097d",
+      "revId": "68bb7547613e4c1a152580b404bc8f0051589637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32bb1e5c_22da7ef9",
         "filename": "src/cmd/compile/internal/ssa/decompose.go",
         "patchSetId": 8
