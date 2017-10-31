@@ -1,3 +1,6 @@
+// Copyright 2017 The Go Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style
+// license that can be found in the LICENSE file.
 package failfast
 
 import "testing"
@@ -33,7 +36,7 @@ func TestFailingB(t *testing.T) {
 
 func TestFailingSubtestsA(t *testing.T) {
 	t.Parallel()
-	t.Log("LOG: TestFailingSubtestsA - FAIL")
+	// t.Log("LOG: TestFailingSubtestsA - FAIL") // TODO
 	t.Run("TestFailingSubtestsA1", func(t *testing.T) {
 		t.Log("LOG: TestFailingSubtestsA1 - FAIL")
 		t.Fail()

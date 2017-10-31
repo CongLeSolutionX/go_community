@@ -242,8 +242,8 @@ var (
 	// full test of the package.
 	short = flag.Bool("test.short", false, "run smaller test suite to save time")
 
-	// The failfast flag requests that stop reporting after a test failure.
-	failFast = flag.Bool("test.failfast", false, "stop reporting after the first test failure")
+	// The failfast flag requests that test execution stop after the first test failure.
+	failFast = flag.Bool("test.failfast", false, "do not start new tests after the first test failure")
 
 	// The directory in which to create profile files and the like. When run from
 	// "go test", the binary always runs in the source directory for the package;
@@ -273,9 +273,7 @@ var (
 
 	cpuList []int
 
-	// keep tracks of how many tests have failed.
-	// it's used with test.failfast flag.
-	numFailed uint32
+	numFailed uint32 // number of test failures
 )
 
 // common holds the elements common between T and B and
@@ -292,7 +290,6 @@ type common struct {
 
 	chatty     bool   // A copy of the chatty flag.
 	finished   bool   // Test function has completed.
-	noReport   bool   // Skips the reporting of a test.
 	hasSub     int32  // written atomically
 	raceErrors int    // number of races detected during test
 	runner     string // function name of tRunner running the test
@@ -703,9 +700,7 @@ func (t *T) Parallel() {
 		for ; root.parent != nil; root = root.parent {
 		}
 		root.mu.Lock()
-		if !t.noReport {
-			fmt.Fprintf(root.w, "=== CONT  %s\n", t.name)
-		}
+		fmt.Fprintf(root.w, "=== CONT  %s\n", t.name)
 		root.mu.Unlock()
 	}
 
@@ -778,15 +773,15 @@ func tRunner(t *T, fn func(t *T)) {
 	t.raceErrors = -race.Errors()
 	fn(t)
 
-	// When test.failfast is set, skip the reporting that came in after
-	// the first failed test.
-	if *failFast {
-		if atomic.LoadUint32(&numFailed) > 0 {
-			t.noReport = true
-		} else if t.failed {
-			// Increase the failed tests count, so we can check it above.
-			atomic.AddUint32(&numFailed, 1)
-		}
+	// TODO
+	// When test.failfast is set, try to stop the execution
+	// that came in after the first failed test.
+	// if atomic.LoadUint32(&numFailed) > 0 {
+	//t.noReport = true  // TODO stop execution not reporting
+	// }
+
+	if t.failed {
+		atomic.AddUint32(&numFailed, 1)
 	}
 	t.finished = true
 }
@@ -800,7 +795,7 @@ func tRunner(t *T, fn func(t *T)) {
 func (t *T) Run(name string, f func(t *T)) bool {
 	atomic.StoreInt32(&t.hasSub, 1)
 	testName, ok, _ := t.context.match.fullName(&t.common, name)
-	if !ok {
+	if !ok || checkFailfast() {
 		return true
 	}
 	t = &T{
@@ -988,7 +983,7 @@ func (m *M) Run() int {
 }
 
 func (t *T) report() {
-	if t.parent == nil || t.noReport {
+	if t.parent == nil {
 		return
 	}
 	dstr := fmtDuration(t.duration)
@@ -1042,6 +1037,9 @@ func runTests(matchString func(pat, str string) (bool, error), tests []InternalT
 	for _, procs := range cpuList {
 		runtime.GOMAXPROCS(procs)
 		for i := uint(0); i < *count; i++ {
+			if checkFailfast() {
+				break
+			}
 			ctx := newTestContext(*parallel, newMatcher(matchString, *match, "-test.run"))
 			t := &T{
 				common: common{
@@ -1229,4 +1227,8 @@ func parseCpuList() {
 	if cpuList == nil {
 		cpuList = append(cpuList, runtime.GOMAXPROCS(-1))
 	}
+}
+
+func checkFailfast() bool {
+	return *failFast && atomic.LoadUint32(&numFailed) > 0
 }

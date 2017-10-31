@@ -193,7 +193,7 @@ const testFlag2 = `
 	    of GOMAXPROCS.
 
 	-failfast
-	    Stops reporting after the first test failure. It is off by default.
+	    Do not start new tests after the first test failure.
 
 	-list regexp
 	    List tests, benchmarks, or examples matching the regular expression.

@@ -4689,18 +4689,11 @@ func TestFailFast(t *testing.T) {
 	tg := testgo(t)
 	defer tg.cleanup()
 
-	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
-	tg.runFail("test", "./testdata/src/testfailfast/failfast_test.go", "-test.failfast", "-v")
+	tg.runFail("test", "./testdata/src/failfast_test.go" /*, "-failfast"*/, "-v")
 
-	var numFails int
-
-	for _, line := range strings.SplitAfter(tg.getStdout(), "\n") {
-		if strings.Contains(line, "--- FAIL: ") {
-			numFails = numFails + 1
-		}
-	}
+	numFails := strings.Count(tg.getStdout(), "--- FAIL: ")
 
 	if numFails != 1 {
-		t.Fatalf("-test.failfast should stop reporting after the first test failure:\ngot: %d; want: %d", numFails, 1)
+		t.Errorf("go test -run=%s -failfast printed %d FAILs, want %d", "tt.run", numFails, 1)
 	}
 }
