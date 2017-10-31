@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d29cc5df_bf84507e",
+        "filename": "src/cmd/nm/nm_cgo_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-10-31T19:02:34Z",
+      "side": 0,
+      "message": "I\u0027m a little skeptical about dropping this, unless there is a t.Skip implicit already in testGoLib, especially for nacl.",
+      "revId": "a4371089002d42a04f4437b5372520972b9cdf9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
