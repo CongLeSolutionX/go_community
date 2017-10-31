@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2cda5f27_acbf7df2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-31T08:19:24Z",
+      "side": 1,
+      "message": "nit: \"inadvertently\" isn\u0027t right: fixing the unnecessary stack trace was the entire point of that CL.\n\n\"ICE\" (internal compiler error) refers to the stack trace that means something within the compiler went wrong. They\u0027re distinct from yyerrors (just errors, or sometimes diagnostics) that mean the user wrote malformed Go code.",
+      "range": {
+        "startLine": 11,
+        "startChar": 21,
+        "endLine": 11,
+        "endChar": 34
+      },
+      "revId": "c8a421dc8061a0280ba631ca56d691946f6a0545",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
