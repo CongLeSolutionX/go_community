@@ -1191,6 +1191,14 @@ var linuxAMD64Tests = []*asmTest{
 		`,
 		pos: []string{"\tANDQ\t\\$4095,"},
 	},
+	{
+		fn: `
+		func $(x []uint32) uint32 {
+			return x[6]
+		}
+		`,
+		pos: []string{"\tPUSHQ", "\tPOPQ"},
+	},
 }
 
 var linux386Tests = []*asmTest{

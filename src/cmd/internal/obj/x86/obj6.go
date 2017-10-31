@@ -676,7 +676,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p = stacksplit(ctxt, cursym, p, newprog, autoffset, int32(textarg)) // emit split check
 	}
 
-	if autoffset != 0 {
+	if autoffset != 0 && int64(autoffset) != int64(bpsize) {
 		if autoffset%int32(ctxt.Arch.RegSize) != 0 {
 			ctxt.Diag("unaligned stack size %d", autoffset)
 		}
@@ -689,7 +689,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 
 	deltasp := autoffset
 
-	if bpsize > 0 {
+	if bpsize > 0 && int64(autoffset) != int64(bpsize) {
 		// Save caller's BP
 		p = obj.Appendp(p, newprog)
 
@@ -709,6 +709,26 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 		p.From.Reg = REG_SP
 		p.From.Scale = 1
 		p.From.Offset = int64(autoffset) - int64(bpsize)
+		p.To.Type = obj.TYPE_REG
+		p.To.Reg = REG_BP
+	}
+
+	// If we only need frame for BP use push + mov instead of adjust SP + save BP + update BP
+	if autoffset != 0 && int64(autoffset) == int64(bpsize) {
+		// Save caller's BP and adjust SP
+		p = obj.Appendp(p, newprog)
+
+		p.As = APUSHQ
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = REG_BP
+		p.Spadj = autoffset
+
+		// Move current frame to BP
+		p = obj.Appendp(p, newprog)
+
+		p.As = AMOVQ
+		p.From.Type = obj.TYPE_REG
+		p.From.Reg = REG_SP
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = REG_BP
 	}
@@ -916,7 +936,7 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			ctxt.Diag("unbalanced PUSH/POP")
 		}
 
-		if autoffset != 0 {
+		if autoffset != 0 && int64(autoffset) != int64(bpsize) {
 			if bpsize > 0 {
 				// Restore caller's BP
 				p.As = AMOVQ
@@ -941,6 +961,16 @@ func preprocess(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 			// this ARET, they come from a branch
 			// with the same stackframe, so undo
 			// the cleanup.
+			p.Spadj = +autoffset
+		}
+
+		if autoffset != 0 && int64(autoffset) == int64(bpsize) {
+			p.As = APOPQ
+			p.To.Type = obj.TYPE_REG
+			p.To.Reg = REG_BP
+			p.Spadj = -autoffset
+			p = obj.Appendp(p, newprog)
+			p.As = obj.ARET
 			p.Spadj = +autoffset
 		}
 
