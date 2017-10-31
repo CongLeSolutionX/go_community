@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ab5898a_acac02d1",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 21426
+      },
+      "writtenOn": "2017-10-31T16:00:05Z",
+      "side": 1,
+      "message": "See other comment about \"may\".",
+      "revId": "3e887ff7ea4f1e0d17a7a67e906bef9eec00ed1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47ec0d8a_d1365556",
+        "filename": "src/time/format.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 21426
+      },
+      "writtenOn": "2017-10-31T16:00:05Z",
+      "side": 1,
+      "message": "Due to the fact that \"may\" is commonly used to state permission, it might be worth using a different word because the first half of this sentence could be misunderstood to mean valid layouts are not allowed to be valid time values.\n\nAlternatives:\n- \"Valid layouts might nit be a valid time value for time.Parse...\"\n- \"Valid layouts can be invalid time values for time.Parse...\"\n- \"Some valid layouts are invalid time values for time.Parse...\"",
+      "revId": "3e887ff7ea4f1e0d17a7a67e906bef9eec00ed1d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
