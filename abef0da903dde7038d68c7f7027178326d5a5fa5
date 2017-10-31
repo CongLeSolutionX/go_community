@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0a13391b_1697ea0d",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-31T20:40:55Z",
+      "side": 1,
+      "message": "I copied these from another rules file, without thinking about it enough. I will change them.",
+      "parentUuid": "7fae7669_839ea37a",
+      "range": {
+        "startLine": 941,
+        "startChar": 45,
+        "endLine": 941,
+        "endChar": 69
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "951bf682_ae4ea3d7",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fc251ce_bcf1f509",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-31T20:40:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "951bf682_ae4ea3d7",
+      "range": {
+        "startLine": 943,
+        "startChar": 18,
+        "endLine": 943,
+        "endChar": 19
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9b1f821f_e1f1b84b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-31T20:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc765eb5_08325fa8",
+      "range": {
+        "startLine": 956,
+        "startChar": 0,
+        "endLine": 970,
+        "endChar": 87
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20488561_cd384300",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdba7313_ad24566a",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-31T20:40:55Z",
+      "side": 1,
+      "message": "I will fornat it nicer.\nIt is not quite redundant because the above rules that lower to MOVH and MOVW contain SLWconst but the rules for 8 byte loads use SLDconst.",
+      "parentUuid": "20488561_cd384300",
+      "range": {
+        "startLine": 973,
+        "startChar": 0,
+        "endLine": 973,
+        "endChar": 452
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f1cd0678_78080f69",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 975,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-31T20:40:55Z",
+      "side": 1,
+      "message": "The MOVD offset field must be a multiple of 4. I could generate 2 MOVW if it wasn\u0027t but I don\u0027t think that happens very often.",
+      "parentUuid": "c527423b_1811c45e",
+      "range": {
+        "startLine": 975,
+        "startChar": 0,
+        "endLine": 975,
+        "endChar": 19
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3004dbb7_6da771c5",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 1
@@ -137,6 +257,54 @@
       "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4737398_4ee4808c",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-31T20:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3004dbb7_6da771c5",
+      "range": {
+        "startLine": 1017,
+        "startChar": 23,
+        "endLine": 1025,
+        "endChar": 39
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49619156_3dae414e",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-31T20:40:55Z",
+      "side": 1,
+      "message": "As noted above, this can\u0027t make use of shorter rules because this one uses SRD instead of SRW.",
+      "parentUuid": "3004dbb7_6da771c5",
+      "range": {
+        "startLine": 1017,
+        "startChar": 23,
+        "endLine": 1025,
+        "endChar": 39
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +331,30 @@
     },
     {
       "key": {
+        "uuid": "6adf239f_30fe4077",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-31T20:40:55Z",
+      "side": 1,
+      "message": "No you are right, I missed this one.",
+      "parentUuid": "0eac5d35_24ce58a0",
+      "range": {
+        "startLine": 1030,
+        "startChar": 18,
+        "endLine": 1030,
+        "endChar": 20
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb008b04_f1fd402f",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 1
@@ -174,6 +366,30 @@
       "writtenOn": "2017-10-31T12:11:43Z",
       "side": 1,
       "message": "Again, this should be MOVB + MOVB + MOVH to make the rule more resilient in my opinion.",
+      "range": {
+        "startLine": 1038,
+        "startChar": 43,
+        "endLine": 1040,
+        "endChar": 35
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fd103fe_267ba69e",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-10-31T20:40:55Z",
+      "side": 1,
+      "message": "I tried this and couldn\u0027t make it work. Must be related to the differences in the truncation in the rules when the input value is a 2 or 4 byte value. In the first case, it uses (SRWconst(MOVHZreg w) [8]) but if the input value is 4 bytes then MOVWZreg could be used (but isn\u0027t and doesn\u0027t seem necessary).",
+      "parentUuid": "fb008b04_f1fd402f",
       "range": {
         "startLine": 1038,
         "startChar": 43,
