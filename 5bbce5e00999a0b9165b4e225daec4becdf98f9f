@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b094d1f8_a2ec6a32",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-31T00:28:42Z",
+      "side": 1,
+      "message": "doesn\u0027t really say what it is - how about\n\n// types already seen by markType",
+      "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4df2ffe_b006b37c",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-31T00:28:42Z",
+      "side": 1,
+      "message": "This comment is confusing: it talks about functions but all one sees is types in the code below. Perhaps add:\n\n// This is done by tracking down all inlineable methods reachable from exported types.\n\n\nAnother important property here is that it\u0027s ok if the algorithm is not perfekt as it will simply resolve in missing exported function bodies. Not sure where to best say that.",
+      "range": {
+        "startLine": 235,
+        "startChar": 34,
+        "endLine": 235,
+        "endChar": 38
+      },
+      "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8cab63f_d5b7e075",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-31T00:28:42Z",
+      "side": 1,
+      "message": "s/when/When/",
+      "range": {
+        "startLine": 674,
+        "startChar": 5,
+        "endLine": 674,
+        "endChar": 9
+      },
+      "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "029775ee_61d5c1ed",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-10-31T00:28:42Z",
+      "side": 1,
+      "message": "Is it worthwhile commenting that function bodies are trees so the recursive traversal will always terminate? (Maybe not.)",
+      "range": {
+        "startLine": 230,
+        "startChar": 15,
+        "endLine": 230,
+        "endChar": 19
+      },
+      "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
