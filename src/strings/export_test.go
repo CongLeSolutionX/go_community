@@ -4,6 +4,10 @@
 
 package strings
 
+func (b *Builder) Snapshot() string {
+	return string(b.buf)
+}
+
 func (r *Replacer) Replacer() interface{} {
 	return r.r
 }
