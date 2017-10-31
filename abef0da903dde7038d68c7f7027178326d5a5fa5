@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "b557719c_2ee1c8ee",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-31T23:55:01Z",
+      "side": 1,
+      "message": "Ah yes, good point.",
+      "parentUuid": "bdba7313_ad24566a",
+      "range": {
+        "startLine": 973,
+        "startChar": 0,
+        "endLine": 973,
+        "endChar": 452
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c527423b_1811c45e",
         "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
         "patchSetId": 1
@@ -390,6 +414,30 @@
       "side": 1,
       "message": "I tried this and couldn\u0027t make it work. Must be related to the differences in the truncation in the rules when the input value is a 2 or 4 byte value. In the first case, it uses (SRWconst(MOVHZreg w) [8]) but if the input value is 4 bytes then MOVWZreg could be used (but isn\u0027t and doesn\u0027t seem necessary).",
       "parentUuid": "fb008b04_f1fd402f",
+      "range": {
+        "startLine": 1038,
+        "startChar": 43,
+        "endLine": 1040,
+        "endChar": 35
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57366a0e_58d22f6b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-10-31T23:55:01Z",
+      "side": 1,
+      "message": "I think the MOVHZreg can be removed from the pattern since the high bits are ignored by the stores. That might be enough to get it to work?",
+      "parentUuid": "1fd103fe_267ba69e",
       "range": {
         "startLine": 1038,
         "startChar": 43,
