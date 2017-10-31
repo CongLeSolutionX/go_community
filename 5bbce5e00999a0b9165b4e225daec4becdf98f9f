@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d26bdc6c_d5c924d2",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-31T18:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b094d1f8_a2ec6a32",
+      "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4df2ffe_b006b37c",
         "filename": "src/cmd/compile/internal/gc/bexport.go",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4e3aa35_dda619b2",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-31T18:59:02Z",
+      "side": 1,
+      "message": "Done. Also, added the comment explaining the algorithm doesn\u0027t need to be perfect within markType.",
+      "parentUuid": "a4df2ffe_b006b37c",
+      "range": {
+        "startLine": 235,
+        "startChar": 34,
+        "endLine": 235,
+        "endChar": 38
+      },
+      "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "90b87ab9_5bed7397",
+        "filename": "src/cmd/compile/internal/gc/bexport.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-31T18:59:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8cab63f_d5b7e075",
+      "range": {
+        "startLine": 674,
+        "startChar": 5,
+        "endLine": 674,
+        "endChar": 9
+      },
+      "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "029775ee_61d5c1ed",
         "filename": "src/cmd/compile/internal/gc/inl.go",
         "patchSetId": 5
@@ -85,6 +151,30 @@
       "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe43203_b16f96bc",
+        "filename": "src/cmd/compile/internal/gc/inl.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-10-31T18:59:02Z",
+      "side": 1,
+      "message": "By recursive traversal, do you mean just calling inspectList on n.Func.Inl? If so, I don\u0027t think that\u0027s necessary. syntax.go documents that the Node AST is a DAG, and recursively iterating over syntax trees is inspectList\u0027s entire purpose.\n\nI was thinking about commenting to point out recursive functions can\u0027t be inlined, so the recursive inlFlood calls are guaranteed to bottom out at leaf functions. But because of the n.Func.ExportInline flag, we\u0027re guaranteed to not recurse anyway.\n\nI\u0027m leaning towards no comment, but don\u0027t feel strongly.",
+      "parentUuid": "029775ee_61d5c1ed",
+      "range": {
+        "startLine": 230,
+        "startChar": 15,
+        "endLine": 230,
+        "endChar": 19
+      },
+      "revId": "5bbce5e00999a0b9165b4e225daec4becdf98f9f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
