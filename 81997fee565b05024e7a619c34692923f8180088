@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "015abfde_ac3af019",
+        "filename": "src/os/signal/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-31T21:14:40Z",
+      "side": 1,
+      "message": "Let\u0027s name this ExampleNotify_allSignals since that is closer to what this does.",
+      "revId": "81997fee565b05024e7a619c34692923f8180088",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e445ad4_2b2663b0",
+        "filename": "src/os/signal/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-31T21:14:40Z",
+      "side": 1,
+      "message": "Use the same comment as above (line 15).",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "81997fee565b05024e7a619c34692923f8180088",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b19d3a0e_67c0a9c1",
+        "filename": "src/os/signal/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-31T21:14:40Z",
+      "side": 1,
+      "message": "// Passing no signals to Notify means that all signals will be sent to the channel.",
+      "revId": "81997fee565b05024e7a619c34692923f8180088",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
