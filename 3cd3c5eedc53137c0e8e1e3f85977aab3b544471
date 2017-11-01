@@ -16,6 +16,24 @@
       "revId": "3cd3c5eedc53137c0e8e1e3f85977aab3b544471",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a758cd89_884a77ff",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 15057
+      },
+      "writtenOn": "2017-11-01T21:32:30Z",
+      "side": 1,
+      "message": "I believe \"some reason\" is UNIX format compatibility. But your comment makes sense, I can push another change to the next comment.",
+      "parentUuid": "85f580b3_447a0d0f",
+      "revId": "3cd3c5eedc53137c0e8e1e3f85977aab3b544471",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
