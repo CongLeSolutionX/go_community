@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "68b37a6d_9ffae321",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-11-01T22:28:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9aed855b_2bd0e5eb",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6261ebe_24a623b1",
         "filename": "src/strings/builder.go",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2017-11-01T18:05:53Z",
       "side": 1,
       "message": "The whole ErrTooLarge concept in bytes.Buffer is really just a left-over from when int was 32 bits.  I don\u0027t think we should copy it here.",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cdb4bd5_b2a875f4",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-11-01T22:28:31Z",
+      "side": 1,
+      "message": "What about the remaining platforms with 32-bit ints, though?\n\nI\u0027m more than happy to leave out ErrTooLarge. I used append in most places which simplifies the code. Let me know what you think.",
+      "parentUuid": "b6261ebe_24a623b1",
       "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -71,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "90af132c_24547e3c",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-11-01T22:28:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a76eec95_e9d69299",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98defbf4_c2dee829",
         "filename": "src/strings/builder.go",
         "patchSetId": 2
@@ -82,6 +136,24 @@
       "writtenOn": "2017-11-01T18:05:53Z",
       "side": 1,
       "message": "I wonder if this should reset the buffer.  It\u0027s a little weird to call String() and then call Write() to add still more data.  I guess it would work with this implementation, but do we want to continue to support it?",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cae1de0_25e0208d",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-11-01T22:28:31Z",
+      "side": 1,
+      "message": "Our internal implementation that this is based off of actually has \u0027frozen bool\u0027 and panics if you call any write methods after String.\n\nI like your proposal more, though. I made this change.",
+      "parentUuid": "98defbf4_c2dee829",
       "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
