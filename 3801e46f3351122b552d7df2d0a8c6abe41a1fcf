@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50530481_440752f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 23671
+      },
+      "writtenOn": "2017-11-01T20:04:12Z",
+      "side": 1,
+      "message": "Should probably mention all functions that are involved in the change, at least Fields and FieldsFunc.",
+      "revId": "3801e46f3351122b552d7df2d0a8c6abe41a1fcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
