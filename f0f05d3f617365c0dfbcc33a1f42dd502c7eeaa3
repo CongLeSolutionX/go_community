@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "62532b25_db51e71e",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-11-01T22:33:54Z",
+      "side": 1,
+      "message": "Thanks for the explanation.",
+      "parentUuid": "b42f6c8d_e5ef43a7",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a76eec95_e9d69299",
         "filename": "src/strings/builder.go",
         "patchSetId": 2
