@@ -22,10 +22,11 @@ func init() {
 }
 
 type taskDesc struct {
-	name       string
+	name string
+	// TODO: task pc.
 	id         uint64
-	events     []*trace.Event
-	spans      []*spanDesc
+	events     []*trace.Event // sorted based on the first timestamp
+	spans      []*spanDesc    // sorted based on the first timestamp, and then the last timestamp
 	goroutines map[uint64][]*trace.Event
 	create     *trace.Event
 	end        *trace.Event
@@ -41,6 +42,7 @@ type taskDesc struct {
 func newTaskDesc(id uint64) *taskDesc {
 	return &taskDesc{
 		id:         id,
+		name:       "unknown",
 		goroutines: make(map[uint64][]*trace.Event),
 	}
 }
@@ -74,7 +76,7 @@ func (span *spanDesc) duration() time.Duration {
 // overlappingDuration returns the time duration where the specified event
 // overlaps with the task if the event is *Start type events whose Link is
 // set if the corresponding end event is in the trace.
-func (task *taskDesc) overlappingDuration(ev *trace.Event) time.Duration {
+func (task *taskDesc) overlappingDuration(ev *trace.Event) (time.Duration, bool) {
 	s := ev.Ts
 	e := lastTimestamp()
 	if ev.Link != nil {
@@ -82,8 +84,7 @@ func (task *taskDesc) overlappingDuration(ev *trace.Event) time.Duration {
 	}
 
 	if task.firstTimestamp() > e || task.lastTimestamp() < s {
-		fmt.Printf("strange: %s %d %d", ev, task.firstTimestamp(), task.lastTimestamp())
-		return 0
+		return 0, false
 	}
 
 	switch typ := ev.Type; typ {
@@ -95,15 +96,37 @@ func (task *taskDesc) overlappingDuration(ev *trace.Event) time.Duration {
 		if t := task.lastTimestamp(); e > t {
 			e = t
 		}
-		println("returning ", time.Duration(e-s)*time.Nanosecond)
-		return time.Duration(e-s) * time.Nanosecond
+		return time.Duration(e-s) * time.Nanosecond, e-s > 0
 
 	case trace.EvGCSweepStart, trace.EvGoStart, trace.EvGoStartLabel, trace.EvGCMarkAssistStart:
 		// Goroutine-local events.
-		// TODO(hyangah): compute overapping duration with the span.
-		return 0
+		goid := ev.G
+		var overlapping int64
+		var lastSpanEnd int64 // the end of previous overlapping span
+		for _, span := range task.spans {
+			if span.goid != goid {
+				continue
+			}
+			ss, se := span.firstTimestamp(), span.lastTimestamp()
+			if ss < lastSpanEnd { // skip nested spans
+				continue
+			}
+			if s > se || e < ss { // not overlapping
+				continue
+			}
+			lastSpanEnd = se
+
+			if ss < s {
+				ss = s
+			}
+			if e < se {
+				se = e
+			}
+			overlapping += se - ss
+		}
+		return time.Duration(overlapping) * time.Nanosecond, overlapping > 0 // TODO: || has annotation
 	}
-	return 0
+	return 0, false
 }
 
 func (task *taskDesc) complete() bool {
@@ -397,7 +420,8 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 				if i < 0 {
 					continue // task started before the first GC in the trace
 				}
-				gcTime += task.overlappingDuration(res.gcs[i])
+				overlapping, _ := task.overlappingDuration(res.gcs[i])
+				gcTime += overlapping
 			}
 		}
 		data = append(data, entry{
@@ -791,6 +815,18 @@ func doAnnotationAnalysis(events []*trace.Event) AnnotationAnalysisResult {
 			delete(activeSpans, goid)
 
 		}
+	}
+
+	// sorting spans based on the timestamps
+	for _, task := range tasks {
+		sort.Slice(task.spans, func(i, j int) bool {
+			si, sj := task.spans[i].firstTimestamp(), task.spans[j].firstTimestamp()
+			if si != sj {
+				return si < sj
+			}
+
+			return task.spans[i].lastTimestamp() < task.spans[i].lastTimestamp()
+		})
 	}
 	return AnnotationAnalysisResult{
 		Tasks:   tasks,
