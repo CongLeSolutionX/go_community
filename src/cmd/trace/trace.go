@@ -510,12 +510,12 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			if ctx.gtrace || ctx.taskTrace {
 				continue
 			}
-			ctx.emitInstant(ev, "proc start")
+			ctx.emitInstant(ev, "proc start", "")
 		case trace.EvProcStop:
 			if ctx.gtrace || ctx.taskTrace {
 				continue
 			}
-			ctx.emitInstant(ev, "proc stop")
+			ctx.emitInstant(ev, "proc stop", "")
 		case trace.EvGCStart:
 			ctx.emitSlice(ev, "GC")
 		case trace.EvGCDone:
@@ -571,15 +571,15 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 		case trace.EvGoUnblock:
 			ctx.emitArrow(ev, "unblock")
 		case trace.EvGoSysCall:
-			ctx.emitInstant(ev, "syscall")
+			ctx.emitInstant(ev, "syscall", "")
 		case trace.EvGoSysExit:
 			ctx.emitArrow(ev, "sysexit")
 		case trace.EvUserLog:
-			ctx.emitInstant(ev, fmt.Sprintf("U: %v", userLog{ev}))
+			ctx.emitInstant(ev, userLog{ev}.String(), "user event")
 		case trace.EvUserTaskCreate:
-			ctx.emitInstant(ev, "task start")
+			ctx.emitInstant(ev, "task start", "user event")
 		case trace.EvUserTaskEnd:
-			ctx.emitInstant(ev, "task end")
+			ctx.emitInstant(ev, "task end", "user event")
 		}
 		// Emit any counter updates.
 		ctx.emitThreadCounters(ev)
@@ -698,6 +698,13 @@ func (ctx *traceContext) emitSlice(ev *trace.Event, name string) *ViewerEvent {
 	}
 
 	if ctx.taskTrace {
+		if t := ev.Type; t == trace.EvGoStart || t == trace.EvGoStartLabel {
+			type Arg struct {
+				P int
+			}
+			sl.Arg = &Arg{P: ev.P}
+		}
+
 		overlapping := false
 		for _, task := range ctx.tasks {
 			if _, ok := task.overlappingDuration(ev); ok {
@@ -803,7 +810,7 @@ func (ctx *traceContext) emitThreadCounters(ev *trace.Event) {
 	ctx.prevThreadStats = ctx.threadStats
 }
 
-func (ctx *traceContext) emitInstant(ev *trace.Event, name string) {
+func (ctx *traceContext) emitInstant(ev *trace.Event, name, category string) {
 	var arg interface{}
 	if ev.Type == trace.EvProcStart {
 		type Arg struct {
@@ -811,7 +818,15 @@ func (ctx *traceContext) emitInstant(ev *trace.Event, name string) {
 		}
 		arg = &Arg{ev.Args[0]}
 	}
-	ctx.emit(&ViewerEvent{Name: name, Phase: "I", Scope: "t", Time: ctx.time(ev), Tid: ctx.proc(ev), Stack: ctx.stack(ev.Stk), Arg: arg})
+	ctx.emit(&ViewerEvent{
+		Name:     name,
+		Category: category,
+		Phase:    "I",
+		Scope:    "t",
+		Time:     ctx.time(ev),
+		Tid:      ctx.proc(ev),
+		Stack:    ctx.stack(ev.Stk),
+		Arg:      arg})
 }
 
 func (ctx *traceContext) emitArrow(ev *trace.Event, name string) {
@@ -827,7 +842,7 @@ func (ctx *traceContext) emitArrow(ev *trace.Event, name string) {
 	if ev.P == trace.NetpollP || ev.P == trace.TimerP || ev.P == trace.SyscallP {
 		// Trace-viewer discards arrows if they don't start/end inside of a slice or instant.
 		// So emit a fake instant at the start of the arrow.
-		ctx.emitInstant(&trace.Event{P: ev.P, Ts: ev.Ts}, "unblock")
+		ctx.emitInstant(&trace.Event{P: ev.P, Ts: ev.Ts}, "unblock", "")
 	}
 
 	ctx.arrowSeq++
