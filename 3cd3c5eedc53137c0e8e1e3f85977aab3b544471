@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85f580b3_447a0d0f",
+        "filename": "src/time/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-01T21:28:02Z",
+      "side": 1,
+      "message": "Although (for some reason) underscore only applies to dates, 0 also applies to months, minutes, etc., so changing this commentto explicitly mention \"date\" may make the next comment confusing.",
+      "revId": "3cd3c5eedc53137c0e8e1e3f85977aab3b544471",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
