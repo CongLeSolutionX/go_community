@@ -324,6 +324,18 @@ func buildUserTaskFilter(r *http.Request) (func(*taskDesc) bool, error) {
 	return f.filter, nil
 }
 
+type userLog struct {
+	*trace.Event
+}
+
+func (ul userLog) String() string {
+	k, v := ul.Event.SArgs[0], ul.Event.SArgs[1]
+	if k == "" {
+		return v
+	}
+	return fmt.Sprintf("%v=%v", k, v)
+}
+
 func httpUserTask(w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("type")
 	filter, err := buildUserTaskFilter(r)
@@ -379,11 +391,7 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 			case trace.EvGoCreate:
 				what = fmt.Sprintf("new goroutine %d", ev.Args[0])
 			case trace.EvUserLog:
-				if k, v := ev.SArgs[0], ev.SArgs[1]; k == "" {
-					what = v
-				} else {
-					what = fmt.Sprintf("%v=%v", k, v)
-				}
+				what = userLog{ev}.String()
 			case trace.EvUserSpan:
 				if ev.Args[1] == 0 {
 					duration := "unknown"
