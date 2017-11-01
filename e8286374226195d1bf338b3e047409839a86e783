@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8ab13e7e_9701af1c",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "MkdirAll returns nil if this directory already exists; Mkdir returns an error.",
+      "parentUuid": "e45db351_5d7f35de",
+      "range": {
+        "startLine": 58,
+        "startChar": 15,
+        "endLine": 58,
+        "endChar": 23
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0bcac7b_1c52816a",
         "filename": "src/cmd/go/internal/cache/cache.go",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "e8286374226195d1bf338b3e047409839a86e783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c06a6eb6_9fe32386",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0bcac7b_1c52816a",
+      "range": {
+        "startLine": 75,
+        "startChar": 13,
+        "endLine": 75,
+        "endChar": 14
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "176c29d8_951e8072",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bfb172b_4b43042c",
+      "range": {
+        "startLine": 91,
+        "startChar": 32,
+        "endLine": 91,
+        "endChar": 34
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87402c0a_e1754897",
         "filename": "src/cmd/go/internal/cache/cache.go",
         "patchSetId": 1
@@ -115,6 +187,30 @@
       "revId": "e8286374226195d1bf338b3e047409839a86e783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a1c8b8f_12db7865",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "Maybe but it pains me to see that heavyweight machinery pulled out just to take apart this string. I\u0027d like to make sure this code is as efficient as it can be.\nSee also https://commandcenter.blogspot.com/2011/08/regular-expressions-in-lexing-and.html.",
+      "parentUuid": "87402c0a_e1754897",
+      "range": {
+        "startLine": 95,
+        "startChar": 1,
+        "endLine": 98,
+        "endChar": 91
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -165,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "905abb4a_7148bd36",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db35ab84_8ba1acb8",
+      "range": {
+        "startLine": 99,
+        "startChar": 10,
+        "endLine": 99,
+        "endChar": 12
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "787a36cc_d851c9da",
         "filename": "src/cmd/go/internal/cache/cache.go",
         "patchSetId": 1
@@ -176,6 +296,30 @@
       "writtenOn": "2017-10-05T08:54:53Z",
       "side": 1,
       "message": "This could be:\nvar out OutputID\nh.Sum(out[:])",
+      "range": {
+        "startLine": 150,
+        "startChar": 1,
+        "endLine": 152,
+        "endChar": 18
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "334967e5_1976daf7",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "Actually \u0027h.Sum(out[:0])\u0027, which is so weird it\u0027s usually why I avoid it. But done.",
+      "parentUuid": "787a36cc_d851c9da",
       "range": {
         "startLine": 150,
         "startChar": 1,
@@ -205,6 +349,24 @@
     },
     {
       "key": {
+        "uuid": "75e042f4_b415a041",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "This is a very good point, thanks. Done.",
+      "parentUuid": "f9be070a_bdceca18",
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7b7ab28_103cdcc7",
         "filename": "src/cmd/go/internal/cache/cache.go",
         "patchSetId": 1
@@ -225,6 +387,30 @@
       "revId": "e8286374226195d1bf338b3e047409839a86e783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f465619_f96dc88f",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "It triggers if there is another process writing the same entry and that process got in here between the check above and now. That\u0027s probably not worth special casing. Deleted this.",
+      "parentUuid": "d7b7ab28_103cdcc7",
+      "range": {
+        "startLine": 183,
+        "startChar": 1,
+        "endLine": 187,
+        "endChar": 2
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -251,6 +437,30 @@
     },
     {
       "key": {
+        "uuid": "2f0b9bf2_fa753082",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "Then I have to write buf[:] twice below. This works equally well and compiles to the same code.",
+      "parentUuid": "ba458608_6cd77e29",
+      "range": {
+        "startLine": 208,
+        "startChar": 1,
+        "endLine": 208,
+        "endChar": 23
+      },
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7809d53d_42b19717",
         "filename": "src/cmd/go/internal/cache/cache.go",
         "patchSetId": 1
@@ -262,6 +472,24 @@
       "writtenOn": "2017-10-05T12:55:47Z",
       "side": 1,
       "message": "Consider the scenario where copyFile is racing with another process.\n\nWhen os.Stat() is called, the other process is writing data but not yet done. So info.Size() \u003c size, and this process does not use O_TRUNC.\n\nThis process writes all but the last byte. Then it trips over this hash comparison here for some external reason and returns an error.\n\nNow this process has written bad bytes into the data file, but the other process has made the data file the correct length and written in the index file. So any future cache lookups will succeed, returning bad data.",
+      "revId": "e8286374226195d1bf338b3e047409839a86e783",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e8adb7e_3497df46",
+        "filename": "src/cmd/go/internal/cache/cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-01T16:43:34Z",
+      "side": 1,
+      "message": "Also a good point. I added f.Truncate(0) to each of these returns.",
+      "parentUuid": "7809d53d_42b19717",
       "revId": "e8286374226195d1bf338b3e047409839a86e783",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
