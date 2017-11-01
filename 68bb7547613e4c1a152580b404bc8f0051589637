@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "b7795f24_c309f119",
+        "filename": "src/cmd/compile/internal/ssa/copyelim.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-11-01T22:19:32Z",
+      "side": 1,
+      "message": "It should cause some changes to debug information. I would hope that after this change they would be mostly negative (constants propagating around where they shouldn\u0027t) but as usual it\u0027s hard to be confident.",
+      "parentUuid": "b78d1796_0d294154",
+      "revId": "68bb7547613e4c1a152580b404bc8f0051589637",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "32bb1e5c_22da7ef9",
         "filename": "src/cmd/compile/internal/ssa/decompose.go",
         "patchSetId": 8
