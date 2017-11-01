@@ -207,7 +207,6 @@ func httpJsonTrace(w http.ResponseWriter, r *http.Request) {
 		params.endTime = task.lastTimestamp() + 1
 		params.maing = goid
 		params.tasks = task.tree()
-		params.tasks = task.tree()
 		gs := map[uint64]bool{}
 		for _, t := range task.tree() {
 			// find only directly involved goroutines
@@ -682,6 +681,20 @@ func (ctx *traceContext) emitSlice(ev *trace.Event, name string) *ViewerEvent {
 		Stack:    ctx.stack(ev.Stk),
 		EndStack: ctx.stack(ev.Link.Stk),
 	}
+
+	if ctx.taskTrace {
+		overlapping := false
+		for _, task := range ctx.tasks {
+			if _, ok := task.overlappingDuration(ev); ok {
+				overlapping = true
+				break
+			}
+		}
+		if !overlapping {
+			sl.Cname = "grey"
+		}
+	}
+
 	ctx.emit(sl)
 	return sl
 }
