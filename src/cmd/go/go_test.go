@@ -4689,3 +4689,28 @@ func TestUpxCompression(t *testing.T) {
 		t.Fatalf("bad output from compressed go binary:\ngot %q; want %q", out, "hello upx")
 	}
 }
+
+func TestBuildCache(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.parallel()
+	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
+	tg.makeTempdir()
+	tg.setenv("GOCACHE", tg.tempdir)
+
+	// complex/x is a trivial non-main package.
+	tg.run("build", "-x", "complex/w")
+	tg.grepStderr("/compile|gccgo", "did not run compiler")
+
+	tg.run("build", "-x", "complex/w")
+	tg.grepStderrNot("/compile|gccgo", "did not run compiler")
+
+	// complex is a non-trivial main package.
+	// the link step should not be cached.
+	tg.run("build", "-o", os.DevNull, "-x", "complex")
+	tg.grepStderr("/link|gccgo", "did not run linker")
+
+	tg.run("build", "-o", os.DevNull, "-x", "complex")
+	tg.grepStderr("/link|gccgo", "did not run linker")
+
+}
