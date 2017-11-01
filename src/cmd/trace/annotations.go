@@ -29,7 +29,10 @@ type taskDesc struct {
 	goroutines map[uint64][]*trace.Event
 	create     *trace.Event
 	end        *trace.Event
-	last       *trace.Event
+	last       *trace.Event // TODO: delete.
+	// index to the last GC start event when the task started
+	// and the last GC start events when the task ended.
+	gc [2]int
 
 	parent   *taskDesc
 	children []*taskDesc
@@ -66,6 +69,41 @@ func (span *spanDesc) lastTimestamp() int64 {
 
 func (span *spanDesc) duration() time.Duration {
 	return time.Duration(span.lastTimestamp() - span.firstTimestamp())
+}
+
+// overlappingDuration returns the time duration where the specified event
+// overlaps with the task if the event is *Start type events whose Link is
+// set if the corresponding end event is in the trace.
+func (task *taskDesc) overlappingDuration(ev *trace.Event) time.Duration {
+	s := ev.Ts
+	e := lastTimestamp()
+	if ev.Link != nil {
+		e = ev.Link.Ts
+	}
+
+	if task.firstTimestamp() > e || task.lastTimestamp() < s {
+		fmt.Printf("strange: %s %d %d", ev, task.firstTimestamp(), task.lastTimestamp())
+		return 0
+	}
+
+	switch typ := ev.Type; typ {
+	case trace.EvGCStart, trace.EvGCSTWStart:
+		// Global events
+		if t := task.firstTimestamp(); s < t {
+			s = t
+		}
+		if t := task.lastTimestamp(); e > t {
+			e = t
+		}
+		println("returning ", time.Duration(e-s)*time.Nanosecond)
+		return time.Duration(e-s) * time.Nanosecond
+
+	case trace.EvGCSweepStart, trace.EvGoStart, trace.EvGoStartLabel, trace.EvGCMarkAssistStart:
+		// Goroutine-local events.
+		// TODO(hyangah): compute overapping duration with the span.
+		return 0
+	}
+	return 0
 }
 
 func (task *taskDesc) complete() bool {
@@ -291,6 +329,7 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 		Complete       bool
 		Events         []event
 		StartMS, EndMS float64
+		GCTime         time.Duration
 	}
 
 	var data []entry
@@ -315,12 +354,12 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 
 			switch ev.Type {
 			case trace.EvGoCreate:
-				what = fmt.Sprintf("created a new goroutine %d", ev.Args[0])
+				what = fmt.Sprintf("new goroutine %d", ev.Args[0])
 			case trace.EvUserLog:
 				if k, v := ev.SArgs[0], ev.SArgs[1]; k == "" {
 					what = v
 				} else {
-					what = fmt.Sprintf("%v=%v", ev.SArgs[0], ev.SArgs[1])
+					what = fmt.Sprintf("%v=%v", k, v)
 				}
 			case trace.EvUserSpan:
 				if ev.Args[1] == 0 {
@@ -336,6 +375,9 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 			case trace.EvUserTaskEnd:
 				what = "end of task"
 			}
+			if what == "" {
+				continue
+			}
 			events = append(events, event{
 				WhenString: fmt.Sprintf("%2.9f", when.Seconds()),
 				Elapsed:    elapsed,
@@ -343,6 +385,20 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 				Go:         goid,
 			})
 			last = time.Duration(ev.Ts) * time.Nanosecond
+		}
+
+		var gcTime time.Duration
+		if len(res.gcs) > 0 {
+			lastGC := len(res.gcs) - 1
+			if task.complete() {
+				lastGC = task.gc[1]
+			}
+			for i := task.gc[0]; i <= lastGC; i++ {
+				if i < 0 {
+					continue // task started before the first GC in the trace
+				}
+				gcTime += task.overlappingDuration(res.gcs[i])
+			}
 		}
 		data = append(data, entry{
 			WhenString: fmt.Sprintf("%2.9fs", (time.Duration(task.firstTimestamp())*time.Nanosecond - base).Seconds()),
@@ -352,6 +408,7 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 			Events:     events,
 			StartMS:    float64(task.firstTimestamp()) / 1e6,
 			EndMS:      float64(task.lastTimestamp()) / 1e6,
+			GCTime:     gcTime,
 		})
 	}
 	sort.Slice(data, func(i, j int) bool {
@@ -598,6 +655,11 @@ var templUserTaskType = template.Must(template.New("userTask").Funcs(template.Fu
                 <td>{{.What}}</td>
         </tr>
         {{end}}
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>GC:{{$el.GCTime}}</td>
     {{end}}
 </body>
 </html>
@@ -609,11 +671,11 @@ var (
 )
 
 type AnnotationAnalysisResult struct {
-	err      error
-	firstTS  int64
-	lastTS   int64
-	Tasks    map[uint64]*taskDesc
-	gcEvents []*trace.Event // GCStart events, sorted.
+	err     error
+	firstTS int64
+	lastTS  int64
+	Tasks   map[uint64]*taskDesc
+	gcs     []*trace.Event // GCStart events, sorted.
 }
 
 func annotationAnalysis() (AnnotationAnalysisResult, error) {
@@ -635,12 +697,15 @@ func doAnnotationAnalysis(events []*trace.Event) AnnotationAnalysisResult {
 
 	tasks := map[uint64]*taskDesc{}
 	activeSpans := map[uint64][]*spanDesc{} // goid->span
-	var gcEvents []*trace.Event             // gc start events
+	var gcs []*trace.Event                  // gc start events
 
 	for _, ev := range events {
 		goid := ev.G
 
 		switch typ := ev.Type; typ {
+		case trace.EvGCStart:
+			gcs = append(gcs, ev)
+
 		case trace.EvUserTaskCreate, trace.EvUserSpan, trace.EvUserTaskEnd, trace.EvUserLog:
 			taskid := ev.Args[0]
 			parentID := ev.Args[1]
@@ -648,11 +713,13 @@ func doAnnotationAnalysis(events []*trace.Event) AnnotationAnalysisResult {
 			task := tasks[taskid]
 			if task == nil {
 				task = newTaskDesc(taskid)
+				task.gc[0] = len(gcs) - 1
 				tasks[taskid] = task
 			}
 			ptask := tasks[parentID]
 			if ptask == nil {
 				ptask = newTaskDesc(parentID)
+				task.gc[0] = len(gcs) - 1
 				tasks[parentID] = ptask
 			}
 
@@ -669,6 +736,7 @@ func doAnnotationAnalysis(events []*trace.Event) AnnotationAnalysisResult {
 				task.create = ev
 			case trace.EvUserTaskEnd:
 				task.end = ev
+				task.gc[1] = len(gcs) - 1
 			case trace.EvUserSpan:
 				spans := activeSpans[goid]
 				switch mode := ev.Args[1]; mode {
@@ -722,15 +790,13 @@ func doAnnotationAnalysis(events []*trace.Event) AnnotationAnalysisResult {
 			}
 			delete(activeSpans, goid)
 
-		case trace.EvGCStart:
-			gcEvents = append(gcEvents, ev)
 		}
 	}
 	return AnnotationAnalysisResult{
-		Tasks:    tasks,
-		firstTS:  events[0].Ts,
-		lastTS:   events[len(events)-1].Ts,
-		gcEvents: gcEvents,
+		Tasks:   tasks,
+		firstTS: events[0].Ts,
+		lastTS:  events[len(events)-1].Ts,
+		gcs:     gcs,
 	}
 }
 
