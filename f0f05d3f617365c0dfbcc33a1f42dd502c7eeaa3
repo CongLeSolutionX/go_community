@@ -16,6 +16,75 @@
       "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aed855b_2bd0e5eb",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-01T18:05:53Z",
+      "side": 1,
+      "message": "I think we should lead with what the type is for.  The fact that it is a buffer is unimportant.  Maybe something more like:\n\nA Builder can be used to efficiently build a string using Write methods.\nIt minimizes memory copying. The zero value is ready for use.",
+      "parentUuid": "fb7001c9_41f41398",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6261ebe_24a623b1",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-01T18:05:53Z",
+      "side": 1,
+      "message": "The whole ErrTooLarge concept in bytes.Buffer is really just a left-over from when int was 32 bits.  I don\u0027t think we should copy it here.",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a76eec95_e9d69299",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-01T18:05:53Z",
+      "side": 1,
+      "message": "String returns the accumulated string.",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98defbf4_c2dee829",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-01T18:05:53Z",
+      "side": 1,
+      "message": "I wonder if this should reset the buffer.  It\u0027s a little weird to call String() and then call Write() to add still more data.  I guess it would work with this implementation, but do we want to continue to support it?",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
