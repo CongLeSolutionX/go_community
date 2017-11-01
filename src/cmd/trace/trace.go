@@ -574,6 +574,12 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			ctx.emitInstant(ev, "syscall")
 		case trace.EvGoSysExit:
 			ctx.emitArrow(ev, "sysexit")
+		case trace.EvUserLog:
+			ctx.emitInstant(ev, fmt.Sprintf("U: %v", userLog{ev}))
+		case trace.EvUserTaskCreate:
+			ctx.emitInstant(ev, "task start")
+		case trace.EvUserTaskEnd:
+			ctx.emitInstant(ev, "task end")
 		}
 		// Emit any counter updates.
 		ctx.emitThreadCounters(ev)
@@ -615,8 +621,17 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			taskName := fmt.Sprintf("Task %s(%d)", task.name, task.id)
 			ctx.emit(&ViewerEvent{Name: "thread_name", Phase: "M", Pid: 0, Tid: taskRow, Arg: &NameArg{"Tasks"}})
 			ctx.emit(&ViewerEvent{Name: "thread_sort_index", Phase: "M", Pid: 0, Tid: taskRow, Arg: &SortIndexArg{-3}})
-			ctx.emit(&ViewerEvent{Category: "task", Name: taskName, Phase: "b", Time: float64(task.firstTimestamp()) / 1e3, Tid: taskRow, ID: task.id, Cname: "bad"})
-			ctx.emit(&ViewerEvent{Category: "task", Name: taskName, Phase: "e", Time: float64(task.lastTimestamp()) / 1e3, Tid: taskRow, ID: task.id, Cname: "bad"})
+			t0 := &ViewerEvent{Category: "task", Name: taskName, Phase: "b", Time: float64(task.firstTimestamp()) / 1e3, Tid: taskRow, ID: task.id, Cname: "bad"}
+			if task.create != nil {
+				t0.Stack = ctx.stack(task.create.Stk)
+			}
+			ctx.emit(t0)
+
+			t1 := &ViewerEvent{Category: "task", Name: taskName, Phase: "e", Time: float64(task.lastTimestamp()) / 1e3, Tid: taskRow, ID: task.id, Cname: "bad"}
+			if task.end != nil {
+				t1.Stack = ctx.stack(task.end.Stk)
+			}
+			ctx.emit(t1)
 
 			// Spans
 			for _, s := range task.spans {
