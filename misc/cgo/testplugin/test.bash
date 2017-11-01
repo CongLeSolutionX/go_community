@@ -14,6 +14,11 @@ fi
 goos=$(go env GOOS)
 goarch=$(go env GOARCH)
 
+if [ "$goos/$goarch" == "linux/386" ]; then
+	echo SKIP: golang.org/issue/22571.
+	exit 0
+fi
+
 function cleanup() {
 	rm -f plugin*.so unnamed*.so iface*.so issue*
 	rm -rf host pkg sub iface
