@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c8d7f26_cbd22b43",
+        "filename": "src/go/ast/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 21426
+      },
+      "writtenOn": "2017-11-01T15:51:56Z",
+      "side": 1,
+      "message": "The word \"abortion\" here feels unnecessary intense, and given it may be a trigger word for some could we rewrite this comment as: \"used as a panic value to signal to Apply that a panic is an abort\".",
+      "revId": "65a5ba207a4ad3091224945965fb8145868d94c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
