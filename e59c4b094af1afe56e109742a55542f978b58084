@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7027ca97_cec7cfa7",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-01T22:27:50Z",
+      "side": 1,
+      "message": "It looks like this will always run the benchmark -benchsplit times.  If a single iteration of the benchmark is slow, that could push total benchmark time well beyond -benchtime.  I think this loop needs to terminate early if we reach -benchtime.",
+      "revId": "e59c4b094af1afe56e109742a55542f978b58084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
