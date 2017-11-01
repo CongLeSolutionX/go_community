@@ -93,6 +93,15 @@ import (
 
 const buildIDSeparator = "/"
 
+// actionID returns the action ID half of a build ID.
+func actionID(buildID string) string {
+	i := strings.Index(buildID, buildIDSeparator)
+	if i < 0 {
+		return buildID
+	}
+	return buildID[:i]
+}
+
 // contentID returns the content ID half of a build ID.
 func contentID(buildID string) string {
 	return buildID[strings.LastIndex(buildID, buildIDSeparator)+1:]
@@ -276,6 +285,7 @@ func (b *Builder) useCache(a *Action, p *load.Package, actionHash cache.ActionID
 	// want the package for is to link a binary, and the binary is
 	// already up-to-date, then to avoid a rebuild, report the package
 	// as up-to-date as well. See "Build IDs" comment above.
+	// TODO(rsc): Rewrite this code to use a TryCache func on the link action.
 	if target != "" && !cfg.BuildA && a.Mode == "build" && len(a.triggers) == 1 && a.triggers[0].Mode == "link" {
 		buildID, err := buildid.ReadFile(target)
 		if err == nil {
@@ -304,6 +314,17 @@ func (b *Builder) useCache(a *Action, p *load.Package, actionHash cache.ActionID
 				a.buildID = oldBuildID
 			}
 		}
+	}
+
+	// Special case for linking a test binary: if the only thing we
+	// want the binary for is to run the test, and the test result is cached,
+	// then to avoid the link step, report the link as up-to-date.
+	// We avoid the nested build ID problem in the previous special case
+	// by recording the test results in the cache under the action ID half.
+	if !cfg.BuildA && len(a.triggers) == 1 && a.triggers[0].TryCache != nil && a.triggers[0].TryCache(b, a.triggers[0]) {
+		a.Target = "DO NOT USE -  pseudo-cache Target"
+		a.built = "DO NOT USE - pseudo-cache built"
+		return true
 	}
 
 	if b.ComputeStaleOnly {

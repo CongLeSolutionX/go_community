@@ -244,7 +244,7 @@ func (b *Builder) buildActionID(a *Action) cache.ActionID {
 	for _, a1 := range a.Deps {
 		p1 := a1.Package
 		if p1 != nil {
-			fmt.Fprintf(h, "import %s %s\n", p1.ImportPath, a1.buildID)
+			fmt.Fprintf(h, "import %s %s\n", p1.ImportPath, contentID(a1.buildID))
 		}
 	}
 

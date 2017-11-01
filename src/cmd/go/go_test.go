@@ -4738,3 +4738,79 @@ func TestBuildCache(t *testing.T) {
 	tg.grepStderr("/link|gccgo", "did not run linker")
 
 }
+
+func TestTestCache(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.makeTempdir()
+	tg.setenv("GOPATH", tg.tempdir)
+	tg.setenv("GOCACHE", filepath.Join(tg.tempdir, "cache"))
+
+	tg.run("test", "-x", "errors")
+	tg.grepStderr("/compile|gccgo", "did not run compiler")
+	tg.grepStderr("/link|gccgo", "did not run linker")
+	tg.grepStderr(`errors\.test`, "did not run test")
+
+	tg.run("test", "-x", "errors")
+	tg.grepStdout(`ok  \terrors\t\(cached\)`, "did not report cached result")
+	tg.grepStderrNot("/compile|gccgo", "incorrectly ran compiler")
+	tg.grepStderrNot("/link|gccgo", "incorrectly ran linker")
+	tg.grepStderrNot(`errors\.test`, "incorrectly ran test")
+	tg.grepStderrNot("DO NOT USE", "poisoned action status leaked")
+
+	// The -p=1 in the commands below just makes the -x output easier to read.
+
+	tg.tempFile("src/p1/p1.go", "package p1\nvar X = 1\n")
+	tg.tempFile("src/p2/p2.go", "package p2\nimport _ \"p1\"\nvar X = 2\n")
+	tg.tempFile("src/t/t1/t1_test.go", "package t\nfunc Example_1() {}\n")
+	tg.tempFile("src/t/t2/t2_test.go", "package t\nimport _ \"p1\"\nfunc Example_1() {}\n")
+	tg.tempFile("src/t/t3/t3_test.go", "package t\nimport \"p1\"\nfunc Example_1() { println(p1.X) }\n")
+	tg.tempFile("src/t/t4/t4_test.go", "package t\nimport \"p2\"\nfunc Example_1() { println(p2.X) }\n")
+	tg.run("test", "-p=1", "-x", "-short", "t/...")
+
+	tg.run("test", "-p=1", "-x", "-short", "t/...")
+	tg.grepStdout(`ok  \tt/t1\t\(cached\)`, "did not cache t1")
+	tg.grepStdout(`ok  \tt/t2\t\(cached\)`, "did not cache t2")
+	tg.grepStdout(`ok  \tt/t3\t\(cached\)`, "did not cache t3")
+	tg.grepStdout(`ok  \tt/t4\t\(cached\)`, "did not cache t4")
+	tg.grepStderrNot("/compile|gccgo", "incorrectly ran compiler")
+	tg.grepStderrNot("/link|gccgo", "incorrectly ran linker")
+	tg.grepStderrNot(`p[0-9]\.test`, "incorrectly ran test")
+
+	// Changing the program text without affecting the compiled package
+	// should result in the package being rebuilt but nothing more.
+	tg.tempFile("src/p1/p1.go", "package p1\nvar X = 1 /* one! */\n")
+	tg.run("test", "-p=1", "-x", "-short", "t/...")
+	tg.grepStdout(`ok  \tt/t1\t\(cached\)`, "did not cache t1")
+	tg.grepStdout(`ok  \tt/t2\t\(cached\)`, "did not cache t2")
+	tg.grepStdout(`ok  \tt/t3\t\(cached\)`, "did not cache t3")
+	tg.grepStdout(`ok  \tt/t4\t\(cached\)`, "did not cache t4")
+	tg.grepStderrNot(`(/compile|gccgo).*t[0-9]_test\.go`, "incorrectly ran compiler")
+	tg.grepStderrNot(`/link|gccgo`, "incorrectly ran linker")
+	tg.grepStderrNot(`t[0-9]\.test.*test\.short`, "incorrectly ran test")
+
+	// Changing the actual package should have limited effects.
+	tg.tempFile("src/p1/p1.go", "package p1\nvar X = 2\n")
+	tg.run("test", "-p=1", "-x", "-short", "t/...")
+	// p2 should have been rebuilt.
+	tg.grepStderr("(/compile|gccgo).*p2.go", "did not recompile p2")
+	// t1 does not import anything, should not have been rebuilt.
+	tg.grepStderrNot(`(/compile|gccgo).*t1_test.go`, "incorrectly recompiled t1")
+	tg.grepStderrNot(`(/link|gccgo).*t1_test`, "incorrectly relinked t1_test")
+	tg.grepStdout(`ok  \tt/t1\t\(cached\)`, "did not cache t/t1")
+	// t2 imports p1 and must be rebuilt and relinked,
+	// but the change should not have any effect on the test binary,
+	// so the test should not have been rerun.
+	tg.grepStderr(`(/compile|gccgo).*t2_test.go`, "did not recompile t2")
+	tg.grepStderr(`(/link|gccgo).*t2\.test`, "did not relink t2_test")
+	tg.grepStdout(`ok  \tt/t2\t\(cached\)`, "did not cache t/t2")
+	// t3 imports p1, and changing X changes t3's test binary.
+	tg.grepStderr(`(/compile|gccgo).*t3_test.go`, "did not recompile t3")
+	tg.grepStderr(`(/link|gccgo).*t3\.test`, "did not relink t3_test")
+	tg.grepStderr(`t3\.test.*-test.short`, "did not rerun t3_test")
+	tg.grepStdoutNot(`ok  \tt/t3\t\(cached\)`, "reported cached t3_test result")
+	// t4 imports p2, but p2 did not change, so t4 should be relinked, not rebuilt.
+	tg.grepStderrNot(`(/compile|gccgo).*t4_test.go`, "incorrectly recompiled t4")
+	tg.grepStderr(`(/link|gccgo).*t4\.test`, "did not relink t4_test")
+	tg.grepStdout(`ok  \tt/t4\t\(cached\)`, "did not cache t/t4")
+}

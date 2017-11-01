@@ -26,6 +26,7 @@ import (
 	"unicode/utf8"
 
 	"cmd/go/internal/base"
+	"cmd/go/internal/cache"
 	"cmd/go/internal/cfg"
 	"cmd/go/internal/load"
 	"cmd/go/internal/str"
@@ -948,12 +949,14 @@ func builderTest(b *work.Builder, p *load.Package) (buildAction, runAction, prin
 		printAction = &work.Action{Mode: "test print (nop)", Package: p, Deps: []*work.Action{runAction}} // nop
 	} else {
 		// run test
+		c := new(runCache)
 		runAction = &work.Action{
 			Mode:       "test run",
-			Func:       builderRunTest,
+			Func:       c.builderRunTest,
 			Deps:       []*work.Action{buildAction},
 			Package:    p,
 			IgnoreFail: true,
+			TryCache:   c.tryCache,
 		}
 		cleanAction := &work.Action{
 			Mode:    "test clean",
@@ -1054,11 +1057,23 @@ func declareCoverVars(importPath string, files ...string) map[string]*load.Cover
 
 var noTestsToRun = []byte("\ntesting: warning: no tests to run\n")
 
-// builderRunTest is the action for running a test binary.
-func builderRunTest(b *work.Builder, a *work.Action) error {
-	args := str.StringList(work.FindExecCmd(), a.Deps[0].Target, testArgs)
-	a.TestOutput = new(bytes.Buffer)
+type runCache struct {
+	buf *bytes.Buffer
+	id1 cache.ActionID
+	id2 cache.ActionID
+}
 
+// builderRunTest is the action for running a test binary.
+func (c *runCache) builderRunTest(b *work.Builder, a *work.Action) error {
+	if c.buf == nil {
+		c.tryCacheWithID(b, a, a.Deps[0].BuildID())
+	}
+	if c.buf != nil {
+		a.TestOutput = c.buf
+		return nil
+	}
+
+	args := str.StringList(work.FindExecCmd(), a.Deps[0].Target, testArgs)
 	if cfg.BuildN || cfg.BuildX {
 		b.Showcmd("", "%s", strings.Join(args, " "))
 		if cfg.BuildN {
@@ -1069,6 +1084,7 @@ func builderRunTest(b *work.Builder, a *work.Action) error {
 	if a.Failed {
 		// We were unable to build the binary.
 		a.Failed = false
+		a.TestOutput = new(bytes.Buffer)
 		fmt.Fprintf(a.TestOutput, "FAIL\t%s [build failed]\n", a.Package.ImportPath)
 		base.SetExitStatus(1)
 		return nil
@@ -1141,30 +1157,127 @@ func builderRunTest(b *work.Builder, a *work.Action) error {
 		}
 		tick.Stop()
 	}
+	a.TestOutput = &buf
 	out := buf.Bytes()
 	t := fmt.Sprintf("%.3fs", time.Since(t0).Seconds())
 	if err == nil {
 		norun := ""
-		if testShowPass {
-			a.TestOutput.Write(out)
+		if !testShowPass {
+			a.TestOutput.Reset()
 		}
 		if bytes.HasPrefix(out, noTestsToRun[1:]) || bytes.Contains(out, noTestsToRun) {
 			norun = " [no tests to run]"
 		}
 		fmt.Fprintf(a.TestOutput, "ok  \t%s\t%s%s%s\n", a.Package.ImportPath, t, coveragePercentage(out), norun)
+		c.saveOutput(a)
 		return nil
 	}
 
 	base.SetExitStatus(1)
-	if len(out) > 0 {
-		a.TestOutput.Write(out)
-		// assume printing the test binary's exit status is superfluous
-	} else {
+	// If there was test output, assume we don't need to print the exit status.
+	// Buf there's no test output, do print the exit status.
+	if len(out) == 0 {
 		fmt.Fprintf(a.TestOutput, "%s\n", err)
 	}
 	fmt.Fprintf(a.TestOutput, "FAIL\t%s\t%s\n", a.Package.ImportPath, t)
 
 	return nil
+}
+
+func nop() {}
+
+// tryCache is called just before the link attempt,
+// to see if the test result is cached and therefore the link is unneeded.
+// It reports whether the result can be satisfied from cache.
+func (c *runCache) tryCache(b *work.Builder, a *work.Action) bool {
+	return c.tryCacheWithID(b, a, a.Deps[0].BuildActionID())
+}
+
+func (c *runCache) tryCacheWithID(b *work.Builder, a *work.Action, id string) bool {
+	if testStreamOutput {
+		// If we've decided the user wants to see the output as it arrives,
+		// assume that means the user also doesn't want cached output.
+		return false
+	}
+
+	for _, arg := range testArgs {
+		i := strings.Index(arg, "=")
+		if i < 0 || !strings.HasPrefix(arg, "-test.") {
+			return false
+		}
+		switch arg[:i] {
+		case "-test.cpu",
+			"-test.list",
+			"-test.parallel",
+			"-test.run",
+			"-test.short",
+			"-test.v":
+			// these are cacheable
+		default:
+			// nothing else is cacheable
+			return false
+		}
+	}
+
+	if cache.Default() == nil {
+		return false
+	}
+
+	h := cache.NewHash("testResult")
+	fmt.Fprintf(h, "test binary %s args %q execcmd %q", id, testArgs, work.ExecCmd)
+	// TODO(rsc): How to handle other test dependencies like environment variables or input files?
+	// We could potentially add new API like testing.UsedEnv(envName string)
+	// or testing.UsedFile(inputFile string) to let tests declare what external inputs
+	// they consulted. These could be recorded and rechecked.
+	// The lookup here would become a two-step lookup: first use the binary+args
+	// to fetch the list of other inputs, then add the other inputs to produce a
+	// second key for fetching the results.
+	// For now, we'll assume that users will use -count=1 (or "go test") to bypass the test result
+	// cache when modifying those things.
+	testID := h.Sum()
+	println("TRY", id, fmt.Sprintf("%x", testID))
+	if c.id1 == (cache.ActionID{}) {
+		c.id1 = testID
+	} else {
+		c.id2 = testID
+	}
+
+	// Parse cached result in preparation for changing run time to "(cached)".
+	// If we can't parse the cached result, don't use it.
+	data, _ := cache.Default().GetBytes(testID)
+	if len(data) == 0 || data[len(data)-1] != '\n' {
+		return false
+	}
+	i := bytes.LastIndexByte(data[:len(data)-1], '\n') + 1
+	if !bytes.HasPrefix(data[i:], []byte("ok  \t")) {
+		return false
+	}
+	j := bytes.IndexByte(data[i+len("ok  \t"):], '\t')
+	if j < 0 {
+		return false
+	}
+	j += i + len("ok  \t") + 1
+
+	// Committed to printing.
+	c.buf = new(bytes.Buffer)
+	c.buf.Write(data[:j])
+	c.buf.WriteString("(cached)")
+	for j < len(data) && ('0' <= data[j] && data[j] <= '9' || data[j] == '.' || data[j] == 's') {
+		j++
+	}
+	c.buf.Write(data[j:])
+	return true
+}
+
+func (c *runCache) saveOutput(a *work.Action) {
+	if c.id1 != (cache.ActionID{}) {
+		println("SAVE", fmt.Sprintf("%x", c.id1))
+		cache.Default().PutNoVerify(c.id1, bytes.NewReader(a.TestOutput.Bytes()))
+	}
+	if c.id2 != (cache.ActionID{}) {
+		println("SAVE", fmt.Sprintf("%x", c.id2))
+		cache.Default().PutNoVerify(c.id2, bytes.NewReader(a.TestOutput.Bytes()))
+	}
 }
 
 // coveragePercentage returns the coverage results (if enabled) for the
