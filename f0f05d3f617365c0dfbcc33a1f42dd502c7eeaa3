@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb7001c9_41f41398",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-11-01T03:11:56Z",
+      "side": 1,
+      "message": "This is probably questionable, but I feel like we should document why a user might choose a strings.Builder over a bytes.Buffer since it\u0027s basically a subset.",
+      "revId": "f0f05d3f617365c0dfbcc33a1f42dd502c7eeaa3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
