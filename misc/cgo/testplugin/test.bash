@@ -14,6 +14,14 @@ fi
 goos=$(go env GOOS)
 goarch=$(go env GOARCH)
 
+case "$goos/$goarch" in
+linux/386 | linux/arm)
+	echo SKIP: golang.org/issue/22571.
+	exit 0
+	;;
+esac
+
+
 function cleanup() {
 	rm -f plugin*.so unnamed*.so iface*.so issue*
 	rm -rf host pkg sub iface
