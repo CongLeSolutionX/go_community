@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "918b1c81_ad971f9f",
+        "filename": "src/cmd/go/internal/cache/hash.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-01T21:49:12Z",
+      "side": 1,
+      "message": "remove. also the panic below. :-)",
+      "revId": "d63295f605e5c7e5dd972a0305e848603180a081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af8f7959_a1a947ad",
+        "filename": "src/cmd/go/internal/cache/hash.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-01T21:49:12Z",
+      "side": 1,
+      "message": "Why do you return an error if os.Open fails, but not if reading the contents of the file fails?",
+      "revId": "d63295f605e5c7e5dd972a0305e848603180a081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c13d411f_fecd31de",
+        "filename": "src/cmd/go/internal/cache/hash.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-01T21:49:12Z",
+      "side": 1,
+      "message": "probably not something you want to submit",
+      "revId": "d63295f605e5c7e5dd972a0305e848603180a081",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
