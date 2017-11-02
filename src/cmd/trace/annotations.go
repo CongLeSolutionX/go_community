@@ -124,7 +124,7 @@ func (task *taskDesc) overlappingDuration(ev *trace.Event) (time.Duration, bool)
 			}
 			overlapping += se - ss
 		}
-		return time.Duration(overlapping) * time.Nanosecond, overlapping > 0 // TODO: || has annotation
+		return time.Duration(overlapping) * time.Nanosecond, overlapping > 0 || anyWithinTimerange(task.goroutines[goid], s, e)
 	}
 	return 0, false
 }
@@ -138,10 +138,17 @@ func (task *taskDesc) tree() []*taskDesc {
 	if task == nil {
 		return nil
 	}
+	seen := map[uint64]bool{}
+
 	res := []*taskDesc{task}
 	for i := 0; len(res[i:]) > 0; i++ {
 		t := res[i]
+		seen[t.id] = true
 		for _, c := range t.children {
+			if _, ok := seen[c.id]; ok {
+				println("something is wrong: ", c.id, " is seen multipletimes")
+				continue
+			}
 			res = append(res, c)
 		}
 	}
@@ -527,13 +534,18 @@ func (h *durationHistogram) ToHTML(urlmaker func(min, max time.Duration) string)
 	w := new(bytes.Buffer)
 	fmt.Fprintf(w, `<table>`)
 	for i := h.MinBucket; i <= h.MaxBucket; i++ {
+		v := h.Buckets[i]
 		// Tick label.
-		fmt.Fprintf(w, `<tr><td class="histoTime" align="right"><a href=%s>%s</a></td>`, urlmaker(h.BucketMin(i), h.BucketMin(i+1)), niceDuration(h.BucketMin(i)))
+		if v == 0 {
+			fmt.Fprintf(w, `<tr><td class="histoTime" align="right">%s</td>`, niceDuration(h.BucketMin(i)))
+		} else {
+			fmt.Fprintf(w, `<tr><td class="histoTime" align="right"><a href=%s>%s</a></td>`, urlmaker(h.BucketMin(i), h.BucketMin(i+1)), niceDuration(h.BucketMin(i)))
+		}
 		// Bucket bar.
-		width := h.Buckets[i] * barWidth / maxCount
+		width := v * barWidth / maxCount
 		fmt.Fprintf(w, `<td><div style="width:%dpx;background:blue;top:.6em;position:relative">&nbsp;</div></td>`, width)
 		// Bucket count.
-		fmt.Fprintf(w, `<td align="right"><div style="top:.6em;position:relative">%d</div></td>`, h.Buckets[i])
+		fmt.Fprintf(w, `<td align="right"><div style="top:.6em;position:relative">%d</div></td>`, v)
 		fmt.Fprintf(w, "</tr>\n")
 
 	}
