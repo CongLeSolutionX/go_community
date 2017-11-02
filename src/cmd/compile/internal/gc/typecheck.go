@@ -7,7 +7,6 @@ package gc
 import (
 	"cmd/compile/internal/types"
 	"cmd/internal/objabi"
-	"cmd/internal/src"
 	"fmt"
 	"math"
 	"strings"
@@ -426,7 +425,7 @@ func typecheck1(n *Node, top int) *Node {
 		if alg == ANOEQ {
 			if bad.Etype == TFORW {
 				// queue check for map until all the types are done settling.
-				mapqueue = append(mapqueue, mapqueueval{l, n.Pos})
+				mapqueue = append(mapqueue, n)
 			} else if bad.Etype != TANY {
 				// no need to queue, key is already bad
 				yyerror("invalid map key type %v", l.Type)
@@ -3496,15 +3495,17 @@ func stringtoarraylit(n *Node) *Node {
 	return nn
 }
 
-var ntypecheckdeftype int
+var mapqueue []*Node
 
-type mapqueueval struct {
-	n   *Node
-	lno src.XPos
+func checkMapKeys() {
+	for _, n := range mapqueue {
+		k := n.Type.MapType().Key
+		if !k.Broke() && !IsComparable(k) {
+			yyerrorl(n.Pos, "invalid map key type %v", k)
+		}
+	}
+	mapqueue = nil
 }
-
-// tracks the line numbers at which forward types are first used as map keys
-var mapqueue []mapqueueval
 
 func copytype(n *Node, t *types.Type) {
 	if t.Etype == TFORW {
@@ -3565,7 +3566,6 @@ func copytype(n *Node, t *types.Type) {
 }
 
 func typecheckdeftype(n *Node) {
-	ntypecheckdeftype++
 	lno := lineno
 	setlineno(n)
 	n.Type.Sym = n.Sym
@@ -3584,22 +3584,6 @@ func typecheckdeftype(n *Node) {
 	}
 
 	lineno = lno
-
-	// if there are no type definitions going on, it's safe to
-	// try to validate the map key types for the interfaces
-	// we just read.
-	if ntypecheckdeftype == 1 {
-		for _, e := range mapqueue {
-			lineno = e.lno
-			if !IsComparable(e.n.Type) {
-				yyerror("invalid map key type %v", e.n.Type)
-			}
-		}
-		mapqueue = nil
-		lineno = lno
-	}
-
-	ntypecheckdeftype--
 }
 
 func typecheckdef(n *Node) {
