@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "253b9391_ec46c9c6",
+        "filename": "test/fixedbugs/issue21273.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-11-02T23:14:14Z",
+      "side": 1,
+      "message": "Can you do this test (i.e., struct-based recursive key type) at global scope too? If it passes, then this fixes #21657 too.",
+      "revId": "a1adc69a8f2cd96814aeca60a6998294278e2125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
