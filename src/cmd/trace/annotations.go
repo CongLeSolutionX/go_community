@@ -536,7 +536,7 @@ func (h *durationHistogram) ToHTML(urlmaker func(min, max time.Duration) string)
 	for i := h.MinBucket; i <= h.MaxBucket; i++ {
 		v := h.Buckets[i]
 		// Tick label.
-		if v == 0 {
+		if v == 0 || urlmaker == nil {
 			fmt.Fprintf(w, `<tr><td class="histoTime" align="right">%s</td>`, niceDuration(h.BucketMin(i)))
 		} else {
 			fmt.Fprintf(w, `<tr><td class="histoTime" align="right"><a href=%s>%s</a></td>`, urlmaker(h.BucketMin(i), h.BucketMin(i+1)), niceDuration(h.BucketMin(i)))
@@ -584,10 +584,11 @@ func (h *durationHistogram) String() string {
 }
 
 type taskStats struct {
-	Type       string
-	Count      int
-	Complete   durationHistogram
-	Incomplete durationHistogram
+	Type     string
+	Count    int
+	Complete durationHistogram
+	// TODO: use span type name + pc as the span type key to avoid collision. Same for task type key.
+	Span map[string]*durationHistogram
 }
 
 func (s *taskStats) UserTaskURL(complete bool) func(min, max time.Duration) string {
@@ -599,10 +600,23 @@ func (s *taskStats) UserTaskURL(complete bool) func(min, max time.Duration) stri
 func (s *taskStats) add(task *taskDesc, duration time.Duration) {
 	if task.complete() {
 		s.Complete.add(duration)
-	} else {
-		s.Incomplete.add(duration)
 	}
 	s.Count++
+
+	for _, span := range task.spans {
+		if span.start == nil || span.end == nil {
+			continue
+		}
+		if s.Span == nil {
+			s.Span = make(map[string]*durationHistogram)
+		}
+		v := s.Span[span.name]
+		if v == nil {
+			v = &durationHistogram{}
+			s.Span[span.name] = v
+		}
+		v.add(span.duration())
+	}
 }
 
 var templUserTaskTypes = template.Must(template.New("").Parse(`
@@ -619,15 +633,21 @@ var templUserTaskTypes = template.Must(template.New("").Parse(`
 <tr>
 <th>Task type</th>
 <th>Count</th>
-<th>Duration distribution( complete )</th>
-<th>Duration distribution( incomplete )</th>
+<th>Duration distribution( complete tasks )</th>
+<th>Spans</th>
 </tr>
 {{range $}}
   <tr>
     <td>{{.Type}}</td>
-    <td><a href="/usertask?type={{.Type}}">{{.Count}}</a></td>
+    <td><a href="/usertask?type={{.Type}}">{{.Count}}</a>({{.Complete.Count}} complete)</td>
     <td>{{.Complete.ToHTML (.UserTaskURL true)}}</td>
-    <td>{{.Incomplete.ToHTML (.UserTaskURL false)}}</td>
+    <td>
+      <table border="1">
+      {{range $k, $v := .Span}}
+      <tr><td>{{$k}}</td><td>{{$v.ToHTML nil}}</td></tr>
+      {{end}}
+      </table>
+    </td>
   </tr>
 {{end}}
 </table>
