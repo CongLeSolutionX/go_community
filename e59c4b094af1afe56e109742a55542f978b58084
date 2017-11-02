@@ -16,6 +16,24 @@
       "revId": "e59c4b094af1afe56e109742a55542f978b58084",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "338c5c89_4feba119",
+        "filename": "src/testing/benchmark.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-11-02T16:04:54Z",
+      "side": 1,
+      "message": "Heh, I was arguing in the opposite direction: that splits are not particularly useful if they\u0027re too short, so we should ensure that each split runs for at least benchtime÷benchsplit.\n\nI wonder whether it would be simpler to express the split as a multiplier rather than a divider, though: that seems less ambiguous, as there would be no question as to whether intervals should be divided (and rounded either up or down) or summed (and potentially distributed very unevenly).",
+      "parentUuid": "7027ca97_cec7cfa7",
+      "revId": "e59c4b094af1afe56e109742a55542f978b58084",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
