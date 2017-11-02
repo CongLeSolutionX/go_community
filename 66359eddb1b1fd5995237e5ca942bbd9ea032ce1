@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efc29a18_a2b6c071",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1080,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-02T21:33:29Z",
+      "side": 1,
+      "message": "Does this path need to set a.TestOutput \u003d new(bytes.Buffer)?",
+      "revId": "66359eddb1b1fd5995237e5ca942bbd9ea032ce1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65836fdf_4c50cc35",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1187,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-02T21:33:29Z",
+      "side": 1,
+      "message": "?",
+      "revId": "66359eddb1b1fd5995237e5ca942bbd9ea032ce1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
