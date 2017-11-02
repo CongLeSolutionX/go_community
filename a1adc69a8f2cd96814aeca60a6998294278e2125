@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8f3395df_8b0aa36f",
+        "filename": "src/cmd/compile/internal/gc/typecheck.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-11-02T23:21:26Z",
+      "side": 1,
+      "message": "FYI, I suspect replacing this whole thing with just\n\n    mapqueue \u003d append(mapqueue, n)\n\nshould fix #21657.",
+      "range": {
+        "startLine": 424,
+        "startChar": 2,
+        "endLine": 433,
+        "endChar": 3
+      },
+      "revId": "a1adc69a8f2cd96814aeca60a6998294278e2125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "253b9391_ec46c9c6",
         "filename": "test/fixedbugs/issue21273.go",
         "patchSetId": 3
