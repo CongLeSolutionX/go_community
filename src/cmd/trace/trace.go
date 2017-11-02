@@ -201,7 +201,10 @@ func httpJsonTrace(w http.ResponseWriter, r *http.Request) {
 			log.Printf("failed to find task with id %d", taskid)
 			return
 		}
-		goid := task.events[0].G
+		goid := uint64(0)
+		if len(task.events) > 0 {
+			goid = task.events[0].G
+		}
 		params.taskTrace = true
 		params.startTime = task.firstTimestamp() - 1
 		params.endTime = task.lastTimestamp() + 1
@@ -215,6 +218,19 @@ func httpJsonTrace(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		params.gs = gs
+	} else if taskids := r.FormValue("focustask"); taskids != "" {
+		taskid, err := strconv.ParseUint(taskids, 10, 64)
+		if err != nil {
+			log.Printf("failed to parse focustask parameter %q: %v", taskids, err)
+			return
+		}
+		res, _ := annotationAnalysis()
+		task, ok := res.Tasks[taskid]
+		if !ok {
+			log.Printf("failed to find task with id %d", taskid)
+			return
+		}
+		params.tasks = task.tree()
 	}
 
 	data, err := generateTrace(params)
@@ -496,7 +512,7 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 		if ctx.gs != nil && ev.P < trace.FakeP && !ctx.gs[ev.G] {
 			continue
 		}
-		if !ctx.withinTimerange(ev, ctx.startTime, ctx.endTime) {
+		if !withinTimerange(ev, ctx.startTime, ctx.endTime) {
 			continue
 		}
 
@@ -614,8 +630,8 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 		}
 	}
 
-	// Display task and its spans if we are in taskTrace view.
-	if ctx.taskTrace {
+	// Display task and its spans if we are in taskTrace view or a regular trace view in focusTask mode.
+	if len(ctx.tasks) > 0 { // focus task is set or task-oriented trace view.
 		taskRow := uint64(trace.GCP + 1)
 		for _, task := range ctx.tasks {
 			taskName := fmt.Sprintf("Task %s(%d)", task.name, task.id)
@@ -634,8 +650,10 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			ctx.emit(t1)
 
 			// Spans
-			for _, s := range task.spans {
-				ctx.emitSpan(s)
+			if ctx.taskTrace {
+				for _, s := range task.spans {
+					ctx.emitSpan(s)
+				}
 			}
 		}
 	}
@@ -672,11 +690,20 @@ func (ctx *traceContext) time(ev *trace.Event) float64 {
 	return float64(ev.Ts) / 1000
 }
 
-func (ctx *traceContext) withinTimerange(ev *trace.Event, s, e int64) bool {
+func withinTimerange(ev *trace.Event, s, e int64) bool {
 	if evEnd := ev.Link; evEnd != nil {
 		return ev.Ts <= e && evEnd.Ts >= s
 	}
 	return ev.Ts >= s && ev.Ts <= e
+}
+
+func anyWithinTimerange(ev []*trace.Event, s, e int64) bool {
+	for _, event := range ev {
+		if withinTimerange(event, s, e) {
+			return true
+		}
+	}
+	return false
 }
 
 func (ctx *traceContext) proc(ev *trace.Event) uint64 {
@@ -697,7 +724,7 @@ func (ctx *traceContext) emitSlice(ev *trace.Event, name string) *ViewerEvent {
 		EndStack: ctx.stack(ev.Link.Stk),
 	}
 
-	if ctx.taskTrace {
+	if len(ctx.tasks) > 0 { // focus task is set or task-oriented trace view.
 		if t := ev.Type; t == trace.EvGoStart || t == trace.EvGoStartLabel {
 			type Arg struct {
 				P int
@@ -818,7 +845,7 @@ func (ctx *traceContext) emitInstant(ev *trace.Event, name, category string) {
 		}
 		arg = &Arg{ev.Args[0]}
 	}
-	ctx.emit(&ViewerEvent{
+	ins := &ViewerEvent{
 		Name:     name,
 		Category: category,
 		Phase:    "I",
@@ -826,7 +853,21 @@ func (ctx *traceContext) emitInstant(ev *trace.Event, name, category string) {
 		Time:     ctx.time(ev),
 		Tid:      ctx.proc(ev),
 		Stack:    ctx.stack(ev.Stk),
-		Arg:      arg})
+		Arg:      arg,
+	}
+	if len(ctx.tasks) > 0 { // focus task is set or task-oriented trace view.
+		overlapping := false
+		for _, task := range ctx.tasks {
+			if _, ok := task.overlappingDuration(ev); ok {
+				overlapping = true
+				break
+			}
+		}
+		if !overlapping {
+			ins.Cname = "grey"
+		}
+	}
+	ctx.emit(ins)
 }
 
 func (ctx *traceContext) emitArrow(ev *trace.Event, name string) {
