@@ -447,6 +447,30 @@
       "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f038b01c_9024d563",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-11-02T14:29:31Z",
+      "side": 1,
+      "message": "In the PutUint16 function, the input value is 2 bytes so the MOVHZreg has been inserted to truncate it. So if I remove it, that match won\u0027t happen, and I will continue to get stb, stb instead of sth. \n\nAnd then in the PutUint32 function, the input value is 4 bytes so it won\u0027t have the MOVHZreg, so that means it can\u0027t reuse/build upon the PutUint16 rule since that one must have the MOVHZreg.",
+      "parentUuid": "57366a0e_58d22f6b",
+      "range": {
+        "startLine": 1038,
+        "startChar": 43,
+        "endLine": 1040,
+        "endChar": 35
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
