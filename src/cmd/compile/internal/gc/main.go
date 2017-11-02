@@ -492,6 +492,9 @@ func Main(archInit func(*Arch)) {
 	}
 	resumecheckwidth()
 
+	// With all global types ckecked, it's now safe to verify map keys.
+	checkMapKeys()
+
 	// Phase 3: Type check function bodies.
 	// Don't use range--typecheck can add closures to xtop.
 	timings.Start("fe", "typecheck", "func")
@@ -511,6 +514,10 @@ func Main(archInit func(*Arch)) {
 			// we can eliminate some obviously dead code.
 			deadcode(Curfn)
 			fcount++
+			// We should never have local unchecked map keys.
+			if mapqueue != nil {
+				Fatalf("unchecked map keys")
+			}
 		}
 	}
 	timings.AddEvent(fcount, "funcs")
