@@ -41,7 +41,7 @@
 # This is used by cgo.  Default is CC.
 #
 # CXX_FOR_TARGET: Command line to run to compile C++ code for GOARCH.
-# This is used by cgo. Default is CXX, or, if that is not set, 
+# This is used by cgo. Default is CXX, or, if that is not set,
 # "g++" or "clang++".
 #
 # FC: Command line to run to compile Fortran code for GOARCH.
@@ -147,7 +147,8 @@ IFS=$'\n'; for go_exe in $(type -ap go); do
 		fi
 	fi
 done; unset IFS
-echo "Building Go cmd/dist using $GOROOT_BOOTSTRAP."
+SECONDS=0
+printf "Building Go cmd/dist using $GOROOT_BOOTSTRAP... "
 if $verbose; then
 	echo cmd/dist
 fi
@@ -170,6 +171,8 @@ if [ "$FAIL" = true ]; then
 	exit 1
 fi
 
+duration=$SECONDS
+echo "${SECONDS}s"
 if $verbose; then
 	echo
 fi

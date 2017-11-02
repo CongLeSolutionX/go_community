@@ -487,3 +487,9 @@ func xflagparse(maxargs int) {
 		flag.Usage()
 	}
 }
+
+// Since returns a time.Duration rounded to the nearest tenth of a second.
+func since(t time.Time) time.Duration {
+	// We can't use Round because this needs to work with Go 1.4.
+	return (time.Since(t) + 50*time.Millisecond) / (100 * time.Millisecond) * (100 * time.Millisecond)
+}

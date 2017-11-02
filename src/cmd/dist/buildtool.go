@@ -17,6 +17,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"time"
 )
 
 // bootstrapDirs is a list of directories holding code that must be
@@ -106,8 +107,9 @@ func bootstrapBuildTools() {
 	if goroot_bootstrap == "" {
 		goroot_bootstrap = pathf("%s/go1.4", os.Getenv("HOME"))
 	}
-	xprintf("Building Go toolchain1 using %s.\n", goroot_bootstrap)
+	xprintf("Building Go toolchain1 using %s... ", goroot_bootstrap)
 
+	start := time.Now()
 	mkzbootstrap(pathf("%s/src/cmd/internal/objabi/zbootstrap.go", goroot))
 
 	// Use $GOROOT/pkg/bootstrap as the bootstrap workspace root.
@@ -204,6 +206,7 @@ func bootstrapBuildTools() {
 		}
 	}
 
+	xprintf("%s\n", since(start))
 	if vflag > 0 {
 		xprintf("\n")
 	}

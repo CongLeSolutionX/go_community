@@ -1106,7 +1106,8 @@ func cmdbootstrap() {
 	os.Setenv("GOOS", goos)
 
 	timelog("build", "go_bootstrap")
-	xprintf("Building Go bootstrap cmd/go (go_bootstrap) using Go toolchain1.\n")
+	start := time.Now()
+	xprintf("Building Go bootstrap cmd/go (go_bootstrap) using Go toolchain1... ")
 	for _, dir := range buildlist {
 		installed[dir] = make(chan struct{})
 	}
@@ -1126,6 +1127,7 @@ func cmdbootstrap() {
 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
 		copyfile(pathf("%s/compile1", tooldir), pathf("%s/compile", tooldir), writeExec)
 	}
+	xprintf("%s\n", since(start))
 
 	// To recap, so far we have built the new toolchain
 	// (cmd/asm, cmd/cgo, cmd/compile, cmd/link)
@@ -1144,10 +1146,11 @@ func cmdbootstrap() {
 	//	toolchain2 = mk(new toolchain, toolchain1, go_bootstrap)
 	//
 	timelog("build", "toolchain2")
+	start = time.Now()
 	if vflag > 0 {
 		xprintf("\n")
 	}
-	xprintf("Building Go toolchain2 using go_bootstrap and Go toolchain1.\n")
+	xprintf("Building Go toolchain2 using go_bootstrap and Go toolchain1... ")
 	os.Setenv("CC", defaultcc)
 	if goos == oldgoos && goarch == oldgoarch {
 		// Host and target are same, and we have historically
@@ -1160,6 +1163,7 @@ func cmdbootstrap() {
 		run("", ShowOutput|CheckExit, pathf("%s/buildid", tooldir), pathf("%s/pkg/%s_%s/runtime/internal/sys.a", goroot, goos, goarch))
 		copyfile(pathf("%s/compile2", tooldir), pathf("%s/compile", tooldir), writeExec)
 	}
+	xprintf("%s\n", since(start))
 
 	// Toolchain2 should be semantically equivalent to toolchain1,
 	// but it was built using the new compilers instead of the Go 1.4 compilers,
@@ -1178,10 +1182,11 @@ func cmdbootstrap() {
 	//	toolchain3 = mk(new toolchain, toolchain2, go_bootstrap)
 	//
 	timelog("build", "toolchain3")
+	start = time.Now()
 	if vflag > 0 {
 		xprintf("\n")
 	}
-	xprintf("Building Go toolchain3 using go_bootstrap and Go toolchain2.\n")
+	xprintf("Building Go toolchain3 using go_bootstrap and Go toolchain2... ")
 	goInstall(goBootstrap, append([]string{"-a"}, toolchain...)...)
 	if debug {
 		run("", ShowOutput|CheckExit, pathf("%s/compile", tooldir), "-V=full")
@@ -1189,14 +1194,16 @@ func cmdbootstrap() {
 		copyfile(pathf("%s/compile3", tooldir), pathf("%s/compile", tooldir), writeExec)
 	}
 	checkNotStale(goBootstrap, append(toolchain, "runtime/internal/sys")...)
+	xprintf("%s\n", since(start))
 
+	start = time.Now()
 	if goos == oldgoos && goarch == oldgoarch {
 		// Common case - not setting up for cross-compilation.
 		timelog("build", "toolchain")
 		if vflag > 0 {
 			xprintf("\n")
 		}
-		xprintf("Building packages and commands for %s/%s.\n", goos, goarch)
+		xprintf("Building packages and commands for %s/%s... ", goos, goarch)
 	} else {
 		// GOOS/GOARCH does not match GOHOSTOS/GOHOSTARCH.
 		// Finish GOHOSTOS/GOHOSTARCH installation and then
@@ -1205,12 +1212,14 @@ func cmdbootstrap() {
 		if vflag > 0 {
 			xprintf("\n")
 		}
-		xprintf("Building packages and commands for host, %s/%s.\n", goos, goarch)
+		xprintf("Building packages and commands for host, %s/%s... ", goos, goarch)
 		goInstall(goBootstrap, "std", "cmd")
 		checkNotStale(goBootstrap, "std", "cmd")
 		checkNotStale(cmdGo, "std", "cmd")
+		xprintf("%s\n", since(start))
 
 		timelog("build", "target toolchain")
+		start = time.Now()
 		if vflag > 0 {
 			xprintf("\n")
 		}
@@ -1219,7 +1228,7 @@ func cmdbootstrap() {
 		os.Setenv("GOOS", goos)
 		os.Setenv("GOARCH", goarch)
 		os.Setenv("CC", defaultcctarget)
-		xprintf("Building packages and commands for target, %s/%s.\n", goos, goarch)
+		xprintf("Building packages and commands for target, %s/%s... ", goos, goarch)
 	}
 	goInstall(goBootstrap, "std", "cmd")
 	checkNotStale(goBootstrap, "std", "cmd")
@@ -1244,6 +1253,7 @@ func cmdbootstrap() {
 			fatalf("unexpected new file in $GOROOT/bin: %s", elem)
 		}
 	}
+	xprintf("%s\n", since(start))
 
 	// Remove go_bootstrap now that we're done.
 	xremove(pathf("%s/go_bootstrap", tooldir))
