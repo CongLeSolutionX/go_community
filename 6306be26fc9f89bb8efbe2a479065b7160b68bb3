@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31342af1_aaa802c9",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-02T00:08:58Z",
+      "side": 1,
+      "message": "This seems to add nothing, considering we already have the Grow method. Thoughts on removing it?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "6306be26fc9f89bb8efbe2a479065b7160b68bb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "853b7c94_a0672882",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-02T00:08:58Z",
+      "side": 1,
+      "message": "\"is reset\" (or \"is cleared\" or \"is zeroed\", but zeroed is too particular for what users can see). But \"is empty\" seems like the wrong tense.\n\nAlso, what about adding bytes.Buffer\u0027s Reset method too? Then you can just say that String calls Reset?\n\nBut actually I\u0027m not a fan of String called reset. That seems problematic. I can imagine users of Stringer expecting that two back-to-back String calls return the same result.\n\nI would set a flag instead (stringCalled bool) and then lazily clear (or return an error) on the next Write.\n\nI realize this is late feedback, and I apologize if this was already discussed. I\u0027m not caught up on email.",
+      "range": {
+        "startLine": 30,
+        "startChar": 27,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "6306be26fc9f89bb8efbe2a479065b7160b68bb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
