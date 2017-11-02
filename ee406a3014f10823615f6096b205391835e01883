@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4c01dd9_95dd5400",
+        "filename": "src/cmd/go/internal/cache/hash.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-02T21:16:49Z",
+      "side": 1,
+      "message": "could use a comment like // for verification",
+      "revId": "ee406a3014f10823615f6096b205391835e01883",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
