@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d847e0c7_0154cd93",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2327,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-02T08:08:15Z",
+      "side": 1,
+      "message": "I don\u0027t think this is enough since pointer moves are also implemented using MOVD. Now that we have negative matching we can make this more robust by adding:\n\nneg: []string{\"MOVBZ\", \"MOVHZ\", \"MOVWZ\"},",
+      "range": {
+        "startLine": 2327,
+        "startChar": 2,
+        "endLine": 2327,
+        "endChar": 28
+      },
+      "revId": "2deb2f31a3d96dd1b99bc960a1fa0e573f6b7068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8ea9f58_02d4d712",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2334,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-02T08:08:15Z",
+      "side": 1,
+      "message": "indent one more level",
+      "range": {
+        "startLine": 2334,
+        "startChar": 0,
+        "endLine": 2334,
+        "endChar": 1
+      },
+      "revId": "2deb2f31a3d96dd1b99bc960a1fa0e573f6b7068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57e4ab01_c28b201a",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2343,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-02T08:08:15Z",
+      "side": 1,
+      "message": "indent one more level",
+      "range": {
+        "startLine": 2343,
+        "startChar": 0,
+        "endLine": 2343,
+        "endChar": 1
+      },
+      "revId": "2deb2f31a3d96dd1b99bc960a1fa0e573f6b7068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f881100_7c869ad6",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2352,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-02T08:08:15Z",
+      "side": 1,
+      "message": "indent one more level",
+      "range": {
+        "startLine": 2352,
+        "startChar": 0,
+        "endLine": 2352,
+        "endChar": 1
+      },
+      "revId": "2deb2f31a3d96dd1b99bc960a1fa0e573f6b7068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a970fa3e_f2ff612f",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2354,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-02T08:08:15Z",
+      "side": 1,
+      "message": "Similar to above this can be made more robust by adding:\n\n\nneg: []string{\"MOVB\", \"MOVH\", \"MOVW\"},",
+      "range": {
+        "startLine": 2354,
+        "startChar": 2,
+        "endLine": 2354,
+        "endChar": 28
+      },
+      "revId": "2deb2f31a3d96dd1b99bc960a1fa0e573f6b7068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5616da14_e27077d2",
+        "filename": "src/encoding/binary/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-02T08:08:15Z",
+      "side": 1,
+      "message": "I don\u0027t think we should be adding new examples in this CL. Were these just for testing?",
+      "revId": "2deb2f31a3d96dd1b99bc960a1fa0e573f6b7068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
