@@ -1091,6 +1091,13 @@ func cmdbootstrap() {
 
 	setup()
 
+	switch os.Getenv("GO_BUILDER_NAME") {
+	case "linux-386", "linux-amd64":
+		// ok
+	default:
+		fatalf("only debugging on linux/386 and linux/amd64")
+	}
+
 	timelog("build", "toolchain1")
 	checkCC()
 	bootstrapBuildTools()
