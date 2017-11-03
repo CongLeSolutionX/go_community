@@ -35,6 +35,7 @@ import (
 	"cmd/internal/sys"
 	"cmd/link/internal/sym"
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -502,6 +503,7 @@ func (ctxt *Link) symtab() {
 	}
 	if ctxt.BuildMode == BuildModePlugin || ctxt.Syms.ROLookup("plugin.Open", 0) != nil {
 		for _, l := range ctxt.Library {
+			fmt.Fprintf(os.Stderr, "PLUGIN2 %q %q\n", l.Pkg, l.Hash)
 			s := ctxt.Syms.Lookup("go.link.pkghashbytes."+l.Pkg, 0)
 			s.Attr |= sym.AttrReachable
 			s.Type = sym.SRODATA
@@ -599,6 +601,7 @@ func (ctxt *Link) symtab() {
 			// pkghashes[i].linktimehash
 			addgostring(ctxt, pkghashes, fmt.Sprintf("go.link.pkglinkhash.%d", i), l.Hash)
 			// pkghashes[i].runtimehash
+			fmt.Fprintf(os.Stderr, "PLUGIN %q %q\n", l.Pkg, l.Hash)
 			hash := ctxt.Syms.ROLookup("go.link.pkghash."+l.Pkg, 0)
 			pkghashes.AddAddr(ctxt.Arch, hash)
 		}
