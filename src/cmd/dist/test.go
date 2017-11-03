@@ -173,6 +173,8 @@ func (t *tester) run() {
 
 	t.registerTests()
 	if t.listMode {
+		fmt.Println("testplugin")
+		return
 		for _, tt := range t.tests {
 			fmt.Println(tt.name)
 		}
