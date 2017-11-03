@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73cb665d_20572ca2",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-03T00:48:49Z",
+      "side": 1,
+      "message": "The rest of this file indents with tabs. These new funcs use spaces (or a mix of spaces and tabs).\n\nPlease convert these to only use tabs for indentation.\n\n(if only we had an asmfmt!)",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
