@@ -1248,14 +1248,15 @@ func useProxy(addr string) bool {
 	if len(addr) == 0 {
 		return true
 	}
-	host, _, err := net.SplitHostPort(addr)
+	host, port, err := net.SplitHostPort(addr)
 	if err != nil {
 		return false
 	}
 	if host == "localhost" {
 		return false
 	}
-	if ip := net.ParseIP(host); ip != nil {
+	ip := net.ParseIP(host)
+	if ip != nil {
 		if ip.IsLoopback() {
 			return false
 		}
@@ -1266,33 +1267,62 @@ func useProxy(addr string) bool {
 		return false
 	}
 
-	addr = strings.ToLower(strings.TrimSpace(addr))
-	if hasPort(addr) {
-		addr = addr[:strings.LastIndex(addr, ":")]
-	}
-
+	addr = strings.ToLower(strings.TrimSpace(host))
 	for _, p := range strings.Split(noProxy, ",") {
 		p = strings.ToLower(strings.TrimSpace(p))
 		if len(p) == 0 {
 			continue
 		}
-		if hasPort(p) {
-			p = p[:strings.LastIndex(p, ":")]
+
+		if ip != nil {
+			// IPv4, IPv6
+			if addr == p {
+				return false
+			}
+			// IPv4/CIDR, IPv6/CIDR
+			if _, pnet, err := net.ParseCIDR(p); err == nil {
+				if pnet.Contains(ip) {
+					return false
+				}
+			}
+			// IPv4:port, [IPv6]:port
+			if i := strings.LastIndexByte(p, ':'); i != -1 {
+				pport := p[i+1:]
+				phost := p[:i]
+				if phost[0] == '[' && phost[len(phost)-1] == ']' {
+					phost = phost[1 : len(phost)-1]
+				}
+				if addr == phost {
+					return !(pport == "" || pport == port)
+				}
+			}
 		}
-		if addr == p {
-			return false
+
+		pport := ""
+		phost := p
+		if i := strings.IndexByte(p, ':'); i != -1 {
+			phost = p[:i]
+			pport = p[i+1:]
 		}
-		if len(p) == 0 {
+		if len(phost) == 0 {
 			// There is no host part, likely the entry is malformed; ignore.
 			continue
 		}
-		if p[0] == '.' && (strings.HasSuffix(addr, p) || addr == p[1:]) {
-			// no_proxy ".foo.com" matches "bar.foo.com" or "foo.com"
-			return false
+		// match domain.com or domain.com:80
+		if addr == phost {
+			return !(pport == "" || pport == port)
 		}
-		if p[0] != '.' && strings.HasSuffix(addr, p) && addr[len(addr)-len(p)-1] == '.' {
-			// no_proxy "foo.com" matches "bar.foo.com"
-			return false
+		// Endswith (.domain.com or .domain.com:port)
+		if phost[0] == '.' && (strings.HasSuffix(addr, phost) || addr == phost[1:]) {
+			return !(pport == "" || pport == port)
+		}
+		// Endswith (*.domain.com or *.domain.com:port)
+		if phost[0] == '*' && (strings.HasSuffix(addr, phost[1:]) || addr == phost[2:]) {
+			return !(pport == "" || pport == port)
+		}
+		// no_proxy "foo.com" matches "bar.foo.com"
+		if phost[0] != '.' && strings.HasSuffix(addr, phost) && addr[len(addr)-len(phost)-1] == '.' {
+			return !(pport == "" || pport == port)
 		}
 	}
 	return true
