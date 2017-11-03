@@ -149,6 +149,24 @@
       "revId": "2deb2f31a3d96dd1b99bc960a1fa0e573f6b7068",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b8e7ae5_584c67e3",
+        "filename": "src/encoding/binary/example_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-03T09:55:23Z",
+      "side": 1,
+      "message": "Yeah, the examples end up in the GoDoc: https://godoc.org/encoding/binary#example-ByteOrder--Put. We shouldn\u0027t add anything to them in this CL.\n\nThe UintXX and PutUintXX functions are tested indirectly by TestLittleEndianRead and TestLittleEndianWrite.",
+      "parentUuid": "7ec99e4c_16b571a1",
+      "revId": "2deb2f31a3d96dd1b99bc960a1fa0e573f6b7068",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }

@@ -471,6 +471,30 @@
       "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa90217e_a0d286ab",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-03T09:55:23Z",
+      "side": 1,
+      "message": "Yes, I see what you mean. We could perhaps add some rules like this I guess to remove unnecessary zero extensions:\n\n(MOVBstore {sym} [off] s:(SRWconst \u003ct\u003e [c] (MOVHZreg x)) ptr mem) \u0026\u0026 8 \u003c\u003d c \u0026\u0026 s.Uses \u003d\u003d 1 -\u003e (MOVBstore {sym} [off] (SRWconst \u003ct\u003e [c] x) ptr mem)\n\nMaybe something to experiment with when it comes time to add big endian loads, probably not worth doing now.",
+      "parentUuid": "f038b01c_9024d563",
+      "range": {
+        "startLine": 1038,
+        "startChar": 43,
+        "endLine": 1040,
+        "endChar": 35
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
