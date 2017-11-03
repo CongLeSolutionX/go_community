@@ -732,8 +732,6 @@ func genhash(ctxt *Link, lib *sym.Library) {
 		return
 	}
 
-	h := sha1.New()
-
 	// To compute the hash of a package, we hash the first line of
 	// __.PKGDEF (which contains the toolchain version and any
 	// GOEXPERIMENT flags) and the export data (which is between
@@ -760,9 +758,13 @@ func genhash(ctxt *Link, lib *sym.Library) {
 		Errorf(nil, "cannot parse package data of %s for hash generation, only one \\n$$ found", lib.File)
 		return
 	}
+	h := sha1.New() /* x4 */
 	h.Write(pkgDefBytes[0:firstEOL])
 	h.Write(pkgDefBytes[firstDoubleDollar : firstDoubleDollar+secondDoubleDollar])
 	lib.Hash = hex.EncodeToString(h.Sum(nil))
+	if lib.Pkg == "iface_i" {
+		fmt.Fprintf(os.Stderr, "LIBHASH %s %q %q -> %s\n", lib.File, pkgDefBytes[0:firstEOL], pkgDefBytes[firstDoubleDollar:firstDoubleDollar+secondDoubleDollar], lib.Hash)
+	}
 }
 
 func loadobjfile(ctxt *Link, lib *sym.Library) {
