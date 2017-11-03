@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e22e933_be76d95f",
+        "filename": "src/cmd/go/internal/work/buildid.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-03T14:56:40Z",
+      "side": 1,
+      "message": "if rewrite\u003dtrue",
+      "revId": "da63ef3ccdd39ac7ddb5f7441ebe0e4cf3844217",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
