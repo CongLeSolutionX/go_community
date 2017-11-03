@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1675eda4_2a905946",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-11-03T02:39:34Z",
+      "side": 1,
+      "message": "Currently the placements of those start \u003d time.Now() statements seems not to be consistent.\nI would place these below the corresponding xprintf calls.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 1,
+        "endLine": 1199,
+        "endChar": 19
+      },
+      "revId": "f0609dbd5ab58851372b7fcb24a79ea32aacd723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97f52c15_d26fe55f",
+        "filename": "src/cmd/dist/util.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-11-03T02:39:34Z",
+      "side": 1,
+      "message": "Isn\u0027t this a bit of overkill? IMHO time.Since() will be fine, when using in printf(\"%.1fs\", time.Since(start).Seconds())",
+      "range": {
+        "startLine": 491,
+        "startChar": 33,
+        "endLine": 491,
+        "endChar": 73
+      },
+      "revId": "f0609dbd5ab58851372b7fcb24a79ea32aacd723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b1f2738_8929a2f3",
+        "filename": "src/make.bash",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-11-03T02:39:34Z",
+      "side": 1,
+      "message": "There should be no need to define duration.\n\nBut I would even prefer not to output times besides what ./cmd/dist/dist bootstrap does.\nThen we also would be consistent for different systems not using make.bash.",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 18
+      },
+      "revId": "f0609dbd5ab58851372b7fcb24a79ea32aacd723",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
