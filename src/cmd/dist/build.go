@@ -1091,6 +1091,10 @@ func cmdbootstrap() {
 
 	setup()
 
+	if goos != "linux" || (goarch != "386" && goarch != "amd64") {
+		fatalf("only debugging on linux/386 and linux/amd64")
+	}
+
 	timelog("build", "toolchain1")
 	checkCC()
 	bootstrapBuildTools()
