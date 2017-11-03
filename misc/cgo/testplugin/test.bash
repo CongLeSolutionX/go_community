@@ -23,6 +23,8 @@ trap cleanup EXIT
 rm -rf pkg sub
 mkdir sub
 
+set -x
+
 GOPATH=$(pwd) go build -i -gcflags "$GO_GCFLAGS" -buildmode=plugin plugin1
 GOPATH=$(pwd) go build -gcflags "$GO_GCFLAGS" -buildmode=plugin plugin2
 cp plugin2.so plugin2-dup.so
