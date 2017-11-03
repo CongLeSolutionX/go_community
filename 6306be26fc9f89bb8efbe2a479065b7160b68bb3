@@ -93,6 +93,30 @@
       "revId": "6306be26fc9f89bb8efbe2a479065b7160b68bb3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "493d0565_407cd36e",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-11-03T00:06:57Z",
+      "side": 1,
+      "message": "\u003e Also, what about adding bytes.Buffer\u0027s Reset method too?\n\nWhile it looks as we decided on (1), this is still an open question I think. There should not be much harm adding\nfunc (b *Builder) Reset() { b.buf \u003d nil }\nSo the user can simply reuse it\u0027s Builder instead of declaring a new one.",
+      "parentUuid": "40d9672c_5d73d169",
+      "range": {
+        "startLine": 30,
+        "startChar": 27,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "6306be26fc9f89bb8efbe2a479065b7160b68bb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
