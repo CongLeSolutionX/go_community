@@ -625,6 +625,26 @@ func (r *Reader) SkipChildren() {
 	}
 }
 
+// AbstractOrigin returns returns the abstract parent DIE Entry referred
+// to by the specified Entry's abstract origin attribute. This is useful
+// when looking at DIEs that are part of inlined subroutines.
+func (r *Reader) AbstractOrigin(e *Entry) (*Entry, error) {
+	origin, originOK := e.Val(AttrAbstractOrigin).(Offset)
+	if !originOK {
+		return nil, nil
+	}
+	save := r.b.off
+	r.Seek(origin)
+	u := &r.d.unit[r.unit]
+	ao := r.b.entry(u.atable, origin)
+	if r.b.err != nil {
+		r.err = r.b.err
+		return nil, r.err
+	}
+	r.Seek(save)
+	return ao, nil
+}
+
 // clone returns a copy of the reader. This is used by the typeReader
 // interface.
 func (r *Reader) clone() typeReader {
