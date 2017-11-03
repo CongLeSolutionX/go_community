@@ -117,6 +117,30 @@
       "revId": "6306be26fc9f89bb8efbe2a479065b7160b68bb3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f94ef262_46e76c0d",
+        "filename": "src/strings/builder.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5615
+      },
+      "writtenOn": "2017-11-03T00:24:25Z",
+      "side": 1,
+      "message": "The user could also do *b \u003d strings.Builder{}.",
+      "parentUuid": "493d0565_407cd36e",
+      "range": {
+        "startLine": 30,
+        "startChar": 27,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "6306be26fc9f89bb8efbe2a479065b7160b68bb3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
