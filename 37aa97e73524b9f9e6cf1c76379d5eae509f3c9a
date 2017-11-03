@@ -248,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "8454fc12_3bd21af1",
+        "filename": "src/runtime/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-03T14:31:46Z",
+      "side": 1,
+      "message": "Would VADDV also do this? I didn\u0027t search the instruction table completely.",
+      "parentUuid": "5bca8ead_94ff3503",
+      "range": {
+        "startLine": 930,
+        "startChar": 0,
+        "endLine": 934,
+        "endChar": 39
+      },
+      "revId": "37aa97e73524b9f9e6cf1c76379d5eae509f3c9a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "052cae50_5ec06a23",
         "filename": "src/runtime/asm_arm64.s",
         "patchSetId": 1
