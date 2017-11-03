@@ -23,6 +23,9 @@ trap cleanup EXIT
 rm -rf pkg sub
 mkdir sub
 
+set -x
+go env
+
 GOPATH=$(pwd) go build -i -gcflags "$GO_GCFLAGS" -buildmode=plugin plugin1
 GOPATH=$(pwd) go build -gcflags "$GO_GCFLAGS" -buildmode=plugin plugin2
 cp plugin2.so plugin2-dup.so
@@ -35,10 +38,12 @@ GOPATH=$(pwd) go build -gcflags "$GO_GCFLAGS" host
 LD_LIBRARY_PATH=$(pwd) ./host
 
 # Test that types and itabs get properly uniqified.
-GOPATH=$(pwd) go build -gcflags "$GO_GCFLAGS" -buildmode=plugin iface_a
-GOPATH=$(pwd) go build -gcflags "$GO_GCFLAGS" -buildmode=plugin iface_b
-GOPATH=$(pwd) go build -gcflags "$GO_GCFLAGS" iface
+export GODEBUG=gocachehash=1
+GOPATH=$(pwd) go build -x -gcflags "$GO_GCFLAGS" -buildmode=plugin iface_a
+GOPATH=$(pwd) go build -x -gcflags "$GO_GCFLAGS" -buildmode=plugin iface_b
+GOPATH=$(pwd) go build -x -gcflags "$GO_GCFLAGS" iface
 LD_LIBRARY_PATH=$(pwd) ./iface
+exit 0
 
 function _timeout() (
 	set -e
