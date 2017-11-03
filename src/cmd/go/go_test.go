@@ -4686,3 +4686,11 @@ func TestUpxCompression(t *testing.T) {
 		t.Fatalf("bad output from compressed go binary:\ngot %q; want %q", out, "hello upx")
 	}
 }
+
+func TestFmtLoadErrors(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
+	tg.runFail("fmt", "does-not-exist")
+	tg.run("fmt", "-n", "exclude")
+}
