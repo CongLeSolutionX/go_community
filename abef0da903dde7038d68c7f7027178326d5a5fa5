@@ -495,6 +495,30 @@
       "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8edd937c_590e2c59",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2017-11-03T17:37:27Z",
+      "side": 1,
+      "message": "Yes, after your last comment I started thinking about how to do that...  But not in this one, something for a later change.",
+      "parentUuid": "aa90217e_a0d286ab",
+      "range": {
+        "startLine": 1038,
+        "startChar": 43,
+        "endLine": 1040,
+        "endChar": 35
+      },
+      "revId": "abef0da903dde7038d68c7f7027178326d5a5fa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
