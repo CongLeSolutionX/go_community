@@ -565,47 +565,6 @@ func (t *Transport) cancelRequest(req *Request, err error) {
 // Private implementation past this point.
 //
 
-var (
-	httpProxyEnv = &envOnce{
-		names: []string{"HTTP_PROXY", "http_proxy"},
-	}
-	httpsProxyEnv = &envOnce{
-		names: []string{"HTTPS_PROXY", "https_proxy"},
-	}
-	noProxyEnv = &envOnce{
-		names: []string{"NO_PROXY", "no_proxy"},
-	}
-)
-
-// envOnce looks up an environment variable (optionally by multiple
-// names) once. It mitigates expensive lookups on some platforms
-// (e.g. Windows).
-type envOnce struct {
-	names []string
-	once  sync.Once
-	val   string
-}
-
-func (e *envOnce) Get() string {
-	e.once.Do(e.init)
-	return e.val
-}
-
-func (e *envOnce) init() {
-	for _, n := range e.names {
-		e.val = os.Getenv(n)
-		if e.val != "" {
-			return
-		}
-	}
-}
-
-// reset is used by tests
-func (e *envOnce) reset() {
-	e.once = sync.Once{}
-	e.val = ""
-}
-
 func (t *Transport) connectMethodForRequest(treq *transportRequest) (cm connectMethod, err error) {
 	if port := treq.URL.Port(); !validPort(port) {
 		return cm, fmt.Errorf("invalid URL port %q", port)
@@ -1239,63 +1198,6 @@ func (w persistConnWriter) Write(p []byte) (n int, err error) {
 	n, err = w.pc.conn.Write(p)
 	w.pc.nwrite += int64(n)
 	return
-}
-
-// useProxy reports whether requests to addr should use a proxy,
-// according to the NO_PROXY or no_proxy environment variable.
-// addr is always a canonicalAddr with a host and port.
-func useProxy(addr string) bool {
-	if len(addr) == 0 {
-		return true
-	}
-	host, _, err := net.SplitHostPort(addr)
-	if err != nil {
-		return false
-	}
-	if host == "localhost" {
-		return false
-	}
-	if ip := net.ParseIP(host); ip != nil {
-		if ip.IsLoopback() {
-			return false
-		}
-	}
-
-	noProxy := noProxyEnv.Get()
-	if noProxy == "*" {
-		return false
-	}
-
-	addr = strings.ToLower(strings.TrimSpace(addr))
-	if hasPort(addr) {
-		addr = addr[:strings.LastIndex(addr, ":")]
-	}
-
-	for _, p := range strings.Split(noProxy, ",") {
-		p = strings.ToLower(strings.TrimSpace(p))
-		if len(p) == 0 {
-			continue
-		}
-		if hasPort(p) {
-			p = p[:strings.LastIndex(p, ":")]
-		}
-		if addr == p {
-			return false
-		}
-		if len(p) == 0 {
-			// There is no host part, likely the entry is malformed; ignore.
-			continue
-		}
-		if p[0] == '.' && (strings.HasSuffix(addr, p) || addr == p[1:]) {
-			// no_proxy ".foo.com" matches "bar.foo.com" or "foo.com"
-			return false
-		}
-		if p[0] != '.' && strings.HasSuffix(addr, p) && addr[len(addr)-len(p)-1] == '.' {
-			// no_proxy "foo.com" matches "bar.foo.com"
-			return false
-		}
-	}
-	return true
 }
 
 // connectMethod is the map key (in its String form) for keeping persistent
