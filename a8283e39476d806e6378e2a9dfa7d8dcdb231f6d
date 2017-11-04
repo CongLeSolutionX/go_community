@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "479362ea_0698e423",
+        "filename": "src/hash/marshalexample_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-04T00:20:16Z",
+      "side": 1,
+      "message": "This file needs a copyright header.\n\nAlso let\u0027s just call is example_test.go, as most packages do.",
+      "revId": "a8283e39476d806e6378e2a9dfa7d8dcdb231f6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "892f6a63_8d2329fb",
+        "filename": "src/hash/marshalexample_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-04T00:20:16Z",
+      "side": 1,
+      "message": "How about adding something that uses bytes.Equals to compare the two sums to show that they are equal?",
+      "revId": "a8283e39476d806e6378e2a9dfa7d8dcdb231f6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
