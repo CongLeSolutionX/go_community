@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a584bef4_78e71d6e",
+        "filename": "src/hash/marshalexample_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2017-11-04T00:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "479362ea_0698e423",
+      "revId": "a8283e39476d806e6378e2a9dfa7d8dcdb231f6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "892f6a63_8d2329fb",
         "filename": "src/hash/marshalexample_test.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "a8283e39476d806e6378e2a9dfa7d8dcdb231f6d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac77d261_4cffe079",
+        "filename": "src/hash/marshalexample_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2017-11-04T00:26:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "892f6a63_8d2329fb",
+      "revId": "a8283e39476d806e6378e2a9dfa7d8dcdb231f6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
