@@ -22,6 +22,30 @@
       "revId": "3baef05bdc6b033957cb54839c40941477d27501",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a6e3394_dbca5f9f",
+        "filename": "src/go/printer/testdata/comments.golden",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2017-11-04T21:53:58Z",
+      "side": 1,
+      "message": "Yes, gofmt the tool does enter a space here. But the printer used by the tests does something weird.\n\nPlease see my previous comment: https://go-review.googlesource.com/c/go/+/74232#message-0f12c523748db0ae87db1335a6efb82825a1624e\n\nHaven\u0027t investigated yet, was hoping that you could give a pointer since you likely know what the cause could be.",
+      "parentUuid": "fd458c92_be890f77",
+      "range": {
+        "startLine": 749,
+        "startChar": 12,
+        "endLine": 749,
+        "endChar": 13
+      },
+      "revId": "3baef05bdc6b033957cb54839c40941477d27501",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
