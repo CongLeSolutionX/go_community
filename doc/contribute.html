@@ -156,9 +156,30 @@ completed and update the <code>AUTHORS</code> file.
 <h2 id="git-codereview">Setting up Git for submission to Gerrit</h2>
 <p>
 Changes to Go must be reviewed before they are accepted, no matter who makes the change.
+</p>
+
+<p>
 A custom git command called <code>git-codereview</code>, discussed below,
 helps manage the code review process through a Google-hosted
 <a href="https://go-review.googlesource.com/">instance</a> of Gerrit.
+</p>
+
+<p>
+<b>Note to Git aficionados:</b>
+The <code>git-codereview</code> command is not required to
+upload and manage Gerrit code reviews.
+For those who prefer plain Git, the text below gives the Git equivalent of
+each git-codereview command.
+</p>
+
+<p>
+If you do use plain Git, note that you still need the commit hooks that the
+git-codereview command configures; those hooks add a Gerrit
+<code>Change-Id</code> line to the commit message and check that all Go source
+files have been formatted with gofmt.
+Even if you intend to use plain Git for
+daily work, install the hooks in a new Git checkout by running
+<code>git-codereview</code> <code>hooks</code>.
 </p>
 
 <h3 id="git-codereview_install">Install the git-codereview command</h3>
@@ -188,24 +209,6 @@ On Windows, when using git-bash you must make sure that
 <code>git-codereview.exe</code> is in your git exec-path.
 Run <code>git --exec-path</code> to discover the right location then create a
 symbolic link or simply copy the executible from $GOPATH/bin to this directory.
-</p>
-
-<p>
-<b>Note to Git aficionados:</b>
-The <code>git-codereview</code> command is not required to
-upload and manage Gerrit code reviews.
-For those who prefer plain Git, the text below gives the Git equivalent of
-each git-codereview command.
-</p>
-
-<p>
-If you do use plain Git, note that you still need the commit hooks that the
-git-codereview command configures; those hooks add a Gerrit
-<code>Change-Id</code> line to the commit message and check that all Go source
-files have been formatted with gofmt.
-Even if you intend to use plain Git for
-daily work, install the hooks in a new Git checkout by running
-<code>git-codereview</code> <code>hooks</code>.
 </p>
 
 <p>
