@@ -721,6 +721,27 @@ func TestHardLink(t *testing.T) {
 	if !SameFile(tostat, fromstat) {
 		t.Errorf("link %q, %q did not create hard link", to, from)
 	}
+	// We should not be able to perform the same Link() a second time
+	err = Link(to, from)
+	switch err := err.(type) {
+	case *LinkError:
+		if err.Op != "link" {
+			t.Errorf("link %q, %q: err.Op: want %q, got %q", to, from, "link", err.Op)
+		}
+		if err.Old != to {
+			t.Errorf("link %q, %q: err.Old: want %q, got %q", to, from, to, err.Old)
+		}
+		if err.New != from {
+			t.Errorf("link %q, %q: err.New: want %q, got %q", to, from, from, err.New)
+		}
+		if !IsExist(err.Err) {
+			t.Errorf("link %q, %q: err.err: want %q, got %q", to, from, "file exists error", err.Err)
+		}
+	case nil:
+		t.Errorf("link %q, %q: expected error, got nil", from, to)
+	default:
+		t.Errorf("link %q, %q: expected %T, got %T %v", from, to, new(LinkError), err, err)
+	}
 }
 
 // chtmpdir changes the working directory to a new temporary directory and
