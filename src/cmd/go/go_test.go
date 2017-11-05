@@ -4726,12 +4726,16 @@ func TestBuildCache(t *testing.T) {
 	tg.makeTempdir()
 	tg.setenv("GOCACHE", tg.tempdir)
 
-	// complex/x is a trivial non-main package.
+	// complex/w is a trivial non-main package.
+	// It imports nothing, so there should be no Deps.
+	tg.run("list", "-f={{join .Deps \" \"}}", "complex/w")
+	tg.grepStdoutNot(".+", "complex/w depends on unexpected packages")
+
 	tg.run("build", "-x", "complex/w")
 	tg.grepStderr(`[\\/]compile|gccgo`, "did not run compiler")
 
 	tg.run("build", "-x", "complex/w")
-	tg.grepStderrNot(`[\\/]compile|gccgo`, "did not run compiler")
+	tg.grepStderrNot(`[\\/]compile|gccgo`, "ran compiler incorrectly")
 
 	// complex is a non-trivial main package.
 	// the link step should not be cached.
