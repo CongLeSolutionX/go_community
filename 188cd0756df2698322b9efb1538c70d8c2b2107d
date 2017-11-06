@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "322d00bb_c1987e4e",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1135,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2017-11-06T03:59:22Z",
+      "side": 1,
+      "message": "This should just be\ninstall(\"cmd/go\")",
+      "range": {
+        "startLine": 1134,
+        "startChar": 1,
+        "endLine": 1135,
+        "endChar": 22
+      },
+      "revId": "188cd0756df2698322b9efb1538c70d8c2b2107d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
