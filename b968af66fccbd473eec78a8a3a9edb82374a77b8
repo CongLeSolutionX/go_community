@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3677ec98_3e37c236",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1385,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-11-06T19:59:02Z",
+      "side": 1,
+      "message": "ACK.",
+      "parentUuid": "fab771f9_ebd6a3d9",
+      "revId": "b968af66fccbd473eec78a8a3a9edb82374a77b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a84d25df_583beb8d",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "b968af66fccbd473eec78a8a3a9edb82374a77b8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4efc854c_e8ec0611",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 1098,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-11-06T19:59:02Z",
+      "side": 1,
+      "message": "OK, will do. For some reason, my editor messed up with the tabs this time.",
+      "parentUuid": "a84d25df_583beb8d",
+      "range": {
+        "startLine": 1098,
+        "startChar": 7,
+        "endLine": 1098,
+        "endChar": 9
+      },
+      "revId": "b968af66fccbd473eec78a8a3a9edb82374a77b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

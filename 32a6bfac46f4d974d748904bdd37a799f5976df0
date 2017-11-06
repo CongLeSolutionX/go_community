@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "b9719d96_bb9a779f",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 1125,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2017-11-06T19:59:02Z",
+      "side": 1,
+      "message": "Yes, but it will skip to preloop just after, because it\u0027s already 64-byte aligned. The only reason to branch there is to set up the required auxiliary data in V0, V1 and V10. I\u0027ll clarify in the comments.",
+      "parentUuid": "0e6eeac3_da7ea173",
+      "revId": "32a6bfac46f4d974d748904bdd37a799f5976df0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "906853f0_4dd03bec",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 1
