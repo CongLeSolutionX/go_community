@@ -616,7 +616,8 @@ func getArgInfo(frame *stkframe, f funcInfo, needArgMap bool, ctxt *funcval) (ar
 func tracebackCgoContext(pcbuf *uintptr, printing bool, ctxt uintptr, n, max int) int {
 	var cgoPCs [32]uintptr
 	cgoContextPCs(ctxt, cgoPCs[:])
-	var arg cgoSymbolizerArg
+	arg := newCgoSymbolizerArg()
+
 	anySymbolized := false
 	for _, pc := range cgoPCs {
 		if pc == 0 || n >= max {
@@ -629,7 +630,7 @@ func tracebackCgoContext(pcbuf *uintptr, printing bool, ctxt uintptr, n, max int
 			if cgoSymbolizer == nil {
 				print("non-Go function at pc=", hex(pc), "\n")
 			} else {
-				c := printOneCgoTraceback(pc, max-n, &arg)
+				c := printOneCgoTraceback(pc, max-n, arg)
 				n += c - 1 // +1 a few lines down
 				anySymbolized = true
 			}
@@ -638,7 +639,7 @@ func tracebackCgoContext(pcbuf *uintptr, printing bool, ctxt uintptr, n, max int
 	}
 	if anySymbolized {
 		arg.pc = 0
-		callCgoSymbolizer(&arg)
+		callCgoSymbolizer(arg)
 	}
 	return n
 }
@@ -870,8 +871,11 @@ func isSystemGoroutine(gp *g) bool {
 // The traceback and context functions may be called from a signal
 // handler, and must therefore use only async-signal safe functions.
 // The symbolizer function may be called while the program is
-// crashing, and so must be cautious about using memory.  None of the
-// functions may call back into Go.
+// crashing. In that case, the function must be cautious about using
+// memory. Runtime provides hints on the program status as the Mode
+// parameter.
+//
+// None of the functions may call back into Go.
 //
 // The context function will be called with a single argument, a
 // pointer to a struct:
@@ -970,6 +974,9 @@ func isSystemGoroutine(gp *g) bool {
 //		Entry   uintptr // function entry point
 //		More    uintptr // set non-zero if more info for this PC
 //		Data    uintptr // unused by runtime, available for function
+//		Mode    uintptr // runtime-provided hints on runtime status
+//		                // (0: traceback that may be called during crash,
+//		                //  1: user-requested symbolization)
 //	}
 //
 // In C syntax, this struct will be
@@ -982,6 +989,7 @@ func isSystemGoroutine(gp *g) bool {
 //		uintptr_t Entry;
 //		uintptr_t More;
 //		uintptr_t Data;
+//		uintptr_t Mode;
 //	};
 //
 // The PC field will be a value returned by a call to the traceback
@@ -1064,6 +1072,15 @@ type cgoSymbolizerArg struct {
 	entry    uintptr
 	more     uintptr
 	data     uintptr
+	mode     uintptr // 0: traceback, 1: user-initiated symbol lookup
+}
+
+func newCgoSymbolizerArg() *cgoSymbolizerArg {
+	var mode uintptr
+	if panicking == 0 {
+		mode = 1
+	}
+	return &cgoSymbolizerArg{mode: mode}
 }
 
 // cgoTraceback prints a traceback of callers.
@@ -1078,15 +1095,15 @@ func printCgoTraceback(callers *cgoCallers) {
 		return
 	}
 
-	var arg cgoSymbolizerArg
+	arg := newCgoSymbolizerArg()
 	for _, c := range callers {
 		if c == 0 {
 			break
 		}
-		printOneCgoTraceback(c, 0x7fffffff, &arg)
+		printOneCgoTraceback(c, 0x7fffffff, arg)
 	}
 	arg.pc = 0
-	callCgoSymbolizer(&arg)
+	callCgoSymbolizer(arg)
 }
 
 // printOneCgoTraceback prints the traceback of a single cgo caller.

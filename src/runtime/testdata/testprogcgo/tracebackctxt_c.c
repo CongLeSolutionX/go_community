@@ -39,6 +39,7 @@ struct cgoSymbolizerArg {
 	uintptr_t   entry;
 	uintptr_t   more;
 	uintptr_t   data;
+        uintptr_t   mode;
 };
 
 // Uses atomic adds and subtracts to catch the possibility of
@@ -86,6 +87,6 @@ void tcSymbolizer(void *parg) {
 	// Report two lines per PC returned by traceback, to test more handling.
 	arg->more = arg->file == NULL;
 	arg->file = "tracebackctxt.go";
-	arg->func = "cFunction";
+	arg->func = (arg->mode == 0) ? "cFunctionSafe" : "cFunctionFast";
 	arg->lineno = arg->pc + (arg->more << 16);
 }

@@ -16,7 +16,7 @@ package main
 char *p;
 
 static int f3(void) {
-	*p = 0;
+	*p = 0;  // crash!
 	return 0;
 }
 
@@ -43,6 +43,7 @@ struct cgoSymbolizerArg {
 	uintptr_t   entry;
 	uintptr_t   more;
 	uintptr_t   data;
+	uintptr_t   mode;
 };
 
 void cgoTraceback(void* parg) {
@@ -60,6 +61,12 @@ void cgoSymbolizer(void* parg) {
 	} else {
 		arg->file = "cgo symbolizer";
 	}
+	if (arg->mode == 0) {
+		arg->func = "cFunction (crash)";
+	} else {
+		arg->func = "cFunction (fast)";
+	}
+
 	arg->lineno = arg->data + 1;
 	arg->data++;
 }

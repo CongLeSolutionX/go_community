@@ -53,7 +53,7 @@ func G1() {
 func G2() {
 	pc := make([]uintptr, 32)
 	n := runtime.Callers(0, pc)
-	cf := runtime.CallersFrames(pc[:n])
+	cf := runtime.CallersFrames(pc[:n]) // Symbolization in non-crash mode
 	var frames []runtime.Frame
 	for {
 		frame, more := cf.Next()
@@ -68,13 +68,13 @@ func G2() {
 		line     int
 	}{
 		{"main.G2", 0},
-		{"cFunction", 0x10200},
-		{"cFunction", 0x200},
-		{"cFunction", 0x10201},
-		{"cFunction", 0x201},
+		{"cFunctionFast", 0x10200},
+		{"cFunctionFast", 0x200},
+		{"cFunctionFast", 0x10201},
+		{"cFunctionFast", 0x201},
 		{"main.G1", 0},
-		{"cFunction", 0x10100},
-		{"cFunction", 0x100},
+		{"cFunctionFast", 0x10100},
+		{"cFunctionFast", 0x100},
 		{"main.TracebackContext", 0},
 	}
 
