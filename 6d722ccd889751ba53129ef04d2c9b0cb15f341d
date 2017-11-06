@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "993e74c9_4dbe5625",
+        "filename": "src/bytes/bytes_arm64.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-06T14:45:52Z",
+      "side": 1,
+      "message": "Do we need two registers? In line 58 below we can do\nVUADDLV V6.B16, V6\nADD V6, V7",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 25
+      },
+      "revId": "6d722ccd889751ba53129ef04d2c9b0cb15f341d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d91b440e_88d98a26",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-06T14:45:52Z",
+      "side": 1,
+      "message": "Should this be VADD?\nI can see your point of distinguishing scalar add and vector add. But, should all SIMD instructions have V prefix, for consistency? We have floating point instructions all prefixed with F. Distinguishing the two flavor of VADD with operand addressing mode sounds ok to me. Something to consider.",
+      "revId": "6d722ccd889751ba53129ef04d2c9b0cb15f341d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
