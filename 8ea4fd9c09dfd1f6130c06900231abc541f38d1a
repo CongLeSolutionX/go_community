@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5228097a_725c8861",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-06T15:42:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42132513_b06aaae5",
+      "range": {
+        "startLine": 110,
+        "startChar": 20,
+        "endLine": 110,
+        "endChar": 22
+      },
+      "revId": "8ea4fd9c09dfd1f6130c06900231abc541f38d1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a398943_5f9f6def",
         "filename": "src/cmd/dist/build.go",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "61f678ab_05bc22d2",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-06T15:42:16Z",
+      "side": 1,
+      "message": "Deleted this pair entirely. Let\u0027s see if anyone cares. (I can\u0027t find any uses of these in our repo.)",
+      "parentUuid": "9a398943_5f9f6def",
+      "revId": "8ea4fd9c09dfd1f6130c06900231abc541f38d1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db80b0f7_f00f6881",
         "filename": "src/cmd/dist/buildgo.go",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2017-11-06T11:08:23Z",
       "side": 1,
       "message": "maybe drop the cc, as this map is sometimes for cxx",
+      "range": {
+        "startLine": 54,
+        "startChar": 32,
+        "endLine": 54,
+        "endChar": 41
+      },
+      "revId": "8ea4fd9c09dfd1f6130c06900231abc541f38d1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9709dc0b_bea0d47b",
+        "filename": "src/cmd/dist/buildgo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-06T15:42:16Z",
+      "side": 1,
+      "message": "I\u0027m going to leave this alone, only because if I drop cc then I have to invent a new name for \"default\" (since it\u0027s a keyword).",
+      "parentUuid": "db80b0f7_f00f6881",
       "range": {
         "startLine": 54,
         "startChar": 32,
