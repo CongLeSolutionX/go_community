@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "375746e7_2236b66e",
+        "filename": "doc/editors.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 25438
+      },
+      "writtenOn": "2017-11-06T20:59:04Z",
+      "side": 1,
+      "message": "The footnote says \"Supports defining own tools to run on save with full customization\"\n\nIn VS Code and Atom, user can choose between goreturns and goimports to \"Auto insert import paths and remove unused on save\". \nIn VS Code, you can also run build/lint/vet/test on save.\n\nSo either we should have more footnotes or have a separate feature section for on save behaviors/hooks or not have a note on tool customization at all.",
+      "parentUuid": "24f7c739_f31c5f01",
+      "range": {
+        "startLine": 85,
+        "startChar": 30,
+        "endLine": 85,
+        "endChar": 31
+      },
+      "revId": "bad82464cab4f1ed1eda82fed37aa2427f38a731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "54b60a64_7734b1de",
         "filename": "doc/editors.html",
         "patchSetId": 1
@@ -88,6 +112,57 @@
         "endLine": 89,
         "endChar": 13
       },
+      "revId": "bad82464cab4f1ed1eda82fed37aa2427f38a731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68a91beb_967df92a",
+        "filename": "doc/editors.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 25438
+      },
+      "writtenOn": "2017-11-06T20:59:04Z",
+      "side": 1,
+      "message": "You mean something like this: https://github.com/Microsoft/vscode-go/issues/1227 ?\nIf yes, then VS Code doesnt have this feature yet.",
+      "revId": "bad82464cab4f1ed1eda82fed37aa2427f38a731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be391872_ee7483af",
+        "filename": "doc/editors.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 25438
+      },
+      "writtenOn": "2017-11-06T20:59:04Z",
+      "side": 1,
+      "message": "This should be a Yes for VS Code. I am assuming you are talking about adding stubs for the methods in an interface on the given type",
+      "revId": "bad82464cab4f1ed1eda82fed37aa2427f38a731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5c5232b_102cbfe1",
+        "filename": "doc/editors.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 25438
+      },
+      "writtenOn": "2017-11-06T20:59:04Z",
+      "side": 1,
+      "message": "This should be a Yes for VS Code as well",
       "revId": "bad82464cab4f1ed1eda82fed37aa2427f38a731",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -174,6 +249,24 @@
     },
     {
       "key": {
+        "uuid": "c1d4f78d_a8fccdcf",
+        "filename": "doc/editors.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 25438
+      },
+      "writtenOn": "2017-11-06T20:59:04Z",
+      "side": 1,
+      "message": "If so, then yes for VS Code.",
+      "parentUuid": "1bb906a6_3f0c0f13",
+      "revId": "bad82464cab4f1ed1eda82fed37aa2427f38a731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "efb7bf18_01eefab1",
         "filename": "doc/editors.html",
         "patchSetId": 1
@@ -185,6 +278,30 @@
       "writtenOn": "2017-11-06T17:04:48Z",
       "side": 1,
       "message": "This isn\u0027t GoLand\u0027s help guide. This level of detail is unnecessary.",
+      "range": {
+        "startLine": 316,
+        "startChar": 0,
+        "endLine": 316,
+        "endChar": 84
+      },
+      "revId": "bad82464cab4f1ed1eda82fed37aa2427f38a731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "709d7709_b2a2d86b",
+        "filename": "doc/editors.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 25438
+      },
+      "writtenOn": "2017-11-06T20:59:04Z",
+      "side": 1,
+      "message": "I agree",
+      "parentUuid": "efb7bf18_01eefab1",
       "range": {
         "startLine": 316,
         "startChar": 0,
