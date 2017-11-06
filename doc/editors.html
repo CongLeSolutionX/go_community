@@ -22,8 +22,8 @@ editing, navigation, testing, and debugging experience.
 <li><a href="https://github.com/fatih/vim-go">vim</a>: vim-go plugin provides Go programming language support</li>
 <li><a href="https://marketplace.visualstudio.com/items?itemName=lukehoban.Go">Visual Studio Code</a>:
 Go extension provides support for the Go programming language</li>
-<li><a href="https://www.jetbrains.com/go">Gogland</a>: Gogland is distributed either as a standalone IDE
-or as a plugin for the commercial IntelliJ Platform IDEs</li>
+<li><a href="https://www.jetbrains.com/go">GoLand</a>: GoLand is distributed either as a standalone IDE
+or as a plugin for IntelliJ IDEA Ultimate</li>
 <li><a href="https://atom.io/packages/go-plus">Atom</a>: Go-Plus is an Atom package that provides enhanced Go support</li>
 </ul>
 
@@ -44,7 +44,7 @@ The following feature matrix lists and compares the most significant features.
     <th></th>
     <th><img title="Vim Go" src="/doc/editors/vimgo.png"><br>vim</th>
     <th><img title="Visual Studio Code" src="/doc/editors/vscodego.png"><br>Visual Studio Code</th>
-    <th><img title="Gogland" src="/doc/editors/gogland.png"><br>Gogland</th>
+    <th><img title="GoLand" src="/doc/editors/goland.png"><br>GoLand</th>
     <th><img title="Go-Plus" src="/doc/editors/go-plus.png"><br>Atom</th>
   </tr>
   <tr>
@@ -58,25 +58,18 @@ The following feature matrix lists and compares the most significant features.
     <td class="yes">Yes</td>
   </tr>
   <tr>
-    <td>Autocompletion of identifers (variable, method, and function names)</td>
+    <td>Autocompletion of identifiers (variable, method, function names, etc)</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
   </tr>
   <tr>
-    <td>Type-aware autocompletion</td>
+    <td>Type-aware autocompletion<sup>9</sup></td>
     <td class="no">No</td>
     <td class="no">No</td>
     <td class="yes">Yes</td>
     <td class="no">No</td>
-  </tr>
-  <tr>
-    <td>Rename identifiers</td>
-    <td class="yes">Yes</td>
-    <td class="yes">Yes</td>
-    <td class="yes">Yes</td>
-    <td class="yes">Yes</td>
   </tr>
   <tr>
     <td>Auto format, build, vet, and lint on save</td>
@@ -89,15 +82,102 @@ The following feature matrix lists and compares the most significant features.
     <td>Auto insert import paths and remove unused on save</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
-    <td class="yes">Yes<sup>2</sup></td>
+    <td class="yes">Yes<sup>2,5</sup></td>
     <td class="yes">Yes</td>
   </tr>
   <tr>
     <td>Auto generate JSON, XML tags for struct fields</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
+    <td class="yes">Yes<sup>4</sup></td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Language injection<sup>6</sup></td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Autofill structures</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Generate getters and setters for structure field</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>In-editor quick-fixes<sup>7</sup></td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>On-the-fly code analysis</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Templated code generation<sup>8</sup></td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Surround code with template</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Go Template support (text/template, html/template)</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td class="feature-row" colspan="5">Refactoring features</td>
+  </tr>
+  <tr>
+    <td>Rename identifiers</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Implement interface on type</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Extract variable, constant, and function refactorings</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Inline variable, and constant refactorings</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
   </tr>
   <tr>
     <td class="feature-row" colspan="5">Navigation features</td>
@@ -131,11 +211,39 @@ The following feature matrix lists and compares the most significant features.
     <td class="yes">Yes</td>
   </tr>
   <tr>
+    <td>Look up for method implementations</td>
+    <td class="no">No</td>
+    <td class="no">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="no">Yes</td>
+  </tr>
+  <tr>
+    <td>Look up for implemented interfaces</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
     <td>Search for callers and callees</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
+  </tr>
+  <tr>
+    <td>Type hierarchy support</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
+  <tr>
+    <td>Call hierarchy support</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
   </tr>
   <tr>
     <td class="feature-row" colspan="5">Testing and debugging features</td>
@@ -146,7 +254,13 @@ The following feature matrix lists and compares the most significant features.
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
     <td class="yes">Yes<sup>3</sup></td>
-
+  </tr>
+  <tr>
+    <td>Inline debugger display</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
   </tr>
   <tr>
     <td>Run a single test case, all tests from file, or all tests from a package</td>
@@ -159,7 +273,7 @@ The following feature matrix lists and compares the most significant features.
     <td>Auto generate tests for packages, files and identifiers</td>
     <td class="no">No</td>
     <td class="yes">Yes</td>
-    <td class="no">No</td>
+    <td class="yes">Yes</td>
     <td class="no">No</td>
   </tr>
   <tr>
@@ -176,6 +290,13 @@ The following feature matrix lists and compares the most significant features.
     <td class="yes">Yes</td>
     <td class="yes">Yes</td>
   </tr>
+  <tr>
+    <td>Debugger symbol evaluation</td>
+    <td class="no">No</td>
+    <td class="no">No</td>
+    <td class="yes">Yes</td>
+    <td class="no">No</td>
+  </tr>
   <tr class="download">
     <td></td>
     <td><a href="https://github.com/fatih/vim-go">Install<a/></td>
@@ -191,6 +312,18 @@ The following feature matrix lists and compares the most significant features.
 <sup>2</sup>Additionally, user input can disambiguate when two or more options are available.
 <br>
 <sup>3</sup>Available if the <a href="https://atom.io/packages/go-debug">go-debug</a> package is installed.
+<br>
+<sup>4</sup>Supports defining own tags via Settings &gt; Editor &gt; Live Templates.
+<br>
+<sup>5</sup>Supports defining own tools to run on save with full customization.
+<br>
+<sup>6</sup>Offer syntax completion and analysis for code inside Go strings.
+<br>
+<sup>7</sup>Suggests fixes for errors and warning.
+<br>
+<sup>8</sup>Define keywords for custom code templates that appear in the same completion suggestion as normal completion features.
+<br>
+<sup>9</sup>Offer completion options based on matching the type and partial identifier name (including no name).
 </p>
 
 </div>
