@@ -277,8 +277,9 @@ func (ex *pcExpander) next() Frame {
 // a non-Go function, using the cgoSymbolizer hook. expandCgoFrames
 // returns nil if pc could not be expanded.
 func expandCgoFrames(pc uintptr) []Frame {
-	arg := cgoSymbolizerArg{pc: pc}
-	callCgoSymbolizer(&arg)
+	arg := newCgoSymbolizerArg()
+	arg.pc = pc
+	callCgoSymbolizer(arg)
 
 	if arg.file == nil && arg.funcName == nil {
 		// No useful information from symbolizer.
@@ -298,7 +299,7 @@ func expandCgoFrames(pc uintptr) []Frame {
 		if arg.more == 0 {
 			break
 		}
-		callCgoSymbolizer(&arg)
+		callCgoSymbolizer(arg)
 	}
 
 	// No more frames for this PC. Tell the symbolizer we are done.
@@ -306,7 +307,7 @@ func expandCgoFrames(pc uintptr) []Frame {
 	// whole use of Frames, because there would be no good way to tell
 	// the symbolizer when we are done.
 	arg.pc = 0
-	callCgoSymbolizer(&arg)
+	callCgoSymbolizer(arg)
 
 	return frames
 }

@@ -260,6 +260,9 @@ func TestCgoCrashTraceback(t *testing.T) {
 		if !strings.Contains(got, fmt.Sprintf("cgo symbolizer:%d", i)) {
 			t.Errorf("missing cgo symbolizer:%d", i)
 		}
+		if strings.Contains(got, "cFunction (fast)") || !strings.Contains(got, "cFunction (crash)") {
+			t.Errorf("cgo symbolizer was called in non-crash mode")
+		}
 	}
 }
 

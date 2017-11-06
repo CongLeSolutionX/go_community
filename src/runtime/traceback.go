@@ -616,7 +616,8 @@ func getArgInfo(frame *stkframe, f funcInfo, needArgMap bool, ctxt *funcval) (ar
 func tracebackCgoContext(pcbuf *uintptr, printing bool, ctxt uintptr, n, max int) int {
 	var cgoPCs [32]uintptr
 	cgoContextPCs(ctxt, cgoPCs[:])
-	var arg cgoSymbolizerArg
+	arg := newCgoSymbolizerArg()
+
 	anySymbolized := false
 	for _, pc := range cgoPCs {
 		if pc == 0 || n >= max {
@@ -629,7 +630,7 @@ func tracebackCgoContext(pcbuf *uintptr, printing bool, ctxt uintptr, n, max int
 			if cgoSymbolizer == nil {
 				print("non-Go function at pc=", hex(pc), "\n")
 			} else {
-				c := printOneCgoTraceback(pc, max-n, &arg)
+				c := printOneCgoTraceback(pc, max-n, arg)
 				n += c - 1 // +1 a few lines down
 				anySymbolized = true
 			}
@@ -638,7 +639,7 @@ func tracebackCgoContext(pcbuf *uintptr, printing bool, ctxt uintptr, n, max int
 	}
 	if anySymbolized {
 		arg.pc = 0
-		callCgoSymbolizer(&arg)
+		callCgoSymbolizer(arg)
 	}
 	return n
 }
@@ -870,8 +871,10 @@ func isSystemGoroutine(gp *g) bool {
 // The traceback and context functions may be called from a signal
 // handler, and must therefore use only async-signal safe functions.
 // The symbolizer function may be called while the program is
-// crashing, and so must be cautious about using memory.  None of the
-// functions may call back into Go.
+// crashing. In that case, the function must be cautious about using
+// memory.
+//
+// None of the functions may call back into Go.
 //
 // The context function will be called with a single argument, a
 // pointer to a struct:
@@ -970,6 +973,7 @@ func isSystemGoroutine(gp *g) bool {
 //		Entry   uintptr // function entry point
 //		More    uintptr // set non-zero if more info for this PC
 //		Data    uintptr // unused by runtime, available for function
+//		Mode    uintptr // runtime-provided info about runtime status
 //	}
 //
 // In C syntax, this struct will be
@@ -982,26 +986,37 @@ func isSystemGoroutine(gp *g) bool {
 //		uintptr_t Entry;
 //		uintptr_t More;
 //		uintptr_t Data;
+//		uintptr_t Mode;
 //	};
 //
 // The PC field will be a value returned by a call to the traceback
 // function.
 //
+// The Mode field is set by the runtime to describe the runtime state
+// when the symbolization function is called. If symbolization is
+// requested while the program is crashing, runtime will set the Mode
+// field to 0 to indicate that and the symbolization function must be
+// cautious about memory allocation. If symbolization is requested
+// purely to serve user-requests, the runtime will set it to 1. The
+// symbolizer function may opt for different implementation depending
+// on the runtime state.
+//
 // The first time the function is called for a particular traceback,
-// all the fields except PC will be 0. The function should fill in the
-// other fields if possible, setting them to 0/nil if the information
-// is not available. The Data field may be used to store any useful
-// information across calls. The More field should be set to non-zero
-// if there is more information for this PC, zero otherwise. If More
-// is set non-zero, the function will be called again with the same
-// PC, and may return different information (this is intended for use
-// with inlined functions). If More is zero, the function will be
-// called with the next PC value in the traceback. When the traceback
-// is complete, the function will be called once more with PC set to
-// zero; this may be used to free any information. Each call will
-// leave the fields of the struct set to the same values they had upon
-// return, except for the PC field when the More field is zero. The
-// function must not keep a copy of the struct pointer between calls.
+// all the fields except PC and Mode will be 0. The function should
+// fill in the other fields if possible, setting them to 0/nil if
+// the information is not available. The Data field may be used to
+// store any useful information across calls. The More field should
+// be set to non-zero if there is more information for this PC,
+// zero otherwise. If More is set non-zero, the function will be
+// called again with the same PC, and may return different information
+// (this is intended for use with inlined functions). If More is zero,
+// the function will be called with the next PC value in the traceback.
+// When the traceback is complete, the function will be called once
+// more with PC set to zero; this may be used to free any information.
+// Each call will leave the fields of the struct set to the same
+// values they had upon return, except for the PC field when the More
+// field is zero. The function must not keep a copy of the struct
+// pointer between calls.
 //
 // When calling SetCgoTraceback, the version argument is the version
 // number of the structs that the functions expect to receive.
@@ -1064,6 +1079,15 @@ type cgoSymbolizerArg struct {
 	entry    uintptr
 	more     uintptr
 	data     uintptr
+	mode     uintptr // 0: traceback, 1: user-initiated symbol lookup
+}
+
+func newCgoSymbolizerArg() *cgoSymbolizerArg {
+	var mode uintptr
+	if panicking == 0 {
+		mode = 1
+	}
+	return &cgoSymbolizerArg{mode: mode}
 }
 
 // cgoTraceback prints a traceback of callers.
@@ -1078,15 +1102,15 @@ func printCgoTraceback(callers *cgoCallers) {
 		return
 	}
 
-	var arg cgoSymbolizerArg
+	arg := newCgoSymbolizerArg()
 	for _, c := range callers {
 		if c == 0 {
 			break
 		}
-		printOneCgoTraceback(c, 0x7fffffff, &arg)
+		printOneCgoTraceback(c, 0x7fffffff, arg)
 	}
 	arg.pc = 0
-	callCgoSymbolizer(&arg)
+	callCgoSymbolizer(arg)
 }
 
 // printOneCgoTraceback prints the traceback of a single cgo caller.
