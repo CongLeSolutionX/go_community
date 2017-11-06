@@ -26,16 +26,20 @@ import (
 	"time"
 )
 
-func cpuHogger(f func() int, dur time.Duration) {
+var G int
+
+func cpuHogger(f func(x int) int, dur time.Duration) {
 	// We only need to get one 100 Hz clock tick, so we've got
 	// a large safety buffer.
 	// But do at least 500 iterations (which should take about 100ms),
 	// otherwise TestCPUProfileMultithreaded can fail if only one
 	// thread is scheduled during the testing period.
 	t0 := time.Now()
+	accum := G
 	for i := 0; i < 500 || time.Since(t0) < dur; i++ {
-		f()
+		accum = f(accum)
 	}
+	G = accum
 }
 
 var (
@@ -46,8 +50,8 @@ var (
 // The actual CPU hogging function.
 // Must not call other functions nor access heap/globals in the loop,
 // otherwise under race detector the samples will be in the race runtime.
-func cpuHog1() int {
-	foo := salt1
+func cpuHog1(x int) int {
+	foo := x
 	for i := 0; i < 1e5; i++ {
 		if foo > 0 {
 			foo *= foo
@@ -58,8 +62,8 @@ func cpuHog1() int {
 	return foo
 }
 
-func cpuHog2() int {
-	foo := salt2
+func cpuHog2(x int) int {
+	foo := x
 	for i := 0; i < 1e5; i++ {
 		if foo > 0 {
 			foo *= foo
@@ -95,15 +99,15 @@ func TestCPUProfileInlining(t *testing.T) {
 	})
 }
 
-func inlinedCaller() int {
-	inlinedCallee()
-	return 0
+func inlinedCaller(x int) int {
+	x = inlinedCallee(x)
+	return x
 }
 
-func inlinedCallee() {
+func inlinedCallee(x int) int {
 	// We could just use cpuHog1, but for loops prevent inlining
 	// right now. :(
-	foo := salt1
+	foo := x
 	i := 0
 loop:
 	if foo > 0 {
@@ -114,7 +118,7 @@ loop:
 	if i++; i < 1e5 {
 		goto loop
 	}
-	salt1 = foo
+	return foo
 }
 
 func parseProfile(t *testing.T, valBytes []byte, f func(uintptr, []*profile.Location, map[string][]string)) {
