@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42132513_b06aaae5",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-06T11:08:23Z",
+      "side": 1,
+      "message": "CXX",
+      "range": {
+        "startLine": 110,
+        "startChar": 20,
+        "endLine": 110,
+        "endChar": 22
+      },
+      "revId": "8ea4fd9c09dfd1f6130c06900231abc541f38d1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a398943_5f9f6def",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-06T11:08:23Z",
+      "side": 1,
+      "message": "I don\u0027t know how much \"dist env\" matters in the grand scheme of things, but it\u0027s odd that a value for CC_FOR_${GOOS}_${GOARCH} will print out here overriding a set value of CC_FOR_TARGET.",
+      "revId": "8ea4fd9c09dfd1f6130c06900231abc541f38d1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db80b0f7_f00f6881",
+        "filename": "src/cmd/dist/buildgo.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5030
+      },
+      "writtenOn": "2017-11-06T11:08:23Z",
+      "side": 1,
+      "message": "maybe drop the cc, as this map is sometimes for cxx",
+      "range": {
+        "startLine": 54,
+        "startChar": 32,
+        "endLine": 54,
+        "endChar": 41
+      },
+      "revId": "8ea4fd9c09dfd1f6130c06900231abc541f38d1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
