@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13605896_00f1d684",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-06T20:14:25Z",
+      "side": 1,
+      "message": "s/The case/Cases/",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 8
+      },
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9b6ce00_733bee7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-06T20:14:25Z",
+      "side": 1,
+      "message": "s/explicitely/explicitly/",
+      "range": {
+        "startLine": 22,
+        "startChar": 24,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88c0e8bd_b2b42124",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-06T20:14:25Z",
+      "side": 1,
+      "message": "s/requiriement/requirement/",
+      "range": {
+        "startLine": 40,
+        "startChar": 9,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d4c2833_1cf96178",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-06T20:14:25Z",
+      "side": 1,
+      "message": "s/doesn\u0027t/don\u0027t/",
+      "range": {
+        "startLine": 46,
+        "startChar": 20,
+        "endLine": 46,
+        "endChar": 27
+      },
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83b1091d_faefcb94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-06T20:14:25Z",
+      "side": 1,
+      "message": "Missing period.",
+      "range": {
+        "startLine": 50,
+        "startChar": 38,
+        "endLine": 50,
+        "endChar": 0
+      },
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6a16dfe_86dea279",
+        "filename": "src/runtime/testdata/testprogcgo/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-06T20:14:25Z",
+      "side": 1,
+      "message": "I think we can test for specific values here.\n    } else if (arg-\u003emode \u003d\u003d 1) {\n        ...\n    } else {\n        abort();\n    }",
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0b45bfc_a25322b0",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-06T20:14:25Z",
+      "side": 1,
+      "message": "I think I would omit this sentence here.  It would be more appropriate in the discussion of the symbolizer function below.",
+      "range": {
+        "startLine": 875,
+        "startChar": 11,
+        "endLine": 876,
+        "endChar": 13
+      },
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0077f748_411c86ea",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-06T20:14:25Z",
+      "side": 1,
+      "message": "Make this a short comment here, and expand on it below.  Also, it shouldn\u0027t be a \"hint\".  It should definitively state what is happening.\n\nBelow, it should be describes in or immediately after the single sentence paragraph that describes the PC field.  Also the next paragraph needs to be changed, as it is no longer true that all fields other than PC are zero.",
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73aa2d43_352b6667",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-06T20:14:25Z",
+      "side": 1,
+      "message": "The CL description lists three modes.  Is this approach going to let us see the right distinctions?  Should runtime.Stack symbolize C symbols?  Should callers of runtime.CallersFrames other than the profiler see symbolized C symbols?  I don\u0027t understand why differentiating based on whether the program is crashing or not is going to give us the right distinction.\n\nIt seems to me that what matters in the issue is whether we are profiling or not, because profiling calls CallersFrames a lot and that causes the symbolizer to be called a lot.  That means that we need to set the mode argument based on whether we are calling CallerFrames from the profiler.  We could do that by adding a new API accessible only from runtime/pprof, that would be like CallersFrames only with a mode to pass to the cgo symbolizer.  We could use that new API for the call in runtime/trace.go as well.",
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
