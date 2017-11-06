@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86ea69b4_f5dba5f9",
+        "filename": "src/cmd/dist/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1168,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-06T20:14:09Z",
+      "side": 1,
+      "message": "(run cmd/buildid here)",
+      "range": {
+        "startLine": 1168,
+        "startChar": 42,
+        "endLine": 1168,
+        "endChar": 49
+      },
+      "revId": "7465d40d5af8768c57dac798f1f7573d97554601",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
