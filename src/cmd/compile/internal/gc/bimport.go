@@ -576,7 +576,7 @@ func (p *importer) typ() *types.Type {
 		checkwidth(t)
 
 	case pointerTag:
-		t = p.newtyp(types.Tptr)
+		t = p.newtyp(TPTR)
 		t.Extra = types.Ptr{Elem: p.typ()}
 
 	case signatureTag:

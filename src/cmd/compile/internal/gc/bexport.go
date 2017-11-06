@@ -489,7 +489,7 @@ func (p *exporter) markType(t *types.Type) {
 	// perfect. Worst case, we might miss opportunities to inline
 	// some function calls in downstream packages.
 	switch t.Etype {
-	case TPTR32, TPTR64, TARRAY, TSLICE, TCHAN:
+	case TPTR, TARRAY, TSLICE, TCHAN:
 		p.markType(t.Elem())
 
 	case TMAP:
@@ -833,7 +833,7 @@ func (p *exporter) typ(t *types.Type) {
 		p.tag(structTag)
 		p.fieldList(t)
 
-	case TPTR32, TPTR64: // could use Tptr but these are constants
+	case TPTR: // could use Tptr but these are constants
 		p.tag(pointerTag)
 		p.typ(t.Elem())
 

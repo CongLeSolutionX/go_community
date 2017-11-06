@@ -799,8 +799,7 @@ func assignop(src *types.Type, dst *types.Type, why *string) Op {
 	// 5. src is the predeclared identifier nil and dst is a nillable type.
 	if src.Etype == TNIL {
 		switch dst.Etype {
-		case TPTR32,
-			TPTR64,
+		case TPTR,
 			TFUNC,
 			TMAP,
 			TCHAN,
@@ -2023,8 +2022,7 @@ func checknil(x *Node, init *Nodes) {
 // Yes, if the representation is a single pointer.
 func isdirectiface(t *types.Type) bool {
 	switch t.Etype {
-	case TPTR32,
-		TPTR64,
+	case TPTR,
 		TCHAN,
 		TMAP,
 		TFUNC,

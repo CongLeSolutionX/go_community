@@ -194,7 +194,7 @@ func reexportdep(n *Node) {
 		t := n.Type
 
 		switch t.Etype {
-		case TARRAY, TCHAN, TPTR32, TPTR64, TSLICE:
+		case TARRAY, TCHAN, TPTR, TSLICE:
 			if t.Sym == nil {
 				t = t.Elem()
 			}
