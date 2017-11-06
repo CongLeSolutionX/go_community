@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eac0ea7b_3a72fa40",
+        "filename": "src/bytes/bytes_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-11-06T09:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a21f4ca_5350eccd",
+      "revId": "e68f82f6d2fece765ff1bba783dfb70b1cc6cfff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4164cd9_5f9095ba",
         "filename": "src/bytes/bytes_arm64.s",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "e68f82f6d2fece765ff1bba783dfb70b1cc6cfff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7676753_c974f90e",
+        "filename": "src/bytes/bytes_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-11-06T09:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4164cd9_5f9095ba",
+      "revId": "e68f82f6d2fece765ff1bba783dfb70b1cc6cfff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "893b9711_a8fc429c",
+        "filename": "src/bytes/bytes_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-11-06T09:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bd98332_9b00094e",
+      "revId": "e68f82f6d2fece765ff1bba783dfb70b1cc6cfff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "609d7a10_9dd1fc32",
         "filename": "src/bytes/bytes_arm64.s",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "e68f82f6d2fece765ff1bba783dfb70b1cc6cfff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b38bffb_237ae82e",
+        "filename": "src/bytes/bytes_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-11-06T09:35:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "609d7a10_9dd1fc32",
+      "revId": "e68f82f6d2fece765ff1bba783dfb70b1cc6cfff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -90,6 +162,30 @@
       "revId": "e68f82f6d2fece765ff1bba783dfb70b1cc6cfff",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87ca44a4_57e048eb",
+        "filename": "src/bytes/bytes_arm64.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-11-06T09:35:24Z",
+      "side": 1,
+      "message": "Thank your for the suggestion!\nAnd it should be faster than current solution although it requires setup overhead.\nDoing add in V register takes 3 cycles.\nVMOV+ADD takes 3+1 cycles.",
+      "parentUuid": "b52359bf_d572bd3e",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 17
+      },
+      "revId": "e68f82f6d2fece765ff1bba783dfb70b1cc6cfff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
