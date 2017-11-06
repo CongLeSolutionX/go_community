@@ -279,13 +279,7 @@ func walkrange(n *Node) *Node {
 		// Advancing during the increment ensures that the pointer p only points
 		// pass the end of the array during the final "p++; i++; if(i >= len(x)) break;",
 		// after which p is dead, so it cannot confuse the collector.
-		tmp = nod(OADD, hp, nodintconst(t.Elem().Width))
-
-		tmp.Type = hp.Type
-		tmp.SetTypecheck(1)
-		tmp.Right.Type = types.Types[types.Tptr]
-		tmp.Right.SetTypecheck(1)
-		a = nod(OAS, hp, tmp)
+		a = nod(OAS, hp, addptr(hp, t.Elem().Width))
 		a = typecheck(a, Etop)
 		n.Right.Ninit.Set1(a)
 
@@ -452,6 +446,21 @@ func walkrange(n *Node) *Node {
 
 	lineno = lno
 	return n
+}
+
+// addptr returns (*T)(uintptr(p) + n).
+func addptr(p *Node, n int64) *Node {
+	t := p.Type
+
+	p = nod(OCONVNOP, p, nil)
+	p.Type = types.Types[TUINTPTR]
+
+	p = nod(OADD, p, nodintconst(n))
+
+	p = nod(OCONVNOP, p, nil)
+	p.Type = t
+
+	return p
 }
 
 // Lower n into runtime·memclr if possible, for
