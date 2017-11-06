@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99442fbe_ab7a04cb",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-06T04:31:06Z",
+      "side": 1,
+      "message": "Go error messages conventionally write the got value first, then want. And you can omit the \"want: \" part. Write:\n\n   \"Link(%q, %q) err.Op \u003d %q; want %q\", to, from, err.Op, \"link\"\n\nand below.",
+      "range": {
+        "startLine": 729,
+        "startChar": 25,
+        "endLine": 729,
+        "endChar": 50
+      },
+      "revId": "815f35d601f3bbdcaf9179f4f994ddf579ddebcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
