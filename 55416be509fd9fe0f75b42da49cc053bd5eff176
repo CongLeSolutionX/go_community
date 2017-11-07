@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "44d93c85_2ce633d6",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1397,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-07T05:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "108bf455_b247a97b",
+      "revId": "55416be509fd9fe0f75b42da49cc053bd5eff176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c712aefa_630a3bc2",
         "filename": "src/cmd/compile/internal/gc/reflect.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2017-11-07T04:46:40Z",
       "side": 1,
       "message": "Actually, maybe this should match the check in typesym.\n\nOr it can check strings.HasPrefix(s.Name, \"noalg.\"), but that feels a little hacky.",
+      "revId": "55416be509fd9fe0f75b42da49cc053bd5eff176",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f649d78_c25a0af6",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-07T05:07:15Z",
+      "side": 1,
+      "message": "Introduced a helper function.  PTAL.",
+      "parentUuid": "c712aefa_630a3bc2",
       "revId": "55416be509fd9fe0f75b42da49cc053bd5eff176",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
