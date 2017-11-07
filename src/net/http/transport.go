@@ -197,6 +197,14 @@ type Transport struct {
 	// Zero means to use a default limit.
 	MaxResponseHeaderBytes int64
 
+	// WriteBufSize specifies the size of the write buffer used when
+	// writing to the transport.
+	WriteBufSize int
+
+	// ReadBufSize specifies the size of the read buffer used when
+	// reading from the transport.
+	ReadBufSize int
+
 	// nextProtoOnce guards initialization of TLSNextProto and
 	// h2transport (via onceSetNextProtoDefaults)
 	nextProtoOnce sync.Once
@@ -1218,8 +1226,18 @@ func (t *Transport) dialConn(ctx context.Context, cm connectMethod) (*persistCon
 		}
 	}
 
-	pconn.br = bufio.NewReader(pconn)
-	pconn.bw = bufio.NewWriter(persistConnWriter{pconn})
+	if t.ReadBufSize != 0 {
+		pconn.br = bufio.NewReaderSize(pconn, t.ReadBufSize)
+	} else {
+		pconn.br = bufio.NewReader(pconn)
+	}
+
+	if t.WriteBufSize != 0 {
+		pconn.bw = bufio.NewWriterSize(persistConnWriter{pconn}, t.WriteBufSize)
+	} else {
+		pconn.bw = bufio.NewWriter(persistConnWriter{pconn})
+	}
+
 	go pconn.readLoop()
 	go pconn.writeLoop()
 	return pconn, nil
