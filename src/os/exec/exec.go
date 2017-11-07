@@ -92,6 +92,13 @@ type Cmd struct {
 	// If either is nil, Run connects the corresponding file descriptor
 	// to the null device (os.DevNull).
 	//
+	// If either is an *os.File, the process's standard output or standard
+	// error, respectively, are connected directly to that file. Otherwise,
+	// during the execution of the command a separate goroutine reads from
+	// the process's standard output or standard error and delivers that to
+	// the provided io.Writer.  If a Writer implements io.Closer, its
+	// Close method will be called once the goroutine stops copying.
+	//
 	// If Stdout and Stderr are the same writer, and have a type that can be compared with ==,
 	// at most one goroutine at a time will call Write.
 	Stdout io.Writer
@@ -263,6 +270,9 @@ func (c *Cmd) writerDescriptor(w io.Writer) (f *os.File, err error) {
 	c.goroutine = append(c.goroutine, func() error {
 		_, err := io.Copy(w, pr)
 		pr.Close() // in case io.Copy stopped due to write error
+		if wc, ok := w.(io.Closer); ok {
+			wc.Close()
+		}
 		return err
 	})
 	return pw, nil
