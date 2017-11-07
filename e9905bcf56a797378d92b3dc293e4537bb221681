@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef246ec6_fb267e3d",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-07T20:49:10Z",
+      "side": 1,
+      "message": "no else after return - the previous if is a check that\u0027s unrelated to the \u0027else\u0027",
+      "range": {
+        "startLine": 390,
+        "startChar": 3,
+        "endLine": 390,
+        "endChar": 7
+      },
+      "revId": "e9905bcf56a797378d92b3dc293e4537bb221681",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e3042f2_145f198a",
+        "filename": "src/cmd/internal/objabi/util.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-07T20:49:10Z",
+      "side": 1,
+      "message": "That\u0027s not really correct - it\u0027s the total of all data.\n\nI\u0027d leave this where it was and instead keep a separate constant in the compiler.",
+      "range": {
+        "startLine": 14,
+        "startChar": 25,
+        "endLine": 14,
+        "endChar": 31
+      },
+      "revId": "e9905bcf56a797378d92b3dc293e4537bb221681",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
