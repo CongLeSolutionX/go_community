@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "342a94f2_4d683cf9",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 11106
+      },
+      "writtenOn": "2017-11-07T15:13:05Z",
+      "side": 1,
+      "message": "I would strike \"so that the behavior of both marshaling and unmarshaling is straightforward and unambiguous\", the justification feels unnecessary.",
+      "revId": "2744a0e73f3449a7288735debed0198ad6db8249",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
