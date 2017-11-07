@@ -1394,6 +1394,10 @@ func dtypesym(t *types.Type) *obj.LSym {
 			keep = true
 		}
 	}
+	// Do not put Noalg types in typelinks.  #22605.
+	if t.Noalg() {
+		keep = false
+	}
 	lsym.Set(obj.AttrMakeTypelink, keep)
 
 	return lsym
