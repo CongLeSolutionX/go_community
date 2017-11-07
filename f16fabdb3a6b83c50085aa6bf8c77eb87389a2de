@@ -16,6 +16,24 @@
       "revId": "f16fabdb3a6b83c50085aa6bf8c77eb87389a2de",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d8289fa_ca1e4776",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-07T21:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeadb680_03f95c1a",
+      "revId": "f16fabdb3a6b83c50085aa6bf8c77eb87389a2de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
