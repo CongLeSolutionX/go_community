@@ -368,6 +368,24 @@
       "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14a53b34_40e32df2",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-07T01:42:00Z",
+      "side": 1,
+      "message": "I would say that people are making a choice: to call runtime.SetCgoTraceback or to not call it.  Most people obviously don\u0027t call it, and for them none of this matters.  The people who do call it are presumably doing so because they want to get symbols for non-Go functions in their tracebacks.  Yes, the output may include a fair number of non-Go symbols; all the more reason why they want to see that information.  You are describing symbolization of non-Go PC values as a less-performant implementation, but it is an implementation that the user has explicitly chosen.  What we are talking about here is a way to give more flexibility to that implementation.  People who care deeply about the performance of symbolization of non-Go symbols won\u0027t call runtime.SetCgoTraceback in the first place, or at least if they do they won\u0027t pass in a symbolizer function.\n\nI think that debug/pprof/goroutine calls runtime.GoroutineProfile, not runtime.Stack, so that (runtime.GoroutineProfile) could also be a mode.",
+      "parentUuid": "ca8d0ab6_c4c8c437",
+      "revId": "fed9fc10959440ffcf4c5832605509833e908a6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
