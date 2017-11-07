@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aeadb680_03f95c1a",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-11-07T05:17:50Z",
+      "side": 1,
+      "message": "I\u0027d probably do\n\n    a, bad :\u003d algtype1(t)\n    return a \u003d\u003d ANOEQ \u0026\u0026 bad.Noalg()\n\nunless you think the longer form is nicer.",
+      "revId": "f16fabdb3a6b83c50085aa6bf8c77eb87389a2de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
