@@ -39,6 +39,10 @@ const (
 //     - the name of the struct field used to obtain the data
 //     - the name of the marshaled type
 //
+// If the name for an XML element is defined on a struct field on both its tag
+// and the types XMLName field, both must match. If they don't match an error
+// is returned.
+//
 // The XML element for a struct contains marshaled elements for each of the
 // exported fields of the struct, with these exceptions:
 //     - the XMLName field, described above, is omitted.
