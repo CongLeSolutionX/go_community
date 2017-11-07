@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47f8b841_33577133",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 9595
+      },
+      "writtenOn": "2017-11-07T20:57:08Z",
+      "side": 1,
+      "message": "This run was using system go (1.7.6). Using master I could get better throughput. I updated the issue with the correct results.",
+      "revId": "6d75fd158bc56c05874440ede20ab52dec37db04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
