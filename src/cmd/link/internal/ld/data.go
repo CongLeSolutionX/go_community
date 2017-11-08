@@ -1008,6 +1008,8 @@ func (d bySizeAndName) Less(i, j int) bool {
 	return s1.name < s2.name
 }
 
+// cutoff is the biggest object that the linker will allow.
+// See issue 9862 for where the need for this came from.
 const cutoff int64 = 2e9 // 2 GB (or so; looks better in errors than 2^31)
 
 func checkdatsize(ctxt *Link, datsize int64, symn sym.SymKind) {
