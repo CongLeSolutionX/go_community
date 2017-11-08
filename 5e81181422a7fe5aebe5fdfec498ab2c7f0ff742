@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb77946f_4bbcef15",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-08T15:42:00Z",
+      "side": 1,
+      "message": "I think this new paragraph should be farther down, just before \"See MarshalIndent\".  I see this as a minor detail; it should be documented, but we shouldn\u0027t lead with it.\n\nI think the text isn\u0027t quite right.  I suggest\n\nIf the XML name for a struct field is defined by both the field tag and the struct\u0027s XMLName field, the names must match.\n\nI don\u0027t think it\u0027s necessary to explicitly say that an error is returned.",
+      "revId": "5e81181422a7fe5aebe5fdfec498ab2c7f0ff742",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
