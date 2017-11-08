@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ba8ebe5_3ec4f0ac",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-08T15:51:41Z",
+      "side": 1,
+      "message": "Perhaps we should copy down the \"In this case\" sentence in the Stdin docs.",
+      "revId": "86aaab0965dec2c30fa70022427667536d9d4eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "218507fd_e5c79790",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-08T15:51:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure it\u0027s worth adding this \"implication\" comment.  As the comment states, it is implied, and I don\u0027t know why anyone would think otherwise.",
+      "revId": "86aaab0965dec2c30fa70022427667536d9d4eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
