@@ -16,6 +16,24 @@
       "revId": "2744a0e73f3449a7288735debed0198ad6db8249",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a50891a3_e589b1a4",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 21426
+      },
+      "writtenOn": "2017-11-08T06:15:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "342a94f2_4d683cf9",
+      "revId": "2744a0e73f3449a7288735debed0198ad6db8249",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
