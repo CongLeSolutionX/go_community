@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a634dcb8_01528de4",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-08T18:59:17Z",
+      "side": 1,
+      "message": "- move this declaration into dsname - also, since we\u0027re adding a comment, explain in full\n- no need to give it a type either\n\nfunc dsname(...)\n   // Objects that are too large will cause the data section to overflow right away,\n   // causing a cryptic error message by the linker. Check for oversize objects here\n   // and provide a useful error message instead.\n   const maxSize \u003d 2e9 // ~2GB, matching the linker\u0027s data section cutoff limit\n   if int64(len(t)) \u003e maxSize ...",
+      "range": {
+        "startLine": 385,
+        "startChar": 6,
+        "endLine": 385,
+        "endChar": 12
+      },
+      "revId": "86bbf5a931c105e909312ff87b97eedb4db3066a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ab0675f_a0c9d2cc",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-08T18:59:17Z",
+      "side": 1,
+      "message": "This is not quite right. It\u0027s the sum of the sizes of all the data.\n\n// cutoff is the maximum data section size permitted by the linker.",
+      "range": {
+        "startLine": 1011,
+        "startChar": 17,
+        "endLine": 1011,
+        "endChar": 24
+      },
+      "revId": "86bbf5a931c105e909312ff87b97eedb4db3066a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19d9c5f7_e93a14b2",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1012,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-08T18:59:17Z",
+      "side": 1,
+      "message": "just (see issue #9862).",
+      "range": {
+        "startLine": 1012,
+        "startChar": 12,
+        "endLine": 1012,
+        "endChar": 13
+      },
+      "revId": "86bbf5a931c105e909312ff87b97eedb4db3066a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcb379cc_6005ed25",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-08T18:59:17Z",
+      "side": 1,
+      "message": "- if cutoff is now only accessed inside checkdatsize, move the declaration inside\n- also, no need to give it a type",
+      "range": {
+        "startLine": 1013,
+        "startChar": 6,
+        "endLine": 1013,
+        "endChar": 12
+      },
+      "revId": "86bbf5a931c105e909312ff87b97eedb4db3066a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
