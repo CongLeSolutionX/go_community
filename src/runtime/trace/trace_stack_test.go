@@ -125,7 +125,12 @@ func TestTraceSymbolize(t *testing.T) {
 	wp.Write(data[:])
 	<-pipeReadDone
 
+	oldGoMaxProcs := runtime.GOMAXPROCS(1)
+
 	Stop()
+
+	runtime.GOMAXPROCS(oldGoMaxProcs)
+
 	events, _ := parseTrace(t, buf)
 
 	// Now check that the stacks are correct.
@@ -224,6 +229,11 @@ func TestTraceSymbolize(t *testing.T) {
 		{trace.EvGoSleep, []frame{
 			{"time.Sleep", 0},
 			{"runtime/trace_test.TestTraceSymbolize", 109},
+			{"testing.tRunner", 0},
+		}},
+		{trace.EvGomaxprocs, []frame{
+			{"runtime.GOMAXPROCS", 0},
+			{"runtime/trace_test.TestTraceSymbolize", 128},
 			{"testing.tRunner", 0},
 		}},
 	}
