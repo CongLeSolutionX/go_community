@@ -2408,18 +2408,18 @@ func rowsiFromStatement(ctx context.Context, ci driver.Conn, ds *driverStmt, arg
 	ds.Lock()
 	defer ds.Unlock()
 
+	dargs, err := driverArgsConnLocked(ci, ds, args)
+	if err != nil {
+		return nil, err
+	}
+
 	want := ds.si.NumInput()
 
 	// -1 means the driver doesn't know how to count the number of
 	// placeholders, so we won't sanity check input here and instead let the
 	// driver deal with errors.
-	if want != -1 && len(args) != want {
-		return nil, fmt.Errorf("sql: statement expects %d inputs; got %d", want, len(args))
-	}
-
-	dargs, err := driverArgsConnLocked(ci, ds, args)
-	if err != nil {
-		return nil, err
+	if want != -1 && len(dargs) != want {
+		return nil, fmt.Errorf("sql: statement expects %d inputs; got %d", want, len(dargs))
 	}
 
 	rowsi, err := ctxDriverStmtQuery(ctx, ds.si, dargs)
