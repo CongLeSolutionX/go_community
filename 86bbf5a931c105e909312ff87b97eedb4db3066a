@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "23d1c822_c32c0a82",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5646
+      },
+      "writtenOn": "2017-11-09T15:25:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a634dcb8_01528de4",
+      "range": {
+        "startLine": 385,
+        "startChar": 6,
+        "endLine": 385,
+        "endChar": 12
+      },
+      "revId": "86bbf5a931c105e909312ff87b97eedb4db3066a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ab0675f_a0c9d2cc",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "86bbf5a931c105e909312ff87b97eedb4db3066a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62d3b473_fb845e23",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 5646
+      },
+      "writtenOn": "2017-11-09T15:25:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ab0675f_a0c9d2cc",
+      "range": {
+        "startLine": 1011,
+        "startChar": 17,
+        "endLine": 1011,
+        "endChar": 24
+      },
+      "revId": "86bbf5a931c105e909312ff87b97eedb4db3066a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2eac359c_5c6332ca",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1012,
+      "author": {
+        "id": 5646
+      },
+      "writtenOn": "2017-11-09T15:25:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19d9c5f7_e93a14b2",
+      "range": {
+        "startLine": 1012,
+        "startChar": 12,
+        "endLine": 1012,
+        "endChar": 13
+      },
+      "revId": "86bbf5a931c105e909312ff87b97eedb4db3066a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcb379cc_6005ed25",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2017-11-08T18:59:17Z",
       "side": 1,
       "message": "- if cutoff is now only accessed inside checkdatsize, move the declaration inside\n- also, no need to give it a type",
+      "range": {
+        "startLine": 1013,
+        "startChar": 6,
+        "endLine": 1013,
+        "endChar": 12
+      },
+      "revId": "86bbf5a931c105e909312ff87b97eedb4db3066a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "538eaa66_23f61874",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1013,
+      "author": {
+        "id": 5646
+      },
+      "writtenOn": "2017-11-09T15:25:03Z",
+      "side": 1,
+      "message": "It is used later. Fixed the type.",
+      "parentUuid": "dcb379cc_6005ed25",
       "range": {
         "startLine": 1013,
         "startChar": 6,
