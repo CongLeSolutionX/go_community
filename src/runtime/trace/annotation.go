@@ -77,9 +77,11 @@ type task struct {
 	// TODO(hyangah): record parent id?
 }
 
+var lastTaskID uint64 = 0 // task id issued last time
+
 func newID() uint64 {
-	// TODO(hyangah): implement
-	return 0
+	// TODO(hyangah): use per-P cache
+	return atomic.AddUint64(&lastTaskID, 1)
 }
 
 var bgTask = task{id: uint64(0)}
@@ -96,7 +98,10 @@ func Log(ctx context.Context, key, value string) {
 // Logf is like Log, but the value is formatted using the specified format spec.
 func Logf(ctx context.Context, key, format string, args ...interface{}) {
 	if IsEnabled() {
-		Log(ctx, key, fmt.Sprintf(format, args...))
+		// Ideally this should be just Log, but that will
+		// add one more frame in the stack trace.
+		id := fromContext(ctx).id
+		userLog(id, key, fmt.Sprintf(format, args...))
 	}
 }
 
@@ -110,18 +115,8 @@ func WithSpan(ctx context.Context, name string, fn func(context.Context)) {
 	// TODO: Consider exposing StartSpan and deferred endSpan as well.
 	//    end := trace.StartSpan(ctx, name)
 	//    defer end()
-	// WithSpan helps avoiding misuse of the API but in practice,
-	// this is very restrictive:
-	// - Use of WithSpan makes the stack traces captured from
-	//   span start and end are identical.
-	// - Refactoring the existing code to use WithSpan is sometimes
-	//   hard and makes the code less readable.
-	//     e.g. code block nested deep in the loop with various
-	//          exit point with return values
-	// - Refactoring the code to use this API with closure can
-	//   cause different GC behavior such as retaining some parameters
-	//   longer.
-	// This causes more churns in code than I hoped, and sometimes
+	// WithSpan helps avoiding misuse of the API but in practice
+	// this causes more churns in code than I hoped, and sometimes
 	// makes the code less readable.
 
 	const start = uint64(0)

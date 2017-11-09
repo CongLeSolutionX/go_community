@@ -128,11 +128,13 @@ var trace struct {
 
 	// Dictionary for traceEvString.
 	//
-	// Currently this is used only at trace setup and for
-	// func/file:line info after tracing session, so we assume
-	// single-threaded access.
-	strings   map[string]uint64
-	stringSeq uint64
+	// TODO: central lock to access the map is not ideal.
+	//   option: pre-assign ids to all user annotation span names and tags
+	//   option: per-P cache
+	//   option: sync.Map like data structure
+	stringsLock mutex
+	strings     map[string]uint64
+	stringSeq   uint64
 
 	// markWorkerLabels maps gcMarkWorkerMode to string ID.
 	markWorkerLabels [len(gcMarkWorkerModeStrings)]uint64
@@ -157,7 +159,8 @@ type traceBuf struct {
 	arr [64<<10 - unsafe.Sizeof(traceBufHeader{})]byte // underlying buffer for traceBufHeader.buf
 }
 
-// traceBufPtr is a *traceBuf that is not traced by the garbage
+// traceBufPtr is a *traceBuf that is not traced by the garbag
+
 // collector and doesn't have write barriers. traceBufs are not
 // allocated from the GC'd heap, so this is safe, and are often
 // manipulated in contexts where write barriers are not allowed, so
@@ -517,8 +520,15 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 		traceReleaseBuffer(pid)
 		return
 	}
+
+	traceEventLocked(0, mp, pid, bufp, ev, skip, args...)
+	traceReleaseBuffer(pid)
+}
+
+func traceEventLocked(extraBytes int, mp *m, pid int32, bufp *traceBufPtr, ev byte, skip int, args ...uint64) {
 	buf := (*bufp).ptr()
-	const maxSize = 2 + 5*traceBytesPerNumber // event type, length, sequence, timestamp, stack id and two add params
+	// TODO: test on non-zero extraBytes param.
+	maxSize := 2 + 5*traceBytesPerNumber + extraBytes // event type, length, sequence, timestamp, stack id and two add params
 	if buf == nil || len(buf.arr)-buf.pos < maxSize {
 		buf = traceFlush(traceBufPtrOf(buf), pid).ptr()
 		(*bufp).set(buf)
@@ -561,7 +571,6 @@ func traceEvent(ev byte, skip int, args ...uint64) {
 		// Fill in actual length.
 		*lenp = byte(evSize - 2)
 	}
-	traceReleaseBuffer(pid)
 }
 
 func traceStackID(mp *m, buf []uintptr, skip int) uint64 {
@@ -643,13 +652,17 @@ func traceString(bufp *traceBufPtr, pid int32, s string) (uint64, *traceBufPtr) 
 	if s == "" {
 		return 0, bufp
 	}
+
+	lock(&trace.stringsLock)
 	if id, ok := trace.strings[s]; ok {
+		unlock(&trace.stringsLock)
 		return id, bufp
 	}
 
 	trace.stringSeq++
 	id := trace.stringSeq
 	trace.strings[s] = id
+	unlock(&trace.stringsLock)
 
 	// memory allocation in above may trigger tracing and
 	// cause *bufp changes. Following code now works with *bufp,
@@ -918,7 +931,7 @@ func (a *traceAlloc) drop() {
 // The following functions write specific events to trace.
 
 func traceGomaxprocs(procs int32) {
-	traceEvent(traceEvGomaxprocs, 1, uint64(procs))
+	traceEvent(traceEvGomaxprocs, 2, uint64(procs))
 }
 
 func traceProcStart() {
@@ -937,7 +950,7 @@ func traceProcStop(pp *p) {
 }
 
 func traceGCStart() {
-	traceEvent(traceEvGCStart, 3, trace.seqGC)
+	traceEvent(traceEvGCStart, 4, trace.seqGC)
 	trace.seqGC++
 }
 
@@ -1109,22 +1122,72 @@ func traceNextGC() {
 
 //go:linkname trace_userTaskCreate runtime/trace.userTaskCreate
 func trace_userTaskCreate(internalID, internalParentID uint64, name string) {
-	// TODO: traceEvUserTaskCreate
+	if !trace.enabled {
+		return
+	}
+
+	mp, pid, bufp := traceAcquireBuffer()
+	// Double-check trace.enabled now that we've done m.locks++ and acquired bufLock.
+	// This protects from races between traceEvent and StartTrace/StopTrace.
+
+	// The caller checked that trace.enabled == true, but trace.enabled might have been
+	// turned off between the check and now. Check again. traceLockBuffer did mp.locks++,
+	// StopTrace does stopTheWorld, and stopTheWorld waits for mp.locks to go back to zero,
+	// so if we see trace.enabled == true now, we know it's true for the rest of the function.
+	// Exitsyscall can run even during stopTheWorld. The race with StartTrace/StopTrace
+	// during tracing in exitsyscall is resolved by locking trace.bufLock in traceLockBuffer.
+	if !trace.enabled && !mp.startingtrace {
+		traceReleaseBuffer(pid)
+		return
+	}
+
+	nameStringID, bufp := traceString(bufp, pid, name)
+	traceEventLocked(0, mp, pid, bufp, traceEvUserTaskCreate, 3, internalID, internalParentID, nameStringID)
+	traceReleaseBuffer(pid)
 }
 
 //go:linkname trace_userTaskEnd runtime/trace.userTaskEnd
 func trace_userTaskEnd(internalID uint64) {
-	// TODO: traceEvUserSpan
+	traceEvent(traceEvUserTaskEnd, 2, internalID)
 }
 
 //go:linkname trace_userSpan runtime/trace.userSpan
 func trace_userSpan(internalID, mode uint64, name string) {
-	// TODO: traceEvString for name.
-	// TODO: traceEvSpan.
+	if !trace.enabled {
+		return
+	}
+
+	mp, pid, bufp := traceAcquireBuffer()
+	if !trace.enabled && !mp.startingtrace {
+		traceReleaseBuffer(pid)
+		return
+	}
+
+	nameStringID, bufp := traceString(bufp, pid, name)
+	traceEventLocked(0, mp, pid, bufp, traceEvUserSpan, 3, internalID, mode, nameStringID)
+	traceReleaseBuffer(pid)
 }
 
 //go:linkname trace_userLog runtime/trace.userLog
 func trace_userLog(internalID uint64, key, val string) {
-	// TODO: traceEvString for key.
-	// TODO: traceEvUserLog.
+	if !trace.enabled {
+		return
+	}
+
+	mp, pid, bufp := traceAcquireBuffer()
+	if !trace.enabled && !mp.startingtrace {
+		traceReleaseBuffer(pid)
+		return
+	}
+
+	keyID, bufp := traceString(bufp, pid, key)
+
+	extraSpace := traceBytesPerNumber + len(val) // extraSpace for the value string
+	traceEventLocked(extraSpace, mp, pid, bufp, traceEvUserLog, 3, internalID, keyID)
+	// assumes the buf now has enough space for val and len(val) after traceEventLocked.
+	buf := (*bufp).ptr()
+	buf.varint(uint64(len(val)))
+	buf.pos += copy(buf.arr[buf.pos:], val)
+
+	traceReleaseBuffer(pid)
 }
