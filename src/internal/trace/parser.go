@@ -959,7 +959,11 @@ const (
 	EvGoBlockGC         = 42 // goroutine blocks on GC assist [timestamp, stack]
 	EvGCMarkAssistStart = 43 // GC mark assist start [timestamp, stack]
 	EvGCMarkAssistDone  = 44 // GC mark assist done [timestamp]
-	EvCount             = 45
+	EvUserTaskCreate    = 45 // trace.NewContext [timestamp, internal task id, internal parent id, stack, name string]
+	EvUserTaskEnd       = 46 // end of task [timestamp, internal task id, stack]
+	EvUserSpan          = 47 // trace.WithSpan [timestamp, internal task id, mode(0:start, 1:end), stack, name string]
+	EvUserLog           = 48 // trace.Log [timestamp, internal id, key string id, stack, value string]
+	EvCount             = 49
 )
 
 var EventDescriptions = [EvCount]struct {
@@ -1013,4 +1017,8 @@ var EventDescriptions = [EvCount]struct {
 	EvGoBlockGC:         {"GoBlockGC", 1008, true, []string{}},
 	EvGCMarkAssistStart: {"GCMarkAssistStart", 1009, true, []string{}},
 	EvGCMarkAssistDone:  {"GCMarkAssistDone", 1009, false, []string{}},
+	EvUserTaskCreate:    {"UserTaskCreate", 1010, true, []string{"taskid", "pid", "name id"}},
+	EvUserTaskEnd:       {"UserTaskEnd", 1010, true, []string{"taskid"}},
+	EvUserSpan:          {"UserSpan", 1010, true, []string{"taskid", "mode", "name id"}},
+	EvUserLog:           {"UserLog", 1010, true, []string{"id", "key id"}},
 }
