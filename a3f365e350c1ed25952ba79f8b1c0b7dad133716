@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2770b8e_ab7e9499",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-10T04:38:52Z",
+      "side": 1,
+      "message": "use https://golang.org/pkg/net/http/#NoBody instead of this ReadCloser.",
+      "revId": "a3f365e350c1ed25952ba79f8b1c0b7dad133716",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
