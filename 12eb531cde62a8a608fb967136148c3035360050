@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fec1364_45391ec7",
+        "filename": "src/go/ast/rewrite.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 5475
+      },
+      "writtenOn": "2017-11-10T17:55:32Z",
+      "side": 1,
+      "message": "s/iterator/iter/",
+      "range": {
+        "startLine": 441,
+        "startChar": 74,
+        "endLine": 441,
+        "endChar": 82
+      },
+      "revId": "12eb531cde62a8a608fb967136148c3035360050",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
