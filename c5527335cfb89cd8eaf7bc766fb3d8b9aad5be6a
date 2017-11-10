@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c8e8b018_ed048cd6",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "I\u0027ve had some unanticipated issues with c-archive. I think I\u0027ll leave it un-enabled for this release, which will give me time to sort it out.",
+      "parentUuid": "b8c3d561_8df186d5",
+      "range": {
+        "startLine": 12,
+        "startChar": 20,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3956fed2_ad0d3d4b",
         "filename": "src/runtime/asm_s390x.s",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "42e1484c_66041056",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3956fed2_ad0d3d4b",
+      "range": {
+        "startLine": 19,
+        "startChar": 45,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5e523b8_eb8d6720",
         "filename": "src/runtime/asm_s390x.s",
         "patchSetId": 2
@@ -62,6 +110,24 @@
       "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01788f61_50305759",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5e523b8_eb8d6720",
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "0a9cce1d_5beed21a",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f875fa97_fe69a555",
+      "range": {
+        "startLine": 38,
+        "startChar": 41,
+        "endLine": 38,
+        "endChar": 44
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b37cbab0_2e4a81fb",
         "filename": "src/runtime/asm_s390x.s",
         "patchSetId": 2
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "4e783837_2f974895",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b37cbab0_2e4a81fb",
+      "range": {
+        "startLine": 42,
+        "startChar": 44,
+        "endLine": 42,
+        "endChar": 47
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99b83f8a_94d1b6a9",
         "filename": "src/runtime/asm_s390x.s",
         "patchSetId": 2
@@ -122,6 +236,30 @@
       "writtenOn": "2017-11-03T09:33:05Z",
       "side": 1,
       "message": "Does nocgo make sense for c-shared?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "682231f8_083d7147",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "I think it does make sense, as c-shared is for calling go from C, whereas cgo is for calling c from go. I\u0027m following the amd64 model here, which presumably has been robustly tested.",
+      "parentUuid": "99b83f8a_94d1b6a9",
       "range": {
         "startLine": 50,
         "startChar": 0,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "aaa6d349_67427517",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3400b33d_555e32f9",
+      "range": {
+        "startLine": 51,
+        "startChar": 27,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f295b37c_138e47e9",
         "filename": "src/runtime/asm_s390x.s",
         "patchSetId": 2
@@ -177,6 +339,30 @@
       "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d45752ec_3e7a2c74",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f295b37c_138e47e9",
+      "range": {
+        "startLine": 53,
+        "startChar": 40,
+        "endLine": 53,
+        "endChar": 43
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "89b600a1_7dbf1caa",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6b22b2e_5c3fb779",
+      "range": {
+        "startLine": 55,
+        "startChar": 30,
+        "endLine": 55,
+        "endChar": 33
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29e8994a_3cfbaea5",
         "filename": "src/runtime/asm_s390x.s",
         "patchSetId": 2
@@ -223,6 +433,30 @@
       "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fe8d294_bff3a04f",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29e8994a_3cfbaea5",
+      "range": {
+        "startLine": 78,
+        "startChar": 37,
+        "endLine": 78,
+        "endChar": 40
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -270,6 +504,30 @@
       "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36edb3e1_1500e6a8",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 11191
+      },
+      "writtenOn": "2017-11-10T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "232ce5b7_be8a1885",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
