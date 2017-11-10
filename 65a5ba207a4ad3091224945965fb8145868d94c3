@@ -16,6 +16,24 @@
       "revId": "65a5ba207a4ad3091224945965fb8145868d94c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b38f0df9_f28e7d56",
+        "filename": "src/go/ast/rewrite.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-10T02:42:43Z",
+      "side": 1,
+      "message": "A panic is about as intense as it gets in Go code. Slightly rephrased.",
+      "parentUuid": "5c8d7f26_cbd22b43",
+      "revId": "65a5ba207a4ad3091224945965fb8145868d94c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
