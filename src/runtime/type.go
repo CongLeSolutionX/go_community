@@ -50,6 +50,15 @@ func (t *_type) string() string {
 	return s
 }
 
+// fullString is like string, but it will use the full package path
+// instead of the (package name? TODO).
+func (t *_type) fullString() string {
+	// TODO: make t.tflag&tflagNamed == 0 use string()?
+	u := t.uncommon()
+	path := t.nameOff(u.pkgpath).name()
+	return path + "." + t.name()
+}
+
 func (t *_type) uncommon() *uncommontype {
 	if t.tflag&tflagUncommon == 0 {
 		return nil

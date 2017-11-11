@@ -239,9 +239,9 @@ func itabsinit() {
 func panicdottypeE(have, want, iface *_type) {
 	haveString := ""
 	if have != nil {
-		haveString = have.string()
+		haveString = have.fullString()
 	}
-	panic(&TypeAssertionError{iface.string(), haveString, want.string(), ""})
+	panic(&TypeAssertionError{iface.string(), haveString, want.fullString(), ""})
 }
 
 // panicdottypeI is called when doing an i.(T) conversion and the conversion fails.
