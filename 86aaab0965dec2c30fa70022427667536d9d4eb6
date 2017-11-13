@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6697853_c46fdb7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 25445
+      },
+      "writtenOn": "2017-11-13T05:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5787cd10_7887dd15",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "86aaab0965dec2c30fa70022427667536d9d4eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ba8ebe5_3ec4f0ac",
         "filename": "src/os/exec/exec.go",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "c9472739_be36eb00",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 25445
+      },
+      "writtenOn": "2017-11-13T05:39:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ba8ebe5_3ec4f0ac",
+      "revId": "86aaab0965dec2c30fa70022427667536d9d4eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "218507fd_e5c79790",
         "filename": "src/os/exec/exec.go",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "86aaab0965dec2c30fa70022427667536d9d4eb6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "688f7c7e_4fa35c1d",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 25445
+      },
+      "writtenOn": "2017-11-13T05:39:53Z",
+      "side": 1,
+      "message": "I was trying to counter the implication comment on cmd.StdoutPipe and cmd.StderrPipe which was calling out the opposite of this behaviour, in that case.\n\nI\u0027ve removed the comment here, though, as I think the other changes are sufficient to convey this.",
+      "parentUuid": "218507fd_e5c79790",
+      "revId": "86aaab0965dec2c30fa70022427667536d9d4eb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
