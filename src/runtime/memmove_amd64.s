@@ -34,6 +34,10 @@ TEXT runtime·memmove(SB), NOSPLIT, $0-24
 	MOVQ	from+8(FP), SI
 	MOVQ	n+16(FP), BX
 
+	// If src == dst, there's no work to do.
+	CMPQ	DI, SI
+	JEQ	move_0
+
 	// REP instructions have a high startup cost, so we handle small sizes
 	// with some straightline code. The REP MOVSQ instruction is really fast
 	// for large sizes. The cutover is approximately 2K.
