@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2dfed95_db3ca8d8",
+        "filename": "src/cmd/compile/internal/ssa/check.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-11-14T19:42:56Z",
+      "side": 1,
+      "message": "I think that RegKill only appears after register allocation,\nbut we could make that explicit (this same check occurs in another part of check):\n\nif f.RegAlloc \u003d\u003d nil {\n   seenNonPhi \u003d true // RegKills before regalloc treated like normal instruction.\n}\n\nor perhaps this instead:\n   f.Fatalf(\"RegKill seen before register allocation @ %s: %s\", b, v)",
+      "range": {
+        "startLine": 465,
+        "startChar": 33,
+        "endLine": 465,
+        "endChar": 38
+      },
+      "revId": "415604464eb6e0d6db489f1a388754c17b4f39c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
