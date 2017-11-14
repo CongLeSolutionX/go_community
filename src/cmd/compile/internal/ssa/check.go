@@ -456,10 +456,13 @@ func memCheck(f *Func) {
 		for _, b := range f.Blocks {
 			seenNonPhi := false
 			for _, v := range b.Values {
+
 				if v.Op == OpPhi {
 					if seenNonPhi {
 						f.Fatalf("phi after non-phi @ %s: %s", b, v)
 					}
+				} else if v.Op == OpRegKill {
+					// not interesting for this check
 				} else {
 					seenNonPhi = true
 				}
