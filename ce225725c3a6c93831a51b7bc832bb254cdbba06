@@ -290,6 +290,24 @@
     },
     {
       "key": {
+        "uuid": "b3369a67_7f93c3bd",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-14T18:59:30Z",
+      "side": 1,
+      "message": "I still don\u0027t understand this. FP should be restored from the saved value on stack, right?",
+      "parentUuid": "ccea0c10_24968865",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1dac7cdb_029e271c",
         "filename": "src/runtime/asm_arm64.s",
         "patchSetId": 1
@@ -372,6 +390,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "6b294303_ba48a0f4",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64bb9aac_5a019b30",
+        "filename": "src/runtime/cgo/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-14T18:59:30Z",
+      "side": 1,
+      "message": "I mean, why not save FP and LR here, and remove R29 and R30 above?",
+      "parentUuid": "2abe37c9_a217ffda",
       "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false

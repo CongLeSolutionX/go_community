@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5695a06b_c3435d80",
+        "filename": "src/cmd/compile/internal/arm64/ggen.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-14T18:59:30Z",
+      "side": 1,
+      "message": "Could we change 16 to gc.Ctxt.FixedFrameSize()? Also below.",
+      "range": {
+        "startLine": 31,
+        "startChar": 94,
+        "endLine": 31,
+        "endChar": 96
+      },
+      "revId": "4f178d157d156c6a5fd9c0a35d44e57ca89a9599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ac0676a_7ab07560",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 579,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-14T18:59:30Z",
+      "side": 1,
+      "message": "For AMD64 we do this in the assembler backend (https://go.googlesource.com/go/+/510327012bd42aca3deac989e2e109dc71bb4605/src/cmd/internal/obj/x86/asm6.go#4029). Can we also do it there?",
+      "revId": "4f178d157d156c6a5fd9c0a35d44e57ca89a9599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68331533_f43c42a1",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-14T18:59:30Z",
+      "side": 1,
+      "message": "This should be before the update of SP?",
+      "revId": "4f178d157d156c6a5fd9c0a35d44e57ca89a9599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70bd07c1_4dfc0d4f",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-14T18:59:30Z",
+      "side": 1,
+      "message": "So is this. This should probably be ADD $framesize, SP, FP ?",
+      "revId": "4f178d157d156c6a5fd9c0a35d44e57ca89a9599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f53f2cd6_001a0d06",
+        "filename": "src/cmd/vet/asmdecl.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-14T18:59:30Z",
+      "side": 1,
+      "message": "intSize and ptrSize are equal, but other lines use intSize, so let\u0027s do the same here.",
+      "range": {
+        "startLine": 258,
+        "startChar": 29,
+        "endLine": 258,
+        "endChar": 36
+      },
+      "revId": "4f178d157d156c6a5fd9c0a35d44e57ca89a9599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
