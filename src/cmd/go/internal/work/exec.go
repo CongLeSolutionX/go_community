@@ -1775,11 +1775,13 @@ func (b *Builder) gccSupportsFlag(compiler []string, flag string) bool {
 		if cfg.BuildN || cfg.BuildX {
 			b.Showcmd(b.WorkDir, "touch trivial.c")
 		}
-		if !cfg.BuildN {
-			src := filepath.Join(b.WorkDir, "trivial.c")
-			if err := ioutil.WriteFile(src, []byte{}, 0666); err != nil {
-				return false
-			}
+		// Note: we write trivial.c even in -n mode,
+		// because we need to actually give the compiler
+		// an input to work with, in order to find out the set of flags
+		// we'd use, which we want to show in the -n output.
+		src := filepath.Join(b.WorkDir, "trivial.c")
+		if err := ioutil.WriteFile(src, []byte{}, 0666); err != nil {
+			return false
 		}
 		b.flagCache = make(map[[2]string]bool)
 	}
