@@ -1772,19 +1772,20 @@ func (b *Builder) gccSupportsFlag(compiler []string, flag string) bool {
 		return b
 	}
 	if b.flagCache == nil {
-		if cfg.BuildN || cfg.BuildX {
-			b.Showcmd(b.WorkDir, "touch trivial.c")
-		}
-		if !cfg.BuildN {
-			src := filepath.Join(b.WorkDir, "trivial.c")
-			if err := ioutil.WriteFile(src, []byte{}, 0666); err != nil {
-				return false
-			}
-		}
 		b.flagCache = make(map[[2]string]bool)
 	}
-	cmdArgs := append([]string(nil), compiler...)
-	cmdArgs = append(cmdArgs, flag, "-c", "trivial.c")
+	// We used to write an empty C file, but we already look to make
+	// sure the error is specifically about the command-line option,
+	// so the file does not need to exist at all. This avoids creating a
+	// file in -n mode and (if -n mode must not create a file) ensures
+	// that -n mode matches the regular mode).
+	cmdArgs := str.StringList(compiler, flag, "-c", "does_not_exist.c")
+	if cfg.BuildN || cfg.BuildX {
+		b.Showcmd(b.WorkDir, "%s", joinUnambiguously(cmdArgs))
+		if cfg.BuildN {
+			return false
+		}
+	}
 	if cfg.BuildN || cfg.BuildX {
 		b.Showcmd(b.WorkDir, "%s", joinUnambiguously(cmdArgs))
 		if cfg.BuildN {
