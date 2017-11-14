@@ -28,6 +28,10 @@ import (
 
 func main() {
 	flag.Parse()
+	if !strings.Contains(*url, "$VERSION") {
+		logger.Fatal("-url argument must contain the literal text $VERSION")
+	}
+	*url = strings.Replace(*url, "$VERSION", *version, -1)
 	setupOutput()
 	loadChars() // always needed
 	loadCasefold()
@@ -41,17 +45,11 @@ func main() {
 	flushOutput()
 }
 
-func defaultVersion() string {
-	if v := os.Getenv("UNICODE_VERSION"); v != "" {
-		return v
-	}
-	return unicode.Version
-}
-
 var dataURL = flag.String("data", "", "full URL for UnicodeData.txt; defaults to --url/UnicodeData.txt")
 var casefoldingURL = flag.String("casefolding", "", "full URL for CaseFolding.txt; defaults to --url/CaseFolding.txt")
+var version = flag.String("version", unicode.Version, "Unicode version")
 var url = flag.String("url",
-	"http://www.unicode.org/Public/"+defaultVersion()+"/ucd/",
+	"http://www.unicode.org/Public/$VERSION/ucd/",
 	"URL of Unicode database directory")
 var tablelist = flag.String("tables",
 	"all",
@@ -357,19 +355,6 @@ func allCatFold(m map[string]map[rune]bool) []string {
 	return a
 }
 
-// Extract the version number from the URL
-func version() string {
-	// Break on slashes and look for the first numeric field
-	fields := strings.Split(*url, "/")
-	for _, f := range fields {
-		if len(f) > 0 && '0' <= f[0] && f[0] <= '9' {
-			return f
-		}
-	}
-	logger.Fatal("unknown version")
-	return "Unknown"
-}
-
 func categoryOp(code rune, class uint8) bool {
 	category := chars[code].category
 	return len(category) > 0 && category[0] == class
@@ -474,7 +459,7 @@ func printCategories() {
 	printf(progHeader, *tablelist, *dataURL, *casefoldingURL)
 
 	println("// Version is the Unicode edition from which the tables are derived.")
-	printf("const Version = %q\n\n", version())
+	printf("const Version = %q\n\n", *version)
 
 	if *tablelist == "all" {
 		println("// Categories is the set of Unicode category tables.")
