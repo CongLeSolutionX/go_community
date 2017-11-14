@@ -16,6 +16,24 @@
       "revId": "48dd6b6059c5c9ea79e662766b5c094f6af6381e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24ac3940_8e6aad30",
+        "filename": "src/cmd/compile/internal/ssa/check.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-11-14T19:15:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dbd1515_da5615b6",
+      "revId": "48dd6b6059c5c9ea79e662766b5c094f6af6381e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
