@@ -552,6 +552,30 @@
       "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1df89d8_3a2df62c",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-14T11:14:03Z",
+      "side": 1,
+      "message": "Sorry, I should have been clearer, we shouldn\u0027t apply asmfmt to existing files in this commit. It causes too many unrelated whitespace changes. If we want to asmfmt the file we should do it in a separate CL. For now lets just match the indentation (tabs) used in the rest of the pre-existing file.",
+      "parentUuid": "36edb3e1_1500e6a8",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "c5527335cfb89cd8eaf7bc766fb3d8b9aad5be6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

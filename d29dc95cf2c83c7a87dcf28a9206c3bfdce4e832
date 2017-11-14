@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ba21d9b_ac1ebf62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-14T11:14:03Z",
+      "side": 1,
+      "message": "and c-archive",
+      "range": {
+        "startLine": 7,
+        "startChar": 17,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "d29dc95cf2c83c7a87dcf28a9206c3bfdce4e832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8e76e52_a2a9d752",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-14T11:14:03Z",
+      "side": 1,
+      "message": "This isn\u0027t quite true anymore. Can you explain a bit more about what this CL changes and why? A couple of sentences will be fine.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "d29dc95cf2c83c7a87dcf28a9206c3bfdce4e832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba642480_a5683ab2",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-14T11:14:03Z",
+      "side": 1,
+      "message": "one space",
+      "range": {
+        "startLine": 10,
+        "startChar": 50,
+        "endLine": 10,
+        "endChar": 52
+      },
+      "revId": "d29dc95cf2c83c7a87dcf28a9206c3bfdce4e832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a70a8c08_0c1c0236",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-14T11:14:03Z",
+      "side": 1,
+      "message": "R2 and R3",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 12
+      },
+      "revId": "d29dc95cf2c83c7a87dcf28a9206c3bfdce4e832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fe3c5f9_34fd1a63",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-14T11:14:03Z",
+      "side": 1,
+      "message": "s/NOSPLIT, $0x50/NOSPLIT|NOFRAME, $0/\n\nThe stack management in this function is done manually so that we can match the C calling convention. We don\u0027t want Go to insert a function prologue allocating stack space or saving the link register. Currently the register save area isn\u0027t where the code assumes it is.",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 32
+      },
+      "revId": "d29dc95cf2c83c7a87dcf28a9206c3bfdce4e832",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
