@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e86775b6_5ec3c7b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-15T16:47:24Z",
+      "side": 1,
+      "message": "start with a lowercase verb and keep this first line short (at least \u003c\u003d 80 chars, but people sometimes prefer even shorter)\n\nKeep in mind this is just a subject and you can write as much as you want in the body.\n\nI\u0027d write:\n\n   encoding/csv: add Writer.WrapNulls\n\nAnd then a blank line and then describe it.\n\nYou should also reference the GitHub issue where it\u0027s proposed.\n\nAnd with:\n\nFixes #nnnnn\n\n(then a blank line and then the Change-Id line)",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 109
+      },
+      "revId": "5f3ea7ef9973aeaf36d6fe7d68fff7ab5a23072f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
