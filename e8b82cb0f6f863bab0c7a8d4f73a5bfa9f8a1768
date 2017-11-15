@@ -46,6 +46,30 @@
       "revId": "e8b82cb0f6f863bab0c7a8d4f73a5bfa9f8a1768",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "318c3e4c_be5312d8",
+        "filename": "src/os/user/cgo_lookup_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 20020
+      },
+      "writtenOn": "2017-11-15T17:51:42Z",
+      "side": 1,
+      "message": "gah, pw_uid is already a uint32. Sorry -- in testing locally I just tried with an int.",
+      "parentUuid": "4536cda9_cb628dd1",
+      "range": {
+        "startLine": 117,
+        "startChar": 48,
+        "endLine": 117,
+        "endChar": 49
+      },
+      "revId": "e8b82cb0f6f863bab0c7a8d4f73a5bfa9f8a1768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
