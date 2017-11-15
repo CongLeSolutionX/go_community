@@ -294,6 +294,9 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 
 		// runtime call clobber R12 on nacl
 		opcodeTable[OpARMCALLudiv].reg.clobbers |= 1 << 12 // R12
+
+		// Returns clobber SI on nacl, so the write barrier does.
+		opcodeTable[OpAMD64LoweredWB].reg.clobbers |= 1 << 6 // SI
 	}
 
 	if ctxt.Flag_shared {
