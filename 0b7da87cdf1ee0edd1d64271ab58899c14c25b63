@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3d41114_a57c2fcb",
+        "filename": "src/bytes/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-15T21:26:02Z",
+      "side": 1,
+      "message": "This was supposed to be in a different CL but if I try to move it I\u0027m sure I will completely break the entire git stack. Oh well. :-)",
+      "revId": "0b7da87cdf1ee0edd1d64271ab58899c14c25b63",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
