@@ -1495,3 +1495,76 @@ TEXT ·checkASM(SB),NOSPLIT,$0-1
 	MOVW	$1, R3
 	MOVB	R3, ret+0(FP)
 	RET
+
+// gcWriteBarrier performs a heap pointer write and informs the GC.
+//
+// gcWriteBarrier does NOT follow the Go ABI. It takes two arguments:
+// - R20 is the destination of the write
+// - R21 is the value being written at R20.
+// It clobbers condition codes.
+// The act of CALLing gcWriteBarrier will clobber R31 (LR).
+// It does not clobber R0 through R15,
+// but may clobber any other register.
+TEXT runtime·gcWriteBarrier(SB),NOSPLIT,$112
+	// Save the registers clobbered by the fast path.
+	MOVD	R3, (FIXED_FRAME+96)(R1)
+	MOVD	R4, (FIXED_FRAME+104)(R1)
+	MOVD	g, R3
+	MOVD	g_m(R3), R3
+	MOVD	m_p(R3), R3
+	MOVD	(p_wbBuf+wbBuf_next)(R3), R4
+	// Increment wbBuf.next position.
+	ADD	$16, R4
+	MOVD	R4, (p_wbBuf+wbBuf_next)(R3)
+	MOVD	(p_wbBuf+wbBuf_end)(R3), R3
+	CMP	R3, R4
+	// Record the write.
+	MOVD	R21, -16(R4)	// Record value
+	MOVD	(R20), R3	// TODO: This turns bad writes into bad reads.
+	MOVD	R3, -8(R4)	// Record *slot
+	// Is the buffer full? (flags set in CMP above)
+	BEQ	flush
+ret:
+	MOVD	(FIXED_FRAME+96)(R1), R3
+	MOVD	(FIXED_FRAME+104)(R1), R4
+	// Do the write.
+	MOVD	R21, (R20)
+	RET
+
+flush:
+	// Save registers R0 through R15 since these were not saved by the caller.
+	// We don't save all registers on ppc64 because it takes too much space.
+	MOVD	R20, (FIXED_FRAME+0)(R1)	// Also first argument to wbBufFlush
+	MOVD	R21, (FIXED_FRAME+8)(R1)	// Also second argument to wbBufFlush
+	// R1 is SP.
+	// R2 is SB.
+	// R3 already saved
+	// R4 already saved
+	MOVD	R5, (FIXED_FRAME+16)(R1)
+	MOVD	R6, (FIXED_FRAME+24)(R1)
+	MOVD	R7, (FIXED_FRAME+32)(R1)
+	MOVD	R8, (FIXED_FRAME+40)(R1)
+	MOVD	R9, (FIXED_FRAME+48)(R1)
+	MOVD	R10, (FIXED_FRAME+56)(R1)
+	MOVD	R11, (FIXED_FRAME+64)(R1)
+	MOVD	R12, (FIXED_FRAME+72)(R1)
+	// R13 is REGTLS
+	MOVD	R14, (FIXED_FRAME+80)(R1)
+	MOVD	R15, (FIXED_FRAME+88)(R1)
+
+	// This takes arguments R20 and R21.
+	CALL	runtime·wbBufFlush(SB)
+
+	MOVD	(FIXED_FRAME+0)(R1), R20
+	MOVD	(FIXED_FRAME+8)(R1), R21
+	MOVD	(FIXED_FRAME+16)(R1), R5
+	MOVD	(FIXED_FRAME+24)(R1), R6
+	MOVD	(FIXED_FRAME+32)(R1), R7
+	MOVD	(FIXED_FRAME+40)(R1), R8
+	MOVD	(FIXED_FRAME+48)(R1), R9
+	MOVD	(FIXED_FRAME+56)(R1), R10
+	MOVD	(FIXED_FRAME+64)(R1), R11
+	MOVD	(FIXED_FRAME+72)(R1), R12
+	MOVD	(FIXED_FRAME+80)(R1), R14
+	MOVD	(FIXED_FRAME+88)(R1), R15
+	JMP	ret
