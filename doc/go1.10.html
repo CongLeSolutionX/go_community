@@ -11,7 +11,6 @@ set fixed-width phrases with non-fixed-width spaces, as in
 Do not send CLs removing the interior tags from such phrases.
 -->
 
-
 <style>
 ul li { margin: 0.5em 0; }
 </style>
@@ -567,18 +566,8 @@ the <code>Header.AccessTime</code> and <code>Header.ChangeTime</code> fields (if
 When writing PAX-format headers, the times include sub-second precision.
 </p>
 <p>
-<code>Reader</code> and the <code>Writer</code> have added new methods
-<a href="/pkg/archive/tar/#Reader.WriteTo"><code>Reader.WriteTo</code></a> and 
-<a href="/pkg/archive/tar/#Writer.ReadFrom"><code>Writer.ReadFrom</code></a>
-for use by <a href="/pkg/io/#Copy"><code>io.Copy</code></a>.
-TODO: Should these be removed with sparse hole support?
-</p>
-<p>
 The <a href="/pkg/archive/tar/#Writer.Flush"><code>Writer.Flush</code></a> method,
 which has had no real effect since Go 1.1, is now marked deprecated.
-</p>
-<p>
-TODO: Sparse hole support but probably will be removed (#22735).
 </p>
 </dl>
 
