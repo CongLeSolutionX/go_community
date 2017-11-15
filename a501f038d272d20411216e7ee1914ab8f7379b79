@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef339786_c88173f6",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-11-15T21:27:01Z",
+      "side": 1,
+      "message": "If a Conn does not implement either QueryContext or Queryer, (?)",
+      "range": {
+        "startLine": 139,
+        "startChar": 3,
+        "endLine": 139,
+        "endChar": 64
+      },
+      "revId": "a501f038d272d20411216e7ee1914ab8f7379b79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
