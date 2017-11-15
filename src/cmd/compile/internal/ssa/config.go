@@ -296,6 +296,13 @@ func NewConfig(arch string, types Types, ctxt *obj.Link, optimize bool) *Config 
 		opcodeTable[OpARMCALLudiv].reg.clobbers |= 1 << 12 // R12
 	}
 
+	if ctxt.Flag_shared {
+		// LoweredWB is secretly a CALL and CALLs on 386 in
+		// shared mode get rewritten by obj6.go to go through
+		// the GOT, which clobbers BX.
+		opcodeTable[Op386LoweredWB].reg.clobbers |= 1 << 3 // BX
+	}
+
 	// cutoff is compared with product of numblocks and numvalues,
 	// if product is smaller than cutoff, use old non-sparse method.
 	// cutoff == 0 implies all sparse.
