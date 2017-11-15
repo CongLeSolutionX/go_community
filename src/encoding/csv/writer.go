@@ -22,9 +22,10 @@ import (
 //
 // If UseCRLF is true, the Writer ends each record with \r\n instead of \n.
 type Writer struct {
-	Comma   rune // Field delimiter (set to ',' by NewWriter)
-	UseCRLF bool // True to use \r\n as the line terminator
-	w       *bufio.Writer
+	Comma     rune // Field delimiter (set to ',' by NewWriter)
+	UseCRLF   bool // True to use \r\n as the line terminator
+	WrapNulls bool // True to use quotes around null values
+	w         *bufio.Writer
 }
 
 // NewWriter returns a new Writer that writes to w.
@@ -134,7 +135,7 @@ func (w *Writer) WriteAll(records [][]string) error {
 // For Postgres, quote the data terminating string `\.`.
 func (w *Writer) fieldNeedsQuotes(field string) bool {
 	if field == "" {
-		return false
+		return w.WrapNulls
 	}
 	if field == `\.` || strings.ContainsRune(field, w.Comma) || strings.ContainsAny(field, "\"\r\n") {
 		return true
