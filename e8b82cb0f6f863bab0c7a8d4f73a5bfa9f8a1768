@@ -22,6 +22,30 @@
       "revId": "e8b82cb0f6f863bab0c7a8d4f73a5bfa9f8a1768",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4536cda9_cb628dd1",
+        "filename": "src/os/user/cgo_lookup_unix.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-15T17:47:38Z",
+      "side": 1,
+      "message": "Sure? I was able to reproduce the failure (with the new test) with these lines reverted to their original state, and then these lines fix the test.",
+      "parentUuid": "9dee8046_66e249df",
+      "range": {
+        "startLine": 117,
+        "startChar": 48,
+        "endLine": 117,
+        "endChar": 49
+      },
+      "revId": "e8b82cb0f6f863bab0c7a8d4f73a5bfa9f8a1768",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
