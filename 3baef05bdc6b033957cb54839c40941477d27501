@@ -46,6 +46,30 @@
       "revId": "3baef05bdc6b033957cb54839c40941477d27501",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce1764f9_765b3102",
+        "filename": "src/go/printer/testdata/comments.golden",
+        "patchSetId": 2
+      },
+      "lineNbr": 749,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-15T17:29:55Z",
+      "side": 1,
+      "message": "I see. The printer\u0027s test output doesn\u0027t do some of the \"polishing\" that gofmt does. I\u0027ve verified that gofmt indeed prints the spaces.\n(I should probably adjust the way go/printer tests work.",
+      "parentUuid": "4a6e3394_dbca5f9f",
+      "range": {
+        "startLine": 749,
+        "startChar": 12,
+        "endLine": 749,
+        "endChar": 13
+      },
+      "revId": "3baef05bdc6b033957cb54839c40941477d27501",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
