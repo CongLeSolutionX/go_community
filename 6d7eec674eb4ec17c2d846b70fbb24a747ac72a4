@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90e1e39a_df18423d",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-15T21:24:29Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be cleaner to change this copyBufferN?",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 80
+      },
+      "revId": "6d7eec674eb4ec17c2d846b70fbb24a747ac72a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "164b92fb_2d65b410",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-15T21:24:29Z",
+      "side": 1,
+      "message": "What happens if N is negative? This crashes the make.",
+      "range": {
+        "startLine": 389,
+        "startChar": 55,
+        "endLine": 389,
+        "endChar": 58
+      },
+      "revId": "6d7eec674eb4ec17c2d846b70fbb24a747ac72a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
