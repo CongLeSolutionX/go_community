@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29999a5c_ebc216a1",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-15T21:11:51Z",
+      "side": 1,
+      "message": "Add parenthesis for readability?\n\nI don\u0027t want to think about precedence order of || vs \u0026\u0026.",
+      "range": {
+        "startLine": 232,
+        "startChar": 28,
+        "endLine": 232,
+        "endChar": 61
+      },
+      "revId": "5d7a6dda0547f16b7fa58687cbdd4e723153b3d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
