@@ -453,6 +453,11 @@ func init() {
 		{name: "LoweredRound32F", argLength: 1, reg: fp11, resultInArg0: true},
 		{name: "LoweredRound64F", argLength: 1, reg: fp11, resultInArg0: true},
 
+		// LoweredWB invokes runtime.gcWriteBarrier. arg0=destptr, arg1=srcptr, arg2=mem, aux=runtime.gcWriteBarrier
+		// It saves all GP registers if necessary,
+		// but clobbers R14 (LR) because it's a call.
+		{name: "LoweredWB", argLength: 3, reg: regInfo{inputs: []regMask{buildReg("R2"), buildReg("R3")}, clobbers: (callerSave &^ gp) | buildReg("R14")}, clobberFlags: true, aux: "Sym", symEffect: "None"},
+
 		// MOVDconvert converts between pointers and integers.
 		// We have a special op for this so as to not confuse GC
 		// (particularly stack maps). It takes a memory arg so it
