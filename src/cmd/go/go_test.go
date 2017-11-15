@@ -5137,6 +5137,7 @@ func TestGoTestJSON(t *testing.T) {
 		tg.run("test", "-json", "-short", "-v", "sleepy1", "sleepy2")
 		sawSleepy1 := false
 		sawSleepy2 := false
+		state := 0
 		for _, line := range strings.Split(tg.getStdout(), "\n") {
 			if strings.Contains(line, `"Package":"sleepy1"`) {
 				sawSleepy1 = true
