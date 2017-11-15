@@ -22,6 +22,30 @@
       "revId": "5d7a6dda0547f16b7fa58687cbdd4e723153b3d4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa398655_9577b123",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-15T21:19:57Z",
+      "side": 1,
+      "message": "Done, but really that\u0027s something every Go programmer should know. We intentionally reduced the number of precedence levels to something people can remember. \n\nx || y \u0026\u0026 z and x | y \u0026 z are the same as x + y * z. \n(OR is bitwise or boolwise addition; AND is bitwise or boolwise multiplication.)",
+      "parentUuid": "29999a5c_ebc216a1",
+      "range": {
+        "startLine": 232,
+        "startChar": 28,
+        "endLine": 232,
+        "endChar": 61
+      },
+      "revId": "5d7a6dda0547f16b7fa58687cbdd4e723153b3d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
