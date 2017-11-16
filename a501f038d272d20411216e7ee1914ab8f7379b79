@@ -22,6 +22,30 @@
       "revId": "a501f038d272d20411216e7ee1914ab8f7379b79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bbb0b26_7ebf77c4",
+        "filename": "src/database/sql/driver/driver.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-16T01:12:43Z",
+      "side": 1,
+      "message": "Its supposed to match the one in Execer above. Fixed. Thanks.",
+      "parentUuid": "ef339786_c88173f6",
+      "range": {
+        "startLine": 139,
+        "startChar": 3,
+        "endLine": 139,
+        "endChar": 64
+      },
+      "revId": "a501f038d272d20411216e7ee1914ab8f7379b79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
