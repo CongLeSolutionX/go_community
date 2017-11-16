@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "f61cd5d3_6a2cad5c",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 471,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2017-11-16T21:30:58Z",
+      "side": 1,
+      "message": "s/AVX-256/AVX2/\nAlso I\u0027d like to mention specific extensions: SSE2/SSE3/SSSE3/SSE4.1/SSE4.2/BMI/BMI2/AVX/AVX2\nThis is especially important for extensions independent from AVX e.g. one can have AVX2, but no BMI",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ef25390_1ace5586",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 8585
+      },
+      "writtenOn": "2017-11-16T21:30:58Z",
+      "side": 1,
+      "message": "I must have missed this. Are we okay with possible code breakage?\nI can imagine somewhat realistic case which will no longer work\nloop_header:\nMOVQ $0,AX // This was actually a xor, so flags were unset\nloop:\nADC   AX,BX // Something that uses flags",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "59c29355_990062fd",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
