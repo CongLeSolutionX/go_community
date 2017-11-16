@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74f5eeca_0ebc0c48",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2017-11-16T16:03:25Z",
+      "side": 1,
+      "message": "Why do you need this ExecTime check?",
+      "range": {
+        "startLine": 65,
+        "startChar": 21,
+        "endLine": 65,
+        "endChar": 29
+      },
+      "revId": "4cb3e9a48ac6bace7284d0fca58e0f6319f7e65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9286c978_1d841176",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5265
+      },
+      "writtenOn": "2017-11-16T16:03:25Z",
+      "side": 1,
+      "message": "Do you mean for this comment to be checked in?",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 9
+      },
+      "revId": "4cb3e9a48ac6bace7284d0fca58e0f6319f7e65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
