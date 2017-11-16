@@ -70,6 +70,98 @@
     },
     {
       "key": {
+        "uuid": "99ad5507_d59d1669",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-16T22:05:12Z",
+      "side": 1,
+      "message": "Delete.",
+      "range": {
+        "startLine": 543,
+        "startChar": 0,
+        "endLine": 547,
+        "endChar": 4
+      },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2a510ef_eab2aa67",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-16T22:05:12Z",
+      "side": 1,
+      "message": "arbitrary",
+      "range": {
+        "startLine": 557,
+        "startChar": 59,
+        "endLine": 557,
+        "endChar": 60
+      },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12a7e5e5_f0cacbad",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-16T22:05:12Z",
+      "side": 1,
+      "message": "Since\n\u003ca href\u003d\"/pkg/archive/tar/#Header.Xattrs\"\u003e\u003ccode\u003eHeader.Xattrs\u003c/code\u003e\u003c/a\u003e\nis a sub-set of \u003ccode\u003ePAXRecords\u003c/code\u003e,\n\u003ccode\u003eXattrs\u003c/code\u003e is being marked as deprecated\nin favor of the new \u003ccode\u003ePAXRecords\u003c/code\u003e field.",
+      "range": {
+        "startLine": 559,
+        "startChar": 0,
+        "endLine": 559,
+        "endChar": 4
+      },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ad7e6e4_ac4211b5",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-16T22:05:12Z",
+      "side": 1,
+      "message": "Delete. I removed the deprecation notice.",
+      "range": {
+        "startLine": 569,
+        "startChar": 0,
+        "endLine": 572,
+        "endChar": 4
+      },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "59c29355_990062fd",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
@@ -93,6 +185,46 @@
     },
     {
       "key": {
+        "uuid": "356b1db6_c7245f54",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-16T22:05:12Z",
+      "side": 1,
+      "message": "#Decoder.DisallowUnknownFields",
+      "range": {
+        "startLine": 822,
+        "startChar": 29,
+        "endLine": 822,
+        "endChar": 50
+      },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "851cf7f3_6d473694",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-16T22:05:12Z",
+      "side": 1,
+      "message": "Structs with embedded pointers to unexported struct types are no longer marshaled and unmarshaled, instead they are entirely ignored in the same way unexported fields are normally ignored.\n\nUpgrading: Any package that uses this pattern can apply a localized fix by either embedding the non-pointer form of the struct or by defining an exported struct scoped within some function.",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f997e7ff_5adb4e5f",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
@@ -110,6 +242,23 @@
         "endLine": 968,
         "endChar": 56
       },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99257205_31b1deb2",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1158,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-11-16T22:05:12Z",
+      "side": 1,
+      "message": "The Method.PkgPath and StructField.PkgPath are now guaranteed to be set if and only if the method or field is exported. Prior versions of Go failed to set this field for embedded pointers to unexported types. As a consequence of this bug fix, Value.Set now correctly panics when trying to assign to such fields.",
       "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
