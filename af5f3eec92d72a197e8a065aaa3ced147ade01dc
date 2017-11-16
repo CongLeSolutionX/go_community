@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59c29355_990062fd",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-11-16T19:23:29Z",
+      "side": 1,
+      "message": "missing space between \u0027new\u0027 and the \u0027\u003c\u0027.",
+      "range": {
+        "startLine": 739,
+        "startChar": 8,
+        "endLine": 739,
+        "endChar": 13
+      },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f997e7ff_5adb4e5f",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 968,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-11-16T19:23:29Z",
+      "side": 1,
+      "message": "Missing \u0027to\u0027 between \u0027integer\u0027 and \u0027its\u0027.",
+      "range": {
+        "startLine": 968,
+        "startChar": 45,
+        "endLine": 968,
+        "endChar": 56
+      },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
