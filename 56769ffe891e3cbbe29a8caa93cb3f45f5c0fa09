@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c742c2a2_7207ec4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-16T22:57:06Z",
+      "side": 1,
+      "message": "archive",
+      "range": {
+        "startLine": 7,
+        "startChar": 32,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "56769ffe891e3cbbe29a8caa93cb3f45f5c0fa09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32e0f445_3995bf96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-16T22:57:06Z",
+      "side": 1,
+      "message": "archive",
+      "range": {
+        "startLine": 9,
+        "startChar": 70,
+        "endLine": 9,
+        "endChar": 76
+      },
+      "revId": "56769ffe891e3cbbe29a8caa93cb3f45f5c0fa09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71e1f0ac_b9e072dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-16T22:57:06Z",
+      "side": 1,
+      "message": "initialization",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 41
+      },
+      "revId": "56769ffe891e3cbbe29a8caa93cb3f45f5c0fa09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ea16ce_d8bd5f37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-16T22:57:06Z",
+      "side": 1,
+      "message": "one full stop",
+      "range": {
+        "startLine": 11,
+        "startChar": 35,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "56769ffe891e3cbbe29a8caa93cb3f45f5c0fa09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8629f481_31de8bde",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-16T22:57:06Z",
+      "side": 1,
+      "message": "This file is still using spaces rather than tabs. We need to reduce the diff down to just the new code and use tabs in the new code to match the pre-existing code.",
+      "revId": "56769ffe891e3cbbe29a8caa93cb3f45f5c0fa09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b269ca19_b4142409",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2017-11-16T22:57:06Z",
+      "side": 1,
+      "message": "s/0x0/0/\n\n(to match the other declarations)",
+      "range": {
+        "startLine": 16,
+        "startChar": 43,
+        "endLine": 16,
+        "endChar": 46
+      },
+      "revId": "56769ffe891e3cbbe29a8caa93cb3f45f5c0fa09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
