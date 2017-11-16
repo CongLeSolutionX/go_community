@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f4a3c8ed_d0b8e0ed",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-16T01:24:01Z",
+      "side": 1,
+      "message": "It would require more changes. I am trying to make the minimal changes needed here to get the optimization that the code duplication was going after. This loop is subtle and not something I want to modify today. (And also not something I want two of.)\n\nAlso there is something to be said for making io.Copy applied to LimitedReaders also get the optimization.",
+      "parentUuid": "90e1e39a_df18423d",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 378,
+        "endChar": 80
+      },
+      "revId": "6d7eec674eb4ec17c2d846b70fbb24a747ac72a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "164b92fb_2d65b410",
         "filename": "src/io/io.go",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "6d7eec674eb4ec17c2d846b70fbb24a747ac72a4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f85e37a_58a73c4c",
+        "filename": "src/io/io.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-16T01:24:01Z",
+      "side": 1,
+      "message": "Thanks very much for catching this. The duplicated code had the same problem, but the code from Go 1.9 did not. Now this code does not have the problem either. Test added.",
+      "parentUuid": "164b92fb_2d65b410",
+      "range": {
+        "startLine": 389,
+        "startChar": 55,
+        "endLine": 389,
+        "endChar": 58
+      },
+      "revId": "6d7eec674eb4ec17c2d846b70fbb24a747ac72a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
