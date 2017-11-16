@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d5bedc7f_6c99e377",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-11-16T21:39:39Z",
+      "side": 1,
+      "message": "None of the location list stuff is on by default.\n\n- Global constants are probably worth noting.\n- David Chase\u0027s improvements to line number information should dramatically improve stepping through a program. (https://golang.org/issue/21098)\n- https://golang.org/issue/22068 was long-standing but may not have affected enough people to be worth documenting.\n- https://golang.org/cl/69973 was a significant structural change; it should have no user impact, but neither did the move to DWARF4, and we documented that in 1.9.",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f61cd5d3_6a2cad5c",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
