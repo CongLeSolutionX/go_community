@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33cbc723_dc4aad46",
+        "filename": "src/builtin/builtin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-16T19:03:19Z",
+      "side": 1,
+      "message": "... length. For instance, make([]int, 0, 10) ...",
+      "range": {
+        "startLine": 174,
+        "startChar": 9,
+        "endLine": 174,
+        "endChar": 10
+      },
+      "revId": "70054afa31189a636ddd54b6361ec3a96ab5fb6a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
