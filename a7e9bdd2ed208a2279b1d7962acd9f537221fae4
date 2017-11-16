@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da3019b0_f34d5589",
+        "filename": "src/cmd/go/internal/work/exec.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 1779,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-16T17:29:12Z",
+      "side": 1,
+      "message": "Extra close parenthesis in comment.",
+      "range": {
+        "startLine": 1779,
+        "startChar": 41,
+        "endLine": 1779,
+        "endChar": 42
+      },
+      "revId": "a7e9bdd2ed208a2279b1d7962acd9f537221fae4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
