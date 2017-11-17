@@ -52,6 +52,24 @@
       "revId": "a09799ac8cd0251376a17a989d267353f3d6a457",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7647b606_4441e2f2",
+        "filename": "src/cmd/compile/internal/ssa/testdata/hist.opt-dlv.nexts",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-11-17T17:49:02Z",
+      "side": 1,
+      "message": "We generate a different binary for dlv and for gdb because (in order to make the test less fragile) inlining is turned off for the optimized gdb build, so we can\u0027t directly compare the two log files.",
+      "parentUuid": "f5eebbc6_40040196",
+      "revId": "a09799ac8cd0251376a17a989d267353f3d6a457",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
