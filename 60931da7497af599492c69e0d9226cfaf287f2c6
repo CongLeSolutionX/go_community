@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a7d0010_2f435173",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-17T14:38:44Z",
+      "side": 1,
+      "message": "Just use // comment.",
+      "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6ea0516_6d0c2e5d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-17T14:38:44Z",
+      "side": 1,
+      "message": "I see this is mirroring the pstatefield above, but let\u0027s make the names more meaningful, maybe \"reg\" and \"encoding\" (or \"enc\").\nAlso, let\u0027s make \"reg\" int16, then you don\u0027t need the cast below.",
+      "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97951559_6fea7c25",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2759,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-17T14:38:44Z",
+      "side": 1,
+      "message": "Let\u0027s make it uint32. So you don\u0027t need to do the cast below. Just write\nvar v uint32",
+      "range": {
+        "startLine": 2759,
+        "startChar": 7,
+        "endLine": 2759,
+        "endChar": 12
+      },
+      "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e3662f3_f1ad5ed9",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2765,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-17T14:38:44Z",
+      "side": 1,
+      "message": "Should we error if it doesn\u0027t find any matching systemreg?",
+      "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
