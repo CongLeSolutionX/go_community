@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e6b5c959_57d37e7c",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-11-17T19:51:01Z",
+      "side": 1,
+      "message": "I used the same condition the function httpGoroutine (goroutines.go) used, but I agree that this shouldn\u0027t be there.  I also removed the condition from httpGoroutine which may include more goroutines.",
+      "parentUuid": "74f5eeca_0ebc0c48",
+      "range": {
+        "startLine": 65,
+        "startChar": 21,
+        "endLine": 65,
+        "endChar": 29
+      },
+      "revId": "4cb3e9a48ac6bace7284d0fca58e0f6319f7e65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9286c978_1d841176",
         "filename": "src/cmd/trace/pprof.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-16T16:03:25Z",
       "side": 1,
       "message": "Do you mean for this comment to be checked in?",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 9
+      },
+      "revId": "4cb3e9a48ac6bace7284d0fca58e0f6319f7e65f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c8a3ffe_56e89441",
+        "filename": "src/cmd/trace/pprof.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-11-17T19:51:01Z",
+      "side": 1,
+      "message": "Yes, personally I think this should be removed, but don\u0027t know what\u0027s the impact on this in the block profiling output.",
+      "parentUuid": "9286c978_1d841176",
       "range": {
         "startLine": 124,
         "startChar": 6,
