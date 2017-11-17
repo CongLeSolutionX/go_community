@@ -97,22 +97,23 @@ var pkgDeps = map[string][]string{
 	// L3 adds reflection and some basic utility packages
 	// and interface definitions, but nothing that makes
 	// system calls.
-	"crypto":              {"L2", "hash"}, // interfaces
-	"crypto/cipher":       {"L2", "crypto/subtle"},
-	"crypto/subtle":       {},
-	"encoding/base32":     {"L2"},
-	"encoding/base64":     {"L2", "encoding/binary"},
-	"encoding/binary":     {"L2", "reflect"},
-	"hash":                {"L2"}, // interfaces
-	"hash/adler32":        {"L2", "hash"},
-	"hash/crc32":          {"L2", "hash"},
-	"hash/crc64":          {"L2", "hash"},
-	"hash/fnv":            {"L2", "hash"},
-	"image":               {"L2", "image/color"}, // interfaces
-	"image/color":         {"L2"},                // interfaces
-	"image/color/palette": {"L2", "image/color"},
-	"reflect":             {"L2"},
-	"sort":                {"reflect"},
+	"crypto":                   {"L2", "hash"}, // interfaces
+	"crypto/cipher":            {"L2", "crypto/subtle"},
+	"crypto/subtle":            {},
+	"crypto/internal/cipherhw": {"internal/cpu"},
+	"encoding/base32":          {"L2"},
+	"encoding/base64":          {"L2", "encoding/binary"},
+	"encoding/binary":          {"L2", "reflect"},
+	"hash":                     {"L2"}, // interfaces
+	"hash/adler32":             {"L2", "hash"},
+	"hash/crc32":               {"L2", "hash"},
+	"hash/crc64":               {"L2", "hash"},
+	"hash/fnv":                 {"L2", "hash"},
+	"image":                    {"L2", "image/color"}, // interfaces
+	"image/color":              {"L2"},                // interfaces
+	"image/color/palette":      {"L2", "image/color"},
+	"reflect":                  {"L2"},
+	"sort":                     {"reflect"},
 
 	"L3": {
 		"L2",
