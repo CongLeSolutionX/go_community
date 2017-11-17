@@ -2,6 +2,108 @@
   "comments": [
     {
       "key": {
+        "uuid": "5cdb6111_d455822d",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "concept of",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ddab8a3_af59f551",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "I\u0027m not sure if \"run a test\" should be singular in this context? \n\nMay be able to simplify this sentence.",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87440f4e_35933bbb",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "CONT is clear? Not sure.",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eba6d41a_ff2bf5c6",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "It would be nice to briefly mention the changes (new web UI) for pprof.",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52da32bf_9a82cf4c",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "this should link to /cmd/vet/",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d368a76_3948b064",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "yah, too much info, in my opinion",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d5bedc7f_6c99e377",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
@@ -93,6 +195,23 @@
     },
     {
       "key": {
+        "uuid": "af99200f_19463a0e",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "\"that can encode\"",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d2a510ef_eab2aa67",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
@@ -162,6 +281,40 @@
     },
     {
       "key": {
+        "uuid": "ecbecee1_660e5739",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "\"a ZIP archive\"?\n\n\"also stores\"?",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f8ae583_cfe7c34d",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "\"now supports\"",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "59c29355_990062fd",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
@@ -179,6 +332,23 @@
         "endLine": 739,
         "endChar": 13
       },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c1749f1_a3259faa",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "superfluous each?: they each now",
       "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -225,6 +395,57 @@
     },
     {
       "key": {
+        "uuid": "9be0c531_118e7904",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "This is missing \"\u003ccode\u003eShuffle\u003c/code\u003e\u003c/a\u003e\"",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef0d4b20_966b7aac",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 951,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "missing \"\u003ccode\u003ePerm\u003c/code\u003e\u003c/a\u003e\"",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc1a7485_229b5bb2",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "Considering these functions both return a float64, would it be better to describe the return value as a \"whole number\" instead of an \"integer\" both here and in the linked documentation? \n\nOr maybe just tweak the wording?\n\n\"Round returns the nearest integer\" (ah, as a float64)",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f997e7ff_5adb4e5f",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
@@ -242,6 +463,23 @@
         "endLine": 968,
         "endChar": 56
       },
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1271d172_206d4e53",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1056,
+      "author": {
+        "id": 5235
+      },
+      "writtenOn": "2017-11-17T01:32:44Z",
+      "side": 1,
+      "message": "extraneous \"and\"",
       "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
