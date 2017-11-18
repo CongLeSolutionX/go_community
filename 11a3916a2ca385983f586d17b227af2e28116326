@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34cea715_d8d941a8",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-18T01:57:24Z",
+      "side": 1,
+      "message": "Sorry, it\u0027s a bit pedantic, but I think we had better say \"Otherwise, if either is not nil, during the execution....\"",
+      "revId": "11a3916a2ca385983f586d17b227af2e28116326",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
