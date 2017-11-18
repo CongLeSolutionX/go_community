@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5df489d3_72f57a5f",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2017-11-18T18:23:31Z",
+      "side": 1,
+      "message": "Probably we should try to specify how much faster (a value or a range)",
+      "revId": "fdafa269bc1b4774722c2bec394d4308f36f6fd4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
