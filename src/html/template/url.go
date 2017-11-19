@@ -37,13 +37,23 @@ func urlFilter(args ...interface{}) string {
 	if t == contentTypeURL {
 		return s
 	}
-	if i := strings.IndexRune(s, ':'); i >= 0 && !strings.ContainsRune(s[:i], '/') {
-		protocol := strings.ToLower(s[:i])
-		if protocol != "http" && protocol != "https" && protocol != "mailto" {
-			return "#" + filterFailsafe
-		}
+	if !isSafeUrl(s) {
+		return "#" + filterFailsafe
 	}
 	return s
+}
+
+// isSafeUrl is true if s is a relative URL or if URL has a protocol in
+// (http, https, mailto).
+func isSafeUrl(s string) bool {
+	if i := strings.IndexRune(s, ':'); i >= 0 && !strings.ContainsRune(s[:i], '/') {
+
+		protocol := s[:i]
+		if !strings.EqualFold(protocol, "http") && !strings.EqualFold(protocol, "https") && !strings.EqualFold(protocol, "mailto") {
+			return false
+		}
+	}
+	return true
 }
 
 // urlEscaper produces an output that can be embedded in a URL query.
@@ -69,6 +79,16 @@ func urlProcessor(norm bool, args ...interface{}) string {
 		norm = true
 	}
 	var b bytes.Buffer
+	if processUrlOnto(norm, s, &b) {
+		return b.String()
+	}
+	return s
+}
+
+// processUrlOnto appends a normalized URL corresponding to its input to b
+// and returns true if the appended content differs from s.
+func processUrlOnto(norm bool, s string, b *bytes.Buffer) bool {
+	b.Grow(b.Cap() + len(s) + 16)
 	written := 0
 	// The byte loop below assumes that all URLs use UTF-8 as the
 	// content-encoding. This is similar to the URI to IRI encoding scheme
@@ -114,12 +134,52 @@ func urlProcessor(norm bool, args ...interface{}) string {
 			}
 		}
 		b.WriteString(s[written:i])
-		fmt.Fprintf(&b, "%%%02x", c)
+		fmt.Fprintf(b, "%%%02x", c)
 		written = i + 1
 	}
-	if written == 0 {
-		return s
-	}
 	b.WriteString(s[written:])
-	return b.String()
+	return written != 0
+}
+
+// Filters and normalizes srcset values which are comma separated
+// URLs followed by metadata.
+func srcsetFilterAndEscaper(s string) string {
+	var buf bytes.Buffer
+	all := strings.Split(s, ",")
+	for i, set := range all {
+		if i > 0 && i < len(all) {
+			buf.WriteString(",")
+		}
+		written := false
+		set = strings.TrimSpace(set)
+		for j, c := range set {
+			switch c {
+			case '\t', '\n', '\f', '\r', ' ':
+				// https://infra.spec.whatwg.org/#ascii-whitespace
+				if isSafeUrl(set[0:j]) {
+					processUrlOnto(true, set[0:j], &buf)
+					buf.WriteString(set[j:])
+					written = true
+				} else {
+					buf.WriteString("#")
+					buf.WriteString(filterFailsafe)
+				}
+			}
+		}
+		if !written {
+			processUrlOnto(true, set[0:], &buf)
+		}
+	}
+	return buf.String()
+}
+
+func srcsetEscaper(args ...interface{}) string {
+	s, t := stringify(args...)
+	switch t {
+	case contentTypeSrcset:
+		return srcsetFilterAndEscaper(s)
+	case contentTypeURL:
+		return strings.Replace(s, ",", "%2c", -1)
+	}
+	return urlEscaper(args...)
 }
