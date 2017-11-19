@@ -123,3 +123,14 @@ func urlProcessor(norm bool, args ...interface{}) string {
 	b.WriteString(s[written:])
 	return b.String()
 }
+
+func srcsetEscaper(args ...interface{}) string {
+	s, t := stringify(args...)
+	switch t {
+	case contentTypeSrcset:
+		return s
+	case contentTypeURL:
+		return strings.Replace(s, ",", "%2c", -1)
+	}
+	return urlProcessor(false, args...)
+}
