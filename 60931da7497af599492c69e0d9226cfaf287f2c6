@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4fbc16f3_a9d1f904",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2017-11-20T09:06:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a7d0010_2f435173",
+      "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ea0516_6d0c2e5d",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ab8537b_0a77a52d",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2017-11-20T09:06:21Z",
+      "side": 1,
+      "message": "Done\nI just add one element REG_ELR_EL1 into the encoding struct, because I have not used MSR/MRS yet. I think the best way is someone need to use and then add it by himself. How do you think about it?",
+      "parentUuid": "b6ea0516_6d0c2e5d",
+      "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "1f71bdee_fda6f9a6",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2759,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2017-11-20T09:06:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97951559_6fea7c25",
+      "range": {
+        "startLine": 2759,
+        "startChar": 7,
+        "endLine": 2759,
+        "endChar": 12
+      },
+      "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3662f3_f1ad5ed9",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 8
@@ -73,6 +133,24 @@
       "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ffff7cf_5810cb36",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 2765,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2017-11-20T09:06:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3662f3_f1ad5ed9",
+      "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
