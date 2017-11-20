@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "556ed2c9_c537247a",
+        "filename": "src/os/user_cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-20T22:17:47Z",
+      "side": 1,
+      "message": "this seems pretty small for a new file. Go doesn\u0027t use many files per package relative to other languages. Maybe there\u0027s an existing file that\u0027s relevant we could use? Maybe not.",
+      "revId": "f180c241f469547f3549ae547c8d732da6daa334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a34ef0d0_734da0f2",
+        "filename": "src/os/user_cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-20T22:17:47Z",
+      "side": 1,
+      "message": "this should make it clear that this is the root directory under which the user should filepath.Join their own subdirectory.",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "f180c241f469547f3549ae547c8d732da6daa334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
