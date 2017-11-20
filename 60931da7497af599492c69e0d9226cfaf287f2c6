@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "9dfb2947_f971fbd2",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-20T13:53:50Z",
+      "side": 1,
+      "message": "One element is fine.",
+      "parentUuid": "0ab8537b_0a77a52d",
+      "revId": "60931da7497af599492c69e0d9226cfaf287f2c6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97951559_6fea7c25",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 8
