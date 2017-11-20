@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4254aca1_c797a4e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-20T17:33:34Z",
+      "side": 1,
+      "message": "Can you put your name in your git Commit \u0026 Author fields, and not just your username?\n\nYour name appears on Gerrit, for instance.",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 22
+      },
+      "revId": "cc4fa09179faaf33a4d0f115c47849241bdd363a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71d9e701_2a2229ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-20T17:33:34Z",
+      "side": 1,
+      "message": "GitHub will just close the issue when it sees this, as GitHub only cares about the \"Fixes #nnn\" part. It won\u0027t assign any meaning to \"Possibly\".\n\nSo use \"Updates #22802 (maybe fixes it)\" if you don\u0027t want to close.",
+      "revId": "cc4fa09179faaf33a4d0f115c47849241bdd363a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
