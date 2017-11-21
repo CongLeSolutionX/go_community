@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b457a04_af142305",
+        "filename": "src/runtime/hashmap_fast.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-11-21T15:40:54Z",
+      "side": 1,
+      "message": "Sigh. If only we had generics. :)",
+      "revId": "e5270346e150b3d2ba945ecf819feb8e64ecbd28",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
