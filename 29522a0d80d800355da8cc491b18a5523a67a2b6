@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf5ae5ea_dbd471a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-21T06:26:21Z",
+      "side": 1,
+      "message": "mention arm64 in the subject\n\nmaybe:\n\ncrypto/tls: use AES-GCM on arm64 when supported by processor",
+      "revId": "29522a0d80d800355da8cc491b18a5523a67a2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0803cd8b_17fef085",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-21T06:26:21Z",
+      "side": 1,
+      "message": "If you use the subject I replied with above, this sentence probably isn\u0027t needed.",
+      "revId": "29522a0d80d800355da8cc491b18a5523a67a2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59678afc_7f1db527",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-21T06:26:21Z",
+      "side": 1,
+      "message": "typo: Fixes",
+      "revId": "29522a0d80d800355da8cc491b18a5523a67a2b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
