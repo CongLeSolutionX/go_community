@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4530bee6_082741d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2017-11-21T20:34:14Z",
+      "side": 1,
+      "message": "Nit: I think we usually spell the function names without parenthesis in commit messages.",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "2cf7f47532b6b5093295762366db0a4bdba1daec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a255be5_7221a367",
+        "filename": "src/os/file.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2017-11-21T20:34:14Z",
+      "side": 1,
+      "message": "The term \"root directory\" might be a bit ambiguous here (i.e. it might be confused with the / directory on unix systems). How about \"base directory\"?",
+      "range": {
+        "startLine": 300,
+        "startChar": 36,
+        "endLine": 300,
+        "endChar": 40
+      },
+      "revId": "2cf7f47532b6b5093295762366db0a4bdba1daec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
