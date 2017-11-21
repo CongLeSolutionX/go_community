@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ce09e2cc_7c93e902",
+        "filename": "src/os/user_cache.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-11-21T15:16:44Z",
+      "side": 1,
+      "message": "Especially not a file with an underscore in its name, because at least in the main repo underscores are reserved for when you\u0027re doing something like foo_386.go.\nTempDir is in file.go. I would put this code there too.",
+      "parentUuid": "556ed2c9_c537247a",
+      "revId": "f180c241f469547f3549ae547c8d732da6daa334",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a34ef0d0_734da0f2",
         "filename": "src/os/user_cache.go",
         "patchSetId": 1
