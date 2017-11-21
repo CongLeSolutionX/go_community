@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8438ff2c_afafba9f",
+        "filename": "doc/diagnostics.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2017-11-21T16:36:49Z",
+      "side": 1,
+      "message": "I don\u0027t think this is correct. Either that, or I don\u0027t understand what this\nmeans. What is the \u0027time of collection\u0027? \n\nThe runtime docs say:\n\n\u0027setting gctrace\u003d1 causes the garbage collector to emit a single line to standard error at each collection, summarizing [...]\u0027\n\nIt\u0027s much more clear.",
+      "range": {
+        "startLine": 435,
+        "startChar": 13,
+        "endLine": 436,
+        "endChar": 22
+      },
+      "revId": "6979717fd721f389020093aa65312c511ef5fd86",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
