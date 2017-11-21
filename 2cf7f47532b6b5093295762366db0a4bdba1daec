@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a9d92934_9e2317bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-21T20:51:40Z",
+      "side": 1,
+      "message": "Indeed. Here it works because he\u0027s writing the whole signature, but it could also just be:\n\nos: add UserCacheDir",
+      "parentUuid": "4530bee6_082741d7",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "2cf7f47532b6b5093295762366db0a4bdba1daec",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a255be5_7221a367",
         "filename": "src/os/file.go",
         "patchSetId": 2
