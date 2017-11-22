@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44cb643a_f469ba30",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-11-22T23:28:05Z",
+      "side": 1,
+      "message": "This is verbose and contains a minor grammatical error. A shorter version:\n\nIf either is an *os.File, special processing ensues. The File is\nconnected directly to the corresponding field (Stdout or Stderr).\nA goroutine is launched to copy each corresponding output stream\nto the File until EOF or error. Wait may return before the goroutines\ncomplete.",
+      "revId": "5051671c7e1dd026c6b19a83e944b6b43f5fe5c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
