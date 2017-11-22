@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a71e0f35_b7462795",
+        "filename": "src/cmd/go/go_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-11-22T23:42:41Z",
+      "side": 1,
+      "message": "Done. Hopefully my English is good enough.",
+      "parentUuid": "bf0f1f5d_ec35e5d1",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 88,
+        "endChar": 18
+      },
+      "revId": "45d728bdf14ae1d8f155fc756f60fceef87a6eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e1d5d51d_c20fdde9",
         "filename": "src/cmd/go/go_windows_test.go",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "afc2bd12_8ead8b6a",
+        "filename": "src/cmd/go/go_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-11-22T23:42:41Z",
+      "side": 1,
+      "message": "Yes. cmd.exe always sets both. Apparently some programs use TMP while others use TEMP. For example https://superuser.com/questions/709953/temp-vs-tmp-in-environment-variables\n\nI have enough things in life to keep me awake at night. I don\u0027t want to play Russian roulette with environment variables.",
+      "parentUuid": "e1d5d51d_c20fdde9",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 20
+      },
+      "revId": "45d728bdf14ae1d8f155fc756f60fceef87a6eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2e772a75_324dffab",
         "filename": "src/cmd/go/go_windows_test.go",
         "patchSetId": 5
@@ -59,6 +107,24 @@
       "writtenOn": "2017-11-22T03:59:34Z",
       "side": 1,
       "message": "typo: attributes",
+      "revId": "45d728bdf14ae1d8f155fc756f60fceef87a6eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e0d00e_71618705",
+        "filename": "src/cmd/go/go_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-11-22T23:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e772a75_324dffab",
       "revId": "45d728bdf14ae1d8f155fc756f60fceef87a6eb9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
