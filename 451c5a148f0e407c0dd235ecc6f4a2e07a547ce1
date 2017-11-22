@@ -16,6 +16,24 @@
       "revId": "451c5a148f0e407c0dd235ecc6f4a2e07a547ce1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4097189d_e51ada20",
+        "filename": "src/go/types/check_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-22T19:12:50Z",
+      "side": 1,
+      "message": "My bad. I missed your comment before. This is ok.",
+      "parentUuid": "3896894e_9e2c5525",
+      "revId": "451c5a148f0e407c0dd235ecc6f4a2e07a547ce1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
