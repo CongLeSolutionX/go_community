@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7192fb13_c535b70f",
+        "filename": "src/html/template/content.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-11-22T20:26:53Z",
+      "side": 1,
+      "message": "The srcset attribute does not necessarily include delimitter space. In fact, the following attribute values ​​are reasonable.\n\n  \u003cimg src\u003d\"bar.jpg\" alt\u003d\"yay\" srcset\u003d\"foo.jpg\"\u003e\n\nIn order to deal with such a special case, I think that this is necessary.",
+      "parentUuid": "9b41e813_f3978ec6",
+      "range": {
+        "startLine": 93,
+        "startChar": 14,
+        "endLine": 93,
+        "endChar": 0
+      },
+      "revId": "790fa44d28541f584988d281d43f14dcee0dd804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7edcb76f_0d2675e1",
         "filename": "src/html/template/url.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2017-11-22T15:29:05Z",
       "side": 1,
       "message": "Should this find regions separated by characters and url process each separately?\n\nThis seems like it will probably not do the right thing for an input like\n\nabout:invalid# , javascript:alert(1)",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 20
+      },
+      "revId": "790fa44d28541f584988d281d43f14dcee0dd804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b335ac7_28723b9c",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-11-22T20:26:53Z",
+      "side": 1,
+      "message": "I don\u0027t think the url processes should be executed separately. \nBoth are based on safe URLs. (It is written also in Srcset type comment)\nThe current behavior would be correct with this test cases.\n\n1. Without double quote:\n\n  \u003cimg srcset\u003d{{.}}\u003e with `about:invalid# , javascript:alert(1)`\n\nTo\n\n  \u003cimg srcset\u003dabout:invalid#\u0026#32;,\u0026#32;javascript:alert(1)\u003e\n\n2. With double quote:\n\n  \u003cimg srcset\u003d{{.}}\u003e with `about:invalid# , javascript:alert(1)`\n\nTo\n\n  \u003cimg srcset\u003dabout:invalid# , javascript:alert(1)\u003e\n\nAny cases would be valid according to the w3c specification and its validator.\n\nP.S.\n\nBtw, I think this line can be replaced with urlEscaper(args...). I\u0027m going to fix it.",
+      "parentUuid": "7edcb76f_0d2675e1",
       "range": {
         "startLine": 135,
         "startChar": 8,
