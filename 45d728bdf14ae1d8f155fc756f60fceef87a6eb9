@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf0f1f5d_ec35e5d1",
+        "filename": "src/cmd/go/go_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-22T03:59:34Z",
+      "side": 1,
+      "message": "add a one-line summary here?\n\n// For issue 22343: verify that foo does the bar.\n\n(because it\u0027s enough code to not be obvious at first glance)",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 88,
+        "endChar": 18
+      },
+      "revId": "45d728bdf14ae1d8f155fc756f60fceef87a6eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1d5d51d_c20fdde9",
+        "filename": "src/cmd/go/go_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-22T03:59:34Z",
+      "side": 1,
+      "message": "are these both necessary?",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 20
+      },
+      "revId": "45d728bdf14ae1d8f155fc756f60fceef87a6eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e772a75_324dffab",
+        "filename": "src/cmd/go/go_windows_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-22T03:59:34Z",
+      "side": 1,
+      "message": "typo: attributes",
+      "revId": "45d728bdf14ae1d8f155fc756f60fceef87a6eb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
