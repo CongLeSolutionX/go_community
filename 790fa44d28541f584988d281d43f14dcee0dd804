@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b41e813_f3978ec6",
+        "filename": "src/html/template/content.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-11-22T15:29:05Z",
+      "side": 1,
+      "message": "Is this definitely needed?",
+      "range": {
+        "startLine": 93,
+        "startChar": 14,
+        "endLine": 93,
+        "endChar": 0
+      },
+      "revId": "790fa44d28541f584988d281d43f14dcee0dd804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7edcb76f_0d2675e1",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-11-22T15:29:05Z",
+      "side": 1,
+      "message": "Should this find regions separated by characters and url process each separately?\n\nThis seems like it will probably not do the right thing for an input like\n\nabout:invalid# , javascript:alert(1)",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 20
+      },
+      "revId": "790fa44d28541f584988d281d43f14dcee0dd804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
