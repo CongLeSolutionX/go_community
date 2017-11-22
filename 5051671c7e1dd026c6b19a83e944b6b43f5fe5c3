@@ -16,6 +16,24 @@
       "revId": "5051671c7e1dd026c6b19a83e944b6b43f5fe5c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a15cbb8_4062ed37",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-22T23:33:25Z",
+      "side": 1,
+      "message": "That\u0027s not accurate (or I misunderstand it).  There are three relevant cases.  For a *os.File, the standard output/error is connected directly.  For nil, the standard output/error is discarded.  For anything else, a goroutine is created.",
+      "parentUuid": "44cb643a_f469ba30",
+      "revId": "5051671c7e1dd026c6b19a83e944b6b43f5fe5c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
