@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5f26ca63_0105b690",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-11-22T03:02:50Z",
+      "side": 1,
+      "message": "Ahh, smart, I see I see, it ensures that the errors occur in sequence.",
+      "parentUuid": "50d5acb4_d0260211",
+      "revId": "3bfb579159fd86bd5486f0ee992a9836afc314a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "45710f31_27a6f7fe",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "e6960810_b16f1174",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-11-22T03:02:50Z",
+      "side": 1,
+      "message": "Roger that, I\u0027ll do so.",
+      "parentUuid": "45710f31_27a6f7fe",
+      "revId": "3bfb579159fd86bd5486f0ee992a9836afc314a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "321c070b_71502fa2",
         "filename": "src/runtime/traceback.go",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2017-10-16T23:01:56Z",
       "side": 1,
       "message": "It seems unfortunate that we need to do two tracebacks every time.  We could do this more efficiently by counting frames as we print them.  When we exceed _TracebackMaxFrames / 2 we start buffering them in a circular buffer.  At the end of the traceback, if the circular buffer overflowed, print the \"stack frames omitted\" message.  Then print the circular buffer.",
+      "revId": "3bfb579159fd86bd5486f0ee992a9836afc314a6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d05a0c93_95789e02",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2017-11-22T03:02:50Z",
+      "side": 1,
+      "message": "You\u0027re a genius Harry!\nI actually thought about something a little similar on my way back\nhome on Sunday, thank you for fleshing the idea out :)",
+      "parentUuid": "321c070b_71502fa2",
       "revId": "3bfb579159fd86bd5486f0ee992a9836afc314a6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
