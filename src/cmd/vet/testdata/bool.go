@@ -8,6 +8,8 @@ package testdata
 
 import "io"
 
+type T int
+
 func RatherStupidConditions() {
 	var f, g func() int
 	if f() == 0 || f() == 0 { // OK f might have side effects
@@ -16,7 +18,8 @@ func RatherStupidConditions() {
 	}
 	_ = f == nil || f == nil // ERROR "redundant or: f == nil || f == nil"
 
-	_ = i == byte(1) || i == byte(1) // TODO conversions are treated as if they may have side effects
+	_ = i == byte(1) || i == byte(1) // ERROR "redundant or: i == byte(1) || i == byte(1)"
+	_ = i == T(2) || i == T(2)       // ERROR "redundant or: i == T(2) || i == T(2)"
 
 	var c chan int
 	_ = 0 == <-c || 0 == <-c                                  // OK subsequent receives may yield different values
