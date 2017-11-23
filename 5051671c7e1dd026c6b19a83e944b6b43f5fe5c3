@@ -70,6 +70,24 @@
       "revId": "5051671c7e1dd026c6b19a83e944b6b43f5fe5c3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7ec25b3_e7aea15b",
+        "filename": "src/os/exec/exec.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 25445
+      },
+      "writtenOn": "2017-11-23T01:33:16Z",
+      "side": 1,
+      "message": "Filed CL 79595.",
+      "parentUuid": "aa341390_a6a8a17d",
+      "revId": "5051671c7e1dd026c6b19a83e944b6b43f5fe5c3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
