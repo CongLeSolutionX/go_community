@@ -907,3 +907,10 @@ func TestGlobal(t *testing.T) {
 	AssertIsLinkedTo(t, "./bin/global", soname)
 	AssertHasRPath(t, "./bin/global", gorootInstallDir)
 }
+
+// Access a linknamed global variable, a linknamed function, and a linknamed method from a library.
+func TestLinkname(t *testing.T) {
+	goCmd(t, "install", "-buildmode=shared", "-linkshared", "linkname")
+	goCmd(t, "install", "-linkshared", "exe4")
+	run(t, "running executable linked against library that linknamed some external symbols", "./bin/exe4")
+}

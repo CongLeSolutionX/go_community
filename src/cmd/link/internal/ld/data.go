@@ -357,10 +357,13 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 				continue
 			}
 			fallthrough
-		case objabi.R_ADDROFF:
+		case objabi.R_ADDROFF, objabi.R_METHODOFF:
 			// The method offset tables using this relocation expect the offset to be relative
 			// to the start of the first text section, even if there are multiple.
-
+			if r.Sym.Sect == nil {
+				Errorf(s, "missing section for relocation target %s", r.Sym.Name)
+				break
+			}
 			if r.Sym.Sect.Name == ".text" {
 				o = Symaddr(r.Sym) - int64(Segtext.Sections[0].Vaddr) + r.Add
 			} else {

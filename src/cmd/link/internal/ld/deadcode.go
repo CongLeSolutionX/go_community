@@ -163,9 +163,7 @@ type deadcodepass struct {
 }
 
 func (d *deadcodepass) cleanupReloc(r *sym.Reloc) {
-	if r.Sym.Attr.Reachable() {
-		r.Type = objabi.R_ADDROFF
-	} else {
+	if !r.Sym.Attr.Reachable() {
 		if d.ctxt.Debugvlog > 1 {
 			d.ctxt.Logf("removing method %s\n", r.Sym.Name)
 		}
@@ -198,7 +196,6 @@ func (d *deadcodepass) mark(s, parent *sym.Symbol) {
 func (d *deadcodepass) markMethod(m methodref) {
 	for _, r := range m.r {
 		d.mark(r.Sym, m.src)
-		r.Type = objabi.R_ADDROFF
 	}
 }
 
