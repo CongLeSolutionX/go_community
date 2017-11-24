@@ -308,6 +308,24 @@
     },
     {
       "key": {
+        "uuid": "79abf477_7fcebd03",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-11-24T07:51:58Z",
+      "side": 1,
+      "message": "No. For RET of leaf function with autosize \u003e 0, just need to \"ADD autosize, RSP, RSP\" and then let: FP \u003d RSP (no need to restore FP \u0026 LR from stack (with LDP) since LR is unchanged). Although FP \u0026 LR are saved on stack at the prologue, it\u0027s just for traceback and stack unwinding purpose.",
+      "parentUuid": "b3369a67_7f93c3bd",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dac7cdb_029e271c",
         "filename": "src/runtime/asm_arm64.s",
         "patchSetId": 1
@@ -408,6 +426,24 @@
       "side": 1,
       "message": "I mean, why not save FP and LR here, and remove R29 and R30 above?",
       "parentUuid": "2abe37c9_a217ffda",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a67f0b8_46c241f9",
+        "filename": "src/runtime/cgo/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-11-24T07:51:58Z",
+      "side": 1,
+      "message": "We can\u0027t save FP and LR here since the 2 slots will later be used by callees (line 57, 58) to save/restore its FP\u0026LR. Lines: 20-24 are for C ABI and lines: 26-28 are for Go ABI. We can\u0027t mix them up.",
+      "parentUuid": "64bb9aac_5a019b30",
       "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
