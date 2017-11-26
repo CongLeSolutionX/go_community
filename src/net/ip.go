@@ -530,17 +530,18 @@ func parseIPv4(s string) IP {
 	return IPv4(p[0], p[1], p[2], p[3])
 }
 
-// parseIPv6 parses s as a literal IPv6 address described in RFC 4291
-// and RFC 5952.  It can also parse a literal scoped IPv6 address with
-// zone identifier which is described in RFC 4007 when zoneAllowed is
-// true.
-func parseIPv6(s string, zoneAllowed bool) (ip IP, zone string) {
+// parseIPv6Zone parses s as a literal IPv6 address and its associated zone
+// identifier which is described in RFC 4007.
+func parseIPv6Zone(s string) (IP, string) {
+	s, zone := splitHostZone(s)
+	return parseIPv6(s), zone
+}
+
+// parseIPv6Zone parses s as a literal IPv6 address described in RFC 4291
+// and RFC 5952.
+func parseIPv6(s string) (ip IP) {
 	ip = make(IP, IPv6len)
 	ellipsis := -1 // position of ellipsis in ip
-
-	if zoneAllowed {
-		s, zone = splitHostZone(s)
-	}
 
 	// Might have leading ellipsis
 	if len(s) >= 2 && s[0] == ':' && s[1] == ':' {
@@ -548,7 +549,7 @@ func parseIPv6(s string, zoneAllowed bool) (ip IP, zone string) {
 		s = s[2:]
 		// Might be only ellipsis
 		if len(s) == 0 {
-			return ip, zone
+			return ip
 		}
 	}
 
@@ -558,22 +559,22 @@ func parseIPv6(s string, zoneAllowed bool) (ip IP, zone string) {
 		// Hex number.
 		n, c, ok := xtoi(s)
 		if !ok || n > 0xFFFF {
-			return nil, zone
+			return nil
 		}
 
 		// If followed by dot, might be in trailing IPv4.
 		if c < len(s) && s[c] == '.' {
 			if ellipsis < 0 && i != IPv6len-IPv4len {
 				// Not the right place.
-				return nil, zone
+				return nil
 			}
 			if i+IPv4len > IPv6len {
 				// Not enough room.
-				return nil, zone
+				return nil
 			}
 			ip4 := parseIPv4(s)
 			if ip4 == nil {
-				return nil, zone
+				return nil
 			}
 			ip[i] = ip4[12]
 			ip[i+1] = ip4[13]
@@ -597,14 +598,14 @@ func parseIPv6(s string, zoneAllowed bool) (ip IP, zone string) {
 
 		// Otherwise must be followed by colon and more.
 		if s[0] != ':' || len(s) == 1 {
-			return nil, zone
+			return nil
 		}
 		s = s[1:]
 
 		// Look for ellipsis.
 		if s[0] == ':' {
 			if ellipsis >= 0 { // already have one
-				return nil, zone
+				return nil
 			}
 			ellipsis = i
 			s = s[1:]
@@ -616,13 +617,13 @@ func parseIPv6(s string, zoneAllowed bool) (ip IP, zone string) {
 
 	// Must have used entire string.
 	if len(s) != 0 {
-		return nil, zone
+		return nil
 	}
 
 	// If didn't parse enough, expand ellipsis.
 	if i < IPv6len {
 		if ellipsis < 0 {
-			return nil, zone
+			return nil
 		}
 		n := IPv6len - i
 		for j := i - 1; j >= ellipsis; j-- {
@@ -633,9 +634,9 @@ func parseIPv6(s string, zoneAllowed bool) (ip IP, zone string) {
 		}
 	} else if ellipsis >= 0 {
 		// Ellipsis must represent at least one 0 group.
-		return nil, zone
+		return nil
 	}
-	return ip, zone
+	return ip
 }
 
 // ParseIP parses s as an IP address, returning the result.
@@ -649,11 +650,24 @@ func ParseIP(s string) IP {
 		case '.':
 			return parseIPv4(s)
 		case ':':
-			ip, _ := parseIPv6(s, false)
-			return ip
+			return parseIPv6(s)
 		}
 	}
 	return nil
+}
+
+// parseIPZone parses s as an IP address, return it and its associated zone
+// identifier (IPv6 only).
+func parseIPZone(s string) (IP, string) {
+	for i := 0; i < len(s); i++ {
+		switch s[i] {
+		case '.':
+			return parseIPv4(s), ""
+		case ':':
+			return parseIPv6Zone(s)
+		}
+	}
+	return nil, ""
 }
 
 // ParseCIDR parses s as a CIDR notation IP address and prefix length,
@@ -674,7 +688,7 @@ func ParseCIDR(s string) (IP, *IPNet, error) {
 	ip := parseIPv4(addr)
 	if ip == nil {
 		iplen = IPv6len
-		ip, _ = parseIPv6(addr, false)
+		ip = parseIPv6(addr)
 	}
 	n, i, ok := dtoi(mask)
 	if ip == nil || !ok || i != len(mask) || n < 0 || n > 8*iplen {
