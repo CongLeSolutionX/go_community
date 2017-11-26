@@ -644,16 +644,20 @@ func parseIPv6(s string, zoneAllowed bool) (ip IP, zone string) {
 // If s is not a valid textual representation of an IP address,
 // ParseIP returns nil.
 func ParseIP(s string) IP {
+	ip, _ := parseIP(s, false)
+	return ip
+}
+
+func parseIP(s string, zoneAllowed bool) (IP, string) {
 	for i := 0; i < len(s); i++ {
 		switch s[i] {
 		case '.':
-			return parseIPv4(s)
+			return parseIPv4(s), ""
 		case ':':
-			ip, _ := parseIPv6(s, false)
-			return ip
+			return parseIPv6(s, zoneAllowed)
 		}
 	}
-	return nil
+	return nil, ""
 }
 
 // ParseCIDR parses s as a CIDR notation IP address and prefix length,
