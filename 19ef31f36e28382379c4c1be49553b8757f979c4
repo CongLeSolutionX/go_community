@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a1260b_7bfa5acf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-11-27T14:47:06Z",
+      "side": 1,
+      "message": "No initial caps here.\n\"add\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "19ef31f36e28382379c4c1be49553b8757f979c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ba704a3_d4a7a496",
+        "filename": "src/net/http/cookie.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-11-27T14:47:06Z",
+      "side": 1,
+      "message": "Consts should use go style name format. Initial caps no underscore.",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 18
+      },
+      "revId": "19ef31f36e28382379c4c1be49553b8757f979c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
