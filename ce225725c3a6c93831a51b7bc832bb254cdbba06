@@ -450,6 +450,24 @@
     },
     {
       "key": {
+        "uuid": "d0488b03_0b413596",
+        "filename": "src/runtime/cgo/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-27T19:25:56Z",
+      "side": 1,
+      "message": "\u003e used by callees (line 57, 58)\n\nWhy? The Callee should save its FP and LR in its own frame, and it should never change anything in this frame (except the return value slots, but those functions return no value).",
+      "parentUuid": "3a67f0b8_46c241f9",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd6bae6e_c2bfe2b3",
         "filename": "src/runtime/stack.go",
         "patchSetId": 1

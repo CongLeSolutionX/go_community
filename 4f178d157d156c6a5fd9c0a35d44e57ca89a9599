@@ -119,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "c90c08fe_b4f4edf6",
+        "filename": "src/cmd/internal/obj/arm64/obj7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-11-27T19:25:56Z",
+      "side": 1,
+      "message": "This is very confusing. As far as I understand how frame pointer works in general, it should point to the top of the current frame, or the bottom of the caller\u0027s frame (whereas the stack pointer points to the bottom of the current frame). This is also how Go AMD64 toolchain uses frame pointer.\n\nDoes your change work in completely different way? I think we need more explanation.",
+      "parentUuid": "e0bf433a_d3c1529d",
+      "revId": "4f178d157d156c6a5fd9c0a35d44e57ca89a9599",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70bd07c1_4dfc0d4f",
         "filename": "src/cmd/internal/obj/arm64/obj7.go",
         "patchSetId": 3
