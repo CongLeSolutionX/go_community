@@ -1436,6 +1436,23 @@ func TestWriterSize(t *testing.T) {
 	}
 }
 
+// Test for github.com/golang/go/issues/22883
+type writerNoAction int
+
+func (w *writerNoAction) Write(p []byte) (int, error) {
+	return len(p), nil
+}
+
+func TestWriterSizeWithMultiByteCharacter(t *testing.T) {
+	var w writerNoAction
+	b := NewWriterSize(&w, 3)
+	b.Write([]byte{'a'})
+	b.WriteRune('ب') //two byte character U+0628
+	if got, want := b.Available(), 0; got != want {
+		t.Errorf("Byte(s) are unused in the buffer = %d; want %d", got, want)
+	}
+}
+
 // An onlyReader only implements io.Reader, no matter what other methods the underlying implementation may have.
 type onlyReader struct {
 	io.Reader
