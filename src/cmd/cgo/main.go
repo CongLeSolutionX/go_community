@@ -17,6 +17,7 @@ import (
 	"go/ast"
 	"go/printer"
 	"go/token"
+	"go/types"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -31,20 +32,22 @@ import (
 
 // A Package collects information about the package we're going to write.
 type Package struct {
-	PackageName string // name of package
-	PackagePath string
-	PtrSize     int64
-	IntSize     int64
-	GccOptions  []string
-	GccIsClang  bool
-	CgoFlags    map[string][]string // #cgo flags (CFLAGS, LDFLAGS)
-	Written     map[string]bool
-	Name        map[string]*Name // accumulated Name from Files
-	ExpFunc     []*ExpFunc       // accumulated ExpFunc from Files
-	Decl        []ast.Decl
-	GoFiles     []string // list of Go files
-	GccFiles    []string // list of gcc output files
-	Preamble    string   // collected preamble for _cgo_export.h
+	PackageName      string // name of package
+	PackagePath      string
+	PtrSize          int64
+	IntSize          int64
+	GccOptions       []string
+	GccIsClang       bool
+	CgoFlags         map[string][]string // #cgo flags (CFLAGS, LDFLAGS)
+	Written          map[string]bool
+	Name             map[string]*Name // accumulated Name from Files
+	ExpFunc          []*ExpFunc       // accumulated ExpFunc from Files
+	Decl             []ast.Decl
+	GoFiles          []string // list of Go files
+	GccFiles         []string // list of gcc output files
+	Preamble         string   // collected preamble for _cgo_export.h
+	NeedTypeChecking bool
+	Type             *types.Package
 }
 
 // A File collects information about a single Go input file.
@@ -59,6 +62,7 @@ type File struct {
 	Name     map[string]*Name    // map from Go name to Name
 	NamePos  map[*Name]token.Pos // map from Name to position of the first reference
 	Edit     *edit.Buffer
+	IsCgo    bool
 }
 
 func (f *File) offset(p token.Pos) int {
@@ -93,11 +97,11 @@ func (r *Ref) Pos() token.Pos {
 
 // A Name collects information about C.xxx.
 type Name struct {
-	Go       string // name used in Go referring to package C
-	Mangle   string // name used in generated Go
-	C        string // name used in C
-	Define   string // #define expansion
-	Kind     string // "iconst", "fconst", "sconst", "type", "var", "fpvar", "func", "macro", "not-type"
+	Go       string // name used in Go referring to package C (xxx)
+	Mangle   string // name used in generated Go (_Ctype_xxx, _Cvar_xxx, ...)
+	C        string // name used in C (xxx)
+	Define   string // #define expansion; exist if the Kind is "*const" or "macro"
+	Kind     string // "iconst", "fconst", "sconst", "type", "var", "fpvar", "func", "vfunc", "macro", "not-type"
 	Type     *Type  // the type of xxx
 	FuncType *FuncType
 	AddError bool
@@ -250,7 +254,7 @@ func main() {
 		usage()
 	}
 
-	goFiles := args[i:]
+	files := args[i:]
 
 	for _, arg := range args[:i] {
 		if arg == "-fsanitize=thread" {
@@ -275,8 +279,8 @@ func main() {
 	// concern is other cgo wrappers for the same functions.
 	// Use the beginning of the md5 of the input to disambiguate.
 	h := md5.New()
-	fs := make([]*File, len(goFiles))
-	for i, input := range goFiles {
+	fs := make([]*File, len(files))
+	for i, input := range files {
 		if *srcDir != "" {
 			input = filepath.Join(*srcDir, input)
 		}
@@ -306,8 +310,36 @@ func main() {
 	}
 	*objDir += string(filepath.Separator)
 
-	for i, input := range goFiles {
+	for i := range files {
 		f := fs[i]
+		if !f.IsCgo {
+			continue
+		}
+		for _, cref := range f.Ref {
+			// Convert C.ulong to C.unsigned long, etc.
+			cref.Name.C = cname(cref.Name.Go)
+		}
+		p.loadDefines(f)
+		needType := p.guessKinds(f)
+		if len(needType) > 0 {
+			p.loadDWARF(f, needType)
+		}
+		p.finishKinds(f)
+		p.startRecord(f)
+	}
+
+	if p.NeedTypeChecking {
+		p.TypeCheck(fs)
+		if nerrors > 0 {
+			os.Exit(2)
+		}
+	}
+
+	for i, input := range files {
+		f := fs[i]
+		if !f.IsCgo {
+			continue
+		}
 		p.Translate(f)
 		for _, cref := range f.Ref {
 			switch cref.Context {
@@ -324,7 +356,7 @@ func main() {
 			os.Exit(2)
 		}
 		p.PackagePath = f.Package
-		p.Record(f)
+		p.endRecord(f)
 		if *godefs {
 			os.Stdout.WriteString(p.godefs(f, input))
 		} else {
@@ -374,8 +406,7 @@ func newPackage(args []string) *Package {
 	return p
 }
 
-// Record what needs to be recorded about f.
-func (p *Package) Record(f *File) {
+func (p *Package) startRecord(f *File) {
 	if p.PackageName == "" {
 		p.PackageName = f.Package
 	} else if p.PackageName != f.Package {
@@ -383,14 +414,24 @@ func (p *Package) Record(f *File) {
 	}
 
 	if p.Name == nil {
-		p.Name = f.Name
-	} else {
-		for k, v := range f.Name {
-			if p.Name[k] == nil {
-				p.Name[k] = v
-			} else if !reflect.DeepEqual(p.Name[k], v) {
-				error_(token.NoPos, "inconsistent definitions for C.%s", fixGo(k))
-			}
+		p.Name = make(map[string]*Name, len(f.Name))
+	}
+
+	for k, v := range f.Name {
+		if p.Name[k] == nil {
+			p.Name[k] = v
+		} else if !reflect.DeepEqual(p.Name[k], v) {
+			error_(token.NoPos, "inconsistent definitions for C.%s", fixGo(k))
+		}
+	}
+}
+
+// Record what needs to be recorded about f.
+func (p *Package) endRecord(f *File) {
+	// record new names that are created during AST rewriting
+	for k, v := range f.Name {
+		if p.Name[k] == nil {
+			p.Name[k] = v
 		}
 	}
 

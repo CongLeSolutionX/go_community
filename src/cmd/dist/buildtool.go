@@ -86,6 +86,13 @@ var bootstrapDirs = []string{
 	"math/big",
 	"math/bits",
 	"sort",
+	"go/ast",
+	"go/parser",
+	"go/types",
+	"go/importer",
+	"go/internal/srcimporter",
+	"go/internal/gcimporter",
+	"go/internal/gccgoimporter",
 }
 
 // File prefixes that are ignored by go/build anyway, and cause

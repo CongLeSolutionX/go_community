@@ -22,7 +22,7 @@ func (check *Checker) assignment(x *operand, T Type, context string) {
 	switch x.mode {
 	case invalid:
 		return // error reported before
-	case constant_, variable, mapindex, value, commaok:
+	case constant_, variable, mapindex, value, commaok, cgofunc:
 		// ok
 	default:
 		unreachable()
@@ -199,20 +199,65 @@ func (check *Checker) assignVar(lhs ast.Expr, x *operand) Type {
 	return x.typ
 }
 
+func (check *Checker) isCgoCall(e ast.Expr) bool {
+	if call, ok := unparen(e).(*ast.CallExpr); ok {
+		if sel, ok := unparen(call.Fun).(*ast.SelectorExpr); ok {
+			if ident, ok := unparen(sel.X).(*ast.Ident); ok {
+				if ident.Name == "C" {
+					if _, obj := check.scope.LookupParent("C", token.NoPos); obj != nil {
+						if pkgname, ok := obj.(*PkgName); ok {
+							if pkgname.Imported().Path() == "C" {
+								return true
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return false
+}
+
 // If returnPos is valid, initVars is called to type-check the assignment of
 // return expressions, and returnPos is the position of the return statement.
 func (check *Checker) initVars(lhs []*Var, rhs []ast.Expr, returnPos token.Pos) {
+	var x operand
+
+	context := "assignment"
+	if returnPos.IsValid() {
+		context = "return statement"
+	}
+
 	l := len(lhs)
 	get, r, commaOk := unpack(func(x *operand, i int) { check.multiExpr(x, rhs[i]) }, len(rhs), l == 2 && !returnPos.IsValid())
 	if get == nil || l != r {
+		if get == nil {
+			// invalidate lhs and use rhs
+			for _, obj := range lhs {
+				if obj.typ == nil {
+					obj.typ = Typ[Invalid]
+				}
+			}
+			return // error reported by unpack
+		}
+
+		if context == "assignment" && l == 2 && r == 1 && check.isCgoCall(rhs[0]) {
+			get(&x, 0)
+			check.initVar(lhs[0], &x, context)
+
+			x.mode = value
+			x.typ = Universe.Lookup("error").Type()
+			x.val = nil
+			check.initVar(lhs[1], &x, context)
+
+			return
+		}
+
 		// invalidate lhs and use rhs
 		for _, obj := range lhs {
 			if obj.typ == nil {
 				obj.typ = Typ[Invalid]
 			}
-		}
-		if get == nil {
-			return // error reported by unpack
 		}
 		check.useGetter(get, r)
 		if returnPos.IsValid() {
@@ -223,12 +268,6 @@ func (check *Checker) initVars(lhs []*Var, rhs []ast.Expr, returnPos token.Pos) 
 		return
 	}
 
-	context := "assignment"
-	if returnPos.IsValid() {
-		context = "return statement"
-	}
-
-	var x operand
 	if commaOk {
 		var a [2]Type
 		for i := range a {
@@ -246,18 +285,30 @@ func (check *Checker) initVars(lhs []*Var, rhs []ast.Expr, returnPos token.Pos) 
 }
 
 func (check *Checker) assignVars(lhs, rhs []ast.Expr) {
+	var x operand
+
 	l := len(lhs)
 	get, r, commaOk := unpack(func(x *operand, i int) { check.multiExpr(x, rhs[i]) }, len(rhs), l == 2)
 	if get == nil {
 		return // error reported by unpack
 	}
 	if l != r {
+		if l == 2 && r == 1 && check.isCgoCall(rhs[0]) {
+			get(&x, 0)
+			check.assignVar(lhs[0], &x)
+
+			x.mode = value
+			x.typ = Universe.Lookup("error").Type()
+			x.val = nil
+			check.assignVar(lhs[1], &x)
+
+			return
+		}
 		check.useGetter(get, r)
 		check.errorf(rhs[0].Pos(), "cannot assign %d values to %d variables", r, l)
 		return
 	}
 
-	var x operand
 	if commaOk {
 		var a [2]Type
 		for i := range a {

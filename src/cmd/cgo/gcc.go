@@ -20,6 +20,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"go/types"
 	"math"
 	"os"
 	"strconv"
@@ -159,15 +160,6 @@ func splitQuoted(s string) (r []string, err error) {
 // references to the imported package C, replacing them with
 // references to the equivalent Go types, functions, and variables.
 func (p *Package) Translate(f *File) {
-	for _, cref := range f.Ref {
-		// Convert C.ulong to C.unsigned long, etc.
-		cref.Name.C = cname(cref.Name.Go)
-	}
-	p.loadDefines(f)
-	needType := p.guessKinds(f)
-	if len(needType) > 0 {
-		p.loadDWARF(f, needType)
-	}
 	if p.rewriteCalls(f) {
 		// Add `import _cgo_unsafe "unsafe"` after the package statement.
 		f.Edit.Insert(f.offset(f.AST.Name.End()), "; import _cgo_unsafe \"unsafe\"")
@@ -551,10 +543,12 @@ func (p *Package) loadDWARF(f *File, names []*Name) {
 			continue
 		}
 		pos := f.NamePos[n]
-		f, fok := types[i].(*dwarf.FuncType)
+		fntype, fok := types[i].(*dwarf.FuncType)
 		if n.Kind != "type" && fok {
-			n.Kind = "func"
-			n.FuncType = conv.FuncType(f, pos)
+			n.Kind, n.FuncType = conv.FuncType(fntype, pos)
+			if n.Kind == "vfunc" {
+				p.NeedTypeChecking = true
+			}
 		} else {
 			n.Type = conv.Type(types[i], pos)
 			switch n.Kind {
@@ -577,6 +571,27 @@ func (p *Package) loadDWARF(f *File, names []*Name) {
 			}
 		}
 		conv.FinishType(pos)
+	}
+}
+
+func (p *Package) finishKinds(f *File) {
+	for _, n := range f.Name {
+		if n.Kind == "not-type" {
+			if n.Define == "" {
+				n.Kind = "var"
+			} else {
+				n.Kind = "macro"
+				n.FuncType = &FuncType{
+					Result: n.Type,
+					Go: &ast.FuncType{
+						Results: &ast.FieldList{List: []*ast.Field{{Type: n.Type.Go}}},
+					},
+				}
+			}
+		}
+		if n.Mangle == "" {
+			p.mangleName(n)
+		}
 	}
 }
 
@@ -606,7 +621,9 @@ func (p *Package) rewriteCalls(f *File) bool {
 			continue
 		}
 		name := f.Name[goname]
-		if name.Kind != "func" {
+		if name.Kind == "vfunc" {
+			name = p.rewriteVariadicFuncCall(f, call, name)
+		} else if name.Kind != "func" {
 			// Probably a type conversion.
 			continue
 		}
@@ -615,6 +632,157 @@ func (p *Package) rewriteCalls(f *File) bool {
 		}
 	}
 	return needsUnsafe
+}
+
+func (p *Package) rewriteVariadicFuncCall(f *File, call *Call, name *Name) (newname *Name) {
+	nargs := len(call.Call.Args)
+	nparams := len(name.FuncType.Params) - 1 // ignore trailing '...'
+
+	if nargs < nparams {
+		error_(call.Call.Pos(), "not enough arguments in call to C.%s", name.Go)
+		return
+	}
+
+	params := make([]*Type, nargs)
+	gparams := make([]*ast.Field, nargs)
+
+	copy(params, name.FuncType.Params[:nparams])
+	copy(gparams, name.FuncType.Go.Params.List[:nparams])
+
+	typnames := make([]string, nargs-nparams)
+
+	for i, e := range call.Call.Args[nparams:] {
+		typname, typ, err := p.guessType(e)
+		if err != nil {
+			error_(e.Pos(), "cannot guess type of argument %s: %v", types.ExprString(e), err)
+			continue
+		}
+		params[nparams+i] = typ
+		gparams[nparams+i] = &ast.Field{Type: typ.Go}
+		typnames[i] = typname
+	}
+
+	if nerrors > 0 {
+		fatalf("unresolved arguments")
+	}
+
+	goname := "_cgocall_" + name.Go
+	if len(typnames) != 0 {
+		goname += "_with_" + strings.Join(typnames, "_and_")
+	}
+
+	call.Call.Fun = &ast.SelectorExpr{
+		X: &ast.Ident{
+			Name:    "C",
+			NamePos: call.Call.Fun.Pos(),
+		},
+		Sel: &ast.Ident{
+			Name:    goname,
+			NamePos: call.Call.Fun.End() - token.Pos(len(goname)),
+		},
+	}
+
+	newname = f.Name[goname]
+
+	if newname == nil {
+		newname = new(Name)
+		*newname = *name
+		newname.Go = goname
+		newname.Kind = "func"
+		newname.FuncType = &FuncType{
+			Params: params,
+			Result: name.FuncType.Result,
+			Go: &ast.FuncType{
+				Params:  &ast.FieldList{List: gparams},
+				Results: name.FuncType.Go.Results,
+			},
+		}
+
+		p.mangleName(newname)
+
+		f.Name[goname] = newname
+	}
+
+	for _, ref := range f.Ref {
+		if ref.Expr == &call.Call.Fun {
+			ref.Name = newname
+			break
+		}
+	}
+
+	return newname
+}
+
+func (p *Package) guessType(expr ast.Expr) (typname string, typ *Type, err error) {
+	tv, err := types.EvalExpr(fset, p.Type, token.NoPos, expr)
+	if err != nil {
+		return "", nil, err
+	}
+
+	switch t := tv.Type.(type) {
+	case *types.Basic:
+		switch t.Kind() {
+		case types.UntypedInt:
+			typname = "int"
+		case types.UntypedFloat:
+			typname = "float"
+		case types.UntypedRune:
+			typname = "byte"
+		}
+
+		if len(typname) != 0 {
+			mname := "_Ctype_" + typname
+			t := *typedef[mname]
+			t.Go = ast.NewIdent(mname)
+			typ = &t
+		}
+	case *types.Named:
+		if s := t.String(); strings.HasPrefix(s, "C.") {
+			typname = s[2:]
+			mname := "_Ctype_" + typname
+			t := *typedef[mname]
+			t.Go = ast.NewIdent(mname)
+			typ = &t
+		}
+	case *types.Pointer:
+		ptr := new(ast.StarExpr)
+
+		n := 1
+		x := ptr
+		typname = "ptr_to_"
+
+	L:
+		for {
+			switch e := t.Elem().(type) {
+			case *types.Named:
+				if s := e.String(); strings.HasPrefix(s, "C.") {
+					tname := s[2:]
+					typname += tname
+					ptr.X = ast.NewIdent("_Ctype_" + tname)
+					typ = &Type{
+						Size:  p.PtrSize,
+						Align: p.PtrSize,
+						Go:    x,
+						C:     c(cname(tname) + strings.Repeat("*", n)),
+					}
+				}
+				break L
+			case *types.Pointer:
+				n++
+				x = &ast.StarExpr{X: x}
+				typname += "ptr_to_"
+				t = e
+			default:
+				break L
+			}
+		}
+	}
+
+	if typ == nil {
+		return "", nil, fmt.Errorf("cannot use %s as C type", tv.Type)
+	}
+
+	return typname, typ, nil
 }
 
 // rewriteCall rewrites one call to add pointer checks.
@@ -710,7 +878,7 @@ func (p *Package) rewriteCall(f *File, call *Call, name *Name) bool {
 		Fun:  ast.NewIdent(cgoMarker),
 		Args: nargs,
 	}
-	ftype := &ast.FuncType{
+	fntype := &ast.FuncType{
 		Params: &ast.FieldList{
 			List: params,
 		},
@@ -720,7 +888,7 @@ func (p *Package) rewriteCall(f *File, call *Call, name *Name) bool {
 		if rtype != name.FuncType.Result.Go {
 			needsUnsafe = true
 		}
-		ftype.Results = &ast.FieldList{
+		fntype.Results = &ast.FieldList{
 			List: []*ast.Field{
 				&ast.Field{
 					Type: rtype,
@@ -733,11 +901,11 @@ func (p *Package) rewriteCall(f *File, call *Call, name *Name) bool {
 	// adjust the results of the function we generated.
 	for _, ref := range f.Ref {
 		if ref.Expr == &call.Call.Fun && ref.Context == ctxCall2 {
-			if ftype.Results == nil {
+			if fntype.Results == nil {
 				// An explicit void argument
 				// looks odd but it seems to
 				// be how cgo has worked historically.
-				ftype.Results = &ast.FieldList{
+				fntype.Results = &ast.FieldList{
 					List: []*ast.Field{
 						&ast.Field{
 							Type: ast.NewIdent("_Ctype_void"),
@@ -745,7 +913,7 @@ func (p *Package) rewriteCall(f *File, call *Call, name *Name) bool {
 					},
 				}
 			}
-			ftype.Results.List = append(ftype.Results.List,
+			fntype.Results.List = append(fntype.Results.List,
 				&ast.Field{
 					Type: ast.NewIdent("error"),
 				})
@@ -753,7 +921,7 @@ func (p *Package) rewriteCall(f *File, call *Call, name *Name) bool {
 	}
 
 	var fbody ast.Stmt
-	if ftype.Results == nil {
+	if fntype.Results == nil {
 		fbody = &ast.ExprStmt{
 			X: fcall,
 		}
@@ -763,7 +931,7 @@ func (p *Package) rewriteCall(f *File, call *Call, name *Name) bool {
 		}
 	}
 	lit := &ast.FuncLit{
-		Type: ftype,
+		Type: fntype,
 		Body: &ast.BlockStmt{
 			List: append(stmts, fbody),
 		},
@@ -1032,24 +1200,7 @@ func (p *Package) rewriteRef(f *File) {
 	// code for them.
 	functions := make(map[string]bool)
 
-	// Assign mangled names.
 	for _, n := range f.Name {
-		if n.Kind == "not-type" {
-			if n.Define == "" {
-				n.Kind = "var"
-			} else {
-				n.Kind = "macro"
-				n.FuncType = &FuncType{
-					Result: n.Type,
-					Go: &ast.FuncType{
-						Results: &ast.FieldList{List: []*ast.Field{{Type: n.Type.Go}}},
-					},
-				}
-			}
-		}
-		if n.Mangle == "" {
-			p.mangleName(n)
-		}
 		if n.Kind == "func" {
 			functions[n.Go] = false
 		}
@@ -1651,6 +1802,7 @@ type typeConv struct {
 	complex64, complex128                  ast.Expr
 	void                                   ast.Expr
 	string                                 ast.Expr
+	dotdotdot                              ast.Expr
 	goVoid                                 ast.Expr // _Ctype_void, denotes C's void
 	goVoidPtr                              ast.Expr // unsafe.Pointer or *byte
 
@@ -1659,7 +1811,7 @@ type typeConv struct {
 }
 
 var tagGen int
-var typedef = make(map[string]*Type)
+var typedef = make(map[string]*Type) // mangle names to underlying types
 var goIdent = make(map[string]*ast.Ident)
 
 // unionWithPointer is true for a Go type that represents a C union (or class)
@@ -1688,6 +1840,7 @@ func (c *typeConv) Init(ptrSize, intSize int64) {
 	c.complex128 = c.Ident("complex128")
 	c.void = c.Ident("void")
 	c.string = c.Ident("string")
+	c.dotdotdot = c.Ident("...")
 	c.goVoid = c.Ident("_Ctype_void")
 
 	// Normally cgo translates void* to unsafe.Pointer,
@@ -1808,6 +1961,10 @@ func (c *typeConv) Type(dtype dwarf.Type, pos token.Pos) *Type {
 	switch dt := dtype.(type) {
 	default:
 		fatalf("%s: unexpected type: %s", lineno(pos), dtype)
+
+	case *dwarf.DotDotDotType:
+		t.Go = c.dotdotdot
+		return t
 
 	case *dwarf.AddrType:
 		if t.Size != c.ptrSize {
@@ -2245,22 +2402,36 @@ func (c *typeConv) FuncArg(dtype dwarf.Type, pos token.Pos) *Type {
 
 // FuncType returns the Go type analogous to dtype.
 // There is no guarantee about matching memory layout.
-func (c *typeConv) FuncType(dtype *dwarf.FuncType, pos token.Pos) *FuncType {
-	p := make([]*Type, len(dtype.ParamType))
-	gp := make([]*ast.Field, len(dtype.ParamType))
-	for i, f := range dtype.ParamType {
+func (c *typeConv) FuncType(dtype *dwarf.FuncType, pos token.Pos) (kind string, typ *FuncType) {
+	kind = "func"
+
+	var p []*Type
+	var gp []*ast.Field
+	if len(dtype.ParamType) != 0 {
 		// gcc's DWARF generator outputs a single DotDotDotType parameter for
 		// function pointers that specify no parameters (e.g. void
 		// (*__cgo_0)()).  Treat this special case as void. This case is
 		// invalid according to ISO C anyway (i.e. void (*__cgo_1)(...) is not
 		// legal).
-		if _, ok := f.(*dwarf.DotDotDotType); ok && i == 0 {
-			p, gp = nil, nil
-			break
+		var done bool
+		if len(dtype.ParamType) == 1 {
+			if _, ok := dtype.ParamType[0].(*dwarf.DotDotDotType); ok {
+				done = true
+			}
 		}
-		p[i] = c.FuncArg(f, pos)
-		gp[i] = &ast.Field{Type: p[i].Go}
+		if !done {
+			p = make([]*Type, len(dtype.ParamType))
+			gp = make([]*ast.Field, len(dtype.ParamType))
+			for i, f := range dtype.ParamType {
+				if _, ok := f.(*dwarf.DotDotDotType); ok {
+					kind = "vfunc"
+				}
+				p[i] = c.FuncArg(f, pos)
+				gp[i] = &ast.Field{Type: p[i].Go}
+			}
+		}
 	}
+
 	var r *Type
 	var gr []*ast.Field
 	if _, ok := base(dtype.ReturnType).(*dwarf.VoidType); ok {
@@ -2269,7 +2440,8 @@ func (c *typeConv) FuncType(dtype *dwarf.FuncType, pos token.Pos) *FuncType {
 		r = c.Type(unqual(dtype.ReturnType), pos)
 		gr = []*ast.Field{{Type: r.Go}}
 	}
-	return &FuncType{
+
+	return kind, &FuncType{
 		Params: p,
 		Result: r,
 		Go: &ast.FuncType{

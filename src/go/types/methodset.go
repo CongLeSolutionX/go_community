@@ -191,11 +191,16 @@ func NewMethodSet(T Type) *MethodSet {
 		}
 	}
 	// sort by unique name
-	sort.Slice(list, func(i, j int) bool {
-		return list[i].obj.Id() < list[j].obj.Id()
-	})
+	sort.Sort(byUniqueName(list))
 	return &MethodSet{list}
 }
+
+// byUniqueName function lists can be sorted by their unique names.
+type byUniqueName []*Selection
+
+func (a byUniqueName) Len() int           { return len(a) }
+func (a byUniqueName) Less(i, j int) bool { return a[i].obj.Id() < a[j].obj.Id() }
+func (a byUniqueName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 // A fieldSet is a set of fields and name collisions.
 // A collision indicates that multiple fields with the

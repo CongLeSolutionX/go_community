@@ -200,7 +200,7 @@ func (p *Package) writeDefs() {
 	callsMalloc := false
 	for _, key := range nameKeys(p.Name) {
 		n := p.Name[key]
-		if n.FuncType != nil {
+		if n.Kind == "func" || n.Kind == "macro" {
 			p.writeDefsFunc(fgo2, n, &callsMalloc)
 		}
 	}
@@ -548,7 +548,7 @@ func (p *Package) writeOutput(f *File, srcfile string) {
 
 	for _, key := range nameKeys(f.Name) {
 		n := f.Name[key]
-		if n.FuncType != nil {
+		if n.FuncType != nil && n.Kind != "vfunc" {
 			p.writeOutputFunc(fgcc, n)
 		}
 	}

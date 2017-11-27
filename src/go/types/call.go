@@ -311,7 +311,11 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr) {
 				x.mode = variable
 				x.typ = exp.typ
 			case *Func:
-				x.mode = value
+				if pkg.Path() == "C" {
+					x.mode = cgofunc
+				} else {
+					x.mode = value
+				}
 				x.typ = exp.typ
 			case *Builtin:
 				x.mode = builtin

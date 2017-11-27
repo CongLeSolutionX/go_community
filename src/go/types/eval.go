@@ -6,6 +6,7 @@ package types
 
 import (
 	"fmt"
+	"go/ast"
 	"go/parser"
 	"go/token"
 )
@@ -35,6 +36,15 @@ import (
 // respective context-specific type.
 //
 func Eval(fset *token.FileSet, pkg *Package, pos token.Pos, expr string) (TypeAndValue, error) {
+	// parse expressions
+	node, err := parser.ParseExprFrom(fset, "eval", expr, 0)
+	if err != nil {
+		return TypeAndValue{}, err
+	}
+	return EvalExpr(fset, pkg, pos, node)
+}
+
+func EvalExpr(fset *token.FileSet, pkg *Package, pos token.Pos, expr ast.Expr) (TypeAndValue, error) {
 	// determine scope
 	var scope *Scope
 	if pkg == nil {
@@ -64,11 +74,7 @@ func Eval(fset *token.FileSet, pkg *Package, pos token.Pos, expr string) (TypeAn
 		}
 	}
 
-	// parse expressions
-	node, err := parser.ParseExprFrom(fset, "eval", expr, 0)
-	if err != nil {
-		return TypeAndValue{}, err
-	}
+	var err error
 
 	// initialize checker
 	check := NewChecker(nil, fset, pkg, nil)
@@ -78,6 +84,6 @@ func Eval(fset *token.FileSet, pkg *Package, pos token.Pos, expr string) (TypeAn
 
 	// evaluate node
 	var x operand
-	check.rawExpr(&x, node, nil)
+	check.rawExpr(&x, expr, nil)
 	return TypeAndValue{x.mode, x.typ, x.val}, err
 }

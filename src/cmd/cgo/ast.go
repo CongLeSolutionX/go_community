@@ -95,8 +95,12 @@ func (f *File) ParseGo(name string, src []byte) {
 		}
 	}
 	if !sawC {
-		error_(token.NoPos, `cannot find import "C"`)
+		f.Comments = ast1.Comments
+		f.AST = ast2
+		return
 	}
+
+	f.IsCgo = true
 
 	// In ast2, strip the import "C" line.
 	if *godefs {

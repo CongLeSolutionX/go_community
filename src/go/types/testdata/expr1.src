@@ -40,7 +40,7 @@ func _(x, y int, z myint) {
 
 	z = z + 1
 	z = z + 1.0
-	z = z + 1.1 // ERROR truncated to int
+	z = z + 1.1 // ERROR truncated to myint
 	z = z /* ERROR mismatched types */ + y
 	z = z /* ERROR mismatched types */ - y
 	z = z /* ERROR mismatched types */ * y
@@ -68,7 +68,7 @@ func _(x, y uint, z myuint) {
 	z = z + 1
 	z = x + - /* ERROR overflows uint */ 1
 	z = z + 1.0
-	z = z + 1.1 // ERROR truncated to uint
+	z = z + 1.1 // ERROR truncated to myuint
 	z = z /* ERROR mismatched types */ + y
 	z = z /* ERROR mismatched types */ - y
 	z = z /* ERROR mismatched types */ * y

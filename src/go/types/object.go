@@ -81,12 +81,14 @@ type object struct {
 	scopePos_ token.Pos
 }
 
-func (obj *object) Parent() *Scope      { return obj.parent }
-func (obj *object) Pos() token.Pos      { return obj.pos }
-func (obj *object) Pkg() *Package       { return obj.pkg }
-func (obj *object) Name() string        { return obj.name }
-func (obj *object) Type() Type          { return obj.typ }
-func (obj *object) Exported() bool      { return ast.IsExported(obj.name) }
+func (obj *object) Parent() *Scope { return obj.parent }
+func (obj *object) Pos() token.Pos { return obj.pos }
+func (obj *object) Pkg() *Package  { return obj.pkg }
+func (obj *object) Name() string   { return obj.name }
+func (obj *object) Type() Type     { return obj.typ }
+func (obj *object) Exported() bool {
+	return ast.IsExported(obj.name) || obj.pkg != nil && obj.pkg.Path() == "C"
+}
 func (obj *object) Id() string          { return Id(obj.pkg, obj.name) }
 func (obj *object) String() string      { panic("abstract") }
 func (obj *object) order() uint32       { return obj.order_ }

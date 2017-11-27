@@ -84,6 +84,9 @@ func (x *operand) convertibleTo(conf *Config, T Type) bool {
 
 	// "x's type and T have identical underlying types if tags are ignored"
 	V := x.typ
+	if x.mode == cgofunc {
+		V = Typ[UnsafePointer]
+	}
 	Vu := V.Underlying()
 	Tu := T.Underlying()
 	if IdenticalIgnoreTags(Vu, Tu) {

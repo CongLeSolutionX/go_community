@@ -26,6 +26,7 @@ const (
 	mapindex                     // operand is a map index expression (acts like a variable on lhs, commaok on rhs of an assignment)
 	value                        // operand is a computed value
 	commaok                      // like value, but operand may be used in a comma,ok expression
+	cgofunc                      // like value, but operand is always assignable to unsafe.Pointer regardless of its type
 )
 
 var operandModeString = [...]string{
@@ -38,6 +39,7 @@ var operandModeString = [...]string{
 	mapindex:  "map index expression",
 	value:     "value",
 	commaok:   "comma, ok expression",
+	cgofunc:   "cgo function",
 }
 
 // An operand represents an intermediate value during type checking.
@@ -207,6 +209,10 @@ func (x *operand) assignableTo(conf *Config, T Type, reason *string) bool {
 	}
 
 	V := x.typ
+
+	if x.mode == cgofunc {
+		V = Typ[UnsafePointer]
+	}
 
 	// x's type is identical to T
 	if Identical(V, T) {

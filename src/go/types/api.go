@@ -284,7 +284,7 @@ func (tv TypeAndValue) IsBuiltin() bool {
 // nil Value.
 func (tv TypeAndValue) IsValue() bool {
 	switch tv.mode {
-	case constant_, variable, mapindex, value, commaok:
+	case constant_, variable, mapindex, value, commaok, cgofunc:
 		return true
 	}
 	return false

@@ -3,7 +3,7 @@
 // license that can be found in the LICENSE file.
 
 // Package gccgoimporter implements Import for gccgo-generated object files.
-package gccgoimporter // import "go/internal/gccgoimporter"
+package gccgoimporter
 
 import (
 	"bytes"
@@ -167,7 +167,9 @@ func GetImporter(searchpaths []string, initmap map[*types.Package]InitData) Impo
 			reader = rs
 			fpath = "<lookup " + pkgpath + ">"
 			// Take name from Name method (like on os.File) if present.
-			if n, ok := rc.(interface{ Name() string }); ok {
+			if n, ok := rc.(interface {
+				Name() string
+			}); ok {
 				fpath = n.Name()
 			}
 		} else {

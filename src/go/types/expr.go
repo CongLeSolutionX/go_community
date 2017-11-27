@@ -129,7 +129,7 @@ func (check *Checker) unary(x *operand, e *ast.UnaryExpr, op token.Token) {
 			if e != nil {
 				x.expr = e // for better error message
 			}
-			check.representable(x, typ)
+			check.representable(x, typ, x.typ)
 		}
 		return
 	}
@@ -321,7 +321,7 @@ func representableConst(x constant.Value, conf *Config, typ *Basic, rounded *con
 }
 
 // representable checks that a constant operand is representable in the given basic type.
-func (check *Checker) representable(x *operand, typ *Basic) {
+func (check *Checker) representable(x *operand, typ *Basic, orig Type) {
 	assert(x.mode == constant_)
 	if !representableConst(x.val, check.conf, typ, &x.val) {
 		var msg string
@@ -341,7 +341,7 @@ func (check *Checker) representable(x *operand, typ *Basic) {
 		} else {
 			msg = "cannot convert %s to %s"
 		}
-		check.errorf(x.pos(), msg, x, typ)
+		check.errorf(x.pos(), msg, x, orig)
 		x.mode = invalid
 	}
 }
@@ -501,7 +501,7 @@ func (check *Checker) convertUntyped(x *operand, target Type) {
 	switch t := target.Underlying().(type) {
 	case *Basic:
 		if x.mode == constant_ {
-			check.representable(x, t)
+			check.representable(x, t, target)
 			if x.mode == invalid {
 				return
 			}
@@ -692,7 +692,7 @@ func (check *Checker) shift(x, y *operand, e *ast.BinaryExpr, op token.Token) {
 				if e != nil {
 					x.expr = e // for better error message
 				}
-				check.representable(x, x.typ.Underlying().(*Basic))
+				check.representable(x, x.typ.Underlying().(*Basic), x.typ)
 			}
 			return
 		}
@@ -845,7 +845,7 @@ func (check *Checker) binary(x *operand, e *ast.BinaryExpr, lhs, rhs ast.Expr, o
 			if e != nil {
 				x.expr = e // for better error message
 			}
-			check.representable(x, typ)
+			check.representable(x, typ, x.typ)
 		}
 		return
 	}

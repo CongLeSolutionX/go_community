@@ -461,7 +461,7 @@ func (b *Builder) build(a *Action) (err error) {
 			sfiles = nil
 		}
 
-		outGo, outObj, err := b.cgo(a, base.Tool("cgo"), objdir, pcCFLAGS, pcLDFLAGS, mkAbsFiles(a.Package.Dir, cgofiles), gccfiles, cxxfiles, a.Package.MFiles, a.Package.FFiles)
+		outGo, outObj, err := b.cgo(a, base.Tool("cgo"), objdir, pcCFLAGS, pcLDFLAGS, mkAbsFiles(a.Package.Dir, cgofiles), mkAbsFiles(a.Package.Dir, gofiles), gccfiles, cxxfiles, a.Package.MFiles, a.Package.FFiles)
 		if err != nil {
 			return err
 		}
@@ -1838,7 +1838,7 @@ func (b *Builder) CFlags(p *load.Package) (cppflags, cflags, cxxflags, fflags, l
 
 var cgoRe = regexp.MustCompile(`[/\\:]`)
 
-func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo, outObj []string, err error) {
+func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgofiles, gofiles, gccfiles, gxxfiles, mfiles, ffiles []string) (outGo, outObj []string, err error) {
 	p := a.Package
 	cgoCPPFLAGS, cgoCFLAGS, cgoCXXFLAGS, cgoFFLAGS, cgoLDFLAGS := b.CFlags(p)
 	cgoCPPFLAGS = append(cgoCPPFLAGS, pcCFLAGS...)
@@ -1871,12 +1871,12 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 
 	// cgo
 	// TODO: CGO_FLAGS?
-	gofiles := []string{objdir + "_cgo_gotypes.go"}
-	cfiles := []string{"_cgo_export.c"}
+	outGofiles := []string{objdir + "_cgo_gotypes.go"}
+	outCfiles := []string{"_cgo_export.c"}
 	for _, fn := range cgofiles {
 		f := strings.TrimSuffix(filepath.Base(fn), ".go")
-		gofiles = append(gofiles, objdir+f+".cgo1.go")
-		cfiles = append(cfiles, f+".cgo2.c")
+		outGofiles = append(outGofiles, objdir+f+".cgo1.go")
+		outCfiles = append(outCfiles, f+".cgo2.c")
 	}
 
 	// TODO: make cgo not depend on $GOARCH?
@@ -1918,10 +1918,10 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 		cgoflags = append(cgoflags, "-exportheader="+objdir+"_cgo_install.h")
 	}
 
-	if err := b.run(a, p.Dir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles); err != nil {
+	if err := b.run(a, p.Dir, p.ImportPath, cgoenv, cfg.BuildToolexec, cgoExe, "-objdir", objdir, "-importpath", p.ImportPath, cgoflags, "--", cgoCPPFLAGS, cgoCFLAGS, cgofiles, gofiles); err != nil {
 		return nil, nil, err
 	}
-	outGo = append(outGo, gofiles...)
+	outGo = append(outGo, outGofiles...)
 
 	// Use sequential object file names to keep them distinct
 	// and short enough to fit in the .a header file name slots.
@@ -1937,7 +1937,7 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
 
 	// gcc
 	cflags := str.StringList(cgoCPPFLAGS, cgoCFLAGS)
-	for _, cfile := range cfiles {
+	for _, cfile := range outCfiles {
 		ofile := nextOfile()
 		if err := b.gcc(a, p, a.Objdir, ofile, cflags, objdir+cfile); err != nil {
 			return nil, nil, err

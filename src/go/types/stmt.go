@@ -64,9 +64,7 @@ func (check *Checker) usage(scope *Scope) {
 			unused = append(unused, v)
 		}
 	}
-	sort.Slice(unused, func(i, j int) bool {
-		return unused[i].pos < unused[j].pos
-	})
+	sort.Sort(byVariablePos(unused))
 	for _, v := range unused {
 		check.softErrorf(v.pos, "%s declared but not used", v.name)
 	}
@@ -79,6 +77,12 @@ func (check *Checker) usage(scope *Scope) {
 		}
 	}
 }
+
+type byVariablePos []*Var
+
+func (a byVariablePos) Len() int           { return len(a) }
+func (a byVariablePos) Less(i, j int) bool { return a[i].pos < a[j].pos }
+func (a byVariablePos) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 
 // stmtContext is a bitset describing which
 // control-flow statements are permissible,
