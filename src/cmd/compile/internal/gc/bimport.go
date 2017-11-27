@@ -202,6 +202,9 @@ func Import(imp *types.Pkg, in *bufio.Reader) {
 			}
 			f.Func.Inl.Set(body)
 			f.Func.InlCost = int32(inlCost)
+			if Debug['E'] > 0 && Debug['m'] > 2 && f.Func.Inl.Len() != 0 {
+				fmt.Printf("inl body for %v: %v\n", f, f.Func.Inl)
+			}
 			funcbody()
 		} else {
 			// function already imported - read body but discard declarations
@@ -370,6 +373,7 @@ func (p *importer) obj(tag int) {
 		n := newfuncnamel(pos, sym)
 		n.Type = sig
 		declare(n, PFUNC)
+		n.Pos = pos
 		p.funcList = append(p.funcList, n)
 		importlist = append(importlist, n)
 
@@ -485,6 +489,8 @@ func (p *importer) typ() *types.Type {
 	switch i {
 	case namedTag:
 		pos := p.pos()
+		savedlineno := lineno
+		lineno = pos
 		tsym := p.qualifiedName()
 
 		t = pkgtype(pos, p.imp, tsym)
@@ -494,6 +500,7 @@ func (p *importer) typ() *types.Type {
 		// read underlying type
 		t0 := p.typ()
 		p.importtype(t, t0)
+		lineno = savedlineno
 
 		// interfaces don't have associated methods
 		if t0.IsInterface() {
@@ -954,7 +961,11 @@ func (p *importer) node() *Node {
 	// 	unreachable - should have been resolved by typechecking
 
 	case OTYPE:
-		return npos(p.pos(), typenod(p.typ()))
+		savedlineno := lineno
+		lineno = p.pos()
+		n := npos(lineno, typenod(p.typ()))
+		lineno = savedlineno
+		return n
 
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
 	//      unreachable - should have been resolved by typechecking
@@ -963,7 +974,9 @@ func (p *importer) node() *Node {
 	//	unimplemented
 
 	case OPTRLIT:
-		n := npos(p.pos(), p.expr())
+		savedlineno := lineno
+		lineno = p.pos()
+		n := npos(lineno, p.expr())
 		if !p.bool() /* !implicit, i.e. '&' operator */ {
 			if n.Op == OCOMPLIT {
 				// Special case for &T{...}: turn into (*T){...}.
@@ -973,19 +986,26 @@ func (p *importer) node() *Node {
 				n = nod(OADDR, n, nil)
 			}
 		}
+		lineno = savedlineno
 		return n
 
 	case OSTRUCTLIT:
-		n := nodl(p.pos(), OCOMPLIT, nil, typenod(p.typ()))
+		savedlineno := lineno
+		lineno = p.pos()
+		n := nodl(lineno, OCOMPLIT, nil, typenod(p.typ()))
 		n.List.Set(p.elemList()) // special handling of field names
+		lineno = savedlineno
 		return n
 
 	// case OARRAYLIT, OSLICELIT, OMAPLIT:
 	// 	unreachable - mapped to case OCOMPLIT below by exporter
 
 	case OCOMPLIT:
-		n := nodl(p.pos(), OCOMPLIT, nil, typenod(p.typ()))
+		savedlineno := lineno
+		lineno = p.pos()
+		n := nodl(lineno, OCOMPLIT, nil, typenod(p.typ()))
 		n.List.Set(p.exprList())
+		lineno = savedlineno
 		return n
 
 	case OKEY:
