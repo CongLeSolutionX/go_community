@@ -648,13 +648,17 @@ func (b *Writer) WriteRune(r rune) (size int, err error) {
 	}
 	n := b.Available()
 	if n < utf8.UTFMax {
-		if b.Flush(); b.err != nil {
-			return 0, b.err
-		}
-		n = b.Available()
-		if n < utf8.UTFMax {
-			// Can only happen if buffer is silly small.
-			return b.WriteString(string(r))
+		s := string(r)
+		length := len(s)
+		if n < length {
+			if b.Flush(); b.err != nil {
+				return 0, b.err
+			}
+			n = b.Available()
+			if n < length {
+				// Can only happen if buffer is silly small.
+				return b.WriteString(s)
+			}
 		}
 	}
 	size = utf8.EncodeRune(b.buf[b.n:], r)
