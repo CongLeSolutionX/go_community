@@ -65,6 +65,18 @@ var writeSetCookiesTests = []struct {
 		&Cookie{Name: "cookie-11", Value: "invalid-expiry", Expires: time.Date(1600, 1, 1, 1, 1, 1, 1, time.UTC)},
 		"cookie-11=invalid-expiry",
 	},
+	{
+		&Cookie{Name: "cookie-12", Value: "samesite-default", SameSite: SAMESITE_DEFAULT_MODE},
+		"cookie-12=samesite-default; SameSite",
+	},
+	{
+		&Cookie{Name: "cookie-13", Value: "samesite-lax", SameSite: SAMESITE_LAX_MODE},
+		"cookie-13=samesite-lax; SameSite=Lax",
+	},
+	{
+		&Cookie{Name: "cookie-14", Value: "samesite-strict", SameSite: SAMESITE_STRICT_MODE},
+		"cookie-14=samesite-strict; SameSite=Strict",
+	},
 	// The "special" cookies have values containing commas or spaces which
 	// are disallowed by RFC 6265 but are common in the wild.
 	{
@@ -239,6 +251,33 @@ var readSetCookiesTests = []struct {
 			Path:     "/",
 			HttpOnly: true,
 			Raw:      "ASP.NET_SessionId=foo; path=/; HttpOnly",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"samesitedefault=foo; SameSite"}},
+		[]*Cookie{{
+			Name:     "samesitedefault",
+			Value:    "foo",
+			SameSite: SAMESITE_DEFAULT_MODE,
+			Raw:      "samesitedefault=foo; SameSite",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"samesitelax=foo; SameSite=Lax"}},
+		[]*Cookie{{
+			Name:     "samesitelax",
+			Value:    "foo",
+			SameSite: SAMESITE_LAX_MODE,
+			Raw:      "samesitelax=foo; SameSite=Lax",
+		}},
+	},
+	{
+		Header{"Set-Cookie": {"samesitestrict=foo; SameSite=Strict"}},
+		[]*Cookie{{
+			Name:     "samesitestrict",
+			Value:    "foo",
+			SameSite: SAMESITE_STRICT_MODE,
+			Raw:      "samesitestrict=foo; SameSite=Strict",
 		}},
 	},
 	// Make sure we can properly read back the Set-Cookie headers we create
