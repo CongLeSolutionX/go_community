@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5d73314_4b3b311a",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-11-28T18:20:42Z",
+      "side": 1,
+      "message": "Change this to:\n\n    // TODO(mdempsky): Stop clobbering n.Pos in declare.\n    savedlineno :\u003d lineno\n    lineno \u003d pos\n    declare(n, PFUNC)\n    lineno \u003d savedlineno",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5895e8d6_6268787a",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-11-28T18:20:42Z",
+      "side": 1,
+      "message": "Delete these three lines since you moved them to where we actually set n.Func.Inl.",
+      "range": {
+        "startLine": 384,
+        "startChar": 3,
+        "endLine": 386,
+        "endChar": 4
+      },
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2499f19b_815f1043",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-11-28T18:20:42Z",
+      "side": 1,
+      "message": "You should be able to move this down to just before the p.importtype call.\n\nAlso, leave the same TODO(mdempsky) as above.",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04e4b91b_05a86592",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-11-28T18:20:42Z",
+      "side": 1,
+      "message": "This is because of the typenod call that appears to use lineno? If so, I think you can revert the OTYPE, OSTRUCTLIT, and OCOMPLIT cases. See CL 80298.",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38b8f868_2dc2f56b",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-11-28T18:20:42Z",
+      "side": 1,
+      "message": "I would just do:\n\n  pos :\u003d p.pos()\n  n :\u003d npos(pos, p.expr())\n\nand then change the two nod(OFOO, ...) calls below to nodl(pos, OFOO, ...).",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
