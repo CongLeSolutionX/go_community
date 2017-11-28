@@ -154,6 +154,24 @@
     },
     {
       "key": {
+        "uuid": "136f1883_119a493c",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-11-28T21:55:28Z",
+      "side": 1,
+      "message": "Hm, so it is. Add:\n\n  // TODO(mdempsky): Export position information for OSTRUCTKEY nodes.",
+      "parentUuid": "7bfbb2f7_6ef04dfc",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38b8f868_2dc2f56b",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 1
