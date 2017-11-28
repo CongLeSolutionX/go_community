@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6129ecfa_cabaab17",
+        "filename": "src/os/sys_freebsd.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-28T18:30:59Z",
+      "side": 1,
+      "message": "don\u0027t need to say \"bool\" here.",
+      "revId": "05256aeadfcfb2fd4cbeec9394eeb8ee3d9cecfe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
