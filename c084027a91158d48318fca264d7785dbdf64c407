@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6cdcba9_81854255",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-11-28T21:47:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5d73314_4b3b311a",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5895e8d6_6268787a",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "7c2457d5_2293cb33",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-11-28T21:47:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5895e8d6_6268787a",
+      "range": {
+        "startLine": 384,
+        "startChar": 3,
+        "endLine": 386,
+        "endChar": 4
+      },
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2499f19b_815f1043",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "c084027a91158d48318fca264d7785dbdf64c407",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f0d5e97_a5577bda",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-11-28T21:47:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2499f19b_815f1043",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "7bfbb2f7_6ef04dfc",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-11-28T21:47:07Z",
+      "side": 1,
+      "message": "OSTRUCTLIT is still necessary.",
+      "parentUuid": "04e4b91b_05a86592",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38b8f868_2dc2f56b",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 1
@@ -90,6 +168,24 @@
       "revId": "c084027a91158d48318fca264d7785dbdf64c407",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3120b1e_f6173a5d",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-11-28T21:47:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38b8f868_2dc2f56b",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
