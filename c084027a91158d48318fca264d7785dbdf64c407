@@ -172,6 +172,24 @@
     },
     {
       "key": {
+        "uuid": "85a5b767_a35df109",
+        "filename": "src/cmd/compile/internal/gc/bimport.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-11-28T22:22:47Z",
+      "side": 1,
+      "message": "Done, down at the OSTRUCTLIT code.",
+      "parentUuid": "136f1883_119a493c",
+      "revId": "c084027a91158d48318fca264d7785dbdf64c407",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38b8f868_2dc2f56b",
         "filename": "src/cmd/compile/internal/gc/bimport.go",
         "patchSetId": 1
