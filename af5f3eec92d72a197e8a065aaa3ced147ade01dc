@@ -172,6 +172,57 @@
     },
     {
       "key": {
+        "uuid": "09b0ec0e_fd08f781",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-11-28T01:11:59Z",
+      "side": 1,
+      "message": "Suggested text:\n\n\u003cp\u003e\u003c!-- CL 45752 --\u003e\nThe behavior of nested \u003ca href\u003d\"/pkg/runtime/#LockOSThread\"\u003e\u003ccode\u003eLockOSThread\u003c/code\u003e\u003c/a\u003e/\u003ca href\u003d\"/pkg/runtime/#UnlockOSThread\"\u003e\u003ccode\u003eUnlockOSThread\u003c/code\u003e\u003c/a\u003e calls has changed. Previously, any number of LockOSThread calls were cancelled by a single UnlockOSThread call. As a result, many uses of these functions in real code were \u003ca href\u003d\"/issue/20458\"\u003eincorrect\u003c/a\u003e. Now, each LockOSThread must be paired with an UnlockOSThread in order to unlock the thread.\n\u003c/p\u003e\n\n\u003cp\u003e\u003c!-- CL 46038, CL 46033 --\u003e\nExiting a goroutine that has called LockOSThread without a corresponding UnlockOSThread now exits the OS thread instead of reusing it. Likewise, the runtime no longer starts new threads from a locked OS thread. Together, these changes make it safe to modify some OS-level thread state that was previously unsafe to modify, such as Linux namespaces.\n\u003c/p\u003e\n\n(I linked to the issue in the first one because it gives a lot of good context and examples for what is technically a backwards-incompatible change. I didn\u0027t see any other issue links, so I don\u0027t know if we want to include this link or not.)",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e14f16f_fdc6fc3f",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-11-28T01:11:59Z",
+      "side": 1,
+      "message": "Consider adding \"As a result, skip counts passed to functions like \u003ca href\u003d\"/pkg/runtime/#Caller\"\u003eCaller\u003c/a\u003e should now always match the structure of the code as written, rather than depending on implementation details of code generation.\"",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b98c6905_fb9930ea",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-11-28T01:11:59Z",
+      "side": 1,
+      "message": "Suggested text:\n\n\u003cp\u003e\u003c!-- CL 59970 --\u003e\nMany applications should experience significantly lower allocation latency and overall performance overhead when the garbage collector is active.\n\u003c/p\u003e",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99ad5507_d59d1669",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
