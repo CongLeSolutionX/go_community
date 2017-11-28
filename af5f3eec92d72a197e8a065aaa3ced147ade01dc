@@ -520,6 +520,23 @@
     },
     {
       "key": {
+        "uuid": "96acc388_d156519c",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 17921
+      },
+      "writtenOn": "2017-11-28T16:19:08Z",
+      "side": 1,
+      "message": "Suggested Text (referenced in CL 79315):\n\u003cdl id\u003d\"net/http/httputil\"\u003e\u003cdt\u003e\u003ca href\u003d\"/pkg/net/http/httputil/\"\u003enet/http/httputil\u003c/a\u003e\u003c/dt\u003e\n\u003cdd\u003e\n\u003cp\u003e \u003c!-- CL 54030 --\u003e\n\u003ca href\u003d\"/pkg/net/http/httputil/#ReverseProxy\"\u003e\u003ccode\u003eReverseProxy\u003c/code\u003e\u003c/a\u003e now calls \u003ccode\u003eModifyResponse\u003c/code\u003e regardless of the response from the target.\n\u003c/p\u003e\n\u003c/p\u003e\n\u003c/dl\u003e",
+      "revId": "af5f3eec92d72a197e8a065aaa3ced147ade01dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1271d172_206d4e53",
         "filename": "doc/go1.10.html",
         "patchSetId": 5
