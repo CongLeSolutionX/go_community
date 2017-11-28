@@ -468,6 +468,24 @@
     },
     {
       "key": {
+        "uuid": "35402ad3_f38e6e20",
+        "filename": "src/runtime/cgo/asm_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2017-11-28T13:02:17Z",
+      "side": 1,
+      "message": "I think the callee is not a Go function. Instead, its callee is a CGO callback (i.e C function). Since current function won\u0027t save and restore FP\u0026LR due to its negative frame size ($-16) we need to save them as part of C API context.",
+      "parentUuid": "d0488b03_0b413596",
+      "revId": "ce225725c3a6c93831a51b7bc832bb254cdbba06",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd6bae6e_c2bfe2b3",
         "filename": "src/runtime/stack.go",
         "patchSetId": 1
