@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"go/parser"
 	"go/token"
+	"internal/testenv"
 	"io/ioutil"
 	"log"
 	"strings"
@@ -71,6 +72,44 @@ func TestSource(t *testing.T) {
 	}
 
 	diff(t, res, src)
+}
+
+func TestGofmt(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
+	src, err := ioutil.ReadFile(testfile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	res, err := Gofmt(src)
+	if err != nil {
+		t.Fatal("Gofmt failed:", err)
+	}
+
+	diff(t, res, src)
+}
+
+func TestGofmtError(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
+	for _, test := range []struct{ src, want string }{
+		{"package p", ""},
+		{"x + y", ""},
+		{"if x < y { return z }", ""},
+		{"x +", "expected operand, found '}'"},
+		{"foo!", "expected ';', found '!'"},
+		{"type T var", "expected type, found 'var'"},
+	} {
+		got, err := Gofmt([]byte(test.src))
+		if err != nil {
+			if test.want == "" || !strings.Contains(string(got), test.want) {
+				t.Errorf("%s: got %s, want %s", test.src, got, test.want)
+			}
+		} else if test.want != "" {
+			t.Errorf("%s: got no error, want %s", test.src, test.want)
+		}
+	}
 }
 
 // Test cases that are expected to fail are marked by the prefix "ERROR".
