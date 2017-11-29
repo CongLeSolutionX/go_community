@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "bc46d3cb_746f561e",
+        "filename": "src/go/format/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-29T00:20:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ea5a5f3c_6db1a9c8",
+      "revId": "580ccef3ce2cbd4cfc79663be47dc5a7c0ae63ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b107a375_a062e587",
         "filename": "src/go/format/format.go",
         "patchSetId": 1
@@ -125,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "fb1c597f_cb990dbc",
+        "filename": "src/go/format/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-29T00:20:19Z",
+      "side": 1,
+      "message": "not sure. gofmt should work on stdin w/o arguments but it doesn\u0027t seem to close input (or something like that) when programmed as written. need to investigate.",
+      "parentUuid": "b107a375_a062e587",
+      "range": {
+        "startLine": 109,
+        "startChar": 30,
+        "endLine": 109,
+        "endChar": 42
+      },
+      "revId": "580ccef3ce2cbd4cfc79663be47dc5a7c0ae63ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec8999c4_a0f29c19",
         "filename": "src/go/format/format.go",
         "patchSetId": 1
@@ -136,6 +178,30 @@
       "writtenOn": "2017-11-29T00:08:54Z",
       "side": 1,
       "message": "just use CombinedOutput on exec.Cmd.",
+      "range": {
+        "startLine": 111,
+        "startChar": 1,
+        "endLine": 114,
+        "endChar": 17
+      },
+      "revId": "580ccef3ce2cbd4cfc79663be47dc5a7c0ae63ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5ac168d_e9a1ee6f",
+        "filename": "src/go/format/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-29T00:20:19Z",
+      "side": 1,
+      "message": "of course",
+      "parentUuid": "ec8999c4_a0f29c19",
       "range": {
         "startLine": 111,
         "startChar": 1,
