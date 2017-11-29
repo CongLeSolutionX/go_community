@@ -13,6 +13,7 @@ import (
 	"go/printer"
 	"go/token"
 	"io"
+	"os/exec"
 )
 
 var config = printer.Config{Mode: printer.UseSpaces | printer.TabIndent, Tabwidth: 8}
@@ -79,6 +80,10 @@ func Node(dst io.Writer, fset *token.FileSet, node interface{}) error {
 // space as src), and the result is indented by the same amount as the first
 // line of src containing code. Imports are not sorted for partial source files.
 //
+// Caution: Tools relying on consistent formatting based on the installed
+// version of gofmt (e.g., such as for presumbit checks) should call Gofmt
+// instead of Source.
+//
 func Source(src []byte) ([]byte, error) {
 	fset := token.NewFileSet()
 	file, sourceAdj, indentAdj, err := parse(fset, "", src, true)
@@ -93,6 +98,21 @@ func Source(src []byte) ([]byte, error) {
 	}
 
 	return format(fset, file, sourceAdj, indentAdj, src, config)
+}
+
+// Gofmt formats src by invoking the gofmt command with src as input
+// and returns the formatted output, or an error message with error.
+// src is expected to be a syntactically correct Go source file; in
+// contrast to Source, partial files are not permitted.
+//
+func Gofmt(src []byte) ([]byte, error) {
+	cmd := exec.Command("gofmt", "/dev/stdin")
+	cmd.Stdin = bytes.NewReader(src)
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = &out
+	err := cmd.Run()
+	return out.Bytes(), err
 }
 
 func hasUnsortedImports(file *ast.File) bool {
