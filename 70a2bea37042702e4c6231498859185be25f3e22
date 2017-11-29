@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e6bbd56_06f3cc6e",
+        "filename": "src/cmd/dist/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-11-29T19:28:20Z",
+      "side": 1,
+      "message": "this seems problematic setting tags twice.",
+      "range": {
+        "startLine": 948,
+        "startChar": 32,
+        "endLine": 948,
+        "endChar": 64
+      },
+      "revId": "70a2bea37042702e4c6231498859185be25f3e22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
