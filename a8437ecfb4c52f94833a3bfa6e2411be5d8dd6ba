@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e6ac0ea_30c46bed",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2017-11-29T21:32:46Z",
+      "side": 1,
+      "message": "If this panic is recovered, it leaves the WaitGroup in an inconsistent state: statep\u003c\u003c32 has already been adjusted, and may have been observed or even modified by some other concurrent call to Add or Wait.\n\nUnlike the other panics in this function, nothing in the documentation prohibits user code from calling Add with a too-large value (or, more subtly, with a sum of values that sum to too-large).\n\nI think a proper fix for #20687 either needs to include explicit documentation about range limitations or ensure that the WaitGroup remains in a consistent state both before and after the panic.",
+      "revId": "a8437ecfb4c52f94833a3bfa6e2411be5d8dd6ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
