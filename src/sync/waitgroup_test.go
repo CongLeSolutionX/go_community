@@ -68,6 +68,19 @@ func TestWaitGroupMisuse(t *testing.T) {
 	t.Fatal("Should panic")
 }
 
+func TestWaitGroupRange(t *testing.T) {
+	defer func() {
+		err := recover()
+		if err != "sync: WaitGroup counter too large" {
+			t.Fatalf("Unexpected panic: %#v", err)
+		}
+	}()
+	wg := &WaitGroup{}
+	wg.Add(1<<31 - 1)
+	wg.Add(2)
+	t.Fatal("Should panic")
+}
+
 func TestWaitGroupMisuse2(t *testing.T) {
 	knownRacy(t)
 	if runtime.NumCPU() <= 4 {
