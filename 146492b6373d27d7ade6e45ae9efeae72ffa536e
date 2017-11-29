@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "089c2e6c_1c01d0bf",
+        "filename": "src/go/format/format.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-29T00:44:15Z",
+      "side": 1,
+      "message": "typo (presumbit) fixed in next version",
+      "range": {
+        "startLine": 84,
+        "startChar": 47,
+        "endLine": 84,
+        "endChar": 56
+      },
+      "revId": "146492b6373d27d7ade6e45ae9efeae72ffa536e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
