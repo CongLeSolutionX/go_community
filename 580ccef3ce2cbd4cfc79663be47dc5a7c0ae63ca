@@ -60,6 +60,48 @@
     },
     {
       "key": {
+        "uuid": "ea5a5f3c_6db1a9c8",
+        "filename": "src/go/format/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-29T00:11:57Z",
+      "side": 1,
+      "message": "I don\u0027t mean gofmt. I mean Gofmt, as in the function below.",
+      "parentUuid": "4b0179af_84b19a02",
+      "revId": "580ccef3ce2cbd4cfc79663be47dc5a7c0ae63ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21f31bd1_78c9c68b",
+        "filename": "src/go/format/format.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-11-29T00:11:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f70dc543_98a01bc5",
+      "range": {
+        "startLine": 84,
+        "startChar": 21,
+        "endLine": 84,
+        "endChar": 27
+      },
+      "revId": "580ccef3ce2cbd4cfc79663be47dc5a7c0ae63ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b107a375_a062e587",
         "filename": "src/go/format/format.go",
         "patchSetId": 1
