@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cefad4e_511a89f1",
+        "filename": "misc/cgo/testshared/src/exe4/exe4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-29T19:15:32Z",
+      "side": 1,
+      "message": "This new file should have the standard copyright header (I see that some of the existing test files don\u0027t, but that seems like a mistake.)",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c00894ca_244a5941",
+        "filename": "misc/cgo/testshared/src/exe4/exe4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-29T19:15:32Z",
+      "side": 1,
+      "message": "Print the values you got, and print what you expected.  No real need to panic, os.Exit would be fine.",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b625f6d2_56ec1890",
+        "filename": "misc/cgo/testshared/src/linkname/asm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-29T19:15:32Z",
+      "side": 1,
+      "message": "What is the purpose of this file?",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29df4581_139994ee",
+        "filename": "misc/cgo/testshared/src/linkname/linkname.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-29T19:15:32Z",
+      "side": 1,
+      "message": "Is it necessary for this test to refer to the runtime package?  It would be better for the test to use linkname to refer to other test functions.  Referring to the runtime package is fragile, since it means that unrelated changes to the runtime package may break this test.  There is no reason to introduce that fragility if it is unnecessary.",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ec8ef25_9677b721",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-29T19:15:32Z",
+      "side": 1,
+      "message": "Is this only necessary on 32 bit?  Right now it looks like it will be done on 64-bit systems as well.\n\nDoes this need to happen on any other architectures?",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79e0c07d_35caf0da",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-29T19:15:32Z",
+      "side": 1,
+      "message": "Any reason to not simply look at all symbols?  It seems that we want to update all METHODOFF relocations.",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4adf74ec_568a4d82",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-29T19:15:32Z",
+      "side": 1,
+      "message": "This seems unlikely to be correct on non-x86 processors.",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
