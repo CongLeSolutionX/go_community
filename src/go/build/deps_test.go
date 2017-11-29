@@ -214,7 +214,7 @@ var pkgDeps = map[string][]string{
 		"go/token",
 	},
 
-	"go/format":       {"L4", "GOPARSER", "internal/format"},
+	"go/format":       {"L4", "GOPARSER", "internal/format", "os/exec"},
 	"internal/format": {"L4", "GOPARSER"},
 
 	// Go type checking.
