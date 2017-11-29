@@ -73,6 +73,42 @@ func TestSource(t *testing.T) {
 	diff(t, res, src)
 }
 
+func TestGofmt(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
+	src, err := ioutil.ReadFile(testfile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	res, err := Gofmt(src)
+	if err != nil {
+		t.Fatal("Gofmt failed:", err)
+	}
+
+	diff(t, res, src)
+}
+
+func TestGofmtError(t *testing.T) {
+	testenv.MustHaveGoBuild(t)
+
+	for _, test := range []struct{ src, want string }{
+		{"package p", "no error"},
+		{"", "exit status 2"},
+		{"foo", "exit status 2"},
+		{"type T int", "exit status 2"},
+	} {
+		got := "no error"
+		out, err := Gofmt([]byte(test.src))
+		if err != nil {
+			got = err.Error()
+		}
+		if got != test.want {
+			t.Errorf("%s: got %s, want %s (%s)", test.src, got, test.want, out)
+		}
+	}
+}
+
 // Test cases that are expected to fail are marked by the prefix "ERROR".
 // The formatted result must look the same as the input for successful tests.
 var tests = []string{
