@@ -13,6 +13,7 @@ import (
 	"go/printer"
 	"go/token"
 	"io"
+	"os/exec"
 )
 
 var config = printer.Config{Mode: printer.UseSpaces | printer.TabIndent, Tabwidth: 8}
@@ -24,8 +25,8 @@ const parserMode = parser.ParseComments
 // The node type must be *ast.File, *printer.CommentedNode, []ast.Decl,
 // []ast.Stmt, or assignment-compatible to ast.Expr, ast.Decl, ast.Spec,
 // or ast.Stmt. Node does not modify node. Imports are not sorted for
-// nodes representing partial source files (i.e., if the node is not an
-// *ast.File or a *printer.CommentedNode not wrapping an *ast.File).
+// nodes representing partial source files (for instance, if the node is
+// not an *ast.File or a *printer.CommentedNode not wrapping an *ast.File).
 //
 // The function may return early (before the entire result is written)
 // and return a formatting error, for instance due to an incorrect AST.
@@ -79,6 +80,10 @@ func Node(dst io.Writer, fset *token.FileSet, node interface{}) error {
 // space as src), and the result is indented by the same amount as the first
 // line of src containing code. Imports are not sorted for partial source files.
 //
+// Caution: Tools relying on consistent formatting based on the installed
+// version of gofmt (for instance, such as for presumbit checks) should call Gofmt
+// instead of Source.
+//
 func Source(src []byte) ([]byte, error) {
 	fset := token.NewFileSet()
 	file, sourceAdj, indentAdj, err := parse(fset, "", src, true)
@@ -93,6 +98,17 @@ func Source(src []byte) ([]byte, error) {
 	}
 
 	return format(fset, file, sourceAdj, indentAdj, src, config)
+}
+
+// Gofmt formats src by invoking the gofmt binary installed in the user's
+// path with src as input, and returns the formatted output, or an error.
+// src is expected to be a syntactically correct Go source file, or a list
+// of Go declarations or statements.
+//
+func Gofmt(src []byte) ([]byte, error) {
+	cmd := exec.Command("gofmt")
+	cmd.Stdin = bytes.NewReader(src)
+	return cmd.CombinedOutput()
 }
 
 func hasUnsortedImports(file *ast.File) bool {
