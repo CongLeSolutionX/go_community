@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe391119_0fde3b5c",
+        "filename": "src/runtime/sigqueue.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-11-30T23:24:27Z",
+      "side": 1,
+      "message": "Minor, but I think the relevant issue is not that it runs on the signal stack as that it runs during the signal handler.  I guess those are kind of the same thing, but they sound different.",
+      "revId": "20dc5f7b49cfc9134d9e423beb0b5e623063277f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
