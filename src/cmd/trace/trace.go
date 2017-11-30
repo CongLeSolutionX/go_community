@@ -287,8 +287,9 @@ type heapStats struct {
 }
 
 type threadStats struct {
-	insyscall uint64
-	prunning  uint64
+	insyscall0 uint64 // system goroutine in syscall
+	insyscall  uint64 // user goroutine in syscall
+	prunning   uint64 // thread running P
 }
 
 type frameNode struct {
@@ -309,8 +310,9 @@ const (
 )
 
 type gInfo struct {
-	state      gState       // current state
-	name       string       // name chosen for this goroutine at first EvGoStart
+	state      gState // current state
+	name       string // name chosen for this goroutine at first EvGoStart
+	isSystemG  bool
 	start      *trace.Event // most recent EvGoStart
 	markAssist *trace.Event // if non-nil, the mark assist currently running.
 }
@@ -399,7 +401,9 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			info := getGInfo(ev.G)
 			if info.name == "" {
 				if len(ev.Stk) > 0 {
-					info.name = fmt.Sprintf("G%v %s", ev.G, ev.Stk[0].Fn)
+					topFrame := ev.Stk[0]
+					info.name = fmt.Sprintf("G%v %s", ev.G, topFrame.Fn)
+					info.isSystemG = strings.HasPrefix(topFrame.Fn, "runtime.")
 				} else {
 					info.name = fmt.Sprintf("G%v", ev.G)
 				}
@@ -419,10 +423,18 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 			setGState(ev, ev.Args[0], gWaiting, gRunnable)
 		case trace.EvGoSysExit:
 			setGState(ev, ev.G, gWaiting, gRunnable)
-			ctx.threadStats.insyscall--
+			if getGInfo(ev.G).isSystemG {
+				ctx.threadStats.insyscall0--
+			} else {
+				ctx.threadStats.insyscall--
+			}
 		case trace.EvGoSysBlock:
 			setGState(ev, ev.G, gRunning, gWaiting)
-			ctx.threadStats.insyscall++
+			if getGInfo(ev.G).isSystemG {
+				ctx.threadStats.insyscall0++
+			} else {
+				ctx.threadStats.insyscall++
+			}
 		case trace.EvGoSched, trace.EvGoPreempt:
 			setGState(ev, ev.G, gRunning, gRunnable)
 		case trace.EvGoStop,
@@ -440,7 +452,11 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 		case trace.EvGoInSyscall:
 			// Cancel out the effect of EvGoCreate at the beginning.
 			setGState(ev, ev.G, gRunnable, gWaiting)
-			ctx.threadStats.insyscall++
+			if getGInfo(ev.G).isSystemG {
+				ctx.threadStats.insyscall0++
+			} else {
+				ctx.threadStats.insyscall++
+			}
 		case trace.EvHeapAlloc:
 			ctx.heapStats.heapAlloc = ev.Args[0]
 		case trace.EvNextGC:
@@ -654,6 +670,7 @@ func (ctx *traceContext) emitGoroutineCounters(ev *trace.Event) {
 type threadCountersArg struct {
 	Running   uint64
 	InSyscall uint64
+	// TODO: report threads in syscall on behalf of system goroutines (insyscall0)
 }
 
 func (ctx *traceContext) emitThreadCounters(ev *trace.Event) {
@@ -663,7 +680,9 @@ func (ctx *traceContext) emitThreadCounters(ev *trace.Event) {
 	if ctx.prevThreadStats == ctx.threadStats {
 		return
 	}
-	ctx.emit(&ViewerEvent{Name: "Threads", Phase: "C", Time: ctx.time(ev), Pid: 1, Arg: &threadCountersArg{ctx.threadStats.prunning, ctx.threadStats.insyscall}})
+	ctx.emit(&ViewerEvent{Name: "Threads", Phase: "C", Time: ctx.time(ev), Pid: 1, Arg: &threadCountersArg{
+		Running:   ctx.threadStats.prunning,
+		InSyscall: ctx.threadStats.insyscall}})
 	ctx.prevThreadStats = ctx.threadStats
 }
 
