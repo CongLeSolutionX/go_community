@@ -34,6 +34,24 @@
       "revId": "a8437ecfb4c52f94833a3bfa6e2411be5d8dd6ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4ba8d0e_0b2cf091",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-11-30T21:24:19Z",
+      "side": 1,
+      "message": "Russ points out that some of the panics here also leave the WaitGroup in a bad state, so it\u0027s not clear that adding one more is that big of a deal.\n\nTwo more approaches are:\n\n3. Poison the WaitGroup so all future operations (and maybe blocked waiters?), panic. I think doing that safely (in the sense of \"never allow Wait to unblock prematurely\") still requires either a CAS loop here or something like I said above about adding some spill bits, but that\u0027s fine.\n\n4. Make this a throw instead of a panic. We already do that in the rwmutex code when the user does something that breaks it beyond repair. In fact, when we did that we had a very similar discussion and decided it wasn\u0027t worth performance impact to the common case in order to enable dubious recovery of a sync misuse.\n\nAll of these are probably 1.11 material, though we could get it queued up now.",
+      "parentUuid": "9dae2bbf_59d3b8d6",
+      "revId": "a8437ecfb4c52f94833a3bfa6e2411be5d8dd6ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
