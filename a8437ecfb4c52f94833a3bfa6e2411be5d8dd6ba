@@ -16,6 +16,24 @@
       "revId": "a8437ecfb4c52f94833a3bfa6e2411be5d8dd6ba",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dae2bbf_59d3b8d6",
+        "filename": "src/sync/waitgroup.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-11-30T21:08:39Z",
+      "side": 1,
+      "message": "I think this is a good point, but I\u0027m not sure how to keep the WaitGroup in a consistent state without turning this into a CAS loop, which I\u0027d be worried about the performance effects of.\n\nWe could take a few more bits away from the maximum allowed delta if we\u0027re willing to assume that no more than 2^bits goroutines will simultaneously try to overflow the WaitGroup. Then we could let the Add \"overflow\" without actually wrapping and then safely undo the operation. Or, it\u0027s probably better to steal the bits from the waiter count in the low 32 bits, since that\u0027s more bounded than the count, and already involves a CAS loop that would make it easy to detect overflow in.",
+      "parentUuid": "0e6ac0ea_30c46bed",
+      "revId": "a8437ecfb4c52f94833a3bfa6e2411be5d8dd6ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
