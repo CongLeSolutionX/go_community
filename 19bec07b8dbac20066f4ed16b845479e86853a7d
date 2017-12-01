@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e22016b_8527e837",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-12-01T18:53:29Z",
+      "side": 1,
+      "message": "Are you confident that this is safe? I can\u0027t remember what this was used for besides DWARF, but I\u0027m pretty sure there was something.",
+      "range": {
+        "startLine": 566,
+        "startChar": 56,
+        "endLine": 566,
+        "endChar": 0
+      },
+      "revId": "19bec07b8dbac20066f4ed16b845479e86853a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8679633d_fe9b673b",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-12-01T18:53:29Z",
+      "side": 1,
+      "message": "Other than not being a multiple of the word size, this is a semi-plausible stack offset. Something more obviously invalid might be better.",
+      "range": {
+        "startLine": 568,
+        "startChar": 22,
+        "endLine": 568,
+        "endChar": 0
+      },
+      "revId": "19bec07b8dbac20066f4ed16b845479e86853a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
