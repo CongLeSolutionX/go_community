@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5b5f6c3f_3ea5178e",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-12-01T19:40:33Z",
+      "side": 1,
+      "message": "Other than preventing the symbol from being deadcoded, genasmsym writes it into .frame, which apparently is for acid, which apparently is the plan 9 debugger. So this will harm the plan 9 debugging experience.\n\nNo comment on how concerned we should be about that.",
+      "parentUuid": "594dc1da_b51a0a92",
+      "range": {
+        "startLine": 566,
+        "startChar": 56,
+        "endLine": 566,
+        "endChar": 0
+      },
+      "revId": "19bec07b8dbac20066f4ed16b845479e86853a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8679633d_fe9b673b",
         "filename": "src/cmd/compile/internal/gc/pgen.go",
         "patchSetId": 1
