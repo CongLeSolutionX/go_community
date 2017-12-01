@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "594dc1da_b51a0a92",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-12-01T19:00:00Z",
+      "side": 1,
+      "message": "I looked through the uses in the linker and didn\u0027t see anything, but if anyone has concerns, I can do more research?",
+      "parentUuid": "8e22016b_8527e837",
+      "range": {
+        "startLine": 566,
+        "startChar": 56,
+        "endLine": 566,
+        "endChar": 0
+      },
+      "revId": "19bec07b8dbac20066f4ed16b845479e86853a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8679633d_fe9b673b",
         "filename": "src/cmd/compile/internal/gc/pgen.go",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-12-01T18:53:29Z",
       "side": 1,
       "message": "Other than not being a multiple of the word size, this is a semi-plausible stack offset. Something more obviously invalid might be better.",
+      "range": {
+        "startLine": 568,
+        "startChar": 22,
+        "endLine": 568,
+        "endChar": 0
+      },
+      "revId": "19bec07b8dbac20066f4ed16b845479e86853a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36d8fbeb_313770a1",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-12-01T19:00:00Z",
+      "side": 1,
+      "message": "OK, I can pick something more unpleasant -- will revise.",
+      "parentUuid": "8679633d_fe9b673b",
       "range": {
         "startLine": 568,
         "startChar": 22,
