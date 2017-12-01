@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8d0a789_6e920591",
+        "filename": "src/net/udpsock.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 9560
+      },
+      "writtenOn": "2017-12-01T16:14:20Z",
+      "side": 0,
+      "message": "The SO_REUSEPORT option is both available on TCP and UDP, so looks like net.ListenUDPControl is also needed.",
+      "revId": "5f29a7a705e706e307653db47c03df6dbbaf47bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
