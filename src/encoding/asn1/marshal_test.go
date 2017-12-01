@@ -155,6 +155,7 @@ var marshalTests = []marshalTest{
 	{optionalRawValueTest{}, "3000"},
 	{printableStringTest{"test"}, "3006130474657374"},
 	{printableStringTest{"test*"}, "30071305746573742a"},
+	{printableStringTest{"test&"}, "300713057465737426"},
 	{genericStringTest{"test"}, "3006130474657374"},
 	{genericStringTest{"test*"}, "30070c05746573742a"},
 	{rawContentsStruct{nil, 64}, "3003020140"},
