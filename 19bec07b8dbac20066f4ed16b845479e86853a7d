@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "2c39eb8b_63f76fcf",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-12-01T19:45:14Z",
+      "side": 1,
+      "message": "Fair enough. I think what I can do is give the additional entries a new type.  I have another bug fix in flight; I will add the changes to that patch.",
+      "parentUuid": "5b5f6c3f_3ea5178e",
+      "range": {
+        "startLine": 566,
+        "startChar": 56,
+        "endLine": 566,
+        "endChar": 0
+      },
+      "revId": "19bec07b8dbac20066f4ed16b845479e86853a7d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8679633d_fe9b673b",
         "filename": "src/cmd/compile/internal/gc/pgen.go",
         "patchSetId": 1
