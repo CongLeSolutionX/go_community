@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f4cc119_f4248084",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-12-01T17:42:13Z",
+      "side": 1,
+      "message": "insyscallRuntime maybe? insyscallSys is shorter, but probably too confusing. :)",
+      "range": {
+        "startLine": 290,
+        "startChar": 1,
+        "endLine": 290,
+        "endChar": 11
+      },
+      "revId": "95131f131c179ed254abe3e50282751dca47395f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2824c658_618c6298",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 1
@@ -19,6 +42,64 @@
         "endLine": 406,
         "endChar": 0
       },
+      "revId": "95131f131c179ed254abe3e50282751dca47395f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff35b803_d634e119",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-12-01T17:42:13Z",
+      "side": 1,
+      "message": "Interesting. This probably isn\u0027t a bad assumption, though I think it disagrees with isSystemGoroutine in two ways:\n\n1. This will match the ensureSigM goroutine, which isn\u0027t considered a system goroutine by isSystemGoroutine. But this is probably a bug in isSystemGoroutine, not here, so I\u0027m fine with this. :)\n\n2. This may match the main goroutine. I\u0027m not sure what it gets for ev.Stk[0], but it might be runtime.main. Clearly we don\u0027t want to exclude that.\n\nObviously it would be better to strictly agree with the runtime\u0027s definition. However, I\u0027m inclined to think that your definition here is actually *better* than isSystemGoroutine\u0027s explicit whitelist and we should do the equivalent of this symbol name check in isSystemGoroutine.\n\nSo perhaps we should keep what you have here (with a fix for 2 above if it\u0027s a problem) and queue up a change for 1.11 for isSystemGoroutine?",
+      "parentUuid": "2824c658_618c6298",
+      "range": {
+        "startLine": 406,
+        "startChar": 64,
+        "endLine": 406,
+        "endChar": 0
+      },
+      "revId": "95131f131c179ed254abe3e50282751dca47395f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4190bfc_a8865d9c",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-12-01T17:42:13Z",
+      "side": 1,
+      "message": "Also check insyscall0 (or whatever it gets called).",
+      "revId": "95131f131c179ed254abe3e50282751dca47395f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1798a5ea_0647adb7",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-12-01T17:42:13Z",
+      "side": 1,
+      "message": "I think I\u0027m okay with not reporting this number at all.",
       "revId": "95131f131c179ed254abe3e50282751dca47395f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
