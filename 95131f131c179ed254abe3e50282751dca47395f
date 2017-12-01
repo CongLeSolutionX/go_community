@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2824c658_618c6298",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2017-12-01T15:38:23Z",
+      "side": 1,
+      "message": "I am not sure if this is a reasonable assumption though.\nSomething that matches isSystemGoroutine (runtime/traceback.go), possibly by logging them in the trace looks more desirable.",
+      "range": {
+        "startLine": 406,
+        "startChar": 64,
+        "endLine": 406,
+        "endChar": 0
+      },
+      "revId": "95131f131c179ed254abe3e50282751dca47395f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
