@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7ead7ae_4d4cc900",
+        "filename": "src/cmd/compile/internal/gc/ssa.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-12-04T21:41:23Z",
+      "side": 1,
+      "message": "Comment mentioning bug number?",
+      "range": {
+        "startLine": 740,
+        "startChar": 47,
+        "endLine": 740,
+        "endChar": 65
+      },
+      "revId": "1fc1e6e9a43398e9327d89ed6874bde6c36b2fc4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
