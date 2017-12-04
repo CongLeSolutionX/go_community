@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb77fdf_1450bc85",
+        "filename": "src/encoding/asn1/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 5425
+      },
+      "writtenOn": "2017-12-04T20:05:42Z",
+      "side": 1,
+      "message": "I actually suggest rejecting ampersand in this case. Go has never allowed \u0027\u0026\u0027 before in certificates and, absent a good reason, we should continue to nudge people towards UTF8String for this sort of thing. You only need to parse these certificates, right?",
+      "range": {
+        "startLine": 274,
+        "startChar": 39,
+        "endLine": 274,
+        "endChar": 53
+      },
+      "revId": "5914916edc8e0589791d7062d8b01aeb19801724",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
