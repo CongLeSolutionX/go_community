@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5ee86c2_1d8d352e",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1916,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2017-12-04T17:53:27Z",
+      "side": 1,
+      "message": "Please add a comment explaining why the select for the context check is in front of the compare and swap check.",
+      "range": {
+        "startLine": 1916,
+        "startChar": 1,
+        "endLine": 1916,
+        "endChar": 8
+      },
+      "revId": "fc3e6c25a1575f1103659a2e5438386d46f98a72",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
