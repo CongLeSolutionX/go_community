@@ -1913,13 +1913,16 @@ func (tx *Tx) closePrepared() {
 
 // Commit commits the transaction.
 func (tx *Tx) Commit() error {
-	if !atomic.CompareAndSwapInt32(&tx.done, 0, 1) {
-		return ErrTxDone
-	}
 	select {
 	default:
 	case <-tx.ctx.Done():
+		if atomic.LoadInt32(&tx.done) == 1 {
+			return ErrTxDone
+		}
 		return tx.ctx.Err()
+	}
+	if !atomic.CompareAndSwapInt32(&tx.done, 0, 1) {
+		return ErrTxDone
 	}
 	var err error
 	withLock(tx.dc, func() {
