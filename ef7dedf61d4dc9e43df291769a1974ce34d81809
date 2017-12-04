@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0d0b992_1ec34208",
+        "filename": "test/fixedbugs/issue22881.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2017-12-04T22:56:24Z",
+      "side": 1,
+      "message": "Another interesting case would be:\n\n    var z int\n    m[0] /\u003d z",
+      "revId": "ef7dedf61d4dc9e43df291769a1974ce34d81809",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
