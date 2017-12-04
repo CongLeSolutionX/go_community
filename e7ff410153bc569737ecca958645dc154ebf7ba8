@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08d33f52_6b09c386",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2682,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-12-04T20:46:21Z",
+      "side": 1,
+      "message": "Add an issue number to this comment.",
+      "revId": "e7ff410153bc569737ecca958645dc154ebf7ba8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "284fb186_4a97b090",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 2683,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-12-04T20:46:21Z",
+      "side": 1,
+      "message": "Can you just do (ADDQconst [off] x:(SP)) -\u003e (LEAQ [off] x)",
+      "revId": "e7ff410153bc569737ecca958645dc154ebf7ba8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
