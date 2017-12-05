@@ -165,6 +165,30 @@
       "revId": "790fa44d28541f584988d281d43f14dcee0dd804",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04b17508_b029ce11",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-12-05T17:26:12Z",
+      "side": 1,
+      "message": "I have tried to attach your patch, but couldn\u0027t. So I have fix a few syntax error and algorithm.\nThe behavior of srcset test is modified if url is not safe.\nCould you review the current patch set?",
+      "parentUuid": "80607677_523f2b7a",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 20
+      },
+      "revId": "790fa44d28541f584988d281d43f14dcee0dd804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
