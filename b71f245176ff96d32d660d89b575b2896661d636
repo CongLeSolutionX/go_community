@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9c13cc8_a5cefe42",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-12-05T23:06:40Z",
+      "side": 1,
+      "message": "The original is better because * matches something implicit. Making it explicit dulls the point - one can respond, \"don\u0027t do that\".\n\nI would prefer to leave as is, but for the stubborn or confused, maybe\n\nwhere * is a shell wildcard, will change if it matches a file called ....",
+      "revId": "b71f245176ff96d32d660d89b575b2896661d636",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
