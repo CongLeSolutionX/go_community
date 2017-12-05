@@ -6,12 +6,14 @@ package trace_test
 
 import (
 	"bytes"
+	"fmt"
 	"internal/testenv"
 	"internal/trace"
 	"net"
 	"os"
 	"runtime"
 	. "runtime/trace"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -125,14 +127,15 @@ func TestTraceSymbolize(t *testing.T) {
 	wp.Write(data[:])
 	<-pipeReadDone
 
+	oldGoMaxProcs := runtime.GOMAXPROCS(1)
+
 	Stop()
+
+	runtime.GOMAXPROCS(oldGoMaxProcs)
+
 	events, _ := parseTrace(t, buf)
 
 	// Now check that the stacks are correct.
-	type frame struct {
-		Fn   string
-		Line int
-	}
 	type eventDesc struct {
 		Type byte
 		Stk  []frame
@@ -140,90 +143,96 @@ func TestTraceSymbolize(t *testing.T) {
 	want := []eventDesc{
 		{trace.EvGCStart, []frame{
 			{"runtime.GC", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 107},
+			{"runtime/trace_test.TestTraceSymbolize", 109},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoStart, []frame{
-			{"runtime/trace_test.TestTraceSymbolize.func1", 37},
+			{"runtime/trace_test.TestTraceSymbolize.func1", 39},
 		}},
 		{trace.EvGoSched, []frame{
-			{"runtime/trace_test.TestTraceSymbolize", 108},
+			{"runtime/trace_test.TestTraceSymbolize", 110},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoCreate, []frame{
-			{"runtime/trace_test.TestTraceSymbolize", 37},
+			{"runtime/trace_test.TestTraceSymbolize", 39},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoStop, []frame{
 			{"runtime.block", 0},
-			{"runtime/trace_test.TestTraceSymbolize.func1", 38},
+			{"runtime/trace_test.TestTraceSymbolize.func1", 40},
 		}},
 		{trace.EvGoStop, []frame{
 			{"runtime.chansend1", 0},
-			{"runtime/trace_test.TestTraceSymbolize.func2", 42},
+			{"runtime/trace_test.TestTraceSymbolize.func2", 44},
 		}},
 		{trace.EvGoStop, []frame{
 			{"runtime.chanrecv1", 0},
-			{"runtime/trace_test.TestTraceSymbolize.func3", 46},
+			{"runtime/trace_test.TestTraceSymbolize.func3", 48},
 		}},
 		{trace.EvGoBlockRecv, []frame{
 			{"runtime.chanrecv1", 0},
-			{"runtime/trace_test.TestTraceSymbolize.func4", 50},
+			{"runtime/trace_test.TestTraceSymbolize.func4", 52},
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"runtime.chansend1", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 110},
+			{"runtime/trace_test.TestTraceSymbolize", 112},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSend, []frame{
 			{"runtime.chansend1", 0},
-			{"runtime/trace_test.TestTraceSymbolize.func5", 54},
+			{"runtime/trace_test.TestTraceSymbolize.func5", 56},
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"runtime.chanrecv1", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 111},
+			{"runtime/trace_test.TestTraceSymbolize", 113},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSelect, []frame{
 			{"runtime.selectgo", 0},
-			{"runtime/trace_test.TestTraceSymbolize.func6", 59},
+			{"runtime/trace_test.TestTraceSymbolize.func6", 61},
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"runtime.selectgo", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 112},
+			{"runtime/trace_test.TestTraceSymbolize", 114},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSync, []frame{
 			{"sync.(*Mutex).Lock", 0},
-			{"runtime/trace_test.TestTraceSymbolize.func7", 67},
+			{"runtime/trace_test.TestTraceSymbolize.func7", 69},
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"sync.(*Mutex).Unlock", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 116},
+			{"runtime/trace_test.TestTraceSymbolize", 118},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockSync, []frame{
 			{"sync.(*WaitGroup).Wait", 0},
-			{"runtime/trace_test.TestTraceSymbolize.func8", 73},
+			{"runtime/trace_test.TestTraceSymbolize.func8", 75},
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"sync.(*WaitGroup).Add", 0},
 			{"sync.(*WaitGroup).Done", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 117},
+			{"runtime/trace_test.TestTraceSymbolize", 119},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoBlockCond, []frame{
 			{"sync.(*Cond).Wait", 0},
-			{"runtime/trace_test.TestTraceSymbolize.func9", 78},
+			{"runtime/trace_test.TestTraceSymbolize.func9", 80},
 		}},
 		{trace.EvGoUnblock, []frame{
 			{"sync.(*Cond).Signal", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 118},
+			{"runtime/trace_test.TestTraceSymbolize", 120},
 			{"testing.tRunner", 0},
 		}},
 		{trace.EvGoSleep, []frame{
 			{"time.Sleep", 0},
-			{"runtime/trace_test.TestTraceSymbolize", 109},
+			{"runtime/trace_test.TestTraceSymbolize", 111},
+			{"testing.tRunner", 0},
+		}},
+		{trace.EvGomaxprocs, []frame{
+			{"runtime.startTheWorld", 0}, // this is when the current gomaxprocs is logged.
+			{"runtime.GOMAXPROCS", 0},
+			{"runtime/trace_test.TestTraceSymbolize", 130},
 			{"testing.tRunner", 0},
 		}},
 	}
@@ -235,7 +244,7 @@ func TestTraceSymbolize(t *testing.T) {
 				{"net.(*netFD).accept", 0},
 				{"net.(*TCPListener).accept", 0},
 				{"net.(*TCPListener).Accept", 0},
-				{"runtime/trace_test.TestTraceSymbolize.func10", 86},
+				{"runtime/trace_test.TestTraceSymbolize.func10", 88},
 			}},
 			{trace.EvGoSysCall, []frame{
 				{"syscall.read", 0},
@@ -243,7 +252,7 @@ func TestTraceSymbolize(t *testing.T) {
 				{"internal/poll.(*FD).Read", 0},
 				{"os.(*File).read", 0},
 				{"os.(*File).Read", 0},
-				{"runtime/trace_test.TestTraceSymbolize.func11", 102},
+				{"runtime/trace_test.TestTraceSymbolize.func11", 104},
 			}},
 		}...)
 	}
@@ -265,21 +274,44 @@ func TestTraceSymbolize(t *testing.T) {
 		}
 	}
 	for i, m := range matched {
+		w := want[i]
 		if m {
+			t.Logf("matched event %s\nwant\n%s\nseen\n%s",
+				trace.EventDescriptions[w.Type].Name, dumpFrames(w.Stk), dumpEventStacks(w.Type, events))
 			continue
 		}
-		w := want[i]
-		t.Errorf("did not match event %v at %v:%v", trace.EventDescriptions[w.Type].Name, w.Stk[0].Fn, w.Stk[0].Line)
-		t.Errorf("seen the following events of this type:")
-		for _, ev := range events {
-			if ev.Type != w.Type {
-				continue
-			}
-			for _, f := range ev.Stk {
-				t.Logf("  %v :: %s:%v", f.Fn, f.File, f.Line)
-			}
-			t.Logf("---")
-		}
-		t.Logf("======")
+		t.Errorf("ERROR: DID NOT MATCH event %s\nWANT\n%s\nSEEN\n%s",
+			trace.EventDescriptions[w.Type].Name, dumpFrames(w.Stk), dumpEventStacks(w.Type, events))
 	}
+}
+
+func dumpEventStacks(typ byte, events []*trace.Event) []byte {
+	o := new(bytes.Buffer)
+	for _, ev := range events {
+		if ev.Type != typ {
+			continue
+		}
+		fmt.Fprintf(o, "Offset %d\n", ev.Off)
+		for _, f := range ev.Stk {
+			fname := f.File
+			if idx := strings.Index(fname, "/go/src/"); idx > 0 {
+				fname = fname[idx:]
+			}
+			fmt.Fprintf(o, " %v\t%s:%d\n", f.Fn, fname, f.Line)
+		}
+	}
+	return o.Bytes()
+}
+
+type frame struct {
+	Fn   string
+	Line int
+}
+
+func dumpFrames(frames []frame) []byte {
+	o := new(bytes.Buffer)
+	for _, f := range frames {
+		fmt.Fprintf(o, " %v\t*:%d\n", f.Fn, f.Line)
+	}
+	return o.Bytes()
 }
