@@ -141,6 +141,30 @@
       "revId": "790fa44d28541f584988d281d43f14dcee0dd804",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80607677_523f2b7a",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-12-05T14:20:47Z",
+      "side": 1,
+      "message": "I think we should consistently filter URLs.  URLs in media srcs do not cause XSS in modern browsers (usually) but I don\u0027t know about older browsers and changing a srcset with a single URL to a src should not cause a change in behavior.\n\nhttps://github.com/golang/go/issues/17441#issuecomment-349316862 has a patch that shows how we could use the existing code to filter and normalize URLs in a srcset value.\n\nI can try to attach it as a patchset to this review if you\u0027d like or you can incorporate it on your end.",
+      "parentUuid": "5549a006_14cc8a2a",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 20
+      },
+      "revId": "790fa44d28541f584988d281d43f14dcee0dd804",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
