@@ -1044,6 +1044,10 @@ now apply <code>If-Range</code> checks to <code>HEAD</code> requests.
 <code>FileServer</code> also now reports directory read failures to the <a href="/pkg/net/http/#Server"><code>Server</code></a>'s <code>ErrorLog</code>.
 </p>
 <p>
+<!-- CL 46631 -->
+The <code>Server</code> will no longer add an implicit Content-Type when a <code>Handler</code> does not write any output.
+</p>
+<p>
 <a href="/pkg/net/http/#Redirect"><code>Redirect</code></a> now sets the <code>Content-Type</code> header before writing its HTTP response.
 </p>
 </dl>
