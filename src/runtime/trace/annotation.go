@@ -74,9 +74,11 @@ type task struct {
 	// TODO(hyangah): record parent id?
 }
 
+var lastTaskID uint64 = 0 // task id issued last time
+
 func newID() uint64 {
-	// TODO(hyangah): implement
-	return 0
+	// TODO(hyangah): use per-P cache
+	return atomic.AddUint64(&lastTaskID, 1)
 }
 
 var bgTask = task{id: uint64(0)}
@@ -96,7 +98,10 @@ func Log(ctx context.Context, category, message string) {
 // This API is EXPERIMENTAL and may change in the future.
 func Logf(ctx context.Context, category, format string, args ...interface{}) {
 	if IsEnabled() {
-		Log(ctx, category, fmt.Sprintf(format, args...))
+		// Ideally this should be just Log, but that will
+		// add one more frame in the stack trace.
+		id := fromContext(ctx).id
+		userLog(id, category, fmt.Sprintf(format, args...))
 	}
 }
 
