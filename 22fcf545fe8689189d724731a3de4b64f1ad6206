@@ -16,6 +16,24 @@
       "revId": "22fcf545fe8689189d724731a3de4b64f1ad6206",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e0de10a_b91d74ca",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 9735
+      },
+      "writtenOn": "2017-12-06T17:12:16Z",
+      "side": 1,
+      "message": "Nice catch. I added a test for this.",
+      "parentUuid": "79b86945_310b57a4",
+      "revId": "22fcf545fe8689189d724731a3de4b64f1ad6206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
