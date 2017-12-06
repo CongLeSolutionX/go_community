@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79b86945_310b57a4",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-12-06T15:17:46Z",
+      "side": 1,
+      "message": "Seems like you may also need to set destring \u003d false.",
+      "revId": "22fcf545fe8689189d724731a3de4b64f1ad6206",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
