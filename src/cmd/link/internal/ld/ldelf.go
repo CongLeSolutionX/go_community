@@ -1,3 +1,4 @@
+<<<<<<< HEAD   (c36033 [dev.boringcrypto] misc/boring: add go1.9.2b4 release)
 package ld
 
 import (
@@ -1223,3 +1224,5 @@ func relSize(ctxt *Link, pn string, elftype uint32) uint8 {
 		return 8
 	}
 }
+=======
+>>>>>>> BRANCH (a032f7 crypto/x509/pkix: remove references to fmt.Stringer in Strin)

@@ -98,8 +98,8 @@ func TestFuzz(t *testing.T) {
 
 func randomBytes(n int, rand *rand.Rand) []byte {
 	r := make([]byte, n)
-	for i := 0; i < n; i++ {
-		r[i] = byte(rand.Int31())
+	if _, err := rand.Read(r); err != nil {
+		panic("rand.Read failed: " + err.Error())
 	}
 	return r
 }
@@ -116,7 +116,11 @@ func (*clientHelloMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 	m.sessionId = randomBytes(rand.Intn(32), rand)
 	m.cipherSuites = make([]uint16, rand.Intn(63)+1)
 	for i := 0; i < len(m.cipherSuites); i++ {
-		m.cipherSuites[i] = uint16(rand.Int31())
+		cs := uint16(rand.Int31())
+		if cs == scsvRenegotiation {
+			cs += 1
+		}
+		m.cipherSuites[i] = cs
 	}
 	m.compressionMethods = randomBytes(rand.Intn(63)+1, rand)
 	if rand.Intn(10) > 5 {
@@ -141,7 +145,11 @@ func (*clientHelloMsg) Generate(rand *rand.Rand, size int) reflect.Value {
 		}
 	}
 	if rand.Intn(10) > 5 {
+<<<<<<< HEAD   (c36033 [dev.boringcrypto] misc/boring: add go1.9.2b4 release)
 		m.signatureAndHashes = supportedSignatureAlgorithms()
+=======
+		m.supportedSignatureAlgorithms = supportedSignatureAlgorithms
+>>>>>>> BRANCH (a032f7 crypto/x509/pkix: remove references to fmt.Stringer in Strin)
 	}
 	m.alpnProtocols = make([]string, rand.Intn(5))
 	for i := range m.alpnProtocols {

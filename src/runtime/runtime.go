@@ -58,6 +58,7 @@ func syscall_Getpagesize() int { return int(physPageSize) }
 //go:linkname os_runtime_args os.runtime_args
 func os_runtime_args() []string { return append([]string{}, argslice...) }
 
+<<<<<<< HEAD   (c36033 [dev.boringcrypto] misc/boring: add go1.9.2b4 release)
 //go:linkname boring_runtime_arg0 crypto/internal/boring.runtime_arg0
 func boring_runtime_arg0() string {
 	// On Windows, argslice is not set, and it's too much work to find argv0.
@@ -69,3 +70,10 @@ func boring_runtime_arg0() string {
 
 //go:linkname fipstls_runtime_arg0 crypto/internal/boring/fipstls.runtime_arg0
 func fipstls_runtime_arg0() string { return boring_runtime_arg0() }
+=======
+//go:linkname syscall_Exit syscall.Exit
+//go:nosplit
+func syscall_Exit(code int) {
+	exit(int32(code))
+}
+>>>>>>> BRANCH (a032f7 crypto/x509/pkix: remove references to fmt.Stringer in Strin)
