@@ -17,7 +17,6 @@ import (
 	"fmt"
 	"math"
 	"reflect"
-	"runtime"
 	"sort"
 	"strconv"
 	"strings"
@@ -286,13 +285,11 @@ func newEncodeState() *encodeState {
 func (e *encodeState) marshal(v interface{}, opts encOpts) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
-			if _, ok := r.(runtime.Error); ok {
+			if je, ok := r.(jsonError); ok {
+				err = je.error
+			} else {
 				panic(r)
 			}
-			if s, ok := r.(string); ok {
-				panic(s)
-			}
-			err = r.(error)
 		}
 	}()
 	e.reflectValue(reflect.ValueOf(v), opts)
@@ -300,7 +297,7 @@ func (e *encodeState) marshal(v interface{}, opts encOpts) (err error) {
 }
 
 func (e *encodeState) error(err error) {
-	panic(err)
+	panic(jsonError{err})
 }
 
 func isEmptyValue(v reflect.Value) bool {

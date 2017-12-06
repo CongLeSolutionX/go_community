@@ -14,7 +14,6 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
-	"runtime"
 	"strconv"
 	"unicode"
 	"unicode/utf16"
@@ -168,13 +167,16 @@ func (e *InvalidUnmarshalError) Error() string {
 	return "json: Unmarshal(nil " + e.Type.String() + ")"
 }
 
+type jsonError struct{ error }
+
 func (d *decodeState) unmarshal(v interface{}) (err error) {
 	defer func() {
 		if r := recover(); r != nil {
-			if _, ok := r.(runtime.Error); ok {
+			if je, ok := r.(jsonError); ok {
+				err = je.error
+			} else {
 				panic(r)
 			}
-			err = r.(error)
 		}
 	}()
 
@@ -297,7 +299,7 @@ func (d *decodeState) init(data []byte) *decodeState {
 
 // error aborts the decoding by panicking with err.
 func (d *decodeState) error(err error) {
-	panic(d.addErrorContext(err))
+	panic(jsonError{d.addErrorContext(err)})
 }
 
 // saveError saves the first err it is called with,
