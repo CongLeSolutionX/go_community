@@ -1162,6 +1162,109 @@ func TestBasicAuthHeadersPreserved(t *testing.T) {
 
 }
 
+type legacyTransport struct {
+	cancel func()
+	server *httptest.Server
+}
+
+func (tr *legacyTransport) RoundTrip(req *Request) (*Response, error) {
+	reqWithoutCtx, err := NewRequest(req.Method, req.URL.String(), req.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	tr.cancel = cancel
+	return tr.server.Client().Do(reqWithoutCtx.WithContext(ctx))
+}
+
+func (tr *legacyTransport) CancelRequest(req *Request) {
+	tr.cancel()
+}
+
+func TestClientTimeoutWithLegacyRoundTripper(t *testing.T) {
+	setParallel(t)
+	defer afterTest(t)
+	testDone := make(chan struct{}) // closed in defer below
+
+	sawRoot := make(chan bool, 1)
+	sawSlow := make(chan bool, 1)
+
+	handler := HandlerFunc(func(w ResponseWriter, r *Request) {
+		if r.URL.Path == "/" {
+			sawRoot <- true
+			Redirect(w, r, "/slow", StatusFound)
+			return
+		}
+		if r.URL.Path == "/slow" {
+			sawSlow <- true
+			w.Write([]byte("Hello"))
+			w.(Flusher).Flush()
+			<-testDone
+			return
+		}
+	})
+
+	server := httptest.NewServer(handler)
+	client := &Client{Transport: &legacyTransport{server: server}}
+
+	defer server.Close()
+	defer close(testDone) // before server.Close, to unblock /slow handler
+
+	// 200ms should be long enough to get a normal request (the /
+	// handler), but not so long that it makes the test slow.
+	const timeout = 200 * time.Millisecond
+	client.Timeout = timeout
+
+	res, err := client.Get(server.URL + "/")
+	if err != nil {
+		if strings.Contains(err.Error(), "Client.Timeout") {
+			t.Skipf("host too slow to get fast resource in %v", timeout)
+		}
+		t.Fatal(err)
+	}
+
+	select {
+	case <-sawRoot:
+		// good.
+	default:
+		t.Fatal("handler never got / request")
+	}
+
+	select {
+	case <-sawSlow:
+		// good.
+	default:
+		t.Fatal("handler never got /slow request")
+	}
+
+	errc := make(chan error, 1)
+	go func() {
+		_, err := ioutil.ReadAll(res.Body)
+		errc <- err
+		res.Body.Close()
+	}()
+
+	const failTime = 5 * time.Second
+	select {
+	case err := <-errc:
+		if err == nil {
+			t.Fatal("expected error from ReadAll")
+		}
+		ne, ok := err.(net.Error)
+		if !ok {
+			t.Errorf("error value from ReadAll was %T; expected some net.Error", err)
+		} else if !ne.Timeout() {
+			t.Errorf("net.Error.Timeout = false; want true")
+		}
+		if got := ne.Error(); !strings.Contains(got, "Client.Timeout exceeded") {
+			t.Errorf("error string = %q; missing timeout substring", got)
+		}
+	case <-time.After(failTime):
+		t.Errorf("timeout after %v waiting for timeout of %v", failTime, timeout)
+	}
+}
+
 func TestClientTimeout_h1(t *testing.T) { testClientTimeout(t, h1Mode) }
 func TestClientTimeout_h2(t *testing.T) { testClientTimeout(t, h2Mode) }
 
