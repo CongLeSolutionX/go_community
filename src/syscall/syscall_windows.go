@@ -9,6 +9,7 @@ package syscall
 import (
 	errorspkg "errors"
 	"internal/race"
+	"runtime"
 	"sync"
 	"unicode/utf16"
 	"unsafe"
@@ -332,6 +333,16 @@ func Write(fd Handle, p []byte) (n int, err error) {
 
 var ioSync int64
 
+var procSetFilePointerEx = modkernel32.NewProc("SetFilePointerEx")
+
+func setFilePointerEx(handle Handle, distToMove int64, newFilePointer *int64, whence uint32) error {
+	_, _, e1 := Syscall6(procSetFilePointerEx.Addr(), 4, uintptr(handle), uintptr(distToMove), uintptr(unsafe.Pointer(newFilePointer)), uintptr(whence), 0, 0)
+	if e1 != 0 {
+		return errnoErr(e1)
+	}
+	return nil
+}
+
 func Seek(fd Handle, offset int64, whence int) (newoffset int64, err error) {
 	var w uint32
 	switch whence {
@@ -342,13 +353,17 @@ func Seek(fd Handle, offset int64, whence int) (newoffset int64, err error) {
 	case 2:
 		w = FILE_END
 	}
-	hi := int32(offset >> 32)
-	lo := int32(offset)
 	// use GetFileType to check pipe, pipe can't do seek
 	ft, _ := GetFileType(fd)
 	if ft == FILE_TYPE_PIPE {
 		return 0, ESPIPE
 	}
+	if runtime.GOARCH == "amd64" {
+		err = setFilePointerEx(fd, offset, &newoffset, w)
+		return
+	}
+	hi := int32(offset >> 32)
+	lo := int32(offset)
 	rlo, e := SetFilePointer(fd, lo, &hi, w)
 	if e != nil {
 		return 0, e
