@@ -1782,6 +1782,26 @@ func TestTransportResponseHeaderTimeout(t *testing.T) {
 	}
 }
 
+type legacyTransport struct {
+	cancel func()
+	server *httptest.Server
+}
+
+func (tr *legacyTransport) RoundTrip(req *Request) (*Response, error) {
+	reqWithoutCtx, err := NewRequest(req.Method, req.URL.String(), req.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	ctx, cancel := context.WithCancel(context.Background())
+	tr.cancel = cancel
+	return tr.server.Client().Do(reqWithoutCtx.WithContext(ctx))
+}
+
+func (tr *legacyTransport) CancelRequest(req *Request) {
+	tr.cancel()
+}
+
 func TestTransportCancelRequest(t *testing.T) {
 	setParallel(t)
 	defer afterTest(t)
