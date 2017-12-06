@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aad9383a_3e96ce3d",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2017-12-06T01:11:01Z",
+      "side": 1,
+      "message": "This CL claims to be ensuring that p.ModifyResponse has a chance to modify error responses sent because RoundTrip has failed. But this CL also changes the condition here from err !\u003d nil to res \u003d\u003d nil. Are you sure that\u0027s right?\n\nRoundTrippers that used to return non-nil res with non-nil err (incorrectly, but still) were handled correctly here by assuming the err was what mattered. But now the response from RoundTrip (which might well be garbage) is being processed and sent back. I am not convinced that\u0027s desirable.",
+      "revId": "5ea2360b6643ec53018b1c080f4824b8238bff3a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
