@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf40ad76_7b100d49",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-12-07T15:38:23Z",
+      "side": 1,
+      "message": "Please use increment operator; \ni++",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa8d84dd_fc9e8ee8",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-12-07T15:38:23Z",
+      "side": 1,
+      "message": "One-liner is good to me. \nif c :\u003d s[i]; c \u003d\u003d \u0027,\u0027 {",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0e8fc2d_6f484140",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-12-07T15:38:23Z",
+      "side": 1,
+      "message": "i++",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2ab79ab_01d21bc2",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-12-07T15:38:23Z",
+      "side": 1,
+      "message": "i++",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29444592_bbd43030",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2017-12-07T15:38:23Z",
+      "side": 1,
+      "message": "These line can be early returned.\n\nurl :\u003d s[start:end]\nif !isSafeUrl(url) {\n  b.WriteString(\"#\")\n  b.WriteString(filterFailsafe)\n  return\n}\n...",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
