@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c76b4ad_cb3cea64",
+        "filename": "src/os/os_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 1383,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-12-07T19:30:18Z",
+      "side": 1,
+      "message": "ugh, typo in golang. fixing.",
+      "revId": "97902deb55a30e9396077efe92a7dcaa10414de9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
