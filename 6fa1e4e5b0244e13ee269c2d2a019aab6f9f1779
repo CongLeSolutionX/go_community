@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "37b6b536_8dd0a6e1",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-12-07T15:51:56Z",
+      "side": 1,
+      "message": "Done x 3",
+      "parentUuid": "bf40ad76_7b100d49",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa8d84dd_fc9e8ee8",
         "filename": "src/html/template/url.go",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d5662e5_e9558e2f",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-12-07T15:51:56Z",
+      "side": 1,
+      "message": "Got rid of singly used c.",
+      "parentUuid": "aa8d84dd_fc9e8ee8",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e2ca5a2c_01843054",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-12-07T15:51:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0e8fc2d_6f484140",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2ab79ab_01d21bc2",
         "filename": "src/html/template/url.go",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "4122b76e_3cb8d6bd",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-12-07T15:51:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2ab79ab_01d21bc2",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29444592_bbd43030",
         "filename": "src/html/template/url.go",
         "patchSetId": 8
@@ -81,6 +153,24 @@
       "writtenOn": "2017-12-07T15:38:23Z",
       "side": 1,
       "message": "These line can be early returned.\n\nurl :\u003d s[start:end]\nif !isSafeUrl(url) {\n  b.WriteString(\"#\")\n  b.WriteString(filterFailsafe)\n  return\n}\n...",
+      "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f44df91_b7b60127",
+        "filename": "src/html/template/url.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 17511
+      },
+      "writtenOn": "2017-12-07T15:51:56Z",
+      "side": 1,
+      "message": "This would have to be done twice.  Once if ~isSafeUrl and later if !metadataOk.",
+      "parentUuid": "29444592_bbd43030",
       "revId": "6fa1e4e5b0244e13ee269c2d2a019aab6f9f1779",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
