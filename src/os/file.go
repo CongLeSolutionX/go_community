@@ -241,6 +241,11 @@ func Open(name string) (*File, error) {
 	return OpenFile(name, O_RDONLY, 0)
 }
 
+// OpenAt opens the named file for writing and the append flag.
+func OpenAt(name string) (*File, error) {
+	return OpenFile(name, O_WRONLY|O_APPEND, 0)
+}
+
 // Create creates the named file with mode 0666 (before umask), truncating
 // it if it already exists. If successful, methods on the returned
 // File can be used for I/O; the associated file descriptor has mode
