@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d870e7c_63abd378",
+        "filename": "src/net/http/client_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-12-08T00:15:49Z",
+      "side": 1,
+      "message": "What\u0027s the NewRequest for?\n\nwhy don\u0027t you just write req.WithContext on line 1178?",
+      "range": {
+        "startLine": 1171,
+        "startChar": 1,
+        "endLine": 1175,
+        "endChar": 0
+      },
+      "revId": "1a1d69cb68d01b3379c4e0c1ab0da847eac0c6d4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
