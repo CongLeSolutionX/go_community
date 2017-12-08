@@ -78,7 +78,13 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	VFMLS	V1.D2, V12.D2, V1.D2            // 81cde14e
 	VFMLS	V1.S2, V12.S2, V1.S2            // 81cda10e
 	VFMLS	V1.S4, V12.S4, V1.S4            // 81cda14e
-
+	MOVD	(R2)(R6.SXTW), R4               // 44c866f8
+	MOVD	(R3)(R6), R5                    // MOVD	(R3)(R6*1), R5                  // 656866f8
+	MOVD	(R2)(R6), R4                    // MOVD	(R2)(R6*1), R4                  // 446866f8
+	MOVWU	(R19)(R18<<2), R18              // 727a72b8
+	MOVD	(R2)(R6<<3), R4                 // 447866f8
+	MOVD	(R3)(R7.SXTX<<3), R8            // 68f867f8
+	MOVWU	(R5)(R4.UXTW), R10              // aa4864b8
 //	LTYPE1 imsr ',' spreg ','
 //	{
 //		outcode($1, &$2, $4, &nullgen);

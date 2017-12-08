@@ -605,6 +605,8 @@ var optab = []Optab{
 	{AVCNT, C_ARNG, C_NONE, C_ARNG, 29, 4, 0, 0, 0},
 	{AVMOVI, C_ADDCON, C_NONE, C_ARNG, 86, 4, 0, 0, 0},
 	{AVFMLA, C_ARNG, C_ARNG, C_ARNG, 72, 4, 0, 0, 0},
+	{AMOVD, C_ROFF, C_NONE, C_REG, 93, 4, 0, 0, 0},
+	{AMOVW, C_ROFF, C_NONE, C_REG, 93, 4, 0, 0, 0},
 
 	{obj.AUNDEF, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0},
 	{obj.APCDATA, C_VCON, C_NONE, C_VCON, 0, 0, 0, 0, 0},
@@ -1312,8 +1314,13 @@ func (c *ctxt7) aclass(a *obj.Addr) int {
 		case obj.NAME_NONE:
 			if a.Index != 0 {
 				if a.Offset != 0 {
+					if (a.Index-obj.RBaseARM64)&REG_EXT != 0 || (a.Index-obj.RBaseARM64)&REG_LSL != 0 {
+						// extended or shifted register offset, (Rn)(Rm.UXTW<<2) or (Rn)(Rm<<2).
+						return C_ROFF
+					}
 					return C_GOK
 				}
+				// register offset, (Rn)(Rm)
 				return C_ROFF
 			}
 			c.instoffset = a.Offset
@@ -2838,7 +2845,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("REGTMP used in large offset load: %v", p)
 		}
 		o1 = c.omovlit(AMOVD, p, &p.From, REGTMP)
-		o2 = c.olsxrr(p, int32(c.opldrr(p, p.As)), int(p.To.Reg), r, REGTMP)
+		o2 = c.olsxrr(p, int32(c.opldrr(p, p.As, false)), int(p.To.Reg), r, REGTMP)
 
 	case 32: /* mov $con, R -> movz/movn */
 		o1 = c.omovconst(p.As, p, &p.From, int(p.To.Reg))
@@ -3678,6 +3685,9 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 				o1 |= 0x1f << 16
 			} else {
 				// register offset variant
+				if (p.From.Index-obj.RBaseARM64)&REG_EXT != 0 || (p.From.Index-obj.RBaseARM64)&REG_LSL != 0 {
+					c.ctxt.Diag("invalid extended register op: %v\n", p)
+				}
 				o1 |= uint32(p.From.Index&31) << 16
 			}
 		}
@@ -3767,6 +3777,9 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 				o1 |= 0x1f << 16
 			} else {
 				// register offset variant
+				if (p.To.Index-obj.RBaseARM64)&REG_EXT != 0 || (p.To.Index-obj.RBaseARM64)&REG_LSL != 0 {
+					c.ctxt.Diag("invalid extended register: %v\n", p)
+				}
 				o1 |= uint32(p.To.Index&31) << 16
 			}
 		}
@@ -3871,6 +3884,30 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	case 90:
 		o1 = 0xbea71700
 
+	case 91: /* prfm imm(Rn), <prfop | $imm5> */
+		imm := uint32(p.From.Offset)
+		r := p.From.Reg
+		v := uint32(0xff)
+		if p.To.Type == obj.TYPE_CONST {
+			v = uint32(p.To.Offset)
+			if v > 31 {
+				c.ctxt.Diag("illegal prefetch operation\n%v", p)
+			}
+		} else {
+			for i := 0; i < len(prfopfield); i++ {
+				if prfopfield[i].reg == p.To.Reg {
+					v = prfopfield[i].enc
+					break
+				}
+			}
+			if v == 0xff {
+				c.ctxt.Diag("illegal prefetch operation:\n%v", p)
+			}
+		}
+
+		o1 = c.opldrpp(p, p.As)
+		o1 |= (uint32(r&31) << 5) | (uint32((imm>>3)&0xfff) << 10) | (uint32(v & 31))
+
 	case 92: /* vmov Vn.<T>[index], Vd.<T>[index] */
 		rf := int(p.From.Reg)
 		rt := int(p.To.Reg)
@@ -3912,32 +3949,23 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(imm4&0xf) << 11) | (uint32(rf&31) << 5) | uint32(rt&31)
 
-		break
-
-	case 91: /* prfm imm(Rn), <prfop | $imm5> */
-		imm := uint32(p.From.Offset)
-		r := p.From.Reg
-		v := uint32(0xff)
-		if p.To.Type == obj.TYPE_CONST {
-			v = uint32(p.To.Offset)
-			if v > 31 {
-				c.ctxt.Diag("illegal prefetch operation\n%v", p)
-			}
+	case 93: /* MOVD (Rn)(Rm.SXTW[<<amount]),Rd */
+		if p.From.Offset != 0 {
+			// extended or shifted offset register.
+			c.checkamount(p, p.As)
+			o1 = c.opldrr(p, p.As, true)
+			o1 |= uint32(p.From.Offset) /* includes reg, op, etc */
 		} else {
-			for i := 0; i < len(prfopfield); i++ {
-				if prfopfield[i].reg == p.To.Reg {
-					v = prfopfield[i].enc
-					break
-				}
-			}
-			if v == 0xff {
-				c.ctxt.Diag("illegal prefetch operation:\n%v", p)
-			}
+			// (Rn)(Rm), no extension or shift.
+			o1 = c.opldrr(p, p.As, false)
+			o1 |= uint32(p.From.Index&31) << 16
 		}
-
-		o1 = c.opldrpp(p, p.As)
-		o1 |= (uint32(r&31) << 5) | ((imm >> 3) & 0xfff << 10) | (v & 31)
-
+		o1 |= uint32(p.From.Reg&31) << 5
+		rt := int(p.To.Reg)
+		if p.To.Type == obj.TYPE_NONE {
+			rt = REGZERO
+		}
+		o1 |= uint32(rt & 31)
 	}
 	out[0] = o1
 	out[1] = o2
@@ -5253,26 +5281,31 @@ func (c *ctxt7) olsxrr(p *obj.Prog, o int32, r int, r1 int, r2 int) uint32 {
 
 // opldrr returns the ARM64 opcode encoding corresponding to the obj.As opcode
 // for load instruction with register offset.
-func (c *ctxt7) opldrr(p *obj.Prog, a obj.As) uint32 {
+// The offset register can be (Rn)(Rm.UXTW<<2) or (Rn)(Rm<<2) or (Rn)(Rm).
+func (c *ctxt7) opldrr(p *obj.Prog, a obj.As, extension bool) uint32 {
+	OptionS := uint32(0x1a)
+	if extension {
+		OptionS = uint32(0) // option value and S value have been encoded into p.From.Offset.
+	}
 	switch a {
 	case AMOVD:
-		return 0x1a<<10 | 0x3<<21 | 0x1f<<27
+		return OptionS<<10 | 0x3<<21 | 0x1f<<27
 	case AMOVW:
-		return 0x1a<<10 | 0x5<<21 | 0x17<<27
+		return OptionS<<10 | 0x5<<21 | 0x17<<27
 	case AMOVWU:
-		return 0x1a<<10 | 0x3<<21 | 0x17<<27
+		return OptionS<<10 | 0x3<<21 | 0x17<<27
 	case AMOVH:
-		return 0x1a<<10 | 0x5<<21 | 0x0f<<27
+		return OptionS<<10 | 0x5<<21 | 0x0f<<27
 	case AMOVHU:
-		return 0x1a<<10 | 0x3<<21 | 0x0f<<27
+		return OptionS<<10 | 0x3<<21 | 0x0f<<27
 	case AMOVB:
-		return 0x1a<<10 | 0x5<<21 | 0x07<<27
+		return OptionS<<10 | 0x5<<21 | 0x07<<27
 	case AMOVBU:
-		return 0x1a<<10 | 0x3<<21 | 0x07<<27
+		return OptionS<<10 | 0x3<<21 | 0x07<<27
 	case AFMOVS:
-		return 0x1a<<10 | 0x3<<21 | 0x17<<27 | 1<<26
+		return OptionS<<10 | 0x3<<21 | 0x17<<27 | 1<<26
 	case AFMOVD:
-		return 0x1a<<10 | 0x3<<21 | 0x1f<<27 | 1<<26
+		return OptionS<<10 | 0x3<<21 | 0x1f<<27 | 1<<26
 	}
 	c.ctxt.Diag("bad opldrr %v\n%v", a, p)
 	return 0
@@ -5445,6 +5478,21 @@ func (c *ctxt7) opextr(p *obj.Prog, a obj.As, v int32, rn int, rm int, rt int) u
 	o |= uint32(rm&31) << 16
 	o |= uint32(rt & 31)
 	return o
+}
+
+func (c *ctxt7) checkamount(p *obj.Prog, as obj.As) {
+	amount := (p.From.Index >> 5) & 7
+	switch as {
+	case AMOVWU:
+		if amount != 2 && amount != 0 {
+			c.ctxt.Diag("invalid index shift amount: %v", p)
+		}
+
+	case AMOVD:
+		if amount != 3 && amount != 0 {
+			c.ctxt.Diag("invalid index shift amount: %v", p)
+		}
+	}
 }
 
 /*

@@ -216,7 +216,12 @@ func Dconv(p *Prog, a *Addr) string {
 	case TYPE_MEM:
 		str = Mconv(a)
 		if a.Index != REG_NONE {
-			str += fmt.Sprintf("(%v*%d)", Rconv(int(a.Index)), int(a.Scale))
+			if a.Scale == 0 {
+				// arm64 shifted or extended register offset, scale = 0.
+				str += fmt.Sprintf("(%v)", Rconv(int(a.Index)))
+			} else {
+				str += fmt.Sprintf("(%v*%d)", Rconv(int(a.Index)), int(a.Scale))
+			}
 		}
 
 	case TYPE_CONST:
@@ -296,7 +301,17 @@ func Mconv(a *Addr) string {
 		case a.Offset == 0:
 			str = fmt.Sprintf("(%v)", Rconv(int(a.Reg)))
 		case a.Offset != 0:
-			str = fmt.Sprintf("%d(%v)", a.Offset, Rconv(int(a.Reg)))
+			switch objabi.GOARCH {
+			case "arm64":
+				// arm64 shifted or extended register offset.
+				if ((RBaseARM64+1<<11) <= a.Index && a.Index < (RBaseARM64+1<<12)) || ((RBaseARM64+1<<9) <= a.Index && a.Index < (RBaseARM64+1<<9+1<<8)) {
+					str = fmt.Sprintf("(%v)", Rconv(int(a.Reg)))
+				} else {
+					str = fmt.Sprintf("%d(%v)", a.Offset, Rconv(int(a.Reg)))
+				}
+			default:
+				str = fmt.Sprintf("%d(%v)", a.Offset, Rconv(int(a.Reg)))
+			}
 		}
 
 		// Note: a.Reg == REG_NONE encodes the default base register for the NAME_ type.
