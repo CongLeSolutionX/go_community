@@ -426,3 +426,14 @@ func BenchmarkUncommon(b *testing.B) {
 		}
 	}
 }
+
+func BenchmarkCanonicalMIMEHeaderKey(b *testing.B) {
+	b.ReportAllocs()
+	in := "Uncommon-Mime-Header-For-BenchmarK"
+	out := "Uncommon-Mime-Header-For-Benchmark"
+	for i := 0; i < b.N; i++ {
+		if s := CanonicalMIMEHeaderKey(in); s != out {
+			b.Fatalf("wrong canonicalized MIME header: got %q, want %q", s, out)
+		}
+	}
+}
