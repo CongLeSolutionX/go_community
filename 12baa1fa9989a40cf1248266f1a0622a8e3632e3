@@ -16,6 +16,24 @@
       "revId": "12baa1fa9989a40cf1248266f1a0622a8e3632e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57229b86_9a41904b",
+        "filename": "src/cmd/cgo/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2017-12-08T16:50:18Z",
+      "side": 1,
+      "message": "I just submitted https://go-review.googlesource.com/c/go/+/81876\nIt\u0027s in cmd/fix/jnitype.go.",
+      "parentUuid": "fc06aa4e_c76ebc4a",
+      "revId": "12baa1fa9989a40cf1248266f1a0622a8e3632e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
