@@ -285,7 +285,7 @@ func (check *Checker) infoFromTypeName(name *ast.Ident, path []*TypeName) *iface
 
 typenameLoop:
 	// t must be package-local interface type name
-	_, obj := check.scope.LookupParent(name.Name, check.pos)
+	obj := check.lookup(name.Name)
 	if obj == nil {
 		return nil
 	}
@@ -361,7 +361,7 @@ func (check *Checker) infoFromQualifiedTypeName(qname *ast.SelectorExpr) *ifaceI
 	if name == nil {
 		return nil
 	}
-	_, obj1 := check.scope.LookupParent(name.Name, check.pos)
+	obj1 := check.lookup(name.Name)
 	if obj1 == nil {
 		return nil
 	}
