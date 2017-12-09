@@ -17,6 +17,11 @@ package main
 #include <stdlib.h>
 #include <sys/mman.h>
 
+#ifdef __DragonFly__
+// On DragonFly MAP_STACK returns the top of the region.
+#undef MAP_STACK
+#endif
+
 #ifndef MAP_STACK
 #define MAP_STACK 0
 #endif
