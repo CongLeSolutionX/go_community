@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7a611cb5_9b6bad4e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-12-09T00:59:47Z",
+      "side": 1,
+      "message": "I was not. I found this by inspection when I was debugging the problem that led me to the nosplit change.",
+      "parentUuid": "b58ee6cf_3d148e21",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "f5f9a49424d292ea82cef35715084ef984c1fec1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aa27982d_0036c552",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2017-12-08T23:16:11Z",
       "side": 1,
       "message": "So if I understand this CL correctly, in the case where there\u0027s a panic() without any recover() and we\u0027re getting ready to terminate the process, we might overflow an array. This CL fixes that array overflow.\n\nIt still seems like there must be some underlying issue causing those intermittent unrecoverable panics.",
+      "revId": "f5f9a49424d292ea82cef35715084ef984c1fec1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9f21343_1263d84a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-12-09T00:59:47Z",
+      "side": 1,
+      "message": "That\u0027s right. Given that we\u0027re not seeing other failures due to unrecoverable panics, this probably doesn\u0027t fix the Darwin crashes. But it\u0027s memory corruption, so it\u0027s hard to say.",
+      "parentUuid": "aa27982d_0036c552",
       "revId": "f5f9a49424d292ea82cef35715084ef984c1fec1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
