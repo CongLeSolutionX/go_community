@@ -703,15 +703,23 @@ func (ft *DwarfFixupTable) GetPrecursorFunc(s *LSym) interface{} {
 	return nil
 }
 
-func (ft *DwarfFixupTable) SetPrecursorFunc(s *LSym, fn interface{}) {
+func (ft *DwarfFixupTable) SetPrecursorFunc(s *LSym, fn interface{}, imported bool) {
 	if _, found := ft.precursor[s]; found {
 		ft.ctxt.Diag("internal error: DwarfFixupTable.SetPrecursorFunc double call on %v", s)
 	}
 
-	// initialize abstract function symbol now. This is done here so
+	// Insure that we choose a symbol name that is different depending on
+	// whether the function is defined in this package vs. being imported.
+	// See issue #23046.
+	tag := ""
+	if !imported {
+		tag = "$_"
+	}
+
+	// Initialize abstract function symbol now. This is done here so
 	// as to avoid data races later on during the parallel portion of
 	// the back end.
-	absfn := ft.ctxt.LookupDerived(s, dwarf.InfoPrefix+s.Name+dwarf.AbstractFuncSuffix)
+	absfn := ft.ctxt.LookupDerived(s, dwarf.InfoPrefix+s.Name+tag+dwarf.AbstractFuncSuffix)
 	absfn.Set(AttrDuplicateOK, true)
 	absfn.Type = objabi.SDWARFINFO
 	ft.ctxt.Data = append(ft.ctxt.Data, absfn)

@@ -1010,7 +1010,8 @@ func mkinlcall1(n, fn *Node, isddd bool) *Node {
 
 	if genDwarfInline > 0 {
 		if !fn.Sym.Linksym().WasInlined() {
-			Ctxt.DwFixups.SetPrecursorFunc(fn.Sym.Linksym(), fn)
+			importedFn := fn.Name.Defn == nil
+			Ctxt.DwFixups.SetPrecursorFunc(fn.Sym.Linksym(), fn, importedFn)
 			fn.Sym.Linksym().Set(obj.AttrWasInlined, true)
 		}
 	}
