@@ -162,3 +162,22 @@ func TestIssue20855(t *testing.T) {
 		t.Error("got no package despite no hard errors")
 	}
 }
+
+func TestRelativeImport(t *testing.T) {
+	if !testenv.HasSrc() {
+		t.Skip("no source code available")
+	}
+
+	pkg, err := importer.Import("./testdata/issue23092")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if pkg.Name() != "issue23092" {
+		t.Errorf("got %q, want %q", pkg.Name(), "issue23092")
+	}
+
+	if pkg.Path() != "./testdata/issue23092" {
+		t.Errorf("got %q, want %q", pkg.Path(), "./testdata/issue23092")
+	}
+}
