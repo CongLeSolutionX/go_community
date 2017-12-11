@@ -60,23 +60,14 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 		panic("non-zero import mode")
 	}
 
-	// determine package path (do vendor resolution)
-	var bp *build.Package
-	var err error
-	switch {
-	default:
-		if abs, err := p.absPath(srcDir); err == nil { // see issue #14282
-			srcDir = abs
-		}
-		bp, err = p.ctxt.Import(path, srcDir, build.FindOnly)
-
-	case build.IsLocalImport(path):
-		// "./x" -> "srcDir/x"
-		bp, err = p.ctxt.ImportDir(filepath.Join(srcDir, path), build.FindOnly)
-
-	case p.isAbsPath(path):
+	if p.isAbsPath(path) {
 		return nil, fmt.Errorf("invalid absolute import path %q", path)
 	}
+
+	if abs, err := p.absPath(srcDir); err == nil { // see issue #14282
+		srcDir = abs
+	}
+	bp, err := p.ctxt.Import(path, srcDir, 0)
 	if err != nil {
 		return nil, err // err may be *build.NoGoError - return as is
 	}
@@ -113,11 +104,6 @@ func (p *Importer) ImportFrom(path, srcDir string, mode types.ImportMode) (*type
 		}
 	}()
 
-	// collect package files
-	bp, err = p.ctxt.ImportDir(bp.Dir, 0)
-	if err != nil {
-		return nil, err // err may be *build.NoGoError - return as is
-	}
 	var filenames []string
 	filenames = append(filenames, bp.GoFiles...)
 	filenames = append(filenames, bp.CgoFiles...)
