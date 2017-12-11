@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b5596d2_72548a40",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-12-11T16:04:22Z",
+      "side": 1,
+      "message": "Hmm, I suppose you are right. I\u0027ll use a better tag.",
+      "parentUuid": "d83e8e96_29407940",
+      "range": {
+        "startLine": 713,
+        "startChar": 8,
+        "endLine": 713,
+        "endChar": 11
+      },
+      "revId": "4743c587eca1f89002e804998303f097abd9c0b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84d56229_a5409237",
         "filename": "src/cmd/link/internal/ld/dwarf_test.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "fa3c709f_49093a5e",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-12-11T16:04:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84d56229_a5409237",
+      "range": {
+        "startLine": 455,
+        "startChar": 13,
+        "endLine": 455,
+        "endChar": 17
+      },
+      "revId": "4743c587eca1f89002e804998303f097abd9c0b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "660c3360_9e580dd6",
         "filename": "src/cmd/link/internal/ld/dwarf_test.go",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "4743c587eca1f89002e804998303f097abd9c0b5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30f040ff_07a20459",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2017-12-11T16:04:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "660c3360_9e580dd6",
+      "range": {
+        "startLine": 458,
+        "startChar": 24,
+        "endLine": 458,
+        "endChar": 26
+      },
+      "revId": "4743c587eca1f89002e804998303f097abd9c0b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
