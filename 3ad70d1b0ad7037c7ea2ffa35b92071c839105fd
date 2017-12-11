@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eef79fda_bf3fcc54",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 711,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-12-11T18:39:44Z",
+      "side": 1,
+      "message": "Ensure, I think.",
+      "range": {
+        "startLine": 711,
+        "startChar": 4,
+        "endLine": 711,
+        "endChar": 10
+      },
+      "revId": "3ad70d1b0ad7037c7ea2ffa35b92071c839105fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6f44c44_a02c2dea",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 716,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2017-12-11T18:39:44Z",
+      "side": 1,
+      "message": "Consider making this a little more self-describing?",
+      "revId": "3ad70d1b0ad7037c7ea2ffa35b92071c839105fd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
