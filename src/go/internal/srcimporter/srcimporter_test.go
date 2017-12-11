@@ -10,6 +10,8 @@ import (
 	"go/types"
 	"internal/testenv"
 	"io/ioutil"
+	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -198,5 +200,51 @@ func TestIssue20855(t *testing.T) {
 	}
 	if pkg == nil {
 		t.Error("got no package despite no hard errors")
+	}
+}
+
+// TestIssue23092 tests relative imports.
+func TestIssue23092(t *testing.T) {
+	if !testenv.HasSrc() {
+		t.Skip("no source code available")
+	}
+
+	const (
+		pkgName = "issue23092"
+		pkgPath = "./testdata/" + pkgName
+	)
+
+	pkg, err := importer.Import(pkgPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if pkg.Name() != pkgName {
+		t.Errorf("got %q; want %q", pkg.Name(), pkgName)
+	}
+
+	if pkg.Path() != pkgPath {
+		t.Errorf("got %q; want %q", pkg.Path(), pkgPath)
+	}
+}
+
+// TestIssue24392 tests imports against the path which contains 'testdata'
+func TestIssue24392(t *testing.T) {
+	if !testenv.HasSrc() {
+		t.Skip("no source code available")
+	}
+
+	testPath := "./testdata/issue24392"
+	goPath, err := filepath.Abs(testPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	main := filepath.Join(testPath, "main.go")
+
+	cmd := exec.Command(testenv.GoToolPath(t), "run", main)
+	cmd.Env = append(os.Environ(), "GOPATH="+goPath)
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatalf("GOPATH=%q go run %s: %v\n%s", goPath, main, err, out)
 	}
 }
