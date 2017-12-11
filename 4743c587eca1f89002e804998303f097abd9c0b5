@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d83e8e96_29407940",
+        "filename": "src/cmd/internal/obj/objfile.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-12-11T15:48:06Z",
+      "side": 1,
+      "message": "If I am so tasteless as to name an imported function \"F_\", will it clash with a not-imported \"F\"?\nCan we use a more out-of-band tag here? (if that is the case)",
+      "range": {
+        "startLine": 713,
+        "startChar": 8,
+        "endLine": 713,
+        "endChar": 11
+      },
+      "revId": "4743c587eca1f89002e804998303f097abd9c0b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d56229_a5409237",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-12-11T15:48:06Z",
+      "side": 1,
+      "message": "I think you want %x, not %d.",
+      "range": {
+        "startLine": 455,
+        "startChar": 13,
+        "endLine": 455,
+        "endChar": 17
+      },
+      "revId": "4743c587eca1f89002e804998303f097abd9c0b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "660c3360_9e580dd6",
+        "filename": "src/cmd/link/internal/ld/dwarf_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2017-12-11T15:48:06Z",
+      "side": 1,
+      "message": "and here, 0x%x, perhaps?",
+      "range": {
+        "startLine": 458,
+        "startChar": 24,
+        "endLine": 458,
+        "endChar": 26
+      },
+      "revId": "4743c587eca1f89002e804998303f097abd9c0b5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
