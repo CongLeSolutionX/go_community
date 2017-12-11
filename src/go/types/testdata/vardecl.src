@@ -190,4 +190,17 @@ func _() {
 	_ = b
 }
 
+// Test case for variables depending on closures (see also #22992).
+var A /* ERROR initialization cycle */ = func() int { return A }()
+
+func _() {
+	// The closure below must not see a.
+	var a = func() int { return a /* ERROR "undeclared name" */ }()
+	var _ = func() int { return a }()
+
+	// The closure below must not see x, y, or z.
+	var x, y, z = 0, 1, func() int { return x /* ERROR "undeclared name" */ + y /* ERROR "undeclared name" */ + z /* ERROR "undeclared name" */ }()
+	_, _, _ = x, y, z
+}
+
 // TODO(gri) consolidate other var decl checks in this file

@@ -7,7 +7,6 @@
 package types
 
 import (
-	"fmt"
 	"go/ast"
 	"go/constant"
 	"go/token"
@@ -16,11 +15,10 @@ import (
 
 func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body *ast.BlockStmt) {
 	if trace {
-		if name == "" {
-			name = "<function literal>"
-		}
-		fmt.Printf("--- %s: %s {\n", name, sig)
-		defer fmt.Println("--- <end>")
+		check.trace(body.Pos(), "--- %s: %s", name, sig)
+		defer func() {
+			check.trace(body.End(), "--- <end>")
+		}()
 	}
 
 	// set function scope extent
@@ -52,8 +50,6 @@ func (check *Checker) funcBody(decl *declInfo, name string, sig *Signature, body
 
 	// spec: "Implementation restriction: A compiler may make it illegal to
 	// declare a variable inside a function body if the variable is never used."
-	// (One could check each scope after use, but that distributes this check
-	// over several places because CloseScope is not always called explicitly.)
 	check.usage(sig.scope)
 }
 
@@ -308,6 +304,9 @@ func (check *Checker) stmt(ctxt stmtContext, s ast.Stmt) {
 			assert(scope == check.scope)
 		}(check.scope)
 	}
+
+	// process collected closures before scope changes
+	defer check.processDelayed(len(check.delayed))
 
 	inner := ctxt &^ (fallthroughOk | finalSwitchCase)
 	switch s := s.(type) {
