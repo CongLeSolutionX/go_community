@@ -200,3 +200,53 @@ func TestIssue20855(t *testing.T) {
 		t.Error("got no package despite no hard errors")
 	}
 }
+
+// TestIssue23092 tests relative imports.
+func TestIssue23092(t *testing.T) {
+	if !testenv.HasSrc() {
+		t.Skip("no source code available")
+	}
+
+	const (
+		pkgName = "issue23092"
+		pkgPath = "./testdata/" + pkgName
+	)
+
+	pkg, err := importer.Import(pkgPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if pkg.Name() != pkgName {
+		t.Errorf("got %q; want %q", pkg.Name(), pkgName)
+	}
+
+	if pkg.Path() != pkgPath {
+		t.Errorf("got %q; want %q", pkg.Path(), pkgPath)
+	}
+}
+
+// TestIssue24392 tests imports against a path containing 'testdata'.
+func TestIssue24392(t *testing.T) {
+	if !testenv.HasSrc() {
+		t.Skip("no source code available")
+	}
+
+	const (
+		pkgName = "issue24392"
+		pkgPath = "go/internal/srcimporter/testdata/" + pkgName
+	)
+
+	pkg, err := importer.Import(pkgPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if pkg.Name() != pkgName {
+		t.Errorf("got %q; want %q", pkg.Name(), pkgName)
+	}
+
+	if pkg.Path() != pkgPath {
+		t.Errorf("got %q; want %q", pkg.Path(), pkgPath)
+	}
+}
