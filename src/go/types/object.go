@@ -93,7 +93,7 @@ func (obj *object) order() uint32       { return obj.order_ }
 func (obj *object) scopePos() token.Pos { return obj.scopePos_ }
 
 func (obj *object) setParent(parent *Scope)   { obj.parent = parent }
-func (obj *object) setOrder(order uint32)     { assert(order > 0); obj.order_ = order }
+func (obj *object) setOrder(order uint32)     { obj.order_ = order }
 func (obj *object) setScopePos(pos token.Pos) { obj.scopePos_ = pos }
 
 func (obj *object) sameId(pkg *Package, name string) bool {
