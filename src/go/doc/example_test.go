@@ -21,6 +21,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"sort"
 	"os/exec"
 )
 
@@ -67,6 +68,40 @@ var keyValueTopDecl = struct {
 
 func ExampleKeyValueTopDecl() {
 	fmt.Print(keyValueTopDecl)
+	// Output: a: "B", b: 2
+}
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+func (p Person) String() string {
+    return fmt.Sprintf("%s: %d", p.Name, p.Age)
+}
+
+// ByAge implements sort.Interface for []Person based on
+// the Age field.
+type ByAge []Person
+
+func (a (ByAge)) Len() int           { return len(a) }
+func (a ByAge) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByAge) Less(i, j int) bool { return a[i].Age < a[j].Age }
+
+var people = []Person{
+	{"Bob", 31},
+	{"John", 42},
+	{"Michael", 17},
+	{"Jenny", 26},
+}
+
+func ExampleSort() {
+    fmt.Println(people)
+    sort.Sort(ByAge(people))
+    fmt.Println(people)
+    // Output:
+    // [Bob: 31 John: 42 Michael: 17 Jenny: 26]
+    // [Michael: 17 Jenny: 26 Bob: 31 John: 42]
 }
 `
 
@@ -93,8 +128,14 @@ var exampleTestCases = []struct {
 		Output: "Name: \"play\"\n",
 	},
 	{
-		Name: "KeyValueTopDecl",
-		Play: "<nil>",
+		Name:   "KeyValueTopDecl",
+		Play:   exampleKeyValueTopDeclPlay,
+		Output: "a: \"B\", b: 2\n",
+	},
+	{
+		Name:   "Sort",
+		Play:   exampleSortPlay,
+		Output: "[Bob: 31 John: 42 Michael: 17 Jenny: 26]\n[Michael: 17 Jenny: 26 Bob: 31 John: 42]\n",
 	},
 }
 
@@ -155,6 +196,63 @@ func main() {
 		Name: "play",
 	}
 	fmt.Print(f)
+}
+`
+
+const exampleKeyValueTopDeclPlay = `package main
+
+import (
+	"fmt"
+)
+
+var keyValueTopDecl = struct {
+	a string
+	b int
+}{
+	a: "B",
+	b: 2,
+}
+
+func main() {
+	fmt.Print(keyValueTopDecl)
+}
+`
+
+const exampleSortPlay = `package main
+
+import (
+	"fmt"
+	"sort"
+)
+
+type Person struct {
+	Name string
+	Age  int
+}
+
+func (p Person) String() string {
+	return fmt.Sprintf("%s: %d", p.Name, p.Age)
+}
+
+// ByAge implements sort.Interface for []Person based on
+// the Age field.
+type ByAge []Person
+
+func (a ByAge) Len() int           { return len(a) }
+func (a ByAge) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByAge) Less(i, j int) bool { return a[i].Age < a[j].Age }
+
+var people = []Person{
+	{"Bob", 31},
+	{"John", 42},
+	{"Michael", 17},
+	{"Jenny", 26},
+}
+
+func main() {
+	fmt.Println(people)
+	sort.Sort(ByAge(people))
+	fmt.Println(people)
 }
 `
 
