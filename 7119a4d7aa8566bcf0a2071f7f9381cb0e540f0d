@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fe4deab_8ef5082e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-12-13T21:57:01Z",
+      "side": 1,
+      "message": "This seems unrelated? Have you investigated this?",
+      "range": {
+        "startLine": 48,
+        "startChar": 66,
+        "endLine": 48,
+        "endChar": 73
+      },
+      "revId": "7119a4d7aa8566bcf0a2071f7f9381cb0e540f0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "253ba0e7_138240bc",
+        "filename": "src/math/big/arith_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-12-13T21:57:01Z",
+      "side": 1,
+      "message": "It is not clear what this comment means. Also 2x, 4x below.",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 18
+      },
+      "revId": "7119a4d7aa8566bcf0a2071f7f9381cb0e540f0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c05c7d1_2f599cd6",
+        "filename": "src/math/big/arith_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2017-12-13T21:57:01Z",
+      "side": 1,
+      "message": "Use more meaningful labels. They were.",
+      "revId": "7119a4d7aa8566bcf0a2071f7f9381cb0e540f0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
