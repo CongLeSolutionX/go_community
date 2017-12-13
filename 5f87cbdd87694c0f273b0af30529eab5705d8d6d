@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca0e0587_211875b1",
+        "filename": "src/cmd/vendor/golang.org/x/arch/arm64/arm64asm/objdumpext_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-12-13T20:07:39Z",
+      "side": 1,
+      "message": "I assume this is fixed upstream, or will be soon?",
+      "revId": "5f87cbdd87694c0f273b0af30529eab5705d8d6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
