@@ -67,6 +67,7 @@ var keyValueTopDecl = struct {
 
 func ExampleKeyValueTopDecl() {
 	fmt.Print(keyValueTopDecl)
+	// Output: a: "B", b: 2
 }
 `
 
@@ -93,8 +94,9 @@ var exampleTestCases = []struct {
 		Output: "Name: \"play\"\n",
 	},
 	{
-		Name: "KeyValueTopDecl",
-		Play: "<nil>",
+		Name:   "KeyValueTopDecl",
+		Play:   exampleKeyValueTopDeclPlay,
+		Output: "a: \"B\", b: 2\n",
 	},
 }
 
@@ -155,6 +157,25 @@ func main() {
 		Name: "play",
 	}
 	fmt.Print(f)
+}
+`
+
+const exampleKeyValueTopDeclPlay = `package main
+
+import (
+	"fmt"
+)
+
+var keyValueTopDecl = struct {
+	a string
+	b int
+}{
+	a: "B",
+	b: 2,
+}
+
+func main() {
+	fmt.Print(keyValueTopDecl)
 }
 `
 
