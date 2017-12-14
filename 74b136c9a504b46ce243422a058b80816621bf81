@@ -22,6 +22,30 @@
       "revId": "74b136c9a504b46ce243422a058b80816621bf81",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4c31c0b_821b3e79",
+        "filename": "doc/diagnostics.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 5040
+      },
+      "writtenOn": "2017-12-14T02:32:40Z",
+      "side": 1,
+      "message": "I replaced it with a full example.\n\nWe cannot use the default mux because the net/http/pprof package already registers these handlers on the default mux on a different path. The whole goal of this example is to demonstrate you can use a new mux and serve them from wherever you want.",
+      "parentUuid": "23c63b69_2040731a",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 33
+      },
+      "revId": "74b136c9a504b46ce243422a058b80816621bf81",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
