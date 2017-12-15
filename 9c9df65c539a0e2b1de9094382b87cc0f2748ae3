@@ -16,6 +16,24 @@
       "revId": "9c9df65c539a0e2b1de9094382b87cc0f2748ae3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ad925ac_0fb379b0",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-12-15T21:58:30Z",
+      "side": 1,
+      "message": "Most names are created by the compiler, and most will have pkgPath set.",
+      "parentUuid": "8d0e776c_71516fe7",
+      "revId": "9c9df65c539a0e2b1de9094382b87cc0f2748ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
