@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6186171b_b2fff796",
+        "filename": "misc/cgo/testshared/src/exe4/exe4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2017-12-15T00:16:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cefad4e_511a89f1",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c00894ca_244a5941",
         "filename": "misc/cgo/testshared/src/exe4/exe4.go",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "48219c8e_776627cc",
+        "filename": "misc/cgo/testshared/src/exe4/exe4.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2017-12-15T00:16:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c00894ca_244a5941",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b625f6d2_56ec1890",
         "filename": "misc/cgo/testshared/src/linkname/asm.s",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-11-29T19:15:32Z",
       "side": 1,
       "message": "What is the purpose of this file?",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a5b5f5a_55d79962",
+        "filename": "misc/cgo/testshared/src/linkname/asm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2017-12-15T00:16:06Z",
+      "side": 1,
+      "message": "This is to prevent the compiler from complaining about missing function bodies when it encounters //go:linkname. I will add a comment to explain its purpose in the new patch set.",
+      "parentUuid": "b625f6d2_56ec1890",
       "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "116baf1b_2302ae70",
+        "filename": "misc/cgo/testshared/src/linkname/linkname.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2017-12-15T00:16:06Z",
+      "side": 1,
+      "message": "I agree. I have rewritten the test and will submit a new patch set.\n\nRight now this test will cause the linker to fail with an error on all architectures without the fix. Should I make the test check runtime.GOARCH and avoid the failure if it is not \"amd64\"?",
+      "parentUuid": "29df4581_139994ee",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ec8ef25_9677b721",
         "filename": "src/cmd/link/internal/amd64/asm.go",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2017-11-29T19:15:32Z",
       "side": 1,
       "message": "Is this only necessary on 32 bit?  Right now it looks like it will be done on 64-bit systems as well.\n\nDoes this need to happen on any other architectures?",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9cd0e7b_aca7be48",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2017-12-15T00:16:06Z",
+      "side": 1,
+      "message": "This problem affects all systems that support dynamic linking (386, amd64, arm, arm64, ppc64le, s390x). The fix will also be needed on 32-bit systems since method offsets are defined to be .text-relative, and so cannot handle external addresses. I can try to fix 386 and arm64 in the next patch set.",
+      "parentUuid": "2ec8ef25_9677b721",
       "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -104,6 +194,24 @@
     },
     {
       "key": {
+        "uuid": "4620b29b_01507b51",
+        "filename": "src/cmd/link/internal/amd64/asm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2017-12-15T00:16:06Z",
+      "side": 1,
+      "message": "An earlier version of the patch was trying to find ADDROFF relocations in type data. Now that we know which relocations are METHODOFF, this check is unnecessary (but may save some time?).",
+      "parentUuid": "79e0c07d_35caf0da",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4adf74ec_568a4d82",
         "filename": "src/cmd/link/internal/ld/data.go",
         "patchSetId": 1
@@ -115,6 +223,24 @@
       "writtenOn": "2017-11-29T19:15:32Z",
       "side": 1,
       "message": "This seems unlikely to be correct on non-x86 processors.",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d54b2aee_e218cc64",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2017-12-15T00:16:06Z",
+      "side": 1,
+      "message": "I cannot see any x86-specific about how METHODOFF relocations are constructed. I believe that we should stop converting METHODOFF relocations to ADDROFF relocations in deadcode. If you mean that this is changing the linker\u0027s behavior across all architectures, even the ones without a fix currently, then you are right. I can restructure the code so that the behavior stays the same on unfixed architectures, but they will still fail the test case I added to misc/cgo/testshared (unless we change the test case to check runtime.GOARCH).",
+      "parentUuid": "4adf74ec_568a4d82",
       "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
