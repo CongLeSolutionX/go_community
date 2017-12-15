@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2304021f_8b928322",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2017-12-15T12:02:37Z",
+      "side": 1,
+      "message": "Yes, after several tests, I found that the regression will occur randomly when we run multiple benchmarks, but it is generally very small. And when addmul is run alone, there will be no regression, as shown below:\n\nname                old time/op    new time/op    delta\nAddMulVVW/1-8         33.0ns ± 1%    32.8ns ± 0%  -0.61%  (p\u003d0.000 n\u003d15+15)\nAddMulVVW/2-8         60.5ns ± 1%    59.5ns ± 1%  -1.63%  (p\u003d0.000 n\u003d14+15)\nAddMulVVW/3-8         79.0ns ± 1%    79.2ns ± 1%    ~     (p\u003d0.243 n\u003d15+15)\nAddMulVVW/4-8          115ns ± 0%     115ns ± 1%    ~     (p\u003d0.056 n\u003d12+15)\nAddMulVVW/5-8          152ns ± 2%     152ns ± 1%    ~     (p\u003d0.078 n\u003d15+14)\nAddMulVVW/10-8         273ns ± 0%     273ns ± 0%    ~     (all equal)\nAddMulVVW/100-8       3.10µs ± 0%    3.10µs ± 0%    ~     (p\u003d0.894 n\u003d15+15)\nAddMulVVW/1000-8      28.0µs ± 0%    27.9µs ± 0%  -0.13%  (p\u003d0.000 n\u003d13+15)\nAddMulVVW/10000-8      310µs ± 0%     313µs ± 0%  +1.09%  (p\u003d0.000 n\u003d15+13)\nAddMulVVW/100000-8    2.93ms ± 1%    2.91ms ± 0%  -0.54%  (p\u003d0.000 n\u003d15+15)\n\nIn addition, we also optimized addmul, but due to conflicts with other patches, after consultation, I dropped my patch, see https://go-review.googlesource.com/c/go/+/77452",
+      "parentUuid": "1fe4deab_8ef5082e",
+      "range": {
+        "startLine": 48,
+        "startChar": 66,
+        "endLine": 48,
+        "endChar": 73
+      },
+      "revId": "7119a4d7aa8566bcf0a2071f7f9381cb0e540f0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "253ba0e7_138240bc",
         "filename": "src/math/big/arith_arm64.s",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a9a7defc_b413bc5a",
+        "filename": "src/math/big/arith_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2017-12-15T12:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "253ba0e7_138240bc",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 18
+      },
+      "revId": "7119a4d7aa8566bcf0a2071f7f9381cb0e540f0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c05c7d1_2f599cd6",
         "filename": "src/math/big/arith_arm64.s",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "7119a4d7aa8566bcf0a2071f7f9381cb0e540f0d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b746e27d_5687780a",
+        "filename": "src/math/big/arith_arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2017-12-15T12:02:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c05c7d1_2f599cd6",
+      "revId": "7119a4d7aa8566bcf0a2071f7f9381cb0e540f0d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
