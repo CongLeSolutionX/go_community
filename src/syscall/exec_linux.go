@@ -102,10 +102,23 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 //go:noinline
 //go:norace
 func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (r1 uintptr, err1 Errno, p [2]int, locked bool) {
+
+	type caphdr_t struct {
+		version uint32
+		pid     int
+	}
+
+	type capv1_t struct {
+		effective   uint32
+		permitted   uint32
+		inheritable uint32
+	}
+
 	// Defined in linux/prctl.h starting with Linux 4.3.
 	const (
 		PR_CAP_AMBIENT       = 0x2f
 		PR_CAP_AMBIENT_RAISE = 0x2
+		LINUX_CAPABILITY_V3  = 0x20080522
 	)
 
 	// vfork requires that the child not touch any of the parent's
@@ -119,6 +132,8 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 		err2   Errno
 		nextfd int
 		i      int
+		caphdr caphdr_t
+		capv3  [2]capv1_t
 	)
 
 	// Record parent PID so child can test if it has died.
@@ -289,6 +304,40 @@ func forkAndExecInChild1(argv0 *byte, argv, envv []*byte, chroot, dir *byte, att
 			goto childerror
 		}
 		_, _, err1 = RawSyscall(sys_SETUID, uintptr(cred.Uid), 0, 0)
+		if err1 != 0 {
+			goto childerror
+		}
+	}
+
+	if len(sys.AmbientCaps) > 0 {
+		caphdr.version = LINUX_CAPABILITY_V3
+		caphdr.pid = 0
+		_, _, err1 = RawSyscall(
+			SYS_CAPGET,
+			uintptr(unsafe.Pointer(&caphdr)),
+			uintptr(unsafe.Pointer(&capv3)),
+			0,
+		)
+		if err1 != 0 {
+			goto childerror
+		}
+
+		for _, c := range sys.AmbientCaps {
+			if c >= 32 && c < 64 {
+				capv3[1].inheritable |= 1 << (c - 32)
+			} else {
+				capv3[0].inheritable |= 1 << c
+			}
+		}
+
+		caphdr.version = LINUX_CAPABILITY_V3
+		caphdr.pid = 0
+		_, _, err1 = RawSyscall(
+			SYS_CAPSET,
+			uintptr(unsafe.Pointer(&caphdr)),
+			uintptr(unsafe.Pointer(&capv3)),
+			0,
+		)
 		if err1 != 0 {
 			goto childerror
 		}
