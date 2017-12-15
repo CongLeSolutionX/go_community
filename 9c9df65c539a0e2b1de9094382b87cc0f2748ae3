@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d0e776c_71516fe7",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2017-12-15T16:25:18Z",
+      "side": 1,
+      "message": "Is newName the only way that instances of name are created? Meaning that all instances of name will have empty string as pkgPath value?\n\n(Or, are there other ways for name to be created such that pkgPath is non-empty string?)",
+      "revId": "9c9df65c539a0e2b1de9094382b87cc0f2748ae3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
