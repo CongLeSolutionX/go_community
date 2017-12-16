@@ -164,7 +164,10 @@ type deadcodepass struct {
 
 func (d *deadcodepass) cleanupReloc(r *sym.Reloc) {
 	if r.Sym.Attr.Reachable() {
-		r.Type = objabi.R_ADDROFF
+		// TODO: Leave R_METHODOFF relocs alone on all archs.
+		if !d.ctxt.Arch.InFamily(sys.AMD64, sys.I386, sys.ARM64) {
+			r.Type = objabi.R_ADDROFF
+		}
 	} else {
 		if d.ctxt.Debugvlog > 1 {
 			d.ctxt.Logf("removing method %s\n", r.Sym.Name)
@@ -198,7 +201,10 @@ func (d *deadcodepass) mark(s, parent *sym.Symbol) {
 func (d *deadcodepass) markMethod(m methodref) {
 	for _, r := range m.r {
 		d.mark(r.Sym, m.src)
-		r.Type = objabi.R_ADDROFF
+		// TODO: Leave R_METHODOFF relocs alone on all archs.
+		if !d.ctxt.Arch.InFamily(sys.AMD64, sys.I386, sys.ARM64) {
+			r.Type = objabi.R_ADDROFF
+		}
 	}
 }
 
