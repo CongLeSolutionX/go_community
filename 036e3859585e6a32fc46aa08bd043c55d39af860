@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3a85f9f_80dfe95a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-12-16T20:45:18Z",
+      "side": 1,
+      "message": "s/surpress/suppress/",
+      "revId": "036e3859585e6a32fc46aa08bd043c55d39af860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a330782_0a087096",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-12-16T20:45:18Z",
+      "side": 1,
+      "message": "I\u0027m not sure what this sentence is trying to say.",
+      "revId": "036e3859585e6a32fc46aa08bd043c55d39af860",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
