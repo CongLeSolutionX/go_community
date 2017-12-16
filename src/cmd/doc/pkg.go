@@ -717,8 +717,14 @@ func trimUnexportedFields(fields *ast.FieldList, isInterface bool) *ast.FieldLis
 			case *ast.StarExpr:
 				// Must have the form *identifier.
 				// This is only valid on embedded types in structs.
-				if ident, ok := ident.X.(*ast.Ident); ok && !isInterface {
+				if isInterface {
+					break
+				}
+				switch ident := ident.X.(type) {
+				case *ast.Ident:
 					names = []*ast.Ident{ident}
+				case *ast.SelectorExpr:
+					names = []*ast.Ident{ident.Sel}
 				}
 			case *ast.SelectorExpr:
 				// An embedded type may refer to a type in another package.
