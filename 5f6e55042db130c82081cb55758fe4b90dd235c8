@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "704e760a_82a62d0a",
+        "filename": "misc/cgo/testshared/src/linkname/linkname.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2017-12-16T19:17:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0892858d_28c97eab",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ec8ef25_9677b721",
         "filename": "src/cmd/link/internal/amd64/asm.go",
         "patchSetId": 1
@@ -277,6 +295,24 @@
       "side": 1,
       "message": "OK.",
       "parentUuid": "d54b2aee_e218cc64",
+      "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "acf321df_ed5f5cb1",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 6576
+      },
+      "writtenOn": "2017-12-16T19:17:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d50f818_9b05df89",
       "revId": "5f6e55042db130c82081cb55758fe4b90dd235c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
