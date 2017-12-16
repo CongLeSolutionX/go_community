@@ -56,25 +56,25 @@ func gentext(ctxt *ld.Link) {
 	initfunc.Type = sym.STEXT
 	initfunc.Attr |= sym.AttrLocal
 	initfunc.Attr |= sym.AttrReachable
-	o := func(op uint32) {
-		initfunc.AddUint32(ctxt.Arch, op)
+	o := func(s *sym.Symbol, op uint32) {
+		s.AddUint32(ctxt.Arch, op)
 	}
 	// 0000000000000000 <local.dso_init>:
 	// 0:	90000000 	adrp	x0, 0 <runtime.firstmoduledata>
 	// 	0: R_AARCH64_ADR_PREL_PG_HI21	local.moduledata
 	// 4:	91000000 	add	x0, x0, #0x0
 	// 	4: R_AARCH64_ADD_ABS_LO12_NC	local.moduledata
-	o(0x90000000)
-	o(0x91000000)
+	o(initfunc, 0x90000000)
+	o(initfunc, 0x91000000)
 	rel := initfunc.AddRel()
 	rel.Off = 0
 	rel.Siz = 8
 	rel.Sym = ctxt.Moduledata
 	rel.Type = objabi.R_ADDRARM64
 
-	// 8:	14000000 	bl	0 <runtime.addmoduledata>
+	// 8:	14000000 	b	0 <runtime.addmoduledata>
 	// 	8: R_AARCH64_CALL26	runtime.addmoduledata
-	o(0x14000000)
+	o(initfunc, 0x14000000)
 	rel = initfunc.AddRel()
 	rel.Off = 8
 	rel.Siz = 4
@@ -87,6 +87,46 @@ func gentext(ctxt *ld.Link) {
 	initarray_entry.Attr |= sym.AttrLocal
 	initarray_entry.Type = sym.SINITARR
 	initarray_entry.AddAddr(ctxt.Arch, initfunc)
+
+	// Find all R_METHODOFF relocations that reference dynamic imports.
+	// Generate stubs to forward (reflected) calls through method tables
+	// to the external definitions. This is necessary because the 32-bit
+	// method offsets are relative to .text and do not use .plt.
+	// The generated stubs need to live in .text, which is why we need
+	// to do this pass this early.
+	var stubs []*sym.Symbol
+	for _, s := range ctxt.Syms.Allsym {
+		for i := range s.R {
+			r := &s.R[i]
+			if r.Sym != nil && r.Sym.Type == sym.SDYNIMPORT && r.Type == objabi.R_METHODOFF {
+				if ctxt.Debugvlog > 1 {
+					ctxt.Logf("%s: generating stub for dynamically imported method %s\n", s.Name, r.Sym.Name)
+				}
+				n := "local." + r.Sym.Name
+				stub := ctxt.Syms.Lookup(n, 0)
+				if s.Attr.Reachable() {
+					stub.Attr |= sym.AttrReachable
+				}
+				if stub.Size == 0 {
+					// 0000000000000000 <local.dyn_method>:
+					// 0:	14000000	b	0 <local.dyn_method>
+					// 	8: R_AARCH64_CALL26	dyn_method
+					stub.Type = sym.STEXT
+					stub.Attr |= sym.AttrLocal
+					o(stub, 0x14000000)
+					rel = stub.AddRel()
+					rel.Off = 0
+					rel.Siz = 4
+					rel.Sym = r.Sym
+					rel.Type = objabi.R_CALLARM64
+					stubs = append(stubs, stub)
+				}
+				// Update the relocation to use the stub.
+				r.Sym = stub
+			}
+		}
+	}
+	ctxt.Textp = append(stubs, ctxt.Textp...)
 }
 
 func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {

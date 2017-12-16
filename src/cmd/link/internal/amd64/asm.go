@@ -43,8 +43,7 @@ func PADDR(x uint32) uint32 {
 	return x &^ 0x80000000
 }
 
-func Addcall(ctxt *ld.Link, s *sym.Symbol, t *sym.Symbol) int64 {
-	s.Attr |= sym.AttrReachable
+func addcall(ctxt *ld.Link, s *sym.Symbol, t *sym.Symbol) int64 {
 	i := s.Size
 	s.Size += 4
 	s.Grow(s.Size)
@@ -71,22 +70,22 @@ func gentext(ctxt *ld.Link) {
 	initfunc.Type = sym.STEXT
 	initfunc.Attr |= sym.AttrLocal
 	initfunc.Attr |= sym.AttrReachable
-	o := func(op ...uint8) {
+	o := func(s *sym.Symbol, op ...uint8) {
 		for _, op1 := range op {
-			initfunc.AddUint8(op1)
+			s.AddUint8(op1)
 		}
 	}
 	// 0000000000000000 <local.dso_init>:
 	//    0:	48 8d 3d 00 00 00 00 	lea    0x0(%rip),%rdi        # 7 <local.dso_init+0x7>
 	// 			3: R_X86_64_PC32	runtime.firstmoduledata-0x4
-	o(0x48, 0x8d, 0x3d)
+	o(initfunc, 0x48, 0x8d, 0x3d)
 	initfunc.AddPCRelPlus(ctxt.Arch, ctxt.Moduledata, 0)
 	//    7:	e8 00 00 00 00       	callq  c <local.dso_init+0xc>
 	// 			8: R_X86_64_PLT32	runtime.addmoduledata-0x4
-	o(0xe8)
-	Addcall(ctxt, initfunc, addmoduledata)
+	o(initfunc, 0xe8)
+	addcall(ctxt, initfunc, addmoduledata)
 	//    c:	c3                   	retq
-	o(0xc3)
+	o(initfunc, 0xc3)
 	if ctxt.BuildMode == ld.BuildModePlugin {
 		ctxt.Textp = append(ctxt.Textp, addmoduledata)
 	}
@@ -96,6 +95,42 @@ func gentext(ctxt *ld.Link) {
 	initarray_entry.Attr |= sym.AttrLocal
 	initarray_entry.Type = sym.SINITARR
 	initarray_entry.AddAddr(ctxt.Arch, initfunc)
+
+	// Find all R_METHODOFF relocations that reference dynamic imports.
+	// Generate stubs to forward (reflected) calls through method tables
+	// to the external definitions. This is necessary because the 32-bit
+	// method offsets are relative to .text and do not use .plt.
+	// The generated stubs need to live in .text, which is why we need
+	// to do this pass this early.
+	var stubs []*sym.Symbol
+	for _, s := range ctxt.Syms.Allsym {
+		for i := range s.R {
+			r := &s.R[i]
+			if r.Sym != nil && r.Sym.Type == sym.SDYNIMPORT && r.Type == objabi.R_METHODOFF {
+				if ctxt.Debugvlog > 1 {
+					ctxt.Logf("%s: generating stub for dynamically imported method %s\n", s.Name, r.Sym.Name)
+				}
+				n := "local." + r.Sym.Name
+				stub := ctxt.Syms.Lookup(n, 0)
+				if s.Attr.Reachable() {
+					stub.Attr |= sym.AttrReachable
+				}
+				if stub.Size == 0 {
+					// 0000000000000000 <local.dyn_method>:
+					//    0:	e9 00 00 00 00       	jmpq  5 <local.dyn_method+0x5>
+					// 			8: R_X86_64_PLT32	dyn_method-0x4
+					stub.Type = sym.STEXT
+					stub.Attr |= sym.AttrLocal
+					o(stub, 0xe9)
+					addcall(ctxt, stub, r.Sym)
+					stubs = append(stubs, stub)
+				}
+				// Update the relocation to use the stub.
+				r.Sym = stub
+			}
+		}
+	}
+	ctxt.Textp = append(stubs, ctxt.Textp...)
 }
 
 func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
