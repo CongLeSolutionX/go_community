@@ -153,6 +153,14 @@ func (m methodref) isExported() bool {
 	panic("methodref has no signature")
 }
 
+// On some architectures, gentext can create stubs to redirect calls
+// through method tables to dynamically linked modules, but only if
+// deadcode does not turn the R_METHODOFF relocations into R_ADDROFF
+// relocations.
+func (ctxt *Link) keepMethodOffsetRelocs() bool {
+	return ctxt.Arch.InFamily(sys.AMD64, sys.I386, sys.ARM64)
+}
+
 // deadcodepass holds state for the deadcode flood fill.
 type deadcodepass struct {
 	ctxt            *Link
@@ -164,7 +172,9 @@ type deadcodepass struct {
 
 func (d *deadcodepass) cleanupReloc(r *sym.Reloc) {
 	if r.Sym.Attr.Reachable() {
-		r.Type = objabi.R_ADDROFF
+		if !d.ctxt.keepMethodOffsetRelocs() {
+			r.Type = objabi.R_ADDROFF
+		}
 	} else {
 		if d.ctxt.Debugvlog > 1 {
 			d.ctxt.Logf("removing method %s\n", r.Sym.Name)
@@ -198,7 +208,9 @@ func (d *deadcodepass) mark(s, parent *sym.Symbol) {
 func (d *deadcodepass) markMethod(m methodref) {
 	for _, r := range m.r {
 		d.mark(r.Sym, m.src)
-		r.Type = objabi.R_ADDROFF
+		if !d.ctxt.keepMethodOffsetRelocs() {
+			r.Type = objabi.R_ADDROFF
+		}
 	}
 }
 
