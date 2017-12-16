@@ -354,6 +354,13 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 				break
 			}
 			o = Symaddr(r.Sym) + r.Add - int64(r.Sym.Sect.Vaddr)
+		case objabi.R_METHODOFF:
+			// TODO: Handle R_METHODOFF and R_ADDROFF in the same case on all archs.
+			if !ctxt.keepMethodOffsetRelocs() {
+				Errorf(s, "unexpected relocation type R_METHODOFF for target %s", r.Sym.Name)
+				break
+			}
+			fallthrough
 		case objabi.R_WEAKADDROFF:
 			if !r.Sym.Attr.Reachable() {
 				continue
@@ -362,7 +369,10 @@ func relocsym(ctxt *Link, s *sym.Symbol) {
 		case objabi.R_ADDROFF:
 			// The method offset tables using this relocation expect the offset to be relative
 			// to the start of the first text section, even if there are multiple.
-
+			if r.Sym.Sect == nil {
+				Errorf(s, "missing section for relocation target %s", r.Sym.Name)
+				break
+			}
 			if r.Sym.Sect.Name == ".text" {
 				o = Symaddr(r.Sym) - int64(Segtext.Sections[0].Vaddr) + r.Add
 			} else {
