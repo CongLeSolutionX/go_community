@@ -41,7 +41,6 @@ import (
 
 // Append 4 bytes to s and create a R_CALL relocation targeting t to fill them in.
 func addcall(ctxt *ld.Link, s *sym.Symbol, t *sym.Symbol) {
-	s.Attr |= sym.AttrReachable
 	i := s.Size
 	s.Size += 4
 	s.Grow(s.Size)
@@ -115,9 +114,9 @@ func gentext(ctxt *ld.Link) {
 	initfunc.Type = sym.STEXT
 	initfunc.Attr |= sym.AttrLocal
 	initfunc.Attr |= sym.AttrReachable
-	o := func(op ...uint8) {
+	o := func(s *sym.Symbol, op ...uint8) {
 		for _, op1 := range op {
-			initfunc.AddUint8(op1)
+			s.AddUint8(op1)
 		}
 	}
 
@@ -130,31 +129,23 @@ func gentext(ctxt *ld.Link) {
 	//      5b                      pop %ebx
 	//      c3                      ret
 
-	o(0x53)
+	o(initfunc, 0x53)
 
-	o(0xe8)
+	o(initfunc, 0xe8)
 	addcall(ctxt, initfunc, ctxt.Syms.Lookup("__x86.get_pc_thunk.cx", 0))
 
-	o(0x8d, 0x81)
+	o(initfunc, 0x8d, 0x81)
 	initfunc.AddPCRelPlus(ctxt.Arch, ctxt.Moduledata, 6)
 
-	o(0x8d, 0x99)
-	i := initfunc.Size
-	initfunc.Size += 4
-	initfunc.Grow(initfunc.Size)
-	r := initfunc.AddRel()
-	r.Sym = ctxt.Syms.Lookup("_GLOBAL_OFFSET_TABLE_", 0)
-	r.Off = int32(i)
-	r.Type = objabi.R_PCREL
-	r.Add = 12
-	r.Siz = 4
+	o(initfunc, 0x8d, 0x99)
+	initfunc.AddPCRelPlus(ctxt.Arch, ctxt.Syms.Lookup("_GLOBAL_OFFSET_TABLE_", 0), 12)
 
-	o(0xe8)
+	o(initfunc, 0xe8)
 	addcall(ctxt, initfunc, addmoduledata)
 
-	o(0x5b)
+	o(initfunc, 0x5b)
 
-	o(0xc3)
+	o(initfunc, 0xc3)
 
 	if ctxt.BuildMode == ld.BuildModePlugin {
 		ctxt.Textp = append(ctxt.Textp, addmoduledata)
@@ -165,6 +156,60 @@ func gentext(ctxt *ld.Link) {
 	initarray_entry.Attr |= sym.AttrLocal
 	initarray_entry.Type = sym.SINITARR
 	initarray_entry.AddAddr(ctxt.Arch, initfunc)
+
+	// Find all R_METHODOFF relocations that reference dynamic imports.
+	// Generate stubs to forward (reflected) calls through method tables
+	// to the external definitions. This is necessary because the 32-bit
+	// method offsets are relative to .text and do not use .plt.
+	// The generated stubs need to live in .text, which is why we need
+	// to do this pass this early.
+	var stubs []*sym.Symbol
+	for _, s := range ctxt.Syms.Allsym {
+		for i := range s.R {
+			r := &s.R[i]
+			if r.Sym != nil && r.Sym.Type == sym.SDYNIMPORT && r.Type == objabi.R_METHODOFF {
+				if ctxt.Debugvlog > 1 {
+					ctxt.Logf("%s: generating stub for dynamically imported method %s\n", s.Name, r.Sym.Name)
+				}
+				n := "local." + r.Sym.Name
+				stub := ctxt.Syms.Lookup(n, 0)
+				if s.Attr.Reachable() {
+					stub.Attr |= sym.AttrReachable
+				}
+				if stub.Size == 0 {
+					// local.dyn_method:
+					//      e8 00 00 00 00          call __x86.get_pc_thunk.bx + R_CALL __x86.get_pc_thunk.bx
+					//      8d 9b 00 00 00 00       lea 0x0(%ebx), %ebx + R_GOTPC _GLOBAL_OFFSET_TABLE_
+					//      e9 00 00 00 00          jmp local.dyn_method + R_CALL dyn_method
+					stub.Type = sym.STEXT
+					stub.Attr |= sym.AttrLocal
+
+					o(stub, 0xe8)
+					addcall(ctxt, stub, ctxt.Syms.Lookup("__x86.get_pc_thunk.bx", 0))
+
+					o(stub, 0x8d, 0x9b)
+					// Don't call stub.AddPCRelPlus here because that will set AttrReachable unconditionally.
+					i := stub.Size
+					stub.Size += 4
+					stub.Grow(stub.Size)
+					got := stub.AddRel()
+					got.Sym = ctxt.Syms.Lookup("_GLOBAL_OFFSET_TABLE_", 0)
+					got.Off = int32(i)
+					got.Add = 6
+					got.Type = objabi.R_PCREL
+					got.Siz = 4
+
+					o(stub, 0xe9)
+					addcall(ctxt, stub, r.Sym)
+
+					stubs = append(stubs, stub)
+				}
+				// Update the relocation to use the stub.
+				r.Sym = stub
+			}
+		}
+	}
+	ctxt.Textp = append(stubs, ctxt.Textp...)
 }
 
 func adddynrel(ctxt *ld.Link, s *sym.Symbol, r *sym.Reloc) bool {
