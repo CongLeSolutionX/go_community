@@ -438,8 +438,13 @@ func (h Header) allowedFormats() (format Format, paxHdrs map[string]string, err 
 	case TypeXHeader, TypeGNULongName, TypeGNULongLink:
 		return FormatUnknown, nil, headerError{"cannot manually encode TypeXHeader, TypeGNULongName, or TypeGNULongLink headers"}
 	case TypeXGlobalHeader:
+		// Basic support for global PAX headers is added in Go 1.10.
+		// However, the lack of prior support forced users to manually encode
+		// the raw global PAX header themselves, which we still allow.
+		legacyMode := h.Size > 0 && h.Xattrs == nil && h.PAXRecords == nil && len(paxHdrs) == 0
+
 		h2 := Header{Name: h.Name, Typeflag: h.Typeflag, Xattrs: h.Xattrs, PAXRecords: h.PAXRecords, Format: h.Format}
-		if !reflect.DeepEqual(h, h2) {
+		if !legacyMode && !reflect.DeepEqual(h, h2) {
 			return FormatUnknown, nil, headerError{"only PAXRecords should be set for TypeXGlobalHeader"}
 		}
 		whyOnlyPAX = "only PAX supports TypeXGlobalHeader"
