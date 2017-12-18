@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99bcd042_ce52a5a5",
+        "filename": "src/cmd/doc/pkg.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2017-12-18T18:43:43Z",
+      "side": 1,
+      "message": "Comment needs to be updated. It must be of the form ident or pkg.ident (for structs and interfaces), or *ident or *pkg.ident (structs only).\n\nI would factor the code below. If it\u0027s a struct and we have an *ast.StarExpr, remove the star. Then have the switch dealing with ident and pkg.ident once.\n\nAs it is, the same code appears multiple times.",
+      "range": {
+        "startLine": 705,
+        "startChar": 6,
+        "endLine": 705,
+        "endChar": 14
+      },
+      "revId": "6b17f80c2d0180917c3aaa52bdcaafe3a882a59c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
