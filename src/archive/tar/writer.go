@@ -155,8 +155,12 @@ func (tw *Writer) writePAXHeader(hdr *Header, paxHdrs map[string]string) error {
 	*/
 	_ = realSize
 
+	// If Header.Size > 0 for global headers, then we assume that the body
+	// will be manually populated by the user. We do not validation that the
+	// body is in the correct format.
+	isGlobal := hdr.Typeflag == TypeXGlobalHeader && hdr.Size == 0
+
 	// Write PAX records to the output.
-	isGlobal := hdr.Typeflag == TypeXGlobalHeader
 	if len(paxHdrs) > 0 || isGlobal {
 		// Sort keys for deterministic ordering.
 		var keys []string

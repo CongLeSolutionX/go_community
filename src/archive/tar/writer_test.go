@@ -461,6 +461,27 @@ func TestWriter(t *testing.T) {
 			testHeader{Header{Name: strings.Repeat("123456789/", 30)}, nil},
 			testClose{nil},
 		},
+	}, {
+		file: "testdata/raw-global-pax.tar",
+		tests: []testFnc{
+			testHeader{Header{
+				Typeflag: TypeXGlobalHeader,
+				Name:     "pax_global_header",
+				Size:     52,
+				ModTime:  time.Unix(1246508266, 1234567899),
+			}, nil},
+			testWrite{"52 comment=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n", 52, nil},
+			testClose{nil},
+		},
+	}, {
+		tests: []testFnc{
+			testHeader{Header{
+				Typeflag: TypeXGlobalHeader,
+				Name:     "pax_global_header",
+				Size:     52,
+				Xattrs:   map[string]string{"key": "val"},
+			}, headerError{}},
+		},
 	}}
 
 	equalError := func(x, y error) bool {
