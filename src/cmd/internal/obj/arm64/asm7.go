@@ -146,6 +146,10 @@ func FPOP2S(m uint32, s uint32, type_ uint32, op uint32) uint32 {
 	return m<<31 | s<<29 | 0x1E<<24 | type_<<22 | 1<<21 | op<<12 | 2<<10
 }
 
+func FPOP3S(m uint32, s uint32, type_ uint32, op uint32, op2 uint32) uint32 {
+	return m<<31 | s<<29 | 0x1F<<24 | type_<<22 | op<<21 | op2<<15
+}
+
 func FPCVTI(sf uint32, s uint32, type_ uint32, rmode uint32, op uint32) uint32 {
 	return sf<<31 | s<<29 | 0x1E<<24 | type_<<22 | 1<<21 | rmode<<19 | op<<16 | 0<<10
 }
@@ -541,6 +545,7 @@ var optab = []Optab{
 	{AFMOVS, C_FREG, C_NONE, C_FREG, 54, 4, 0, 0, 0},
 	{AFMOVD, C_FCON, C_NONE, C_FREG, 54, 4, 0, 0, 0},
 	{AFMOVD, C_FREG, C_NONE, C_FREG, 54, 4, 0, 0, 0},
+	{AFMSUBD, C_FREG, C_FREG, C_FREG, 54, 4, 0, 0, 0},
 	{AFCVTZSD, C_FREG, C_NONE, C_REG, 29, 4, 0, 0, 0},
 	{ASCVTFD, C_REG, C_NONE, C_FREG, 29, 4, 0, 0, 0},
 	{AFMOVS, C_REG, C_NONE, C_FREG, 29, 4, 0, 0, 0},
@@ -1995,6 +2000,15 @@ func buildop(ctxt *obj.Link) {
 		case AFMOVS, AFMOVD:
 			break
 
+		case AFMSUBD:
+			oprangeset(AFMSUBS, t)
+			oprangeset(AFMADDS, t)
+			oprangeset(AFMADDD, t)
+			oprangeset(AFNMSUBS, t)
+			oprangeset(AFNMSUBD, t)
+			oprangeset(AFNMADDS, t)
+			oprangeset(AFNMADDD, t)
+
 		case AFCVTZSD:
 			oprangeset(AFCVTZSDW, t)
 			oprangeset(AFCVTZSS, t)
@@ -3020,13 +3034,16 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		}
 		rt := int(p.To.Reg)
 		r := int(p.Reg)
+		ra := 0
 		if (o1&(0x1F<<24)) == (0x1E<<24) && (o1&(1<<11)) == 0 { /* monadic */
 			r = rf
 			rf = 0
+		} else if p.From3Type() == obj.TYPE_REG {
+			ra = int(p.GetFrom3().Reg)	/* fmsub/fmadd/fnmsub/fnmadd Rm,Rn,Ra,Rd */
 		} else if r == 0 {
 			r = rt
 		}
-		o1 |= (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
+		o1 |= (uint32(rf&31) << 16) | (uint32(ra&31) << 10) | (uint32(r&31) << 5) | uint32(rt&31)
 
 	case 56: /* floating point compare */
 		o1 = c.oprrr(p, p.As)
@@ -4276,6 +4293,30 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As) uint32 {
 
 	case AVUADDLV:
 		return 1<<29 | 7<<25 | 3<<20 | 7<<11
+
+	case AFMADDD:
+		return FPOP3S(0, 0, 1, 0, 0)
+
+	case AFMADDS:
+		return FPOP3S(0, 0, 0, 0, 0)
+
+	case AFMSUBD:
+		return FPOP3S(0, 0, 1, 0, 1)
+
+	case AFMSUBS:
+		return FPOP3S(0, 0, 0, 0, 1)
+
+	case AFNMADDD:
+		return FPOP3S(0, 0, 1, 1, 0)
+
+	case AFNMADDS:
+		return FPOP3S(0, 0, 0, 1, 0)
+
+	case AFNMSUBD:
+		return FPOP3S(0, 0, 1, 1, 1)
+
+	case AFNMSUBS:
+		return FPOP3S(0, 0, 0, 1, 1)
 	}
 
 	c.ctxt.Diag("%v: bad rrr %d %v", p, a, a)

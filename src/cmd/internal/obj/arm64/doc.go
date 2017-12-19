@@ -12,7 +12,45 @@ Go Assembly for ARM64 Reference Manual
     // TODO
 
 2. Alphabetical list of float-point instructions
-    // TODO
+    FMADDD: 64-bit floating-point fused Multiply-Add (scalar)
+      FMADDD   <Fm>, <Fn>, <Fa>, <Fd>
+        Multiplies the values of <Fm> and <Fn>,
+        adds the product to <Fa>, and writes the result to <Fd>.
+
+    FMADDS: 32-bit floating-point fused Multiply-Add (scalar)
+      FMADDS   <Fm>, <Fn>, <Fa>, <Fd>
+        Multiplies the values of <Fm> and <Fn>,
+        adds the product to <Fa>, and writes the result to <Fd>.
+
+    FMSUBD: 64-bit floating-point fused Multiply-Subtract (scalar)
+      FMSUBD   <Fm>, <Fn>, <Fa>, <Fd>
+        Multiplies the values of <Fm> and <Fn>, negates the product,
+        adds the product to <Fa>, and writes the result to <Fd>.
+
+    FMSUBS: 32-bit floating-point fused Multiply-Subtract (scalar)
+      FMSUBS   <Fm>, <Fn>, <Fa>, <Fd>
+        Multiplies the values of <Fm> and <Fn>, negates the product,
+        adds the product to <Fa>, and writes the result to <Fd>.
+
+    FNMADDD: 64-bit floating-point negated fused Multiply-Add (scalar)
+      FNMADDD   <Fm>, <Fn>, <Fa>, <Fd>
+        Multiplies the values of <Fm> and <Fn>, negates the product,
+        subtracts the value of <Fa>, and writes the result to <Fd>.
+
+    FNMADDS: 32-bit floating-point negated fused Multiply-Add (scalar)
+      FNMADDS   <Fm>, <Fn>, <Fa>, <Fd>
+        Multiplies the values of <Fm> and <Fn>, negates the product,
+        subtracts the value of <Fa>, and writes the result to <Fd>.
+
+    FNMSUBD: 64-bit floating-point negated fused Multiply-Subtract (scalar)
+      FNMSUBD   <Fm>, <Fn>, <Fa>, <Fd>
+        Multiplies the values of <Fm> and <Fn>,
+        subtracts the value of <Fa>, and writes the result to <Fd>.
+
+    FNMSUBS: 32-bit floating-point negated fused Multiply-Subtract (scalar)
+      FNMSUBS   <Fm>, <Fn>, <Fa>, <Fd>
+        Multiplies the values of <Fm> and <Fn>,
+        subtracts the value of <Fa>, and writes the result to <Fd>.
 
 3. Alphabetical list of SIMD instructions
     VADD: Add (scalar)

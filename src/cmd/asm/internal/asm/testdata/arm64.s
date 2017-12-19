@@ -348,6 +348,14 @@ again:
 //		outgcode($1, &$2, $6, &$4, &$8);
 //	}
 //	MADD	R1, R2, R3, R4
+	FMADDS	F1, F2, F3, F4		// 440c011f
+	FMADDD	F1, F2, F3, F4		// 440c411f
+	FMSUBS	F1, F2, F3, F4		// 448c011f
+	FMSUBD	F1, F2, F3, F4		// 448c411f
+	FNMADDS	F1, F2, F3, F4		// 440c211f
+	FNMADDD	F1, F2, F3, F4		// 440c611f
+	FNMSUBS	F1, F2, F3, F4		// 448c211f
+	FNMSUBD	F1, F2, F3, F4		// 448c611f
 
 // DMB, HINT
 //
