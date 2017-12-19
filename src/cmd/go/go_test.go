@@ -4796,7 +4796,14 @@ func TestExecBuildX(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	out, err = exec.Command("/usr/bin/env", "bash", "-x", sh).CombinedOutput()
+	tty, err := os.Open("/dev/tty")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	cmd := exec.Command("/usr/bin/env", "bash", "-x", sh)
+	cmd.Stdin = tty // prohibit to use stdin in the shell script.
+	out, err = cmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("/bin/sh %s: %v\n%s", sh, err, out)
 	}
