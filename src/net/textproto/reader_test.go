@@ -427,13 +427,27 @@ func BenchmarkUncommon(b *testing.B) {
 	}
 }
 
-func BenchmarkCanonicalMIMEHeaderKey(b *testing.B) {
+func benchmarkCanonicalMIMEHeaderKey(b *testing.B, h, want string) {
 	b.ReportAllocs()
-	in := "Uncommon-Mime-Header-For-BenchmarK"
-	out := "Uncommon-Mime-Header-For-Benchmark"
 	for i := 0; i < b.N; i++ {
-		if s := CanonicalMIMEHeaderKey(in); s != out {
-			b.Fatalf("wrong canonicalized MIME header: got %q, want %q", s, out)
+		if s := CanonicalMIMEHeaderKey(h); s != want {
+			b.Fatalf("wrong canonicalized MIME header: got %q, want %q", s, want)
 		}
 	}
+}
+
+func BenchmarkCanonicalMIMEHeaderKeyOnlyLastChar(b *testing.B) {
+	benchmarkCanonicalMIMEHeaderKey(b, "Uncommon-Mime-Header-For-BenchmarK", "Uncommon-Mime-Header-For-Benchmark")
+}
+
+func BenchmarkCanonicalMIMEHeaderKeyHalfMIME(b *testing.B) {
+	benchmarkCanonicalMIMEHeaderKey(b, "Uncommon-Mime-hEADER-fOR-bENCHMARK", "Uncommon-Mime-Header-For-Benchmark")
+}
+
+func BenchmarkCanonicalMIMEHeaderKeyAllMIME(b *testing.B) {
+	benchmarkCanonicalMIMEHeaderKey(b, "uNCOMMON-mIME-hEADER-fOR-bENCHMARK", "Uncommon-Mime-Header-For-Benchmark")
+}
+
+func BenchmarkCanonicalMIMEHeaderKeyNothingToDo(b *testing.B) {
+	benchmarkCanonicalMIMEHeaderKey(b, "Uncommon-Mime-Header-For-Benchmark", "Uncommon-Mime-Header-For-Benchmark")
 }
