@@ -5056,38 +5056,53 @@ func TestExecBuildX(t *testing.T) {
 	tg.tempFile("main.go", `package main; import "C"; func main() { print("hello") }`)
 	src := tg.path("main.go")
 	obj := tg.path("main")
-	tg.run("build", "-x", "-o", obj, src)
-	sh := tg.path("test.sh")
-	err := ioutil.WriteFile(sh, []byte("set -e\n"+tg.getStderr()), 0666)
-	if err != nil {
-		t.Fatal(err)
-	}
 
-	out, err := exec.Command(obj).CombinedOutput()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if string(out) != "hello" {
-		t.Fatalf("got %q; want %q", out, "hello")
-	}
+	for i := 0; i < 2; i++ {
+		// run twice
+		// first: without build cache
+		// second: with build cache
 
-	err = os.Remove(obj)
-	if err != nil {
-		t.Fatal(err)
-	}
+		tg.run("build", "-x", "-o", obj, src)
+		sh := tg.path("test.sh")
+		err := ioutil.WriteFile(sh, []byte("set -e\n"+tg.getStderr()), 0666)
+		if err != nil {
+			t.Fatal(err)
+		}
 
-	out, err = exec.Command("/usr/bin/env", "bash", "-x", sh).CombinedOutput()
-	if err != nil {
-		t.Fatalf("/bin/sh %s: %v\n%s", sh, err, out)
-	}
-	t.Logf("shell output:\n%s", out)
+		out, err := exec.Command(obj).CombinedOutput()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if string(out) != "hello" {
+			t.Fatalf("got %q; want %q", out, "hello")
+		}
 
-	out, err = exec.Command(obj).CombinedOutput()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if string(out) != "hello" {
-		t.Fatalf("got %q; want %q", out, "hello")
+		err = os.Remove(obj)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		tty, err := os.Open("/dev/tty")
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer tty.Close()
+
+		cmd := exec.Command("/usr/bin/env", "bash", "-x", sh)
+		cmd.Stdin = tty // prohibit to use stdin in the shell script.
+		out, err = cmd.CombinedOutput()
+		if err != nil {
+			t.Fatalf("/bin/sh %s: %v\n%s", sh, err, out)
+		}
+		t.Logf("shell output:\n%s", out)
+
+		out, err = exec.Command(obj).CombinedOutput()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if string(out) != "hello" {
+			t.Fatalf("got %q; want %q", out, "hello")
+		}
 	}
 }
 

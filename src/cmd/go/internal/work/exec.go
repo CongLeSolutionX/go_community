@@ -2328,7 +2328,7 @@ func (b *Builder) gccSupportsFlag(compiler []string, flag string) bool {
 	// GCC and clang.
 	cmdArgs := str.StringList(compiler, flag, "-c", "-x", "c", "-")
 	if cfg.BuildN || cfg.BuildX {
-		b.Showcmd(b.WorkDir, "%s || true", joinUnambiguously(cmdArgs))
+		b.Showcmd(b.WorkDir, "cat /dev/null | %s || true", joinUnambiguously(cmdArgs))
 		if cfg.BuildN {
 			return false
 		}
