@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8c01488_2e25bbb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2017-12-19T16:50:20Z",
+      "side": 1,
+      "message": "no markdown in commit messages, please.\n\nThe example is fine, but remove the ```",
+      "revId": "ae47568a325f78da6b61b98ecd48066a4562d8de",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
