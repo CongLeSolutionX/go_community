@@ -18,6 +18,7 @@ import (
 	"syscall"
 	"testing"
 	"time"
+	"unsafe"
 )
 
 func toErrno(err error) (syscall.Errno, bool) {
@@ -512,6 +513,30 @@ func contains(needle string, haystack []string) bool {
 	return false
 }
 
+// wmic command output utf-16 when redirect to a file.
+func runWmic(args ...string) ([]byte, error) {
+	f, err := ioutil.TempFile("", "wmic")
+	if err != nil {
+		return nil, err
+	}
+	defer os.Remove(f.Name())
+	cmd := exec.Command(args[0], args[1:]...)
+	cmd.Stdout = f
+	err = cmd.Run()
+	f.Close()
+	if err != nil {
+		return nil, err
+	}
+	b, err := ioutil.ReadFile(f.Name())
+	if err != nil {
+		return nil, err
+	}
+	if len(b) >= 3 && b[0] == 0xEF && b[1] == 0xBB && b[2] == 0xBF {
+		b = b[3:]
+	}
+	return []byte(syscall.UTF16ToString(*(*[]uint16)(unsafe.Pointer(&b)))), nil
+}
+
 func TestInterfaceHardwareAddrWithWmic(t *testing.T) {
 	ift, err := Interfaces()
 	if err != nil {
@@ -533,7 +558,7 @@ func TestInterfaceHardwareAddrWithWmic(t *testing.T) {
 	//SERVER-2008R2-V,42:01:0A:F0:00:18,Local Area Connection
 	//SERVER-2008R2-V,42:01:0A:F0:00:18,Duplicate Adapter
 	//SERVER-2008R2-V,20:41:53:59:4E:FF,
-	out, err := exec.Command("wmic", "nic", "get", "MACAddress,NetConnectionID", "/format:csv").CombinedOutput()
+	out, err := runWmic("wmic", "nic", "get", "MACAddress,NetConnectionID", "/format:csv")
 	if err != nil {
 		t.Fatal(err)
 	}
