@@ -18,6 +18,7 @@ import (
 	"syscall"
 	"testing"
 	"time"
+	"unsafe"
 )
 
 func toErrno(err error) (syscall.Errno, bool) {
@@ -503,139 +504,99 @@ func TestInterfaceAddrsWithNetsh(t *testing.T) {
 	}
 }
 
-// check that getmac exists as a powershell command, and that it
-// speaks English.
-func checkGetmac(t *testing.T) {
-	out, err := runCmd("getmac", "/?")
+// wmic command output utf-16 when redirect to a file.
+func runWmic(args ...string) ([]byte, error) {
+	f, err := ioutil.TempFile("", "wmic")
 	if err != nil {
-		if strings.Contains(err.Error(), "term 'getmac' is not recognized as the name of a cmdlet") {
-			t.Skipf("getmac not available")
-		}
-		t.Fatal(err)
+		return nil, err
 	}
-	if !bytes.Contains(out, []byte("network adapters on a system")) {
-		t.Skipf("skipping test on non-English system")
+	defer os.Remove(f.Name())
+	cmd := exec.Command(args[0], args[1:]...)
+	cmd.Stdout = f
+	err = cmd.Run()
+	f.Close()
+	if err != nil {
+		return nil, err
 	}
+	b, err := ioutil.ReadFile(f.Name())
+	if err != nil {
+		return nil, err
+	}
+	// skip UTF-16 BOM
+	if len(b) >= 2 && b[0] == 0xFF && b[1] == 0xFE {
+		b = b[2:]
+	}
+	return []byte(syscall.UTF16ToString(*(*[]uint16)(unsafe.Pointer(&b)))), nil
 }
 
-func TestInterfaceHardwareAddrWithGetmac(t *testing.T) {
-	if isWindowsXP(t) {
-		t.Skip("Windows XP does not have powershell command")
+func contains(needle string, haystack []string) bool {
+	for _, v := range haystack {
+		if v == needle {
+			return true
+		}
 	}
-	checkGetmac(t)
+	return false
+}
 
+func TestInterfaceHardwareAddrWithWmic(t *testing.T) {
 	ift, err := Interfaces()
 	if err != nil {
 		t.Fatal(err)
 	}
-	have := make(map[string]string)
+	goMacToName := make(map[string]string)
 	for _, ifi := range ift {
 		if ifi.Flags&FlagLoopback != 0 {
 			// no MAC address for loopback interfaces
 			continue
 		}
-		have[ifi.Name] = ifi.HardwareAddr.String()
+		if ifi.Flags&FlagUp == 0 {
+			// interface is not up
+			continue
+		}
+		goMacToName[ifi.HardwareAddr.String()] = ifi.Name
 	}
 
-	out, err := runCmd("getmac", "/fo", "list", "/v")
+	//wmic nic get MACAddress,NetConnectionID,NetEnabled /format:csv
+	//
+	//Node,MACAddress,NetConnectionID,NetEnabled
+	//SERVER-2012R2-V,,,
+	//..
+	//SERVER-2012R2-V,42:01:0A:F0:00:17,Ethernet,TRUE
+	out, err := runWmic("wmic", "nic", "get", "MACAddress,NetConnectionID,NetEnabled", "/format:csv")
 	if err != nil {
 		t.Fatal(err)
 	}
-	// getmac output looks like:
-	//
-	//Connection Name:  Local Area Connection
-	//Network Adapter:  Intel Gigabit Network Connection
-	//Physical Address: XX-XX-XX-XX-XX-XX
-	//Transport Name:   \Device\Tcpip_{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}
-	//
-	//Connection Name:  Wireless Network Connection
-	//Network Adapter:  Wireles WLAN Card
-	//Physical Address: XX-XX-XX-XX-XX-XX
-	//Transport Name:   Media disconnected
-	//
-	//Connection Name:  Bluetooth Network Connection
-	//Network Adapter:  Bluetooth Device (Personal Area Network)
-	//Physical Address: N/A
-	//Transport Name:   Hardware not present
-	//
-	//Connection Name:  VMware Network Adapter VMnet8
-	//Network Adapter:  VMware Virtual Ethernet Adapter for VMnet8
-	//Physical Address: Disabled
-	//Transport Name:   Disconnected
-	//
-	want := make(map[string]string)
-	group := make(map[string]string) // name / values for single adapter
-	getValue := func(name string) string {
-		value, found := group[name]
-		if !found {
-			t.Fatalf("%q has no %q line in it", group, name)
-		}
-		if value == "" {
-			t.Fatalf("%q has empty %q value", group, name)
-		}
-		return value
-	}
-	processGroup := func() {
-		if len(group) == 0 {
-			return
-		}
-		tname := strings.ToLower(getValue("Transport Name"))
-		if tname == "n/a" {
-			// skip these
-			return
-		}
-		addr := strings.ToLower(getValue("Physical Address"))
-		if addr == "disabled" || addr == "n/a" {
-			// skip these
-			return
-		}
-		addr = strings.Replace(addr, "-", ":", -1)
-		cname := getValue("Connection Name")
-		want[cname] = addr
-		group = make(map[string]string)
-	}
+	winMacToNames := make(map[string][]string)
 	lines := bytes.Split(out, []byte{'\r', '\n'})
+
 	for _, line := range lines {
-		if len(line) == 0 {
-			processGroup()
+		entry := strings.Split(string(line), ",")
+		if len(entry) != 4 || entry[1] == "MACAddress" {
+			// skip empty lines, header
 			continue
 		}
-		i := bytes.IndexByte(line, ':')
-		if i == -1 {
-			t.Fatalf("line %q has no : in it", line)
-		}
-		group[string(line[:i])] = string(bytes.TrimSpace(line[i+1:]))
-	}
-	processGroup()
 
-	dups := make(map[string][]string)
-	for name, addr := range want {
-		if _, ok := dups[addr]; !ok {
-			dups[addr] = make([]string, 0)
-		}
-		dups[addr] = append(dups[addr], name)
-	}
-
-nextWant:
-	for name, wantAddr := range want {
-		if haveAddr, ok := have[name]; ok {
-			if haveAddr != wantAddr {
-				t.Errorf("unexpected MAC address for %q - %v, want %v", name, haveAddr, wantAddr)
-			}
+		mac, name, enabled := strings.ToLower(entry[1]), strings.TrimSpace(entry[2]), strings.TrimSpace(entry[3])
+		if enabled != "TRUE" {
 			continue
 		}
-		// We could not find the interface in getmac output by name.
-		// But sometimes getmac lists many interface names
-		// for the same MAC address. If that is the case here,
-		// and we can match at least one of those names,
-		// let's ignore the other names.
-		if dupNames, ok := dups[wantAddr]; ok && len(dupNames) > 1 {
-			for _, dupName := range dupNames {
-				if haveAddr, ok := have[dupName]; ok && haveAddr == wantAddr {
-					continue nextWant
-				}
+
+		winMacToNames[mac] = append(winMacToNames[mac], name)
+	}
+
+	if len(goMacToName) != len(winMacToNames) {
+		t.Errorf("go interface count (%d, %v) differs from wmic count (%d, %v)", len(goMacToName), goMacToName, len(winMacToNames), winMacToNames)
+	}
+
+	for mac, name := range goMacToName {
+		// Windows appears to associate multiple names to a single MAC
+		// Consider it a success if one of those names was found
+		if cmdNames, ok := winMacToNames[mac]; ok {
+			if contains(name, cmdNames) {
+				continue
 			}
 		}
-		t.Errorf("getmac lists %q, but it could not be found among Go interfaces %v", name, have)
+
+		t.Errorf("go found interface (name: %s, mac: %s) not found by wmic (%v)", name, mac, winMacToNames)
 	}
 }
