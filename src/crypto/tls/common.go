@@ -162,6 +162,11 @@ type ConnectionState struct {
 	SignedCertificateTimestamps [][]byte              // SCTs from the server, if any
 	OCSPResponse                []byte                // stapled OCSP response from server, if any
 
+	// ExporKeyMaterial is a keying material exporter as defined in
+	// https://tools.ietf.org/html/rfc5705. If context is nil, context is
+	// not used as part of the seed.
+	ExportKeyingMaterial func(label, context []byte, length int) []byte
+
 	// TLSUnique contains the "tls-unique" channel binding value (see RFC
 	// 5929, section 3). For resumed sessions this value will be nil
 	// because resumption does not include enough context (see

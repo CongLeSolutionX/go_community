@@ -81,6 +81,9 @@ type Conn struct {
 	clientProtocol         string
 	clientProtocolFallback bool
 
+	// exported key material
+	ekm func(label, context []byte, n int) []byte
+
 	// input/output
 	in, out   halfConn     // in.Mutex < out.Mutex
 	rawInput  *block       // raw input, right off the wire
@@ -1369,6 +1372,7 @@ func (c *Conn) ConnectionState() ConnectionState {
 		state.VerifiedChains = c.verifiedChains
 		state.SignedCertificateTimestamps = c.scts
 		state.OCSPResponse = c.ocspResponse
+		state.ExportKeyingMaterial = c.ekm
 		if !c.didResume {
 			if c.clientFinishedIsFirst {
 				state.TLSUnique = c.clientFinished[:]
