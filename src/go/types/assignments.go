@@ -153,7 +153,7 @@ func (check *Checker) assignVar(lhs ast.Expr, x *operand) Type {
 	var v *Var
 	var v_used bool
 	if ident != nil {
-		if _, obj := check.scope.LookupParent(ident.Name, token.NoPos); obj != nil {
+		if obj := check.lookup(ident.Name); obj != nil {
 			v, _ = obj.(*Var)
 			if v != nil {
 				v_used = v.used
