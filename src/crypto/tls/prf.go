@@ -360,3 +360,25 @@ func (h finishedHash) hashForClientCertificate(sigType uint8, signatureAlgorithm
 func (h *finishedHash) discardHandshakeBuffer() {
 	h.buffer = nil
 }
+
+func ekmFromMasterSecret(version uint16, suite *cipherSuite, masterSecret, clientRandom, serverRandom []byte) func([]byte, []byte, int) []byte {
+	return func(label, context []byte, length int) []byte {
+		seedLen := len(serverRandom) + len(clientRandom)
+		if context != nil {
+			seedLen += len(context) + 2
+		}
+		seed := make([]byte, 0, seedLen)
+
+		seed = append(seed, clientRandom...)
+		seed = append(seed, serverRandom...)
+
+		if context != nil {
+			seed = append(seed, byte(len(context)>>8), byte(len(context)))
+			seed = append(seed, context...)
+		}
+
+		keyMaterial := make([]byte, length)
+		prfForVersion(version, suite)(keyMaterial, masterSecret, label, seed)
+		return keyMaterial
+	}
+}
