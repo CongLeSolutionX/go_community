@@ -58,6 +58,8 @@ type Conn struct {
 	// renegotiation extension. (This is meaningless as a server because
 	// renegotiation is not supported in that case.)
 	secureRenegotiation bool
+	// export keying material func
+	ekm func(label, context []byte, length int) []byte
 
 	// clientFinishedIsFirst is true if the client sent the first Finished
 	// message during the most recent handshake. This is recorded because
@@ -1369,6 +1371,7 @@ func (c *Conn) ConnectionState() ConnectionState {
 		state.VerifiedChains = c.verifiedChains
 		state.SignedCertificateTimestamps = c.scts
 		state.OCSPResponse = c.ocspResponse
+		state.ExportKeyingMaterial = c.ekm
 		if !c.didResume {
 			if c.clientFinishedIsFirst {
 				state.TLSUnique = c.clientFinished[:]
