@@ -178,8 +178,14 @@ func (pkg *Package) newlines(n int) {
 }
 
 // emit prints the node.
-func (pkg *Package) emit(comment string, node ast.Node) {
+func (pkg *Package) emit(comment, since string, node ast.Node) {
 	if node != nil {
+		if since != "" {
+			pkg.newlines(1)
+			pkg.buf.WriteString("Since: ")
+			pkg.buf.WriteString(since)
+			pkg.newlines(1)
+		}
 		err := format.Node(&pkg.buf, pkg.fs, node)
 		if err != nil {
 			log.Fatal(err)
@@ -483,7 +489,11 @@ func (pkg *Package) funcSummary(funcs []*doc.Func, showConstructors bool) {
 		// Exported functions only. The go/doc package does not include methods here.
 		if isExported(fun.Name) {
 			if !isConstructor[fun] {
-				pkg.Printf("%s\n", pkg.oneLineNode(fun.Decl))
+				if fun.Since != "" {
+					pkg.Printf("%s (since %s)\n", pkg.oneLineNode(fun.Decl), fun.Since)
+				} else {
+					pkg.Printf("%s\n", pkg.oneLineNode(fun.Decl))
+				}
 			}
 		}
 	}
@@ -495,7 +505,11 @@ func (pkg *Package) typeSummary() {
 		for _, spec := range typ.Decl.Specs {
 			typeSpec := spec.(*ast.TypeSpec) // Must succeed.
 			if isExported(typeSpec.Name.Name) {
-				pkg.Printf("%s\n", pkg.oneLineNode(typeSpec))
+				if typ.Since != "" {
+					pkg.Printf("%s (since %s)\n", pkg.oneLineNode(typeSpec), typ.Since)
+				} else {
+					pkg.Printf("%s\n", pkg.oneLineNode(typeSpec))
+				}
 				// Now print the consts, vars, and constructors.
 				for _, c := range typ.Consts {
 					if decl := pkg.oneLineNode(c.Decl); decl != "" {
@@ -509,7 +523,11 @@ func (pkg *Package) typeSummary() {
 				}
 				for _, constructor := range typ.Funcs {
 					if isExported(constructor.Name) {
-						pkg.Printf(indent+"%s\n", pkg.oneLineNode(constructor.Decl))
+						if constructor.Since != "" {
+							pkg.Printf(indent+"%s (since %s)\n", pkg.oneLineNode(constructor.Decl), constructor.Since)
+						} else {
+							pkg.Printf(indent+"%s\n", pkg.oneLineNode(constructor.Decl))
+						}
 					}
 				}
 			}
@@ -588,7 +606,7 @@ func (pkg *Package) symbolDoc(symbol string) bool {
 		// Symbol is a function.
 		decl := fun.Decl
 		decl.Body = nil
-		pkg.emit(fun.Doc, decl)
+		pkg.emit(fun.Doc, fun.Since, decl)
 		found = true
 	}
 	// Constants and variables behave the same.
@@ -640,7 +658,7 @@ func (pkg *Package) symbolDoc(symbol string) bool {
 		if !found {
 			pkg.packageClause(true)
 		}
-		pkg.emit(value.Doc, value.Decl)
+		pkg.emit(value.Doc, "", value.Decl)
 		printed[value.Decl] = true
 		found = true
 	}
@@ -656,7 +674,7 @@ func (pkg *Package) symbolDoc(symbol string) bool {
 		if len(decl.Specs) > 1 {
 			decl.Specs = []ast.Spec{spec}
 		}
-		pkg.emit(typ.Doc, decl)
+		pkg.emit(typ.Doc, typ.Since, decl)
 		// Show associated methods, constants, etc.
 		if len(typ.Consts) > 0 || len(typ.Vars) > 0 || len(typ.Funcs) > 0 || len(typ.Methods) > 0 {
 			pkg.Printf("\n")
@@ -785,7 +803,7 @@ func (pkg *Package) printMethodDoc(symbol, method string) bool {
 				if match(method, meth.Name) {
 					decl := meth.Decl
 					decl.Body = nil
-					pkg.emit(meth.Doc, decl)
+					pkg.emit(meth.Doc, meth.Since, decl)
 					found = true
 				}
 			}

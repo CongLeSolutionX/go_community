@@ -12,6 +12,8 @@ import (
 	"strconv"
 )
 
+//go:generate go run mkapi.go
+
 // ----------------------------------------------------------------------------
 // function/method sets
 //
@@ -39,7 +41,7 @@ func recvString(recv ast.Expr) string {
 // If there are multiple f's with the same name, set keeps the first
 // one with documentation; conflicts are ignored.
 //
-func (mset methodSet) set(f *ast.FuncDecl) {
+func (mset methodSet) set(pkg string, f *ast.FuncDecl) {
 	name := f.Name.Name
 	if g := mset[name]; g != nil && g.Doc != "" {
 		// A function with the same name has already been registered;
@@ -59,12 +61,21 @@ func (mset methodSet) set(f *ast.FuncDecl) {
 		}
 		recv = recvString(typ)
 	}
+
+	since := ""
+	if recv != "" {
+		since = sinceInfo[pkg]["methods"][recv+"."+name]
+	} else {
+		since = sinceInfo[pkg]["funcs"][name]
+	}
+
 	mset[name] = &Func{
-		Doc:  f.Doc.Text(),
-		Name: name,
-		Decl: f,
-		Recv: recv,
-		Orig: recv,
+		Doc:   f.Doc.Text(),
+		Name:  name,
+		Decl:  f,
+		Recv:  recv,
+		Orig:  recv,
+		Since: since,
 	}
 	f.Doc = nil // doc consumed - remove from AST
 }
@@ -118,9 +129,10 @@ type embeddedSet map[*namedType]bool
 // reader.lookupType.
 //
 type namedType struct {
-	doc  string       // doc comment for type
-	name string       // type name
-	decl *ast.GenDecl // nil if declaration hasn't been seen yet
+	doc   string       // doc comment for type
+	name  string       // type name
+	since string       // when type was introduced
+	decl  *ast.GenDecl // nil if declaration hasn't been seen yet
 
 	isEmbedded bool        // true if this type is embedded
 	isStruct   bool        // true if this type is a struct
@@ -146,6 +158,7 @@ type reader struct {
 	mode Mode
 
 	// package properties
+	pkg       string // package name
 	doc       string // package documentation, if any
 	filenames []string
 	notes     map[string][]*Note
@@ -182,6 +195,7 @@ func (r *reader) lookupType(name string) *namedType {
 	// type not found - add one without declaration
 	typ := &namedType{
 		name:     name,
+		since:    sinceInfo[r.pkg]["types"][name],
 		embedded: make(embeddedSet),
 		funcs:    make(methodSet),
 		methods:  make(methodSet),
@@ -379,7 +393,7 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 			return
 		}
 		if typ := r.lookupType(recvTypeName); typ != nil {
-			typ.methods.set(fun)
+			typ.methods.set(r.pkg, fun)
 		}
 		// otherwise ignore the method
 		// TODO(gri): There may be exported methods of non-exported types
@@ -405,7 +419,7 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 			if n, imp := baseTypeName(factoryType); !imp && r.isVisible(n) {
 				if typ := r.lookupType(n); typ != nil {
 					// associate function with typ
-					typ.funcs.set(fun)
+					typ.funcs.set(r.pkg, fun)
 					return
 				}
 			}
@@ -413,7 +427,7 @@ func (r *reader) readFunc(fun *ast.FuncDecl) {
 	}
 
 	// just an ordinary function
-	r.funcs.set(fun)
+	r.funcs.set(r.pkg, fun)
 }
 
 var (
@@ -549,6 +563,7 @@ func (r *reader) readPackage(pkg *ast.Package, mode Mode) {
 	r.types = make(map[string]*namedType)
 	r.funcs = make(methodSet)
 	r.notes = make(map[string][]*Note)
+	r.pkg = pkg.Name
 
 	// sort package files before reading them so that the
 	// result does not depend on map iteration order
@@ -766,6 +781,7 @@ func sortedTypes(m map[string]*namedType, allMethods bool) []*Type {
 		list[i] = &Type{
 			Doc:     t.doc,
 			Name:    t.name,
+			Since:   t.since,
 			Decl:    t.decl,
 			Consts:  sortedValues(t.values, token.CONST),
 			Vars:    sortedValues(t.values, token.VAR),

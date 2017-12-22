@@ -41,9 +41,10 @@ type Value struct {
 
 // Type is the documentation for a type declaration.
 type Type struct {
-	Doc  string
-	Name string
-	Decl *ast.GenDecl
+	Doc   string
+	Name  string
+	Since string
+	Decl  *ast.GenDecl
 
 	// associated declarations
 	Consts  []*Value // sorted list of constants of (mostly) this type
@@ -54,9 +55,10 @@ type Type struct {
 
 // Func is the documentation for a func declaration.
 type Func struct {
-	Doc  string
-	Name string
-	Decl *ast.FuncDecl
+	Doc   string
+	Name  string
+	Since string
+	Decl  *ast.FuncDecl
 
 	// methods
 	// (for functions, these fields have the respective zero value)
