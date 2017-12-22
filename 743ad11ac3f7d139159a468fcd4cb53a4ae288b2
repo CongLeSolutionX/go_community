@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ea6bc81_55555779",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2017-12-22T22:50:30Z",
+      "side": 1,
+      "message": "I suspect we want first line in CL description to follow standard rules. For example\n\nnet: revert CL 82975\n\nor something.",
+      "revId": "743ad11ac3f7d139159a468fcd4cb53a4ae288b2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
