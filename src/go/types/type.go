@@ -267,10 +267,10 @@ func NewInterface(methods []*Func, embeddeds []*Named) *Interface {
 		if mset.insert(m) != nil {
 			panic("multiple methods with the same name")
 		}
-		// set receiver
-		// TODO(gri) Ideally, we should use a named type here instead of
-		// typ, for less verbose printing of interface method signatures.
-		m.typ.(*Signature).recv = NewVar(m.pos, m.pkg, "", typ)
+		// set receiver if we don't have one
+		if sig := m.typ.(*Signature); sig.recv == nil {
+			sig.recv = NewVar(m.pos, m.pkg, "", typ)
+		}
 	}
 	sort.Sort(byUniqueMethodName(methods))
 
