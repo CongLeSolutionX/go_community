@@ -22,6 +22,23 @@
       "revId": "6a7d54fd1bde16570b99f9dfffbace972569a707",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9ab0e66_b79b78fe",
+        "filename": "src/go/scanner/scanner.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 5025
+      },
+      "writtenOn": "2017-12-23T10:16:52Z",
+      "side": 1,
+      "message": "Odd number of backquote shoud be an error. So last one is invalid.",
+      "revId": "6a7d54fd1bde16570b99f9dfffbace972569a707",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
