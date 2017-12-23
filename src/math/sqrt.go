@@ -99,7 +99,9 @@ func Sqrt(x float64) float64
 func sqrt(x float64) float64 {
 	// special cases
 	switch {
-	case x == 0 || IsNaN(x) || IsInf(x, 1):
+	case x == 0:
+		return 0
+	case IsNaN(x) || IsInf(x, 1):
 		return x
 	case x < 0:
 		return NaN()
