@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7f1de58_bdfdc977",
+        "filename": "src/math/sqrt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 25914
+      },
+      "writtenOn": "2017-12-23T04:56:10Z",
+      "side": 1,
+      "message": "Math.Sqrt(-0) is supposed to be -0 as per the documentation: https://golang.org/pkg/math/#Sqrt\n\nWhile this change helps Math.Pow be more conforming to the documentation, this would appear to harm conformance for Math.Sqrt.",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 10
+      },
+      "revId": "5e0fad372be02f4bcfeea916cc581bc36f7282bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
