@@ -577,18 +577,13 @@ func CanonicalMIMEHeaderKey(s string) string {
 		if !validHeaderFieldByte(c) {
 			return s
 		}
-		if upper && 'a' <= c && c <= 'z' {
-			return canonicalMIMEHeaderKey([]byte(s))
-		}
-		if !upper && 'A' <= c && c <= 'Z' {
-			return canonicalMIMEHeaderKey([]byte(s))
+		if upper && 'a' <= c && c <= 'z' || !upper && 'A' <= c && c <= 'Z' {
+			return canonicalizeMIMEHeaderKeyTail([]byte(s), i, upper)
 		}
 		upper = c == '-'
 	}
 	return s
 }
-
-const toLower = 'a' - 'A'
 
 // validHeaderFieldByte reports whether b is a valid byte in a header
 // field name. RFC 7230 says:
@@ -601,32 +596,32 @@ func validHeaderFieldByte(b byte) bool {
 	return int(b) < len(isTokenTable) && isTokenTable[b]
 }
 
-// canonicalMIMEHeaderKey is like CanonicalMIMEHeaderKey but is
+// canonicalizeMIMEHeaderKeyTail is like CanonicalMIMEHeaderKey but is
 // allowed to mutate the provided byte slice before returning the
 // string.
 //
 // For invalid inputs (if a contains spaces or non-token bytes), a
 // is unchanged and a string copy is returned.
-func canonicalMIMEHeaderKey(a []byte) string {
+// The canonicalization are from the start position with upper case or not.
+func canonicalizeMIMEHeaderKeyTail(a []byte, start int, upper bool) string {
 	// See if a looks like a header key. If not, return it unchanged.
-	for _, c := range a {
-		if validHeaderFieldByte(c) {
-			continue
+	// check the tail of a starting from i
+	for i := start; i < len(a); i++ {
+		if !validHeaderFieldByte(a[i]) {
+			// Don't canonicalize.
+			return string(a)
 		}
-		// Don't canonicalize.
-		return string(a)
 	}
 
-	upper := true
-	for i, c := range a {
+	var c byte
+	for i := start; i < len(a); i++ {
+		c = a[i]
 		// Canonicalize: first letter upper case
 		// and upper case after each dash.
 		// (Host, User-Agent, If-Modified-Since).
 		// MIME headers are ASCII only, so no Unicode issues.
-		if upper && 'a' <= c && c <= 'z' {
-			c -= toLower
-		} else if !upper && 'A' <= c && c <= 'Z' {
-			c += toLower
+		if upper && 'a' <= c && c <= 'z' || !upper && 'A' <= c && c <= 'Z' {
+			c ^= 0x20 // from uppercase to lowercase and vice versa
 		}
 		a[i] = c
 		upper = c == '-' // for next time
@@ -638,6 +633,12 @@ func canonicalMIMEHeaderKey(a []byte) string {
 		return v
 	}
 	return string(a)
+}
+
+// canonicalMIMEHeaderKey is like canonicalizeMIMEHeaderKeyTail
+// but canonicalize all the provided slice
+func canonicalMIMEHeaderKey(a []byte) string {
+	return canonicalizeMIMEHeaderKeyTail(a, 0, true)
 }
 
 // commonHeader interns common header strings.
