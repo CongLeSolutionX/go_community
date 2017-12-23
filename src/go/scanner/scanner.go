@@ -492,11 +492,31 @@ func stripCR(b []byte) []byte {
 	return c[:i]
 }
 
+func stripDoubledBackquotes(b []byte) []byte {
+	l := len(b)
+	c := make([]byte, l)
+	i, j := 0, 0
+	for {
+		c[j] = b[i]
+		j++
+		if i == l-1 {
+			break
+		}
+		if b[i] == '`' && b[i+1] == '`' {
+			i += 2
+		} else {
+			i++
+		}
+	}
+	return c[:j]
+}
+
 func (s *Scanner) scanRawString() string {
 	// '`' opening already consumed
 	offs := s.offset - 1
 
 	hasCR := false
+	hasBQ := false
 	for {
 		ch := s.ch
 		if ch < 0 {
@@ -505,7 +525,12 @@ func (s *Scanner) scanRawString() string {
 		}
 		s.next()
 		if ch == '`' {
-			break
+			if s.ch == '`' {
+				s.next()
+				hasBQ = true
+			} else {
+				break
+			}
 		}
 		if ch == '\r' {
 			hasCR = true
@@ -515,6 +540,9 @@ func (s *Scanner) scanRawString() string {
 	lit := s.src[offs:s.offset]
 	if hasCR {
 		lit = stripCR(lit)
+	}
+	if hasBQ {
+		lit = stripDoubledBackquotes(lit)
 	}
 
 	return string(lit)

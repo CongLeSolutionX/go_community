@@ -93,6 +93,8 @@ func main() {
 		`\000\123\x00\312\xFE\u0123\ubabe\U0000babe`,
 		"backslashes 2 (backquote)")
 	assert("\\x\\u\\U\\", `\x\u\U\`, "backslash 3 (backquote)")
+	assert(`foo `` bar`, "foo ` bar", "backquote in raw string literal")
+	assert(````, "`", "backquote-only raw string literal")
 
 	// test large and surrogate-half runes. perhaps not the most logical place for these tests.
 	var r int32

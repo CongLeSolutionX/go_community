@@ -456,7 +456,12 @@ in particular, backslashes have no special meaning and the string may
 contain newlines.
 Carriage return characters ('\r') inside raw string literals
 are discarded from the raw string value.
+To contain back quotes in raw string literals, doubled back quotes '``'
+are available. They means one back quotes in raw string literals.
 </p>
+<pre>
+`foo `` bar` // Equivalent to "foo ` bar"
+</pre>
 <p>
 Interpreted string literals are character sequences between double
 quotes, as in <code>&quot;bar&quot;</code>.

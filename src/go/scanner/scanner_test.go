@@ -90,6 +90,9 @@ var tokens = [...]elt{
 	},
 	{token.STRING, "`\r`", literal},
 	{token.STRING, "`foo\r\nbar`", literal},
+	{token.STRING, "`foo``bar`", literal},
+	{token.STRING, "````", literal},
+	{token.STRING, "`foo````bar`", literal},
 
 	// Operators and delimiters
 	{token.ADD, "+", operator},
@@ -285,6 +288,7 @@ func TestScan(t *testing.T) {
 				elit = e.lit
 				if elit[0] == '`' {
 					elit = string(stripCR([]byte(elit)))
+					elit = string(stripDoubledBackquotes([]byte(elit)))
 				}
 			} else if e.tok.IsKeyword() {
 				elit = e.lit
