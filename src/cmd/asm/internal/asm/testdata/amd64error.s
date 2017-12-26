@@ -32,4 +32,8 @@ TEXT errors(SB),$0
 	VPGATHERDQ X2, 664(X2*8), X7    // ERROR "mask, index, and destination registers should be distinct"
 	VPGATHERDQ X2, 664(X7*8), X2    // ERROR "mask, index, and destination registers should be distinct"
 	VPGATHERDQ X7, 664(X2*8), X2    // ERROR "mask, index, and destination registers should be distinct"
+	// Pseudo-registers should not be used as scaled index.
+	CALL (AX)(PC*1)                 // ERROR "invalid instruction"
+	CALL (AX)(SB*1)                 // ERROR "invalid instruction"
+	CALL (AX)(FP*1)                 // ERROR "invalid instruction"
 	RET
