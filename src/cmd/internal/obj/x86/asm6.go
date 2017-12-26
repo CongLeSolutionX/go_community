@@ -2051,7 +2051,6 @@ func span6(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 		c = 0
 		for p := s.Func.Text; p != nil; p = p.Link {
 			if ctxt.Headtype == objabi.Hnacl && p.Isize > 0 {
-
 				// pad everything to avoid crossing 32-byte boundary
 				if c>>5 != (c+int32(p.Isize)-1)>>5 {
 					c = naclpad(ctxt, s, c, -c&31)
@@ -2487,8 +2486,10 @@ func oclass(ctxt *obj.Link, p *obj.Prog, a *obj.Addr) int {
 		return Yxxx
 
 	case obj.TYPE_MEM:
-		if a.Index == REG_SP {
-			// Can't use SP as the index register
+		// Pseudo registers have negative index, but SP is
+		// not pseudo on x86, hence REG_SP check is not redundant.
+		if a.Index == REG_SP || a.Index < 0 {
+			// Can't use FP/SB/PC/SP as the index register.
 			return Yxxx
 		}
 		if a.Index >= REG_X0 && a.Index <= REG_X15 {
