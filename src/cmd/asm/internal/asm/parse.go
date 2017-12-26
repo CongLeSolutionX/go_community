@@ -790,6 +790,10 @@ func (p *Parser) registerIndirect(a *obj.Addr, prefix rune) {
 		if r2 != 0 {
 			p.errorf("unimplemented two-register form")
 		}
+		if p.arch.InFamily(sys.I386, sys.AMD64) && r1 < 0 {
+			// Reject (R)(Pseudo*scale) forms for x86.
+			p.errorf("illegal addressing mode for pseudo-register")
+		}
 		a.Index = r1
 		if scale == 0 && p.arch.Family == sys.ARM64 {
 			// scale is 1 by default for ARM64
