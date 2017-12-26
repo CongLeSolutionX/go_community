@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "617993c1_f5294b24",
+        "filename": "src/cmd/asm/internal/asm/parse.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2017-12-26T21:06:30Z",
+      "side": 1,
+      "message": "The parser is supposed to be mostly generic, although there are places where reality pokes in. Here it\u0027s poking too hard.\n\nThe crash you\u0027re protecting against here is in the obj library. The fix should be there too. The obj library is where microscopic machine-specific encoding details like this belong.",
+      "revId": "a44dc7f5070d0a815859cb4e431349197e8287f2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
