@@ -57,6 +57,16 @@ Go Assembly for ARM64 Reference Manual
         <T> Is an arrangement specifier and can have the following values:
         B8, B16
 
+    VFMLA: Floating-point fused Multiply-Add to accumulator (vector)
+      VFMLA	<Vm>.<T>, <Vn>.<T>, <Vd>.<T>
+        <T> Is an arrangement specifier and can have the following values:
+        S2, S4, D2
+
+    VFMLS: Floating-point fused Multiply-Subtract from accumulator (vector)
+      VFMLS	<Vm>.<T>, <Vn>.<T>, <Vd>.<T>
+        <T> Is an arrangement specifier and can have the following values:
+        S2, S4, D2
+
     VLD1: Load multiple single-element structures
       VLD1	(Rn), [<Vt>.<T>, <Vt2>.<T> ...]     // no offset
       VLD1.P	imm(Rn), [<Vt>.<T>, <Vt2>.<T> ...]  // immediate offset variant
@@ -84,7 +94,11 @@ Go Assembly for ARM64 Reference Manual
         B, H, S (Wd)
         D (Xd)
 
-      VMOV	<Vn>.<T>[index], Vn  // Move vector element to scalar.
+      VMOV	<Vn>.<T>[index], Vn // Move vector element to scalar.
+        <T> Is an element size specifier and can have the following values:
+        B, H, S, D
+
+      VMOV	<Vn>.<T>[index2], <Vd>.<T>[index1] // Move vector element to another vector element.
         <T> Is an element size specifier and can have the following values:
         B, H, S, D
 

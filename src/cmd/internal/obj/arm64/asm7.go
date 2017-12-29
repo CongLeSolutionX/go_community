@@ -586,6 +586,7 @@ var optab = []Optab{
 	{AVLD1, C_LOREG, C_NONE, C_LIST, 81, 4, 0, 0, C_XPOST},
 	{AVMOV, C_ELEM, C_NONE, C_REG, 73, 4, 0, 0, 0},
 	{AVMOV, C_REG, C_NONE, C_ARNG, 82, 4, 0, 0, 0},
+	{AVMOV, C_ELEM, C_NONE, C_ELEM, 92, 4, 0, 0, 0},
 	{AVMOV, C_ARNG, C_NONE, C_ARNG, 83, 4, 0, 0, 0},
 	{AVMOV, C_REG, C_NONE, C_ELEM, 78, 4, 0, 0, 0},
 	{AVMOV, C_ELEM, C_NONE, C_VREG, 80, 4, 0, 0, 0},
@@ -595,6 +596,7 @@ var optab = []Optab{
 	{AVDUP, C_ELEM, C_NONE, C_ARNG, 79, 4, 0, 0, 0},
 	{AVADDV, C_ARNG, C_NONE, C_VREG, 85, 4, 0, 0, 0},
 	{AVMOVI, C_ADDCON, C_NONE, C_ARNG, 86, 4, 0, 0, 0},
+	{AVFMLA, C_ARNG, C_ARNG, C_ARNG, 72, 4, 0, 0, 0},
 
 	{obj.AUNDEF, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0},
 	{obj.APCDATA, C_VCON, C_NONE, C_VCON, 0, 0, 0, 0, 0},
@@ -2091,6 +2093,9 @@ func buildop(ctxt *obj.Link) {
 		case AVADDV:
 			oprangeset(AVUADDLV, t)
 
+		case AVFMLA:
+			oprangeset(AVFMLS, t)
+
 		case ASHA1H,
 			AVMOV,
 			AVLD1,
@@ -3241,7 +3246,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		rel.Add = 0
 		rel.Type = objabi.R_ARM64_GOTPCREL
 
-	case 72: /* vaddp/vand/vcmeq/vorr/vadd/veor Vm.<T>, Vn.<T>, Vd.<T> */
+	case 72: /* vaddp/vand/vcmeq/vorr/vadd/veor/vfmla/vfmls Vm.<T>, Vn.<T>, Vd.<T> */
 		af := int((p.From.Reg >> 5) & 15)
 		af3 := int((p.Reg >> 5) & 15)
 		at := int((p.To.Reg >> 5) & 15)
@@ -3256,38 +3261,47 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		Q := 0
 		size := 0
 		switch af {
-		case ARNG_16B:
-			Q = 1
-			size = 0
-		case ARNG_2D:
-			Q = 1
-			size = 3
-		case ARNG_2S:
-			Q = 0
-			size = 2
-		case ARNG_4H:
-			Q = 0
-			size = 1
-		case ARNG_4S:
-			Q = 1
-			size = 2
-		case ARNG_8B:
-			Q = 0
-			size = 0
-		case ARNG_8H:
-			Q = 1
-			size = 1
-		default:
-			c.ctxt.Diag("invalid arrangement: %v\n", p)
+			case ARNG_16B:
+				Q = 1
+				size = 0
+			case ARNG_2D:
+				Q = 1
+				size = 3
+			case ARNG_2S:
+				Q = 0
+				size = 2
+			case ARNG_4H:
+				Q = 0
+				size = 1
+			case ARNG_4S:
+				Q = 1
+				size = 2
+			case ARNG_8B:
+				Q = 0
+				size = 0
+			case ARNG_8H:
+				Q = 1
+				size = 1
+			default:
+				c.ctxt.Diag("invalid arrangement: %v\n", p)
 		}
 
 		if (p.As == AVORR || p.As == AVAND || p.As == AVEOR) &&
 			(af != ARNG_16B && af != ARNG_8B) {
 			c.ctxt.Diag("invalid arrangement on op %v", p.As)
+		} else if (p.As == AVFMLA || p.As == AVFMLS) &&
+			(af != ARNG_2D && af != ARNG_2S && af != ARNG_4S) {
+			c.ctxt.Diag("invalid arrangement on op %v", p.As)
 		} else if p.As == AVORR {
 			size = 2
 		} else if p.As == AVAND || p.As == AVEOR {
 			size = 0
+		} else if (p.As == AVFMLA || p.As == AVFMLS) {
+			if af == ARNG_2D {
+				size = 1
+			} else {
+				size = 0
+			}
 		}
 
 		o1 |= (uint32(Q&1) << 30) | (uint32(size&3) << 22) | (uint32(rf&31) << 16) | (uint32(r&31) << 5) | uint32(rt&31)
@@ -3716,6 +3730,43 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 	// exception.
 	case 90:
 		o1 = 0xbea71700
+
+	case 92: /* vmov Vn.<T>[index2], Vd.<T>[index1] */
+		rf := int(p.From.Reg)
+		rt := int(p.To.Reg)
+		imm4 := 0
+		imm5 := 0
+		o1 = 3<<29 | 7<<25 | 1<<10
+		switch (p.To.Reg >> 5) & 15 {
+			case ARNG_B:
+				imm5 |= 1
+				imm5 |= int(p.To.Index) << 1
+			case ARNG_H:
+				imm5 |= 2
+				imm5 |= int(p.To.Index) << 2
+			case ARNG_S:
+				imm5 |= 4
+				imm5 |= int(p.To.Index) << 3
+			case ARNG_D:
+				imm5 |= 8
+				imm5 |= int(p.To.Index) << 4
+			default:
+				c.ctxt.Diag("invalid arrangement: %v\n", p)
+		}
+		switch (p.From.Reg >> 5) & 15 {
+			case ARNG_B:
+				imm4 |= int(p.From.Index)
+			case ARNG_H:
+				imm4 |= int(p.From.Index) << 1
+			case ARNG_S:
+				imm4 |= int(p.From.Index) << 2
+			case ARNG_D:
+				imm4 |= int(p.From.Index) << 3
+			default:
+				c.ctxt.Diag("invalid arrangement: %v\n", p)
+		}
+		o1 |= (uint32(imm5&0x1f) << 16) | (uint32(imm4&0xf) << 16) | (uint32(rf&31) << 5) | uint32(rt&31)
+
 
 		break
 	}
@@ -4276,6 +4327,12 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As) uint32 {
 
 	case AVUADDLV:
 		return 1<<29 | 7<<25 | 3<<20 | 7<<11
+
+	case AVFMLA:
+		return 7<<25 | 0<<23 | 1<<21 | 3<<14 | 3<<10
+
+	case AVFMLS:
+		return 7<<25 | 1<<23 | 1<<21 | 3<<14 | 3<<10
 	}
 
 	c.ctxt.Diag("%v: bad rrr %d %v", p, a, a)

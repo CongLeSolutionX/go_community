@@ -56,6 +56,12 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	VADD	V1, V3, V3                      // 6384e15e
 	VSUB	V12, V30, V30                   // de87ec7e
 	VSUB	V12, V20, V30                   // 9e86ec7e
+	VFMLA	V1.D2, V12.D2, V1.D2		// 81cd614e
+	VFMLA	V1.S2, V12.S2, V1.S2		// 81cd210e
+	VFMLA	V1.S4, V12.S4, V1.S4		// 81cd214e
+	VFMLS	V1.D2, V12.D2, V1.D2		// 81cde14e
+	VFMLS	V1.S2, V12.S2, V1.S2		// 81cda10e
+	VFMLS	V1.S4, V12.S4, V1.S4		// 81cda14e
 
 //	LTYPE1 imsr ',' spreg ','
 //	{
@@ -194,6 +200,10 @@ TEXT	foo(SB), DUPOK|NOSPLIT, $-8
 	VMOV	R22, V11.D2       // cb0e084e
 	VMOV 	V2.B16, V4.B16    // 441ca24e
 	VMOV	V20.S[0], V20     // 9406045e
+	VMOV	V12.D[0], V12.D[1]	// 8c05186e
+	VMOV	V10.S[0], V12.S[1]	// 4c050c6e
+	VMOV	V9.H[0], V12.H[1]	// 2c05066e
+	VMOV	V8.B[0], V12.B[1]	// 0c05036e
 	VREV32	V5.B16, V5.B16    // a508206e
 	VDUP	V19.S[0], V17.S4  // 7106044e
 //
