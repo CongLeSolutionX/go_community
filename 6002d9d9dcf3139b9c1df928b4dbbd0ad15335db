@@ -22,6 +22,30 @@
       "revId": "6002d9d9dcf3139b9c1df928b4dbbd0ad15335db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "759a3dd9_f8e1dee2",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 24935
+      },
+      "writtenOn": "2018-01-01T17:41:47Z",
+      "side": 1,
+      "message": "I didn\u0027t really want to mention SetOutput, as it seems like something that most users of flag will never use.  If someone is looking to change the output, they should notice the SetOutput function after a quick scan of the package\u0027s docs.",
+      "parentUuid": "f742cc34_2a163ea4",
+      "range": {
+        "startLine": 461,
+        "startChar": 1,
+        "endLine": 463,
+        "endChar": 38
+      },
+      "revId": "6002d9d9dcf3139b9c1df928b4dbbd0ad15335db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
