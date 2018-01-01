@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f742cc34_2a163ea4",
+        "filename": "src/flag/flag.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-01-01T17:34:07Z",
+      "side": 1,
+      "message": "this is just removing information (that stderr is the default).\n\nIf you want to reference the SetOutput method, that could be fine, but I wouldn\u0027t remove mentioning what the default is.",
+      "range": {
+        "startLine": 461,
+        "startChar": 1,
+        "endLine": 463,
+        "endChar": 38
+      },
+      "revId": "6002d9d9dcf3139b9c1df928b4dbbd0ad15335db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
