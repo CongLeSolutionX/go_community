@@ -809,11 +809,14 @@ func addstrdata(ctxt *Link, name string, value string) {
 	p := fmt.Sprintf("%s.str", name)
 	sp := ctxt.Syms.Lookup(p, 0)
 
+	sp.Size = 0
+	sp.P = sp.P[:0]
 	Addstring(sp, value)
 	sp.Type = sym.SRODATA
 
 	s := ctxt.Syms.Lookup(name, 0)
 	s.Size = 0
+	s.R = s.R[:0]
 	s.Attr |= sym.AttrDuplicateOK
 	reachable := s.Attr.Reachable()
 	s.AddAddr(ctxt.Arch, sp)
