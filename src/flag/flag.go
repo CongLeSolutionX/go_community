@@ -458,9 +458,9 @@ func UnquoteUsage(flag *Flag) (name string, usage string) {
 	return
 }
 
-// PrintDefaults prints, to standard error unless configured otherwise, the
-// default values of all defined command-line flags in the set. See the
-// documentation for the global function PrintDefaults for more information.
+// PrintDefaults prints the default values of all defined command-line flags in
+// the set to its output. See the documentation for the global function
+// PrintDefaults for more information.
 func (f *FlagSet) PrintDefaults() {
 	f.VisitAll(func(flag *Flag) {
 		s := fmt.Sprintf("  -%s", flag.Name) // Two spaces before -; see next two comments.
@@ -491,9 +491,9 @@ func (f *FlagSet) PrintDefaults() {
 	})
 }
 
-// PrintDefaults prints, to standard error unless configured otherwise,
-// a usage message showing the default settings of all defined
-// command-line flags.
+// PrintDefaults prints a usage message showing the default settings of all
+// CommandLine's defined command-line flags to its output, which by default is
+// os.Stderr.
 // For an integer valued flag x, the default output has the form
 //	-x int
 //		usage-message-for-x (default 7)
