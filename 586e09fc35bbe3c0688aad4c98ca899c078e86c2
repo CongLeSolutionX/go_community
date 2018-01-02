@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dff8af5f_2732f1aa",
+        "filename": "test/fixedbugs/issue23305.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2018-01-02T20:38:00Z",
+      "side": 1,
+      "message": "This could be just \"var mask1 \u003d mask2\" and it will still demonstrate the issue.",
+      "revId": "586e09fc35bbe3c0688aad4c98ca899c078e86c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5cb1cfe_5439f494",
+        "filename": "test/fixedbugs/issue23305.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2018-01-02T20:38:00Z",
+      "side": 1,
+      "message": "I think it would be better to write the test to compare against the expected value of 0xffffffff.",
+      "revId": "586e09fc35bbe3c0688aad4c98ca899c078e86c2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
