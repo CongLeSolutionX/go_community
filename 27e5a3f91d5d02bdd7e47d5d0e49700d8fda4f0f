@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7ebc0ca_fe4b0446",
+        "filename": "src/reflect/type.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-02T03:46:29Z",
+      "side": 1,
+      "message": "Being pedantic (sorry), what we really want to say here is that Type can be used as a map key type.  Perhaps instead \"and Type can be used as a map key type.\"",
+      "revId": "27e5a3f91d5d02bdd7e47d5d0e49700d8fda4f0f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
