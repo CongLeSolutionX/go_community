@@ -914,14 +914,14 @@ var linuxAMD64Tests = []*asmTest{
 		func f65(a string) bool {
 		    return a == "xx"
 		}`,
-		pos: []string{"\tCMPW\t[A-Z]"},
+		pos: []string{"\tCMPW\t\\(.*\\), [$]"},
 	},
 	{
 		fn: `
 		func f66(a string) bool {
 		    return a == "xxxx"
 		}`,
-		pos: []string{"\tCMPL\t[A-Z]"},
+		pos: []string{"\tCMPL\t\\(.*\\), [$]"},
 	},
 	{
 		fn: `
@@ -993,28 +993,28 @@ var linuxAMD64Tests = []*asmTest{
 		func f68(a,b [2]byte) bool {
 		    return a == b
 		}`,
-		pos: []string{"\tCMPW\t[A-Z]"},
+		pos: []string{"\tCMPW\t\"\"[.+_a-z0-9]+\\(SP\\), [A-Z]"},
 	},
 	{
 		fn: `
 		func f69(a,b [3]uint16) bool {
 		    return a == b
 		}`,
-		pos: []string{"\tCMPL\t[A-Z]"},
+		pos: []string{"\tCMPL\t\"\"[.+_a-z0-9]+\\(SP\\), [A-Z]"},
 	},
 	{
 		fn: `
 		func f70(a,b [15]byte) bool {
 		    return a == b
 		}`,
-		pos: []string{"\tCMPQ\t[A-Z]"},
+		pos: []string{"\tCMPQ\t\"\"[.+_a-z0-9]+\\(SP\\), [A-Z]"},
 	},
 	{
 		fn: `
 		func f71(a,b unsafe.Pointer) bool { // This was a TODO in mapaccess1_faststr
 		    return *((*[4]byte)(a)) != *((*[4]byte)(b))
 		}`,
-		pos: []string{"\tCMPL\t[A-Z]"},
+		pos: []string{"\tCMPL\t\\(.*\\), [A-Z]"},
 	},
 	{
 		// make sure assembly output has matching offset and base register.
@@ -1751,6 +1751,46 @@ var linuxAMD64Tests = []*asmTest{
 		}
 		`,
 		neg: []string{"TESTB"},
+	},
+	{
+		fn: `
+		func $(p int, q *int) bool {
+			return p < *q
+		}
+		`,
+		pos: []string{"CMPQ\t\\(.*\\), [A-Z]"},
+	},
+	{
+		fn: `
+		func $(p *int, q int) bool {
+			return *p < q
+		}
+		`,
+		pos: []string{"CMPQ\t\\(.*\\), [A-Z]"},
+	},
+	{
+		fn: `
+		func $(p *int) bool {
+			return *p < 7
+		}
+		`,
+		pos: []string{"CMPQ\t\\(.*\\), [$]7"},
+	},
+	{
+		fn: `
+		func $(p *int) bool {
+			return 7 < *p
+		}
+		`,
+		pos: []string{"CMPQ\t\\(.*\\), [$]7"},
+	},
+	{
+		fn: `
+		func $(p **int) {
+			*p = nil
+		}
+		`,
+		pos: []string{"CMPL\truntime.writeBarrier\\(SB\\), [$]0"},
 	},
 }
 
