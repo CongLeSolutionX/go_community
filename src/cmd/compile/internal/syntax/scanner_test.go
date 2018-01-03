@@ -314,7 +314,6 @@ func TestScanErrors(t *testing.T) {
 		{"`foo", "string not terminated", 0, 0},
 		{"/*/", "comment not terminated", 0, 0},
 		{"/*\n\nfoo", "comment not terminated", 0, 0},
-		{"/*\n\nfoo", "comment not terminated", 0, 0},
 		{`"\`, "string not terminated", 0, 0},
 		{`"\"`, "string not terminated", 0, 0},
 		{`"\x`, "string not terminated", 0, 0},
