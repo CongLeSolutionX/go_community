@@ -32,16 +32,16 @@ func parseFiles(filenames []string) uint {
 			sem <- struct{}{}
 			defer func() { <-sem }()
 			defer close(p.err)
-			base := src.NewFileBase(filename, absFilename(filename))
+			base := syntax.NewFileBase(filename)
 
 			f, err := os.Open(filename)
 			if err != nil {
-				p.error(syntax.Error{Pos: src.MakePos(base, 0, 0), Msg: err.Error()})
+				p.error(syntax.Error{Pos: syntax.MakePos(base, 0, 0), Msg: err.Error()})
 				return
 			}
 			defer f.Close()
 
-			p.file, _ = syntax.Parse(base, f, p.error, p.pragma, fileh, syntax.CheckBranches) // errors are tracked via p.error
+			p.file, _ = syntax.Parse(base, f, p.error, p.pragma, syntax.CheckBranches) // errors are tracked via p.error
 		}(filename)
 	}
 
@@ -65,8 +65,12 @@ func parseFiles(filenames []string) uint {
 	return lines
 }
 
-func yyerrorpos(pos src.Pos, format string, args ...interface{}) {
-	yyerrorl(Ctxt.PosTable.XPos(pos), format, args...)
+func makeXPos(pos syntax.Pos) (_ src.XPos) {
+	return
+}
+
+func yyerrorpos(pos syntax.Pos, format string, args ...interface{}) {
+	yyerrorl(makeXPos(pos), format, args...)
 }
 
 var pathPrefix string
@@ -100,7 +104,7 @@ func (p *noder) funcbody(old ScopeID) {
 	p.scope = old
 }
 
-func (p *noder) openScope(pos src.Pos) {
+func (p *noder) openScope(pos syntax.Pos) {
 	types.Markdcl()
 
 	if trackScopes {
@@ -111,7 +115,7 @@ func (p *noder) openScope(pos src.Pos) {
 	}
 }
 
-func (p *noder) closeScope(pos src.Pos) {
+func (p *noder) closeScope(pos syntax.Pos) {
 	types.Popdcl()
 
 	if trackScopes {
@@ -121,8 +125,8 @@ func (p *noder) closeScope(pos src.Pos) {
 	}
 }
 
-func (p *noder) markScope(pos src.Pos) {
-	xpos := Ctxt.PosTable.XPos(pos)
+func (p *noder) markScope(pos syntax.Pos) {
+	xpos := makeXPos(pos)
 	if i := len(Curfn.Func.Marks); i > 0 && Curfn.Func.Marks[i-1].Pos == xpos {
 		Curfn.Func.Marks[i-1].Scope = p.scope
 	} else {
@@ -145,7 +149,7 @@ func (p *noder) closeAnotherScope() {
 
 // linkname records a //go:linkname directive.
 type linkname struct {
-	pos    src.Pos
+	pos    syntax.Pos
 	local  string
 	remote string
 }
@@ -403,7 +407,7 @@ func (p *noder) funcDecl(fun *syntax.FuncDecl) *Node {
 		}
 		f.Nbody.Set(body)
 
-		lineno = Ctxt.PosTable.XPos(fun.Body.Rbrace)
+		lineno = makeXPos(fun.Body.Rbrace)
 		f.Func.Endlineno = lineno
 	} else {
 		if pure_go || strings.HasPrefix(f.funcname(), "init.") {
@@ -497,7 +501,7 @@ func (p *noder) expr(expr syntax.Expr) *Node {
 			l[i] = p.wrapname(expr.ElemList[i], e)
 		}
 		n.List.Set(l)
-		lineno = Ctxt.PosTable.XPos(expr.Rbrace)
+		lineno = makeXPos(expr.Rbrace)
 		return n
 	case *syntax.KeyValueExpr:
 		return p.nod(expr, OKEY, p.expr(expr.Key), p.wrapname(expr.Value, p.expr(expr.Value)))
@@ -1057,7 +1061,7 @@ func (p *noder) switchStmt(stmt *syntax.SwitchStmt) *Node {
 	return n
 }
 
-func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *Node, rbrace src.Pos) []*Node {
+func (p *noder) caseClauses(clauses []*syntax.CaseClause, tswitch *Node, rbrace syntax.Pos) []*Node {
 	var nodes []*Node
 	for i, clause := range clauses {
 		p.lineno(clause)
@@ -1113,7 +1117,7 @@ func (p *noder) selectStmt(stmt *syntax.SelectStmt) *Node {
 	return n
 }
 
-func (p *noder) commClauses(clauses []*syntax.CommClause, rbrace src.Pos) []*Node {
+func (p *noder) commClauses(clauses []*syntax.CommClause, rbrace syntax.Pos) []*Node {
 	var nodes []*Node
 	for i, clause := range clauses {
 		p.lineno(clause)
@@ -1298,7 +1302,7 @@ func (p *noder) setlineno(src_ syntax.Node, dst *Node) *Node {
 		// TODO(mdempsky): Shouldn't happen. Fix package syntax.
 		return dst
 	}
-	dst.Pos = Ctxt.PosTable.XPos(pos)
+	dst.Pos = makeXPos(pos)
 	return dst
 }
 
@@ -1311,7 +1315,7 @@ func (p *noder) lineno(n syntax.Node) {
 		// TODO(mdempsky): Shouldn't happen. Fix package syntax.
 		return
 	}
-	lineno = Ctxt.PosTable.XPos(pos)
+	lineno = makeXPos(pos)
 }
 
 // error is called concurrently if files are parsed concurrently.
@@ -1332,7 +1336,7 @@ var allowedStdPragmas = map[string]bool{
 }
 
 // pragma is called concurrently if files are parsed concurrently.
-func (p *noder) pragma(pos src.Pos, text string) syntax.Pragma {
+func (p *noder) pragma(pos syntax.Pos, text string) syntax.Pragma {
 	switch {
 	case strings.HasPrefix(text, "line "):
 		// line directives are handled by syntax package
@@ -1379,8 +1383,8 @@ func (p *noder) pragma(pos src.Pos, text string) syntax.Pragma {
 // contain cgo directives, and for security reasons
 // (primarily misuse of linker flags), other files are not.
 // See golang.org/issue/23672.
-func isCgoGeneratedFile(pos src.Pos) bool {
-	return strings.HasPrefix(filepath.Base(filepath.Clean(pos.AbsFilename())), "_cgo_")
+func isCgoGeneratedFile(pos syntax.Pos) bool {
+	return strings.HasPrefix(filepath.Base(filepath.Clean(pos.Base().Filename())), "_cgo_")
 }
 
 func mkname(sym *types.Sym) *Node {
