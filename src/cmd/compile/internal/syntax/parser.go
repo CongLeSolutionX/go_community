@@ -5,7 +5,6 @@
 package syntax
 
 import (
-	"cmd/internal/src"
 	"fmt"
 	"io"
 	"strconv"
@@ -16,10 +15,9 @@ const debug = false
 const trace = false
 
 type parser struct {
-	base  *src.PosBase
-	errh  ErrorHandler
-	fileh FilenameHandler
-	mode  Mode
+	base *PosBase
+	errh ErrorHandler
+	mode Mode
 	scanner
 
 	first  error  // first error encountered
@@ -31,10 +29,9 @@ type parser struct {
 	indent []byte // tracing support
 }
 
-func (p *parser) init(base *src.PosBase, r io.Reader, errh ErrorHandler, pragh PragmaHandler, fileh FilenameHandler, mode Mode) {
+func (p *parser) init(base *PosBase, r io.Reader, errh ErrorHandler, pragh PragmaHandler, mode Mode) {
 	p.base = base
 	p.errh = errh
-	p.fileh = fileh
 	p.mode = mode
 	p.scanner.init(
 		r,
@@ -74,8 +71,6 @@ func (p *parser) init(base *src.PosBase, r io.Reader, errh ErrorHandler, pragh P
 	p.indent = nil
 }
 
-const lineMax = 1<<24 - 1 // TODO(gri) this limit is defined for src.Pos - fix
-
 func (p *parser) updateBase(line, col uint, text string) {
 	i, n, ok := trailingDigits(text)
 	if i == 0 {
@@ -101,19 +96,13 @@ func (p *parser) updateBase(line, col uint, text string) {
 		text = text[:i2-1] // lop off :col
 	}
 
-	if n == 0 || n > lineMax {
+	if n == 0 || n > LineMax {
 		p.errorAt(p.posAt(line, col+i), "invalid line number: "+text[i:])
 		return
 	}
 
 	filename := text[:i-1] // lop off :line
-	absFilename := filename
-	if p.fileh != nil {
-		absFilename = p.fileh(filename)
-	}
-
-	// TODO(gri) pass column n2 to NewLinePragmaBase
-	p.base = src.NewLinePragmaBase(src.MakePos(p.base.Pos().Base(), line, col), filename, absFilename, uint(n) /*uint(n2)*/)
+	p.base = NewLineBase(MakePos(p.base.Pos().Base(), line, col), filename, n, n2)
 }
 
 func commentText(s string) string {
@@ -160,12 +149,12 @@ func (p *parser) want(tok token) {
 // Error handling
 
 // posAt returns the Pos value for (line, col) and the current position base.
-func (p *parser) posAt(line, col uint) src.Pos {
-	return src.MakePos(p.base, line, col)
+func (p *parser) posAt(line, col uint) Pos {
+	return MakePos(p.base, line, col)
 }
 
 // error reports an error at the given position.
-func (p *parser) errorAt(pos src.Pos, msg string) {
+func (p *parser) errorAt(pos Pos, msg string) {
 	err := Error{pos, msg}
 	if p.first == nil {
 		p.first = err
@@ -178,7 +167,7 @@ func (p *parser) errorAt(pos src.Pos, msg string) {
 }
 
 // syntaxErrorAt reports a syntax error at the given position.
-func (p *parser) syntaxErrorAt(pos src.Pos, msg string) {
+func (p *parser) syntaxErrorAt(pos Pos, msg string) {
 	if trace {
 		p.print("syntax error: " + msg)
 	}
@@ -235,7 +224,7 @@ func tokstring(tok token) string {
 }
 
 // Convenience methods using the current token position.
-func (p *parser) pos() src.Pos           { return p.posAt(p.line, p.col) }
+func (p *parser) pos() Pos               { return p.posAt(p.line, p.col) }
 func (p *parser) syntaxError(msg string) { p.syntaxErrorAt(p.pos(), msg) }
 
 // The stopset contains keywords that start a statement.
@@ -415,7 +404,7 @@ func isEmptyFuncDecl(dcl Decl) bool {
 // list = "(" { f sep } ")" |
 //        "{" { f sep } "}" . // sep is optional before ")" or "}"
 //
-func (p *parser) list(open, sep, close token, f func() bool) src.Pos {
+func (p *parser) list(open, sep, close token, f func() bool) Pos {
 	p.want(open)
 
 	var done bool
@@ -1062,7 +1051,7 @@ func (p *parser) type_() Expr {
 	return typ
 }
 
-func newIndirect(pos src.Pos, typ Expr) Expr {
+func newIndirect(pos Pos, typ Expr) Expr {
 	o := new(Operation)
 	o.pos = pos
 	o.Op = Mul
@@ -1274,7 +1263,7 @@ func (p *parser) funcResult() []*Field {
 	return nil
 }
 
-func (p *parser) addField(styp *StructType, pos src.Pos, name *Name, typ Expr, tag *BasicLit) {
+func (p *parser) addField(styp *StructType, pos Pos, name *Name, typ Expr, tag *BasicLit) {
 	if tag != nil {
 		for i := len(styp.FieldList) - len(styp.TagList); i > 0; i-- {
 			styp.TagList = append(styp.TagList, nil)
@@ -1692,7 +1681,7 @@ func (p *parser) newRangeClause(lhs Expr, def bool) *RangeClause {
 	return r
 }
 
-func (p *parser) newAssignStmt(pos src.Pos, op Operator, lhs, rhs Expr) *AssignStmt {
+func (p *parser) newAssignStmt(pos Pos, op Operator, lhs, rhs Expr) *AssignStmt {
 	a := new(AssignStmt)
 	a.pos = pos
 	a.Op = op
@@ -1816,7 +1805,7 @@ func (p *parser) header(keyword token) (init SimpleStmt, cond Expr, post SimpleS
 
 	var condStmt SimpleStmt
 	var semi struct {
-		pos src.Pos
+		pos Pos
 		lit string // valid if pos.IsKnown()
 	}
 	if p.tok != _Lbrace {
