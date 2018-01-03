@@ -2678,3 +2678,76 @@
 (MOVLf2i <t> (Arg [off] {sym})) -> @b.Func.Entry (Arg <t> [off] {sym})
 (MOVQi2f <t> (Arg [off] {sym})) -> @b.Func.Entry (Arg <t> [off] {sym})
 (MOVLi2f <t> (Arg [off] {sym})) -> @b.Func.Entry (Arg <t> [off] {sym})
+
+// Fold loads into compares
+// Note: these may be undone by the flagalloc pass.
+(CMPQ l:(MOVQload {sym} [off] ptr mem) x) && canMergeLoad(v, l, x) && clobber(l) -> (CMPQmem {sym} [off] ptr x mem)
+(CMPL l:(MOVLload {sym} [off] ptr mem) x) && canMergeLoad(v, l, x) && clobber(l) -> (CMPLmem {sym} [off] ptr x mem)
+(CMPW l:(MOVWload {sym} [off] ptr mem) x) && canMergeLoad(v, l, x) && clobber(l) -> (CMPWmem {sym} [off] ptr x mem)
+(CMPB l:(MOVBload {sym} [off] ptr mem) x) && canMergeLoad(v, l, x) && clobber(l) -> (CMPBmem {sym} [off] ptr x mem)
+
+(CMPQ x l:(MOVQload {sym} [off] ptr mem)) && canMergeLoad(v, l, x) && clobber(l) -> (InvertFlags (CMPQmem {sym} [off] ptr x mem))
+(CMPL x l:(MOVLload {sym} [off] ptr mem)) && canMergeLoad(v, l, x) && clobber(l) -> (InvertFlags (CMPLmem {sym} [off] ptr x mem))
+(CMPW x l:(MOVWload {sym} [off] ptr mem)) && canMergeLoad(v, l, x) && clobber(l) -> (InvertFlags (CMPWmem {sym} [off] ptr x mem))
+(CMPB x l:(MOVBload {sym} [off] ptr mem)) && canMergeLoad(v, l, x) && clobber(l) -> (InvertFlags (CMPBmem {sym} [off] ptr x mem))
+
+(CMPQconst l:(MOVQload {sym} [off] ptr mem) [c])
+	&& l.Uses == 1
+	&& validValAndOff(c, off)
+	&& clobber(l) ->
+  @l.Block (CMPQconstmem {sym} [makeValAndOff(c,off)] ptr mem)
+
+(CMPLconst l:(MOVLload {sym} [off] ptr mem) [c])
+	&& l.Uses == 1
+	&& validValAndOff(c, off)
+	&& clobber(l) ->
+  @l.Block (CMPLconstmem {sym} [makeValAndOff(c,off)] ptr mem)
+
+(CMPWconst l:(MOVWload {sym} [off] ptr mem) [c])
+	&& l.Uses == 1
+	&& validValAndOff(c, off)
+	&& clobber(l) ->
+  @l.Block (CMPWconstmem {sym} [makeValAndOff(c,off)] ptr mem)
+
+(CMPBconst l:(MOVBload {sym} [off] ptr mem) [c])
+	&& l.Uses == 1
+	&& validValAndOff(c, off)
+	&& clobber(l) ->
+  @l.Block (CMPBconstmem {sym} [makeValAndOff(c,off)] ptr mem)
+
+(CMPQmem {sym} [off] ptr (MOVQconst [c]) mem) && validValAndOff(c,off) -> (CMPQconstmem {sym} [makeValAndOff(c,off)] ptr mem)
+(CMPLmem {sym} [off] ptr (MOVLconst [c]) mem) && validValAndOff(c,off) -> (CMPLconstmem {sym} [makeValAndOff(c,off)] ptr mem)
+(CMPWmem {sym} [off] ptr (MOVLconst [c]) mem) && validValAndOff(int64(int16(c)),off) -> (CMPWconstmem {sym} [makeValAndOff(int64(int16(c)),off)] ptr mem)
+(CMPBmem {sym} [off] ptr (MOVLconst [c]) mem) && validValAndOff(int64(int8(c)),off) -> (CMPBconstmem {sym} [makeValAndOff(int64(int8(c)),off)] ptr mem)
+
+(TESTQ  l:(MOVQload {sym} [off] ptr mem)
+       l2:(MOVQload {sym} [off] ptr mem))
+        && l == l2
+	&& l.Uses == 2
+	&& validValAndOff(0,off)
+	&& clobber(l) ->
+  @l.Block (CMPQconstmem {sym} [makeValAndOff(0,off)] ptr mem)
+
+(TESTL  l:(MOVLload {sym} [off] ptr mem)
+       l2:(MOVLload {sym} [off] ptr mem))
+        && l == l2
+	&& l.Uses == 2
+	&& validValAndOff(0,off)
+	&& clobber(l) ->
+  @l.Block (CMPLconstmem {sym} [makeValAndOff(0,off)] ptr mem)
+
+(TESTW  l:(MOVWload {sym} [off] ptr mem)
+       l2:(MOVWload {sym} [off] ptr mem))
+        && l == l2
+	&& l.Uses == 2
+	&& validValAndOff(0,off)
+	&& clobber(l) ->
+  @l.Block (CMPWconstmem {sym} [makeValAndOff(0,off)] ptr mem)
+
+(TESTB  l:(MOVBload {sym} [off] ptr mem)
+       l2:(MOVBload {sym} [off] ptr mem))
+        && l == l2
+	&& l.Uses == 2
+	&& validValAndOff(0,off)
+	&& clobber(l) ->
+  @l.Block (CMPBconstmem {sym} [makeValAndOff(0,off)] ptr mem)
