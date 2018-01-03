@@ -6,7 +6,6 @@ package syntax
 
 import (
 	"bytes"
-	"cmd/internal/src"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -131,7 +130,7 @@ func verifyPrint(filename string, ast1 *File) {
 		panic(err)
 	}
 
-	ast2, err := Parse(src.NewFileBase(filename, filename), &buf1, nil, nil, nil, 0)
+	ast2, err := Parse(NewFileBase(filename), &buf1, nil, nil, 0)
 	if err != nil {
 		panic(err)
 	}
@@ -155,7 +154,7 @@ func verifyPrint(filename string, ast1 *File) {
 }
 
 func TestIssue17697(t *testing.T) {
-	_, err := Parse(nil, bytes.NewReader(nil), nil, nil, nil, 0) // return with parser error, don't panic
+	_, err := Parse(nil, bytes.NewReader(nil), nil, nil, 0) // return with parser error, don't panic
 	if err == nil {
 		t.Errorf("no error reported")
 	}
@@ -206,7 +205,7 @@ func TestLineDirectives(t *testing.T) {
 		{"//line foo:1 \n", "invalid line number: 1 ", "", 0, 11},
 		{"//line foo:-12\n", "invalid line number: -12", "", 0, 11},
 		{"//line C:foo:0\n", "invalid line number: 0", "", 0, 13},
-		{fmt.Sprintf("//line foo:%d\n", lineMax+1), fmt.Sprintf("invalid line number: %d", lineMax+1), "", 0, 11},
+		{fmt.Sprintf("//line foo:%d\n", LineMax+1), fmt.Sprintf("invalid line number: %d", LineMax+1), "", 0, 11},
 
 		// invalid //line directives with two colons
 		{"//line ::\n", "invalid line number: ", "", 0, 9},
@@ -247,7 +246,7 @@ func TestLineDirectives(t *testing.T) {
 		{"/*line foo:0*/", "invalid line number: 0", "", 0, 11},
 		{"/*line foo:1 */", "invalid line number: 1 ", "", 0, 11},
 		{"/*line C:foo:0*/", "invalid line number: 0", "", 0, 13},
-		{fmt.Sprintf("/*line foo:%d*/", lineMax+1), fmt.Sprintf("invalid line number: %d", lineMax+1), "", 0, 11},
+		{fmt.Sprintf("/*line foo:%d*/", LineMax+1), fmt.Sprintf("invalid line number: %d", LineMax+1), "", 0, 11},
 
 		// invalid /*line directives with two colons
 		{"/*line ::*/", "invalid line number: ", "", 0, 9},
@@ -271,18 +270,30 @@ func TestLineDirectives(t *testing.T) {
 		{"/*line foo :123:1*/\n", valid, "foo ", 123 - linebase, 0},
 		{"/*line ::123*/\n", valid, ":", 123 - linebase, 0},
 
-		// test effect of /*line directive on (relative) position information for this line
-		// TODO(gri) add these tests
+		// test validity of //line directive
+		{`//line :`, "invalid line number: ", "", 0, 8},
+		{`//line :x`, "invalid line number: x", "", 0, 8},
+		{`//line foo :`, "invalid line number: ", "", 0, 12},
+		{`//line foo:123abc`, "invalid line number: 123abc", "", 0, 11},
+		{`/**///line foo:x`, "syntax error: package statement must be first", "", 0, 16}, //line directive not at start of line - ignored
+		{`//line foo:0`, "invalid line number: 0", "", 0, 11},
+		{fmt.Sprintf(`//line foo:%d`, LineMax+1), fmt.Sprintf("invalid line number: %d", LineMax+1), "", 0, 11},
+
+		// test effect of //line directive on (relative) position information
+		{"//line foo:123\n   foo", "syntax error: package statement must be first", "foo", 123 - linebase, 3},
+		{"//line foo:123\n//line bar:345\nfoo", "syntax error: package statement must be first", "bar", 345 - linebase, 0},
+
+		{"//line " + runtime.GOROOT() + "/src/a/a.go:123\n   foo", "syntax error: package statement must be first", "$GOROOT/src/a/a.go", 123 - linebase, 3},
 
 		// TODO(gri) add tests to verify correct column changes, once implemented
 	} {
-		fileh := func(name string) string {
-			if strings.HasPrefix(name, runtime.GOROOT()) {
-				return "$GOROOT" + name[len(runtime.GOROOT()):]
-			}
-			return name
-		}
-		_, err := Parse(nil, strings.NewReader(test.src), nil, nil, fileh, 0)
+		// fileh := func(name string) string {
+		// 	if strings.HasPrefix(name, runtime.GOROOT()) {
+		// 		return "$GOROOT" + name[len(runtime.GOROOT()):]
+		// 	}
+		// 	return name
+		// }
+		_, err := Parse(nil, strings.NewReader(test.src), nil, nil, 0)
 		if err == nil {
 			t.Errorf("%s: no error reported", test.src)
 			continue
@@ -295,14 +306,15 @@ func TestLineDirectives(t *testing.T) {
 		if msg := perr.Msg; msg != test.msg {
 			t.Errorf("%s: got msg = %q; want %q", test.src, msg, test.msg)
 		}
-		if filename := perr.Pos.AbsFilename(); filename != test.filename {
-			t.Errorf("%s: got filename = %q; want %q", test.src, filename, test.filename)
-		}
-		if line := perr.Pos.RelLine(); line-linebase != test.line {
-			t.Errorf("%s: got line = %d; want %d", test.src, line-linebase, test.line)
-		}
-		if col := perr.Pos.Col(); col-colbase != test.col {
-			t.Errorf("%s: got col = %d; want %d", test.src, col-colbase, test.col)
+
+		// if filename := perr.Pos.AbsFilename(); filename != test.filename {
+		// 	t.Errorf("%s: got filename = %q; want %q", test.src, filename, test.filename)
+		// }
+		// if line := perr.Pos.RelLine(); line != test.line+linebase {
+		// 	t.Errorf("%s: got line = %d; want %d", test.src, line, test.line+linebase)
+		// }
+		if col := perr.Pos.Col(); col != test.col+colbase {
+			t.Errorf("%s: got col = %d; want %d", test.src, col, test.col+colbase)
 		}
 	}
 }
