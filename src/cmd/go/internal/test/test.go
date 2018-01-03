@@ -406,8 +406,8 @@ var HelpTestfunc = &base.Command{
 The 'go test' command expects to find test, benchmark, and example functions
 in the "*_test.go" files corresponding to the package under test.
 
-A test function is one named TestXXX (where XXX is any alphanumeric string
-not starting with a lower case letter) and should have the signature,
+A test function is one named TestXXX (where XXX does not start with a
+lower case letter) and should have the signature,
 
 	func TestXXX(t *testing.T) { ... }
 
