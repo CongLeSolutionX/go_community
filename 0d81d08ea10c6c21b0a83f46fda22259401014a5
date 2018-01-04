@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2e6bc30c_e77b0ac6",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-04T01:07:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea8db119_d0bea54d",
+      "revId": "0d81d08ea10c6c21b0a83f46fda22259401014a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af5e3f5b_6cf8419c",
         "filename": "src/testing/testing.go",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-03T23:17:38Z",
       "side": 1,
       "message": "The Xxx implies letters, but you\u0027re right, it can be any identifier string, even one starting with a numeral. Maybe that doesn\u0027t matter.\n\nThe text is clear enough to be used. Is precision necessary? I don\u0027t think so, but if you do, try this:\n\nwhere the function\u0027s name is a regular Go identifier of the form \"Test\" followed by a non-empty sequence of legal identifier characters that makes the name unique across the package. The first character after \"Test\" must not be a lower-case letter.",
+      "revId": "0d81d08ea10c6c21b0a83f46fda22259401014a5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bad7cde8_d2e98b3c",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-04T01:07:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure precision is necessary here, since it has to be a function name anyhow, and therefore a valid identifier.  My feeling is that it\u0027s OK to just assume that is required.",
+      "parentUuid": "af5e3f5b_6cf8419c",
       "revId": "0d81d08ea10c6c21b0a83f46fda22259401014a5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
