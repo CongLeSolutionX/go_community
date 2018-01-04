@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1404a6f3_c658a06a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-04T17:58:59Z",
+      "side": 1,
+      "message": "Would be nice to have some performance benchmark result.",
+      "revId": "00895bc70e83eca0c611309635cbf24d6837f45c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aa15765_e79839ce",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 2724,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-04T17:58:59Z",
+      "side": 1,
+      "message": "Is the \":(MOVQload {sym} [off] ptr mem)\" not needed? l \u003d\u003d l2 would imply this, right?",
+      "range": {
+        "startLine": 2724,
+        "startChar": 9,
+        "endLine": 2724,
+        "endChar": 40
+      },
+      "revId": "00895bc70e83eca0c611309635cbf24d6837f45c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
