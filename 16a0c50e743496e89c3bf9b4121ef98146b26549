@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9e8121b_f8e17723",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-05T23:09:28Z",
+      "side": 1,
+      "message": "s|5ea2360b6643ec53018b1c080f4824b8238bff3a|https://golang.org/cl/54030|",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "16a0c50e743496e89c3bf9b4121ef98146b26549",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0afe55ca_a679c309",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-05T23:09:28Z",
+      "side": 1,
+      "message": "Updates #21255 (I imagine--it\u0027s in the original CL description)",
+      "revId": "16a0c50e743496e89c3bf9b4121ef98146b26549",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
