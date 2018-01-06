@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd484f1c_313241fd",
+        "filename": "src/net/http/httputil/reverseproxy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 20190
+      },
+      "writtenOn": "2018-01-06T01:44:23Z",
+      "side": 1,
+      "message": "Isn\u0027t this a race condition? This should either use a variable like p.Transport above or the if statement should be moved to where p.ErrorHandler is actually called.",
+      "revId": "df55075deec9494f378a3ac00eb977b085d847e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
