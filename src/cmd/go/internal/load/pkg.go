@@ -598,6 +598,19 @@ func hasGoFiles(dir string) bool {
 	return false
 }
 
+// getImportError returns the error message for cyclical imports. It gives a
+// special message for a package that directly imports itself. For all other
+// cyclical imports it gives a general message about import cycles.
+func getImportError(p *Package) string {
+	for _, i := range p.Imports {
+		if i == p.ImportPath {
+			return "self import not allowed"
+		}
+	}
+
+	return "import cycle not allowed"
+}
+
 // reusePackage reuses package p to satisfy the import at the top
 // of the import stack stk. If this use causes an import loop,
 // reusePackage updates p's error information to record the loop.
@@ -609,7 +622,7 @@ func reusePackage(p *Package, stk *ImportStack) *Package {
 		if p.Error == nil {
 			p.Error = &PackageError{
 				ImportStack:   stk.Copy(),
-				Err:           "import cycle not allowed",
+				Err:           getImportError(p),
 				IsImportCycle: true,
 			}
 		}
