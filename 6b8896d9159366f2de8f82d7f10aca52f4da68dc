@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af85253a_6f9006bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-01-07T17:12:31Z",
+      "side": 1,
+      "message": "Indent with tabs, like:\n\n    copy-pasted\n\ninstead of using markdown. Git commit messages don\u0027t understand markdown, and the indented variant looks better in plaintext.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 17
+      },
+      "revId": "6b8896d9159366f2de8f82d7f10aca52f4da68dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eece5b2_ad8ff655",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-01-07T17:12:31Z",
+      "side": 1,
+      "message": "Use \"Updates #N.\"",
+      "revId": "6b8896d9159366f2de8f82d7f10aca52f4da68dc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
