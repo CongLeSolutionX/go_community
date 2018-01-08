@@ -199,6 +199,33 @@ func TestDialTimeout(t *testing.T) {
 	}
 }
 
+func TestDialClosedConnectionDuringHandshake(t *testing.T) {
+	listener := newLocalListener(t)
+	addr := listener.Addr().String()
+	defer listener.Close()
+
+	go func() {
+		conn, err := listener.Accept()
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		conn.Close()
+	}()
+
+	time.Sleep(time.Millisecond * 10)
+
+	var dialer net.Dialer
+	_, err := DialWithDialer(&dialer, "tcp", addr, nil)
+	if err == nil {
+		t.Fatal("DialWithDialer completed successfully")
+	}
+	want := "tls: server closed connection unexpectedly during handshake"
+	if have := err.Error(); !strings.Contains(have, want) {
+		t.Errorf("resulting error is not handshake error, want = '%s' have = '%s'", want, have)
+	}
+}
+
 func isTimeoutError(err error) bool {
 	if ne, ok := err.(net.Error); ok {
 		return ne.Timeout()
