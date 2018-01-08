@@ -18,6 +18,7 @@ import (
 	"encoding/pem"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net"
 	"strings"
@@ -152,6 +153,9 @@ func DialWithDialer(dialer *net.Dialer, network, addr string, config *Config) (*
 		err = <-errChannel
 	}
 
+	if err == io.EOF {
+		err = errors.New("tls: server closed connection unexpectedly during handshake")
+	}
 	if err != nil {
 		rawConn.Close()
 		return nil, err
