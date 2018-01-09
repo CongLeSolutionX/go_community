@@ -200,7 +200,7 @@ func Main(arch *sys.Arch, theArch Arch) {
 	}
 	ctxt.loadlib()
 
-	ctxt.checkstrdata()
+	ctxt.dostrdata()
 	deadcode(ctxt)
 	fieldtrack(ctxt)
 	ctxt.callgraph()
