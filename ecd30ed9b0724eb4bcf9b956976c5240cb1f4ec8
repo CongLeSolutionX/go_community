@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05510c6b_686b0d88",
+        "filename": "src/crypto/tls/tls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2018-01-09T20:39:56Z",
+      "side": 1,
+      "message": "Looking at the earlier CL comments https://go-review.googlesource.com/c/go/+/40190/1/src/crypto/tls/tls.go#177 ; wouldn\u0027t it be cleaner to outdent the error translation like\n\n if err \u003d\u003d io.EOF {\n   err \u003d ....\n }\n if err !\u003d nil {\n   ...\n   return nil, err\n }\n\nI looked at the other errors in tls package briefly and for consistency the error should be brief. Maybe\n\n  tls: server closed connection in initial handshake\n\nFor consistency with other errors in crypto/tls, I would not include the address in the error. Without the address, the error should be errors.New(...).\n\nIt would be good to include a test to prevent regression. The playground link in the issue should help recreate the issue in test. For the test to be useful, it should use a closed connection, and not io.EOF.",
+      "revId": "ecd30ed9b0724eb4bcf9b956976c5240cb1f4ec8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
