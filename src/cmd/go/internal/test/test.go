@@ -1637,10 +1637,18 @@ func computeTestInputsID(a *work.Action, testlog []byte) (cache.ActionID, error)
 			if !filepath.IsAbs(name) {
 				name = filepath.Join(pwd, name)
 			}
+			if !str.HasFilePathPrefix(name, a.Package.Root) {
+				// Do not recheck files outside the GOPATH or GOROOT root.
+				break
+			}
 			fmt.Fprintf(h, "stat %s %x\n", name, hashStat(name))
 		case "open":
 			if !filepath.IsAbs(name) {
 				name = filepath.Join(pwd, name)
+			}
+			if !str.HasFilePathPrefix(name, a.Package.Root) {
+				// Do not recheck files outside the GOPATH or GOROOT root.
+				break
 			}
 			fh, err := hashOpen(name)
 			if err != nil {
