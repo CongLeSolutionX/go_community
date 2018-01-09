@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13dd5a14_92a2191a",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-09T22:19:22Z",
+      "side": 1,
+      "message": "s/,//",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
