@@ -16,6 +16,24 @@
       "revId": "1adfce5e1dbc005b0a74a6f3939e015b503879ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "657222a0_dbb77103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-09T23:59:25Z",
+      "side": 1,
+      "message": "Not quite. It\u0027s os/exec.go, not os/exec/foo.go.",
+      "parentUuid": "f7e5c624_7b8d3de9",
+      "revId": "1adfce5e1dbc005b0a74a6f3939e015b503879ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
