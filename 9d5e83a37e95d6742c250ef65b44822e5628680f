@@ -16,6 +16,74 @@
       "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecea83cf_1687a5d5",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-09T23:50:39Z",
+      "side": 1,
+      "message": "s/useful/used/",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5ad2373_fd8569cf",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-09T23:50:39Z",
+      "side": 1,
+      "message": "to force rebuilding of packages that depend on the updated C libraries.",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0caa15a8_8068d7da",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-09T23:50:39Z",
+      "side": 1,
+      "message": "off topic: i find the description of caching in \u0027go help test\u0027 hard to understand.\nit\u0027s very operational, the specifics are baffling, and the motivation absent.\nit\u0027s hard to turn that description into what i need to understand in day-to-day operation.",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47198a2e_c07c8dd0",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-09T23:50:39Z",
+      "side": 1,
+      "message": "s/.$/:/",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
