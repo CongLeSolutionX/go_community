@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06ce3d9b_6470eaa8",
+        "filename": "src/crypto/tls/tls.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2018-01-09T05:57:53Z",
+      "side": 1,
+      "message": "The error message needs work.\n\n1) The TLS package normally returns errors prefixed with \"tls: \", does this justify an exception?\n2) We don\u0027t know if the error was getsockopt or connection refused, do we?\n\nMaybe something like\n\n tls: unexpected EOF during handshake\n\nor\n\n tls: server closed connection unexpectedly during handshake",
+      "revId": "b598fc747bd3f97fda702d8ab3ec6ba8c9724e60",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
