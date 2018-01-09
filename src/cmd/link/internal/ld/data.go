@@ -789,7 +789,7 @@ func Dwarfblk(ctxt *Link, addr int64, size int64) {
 
 var zeros [512]byte
 
-var strdata []*sym.Symbol
+var strdata = make(map[string]string)
 
 func addstrdata1(ctxt *Link, arg string) {
 	eq := strings.Index(arg, "=")
@@ -802,19 +802,27 @@ func addstrdata1(ctxt *Link, arg string) {
 		pkg = *flagPluginPath
 	}
 	pkg = objabi.PathToPrefix(pkg)
-	addstrdata(ctxt, pkg+arg[dot:eq], arg[eq+1:])
+	strdata[pkg+arg[dot:eq]] = arg[eq+1:]
 }
 
-func addstrdata(ctxt *Link, name string, value string) {
-	p := fmt.Sprintf("%s.str", name)
+func addstrdata(ctxt *Link, s *sym.Symbol, value string) {
+	if s.Gotype == nil || s.Gotype.Name != "type.string" {
+		Errorf(s, "cannot set with -X: not a var of type string")
+		return
+	}
+	if s.Type == sym.SBSS {
+		s.Type = sym.SDATA
+	}
+
+	p := fmt.Sprintf("%s.str", s.Name)
 	sp := ctxt.Syms.Lookup(p, 0)
 
 	Addstring(sp, value)
 	sp.Type = sym.SRODATA
 
-	s := ctxt.Syms.Lookup(name, 0)
 	s.Size = 0
-	s.Attr |= sym.AttrDuplicateOK
+	s.P = s.P[:0]
+	s.R = s.R[:0]
 	reachable := s.Attr.Reachable()
 	s.AddAddr(ctxt.Arch, sp)
 	s.AddUint(ctxt.Arch, uint64(len(value)))
@@ -824,17 +832,14 @@ func addstrdata(ctxt *Link, name string, value string) {
 	// we know before entering this function.
 	s.Attr.Set(sym.AttrReachable, reachable)
 
-	strdata = append(strdata, s)
-
 	sp.Attr.Set(sym.AttrReachable, reachable)
 }
 
-func (ctxt *Link) checkstrdata() {
-	for _, s := range strdata {
-		if s.Type == sym.STEXT {
-			Errorf(s, "cannot use -X with text symbol")
-		} else if s.Gotype != nil && s.Gotype.Name != "type.string" {
-			Errorf(s, "cannot use -X with non-string symbol")
+func (ctxt *Link) dostrdata() {
+	for k, v := range strdata {
+		s := ctxt.Syms.ROLookup(k, 0)
+		if s != nil {
+			addstrdata(ctxt, s, v)
 		}
 	}
 }
