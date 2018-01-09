@@ -22,6 +22,30 @@
       "revId": "40ac1423ba09b7d8308bf1b051d852939c9ede73",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ebff687_0fe5c675",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 1029,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-09T21:00:19Z",
+      "side": 1,
+      "message": "Thanks. Someone fixed this for me.",
+      "parentUuid": "9959959c_b0b21bd9",
+      "range": {
+        "startLine": 1029,
+        "startChar": 0,
+        "endLine": 1029,
+        "endChar": 53
+      },
+      "revId": "40ac1423ba09b7d8308bf1b051d852939c9ede73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
