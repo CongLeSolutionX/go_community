@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb753dcd_daf2fe9c",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 637,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-10T15:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13dd5a14_92a2191a",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecea83cf_1687a5d5",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df58033f_d87fcb15",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-10T15:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecea83cf_1687a5d5",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "48d25e70_29af12f8",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-10T15:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5ad2373_fd8569cf",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0caa15a8_8068d7da",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "d3f41e11_07c906dd",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-10T15:24:43Z",
+      "side": 1,
+      "message": "Moved to email.",
+      "parentUuid": "0caa15a8_8068d7da",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47198a2e_c07c8dd0",
         "filename": "src/cmd/go/internal/help/helpdoc.go",
         "patchSetId": 1
@@ -84,6 +156,24 @@
       "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd76bf58_f9d81aba",
+        "filename": "src/cmd/go/internal/help/helpdoc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-10T15:24:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47198a2e_c07c8dd0",
+      "revId": "9d5e83a37e95d6742c250ef65b44822e5628680f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
