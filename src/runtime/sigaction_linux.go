@@ -6,6 +6,8 @@
 
 package runtime
 
+//sys	rt_sigaction(sig uintptr, new *sigactiont, old *sigactiont, size uintptr) int32
+
 // rt_sigaction calls the rt_sigaction system call. It is implemented in assembly.
 //go:noescape
 func rt_sigaction(sig uintptr, new, old *sigactiont, size uintptr) int32
