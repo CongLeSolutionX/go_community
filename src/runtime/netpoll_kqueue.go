@@ -10,6 +10,9 @@ package runtime
 
 import "unsafe"
 
+//sys	kqueue() int32
+//sys	kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
+
 func kqueue() int32
 
 //go:noescape

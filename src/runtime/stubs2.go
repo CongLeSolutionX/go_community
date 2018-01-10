@@ -11,6 +11,13 @@ package runtime
 
 import "unsafe"
 
+//syscommon	open(name *byte, mode int32, perm int32) int32
+//syscommon	closefd(fd int32) int32 = SYS_close
+//syscommon	read(fd int32, p unsafe.Pointer, n int32) int32
+//syscommon	write(fd uintptr, p unsafe.Pointer, n int32) int32
+
+//sys	madvise(addr unsafe.Pointer, n uintptr, flags int32)
+
 func read(fd int32, p unsafe.Pointer, n int32) int32
 func closefd(fd int32) int32
 

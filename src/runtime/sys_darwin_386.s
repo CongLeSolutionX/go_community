@@ -52,38 +52,6 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-4
 	MOVL	$0xf1, 0xf1  // crash
 	JMP	0(PC)
 
-TEXT runtime·open(SB),NOSPLIT,$0
-	MOVL	$5, AX
-	INT	$0x80
-	JAE	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+12(FP)
-	RET
-
-TEXT runtime·closefd(SB),NOSPLIT,$0
-	MOVL	$6, AX
-	INT	$0x80
-	JAE	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+4(FP)
-	RET
-
-TEXT runtime·read(SB),NOSPLIT,$0
-	MOVL	$3, AX
-	INT	$0x80
-	JAE	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+12(FP)
-	RET
-
-TEXT runtime·write(SB),NOSPLIT,$0
-	MOVL	$4, AX
-	INT	$0x80
-	JAE	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+12(FP)
-	RET
-
 TEXT runtime·raise(SB),NOSPLIT,$0
 	// Ideally we'd send the signal to the current thread,
 	// not the whole process, but that's too hard on OS X.
@@ -110,24 +78,6 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 ok:
 	MOVL	AX, p+24(FP)
 	MOVL	$0, err+28(FP)
-	RET
-
-TEXT runtime·madvise(SB),NOSPLIT,$0
-	MOVL	$75, AX
-	INT	$0x80
-	// ignore failure - maybe pages are locked
-	RET
-
-TEXT runtime·munmap(SB),NOSPLIT,$0
-	MOVL	$73, AX
-	INT	$0x80
-	JAE	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
-TEXT runtime·setitimer(SB),NOSPLIT,$0
-	MOVL	$83, AX
-	INT	$0x80
 	RET
 
 // OS X comm page time offsets
@@ -284,20 +234,6 @@ TEXT runtime·nanotime(SB),NOSPLIT,$0
 	MOVL	DX, ret_hi+4(FP)
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
-	MOVL	$329, AX  // pthread_sigmask (on OS X, sigprocmask==entire process)
-	INT	$0x80
-	JAE	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
-TEXT runtime·sigaction(SB),NOSPLIT,$0
-	MOVL	$46, AX
-	INT	$0x80
-	JAE	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
 TEXT runtime·sigfwd(SB),NOSPLIT,$0-16
 	MOVL	fn+0(FP), AX
 	MOVL	sig+4(FP), BX
@@ -340,13 +276,6 @@ TEXT runtime·sigtramp(SB),NOSPLIT,$20
 	MOVL	BX, 8(SP)
 	MOVL	$184, AX	// sigreturn(ucontext, infostyle)
 	INT	$0x80
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
-	MOVL	$53, AX
-	INT	$0x80
-	JAE	2(PC)
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
@@ -560,24 +489,6 @@ TEXT runtime·sysctl(SB),NOSPLIT,$0
 	MOVL	AX, ret+24(FP)
 	RET
 	MOVL	$0, AX
-	MOVL	AX, ret+24(FP)
-	RET
-
-// func kqueue() int32
-TEXT runtime·kqueue(SB),NOSPLIT,$0
-	MOVL	$362, AX
-	INT	$0x80
-	JAE	2(PC)
-	NEGL	AX
-	MOVL	AX, ret+0(FP)
-	RET
-
-// func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
-TEXT runtime·kevent(SB),NOSPLIT,$0
-	MOVL	$363, AX
-	INT	$0x80
-	JAE	2(PC)
-	NEGL	AX
 	MOVL	AX, ret+24(FP)
 	RET
 

@@ -6,6 +6,12 @@ package runtime
 
 import "unsafe"
 
+//sys	setitimer(mode int32, new *itimerval, old *itimerval)
+
+//sysfatal	sigprocmask(how int32, new *sigset, old *sigset) = SYS___pthread_sigmask
+//sysfatal	sigaction(mode uint32, new *sigactiont, old *usigactiont)
+//sysfatal	sigaltstack(new *stackt, old *stackt)
+
 type mOS struct {
 	machport uint32 // return address for mach ipc
 	waitsema uint32 // semaphore for parking on locks

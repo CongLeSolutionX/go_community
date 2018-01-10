@@ -2,6 +2,10 @@ package runtime
 
 import "unsafe"
 
+//sys	access(name *byte, mode int32) int32
+//sys	connect(fd int32, addr unsafe.Pointer, len int32) int32
+//sys	socket(domain int32, typ int32, prot int32) int32
+
 // Return values of access/connect/socket are the return values of the syscall
 // (may encode error numbers).
 

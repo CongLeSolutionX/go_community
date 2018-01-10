@@ -15,14 +15,6 @@
 #include "go_tls.h"
 #include "textflag.h"
 
-// Exit the entire program (like C exit)
-TEXT runtime·exit(SB),NOSPLIT,$0
-	MOVL	code+0(FP), DI		// arg 1 exit status
-	MOVL	$(0x2000000+1), AX	// syscall entry
-	SYSCALL
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
 // Exit this OS thread (like pthread_exit, which eventually
 // calls __bsdthread_terminate).
 TEXT exit1<>(SB),NOSPLIT,$0
@@ -45,48 +37,6 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-8
 	MOVL	$0, (AX)
 	JMP	exit1<>(SB)
 
-TEXT runtime·open(SB),NOSPLIT,$0
-	MOVQ	name+0(FP), DI		// arg 1 pathname
-	MOVL	mode+8(FP), SI		// arg 2 flags
-	MOVL	perm+12(FP), DX		// arg 3 mode
-	MOVL	$(0x2000000+5), AX	// syscall entry
-	SYSCALL
-	JCC	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+16(FP)
-	RET
-
-TEXT runtime·closefd(SB),NOSPLIT,$0
-	MOVL	fd+0(FP), DI		// arg 1 fd
-	MOVL	$(0x2000000+6), AX	// syscall entry
-	SYSCALL
-	JCC	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+8(FP)
-	RET
-
-TEXT runtime·read(SB),NOSPLIT,$0
-	MOVL	fd+0(FP), DI		// arg 1 fd
-	MOVQ	p+8(FP), SI		// arg 2 buf
-	MOVL	n+16(FP), DX		// arg 3 count
-	MOVL	$(0x2000000+3), AX	// syscall entry
-	SYSCALL
-	JCC	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+24(FP)
-	RET
-
-TEXT runtime·write(SB),NOSPLIT,$0
-	MOVQ	fd+0(FP), DI		// arg 1 fd
-	MOVQ	p+8(FP), SI		// arg 2 buf
-	MOVL	n+16(FP), DX		// arg 3 count
-	MOVL	$(0x2000000+4), AX	// syscall entry
-	SYSCALL
-	JCC	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+24(FP)
-	RET
-
 TEXT runtime·raise(SB),NOSPLIT,$0
 	// Ideally we'd send the signal to the current thread,
 	// not the whole process, but that's too hard on OS X.
@@ -100,23 +50,6 @@ TEXT runtime·raiseproc(SB),NOSPLIT,$24
 	MOVL	$1, DX	// arg 3 - posix
 	MOVL	$(0x2000000+37), AX // kill
 	SYSCALL
-	RET
-
-TEXT runtime·setitimer(SB), NOSPLIT, $0
-	MOVL	mode+0(FP), DI
-	MOVQ	new+8(FP), SI
-	MOVQ	old+16(FP), DX
-	MOVL	$(0x2000000+83), AX	// syscall entry
-	SYSCALL
-	RET
-
-TEXT runtime·madvise(SB), NOSPLIT, $0
-	MOVQ	addr+0(FP), DI		// arg 1 addr
-	MOVQ	n+8(FP), SI		// arg 2 len
-	MOVL	flags+16(FP), DX		// arg 3 advice
-	MOVL	$(0x2000000+75), AX	// syscall entry madvise
-	SYSCALL
-	// ignore failure - maybe pages are locked
 	RET
 
 // OS X comm page time offsets
@@ -316,28 +249,6 @@ inreg:
 	MOVL	DX, nsec+8(FP)
 	RET
 
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
-	MOVL	how+0(FP), DI
-	MOVQ	new+8(FP), SI
-	MOVQ	old+16(FP), DX
-	MOVL	$(0x2000000+329), AX  // pthread_sigmask (on OS X, sigprocmask==entire process)
-	SYSCALL
-	JCC	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
-TEXT runtime·sigaction(SB),NOSPLIT,$0-24
-	MOVL	mode+0(FP), DI		// arg 1 sig
-	MOVQ	new+8(FP), SI		// arg 2 act
-	MOVQ	old+16(FP), DX		// arg 3 oact
-	MOVQ	old+16(FP), CX		// arg 3 oact
-	MOVQ	old+16(FP), R10		// arg 3 oact
-	MOVL	$(0x2000000+46), AX	// syscall entry
-	SYSCALL
-	JCC	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
 TEXT runtime·sigfwd(SB),NOSPLIT,$0-32
 	MOVQ	fn+0(FP),    AX
 	MOVL	sig+8(FP),   DI
@@ -381,24 +292,6 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 ok:
 	MOVQ	AX, p+32(FP)
 	MOVQ	$0, err+40(FP)
-	RET
-
-TEXT runtime·munmap(SB),NOSPLIT,$0
-	MOVQ	addr+0(FP), DI		// arg 1 addr
-	MOVQ	n+8(FP), SI		// arg 2 len
-	MOVL	$(0x2000000+73), AX	// syscall entry
-	SYSCALL
-	JCC	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
-	MOVQ	new+0(FP), DI
-	MOVQ	old+8(FP), SI
-	MOVQ	$(0x2000000+53), AX
-	SYSCALL
-	JCC	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
 	RET
 
 TEXT runtime·usleep(SB),NOSPLIT,$16
@@ -595,33 +488,6 @@ TEXT runtime·sysctl(SB),NOSPLIT,$0
 	MOVL	AX, ret+48(FP)
 	RET
 	MOVL	$0, AX
-	MOVL	AX, ret+48(FP)
-	RET
-
-// func kqueue() int32
-TEXT runtime·kqueue(SB),NOSPLIT,$0
-	MOVQ    $0, DI
-	MOVQ    $0, SI
-	MOVQ    $0, DX
-	MOVL	$(0x2000000+362), AX
-	SYSCALL
-	JCC	2(PC)
-	NEGQ	AX
-	MOVL	AX, ret+0(FP)
-	RET
-
-// func kevent(kq int32, ch *keventt, nch int32, ev *keventt, nev int32, ts *timespec) int32
-TEXT runtime·kevent(SB),NOSPLIT,$0
-	MOVL    kq+0(FP), DI
-	MOVQ    ch+8(FP), SI
-	MOVL    nch+16(FP), DX
-	MOVQ    ev+24(FP), R10
-	MOVL    nev+32(FP), R8
-	MOVQ    ts+40(FP), R9
-	MOVL	$(0x2000000+363), AX
-	SYSCALL
-	JCC	2(PC)
-	NEGQ	AX
 	MOVL	AX, ret+48(FP)
 	RET
 

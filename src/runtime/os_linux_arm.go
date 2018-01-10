@@ -6,6 +6,8 @@ package runtime
 
 import "unsafe"
 
+//sys	getrlimit(kind int32, limit unsafe.Pointer) int32 = SYS_ugetrlimit
+
 const (
 	_AT_PLATFORM = 15 //  introduced in at least 2.6.11
 

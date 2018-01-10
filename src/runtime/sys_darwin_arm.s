@@ -41,52 +41,6 @@ TEXT notok<>(SB),NOSPLIT,$0
 	MOVW	R8, (R8)
 	B		0(PC)
 
-TEXT runtime·open(SB),NOSPLIT,$0
-	MOVW	name+0(FP), R0
-	MOVW	mode+4(FP), R1
-	MOVW	perm+8(FP), R2
-	MOVW	$SYS_open, R12
-	SWI	$0x80
-	MOVW.CS	$-1, R0
-	MOVW	R0, ret+12(FP)
-	RET
-
-TEXT runtime·closefd(SB),NOSPLIT,$0
-	MOVW	fd+0(FP), R0
-	MOVW	$SYS_close, R12
-	SWI	$0x80
-	MOVW.CS	$-1, R0
-	MOVW	R0, ret+4(FP)
-	RET
-
-TEXT runtime·write(SB),NOSPLIT,$0
-	MOVW	fd+0(FP), R0
-	MOVW	p+4(FP), R1
-	MOVW	n+8(FP), R2
-	MOVW	$SYS_write, R12
-	SWI	$0x80
-	MOVW.CS	$-1, R0
-	MOVW	R0, ret+12(FP)
-	RET
-
-TEXT runtime·read(SB),NOSPLIT,$0
-	MOVW	fd+0(FP), R0
-	MOVW	p+4(FP), R1
-	MOVW	n+8(FP), R2
-	MOVW	$SYS_read, R12
-	SWI	$0x80
-	MOVW.CS	$-1, R0
-	MOVW	R0, ret+12(FP)
-	RET
-
-TEXT runtime·exit(SB),NOSPLIT,$-4
-	MOVW	code+0(FP), R0
-	MOVW	$SYS_exit, R12
-	SWI	$0x80
-	MOVW	$1234, R0
-	MOVW	$1002, R1
-	MOVW	R0, (R1)	// fail hard
-
 // Exit this OS thread (like pthread_exit, which eventually
 // calls __bsdthread_terminate).
 TEXT exit1<>(SB),NOSPLIT,$0
@@ -148,31 +102,6 @@ TEXT runtime·mmap(SB),NOSPLIT,$0
 ok:
 	MOVW	R0, p+24(FP)
 	MOVW	R1, err+28(FP)
-	RET
-
-TEXT runtime·munmap(SB),NOSPLIT,$0
-	MOVW	addr+0(FP), R0
-	MOVW	n+4(FP), R1
-	MOVW	$SYS_munmap, R12
-	SWI	$0x80
-	BL.CS	notok<>(SB)
-	RET
-
-TEXT runtime·madvise(SB),NOSPLIT,$0
-	MOVW	addr+0(FP), R0
-	MOVW	n+4(FP), R1
-	MOVW	flags+8(FP), R2
-	MOVW	$SYS_madvise, R12
-	SWI	$0x80
-	BL.CS	notok<>(SB)
-	RET
-
-TEXT runtime·setitimer(SB),NOSPLIT,$0
-	MOVW	mode+0(FP), R0
-	MOVW	new+4(FP), R1
-	MOVW	old+8(FP), R2
-	MOVW	$SYS_setitimer, R12
-	SWI	$0x80
 	RET
 
 TEXT runtime·walltime(SB), 7, $32
@@ -300,23 +229,6 @@ ret:
 
 	// if sigreturn fails, we can do nothing but exit
 	B	runtime·exit(SB)
-
-TEXT runtime·sigprocmask(SB),NOSPLIT,$0
-	MOVW	how+0(FP), R0
-	MOVW	new+4(FP), R1
-	MOVW	old+8(FP), R2
-	MOVW	$SYS_pthread_sigmask, R12
-	SWI	$0x80
-	BL.CS	notok<>(SB)
-	RET
-
-TEXT runtime·sigaction(SB),NOSPLIT,$0
-	MOVW	mode+0(FP), R0
-	MOVW	new+4(FP), R1
-	MOVW	old+8(FP), R2
-	MOVW	$SYS_sigaction, R12
-	SWI	$0x80
-	RET
 
 TEXT runtime·usleep(SB),NOSPLIT,$12
 	MOVW	usec+0(FP), R0
@@ -483,28 +395,6 @@ TEXT runtime·mach_semaphore_signal_all(SB),NOSPLIT,$0
 	MOVW	R0, ret+4(FP)
 	RET
 
-// int32 runtime·kqueue(void)
-TEXT runtime·kqueue(SB),NOSPLIT,$0
-	MOVW	$SYS_kqueue, R12
-	SWI	$0x80
-	RSB.CS	$0, R0, R0
-	MOVW	R0, ret+0(FP)
-	RET
-
-// int32 runtime·kevent(int kq, Kevent *changelist, int nchanges, Kevent *eventlist, int events, Timespec *timeout)
-TEXT runtime·kevent(SB),NOSPLIT,$0
-	MOVW	$SYS_kevent, R12
-	MOVW	kq+0(FP), R0
-	MOVW	ch+4(FP), R1
-	MOVW	nch+8(FP), R2
-	MOVW	ev+12(FP), R3
-	MOVW	nev+16(FP), R4
-	MOVW	ts+20(FP), R5
-	SWI	$0x80
-	RSB.CS	$0, R0, R0
-	MOVW	R0, ret+24(FP)
-	RET
-
 // int32 runtime·closeonexec(int32 fd)
 TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	MOVW	$SYS_fcntl, R12
@@ -514,8 +404,3 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	SWI	$0x80
 	RET
 
-// sigaltstack on some darwin/arm version is buggy and will always
-// run the signal handler on the main stack, so our sigtramp has
-// to do the stack switch ourselves.
-TEXT runtime·sigaltstack(SB),NOSPLIT,$0
-	RET

@@ -10,6 +10,8 @@ package runtime
 
 import "unsafe"
 
+//sys	sysSigaction(sig uintptr, new *sigactiont, old *sigactiont, size uintptr) int32 = SYS_rt_sigaction
+
 // _cgo_sigaction is filled in by runtime/cgo when it is linked into the
 // program, so it is only non-nil when using cgo.
 //go:linkname _cgo_sigaction _cgo_sigaction
