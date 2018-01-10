@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5b68f11_b375fe83",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2018-01-10T06:26:51Z",
+      "side": 1,
+      "message": "The listener might not be ready after 10 ms on someone else\u0027s computer, causing a sporadically failing test. I think you want a channel that the listener goroutine sends to and is read (and ignored) here to synchronize instead.",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a9165ed_d2625048",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2018-01-10T06:26:51Z",
+      "side": 1,
+      "message": "We could also use simply Dial in the test, as both Dial and DialWithDialer should behave the same, even if the actual fix is in DialWithDialer. Would save a few lines in test and test both functions in one test.",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be416107_34265e8f",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2018-01-10T06:26:51Z",
+      "side": 1,
+      "message": "Maybe more clear:\n\n DialWithDialer didn\u0027t return an error when server closed connection in handshake",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e39afbb_f96ccf27",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2018-01-10T06:26:51Z",
+      "side": 1,
+      "message": "Could compare strings with \u003d\u003d here\n\n if err.Error() !\u003d want {",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdb3c3bb_449b1a19",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2018-01-10T06:26:51Z",
+      "side": 1,
+      "message": "Go tests should use form got !\u003d want everywhere. https://github.com/golang/go/wiki/CodeReviewComments#useful-test-failures\n\n t.Fatalf(\"DialWithDialer returned error %T; want %q\", err, want)\n\nThis should show io.EOF before the fix, which would be more clear than \"EOF\".",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

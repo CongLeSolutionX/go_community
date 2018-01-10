@@ -34,6 +34,24 @@
       "revId": "ecd30ed9b0724eb4bcf9b956976c5240cb1f4ec8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab323ea_bc4a86c9",
+        "filename": "src/crypto/tls/tls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 14770
+      },
+      "writtenOn": "2018-01-10T06:26:51Z",
+      "side": 1,
+      "message": "You are correct rawConn.Close must be called.\n\nBut the err is a variable we can change as it will only be returned. So if we\nchange it before the if err !\u003d nil, the modified error will be returned, and\nthe connection will be closed by the err !\u003d nil branch.\n\nI guess this is a corollary of\nhttps://github.com/golang/go/wiki/CodeReviewComments#indent-error-flow",
+      "parentUuid": "d79ce22e_8aa12338",
+      "revId": "ecd30ed9b0724eb4bcf9b956976c5240cb1f4ec8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
