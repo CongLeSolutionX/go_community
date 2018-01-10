@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbcf2c22_1c7bd2c1",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-10T23:56:08Z",
+      "side": 1,
+      "message": "s/, got//",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e8aa741_85e64fb9",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-10T23:56:08Z",
+      "side": 1,
+      "message": "s/, got//",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fabf49f_59e8cc54",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-10T23:56:08Z",
+      "side": 1,
+      "message": "s/, got//",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e65a5bf_c1fdfc4f",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-10T23:56:08Z",
+      "side": 1,
+      "message": "\"rpc.Register: method %q has %d parameters; needs exactly one\"",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13f085de_a88b3063",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-10T23:56:08Z",
+      "side": 1,
+      "message": "\"rpc.Register: return type of method %q is %q, must be error\"",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
