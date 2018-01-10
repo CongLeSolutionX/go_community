@@ -11,6 +11,14 @@ package runtime
 
 import "unsafe"
 
+//sysnoret	exit(code int32) = SYS_exit_group
+
+//sys	open(name *byte, mode int32, perm int32) int32
+//sys	closefd(fd int32) int32 = SYS_close
+//sys	read(fd int32, p unsafe.Pointer, n int32) int32
+//sys	write(fd uintptr, p unsafe.Pointer, n int32) int32
+//sys	madvise(addr unsafe.Pointer, n uintptr, flags int32)
+
 func read(fd int32, p unsafe.Pointer, n int32) int32
 func closefd(fd int32) int32
 
