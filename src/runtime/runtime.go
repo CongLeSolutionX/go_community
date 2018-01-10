@@ -12,6 +12,11 @@ import (
 //go:generate go run wincallback.go
 //go:generate go run mkduff.go
 //go:generate go run mkfastlog2table.go
+//go:generate go run mksys.go -goos linux -goarch 386 -output zsys_linux_386.s -- stubs2.go stubs2_linux.go os_linux.go os_linux_386.go netpoll_epoll.go sigaction_linux.go
+//go:generate go run mksys.go -goos linux -goarch amd64 -output zsys_linux_amd64.s -- stubs2.go stubs2_linux.go os_linux.go os_linux_amd64.go netpoll_epoll.go stubs_android.go cgo_sigaction.go cgo_mmap.go
+//go:generate go run mksys.go -goos linux -goarch arm -output zsys_linux_arm.s -- stubs2.go stubs2_linux.go os_linux.go os_linux_arm.go netpoll_epoll.go stubs_android.go sigaction_linux.go
+//go:generate go run mksys.go -goos darwin -goarch amd64 -output zsys_darwin_amd64.s -- stubs2.go stubs2_darwin.go os_darwin.go mmap.go netpoll_kqueue.go
+//go:generate go run mksys.go -goos darwin -goarch 386 -output zsys_darwin_386.s -- stubs2.go stubs2_darwin.go os_darwin.go mmap.go netpoll_kqueue.go
 
 var ticks struct {
 	lock mutex

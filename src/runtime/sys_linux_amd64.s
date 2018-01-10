@@ -46,12 +46,6 @@
 #define SYS_pselect6		270
 #define SYS_epoll_create1	291
 
-TEXT runtime·exit(SB),NOSPLIT,$0-4
-	MOVL	code+0(FP), DI
-	MOVL	$SYS_exit_group, AX
-	SYSCALL
-	RET
-
 // func exitThread(wait *uint32)
 TEXT runtime·exitThread(SB),NOSPLIT,$0-8
 	MOVQ	wait+0(FP), AX
@@ -63,60 +57,6 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-8
 	// We may not even have a stack any more.
 	INT	$3
 	JMP	0(PC)
-
-TEXT runtime·open(SB),NOSPLIT,$0-20
-	MOVQ	name+0(FP), DI
-	MOVL	mode+8(FP), SI
-	MOVL	perm+12(FP), DX
-	MOVL	$SYS_open, AX
-	SYSCALL
-	CMPQ	AX, $0xfffffffffffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+16(FP)
-	RET
-
-TEXT runtime·closefd(SB),NOSPLIT,$0-12
-	MOVL	fd+0(FP), DI
-	MOVL	$SYS_close, AX
-	SYSCALL
-	CMPQ	AX, $0xfffffffffffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+8(FP)
-	RET
-
-TEXT runtime·write(SB),NOSPLIT,$0-28
-	MOVQ	fd+0(FP), DI
-	MOVQ	p+8(FP), SI
-	MOVL	n+16(FP), DX
-	MOVL	$SYS_write, AX
-	SYSCALL
-	CMPQ	AX, $0xfffffffffffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+24(FP)
-	RET
-
-TEXT runtime·read(SB),NOSPLIT,$0-28
-	MOVL	fd+0(FP), DI
-	MOVQ	p+8(FP), SI
-	MOVL	n+16(FP), DX
-	MOVL	$SYS_read, AX
-	SYSCALL
-	CMPQ	AX, $0xfffffffffffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+24(FP)
-	RET
-
-TEXT runtime·getrlimit(SB),NOSPLIT,$0-20
-	MOVL	kind+0(FP), DI
-	MOVQ	limit+8(FP), SI
-	MOVL	$SYS_getrlimit, AX
-	SYSCALL
-	MOVL	AX, ret+16(FP)
-	RET
 
 TEXT runtime·usleep(SB),NOSPLIT,$16
 	MOVL	$0, DX
@@ -139,12 +79,6 @@ TEXT runtime·usleep(SB),NOSPLIT,$16
 	SYSCALL
 	RET
 
-TEXT runtime·gettid(SB),NOSPLIT,$0-4
-	MOVL	$SYS_gettid, AX
-	SYSCALL
-	MOVL	AX, ret+0(FP)
-	RET
-
 TEXT runtime·raise(SB),NOSPLIT,$0
 	MOVL	$SYS_gettid, AX
 	SYSCALL
@@ -161,23 +95,6 @@ TEXT runtime·raiseproc(SB),NOSPLIT,$0
 	MOVL	sig+0(FP), SI	// arg 2
 	MOVL	$SYS_kill, AX
 	SYSCALL
-	RET
-
-TEXT runtime·setitimer(SB),NOSPLIT,$0-24
-	MOVL	mode+0(FP), DI
-	MOVQ	new+8(FP), SI
-	MOVQ	old+16(FP), DX
-	MOVL	$SYS_setittimer, AX
-	SYSCALL
-	RET
-
-TEXT runtime·mincore(SB),NOSPLIT,$0-28
-	MOVQ	addr+0(FP), DI
-	MOVQ	n+8(FP), SI
-	MOVQ	dst+16(FP), DX
-	MOVL	$SYS_mincore, AX
-	SYSCALL
-	MOVL	AX, ret+24(FP)
 	RET
 
 // func walltime() (sec int64, nsec int32)
@@ -280,28 +197,6 @@ fallback:
 	IMULQ	$1000000000, AX
 	ADDQ	DX, AX
 	MOVQ	AX, ret+0(FP)
-	RET
-
-TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0-28
-	MOVL	how+0(FP), DI
-	MOVQ	new+8(FP), SI
-	MOVQ	old+16(FP), DX
-	MOVL	size+24(FP), R10
-	MOVL	$SYS_rt_sigprocmask, AX
-	SYSCALL
-	CMPQ	AX, $0xfffffffffffff001
-	JLS	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
-TEXT runtime·sysSigaction(SB),NOSPLIT,$0-36
-	MOVQ	sig+0(FP), DI
-	MOVQ	new+8(FP), SI
-	MOVQ	old+16(FP), DX
-	MOVQ	size+24(FP), R10
-	MOVL	$SYS_rt_sigaction, AX
-	SYSCALL
-	MOVL	AX, ret+32(FP)
 	RET
 
 // Call the function stored in _cgo_sigaction using the GCC calling convention.
@@ -481,16 +376,6 @@ TEXT runtime·callCgoMmap(SB),NOSPLIT,$16
 	MOVQ	AX, ret+32(FP)
 	RET
 
-TEXT runtime·sysMunmap(SB),NOSPLIT,$0
-	MOVQ	addr+0(FP), DI
-	MOVQ	n+8(FP), SI
-	MOVQ	$SYS_munmap, AX
-	SYSCALL
-	CMPQ	AX, $0xfffffffffffff001
-	JLS	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
 // Call the function stored in _cgo_munmap using the GCC calling convention.
 // This must be called on the system stack.
 TEXT runtime·callCgoMunmap(SB),NOSPLIT,$16-16
@@ -502,29 +387,6 @@ TEXT runtime·callCgoMunmap(SB),NOSPLIT,$16-16
 	MOVQ	BX, 0(SP)
 	CALL	AX
 	MOVQ	0(SP), SP
-	RET
-
-TEXT runtime·madvise(SB),NOSPLIT,$0
-	MOVQ	addr+0(FP), DI
-	MOVQ	n+8(FP), SI
-	MOVL	flags+16(FP), DX
-	MOVQ	$SYS_madvise, AX
-	SYSCALL
-	// ignore failure - maybe pages are locked
-	RET
-
-// int64 futex(int32 *uaddr, int32 op, int32 val,
-//	struct timespec *timeout, int32 *uaddr2, int32 val2);
-TEXT runtime·futex(SB),NOSPLIT,$0
-	MOVQ	addr+0(FP), DI
-	MOVL	op+8(FP), SI
-	MOVL	val+12(FP), DX
-	MOVQ	ts+16(FP), R10
-	MOVQ	addr2+24(FP), R8
-	MOVL	val3+32(FP), R9
-	MOVL	$SYS_futex, AX
-	SYSCALL
-	MOVL	AX, ret+40(FP)
 	RET
 
 // int32 clone(int32 flags, void *stk, M *mp, G *gp, void (*fn)(void));
@@ -583,16 +445,6 @@ nog:
 	SYSCALL
 	JMP	-3(PC)	// keep exiting
 
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
-	MOVQ	new+0(FP), DI
-	MOVQ	old+8(FP), SI
-	MOVQ	$SYS_sigaltstack, AX
-	SYSCALL
-	CMPQ	AX, $0xfffffffffffff001
-	JLS	2(PC)
-	MOVL	$0xf1, 0xf1  // crash
-	RET
-
 // set tls base to DI
 TEXT runtime·settls(SB),NOSPLIT,$32
 #ifdef GOOS_android
@@ -612,58 +464,6 @@ TEXT runtime·settls(SB),NOSPLIT,$32
 	MOVL	$0xf1, 0xf1  // crash
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
-	MOVL	$SYS_sched_yield, AX
-	SYSCALL
-	RET
-
-TEXT runtime·sched_getaffinity(SB),NOSPLIT,$0
-	MOVQ	pid+0(FP), DI
-	MOVQ	len+8(FP), SI
-	MOVQ	buf+16(FP), DX
-	MOVL	$SYS_sched_getaffinity, AX
-	SYSCALL
-	MOVL	AX, ret+24(FP)
-	RET
-
-// int32 runtime·epollcreate(int32 size);
-TEXT runtime·epollcreate(SB),NOSPLIT,$0
-	MOVL    size+0(FP), DI
-	MOVL    $SYS_epoll_create, AX
-	SYSCALL
-	MOVL	AX, ret+8(FP)
-	RET
-
-// int32 runtime·epollcreate1(int32 flags);
-TEXT runtime·epollcreate1(SB),NOSPLIT,$0
-	MOVL	flags+0(FP), DI
-	MOVL	$SYS_epoll_create1, AX
-	SYSCALL
-	MOVL	AX, ret+8(FP)
-	RET
-
-// func epollctl(epfd, op, fd int32, ev *epollEvent) int
-TEXT runtime·epollctl(SB),NOSPLIT,$0
-	MOVL	epfd+0(FP), DI
-	MOVL	op+4(FP), SI
-	MOVL	fd+8(FP), DX
-	MOVQ	ev+16(FP), R10
-	MOVL	$SYS_epoll_ctl, AX
-	SYSCALL
-	MOVL	AX, ret+24(FP)
-	RET
-
-// int32 runtime·epollwait(int32 epfd, EpollEvent *ev, int32 nev, int32 timeout);
-TEXT runtime·epollwait(SB),NOSPLIT,$0
-	MOVL	epfd+0(FP), DI
-	MOVQ	ev+8(FP), SI
-	MOVL	nev+16(FP), DX
-	MOVL	timeout+20(FP), R10
-	MOVL	$SYS_epoll_wait, AX
-	SYSCALL
-	MOVL	AX, ret+24(FP)
-	RET
-
 // void runtime·closeonexec(int32 fd);
 TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	MOVL    fd+0(FP), DI  // fd
@@ -673,35 +473,6 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	SYSCALL
 	RET
 
-
-// int access(const char *name, int mode)
-TEXT runtime·access(SB),NOSPLIT,$0
-	MOVQ	name+0(FP), DI
-	MOVL	mode+8(FP), SI
-	MOVL	$SYS_access, AX
-	SYSCALL
-	MOVL	AX, ret+16(FP)
-	RET
-
-// int connect(int fd, const struct sockaddr *addr, socklen_t addrlen)
-TEXT runtime·connect(SB),NOSPLIT,$0-28
-	MOVL	fd+0(FP), DI
-	MOVQ	addr+8(FP), SI
-	MOVL	len+16(FP), DX
-	MOVL	$SYS_connect, AX
-	SYSCALL
-	MOVL	AX, ret+24(FP)
-	RET
-
-// int socket(int domain, int type, int protocol)
-TEXT runtime·socket(SB),NOSPLIT,$0-20
-	MOVL	domain+0(FP), DI
-	MOVL	typ+4(FP), SI
-	MOVL	prot+8(FP), DX
-	MOVL	$SYS_socket, AX
-	SYSCALL
-	MOVL	AX, ret+16(FP)
-	RET
 
 // func sbrk0() uintptr
 TEXT runtime·sbrk0(SB),NOSPLIT,$0-8

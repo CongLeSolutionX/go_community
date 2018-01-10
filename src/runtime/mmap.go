@@ -12,6 +12,8 @@ package runtime
 
 import "unsafe"
 
+//sysfatal	munmap(addr unsafe.Pointer, n uintptr)
+
 // mmap calls the mmap system call. It is implemented in assembly.
 // We only pass the lower 32 bits of file offset to the
 // assembly routine; the higher bits (if required), should be provided
