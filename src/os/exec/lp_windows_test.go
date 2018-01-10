@@ -6,6 +6,7 @@ package exec
 
 import (
 	"fmt"
+	"internal/testenv"
 	"io"
 	"io/ioutil"
 	"os"
@@ -532,7 +533,7 @@ func buildPrintPathExe(t *testing.T, dir string) string {
 		t.Fatalf("failed to execute template: %v", err)
 	}
 	outname := name + ".exe"
-	cmd := Command("go", "build", "-o", outname, srcname)
+	cmd := Command(testenv.GoToolPath(), "build", "-o", outname, srcname)
 	cmd.Dir = dir
 	out, err := cmd.CombinedOutput()
 	if err != nil {
