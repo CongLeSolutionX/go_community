@@ -1469,17 +1469,29 @@ func parseCertificate(in *certificate) (*Certificate, error) {
 					if len(dp.DistributionPoint.FullName.Bytes) == 0 {
 						continue
 					}
-
-					var n asn1.RawValue
-					if _, err := asn1.Unmarshal(dp.DistributionPoint.FullName.Bytes, &n); err != nil {
-						return nil, err
-					}
-					// Trailing data after the fullName is
-					// allowed because other elements of
-					// the SEQUENCE can appear.
-
-					if n.Tag == 6 {
-						out.CRLDistributionPoints = append(out.CRLDistributionPoints, string(n.Bytes))
+					// The following block being within a loop is NOT as per any section in RFC 5280.
+					// This is due to a number of intermediate certificates in the wild which encode
+					// their CRL distribution list incorrectly. Rather than the ASN.1 structure outlined
+					// above, they are encoded as follows:
+					//
+					// CRLDistrubtionPoints ::= SEQUENCE SIZE (1..MAX) OF SEQUENCE SIZE(0..MAX) OF GeneralNames
+					//
+					// That is, all URIs are flat within a single inner sequence. As such, for each
+					// DistributionPoint we receive we take a peek at the trailing data, and if the trailing data
+					// appears to be more URIs, rather than the optional fields outlined in the correct encoding,
+					// we are lenient and append it to the slice.
+					b := dp.DistributionPoint.FullName.Bytes
+					for len(b) != 0 {
+						var n asn1.RawValue
+						rest, err := asn1.Unmarshal(b, &n)
+						if err != nil {
+							return nil, err
+						}
+						if n.Tag == 6 {
+							// Appears to be more URIs.
+							out.CRLDistributionPoints = append(out.CRLDistributionPoints, string(n.Bytes))
+						}
+						b = rest
 					}
 				}
 
