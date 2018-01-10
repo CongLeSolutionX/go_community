@@ -1,13 +1,10 @@
-// Copyright 2015 The Go Authors. All rights reserved.
+// Copyright 2018 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build !amd64,!s390x,!arm64
-
 package strings
 
-// TODO: implements short string optimization on non amd64 platforms
-// and get rid of strings_amd64.go
+func countByte(s string, c byte) int // ../runtime/asm_arm64.s
 
 // Index returns the index of the first instance of substr in s, or -1 if substr is not present in s.
 func Index(s, substr string) int {
@@ -57,5 +54,8 @@ func Index(s, substr string) int {
 // Count counts the number of non-overlapping instances of substr in s.
 // If substr is an empty string, Count returns 1 + the number of Unicode code points in s.
 func Count(s, substr string) int {
+	if len(substr) == 1 {
+		return countByte(s, byte(substr[0]))
+	}
 	return countGeneric(s, substr)
 }

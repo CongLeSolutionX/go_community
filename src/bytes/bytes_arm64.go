@@ -4,7 +4,7 @@
 
 package bytes
 
-func countByte(s []byte, c byte) int // bytes_arm64.s
+func countByte(s []byte, c byte) int // ../runtime/asm_arm64.s
 
 // Index returns the index of the first instance of sep in s, or -1 if sep is not present in s.
 func Index(s, sep []byte) int {
