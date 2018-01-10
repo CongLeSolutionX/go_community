@@ -34,6 +34,29 @@
       "revId": "e53517d12780d88da144cb034900d694eac16f22",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61f667de_4bf64b56",
+        "filename": "src/os/exec/lp_windows_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-01-10T17:27:55Z",
+      "side": 1,
+      "message": "you either replicate GoToolPath here (if small) or can call this in a new file that\u0027s in \"package exec_test\" (like exec_posix_test.go is), and then bridge it with an export_test.go probably.",
+      "range": {
+        "startLine": 536,
+        "startChar": 16,
+        "endLine": 536,
+        "endChar": 34
+      },
+      "revId": "e53517d12780d88da144cb034900d694eac16f22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
