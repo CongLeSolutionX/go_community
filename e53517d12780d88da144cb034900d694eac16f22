@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92b18909_c4cf5fef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-01-10T17:12:15Z",
+      "side": 1,
+      "message": "what is this wizardry? I see many gogreps. Which is this?",
+      "revId": "e53517d12780d88da144cb034900d694eac16f22",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
