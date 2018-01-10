@@ -6,6 +6,8 @@
 
 package runtime
 
+//sys	getrlimit(kind int32, limit unsafe.Pointer) int32
+
 // For go:linkname
 import _ "unsafe"
 
