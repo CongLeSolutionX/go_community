@@ -9,6 +9,16 @@ import (
 	"unsafe"
 )
 
+//sys	gettid() uint32
+//sys	setitimer(mode int32, new *itimerval, old *itimerval)
+//sys	mincore(addr unsafe.Pointer, n uintptr, dst *byte) int32
+//sys	futex(addr unsafe.Pointer, op int32, val uint32, ts unsafe.Pointer, addr2 unsafe.Pointer, val3 uint32) int32
+//sys	osyield() = SYS_sched_yield
+//sys	sched_getaffinity(pid uintptr, len uintptr, buf *byte) int32
+
+//sysfatal	rtsigprocmask(how int32, new *sigset, old *sigset, size int32) = SYS_rt_sigprocmask
+//sysfatal	sigaltstack(new *stackt, old *stackt)
+
 type mOS struct{}
 
 //go:noescape

@@ -60,13 +60,6 @@
 #define SYS_pselect6		308
 #define SYS_epoll_create1	329
 
-TEXT runtime·exit(SB),NOSPLIT,$0
-	MOVL	$SYS_exit_group, AX
-	MOVL	code+0(FP), BX
-	INVOKE_SYSCALL
-	INT $3	// not reached
-	RET
-
 TEXT exit1<>(SB),NOSPLIT,$0
 	MOVL	$SYS_exit, AX
 	MOVL	code+0(FP), BX
@@ -85,60 +78,6 @@ TEXT runtime·exitThread(SB),NOSPLIT,$0-4
 	// We may not even have a stack any more.
 	INT	$3
 	JMP	0(PC)
-
-TEXT runtime·open(SB),NOSPLIT,$0
-	MOVL	$SYS_open, AX
-	MOVL	name+0(FP), BX
-	MOVL	mode+4(FP), CX
-	MOVL	perm+8(FP), DX
-	INVOKE_SYSCALL
-	CMPL	AX, $0xfffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+12(FP)
-	RET
-
-TEXT runtime·closefd(SB),NOSPLIT,$0
-	MOVL	$SYS_close, AX
-	MOVL	fd+0(FP), BX
-	INVOKE_SYSCALL
-	CMPL	AX, $0xfffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+4(FP)
-	RET
-
-TEXT runtime·write(SB),NOSPLIT,$0
-	MOVL	$SYS_write, AX
-	MOVL	fd+0(FP), BX
-	MOVL	p+4(FP), CX
-	MOVL	n+8(FP), DX
-	INVOKE_SYSCALL
-	CMPL	AX, $0xfffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+12(FP)
-	RET
-
-TEXT runtime·read(SB),NOSPLIT,$0
-	MOVL	$SYS_read, AX
-	MOVL	fd+0(FP), BX
-	MOVL	p+4(FP), CX
-	MOVL	n+8(FP), DX
-	INVOKE_SYSCALL
-	CMPL	AX, $0xfffff001
-	JLS	2(PC)
-	MOVL	$-1, AX
-	MOVL	AX, ret+12(FP)
-	RET
-
-TEXT runtime·getrlimit(SB),NOSPLIT,$0
-	MOVL	$SYS_ugetrlimit, AX
-	MOVL	kind+0(FP), BX
-	MOVL	limit+4(FP), CX
-	INVOKE_SYSCALL
-	MOVL	AX, ret+8(FP)
-	RET
 
 TEXT runtime·usleep(SB),NOSPLIT,$8
 	MOVL	$0, DX
@@ -161,12 +100,6 @@ TEXT runtime·usleep(SB),NOSPLIT,$8
 	INVOKE_SYSCALL
 	RET
 
-TEXT runtime·gettid(SB),NOSPLIT,$0-4
-	MOVL	$SYS_gettid, AX
-	INVOKE_SYSCALL
-	MOVL	AX, ret+0(FP)
-	RET
-
 TEXT runtime·raise(SB),NOSPLIT,$12
 	MOVL	$SYS_gettid, AX
 	INVOKE_SYSCALL
@@ -183,23 +116,6 @@ TEXT runtime·raiseproc(SB),NOSPLIT,$12
 	MOVL	sig+0(FP), CX	// arg 2 signal
 	MOVL	$SYS_kill, AX
 	INVOKE_SYSCALL
-	RET
-
-TEXT runtime·setitimer(SB),NOSPLIT,$0-12
-	MOVL	$SYS_setittimer, AX
-	MOVL	mode+0(FP), BX
-	MOVL	new+4(FP), CX
-	MOVL	old+8(FP), DX
-	INVOKE_SYSCALL
-	RET
-
-TEXT runtime·mincore(SB),NOSPLIT,$0-16
-	MOVL	$SYS_mincore, AX
-	MOVL	addr+0(FP), BX
-	MOVL	n+4(FP), CX
-	MOVL	dst+8(FP), DX
-	INVOKE_SYSCALL
-	MOVL	AX, ret+12(FP)
 	RET
 
 // func walltime() (sec int64, nsec int32)
@@ -314,28 +230,6 @@ finish:
 	MOVL	DX, ret_hi+4(FP)
 	RET
 
-TEXT runtime·rtsigprocmask(SB),NOSPLIT,$0
-	MOVL	$SYS_rt_sigprocmask, AX
-	MOVL	how+0(FP), BX
-	MOVL	new+4(FP), CX
-	MOVL	old+8(FP), DX
-	MOVL	size+12(FP), SI
-	INVOKE_SYSCALL
-	CMPL	AX, $0xfffff001
-	JLS	2(PC)
-	INT $3
-	RET
-
-TEXT runtime·rt_sigaction(SB),NOSPLIT,$0
-	MOVL	$SYS_rt_sigaction, AX
-	MOVL	sig+0(FP), BX
-	MOVL	new+4(FP), CX
-	MOVL	old+8(FP), DX
-	MOVL	size+12(FP), SI
-	INVOKE_SYSCALL
-	MOVL	AX, ret+16(FP)
-	RET
-
 TEXT runtime·sigfwd(SB),NOSPLIT,$12-16
 	MOVL	fn+0(FP), AX
 	MOVL	sig+4(FP), BX
@@ -417,29 +311,6 @@ TEXT runtime·munmap(SB),NOSPLIT,$0
 	CMPL	AX, $0xfffff001
 	JLS	2(PC)
 	INT $3
-	RET
-
-TEXT runtime·madvise(SB),NOSPLIT,$0
-	MOVL	$SYS_madvise, AX
-	MOVL	addr+0(FP), BX
-	MOVL	n+4(FP), CX
-	MOVL	flags+8(FP), DX
-	INVOKE_SYSCALL
-	// ignore failure - maybe pages are locked
-	RET
-
-// int32 futex(int32 *uaddr, int32 op, int32 val,
-//	struct timespec *timeout, int32 *uaddr2, int32 val2);
-TEXT runtime·futex(SB),NOSPLIT,$0
-	MOVL	$SYS_futex, AX
-	MOVL	addr+0(FP), BX
-	MOVL	op+4(FP), CX
-	MOVL	val+8(FP), DX
-	MOVL	ts+12(FP), SI
-	MOVL	addr2+16(FP), DI
-	MOVL	val3+20(FP), BP
-	INVOKE_SYSCALL
-	MOVL	AX, ret+24(FP)
 	RET
 
 // int32 clone(int32 flags, void *stack, M *mp, G *gp, void (*fn)(void));
@@ -525,16 +396,6 @@ nog:
 	CALL	SI	// fn()
 	CALL	exit1<>(SB)
 	MOVL	$0x1234, 0x1005
-
-TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
-	MOVL	$SYS_sigaltstack, AX
-	MOVL	new+0(FP), BX
-	MOVL	old+4(FP), CX
-	INVOKE_SYSCALL
-	CMPL	AX, $0xfffff001
-	JLS	2(PC)
-	INT	$3
-	RET
 
 // <asm-i386/ldt.h>
 // struct user_desc {
@@ -635,58 +496,6 @@ TEXT runtime·setldt(SB),NOSPLIT,$32
 
 	RET
 
-TEXT runtime·osyield(SB),NOSPLIT,$0
-	MOVL	$SYS_sched_yield, AX
-	INVOKE_SYSCALL
-	RET
-
-TEXT runtime·sched_getaffinity(SB),NOSPLIT,$0
-	MOVL	$SYS_sched_getaffinity, AX
-	MOVL	pid+0(FP), BX
-	MOVL	len+4(FP), CX
-	MOVL	buf+8(FP), DX
-	INVOKE_SYSCALL
-	MOVL	AX, ret+12(FP)
-	RET
-
-// int32 runtime·epollcreate(int32 size);
-TEXT runtime·epollcreate(SB),NOSPLIT,$0
-	MOVL    $SYS_epoll_create, AX
-	MOVL	size+0(FP), BX
-	INVOKE_SYSCALL
-	MOVL	AX, ret+4(FP)
-	RET
-
-// int32 runtime·epollcreate1(int32 flags);
-TEXT runtime·epollcreate1(SB),NOSPLIT,$0
-	MOVL    $SYS_epoll_create1, AX
-	MOVL	flags+0(FP), BX
-	INVOKE_SYSCALL
-	MOVL	AX, ret+4(FP)
-	RET
-
-// func epollctl(epfd, op, fd int32, ev *epollEvent) int
-TEXT runtime·epollctl(SB),NOSPLIT,$0
-	MOVL	$SYS_epoll_ctl, AX
-	MOVL	epfd+0(FP), BX
-	MOVL	op+4(FP), CX
-	MOVL	fd+8(FP), DX
-	MOVL	ev+12(FP), SI
-	INVOKE_SYSCALL
-	MOVL	AX, ret+16(FP)
-	RET
-
-// int32 runtime·epollwait(int32 epfd, EpollEvent *ev, int32 nev, int32 timeout);
-TEXT runtime·epollwait(SB),NOSPLIT,$0
-	MOVL	$SYS_epoll_wait, AX
-	MOVL	epfd+0(FP), BX
-	MOVL	ev+4(FP), CX
-	MOVL	nev+8(FP), DX
-	MOVL	timeout+12(FP), SI
-	INVOKE_SYSCALL
-	MOVL	AX, ret+16(FP)
-	RET
-
 // void runtime·closeonexec(int32 fd);
 TEXT runtime·closeonexec(SB),NOSPLIT,$0
 	MOVL	$SYS_fcntl, AX
@@ -698,12 +507,12 @@ TEXT runtime·closeonexec(SB),NOSPLIT,$0
 
 // int access(const char *name, int mode)
 TEXT runtime·access(SB),NOSPLIT,$0
-	MOVL	$SYS_access, AX
-	MOVL	name+0(FP), BX
-	MOVL	mode+4(FP), CX
-	INVOKE_SYSCALL
-	MOVL	AX, ret+8(FP)
-	RET
+       MOVL    $SYS_access, AX
+       MOVL    name+0(FP), BX
+       MOVL    mode+4(FP), CX
+       INVOKE_SYSCALL
+       MOVL    AX, ret+8(FP)
+       RET
 
 // int connect(int fd, const struct sockaddr *addr, socklen_t addrlen)
 TEXT runtime·connect(SB),NOSPLIT,$0-16

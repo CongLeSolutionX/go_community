@@ -8,6 +8,11 @@ package runtime
 
 import "unsafe"
 
+//sys	epollcreate(size int32) int32 = SYS_epoll_create
+//sys	epollcreate1(flags int32) int32 = SYS_epoll_create1
+//sys	epollctl(epfd int32, op int32, fd int32, ev *epollevent) int32 = SYS_epoll_ctl
+//sys	epollwait(epfd int32, ev *epollevent, nev int32, timeout int32) int32 =  SYS_epoll_wait
+
 func epollcreate(size int32) int32
 func epollcreate1(flags int32) int32
 
