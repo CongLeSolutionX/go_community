@@ -581,6 +581,9 @@ var optab = []Optab{
 	{AECIWX, C_ZOREG, C_REG, C_NONE, C_REG, 45, 4, 0},
 	{AECOWX, C_REG, C_NONE, C_NONE, C_ZOREG, 44, 4, 0},
 	{AECIWX, C_ZOREG, C_NONE, C_NONE, C_REG, 45, 4, 0},
+	{AECIWX, C_SOREG, C_NONE, C_NONE, C_REG, 45, 4, 0},
+	{AECIWX, C_ZOREG, C_NONE, C_ANDCON, C_REG, 45, 4, 0},
+	{AECIWX, C_SOREG, C_NONE, C_ANDCON, C_REG, 45, 4, 0},
 	{AEIEIO, C_NONE, C_NONE, C_NONE, C_NONE, 46, 4, 0},
 	{ATLBIE, C_REG, C_NONE, C_NONE, C_NONE, 49, 4, 0},
 	{ATLBIE, C_SCON, C_NONE, C_NONE, C_REG, 49, 4, 0},
@@ -1793,6 +1796,7 @@ func buildop(ctxt *obj.Link) {
 
 		case AECIWX:
 			opset(ALBAR, r0)
+			opset(ALHAR, r0)
 			opset(ALWAR, r0)
 			opset(ALDAR, r0)
 
@@ -1991,6 +1995,11 @@ func AOP_XX4(op uint32, d uint32, a uint32, b uint32, c uint32) uint32 {
 /* Z23-form, 3-register operands + CY field */
 func AOP_Z23I(op uint32, d uint32, a uint32, b uint32, c uint32) uint32 {
 	return op | (d&31)<<21 | (a&31)<<16 | (b&31)<<11 | (c&3)<<7
+}
+
+/* X-form, 3-register operands + EH field */
+func AOP_RRRI(op uint32, d uint32, a uint32, b uint32, c uint32) uint32 {
+	return op | (d&31)<<21 | (a&31)<<16 | (b&31)<<11 | (c & 1)
 }
 
 func LOP_RRR(op uint32, a uint32, s uint32, b uint32) uint32 {
@@ -2994,8 +3003,21 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		o1 = AOP_RRR(c.opstorex(p.As), uint32(p.From.Reg), uint32(p.To.Index), uint32(p.To.Reg))
 
 	case 45: /* indexed load */
-		o1 = AOP_RRR(c.oploadx(p.As), uint32(p.To.Reg), uint32(p.From.Index), uint32(p.From.Reg))
-
+		switch p.As {
+		/* The assembler accepts a 4-operand l*arx instruction. The fourth operand is an Exclusive Access Hint (EH) */
+		/* The EH field can be used as a lock acquire/release hint as follows: */
+		/* 0 = Atomic Update (fetch-and-operate or similar algorithm) */
+		/* 1 = Exclusive Access (lock acquire and release) */
+		case ALBAR, ALHAR, ALWAR, ALDAR:
+			if p.From3Type() != obj.TYPE_NONE {
+				eh := int(c.regoff(p.GetFrom3()))
+				o1 = AOP_RRRI(c.oploadx(p.As), uint32(p.To.Reg), uint32(p.From.Index), uint32(p.From.Reg), uint32(eh))
+			} else {
+				o1 = AOP_RRR(c.oploadx(p.As), uint32(p.To.Reg), uint32(p.From.Index), uint32(p.From.Reg))
+			}
+		default:
+			o1 = AOP_RRR(c.oploadx(p.As), uint32(p.To.Reg), uint32(p.From.Index), uint32(p.From.Reg))
+		}
 	case 46: /* plain op */
 		o1 = c.oprrr(p.As)
 
@@ -4765,10 +4787,12 @@ func (c *ctxt9) oploadx(a obj.As) uint32 {
 		return OPVCC(31, 310, 0, 0) /* eciwx */
 	case ALBAR:
 		return OPVCC(31, 52, 0, 0) /* lbarx */
+	case ALHAR:
+		return OPVCC(31, 116, 0, 0) /* lharx */
 	case ALWAR:
 		return OPVCC(31, 20, 0, 0) /* lwarx */
 	case ALDAR:
-		return OPVCC(31, 84, 0, 0)
+		return OPVCC(31, 84, 0, 0) /* ldarx */
 	case ALSW:
 		return OPVCC(31, 533, 0, 0) /* lswx */
 	case AMOVD:
