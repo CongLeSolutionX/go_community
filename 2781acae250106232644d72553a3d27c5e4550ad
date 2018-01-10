@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dec4b7ce_ffb8555c",
+        "filename": "src/cmd/link/internal/ld/data.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-10T01:15:17Z",
+      "side": 1,
+      "message": "Probably best to centralize this test somewhere rather than repeating it.",
+      "revId": "2781acae250106232644d72553a3d27c5e4550ad",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
