@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e7912feb_2d998f03",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-10T09:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5b68f11_b375fe83",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a9165ed_d2625048",
         "filename": "src/crypto/tls/tls_test.go",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-10T06:26:51Z",
       "side": 1,
       "message": "We could also use simply Dial in the test, as both Dial and DialWithDialer should behave the same, even if the actual fix is in DialWithDialer. Would save a few lines in test and test both functions in one test.",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fddc994_ccc7a4fe",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-10T09:54:40Z",
+      "side": 1,
+      "message": "well, maybe fixed if I understand things correctly.",
+      "parentUuid": "7a9165ed_d2625048",
       "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "3d75c1d1_b14d8628",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-10T09:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be416107_34265e8f",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e39afbb_f96ccf27",
         "filename": "src/crypto/tls/tls_test.go",
         "patchSetId": 4
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "d73de986_7edcb13e",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-10T09:54:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e39afbb_f96ccf27",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdb3c3bb_449b1a19",
         "filename": "src/crypto/tls/tls_test.go",
         "patchSetId": 4
@@ -84,6 +156,24 @@
       "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dca96f68_e7b9c7ef",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-10T09:54:40Z",
+      "side": 1,
+      "message": "Thanks for pointing this out.\nYour suggestion looks good, but \"%T\" will be \"*errors.errorString\". We would like to get \"EOF\".\nSo I\u0027ve replaced \"%T\" with \"%v\". PTAL.",
+      "parentUuid": "bdb3c3bb_449b1a19",
+      "revId": "bb229982303a07e7ca77e0d77ab5cfd49e972f55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

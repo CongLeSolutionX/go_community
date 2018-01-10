@@ -52,6 +52,24 @@
       "revId": "ecd30ed9b0724eb4bcf9b956976c5240cb1f4ec8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b7201b3_4e9f7e0a",
+        "filename": "src/crypto/tls/tls.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-10T09:54:40Z",
+      "side": 1,
+      "message": "Ah got it. I didn\u0027t understand the thing correctly. Fixed.",
+      "parentUuid": "5ab323ea_bc4a86c9",
+      "revId": "ecd30ed9b0724eb4bcf9b956976c5240cb1f4ec8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
