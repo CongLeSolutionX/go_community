@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6dda9fe5_0f605ad6",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-11T00:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbcf2c22_1c7bd2c1",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e8aa741_85e64fb9",
         "filename": "src/net/rpc/server.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb2bd7f4_bbad5f3f",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-11T00:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e8aa741_85e64fb9",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1fc8d925_0b8b869f",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-11T00:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fabf49f_59e8cc54",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e65a5bf_c1fdfc4f",
         "filename": "src/net/rpc/server.go",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2018-01-10T23:56:08Z",
       "side": 1,
       "message": "\"rpc.Register: method %q has %d parameters; needs exactly one\"",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ec4eec3_831f01ea",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-11T00:20:53Z",
+      "side": 1,
+      "message": "Thank you. In my understanding, it is easier to distinguish which called \"output parameters\".",
+      "parentUuid": "5e65a5bf_c1fdfc4f",
       "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -84,6 +156,24 @@
       "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53909846_c128f326",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-11T00:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13f085de_a88b3063",
+      "revId": "b6955279e4dff14a2d0c0176780db88f7eccefa8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }

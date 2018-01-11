@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37e16928_b8ae59bd",
+        "filename": "src/net/rpc/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-01-11T00:20:53Z",
+      "side": 1,
+      "message": "Received Rob\u0027s review, I\u0027ve updated this message. How about this?",
+      "revId": "6e084b3ba62cfbb5984ff5faf665925410a3c8fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
