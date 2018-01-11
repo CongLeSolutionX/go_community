@@ -22,6 +22,30 @@
       "revId": "f1a9c23f8f6a41224a4d7b5c007c79dc7520dc2f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a72f9cae_c7943a40",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1848,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-01-11T00:47:54Z",
+      "side": 1,
+      "message": "I played with this a bit before committing. I decided against it because \"x +\u003d 0 used as value\" in an error message seems pretty clear w/o needing to say that we have an assignment. When the error is made, it\u0027s because one doesn\u0027t \"see\" the \"\u003d\" vs the \"\u003d\u003d\" and then one might not see it in the error message as well; hence the confusion. Thus I opted for highlighting the one specific case only.\n\n(A simpler option would have been to always say: \"statement ... used as value\" - but most of the time it\u0027s clear that we have a statement; and if one doesn\u0027t see that \"x \u003d 0\" is a statement then saying it\u0027s an assignment might drive the point home.)\n\nFinally, x++ internally is also an assignment, so the test would have to be a bit more elaborate.\n\nPrefer to leave as is.",
+      "parentUuid": "966b2509_5c6098f5",
+      "range": {
+        "startLine": 1848,
+        "startChar": 38,
+        "endLine": 1848,
+        "endChar": 48
+      },
+      "revId": "f1a9c23f8f6a41224a4d7b5c007c79dc7520dc2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
