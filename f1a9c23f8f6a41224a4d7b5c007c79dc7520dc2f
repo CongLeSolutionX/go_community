@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "966b2509_5c6098f5",
+        "filename": "src/cmd/compile/internal/syntax/parser.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1848,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-01-11T00:29:51Z",
+      "side": 1,
+      "message": "Seems fine as-is, though op\u003d assignments are assignments too. I think it would be fine to change \"as.Op \u003d\u003d 0\" to \"as.Op !\u003d Def\". (I think Def would be a \"declaration\" rather than an \"assignment\".)",
+      "range": {
+        "startLine": 1848,
+        "startChar": 38,
+        "endLine": 1848,
+        "endChar": 48
+      },
+      "revId": "f1a9c23f8f6a41224a4d7b5c007c79dc7520dc2f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
