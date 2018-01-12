@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7c76aab4_10162b79",
+        "filename": "doc/go1.10.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-01-12T19:40:59Z",
+      "side": 1,
+      "message": "Please specify the revision or the time of import.\nThe last import of upstream https://go-review.googlesource.com/76651 was in early Nov. \nThat does not include some pprof features recently added e.g. flame graph support added on Nov 20.",
+      "range": {
+        "startLine": 324,
+        "startChar": 4,
+        "endLine": 324,
+        "endChar": 19
+      },
+      "revId": "40ac1423ba09b7d8308bf1b051d852939c9ede73",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9959959c_b0b21bd9",
         "filename": "doc/go1.10.html",
         "patchSetId": 8
