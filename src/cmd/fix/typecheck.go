@@ -7,9 +7,14 @@ package main
 import (
 	"fmt"
 	"go/ast"
+	"go/parser"
 	"go/token"
+	"io/ioutil"
 	"os"
+	"os/exec"
+	"path/filepath"
 	"reflect"
+	"runtime"
 	"strings"
 )
 
@@ -140,13 +145,73 @@ func typecheck(cfg *TypeConfig, f *ast.File) (typeof map[interface{}]string, ass
 	*cfg1 = *cfg // make copy so we can add locally
 	copied := false
 
+	// If we import "C", add types of cgo objects.
+	external := map[string]string{}
+	if imports(f, "C") {
+		// Run cgo on gofmtFile(f)
+		// Parse, extract decls from _cgo_gotypes.go
+		// Map _Ctype_* types to C.* types.
+		err := func() error {
+			txt, err := gofmtFile(f)
+			if err != nil {
+				return err
+			}
+			dir, err := ioutil.TempDir(os.TempDir(), "fix_cgo_typecheck")
+			if err != nil {
+				return err
+			}
+			defer os.Remove(dir)
+			err = ioutil.WriteFile(filepath.Join(dir, "in.go"), txt, 0600)
+			if err != nil {
+				return err
+			}
+			cmd := exec.Command(filepath.Join(runtime.GOROOT(), "bin", "go"), "tool", "cgo", "-objdir", dir, "-srcdir", dir, "in.go")
+			err = cmd.Run()
+			if err != nil {
+				return err
+			}
+			out, err := ioutil.ReadFile(filepath.Join(dir, "_cgo_gotypes.go"))
+			if err != nil {
+				return err
+			}
+			cgo, err := parser.ParseFile(token.NewFileSet(), "cgo.go", out, 0)
+			if err != nil {
+				return err
+			}
+			for _, decl := range cgo.Decls {
+				fn, ok := decl.(*ast.FuncDecl)
+				if !ok {
+					continue
+				}
+				if strings.HasPrefix(fn.Name.Name, "_Cfunc_") {
+					var params, results []string
+					for _, p := range fn.Type.Params.List {
+						t := gofmt(p.Type)
+						t = strings.Replace(t, "_Ctype_", "C.", -1)
+						params = append(params, t)
+					}
+					for _, r := range fn.Type.Results.List {
+						t := gofmt(r.Type)
+						t = strings.Replace(t, "_Ctype_", "C.", -1)
+						results = append(results, t)
+					}
+					external["C."+fn.Name.Name[7:]] = joinFunc(params, results)
+				}
+			}
+			return nil
+		}()
+		if err != nil {
+			fmt.Printf("warning: no cgo types: %s\n", err)
+		}
+	}
+
 	// gather function declarations
 	for _, decl := range f.Decls {
 		fn, ok := decl.(*ast.FuncDecl)
 		if !ok {
 			continue
 		}
-		typecheck1(cfg, fn.Type, typeof, assign)
+		typecheck1(cfg, fn.Type, typeof, assign, external)
 		t := typeof[fn.Type]
 		if fn.Recv != nil {
 			// The receiver must be a type.
@@ -211,7 +276,7 @@ func typecheck(cfg *TypeConfig, f *ast.File) (typeof map[interface{}]string, ass
 		}
 	}
 
-	typecheck1(cfg1, f, typeof, assign)
+	typecheck1(cfg1, f, typeof, assign, external)
 	return typeof, assign
 }
 
@@ -226,7 +291,7 @@ func makeExprList(a []*ast.Ident) []ast.Expr {
 // Typecheck1 is the recursive form of typecheck.
 // It is like typecheck but adds to the information in typeof
 // instead of allocating a new map.
-func typecheck1(cfg *TypeConfig, f interface{}, typeof map[interface{}]string, assign map[string][]interface{}) {
+func typecheck1(cfg *TypeConfig, f interface{}, typeof map[interface{}]string, assign map[string][]interface{}, external map[string]string) {
 	// set sets the type of n to typ.
 	// If isDecl is true, n is being declared.
 	set := func(n ast.Expr, typ string, isDecl bool) {
@@ -434,6 +499,9 @@ func typecheck1(cfg *TypeConfig, f interface{}, typeof map[interface{}]string, a
 			}
 			// Otherwise, use type of function to determine arguments.
 			t := typeof[n.Fun]
+			if t == "" {
+				t = external[gofmt(n.Fun)]
+			}
 			in, out := splitFunc(t)
 			if in == nil && out == nil {
 				return
@@ -576,7 +644,7 @@ func typecheck1(cfg *TypeConfig, f interface{}, typeof map[interface{}]string, a
 			// Ugly failure of vision: already type-checked body.
 			// Do it again now that we have that type info.
 			if changed {
-				typecheck1(cfg, n.Body, typeof, assign)
+				typecheck1(cfg, n.Body, typeof, assign, external)
 			}
 
 		case *ast.TypeSwitchStmt:
@@ -602,7 +670,7 @@ func typecheck1(cfg *TypeConfig, f interface{}, typeof map[interface{}]string, a
 						tt = getType(tt)
 						typeof[varx] = tt
 						typeof[varx.Obj] = tt
-						typecheck1(cfg, cas.Body, typeof, assign)
+						typecheck1(cfg, cas.Body, typeof, assign, external)
 					}
 				}
 			}
