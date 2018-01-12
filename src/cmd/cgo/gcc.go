@@ -2585,9 +2585,9 @@ func badCFType(dt *dwarf.TypedefType) bool {
 	// The real bad types are CFNumberRef and CFDateRef.
 	// Sometimes non-pointers are stored in these types.
 	// CFTypeRef is a supertype of those, so it can have bad pointers in it as well.
-	// We return true for the other CF*Ref types just so casting between them is easier.
+	// We return true for the other *Ref types just so casting between them is easier.
 	// See comment below for details about the bad pointers.
-	return goos == "darwin" && strings.HasPrefix(dt.Name, "CF") && strings.HasSuffix(dt.Name, "Ref")
+	return goos == "darwin" && strings.HasSuffix(dt.Name, "Ref")
 }
 
 // Comment from Darwin's CFInternal.h
