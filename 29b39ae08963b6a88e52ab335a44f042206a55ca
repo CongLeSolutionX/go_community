@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fc9b169_9ef7968f",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 761,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-15T02:29:00Z",
+      "side": 1,
+      "message": "drop second space after period",
+      "revId": "29b39ae08963b6a88e52ab335a44f042206a55ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
