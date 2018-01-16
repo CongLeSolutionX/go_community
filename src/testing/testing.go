@@ -733,7 +733,7 @@ func tRunner(t *T, fn func(t *T)) {
 		t.duration += time.Since(t.start)
 		// If the test panicked, print any test output before dying.
 		err := recover()
-		if !t.finished && err == nil {
+		if (t.parent != nil && !t.parent.finished) && !t.finished && err == nil {
 			err = fmt.Errorf("test executed panic(nil) or runtime.Goexit")
 		}
 		if err != nil {
