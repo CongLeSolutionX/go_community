@@ -5921,3 +5921,13 @@ echo $* >>`+tg.path("pkg-config.out"))
 		t.Errorf("got %q want %q", out, want)
 	}
 }
+
+func TestSubtestFatal(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.makeTempdir()
+	tg.setenv("GOCACHE", tg.tempdir)
+	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
+	tg.runFail("test", "subtestfatal")
+	tg.grepStdout(`Fatal from subtest`, "sub test did not fail correctly")
+}

@@ -734,7 +734,11 @@ func tRunner(t *T, fn func(t *T)) {
 		// If the test panicked, print any test output before dying.
 		err := recover()
 		if !t.finished && err == nil {
-			err = fmt.Errorf("test executed panic(nil) or runtime.Goexit")
+			t.mu.Lock()
+			if t.parent != nil && !t.parent.finished {
+				err = fmt.Errorf("test executed panic(nil) or runtime.Goexit")
+			}
+			t.mu.Unlock()
 		}
 		if err != nil {
 			t.Fail()
