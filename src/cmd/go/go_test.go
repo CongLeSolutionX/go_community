@@ -5929,3 +5929,14 @@ func TestFilepathUnderCwdFormat(t *testing.T) {
 	tg.run("test", "-x", "-cover", "log")
 	tg.grepStderrNot(`\.log\.cover\.go`, "-x output should contain correctly formatted filepath under cwd")
 }
+
+// Issue 22882
+func TestSubtestFatal(t *testing.T) {
+	tg := testgo(t)
+	defer tg.cleanup()
+	tg.makeTempdir()
+	tg.setenv("GOCACHE", tg.tempdir)
+	tg.setenv("GOPATH", filepath.Join(tg.pwd(), "testdata"))
+	tg.runFail("test", "subtestfatal")
+	tg.grepStdout(`Fatal from subtest`, "sub test did not fail correctly")
+}
