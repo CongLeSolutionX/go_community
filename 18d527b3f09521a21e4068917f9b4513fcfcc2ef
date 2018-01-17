@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "555153f5_da54bf3e",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-01-17T20:30:10Z",
+      "side": 0,
+      "message": "Please leave this test.\nIt might catch future bugs.",
+      "revId": "18d527b3f09521a21e4068917f9b4513fcfcc2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
