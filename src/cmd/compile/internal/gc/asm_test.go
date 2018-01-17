@@ -1052,25 +1052,6 @@ var linuxAMD64Tests = []*asmTest{
 		pos: []string{"\tMOVQ\t"},
 	},
 	{
-		fn: `
-		func f76(a, b uint64) (uint64,uint64) {
-		    return f76(f76(a,b))
-		}
-		`,
-		pos: []string{"\tMOVUPS\t"},
-	},
-	// Make sure we don't put pointers in SSE registers across safe points.
-	{
-		fn: `
-		func $(p, q *[2]*int)  {
-		    a, b := p[0], p[1]
-		    runtime.GC()
-		    q[0], q[1] = a, b
-		}
-		`,
-		neg: []string{"MOVUPS"},
-	},
-	{
 		// check that stack store is optimized away
 		fn: `
 		func $() int {
