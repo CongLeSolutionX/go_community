@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8bd6e02_21f506b6",
+        "filename": "src/cmd/fix/typecheck.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-01-17T01:18:17Z",
+      "side": 1,
+      "message": "add a comment describing this field - it\u0027s not as \"obvious\" as the other fields",
+      "range": {
+        "startLine": 83,
+        "startChar": 1,
+        "endLine": 83,
+        "endChar": 9
+      },
+      "revId": "84cac9962f753aca45e7e01b1e07a2182d7a3ccb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
