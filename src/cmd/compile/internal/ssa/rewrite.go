@@ -683,3 +683,14 @@ func isInlinableMemmoveSize(sz int64, c *Config) bool {
 	}
 	return false
 }
+
+// release resets v when use count is 1. Returns true.
+// release is used by rewrite rules to
+// decrement use counts of v's args when v is dead and never used.
+func release(v *Value) bool {
+	if v.Uses == 1 {
+		v.reset(OpInvalid)
+	}
+	// Note: leave v.Block intact.  The Block field is used after release.
+	return true
+}
