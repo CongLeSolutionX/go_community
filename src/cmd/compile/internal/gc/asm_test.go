@@ -2697,6 +2697,17 @@ var linuxARM64Tests = []*asmTest{
 		pos: []string{"LSL\t\\$17"},
 		neg: []string{"CMP"},
 	},
+	{
+		// check that combined load rules work
+		fn: `
+		func $(s []byte) uint16 {
+			return uint16(s[0]) | uint16(s[1]) << 8
+		}
+		`,
+		pos: []string{"\tMOVHU\t"},
+		neg: []string{"ORR\tR[0-9]+<<8\t"},
+	},
+
 }
 
 var linuxMIPSTests = []*asmTest{
