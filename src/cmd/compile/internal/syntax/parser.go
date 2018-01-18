@@ -38,24 +38,28 @@ func (p *parser) init(base *src.PosBase, r io.Reader, errh ErrorHandler, pragh P
 	p.mode = mode
 	p.scanner.init(
 		r,
-		// Error and pragma handlers for scanner.
-		// Because the (line, col) positions passed to these
-		// handlers are always at or after the current reading
-		// position, it is save to use the most recent position
+		// Error and directive handler for scanner.
+		// Because the (line, col) positions passed to the
+		// handler is always at or after the current reading
+		// position, it is safe to use the most recent position
 		// base to compute the corresponding Pos value.
 		func(line, col uint, msg string) {
-			p.error_at(p.pos_at(line, col), msg)
-		},
-		func(line, col uint, text string) {
-			const prefix = "line "
-			if strings.HasPrefix(text, prefix) {
-				p.updateBase(line, col+uint(len(prefix)), text[len(prefix):])
+			if msg[0] != '/' {
+				p.error_at(p.pos_at(line, col), msg)
 				return
 			}
+			// otherwise it must be a line or go: directive;
+			// either way, the start with // or /* always
+			if strings.HasPrefix(msg[2:], "line ") {
+				p.updateBase(line, col, stripCommentEnd(msg))
+				return
+			}
+			// go: directive
 			if pragh != nil {
-				p.pragma |= pragh(p.pos_at(line, col), text)
+				p.pragma |= pragh(p.pos_at(line, col), msg)
 			}
 		},
+		directives,
 	)
 
 	p.first = nil
@@ -99,7 +103,7 @@ func (p *parser) updateBase(line, col uint, text string) {
 		return
 	}
 
-	filename := text[:i-1] // lop off :line
+	filename := text[2+len("line ") : i-1] // lop off "xxline " in front and :line at end
 	absFilename := filename
 	if p.fileh != nil {
 		absFilename = p.fileh(filename)
@@ -107,6 +111,20 @@ func (p *parser) updateBase(line, col uint, text string) {
 
 	// TODO(gri) pass column n2 to NewLinePragmaBase
 	p.base = src.NewLinePragmaBase(src.MakePos(p.base.Pos().Base(), line, col), filename, absFilename, uint(n) /*uint(n2)*/)
+}
+
+func stripCommentEnd(s string) string {
+	if s[:2] == "/*" {
+		return s[:len(s)-2] // lop of */
+	}
+
+	// line comment (does not include newline)
+	// (on Windows, the line comment may end in \r\n)
+	if strings.HasSuffix(s, "\r") {
+		return s[:len(s)-1]
+	}
+
+	return s
 }
 
 func trailingDigits(text string) (uint, uint, bool) {

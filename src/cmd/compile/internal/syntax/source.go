@@ -201,6 +201,10 @@ func (s *source) stopLit() []byte {
 	if len(s.lit) > 0 {
 		lit = append(s.lit, lit...)
 	}
-	s.suf = -1 // no pending literal
+	s.killLit()
 	return lit
+}
+
+func (s *source) killLit() {
+	s.suf = -1 // no pending literal
 }
