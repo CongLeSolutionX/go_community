@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b704410_215619af",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-19T15:20:28Z",
+      "side": 1,
+      "message": "For consistency with the \"clobber\" function, maybe rename this function as something like \"clobberIfDead\", and move it next to the clobber function.",
+      "revId": "08cae5d80384fa9150cd90043c4f1ee1ce5b48b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
