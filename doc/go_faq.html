@@ -462,21 +462,28 @@ run out at a much smaller number.
 </p>
 
 <h3 id="atomic_maps">
-Why are map operations not defined to be atomic?</h3>
+Why are map update operations not defined to be atomic?</h3>
 
 <p>
 After long discussion it was decided that the typical use of maps did not require
-safe access from multiple goroutines, and in those cases where it did, the map was
+safe updates from multiple goroutines, and in those cases where it did, the map was
 probably part of some larger data structure or computation that was already
-synchronized.  Therefore requiring that all map operations grab a mutex would slow
+synchronized.  Therefore requiring that all map updates grab a mutex would slow
 down most programs and add safety to few.  This was not an easy decision,
-however, since it means uncontrolled map access can crash the program.
+however, since it means uncontrolled map updates can crash the program.
 </p>
 
 <p>
 The language does not preclude atomic map updates.  When required, such
 as when hosting an untrusted program, the implementation could interlock
 map access.
+</p>
+
+<p>
+It is only updates (assigning to a map index or calling delete on a map)
+that are unsafe.
+If all goroutines are only reading from a map, it is safe for them to
+access the map concurrently without a lock.
 </p>
 
 <h3 id="language_changes">
