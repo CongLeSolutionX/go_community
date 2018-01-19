@@ -46,6 +46,30 @@
       "revId": "60b67110c5b33366ef0a5acfbb66ec55c09b281d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0b3ab8c_70d2a0da",
+        "filename": "src/runtime/rt0_android_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-01-19T21:46:30Z",
+      "side": 1,
+      "message": "asm is picky:\n\n$ gomobile init -ndk\u003d$HOME/Android/Sdk/ndk-bundle\ngomobile: go install -gcflags\u003d-shared -ldflags\u003d-shared -pkgdir\u003d/usr/local/google/home/hakim/go/pkg/gomobile/pkg_android_386 std failed: exit status 2\n# runtime\nasm: unbalanced PUSH/POP\nasm: assembly failed",
+      "parentUuid": "3b1eb010_557dcdb9",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "60b67110c5b33366ef0a5acfbb66ec55c09b281d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
