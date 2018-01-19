@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6578e6b3_1c4104ae",
+        "filename": "src/cmd/compile/internal/syntax/error_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-01-19T18:29:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3d6a8c5_ba444de4",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "a4d69aad8615257b3a5dcdd546c1c108a3242010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6265b57a_f5f6c974",
         "filename": "src/cmd/compile/internal/syntax/error_test.go",
         "patchSetId": 5
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "cfa18b52_e95958da",
+        "filename": "src/cmd/compile/internal/syntax/error_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-01-19T18:29:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6265b57a_f5f6c974",
+      "revId": "a4d69aad8615257b3a5dcdd546c1c108a3242010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c69fb442_235388ad",
         "filename": "src/cmd/compile/internal/syntax/error_test.go",
         "patchSetId": 5
@@ -53,6 +95,30 @@
       "writtenOn": "2018-01-19T00:51:44Z",
       "side": 1,
       "message": "nit: I think HasSrc is actually the attribute you want to check here, but there\u0027s no MustHaveSrc helper. The only difference is android, so maybe not worth worrying about.",
+      "range": {
+        "startLine": 161,
+        "startChar": 9,
+        "endLine": 161,
+        "endChar": 24
+      },
+      "revId": "a4d69aad8615257b3a5dcdd546c1c108a3242010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21fc3d2b_cf257007",
+        "filename": "src/cmd/compile/internal/syntax/error_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-01-19T18:29:16Z",
+      "side": 1,
+      "message": "added comment",
+      "parentUuid": "c69fb442_235388ad",
       "range": {
         "startLine": 161,
         "startChar": 9,
