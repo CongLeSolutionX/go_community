@@ -16,6 +16,24 @@
       "revId": "19dfa9a93428ffd579b0d4172e6b5b7114d81730",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe6d1847_1a8180a3",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-19T19:13:13Z",
+      "side": 1,
+      "message": "Actually that\u0027s not quite clear enough either, and the change of \"access\" to \"update\" above\nis troubling, as it implies you only need to lock on update, not on reads while updates are happening. I\u0027d undo that edit and then tweak my first sentence above to:\n\nMap access is unsafe only when updates are occurring.",
+      "parentUuid": "22be7734_c4c0d223",
+      "revId": "19dfa9a93428ffd579b0d4172e6b5b7114d81730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
