@@ -5,7 +5,9 @@
 #include "textflag.h"
 
 TEXT _rt0_386_android(SB),NOSPLIT,$0
-	JMP	_rt0_386(SB)
+	PUSHL	$_rt0_386_android_argv(SB)  // argv
+	PUSHL	$1  // argc
+	JMP	runtime·rt0_go(SB)
 
 TEXT _rt0_386_android_lib(SB),NOSPLIT,$0
 	PUSHL	$_rt0_386_android_argv(SB)  // argv
