@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22be7734_c4c0d223",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-19T19:08:34Z",
+      "side": 1,
+      "message": "This isn\u0027t quite crystal clear. How about\n\nIt is only updates that are unsafe.\nAs long as all goroutines are only reading—looking up elements in the map,\nincluding iterating through it using a\n\u003ccode\u003efor\u003c/code\u003e \u003ccode\u003erange\u003c/code\u003e loop—and not changing the map\nby assigning to elements or doing deletions,\nit is safe for them to access the map\nconcurrently without synchronization.",
+      "revId": "19dfa9a93428ffd579b0d4172e6b5b7114d81730",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
