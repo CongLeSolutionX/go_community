@@ -70,6 +70,30 @@
       "revId": "60b67110c5b33366ef0a5acfbb66ec55c09b281d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69dc4504_5de4940d",
+        "filename": "src/runtime/rt0_android_386.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-20T01:56:41Z",
+      "side": 1,
+      "message": "Yikes.  Done.",
+      "parentUuid": "a0b3ab8c_70d2a0da",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "60b67110c5b33366ef0a5acfbb66ec55c09b281d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
