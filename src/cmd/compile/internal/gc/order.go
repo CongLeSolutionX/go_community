@@ -240,9 +240,9 @@ func cleantempnopop(mark ordermarker, order *Order, out *[]*Node) {
 		if n.Name.Keepalive() {
 			n.Name.SetKeepalive(false)
 			n.SetAddrtaken(true) // ensure SSA keeps the n variable
-			kill := nod(OVARLIVE, n, nil)
-			kill = typecheck(kill, Etop)
-			*out = append(*out, kill)
+			live := nod(OVARLIVE, n, nil)
+			live = typecheck(live, Etop)
+			*out = append(*out, live)
 		}
 		kill := nod(OVARKILL, n, nil)
 		kill = typecheck(kill, Etop)
