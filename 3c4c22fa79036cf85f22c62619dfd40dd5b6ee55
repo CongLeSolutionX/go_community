@@ -22,6 +22,30 @@
       "revId": "3c4c22fa79036cf85f22c62619dfd40dd5b6ee55",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "776dc092_25a0105d",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 14020
+      },
+      "writtenOn": "2018-01-22T20:52:11Z",
+      "side": 1,
+      "message": "Facepalm. Thanks, will fix.",
+      "parentUuid": "4bbc17e4_e40bd673",
+      "range": {
+        "startLine": 256,
+        "startChar": 12,
+        "endLine": 256,
+        "endChar": 0
+      },
+      "revId": "3c4c22fa79036cf85f22c62619dfd40dd5b6ee55",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
