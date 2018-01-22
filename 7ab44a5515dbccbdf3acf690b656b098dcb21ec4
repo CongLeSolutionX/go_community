@@ -16,6 +16,24 @@
       "revId": "7ab44a5515dbccbdf3acf690b656b098dcb21ec4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "564db478_1891c69e",
+        "filename": "src/runtime/testdata/testprog/badtraceback.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-01-22T21:33:58Z",
+      "side": 1,
+      "message": "Added a comment.\n\nIt\u0027s just to minimize the stack size and to exercise the stack bounds logic in the hex dump.",
+      "parentUuid": "b1b2a2c8_c044bd78",
+      "revId": "7ab44a5515dbccbdf3acf690b656b098dcb21ec4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
