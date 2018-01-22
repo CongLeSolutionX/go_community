@@ -130,9 +130,90 @@ type debugState struct {
 	loggingEnabled bool
 	cache          *Cache
 	registers      []Register
+	numVarSlots    int
 
 	// The names (slots) associated with each value, indexed by Value ID.
-	valueNames [][]SlotID
+	valueNames  [][]SlotID
+	changedVars []bool
+}
+
+func (state *debugState) initializeCache() {
+	numBlocks := state.f.NumBlocks()
+
+	// One blockDebug per block. Initialized in allocBlock.
+	if len(state.cache.blockDebug) < numBlocks {
+		state.cache.blockDebug = make([]BlockDebug, numBlocks)
+	}
+
+	// A list of slots per Value. Reuse the previous child slices.
+	if len(state.cache.valueNames) < state.f.NumValues() {
+		old := state.cache.valueNames
+		state.cache.valueNames = make([][]SlotID, state.f.NumValues())
+		copy(state.cache.valueNames, old)
+	}
+	state.valueNames = state.cache.valueNames
+	// This local variable, and the ones like it below, enable compiler
+	// optimizations. Don't inline them.
+	vn := state.valueNames[:state.f.NumValues()]
+	for i := range vn {
+		vn[i] = vn[i][:0]
+	}
+
+	// A relatively small slice, but used many times as the return from processValue.
+	state.changedVars = make([]bool, len(state.vars))
+
+	// Start and current state, per slot, per block.
+	if want := 2 * numBlocks * state.numVarSlots; len(state.cache.slotLocs) < want {
+		state.cache.slotLocs = make([]VarLoc, want)
+	}
+	sl := state.cache.slotLocs[:2*numBlocks*state.numVarSlots]
+	for i := range sl {
+		sl[i] = VarLoc{}
+	}
+
+	// Start and current contents, per register, per block.
+	if want := 2 * numBlocks * len(state.registers); len(state.cache.regContents) < want {
+		old := state.cache.regContents
+		state.cache.regContents = make([][]SlotID, want)
+		copy(state.cache.regContents, old)
+	}
+	rc := state.cache.regContents[:2*numBlocks*len(state.registers)]
+	for i := range rc {
+		rc[i] = state.cache.regContents[i][:0]
+	}
+
+	// A pending entry per user variable, with space to track each of its pieces.
+	if want := len(state.vars) * len(state.slots); len(state.cache.pendingSlotLocs) < want {
+		state.cache.pendingSlotLocs = make([]VarLoc, want)
+	}
+	psl := state.cache.pendingSlotLocs[:len(state.vars)*len(state.slots)]
+	for i := range psl {
+		psl[i] = VarLoc{}
+	}
+	if len(state.cache.pendingEntries) < len(state.vars) {
+		state.cache.pendingEntries = make([]pendingEntry, len(state.vars))
+	}
+	pe := state.cache.pendingEntries[:len(state.vars)]
+	for varID := range pe {
+		pe[varID] = pendingEntry{
+			pieces: state.cache.pendingSlotLocs[varID*len(state.slots) : (varID+1)*len(state.slots)],
+		}
+	}
+}
+
+func (state *debugState) allocBlock(b *Block) *BlockDebug {
+	start, mid, end := 2*int(b.ID), 2*int(b.ID)+1, 2*int(b.ID)+2
+	state.cache.blockDebug[b.ID] = BlockDebug{
+		currentState: stateAtPC{
+			slots:     state.cache.slotLocs[start*state.numVarSlots : mid*state.numVarSlots],
+			registers: state.cache.regContents[start*len(state.registers) : mid*len(state.registers)],
+		},
+		startState: stateAtPC{
+			slots:     state.cache.slotLocs[mid*state.numVarSlots : end*state.numVarSlots],
+			registers: state.cache.regContents[mid*len(state.registers) : end*len(state.registers)],
+		},
+	}
+	return &state.cache.blockDebug[b.ID]
 }
 
 // getHomeSlot returns the SlotID of the home slot for v, adding to s.slots
@@ -177,8 +258,6 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 		cache:     f.Cache,
 		registers: f.Config.registers,
 	}
-	// TODO: consider storing this in Cache and reusing across functions.
-	state.valueNames = make([][]SlotID, f.NumValues())
 
 	// Recompose any decomposed variables, and record the names associated with each value.
 	varParts := map[GCNode][]SlotID{}
@@ -187,9 +266,6 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 		state.slots[i] = &slot
 		if isSynthetic(&slot) {
 			continue
-		}
-		for _, value := range f.NamedValues[slot] {
-			state.valueNames[value.ID] = append(state.valueNames[value.ID], SlotID(i))
 		}
 
 		topSlot := &slot
@@ -202,6 +278,7 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 		varParts[topSlot.N] = append(varParts[topSlot.N], SlotID(i))
 	}
 
+	state.numVarSlots = len(state.slots)
 	state.varSlots = make([][]SlotID, len(state.vars))
 	state.slotVars = make([]VarID, len(state.slots))
 	for varID, n := range state.vars {
@@ -209,6 +286,17 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 		state.varSlots[varID] = parts
 		for _, slotID := range parts {
 			state.slotVars[slotID] = VarID(varID)
+		}
+		sort.Sort(partsByVarOffset{parts, state.slots})
+	}
+
+	state.initializeCache()
+	for i, slot := range f.Names {
+		if isSynthetic(&slot) {
+			continue
+		}
+		for _, value := range f.NamedValues[slot] {
+			state.valueNames[value.ID] = append(state.valueNames[value.ID], SlotID(i))
 		}
 	}
 
@@ -299,9 +387,7 @@ func (state *debugState) liveness() []*BlockDebug {
 // intersects them to form the starting state for b.
 // The registers slice (the second return value) will be reused for each call to mergePredecessors.
 func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) *BlockDebug {
-	result := &BlockDebug{
-		currentState: stateAtPC{make([]VarLoc, len(state.slots)), make([][]SlotID, len(state.registers))},
-	}
+	result := state.allocBlock(b)
 	if state.loggingEnabled {
 		result.Block = b
 	}
@@ -349,11 +435,8 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) *B
 		}
 	}
 
-	// Create final result; the block's current state starts at the start state.
-	result.startState.slots = make([]VarLoc, len(state.slots))
+	// Create final result.
 	copy(result.startState.slots, result.currentState.slots)
-	result.currentState.registers = make([][]SlotID, len(state.registers))
-	result.startState.registers = make([][]SlotID, len(state.registers))
 	for slot, loc := range result.startState.slots {
 		if loc.Registers == 0 {
 			continue
@@ -373,9 +456,11 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) *B
 // the instructions evaluating it. It returns which VarIDs were modified by the
 // Value's execution.
 func (state *debugState) processValue(locs *stateAtPC, v *Value, vSlots []SlotID, vReg *Register) []bool {
-	changedVars := make([]bool, len(state.vars))
+	for i := range state.changedVars {
+		state.changedVars[i] = false
+	}
 	setSlot := func(slot SlotID, loc VarLoc) {
-		changedVars[state.slotVars[slot]] = true
+		state.changedVars[state.slotVars[slot]] = true
 		locs.slots[slot] = loc
 	}
 
@@ -470,7 +555,7 @@ func (state *debugState) processValue(locs *stateAtPC, v *Value, vSlots []SlotID
 			setSlot(slot, loc)
 		}
 	}
-	return changedVars
+	return state.changedVars
 }
 
 // varOffset returns the offset of slot within the user variable it was
@@ -489,11 +574,16 @@ type varPart struct {
 	slot      SlotID
 }
 
-type partsByVarOffset []varPart
+type partsByVarOffset struct {
+	slotIDs []SlotID
+	slots   []*LocalSlot
+}
 
-func (a partsByVarOffset) Len() int           { return len(a) }
-func (a partsByVarOffset) Less(i, j int) bool { return a[i].varOffset < a[j].varOffset }
-func (a partsByVarOffset) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a partsByVarOffset) Len() int { return len(a.slotIDs) }
+func (a partsByVarOffset) Less(i, j int) bool {
+	return varOffset(a.slots[a.slotIDs[i]]) < varOffset(a.slots[a.slotIDs[i]])
+}
+func (a partsByVarOffset) Swap(i, j int) { a.slotIDs[i], a.slotIDs[j] = a.slotIDs[j], a.slotIDs[i] }
 
 // A pendingEntry represents the beginning of a location list entry, missing
 // only its end coordinate.
@@ -552,19 +642,7 @@ func firstReg(set RegisterSet) uint8 {
 // be finished by PutLocationList.
 func (state *debugState) buildLocationLists(Ctxt *obj.Link, stackOffset func(*LocalSlot) int32, blockLocs []*BlockDebug) [][]byte {
 	lists := make([][]byte, len(state.vars))
-	varParts := make([][]varPart, len(lists))
-	pendingEntries := make([]pendingEntry, len(lists))
-
-	for varID, parts := range state.varSlots {
-		for _, slotID := range parts {
-			varParts[varID] = append(varParts[varID], varPart{varOffset(state.slots[slotID]), slotID})
-		}
-		// Get the order the parts need to be in to represent the memory
-		// of the decomposed user variable.
-		sort.Sort(partsByVarOffset(varParts[varID]))
-
-		pendingEntries[varID].pieces = make([]VarLoc, len(state.slots))
-	}
+	pendingEntries := state.cache.pendingEntries
 
 	// writePendingEntry writes out the pending entry for varID, if any,
 	// terminated at endBlock/Value.
@@ -591,10 +669,10 @@ func (state *debugState) buildLocationLists(Ctxt *obj.Link, stackOffset func(*Lo
 		sizeIdx := len(list)
 		list = list[:len(list)+2]
 
-		for _, part := range varParts[varID] {
+		for _, slotID := range state.varSlots[varID] {
 
-			loc := pending.pieces[part.slot]
-			slot := state.slots[part.slot]
+			loc := pending.pieces[slotID]
+			slot := state.slots[slotID]
 
 			if !loc.absent() {
 				if loc.OnStack {
@@ -616,7 +694,7 @@ func (state *debugState) buildLocationLists(Ctxt *obj.Link, stackOffset func(*Lo
 				}
 			}
 
-			if len(varParts[varID]) > 1 {
+			if len(state.varSlots[varID]) > 1 {
 				list = append(list, dwarf.DW_OP_piece)
 				list = dwarf.AppendUleb128(list, uint64(slot.Type.Size()))
 			}
@@ -630,8 +708,8 @@ func (state *debugState) buildLocationLists(Ctxt *obj.Link, stackOffset func(*Lo
 	updateVar := func(varID VarID, v *Value, curLoc []VarLoc) {
 		// Assemble the location list entry with whatever's live.
 		empty := true
-		for _, part := range varParts[varID] {
-			if !curLoc[part.slot].absent() {
+		for _, slotID := range state.varSlots[varID] {
+			if !curLoc[slotID].absent() {
 				empty = false
 				break
 			}
@@ -646,8 +724,8 @@ func (state *debugState) buildLocationLists(Ctxt *obj.Link, stackOffset func(*Lo
 		// Extend the previous entry if possible.
 		if pending.present {
 			merge := true
-			for _, part := range varParts[varID] {
-				if !canMerge(pending.pieces[part.slot], curLoc[part.slot]) {
+			for _, slotID := range state.varSlots[varID] {
+				if !canMerge(pending.pieces[slotID], curLoc[slotID]) {
 					merge = false
 					break
 				}
