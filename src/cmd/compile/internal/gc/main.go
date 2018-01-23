@@ -413,7 +413,7 @@ func Main(archInit func(*Arch)) {
 		Debug_eagerwb = 1
 	}
 
-	trackScopes = flagDWARF && ((Debug['l'] == 0 && Debug['N'] != 0) || Ctxt.Flag_locationlists)
+	trackScopes = flagDWARF && (Debug['l'] == 0 && Debug['N'] != 0)
 
 	Widthptr = thearch.LinkArch.PtrSize
 	Widthreg = thearch.LinkArch.RegSize
