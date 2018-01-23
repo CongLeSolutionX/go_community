@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d89b6233_40f7fbaf",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-23T20:05:34Z",
+      "side": 1,
+      "message": "Do we need to this for all shifted ops, or only for OR? (It\u0027s fine for me to do all, just curious).",
+      "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f6f32fd_8e5a762a",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-23T20:05:34Z",
+      "side": 1,
+      "message": "Undo.",
+      "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
