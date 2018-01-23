@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da9f19f5_3afd7a6f",
+        "filename": "doc/go_faq.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1081,
+      "author": {
+        "id": 22285
+      },
+      "writtenOn": "2018-01-23T15:11:57Z",
+      "side": 1,
+      "message": "this looks like it shouldn\u0027t be here",
+      "range": {
+        "startLine": 1081,
+        "startChar": 0,
+        "endLine": 1081,
+        "endChar": 7
+      },
+      "revId": "4527ca619b5d118be9542d824f26a24ad55d8ea1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
