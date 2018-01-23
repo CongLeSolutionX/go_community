@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "df25831d_9c67de14",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-23T20:09:03Z",
+      "side": 1,
+      "message": "(here)",
+      "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "946c367b_295fd362",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2701,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-23T20:09:03Z",
+      "side": 1,
+      "message": "This test is good.\nFor other architectures, we also have ones that test the ones used in the \"encoding/binary\" package (see the mark above, ~line 309). We should also add those tests for ARM64.",
+      "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d89b6233_40f7fbaf",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 4
