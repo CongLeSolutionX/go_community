@@ -16,6 +16,24 @@
       "revId": "10e0427f31839fd0f1c567ea2350cb128aead8a3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ebf3286_f5b65471",
+        "filename": "doc/go_spec.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 5305
+      },
+      "writtenOn": "2018-01-23T04:36:19Z",
+      "side": 1,
+      "message": "Or just \"The language predeclares certain type names.\" The fact that these types are boolean et al. isn\u0027t important here.",
+      "parentUuid": "48cdcfdc_18a72e16",
+      "revId": "10e0427f31839fd0f1c567ea2350cb128aead8a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
