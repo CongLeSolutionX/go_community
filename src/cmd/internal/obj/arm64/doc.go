@@ -11,6 +11,68 @@ Go Assembly for ARM64 Reference Manual
 1. Alphabetical list of basic instructions
     // TODO
 
+    LDARB: Load-Acquire Register Byte
+      LDARB	(<Rn|RSP>), <Rd>
+        Derives an address from the value of Rn or RSP, loads a byte from memory,
+        zero-extends it and writes it to Rd.
+
+    LDARH: Load-Acquire Register Halfword
+      LDARH	(<Rn|RSP>), <Rd>
+        Derives an address from the value of Rn or RSP, loads a halfword from memory,
+        zero-extends it and writes it to Rd.
+
+    LDAXP: Load-Acquire Exclusive Pair of Registers
+      LDAXP	(<Rn|RSP>), (<Rt1>, <Rt2>)
+        Derives an address from the value of Rn or RSP, loads two 64-bit doublewords
+        from memory, and writes them to Rt1 and Rt2.
+
+    LDAXPW: Load-Acquire Exclusive Pair of Registers
+      LDAXPW	(<Rn|RSP>), (<Rt1>, <Rt2>)
+        Derives an address from the value of Rn or RSP, loads two 32-bit words
+        from memory, and writes them to Rt1 and Rt2.
+
+    LDXP: 64-bit Load Exclusive Pair of Registers
+      LDXP	(<Rn|RSP>), (<Rt1>, <Rt2>)
+        Derives an address from Rn or RSP, loads two 64-bit doublewords from memory,
+        and writes them to Rt1 and Rt2.
+
+    LDXPW: 32-bit Load Exclusive Pair of Registers
+      LDXPW	(<Rn|RSP>), (<Rt1>, <Rt2>)
+        Derives an address from Rn or RSP, loads two 32-bit words from memory, and
+        writes them to Rt1 and Rt2.
+
+    STLRB: Store-Release Register Byte
+      STLRB	<Rd>, (<Rn|RSP>)
+        Stores a byte from Rd to a memory location from Rn or RSP.
+
+    STLRH: Store-Release Register Halfword
+      STLRH	<Rd>, (<Rn|RSP>)
+        Stores a halfword from Rd to a memory location from Rn or RSP.
+
+    STLXP: 64-bit Store-Release Exclusive Pair of registers
+      STLXP	(<Rt1>, <Rt2>), (<Rn|RSP>), <Rs>
+        Stores two 64-bit doublewords from Rt1 and Rt2 to a memory location from Rn or
+        RSP if the PE has exclusive access to the memory address, and returns a status
+        value of 0 if the store was successful, or of 1 if no store was performed to Rs.
+
+    STLXPW: 32-bit Store-Release Exclusive Pair of registers
+      STLXPW	(<Rt1>, <Rt2>), (<Rn|RSP>), <Rs>
+        Stores two 32-bit words from Rt1 and Rt2 to a memory location from Rn or RSP if
+        the PE has exclusive access to the memory address, and returns a status value of
+        0 if the store was successful, or of 1 if no store was performed to Rs.
+
+    STXP: 64-bit Store Exclusive Pair of registers
+      STXP	(<Rt1>, <Rt2>), (<Rn|RSP>), <Rs>
+        Stores two 64-bit doublewords from Rt1 and Rt2 to a memory location from Rn or RSP
+        if the PE has exclusive access to the memory address, and returns a status value of
+        0 if the store was successful, or of 1 if no store was performed to Rs.
+
+    STXPW: 32-bit Store Exclusive Pair of registers
+      STXPW	(<Rt1>, <Rt2>), (<Rn|RSP>), <Rs>
+        Stores two 32-bit words from Rt1 and Rt2 to a memory location from Rn or RSP if the
+        PE has exclusive access to the memory address, and returns a status value of 0 if
+        the store was successful, or of 1 if no store was performed to Rs.
+
 2. Alphabetical list of float-point instructions
     // TODO
 
@@ -23,7 +85,7 @@ Go Assembly for ARM64 Reference Manual
     VADD: Add (vector).
       VADD	<Vm>.T, <Vn>.<T>, <Vd>.<T>
         <T> Is an arrangement specifier and can have the following values:
-        8B, 16B, H4, H8, S2, S4, D2
+        B8, B16, H4, H8, S2, S4, D2
 
     VADDP: Add Pairwise (vector)
       VADDP	<Vm>.<T>, <Vn>.<T>, <Vd>.<T>
