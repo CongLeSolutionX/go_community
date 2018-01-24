@@ -1759,6 +1759,10 @@ func collectlocs(ctxt *Link, syms []*sym.Symbol, units []*compilationUnit) []*sy
 					reloc.Sym.Attr |= sym.AttrReachable | sym.AttrNotInSymbolTable
 					syms = append(syms, reloc.Sym)
 					empty = false
+					// dsymutil doesn't support base address entries. Strip them out.
+					if ctxt.HeadType == objabi.Hdarwin && ctxt.LinkMode == LinkExternal {
+						removeLocationListBaseAddress(ctxt, reloc.Sym)
+					}
 					// One location list entry per function, but many relocations to it. Don't duplicate.
 					break
 				}
@@ -1773,6 +1777,67 @@ func collectlocs(ctxt *Link, syms []*sym.Symbol, units []*compilationUnit) []*sy
 		syms = append(syms, locsym)
 	}
 	return syms
+}
+
+func removeLocationListBaseAddress(ctxt *Link, list *sym.Symbol) {
+	// The list symbol contains multiple lists, but they're all for the
+	// same function, and it's not empty.
+	fn := list.R[0].Sym
+
+	list.R = list.R[:0]
+	old := list.P
+	new := make([]byte, 0, len(list.P))
+
+	// Copy all the lists in old over, removing base address entries and
+	// adding relocations as we go.
+	for i := 0; i < len(old); {
+		first := readPtr(ctxt, old[i:])
+		second := readPtr(ctxt, old[i+ctxt.Arch.PtrSize:])
+		i += ctxt.Arch.PtrSize * 2
+
+		switch {
+		case first == 0:
+			// End of list
+			new = new[:len(new)+ctxt.Arch.PtrSize*2]
+			continue
+		case first == ^uint64(0), ctxt.Arch.PtrSize == 4 && first == uint64(^uint32(0)):
+			// Base address entry
+			continue
+		}
+
+		// Location entry
+		relocate := func(addr uint64) {
+			list.R = append(list.R, sym.Reloc{
+				Off:  int32(len(new)),
+				Siz:  uint8(ctxt.Arch.PtrSize),
+				Type: objabi.R_ADDRCUOFF,
+				Add:  int64(addr),
+				Sym:  fn,
+			})
+			new = new[:len(new)+ctxt.Arch.PtrSize]
+		}
+		relocate(first)
+		relocate(second)
+
+		locLen := int(ctxt.Arch.ByteOrder.Uint16(old[i:]))
+		new = append(new, old[i:i+2+locLen]...)
+		i += 2 + locLen
+	}
+	list.Size = int64(len(new))
+	list.P = new
+}
+
+// Read a pointer-sized uint from the beginning of buf.
+func readPtr(ctxt *Link, buf []byte) uint64 {
+	switch ctxt.Arch.PtrSize {
+	case 4:
+		return uint64(ctxt.Arch.ByteOrder.Uint32(buf))
+	case 8:
+		return ctxt.Arch.ByteOrder.Uint64(buf)
+	default:
+		panic("unexpected pointer size")
+	}
+
 }
 
 /*
