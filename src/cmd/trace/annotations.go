@@ -284,7 +284,7 @@ func (task *taskDesc) complete() bool {
 // this trace. If the trace does not contain the task creation event,
 // the first timestamp of the trace will be returned.
 func (task *taskDesc) firstTimestamp() int64 {
-	if task.create != nil {
+	if task != nil && task.create != nil {
 		return task.create.Ts
 	}
 	return firstTimestamp()
@@ -294,7 +294,7 @@ func (task *taskDesc) firstTimestamp() int64 {
 // trace. If the trace does not contain the task end event, the last
 // timestamp of the trace will be returned.
 func (task *taskDesc) lastTimestamp() int64 {
-	if task.end != nil {
+	if task != nil && task.end != nil {
 		return task.end.Ts
 	}
 	return lastTimestamp()
@@ -309,6 +309,57 @@ func (task *taskDesc) lastEvent() *trace.Event {
 		return task.events[n-1]
 	}
 	return nil
+}
+
+// firstTimestamp returns the timestamp of span start event.
+// If the span's start event is not present in the trace,
+// the first timestamp of the task will be returned.
+func (span *spanDesc) firstTimestamp() int64 {
+	if span.start != nil {
+		return span.start.Ts
+	}
+	return span.task.firstTimestamp()
+}
+
+// lastTimestamp returns the timestamp of span end event.
+// If the span's end event is not present in the trace,
+// the last timestamp of the task will be returned.
+func (span *spanDesc) lastTimestamp() int64 {
+	if span.end != nil {
+		return span.end.Ts
+	}
+	return span.task.lastTimestamp()
+}
+
+// RelatedGoroutines returns IDs of goroutines related to the task. A goroutine
+// is related to the task if user annotation activities for the task occurred.
+// If non-zero depth is provided, this searches all events with BFS and includes
+// goroutines unblocked any of related goroutines to the result.
+func (task *taskDesc) RelatedGoroutines(events []*trace.Event, depth int) map[uint64]bool {
+	start, end := task.firstTimestamp(), task.lastTimestamp()
+
+	gmap := map[uint64]bool{}
+	for k := range task.goroutines {
+		gmap[k] = true
+	}
+
+	for i := 0; i < depth; i++ {
+		gmap1 := make(map[uint64]bool)
+		for g := range gmap {
+			gmap1[g] = true
+		}
+		for _, ev := range events {
+			if ev.Ts < start || ev.Ts > end {
+				continue
+			}
+			if ev.Type == trace.EvGoUnblock && gmap[ev.Args[0]] {
+				gmap1[ev.G] = true
+			}
+			gmap = gmap1
+		}
+	}
+	gmap[0] = true // for GC events (goroutine id = 0)
+	return gmap
 }
 
 type taskFilter struct {
