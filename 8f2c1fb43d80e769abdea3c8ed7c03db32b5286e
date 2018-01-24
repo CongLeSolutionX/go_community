@@ -22,6 +22,30 @@
       "revId": "8f2c1fb43d80e769abdea3c8ed7c03db32b5286e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a7cf994_44fbcf4d",
+        "filename": "src/cmd/go/internal/test/test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1225,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-24T16:32:54Z",
+      "side": 1,
+      "message": "Done (digits).",
+      "parentUuid": "3cf90875_c4344708",
+      "range": {
+        "startLine": 1225,
+        "startChar": 24,
+        "endLine": 1225,
+        "endChar": 29
+      },
+      "revId": "8f2c1fb43d80e769abdea3c8ed7c03db32b5286e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
