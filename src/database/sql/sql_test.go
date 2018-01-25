@@ -3192,8 +3192,11 @@ func TestIssue18429(t *testing.T) {
 			// reported.
 			rows, _ := tx.QueryContext(ctx, "WAIT|"+qwait+"|SELECT|people|name|")
 			if rows != nil {
+				var name string
 				// Call Next to test Issue 21117 and check for races.
 				for rows.Next() {
+					// Scan the buffer so it is read and checked for races.
+					rows.Scan(&name)
 				}
 				rows.Close()
 			}
