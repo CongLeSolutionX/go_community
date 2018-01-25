@@ -101,3 +101,15 @@ var whitelistedPoint = image.Point{1, 2}
 // Do not check type from unknown package.
 // See issue 15408.
 var unknownPkgVar = unknownpkg.Foobar{"foo", "bar"}
+
+// SpecialCase is a named pointer slice of CaseRange to test issue
+// 23539. In particular, we're interested in how some slice elements
+// omit their type.
+var goodNamedPointerSliceLiteral = []*unicode.CaseRange{
+	{Lo: 1, Hi: 2},
+	&unicode.CaseRange{Lo: 1, Hi: 2},
+}
+var badNamedPointerSliceLiteral = []*unicode.CaseRange{
+	{1, 2}, // ERROR "unkeyed fields"
+	&unicode.CaseRange{1, 2}, // ERROR "unkeyed fields"
+}
