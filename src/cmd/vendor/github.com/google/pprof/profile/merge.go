@@ -64,7 +64,7 @@ func Merge(srcs []*Profile) (*Profile, error) {
 			// represents the main binary. Take the first Mapping we see,
 			// otherwise the operations below will add mappings in an
 			// arbitrary order.
-			pm.mapMapping(srcs[0].Mapping[0])
+			pm.mapMapping(src.Mapping[0])
 		}
 
 		for _, s := range src.Sample {
@@ -234,10 +234,11 @@ func (pm *profileMerger) mapLocation(src *Location) *Location {
 
 	mi := pm.mapMapping(src.Mapping)
 	l := &Location{
-		ID:      uint64(len(pm.p.Location) + 1),
-		Mapping: mi.m,
-		Address: uint64(int64(src.Address) + mi.offset),
-		Line:    make([]Line, len(src.Line)),
+		ID:       uint64(len(pm.p.Location) + 1),
+		Mapping:  mi.m,
+		Address:  uint64(int64(src.Address) + mi.offset),
+		Line:     make([]Line, len(src.Line)),
+		IsFolded: src.IsFolded,
 	}
 	for i, ln := range src.Line {
 		l.Line[i] = pm.mapLine(ln)
@@ -258,7 +259,8 @@ func (pm *profileMerger) mapLocation(src *Location) *Location {
 // key generates locationKey to be used as a key for maps.
 func (l *Location) key() locationKey {
 	key := locationKey{
-		addr: l.Address,
+		addr:     l.Address,
+		isFolded: l.IsFolded,
 	}
 	if l.Mapping != nil {
 		// Normalizes address to handle address space randomization.
@@ -279,6 +281,7 @@ func (l *Location) key() locationKey {
 type locationKey struct {
 	addr, mappingID uint64
 	lines           string
+	isFolded        bool
 }
 
 func (pm *profileMerger) mapMapping(src *Mapping) mapInfo {

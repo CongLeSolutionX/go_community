@@ -25,22 +25,13 @@ import (
 	"regexp"
 	"sync"
 	"testing"
-	"time"
-
-	"runtime"
 
 	"github.com/google/pprof/internal/plugin"
 	"github.com/google/pprof/profile"
+	"runtime"
 )
 
 func TestWebInterface(t *testing.T) {
-	// This test starts a web browser in a background goroutine
-	// after a 500ms delay. Sometimes the test exits before it
-	// can run the browser, but sometimes the browser does open.
-	// That's obviously unacceptable.
-	defer time.Sleep(2 * time.Second) // to see the browser open
-	t.Skip("golang.org/issue/22651")
-
 	if runtime.GOOS == "nacl" {
 		t.Skip("test assumes tcp available")
 	}
@@ -66,7 +57,7 @@ func TestWebInterface(t *testing.T) {
 		Obj:        fakeObjTool{},
 		UI:         &stdUI{},
 		HTTPServer: creator,
-	})
+	}, false)
 	<-serverCreated
 	defer server.Close()
 
@@ -89,6 +80,7 @@ func TestWebInterface(t *testing.T) {
 			[]string{"300ms.*F1", "200ms.*300ms.*F2"}, false},
 		{"/disasm?f=" + url.QueryEscape("F[12]"),
 			[]string{"f1:asm", "f2:asm"}, false},
+		{"/flamegraph", []string{"File: testbin", "\"n\":\"root\"", "\"n\":\"F1\"", "function tip", "function flameGraph", "function hierarchy"}, false},
 	}
 	for _, c := range testcases {
 		if c.needDot && !haveDot {
@@ -133,8 +125,6 @@ func TestWebInterface(t *testing.T) {
 		}
 	}
 	wg.Wait()
-
-	time.Sleep(5 * time.Second)
 }
 
 // Implement fake object file support.
@@ -153,9 +143,18 @@ func (f fakeObj) SourceLine(addr uint64) ([]plugin.Frame, error) {
 }
 func (f fakeObj) Symbols(r *regexp.Regexp, addr uint64) ([]*plugin.Sym, error) {
 	return []*plugin.Sym{
-		{[]string{"F1"}, fakeSource, addrBase, addrBase + 10},
-		{[]string{"F2"}, fakeSource, addrBase + 10, addrBase + 20},
-		{[]string{"F3"}, fakeSource, addrBase + 20, addrBase + 30},
+		{
+			Name: []string{"F1"}, File: fakeSource,
+			Start: addrBase, End: addrBase + 10,
+		},
+		{
+			Name: []string{"F2"}, File: fakeSource,
+			Start: addrBase + 10, End: addrBase + 20,
+		},
+		{
+			Name: []string{"F3"}, File: fakeSource,
+			Start: addrBase + 20, End: addrBase + 30,
+		},
 	}, nil
 }
 
