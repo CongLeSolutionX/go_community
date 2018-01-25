@@ -84,6 +84,7 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 		Complete   bool
 		Events     []event
 		Start, End time.Duration // Time since the beginning of the trace
+		GCTime     time.Duration
 	}
 
 	base := time.Duration(firstTimestamp()) * time.Nanosecond // trace start
@@ -104,14 +105,18 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 				elapsed = 0
 			}
 
-			events = append(events, event{
-				WhenString: fmt.Sprintf("%2.9f", when.Seconds()),
-				Elapsed:    elapsed,
-				What:       describeEvent(ev),
-				Go:         ev.G,
-			})
-			last = time.Duration(ev.Ts) * time.Nanosecond
+			what := describeEvent(ev)
+			if what != "" {
+				events = append(events, event{
+					WhenString: fmt.Sprintf("%2.9f", when.Seconds()),
+					Elapsed:    elapsed,
+					What:       what,
+					Go:         ev.G,
+				})
+				last = time.Duration(ev.Ts) * time.Nanosecond
+			}
 		}
+
 		data = append(data, entry{
 			WhenString: fmt.Sprintf("%2.9fs", (time.Duration(task.firstTimestamp())*time.Nanosecond - base).Seconds()),
 			Duration:   task.duration(),
@@ -120,6 +125,7 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 			Events:     events,
 			Start:      time.Duration(task.firstTimestamp()) * time.Nanosecond,
 			End:        time.Duration(task.lastTimestamp()) * time.Nanosecond,
+			GCTime:     task.allOverlappingDuration(res.gcEvents),
 		})
 	}
 	sort.Slice(data, func(i, j int) bool {
@@ -215,15 +221,25 @@ func analyzeAnnotations() (annotationAnalysisResult, error) {
 			gcEvents = append(gcEvents, ev)
 		}
 	}
+	// sort spans based on the timestamps.
+	for _, task := range tasks {
+		sort.Slice(task.spans, func(i, j int) bool {
+			si, sj := task.spans[i].firstTimestamp(), task.spans[j].firstTimestamp()
+			if si != sj {
+				return si < sj
+			}
+			return task.spans[i].lastTimestamp() < task.spans[i].lastTimestamp()
+		})
+	}
 	return annotationAnalysisResult{tasks: tasks, gcEvents: gcEvents}, nil
 }
 
 // taskDesc represents a task.
 type taskDesc struct {
-	name       string // user-provided task name
-	id         uint64 // internal task id
-	events     []*trace.Event
-	spans      []*spanDesc               // associated spans
+	name       string                    // user-provided task name
+	id         uint64                    // internal task id
+	events     []*trace.Event            // sorted based on timestamp.
+	spans      []*spanDesc               // associated spans, sorted based on the start timestamp and then the last timestamp.
 	goroutines map[uint64][]*trace.Event // Events grouped by goroutine id
 
 	create *trace.Event // Task create event
@@ -374,6 +390,71 @@ func (task *taskDesc) lastTimestamp() int64 {
 
 func (task *taskDesc) duration() time.Duration {
 	return time.Duration(task.lastTimestamp()-task.firstTimestamp()) * time.Nanosecond
+}
+
+func (task *taskDesc) allOverlappingDuration(evs []*trace.Event) (sum time.Duration) {
+	for _, ev := range evs {
+		sum += task.overlappingDuration(ev)
+	}
+	return sum
+}
+
+// overlappingDuration returns the time duration where the specified event
+// overlaps with the task if the event is either GCStart, GCSTWStart, GoStart,
+// GoStartLabel, or GCMarkAssistStart type.
+func (task *taskDesc) overlappingDuration(ev *trace.Event) time.Duration {
+	s := ev.Ts
+	e := lastTimestamp()
+	if ev.Link != nil {
+		e = ev.Link.Ts
+	}
+	// s <= e.
+
+	switch typ := ev.Type; typ {
+	case trace.EvGCStart, trace.EvGCSTWStart:
+		// Global events
+		if t := task.firstTimestamp(); s < t {
+			s = t
+		}
+		if t := task.lastTimestamp(); e > t {
+			e = t
+		}
+		if overlapping := e - s; overlapping > 0 {
+			return time.Duration(overlapping) * time.Nanosecond
+		}
+		return 0
+
+	case trace.EvGCSweepStart, trace.EvGoStart, trace.EvGoStartLabel, trace.EvGCMarkAssistStart:
+		// Goroutine-local events, so the goroutine id must match.
+		goid := ev.G
+		var overlapping int64
+		var lastSpanEnd int64 // the end of previous overlapping span
+		for _, span := range task.spans {
+			if span.goid != goid {
+				continue
+			}
+			ss, se := span.firstTimestamp(), span.lastTimestamp()
+			if ss < lastSpanEnd { // skip nested spans
+				continue
+			}
+			if s > se || e < ss { // not overlapping
+				continue
+			}
+			lastSpanEnd = se
+
+			if ss < s {
+				ss = s
+			}
+			if e < se {
+				se = e
+			}
+			if o := se - ss; o > 0 { // overlapped
+				overlapping += o
+			}
+		}
+		return time.Duration(overlapping) * time.Nanosecond
+	}
+	return 0
 }
 
 func (task *taskDesc) lastEvent() *trace.Event {
@@ -718,6 +799,11 @@ var templUserTaskType = template.Must(template.New("userTask").Funcs(template.Fu
                 <td>{{.What}}</td>
         </tr>
         {{end}}
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td>GC:{{$el.GCTime}}</td>
     {{end}}
 </body>
 </html>
@@ -752,7 +838,7 @@ func asMillisecond(d time.Duration) float64 {
 func describeEvent(ev *trace.Event) string {
 	switch ev.Type {
 	case trace.EvGoCreate:
-		return fmt.Sprintf("created a new goroutine %d", ev.Args[0])
+		return fmt.Sprintf("new goroutine %d", ev.Args[0])
 	case trace.EvGoEnd, trace.EvGoStop:
 		return "goroutine stopped"
 	case trace.EvUserLog:
