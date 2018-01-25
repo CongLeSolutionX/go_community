@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6ae2c92_66f70d7d",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 2873,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-01-25T16:07:41Z",
+      "side": 1,
+      "message": "I have the same problem as on the other CL: now an additional lock is being held during convertAssign, which calls user code. What is the user code allowed to do? Can it call back into any of the other rows methods?",
+      "revId": "22b7f8736c020261d2f9ba51b31c7f9f9bc585d6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
