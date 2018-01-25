@@ -2870,11 +2870,14 @@ func rowsColumnInfoSetupConnLocked(rowsi driver.Rows) []*ColumnType {
 // string inputs parseable by strconv.ParseBool.
 func (rs *Rows) Scan(dest ...interface{}) error {
 	rs.closemu.RLock()
+	// Guard the entire method from closing while it is running.
+	// Some drivers may modify the content of rs.lastcols which is
+	// read in convertAssign.
+	// See golang.org/issue/2622 and golang.org/issue/23519 for more details.
+	defer rs.closemu.RUnlock()
 	if rs.closed {
-		rs.closemu.RUnlock()
 		return errors.New("sql: Rows are closed")
 	}
-	rs.closemu.RUnlock()
 
 	if rs.lastcols == nil {
 		return errors.New("sql: Scan called without calling Next")
