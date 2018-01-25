@@ -20,12 +20,13 @@ func init() {
 
 // httpUserTasks reports all tasks found in the trace.
 func httpUserTasks(w http.ResponseWriter, r *http.Request) {
-	tasks, err := analyzeAnnotations()
+	res, err := analyzeAnnotations()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	tasks := res.tasks
 	summary := make(map[string]taskStats)
 	for _, task := range tasks {
 		stats, ok := summary[task.name]
@@ -62,11 +63,12 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tasks, err := analyzeAnnotations()
+	res, err := analyzeAnnotations()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	tasks := res.tasks
 
 	type event struct {
 		WhenString string
@@ -139,21 +141,27 @@ func httpUserTask(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+type annotationAnalysisResult struct {
+	tasks    map[uint64]*taskDesc // tasks
+	gcEvents []*trace.Event       // GCStartevents, sorted
+}
+
 // analyzeAnnotations analyzes user annotation events and
 // returns the task descriptors keyed by internal task id.
-func analyzeAnnotations() (map[uint64]*taskDesc, error) {
+func analyzeAnnotations() (annotationAnalysisResult, error) {
 	res, err := parseTrace()
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse trace: %v", err)
+		return annotationAnalysisResult{}, fmt.Errorf("failed to parse trace: %v", err)
 	}
 
 	events := res.Events
 	if len(events) == 0 {
-		return nil, fmt.Errorf("empty trace")
+		return annotationAnalysisResult{}, fmt.Errorf("empty trace")
 	}
 
 	tasks := allTasks{}
 	activeSpans := goroutineToSpans{}
+	var gcEvents []*trace.Event
 
 	for _, ev := range events {
 		goid := ev.G
@@ -163,9 +171,18 @@ func analyzeAnnotations() (map[uint64]*taskDesc, error) {
 			taskid := ev.Args[0]
 			task := tasks.task(taskid)
 			task.addEvent(ev)
+
+			// retrieve parent task information
+			if typ == trace.EvUserTaskCreate {
+				if parentID := ev.Args[1]; parentID != 0 {
+					parentTask := tasks.task(parentID)
+					task.parent = parentTask
+					parentTask.children = append(parentTask.children, task)
+				}
+			}
 			if typ == trace.EvUserSpan {
 				if err := activeSpans.processEvUserSpan(ev, task); err != nil {
-					return nil, err
+					return annotationAnalysisResult{}, err
 				}
 			}
 
@@ -185,9 +202,12 @@ func analyzeAnnotations() (map[uint64]*taskDesc, error) {
 
 			// trace.EvGoStop (e.g. select{}) makes the goroutine live forever,
 			// so spans are left open forever.
+
+		case trace.EvGCStart:
+			gcEvents = append(gcEvents, ev)
 		}
 	}
-	return tasks, nil
+	return annotationAnalysisResult{tasks: tasks, gcEvents: gcEvents}, nil
 }
 
 // taskDesc represents a task.
@@ -200,6 +220,16 @@ type taskDesc struct {
 
 	create *trace.Event // Task create event
 	end    *trace.Event // Task end event
+
+	parent   *taskDesc
+	children []*taskDesc
+}
+
+func newTaskDesc(id uint64) *taskDesc {
+	return &taskDesc{
+		id:         id,
+		goroutines: make(map[uint64][]*trace.Event),
+	}
 }
 
 func (task *taskDesc) String() string {
@@ -214,6 +244,14 @@ func (task *taskDesc) String() string {
 	for _, s := range task.spans {
 		fmt.Fprintf(wb, "\t\t%s(goid=%d)\n", s.name, s.goid)
 	}
+	if task.parent != nil {
+		fmt.Fprintf(wb, "\tparent: %s\n", task.parent.name)
+	}
+	fmt.Fprintf(wb, "\t%d children:\n", len(task.children))
+	for _, c := range task.children {
+		fmt.Fprintf(wb, "\t\t%s\n", c.name)
+	}
+
 	return wb.String()
 }
 
@@ -231,7 +269,6 @@ type goroutineToSpans map[uint64][]*spanDesc // goroutine id to spans
 func (gtos goroutineToSpans) processEvUserSpan(ev *trace.Event, task *taskDesc) error {
 	goid := ev.G
 	taskid := ev.Args[0]
-
 	spans := gtos[goid]
 	switch mode := ev.Args[1]; mode {
 	case 0: // start
@@ -320,6 +357,21 @@ func (task *taskDesc) addEvent(ev *trace.Event) {
 // are present in the trace.
 func (task *taskDesc) complete() bool {
 	return task.create != nil && task.end != nil
+}
+
+// descendents returns all the task nodes in the subtree rooted from this task.
+func (task *taskDesc) decendents() []*taskDesc {
+	if task == nil {
+		return nil
+	}
+	res := []*taskDesc{task}
+	for i := 0; len(res[i:]) > 0; i++ {
+		t := res[i]
+		for _, c := range t.children {
+			res = append(res, c)
+		}
+	}
+	return res
 }
 
 // firstTimestamp returns the first timestamp of this task found in
@@ -719,7 +771,11 @@ func describeEvent(ev *trace.Event) string {
 	case trace.EvGoEnd, trace.EvGoStop:
 		return "goroutine stopped"
 	case trace.EvUserLog:
-		return fmt.Sprintf("%v=%v", ev.SArgs[0], ev.SArgs[1])
+		if k, v := ev.SArgs[0], ev.SArgs[1]; k == "" {
+			return v
+		} else {
+			return fmt.Sprintf("%v=%v", k, v)
+		}
 	case trace.EvUserSpan:
 		if ev.Args[1] == 0 {
 			duration := "unknown"
