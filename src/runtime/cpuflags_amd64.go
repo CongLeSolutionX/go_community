@@ -8,13 +8,13 @@ var useAVXmemmove bool
 
 func init() {
 	// Let's remove stepping and reserved fields
-	processor := processorVersionInfo & 0x0FFF3FF0
+	processor := x86_processorVersionInfo & 0x0FFF3FF0
 
-	isIntelBridgeFamily := isIntel &&
+	isIntelBridgeFamily := x86_isIntel &&
 		processor == 0x206A0 ||
 		processor == 0x206D0 ||
 		processor == 0x306A0 ||
 		processor == 0x306E0
 
-	useAVXmemmove = support_avx && !isIntelBridgeFamily
+	useAVXmemmove = x86_hasAVX && !isIntelBridgeFamily
 }

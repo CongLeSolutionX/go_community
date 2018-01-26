@@ -149,8 +149,8 @@ var runtimeDecls = [...]struct {
 	{"racewriterange", funcTag, 114},
 	{"msanread", funcTag, 114},
 	{"msanwrite", funcTag, 114},
-	{"support_popcnt", varTag, 11},
-	{"support_sse41", varTag, 11},
+	{"x86_hasPOPCNT", varTag, 11},
+	{"x86_hasSSE41", varTag, 11},
 }
 
 func runtimeTypes() []*types.Type {
