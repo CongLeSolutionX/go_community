@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3def17bb_7bc82980",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 2703,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-26T19:04:50Z",
+      "side": 1,
+      "message": "I think we decided to use \"$\" as function name to make it auto-numbered, like above. It will be replaced with a real function name before running the compiler.",
+      "range": {
+        "startLine": 2703,
+        "startChar": 7,
+        "endLine": 2703,
+        "endChar": 10
+      },
+      "revId": "152cf3e92878717acf5ae2cc92fa74fcde4280a3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
