@@ -35,10 +35,10 @@ TEXT	·Syscall(SB),NOSPLIT,$0-64
 	MOVQ	SP, SI
 	ADDQ	$16, SP
 	JMP	copyresult3
-	
+
 ok3:
 	LEAQ	·emptystring(SB), SI
-	
+
 copyresult3:
 	LEAQ	err+48(FP), DI
 
@@ -67,16 +67,16 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-88
 	MOVQ	$0, r2+64(FP)
 	CMPL	AX, $-1
 	JNE	ok4
-	
+
 	SUBQ	$16, SP
 	CALL	runtime·errstr(SB)
 	MOVQ	SP, SI
 	ADDQ	$16, SP
 	JMP	copyresult4
-	
+
 ok4:
 	LEAQ	·emptystring(SB), SI
-	
+
 copyresult4:
 	LEAQ	err+72(FP), DI
 
@@ -126,23 +126,23 @@ TEXT	·RawSyscall6(SB),NOSPLIT,$0-80
 TEXT ·seek(SB),NOSPLIT,$0-56
 	LEAQ	newoffset+32(FP), AX
 	MOVQ	AX, placeholder+0(FP)
-	
+
 	MOVQ	$SYS_SEEK, BP	// syscall entry
 	SYSCALL
-	
+
 	CMPL	AX, $-1
 	JNE	ok6
 	MOVQ	$-1, newoffset+32(FP)
-	
+
 	SUBQ	$16, SP
 	CALL	syscall·errstr(SB)
 	MOVQ	SP, SI
-	ADDQ	$16, SP	
+	ADDQ	$16, SP
 	JMP	copyresult6
-	
+
 ok6:
 	LEAQ	·emptystring(SB), SI
-	
+
 copyresult6:
 	LEAQ	err+40(FP), DI
 

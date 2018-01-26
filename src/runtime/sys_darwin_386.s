@@ -155,10 +155,10 @@ TEXT runtime·setitimer(SB),NOSPLIT,$0
 // using Macs to test the 32-bit compiler.
 // 2. On some (probably now unsupported) CPUs,
 // the code falls back to the system call always,
-// so it can't even use the comm page at all. 
+// so it can't even use the comm page at all.
 TEXT runtime·now(SB),NOSPLIT,$40
 	MOVL	$0xffff0000, BP /* comm page base */
-	
+
 	// Test for slow CPU. If so, the math is completely
 	// different, and unimplemented here, so use the
 	// system call.
@@ -220,7 +220,7 @@ timeloop:
 
 	ADDL	SI, AX	// DX:AX += (x&0xffffffff)*y >> 32
 	ADCL	$0, DX
-	
+
 	// DX:AX is now ((tsc - nt_tsc_base) * nt_scale) >> 32.
 	ADDL	12(SP), AX	// DX:AX += nt_ns_base
 	ADCL	16(SP), DX

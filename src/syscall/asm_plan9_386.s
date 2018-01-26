@@ -36,10 +36,10 @@ TEXT	·Syscall(SB),NOSPLIT,$0-32
 	MOVL	SP, SI
 	ADDL	$8, SP
 	JMP	copyresult3
-	
+
 ok3:
 	LEAL	·emptystring(SB), SI
-	
+
 copyresult3:
 	LEAL	err+24(FP), DI
 
@@ -68,16 +68,16 @@ TEXT	·Syscall6(SB),NOSPLIT,$0-44
 	MOVL	$0, r2+32(FP)
 	CMPL	AX, $-1
 	JNE	ok4
-	
+
 	SUBL	$8, SP
 	CALL	runtime·errstr(SB)
 	MOVL	SP, SI
 	ADDL	$8, SP
 	JMP	copyresult4
-	
+
 ok4:
 	LEAL	·emptystring(SB), SI
-	
+
 copyresult4:
 	LEAL	err+36(FP), DI
 
@@ -127,24 +127,24 @@ TEXT	·RawSyscall6(SB),NOSPLIT,$0-40
 TEXT ·seek(SB),NOSPLIT,$0-36
 	LEAL	newoffset+20(FP), AX
 	MOVL	AX, placeholder+0(FP)
-	
+
 	MOVL	$SYS_SEEK, AX	// syscall entry
 	INT	$64
-	
+
 	CMPL	AX, $-1
 	JNE	ok6
 	MOVL	AX, newoffset_lo+20(FP)
 	MOVL	AX, newoffset_hi+24(FP)
-	
+
 	SUBL	$8, SP
 	CALL	syscall·errstr(SB)
 	MOVL	SP, SI
-	ADDL	$8, SP	
+	ADDL	$8, SP
 	JMP	copyresult6
-	
+
 ok6:
 	LEAL	·emptystring(SB), SI
-	
+
 copyresult6:
 	LEAL	err+28(FP), DI
 

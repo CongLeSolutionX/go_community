@@ -142,7 +142,7 @@ TEXT runtime∕internal∕atomic·Store64(SB), NOSPLIT, $0-12
 	// MOVQ 0x8(%ESP), %MM0
 	BYTE $0x0f; BYTE $0x6f; BYTE $0x44; BYTE $0x24; BYTE $0x08
 	// MOVQ %MM0, (%EAX)
-	BYTE $0x0f; BYTE $0x7f; BYTE $0x00 
+	BYTE $0x0f; BYTE $0x7f; BYTE $0x00
 	// EMMS
 	BYTE $0x0F; BYTE $0x77
 	// This is essentially a no-op, but it provides required memory fencing.

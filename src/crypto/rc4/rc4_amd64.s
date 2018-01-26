@@ -133,7 +133,7 @@ start:
 	KEYROUND(X1, LOAD, 13, BX, AX, 6)
 	KEYROUND(X0, LOAD, 14, AX, BX, 7)
 	KEYROUND(X1, SKIP, 15, BX, AX, 7)
-	
+
 	ADDB	$16,		CX
 
 	PSLLQ	$8,		X1

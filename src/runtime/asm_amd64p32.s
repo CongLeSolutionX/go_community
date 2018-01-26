@@ -18,7 +18,7 @@ TEXT runtime·rt0_go(SB),NOSPLIT,$0
 
 	MOVL	AX, 16(SP)
 	MOVL	BX, 24(SP)
-	
+
 	// create istack out of the given (operating system) stack.
 	MOVL	$runtime·g0(SB), DI
 	LEAL	(-64*1024+104)(SP), BX
@@ -217,7 +217,7 @@ TEXT runtime·gogo(SB), NOSPLIT, $8-4
 // to keep running g.
 TEXT runtime·mcall(SB), NOSPLIT, $0-4
 	MOVL	fn+0(FP), DI
-	
+
 	get_tls(CX)
 	MOVL	g(CX), AX	// save state in g->sched
 	MOVL	0(SP), BX	// caller's PC
@@ -271,7 +271,7 @@ TEXT runtime·systemstack(SB), NOSPLIT, $0-4
 	MOVL	m_curg(BX), R8
 	CMPL	AX, R8
 	JEQ	switch
-	
+
 	// Not g0, not curg. Must be gsignal, but that's not allowed.
 	// Hide call from linker nosplit analysis.
 	MOVL	$runtime·badsystemstack(SB), AX
@@ -612,7 +612,7 @@ TEXT runtime·memeqbody(SB),NOSPLIT,$0-0
 
 	CMPQ	BX, $8
 	JB	small
-	
+
 	// 64 bytes at a time using xmm registers
 hugeloop:
 	CMPQ	BX, $64
@@ -749,7 +749,7 @@ loop:
 	ADDQ	$16, DI
 	SUBQ	$16, R8
 	JMP	loop
-	
+
 	// AX = bit mask of differences
 diff16:
 	BSFQ	AX, BX	// index of first byte that differs
