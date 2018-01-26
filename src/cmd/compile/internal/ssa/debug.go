@@ -887,6 +887,8 @@ func (state *debugState) buildLocationLists(Ctxt *obj.Link, blockLocs []*BlockDe
 // PutLocationList adds list (a location list in its intermediate representation) to listSym.
 func (debugInfo *FuncDebug) PutLocationList(list []byte, ctxt *obj.Link, listSym, startPC *obj.LSym) {
 	getPC := debugInfo.GetPC
+
+	entries := 0
 	// Re-read list, translating its address from block/value ID to PC.
 	for i := 0; i < len(list); {
 		translate := func() {
@@ -898,13 +900,25 @@ func (debugInfo *FuncDebug) PutLocationList(list []byte, ctxt *obj.Link, listSym
 		translate()
 		translate()
 		i += 2 + int(ctxt.Arch.ByteOrder.Uint16(list[i:]))
+		entries++
 	}
 
-	// Base address entry.
-	listSym.WriteInt(ctxt, listSym.Size, ctxt.Arch.PtrSize, ^0)
-	listSym.WriteAddr(ctxt, listSym.Size, ctxt.Arch.PtrSize, startPC, 0)
-	// Location list contents, now with real PCs.
-	listSym.WriteBytes(ctxt, listSym.Size, list)
+	if entries == 1 {
+		start := readPtr(ctxt, list)
+		end := readPtr(ctxt, list[ctxt.Arch.PtrSize:])
+		// Single entry.
+		listSym.WriteCURelativeAddr(ctxt, listSym.Size, startPC, int64(start))
+		listSym.WriteCURelativeAddr(ctxt, listSym.Size, startPC, int64(end))
+		// Just the location expression.
+		listSym.WriteBytes(ctxt, listSym.Size, list[ctxt.Arch.PtrSize*2:])
+	} else {
+		// Base address entry.
+		listSym.WriteInt(ctxt, listSym.Size, ctxt.Arch.PtrSize, ^0)
+		listSym.WriteAddr(ctxt, listSym.Size, ctxt.Arch.PtrSize, startPC, 0)
+		// Location list contents, now with real PCs.
+		listSym.WriteBytes(ctxt, listSym.Size, list)
+	}
+
 	// End entry.
 	listSym.WriteInt(ctxt, listSym.Size, ctxt.Arch.PtrSize, 0)
 	listSym.WriteInt(ctxt, listSym.Size, ctxt.Arch.PtrSize, 0)
