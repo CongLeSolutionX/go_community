@@ -22,6 +22,30 @@
       "revId": "236017bddd4c19bb03eb97d124fa6b7730f34974",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f813c968_c83c2e5a",
+        "filename": "src/crypto/aes/cipher_arm64.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-01-26T10:20:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92d577d_b852cb82",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 10
+      },
+      "revId": "236017bddd4c19bb03eb97d124fa6b7730f34974",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
