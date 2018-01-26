@@ -118,40 +118,40 @@ TEXT runtime·rt0_go(SB),NOSPLIT,$0
 	JNE	notintel
 	CMPL	CX, $0x6C65746E  // "ntel"
 	JNE	notintel
-	MOVB	$1, runtime·isIntel(SB)
-	MOVB	$1, runtime·lfenceBeforeRdtsc(SB)
+	MOVB	$1, runtime·x86_isIntel(SB)
+	MOVB	$1, runtime·x86_lfenceBeforeRdtsc(SB)
 notintel:
 
 	// Load EAX=1 cpuid flags
 	MOVL	$1, AX
 	CPUID
-	MOVL	AX, runtime·processorVersionInfo(SB)
+	MOVL	AX, runtime·x86_processorVersionInfo(SB)
 
 	TESTL	$(1<<26), DX // SSE2
-	SETNE	runtime·support_sse2(SB)
+	SETNE	runtime·x86_hasSSE2(SB)
 
 	TESTL	$(1<<9), CX // SSSE3
-	SETNE	runtime·support_ssse3(SB)
+	SETNE	runtime·x86_hasSSSE3(SB)
 
 	TESTL	$(1<<19), CX // SSE4.1
-	SETNE	runtime·support_sse41(SB)
+	SETNE	runtime·x86_hasSSE41(SB)
 
 	TESTL	$(1<<20), CX // SSE4.2
-	SETNE	runtime·support_sse42(SB)
+	SETNE	runtime·x86_hasSSE42(SB)
 
 	TESTL	$(1<<23), CX // POPCNT
-	SETNE	runtime·support_popcnt(SB)
+	SETNE	runtime·x86_hasPOPCNT(SB)
 
 	TESTL	$(1<<25), CX // AES
-	SETNE	runtime·support_aes(SB)
+	SETNE	runtime·x86_hasAES(SB)
 
 	TESTL	$(1<<27), CX // OSXSAVE
-	SETNE	runtime·support_osxsave(SB)
+	SETNE	runtime·x86_hasOSXSAVE(SB)
 
 	// If OS support for XMM and YMM is not present
-	// support_avx will be set back to false later.
+	// x86_hasAVX will be set back to false later.
 	TESTL	$(1<<28), CX // AVX
-	SETNE	runtime·support_avx(SB)
+	SETNE	runtime·x86_hasAVX(SB)
 
 eax7:
 	// Load EAX=7/ECX=0 cpuid flags
@@ -162,21 +162,21 @@ eax7:
 	CPUID
 
 	TESTL	$(1<<3), BX // BMI1
-	SETNE	runtime·support_bmi1(SB)
+	SETNE	runtime·x86_hasBMI1(SB)
 
 	// If OS support for XMM and YMM is not present
-	// support_avx2 will be set back to false later.
+	// x86_hasAVX2 will be set back to false later.
 	TESTL	$(1<<5), BX
-	SETNE	runtime·support_avx2(SB)
+	SETNE	runtime·x86_hasAVX2(SB)
 
 	TESTL	$(1<<8), BX // BMI2
-	SETNE	runtime·support_bmi2(SB)
+	SETNE	runtime·x86_hasBMI2(SB)
 
 	TESTL	$(1<<9), BX // ERMS
-	SETNE	runtime·support_erms(SB)
+	SETNE	runtime·x86_hasERMS(SB)
 
 osavx:
-	CMPB	runtime·support_osxsave(SB), $1
+	CMPB	runtime·x86_hasOSXSAVE(SB), $1
 	JNE	noavx
 	MOVL	$0, CX
 	// For XGETBV, OSXSAVE bit is required and sufficient
@@ -185,8 +185,8 @@ osavx:
 	CMPL	AX, $6 // Check for OS support of XMM and YMM registers.
 	JE nocpuinfo
 noavx:
-	MOVB $0, runtime·support_avx(SB)
-	MOVB $0, runtime·support_avx2(SB)
+	MOVB $0, runtime·x86_hasAVX(SB)
+	MOVB $0, runtime·x86_hasAVX2(SB)
 
 nocpuinfo:
 	// if there is an _cgo_init, call it.
@@ -899,7 +899,7 @@ TEXT runtime·stackcheck(SB), NOSPLIT, $0-0
 
 // func cputicks() int64
 TEXT runtime·cputicks(SB),NOSPLIT,$0-0
-	CMPB	runtime·lfenceBeforeRdtsc(SB), $1
+	CMPB	runtime·x86_lfenceBeforeRdtsc(SB), $1
 	JNE	mfence
 	LFENCE
 	JMP	done
@@ -1393,7 +1393,7 @@ TEXT runtime·memeqbody(SB),NOSPLIT,$0-0
 	JB	small
 	CMPQ	BX, $64
 	JB	bigloop
-	CMPB    runtime·support_avx2(SB), $1
+	CMPB    runtime·x86_hasAVX2(SB), $1
 	JE	hugeloop_avx2
 	
 	// 64 bytes at a time using xmm registers
@@ -1538,7 +1538,7 @@ TEXT runtime·cmpbody(SB),NOSPLIT,$0-0
 
 	CMPQ	R8, $63
 	JBE	loop
-	CMPB    runtime·support_avx2(SB), $1
+	CMPB    runtime·x86_hasAVX2(SB), $1
 	JEQ     big_loop_avx2
 	JMP	big_loop
 loop:
@@ -1955,7 +1955,7 @@ success_avx2:
 	VZEROUPPER
 	JMP success
 sse42:
-	CMPB runtime·support_sse42(SB), $1
+	CMPB runtime·x86_hasSSE42(SB), $1
 	JNE no_sse42
 	CMPQ AX, $12
 	// PCMPESTRI is slower than normal compare,
@@ -2106,7 +2106,7 @@ endofpage:
 	RET
 
 avx2:
-	CMPB   runtime·support_avx2(SB), $1
+	CMPB   runtime·x86_hasAVX2(SB), $1
 	JNE sse
 	MOVD AX, X0
 	LEAQ -32(SI)(BX*1), R11
@@ -2291,7 +2291,7 @@ endofpage:
 	RET
 
 avx2:
-	CMPB   runtime·support_avx2(SB), $1
+	CMPB   runtime·x86_hasAVX2(SB), $1
 	JNE sse
 	MOVD AX, X0
 	LEAQ -32(SI)(BX*1), R11
