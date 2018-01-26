@@ -799,28 +799,28 @@ var linuxAMD64Tests = []*asmTest{
 		func pop1(x uint64) int {
 			return bits.OnesCount64(x)
 		}`,
-		pos: []string{"\tPOPCNTQ\t", "support_popcnt"},
+		pos: []string{"\tPOPCNTQ\t", "x86_hasPOPCNT"},
 	},
 	{
 		fn: `
 		func pop2(x uint32) int {
 			return bits.OnesCount32(x)
 		}`,
-		pos: []string{"\tPOPCNTL\t", "support_popcnt"},
+		pos: []string{"\tPOPCNTL\t", "x86_hasPOPCNT"},
 	},
 	{
 		fn: `
 		func pop3(x uint16) int {
 			return bits.OnesCount16(x)
 		}`,
-		pos: []string{"\tPOPCNTL\t", "support_popcnt"},
+		pos: []string{"\tPOPCNTL\t", "x86_hasPOPCNT"},
 	},
 	{
 		fn: `
 		func pop4(x uint) int {
 			return bits.OnesCount(x)
 		}`,
-		pos: []string{"\tPOPCNTQ\t", "support_popcnt"},
+		pos: []string{"\tPOPCNTQ\t", "x86_hasPOPCNT"},
 	},
 	// multiplication merging tests
 	{
