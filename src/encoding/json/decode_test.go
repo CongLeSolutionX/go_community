@@ -1050,12 +1050,16 @@ func TestUnmarshalMarshal(t *testing.T) {
 
 var numberTests = []struct {
 	in       string
-	i        int64
+	i64      int64
+	i32      int32
+	i        int
 	intErr   string
 	f        float64
 	floatErr string
 }{
 	{in: "-1.23e1", intErr: "strconv.ParseInt: parsing \"-1.23e1\": invalid syntax", f: -1.23e1},
+	{in: "-12", i64: -12, f: -12.0},
+	{in: "-12", i32: int32(-12), f: -12.0},
 	{in: "-12", i: -12, f: -12.0},
 	{in: "1e1000", intErr: "strconv.ParseInt: parsing \"1e1000\": invalid syntax", floatErr: "strconv.ParseFloat: parsing \"1e1000\": value out of range"},
 }
@@ -1067,10 +1071,26 @@ func TestNumberAccessors(t *testing.T) {
 		if s := n.String(); s != tt.in {
 			t.Errorf("Number(%q).String() is %q", tt.in, s)
 		}
-		if i, err := n.Int64(); err == nil && tt.intErr == "" && i != tt.i {
-			t.Errorf("Number(%q).Int64() is %d", tt.in, i)
-		} else if (err == nil && tt.intErr != "") || (err != nil && err.Error() != tt.intErr) {
-			t.Errorf("Number(%q).Int64() wanted error %q but got: %v", tt.in, tt.intErr, err)
+		if tt.i != 0 {
+			if i, err := n.Int(); tt.i != 0 && err == nil && tt.intErr == "" && i != tt.i {
+				t.Errorf("Number(%q).Int() is %d", tt.in, i)
+			} else if (err == nil && tt.intErr != "") || (err != nil && err.Error() != tt.intErr) {
+				t.Errorf("Number(%q).Int() wanted error %q but got: %v", tt.in, tt.intErr, err)
+			}
+		}
+		if tt.i32 != 0 {
+			if i, err := n.Int32(); tt.i32 != 0 && err == nil && tt.intErr == "" && i != tt.i32 {
+				t.Errorf("Number(%q).Int32() is %d", tt.in, i)
+			} else if (err == nil && tt.intErr != "") || (err != nil && err.Error() != tt.intErr) {
+				t.Errorf("Number(%q).Int32() wanted error %q but got: %v", tt.in, tt.intErr, err)
+			}
+		}
+		if tt.i64 != 0 {
+			if i, err := n.Int64(); tt.i64 != 0 && err == nil && tt.intErr == "" && i != tt.i64 {
+				t.Errorf("Number(%q).Int64() is %d", tt.in, i)
+			} else if (err == nil && tt.intErr != "") || (err != nil && err.Error() != tt.intErr) {
+				t.Errorf("Number(%q).Int64() wanted error %q but got: %v", tt.in, tt.intErr, err)
+			}
 		}
 		if f, err := n.Float64(); err == nil && tt.floatErr == "" && f != tt.f {
 			t.Errorf("Number(%q).Float64() is %g", tt.in, f)

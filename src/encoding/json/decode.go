@@ -201,6 +201,17 @@ func (n Number) Float64() (float64, error) {
 	return strconv.ParseFloat(string(n), 64)
 }
 
+// Int32 returns the number as an int32.
+func (n Number) Int32() (int32, error) {
+	i64, err := strconv.ParseInt(string(n), 10, 32)
+	return int32(i64), err
+}
+
+// Int returns the number as an int.
+func (n Number) Int() (int, error) {
+	return strconv.Atoi(string(n))
+}
+
 // Int64 returns the number as an int64.
 func (n Number) Int64() (int64, error) {
 	return strconv.ParseInt(string(n), 10, 64)
