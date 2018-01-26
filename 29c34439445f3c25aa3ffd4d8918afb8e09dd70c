@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2ecd308b_fb4e8750",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-01-26T03:25:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df25831d_9c67de14",
+      "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "946c367b_295fd362",
         "filename": "src/cmd/compile/internal/gc/asm_test.go",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09fde4ba_b66c8a76",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2701,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-01-26T03:25:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "946c367b_295fd362",
+      "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "369b2409_90dc7675",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-01-26T03:25:06Z",
+      "side": 1,
+      "message": "It\u0027s better to clobber the dead nodes and facilitate future similar optimisations.",
+      "parentUuid": "d89b6233_40f7fbaf",
+      "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f6f32fd_8e5a762a",
         "filename": "src/cmd/compile/internal/ssa/rewrite.go",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20d0cdf0_29cbf1b6",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-01-26T03:25:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f6f32fd_8e5a762a",
+      "revId": "29c34439445f3c25aa3ffd4d8918afb8e09dd70c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
