@@ -448,7 +448,7 @@ TEXT runtime·aeshash64(SB),NOSPLIT,$-8-0
 TEXT runtime·aeshashstr(SB),NOSPLIT,$-8-0
 	MOVW	$0, R0
 	MOVW	(R0), R1
-	
+
 TEXT runtime·procyield(SB),NOSPLIT,$0-0
 	MOVWU	cycles+0(FP), R0
 again:

@@ -131,7 +131,7 @@ okseek:
 	MOVW	$0, R0
 	MOVW	R0, err+24(FP)
 	BL	runtime·exitsyscall(SB)
-	RET	
+	RET
 
 // func RawSyscall(trap uintptr, a1, a2, a3 uintptr) (r1, r2, err uintptr);
 TEXT ·RawSyscall(SB),NOSPLIT,$0-28

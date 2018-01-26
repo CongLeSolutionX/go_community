@@ -55,7 +55,7 @@ tail:
 /*
  * forward copy loop
  */
-forward:	
+forward:
 	MOVL	BX, CX
 	SHRL	$2, CX
 	ANDL	$3, BX

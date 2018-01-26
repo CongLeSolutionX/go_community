@@ -192,7 +192,7 @@ TEXT ·StoreUint64(SB),NOSPLIT,$0-12
 	// MOVQ 0x8(%ESP), %MM0
 	BYTE $0x0f; BYTE $0x6f; BYTE $0x44; BYTE $0x24; BYTE $0x08
 	// MOVQ %MM0, (%EAX)
-	BYTE $0x0f; BYTE $0x7f; BYTE $0x00 
+	BYTE $0x0f; BYTE $0x7f; BYTE $0x00
 	EMMS
 	// This is essentially a no-op, but it provides required memory fencing.
 	// It can be replaced with MFENCE, but MFENCE was introduced only on the Pentium4 (SSE2).

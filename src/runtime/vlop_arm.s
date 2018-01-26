@@ -43,7 +43,7 @@ TEXT runtime·_sfloat(SB), NOSPLIT, $68-0 // 4 arg + 14*4 saved regs + cpsr + re
 	// Disable preemption of this goroutine during _sfloat2 by
 	// m->locks++ and m->locks-- around the call.
 	// Rescheduling this goroutine may cause the loss of the
-	// contents of the software floating point registers in 
+	// contents of the software floating point registers in
 	// m->freghi, m->freglo, m->fflag, if the goroutine is moved
 	// to a different m or another goroutine runs on this m.
 	// Rescheduling at ordinary function calls is okay because
@@ -52,7 +52,7 @@ TEXT runtime·_sfloat(SB), NOSPLIT, $68-0 // 4 arg + 14*4 saved regs + cpsr + re
 	// program instructions, and those instructions do not expect
 	// the floating point registers to be lost.
 	// An alternative would be to move the software floating point
-	// registers into G, but they do not need to be kept at the 
+	// registers into G, but they do not need to be kept at the
 	// usual places a goroutine reschedules (at function calls),
 	// so it would be a waste of 132 bytes per G.
 	MOVW	g_m(g), R8
@@ -92,7 +92,7 @@ TEXT runtime·_sfloatpanic(SB),NOSPLIT,$-4
 
 // func runtime·udiv(n, d uint32) (q, r uint32)
 // compiler knowns the register usage of this function
-// Reference: 
+// Reference:
 // Sloss, Andrew et. al; ARM System Developer's Guide: Designing and Optimizing System Software
 // Morgan Kaufmann; 1 edition (April 8, 2004), ISBN 978-1558608740
 #define Rq	R0 // input d, output q

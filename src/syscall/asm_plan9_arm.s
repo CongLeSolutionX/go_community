@@ -21,7 +21,7 @@ ok:
 	MOVM.IA	(R2), [R3-R4]
 	MOVM.IA	[R3-R4], (R1)
 	RET
-	
+
 //func Syscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err ErrorString)
 TEXT	·Syscall(SB),NOSPLIT,$0-32
 	BL		runtime·entersyscall(SB)

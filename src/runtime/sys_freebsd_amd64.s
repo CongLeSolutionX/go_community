@@ -259,7 +259,7 @@ TEXT runtime·madvise(SB),NOSPLIT,$0
 	SYSCALL
 	// ignore failure - maybe pages are locked
 	RET
-	
+
 TEXT runtime·sigaltstack(SB),NOSPLIT,$-8
 	MOVQ	new+0(FP), DI
 	MOVQ	old+8(FP), SI
