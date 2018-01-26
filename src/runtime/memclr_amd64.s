@@ -36,7 +36,7 @@ tail:
 	JBE	_65through128
 	CMPQ	BX, $256
 	JBE	_129through256
-	CMPB	runtime·support_avx2(SB), $1
+	CMPB	runtime·x86_hasAVX2(SB), $1
 	JE loop_preheader_avx2
 	// TODO: use branch table and BSR to make this just a single dispatch
 	// TODO: for really big clears, use MOVNTDQ, even without AVX2.

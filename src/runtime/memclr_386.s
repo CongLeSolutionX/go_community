@@ -27,7 +27,7 @@ tail:
 	JBE	_5through8
 	CMPL	BX, $16
 	JBE	_9through16
-	CMPB	runtime·support_sse2(SB), $1
+	CMPB	runtime·x86_hasSSE2(SB), $1
 	JNE	nosse2
 	PXOR	X0, X0
 	CMPL	BX, $32
