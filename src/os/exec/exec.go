@@ -34,11 +34,13 @@ import (
 	"syscall"
 )
 
-// Error records the name of a binary that failed to be executed
-// and the reason it failed.
+// Error is returned by LookPath if it failed to classify a file as an
+// executable.
 type Error struct {
+	// The file name for which the error occurred.
 	Name string
-	Err  error
+	// The underlying error.
+	Err error
 }
 
 func (e *Error) Error() string {
