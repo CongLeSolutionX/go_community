@@ -34,7 +34,7 @@ import (
 	"syscall"
 )
 
-// Error records the name of a binary that failed to be executed
+// Error records the name of a file that failed to be classified as an executable
 // and the reason it failed.
 type Error struct {
 	Name string
