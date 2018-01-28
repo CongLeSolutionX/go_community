@@ -209,6 +209,26 @@ C compilers are aware of this calling convention and adjust
 the call accordingly, but Go cannot. In Go, you must pass
 the pointer to the first element explicitly: C.f(&C.x[0]).
 
+Calling variadic C functions is not supported. It is possible to
+circumvent this by wrapping it in another C function. For example:
+
+	package main
+
+	// #include <stdio.h>
+	// #include <stdlib.h>
+	//
+	// void myprint(char* s) {
+	//   printf("%s\n", s);
+	// }
+	import "C"
+	import "unsafe"
+
+	func main() {
+		cs := C.CString("Hello from stdio\n")
+	  	C.myprint(cs)
+	  	C.free(unsafe.Pointer(cs))
+	}
+
 A few special functions convert between Go and C types
 by making copies of the data. In pseudo-Go definitions:
 
