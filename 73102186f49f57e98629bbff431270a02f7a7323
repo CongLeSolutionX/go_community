@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39beaf42_2f780086",
+        "filename": "src/cmd/vet/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-01-29T20:38:19Z",
+      "side": 1,
+      "message": "The value reports whether the method has a pointer receiver.",
+      "revId": "73102186f49f57e98629bbff431270a02f7a7323",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
