@@ -16,6 +16,24 @@
       "revId": "6e2ea2fe4e2a77e4f205e651cae70db4e13a186e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7f530e_b623bb6c",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-01-29T11:01:25Z",
+      "side": 1,
+      "message": "somehow i made the sentence gibberish. Will reword.",
+      "parentUuid": "1b9a1096_47c8bf34",
+      "revId": "6e2ea2fe4e2a77e4f205e651cae70db4e13a186e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
