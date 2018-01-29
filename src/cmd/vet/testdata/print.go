@@ -478,6 +478,10 @@ type RecursiveStruct2 struct {
 
 var recursiveStruct1V = &RecursiveStruct1{}
 
+type unexportedInterface struct {
+	f interface{}
+}
+
 // Issue 17798: unexported stringer cannot be formatted.
 type unexportedStringer struct {
 	t stringer
@@ -490,11 +494,11 @@ type unexportedStringerOtherFields struct {
 
 // Issue 17798: unexported error cannot be formatted.
 type unexportedError struct {
-	e error
+	e errorer
 }
 type unexportedErrorOtherFields struct {
 	s string
-	e error
+	e *errorer
 	S string
 }
 
@@ -503,6 +507,9 @@ type errorer struct{}
 func (e errorer) Error() string { return "errorer" }
 
 func UnexportedStringerOrError() {
+	ui := unexportedInterface{"foo"}
+	fmt.Printf("%s", ui) // ok; prints {foo}
+
 	us := unexportedStringer{}
 	fmt.Printf("%s", us)  // ERROR "Printf format %s has arg us of wrong type testdata.unexportedStringer"
 	fmt.Printf("%s", &us) // ERROR "Printf format %s has arg &us of wrong type [*]testdata.unexportedStringer"
@@ -515,7 +522,7 @@ func UnexportedStringerOrError() {
 	fmt.Printf("%s", &usf) // ERROR "Printf format %s has arg &usf of wrong type [*]testdata.unexportedStringerOtherFields"
 
 	ue := unexportedError{
-		e: &errorer{},
+		e: errorer{},
 	}
 	fmt.Printf("%s", ue)  // ERROR "Printf format %s has arg ue of wrong type testdata.unexportedError"
 	fmt.Printf("%s", &ue) // ERROR "Printf format %s has arg &ue of wrong type [*]testdata.unexportedError"

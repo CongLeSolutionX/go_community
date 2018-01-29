@@ -290,7 +290,9 @@ func (f *File) matchStructArgType(t printfArgType, typ *types.Struct, arg ast.Ex
 		if !f.matchArgTypeInternal(t, typf.Type(), arg, inProgress) {
 			return false
 		}
-		if t&argString != 0 && !typf.Exported() && isConvertibleToString(typf.Type()) {
+		if t&argString != 0 && !typf.Exported() &&
+			!types.IsInterface(typf.Type()) && // actual value might be a string
+			isConvertibleToString(typf.Type()) {
 			// Issue #17798: unexported Stringer or error cannot be properly fomatted.
 			return false
 		}
