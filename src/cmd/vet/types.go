@@ -269,7 +269,19 @@ func (f *File) matchArgTypeInternal(t printfArgType, typ types.Type, arg ast.Exp
 }
 
 func isConvertibleToString(typ types.Type) bool {
-	return types.AssertableTo(errorType, typ) || stringerType != nil && types.AssertableTo(stringerType, typ)
+	if bt, ok := typ.(*types.Basic); ok && bt.Kind() == types.UntypedNil {
+		// We explicitly don't want untyped nil, which is
+		// convertible to both of the interfaces below, as it
+		// would just panic anyway.
+		return false
+	}
+	if types.ConvertibleTo(typ, errorType) {
+		return true // via .Error()
+	}
+	if stringerType != nil && types.ConvertibleTo(typ, stringerType) {
+		return true // via .String()
+	}
+	return false
 }
 
 // hasBasicType reports whether x's type is a types.Basic with the given kind.
@@ -290,7 +302,8 @@ func (f *File) matchStructArgType(t printfArgType, typ *types.Struct, arg ast.Ex
 		if !f.matchArgTypeInternal(t, typf.Type(), arg, inProgress) {
 			return false
 		}
-		if t&argString != 0 && !typf.Exported() && isConvertibleToString(typf.Type()) {
+		if t&argString != 0 && !typf.Exported() &&
+			isConvertibleToString(typf.Type()) {
 			// Issue #17798: unexported Stringer or error cannot be properly fomatted.
 			return false
 		}
