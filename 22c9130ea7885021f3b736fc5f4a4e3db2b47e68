@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "919351bd_01584356",
+        "filename": "src/cmd/vet/types.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-29T19:37:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem right.  The original condition is in effect saying \"if this is an unexported type that implements the Error or String method, then we won\u0027t be able to call that method, so we should emit a warning.\"  That is true even if the base type of the interface type is string.  If it is a string with a String or Error method, simply printing the string value isn\u0027t right; we want to call the String or Error method, which will presumably do something other than simply printing the string value.  But we can\u0027t call the method, so a warning is appropriate.",
+      "revId": "22c9130ea7885021f3b736fc5f4a4e3db2b47e68",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
