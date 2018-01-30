@@ -86,6 +86,17 @@
 (Ctz64 <t> x) -> (CLZ (RBIT <t> x))
 (Ctz32 <t> x) -> (CLZW (RBITW <t> x))
 
+(PopCount64 <t> x) -> (FMOVDfpgp <t> (VUADDLV <typ.Float64> (VCNT <typ.Float64> (FMOVDgpfp <typ.UInt64> x))))
+(PopCount32 <t> x) -> (FMOVDfpgp <t> (VUADDLV <typ.Float64> (VCNT <typ.Float64> (FMOVDgpfp <typ.UInt64> (ZeroExt32to64 x)))))
+(PopCount16 <t> x) -> (FMOVDfpgp <t> (VUADDLV <typ.Float32> (VCNT <typ.Float32> (FMOVDgpfp <typ.UInt16> (ANDconst <t> [(1<<16)-1] x)))))
+
+// Load args directly into the register class where it will be used.
+(FMOVDgpfp <t> (Arg [off] {sym})) && is32BitInt(t) -> @b.Func.Entry (Arg <typ.Float32> [off] {sym})
+(FMOVDgpfp <t> (Arg [off] {sym})) && is64BitInt(t) -> @b.Func.Entry (Arg <typ.Float64> [off] {sym})
+// Similarly for stores, if we see a store after FPR <-> GPR move, then redirect store to use the other register set.
+(MOVDstore ptr (FMOVDfpgp val) mem) -> (FMOVDstore ptr val mem)
+(FMOVDstore ptr (FMOVDgpfp val) mem) -> (MOVDstore ptr val mem)
+
 (BitLen64 x) -> (SUB (MOVDconst [64]) (CLZ <typ.Int> x))
 
 (Bswap64 x) -> (REV x)
