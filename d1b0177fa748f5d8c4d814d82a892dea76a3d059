@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbaaf309_efdc30bf",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-30T20:42:48Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we need a zero-extension to 64-bit here?",
+      "range": {
+        "startLine": 90,
+        "startChar": 113,
+        "endLine": 90,
+        "endChar": 114
+      },
+      "revId": "d1b0177fa748f5d8c4d814d82a892dea76a3d059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6727d481_e4560458",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-30T20:42:48Z",
+      "side": 1,
+      "message": "Move this along with the CNT op, and change this to be a line comment. Better to explain what it is doing. \"Vector\" is not clear. Like, sum of the eight bytes in a 64-bit value, zero-extended to 64-bit?",
+      "revId": "d1b0177fa748f5d8c4d814d82a892dea76a3d059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "171d8de0_eb77bc09",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-30T20:42:48Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right. Why use FMOVD for load/store of GP register?",
+      "revId": "d1b0177fa748f5d8c4d814d82a892dea76a3d059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e37393dd_5e7fc430",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-30T20:42:48Z",
+      "side": 1,
+      "message": "Vector instruction should have V prefix, so this should be VCNT.",
+      "range": {
+        "startLine": 578,
+        "startChar": 2,
+        "endLine": 578,
+        "endChar": 6
+      },
+      "revId": "d1b0177fa748f5d8c4d814d82a892dea76a3d059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c8cfbdd_0432904f",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-30T20:42:48Z",
+      "side": 1,
+      "message": "This instruction should take V register, not F register. I guess you do it this way because the compiler\u0027s register allocator doesn\u0027t know V registers. You could do something like reg - arm64.REG_F0 + arm64.REG_V0 to map an F register to V register in the compiler.",
+      "revId": "d1b0177fa748f5d8c4d814d82a892dea76a3d059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aef83fee_f50b6a1e",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-01-30T20:42:48Z",
+      "side": 1,
+      "message": "Same here. It should not take F register.",
+      "revId": "d1b0177fa748f5d8c4d814d82a892dea76a3d059",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
