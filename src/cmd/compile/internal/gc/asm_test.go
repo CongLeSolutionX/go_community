@@ -2697,6 +2697,30 @@ var linuxARM64Tests = []*asmTest{
 		pos: []string{"LSL\t\\$17"},
 		neg: []string{"CMP"},
 	},
+	{
+		fn: `
+		func $(x uint64) int {
+			return bits.OnesCount64(x)
+		}
+		`,
+		pos: []string{"\tVCNT\t", "\tVUADDLV\t"},
+	},
+	{
+		fn: `
+		func $(x uint32) int {
+			return bits.OnesCount32(x)
+		}
+		`,
+		pos: []string{"\tVCNT\t", "\tVUADDLV\t"},
+	},
+	{
+		fn: `
+		func $(x uint16) int {
+			return bits.OnesCount16(x)
+		}
+		`,
+		pos: []string{"\tAND\t", "\tVCNT\t", "\tVUADDLV\t"},
+	},
 }
 
 var linuxMIPSTests = []*asmTest{
