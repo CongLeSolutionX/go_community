@@ -209,6 +209,7 @@ func init() {
 		{name: "RBITW", argLength: 1, reg: gp11, asm: "RBITW"},   // bit reverse, 32-bit
 		{name: "CLZ", argLength: 1, reg: gp11, asm: "CLZ"},       // count leading zero, 64-bit
 		{name: "CLZW", argLength: 1, reg: gp11, asm: "CLZW"},     // count leading zero, 32-bit
+		{name: "CNT", argLength: 1, reg: fp11, asm: "CNT"},       // population count, 64-bit
 
 		// shifts
 		{name: "SLL", argLength: 2, reg: gp21, asm: "LSL"},                      // arg0 << arg1, shift amount is mod 64
@@ -285,6 +286,12 @@ func init() {
 		{name: "MOVWstorezero", argLength: 2, reg: gpstore0, aux: "SymOff", asm: "MOVW", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"}, // store 4 bytes of zero to arg0 + auxInt + aux.  arg1=mem.
 		{name: "MOVDstorezero", argLength: 2, reg: gpstore0, aux: "SymOff", asm: "MOVD", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"}, // store 8 bytes of zero to arg0 + auxInt + aux.  arg1=mem.
 		{name: "MOVQstorezero", argLength: 2, reg: gpstore0, aux: "SymOff", asm: "STP", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"},  // store 16 bytes of zero to arg0 + auxInt + aux.  arg1=mem.
+
+		{name: "FMOVDgpfp", argLength: 1, reg: gpfp, asm: "FMOVD"}, // uint64 -> float64
+		{name: "FMOVDfpgp", argLength: 1, reg: fpgp, asm: "FMOVD"}, // float64 -> uint64
+
+		// Unsigned sum Long across Vector
+		{name: "VUADDLV", argLength: 1, reg: fp11, asm: "VUADDLV"},
 
 		// conversions
 		{name: "MOVBreg", argLength: 1, reg: gp11, asm: "MOVB"},   // move from arg0, sign-extended from byte

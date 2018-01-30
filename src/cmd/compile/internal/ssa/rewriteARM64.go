@@ -69,6 +69,10 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpARM64DIVW_0(v)
 	case OpARM64Equal:
 		return rewriteValueARM64_OpARM64Equal_0(v)
+	case OpARM64FMOVDfpgp:
+		return rewriteValueARM64_OpARM64FMOVDfpgp_0(v)
+	case OpARM64FMOVDgpfp:
+		return rewriteValueARM64_OpARM64FMOVDgpfp_0(v)
 	case OpARM64FMOVDload:
 		return rewriteValueARM64_OpARM64FMOVDload_0(v)
 	case OpARM64FMOVDstore:
@@ -587,6 +591,12 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpOr8_0(v)
 	case OpOrB:
 		return rewriteValueARM64_OpOrB_0(v)
+	case OpPopCount16:
+		return rewriteValueARM64_OpPopCount16_0(v)
+	case OpPopCount32:
+		return rewriteValueARM64_OpPopCount32_0(v)
+	case OpPopCount64:
+		return rewriteValueARM64_OpPopCount64_0(v)
 	case OpRound32F:
 		return rewriteValueARM64_OpRound32F_0(v)
 	case OpRound64F:
@@ -2789,6 +2799,39 @@ func rewriteValueARM64_OpARM64Equal_0(v *Value) bool {
 		}
 		x := v_0.Args[0]
 		v.reset(OpARM64Equal)
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValueARM64_OpARM64FMOVDfpgp_0(v *Value) bool {
+	// match: (FMOVDfpgp (FMOVDgpfp x))
+	// cond:
+	// result: (MOVDreg x)
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARM64FMOVDgpfp {
+			break
+		}
+		x := v_0.Args[0]
+		v.reset(OpARM64MOVDreg)
+		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValueARM64_OpARM64FMOVDgpfp_0(v *Value) bool {
+	// match: (FMOVDgpfp (FMOVDfpgp x))
+	// cond:
+	// result: x
+	for {
+		v_0 := v.Args[0]
+		if v_0.Op != OpARM64FMOVDfpgp {
+			break
+		}
+		x := v_0.Args[0]
+		v.reset(OpCopy)
+		v.Type = x.Type
 		v.AddArg(x)
 		return true
 	}
@@ -14241,6 +14284,76 @@ func rewriteValueARM64_OpOrB_0(v *Value) bool {
 		v.reset(OpARM64OR)
 		v.AddArg(x)
 		v.AddArg(y)
+		return true
+	}
+}
+func rewriteValueARM64_OpPopCount16_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	typ := &b.Func.Config.Types
+	_ = typ
+	// match: (PopCount16 <t> x)
+	// cond:
+	// result: (FMOVDfpgp <typ.Float32> (VUADDLV <typ.Float32> (CNT <typ.Float32> (FMOVDgpfp <typ.UInt16> (ANDconst <t> [(1<<16) -1] x)))))
+	for {
+		t := v.Type
+		x := v.Args[0]
+		v.reset(OpARM64FMOVDfpgp)
+		v.Type = typ.Float32
+		v0 := b.NewValue0(v.Pos, OpARM64VUADDLV, typ.Float32)
+		v1 := b.NewValue0(v.Pos, OpARM64CNT, typ.Float32)
+		v2 := b.NewValue0(v.Pos, OpARM64FMOVDgpfp, typ.UInt16)
+		v3 := b.NewValue0(v.Pos, OpARM64ANDconst, t)
+		v3.AuxInt = (1 << 16) - 1
+		v3.AddArg(x)
+		v2.AddArg(v3)
+		v1.AddArg(v2)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValueARM64_OpPopCount32_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	typ := &b.Func.Config.Types
+	_ = typ
+	// match: (PopCount32 x)
+	// cond:
+	// result: (FMOVDfpgp <typ.Float32> (VUADDLV <typ.Float32> (CNT <typ.Float32> (FMOVDgpfp <typ.UInt32> x))))
+	for {
+		x := v.Args[0]
+		v.reset(OpARM64FMOVDfpgp)
+		v.Type = typ.Float32
+		v0 := b.NewValue0(v.Pos, OpARM64VUADDLV, typ.Float32)
+		v1 := b.NewValue0(v.Pos, OpARM64CNT, typ.Float32)
+		v2 := b.NewValue0(v.Pos, OpARM64FMOVDgpfp, typ.UInt32)
+		v2.AddArg(x)
+		v1.AddArg(v2)
+		v0.AddArg(v1)
+		v.AddArg(v0)
+		return true
+	}
+}
+func rewriteValueARM64_OpPopCount64_0(v *Value) bool {
+	b := v.Block
+	_ = b
+	typ := &b.Func.Config.Types
+	_ = typ
+	// match: (PopCount64 x)
+	// cond:
+	// result: (FMOVDfpgp <typ.Float64> (VUADDLV <typ.Float64> (CNT <typ.Float64> (FMOVDgpfp <typ.UInt64> x))))
+	for {
+		x := v.Args[0]
+		v.reset(OpARM64FMOVDfpgp)
+		v.Type = typ.Float64
+		v0 := b.NewValue0(v.Pos, OpARM64VUADDLV, typ.Float64)
+		v1 := b.NewValue0(v.Pos, OpARM64CNT, typ.Float64)
+		v2 := b.NewValue0(v.Pos, OpARM64FMOVDgpfp, typ.UInt64)
+		v2.AddArg(x)
+		v1.AddArg(v2)
+		v0.AddArg(v1)
+		v.AddArg(v0)
 		return true
 	}
 }

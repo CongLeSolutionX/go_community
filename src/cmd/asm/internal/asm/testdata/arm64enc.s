@@ -107,6 +107,7 @@ TEXT asmtest(SB),DUPOK|NOSPLIT,$-8
    CSNEGW HS, R5, R9, R14                     // ae24895a
    CSNEG PL, R14, R21, R3                     // c35595da
    CNEG  LO, R7, R15                          // ef2487da
+   CNT V0.B8, V0.B8                           // 0058200e
    CRC32B R17, R8, R16                        // 1041d11a
    CRC32H R3, R21, R27                        // bb46c31a
    CRC32W R22, R30, R9                        // c94bd61a

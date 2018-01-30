@@ -57,6 +57,7 @@ var Anames = []string{
 	"CMPW",
 	"CNEG",
 	"CNEGW",
+	"CNT",
 	"CRC32B",
 	"CRC32CB",
 	"CRC32CH",
