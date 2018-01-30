@@ -34,6 +34,24 @@
       "revId": "329309910405f4fa8d19698eac56be03bea268d5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fd724ae_b5ed111b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5153
+      },
+      "writtenOn": "2018-01-30T22:15:48Z",
+      "side": 1,
+      "message": "Yes, noticed that too! More coffee needed.",
+      "parentUuid": "cd36852e_df777b2c",
+      "revId": "329309910405f4fa8d19698eac56be03bea268d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
