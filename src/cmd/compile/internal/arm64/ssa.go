@@ -528,6 +528,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		fallthrough
 	case ssa.OpARM64MVN,
 		ssa.OpARM64NEG,
+		ssa.OpARM64FMOVDfpgp,
+		ssa.OpARM64FMOVDgpfp,
 		ssa.OpARM64FNEGS,
 		ssa.OpARM64FNEGD,
 		ssa.OpARM64FSQRTD,
@@ -555,7 +557,9 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64RBIT,
 		ssa.OpARM64RBITW,
 		ssa.OpARM64CLZ,
-		ssa.OpARM64CLZW:
+		ssa.OpARM64CLZW,
+		ssa.OpARM64VCNT,
+		ssa.OpARM64VUADDLV:
 		p := s.Prog(v.Op.Asm())
 		p.From.Type = obj.TYPE_REG
 		p.From.Reg = v.Args[0].Reg()

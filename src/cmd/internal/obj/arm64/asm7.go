@@ -595,7 +595,9 @@ var optab = []Optab{
 	{AVST1, C_LIST, C_NONE, C_LOREG, 84, 4, 0, 0, C_XPOST},
 	{AVST1, C_LIST, C_NONE, C_ROFF, 84, 4, 0, 0, C_XPOST},
 	{AVDUP, C_ELEM, C_NONE, C_ARNG, 79, 4, 0, 0, 0},
+	{AVADDV, C_ARNG, C_NONE, C_ARNG, 85, 4, 0, 0, 0},
 	{AVADDV, C_ARNG, C_NONE, C_VREG, 85, 4, 0, 0, 0},
+	{AVCNT, C_ARNG, C_NONE, C_ARNG, 29, 4, 0, 0, 0},
 	{AVMOVI, C_ADDCON, C_NONE, C_ARNG, 86, 4, 0, 0, 0},
 
 	{obj.AUNDEF, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0},
@@ -648,6 +650,10 @@ func span7(ctxt *obj.Link, cursym *obj.LSym, newprog obj.ProgAlloc) {
 	for p = p.Link; p != nil; p = p.Link {
 		if p.As == ADWORD && (pc&7) != 0 {
 			pc += 4
+		}
+		if (p.As == AVCNT || p.As == AVUADDLV) && c.aclass(&p.From) == C_FREG && c.aclass(&p.To) == C_FREG {
+			p.From.Reg = p.From.Reg - REG_F0 + REG_ARNG
+			p.To.Reg = p.To.Reg - REG_F0 + REG_ARNG
 		}
 		p.Pc = pc
 		o = c.oplook(p)
@@ -2100,6 +2106,7 @@ func buildop(ctxt *obj.Link) {
 			oprangeset(AVUADDLV, t)
 
 		case ASHA1H,
+			AVCNT,
 			AVMOV,
 			AVLD1,
 			AVREV32,
@@ -3629,6 +3636,7 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 	case 85: /* vaddv/vuaddlv Vn.<T>, Vd*/
 		af := int((p.From.Reg >> 5) & 15)
+		fc := c.aclass(&p.From)
 		o1 = c.oprrr(p, p.As)
 		rf := int((p.From.Reg) & 31)
 		rt := int((p.To.Reg) & 31)
@@ -3653,7 +3661,11 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		default:
 			c.ctxt.Diag("invalid arrangement: %v\n", p)
 		}
-		o1 |= (uint32(Q&1) << 30) | (uint32(size&3) << 22) | (uint32(rf&31) << 5) | uint32(rt&31)
+		if p.As == AVUADDLV && fc == C_FREG {
+			o1 = c.oprrr(p, p.As)
+		} else {
+			o1 |= (uint32(Q&1) << 30) | (uint32(size&3) << 22) | (uint32(rf&31) << 5) | uint32(rt&31)
+		}
 
 	case 86: /* vmovi $imm8, Vd.<T>*/
 		at := int((p.To.Reg >> 5) & 15)
@@ -3936,6 +3948,9 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As) uint32 {
 
 	case ACNEGW, ACSNEGW:
 		return S32 | 1<<30 | 0<<29 | 0xD4<<21 | 0<<11 | 1<<10
+
+	case AVCNT:
+		return 0<<31 | 0<<29 | 0xE<<24 | 0x10<<17 | 5<<12 | 2<<10
 
 	case AMUL, AMADD:
 		return S64 | 0<<29 | 0x1B<<24 | 0<<21 | 0<<15
