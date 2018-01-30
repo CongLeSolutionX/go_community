@@ -595,7 +595,9 @@ var optab = []Optab{
 	{AVST1, C_LIST, C_NONE, C_LOREG, 84, 4, 0, 0, C_XPOST},
 	{AVST1, C_LIST, C_NONE, C_ROFF, 84, 4, 0, 0, C_XPOST},
 	{AVDUP, C_ELEM, C_NONE, C_ARNG, 79, 4, 0, 0, 0},
+	{AVADDV, C_ARNG, C_NONE, C_ARNG, 85, 4, 0, 0, 0},
 	{AVADDV, C_ARNG, C_NONE, C_VREG, 85, 4, 0, 0, 0},
+	{AVCNT, C_ARNG, C_NONE, C_ARNG, 29, 4, 0, 0, 0},
 	{AVMOVI, C_ADDCON, C_NONE, C_ARNG, 86, 4, 0, 0, 0},
 
 	{obj.AUNDEF, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0},
@@ -2100,6 +2102,7 @@ func buildop(ctxt *obj.Link) {
 			oprangeset(AVUADDLV, t)
 
 		case ASHA1H,
+			AVCNT,
 			AVMOV,
 			AVLD1,
 			AVREV32,
@@ -3936,6 +3939,9 @@ func (c *ctxt7) oprrr(p *obj.Prog, a obj.As) uint32 {
 
 	case ACNEGW, ACSNEGW:
 		return S32 | 1<<30 | 0<<29 | 0xD4<<21 | 0<<11 | 1<<10
+
+	case AVCNT:
+		return 0<<31 | 0<<29 | 0xE<<24 | 0x10<<17 | 5<<12 | 2<<10
 
 	case AMUL, AMADD:
 		return S64 | 0<<29 | 0x1B<<24 | 0<<21 | 0<<15
