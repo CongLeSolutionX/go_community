@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd36852e_df777b2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-01-30T22:14:28Z",
+      "side": 1,
+      "message": "You\u0027re not new here. You know this isn\u0027t how we format our commit message subjects. :)",
+      "revId": "329309910405f4fa8d19698eac56be03bea268d5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
