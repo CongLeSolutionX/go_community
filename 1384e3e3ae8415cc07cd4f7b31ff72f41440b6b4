@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "339e4e79_923802ed",
+        "filename": "src/cmd/vet/testdata/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-31T14:36:02Z",
+      "side": 1,
+      "message": "What happens if you don\u0027t make this change?  It seems that *errorer should still convert to error.",
+      "revId": "1384e3e3ae8415cc07cd4f7b31ff72f41440b6b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "092deecb_bedb1019",
+        "filename": "src/cmd/vet/types.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-01-31T14:36:02Z",
+      "side": 1,
+      "message": "May as well undo this change, it\u0027s now whitespace only.",
+      "revId": "1384e3e3ae8415cc07cd4f7b31ff72f41440b6b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
