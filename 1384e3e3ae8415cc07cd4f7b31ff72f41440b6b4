@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3f001443_b158d185",
+        "filename": "src/cmd/vet/testdata/print.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-01-31T18:05:53Z",
+      "side": 1,
+      "message": "Nothing; this is another change left over from the first patchset that I forgot to undo.",
+      "parentUuid": "339e4e79_923802ed",
+      "revId": "1384e3e3ae8415cc07cd4f7b31ff72f41440b6b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "092deecb_bedb1019",
         "filename": "src/cmd/vet/types.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "1384e3e3ae8415cc07cd4f7b31ff72f41440b6b4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bc126c3_b8c7e945",
+        "filename": "src/cmd/vet/types.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-01-31T18:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "092deecb_bedb1019",
+      "revId": "1384e3e3ae8415cc07cd4f7b31ff72f41440b6b4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
