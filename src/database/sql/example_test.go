@@ -5,43 +5,65 @@
 package sql_test
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
+	"time"
 )
 
 var db *sql.DB
 
-func ExampleDB_Query() {
+func ExampleDB_QueryContext() {
 	age := 27
-	rows, err := db.Query("SELECT name FROM users WHERE age=?", age)
+	rows, err := db.QueryContext(context.Background(), "SELECT name FROM users WHERE age=?", age)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer rows.Close()
+	names := make([]string, 0)
 	for rows.Next() {
 		var name string
 		if err := rows.Scan(&name); err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("%s is %d\n", name, age)
+		names = append(names, name)
 	}
 	if err := rows.Err(); err != nil {
 		log.Fatal(err)
 	}
+	fmt.Printf("%s are %d years old", strings.Join(names, ", "), age)
 }
 
-func ExampleDB_QueryRow() {
+func ExampleDB_QueryRowContext() {
 	id := 123
 	var username string
-	err := db.QueryRow("SELECT username FROM users WHERE id=?", id).Scan(&username)
+	var created time.Time
+	err := db.QueryRowContext(context.Background(), "SELECT username, created_at FROM users WHERE id=?", id).Scan(&username, &created)
 	switch {
 	case err == sql.ErrNoRows:
-		log.Printf("No user with that ID.")
+		log.Printf("No user with id %d", id)
 	case err != nil:
 		log.Fatal(err)
 	default:
-		fmt.Printf("Username is %s\n", username)
+		fmt.Printf("Username is %s, account created on %s\n", username, created)
+	}
+}
+
+func ExampleDB_ExecContext() {
+	ctx := context.Background()
+	id := 47
+	result, err := db.ExecContext(ctx, "UPDATE balances SET balance = balance + 10 WHERE user_id = ?", id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if rows != 1 {
+		panic(err)
 	}
 }
 
@@ -105,4 +127,153 @@ from
 	if err := rows.Err(); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func ExampleDB_PingContext() {
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+	if err := db.PingContext(ctx); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func ExampleDB_Stats() {
+	stats := db.Stats()
+	fmt.Println(stats.OpenConnections)
+}
+
+func ExampleConn_BeginTx() {
+	tx, err := db.BeginTx(context.Background(), &sql.TxOptions{Isolation: sql.LevelSerializable})
+	if err != nil {
+		log.Fatal(err)
+	}
+	id := 37
+	_, execErr := tx.Exec(`UPDATE users SET status = 'paid' WHERE id = ?`, id)
+	if execErr != nil {
+		log.Fatal(execErr)
+	}
+	if err := tx.Commit(); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func ExampleConn_ExecContext() {
+	ctx := context.Background()
+	conn, err := db.Conn(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+	id := 41
+	result, err := conn.ExecContext(ctx, `UPDATE balances SET balance = balance + 10 WHERE user_id = ?`, id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Fatal(err)
+	}
+	if rows != 1 {
+		panic(err)
+	}
+}
+
+func ExampleTx_ExecContext() {
+	ctx := context.Background()
+	tx, err := db.BeginTx(ctx, &sql.TxOptions{Isolation: sql.LevelSerializable})
+	if err != nil {
+		log.Fatal(err)
+	}
+	id := 37
+	_, execErr := tx.ExecContext(ctx, "UPDATE users SET status = 'paid' WHERE id = ?", id)
+	if execErr != nil {
+		log.Fatal(execErr)
+	}
+	if err := tx.Commit(); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func ExampleTx_Rollback() {
+	ctx := context.Background()
+	tx, err := db.BeginTx(ctx, &sql.TxOptions{Isolation: sql.LevelSerializable})
+	if err != nil {
+		log.Fatal(err)
+	}
+	id := 53
+	_, err = tx.ExecContext(ctx, "UPDATE drivers SET status = 'assigned' WHERE id = ?", id)
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = tx.ExecContext(ctx, "UPDATE pickups SET driver_id = $1", id)
+	if err != nil {
+		if rollbackErr := tx.Rollback(); rollbackErr != nil {
+			log.Printf("Could not roll back: %v\n", rollbackErr)
+		}
+		log.Fatal(err)
+	}
+	if err := tx.Commit(); err != nil {
+		log.Fatal(err)
+	}
+}
+
+func ExampleStmt() {
+	// In normal use, create one Stmt when your process starts
+	stmt, err := db.PrepareContext(context.Background(), "SELECT username FROM users WHERE id = ?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Then reuse it each time you need to issue the query.
+	id := 43
+	var username string
+	err = stmt.QueryRowContext(context.Background(), id).Scan(&username)
+	switch {
+	case err == sql.ErrNoRows:
+		log.Printf("No user with that ID.")
+	case err != nil:
+		log.Fatal(err)
+	default:
+		fmt.Printf("Username is %s\n", username)
+	}
+}
+
+func ExampleStmt_QueryRowContext() {
+	// In normal use, create one Stmt when your process starts
+	stmt, err := db.PrepareContext(context.Background(), "SELECT username FROM users WHERE id = ?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	// Then reuse it each time you need to issue the query.
+	id := 43
+	var username string
+	err = stmt.QueryRowContext(context.Background(), id).Scan(&username)
+	switch {
+	case err == sql.ErrNoRows:
+		log.Printf("No user with that ID.")
+	case err != nil:
+		log.Fatal(err)
+	default:
+		fmt.Printf("Username is %s\n", username)
+	}
+}
+
+func ExampleRows() {
+	age := 27
+	rows, err := db.QueryContext(context.Background(), "SELECT name FROM users WHERE age=?", age)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+	names := make([]string, 0)
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			log.Fatal(err)
+		}
+		names = append(names, name)
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s are %d years old", strings.Join(names, ", "), age)
 }
