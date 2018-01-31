@@ -5375,7 +5375,7 @@ func TestTestCacheInputs(t *testing.T) {
 
 func TestNoCache(t *testing.T) {
 	switch runtime.GOOS {
-	case "windows":
+	case "windows", "plan9":
 		t.Skipf("no unwritable directories on %s", runtime.GOOS)
 	}
 	if os.Getuid() == 0 {
