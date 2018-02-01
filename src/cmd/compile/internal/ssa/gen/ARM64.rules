@@ -693,6 +693,9 @@
 (MOVDstore [off] {sym} ptr (MOVDconst [0]) mem) -> (MOVDstorezero [off] {sym} ptr mem)
 (STP [off] {sym} ptr (MOVDconst [0]) (MOVDconst [0]) mem) -> (MOVQstorezero [off] {sym} ptr mem)
 
+// remove unnecessary nil checks that are exposed during lowering
+(LoweredNilCheck (MOVDaddr (SB)) mem) -> mem
+
 // replace load from same location as preceding store with zero/sign extension (or copy in case of full width)
 // these seem to have bad interaction with other rules, resulting in slower code
 //(MOVBload [off] {sym} ptr (MOVBstore [off2] {sym2} ptr2 x _)) && sym == sym2 && off == off2 && isSamePtr(ptr, ptr2) -> (MOVBreg x)
