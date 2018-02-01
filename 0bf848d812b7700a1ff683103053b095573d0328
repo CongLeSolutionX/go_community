@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0db38f2d_c55da653",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-01T19:45:27Z",
+      "side": 1,
+      "message": "Adding REG_ARNG seems unclear to me. It happens to work because the constants have certain values. Maybe\n(v.Args[0].Reg() - arm64.REG_F0 + arm64.REG_V0) | arm64.REG_ARNG | arm64.ARNG_8B\u003c\u003c15\n\nBetter to introduce a helper function.",
+      "range": {
+        "startLine": 570,
+        "startChar": 46,
+        "endLine": 570,
+        "endChar": 62
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96345a3b_07fa8d5e",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -19,6 +42,150 @@
         "endLine": 89,
         "endChar": 39
       },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8a220d2_e7eb5c17",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-01T19:45:27Z",
+      "side": 1,
+      "message": "This should be the same as the original type.\n(PopCount64 \u003ct\u003e x) -\u003e (FMOVDfpgp \u003ct\u003e ...)\n\nSame below.",
+      "parentUuid": "96345a3b_07fa8d5e",
+      "range": {
+        "startLine": 89,
+        "startChar": 30,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86141ce1_1db320fb",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-01T19:45:27Z",
+      "side": 1,
+      "message": "Remove this space.",
+      "range": {
+        "startLine": 91,
+        "startChar": 135,
+        "endLine": 91,
+        "endChar": 136
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdf82246_4e278d90",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-01T19:45:27Z",
+      "side": 1,
+      "message": "Maybe also add the other direction?",
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "143b812a_f1e3c0a6",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-01T19:45:27Z",
+      "side": 1,
+      "message": "Remove one blank line.",
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb10d368_1cd5a1dc",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-01T19:45:27Z",
+      "side": 1,
+      "message": "As commented before, \"vector element\" is unclear. How big is one element and how many elements are there? Need to be explicit.",
+      "range": {
+        "startLine": 213,
+        "startChar": 87,
+        "endLine": 213,
+        "endChar": 101
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27b4c40e_3186e3b6",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-01T19:45:27Z",
+      "side": 1,
+      "message": "What about the high bits? Undefined? If so, the rewriting rule doesn\u0027t look right then.",
+      "range": {
+        "startLine": 213,
+        "startChar": 158,
+        "endLine": 213,
+        "endChar": 181
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30be3de2_6ec5e949",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-01T19:45:27Z",
+      "side": 1,
+      "message": "This seems not right. VADDV produces result in a single V register, not an arrangement.",
       "revId": "0bf848d812b7700a1ff683103053b095573d0328",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
