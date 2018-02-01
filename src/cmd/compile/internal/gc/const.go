@@ -1219,7 +1219,11 @@ settrue:
 	nn = nodbool(true)
 	nn.Orig = saveorig(n)
 	if !iscmp[n.Op] {
-		nn.Type = nl.Type
+		if ctype == CTBOOL_ {
+			nn.Type = n.Type
+		} else {
+			nn.Type = nl.Type
+		}
 	}
 	*n = *nn
 	return
@@ -1228,7 +1232,11 @@ setfalse:
 	nn = nodbool(false)
 	nn.Orig = saveorig(n)
 	if !iscmp[n.Op] {
-		nn.Type = nl.Type
+		if ctype == CTBOOL_ {
+			nn.Type = n.Type
+		} else {
+			nn.Type = nl.Type
+		}
 	}
 	*n = *nn
 	return
