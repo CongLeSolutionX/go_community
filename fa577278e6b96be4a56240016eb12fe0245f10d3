@@ -16,6 +16,24 @@
       "revId": "fa577278e6b96be4a56240016eb12fe0245f10d3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4c69cf1_d84184d1",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 25690
+      },
+      "writtenOn": "2018-02-01T17:18:57Z",
+      "side": 1,
+      "message": "Yes, that does work.",
+      "parentUuid": "d3fe4d6a_1751de52",
+      "revId": "fa577278e6b96be4a56240016eb12fe0245f10d3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
