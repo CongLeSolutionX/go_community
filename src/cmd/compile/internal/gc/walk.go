@@ -1741,6 +1741,9 @@ opswitch:
 	// Check whether n with its updated args is itself now a constant.
 	t := n.Type
 	evconst(n)
+	if n.Type == types.Idealbool {
+		n.Type = t
+	}
 	if n.Type != t {
 		Fatalf("evconst changed Type: %v had type %v, now %v", n, t, n.Type)
 	}
