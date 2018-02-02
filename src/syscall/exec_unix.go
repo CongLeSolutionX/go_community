@@ -130,10 +130,20 @@ type ProcAttr struct {
 var zeroProcAttr ProcAttr
 var zeroSysProcAttr SysProcAttr
 
+type ewrap struct {
+	ctxt string
+	err  error
+}
+
+func (e *ewrap) Error() string {
+	return e.ctxt + ": " + e.err.Error()
+}
+
 func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) {
 	var p [2]int
 	var n int
 	var err1 Errno
+	var data [2]uintptr
 	var wstatus WaitStatus
 
 	if attr == nil {
@@ -150,15 +160,15 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 	// Convert args to C form.
 	argv0p, err := BytePtrFromString(argv0)
 	if err != nil {
-		return 0, err
+		return 0, &ewrap{"argv0", err}
 	}
 	argvp, err := SlicePtrFromStrings(argv)
 	if err != nil {
-		return 0, err
+		return 0, &ewrap{"argvp", err}
 	}
 	envvp, err := SlicePtrFromStrings(attr.Env)
 	if err != nil {
-		return 0, err
+		return 0, &ewrap{"envvp", err}
 	}
 
 	if (runtime.GOOS == "freebsd" || runtime.GOOS == "dragonfly") && len(argv[0]) > len(argv0) {
@@ -169,16 +179,18 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 	if sys.Chroot != "" {
 		chroot, err = BytePtrFromString(sys.Chroot)
 		if err != nil {
-			return 0, err
+			return 0, &ewrap{"chroot", err}
 		}
 	}
 	var dir *byte
 	if attr.Dir != "" {
 		dir, err = BytePtrFromString(attr.Dir)
 		if err != nil {
-			return 0, err
+			return 0, &ewrap{"dir", err}
 		}
 	}
+
+	var ctxt int
 
 	// Acquire the fork lock so that no other threads
 	// create new fds that are not yet close-on-exec
@@ -187,11 +199,12 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 
 	// Allocate child status pipe close on exec.
 	if err = forkExecPipe(p[:]); err != nil {
+		ctxt = 1
 		goto error
 	}
 
 	// Kick off child.
-	pid, err1 = forkAndExecInChild(argv0p, argvp, envvp, chroot, dir, attr, sys, p[1])
+	pid, ctxt, err1 = forkAndExecInChild(argv0p, argvp, envvp, chroot, dir, attr, sys, p[1])
 	if err1 != 0 {
 		err = Errno(err1)
 		goto error
@@ -200,11 +213,13 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 
 	// Read child error status from pipe.
 	Close(p[1])
-	n, err = readlen(p[0], (*byte)(unsafe.Pointer(&err1)), int(unsafe.Sizeof(err1)))
+	n, err = readlen(p[0], (*byte)(unsafe.Pointer(&data)), int(unsafe.Sizeof(data)))
 	Close(p[0])
 	if err != nil || n != 0 {
-		if n == int(unsafe.Sizeof(err1)) {
-			err = Errno(err1)
+		ctxt = 2
+		if n == int(unsafe.Sizeof(data)) {
+			ctxt = int(data[0])
+			err = Errno(data[1])
 		}
 		if err == nil {
 			err = EPIPE
@@ -216,7 +231,7 @@ func forkExec(argv0 string, argv []string, attr *ProcAttr) (pid int, err error) 
 		for err1 == EINTR {
 			_, err1 = Wait4(pid, &wstatus, 0, nil)
 		}
-		return 0, err
+		goto ewrap
 	}
 
 	// Read got EOF, so pipe closed on exec, so exec succeeded.
@@ -228,7 +243,37 @@ error:
 		Close(p[1])
 	}
 	ForkLock.Unlock()
+
+ewrap:
+	str := ""
+	if int(ctxt) < len(ctxtstr) {
+		str = ctxtstr[ctxt]
+	}
+	err = &ewrap{str, err}
 	return 0, err
+}
+
+var ctxtstr = [...]string{
+	1:  "forkExecPipe",
+	2:  "readpipe",
+	3:  "fork",
+	4:  "ptrace",
+	5:  "setsid",
+	6:  "setpgid",
+	7:  "getpid",
+	8:  "ioctl",
+	9:  "chroot",
+	10: "setgroups",
+	11: "setgid",
+	12: "setuid",
+	13: "chdir",
+	14: "dup2",
+	15: "dup2x",
+	16: "fcntl",
+	17: "dup2y",
+	18: "ioctl1",
+	19: "ioctl2",
+	20: "execve",
 }
 
 // Combination of fork and exec, careful to be thread safe.

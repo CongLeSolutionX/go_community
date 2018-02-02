@@ -39,12 +39,13 @@ func runtime_AfterForkInChild()
 // The calls to RawSyscall are okay because they are assembly
 // functions that do not grow the stack.
 //go:norace
-func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (pid int, err Errno) {
+func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr *ProcAttr, sys *SysProcAttr, pipe int) (pid int, ectxt int, err Errno) {
 	// Declare all variables at top in case any
 	// declarations require heap allocation (e.g., err1).
 	var (
 		r1, r2 uintptr
 		err1   Errno
+		data   [2]uintptr
 		nextfd int
 		i      int
 	)
@@ -70,7 +71,8 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	r1, r2, err1 = RawSyscall(SYS_FORK, 0, 0, 0)
 	if err1 != 0 {
 		runtime_AfterFork()
-		return 0, err1
+		ectxt = 3
+		return 0, ectxt, err1
 	}
 
 	// On Darwin:
@@ -84,7 +86,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if r1 != 0 {
 		// parent; return PID
 		runtime_AfterFork()
-		return int(r1), 0
+		return int(r1), 0, 0
 	}
 
 	// Fork succeeded, now in child.
@@ -95,6 +97,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if sys.Ptrace {
 		_, _, err1 = RawSyscall(SYS_PTRACE, uintptr(PTRACE_TRACEME), 0, 0)
 		if err1 != 0 {
+			ectxt = 4
 			goto childerror
 		}
 	}
@@ -103,6 +106,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if sys.Setsid {
 		_, _, err1 = RawSyscall(SYS_SETSID, 0, 0, 0)
 		if err1 != 0 {
+			ectxt = 5
 			goto childerror
 		}
 	}
@@ -112,6 +116,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		// Place child in process group.
 		_, _, err1 = RawSyscall(SYS_SETPGID, 0, uintptr(sys.Pgid), 0)
 		if err1 != 0 {
+			ectxt = 6
 			goto childerror
 		}
 	}
@@ -121,6 +126,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		if pgrp == 0 {
 			r1, _, err1 = RawSyscall(SYS_GETPID, 0, 0, 0)
 			if err1 != 0 {
+				ectxt = 7
 				goto childerror
 			}
 
@@ -130,6 +136,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		// Place process group in foreground.
 		_, _, err1 = RawSyscall(SYS_IOCTL, uintptr(sys.Ctty), uintptr(TIOCSPGRP), uintptr(unsafe.Pointer(&pgrp)))
 		if err1 != 0 {
+			ectxt = 8
 			goto childerror
 		}
 	}
@@ -138,6 +145,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if chroot != nil {
 		_, _, err1 = RawSyscall(SYS_CHROOT, uintptr(unsafe.Pointer(chroot)), 0, 0)
 		if err1 != 0 {
+			ectxt = 9
 			goto childerror
 		}
 	}
@@ -152,15 +160,18 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		if !cred.NoSetGroups {
 			_, _, err1 = RawSyscall(SYS_SETGROUPS, ngroups, groups, 0)
 			if err1 != 0 {
+				ectxt = 10
 				goto childerror
 			}
 		}
 		_, _, err1 = RawSyscall(SYS_SETGID, uintptr(cred.Gid), 0, 0)
 		if err1 != 0 {
+			ectxt = 11
 			goto childerror
 		}
 		_, _, err1 = RawSyscall(SYS_SETUID, uintptr(cred.Uid), 0, 0)
 		if err1 != 0 {
+			ectxt = 12
 			goto childerror
 		}
 	}
@@ -169,6 +180,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if dir != nil {
 		_, _, err1 = RawSyscall(SYS_CHDIR, uintptr(unsafe.Pointer(dir)), 0, 0)
 		if err1 != 0 {
+			ectxt = 13
 			goto childerror
 		}
 	}
@@ -178,6 +190,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if pipe < nextfd {
 		_, _, err1 = RawSyscall(SYS_DUP2, uintptr(pipe), uintptr(nextfd), 0)
 		if err1 != 0 {
+			ectxt = 14
 			goto childerror
 		}
 		RawSyscall(SYS_FCNTL, uintptr(nextfd), F_SETFD, FD_CLOEXEC)
@@ -191,6 +204,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 			}
 			_, _, err1 = RawSyscall(SYS_DUP2, uintptr(fd[i]), uintptr(nextfd), 0)
 			if err1 != 0 {
+				ectxt = 15
 				goto childerror
 			}
 			RawSyscall(SYS_FCNTL, uintptr(nextfd), F_SETFD, FD_CLOEXEC)
@@ -210,6 +224,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 			// probably not elsewhere either.
 			_, _, err1 = RawSyscall(SYS_FCNTL, uintptr(fd[i]), F_SETFD, 0)
 			if err1 != 0 {
+				ectxt = 16
 				goto childerror
 			}
 			continue
@@ -218,6 +233,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		// which is exactly what we want.
 		_, _, err1 = RawSyscall(SYS_DUP2, uintptr(fd[i]), uintptr(i), 0)
 		if err1 != 0 {
+			ectxt = 17
 			goto childerror
 		}
 	}
@@ -234,6 +250,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if sys.Noctty {
 		_, _, err1 = RawSyscall(SYS_IOCTL, 0, uintptr(TIOCNOTTY), 0)
 		if err1 != 0 {
+			ectxt = 18
 			goto childerror
 		}
 	}
@@ -242,6 +259,7 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 	if sys.Setctty {
 		_, _, err1 = RawSyscall(SYS_IOCTL, uintptr(sys.Ctty), uintptr(TIOCSCTTY), 0)
 		if err1 != 0 {
+			ectxt = 19
 			goto childerror
 		}
 	}
@@ -251,10 +269,13 @@ func forkAndExecInChild(argv0 *byte, argv, envv []*byte, chroot, dir *byte, attr
 		uintptr(unsafe.Pointer(argv0)),
 		uintptr(unsafe.Pointer(&argv[0])),
 		uintptr(unsafe.Pointer(&envv[0])))
+	ectxt = 20
 
 childerror:
 	// send error code on pipe
-	RawSyscall(SYS_WRITE, uintptr(pipe), uintptr(unsafe.Pointer(&err1)), unsafe.Sizeof(err1))
+	data[0] = uintptr(ectxt)
+	data[1] = uintptr(err1)
+	RawSyscall(SYS_WRITE, uintptr(pipe), uintptr(unsafe.Pointer(&data)), unsafe.Sizeof(data))
 	for {
 		RawSyscall(SYS_EXIT, 253, 0, 0)
 	}
