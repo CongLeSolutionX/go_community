@@ -188,7 +188,7 @@ type debugState struct {
 	// The current state of whatever analysis is running.
 	currentState stateAtPC
 	liveCount    []int
-	changedVars  []bool
+	changedVars  *sparseSet
 }
 
 func (state *debugState) initializeCache() {
@@ -231,7 +231,7 @@ func (state *debugState) initializeCache() {
 	state.liveCount = make([]int, len(state.slots))
 
 	// A relatively small slice, but used many times as the return from processValue.
-	state.changedVars = make([]bool, len(state.vars))
+	state.changedVars = newSparseSet(len(state.vars))
 
 	// A pending entry per user variable, with space to track each of its pieces.
 	nPieces := 0
@@ -315,7 +315,7 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 	for i, slot := range f.Names {
 		slot := slot
 		state.slots[i] = &slot
-		if isSynthetic(&slot) {
+		if slot.N.IsSynthetic() {
 			continue
 		}
 
@@ -343,7 +343,7 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 
 	state.initializeCache()
 	for i, slot := range f.Names {
-		if isSynthetic(&slot) {
+		if slot.N.IsSynthetic() {
 			continue
 		}
 		for _, value := range f.NamedValues[slot] {
@@ -360,13 +360,6 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 		Vars:          state.vars,
 		LocationLists: lists,
 	}
-}
-
-// isSynthetic reports whether if slot represents a compiler-inserted variable,
-// e.g. an autotmp or an anonymous return value that needed a stack slot.
-func isSynthetic(slot *LocalSlot) bool {
-	c := slot.N.String()[0]
-	return c == '.' || c == '~'
 }
 
 // liveness walks the function in control flow order, calculating the start
@@ -524,16 +517,15 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) ([
 
 	// A slot is live if it was seen in all predecessors, and they all had
 	// some storage in common.
-	for slotID, slotLoc := range slotLocs {
-		// Not seen in any predecessor.
-		if slotLoc.absent() {
-			continue
-		}
-		// Seen in only some predecessors. Clear it out.
+	for slotID := range p0 {
+		slotLoc := slotLocs[slotID]
+
 		if state.liveCount[slotID] != len(preds) {
+			// Seen in only some predecessors. Clear it out.
 			slotLocs[slotID] = VarLoc{}
 			continue
 		}
+
 		// Present in all predecessors.
 		mask := uint64(slotLoc.Registers)
 		for {
@@ -558,7 +550,7 @@ func (state *debugState) processValue(v *Value, vSlots []SlotID, vReg *Register)
 	changed := false
 	setSlot := func(slot SlotID, loc VarLoc) {
 		changed = true
-		state.changedVars[state.slotVars[slot]] = true
+		state.changedVars.add(ID(state.slotVars[slot]))
 		state.currentState.slots[slot] = loc
 	}
 
@@ -865,13 +857,10 @@ func (state *debugState) buildLocationLists(Ctxt *obj.Link, blockLocs []*BlockDe
 			}
 
 			phisPending = false
-			for varID := range state.changedVars {
-				if !state.changedVars[varID] {
-					continue
-				}
-				state.changedVars[varID] = false
+			for _, varID := range state.changedVars.contents() {
 				updateVar(VarID(varID), v, state.currentState.slots)
 			}
+			state.changedVars.clear()
 		}
 
 	}
