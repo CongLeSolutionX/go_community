@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "046eab57_bcc400d1",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-02T19:39:16Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understood this comment. Isn\u0027t arm64.ARNG_8B always 0? This seems to work for VCNT but for VUADDLV it throws this error message:\ninvalid arrangement: 00024 (...go/src/math/bits/bits.go:115)    VUADDLV V0.D1, V0",
+      "parentUuid": "0db38f2d_c55da653",
+      "range": {
+        "startLine": 570,
+        "startChar": 46,
+        "endLine": 570,
+        "endChar": 62
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96345a3b_07fa8d5e",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "9702aae1_3d1a6445",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-02T19:39:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b8a220d2_e7eb5c17",
+      "range": {
+        "startLine": 89,
+        "startChar": 30,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86141ce1_1db320fb",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "8f046782_06f43c6c",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-02T19:39:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "86141ce1_1db320fb",
+      "range": {
+        "startLine": 91,
+        "startChar": 135,
+        "endLine": 91,
+        "endChar": 136
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdf82246_4e278d90",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -112,6 +184,24 @@
     },
     {
       "key": {
+        "uuid": "37d6bd03_76504db2",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-02T19:39:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bdf82246_4e278d90",
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "143b812a_f1e3c0a6",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -126,6 +216,24 @@
       "revId": "0bf848d812b7700a1ff683103053b095573d0328",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2d147cc_fcb50633",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-02T19:39:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "143b812a_f1e3c0a6",
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -175,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "0f1b7fd8_f5322cde",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-02T19:39:16Z",
+      "side": 1,
+      "message": "we can have several arrangements like 8bytes in a 64bit value or 16bytes in a 128bit value 4 halfwords in a 64 bit value or 8 halfwords in a 128bit value etc...",
+      "parentUuid": "bb10d368_1cd5a1dc",
+      "range": {
+        "startLine": 213,
+        "startChar": 87,
+        "endLine": 213,
+        "endChar": 101
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30be3de2_6ec5e949",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 3
@@ -189,6 +321,24 @@
       "revId": "0bf848d812b7700a1ff683103053b095573d0328",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cec3e5a_eea2dc63",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-02T19:39:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "30be3de2_6ec5e949",
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
