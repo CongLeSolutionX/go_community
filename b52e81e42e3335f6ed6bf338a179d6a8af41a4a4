@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34806c66_fb1cce5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-02-02T06:17:37Z",
+      "side": 1,
+      "message": "Actually, the patch work on pointer\u003d offset+\u0026global, which can be nil if offset \u003d\u003d -\u0026global",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "b52e81e42e3335f6ed6bf338a179d6a8af41a4a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f61e5679_5ca5aa91",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-02-02T06:17:37Z",
+      "side": 1,
+      "message": "As i mentioned above, you need to consider negative offset (i.e AuxInt).",
+      "range": {
+        "startLine": 696,
+        "startChar": 0,
+        "endLine": 697,
+        "endChar": 44
+      },
+      "revId": "b52e81e42e3335f6ed6bf338a179d6a8af41a4a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
