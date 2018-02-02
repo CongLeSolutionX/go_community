@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "03c4b455_b54cb507",
+        "filename": "test/fixedbugs/issue23414.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-02T00:57:03Z",
+      "side": 1,
+      "message": "Omg sorry. fixed.",
+      "parentUuid": "3d4203d0_bee9a3b7",
+      "revId": "0504bb55632f11c75c01ab3688daf2416373d263",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dd66c3e_873b41cd",
         "filename": "test/fixedbugs/issue23414.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "0504bb55632f11c75c01ab3688daf2416373d263",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47d3a638_f14efa51",
+        "filename": "test/fixedbugs/issue23414.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-02T00:57:03Z",
+      "side": 1,
+      "message": "It was caused by checking the reproduction based on Brad\u0027s source. Fixed.",
+      "parentUuid": "9dd66c3e_873b41cd",
+      "revId": "0504bb55632f11c75c01ab3688daf2416373d263",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
