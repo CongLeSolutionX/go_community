@@ -16,6 +16,24 @@
       "revId": "c262bf022886b5223409283396b1ab317d58f13b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2cee40c_62d06bdc",
+        "filename": "src/cmd/vet/testdata/print.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-02-02T18:03:27Z",
+      "side": 1,
+      "message": "You\u0027re right, I forgot to add a regression test for this case. Added, and it has no warning as expected.",
+      "parentUuid": "c99676da_9bd45464",
+      "revId": "c262bf022886b5223409283396b1ab317d58f13b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
