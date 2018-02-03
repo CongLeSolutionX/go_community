@@ -136,6 +136,8 @@ func (e *escaper) escape(c context, n parse.Node) context {
 		return e.escapeText(c, n)
 	case *parse.WithNode:
 		return e.escapeBranch(c, &n.BranchNode, "with")
+	case *parse.BreakNode, *parse.ContinueNode:
+		return c
 	}
 	panic("escaping " + n.String() + " is unimplemented")
 }

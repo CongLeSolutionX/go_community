@@ -104,6 +104,16 @@ func TestEscape(t *testing.T) {
 			"&lt;a&gt;&lt;b&gt;",
 		},
 		{
+			"rangeBodyBreak",
+			"{{range .A}}{{.}}{{break}}{{end}}",
+			"&lt;a&gt;",
+		},
+		{
+			"rangeBodyContinue",
+			"{{range .A}}{{.}}{{continue}}{{end}}",
+			"&lt;a&gt;&lt;b&gt;",
+		},
+		{
 			"rangeElse",
 			"{{range .E}}{{.}}{{else}}{{.H}}{{end}}",
 			"&lt;Hello&gt;",
