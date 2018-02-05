@@ -181,6 +181,7 @@ type debugState struct {
 	cache          *Cache
 	registers      []Register
 	stackOffset    func(LocalSlot) int32
+	ctxt           *obj.Link
 
 	// The names (slots) associated with each value, indexed by Value ID.
 	valueNames [][]SlotID
@@ -189,6 +190,9 @@ type debugState struct {
 	currentState stateAtPC
 	liveCount    []int
 	changedVars  *sparseSet
+
+	pendingEntries []pendingEntry
+	lists          [][]byte
 }
 
 func (state *debugState) initializeCache() {
@@ -256,6 +260,7 @@ func (state *debugState) initializeCache() {
 		}
 		freePieceIdx += len(slots)
 	}
+	state.pendingEntries = pe
 }
 
 func (state *debugState) allocBlock(b *Block) *BlockDebug {
@@ -308,6 +313,7 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 		cache:       f.Cache,
 		registers:   f.Config.registers,
 		stackOffset: stackOffset,
+		ctxt:        ctxt,
 	}
 
 	// Recompose any decomposed variables, and record the names associated with each value.
@@ -332,6 +338,8 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 	// Fill in the var<->slot mappings.
 	state.varSlots = make([][]SlotID, len(state.vars))
 	state.slotVars = make([]VarID, len(state.slots))
+	state.lists = make([][]byte, len(state.vars))
+
 	for varID, n := range state.vars {
 		parts := varParts[n]
 		state.varSlots[varID] = parts
@@ -352,13 +360,13 @@ func BuildFuncDebug(ctxt *obj.Link, f *Func, loggingEnabled bool, stackOffset fu
 	}
 
 	blockLocs := state.liveness()
-	lists := state.buildLocationLists(ctxt, blockLocs)
+	state.buildLocationLists(blockLocs)
 
 	return &FuncDebug{
 		Slots:         state.slots,
 		VarSlots:      state.varSlots,
 		Vars:          state.vars,
-		LocationLists: lists,
+		LocationLists: state.lists,
 	}
 }
 
@@ -722,118 +730,7 @@ func firstReg(set RegisterSet) uint8 {
 // The returned location lists are not fully complete. They are in terms of
 // SSA values rather than PCs, and have no base address/end entries. They will
 // be finished by PutLocationList.
-func (state *debugState) buildLocationLists(Ctxt *obj.Link, blockLocs []*BlockDebug) [][]byte {
-	lists := make([][]byte, len(state.vars))
-	pendingEntries := state.cache.pendingEntries
-
-	// writePendingEntry writes out the pending entry for varID, if any,
-	// terminated at endBlock/Value.
-	writePendingEntry := func(varID VarID, endBlock, endValue ID) {
-		list := lists[varID]
-		pending := pendingEntries[varID]
-		if !pending.present {
-			return
-		}
-
-		// Pack the start/end coordinates into the start/end addresses
-		// of the entry, for decoding by PutLocationList.
-		start, startOK := encodeValue(Ctxt, pending.startBlock, pending.startValue)
-		end, endOK := encodeValue(Ctxt, endBlock, endValue)
-		if !startOK || !endOK {
-			// If someone writes a function that uses >65K values,
-			// they get incomplete debug info on 32-bit platforms.
-			return
-		}
-		list = appendPtr(Ctxt, list, start)
-		list = appendPtr(Ctxt, list, end)
-		// Where to write the length of the location description once
-		// we know how big it is.
-		sizeIdx := len(list)
-		list = list[:len(list)+2]
-
-		if state.loggingEnabled {
-			var partStrs []string
-			for i, slot := range state.varSlots[varID] {
-				partStrs = append(partStrs, fmt.Sprintf("%v@%v", state.slots[slot], state.LocString(pending.pieces[i])))
-			}
-			state.logf("Add entry for %v: \tb%vv%v-b%vv%v = \t%v\n", state.vars[varID], pending.startBlock, pending.startValue, endBlock, endValue, strings.Join(partStrs, " "))
-		}
-
-		for i, slotID := range state.varSlots[varID] {
-			loc := pending.pieces[i]
-			slot := state.slots[slotID]
-
-			if !loc.absent() {
-				if loc.onStack() {
-					if loc.StackOffsetValue() == 0 {
-						list = append(list, dwarf.DW_OP_call_frame_cfa)
-					} else {
-						list = append(list, dwarf.DW_OP_fbreg)
-						list = dwarf.AppendSleb128(list, int64(loc.StackOffsetValue()))
-					}
-				} else {
-					regnum := Ctxt.Arch.DWARFRegisters[state.registers[firstReg(loc.Registers)].ObjNum()]
-					if regnum < 32 {
-						list = append(list, dwarf.DW_OP_reg0+byte(regnum))
-					} else {
-						list = append(list, dwarf.DW_OP_regx)
-						list = dwarf.AppendUleb128(list, uint64(regnum))
-					}
-				}
-			}
-
-			if len(state.varSlots[varID]) > 1 {
-				list = append(list, dwarf.DW_OP_piece)
-				list = dwarf.AppendUleb128(list, uint64(slot.Type.Size()))
-			}
-		}
-		Ctxt.Arch.ByteOrder.PutUint16(list[sizeIdx:], uint16(len(list)-sizeIdx-2))
-		lists[varID] = list
-	}
-
-	// updateVar updates the pending location list entry for varID to
-	// reflect the new locations in curLoc, caused by v.
-	updateVar := func(varID VarID, v *Value, curLoc []VarLoc) {
-		// Assemble the location list entry with whatever's live.
-		empty := true
-		for _, slotID := range state.varSlots[varID] {
-			if !curLoc[slotID].absent() {
-				empty = false
-				break
-			}
-		}
-		pending := &pendingEntries[varID]
-		if empty {
-			writePendingEntry(varID, v.Block.ID, v.ID)
-			pending.clear()
-			return
-		}
-
-		// Extend the previous entry if possible.
-		if pending.present {
-			merge := true
-			for i, slotID := range state.varSlots[varID] {
-				if !canMerge(pending.pieces[i], curLoc[slotID]) {
-					merge = false
-					break
-				}
-			}
-			if merge {
-				return
-			}
-		}
-
-		writePendingEntry(varID, v.Block.ID, v.ID)
-		pending.present = true
-		pending.startBlock = v.Block.ID
-		pending.startValue = v.ID
-		for i, slot := range state.varSlots[varID] {
-			pending.pieces[i] = curLoc[slot]
-		}
-		return
-
-	}
-
+func (state *debugState) buildLocationLists(blockLocs []*BlockDebug) {
 	// Run through the function in program text order, building up location
 	// lists as we go. The heavy lifting has mostly already been done.
 	for _, b := range state.f.Blocks {
@@ -858,7 +755,7 @@ func (state *debugState) buildLocationLists(Ctxt *obj.Link, blockLocs []*BlockDe
 
 			phisPending = false
 			for _, varID := range state.changedVars.contents() {
-				updateVar(VarID(varID), v, state.currentState.slots)
+				state.updateVar(VarID(varID), v, state.currentState.slots)
 			}
 			state.changedVars.clear()
 		}
@@ -870,18 +767,125 @@ func (state *debugState) buildLocationLists(Ctxt *obj.Link, blockLocs []*BlockDe
 	}
 
 	// Flush any leftover entries live at the end of the last block.
-	for varID := range lists {
-		writePendingEntry(VarID(varID), state.f.Blocks[len(state.f.Blocks)-1].ID, BlockEnd.ID)
-		list := lists[varID]
+	for varID := range state.lists {
+		state.writePendingEntry(VarID(varID), state.f.Blocks[len(state.f.Blocks)-1].ID, BlockEnd.ID)
+		list := state.lists[varID]
 		if len(list) == 0 {
 			continue
 		}
 
 		if state.loggingEnabled {
-			state.logf("\t%v : %q\n", state.vars[varID], hex.EncodeToString(lists[varID]))
+			state.logf("\t%v : %q\n", state.vars[varID], hex.EncodeToString(state.lists[varID]))
 		}
 	}
-	return lists
+}
+
+// updateVar updates the pending location list entry for varID to
+// reflect the new locations in curLoc, caused by v.
+func (state *debugState) updateVar(varID VarID, v *Value, curLoc []VarLoc) {
+	// Assemble the location list entry with whatever's live.
+	empty := true
+	for _, slotID := range state.varSlots[varID] {
+		if !curLoc[slotID].absent() {
+			empty = false
+			break
+		}
+	}
+	pending := &state.pendingEntries[varID]
+	if empty {
+		state.writePendingEntry(varID, v.Block.ID, v.ID)
+		pending.clear()
+		return
+	}
+
+	// Extend the previous entry if possible.
+	if pending.present {
+		merge := true
+		for i, slotID := range state.varSlots[varID] {
+			if !canMerge(pending.pieces[i], curLoc[slotID]) {
+				merge = false
+				break
+			}
+		}
+		if merge {
+			return
+		}
+	}
+
+	state.writePendingEntry(varID, v.Block.ID, v.ID)
+	pending.present = true
+	pending.startBlock = v.Block.ID
+	pending.startValue = v.ID
+	for i, slot := range state.varSlots[varID] {
+		pending.pieces[i] = curLoc[slot]
+	}
+	return
+
+}
+
+// writePendingEntry writes out the pending entry for varID, if any,
+// terminated at endBlock/Value.
+func (state *debugState) writePendingEntry(varID VarID, endBlock, endValue ID) {
+	pending := state.pendingEntries[varID]
+	if !pending.present {
+		return
+	}
+
+	// Pack the start/end coordinates into the start/end addresses
+	// of the entry, for decoding by PutLocationList.
+	start, startOK := encodeValue(state.ctxt, pending.startBlock, pending.startValue)
+	end, endOK := encodeValue(state.ctxt, endBlock, endValue)
+	if !startOK || !endOK {
+		// If someone writes a function that uses >65K values,
+		// they get incomplete debug info on 32-bit platforms.
+		return
+	}
+	list := state.lists[varID]
+	list = appendPtr(state.ctxt, list, start)
+	list = appendPtr(state.ctxt, list, end)
+	// Where to write the length of the location description once
+	// we know how big it is.
+	sizeIdx := len(list)
+	list = list[:len(list)+2]
+
+	if state.loggingEnabled {
+		var partStrs []string
+		for i, slot := range state.varSlots[varID] {
+			partStrs = append(partStrs, fmt.Sprintf("%v@%v", state.slots[slot], state.LocString(pending.pieces[i])))
+		}
+		state.logf("Add entry for %v: \tb%vv%v-b%vv%v = \t%v\n", state.vars[varID], pending.startBlock, pending.startValue, endBlock, endValue, strings.Join(partStrs, " "))
+	}
+
+	for i, slotID := range state.varSlots[varID] {
+		loc := pending.pieces[i]
+		slot := state.slots[slotID]
+
+		if !loc.absent() {
+			if loc.onStack() {
+				if loc.StackOffsetValue() == 0 {
+					list = append(list, dwarf.DW_OP_call_frame_cfa)
+				} else {
+					list = append(list, dwarf.DW_OP_fbreg)
+					list = dwarf.AppendSleb128(list, int64(loc.StackOffsetValue()))
+				}
+			} else {
+				regnum := state.ctxt.Arch.DWARFRegisters[state.registers[firstReg(loc.Registers)].ObjNum()]
+				if regnum < 32 {
+					list = append(list, dwarf.DW_OP_reg0+byte(regnum))
+				} else {
+					list = append(list, dwarf.DW_OP_regx)
+					list = dwarf.AppendUleb128(list, uint64(regnum))
+				}
+			}
+		}
+
+		if len(state.varSlots[varID]) > 1 {
+			list = append(list, dwarf.DW_OP_piece)
+			list = dwarf.AppendUleb128(list, uint64(slot.Type.Size()))
+		}
+	}
+	state.ctxt.Arch.ByteOrder.PutUint16(list[sizeIdx:], uint16(len(list)-sizeIdx-2))
+	state.lists[varID] = list
 }
 
 // PutLocationList adds list (a location list in its intermediate representation) to listSym.
