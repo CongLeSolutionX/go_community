@@ -281,27 +281,25 @@ func ExampleQuoteToASCII() {
 }
 
 func ExampleUnquote() {
-	test := func(s string) {
-		t, err := strconv.Unquote(s)
-		if err != nil {
-			fmt.Printf("Unquote(%#v): %v\n", s, err)
-		} else {
-			fmt.Printf("Unquote(%#v) = %v\n", s, t)
-		}
+	// If the string doesn't have quotes, it can't be unquoted.
+	if _, err := strconv.Unquote("Fran & Freddie's Diner"); err != nil {
+		fmt.Println(err)
+	}
+	if s, err := strconv.Unquote("'F'"); err == nil {
+		fmt.Println(s)
+	}
+	if s, err := strconv.Unquote("\"Fran & Freddie's Diner\""); err == nil {
+		fmt.Println(s)
+	}
+	if s, err := strconv.Unquote("`Fran & Freddie's Diner`"); err == nil {
+		fmt.Println(s)
 	}
 
-	s := `\"Fran & Freddie's Diner\t\u263a\"\"`
-	// If the string doesn't have quotes, it can't be unquoted.
-	test(s) // invalid syntax
-	test("`" + s + "`")
-	test(`"` + s + `"`)
-	test(`'\u263a'`)
-
 	// Output:
-	// Unquote("\\\"Fran & Freddie's Diner\\t\\u263a\\\"\\\""): invalid syntax
-	// Unquote("`\\\"Fran & Freddie's Diner\\t\\u263a\\\"\\\"`") = \"Fran & Freddie's Diner\t\u263a\"\"
-	// Unquote("\"\\\"Fran & Freddie's Diner\\t\\u263a\\\"\\\"\"") = "Fran & Freddie's Diner	☺""
-	// Unquote("'\\u263a'") = ☺
+	// invalid syntax
+	// F
+	// Fran & Freddie's Diner
+	// Fran & Freddie's Diner
 }
 
 func ExampleUnquoteChar() {
