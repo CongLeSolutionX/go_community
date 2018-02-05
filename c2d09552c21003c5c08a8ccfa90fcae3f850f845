@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d7a5b79_7629ef9e",
+        "filename": "src/strconv/example_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-05T18:35:09Z",
+      "side": 1,
+      "message": "I don\u0027t like the err conditions changing from !\u003d nil to \u003d\u003d nil, and only printing in one case. I\u0027d just remove all \"if\" statements entirely.\n\n   v, err :\u003d strconv.Unquote(..)\n   fmt.Printf(\"%q, %v\", v, err)\n\n   v, err :\u003d strconv.Unquote(..)\n   fmt.Printf(\"%q, %v\", v, err)\n\n   v, err :\u003d strconv.Unquote(..)\n   fmt.Printf(\"%q, %v\", v, err)\n\n...\n\nAnd maybe use different strings in each, and have the string itself (and not a comment) explain what it\u0027s showing.",
+      "range": {
+        "startLine": 285,
+        "startChar": 54,
+        "endLine": 291,
+        "endChar": 73
+      },
+      "revId": "c2d09552c21003c5c08a8ccfa90fcae3f850f845",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
