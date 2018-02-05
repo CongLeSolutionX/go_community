@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d768f34d_b8b6340f",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-05T17:05:40Z",
+      "side": 1,
+      "message": "arm64.ARNG_8B is always 0. But I don\u0027t think we want everyone who works on this code to remember the value.\n\nMy suggestion was just an example, which may be not accurate (I did not try it, sorry). Perhaps\n(v.Args[0].Reg() - arm64.REG_F0) \u0026 31 + arm64.REG_ARNG + ((arm64.ARNG_8B \u0026 15) \u003c\u003c 5) ?\n(copied from the assemler)",
+      "parentUuid": "046eab57_bcc400d1",
+      "range": {
+        "startLine": 570,
+        "startChar": 46,
+        "endLine": 570,
+        "endChar": 62
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "96345a3b_07fa8d5e",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -237,6 +261,29 @@
     },
     {
       "key": {
+        "uuid": "d8d229bf_f444ac53",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-05T17:05:40Z",
+      "side": 1,
+      "message": "This is not accurate. It does not do a 64-bit pop count. Instead, it does pop count for each 8-bit unit and stores the result in each 8-bit unit. This is not the same as a 64-bit pop count. We need to make this clear.",
+      "range": {
+        "startLine": 212,
+        "startChar": 65,
+        "endLine": 212,
+        "endChar": 89
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb10d368_1cd5a1dc",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 3
@@ -295,6 +342,30 @@
       "side": 1,
       "message": "we can have several arrangements like 8bytes in a 64bit value or 16bytes in a 128bit value 4 halfwords in a 64 bit value or 8 halfwords in a 128bit value etc...",
       "parentUuid": "bb10d368_1cd5a1dc",
+      "range": {
+        "startLine": 213,
+        "startChar": 87,
+        "endLine": 213,
+        "endChar": 101
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73324dbe_6c6e0ccc",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-05T17:05:40Z",
+      "side": 1,
+      "message": "I understand that the machine instruction has multiple forms. But for this particular SSA Op that is used in the rewriting rule to do pop count, it only operates on the 8B form. We need to make this information clear and specific.",
+      "parentUuid": "0f1b7fd8_f5322cde",
       "range": {
         "startLine": 213,
         "startChar": 87,
