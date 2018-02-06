@@ -886,6 +886,20 @@ var linuxAMD64Tests = []*asmTest{
 	},
 	{
 		`
+		func $(a,b [3]int16) bool {
+		    return a == b
+		}`,
+		[]string{"\tCMPL\t[A-Z]"},
+	},
+	{
+		`
+		func $(a,b [12]int8) bool {
+		    return a == b
+		}`,
+		[]string{"\tCMPQ\t[A-Z]", "\tCMPL\t[A-Z]"},
+	},
+	{
+		`
 		func f70(a,b [15]byte) bool {
 		    return a == b
 		}`,
