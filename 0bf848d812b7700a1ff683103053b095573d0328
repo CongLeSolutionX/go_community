@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "a315ed13_337adcc5",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-06T17:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d768f34d_b8b6340f",
+      "range": {
+        "startLine": 570,
+        "startChar": 46,
+        "endLine": 570,
+        "endChar": 62
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96345a3b_07fa8d5e",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "6edbfa75_f1700daf",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-06T17:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9702aae1_3d1a6445",
+      "range": {
+        "startLine": 89,
+        "startChar": 30,
+        "endLine": 89,
+        "endChar": 39
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86141ce1_1db320fb",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -191,6 +239,30 @@
     },
     {
       "key": {
+        "uuid": "d0d638d5_9c639c29",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-06T17:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f046782_06f43c6c",
+      "range": {
+        "startLine": 91,
+        "startChar": 135,
+        "endLine": 91,
+        "endChar": 136
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdf82246_4e278d90",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -220,6 +292,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "bdf82246_4e278d90",
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1002acd_b465b875",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-06T17:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37d6bd03_76504db2",
       "revId": "0bf848d812b7700a1ff683103053b095573d0328",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -261,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "dae2bb42_de570c47",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-06T17:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2d147cc_fcb50633",
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8d229bf_f444ac53",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 3
@@ -281,6 +389,30 @@
       "revId": "0bf848d812b7700a1ff683103053b095573d0328",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94742131_1f8900fb",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-06T17:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8d229bf_f444ac53",
+      "range": {
+        "startLine": 212,
+        "startChar": 65,
+        "endLine": 212,
+        "endChar": 89
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -378,6 +510,30 @@
     },
     {
       "key": {
+        "uuid": "f7419870_5dc6240e",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-06T17:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73324dbe_6c6e0ccc",
+      "range": {
+        "startLine": 213,
+        "startChar": 87,
+        "endLine": 213,
+        "endChar": 101
+      },
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30be3de2_6ec5e949",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 3
@@ -407,6 +563,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "30be3de2_6ec5e949",
+      "revId": "0bf848d812b7700a1ff683103053b095573d0328",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9942410f_207a24f3",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-06T17:36:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cec3e5a_eea2dc63",
       "revId": "0bf848d812b7700a1ff683103053b095573d0328",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
