@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "6a093c10_01f47277",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 25690
+      },
+      "writtenOn": "2018-02-06T18:29:52Z",
+      "side": 1,
+      "message": "I just uploaded patch set #4, which should capture this case by adding target specific rules during lowering.  As an alternative, we could also implement this in the late nilcheckelim pass, but I though writing the target-specific rules was much less cumbersome.",
+      "parentUuid": "06f5cb25_315f5e1d",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "b52e81e42e3335f6ed6bf338a179d6a8af41a4a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f61e5679_5ca5aa91",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 2
