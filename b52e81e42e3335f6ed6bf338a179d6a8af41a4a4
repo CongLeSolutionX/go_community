@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "06f5cb25_315f5e1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-06T16:00:49Z",
+      "side": 1,
+      "message": "We do remove nilchecks when it is followed by a load that is known to trap when the nil check fails. This is what latenilcheckelim pass does.\n\nYour example is a case where it missed this optimization, because we rewrite the load to directly use the global with offset, instead of the address we computed in t, i.e. we have\n\nv11 \u003d LEAQ \u003cunsafe.Pointer\u003e {\"\".sigtable} [-4096] v3 (t[*sigTabT])\nv13 \u003d LoweredNilCheck \u003cvoid\u003e v11 v1\nv8  \u003d MOVQload \u003cint\u003e {\"\".sigtable} [-4080] v3 v1\n\nIf the load were a load from v11+8, the nilcheck would be removed. We might consider to optimize this case.",
+      "parentUuid": "e5109723_6c2b0300",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "b52e81e42e3335f6ed6bf338a179d6a8af41a4a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f61e5679_5ca5aa91",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 2
