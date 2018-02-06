@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c29f99f_3afccd4b",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-06T22:26:27Z",
+      "side": 1,
+      "message": "Not necessarily in this CL, I think we should consider pulling those instruction encoding stuff to helper functions, probably in cmd/internal/obj/arm64. So the code can be shared with the compiler and the assembler.",
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a8dec3c_92078c2b",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2702,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-06T22:26:27Z",
+      "side": 1,
+      "message": "I think we\u0027ve decided to use \"$\" as the function name in this file, so it is automatically numbered.",
+      "range": {
+        "startLine": 2702,
+        "startChar": 7,
+        "endLine": 2702,
+        "endChar": 11
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "188b3ea8_67360a9e",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-06T22:26:27Z",
+      "side": 1,
+      "message": "I think this should be Float64. All 64 bits in the register matter here.",
+      "range": {
+        "startLine": 91,
+        "startChar": 71,
+        "endLine": 91,
+        "endChar": 78
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c674fd87_2192a156",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-06T22:26:27Z",
+      "side": 1,
+      "message": "Should this be \u003ct\u003e?\nAlso, for float32, shouldn\u0027t we use FMOVS instead of FMOVD?",
+      "range": {
+        "startLine": 94,
+        "startChar": 73,
+        "endLine": 94,
+        "endChar": 86
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c14e9322_1b750f66",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-06T22:26:27Z",
+      "side": 1,
+      "message": "Is this true? If I read the instruction manual correctly, it only says zero-extended to 2 times element size, which is 16-bit here. It doesn\u0027t seem to say anything about the high bits. Does it guarantee to zero them?",
+      "range": {
+        "startLine": 213,
+        "startChar": 112,
+        "endLine": 213,
+        "endChar": 135
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
