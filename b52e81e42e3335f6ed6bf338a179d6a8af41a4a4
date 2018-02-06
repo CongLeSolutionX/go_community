@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e5109723_6c2b0300",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-02-06T03:30:22Z",
+      "side": 1,
+      "message": "Well, with \"unsafe\" package, I manage to construct a case:\nfunc nilchecktest() string {\n        t :\u003d (*sigTabT)(unsafe.Pointer(uintptr(unsafe.Pointer(\u0026sigtable))+uintptr(0xfffffffffffff000)))\n        return t.name\n}\n\nMaybe the negative number (-4080) won\u0027t finally generate nil pointer but it demos the possibility of negative offset.\n\n@Cherry Zhang: I don\u0027t really understand the meaning of NilCheck here and sigsegv can still be triggered even without NilCheck for above example. Why we need to do such meaningless operations? (Perhaps this is a question for the dev list)",
+      "parentUuid": "83316731_73223bab",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 60
+      },
+      "revId": "b52e81e42e3335f6ed6bf338a179d6a8af41a4a4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f61e5679_5ca5aa91",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 2
