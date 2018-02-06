@@ -132,6 +132,31 @@ const (
 	LevelLinearizable
 )
 
+func (i IsolationLevel) String() string {
+	switch i {
+	case LevelDefault:
+		return "Default"
+	case LevelReadUncommitted:
+		return "ReadUncommitted"
+	case LevelReadCommitted:
+		return "ReadCommitted"
+	case LevelWriteCommitted:
+		return "WriteCommitted"
+	case LevelRepeatableRead:
+		return "RepeatableRead"
+	case LevelSnapshot:
+		return "Snapshot"
+	case LevelSerializable:
+		return "Serializable"
+	case LevelLinearizable:
+		return "Linearizable"
+	default:
+		return fmt.Sprintf("%d", i)
+	}
+}
+
+var _ fmt.Stringer = LevelDefault
+
 // TxOptions holds the transaction options to be used in DB.BeginTx.
 type TxOptions struct {
 	// Isolation is the transaction isolation level.
