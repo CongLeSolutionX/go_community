@@ -89,6 +89,8 @@ func rewriteValueAMD64(v *Value) bool {
 		return rewriteValueAMD64_OpAMD64LEAQ4_0(v)
 	case OpAMD64LEAQ8:
 		return rewriteValueAMD64_OpAMD64LEAQ8_0(v)
+	case OpAMD64LoweredNilCheck:
+		return rewriteValueAMD64_OpAMD64LoweredNilCheck_0(v)
 	case OpAMD64MOVBQSX:
 		return rewriteValueAMD64_OpAMD64MOVBQSX_0(v)
 	case OpAMD64MOVBQSXload:
@@ -4574,6 +4576,47 @@ func rewriteValueAMD64_OpAMD64LEAQ8_0(v *Value) bool {
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(x)
 		v.AddArg(y)
+		return true
+	}
+	return false
+}
+func rewriteValueAMD64_OpAMD64LoweredNilCheck_0(v *Value) bool {
+	// match: (LoweredNilCheck (LEAQ (SB)) mem)
+	// cond:
+	// result: mem
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64LEAQ {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpSB {
+			break
+		}
+		mem := v.Args[1]
+		v.reset(OpCopy)
+		v.Type = mem.Type
+		v.AddArg(mem)
+		return true
+	}
+	// match: (LoweredNilCheck (LEAQ (SP)) mem)
+	// cond:
+	// result: mem
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpAMD64LEAQ {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpSP {
+			break
+		}
+		mem := v.Args[1]
+		v.reset(OpCopy)
+		v.Type = mem.Type
+		v.AddArg(mem)
 		return true
 	}
 	return false

@@ -46,6 +46,10 @@ func nilcheckelim(f *Func) {
 			if v.Op == OpAddr || v.Op == OpAddPtr {
 				nonNilValues[v.ID] = true
 			}
+			// offsets from non-nil pointers are also non-nil
+			if v.Op == OpOffPtr && nonNilValues[v.Args[0].ID] {
+				nonNilValues[v.ID] = true
+			}
 		}
 	}
 
@@ -168,6 +172,7 @@ func nilcheckelim2(f *Func) {
 		// input pointer is nil. Remove nil checks on those pointers, as the
 		// faulting instruction effectively does the nil check for free.
 		unnecessary.clear()
+
 		// Optimization: keep track of removed nilcheck with smallest index
 		firstToRemove := len(b.Values)
 		for i := len(b.Values) - 1; i >= 0; i-- {

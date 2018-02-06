@@ -1045,6 +1045,10 @@
 (MOVLQZX x:(MOVLloadidx1 [off] {sym} ptr idx mem)) && x.Uses == 1 && clobber(x) -> @x.Block (MOVLloadidx1 <v.Type> [off] {sym} ptr idx mem)
 (MOVLQZX x:(MOVLloadidx4 [off] {sym} ptr idx mem)) && x.Uses == 1 && clobber(x) -> @x.Block (MOVLloadidx4 <v.Type> [off] {sym} ptr idx mem)
 
+// remove unnecessary nil checks that are exposed during lowering
+(LoweredNilCheck (LEAQ (SB)) mem) -> mem
+(LoweredNilCheck (LEAQ (SP)) mem) -> mem
+
 // replace load from same location as preceding store with zero/sign extension (or copy in case of full width)
 (MOVBload [off] {sym} ptr (MOVBstore [off2] {sym2} ptr2 x _)) && sym == sym2 && off == off2 && isSamePtr(ptr, ptr2) -> (MOVBQZX x)
 (MOVWload [off] {sym} ptr (MOVWstore [off2] {sym2} ptr2 x _)) && sym == sym2 && off == off2 && isSamePtr(ptr, ptr2) -> (MOVWQZX x)
