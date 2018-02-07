@@ -17,6 +17,7 @@ import (
 
 var matchBenchmarks = flag.String("test.bench", "", "run only benchmarks matching `regexp`")
 var benchTime = flag.Duration("test.benchtime", 1*time.Second, "run each benchmark for duration `d`")
+var benchIters = flag.Int("test.benchiters", 0, "run each benchmark for exactly this many iterations; set to 0 to use benchtime")
 var benchmarkMemory = flag.Bool("test.benchmem", false, "print memory allocations for benchmarks")
 
 // Global lock to ensure only one benchmark runs at a time.
@@ -54,6 +55,7 @@ type B struct {
 	previousDuration time.Duration // total duration of the previous run
 	benchFunc        func(b *B)
 	benchTime        time.Duration
+	benchIters       int
 	bytes            int64
 	missingBytes     bool // one of the subbenchmarks does not have bytes set.
 	timerOn          bool
@@ -274,20 +276,25 @@ func (b *B) launch() {
 
 	// Run the benchmark for at least the specified amount of time.
 	d := b.benchTime
-	for n := 1; !b.failed && b.duration < d && n < 1e9; {
-		last := n
-		// Predict required iterations.
-		n = int(d.Nanoseconds())
-		if nsop := b.nsPerOp(); nsop != 0 {
-			n /= int(nsop)
-		}
-		// Run more iterations than we think we'll need (1.2x).
-		// Don't grow too fast in case we had timing errors previously.
-		// Be sure to run at least one more than last time.
-		n = max(min(n+n/5, 100*last), last+1)
-		// Round up to something easy to read.
-		n = roundUp(n)
+	n := b.benchIters
+	if n > 0 {
 		b.runN(n)
+	} else {
+		for n := 1; !b.failed && b.duration < d && n < 1e9; {
+			last := n
+			// Predict required iterations.
+			n = int(d.Nanoseconds())
+			if nsop := b.nsPerOp(); nsop != 0 {
+				n /= int(nsop)
+			}
+			// Run more iterations than we think we'll need (1.2x).
+			// Don't grow too fast in case we had timing errors previously.
+			// Be sure to run at least one more than last time.
+			n = max(min(n+n/5, 100*last), last+1)
+			// Round up to something easy to read.
+			n = roundUp(n)
+			b.runN(n)
+		}
 	}
 	b.result = BenchmarkResult{b.N, b.duration, b.bytes, b.netAllocs, b.netBytes}
 }
@@ -416,8 +423,9 @@ func runBenchmarks(importPath string, matchString func(pat, str string) (bool, e
 				b.Run(Benchmark.Name, Benchmark.F)
 			}
 		},
-		benchTime: *benchTime,
-		context:   ctx,
+		benchTime:  *benchTime,
+		benchIters: *benchIters,
+		context:    ctx,
 	}
 	main.runN(1)
 	return !main.failed
@@ -439,8 +447,9 @@ func (ctx *benchContext) processBench(b *B) {
 						w:      b.w,
 						chatty: b.chatty,
 					},
-					benchFunc: b.benchFunc,
-					benchTime: b.benchTime,
+					benchFunc:  b.benchFunc,
+					benchTime:  b.benchTime,
+					benchIters: b.benchIters,
 				}
 				b.run1()
 			}
@@ -501,6 +510,7 @@ func (b *B) Run(name string, f func(b *B)) bool {
 		importPath: b.importPath,
 		benchFunc:  f,
 		benchTime:  b.benchTime,
+		benchIters: b.benchIters,
 		context:    b.context,
 	}
 	if partial {
@@ -649,8 +659,9 @@ func Benchmark(f func(b *B)) BenchmarkResult {
 			signal: make(chan bool),
 			w:      discard{},
 		},
-		benchFunc: f,
-		benchTime: *benchTime,
+		benchFunc:  f,
+		benchTime:  *benchTime,
+		benchIters: *benchIters,
 	}
 	if b.run1() {
 		b.run()
