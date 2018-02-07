@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13375f97_dc1984f1",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPSOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-07T20:04:53Z",
+      "side": 1,
+      "message": "REGTMP",
+      "range": {
+        "startLine": 385,
+        "startChar": 14,
+        "endLine": 385,
+        "endChar": 21
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22ca1bec_4c69c867",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPSOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-07T20:04:53Z",
+      "side": 1,
+      "message": "Does it clobber g register? I think it doesn\u0027t, as it is not preemptable. So this could be gpg.\n\nIt probably doesn\u0027t really matter -- it only matters for functions explicitly need g (using getg) and also have write barriers. Probably there isn\u0027t any function does that.",
+      "range": {
+        "startLine": 386,
+        "startChar": 127,
+        "endLine": 386,
+        "endChar": 129
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4455f538_d073e5f7",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-07T20:04:53Z",
+      "side": 1,
+      "message": "Is 100 enough? I think the assembler will add 4 for us.",
+      "range": {
+        "startLine": 869,
+        "startChar": 41,
+        "endLine": 869,
+        "endChar": 44
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6287c90_b66c61a9",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-07T20:04:53Z",
+      "side": 1,
+      "message": "32-bit MIPS doesn\u0027t use SB register. I think R28 is allocatable, so it needs to be saved.",
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e976a43c_7df05080",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-07T20:04:53Z",
+      "side": 1,
+      "message": "We need to be sure that the function we called doesn\u0027t modify the arg slots. I think the compiler can do it in theory, although it probably happens quite rarely.",
+      "range": {
+        "startLine": 936,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 17
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
