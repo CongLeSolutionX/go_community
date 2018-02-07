@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "fd4cdc65_90024cca",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-07T21:31:35Z",
+      "side": 1,
+      "message": "FMOVDgpfp should have a float type, so \u003ct\u003e should be a float type. The rules above, like the one in line 89, should use (FMOVDgpfp \u003ctyp.Float64\u003e x).\n\nAlso, I think it should be FMOVS for 32-bit type.",
+      "parentUuid": "9aff1431_f5cbfb34",
+      "range": {
+        "startLine": 94,
+        "startChar": 73,
+        "endLine": 94,
+        "endChar": 86
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c14e9322_1b750f66",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 4
@@ -213,6 +237,30 @@
       "side": 1,
       "message": "I think you are right the manual doesn\u0027t say anything about the hight bits so they are undefined. What is your motivation? Does this make one of the rules to generate code incorrect?",
       "parentUuid": "c14e9322_1b750f66",
+      "range": {
+        "startLine": 213,
+        "startChar": 112,
+        "endLine": 213,
+        "endChar": 135
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9950b624_6b142807",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-07T21:31:35Z",
+      "side": 1,
+      "message": "The result of PopCount is 64-bit. If this leaves high bits undefined, the result may be not correct. We will need to do a zero-extension from 16-bit to 64-bit somewhere (either in V register or in GP register).",
+      "parentUuid": "f172a4ce_0f9cf846",
       "range": {
         "startLine": 213,
         "startChar": 112,
