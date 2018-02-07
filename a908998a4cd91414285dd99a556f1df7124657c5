@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c6dfaa7c_1b38f78d",
+        "filename": "src/cmd/compile/internal/arm64/ssa.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-07T17:04:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6c29f99f_3afccd4b",
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a8dec3c_92078c2b",
         "filename": "src/cmd/compile/internal/gc/asm_test.go",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9664f76a_c1ee2665",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2702,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-07T17:04:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a8dec3c_92078c2b",
+      "range": {
+        "startLine": 2702,
+        "startChar": 7,
+        "endLine": 2702,
+        "endChar": 11
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "20141807_96944482",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-07T17:04:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "188b3ea8_67360a9e",
+      "range": {
+        "startLine": 91,
+        "startChar": 71,
+        "endLine": 91,
+        "endChar": 78
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c674fd87_2192a156",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 4
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "9aff1431_f5cbfb34",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-07T17:04:06Z",
+      "side": 1,
+      "message": "\u003ct\u003e would be signed 32-bit int so this will result a MOVD instead of a FMOVD.",
+      "parentUuid": "c674fd87_2192a156",
+      "range": {
+        "startLine": 94,
+        "startChar": 73,
+        "endLine": 94,
+        "endChar": 86
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c14e9322_1b750f66",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 4
@@ -99,6 +189,30 @@
       "writtenOn": "2018-02-06T22:26:27Z",
       "side": 1,
       "message": "Is this true? If I read the instruction manual correctly, it only says zero-extended to 2 times element size, which is 16-bit here. It doesn\u0027t seem to say anything about the high bits. Does it guarantee to zero them?",
+      "range": {
+        "startLine": 213,
+        "startChar": 112,
+        "endLine": 213,
+        "endChar": 135
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f172a4ce_0f9cf846",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-07T17:04:06Z",
+      "side": 1,
+      "message": "I think you are right the manual doesn\u0027t say anything about the hight bits so they are undefined. What is your motivation? Does this make one of the rules to generate code incorrect?",
+      "parentUuid": "c14e9322_1b750f66",
       "range": {
         "startLine": 213,
         "startChar": 112,
