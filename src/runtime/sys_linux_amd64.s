@@ -10,6 +10,9 @@
 #include "go_tls.h"
 #include "textflag.h"
 
+#define SYS_openat		257
+#define SYS_epoll_pwait		281
+
 TEXT runtime·exit(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI
 	MOVL	$231, AX	// exitgroup - force all os threads to exit
@@ -23,10 +26,12 @@ TEXT runtime·exit1(SB),NOSPLIT,$0-4
 	RET
 
 TEXT runtime·open(SB),NOSPLIT,$0-20
-	MOVQ	name+0(FP), DI
-	MOVL	mode+8(FP), SI
-	MOVL	perm+12(FP), DX
-	MOVL	$2, AX			// syscall entry
+	// This uses openat instead of open, because Android O blocks open.
+	MOVL	$-100, DI // AT_FDCWD, so this acts like open
+	MOVQ	name+0(FP), SI
+	MOVL	mode+8(FP), DX
+	MOVL	perm+12(FP), R10
+	MOVL	$SYS_openat, AX
 	SYSCALL
 	CMPQ	AX, $0xfffffffffffff001
 	JLS	2(PC)
@@ -552,7 +557,7 @@ TEXT runtime·settls(SB),NOSPLIT,$32
 	// Same as in sys_darwin_386.s:/ugliness, different constant.
 	// DI currently holds m->tls, which must be fs:0x1d0.
 	// See cgo/gcc_android_amd64.c for the derivation of the constant.
-	SUBQ	$0x1d0, DI  // In android, the tls base 
+	SUBQ	$0x1d0, DI  // In android, the tls base
 #else
 	ADDQ	$8, DI	// ELF wants to use -8(FS)
 #endif
@@ -608,11 +613,13 @@ TEXT runtime·epollctl(SB),NOSPLIT,$0
 
 // int32 runtime·epollwait(int32 epfd, EpollEvent *ev, int32 nev, int32 timeout);
 TEXT runtime·epollwait(SB),NOSPLIT,$0
+	// This uses pwait instead of wait, because Android O blocks wait.
 	MOVL	epfd+0(FP), DI
 	MOVQ	ev+8(FP), SI
 	MOVL	nev+16(FP), DX
 	MOVL	timeout+20(FP), R10
-	MOVL	$232, AX			// syscall entry
+	MOVQ	$0, R8
+	MOVL	$SYS_epoll_pwait, AX
 	SYSCALL
 	MOVL	AX, ret+24(FP)
 	RET
