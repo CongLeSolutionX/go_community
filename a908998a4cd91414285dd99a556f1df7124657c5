@@ -318,6 +318,30 @@
       "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "698bb8e0_d2549157",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 25768
+      },
+      "writtenOn": "2018-02-08T17:11:04Z",
+      "side": 1,
+      "message": "FWIW, I think the answer to your original question is, yes it does always zero the high-order bits:\n\n9.15 Advanced SIMD scalars\n...\nIn A64 Advanced SIMD scalar instructions, you refer to registers using a name that indicates the number\nof significant bits. The names are Bn, Hn, Sn, or Dn, where n is the register number (0-31). The unused\nhigh bits are ignored on a read and set to zero on a write.",
+      "parentUuid": "5aa555bd_103c447b",
+      "range": {
+        "startLine": 213,
+        "startChar": 112,
+        "endLine": 213,
+        "endChar": 135
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
