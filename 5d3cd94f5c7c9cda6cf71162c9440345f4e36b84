@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ee329d2a_21bd507b",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T22:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a0acd45_89c4afa8",
+      "range": {
+        "startLine": 414,
+        "startChar": 14,
+        "endLine": 414,
+        "endChar": 21
+      },
+      "revId": "5d3cd94f5c7c9cda6cf71162c9440345f4e36b84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afed0045_db4b067e",
         "filename": "src/runtime/asm_mips64x.s",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7518a855_495b2035",
+        "filename": "src/runtime/asm_mips64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T22:24:23Z",
+      "side": 1,
+      "message": "Done on all g-register arches.",
+      "parentUuid": "afed0045_db4b067e",
+      "range": {
+        "startLine": 793,
+        "startChar": 0,
+        "endLine": 794,
+        "endChar": 17
+      },
+      "revId": "5d3cd94f5c7c9cda6cf71162c9440345f4e36b84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffabec68_30a8f12d",
         "filename": "src/runtime/asm_mips64x.s",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "5d3cd94f5c7c9cda6cf71162c9440345f4e36b84",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c90d7322_6efb500c",
+        "filename": "src/runtime/asm_mips64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T22:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffabec68_30a8f12d",
+      "range": {
+        "startLine": 839,
+        "startChar": 0,
+        "endLine": 841,
+        "endChar": 22
+      },
+      "revId": "5d3cd94f5c7c9cda6cf71162c9440345f4e36b84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
