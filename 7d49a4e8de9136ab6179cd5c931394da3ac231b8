@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5814b74_4555392f",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1312,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-08T22:04:33Z",
+      "side": 1,
+      "message": "The code doesn\u0027t use R11. Could we use R11 instead and save one of R1 and R4?",
+      "revId": "7d49a4e8de9136ab6179cd5c931394da3ac231b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "728cf227_c95d5548",
+        "filename": "src/runtime/asm_s390x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1357,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-08T22:04:33Z",
+      "side": 1,
+      "message": "R14 is LR. Seems no need to save it.",
+      "revId": "7d49a4e8de9136ab6179cd5c931394da3ac231b8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
