@@ -216,6 +216,11 @@ const testFlag2 = `
 	    as a time.Duration (for example, -benchtime 1h30s).
 	    The default is 1 second (1s).
 
+	-benchiterations n
+	    Override iteration auto-detect and run n iterations inside
+	    each benchmark, rather than enough iterations to satisfy benchtime
+	    Set to 0 to disable (use benchtime again)
+
 	-count n
 	    Run each test and benchmark n times (default 1).
 	    If -cpu is set, run n times for each GOMAXPROCS value.

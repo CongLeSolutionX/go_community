@@ -40,6 +40,7 @@ var testFlagDefn = []*cmdflag.Defn{
 	{Name: "bench", PassToTest: true},
 	{Name: "benchmem", BoolVar: new(bool), PassToTest: true},
 	{Name: "benchtime", PassToTest: true},
+	{Name: "benchiterations", PassToTest: true},
 	{Name: "blockprofile", PassToTest: true},
 	{Name: "blockprofilerate", PassToTest: true},
 	{Name: "count", PassToTest: true},
