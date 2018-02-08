@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "83a462cc_7cd4c955",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T20:43:19Z",
+      "side": 1,
+      "message": "Oh, you\u0027re right. I see now. I\u0027d forgotten that the LR slot was at 0(R29), so it was already accounted for in the offsets from R29. Also fixed on mips64 and s390x.",
+      "parentUuid": "8ed22e86_ffde63ae",
+      "range": {
+        "startLine": 869,
+        "startChar": 41,
+        "endLine": 869,
+        "endChar": 44
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6287c90_b66c61a9",
         "filename": "src/runtime/asm_mipsx.s",
         "patchSetId": 1
