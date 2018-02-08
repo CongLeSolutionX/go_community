@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a0acd45_89c4afa8",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPS64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-08T20:50:40Z",
+      "side": 1,
+      "message": "REGTMP",
+      "range": {
+        "startLine": 414,
+        "startChar": 14,
+        "endLine": 414,
+        "endChar": 21
+      },
+      "revId": "5d3cd94f5c7c9cda6cf71162c9440345f4e36b84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afed0045_db4b067e",
+        "filename": "src/runtime/asm_mips64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-08T20:50:40Z",
+      "side": 1,
+      "message": "I think you can do this in one instruction\nMOVV g_m(g), R1\n\nI didn\u0027t notice this when looking at MIPS32 yesterday, sorry. I think it could apply to all g-register architectures.",
+      "range": {
+        "startLine": 793,
+        "startChar": 0,
+        "endLine": 794,
+        "endChar": 17
+      },
+      "revId": "5d3cd94f5c7c9cda6cf71162c9440345f4e36b84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffabec68_30a8f12d",
+        "filename": "src/runtime/asm_mips64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-08T20:50:40Z",
+      "side": 1,
+      "message": "R20 and R21 are already saved, not R21 and R22. (The code does save R22 in the next line, which is correct.)",
+      "range": {
+        "startLine": 839,
+        "startChar": 0,
+        "endLine": 841,
+        "endChar": 22
+      },
+      "revId": "5d3cd94f5c7c9cda6cf71162c9440345f4e36b84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
