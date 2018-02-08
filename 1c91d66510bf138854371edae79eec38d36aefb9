@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0128048f_7184885f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T17:14:24Z",
+      "side": 1,
+      "message": "assembler\u0027s",
+      "range": {
+        "startLine": 12,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "1c91d66510bf138854371edae79eec38d36aefb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06907d0b_05227ae5",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T17:14:24Z",
+      "side": 1,
+      "message": "Since this also changes MIPS64, is it possible that this could break existing assembly code? (If so, is it unlikely that it would in practice?)",
+      "revId": "1c91d66510bf138854371edae79eec38d36aefb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
