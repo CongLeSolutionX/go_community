@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b34e0858_ca89986f",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPSOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T15:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13375f97_dc1984f1",
+      "range": {
+        "startLine": 385,
+        "startChar": 14,
+        "endLine": 385,
+        "endChar": 21
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22ca1bec_4c69c867",
         "filename": "src/cmd/compile/internal/ssa/gen/MIPSOps.go",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b742ef04_d905c15c",
+        "filename": "src/cmd/compile/internal/ssa/gen/MIPSOps.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T15:33:32Z",
+      "side": 1,
+      "message": "It doesn\u0027t clobber g. (Even if it were preemptible, it would have to restore g before returning.) Changed to gpg for all non-x86 arches.",
+      "parentUuid": "22ca1bec_4c69c867",
+      "range": {
+        "startLine": 386,
+        "startChar": 127,
+        "endLine": 386,
+        "endChar": 129
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4455f538_d073e5f7",
         "filename": "src/runtime/asm_mipsx.s",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2018-02-07T20:04:53Z",
       "side": 1,
       "message": "Is 100 enough? I think the assembler will add 4 for us.",
+      "range": {
+        "startLine": 869,
+        "startChar": 41,
+        "endLine": 869,
+        "endChar": 44
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeb95afa_7972fe86",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T15:33:32Z",
+      "side": 1,
+      "message": "Hmm. We use 4 bytes at 100(R29), so doesn\u0027t this need to be 104? (Now 108 with the fix to save R28)",
+      "parentUuid": "4455f538_d073e5f7",
       "range": {
         "startLine": 869,
         "startChar": 41,
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "2b586195_3d551e29",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T15:33:32Z",
+      "side": 1,
+      "message": "Oh, you\u0027re right. I wonder how I missed that.\n\nThat would have led to some nasty bugs. :)",
+      "parentUuid": "a6287c90_b66c61a9",
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e976a43c_7df05080",
         "filename": "src/runtime/asm_mipsx.s",
         "patchSetId": 1
@@ -108,6 +198,30 @@
       "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f1e0d34_881aa918",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T15:33:32Z",
+      "side": 1,
+      "message": "Yeah, I worried about that a bit. This happens if the function writes to its argument variables, but I think it *only* happens if it writes to its argument variables, so I think we do have sufficient control over this to depend on it. If this ever becomes no longer true, this will crash pretty hard and, I think, in a reasonably obvious way.",
+      "parentUuid": "e976a43c_7df05080",
+      "range": {
+        "startLine": 936,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 17
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
