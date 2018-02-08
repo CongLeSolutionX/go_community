@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "accf4180_243d7969",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T21:25:26Z",
+      "side": 1,
+      "message": "Not very descriptive, especially because any entry for a task we haven\u0027t seen creates it above. Say something about attaching the parent?",
+      "range": {
+        "startLine": 233,
+        "startChar": 15,
+        "endLine": 233,
+        "endChar": 0
+      },
+      "revId": "7f6d213f85ea568fd3821ae2bbc489931018badd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9157942a_72a0e5d6",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T21:25:26Z",
+      "side": 1,
+      "message": "tree is a slightly strange name for something that returns a slice. descendents()? Though that doesn\u0027t necessarily imply that it returns the task itself.",
+      "range": {
+        "startLine": 321,
+        "startChar": 72,
+        "endLine": 321,
+        "endChar": 0
+      },
+      "revId": "7f6d213f85ea568fd3821ae2bbc489931018badd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c7fe80d_2e755cdd",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T21:25:26Z",
+      "side": 1,
+      "message": "Is this different than i \u003c len(res) in some subtle way I\u0027m missing?",
+      "range": {
+        "startLine": 327,
+        "startChar": 13,
+        "endLine": 327,
+        "endChar": 29
+      },
+      "revId": "7f6d213f85ea568fd3821ae2bbc489931018badd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
