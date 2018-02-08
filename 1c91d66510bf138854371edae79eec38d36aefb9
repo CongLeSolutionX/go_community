@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "8176bab2_f71d5c24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-08T18:32:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0128048f_7184885f",
+      "range": {
+        "startLine": 12,
+        "startChar": 37,
+        "endLine": 12,
+        "endChar": 47
+      },
+      "revId": "1c91d66510bf138854371edae79eec38d36aefb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06907d0b_05227ae5",
         "filename": "src/cmd/asm/internal/asm/operand_test.go",
         "patchSetId": 1
@@ -59,6 +83,24 @@
       "writtenOn": "2018-02-08T17:14:24Z",
       "side": 1,
       "message": "Since this also changes MIPS64, is it possible that this could break existing assembly code? (If so, is it unlikely that it would in practice?)",
+      "revId": "1c91d66510bf138854371edae79eec38d36aefb9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "409f2d4a_a0008591",
+        "filename": "src/cmd/asm/internal/asm/operand_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-08T18:32:47Z",
+      "side": 1,
+      "message": "No. The assembly code should be written as RSB before and after. It only changes how assembly code are printed.",
+      "parentUuid": "06907d0b_05227ae5",
       "revId": "1c91d66510bf138854371edae79eec38d36aefb9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
