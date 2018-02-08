@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a63c61a_928477c4",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T20:42:19Z",
+      "side": 1,
+      "message": "time.Millisecond might be clearer even if it does need a cast.",
+      "range": {
+        "startLine": 119,
+        "startChar": 52,
+        "endLine": 119,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8abd6efe_5f65ec28",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T20:42:19Z",
+      "side": 1,
+      "message": "pluralize",
+      "range": {
+        "startLine": 180,
+        "startChar": 5,
+        "endLine": 180,
+        "endChar": 22
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e2333d_469c79f7",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T20:42:19Z",
+      "side": 1,
+      "message": "You might consider pulling this out of the switch, some pretty deep indentation here.",
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f98be466_2c2fd6eb",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T20:42:19Z",
+      "side": 1,
+      "message": "This is true by definition, not an assumption, right?",
+      "range": {
+        "startLine": 249,
+        "startChar": 49,
+        "endLine": 249,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b077d574_54fce381",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T20:42:19Z",
+      "side": 1,
+      "message": "Why delay?",
+      "range": {
+        "startLine": 263,
+        "startChar": 62,
+        "endLine": 263,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a1a7a1e_656d0532",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T20:42:19Z",
+      "side": 1,
+      "message": "Implying that all the ones in between are too?",
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c4da9e4_429c4622",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T20:42:19Z",
+      "side": 1,
+      "message": "It might be simpler to express the conditions as one giant closure. Shrug.",
+      "range": {
+        "startLine": 337,
+        "startChar": 50,
+        "endLine": 337,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3859613_c0006ed8",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T20:42:19Z",
+      "side": 1,
+      "message": "Doesn\u0027t Duration.String do this already?",
+      "range": {
+        "startLine": 402,
+        "startChar": 43,
+        "endLine": 402,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "962db08b_7e4ba320",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-08T20:42:19Z",
+      "side": 1,
+      "message": "I would just ignore the error entirely. It should be impossible and if someone screws up I think a nil dereference is good enough.",
+      "range": {
+        "startLine": 766,
+        "startChar": 16,
+        "endLine": 766,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
