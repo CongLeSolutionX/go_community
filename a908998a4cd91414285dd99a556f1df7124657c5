@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "6a8e12e7_d6227ef2",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-08T16:58:42Z",
+      "side": 1,
+      "message": "Did you get a chance to look at patchset5, I think I changed it to FMOVS.",
+      "parentUuid": "fd4cdc65_90024cca",
+      "range": {
+        "startLine": 94,
+        "startChar": 73,
+        "endLine": 94,
+        "endChar": 86
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c14e9322_1b750f66",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
         "patchSetId": 4
@@ -261,6 +285,30 @@
       "side": 1,
       "message": "The result of PopCount is 64-bit. If this leaves high bits undefined, the result may be not correct. We will need to do a zero-extension from 16-bit to 64-bit somewhere (either in V register or in GP register).",
       "parentUuid": "f172a4ce_0f9cf846",
+      "range": {
+        "startLine": 213,
+        "startChar": 112,
+        "endLine": 213,
+        "endChar": 135
+      },
+      "revId": "a908998a4cd91414285dd99a556f1df7124657c5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aa555bd_103c447b",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-02-08T16:58:42Z",
+      "side": 1,
+      "message": "I was using LLVM generated code for reference and this is what LLVM is generating for popcnt intrinsic:\n$ cat test.ll\n; RUN: llc \u003c %s -mtriple\u003daarch64-eabi\ndefine i64 @cnt64_advsimd(i64 %x) nounwind readnone {\n  %cnt \u003d tail call i64 @llvm.ctpop.i64(i64 %x)\n  ret i64 %cnt\n}\ndeclare i64 @llvm.ctpop.i64(i64) nounwind readnone\noutput:\n        fmov    d0, x0\n        cnt     v0.8b, v0.8b\n        uaddlv  h0, v0.8b\n        fmov    w0, s0\n        ret\n\nand this is what patchset5 generates for OnesCount64 test:\nMOVD 8(RSP), F0\nVCNT V0.B8, V0.B8\nUADDLV V0.B8, F0\nMOVD F0, 16(RSP)\nRET\n\nIs your suggestion to generate the code below?\nMOVD 8(RSP), F0\nVCNT V0.B8, V0.B8\nUADDLV V0.B8, F0\nFMOVS F0, R0\nMOVD R0, 16(RSP)\nRET",
+      "parentUuid": "9950b624_6b142807",
       "range": {
         "startLine": 213,
         "startChar": 112,
