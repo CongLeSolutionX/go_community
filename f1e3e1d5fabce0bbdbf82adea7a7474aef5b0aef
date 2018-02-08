@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "8ed22e86_ffde63ae",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-08T19:46:21Z",
+      "side": 1,
+      "message": "I think when we write 104, it actually reserves 108 bytes of stack space, as the assembler adds 4 for the LR slot. Not really a bit deal.",
+      "parentUuid": "eeb95afa_7972fe86",
+      "range": {
+        "startLine": 869,
+        "startChar": 41,
+        "endLine": 869,
+        "endChar": 44
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6287c90_b66c61a9",
         "filename": "src/runtime/asm_mipsx.s",
         "patchSetId": 1
@@ -213,6 +237,30 @@
       "side": 1,
       "message": "Yeah, I worried about that a bit. This happens if the function writes to its argument variables, but I think it *only* happens if it writes to its argument variables, so I think we do have sufficient control over this to depend on it. If this ever becomes no longer true, this will crash pretty hard and, I think, in a reasonably obvious way.",
       "parentUuid": "e976a43c_7df05080",
+      "range": {
+        "startLine": 936,
+        "startChar": 0,
+        "endLine": 937,
+        "endChar": 17
+      },
+      "revId": "f1e3e1d5fabce0bbdbf82adea7a7474aef5b0aef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27a7e50f_e5c9ed04",
+        "filename": "src/runtime/asm_mipsx.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-08T19:46:21Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "4f1e0d34_881aa918",
       "range": {
         "startLine": 936,
         "startChar": 0,
