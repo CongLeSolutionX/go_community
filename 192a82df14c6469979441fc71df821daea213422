@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8e549491_1a6d6519",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T22:50:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9f4b4bd_bcbb180e",
+      "revId": "192a82df14c6469979441fc71df821daea213422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d9a3057_a98c3efa",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "1a41b5b3_612b0301",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1505,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T22:50:57Z",
+      "side": 1,
+      "message": "You\u0027re right. Though it will clobber R31 since the prologue does a MOVD LR, R31 in order to save the LR on the stack.",
+      "parentUuid": "4d9a3057_a98c3efa",
+      "range": {
+        "startLine": 1505,
+        "startChar": 50,
+        "endLine": 1505,
+        "endChar": 58
+      },
+      "revId": "192a82df14c6469979441fc71df821daea213422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f381d35a_ed513d24",
         "filename": "src/runtime/asm_ppc64x.s",
         "patchSetId": 3
@@ -56,6 +98,24 @@
       "revId": "192a82df14c6469979441fc71df821daea213422",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6760bd46_10260f73",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 3
+      },
+      "lineNbr": 1506,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-08T22:50:57Z",
+      "side": 1,
+      "message": "If we save all of them, we run out of NOSPLIT stack space. :)\n\nChanged to use R16 and R17 for scratch and save/restore R3 and R4 on the slow path.",
+      "parentUuid": "f381d35a_ed513d24",
+      "revId": "192a82df14c6469979441fc71df821daea213422",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
