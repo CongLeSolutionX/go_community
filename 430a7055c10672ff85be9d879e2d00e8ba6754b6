@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce261cdf_97f476bd",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-02-09T22:14:23Z",
+      "side": 1,
+      "message": "I think this is reversed? I understand making sure that the goroutine returned before returning from the test (even if it might not be necessary here), but like this it\u0027s doing the opposite, keeping the goroutine up until the defer fires.",
+      "revId": "430a7055c10672ff85be9d879e2d00e8ba6754b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
