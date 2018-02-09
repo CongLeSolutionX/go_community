@@ -330,6 +330,34 @@ func (d *testingData) Swap(i, j int) {
 	d.data[i], d.data[j] = d.data[j], d.data[i]
 }
 
+func TestExtractDist(t *testing.T) {
+	testCases := []struct {
+		inSlice  []int
+		inCount  int
+		resSlice []int
+	}{
+		{inSlice: []int{1, 2, 2, 2, 3, 3, 4, 5, 5, 5, 6}, inCount: 6, resSlice: []int{2, 2, 3, 5, 5, 1, 2, 3, 4, 5, 6}},
+		{inSlice: []int{6, 7, 7, 7, 8, 9, 9, 9, 9}, inCount: 4, resSlice: []int{7, 7, 9, 9, 9, 6, 7, 8, 9}}}
+	for _, tCase := range testCases {
+		ExtractDist(&testingData{desc: "extractDist test", t: t, data: tCase.inSlice, maxswap: 1 << 30}, tCase.inCount)
+		if len(tCase.inSlice) != len(tCase.resSlice) {
+			t.Fail()
+		}
+		if !t.Failed() {
+			for i := range tCase.inSlice {
+				if tCase.inSlice[i] != tCase.resSlice[i] {
+					t.Fail()
+					break
+				}
+			}
+		}
+		if t.Failed() {
+			t.Logf("%#v %#v\n", tCase.inSlice, tCase.resSlice)
+			return
+		}
+	}
+}
+
 func min(a, b int) int {
 	if a < b {
 		return a
@@ -452,7 +480,7 @@ func TestHeapsortBM(t *testing.T) {
 }
 
 func TestStableBM(t *testing.T) {
-	testBentleyMcIlroy(t, Stable, func(n int) int { return n * lg(n) * lg(n) / 3 })
+	testBentleyMcIlroy(t, Stable, func(n int) int { return n * lg(n) * 10 })
 }
 
 // This is based on the "antiquicksort" implementation by M. Douglas McIlroy.
@@ -562,6 +590,69 @@ func (d intPairs) inOrder() bool {
 		lastB = d[i].b
 	}
 	return true
+}
+
+func TestLocalStableMerges(t *testing.T) {
+	pairs := [][2][]int{
+		{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}, {4, 4, 4, 8}},
+		{{1, 2, 3, 4, 4, 6, 7, 7, 9, 10, 11, 11, 13, 14, 16, 16}, {4, 4, 4, 8}},
+		{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {-1, -1, 0}},
+		{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {-1, 0, 1, 2, 4}},
+		{{1, 2, 3, 4, 5, 6, 7, 7, 7, 8, 9, 10, 11, 12, 12, 12, 13, 14, 15, 15, 16, 16, 16, 17, 17, 18, 18, 19, 20, 20, 21, 22, 22, 22, 24, 25, 26, 27, 28, 28, 28, 28, 28, 29}, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30}},
+		{{1, 2, 3, 4, 5, 6, 7, 7, 7, 8, 9, 10, 11, 12, 12, 12, 13, 14, 15, 15, 16, 16, 16, 17, 17, 18, 18, 19, 20, 20, 21, 22, 22, 22, 24, 25, 26, 27, 28, 28, 28, 28, 28, 29}, {1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29}}}
+
+	for _, pair := range pairs {
+		for _, buffered := range []bool{false, true} {
+			// This needs to be big enough ...
+			const bufSz = 60
+
+			s := make(intPairs, len(pair[0])+len(pair[1])+bufSz)
+			s.initB()
+			for i, k := range pair[0] {
+				s[i].a = k
+			}
+			for i, k := range pair[1] {
+				s[len(pair[0])+i].a = k
+			}
+
+			const fmtStr = "Local (buffered: %5t) merge %s with this input " +
+				"data:\n" +
+				"%#v\nresult:\n%v\n"
+
+			defer func() {
+				if p := recover(); p != nil {
+					t.Fail()
+					t.Logf(fmtStr+"panic:\n%v\n", buffered,
+						"panic", pair, s, p)
+					return
+				}
+			}()
+
+			if buffered {
+				// Make the merging buffer.
+				for i := 0; i < bufSz; i++ {
+					s[len(pair[0])+len(pair[1])+i].a = i
+				}
+				HLBufBigSmall(s[:len(pair[0])+len(pair[1])*2],
+					len(pair[0]), len(pair[0])+len(pair[1]),
+					len(pair[0])+len(pair[1])*2)
+			} else {
+				HL(s[:len(pair[0])+len(pair[1])], len(pair[0]),
+					len(pair[0])+len(pair[1]), len(pair[1]))
+			}
+
+			if !IsSorted(s[:len(pair[0])+len(pair[1])]) {
+				t.Fail()
+				t.Logf(fmtStr, buffered, "gave us unsorted data", pair, s)
+				return
+			}
+			if !((s[:len(pair[0])+len(pair[1])]).inOrder()) {
+				t.Fail()
+				t.Logf(fmtStr, buffered,
+					"gave us unstably sorted data", pair, s)
+			}
+		}
+	}
 }
 
 func TestStability(t *testing.T) {
@@ -676,3 +767,106 @@ func BenchmarkSort1e4(b *testing.B)   { bench(b, 1e4, Sort, "Sort") }
 func BenchmarkStable1e4(b *testing.B) { bench(b, 1e4, Stable, "Stable") }
 func BenchmarkSort1e6(b *testing.B)   { bench(b, 1e6, Sort, "Sort") }
 func BenchmarkStable1e6(b *testing.B) { bench(b, 1e6, Stable, "Stable") }
+
+func benchBM(b *testing.B, size int, algo func(Interface), name string, m, dist, mode int) {
+	b.StopTimer()
+	data0 := make([]int, size)
+	data := make(intPairs, size)
+	n := size
+
+	for i := 0; i < b.N; i++ {
+		j := 0
+		k := 1
+		for i := 0; i < n; i++ {
+			switch dist {
+			case _Sawtooth:
+				data0[i] = i % m
+			case _Rand:
+				data0[i] = rand.Intn(m)
+			case _Stagger:
+				data0[i] = (i*m + i) % n
+			case _Plateau:
+				data0[i] = min(i, m)
+			case _Shuffle:
+				if rand.Intn(m) != 0 {
+					j += 2
+					data0[i] = j
+				} else {
+					k += 2
+					data0[i] = k
+				}
+			default:
+				panic(dist)
+			}
+		}
+		switch mode {
+		case _Copy:
+			for i := 0; i < n; i++ {
+				data[i].a = data0[i]
+			}
+		case _Reverse:
+			for i := 0; i < n; i++ {
+				data[i].a = data0[n-i-1]
+			}
+		case _ReverseFirstHalf:
+			for i := 0; i < n/2; i++ {
+				data[i].a = data0[n/2-i-1]
+			}
+			for i := n / 2; i < n; i++ {
+				data[i].a = data0[i]
+			}
+		case _ReverseSecondHalf:
+			for i := 0; i < n/2; i++ {
+				data[i].a = data0[i]
+			}
+			for i := n / 2; i < n; i++ {
+				data[i].a = data0[n-(i-n/2)-1]
+			}
+		case _Sorted:
+			for i := 0; i < n; i++ {
+				data[i].a = data0[i]
+			}
+			algo(data)
+		case _Dither:
+			for i := 0; i < n; i++ {
+				data[i].a = data0[i] + i%5
+			}
+		default:
+			panic(mode)
+		}
+		data.initB()
+
+		b.StartTimer()
+		algo(data)
+		b.StopTimer()
+
+		if !IsSorted(data) {
+			b.Errorf("%s did not sort %d ints with %d %d %d", name, n, dist, m, mode)
+		}
+		if name == "Stable" && !data.inOrder() {
+			b.Errorf("%s unstable on %d ints with %d %d %d", name, n, dist, m, mode)
+		}
+	}
+}
+
+func BenchmarkBMStable1e6Sawtooth1Copy(b *testing.B) {
+	benchBM(b, 1e6, Stable, "Stable", 1<<1, _Sawtooth, _Copy)
+}
+func BenchmarkBMStable1e6Sawtooth12Copy(b *testing.B) {
+	benchBM(b, 1e6, Stable, "Stable", 1<<12, _Sawtooth, _Copy)
+}
+func BenchmarkBMStable1e6Sawtooth12ReverseFirstHalf(b *testing.B) {
+	benchBM(b, 1e6, Stable, "Stable", 1<<12, _Sawtooth, _ReverseFirstHalf)
+}
+func BenchmarkBMStable1e6Sawtooth15Dither(b *testing.B) {
+	benchBM(b, 1e6, Stable, "Stable", 1<<15, _Sawtooth, _Dither)
+}
+func BenchmarkBMStable1e6Sawtooth19Copy(b *testing.B) {
+	benchBM(b, 1e6, Stable, "Stable", 1<<19, _Sawtooth, _Copy)
+}
+func BenchmarkBMStable1e6Stagger12ReverseFirstHalf(b *testing.B) {
+	benchBM(b, 1e6, Stable, "Stable", 1<<12, _Stagger, _ReverseFirstHalf)
+}
+func BenchmarkBMStable1e6Plateau19Copy(b *testing.B) {
+	benchBM(b, 1e6, Stable, "Stable", 1<<19, _Plateau, _Copy)
+}
