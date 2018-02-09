@@ -323,62 +323,536 @@ func Float64sAreSorted(a []float64) bool { return IsSorted(Float64Slice(a)) }
 // StringsAreSorted tests whether a slice of strings is sorted in increasing order.
 func StringsAreSorted(a []string) bool { return IsSorted(StringSlice(a)) }
 
-// Notes on stable sorting:
-// The used algorithms are simple and provable correct on all input and use
-// only logarithmic additional stack space. They perform well if compared
-// experimentally to other stable in-place sorting algorithms.
-//
-// Remarks on other algorithms evaluated:
-//  - GCC's 4.6.3 stable_sort with merge_without_buffer from libstdc++:
-//    Not faster.
-//  - GCC's __rotate for block rotations: Not faster.
-//  - "Practical in-place mergesort" from  Jyrki Katajainen, Tomi A. Pasanen
-//    and Jukka Teuhola; Nordic Journal of Computing 3,1 (1996), 27-40:
-//    The given algorithms are in-place, number of Swap and Assignments
-//    grow as n log n but the algorithm is not stable.
-//  - "Fast Stable In-Place Sorting with O(n) Data Moves" J.I. Munro and
-//    V. Raman in Algorithmica (1996) 16, 115-160:
-//    This algorithm either needs additional 2n bits or works only if there
-//    are enough different elements available to encode some permutations
-//    which have to be undone later (so not stable on any input).
-//  - All the optimal in-place sorting/merging algorithms I found are either
-//    unstable or rely on enough different elements in each step to encode the
-//    performed block rearrangements. See also "In-Place Merging Algorithms",
-//    Denham Coates-Evely, Department of Computer Science, Kings College,
-//    January 2004 and the references in there.
-//  - Often "optimal" algorithms are optimal in the number of assignments
-//    but Interface has only Swap as operation.
-
-// Stable sorts data while keeping the original order of equal elements.
-//
-// It makes one call to data.Len to determine n, O(n*log(n)) calls to
-// data.Less and O(n*log(n)*log(n)) calls to data.Swap.
-func Stable(data Interface) {
-	stable(data, data.Len())
+// In the sorted array data[a:b], finds the least member from which data[x] is
+// lesser.
+func searchLess(data Interface, a, b, x int) int {
+	return a + Search(b-a, func(i int) bool { return data.Less(x, a+i) })
 }
 
-func stable(data Interface, n int) {
-	blockSize := 20 // must be > 0
-	a, b := 0, blockSize
-	for b <= n {
-		insertionSort(data, a, b)
-		a = b
-		b += blockSize
+// Finds the index (relative to a) of a maximum of the array data[a:b].
+func max(data Interface, a, b int) int {
+	m := b
+	for b--; a <= b; b-- {
+		if data.Less(m, b) {
+			m = b
+		}
 	}
-	insertionSort(data, a, n)
+	return m - a
+}
 
-	for blockSize < n {
-		a, b = 0, 2*blockSize
-		for b <= n {
-			symMerge(data, a, a+blockSize, b)
-			a = b
-			b += 2 * blockSize
-		}
-		if m := a + blockSize; m < n {
-			symMerge(data, a, m, n)
-		}
-		blockSize *= 2
+// Integer parts of square roots of successive powers of 2, rounded.
+//
+// IEEE 754 64-bit floating point can exactly represent integers up to only
+// 1<<53, hence a proper integer algorithm for isqrt is needed.
+//
+// (2^n)^½ = (2^½)^n
+// Branch with regards to the parity of n:
+// Half the powers of 2^½ are just integer powers of two, and the others
+// are (2^½)*(2^n), which can be constructed from the digits of 2^½.
+func isqrter() func() int {
+	const (
+		// 63 binary digits of 2^½, ⌊2^62.5⌋ = ⌊2^½ << 62⌋.
+		// The greatest power of 2^½ representable in int64.
+		sqrt2 = 6521908912666391106
+
+		// The greatest even power of 2^½ representable in int64.
+		even = 1 << 62
+
+		// The initial blockSize's square root is 4 = 2^2
+		initialPower = 2
+
+		z = (62-initialPower)<<1 + 1
+
+		// 32 if uint is 32 bits wide, 0 if uint is 64 bits wide.
+		thirtyTwo = 32 - (((^uint(0)) >> 63) << 5)
+	)
+
+	// If uint is 32-bit, fit the constants into the 32 bits.
+	bits := [2]int{even >> thirtyTwo, sqrt2 >> thirtyTwo}
+	pow := uint(z - (thirtyTwo << 1))
+
+	return func() int {
+		shift := pow >> 1
+		pow--
+		// For floor(sqrt()) we would just return bits[pow&1] >> shift
+		// This variant instead gives rounded(sqrt()).
+		return (bits[pow&1] + (1 << (shift - 1))) >> shift
 	}
+}
+
+// Counts distinct elements in the sorted block data[a:b], stopping
+// if the count reaches max. It returns the count and the index of the last
+// distinct element counted.
+//
+// Eg. 12223345556 has 6 distinct elements.
+func distinctElementCount(data Interface, a, b, soughtSize int) (int, int) {
+	dECnt := 1
+	lastDiEl := b - 1
+	for i := lastDiEl; a < i; i-- {
+		if data.Less(i-1, i) {
+			lastDiEl = i - 1
+			dECnt++
+			if dECnt == soughtSize {
+				break
+			}
+		}
+	}
+	return dECnt, lastDiEl
+}
+
+// Counts distinct elements for an internal buffer for merges and movement
+// imitation while trying to find block distribution storage candidates. The
+// distinct elements are counted in the high-index half of BDS. All of the
+// aforementioned is done only in data[a:b], which must be sorted. Not more
+// than soughtSize distinct elements will be counted for the buffer, and each
+// half of the BDS is supposed to be soughtSize<<1 array members long. b-a must
+// be greater than or equal to soughtSize<<2 (the minimal size of an entire
+// BDS).
+//
+// bds and backupBDS are either -1 or the high index edge of the low index half
+// of a BDS. backupBDS refers to an undersized BDS, see earlier in the comment.
+//
+// bufferFound is true if a soughtSize-d buffer of distinct element can be
+// extracted from data[a:b], and false otherwise. If it is true, lastDiEl is
+// the index of the final distinct element found, to be the last element in the
+// extracted buffer.
+func findBDSAndCountDistinctElementsNear(data Interface, a, b, soughtSize int) (
+	bds, backupBDS int, bufferFound bool, lastDiEl int) {
+
+	// If not -1, represents the high-index edge of the low-index half of
+	// the candidate BDS (in which case the high-index edge of the
+	// high-index half is b).
+	bds = -1
+
+	// To prevent Less calls later on, record the distinct element for
+	// a smaller BDS for backup.
+	backupBDS = -1
+
+	// Distinct element count. The 1 we initialize to is for data[b-1].
+	dECnt := 1
+
+	// Last distinct element for buffer, so it would not have to be
+	// searched for, doing the same Less calls again.
+	lastDiEl = b - 1
+
+	// First see if there can be BDS without padding, or with less than
+	// soughtSize array elements of padding. Also count distinct elements.
+	pad := -1
+	for i := lastDiEl; (bds == -1 || dECnt < soughtSize) &&
+		b-(soughtSize<<1) < i; i-- {
+		cnt := 0
+		if data.Less(i-1, i) {
+			cnt++
+			if dECnt < soughtSize {
+				dECnt++
+				lastDiEl = i - 1
+			}
+
+			backupBDS = i
+		}
+		if data.Less(i-(soughtSize<<1)-1, i-(soughtSize<<1)) {
+			cnt++
+			if pad == -1 && a <= i-(soughtSize<<2) {
+				pad = i - (soughtSize << 1)
+			}
+		}
+		if cnt == 2 {
+			// BDS found.
+			bds = b - (soughtSize << 1)
+		}
+	}
+	if (bds == -1 || dECnt < soughtSize) &&
+		data.Less(b-(soughtSize<<1)-1, b-(soughtSize<<1)) {
+		if dECnt < soughtSize {
+			dECnt++
+			lastDiEl = b - (soughtSize << 1) - 1
+		}
+		bds = b - (soughtSize << 1)
+	}
+	if bds == -1 && pad != -1 {
+		bds = pad
+	}
+
+	return bds, backupBDS, dECnt == soughtSize, lastDiEl
+}
+
+// Counts distinct elements for an internal buffer for merges and movement
+// imitation while trying to find block distribution storage candidates.
+// Candidates for BDS edges are only searched for in data[a:b-(soughtSize<<2)].
+// All of the aforementioned is done only in data[a:b], which must be sorted.
+// Not more than soughtSize distinct elements will be counted for the buffer,
+// and each half of the BDS is supposed to be soughtSize<<1 array members long.
+// b-a must be greater than or equal to soughtSize<<2.
+//
+// bds and backupBDS are either -1 or the high index edge of the low index half
+// of a BDS. backupBDS refers to an undersized BDS, see earlier in the comment.
+//
+// dECnt is the count of distinct elements in data[a:b], or soughtSize if there
+// are more than soughtSize distinct elements. lastDiEl is the index of the
+// last distinct member accounted for in dECnt. dECntAfterBDS and
+// lastDiElAfterBDS are the same, but they are only searched for if a full sized
+// BDS is found (as returned by bds) after the space that would be taken up by
+// that BDS.
+func findBDSFarAndCountDistinctElements(data Interface, a, b, soughtSize int) (
+	bds, backupBDS, dECnt, lastDiEl, dECntAfterBDS, lastDiElAfterBDS int) {
+	bds = -1
+	backupBDS = -1
+
+	dECnt = 1
+	lastDiEl = b - 1
+
+	// TODO: could be replaced with a bool?
+	dECntAfterBDS = 1
+
+	lastDiElAfterBDS = -1
+
+	i := b - 1
+
+	// TODO: check for undersized/backup BDS here, too.
+
+	// Count distinct elements.
+	for ; b-(soughtSize<<2) < i; i-- {
+		if data.Less(i-1, i) {
+			dECnt++
+			if dECnt <= soughtSize {
+				lastDiEl = i - 1
+			}
+		}
+	}
+
+	// Count distinct elements and search for distinct element appropriate for
+	// assigning BDS (BDS padding).
+	for ; a < i; i-- {
+		if data.Less(i-1, i) {
+			dECnt++
+			if dECnt <= soughtSize {
+				lastDiEl = i - 1
+			}
+
+			if a <= i-(soughtSize<<1) {
+				if bds == -1 {
+					bds = i
+				}
+			} else {
+				if backupBDS == -1 {
+					backupBDS = i
+				}
+			}
+
+			if i < bds-soughtSize<<1 {
+				dECntAfterBDS++
+				lastDiElAfterBDS = i - 1
+				if dECntAfterBDS == soughtSize {
+					break
+				}
+			}
+		}
+	}
+
+	if soughtSize < dECnt {
+		dECnt = soughtSize
+	}
+
+	return bds, backupBDS, dECnt, lastDiEl, dECntAfterBDS, lastDiElAfterBDS
+}
+
+// data[i,j] is a sequence of identical elements with the maximal extent, with
+// the added condition j<=e. equalRange returns j-1.
+func equalRange(data Interface, i, e int) int {
+	for ; i+1 != e && !data.Less(i, i+1); i++ {
+	}
+	return i
+}
+
+// Pulls out mutually distinct elements from the sorted sequence data[a:e] to
+// data[e-c:e], where c is the number of distinct elements in data[a:e]
+// (a <= e-c < e).
+//
+// Eg. 12223345556 is stably transformed to 22355123456 in 3 rotations.
+func extractDist(data Interface, a, e, c int) {
+	// data[a:m] is the sequence of distinct elements that we are
+	// rotating through data[a:e] and progressively expanding.
+	m := a + 1
+	// c is used to prevent unneccessary data.Less calls when there is a
+	// contiguous block of distinct elements in the end.
+	for e-a != c {
+		t := equalRange(data, m, e)
+		if t == m {
+			m++
+			continue
+		}
+		rotate(data, a, m, t)
+		a += t - m
+		m = t + 1
+	}
+}
+
+// Rotate two consecutives blocks u = data[a:m] and v = data[m:b] in data:
+// Data of the form 'x u v y' is changed to 'x v u y'.
+// Rotate performs at most b-a many calls to data.Swap.
+// Rotate assumes non-degenerate arguments: a < m && m < b.
+func rotate(data Interface, a, m, b int) {
+	i := m - a
+	j := b - m
+
+	for i != j {
+		if j < i {
+			swapRange(data, m-i, m, j)
+			i -= j
+		} else {
+			swapRange(data, m-i, m+j-i, i)
+			j -= i
+		}
+	}
+	// i == j
+	swapRange(data, m-i, m, i)
+}
+
+// Returns the count of how many blocks after m are < member. Searches up to e.
+func lessBlocks(data Interface, member, m, bS, e int) int {
+	i := 0
+	for ; e <= m-i*bS && data.Less(member, m-i*bS); i++ {
+	}
+	return i
+}
+
+// The following functions are used for direct merging of the blocks
+// rearranged in merge().
+
+// Stably merges data[a:m] with data[m:b] using the buffer data[buf-(b-m):buf].
+// The buffer is left in a disordered state after the merge. Assumes a < m.
+func hLBufBigSmall(data Interface, a, m, b, buf int) {
+	// Not the Hwang-Lin algorithm, despite function name.
+
+	// Exhaust largest data[m:b] members before swapping to the buffer.
+	for m != b && !data.Less(b-1, m-1) {
+		b--
+	}
+	if m == b {
+		return
+	}
+	swapRange(data, m, buf-(b-m), b-m)
+	data.Swap(m-1, b-1)
+	m--
+	b--
+
+	for a != m && m != b {
+		if data.Less(buf-1, m-1) {
+			data.Swap(m-1, b-1)
+			m--
+			b--
+		} else {
+			data.Swap(buf-1, b-1)
+			buf--
+			b--
+		}
+	}
+
+	// Swap whatever is left in the buffer to its final position.
+	if m != b {
+		swapRange(data, m, buf-(b-m), b-m)
+	}
+}
+
+// Stably merges data[a:m] with data[m:b], which has maximally dist distinct
+// elements. Assumes a < m.
+func hL(data Interface, a, m, b, dist int) {
+	for m != b {
+		step := (m - a) / (b - m)
+		if step == 0 {
+			step = 1
+		}
+
+		i := 1
+		for ; a <= m-step*i && data.Less(b-1, m-step*i); i++ {
+		}
+		lowEdge := m - step*i + 1
+		if lowEdge < a {
+			lowEdge = a
+		}
+		j := searchLess(data, lowEdge, m-step*(i-1), b-1)
+
+		if j != m {
+			rotate(data, j, m, b)
+			b -= m - j
+			m = j
+		}
+
+		if dist == 1 || a == m || m == b-1 {
+			break
+		}
+		dist--
+		for !data.Less(b-2, b-1) {
+			b--
+			if m == b-1 {
+				break
+			}
+		}
+		b--
+
+	}
+}
+
+// Merges the two sorted subsequences data[a:m] and data[m:b].
+//
+// The input is rearranged in blocks using the movement imitation buffer. The
+// appropriate blocks are then merged using the hL.* functions, possibly with
+// the help of the same buffer.
+//
+// The aux Interface is for the MI buffer and BDS.
+//
+//func merge(data Interface, a, m, b, buf, sz int, twoBufs bool) {
+func merge(data, aux Interface, a, m, b, locMergBufEnd, bS,
+	bufEnd, bds0, bds1, maxDECnt int, mergingBuf bool) {
+	// We divide data[a:b] into equally sized blocks so they could be
+	// exchanged with swapRange instead of rotate. The partition starts
+	// from m, leaving 2 possible smaller blocks at each end of data[a:b].
+	// They will be merged after the equally sized blocks in the middle.
+
+	// A block index k represents the block data[k-bS:k]. (Applies to m, f,
+	// F, maxBl, prevBl ...)
+
+	// Edges of the fullsized-block area.
+	//f := b - (b-m)%bufSz
+	f := b - (b-m)%bS
+	e := a + (m-a)%bS
+	F := f
+
+	// The maximal block of data[m:f].
+	maxBl := f
+
+	// The low-index edge of the movement imitation buffer.
+	buf := bufEnd - (b-m)/bS
+
+	bds0--
+	bds1--
+
+	// Block rearrangement
+	for ; e != m && m != f; f -= bS {
+		// How many blocks?
+		t := lessBlocks(data, maxBl-1, m-bS, bS, e)
+
+		if d := t % (bufEnd - buf); d != 0 {
+			// Record the changes we will now make to the
+			// ordering of data[m:f].
+			rotate(aux, buf, bufEnd-d, bufEnd)
+		}
+
+		// Roll data[m:f] through data[e:m].
+		for ; 0 < t; t-- {
+			swapRange(data, m-bS, f-bS, bS)
+			if maxBl == f {
+				maxBl = m
+			}
+			m -= bS
+			f -= bS
+			bds0--
+			bds1--
+		}
+
+		// Place the block to its final position before merging, while
+		// tracking the ordering in the movement imitation
+		// buffer. Find the new maxBl.
+		bufEnd--
+		if f != maxBl {
+			aux.Swap(bufEnd, bufEnd-(f-maxBl)/bS)
+			swapRange(data, maxBl-bS, f-bS, bS)
+		}
+		maxBl = m + bS*(1+max(aux, buf, bufEnd-1))
+
+		aux.Swap(bds0, bds1)
+		bds0--
+		bds1--
+	}
+
+	for ; m != f; f -= bS {
+		// Place the block to its final position before merging, while
+		// tracking the ordering in the movement imitation
+		// buffer. Find the new maxBl.
+		bufEnd--
+		if f != maxBl {
+			aux.Swap(bufEnd, bufEnd-(f-maxBl)/bS)
+			swapRange(data, maxBl-bS, f-bS, bS)
+		}
+		maxBl = m + bS*(1+max(aux, buf, bufEnd-1))
+
+		aux.Swap(bds0, bds1)
+		bds0--
+		bds1--
+	}
+
+	for ; e != m; m -= bS {
+		bds0--
+		bds1--
+	}
+
+	// Local merges
+	for ; e != F; e += bS {
+		bds0++
+		bds1++
+		if aux.Less(bds0, bds1) {
+			aux.Swap(bds0, bds1)
+			if a != e {
+				rotat := searchLess(data, a, e, e-1+bS)
+				if rotat != e {
+					rotate(data, rotat, e, e+bS)
+				}
+
+				// Local merge
+				if a != rotat {
+					if mergingBuf {
+						hLBufBigSmall(data, a, rotat, rotat+bS,
+							locMergBufEnd)
+					} else {
+						hL(data, a, rotat, rotat+bS,
+							maxDECnt)
+					}
+				}
+				a = rotat + bS
+			}
+		}
+	}
+
+	if a != e {
+		// Locally merge the undersized block
+		if mergingBuf {
+			hLBufBigSmall(data, a, e, b,
+				locMergBufEnd)
+		} else {
+			hL(data, a, e, b,
+				maxDECnt)
+		}
+	}
+
+	if mergingBuf {
+		// Sort the "buffer" we just used for local merges. An unstable
+		// sorting routine can be used here because the buffer consists
+		// of mutually distinct elements.
+		quickSort(data, locMergBufEnd-bS, locMergBufEnd, maxDepth(bS))
+	}
+}
+
+// The size of the movement imitation buffer in compTimeMIBuffer.
+const compTimeMIBufSize = 1 << 8
+
+type (
+	// The number of values representable in compTimeMIBufMemb must be at
+	// least compTimeMIBufSize. Needs to be an unsigned integer type.
+	compTimeMIBufMemb uint8
+	// Each half of BDS is 2*compTimeMIBufSize, 1+2+2=5. This array contains
+	// a BDS and a MI buffer. Used in stable() as an optimization.
+	compTimeMIBuffer [5 * compTimeMIBufSize]compTimeMIBufMemb
+)
+
+func (b *compTimeMIBuffer) Less(i, j int) bool {
+	return b[i] < b[j]
+}
+func (b *compTimeMIBuffer) Swap(i, j int) {
+	b[i], b[j] = b[j], b[i]
+}
+func (b *compTimeMIBuffer) Len() int {
+	// Should not come here.
+	panic(nil)
 }
 
 // SymMerge merges the two sorted subsequences data[a:m] and data[m:b] using
@@ -482,76 +956,10 @@ func symMerge(data Interface, a, m, b int) {
 	}
 }
 
-// Rotate two consecutives blocks u = data[a:m] and v = data[m:b] in data:
-// Data of the form 'x u v y' is changed to 'x v u y'.
-// Rotate performs at most b-a many calls to data.Swap.
-// Rotate assumes non-degenerate arguments: a < m && m < b.
-func rotate(data Interface, a, m, b int) {
-	i := m - a
-	j := b - m
-
-	for i != j {
-		if i > j {
-			swapRange(data, m-i, m, j)
-			i -= j
-		} else {
-			swapRange(data, m-i, m+j-i, i)
-			j -= i
-		}
-	}
-	// i == j
-	swapRange(data, m-i, m, i)
+// Stable sorts data while keeping the original order of equal elements.
+//
+// It makes one call to data.Len to determine n, O(n*log(n)) calls to both
+// data.Less and data.Swap, and it uses only O(lg(sqrt(n)+1)) additional space.
+func Stable(data Interface) {
+	stable(data, data.Len())
 }
-
-/*
-Complexity of Stable Sorting
-
-
-Complexity of block swapping rotation
-
-Each Swap puts one new element into its correct, final position.
-Elements which reach their final position are no longer moved.
-Thus block swapping rotation needs |u|+|v| calls to Swaps.
-This is best possible as each element might need a move.
-
-Pay attention when comparing to other optimal algorithms which
-typically count the number of assignments instead of swaps:
-E.g. the optimal algorithm of Dudzinski and Dydek for in-place
-rotations uses O(u + v + gcd(u,v)) assignments which is
-better than our O(3 * (u+v)) as gcd(u,v) <= u.
-
-
-Stable sorting by SymMerge and BlockSwap rotations
-
-SymMerg complexity for same size input M = N:
-Calls to Less:  O(M*log(N/M+1)) = O(N*log(2)) = O(N)
-Calls to Swap:  O((M+N)*log(M)) = O(2*N*log(N)) = O(N*log(N))
-
-(The following argument does not fuzz over a missing -1 or
-other stuff which does not impact the final result).
-
-Let n = data.Len(). Assume n = 2^k.
-
-Plain merge sort performs log(n) = k iterations.
-On iteration i the algorithm merges 2^(k-i) blocks, each of size 2^i.
-
-Thus iteration i of merge sort performs:
-Calls to Less  O(2^(k-i) * 2^i) = O(2^k) = O(2^log(n)) = O(n)
-Calls to Swap  O(2^(k-i) * 2^i * log(2^i)) = O(2^k * i) = O(n*i)
-
-In total k = log(n) iterations are performed; so in total:
-Calls to Less O(log(n) * n)
-Calls to Swap O(n + 2*n + 3*n + ... + (k-1)*n + k*n)
-   = O((k/2) * k * n) = O(n * k^2) = O(n * log^2(n))
-
-
-Above results should generalize to arbitrary n = 2^k + p
-and should not be influenced by the initial insertion sort phase:
-Insertion sort is O(n^2) on Swap and Less, thus O(bs^2) per block of
-size bs at n/bs blocks:  O(bs*n) Swaps and Less during insertion sort.
-Merge sort iterations start at i = log(bs). With t = log(bs) constant:
-Calls to Less O((log(n)-t) * n + bs*n) = O(log(n)*n + (bs-t)*n)
-   = O(n * log(n))
-Calls to Swap O(n * log^2(n) - (t^2+t)/2*n) = O(n * log^2(n))
-
-*/
