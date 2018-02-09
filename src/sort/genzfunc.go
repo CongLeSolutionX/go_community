@@ -36,6 +36,9 @@ func main() {
 	af.Imports = nil
 	af.Comments = nil
 
+	// Functions whose declarations we rewrite.
+	functions := make(map[string]bool, 50)
+
 	var newDecl []ast.Decl
 	for _, d := range af.Decls {
 		fd, ok := d.(*ast.FuncDecl)
@@ -57,10 +60,12 @@ func main() {
 		}
 		arg0Type.Name = "lessSwap"
 
+		functions[fd.Name.Name] = true
+
 		newDecl = append(newDecl, fd)
 	}
 	af.Decls = newDecl
-	ast.Walk(visitFunc(rewriteCalls), af)
+	ast.Walk(visitMap(functions), af)
 
 	var out bytes.Buffer
 	if err := format.Node(&out, fset, af); err != nil {
@@ -97,30 +102,24 @@ func main() {
 	}
 }
 
-type visitFunc func(ast.Node) ast.Visitor
+type visitMap map[string]bool
 
-func (f visitFunc) Visit(n ast.Node) ast.Visitor { return f(n) }
-
-func rewriteCalls(n ast.Node) ast.Visitor {
+func (m visitMap) Visit(n ast.Node) ast.Visitor {
 	ce, ok := n.(*ast.CallExpr)
 	if ok {
-		rewriteCall(ce)
+		rewriteCall(ce, map[string]bool(m))
 	}
-	return visitFunc(rewriteCalls)
+	return m
 }
 
-func rewriteCall(ce *ast.CallExpr) {
+func rewriteCall(ce *ast.CallExpr, m map[string]bool) {
 	ident, ok := ce.Fun.(*ast.Ident)
 	if !ok {
 		// e.g. skip SelectorExpr (data.Less(..) calls)
 		return
 	}
-	// skip casts
-	if ident.Name == "int" || ident.Name == "uint" {
-		return
+	// Rewrite call if we rewrote callee's declaration.
+	if _, in := m[ident.Name]; in {
+		ident.Name += "_func"
 	}
-	if len(ce.Args) < 1 {
-		return
-	}
-	ident.Name += "_func"
 }
