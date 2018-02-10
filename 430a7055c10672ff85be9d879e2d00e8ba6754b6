@@ -16,6 +16,24 @@
       "revId": "430a7055c10672ff85be9d879e2d00e8ba6754b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de0ab405_573e8ca4",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-10T16:20:59Z",
+      "side": 1,
+      "message": "Exactly right. Fixed.",
+      "parentUuid": "ce261cdf_97f476bd",
+      "revId": "430a7055c10672ff85be9d879e2d00e8ba6754b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
