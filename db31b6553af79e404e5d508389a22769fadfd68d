@@ -16,6 +16,24 @@
       "revId": "db31b6553af79e404e5d508389a22769fadfd68d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fd5bb1f_6ad3e511",
+        "filename": "src/runtime/asm_ppc64x.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 1506,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-02-10T16:25:42Z",
+      "side": 1,
+      "message": "\u003e R31 is a scratch register and is not allocated for anything else.\n\nTrue, but then there\u0027s also no harm in including it in the clobbers list. I mentioned it explicitly in the comment because it\u0027s not obvious from the code that it clobbers R31.\n\n\u003e R0 is a special register because it is expected to always hold R0 so it shouldn\u0027t be allocated either.\n\nRight, which is why I didn\u0027t have to spill it in the slow path. Added a comment to the slow path about R0.\n\n\u003e Why does this function not follow the Go ABI?\n\nA lot of the performance win of this (and all of the binary size win) comes from not following the Go ABI. On the other architectures, we don\u0027t need any GP register spills at all around the write barrier call, so the inlined write barrier code is very fast and compact compared to a normal Go function call. PPC64 is a little different because it has so many registers, but this still avoids clobbering the registers that are more likely to be allocated, so the inlined write barrier usually doesn\u0027t need any spills.\n\n(This, of course, argues for a register-based calling convention in general, but the write barrier happens to be particularly effective for this optimization because it\u0027s called so frequently and from so many places, we can easily delay the register spills to the uncommon path, and we don\u0027t need any type information for the spilled registers because we know we\u0027re going to return quickly.)",
+      "parentUuid": "3a1b5462_5e784ed8",
+      "revId": "db31b6553af79e404e5d508389a22769fadfd68d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
