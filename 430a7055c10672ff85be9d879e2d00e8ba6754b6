@@ -88,6 +88,24 @@
       "revId": "430a7055c10672ff85be9d879e2d00e8ba6754b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a94d46e3_780d5cc2",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-10T18:55:04Z",
+      "side": 1,
+      "message": "Oh, sorry for my bad. s/time.Millisecond/time.Second/",
+      "parentUuid": "efa625de_44aa5325",
+      "revId": "430a7055c10672ff85be9d879e2d00e8ba6754b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
