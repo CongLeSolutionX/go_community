@@ -70,6 +70,24 @@
       "revId": "430a7055c10672ff85be9d879e2d00e8ba6754b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa625de_44aa5325",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-10T18:46:26Z",
+      "side": 1,
+      "message": "For example, how about these things?\n\ndiff --git a/src/crypto/tls/tls_test.go b/src/crypto/tls/tls_test.go\nindex 450c21fa4a..ed374e5646 100644\n--- a/src/crypto/tls/tls_test.go\n+++ b/src/crypto/tls/tls_test.go\n@@ -204,6 +204,9 @@ func TestDialClosedConnectionDuringHandshake(t *testing.T) {\n \taddr :\u003d ln.Addr().String()\n \tdefer ln.Close()\n\n+\tdone :\u003d make(chan bool)\n+\tdefer close(done)\n+\n \tgo func() {\n \t\tconn, err :\u003d ln.Accept()\n \t\tif err !\u003d nil {\n@@ -211,14 +214,23 @@ func TestDialClosedConnectionDuringHandshake(t *testing.T) {\n \t\t\treturn\n \t\t}\n \t\tconn.Close()\n+\t\tdone \u003c- true\n \t}()\n \t_, err :\u003d Dial(\"tcp\", addr, nil)\n-\tif err \u003d\u003d nil {\n-\t\tt.Fatal(\"Dial didn\u0027t return an error when server closed connection in handshake\")\n-\t}\n-\twant :\u003d \"tls: server closed connection unexpectedly during handshake\"\n-\tif err.Error() !\u003d want {\n-\t\tt.Errorf(\"Dial returned an error %v; want %q\", err, want)\n+\tselect {\n+\tcase _, ok :\u003d \u003c-done:\n+\t\tif !ok {\n+\t\t\tt.Fatal(\"channel has been closed\")\n+\t\t}\n+\t\tif err \u003d\u003d nil {\n+\t\t\tt.Fatal(\"Dial didn\u0027t return an error when server closed connection in handshake\")\n+\t\t}\n+\t\twant :\u003d \"tls: server closed connection unexpectedly during handshake\"\n+\t\tif err.Error() !\u003d want {\n+\t\t\tt.Errorf(\"Dial returned an error %v; want %q\", err, want)\n+\t\t}\n+\tcase \u003c-time.After(5 * time.Millisecond):\n+\t\tt.Fatal(\"deadlock\")\n \t}\n }",
+      "parentUuid": "2062e8dc_39c344b5",
+      "revId": "430a7055c10672ff85be9d879e2d00e8ba6754b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
