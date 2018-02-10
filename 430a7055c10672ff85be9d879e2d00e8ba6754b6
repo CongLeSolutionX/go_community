@@ -34,6 +34,24 @@
       "revId": "430a7055c10672ff85be9d879e2d00e8ba6754b6",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af696aa2_7e9d7ef6",
+        "filename": "src/crypto/tls/tls_test.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-02-10T17:44:56Z",
+      "side": 1,
+      "message": "This channel is still not very useful, as if the timeout hits the goroutine will still leak, or panic later writing to a closed channel (by the defer).\n\nAs this is just a simple test, and since the error it checks for is very specific, IMHO you can just skip the synchronization and cleanup (just remove the channel). If it passes, it almost certainly went right.",
+      "parentUuid": "de0ab405_573e8ca4",
+      "revId": "430a7055c10672ff85be9d879e2d00e8ba6754b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
