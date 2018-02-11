@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b85c5f2_36e71ab3",
+        "filename": "src/runtime/vlop_arm.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-11T03:22:22Z",
+      "side": 1,
+      "message": "\"becomes having\" is grammatically awkward. Maybe:\n\n   If it ever gets a frame, ...\n\nOr:\n\n   If it ever needs a frame, ... \n\nOr:\n\n   If it ever uses a frame, ...",
+      "range": {
+        "startLine": 105,
+        "startChar": 57,
+        "endLine": 105,
+        "endChar": 71
+      },
+      "revId": "7ae148408976699344bb5adecbeeac32a09edb38",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
