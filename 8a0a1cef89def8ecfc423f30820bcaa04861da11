@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23f77892_33a6908f",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:05:29Z",
+      "side": 1,
+      "message": "Read Uncommitted (space).",
+      "range": {
+        "startLine": 140,
+        "startChar": 10,
+        "endLine": 140,
+        "endChar": 25
+      },
+      "revId": "8a0a1cef89def8ecfc423f30820bcaa04861da11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f474004_bde3dbb4",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:05:29Z",
+      "side": 1,
+      "message": "Let\u0027s use strconv here.",
+      "range": {
+        "startLine": 154,
+        "startChar": 9,
+        "endLine": 154,
+        "endChar": 29
+      },
+      "revId": "8a0a1cef89def8ecfc423f30820bcaa04861da11",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
