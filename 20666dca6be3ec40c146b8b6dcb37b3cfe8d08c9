@@ -1,0 +1,349 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec67781f_47b8c05a",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "Don\u0027t wrap up into an array, just print within the loop.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcf9eedb_90800ab8",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "You\u0027ll want to add a comment about why you may choose to add a shorter timeout here.",
+      "range": {
+        "startLine": 134,
+        "startChar": 1,
+        "endLine": 135,
+        "endChar": 15
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cdf763c_99aa7573",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "Probably add a discussion of what a real application might do in this case (like update the health endpoint status rather then just exiting).",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 16
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a3d6732_1efb987a",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "This doesn\u0027t really do anything for me. Remove?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 1
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d70bf2d_fd21984b",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "What\u0027s this?",
+      "range": {
+        "startLine": 162,
+        "startChar": 1,
+        "endLine": 162,
+        "endChar": 11
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1a57986_976a84df",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "Perhaps you could add a comment on how a *DB is a pool of connections. If we want to work on a single connection outside of a transaction, we can call db.Conn.",
+      "range": {
+        "startLine": 163,
+        "startChar": 1,
+        "endLine": 163,
+        "endChar": 26
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45eabc8e_8c0e6b69",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "Add comment // Return the connection to the connection pool.",
+      "range": {
+        "startLine": 167,
+        "startChar": 1,
+        "endLine": 167,
+        "endChar": 19
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f1bd058_766063c0",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "What\u0027s this?",
+      "range": {
+        "startLine": 183,
+        "startChar": 1,
+        "endLine": 183,
+        "endChar": 11
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84c8e98a_57abd816",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "What happens to the Tx if ExecContext fails?",
+      "range": {
+        "startLine": 189,
+        "startChar": 0,
+        "endLine": 192,
+        "endChar": 2
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59620414_567ff519",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "Why this?",
+      "range": {
+        "startLine": 199,
+        "startChar": 1,
+        "endLine": 199,
+        "endChar": 11
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7a4b27a_d05e7d91",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "This is safe SQL. But for example SQL, let\u0027s put the status in as a parameter as well.",
+      "range": {
+        "startLine": 205,
+        "startChar": 59,
+        "endLine": 205,
+        "endChar": 69
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc5d47af_4fb34b50",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "What happens to the Tx if ExecContext fails?",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 2
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ec75942_a67dfbcb",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "You need \"defer stmt.Close()\" after checking for error or your DB will run out of prepared stmt slots.",
+      "range": {
+        "startLine": 223,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 2
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cee852b0_1154040c",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "I could be missing something, but this looks the same as ExampleStmt.",
+      "range": {
+        "startLine": 241,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 1
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e947b354_905f5b69",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-12T14:31:07Z",
+      "side": 1,
+      "message": "This looks the same as ExampleDB_QueryContext.",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 1
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
