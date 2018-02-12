@@ -13,6 +13,7 @@
 //
 // The commands are:
 //
+// 	bug         start a bug report
 // 	build       compile packages and dependencies
 // 	bug         start a bug report
 // 	clean       remove object files and cached files
@@ -46,6 +47,16 @@
 // 	testfunc    testing functions
 //
 // Use "go help [topic]" for more information about that topic.
+//
+//
+// Start a bug report
+//
+// Usage:
+//
+// 	go bug
+//
+// Bug opens the default browser and starts a new bug report.
+// The report includes useful system information.
 //
 //
 // Compile packages and dependencies
