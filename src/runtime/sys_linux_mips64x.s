@@ -13,10 +13,11 @@
 #include "go_tls.h"
 #include "textflag.h"
 
+#define AT_FDCWD -100
+
 #define SYS_exit		5058
 #define SYS_read		5000
 #define SYS_write		5001
-#define SYS_open		5002
 #define SYS_close		5003
 #define SYS_getpid		5038
 #define SYS_kill		5060
@@ -42,7 +43,8 @@
 #define SYS_exit_group		5205
 #define SYS_epoll_create	5207
 #define SYS_epoll_ctl		5208
-#define SYS_epoll_wait		5209
+#define SYS_openat		5247
+#define SYS_epoll_pwait		5272
 #define SYS_clock_gettime	5222
 #define SYS_epoll_create1	5285
 #define SYS_brk			5012
@@ -66,11 +68,13 @@ TEXT runtime·exitThread(SB),NOSPLIT,$-8-8
 	SYSCALL
 	JMP	0(PC)
 
-TEXT runtime·open(SB),NOSPLIT,$-8-20
-	MOVV	name+0(FP), R4
-	MOVW	mode+8(FP), R5
-	MOVW	perm+12(FP), R6
-	MOVV	$SYS_open, R2
+TEXT runtime·open(SB),NOSPLIT|NOFRAME,$0-20
+	// This uses openat instead of open, because Android O blocks open.
+	MOVW	$AT_FDCWD, R4 // AT_FDCWD, so this acts like open
+	MOVV	name+0(FP), R5
+	MOVW	mode+8(FP), R6
+	MOVW	perm+12(FP), R7
+	MOVV	$SYS_openat, R2
 	SYSCALL
 	BEQ	R7, 2(PC)
 	MOVW	$-1, R2
