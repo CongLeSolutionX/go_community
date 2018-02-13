@@ -11,6 +11,7 @@ package parse
 import (
 	"bytes"
 	"fmt"
+	"log"
 	"runtime"
 	"strconv"
 	"strings"
@@ -365,6 +366,8 @@ func (t *Tree) action() (n Node) {
 		return t.elseControl()
 	case itemEnd:
 		return t.endControl()
+	case itemExtend:
+		return t.extendControl()
 	case itemIf:
 		return t.ifControl()
 	case itemRange:
@@ -551,7 +554,7 @@ func (t *Tree) blockControl() Node {
 	block.add()
 	block.stopParse()
 
-	return t.newTemplate(token.pos, token.line, name, pipe)
+	return t.newTemplate(token.pos, token.line, name, pipe, nil)
 }
 
 // Template:
@@ -568,7 +571,27 @@ func (t *Tree) templateControl() Node {
 		// Do not pop variables; they persist until "end".
 		pipe = t.pipeline(context)
 	}
-	return t.newTemplate(token.pos, token.line, name, pipe)
+	return t.newTemplate(token.pos, token.line, name, pipe, nil)
+}
+
+// Extend:
+//	{{extend stringValue pipeline}}
+// Extend keyword is past. The name must be something that can evaluate
+// to a string.
+func (t *Tree) extendControl() Node {
+	const context = "extend clause"
+	token := t.nextNonSpace()
+	name := t.parseTemplateName(token, context)
+	var pipe *PipeNode
+	if t.nextNonSpace().typ != itemRightDelim {
+		t.backup()
+		// Do not pop variables; they persist until "end".
+		pipe = t.pipeline(context)
+	}
+	tds := map[string]*Tree{}
+
+	t.collectExtendDefines(name, tds)
+	return t.newTemplate(token.pos, token.line, name, pipe, tds)
 }
 
 func (t *Tree) parseTemplateName(token item, context string) (name string) {
@@ -583,6 +606,52 @@ func (t *Tree) parseTemplateName(token item, context string) (name string) {
 		t.unexpected(token, context)
 	}
 	return
+}
+
+func (t *Tree) collectExtendDefines(name string, tds map[string]*Tree) {
+	// (whitespace | define | end)*
+	const context = "extend clause"
+	for {
+		switch token := t.nextNonSpace(); token.typ {
+		default:
+			log.Print(token.typ)
+			t.unexpected(token, context)
+			return
+
+		case itemText:
+			trimmed := strings.TrimSpace(token.val)
+			if len(trimmed) != 0 {
+				t.errorf("unexpected %q in extend: only define allowed", trimmed)
+				return
+			}
+			continue
+
+		case itemLeftDelim:
+			token := t.expectOneOf(itemDefine, itemEnd, context)
+			if token.typ == itemEnd {
+				_ = t.endControl()
+				return
+			}
+
+			newT := New("definition") // name will be updated once we know it.
+			newT.text = t.text
+			newT.ParseName = t.ParseName
+			newT.startParse(t.funcs, t.lex, map[string]*Tree{})
+			newT.parseDefinition()
+
+			if newT.Name == name {
+				t.errorf("cannot redefine template being executed")
+				return
+			}
+
+			if _, ok := tds[newT.Name]; ok {
+				t.errorf("template %q defined more than once in extend", newT.Name)
+				return
+			}
+
+			tds[newT.Name] = newT
+		}
+	}
 }
 
 // command:

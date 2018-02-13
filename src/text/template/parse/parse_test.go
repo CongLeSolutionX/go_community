@@ -235,6 +235,8 @@ var parseTests = []parseTest{
 	{"comment trim left", "x \r\n\t{{- /* hi */}}", noError, `"x"`},
 	{"comment trim right", "{{/* hi */ -}}\n\n\ty", noError, `"y"`},
 	{"comment trim left and right", "x \r\n\t{{- /* */ -}}\n\n\ty", noError, `"x""y"`},
+	{"empty extend definition", `{{extend "foo"}}{{end}}`, noError, `{{template "foo"}}`},
+	{"extend definition", `{{extend "foo"}}{{define "bar"}}{{end}}{{end}}`, noError, `{{extend "foo"}}`},
 	{"block definition", `{{block "foo" .}}hello{{end}}`, noError,
 		`{{template "foo" .}}`},
 	// Errors.

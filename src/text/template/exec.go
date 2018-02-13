@@ -25,11 +25,12 @@ const maxExecDepth = 100000
 // template so that multiple executions of the same template
 // can execute in parallel.
 type state struct {
-	tmpl  *Template
-	wr    io.Writer
-	node  parse.Node // current node, for errors
-	vars  []variable // push-down stack of variable values.
-	depth int        // the height of the stack of executing templates.
+	tmpl   *Template
+	wr     io.Writer
+	node   parse.Node // current node, for errors
+	vars   []variable // push-down stack of variable values.
+	depth  int        // the height of the stack of executing templates.
+	lookup func(string) *Template
 }
 
 // variable holds the dynamic value of a variable such as $, $x etc.
@@ -187,6 +188,9 @@ func (t *Template) execute(wr io.Writer, data interface{}) (err error) {
 		tmpl: t,
 		wr:   wr,
 		vars: []variable{{"$", value}},
+		lookup: func(name string) *Template {
+			return t.tmpl[name]
+		},
 	}
 	if t.Tree == nil || t.Root == nil {
 		state.errorf("%q is an incomplete or empty template", t.Name())
@@ -371,7 +375,7 @@ func (s *state) walkRange(dot reflect.Value, r *parse.RangeNode) {
 
 func (s *state) walkTemplate(dot reflect.Value, t *parse.TemplateNode) {
 	s.at(t)
-	tmpl := s.tmpl.tmpl[t.Name]
+	tmpl := s.lookup(t.Name)
 	if tmpl == nil {
 		s.errorf("template %q not defined", t.Name)
 	}
@@ -385,6 +389,27 @@ func (s *state) walkTemplate(dot reflect.Value, t *parse.TemplateNode) {
 	newState.tmpl = tmpl
 	// No dynamic scoping: template invocations inherit no variables.
 	newState.vars = []variable{{"$", dot}}
+
+	// For an extend node we create a new lookup func to access local definitions
+	// of templates.
+	if len(t.Trees) > 0 {
+		newState.lookup = func(name string) *Template {
+			if tree := t.Trees[name]; tree != nil {
+				// Wrap tree in a *Template so that it can be executed.
+				return &Template{
+					name:       name,
+					Tree:       tree,
+					common:     s.tmpl.common,
+					leftDelim:  s.tmpl.leftDelim,
+					rightDelim: s.tmpl.rightDelim,
+				}
+			}
+
+			// Otherwise, use the parent's lookup.
+			return s.lookup(name)
+		}
+	}
+
 	newState.walk(dot, tmpl.Root)
 }
 

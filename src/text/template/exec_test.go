@@ -1432,3 +1432,84 @@ func TestInterfaceValues(t *testing.T) {
 		}
 	}
 }
+
+// TestExtend ensures that template lookup works correctly when using extend.
+func TestExtend(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		out  string
+	}{
+		{
+			// extend with no defines is the same as a regular template action.
+			"empty extend",
+			`{{define "a"}}x{{end -}}
+			 {{extend "a"}}{{end}}`,
+			"x",
+		},
+		{
+			// This redefines "a" when executing "b".
+			"simple extend",
+			`{{define "a"}}x{{end -}}
+			 {{define "b"}}{{template "a"}}{{end -}}
+			 {{extend "b"}}{{define "a"}}y{{end}}{{end}}`,
+			"y",
+		},
+		{
+			// The template "a" only exists within the extend.
+			"extend nonexistent",
+			`{{define "b"}}{{template "a"}}{{end -}}
+			 {{extend "b"}}
+			 	{{define "a"}}y{{end}}
+			 {{end}}`,
+			"y",
+		},
+		{
+			// Templates "a" and "b" are mutually recursive by definition,
+			// but extend redefines "a", breaking the loop.
+			"tiebreaking extend",
+			`{{define "a"}}{{template "b"}}{{end -}}
+			 {{define "b"}}{{template "a"}}{{end -}}
+			 {{extend "a"}}
+			 	{{define "b"}}x{{end}}
+			 {{end}}`,
+			"x",
+		},
+		{
+			// Template "c" extends "b" to replace "a", we execute it,
+			// and then we extend "c" to replace "b", just to show off.
+			"double extend",
+			`{{define "a"}}x{{end -}}
+			 {{define "b"}}{{template "a"}}{{end -}}
+			 {{define "c"}}
+			 	{{- template "a" -}}
+			 	{{- extend "b"}}{{define "a"}}y{{end}}{{end -}}
+			 {{end -}}
+			 {{template "c" -}}
+			 {{extend "c"}}
+			 	{{define "b"}}z{{end}}
+			 {{end}}`,
+			"xyxz",
+		},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			tmpl, err := New("T").Parse(test.in)
+			if err != nil {
+				t.Fatalf("parsing template, unexpected error %s", err)
+			}
+
+			var buf bytes.Buffer
+			err = tmpl.Execute(&buf, nil)
+			if err != nil {
+				t.Fatalf("executing template, unexpected error %s", err)
+			}
+
+			if out := buf.String(); out != test.out {
+				t.Fatalf("expected %q, got %q", test.out, out)
+			}
+		})
+	}
+}

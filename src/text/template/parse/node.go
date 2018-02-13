@@ -813,21 +813,37 @@ func (w *WithNode) Copy() Node {
 type TemplateNode struct {
 	NodeType
 	Pos
-	tr   *Tree
-	Line int       // The line number in the input. Deprecated: Kept for compatibility.
-	Name string    // The name of the template (unquoted).
-	Pipe *PipeNode // The command to evaluate as dot for the template.
+	tr    *Tree
+	Line  int              // The line number in the input. Deprecated: Kept for compatibility.
+	Name  string           // The name of the template (unquoted).
+	Pipe  *PipeNode        // The command to evaluate as dot for the template.
+	Trees map[string]*Tree // The local trees of this template (only set for {{extend}}).
 }
 
-func (t *Tree) newTemplate(pos Pos, line int, name string, pipe *PipeNode) *TemplateNode {
-	return &TemplateNode{tr: t, NodeType: NodeTemplate, Pos: pos, Line: line, Name: name, Pipe: pipe}
+func cloneTrees(m map[string]*Tree) map[string]*Tree {
+	if len(m) == 0 {
+		return nil
+	}
+	clone := map[string]*Tree{}
+	for nm, tr := range m {
+		clone[nm] = tr.Copy()
+	}
+	return clone
+}
+
+func (t *Tree) newTemplate(pos Pos, line int, name string, pipe *PipeNode, trees map[string]*Tree) *TemplateNode {
+	return &TemplateNode{tr: t, NodeType: NodeTemplate, Pos: pos, Line: line, Name: name, Pipe: pipe, Trees: trees}
 }
 
 func (t *TemplateNode) String() string {
-	if t.Pipe == nil {
-		return fmt.Sprintf("{{template %q}}", t.Name)
+	tag := "template"
+	if len(t.Trees) != 0 {
+		tag = "extend"
 	}
-	return fmt.Sprintf("{{template %q %s}}", t.Name, t.Pipe)
+	if t.Pipe == nil {
+		return fmt.Sprintf("{{%s %q}}", tag, t.Name)
+	}
+	return fmt.Sprintf("{{%s %q %s}}", tag, t.Name, t.Pipe)
 }
 
 func (t *TemplateNode) tree() *Tree {
@@ -835,5 +851,5 @@ func (t *TemplateNode) tree() *Tree {
 }
 
 func (t *TemplateNode) Copy() Node {
-	return t.tr.newTemplate(t.Pos, t.Line, t.Name, t.Pipe.CopyPipe())
+	return t.tr.newTemplate(t.Pos, t.Line, t.Name, t.Pipe.CopyPipe(), cloneTrees(t.Trees))
 }
