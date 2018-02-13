@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c302eae5_0aaa248e",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 5080
+      },
+      "writtenOn": "2018-02-13T21:06:00Z",
+      "side": 1,
+      "message": "strconv.Itoa(int(i))\n\nsrc/database/sql/sql.go:155:22: cannot use i (type IsolationLevel) as type int in argument to strconv.Itoa",
+      "range": {
+        "startLine": 155,
+        "startChar": 9,
+        "endLine": 155,
+        "endChar": 24
+      },
+      "revId": "2f8adb58e3e006f2493c305a15ae36c1f2c4f6f1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3c91d76_a86d25b1",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 2
