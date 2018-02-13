@@ -10,8 +10,43 @@
 #include "go_tls.h"
 #include "textflag.h"
 
+#define AT_FDCWD -100
+
+#define SYS_read		0
+#define SYS_write		1
+#define SYS_close		3
+#define SYS_mmap		9
+#define SYS_munmap		11
+#define SYS_brk 		12
+#define SYS_rt_sigaction	13
+#define SYS_rt_sigprocmask	14
+#define SYS_rt_sigreturn	15
+#define SYS_access		21
+#define SYS_sched_yield 	24
+#define SYS_mincore		27
+#define SYS_madvise		28
+#define SYS_setittimer		38
+#define SYS_getpid		39
+#define SYS_socket		41
+#define SYS_connect		42
+#define SYS_clone		56
+#define SYS_exit		60
+#define SYS_kill		62
+#define SYS_fcntl		72
+#define SYS_getrlimit		97
+#define SYS_sigaltstack 	131
+#define SYS_arch_prctl		158
+#define SYS_gettid		186
+#define SYS_tkill		200
+#define SYS_futex		202
+#define SYS_sched_getaffinity	204
+#define SYS_epoll_create	213
+#define SYS_exit_group		231
+#define SYS_epoll_ctl		233
 #define SYS_openat		257
+#define SYS_pselect6		270
 #define SYS_epoll_pwait		281
+#define SYS_epoll_create1	291
 
 TEXT runtime·exit(SB),NOSPLIT,$0-4
 	MOVL	code+0(FP), DI
@@ -27,7 +62,7 @@ TEXT runtime·exit1(SB),NOSPLIT,$0-4
 
 TEXT runtime·open(SB),NOSPLIT,$0-20
 	// This uses openat instead of open, because Android O blocks open.
-	MOVL	$-100, DI // AT_FDCWD, so this acts like open
+	MOVL	$AT_FDCWD, DI // AT_FDCWD, so this acts like open
 	MOVQ	name+0(FP), SI
 	MOVL	mode+8(FP), DX
 	MOVL	perm+12(FP), R10
