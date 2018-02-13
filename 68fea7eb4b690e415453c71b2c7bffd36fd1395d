@@ -16,6 +16,24 @@
       "revId": "68fea7eb4b690e415453c71b2c7bffd36fd1395d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77837e19_9b605792",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-02-13T20:53:44Z",
+      "side": 1,
+      "message": "Nevermind, I just saw Josh\u0027s explanation earlier in the code review.\n\nCan you work his explanation into the commit message, or maybe as a quick 1-line comment here to explain what\u0027s happening?\n\nThanks!",
+      "parentUuid": "40570fd3_1b868ca2",
+      "revId": "68fea7eb4b690e415453c71b2c7bffd36fd1395d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
