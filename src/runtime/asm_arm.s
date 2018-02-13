@@ -6,6 +6,7 @@
 #include "go_tls.h"
 #include "funcdata.h"
 #include "textflag.h"
+#include "asm_arm.h"
 
 // _rt0_arm is common startup code for most ARM systems when using
 // internal linking. This is the entry point for the program from the
@@ -781,10 +782,7 @@ TEXT runtime·abort(SB),NOSPLIT|NOFRAME,$0-0
 //		B	runtime·armPublicationBarrier(SB)
 //
 TEXT runtime·armPublicationBarrier(SB),NOSPLIT|NOFRAME,$0-0
-	MOVB	runtime·goarm(SB), R11
-	CMP	$7, R11
-	BLT	2(PC)
-	WORD $0xf57ff05e	// DMB ST
+	DMB_ST
 	RET
 
 // AES hashing not implemented for ARM

@@ -717,6 +717,8 @@ func runInstall(dir string, ch chan struct{}) {
 			pathf("%s/src/runtime/funcdata.h", goroot), 0)
 		copyfile(pathf("%s/pkg/include/asm_ppc64x.h", goroot),
 			pathf("%s/src/runtime/asm_ppc64x.h", goroot), 0)
+		copyfile(pathf("%s/pkg/include/asm_arm.h", goroot),
+			pathf("%s/src/runtime/internal/atomic/asm_arm.h", goroot), 0)
 	}
 
 	// Generate any missing files; regenerate existing ones.
