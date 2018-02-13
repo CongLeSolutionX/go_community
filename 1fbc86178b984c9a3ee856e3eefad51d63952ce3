@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a436b97_6e3c3617",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-02-13T21:40:20Z",
+      "side": 1,
+      "message": "Like before, commit messages aren\u0027t markdown - simply drop the `s.\n\nIf you\u0027d like quotes, you could use \u0027single quotes\u0027, which are more easily readable in plaintext.",
+      "revId": "1fbc86178b984c9a3ee856e3eefad51d63952ce3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
