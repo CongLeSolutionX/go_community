@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9b4469cc_83b0c135",
+        "filename": "src/database/sql/sql.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2467,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2018-02-13T19:13:29Z",
+      "side": 0,
+      "message": "I\u0027m a little confused by this. It seems like the Example() is the correct place to put sample code.",
+      "parentUuid": "73a9137a_33c9fa24",
+      "range": {
+        "startLine": 2463,
+        "startChar": 0,
+        "endLine": 2467,
+        "endChar": 64
+      },
+      "revId": "851e98f0ee59d3027ec82363aedc741ad14100f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d45f5a0e_e9857d3a",
         "filename": "src/database/sql/sql.go",
         "patchSetId": 2
