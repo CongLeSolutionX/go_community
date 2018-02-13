@@ -3,6 +3,7 @@
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
+#include "asm_arm.h"
 
 // bool armcas(int32 *val, int32 old, int32 new)
 // Atomically:
@@ -27,20 +28,14 @@ casl:
 	CMP	R0, R2
 	BNE	casfail
 
-	MOVB	runtime·goarm(SB), R11
-	CMP	$7, R11
-	BLT	2(PC)
-	WORD	$0xf57ff05a	// dmb ishst
+	DMB_ISHST
 
 	STREX	R3, (R1), R0
 	CMP	$0, R0
 	BNE	casl
 	MOVW	$1, R0
 
-	MOVB	runtime·goarm(SB), R11
-	CMP	$7, R11
-	BLT	2(PC)
-	WORD	$0xf57ff05b	// dmb ish
+	DMB_ISH
 
 	MOVB	R0, ret+12(FP)
 	RET
