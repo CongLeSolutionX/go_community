@@ -34,6 +34,24 @@
       "revId": "68fea7eb4b690e415453c71b2c7bffd36fd1395d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22f68dec_fe1cffc3",
+        "filename": "src/cmd/compile/internal/gc/const.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1223,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-13T23:50:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77837e19_9b605792",
+      "revId": "68fea7eb4b690e415453c71b2c7bffd36fd1395d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
