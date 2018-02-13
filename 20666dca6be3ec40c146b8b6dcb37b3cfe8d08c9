@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "97ed1fcf_c602c69e",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2018-02-13T19:12:51Z",
+      "side": 1,
+      "message": "This is part of the goal of an example, I guess, is to demonstrate how to gather rows into an array. (It\u0027s something I was struggling to show to someone learning Go).",
+      "parentUuid": "ec67781f_47b8c05a",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dcf9eedb_90800ab8",
         "filename": "src/database/sql/example_test.go",
         "patchSetId": 2
@@ -82,6 +106,30 @@
       "writtenOn": "2018-02-12T14:31:07Z",
       "side": 1,
       "message": "This doesn\u0027t really do anything for me. Remove?",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 1
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fe32169_48c1500c",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2018-02-13T19:12:51Z",
+      "side": 1,
+      "message": "What\u0027s the harm?",
+      "parentUuid": "1a3d6732_1efb987a",
       "range": {
         "startLine": 140,
         "startChar": 0,
@@ -186,6 +234,30 @@
     },
     {
       "key": {
+        "uuid": "fb4989b0_65aeed39",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2018-02-13T19:12:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f1bd058_766063c0",
+      "range": {
+        "startLine": 183,
+        "startChar": 1,
+        "endLine": 183,
+        "endChar": 11
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84c8e98a_57abd816",
         "filename": "src/database/sql/example_test.go",
         "patchSetId": 2
@@ -220,6 +292,30 @@
       "writtenOn": "2018-02-12T14:31:07Z",
       "side": 1,
       "message": "Why this?",
+      "range": {
+        "startLine": 199,
+        "startChar": 1,
+        "endLine": 199,
+        "endChar": 11
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5922a187_c7f78d68",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2018-02-13T19:12:51Z",
+      "side": 1,
+      "message": "Copy paste fail, I\u0027ve removed this here and the other places.",
+      "parentUuid": "59620414_567ff519",
       "range": {
         "startLine": 199,
         "startChar": 1,
@@ -324,6 +420,30 @@
     },
     {
       "key": {
+        "uuid": "107495a7_f95ea7dc",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2018-02-13T19:12:51Z",
+      "side": 1,
+      "message": "It is, but I think it\u0027s important to present the information where you expect users to run across it. Most users drill down pretty quickly to the place they expect to see the information and don\u0027t actually browse an entire page or read summaries. In some cases this may mean duplicating the same information.\n\nI gave a talk about this if you\u0027re interested: https://www.youtube.com/watch?v\u003dsQP_hUNCrcE",
+      "parentUuid": "cee852b0_1154040c",
+      "range": {
+        "startLine": 241,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 1
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e947b354_905f5b69",
         "filename": "src/database/sql/example_test.go",
         "patchSetId": 2
@@ -335,6 +455,30 @@
       "writtenOn": "2018-02-12T14:31:07Z",
       "side": 1,
       "message": "This looks the same as ExampleDB_QueryContext.",
+      "range": {
+        "startLine": 261,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 1
+      },
+      "revId": "20666dca6be3ec40c146b8b6dcb37b3cfe8d08c9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c429197_e6b62f81",
+        "filename": "src/database/sql/example_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 13437
+      },
+      "writtenOn": "2018-02-13T19:12:51Z",
+      "side": 1,
+      "message": "It is the same.",
+      "parentUuid": "e947b354_905f5b69",
       "range": {
         "startLine": 261,
         "startChar": 0,
