@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1a7932d_83433940",
+        "filename": "test/fixedbugs/issue23812.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-13T20:44:50Z",
+      "side": 1,
+      "message": "panic(\"wrong result\") ?",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "a29a427fbc01b84f607775ea961d62b4d5fe1cbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4453084c_0e719656",
+        "filename": "test/fixedbugs/issue23812.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-13T20:44:50Z",
+      "side": 1,
+      "message": "no need for the underscore prefix.",
+      "range": {
+        "startLine": 15,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "a29a427fbc01b84f607775ea961d62b4d5fe1cbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e4c7fe2_c2f516e8",
+        "filename": "test/fixedbugs/issue23812.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-13T20:44:50Z",
+      "side": 1,
+      "message": "it being a named parameter doesn\u0027t matter, I hope?\n\nIt\u0027s distracting and makes me think it\u0027s interesting.",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 28
+      },
+      "revId": "a29a427fbc01b84f607775ea961d62b4d5fe1cbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fcfcbe7_ab523ffa",
+        "filename": "test/fixedbugs/issue23812.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-13T20:44:50Z",
+      "side": 1,
+      "message": "these comments made more sense in a bug report, but not as much in a golden test like htis.\n\n\nIf the whole point was to prevent inlining, just use the compiler directive?",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 75
+      },
+      "revId": "a29a427fbc01b84f607775ea961d62b4d5fe1cbc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
