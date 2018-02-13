@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff807385_ff60ab38",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-02-13T05:25:10Z",
+      "side": 1,
+      "message": "Fixes #23791",
+      "revId": "49e9b721f3ba55dd7f98b714bdbd799f0e4e27ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d352f17_2f422ae8",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-02-13T05:25:10Z",
+      "side": 1,
+      "message": "I wonder if perhaps we should just sort these on initialization i.e\nsort.Slice(base.Commands, func(i, j int) bool {\n    return base.Commands[i].Name() \u003c base.Commands[j].Name()\n})\n\nThis will save us from cognitive overload as this went unnoticed for ages.",
+      "revId": "49e9b721f3ba55dd7f98b714bdbd799f0e4e27ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
