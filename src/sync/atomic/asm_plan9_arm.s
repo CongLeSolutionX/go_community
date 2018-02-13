@@ -3,12 +3,7 @@
 // license that can be found in the LICENSE file.
 
 #include "textflag.h"
-
-#define DMB_ISH_7 \
-	MOVB	runtime·goarm(SB), R11; \
-	CMP	$7, R11; \
-	BLT	2(PC); \
-	WORD	$0xf57ff05b	// dmb ish
+#include "asm_arm.h"
 
 // Plan9/ARM atomic operations.
 // TODO(minux): this only supports ARMv6K or higher.
@@ -69,7 +64,7 @@ load32loop:
 	CMP $0, R0
 	BNE load32loop
 	MOVW R2, val+4(FP)
-	DMB_ISH_7
+	DMB_ISH
 	RET
 
 TEXT ·LoadInt64(SB),NOSPLIT,$0
@@ -90,7 +85,7 @@ TEXT ·StoreInt32(SB),NOSPLIT,$0
 TEXT ·StoreUint32(SB),NOSPLIT,$0-8
 	MOVW addr+0(FP), R1
 	MOVW val+4(FP), R2
-	DMB_ISH_7
+	DMB_ISH
 storeloop:
 	LDREX (R1), R4		// loads R4
 	STREX R2, (R1), R0	// stores R2
