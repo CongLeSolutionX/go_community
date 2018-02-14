@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ea36aa4_aaae5c75",
+        "filename": "src/go/types/gotype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-02-14T20:35:39Z",
+      "side": 1,
+      "message": "This may now return a slice of files that contains nils.  How does that not cause later code to crash?",
+      "revId": "853558802a8b7b2af7a7f62674178dc5c183ec24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "345036e7_1bf9fc29",
+        "filename": "src/go/types/gotype.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-02-14T20:35:39Z",
+      "side": 1,
+      "message": "This may pass nil files to Check.",
+      "revId": "853558802a8b7b2af7a7f62674178dc5c183ec24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
