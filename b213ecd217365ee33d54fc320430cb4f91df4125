@@ -22,6 +22,53 @@
       "revId": "b213ecd217365ee33d54fc320430cb4f91df4125",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b7007fa_1ffa2856",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-02-14T23:30:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "33f56fea_684ecd9c",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "b213ecd217365ee33d54fc320430cb4f91df4125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7760b0b6_327161c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-02-14T23:30:34Z",
+      "side": 1,
+      "message": "also fixed remore -\u003e remove",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "b213ecd217365ee33d54fc320430cb4f91df4125",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
