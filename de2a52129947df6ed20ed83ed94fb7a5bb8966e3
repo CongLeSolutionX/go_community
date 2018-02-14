@@ -231,6 +231,24 @@
       "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7a0ec7e_85d4b9a7",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-14T18:46:12Z",
+      "side": 1,
+      "message": "\u003e i guess we can test the existence of the Administrator home directory.\n\nthere are a set of potential problems here. on windows the home directory is created only after the user has logged at least once. same applies to the above reg-key. so testing even the Administrator home directory becomes difficult as this user might have never logged. if a user exists (LookupAccountSid()) but the reg key is missing, this would mean that the user has never logged. in such a case the GO function can call GetUserProfileDirectoryW() and assume the user path is `GetUserProfileDirectoryW() + \"\\\\\" + accountName` as a fallback.",
+      "parentUuid": "ee41337b_2c9fb20d",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
