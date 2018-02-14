@@ -36,6 +36,29 @@
     },
     {
       "key": {
+        "uuid": "c8484023_001041d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-02-14T12:45:37Z",
+      "side": 1,
+      "message": "The Go project doesn\u0027t use Signed-off-by lines in commit messages, so this can be omitted.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 63
+      },
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ed5ecab_646ca7fc",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 1
