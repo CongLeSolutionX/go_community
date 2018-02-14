@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5201f6_91459602",
+        "filename": "src/cmd/go/alldocs.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-14T15:37:26Z",
+      "side": 1,
+      "message": "Notice that this file only grew lines but didn\u0027t get any deleted? Red flag. :)",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 2
+      },
+      "revId": "04aaa7579c153a2506d71f46207e7e024fb0d2e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0774897_71a997d8",
+        "filename": "src/cmd/go/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-14T15:37:26Z",
+      "side": 1,
+      "message": "you need to delete this line",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 13
+      },
+      "revId": "04aaa7579c153a2506d71f46207e7e024fb0d2e1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
