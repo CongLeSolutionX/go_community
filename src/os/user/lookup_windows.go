@@ -7,6 +7,7 @@ package user
 import (
 	"errors"
 	"fmt"
+	"internal/syscall/windows/registry"
 	"syscall"
 	"unsafe"
 )
@@ -124,13 +125,19 @@ func current() (*User, error) {
 	return newUser(u.User.Sid, gid, dir)
 }
 
-// BUG(brainman): Lookup and LookupId functions do not set
-// Gid and HomeDir fields in the User struct returned on windows.
+// TODO: The Gid field in the User struct is not set on Windows.
 
 func newUserFromSid(usid *syscall.SID) (*User, error) {
-	// TODO(brainman): do not know where to get gid and dir fields
 	gid := "unknown"
 	dir := "Unknown directory"
+	uid, e := usid.String()
+	if e == nil {
+		k, e := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\`+uid, registry.QUERY_VALUE)
+		if e == nil {
+			dir, _, e = k.GetStringValue("ProfileImagePath")
+			k.Close()
+		}
+	}
 	return newUser(usid, gid, dir)
 }
 
