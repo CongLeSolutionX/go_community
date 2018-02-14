@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1e529436_cdd1b9eb",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-14T00:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a63c61a_928477c4",
+      "range": {
+        "startLine": 119,
+        "startChar": 52,
+        "endLine": 119,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8abd6efe_5f65ec28",
         "filename": "src/cmd/trace/annotations.go",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5cd70324_339f235a",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-14T00:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8abd6efe_5f65ec28",
+      "range": {
+        "startLine": 180,
+        "startChar": 5,
+        "endLine": 180,
+        "endChar": 22
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60e2333d_469c79f7",
         "filename": "src/cmd/trace/annotations.go",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7121dd47_adc3cb60",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-14T00:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60e2333d_469c79f7",
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "1e20f8a4_35b10bdd",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-14T00:46:27Z",
+      "side": 1,
+      "message": "yes. rephrased. The code is moved up to around line 144-190",
+      "parentUuid": "f98be466_2c2fd6eb",
+      "range": {
+        "startLine": 249,
+        "startChar": 49,
+        "endLine": 249,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b077d574_54fce381",
         "filename": "src/cmd/trace/annotations.go",
         "patchSetId": 3
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "e4c7671b_722734c9",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-14T00:46:27Z",
+      "side": 1,
+      "message": "golang.org/cl/93795",
+      "parentUuid": "b077d574_54fce381",
+      "range": {
+        "startLine": 263,
+        "startChar": 62,
+        "endLine": 263,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a1a7a1e_656d0532",
         "filename": "src/cmd/trace/annotations.go",
         "patchSetId": 3
@@ -125,6 +239,24 @@
       "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad2c228_f10371a3",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-14T00:46:27Z",
+      "side": 1,
+      "message": "No. There is no way to know it.",
+      "parentUuid": "9a1a7a1e_656d0532",
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "20b92294_871015e1",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-14T00:46:27Z",
+      "side": 1,
+      "message": "No. It does rounding and results in prettier output for histogram.",
+      "parentUuid": "f3859613_c0006ed8",
+      "range": {
+        "startLine": 402,
+        "startChar": 43,
+        "endLine": 402,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "962db08b_7e4ba320",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 3
@@ -194,6 +350,30 @@
       "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5139495c_3def3e14",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-14T00:46:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "962db08b_7e4ba320",
+      "range": {
+        "startLine": 766,
+        "startChar": 16,
+        "endLine": 766,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
