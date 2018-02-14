@@ -383,7 +383,7 @@ func postnote(pid uint64, msg []byte) int {
 	if fd < 0 {
 		return -1
 	}
-	len := findnull(&msg[0])
+	len := bytesIndexByte(msg, 0)
 	if write(uintptr(fd), unsafe.Pointer(&msg[0]), int32(len)) != int64(len) {
 		closefd(fd)
 		return -1
