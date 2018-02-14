@@ -209,14 +209,24 @@ func parseFiles(dir string, filenames []string) ([]*ast.File, error) {
 	}
 	wg.Wait()
 
-	// if there are errors, return the first one for deterministic results
+	// If there are errors, return the first one for deterministic results.
+	var first error
 	for _, err := range errors {
 		if err != nil {
-			return nil, err
+			first = err
+			// If we have an error, some files may be nil.
+			// If a file is nil, don't return any files.
+			for _, f := range files {
+				if f == nil {
+					files = nil
+					break
+				}
+			}
+			break
 		}
 	}
 
-	return files, nil
+	return files, first
 }
 
 func parseDir(dir string) ([]*ast.File, error) {
@@ -318,10 +328,12 @@ func main() {
 	files, err := getPkgFiles(flag.Args())
 	if err != nil {
 		report(err)
-		os.Exit(2)
 	}
 
-	checkPkgFiles(files)
+	if files != nil {
+		checkPkgFiles(files)
+	}
+
 	if errorCount > 0 {
 		os.Exit(2)
 	}
