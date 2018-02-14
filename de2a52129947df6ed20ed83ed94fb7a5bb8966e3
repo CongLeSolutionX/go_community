@@ -249,6 +249,24 @@
       "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25e122b2_4ec875f4",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-14T18:49:36Z",
+      "side": 1,
+      "message": "BTW, i\u0027m not using `GetUserProfileDirectoryW() + \"\\\\\" + accountName` as the primary solution as apparently the user can decide to move his folder outside of the `GetUserProfileDirectoryW()` (e.g. c:\\users) and modify the reg-key to \"propagate\" the change.",
+      "parentUuid": "e7a0ec7e_85d4b9a7",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
