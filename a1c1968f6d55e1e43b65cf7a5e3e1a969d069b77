@@ -16,6 +16,24 @@
       "revId": "a1c1968f6d55e1e43b65cf7a5e3e1a969d069b77",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80231e53_f4b84b01",
+        "filename": "src/go/types/gotype.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-02-14T21:15:07Z",
+      "side": 1,
+      "message": "Good suggestion, thanks. Fixed.",
+      "parentUuid": "bbc27b15_1a943fe6",
+      "revId": "a1c1968f6d55e1e43b65cf7a5e3e1a969d069b77",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
