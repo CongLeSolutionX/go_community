@@ -107,6 +107,9 @@ func (f *Func) retSparseSet(ss *sparseSet) {
 
 // newValue allocates a new Value with the given fields and places it at the end of b.Values.
 func (f *Func) newValue(op Op, t *types.Type, b *Block, pos src.XPos) *Value {
+	if t.IsUntyped() {
+		f.Fatalf("allocating value with type %v", t)
+	}
 	var v *Value
 	if f.freeValues != nil {
 		v = f.freeValues
@@ -134,6 +137,9 @@ func (f *Func) newValue(op Op, t *types.Type, b *Block, pos src.XPos) *Value {
 // decides on a block b, it must set b.Block and append
 // the returned value to b.Values.
 func (f *Func) newValueNoBlock(op Op, t *types.Type, pos src.XPos) *Value {
+	if t.IsUntyped() {
+		f.Fatalf("allocating value with type %v", t)
+	}
 	var v *Value
 	if f.freeValues != nil {
 		v = f.freeValues
