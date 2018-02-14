@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b1d65c9_e07dcac9",
+        "filename": "src/cmd/go/internal/work/security.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-14T19:27:31Z",
+      "side": 1,
+      "message": "which start with a single hyphen vs two? is that clang vs gcc or something? or arbitrary?\n\ndo we just want to accept either always and make them all `-?-` ?",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 25
+      },
+      "revId": "2b3282e9bcb8720d4d12aee622887f68f57fc2e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e059ffcb_8d0d150f",
+        "filename": "src/cmd/go/internal/work/security.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-14T19:27:31Z",
+      "side": 1,
+      "message": "does Windows accept backslashes? or colons?",
+      "range": {
+        "startLine": 121,
+        "startChar": 16,
+        "endLine": 121,
+        "endChar": 17
+      },
+      "revId": "2b3282e9bcb8720d4d12aee622887f68f57fc2e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
