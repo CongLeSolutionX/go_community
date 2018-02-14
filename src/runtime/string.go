@@ -397,17 +397,22 @@ func atoi32(s string) (int32, bool) {
 	return 0, false
 }
 
+// bytes.IndexByte is implemented in runtime/asm_$goarch.s
+// Use go:linkname to get access to it here in the runtime.
+//go:linkname bytesIndexByte bytes.IndexByte
+func bytesIndexByte(b []byte, c byte) int
+
 //go:nosplit
 func findnull(s *byte) int {
 	if s == nil {
 		return 0
 	}
-	p := (*[maxAlloc/2 - 1]byte)(unsafe.Pointer(s))
-	l := 0
-	for p[l] != 0 {
-		l++
-	}
-	return l
+	var b []byte
+	p := (*slice)(unsafe.Pointer(&b))
+	p.array = unsafe.Pointer(s)
+	p.len = maxAlloc/2 - 1
+	p.cap = p.len
+	return bytesIndexByte(b, 0)
 }
 
 func findnullw(s *uint16) int {
