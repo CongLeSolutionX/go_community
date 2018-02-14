@@ -330,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "359b6959_ee4d51f9",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-14T19:37:22Z",
+      "side": 1,
+      "message": "Oh, I see. Might be clearer using duration.Truncate and then .String?",
+      "parentUuid": "20b92294_871015e1",
+      "range": {
+        "startLine": 402,
+        "startChar": 43,
+        "endLine": 402,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "962db08b_7e4ba320",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 3

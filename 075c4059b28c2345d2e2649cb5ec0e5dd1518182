@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30b6bc66_7d5d995f",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-14T19:37:22Z",
+      "side": 1,
+      "message": "Why a sentinel value rather than nil? You might accidentally add children to this...",
+      "range": {
+        "startLine": 234,
+        "startChar": 19,
+        "endLine": 234,
+        "endChar": 0
+      },
+      "revId": "075c4059b28c2345d2e2649cb5ec0e5dd1518182",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
