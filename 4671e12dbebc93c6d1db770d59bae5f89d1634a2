@@ -354,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "e3cbf899_2fc0e4db",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-14T21:39:32Z",
+      "side": 1,
+      "message": "Still not satisfactory when using with align\u003dright. https://play.golang.org/p/f1AOZHgbjBb",
+      "parentUuid": "359b6959_ee4d51f9",
+      "range": {
+        "startLine": 402,
+        "startChar": 43,
+        "endLine": 402,
+        "endChar": 0
+      },
+      "revId": "4671e12dbebc93c6d1db770d59bae5f89d1634a2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "962db08b_7e4ba320",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 3
