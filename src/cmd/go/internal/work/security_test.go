@@ -132,6 +132,8 @@ var goodLinkerFlags = [][]string{
 	{"-l", "世界"},
 	{"-L", "framework"},
 	{"-framework", "Chocolate"},
+	{"-Wl,-framework", "-Wl,Chocolate"},
+	{"-Wl,-framework,Chocolate"},
 }
 
 var badLinkerFlags = [][]string{
@@ -185,6 +187,9 @@ var badLinkerFlags = [][]string{
 	{"-l", "-foo"},
 	{"-framework", "-Caffeine"},
 	{"-framework", "@Home"},
+	{"-Wl,-framework,-Caffeine"},
+	{"-Wl,-framework", "-Wl,@Home"},
+	{"-Wl,-framework", "@Home"},
 	{"-x", "--c"},
 	{"-x", "@obj"},
 	{"-Wl,-rpath,@foo"},
