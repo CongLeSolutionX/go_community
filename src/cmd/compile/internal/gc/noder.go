@@ -1346,8 +1346,31 @@ func (p *noder) pragma(pos src.Pos, text string) syntax.Pragma {
 		}
 		p.linknames = append(p.linknames, linkname{pos, f[1], f[2]})
 
+	case strings.HasPrefix(text, "go:cgo_import_dynamic "):
+		// This is permitted for general use because Solaris
+		// code relies on it in golang.org/x/sys/unix and others.
+		fields := pragmaFields(text)
+		if len(fields) >= 4 {
+			lib := strings.Trim(fields[3], `"`)
+			if len(lib) > 0 {
+				c := lib[0]
+				switch {
+				case c >= 'a' && c <= 'z':
+				case c >= 'A' && c <= 'Z':
+				case c >= '0' && c <= '9':
+				case c == '.' || c == '_' || c == '/':
+				case c >= utf8.RuneSelf:
+				default:
+					p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("invalid library name %q in cgo_import_dynamic directive", lib)})
+				}
+			}
+			p.pragcgobuf += p.pragcgo(pos, text)
+			return pragmaValue("go:cgo_import_dynamic")
+		}
+		fallthrough
 	case strings.HasPrefix(text, "go:cgo_"):
-		// For security, we disallow //go:cgo_* directives outside cgo-generated files.
+		// For security, we disallow //go:cgo_* directives other
+		// than cgo_import_dynamic outside cgo-generated files.
 		// Exception: they are allowed in the standard library, for runtime and syscall.
 		if !isCgoGeneratedFile(pos) && !compiling_std {
 			p.error(syntax.Error{Pos: pos, Msg: fmt.Sprintf("//%s only allowed in cgo-generated code", text)})
