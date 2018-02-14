@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0b34eb2_ea55b13c",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-14T18:49:04Z",
+      "side": 1,
+      "message": "this could use a little doc about its purpose and that it is not intended to ever be exposed to users.",
+      "revId": "8cc28376a64781165f79132fa65238f3b192f066",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "087bc3b0_563a8a67",
+        "filename": "src/encoding/json/decode.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-14T18:49:04Z",
+      "side": 1,
+      "message": "well, not true anymore.",
+      "range": {
+        "startLine": 300,
+        "startChar": 42,
+        "endLine": 300,
+        "endChar": 50
+      },
+      "revId": "8cc28376a64781165f79132fa65238f3b192f066",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
