@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a78400c_02333e1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-14T17:20:31Z",
+      "side": 1,
+      "message": "ok, will do.",
+      "parentUuid": "4cdef601_26d72a56",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4840ee9e_8c9472f9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-14T10:05:57Z",
       "side": 1,
       "message": "Do you have a reference for this information? How do you know that users home path is stored there?",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8cf7a1b_56066de2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-14T17:20:31Z",
+      "side": 1,
+      "message": "https://social.technet.microsoft.com/wiki/contents/articles/13895.how-to-remove-a-corrupted-user-profile-from-the-registry.aspx\n\nhttps://support.asperasoft.com/hc/en-us/articles/216127438-How-to-delete-Windows-user-profiles",
+      "parentUuid": "4840ee9e_8c9472f9",
       "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -59,6 +95,23 @@
     },
     {
       "key": {
+        "uuid": "627da37c_2c4a683e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-14T17:20:31Z",
+      "side": 1,
+      "message": "@Tobias, can i leave the \"Signed-off-by\" line if i want to?",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ed5ecab_646ca7fc",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 1
@@ -76,6 +129,24 @@
     },
     {
       "key": {
+        "uuid": "9f31ff6f_42b582d0",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-14T17:20:31Z",
+      "side": 1,
+      "message": "thanks for the review. i wanted to return \"Unknown directory\" in case of a failure. maybe we should always return an error here if the regkey fails?",
+      "parentUuid": "1ed5ecab_646ca7fc",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45c57b82_257d98b5",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 1
@@ -87,6 +158,24 @@
       "writtenOn": "2018-02-14T10:05:57Z",
       "side": 1,
       "message": "If you have any reference about why we could use this registry key, please add it here as a comment.",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4eaa99b4_a0896c3d",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-14T17:20:31Z",
+      "side": 1,
+      "message": "ok, i will add the two links i\u0027ve posted in the commit message comment.",
+      "parentUuid": "45c57b82_257d98b5",
       "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -121,6 +210,24 @@
       "writtenOn": "2018-02-14T10:05:57Z",
       "side": 1,
       "message": "Is it possible to add new test that verifies thah user home directory is set correctly? Can we use environment variables to retrieve home directory? Maybe there is an Windows command that we could run that prints home directory? Powershell?",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ee41337b_2c9fb20d",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-14T17:20:31Z",
+      "side": 1,
+      "message": "i guess we can test the existence of the Administrator home directory.\n\n`ProfileImagePath` is an important key. if one changes this in the registry, on the next restart the user will be having issues with his home directory. environment variables can be used only to retrieve the current user\u0027s home directory. powershell - the solution i found didn\u0027t seemed portable between WIN7 and WIN10, i can search again. WINAPI - i had some issues getting GetUserProfileDirectory() to work. it needs a token for that particular user, which means that the user should either own the process or be logged in (password required). maybe i didn\u0027t quite understand the WINAPI part.\n\nafter trying a set of different options i ended up with the reg-key solution.",
+      "parentUuid": "3d78017a_d063b099",
       "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
