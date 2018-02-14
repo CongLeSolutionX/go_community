@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4cdef601_26d72a56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-14T10:05:57Z",
+      "side": 1,
+      "message": "Changing this line to:\n\nos/user: obtain a user home path on windows\n\nas per https://github.com/golang/go/wiki/CommitMessage",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4840ee9e_8c9472f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-14T10:05:57Z",
+      "side": 1,
+      "message": "Do you have a reference for this information? How do you know that users home path is stored there?",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ed5ecab_646ca7fc",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-14T10:05:57Z",
+      "side": 1,
+      "message": "Check for error and return first, like on line 122. When writing Go code, you should try and avoid indenting your code - it is easier to read such code.",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45c57b82_257d98b5",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-14T10:05:57Z",
+      "side": 1,
+      "message": "If you have any reference about why we could use this registry key, please add it here as a comment.",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d1e7a15_aa7eaf63",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-14T10:05:57Z",
+      "side": 1,
+      "message": "Same.",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d78017a_d063b099",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-14T10:05:57Z",
+      "side": 1,
+      "message": "Is it possible to add new test that verifies thah user home directory is set correctly? Can we use environment variables to retrieve home directory? Maybe there is an Windows command that we could run that prints home directory? Powershell?",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
