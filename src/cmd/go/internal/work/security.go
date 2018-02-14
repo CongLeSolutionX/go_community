@@ -45,26 +45,42 @@ var validCompilerFlags = []*regexp.Regexp{
 	re(`-O([^@\-].*)`),
 	re(`-W`),
 	re(`-W([^@,]+)`), // -Wall but not -Wa,-foo.
+	re(`-f(no-)?blocks`),
+	re(`-f(no-)?common`),
+	re(`-f(no-)?constant-cfstrings`),
+	re(`-f(no-)?exceptions`),
+	re(`-finput-charset=([^@\-].*)`),
+	re(`-f(no-)?lto`),
+	re(`-f(no-)?modules`),
 	re(`-f(no-)?objc-arc`),
 	re(`-f(no-)?omit-frame-pointer`),
+	re(`-f(no-)?openmp(-simd)?`),
+	re(`-f(no-)?permissive`),
 	re(`-f(no-)?(pic|PIC|pie|PIE)`),
+	re(`-f(no-)?rtti`),
 	re(`-f(no-)?split-stack`),
 	re(`-f(no-)?stack-(.+)`),
 	re(`-f(no-)?strict-aliasing`),
 	re(`-fsanitize=(.+)`),
 	re(`-g([^@\-].*)?`),
 	re(`-m(arch|cpu|fpu|tune)=([^@\-].*)`),
+	re(`-m(no-)?avx[0-9a-z.]*`),
+	re(`-m(no-)?ms-bitfields`),
 	re(`-m(no-)?stack-(.+)`),
 	re(`-mmacosx-(.+)`),
 	re(`-mnop-fun-dllimport`),
+	re(`-m(no-)?sse[0-9.]*`),
+	re(`-pedantic(-errors)?`),
+	re(`-pipe`),
 	re(`-pthread`),
-	re(`-std=([^@\-].*)`),
+	re(`-?-std=([^@\-].*)`),
 	re(`-x([^@\-].*)`),
 }
 
 var validCompilerFlagsWithNextArg = []string{
 	"-D",
 	"-I",
+	"-isystem",
 	"-framework",
 	"-x",
 }
@@ -79,16 +95,26 @@ var validLinkerFlags = []*regexp.Regexp{
 	re(`-m(arch|cpu|fpu|tune)=([^@\-].*)`),
 	re(`-(pic|PIC|pie|PIE)`),
 	re(`-pthread`),
+	re(`-?-static([-a-z0-9+]*)`),
 
 	// Note that any wildcards in -Wl need to exclude comma,
 	// since -Wl splits its argument at commas and passes
 	// them all to the linker uninterpreted. Allowing comma
 	// in a wildcard would allow tunnelling arbitrary additional
 	// linker arguments through one of these.
+	re(`-Wl,--(no-)?as-needed`),
+	re(`-Wl,-Bdynamic`),
+	re(`-Wl,-Bstatic`),
+	re(`-Wl,--disable-new-dtags`),
+	re(`-Wl,--enable-new-dtags`),
+	re(`-Wl,--end-group`),
+	re(`-Wl,-headerpad_max_install_names`),
 	re(`-Wl,-rpath,([^,@\-][^,]+)`),
+	re(`-Wl,-search_paths_first`),
+	re(`-Wl,--start-group`),
 	re(`-Wl,--(no-)?warn-([^,]+)`),
 
-	re(`[a-zA-Z0-9_].*\.(o|obj|dll|dylib|so)`), // direct linker inputs: x.o or libfoo.so (but not -foo.o or @foo.o)
+	re(`[a-zA-Z0-9_/].*\.(a|o|obj|dll|dylib|so)`), // direct linker inputs: x.o or libfoo.so (but not -foo.o or @foo.o)
 }
 
 var validLinkerFlagsWithNextArg = []string{
