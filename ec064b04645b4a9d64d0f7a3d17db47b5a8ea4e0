@@ -98,6 +98,24 @@
       "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fb66512_fbbf2270",
+        "filename": "src/runtime/internal/atomic/asm_arm_7.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-15T20:11:59Z",
+      "side": 1,
+      "message": "Yeah, thanks! This could be a separate CL.",
+      "parentUuid": "ca6f0efa_87c1c241",
+      "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
