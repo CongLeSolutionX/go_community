@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1d1bd3e8_0dd8b8e7",
+        "filename": "src/cmd/go/internal/work/security.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-02-15T00:58:41Z",
+      "side": 1,
+      "message": "It\u0027s essentially arbitrary.  I don\u0027t think there is a clear reason to make them all -?-; many options take just two dashes.  Only some permit both.",
+      "parentUuid": "2b1d65c9_e07dcac9",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 25
+      },
+      "revId": "2b3282e9bcb8720d4d12aee622887f68f57fc2e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e059ffcb_8d0d150f",
         "filename": "src/cmd/go/internal/work/security.go",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-14T19:27:31Z",
       "side": 1,
       "message": "does Windows accept backslashes? or colons?",
+      "range": {
+        "startLine": 121,
+        "startChar": 16,
+        "endLine": 121,
+        "endChar": 17
+      },
+      "revId": "2b3282e9bcb8720d4d12aee622887f68f57fc2e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d621bc7d_808b2b3d",
+        "filename": "src/cmd/go/internal/work/security.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-02-15T00:58:41Z",
+      "side": 1,
+      "message": "This is only the first character.  Are people on Windows likely to write a leading backslash without a drive letter?",
+      "parentUuid": "e059ffcb_8d0d150f",
       "range": {
         "startLine": 121,
         "startChar": 16,
