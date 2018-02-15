@@ -148,6 +148,30 @@
     },
     {
       "key": {
+        "uuid": "7394537c_d1966d41",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-15T15:59:01Z",
+      "side": 1,
+      "message": "I\u0027ve updated https://github.com/golang/go/wiki/CommitMessage with that information.\n\nYes, please remove this line.",
+      "parentUuid": "c8484023_001041d1",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 63
+      },
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ed5ecab_646ca7fc",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 1
