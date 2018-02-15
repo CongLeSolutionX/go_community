@@ -22,6 +22,30 @@
       "revId": "bc97f858118f0570b6374dd94b2e45220a30bede",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de5ba1a_a52b3ad1",
+        "filename": "test/fixedbugs/issue23414.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-02-15T00:46:58Z",
+      "side": 1,
+      "message": "Reworked the test case so it\u0027s hopefully clearer. (Took a while to find a test case that worked even after fixing #23837.)",
+      "parentUuid": "37208df6_5520b849",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 9
+      },
+      "revId": "bc97f858118f0570b6374dd94b2e45220a30bede",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
