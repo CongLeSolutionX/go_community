@@ -93,6 +93,30 @@
       "revId": "2b3282e9bcb8720d4d12aee622887f68f57fc2e2",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b361276_a5f3ae85",
+        "filename": "src/cmd/go/internal/work/security.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-15T01:58:42Z",
+      "side": 1,
+      "message": "UNC paths are like \\\\server\\foo\\bar.h\n\nI have no clue. I kinda doubt gcc/clang accept those. Let\u0027s do without for now.",
+      "parentUuid": "d621bc7d_808b2b3d",
+      "range": {
+        "startLine": 121,
+        "startChar": 16,
+        "endLine": 121,
+        "endChar": 17
+      },
+      "revId": "2b3282e9bcb8720d4d12aee622887f68f57fc2e2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
