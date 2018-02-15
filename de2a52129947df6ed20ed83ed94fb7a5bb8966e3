@@ -112,6 +112,24 @@
     },
     {
       "key": {
+        "uuid": "627f276f_4c9ab369",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-02-15T13:11:21Z",
+      "side": 1,
+      "message": "Lubomir, what would be the purpose of keeping it?\n\nBrad, I seem to recall you noticing these in commit messages. Does the Go project have a strict policy regarding these? I couldn\u0027t find anything in the wiki.",
+      "parentUuid": "627da37c_2c4a683e",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ed5ecab_646ca7fc",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 1
