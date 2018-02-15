@@ -374,13 +374,16 @@ type countProfile interface {
 // are done because The proto expects count and time (nanoseconds) instead of count
 // and the number of cycles for block, contention profiles.
 // Possible 'scaler' functions are scaleBlockProfile and scaleMutexProfile.
-func printCountCycleProfile(w io.Writer, countName, cycleName string, scaler func(int64, float64) (int64, float64), records []runtime.BlockProfileRecord) error {
+func printCountCycleProfile(w io.Writer, countName, cycleName string, scaler func(int64, float64) (int64, float64), records []runtime.BlockProfileRecord, duration int64) error {
 	// Output profile in protobuf form.
 	b := newProfileBuilder(w)
 	b.pbValueType(tagProfile_PeriodType, countName, "count")
 	b.pb.int64Opt(tagProfile_Period, 1)
 	b.pbValueType(tagProfile_SampleType, countName, "count")
 	b.pbValueType(tagProfile_SampleType, cycleName, "nanoseconds")
+	if duration > 0 {
+		b.pb.int64Opt(tagProfile_DurationNanos, duration)
+	}
 
 	cpuGHz := float64(runtime_cyclesPerSecond()) / 1e9
 
@@ -841,13 +844,16 @@ func countMutex() int {
 	return n
 }
 
+// defined in runtime/mprof.go
+func readBlockProfile(p []runtime.BlockProfileRecord) (durationNano int64, n int, ok bool)
+
 // writeBlock writes the current blocking profile to w.
 func writeBlock(w io.Writer, debug int) error {
 	var p []runtime.BlockProfileRecord
-	n, ok := runtime.BlockProfile(nil)
+	durationNano, n, ok := readBlockProfile(nil)
 	for {
 		p = make([]runtime.BlockProfileRecord, n+50)
-		n, ok = runtime.BlockProfile(p)
+		durationNano, n, ok = readBlockProfile(p)
 		if ok {
 			p = p[:n]
 			break
@@ -857,7 +863,7 @@ func writeBlock(w io.Writer, debug int) error {
 	sort.Slice(p, func(i, j int) bool { return p[i].Cycles > p[j].Cycles })
 
 	if debug <= 0 {
-		return printCountCycleProfile(w, "contentions", "delay", scaleBlockProfile, p)
+		return printCountCycleProfile(w, "contentions", "delay", scaleBlockProfile, p, durationNano)
 	}
 
 	b := bufio.NewWriter(w)
@@ -892,14 +898,17 @@ func scaleBlockProfile(cnt int64, ns float64) (int64, float64) {
 	return cnt, ns
 }
 
+// defined in runtime/mprof.go
+func readMutexProfile(p []runtime.BlockProfileRecord) (durationNano int64, n int, ok bool)
+
 // writeMutex writes the current mutex profile to w.
 func writeMutex(w io.Writer, debug int) error {
 	// TODO(pjw): too much common code with writeBlock. FIX!
 	var p []runtime.BlockProfileRecord
-	n, ok := runtime.MutexProfile(nil)
+	durationNano, n, ok := readMutexProfile(nil)
 	for {
 		p = make([]runtime.BlockProfileRecord, n+50)
-		n, ok = runtime.MutexProfile(p)
+		durationNano, n, ok = readMutexProfile(p)
 		if ok {
 			p = p[:n]
 			break
@@ -909,7 +918,7 @@ func writeMutex(w io.Writer, debug int) error {
 	sort.Slice(p, func(i, j int) bool { return p[i].Cycles > p[j].Cycles })
 
 	if debug <= 0 {
-		return printCountCycleProfile(w, "contentions", "delay", scaleMutexProfile, p)
+		return printCountCycleProfile(w, "contentions", "delay", scaleMutexProfile, p, durationNano)
 	}
 
 	b := bufio.NewWriter(w)
