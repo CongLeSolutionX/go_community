@@ -130,6 +130,24 @@
     },
     {
       "key": {
+        "uuid": "214dc8da_37275f09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-15T15:47:04Z",
+      "side": 1,
+      "message": "it was about the \"(VMware)\" part, but i forgot that i have it in the author field. i guess we can leave the signed-off out. i will update the patch later today.",
+      "parentUuid": "627f276f_4c9ab369",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ed5ecab_646ca7fc",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 1
