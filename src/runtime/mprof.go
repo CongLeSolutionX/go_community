@@ -154,6 +154,9 @@ var (
 		// has been flushed to the active profile.
 		flushed bool
 	}
+
+	blockProfResetTimeNanos int64 // nanotime of reset
+	mutexProfResetTimeNanos int64 // nanotime of reset
 )
 
 const mProfCycleWrap = uint32(len(memRecord{}.future)) * (2 << 24)
@@ -390,8 +393,21 @@ func SetBlockProfileRate(rate int) {
 			r = 1
 		}
 	}
-
-	atomic.Store64(&blockprofilerate, uint64(r))
+	lock(&proflock)
+	old := atomic.Xchg64(&blockprofilerate, uint64(r))
+	if old == uint64(r) {
+		unlock(&proflock)
+		return
+	}
+	// Clear counters. Buckets are allocated from sysAlloc (persistent)
+	// so can't be freed.
+	for b := bbuckets; b != nil; b = b.allnext {
+		bp := b.bp()
+		bp.count = 0
+		bp.cycles = 0
+	}
+	blockProfResetTimeNanos = nanotime()
+	unlock(&proflock)
 }
 
 func blockevent(cycles int64, skip int) {
@@ -399,6 +415,10 @@ func blockevent(cycles int64, skip int) {
 		cycles = 1
 	}
 	if blocksampled(cycles) {
+		// it's possible that the sampling rate is changed
+		// after blocksampled but before saveblockevent.
+		// But over time, the effect of the missampled data
+		// will diminish.
 		saveblockevent(cycles, skip+1, blockProfile)
 	}
 }
@@ -440,8 +460,24 @@ func SetMutexProfileFraction(rate int) int {
 	if rate < 0 {
 		return int(mutexprofilerate)
 	}
-	old := mutexprofilerate
-	atomic.Store64(&mutexprofilerate, uint64(rate))
+	lock(&proflock)
+	old := atomic.Xchg64(&mutexprofilerate, uint64(rate))
+
+	if old == uint64(rate) {
+		unlock(&proflock)
+		return int(old)
+	}
+
+	// Clear counters. Buckets are allocated from sysAlloc (persistent)
+	// so can't be freed.
+	for b := xbuckets; b != nil; b = b.allnext {
+		bp := b.bp()
+		bp.count = 0
+		bp.cycles = 0
+	}
+	mutexProfResetTimeNanos = nanotime()
+	unlock(&proflock)
+
 	return int(old)
 }
 
@@ -454,6 +490,9 @@ func mutexevent(cycles int64, skip int) {
 	// TODO(pjw): measure impact of always calling fastrand vs using something
 	// like malloc.go:nextSample()
 	if rate > 0 && int64(fastrand())%rate == 0 {
+		// It's possible that the rate changes after this check but
+		// before saveblockevent. The effect of the error will diminish
+		// over time.
 		saveblockevent(cycles, skip+1, mutexProfile)
 	}
 }
@@ -624,6 +663,12 @@ type BlockProfileRecord struct {
 	StackRecord
 }
 
+//go:linkname runtime_pprof_readBlockProfile runtime/pprof.readBlockProfile
+func runtime_pprof_readBlockProfile(p []BlockProfileRecord) (durationNano int64, n int, ok bool) {
+	durationNano, n, ok = readBlockProfile(p)
+	return
+}
+
 // BlockProfile returns n, the number of records in the current blocking profile.
 // If len(p) >= n, BlockProfile copies the profile into p and returns n, true.
 // If len(p) < n, BlockProfile does not change p and returns n, false.
@@ -632,14 +677,26 @@ type BlockProfileRecord struct {
 // the testing package's -test.blockprofile flag instead
 // of calling BlockProfile directly.
 func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
+	_, n, ok = readBlockProfile(p)
+	return
+}
+
+func readBlockProfile(p []BlockProfileRecord) (durationNano int64, n int, ok bool) {
 	lock(&proflock)
+	durationNano = nanotime() - blockProfResetTimeNanos
 	for b := bbuckets; b != nil; b = b.allnext {
-		n++
+		if b.bp().count > 0 {
+			n++
+		}
 	}
 	if n <= len(p) {
 		ok = true
 		for b := bbuckets; b != nil; b = b.allnext {
 			bp := b.bp()
+			if bp.count <= 0 {
+				continue
+			}
+
 			r := &p[0]
 			r.Count = bp.count
 			r.Cycles = bp.cycles
@@ -660,6 +717,12 @@ func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
 	return
 }
 
+//go:linkname runtime_pprof_readMutexProfile runtime/pprof.readMutexProfile
+func runtime_pprof_readMutexProfile(p []BlockProfileRecord) (durationNano int64, n int, ok bool) {
+	durationNano, n, ok = readMutexProfile(p)
+	return
+}
+
 // MutexProfile returns n, the number of records in the current mutex profile.
 // If len(p) >= n, MutexProfile copies the profile into p and returns n, true.
 // Otherwise, MutexProfile does not change p, and returns n, false.
@@ -667,14 +730,26 @@ func BlockProfile(p []BlockProfileRecord) (n int, ok bool) {
 // Most clients should use the runtime/pprof package
 // instead of calling MutexProfile directly.
 func MutexProfile(p []BlockProfileRecord) (n int, ok bool) {
+	_, n, ok = readMutexProfile(p)
+	return
+}
+
+func readMutexProfile(p []BlockProfileRecord) (durationNano int64, n int, ok bool) {
 	lock(&proflock)
+	durationNano = nanotime() - mutexProfResetTimeNanos
 	for b := xbuckets; b != nil; b = b.allnext {
-		n++
+		if b.bp().count > 0 {
+			n++
+		}
 	}
 	if n <= len(p) {
 		ok = true
 		for b := xbuckets; b != nil; b = b.allnext {
 			bp := b.bp()
+			if bp.count <= 0 {
+				continue
+			}
+
 			r := &p[0]
 			r.Count = int64(bp.count)
 			r.Cycles = bp.cycles

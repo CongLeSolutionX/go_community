@@ -506,6 +506,8 @@ func TestBlockProfile(t *testing.T) {
 	// Generate block profile
 	runtime.SetBlockProfileRate(1)
 	defer runtime.SetBlockProfileRate(0)
+	lastReset := time.Now()
+
 	for _, test := range tests {
 		test.f()
 	}
@@ -531,9 +533,14 @@ func TestBlockProfile(t *testing.T) {
 	})
 
 	t.Run("proto", func(t *testing.T) {
+		low := time.Since(lastReset)
+
 		// proto format
 		var w bytes.Buffer
 		Lookup("block").WriteTo(&w, 0)
+
+		high := time.Since(lastReset)
+
 		p, err := profile.Parse(&w)
 		if err != nil {
 			t.Fatalf("failed to parse profile: %v", err)
@@ -543,10 +550,48 @@ func TestBlockProfile(t *testing.T) {
 			t.Fatalf("invalid profile: %v", err)
 		}
 
+		if d := time.Duration(p.DurationNanos) * time.Nanosecond; d < low || d > high {
+			t.Errorf("p.Duration = %v, want value in [%v, %v]", d, low, high)
+		}
+
 		stks := stacks(p)
 		for _, test := range tests {
 			if !containsStack(stks, test.stk) {
 				t.Errorf("No matching stack entry for %v, want %+v", test.name, test.stk)
+			}
+		}
+	})
+
+	// After resetting the profile rate, we expect any samples from
+	// previous tests to disappear from the profile output.
+	lastReset = time.Now()
+	runtime.SetBlockProfileRate(0)
+
+	t.Run("after reset", func(t *testing.T) {
+		low := time.Since(lastReset)
+
+		var w bytes.Buffer
+		Lookup("block").WriteTo(&w, 0)
+
+		high := time.Since(lastReset)
+
+		p, err := profile.Parse(&w)
+		if err != nil {
+			t.Fatalf("failed to parse profile: %v", err)
+		}
+		t.Logf("parsed proto: %s", p)
+		if err := p.CheckValid(); err != nil {
+			t.Fatalf("invalid profile: %v", err)
+		}
+
+		if d := time.Duration(p.DurationNanos) * time.Nanosecond; d < low || d > high {
+			t.Errorf("p.Duration = %v, want value in [%v, %v]", d, low, high)
+		}
+
+		stks := stacks(p)
+		for _, test := range tests {
+			if containsStack(stks, test.stk) {
+				t.Errorf("Unexpected matching stack entry for %v, got %+v", test.name, test.stk)
 			}
 		}
 	})
@@ -672,14 +717,14 @@ func blockCond() {
 }
 
 func TestMutexProfile(t *testing.T) {
-	// Generate mutex profile
-
+	lastReset := time.Now()
 	old := runtime.SetMutexProfileFraction(1)
 	defer runtime.SetMutexProfileFraction(old)
 	if old != 0 {
 		t.Fatalf("need MutexProfileRate 0, got %d", old)
 	}
 
+	// Generate mutex profile
 	blockMutex()
 
 	t.Run("debug=1", func(t *testing.T) {
@@ -713,8 +758,14 @@ func TestMutexProfile(t *testing.T) {
 	})
 	t.Run("proto", func(t *testing.T) {
 		// proto format
+
+		low := time.Since(lastReset)
+
 		var w bytes.Buffer
 		Lookup("mutex").WriteTo(&w, 0)
+
+		high := time.Since(lastReset)
+
 		p, err := profile.Parse(&w)
 		if err != nil {
 			t.Fatalf("failed to parse profile: %v", err)
@@ -724,12 +775,52 @@ func TestMutexProfile(t *testing.T) {
 			t.Fatalf("invalid profile: %v", err)
 		}
 
+		if d := time.Duration(p.DurationNanos) * time.Nanosecond; d < low || d > high {
+			t.Errorf("p.Duration = %v, want value in [%v, %v]", d, low, high)
+		}
+
 		stks := stacks(p)
 		for _, want := range [][]string{
 			{"sync.(*Mutex).Unlock", "runtime/pprof.blockMutex.func1"},
 		} {
 			if !containsStack(stks, want) {
 				t.Errorf("No matching stack entry for %+v", want)
+			}
+		}
+	})
+
+	lastReset = time.Now()
+	if old := runtime.SetMutexProfileFraction(0); old != 1 { // previously set to 1
+		t.Fatalf("need MutexProfileRate 0, got %d", old)
+	}
+	t.Run("after reset", func(t *testing.T) {
+		low := time.Since(lastReset)
+
+		// after reset, we don't want the samples we saw in the previous tests.
+		var w bytes.Buffer
+		Lookup("mutex").WriteTo(&w, 0)
+
+		high := time.Since(lastReset)
+
+		p, err := profile.Parse(&w)
+		if err != nil {
+			t.Fatalf("failed to parse profile: %v", err)
+		}
+		t.Logf("parsed proto: %s", p)
+		if err := p.CheckValid(); err != nil {
+			t.Fatalf("invalid profile: %v", err)
+		}
+
+		if d := time.Duration(p.DurationNanos) * time.Nanosecond; d < low || d > high {
+			t.Errorf("p.Duration = %v, want value in [%v, %v]", d, low, high)
+		}
+
+		stks := stacks(p)
+		for _, unwant := range [][]string{
+			{"sync.(*Mutex).Unlock", "runtime/pprof.blockMutex.func1"},
+		} {
+			if containsStack(stks, unwant) {
+				t.Errorf("No matching stack entry for %+v", unwant)
 			}
 		}
 	})
