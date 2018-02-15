@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13f1e8b0_257dd099",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-02-15T12:42:03Z",
+      "side": 1,
+      "message": "As per https://github.com/golang/go/wiki/CommitMessage the prefix should be \"cmd/cgo\". Also I\u0027d suggest to rephrase the subject, as the double space was probably not a typo but intentional (see also CL 20022 and CL 57293, where the same was done on a larger scale). How about just saying:\n\n  cmd/cgo: delete double space in comment\n\nas the commit message?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "b76cbc1ee3d8dd8b21f1c328b6b48f0fdf4a40a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
