@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad0dd972_dd7e977c",
+        "filename": "src/runtime/internal/atomic/asm_arm_7.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-15T19:32:44Z",
+      "side": 1,
+      "message": "If we do it in a .h file, I think the build tag is not needed.",
+      "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2157fe8d_bf4206ac",
+        "filename": "src/runtime/internal/atomic/asm_arm_7.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-15T19:32:44Z",
+      "side": 1,
+      "message": "What about \"_armv7_test\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57199749_5ee74da7",
+        "filename": "src/runtime/internal/atomic/asm_arm_7.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-15T19:32:44Z",
+      "side": 1,
+      "message": "What about adding these instructions to the assembler?",
+      "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
