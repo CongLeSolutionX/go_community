@@ -46,6 +46,30 @@
       "revId": "72afc657725987c3c65da87e294f83b6e3183475",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32a6b78b_3a58d13f",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1363,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-02-15T22:31:50Z",
+      "side": 1,
+      "message": "I was writing SafeArg from cmd/go/internal/load in a different way, but that was dumb.  I just copied the function instead, with appropriate comments.",
+      "parentUuid": "1b90e73c_74f0cd50",
+      "range": {
+        "startLine": 1356,
+        "startChar": 4,
+        "endLine": 1363,
+        "endChar": 12
+      },
+      "revId": "72afc657725987c3c65da87e294f83b6e3183475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
