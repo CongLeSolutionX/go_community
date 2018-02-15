@@ -22,6 +22,30 @@
       "revId": "72afc657725987c3c65da87e294f83b6e3183475",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b90e73c_74f0cd50",
+        "filename": "src/cmd/compile/internal/gc/noder.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1363,
+      "author": {
+        "id": 6005
+      },
+      "writtenOn": "2018-02-15T20:54:39Z",
+      "side": 1,
+      "message": "Not sure if you\u0027re looking for style suggestions, but if you are, consider the following \"ok :\u003d ...; if !ok {}\" pattern:\n\n\tok :\u003d (\u0027a\u0027 \u003c\u003d c \u0026\u0026 c \u003c\u003d \u0027z\u0027) ||\n\t\t(\u0027A\u0027 \u003c\u003d c \u0026\u0026 c \u003c\u003d \u0027Z\u0027) ||\n\t\t(\u00270\u0027 \u003c\u003d c \u0026\u0026 c \u003c\u003d \u00279\u0027) ||\n\t\tc \u003d\u003d \u0027.\u0027 || c \u003d\u003d \u0027_\u0027 || c \u003d\u003d \u0027/\u0027 ||\n\t\tc \u003e\u003d utf8.RuneSelf\n\tif !ok {\n\t\tp.error(...)\n\t}\n\nPerhaps you\u0027ll find it\u0027s more readable/better at communicating that the listed conditions are the allowed (rather than disallowed) characters. (But current style is fine too.)\n\nAlso, related to what Brad said, if it\u0027s possible to write a comment that does a fair job of hinting at the most important part that\u0027s being checked, perhaps:\n\n\t// Don\u0027t allow \u0027-\u0027 as the first character to prevent -fplugin.\n\nThat might be helpful. If it\u0027s not possible, then no comment is better.",
+      "parentUuid": "edd9c6eb_de74f6d1",
+      "range": {
+        "startLine": 1356,
+        "startChar": 4,
+        "endLine": 1363,
+        "endChar": 12
+      },
+      "revId": "72afc657725987c3c65da87e294f83b6e3183475",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
