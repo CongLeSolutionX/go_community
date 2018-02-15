@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "db5fd9a5_3cd529f6",
+        "filename": "src/runtime/internal/atomic/asm_arm_7.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-02-15T20:03:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2157fe8d_bf4206ac",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57199749_5ee74da7",
         "filename": "src/runtime/internal/atomic/asm_arm_7.s",
         "patchSetId": 4
@@ -53,6 +77,24 @@
       "writtenOn": "2018-02-15T19:32:44Z",
       "side": 1,
       "message": "What about adding these instructions to the assembler?",
+      "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca6f0efa_87c1c241",
+        "filename": "src/runtime/internal/atomic/asm_arm_7.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-02-15T20:03:52Z",
+      "side": 1,
+      "message": "Sure I\u0027ll look into it, I need to add it in cmd/internal/obj and maybe cmd/asm/internal/arch/arm.go right?",
+      "parentUuid": "57199749_5ee74da7",
       "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
