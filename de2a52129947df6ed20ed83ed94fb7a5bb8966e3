@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3a6b596e_8aee9392",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-16T05:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a78400c_02333e1a",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4840ee9e_8c9472f9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "https://social.technet.microsoft.com/wiki/contents/articles/13895.how-to-remove-a-corrupted-user-profile-from-the-registry.aspx\n\nhttps://support.asperasoft.com/hc/en-us/articles/216127438-How-to-delete-Windows-user-profiles",
       "parentUuid": "4840ee9e_8c9472f9",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f8efe4d_4d395f67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-16T05:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8cf7a1b_56066de2",
       "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -172,6 +208,48 @@
     },
     {
       "key": {
+        "uuid": "65ab3c04_d6f0a99d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-16T05:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "214dc8da_37275f09",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb8a9be1_ca8fea06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-16T05:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7394537c_d1966d41",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 63
+      },
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ed5ecab_646ca7fc",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 1
@@ -201,6 +279,24 @@
       "side": 1,
       "message": "thanks for the review. i wanted to return \"Unknown directory\" in case of a failure. maybe we should always return an error here if the regkey fails?",
       "parentUuid": "1ed5ecab_646ca7fc",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "67abf540_80945174",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-16T05:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f31ff6f_42b582d0",
       "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -242,6 +338,24 @@
     },
     {
       "key": {
+        "uuid": "c0939d14_4125092e",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-16T05:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eaa99b4_a0896c3d",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d1e7a15_aa7eaf63",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 1
@@ -253,6 +367,24 @@
       "writtenOn": "2018-02-14T10:05:57Z",
       "side": 1,
       "message": "Same.",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "77b00d3e_7c42e8a6",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-16T05:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d1e7a15_aa7eaf63",
       "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
@@ -324,6 +456,24 @@
       "side": 1,
       "message": "BTW, i\u0027m not using `GetUserProfileDirectoryW() + \"\\\\\" + accountName` as the primary solution as apparently the user can decide to move his folder outside of the `GetUserProfileDirectoryW()` (e.g. c:\\users) and modify the reg-key to \"propagate\" the change.",
       "parentUuid": "e7a0ec7e_85d4b9a7",
+      "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a90bbdb6_2faeb232",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-16T05:59:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e122b2_4ec875f4",
       "revId": "de2a52129947df6ed20ed83ed94fb7a5bb8966e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
