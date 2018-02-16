@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b031cf08_4df794b6",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-16T21:57:38Z",
+      "side": 1,
+      "message": "Since this is GC-specific, it should have GC in the name. gcOverlapDuration or something? Also, I guess GoStart[Label] is presumed to be a GC worker? I\u0027m not sure how much sense it makes to include those...couldn\u0027t the user goroutine just have gone to sleep? And how does anything besides GCStart get into gcEvents anyway?",
+      "range": {
+        "startLine": 405,
+        "startChar": 22,
+        "endLine": 405,
+        "endChar": 41
+      },
+      "revId": "e58061c87dbd20268a38fbe0775c3fb8c05ca5db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "872db1f2_a5a54898",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-16T21:57:38Z",
+      "side": 1,
+      "message": "Now I\u0027m really confused. This makes sense for Mark/Sweep, but for GoStart, what are these goroutines that are part of a GC that have the same ID as something that ran a user span? Maybe I\u0027m completely misunderstanding what this function is for.",
+      "revId": "e58061c87dbd20268a38fbe0775c3fb8c05ca5db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
