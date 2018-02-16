@@ -7,6 +7,7 @@ package user
 import (
 	"errors"
 	"fmt"
+	"internal/syscall/windows/registry"
 	"syscall"
 	"unsafe"
 )
@@ -72,19 +73,20 @@ func lookupFullName(domain, username, domainAndUser string) (string, error) {
 	return username, nil
 }
 
-func newUser(usid *syscall.SID, gid, dir string) (*User, error) {
+// obtain the username and domain and validate if the SID is of a user
+func lookupUserAccountValidate(usid *syscall.SID) (username string, domain string, err error) {
 	username, domain, t, e := usid.LookupAccount("")
 	if e != nil {
-		return nil, e
+		return "", "", e
 	}
 	if t != syscall.SidTypeUser {
-		return nil, fmt.Errorf("user: should be user account type, not %d", t)
+		return "", "", fmt.Errorf("user: should be user account type, not %d", t)
 	}
+	return username, domain, nil
+}
+
+func newUser(uid string, gid string, dir string, username string, domain string) (*User, error) {
 	domainAndUser := domain + `\` + username
-	uid, e := usid.String()
-	if e != nil {
-		return nil, e
-	}
 	name, e := lookupFullName(domain, username, domainAndUser)
 	if e != nil {
 		return nil, e
@@ -113,6 +115,10 @@ func current() (*User, error) {
 	if e != nil {
 		return nil, e
 	}
+	uid, e := u.User.Sid.String()
+	if e != nil {
+		return nil, e
+	}
 	gid, e := pg.PrimaryGroup.String()
 	if e != nil {
 		return nil, e
@@ -121,17 +127,58 @@ func current() (*User, error) {
 	if e != nil {
 		return nil, e
 	}
-	return newUser(u.User.Sid, gid, dir)
+	username, domain, e := lookupUserAccountValidate(u.User.Sid)
+	if e != nil {
+		return nil, e
+	}
+	return newUser(uid, gid, dir, username, domain)
 }
 
-// BUG(brainman): Lookup and LookupId functions do not set
-// Gid and HomeDir fields in the User struct returned on windows.
+// TODO: The Gid field in the User struct is not set on Windows.
 
 func newUserFromSid(usid *syscall.SID) (*User, error) {
-	// TODO(brainman): do not know where to get gid and dir fields
+	var dir string
+	var e error
 	gid := "unknown"
-	dir := "Unknown directory"
-	return newUser(usid, gid, dir)
+	username, domain, e := lookupUserAccountValidate(usid)
+	if e != nil {
+		return nil, e
+	}
+	uid, e := usid.String()
+	if e != nil {
+		return nil, e
+	}
+	// if this user has logged at least once his home path should be stored
+	// in the registry under his SID. references:
+	// https://social.technet.microsoft.com/wiki/contents/articles/13895.how-to-remove-a-corrupted-user-profile-from-the-registry.aspx
+	// https://support.asperasoft.com/hc/en-us/articles/216127438-How-to-delete-Windows-user-profiles
+	//
+	// the registry is the most reliable way to find the home path as the user
+	// might have decided to move it outside of the default location
+	// (e.g. c:\users). reference:
+	// https://answers.microsoft.com/en-us/windows/forum/windows_7-security/how-do-i-set-a-home-directory-outside-cusers-for-a/aed68262-1bf4-4a4d-93dc-7495193a440f
+	k, e := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\`+uid, registry.QUERY_VALUE)
+	if e != nil {
+		goto use_default
+	}
+	defer k.Close()
+	dir, _, e = k.GetStringValue("ProfileImagePath")
+	if e != nil {
+		goto use_default
+	}
+	goto return_user
+use_default:
+	// if the home path does not exists in the registry, the user might have
+	// not logged in yet; fall back to using GetPorfilesDir(). find the
+	// username based on a SID and append that to the result of
+	// GetProfilesDir(). the domain is not of relevance here.
+	dir, e = syscall.GetProfilesDir()
+	if e != nil {
+		return nil, e
+	}
+	dir += `\` + username
+return_user:
+	return newUser(uid, gid, dir, username, domain)
 }
 
 func lookupUser(username string) (*User, error) {
