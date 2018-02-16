@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "97eadd94_f774eefd",
+        "filename": "src/runtime/internal/atomic/asm_arm_7.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-02-16T14:18:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad0dd972_dd7e977c",
+      "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2157fe8d_bf4206ac",
         "filename": "src/runtime/internal/atomic/asm_arm_7.s",
         "patchSetId": 4
@@ -54,6 +72,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "2157fe8d_bf4206ac",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b2b1dea_c7a5b364",
+        "filename": "src/runtime/internal/atomic/asm_arm_7.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-02-16T14:18:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db5fd9a5_3cd529f6",
       "range": {
         "startLine": 7,
         "startChar": 15,
@@ -116,6 +158,24 @@
       "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f74b49aa_aeaeb758",
+        "filename": "src/runtime/internal/atomic/asm_arm_7.s",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-02-16T14:18:06Z",
+      "side": 1,
+      "message": "I\u0027ve added https://golang.org/cl/94815",
+      "parentUuid": "3fb66512_fbbf2270",
+      "revId": "ec064b04645b4a9d64d0f7a3d17db47b5a8ea4e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
