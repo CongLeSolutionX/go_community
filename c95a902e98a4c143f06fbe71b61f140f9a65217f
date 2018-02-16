@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72bfa29a_ace31dd4",
+        "filename": "src/cmd/internal/obj/arm/obj5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-16T17:22:26Z",
+      "side": 1,
+      "message": "Why? The operand of DMB is not a destination, and it is fine to have it encoded in Prog.From.",
+      "revId": "c95a902e98a4c143f06fbe71b61f140f9a65217f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
