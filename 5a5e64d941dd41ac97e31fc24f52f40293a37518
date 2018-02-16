@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba51fc18_7412961b",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-16T21:44:54Z",
+      "side": 1,
+      "message": "Right now I don\u0027t see this used as anything other than a complicated way to call String. Do you have something more substantial pending?",
+      "range": {
+        "startLine": 838,
+        "startChar": 21,
+        "endLine": 838,
+        "endChar": 0
+      },
+      "revId": "5a5e64d941dd41ac97e31fc24f52f40293a37518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5005366d_14c8e7cb",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-16T21:44:54Z",
+      "side": 1,
+      "message": "tBegin/End?",
+      "range": {
+        "startLine": 658,
+        "startChar": 3,
+        "endLine": 658,
+        "endChar": 5
+      },
+      "revId": "5a5e64d941dd41ac97e31fc24f52f40293a37518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
