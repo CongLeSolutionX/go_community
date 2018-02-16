@@ -303,6 +303,8 @@ var optab = []Optab{
 	{AMOVHU, C_ADDR, C_NONE, C_REG, 93, 8, 0, LFROM | LPCREL, 4, C_PBIT | C_WBIT | C_UBIT},
 	{ALDREX, C_SOREG, C_NONE, C_REG, 77, 4, 0, 0, 0, 0},
 	{ASTREX, C_SOREG, C_REG, C_REG, 78, 4, 0, 0, 0, 0},
+	{ADMB, C_NONE, C_NONE, C_NONE, 110, 4, 0, 0, 0, 0},
+	{ADMB, C_NONE, C_NONE, C_LCON, 110, 4, 0, 0, 0, 0},
 	{AMOVF, C_ZFCON, C_NONE, C_FREG, 80, 8, 0, 0, 0, 0},
 	{AMOVF, C_SFCON, C_NONE, C_FREG, 81, 4, 0, 0, 0, 0},
 	{ACMPF, C_FREG, C_FREG, C_NONE, 82, 8, 0, 0, 0, 0},
@@ -1697,6 +1699,7 @@ func buildop(ctxt *obj.Link) {
 			ASTREX,
 			ALDREXD,
 			ASTREXD,
+			ADMB,
 			APLD,
 			AAND,
 			AMULA,
@@ -2786,6 +2789,16 @@ func (c *ctxt5) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			r = rt
 		}
 		o1 |= (uint32(rf)&15)<<8 | (uint32(r)&15)<<0 | (uint32(rt)&15)<<16
+
+	case 110: /* dmb [$con] */
+		o1 = 0xf57ff050
+
+		if p.To.Type != obj.TYPE_NONE {
+			c.aclass(&p.To)
+			o1 |= uint32(c.instoffset & 0xf)
+		} else {
+			o1 |= uint32(0xf)
+		}
 	}
 
 	out[0] = o1

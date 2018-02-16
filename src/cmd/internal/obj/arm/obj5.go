@@ -881,6 +881,7 @@ func (c *ctxt5) stacksplit(p *obj.Prog, framesize int32) *obj.Prog {
 
 var unaryDst = map[obj.As]bool{
 	ASWI:  true,
+	ADMB:  true,
 	AWORD: true,
 }
 

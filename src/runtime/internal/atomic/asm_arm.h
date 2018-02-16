@@ -9,15 +9,12 @@
 
 #define DMB_ISH \
 	_armv7_test; \
-	/* ARMv7 dmb ish */ \
-	WORD	$0xf57ff05b
+	DMB $11
 
 #define DMB_ISHST \
 	_armv7_test; \
-	/* ARMv7 dmb ishst */ \
-	WORD	$0xf57ff05a
+	DMB $10
 
 #define DMB_ST \
 	_armv7_test; \
-	/* ARMv7 dmb st */ \
-	WORD	$0xf57ff05e
+	DMB $14
