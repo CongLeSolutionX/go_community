@@ -190,6 +190,7 @@ var (
 	procOpenProcessToken                   = modadvapi32.NewProc("OpenProcessToken")
 	procGetTokenInformation                = modadvapi32.NewProc("GetTokenInformation")
 	procGetUserProfileDirectoryW           = moduserenv.NewProc("GetUserProfileDirectoryW")
+	procGetProfilesDirectoryW              = moduserenv.NewProc("GetProfilesDirectoryW")
 )
 
 func GetLastError() (lasterr error) {
@@ -1907,6 +1908,18 @@ func GetTokenInformation(t Token, infoClass uint32, info *byte, infoLen uint32, 
 
 func GetUserProfileDirectory(t Token, dir *uint16, dirLen *uint32) (err error) {
 	r1, _, e1 := Syscall(procGetUserProfileDirectoryW.Addr(), 3, uintptr(t), uintptr(unsafe.Pointer(dir)), uintptr(unsafe.Pointer(dirLen)))
+	if r1 == 0 {
+		if e1 != 0 {
+			err = errnoErr(e1)
+		} else {
+			err = EINVAL
+		}
+	}
+	return
+}
+
+func GetProfilesDirectory(dir *uint16, dirLen *uint32) (err error) {
+	r1, _, e1 := Syscall(procGetProfilesDirectoryW.Addr(), 2, uintptr(unsafe.Pointer(dir)), uintptr(unsafe.Pointer(dirLen)), 0)
 	if r1 == 0 {
 		if e1 != 0 {
 			err = errnoErr(e1)

@@ -288,6 +288,7 @@ type Tokenprimarygroup struct {
 //sys	OpenProcessToken(h Handle, access uint32, token *Token) (err error) = advapi32.OpenProcessToken
 //sys	GetTokenInformation(t Token, infoClass uint32, info *byte, infoLen uint32, returnedLen *uint32) (err error) = advapi32.GetTokenInformation
 //sys	GetUserProfileDirectory(t Token, dir *uint16, dirLen *uint32) (err error) = userenv.GetUserProfileDirectoryW
+//sys	GetProfilesDirectory(dir *uint16, dirLen *uint32) (err error) = userenv.GetProfilesDirectoryW
 
 // An access token contains the security information for a logon session.
 // The system creates an access token when a user logs on, and every
@@ -363,6 +364,25 @@ func (t Token) GetUserProfileDirectory() (string, error) {
 	for {
 		b := make([]uint16, n)
 		e := GetUserProfileDirectory(t, &b[0], &n)
+		if e == nil {
+			return UTF16ToString(b), nil
+		}
+		if e != ERROR_INSUFFICIENT_BUFFER {
+			return "", e
+		}
+		if n <= uint32(len(b)) {
+			return "", e
+		}
+	}
+}
+
+// GetProfilesDir retrieves the path to the root directory
+// where user profiles are stored.
+func GetProfilesDir() (string, error) {
+	n := uint32(100)
+	for {
+		b := make([]uint16, n)
+		e := GetProfilesDirectory(&b[0], &n)
 		if e == nil {
 			return UTF16ToString(b), nil
 		}
