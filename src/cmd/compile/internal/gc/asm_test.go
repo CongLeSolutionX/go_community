@@ -616,42 +616,112 @@ var linuxAMD64Tests = []*asmTest{
 	},
 	// Bit test ops on amd64, issue 18943.
 	{
-		fn: `
-		func f37(a, b uint64) int {
-			if a&(1<<(b&63)) != 0 {
-				return 1
-			}
-			return -1
-		}
-		`,
+		fn:  `func $(a, b uint64) int { if a&(1<<(b&63)) != 0 { return 1 }; return -1 }`,
 		pos: []string{"\tBTQ\t"},
 	},
 	{
-		fn: `
-		func f38(a, b uint64) bool {
-			return a&(1<<(b&63)) != 0
-		}
-		`,
+		fn:  `func $(a uint32) int { if a&0x80000000 != 0 { return 1 }; return -1 }`,
+		pos: []string{"\tBTL\t\\$31"},
+	},
+	{
+		fn:  `func $(a uint64) int { if a&(1<<63) != 0 { return 1 }; return -1 }`,
+		pos: []string{"\tBTQ\t\\$63"},
+	},
+	{
+		fn:  `func $(a uint64) int { if a&(1<<60) != 0 { return 1 }; return -1 }`,
+		pos: []string{"\tBTQ\t\\$60"},
+	},
+	{
+		fn:  `func $(a uint64) int { if a&(1<<0) != 0 { return 1 }; return -1 }`,
+		pos: []string{"\tBTL\t\\$0"},
+	},
+	{
+		fn:  `func $(a, b uint64) bool { return a&(1<<(b&63)) != 0 }`,
 		pos: []string{"\tBTQ\t"},
 	},
 	{
-		fn: `
-		func f39(a uint64) int {
-			if a&(1<<60) != 0 {
-				return 1
-			}
-			return -1
-		}
-		`,
+		fn:  `func $(a, b uint64) bool { return (a>>(b&63))&1 != 0 }`,
+		pos: []string{"\tBTQ\t"}, neg: []string{"\tBTQ\t\\$0"},
+	},
+	{
+		fn:  `func $(a uint64) bool { return (a>>63)&1 != 0 }`,
+		pos: []string{"\tBTQ\t\\$63"},
+	},
+	{
+		fn:  `func $(a uint64) bool { return a>>63 == 0 }`,
+		pos: []string{"\tBTQ\t\\$63"},
+	},
+	{
+		fn:  `func $(a uint64) bool { return a&(1<<63) != 0 }`,
+		pos: []string{"\tBTQ\t\\$63"},
+	},
+	{
+		fn:  `func $(a uint64) bool { return a&(1<<60) != 0 }`,
 		pos: []string{"\tBTQ\t\\$60"},
 	},
 	{
-		fn: `
-		func f40(a uint64) bool {
-			return a&(1<<60) != 0
-		}
-		`,
-		pos: []string{"\tBTQ\t\\$60"},
+		fn:  `func $(a uint64) bool { return a&(1<<0) != 0 }`,
+		pos: []string{"\tBTL\t\\$0"},
+	},
+	{
+		fn:  `func $(a uint64) bool { return (a>>5)&4 != 0 }`,
+		pos: []string{"\tBTL\t\\$7"},
+	},
+	{
+		fn:  `func $(a uint64) bool { return (^a>>5)&4 != 0 }`,
+		neg: []string{"\tNOTQ"},
+	},
+	{
+		fn:  `func $(a uint64) bool { return ^(a>>5)&4 != 0 }`,
+		neg: []string{"\tNOTQ"},
+	},
+	{
+		fn:  `func $(a,b uint64) uint64 { return a|(1<<(b&63)) }`,
+		pos: []string{"\tBTSQ\t"},
+	},
+	{
+		fn:  `func $(a uint64) uint64 { return a|(1<<63) }`,
+		pos: []string{"\tBTSQ\t\\$63"},
+	},
+	{
+		fn:  `func $(a uint64) uint64 { return a|(1<<60) }`,
+		pos: []string{"\tBTSQ\t\\$60"},
+	},
+	{
+		fn:  `func $(a uint64) uint64 { return a|(1<<0) }`,
+		pos: []string{"\tORQ\t\\$1"},
+	},
+	{
+		fn:  `func $(a,b uint64) uint64 { return a&^(1<<(b&63)) }`,
+		pos: []string{"\tBTRQ\t"},
+	},
+	{
+		fn:  `func $(a uint64) uint64 { return a&^(1<<63) }`,
+		pos: []string{"\tBTRQ\t\\$63"},
+	},
+	{
+		fn:  `func $(a uint64) uint64 { return a&^(1<<60) }`,
+		pos: []string{"\tBTRQ\t\\$60"},
+	},
+	{
+		fn:  `func $(a uint64) uint64 { return a&^(1<<0) }`,
+		pos: []string{"\tBTRQ\t\\$0"},
+	},
+	{
+		fn:  `func $(a,b uint64) uint64 { return a^(1<<(b&63)) }`,
+		pos: []string{"\tBTCQ\t"},
+	},
+	{
+		fn:  `func $(a uint64) uint64 { return a^(1<<63) }`,
+		pos: []string{"\tBTCQ\t\\$63"},
+	},
+	{
+		fn:  `func $(a uint64) uint64 { return a^(1<<60) }`,
+		pos: []string{"\tBTCQ\t\\$60"},
+	},
+	{
+		fn:  `func $(a uint64) uint64 { return a^(1<<0) }`,
+		pos: []string{"\tXORQ\t\\$1"},
 	},
 	// Intrinsic tests for math/bits
 	{
@@ -668,7 +738,7 @@ var linuxAMD64Tests = []*asmTest{
 			return bits.TrailingZeros32(a)
 		}
 		`,
-		pos: []string{"\tBSFQ\t", "\tORQ\t[^$]", "\tMOVQ\t\\$4294967296,"},
+		pos: []string{"\tBSFQ\t", "\tBTSQ\t\\$32,"},
 	},
 	{
 		fn: `
@@ -676,7 +746,7 @@ var linuxAMD64Tests = []*asmTest{
 			return bits.TrailingZeros16(a)
 		}
 		`,
-		pos: []string{"\tBSFQ\t", "\tORQ\t\\$65536,"},
+		pos: []string{"\tBSFQ\t", "\tBTSQ\t\\$16,"},
 	},
 	{
 		fn: `
@@ -684,7 +754,7 @@ var linuxAMD64Tests = []*asmTest{
 			return bits.TrailingZeros8(a)
 		}
 		`,
-		pos: []string{"\tBSFQ\t", "\tORQ\t\\$256,"},
+		pos: []string{"\tBSFQ\t", "\tBTSQ\t\\$8,"},
 	},
 	{
 		fn: `
@@ -1093,7 +1163,7 @@ var linuxAMD64Tests = []*asmTest{
 			return math.Abs(x)
 		}
 		`,
-		pos: []string{"\tSHLQ\t[$]1,", "\tSHRQ\t[$]1,"},
+		pos: []string{"\tBTRQ\t[$]63,"},
 	},
 	// math.Copysign using integer registers
 	{
@@ -1102,7 +1172,7 @@ var linuxAMD64Tests = []*asmTest{
 			return math.Copysign(x, y)
 		}
 		`,
-		pos: []string{"\tSHLQ\t[$]1,", "\tSHRQ\t[$]1,", "\tSHRQ\t[$]63,", "\tSHLQ\t[$]63,", "\tORQ\t"},
+		pos: []string{"\tBTRQ\t[$]63,", "\tSHRQ\t[$]63,", "\tSHLQ\t[$]63,", "\tORQ\t"},
 	},
 	// int <-> fp moves
 	{
