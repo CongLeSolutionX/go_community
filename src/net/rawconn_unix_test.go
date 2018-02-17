@@ -8,6 +8,7 @@ package net
 
 import (
 	"bytes"
+	"errors"
 	"syscall"
 	"testing"
 )
@@ -141,4 +142,37 @@ func TestRawConnListener(t *testing.T) {
 	if err == nil {
 		t.Fatal("Control after Close should fail")
 	}
+}
+
+func controlOnConnSetup(network string, address string, c syscall.RawConn) error {
+	var operr error
+	var fn func(uintptr)
+	switch network {
+	case "tcp", "udp", "ip":
+		return errors.New("ambiguous network: " + network)
+	case "unix", "unixpacket", "unixgram":
+		fn = func(s uintptr) {
+			operr = syscall.SetsockoptInt(int(s), syscall.SOL_SOCKET, syscall.SO_DEBUG, 1)
+		}
+	default:
+		switch network[len(network)-1] {
+		case '4':
+			fn = func(s uintptr) {
+				operr = syscall.SetsockoptInt(int(s), syscall.IPPROTO_IP, syscall.IP_TTL, 1)
+			}
+		case '6':
+			fn = func(s uintptr) {
+				operr = syscall.SetsockoptInt(int(s), syscall.IPPROTO_IPV6, syscall.IPV6_UNICAST_HOPS, 1)
+			}
+		default:
+			return errors.New("unknown network: " + network)
+		}
+	}
+	if err := c.Control(fn); err != nil {
+		return err
+	}
+	if operr != nil {
+		return operr
+	}
+	return nil
 }
