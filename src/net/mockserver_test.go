@@ -7,6 +7,7 @@ package net
 import (
 	"errors"
 	"fmt"
+	"internal/testenv"
 	"io/ioutil"
 	"os"
 	"sync"
@@ -18,7 +19,11 @@ import (
 // It also uses /tmp directory in case it is prohibited to create UNIX
 // sockets in TMPDIR.
 func testUnixAddr() string {
-	f, err := ioutil.TempFile("", "go-nettest")
+	var workDir string
+	if testenv.Builder() != "" {
+		workDir = os.Getenv("WORKDIR")
+	}
+	f, err := ioutil.TempFile(workDir, "go-nettest")
 	if err != nil {
 		panic(err)
 	}
