@@ -16,6 +16,24 @@
       "revId": "c95a902e98a4c143f06fbe71b61f140f9a65217f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a651169b_6a5cc4ec",
+        "filename": "src/cmd/internal/obj/arm/obj5.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-02-17T19:05:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72bfa29a_ace31dd4",
+      "revId": "c95a902e98a4c143f06fbe71b61f140f9a65217f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
