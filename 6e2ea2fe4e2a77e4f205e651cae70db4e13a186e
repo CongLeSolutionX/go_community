@@ -34,6 +34,24 @@
       "revId": "6e2ea2fe4e2a77e4f205e651cae70db4e13a186e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd02024b_c67bd4e7",
+        "filename": "src/cmd/compile/internal/gc/order.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-02-17T15:16:10Z",
+      "side": 1,
+      "message": "@mvdan please have a look if the sentence is more readable now. thanks.",
+      "parentUuid": "ee7f530e_b623bb6c",
+      "revId": "6e2ea2fe4e2a77e4f205e651cae70db4e13a186e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
