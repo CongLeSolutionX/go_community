@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b5dd947_968919ea",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-18T04:53:20Z",
+      "side": 1,
+      "message": "Make it better function name:\n\n\n// lookupUsernameAndDomain obtains username and domain for usid.\nfunc lookupUsernameAndDomain(usid *syscall.SID) (username, domain string, err error)",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 93
+      },
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "094f3efb_25d1c608",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-18T04:53:20Z",
+      "side": 1,
+      "message": "s/uid string, gid string, dir string, username string, domain string/uid, gid, dir, username, domain string/",
+      "range": {
+        "startLine": 88,
+        "startChar": 13,
+        "endLine": 88,
+        "endChar": 79
+      },
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "73a35197_9700f300",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-18T04:53:20Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bda24f3_d6f1d816",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-18T04:53:20Z",
+      "side": 1,
+      "message": "Delete.",
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "892cc3a3_baef0565",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-18T04:53:20Z",
+      "side": 1,
+      "message": "Two labels in one function is too many.\n\nJust put all registry reading code into a separate function, for example:\n\n// findHomeDirInRegistry searches registry for home directory for a user with SID of sid.\nfunction findHomeDirInRegistry(sid string) (string, error)\n\nor something. And then you could just do\n\ndir, e :\u003d findHomeDirInRegistry(uid)\nif e !\u003d nil {\n\t// if the home path does not exists in the registry, the user might have\n\t// not logged in yet; fall back to using GetPorfilesDir(). find the\n\t// username based on a SID and append that to the result of\n\t// GetProfilesDir().\n\tdir, e \u003d syscall.GetProfilesDir()\n\tif e !\u003d nil {\n\t\treturn nil, e\n\t}\n\tdir +\u003d `\\` + username\n}\n...\n\nI am not sure, if this fails, maybe you want to return registry error instead of GetProfilesDir error. Up to you.",
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f56c40c_14561757",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-18T04:53:20Z",
+      "side": 1,
+      "message": "We are not allowed to change syscall package - see\n\n$ go doc syscall | grep NOTE\nNOTE: This package is locked down. Code outside the standard Go repository\n$\n\nbut you can add all this code to internal/syscall/windows package.",
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c97b3e90_5dd3ef2d",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-18T04:53:20Z",
+      "side": 1,
+      "message": "Do not make it exported. Move this code (if you still need it) into os/user.",
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "521f839f_7b1076fa",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-18T04:53:20Z",
+      "side": 1,
+      "message": "I read https://msdn.microsoft.com/en-us/library/windows/desktop/bb762278(v\u003dvs.85).aspx and it does not mentions ERROR_INSUFFICIENT_BUFFER. How did you come up with this code?",
+      "range": {
+        "startLine": 389,
+        "startChar": 10,
+        "endLine": 389,
+        "endChar": 35
+      },
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
