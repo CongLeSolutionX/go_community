@@ -1213,7 +1213,7 @@ var linuxAMD64Tests = []*asmTest{
 			return x > 4
 		}
 		`,
-		pos: []string{"\tSETHI\t\\("},
+		pos: []string{"\tSETHI\t.*\\(SP\\)"},
 	},
 	// Check that len() and cap() div by a constant power of two
 	// are compiled into SHRQ.
