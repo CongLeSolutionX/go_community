@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "79114172_9c9834b3",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-18T06:54:31Z",
+      "side": 1,
+      "message": "those were added because the `goto` branching skips variable declaration.\ni will attempt to avoid them with your suggestion to move the registry calls to a new function.",
+      "parentUuid": "73a35197_9700f300",
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bda24f3_d6f1d816",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 3
@@ -116,6 +134,24 @@
     },
     {
       "key": {
+        "uuid": "4056860a_c9799349",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-18T06:54:31Z",
+      "side": 1,
+      "message": "ok, i will try.",
+      "parentUuid": "5f56c40c_14561757",
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c97b3e90_5dd3ef2d",
         "filename": "src/syscall/security_windows.go",
         "patchSetId": 3
@@ -144,6 +180,30 @@
       "writtenOn": "2018-02-18T04:53:20Z",
       "side": 1,
       "message": "I read https://msdn.microsoft.com/en-us/library/windows/desktop/bb762278(v\u003dvs.85).aspx and it does not mentions ERROR_INSUFFICIENT_BUFFER. How did you come up with this code?",
+      "range": {
+        "startLine": 389,
+        "startChar": 10,
+        "endLine": 389,
+        "endChar": 35
+      },
+      "revId": "7fd07b261ecd75a921c990259c01da36dfd8e2ef",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "61021be8_9df2e566",
+        "filename": "src/syscall/security_windows.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-18T06:54:31Z",
+      "side": 1,
+      "message": "the implementation is based on GetUserProfileDirectory() which is already in the syscall package: https://msdn.microsoft.com/en-us/library/windows/desktop/bb762280(v\u003dvs.85).aspx\n\nif the buffer size is not large enough or zero, it fails (returns FALSE/0) and GetLastError() show (122\u003dERROR_INSUFFICIENT_BUFFER). i can share small C snippet, if you\u0027d like.",
+      "parentUuid": "521f839f_7b1076fa",
       "range": {
         "startLine": 389,
         "startChar": 10,
