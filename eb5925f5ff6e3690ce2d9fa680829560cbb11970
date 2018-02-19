@@ -16,6 +16,24 @@
       "revId": "eb5925f5ff6e3690ce2d9fa680829560cbb11970",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c37a245e_4a344dce",
+        "filename": "src/text/template/template.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-02-19T22:47:03Z",
+      "side": 1,
+      "message": "Ah, two minutes too early/late. Feel free to submit a follow-up CL.",
+      "parentUuid": "c9369f17_865f480b",
+      "revId": "eb5925f5ff6e3690ce2d9fa680829560cbb11970",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
