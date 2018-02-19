@@ -102,14 +102,18 @@ var optab = []Optab{
 	{AAND, C_REG, C_NONE, C_NONE, C_REG, 6, 4, 0},
 	{AANDCC, C_REG, C_REG, C_NONE, C_REG, 6, 4, 0},
 	{AANDCC, C_REG, C_NONE, C_NONE, C_REG, 6, 4, 0},
+	{AANDCC, C_SCON, C_NONE, C_NONE, C_REG, 58, 4, 0},
+	{AANDCC, C_SCON, C_REG, C_NONE, C_REG, 58, 4, 0},
 	{AANDCC, C_ANDCON, C_NONE, C_NONE, C_REG, 58, 4, 0},
 	{AANDCC, C_ANDCON, C_REG, C_NONE, C_REG, 58, 4, 0},
 	{AANDCC, C_UCON, C_NONE, C_NONE, C_REG, 59, 4, 0},
 	{AANDCC, C_UCON, C_REG, C_NONE, C_REG, 59, 4, 0},
-	{AANDISCC, C_ANDCON, C_NONE, C_NONE, C_REG, 59, 4, 0},
-	{AANDISCC, C_ANDCON, C_REG, C_NONE, C_REG, 59, 4, 0},
+	{AANDCC, C_ADDCON, C_NONE, C_NONE, C_REG, 23, 8, 0},
+	{AANDCC, C_ADDCON, C_REG, C_NONE, C_REG, 23, 8, 0},
 	{AANDCC, C_LCON, C_NONE, C_NONE, C_REG, 23, 12, 0},
 	{AANDCC, C_LCON, C_REG, C_NONE, C_REG, 23, 12, 0},
+	{AANDISCC, C_ANDCON, C_NONE, C_NONE, C_REG, 59, 4, 0},
+	{AANDISCC, C_ANDCON, C_REG, C_NONE, C_REG, 59, 4, 0},
 	{AMULLW, C_REG, C_REG, C_NONE, C_REG, 2, 4, 0},
 	{AMULLW, C_REG, C_NONE, C_NONE, C_REG, 2, 4, 0},
 	{AMULLW, C_ADDCON, C_REG, C_NONE, C_REG, 4, 4, 0},
@@ -130,6 +134,8 @@ var optab = []Optab{
 	{AOR, C_UCON, C_REG, C_NONE, C_REG, 59, 4, 0},
 	{AORIS, C_ANDCON, C_NONE, C_NONE, C_REG, 59, 4, 0},
 	{AORIS, C_ANDCON, C_REG, C_NONE, C_REG, 59, 4, 0},
+	{AOR, C_ADDCON, C_NONE, C_NONE, C_REG, 23, 8, 0},
+	{AOR, C_ADDCON, C_NONE, C_NONE, C_REG, 23, 8, 0},
 	{AOR, C_LCON, C_NONE, C_NONE, C_REG, 23, 12, 0},
 	{AOR, C_LCON, C_REG, C_NONE, C_REG, 23, 12, 0},
 	{ADIVW, C_REG, C_REG, C_NONE, C_REG, 2, 4, 0}, /* op r1[,r2],r3 */
@@ -276,12 +282,14 @@ var optab = []Optab{
 	{AMOVD, C_SACON, C_NONE, C_NONE, C_REG, 3, 4, REGSP},
 	{AMOVD, C_LECON, C_NONE, C_NONE, C_REG, 26, 8, REGSB},
 	{AMOVD, C_LACON, C_NONE, C_NONE, C_REG, 26, 8, REGSP},
+	{AMOVD, C_ANDCON, C_NONE, C_NONE, C_REG, 3, 4, REGZERO},
 	{AMOVD, C_ADDCON, C_NONE, C_NONE, C_REG, 3, 4, REGZERO},
 	{AMOVW, C_SECON, C_NONE, C_NONE, C_REG, 3, 4, REGSB}, /* TO DO: check */
 	{AMOVW, C_SACON, C_NONE, C_NONE, C_REG, 3, 4, REGSP},
 	{AMOVW, C_LECON, C_NONE, C_NONE, C_REG, 26, 8, REGSB},
 	{AMOVW, C_LACON, C_NONE, C_NONE, C_REG, 26, 8, REGSP},
 	{AMOVW, C_ADDCON, C_NONE, C_NONE, C_REG, 3, 4, REGZERO},
+	{AMOVW, C_ANDCON, C_NONE, C_NONE, C_REG, 3, 4, REGZERO},
 	{AMOVWZ, C_SECON, C_NONE, C_NONE, C_REG, 3, 4, REGSB}, /* TO DO: check */
 	{AMOVWZ, C_SACON, C_NONE, C_NONE, C_REG, 3, 4, REGSP},
 	{AMOVWZ, C_LECON, C_NONE, C_NONE, C_REG, 26, 8, REGSB},
@@ -940,7 +948,6 @@ func (c *ctxt9) oplook(p *obj.Prog) *Optab {
 		}
 	}
 
-	//print("oplook %v %d %d %d %d\n", p, a1, a2, a3, a4);
 	ops := oprange[p.As&obj.AMask]
 	c1 := &xcmp[a1]
 	c3 := &xcmp[a3]
@@ -2270,7 +2277,7 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 		a := OP_ADDI
 		if o.a1 == C_UCON {
 			if d&0xffff != 0 {
-				log.Fatalf("invalid handling of %v", p)
+				log.Fatalf("invalid handling of UCON in %v", p)
 			}
 			v >>= 16
 			if r == REGZERO && isuint32(uint64(d)) {
@@ -2279,9 +2286,16 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			}
 
 			a = OP_ADDIS
-		} else {
-			if int64(int16(d)) != d {
-				log.Fatalf("invalid handling of %v", p)
+		} else if int64(int16(d)) != d {
+			// Value 0 <= v <= 0xffff: use ORI
+			if o.a1 == C_ANDCON {
+				if r == 0 || r == REGZERO {
+					o1 = AOP_IRR(uint32(OP_ORI), uint32(0), uint32(p.To.Reg), uint32(v))
+					break
+				}
+				// Value -0x8000 <= v <= 0 OK with ADDI
+			} else if o.a1 != C_ADDCON {
+				log.Fatalf("invalid handling of for: %v d: %d int64(int16(d)): %d %v", o.a1, d, int64(int16(d)), p)
 			}
 		}
 
@@ -2650,7 +2664,7 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			o1 = AOP_IRR(c.opirr(AADDIS), uint32(p.To.Reg), uint32(r), uint32(v)>>16)
 		}
 
-	case 22: /* add $lcon,r1,r2 ==> cau+or+add */ /* could do add/sub more efficiently */
+	case 22: /* add $lcon,r1,r2 ==> oris+ori+add */
 		if p.To.Reg == REGTMP || p.Reg == REGTMP {
 			c.ctxt.Diag("can't synthesize large constant\n%v", p)
 		}
@@ -2666,25 +2680,29 @@ func (c *ctxt9) asmout(p *obj.Prog, o *Optab, out []uint32) {
 			c.ctxt.Diag("%v is not supported", p)
 		}
 
-	//if(dlm) reloc(&p->from, p->pc, 0);
-
-	case 23: /* and $lcon,r1,r2 ==> cau+or+and */ /* masks could be done using rlnm etc. */
+	case 23: /* and $lcon/$scon,r1,r2 ==> oris+ori+and/addi+and */
 		if p.To.Reg == REGTMP || p.Reg == REGTMP {
 			c.ctxt.Diag("can't synthesize large constant\n%v", p)
 		}
 		d := c.vregoff(&p.From)
-		o1 = loadu32(REGTMP, d)
-		o2 = LOP_IRR(OP_ORI, REGTMP, REGTMP, uint32(int32(d)))
 		r := int(p.Reg)
 		if r == 0 {
 			r = int(p.To.Reg)
 		}
-		o3 = LOP_RRR(c.oprrr(p.As), uint32(p.To.Reg), REGTMP, uint32(r))
+
+		// The imm value can be generated in 1 or 2 instructions,
+		// depending on the value of the constant.
+		if o.size == 8 {
+			o1 = LOP_IRR(OP_ADDI, REGZERO, REGTMP, uint32(int32(d)))
+			o2 = LOP_RRR(c.oprrr(p.As), uint32(p.To.Reg), REGTMP, uint32(r))
+		} else {
+			o1 = loadu32(REGTMP, d)
+			o2 = LOP_IRR(OP_ORI, REGTMP, REGTMP, uint32(int32(d)))
+			o3 = LOP_RRR(c.oprrr(p.As), uint32(p.To.Reg), REGTMP, uint32(r))
+		}
 		if p.From.Sym != nil {
 			c.ctxt.Diag("%v is not supported", p)
 		}
-
-		//if(dlm) reloc(&p->from, p->pc, 0);
 
 		/*24*/
 	case 25:
