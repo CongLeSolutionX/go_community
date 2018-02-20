@@ -202,26 +202,32 @@ func genRules(arch arch) {
 				fmt.Fprintf(buf, "// result: %s\n", result)
 
 				canFail = false
-				fmt.Fprintf(buf, "for {\n")
-				if genMatch(buf, arch, match, rule.loc) {
+				loopBuf := new(bytes.Buffer)
+				if genMatch(loopBuf, arch, match, rule.loc) {
 					canFail = true
 				}
 
 				if cond != "" {
-					fmt.Fprintf(buf, "if !(%s) {\nbreak\n}\n", cond)
+					fmt.Fprintf(loopBuf, "if !(%s) {\nbreak\n}\n", cond)
 					canFail = true
 				}
 				if !canFail && i+chunk != len(oprules[op])-1 {
 					log.Fatalf("unconditional rule %s is followed by other rules", match)
 				}
 
-				genResult(buf, arch, result, rule.loc)
+				genResult(loopBuf, arch, result, rule.loc)
 				if *genLog {
-					fmt.Fprintf(buf, "logRule(\"%s\")\n", rule.loc)
+					fmt.Fprintf(loopBuf, "logRule(\"%s\")\n", rule.loc)
 				}
-				fmt.Fprintf(buf, "return true\n")
+				fmt.Fprintf(loopBuf, "return true\n")
 
-				fmt.Fprintf(buf, "}\n")
+				if canFail {
+					fmt.Fprintf(buf, "for {\n")
+				}
+				io.Copy(buf, loopBuf)
+				if canFail {
+					fmt.Fprintf(buf, "}\n")
+				}
 			}
 			if canFail {
 				fmt.Fprintf(buf, "return false\n")
@@ -280,26 +286,28 @@ func genRules(arch arch) {
 			fmt.Fprintf(w, "// cond: %s\n", cond)
 			fmt.Fprintf(w, "// result: %s\n", result)
 
-			fmt.Fprintf(w, "for {\n")
+			loopBuf := new(bytes.Buffer)
 
 			_, _, _, aux, s := extract(match) // remove parens, then split
 
 			// check match of control value
+			canFail := false
 			if s[0] != "nil" {
-				fmt.Fprintf(w, "v := b.Control\n")
+				fmt.Fprintf(loopBuf, "v := b.Control\n")
 				if strings.Contains(s[0], "(") {
-					genMatch0(w, arch, s[0], "v", map[string]struct{}{}, false, rule.loc)
+					canFail = genMatch0(loopBuf, arch, s[0], "v", map[string]struct{}{}, false, rule.loc)
 				} else {
-					fmt.Fprintf(w, "_ = v\n") // in case we don't use v
-					fmt.Fprintf(w, "%s := b.Control\n", s[0])
+					fmt.Fprintf(loopBuf, "_ = v\n") // in case we don't use v
+					fmt.Fprintf(loopBuf, "%s := b.Control\n", s[0])
 				}
 			}
 			if aux != "" {
-				fmt.Fprintf(w, "%s := b.Aux\n", aux)
+				fmt.Fprintf(loopBuf, "%s := b.Aux\n", aux)
 			}
 
 			if cond != "" {
-				fmt.Fprintf(w, "if !(%s) {\nbreak\n}\n", cond)
+				fmt.Fprintf(loopBuf, "if !(%s) {\nbreak\n}\n", cond)
+				canFail = true
 			}
 
 			// Rule matches. Generate result.
@@ -325,16 +333,16 @@ func genRules(arch arch) {
 				log.Fatalf("unmatched successors %v in %s", m, rule)
 			}
 
-			fmt.Fprintf(w, "b.Kind = %s\n", blockName(outop, arch))
+			fmt.Fprintf(loopBuf, "b.Kind = %s\n", blockName(outop, arch))
 			if t[0] == "nil" {
-				fmt.Fprintf(w, "b.SetControl(nil)\n")
+				fmt.Fprintf(loopBuf, "b.SetControl(nil)\n")
 			} else {
-				fmt.Fprintf(w, "b.SetControl(%s)\n", genResult0(w, arch, t[0], new(int), false, false, rule.loc))
+				fmt.Fprintf(loopBuf, "b.SetControl(%s)\n", genResult0(loopBuf, arch, t[0], new(int), false, false, rule.loc))
 			}
 			if aux != "" {
-				fmt.Fprintf(w, "b.Aux = %s\n", aux)
+				fmt.Fprintf(loopBuf, "b.Aux = %s\n", aux)
 			} else {
-				fmt.Fprintln(w, "b.Aux = nil")
+				fmt.Fprintln(loopBuf, "b.Aux = nil")
 			}
 
 			succChanged := false
@@ -350,15 +358,21 @@ func genRules(arch arch) {
 				if succs[0] != newsuccs[1] || succs[1] != newsuccs[0] {
 					log.Fatalf("can only handle swapped successors in %s", rule)
 				}
-				fmt.Fprintln(w, "b.swapSuccessors()")
+				fmt.Fprintln(loopBuf, "b.swapSuccessors()")
 			}
 
 			if *genLog {
-				fmt.Fprintf(w, "logRule(\"%s\")\n", rule.loc)
+				fmt.Fprintf(loopBuf, "logRule(\"%s\")\n", rule.loc)
 			}
-			fmt.Fprintf(w, "return true\n")
+			fmt.Fprintf(loopBuf, "return true\n")
 
-			fmt.Fprintf(w, "}\n")
+			if canFail {
+				fmt.Fprintf(w, "for {\n")
+			}
+			io.Copy(w, loopBuf)
+			if canFail {
+				fmt.Fprintf(w, "}\n")
+			}
 		}
 	}
 	fmt.Fprintf(w, "}\n")

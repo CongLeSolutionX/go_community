@@ -6852,14 +6852,12 @@ func rewriteValuegeneric_OpConstInterface_0(v *Value) bool {
 	// match: (ConstInterface)
 	// cond:
 	// result: (IMake     (ConstNil <typ.BytePtr>)     (ConstNil <typ.BytePtr>))
-	for {
-		v.reset(OpIMake)
-		v0 := b.NewValue0(v.Pos, OpConstNil, typ.BytePtr)
-		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpConstNil, typ.BytePtr)
-		v.AddArg(v1)
-		return true
-	}
+	v.reset(OpIMake)
+	v0 := b.NewValue0(v.Pos, OpConstNil, typ.BytePtr)
+	v.AddArg(v0)
+	v1 := b.NewValue0(v.Pos, OpConstNil, typ.BytePtr)
+	v.AddArg(v1)
+	return true
 }
 func rewriteValuegeneric_OpConstSlice_0(v *Value) bool {
 	b := v.Block
@@ -9757,19 +9755,17 @@ func rewriteValuegeneric_OpEqInter_0(v *Value) bool {
 	// match: (EqInter x y)
 	// cond:
 	// result: (EqPtr  (ITab x) (ITab y))
-	for {
-		_ = v.Args[1]
-		x := v.Args[0]
-		y := v.Args[1]
-		v.reset(OpEqPtr)
-		v0 := b.NewValue0(v.Pos, OpITab, typ.BytePtr)
-		v0.AddArg(x)
-		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpITab, typ.BytePtr)
-		v1.AddArg(y)
-		v.AddArg(v1)
-		return true
-	}
+	_ = v.Args[1]
+	x := v.Args[0]
+	y := v.Args[1]
+	v.reset(OpEqPtr)
+	v0 := b.NewValue0(v.Pos, OpITab, typ.BytePtr)
+	v0.AddArg(x)
+	v.AddArg(v0)
+	v1 := b.NewValue0(v.Pos, OpITab, typ.BytePtr)
+	v1.AddArg(y)
+	v.AddArg(v1)
+	return true
 }
 func rewriteValuegeneric_OpEqPtr_0(v *Value) bool {
 	b := v.Block
@@ -9877,19 +9873,17 @@ func rewriteValuegeneric_OpEqSlice_0(v *Value) bool {
 	// match: (EqSlice x y)
 	// cond:
 	// result: (EqPtr  (SlicePtr x) (SlicePtr y))
-	for {
-		_ = v.Args[1]
-		x := v.Args[0]
-		y := v.Args[1]
-		v.reset(OpEqPtr)
-		v0 := b.NewValue0(v.Pos, OpSlicePtr, typ.BytePtr)
-		v0.AddArg(x)
-		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpSlicePtr, typ.BytePtr)
-		v1.AddArg(y)
-		v.AddArg(v1)
-		return true
-	}
+	_ = v.Args[1]
+	x := v.Args[0]
+	y := v.Args[1]
+	v.reset(OpEqPtr)
+	v0 := b.NewValue0(v.Pos, OpSlicePtr, typ.BytePtr)
+	v0.AddArg(x)
+	v.AddArg(v0)
+	v1 := b.NewValue0(v.Pos, OpSlicePtr, typ.BytePtr)
+	v1.AddArg(y)
+	v.AddArg(v1)
+	return true
 }
 func rewriteValuegeneric_OpGeq16_0(v *Value) bool {
 	// match: (Geq16 (Const16 [c]) (Const16 [d]))
@@ -17556,19 +17550,17 @@ func rewriteValuegeneric_OpNeqInter_0(v *Value) bool {
 	// match: (NeqInter x y)
 	// cond:
 	// result: (NeqPtr (ITab x) (ITab y))
-	for {
-		_ = v.Args[1]
-		x := v.Args[0]
-		y := v.Args[1]
-		v.reset(OpNeqPtr)
-		v0 := b.NewValue0(v.Pos, OpITab, typ.BytePtr)
-		v0.AddArg(x)
-		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpITab, typ.BytePtr)
-		v1.AddArg(y)
-		v.AddArg(v1)
-		return true
-	}
+	_ = v.Args[1]
+	x := v.Args[0]
+	y := v.Args[1]
+	v.reset(OpNeqPtr)
+	v0 := b.NewValue0(v.Pos, OpITab, typ.BytePtr)
+	v0.AddArg(x)
+	v.AddArg(v0)
+	v1 := b.NewValue0(v.Pos, OpITab, typ.BytePtr)
+	v1.AddArg(y)
+	v.AddArg(v1)
+	return true
 }
 func rewriteValuegeneric_OpNeqPtr_0(v *Value) bool {
 	// match: (NeqPtr p (ConstNil))
@@ -17609,19 +17601,17 @@ func rewriteValuegeneric_OpNeqSlice_0(v *Value) bool {
 	// match: (NeqSlice x y)
 	// cond:
 	// result: (NeqPtr (SlicePtr x) (SlicePtr y))
-	for {
-		_ = v.Args[1]
-		x := v.Args[0]
-		y := v.Args[1]
-		v.reset(OpNeqPtr)
-		v0 := b.NewValue0(v.Pos, OpSlicePtr, typ.BytePtr)
-		v0.AddArg(x)
-		v.AddArg(v0)
-		v1 := b.NewValue0(v.Pos, OpSlicePtr, typ.BytePtr)
-		v1.AddArg(y)
-		v.AddArg(v1)
-		return true
-	}
+	_ = v.Args[1]
+	x := v.Args[0]
+	y := v.Args[1]
+	v.reset(OpNeqPtr)
+	v0 := b.NewValue0(v.Pos, OpSlicePtr, typ.BytePtr)
+	v0.AddArg(x)
+	v.AddArg(v0)
+	v1 := b.NewValue0(v.Pos, OpSlicePtr, typ.BytePtr)
+	v1.AddArg(y)
+	v.AddArg(v1)
+	return true
 }
 func rewriteValuegeneric_OpNilCheck_0(v *Value) bool {
 	b := v.Block
