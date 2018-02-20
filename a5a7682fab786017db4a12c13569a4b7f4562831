@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efee96bb_7bec39ed",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-02-20T14:40:32Z",
+      "side": 1,
+      "message": "Probably ought to use a named type w/ methods.  See below.",
+      "range": {
+        "startLine": 44,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "a5a7682fab786017db4a12c13569a4b7f4562831",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "555fb402_50b3d9fa",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-02-20T14:40:32Z",
+      "side": 1,
+      "message": "Seems like this ought to be its own type with value() and onStack() methods, since the same-named field appears twice and the shift-encoding of the value appears twice.",
+      "range": {
+        "startLine": 128,
+        "startChar": 1,
+        "endLine": 128,
+        "endChar": 18
+      },
+      "revId": "a5a7682fab786017db4a12c13569a4b7f4562831",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
