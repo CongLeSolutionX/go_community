@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05cd08c8_9d9e5343",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-20T15:15:14Z",
+      "side": 1,
+      "message": "This operand order is awkward. Can we do a x y instead?",
+      "range": {
+        "startLine": 1407,
+        "startChar": 33,
+        "endLine": 1407,
+        "endChar": 38
+      },
+      "revId": "c499f70755f5f20b51a6f3d634d657fef5931c23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87e6a512_268665e7",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-20T15:15:14Z",
+      "side": 1,
+      "message": "Should there also be rules like\n(FADDD a (FNMULD x y)) -\u003e (FMSUBD a x y) ?",
+      "revId": "c499f70755f5f20b51a6f3d634d657fef5931c23",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
