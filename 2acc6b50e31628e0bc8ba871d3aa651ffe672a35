@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3b90761_b169ae73",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1813,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-02-20T16:10:26Z",
+      "side": 1,
+      "message": "This function looks like it\u0027s loop invariant; should it be initialized before the loop instead?\n(I would, but I don\u0027t 100% trust my grasp of Go style.\nTaking it outside the loop would make it clear that no loop vars are captured, which seems like a win to me.)",
+      "range": {
+        "startLine": 1805,
+        "startChar": 2,
+        "endLine": 1813,
+        "endChar": 3
+      },
+      "revId": "2acc6b50e31628e0bc8ba871d3aa651ffe672a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f47fbfe1_57ef1f25",
+        "filename": "src/cmd/link/internal/ld/dwarf.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 1832,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-02-20T16:10:26Z",
+      "side": 1,
+      "message": "The fact that we don\u0027t have some of these methods already on *Link is a mystery to me, but that\u0027s not this CL\u0027s problem.",
+      "range": {
+        "startLine": 1832,
+        "startChar": 5,
+        "endLine": 1832,
+        "endChar": 12
+      },
+      "revId": "2acc6b50e31628e0bc8ba871d3aa651ffe672a35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
