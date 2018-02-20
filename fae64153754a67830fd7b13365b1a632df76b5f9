@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9200fb0a_4de9b850",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-20T05:50:34Z",
+      "side": 1,
+      "message": "I don\u0027t understand this part.\n\nWhat such application? Any application using syscall.RawConn or using it a particular way?\n\nI\u0027m not sure which test coverage this is expanding.",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 61
+      },
+      "revId": "fae64153754a67830fd7b13365b1a632df76b5f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82624301_72f64e80",
+        "filename": "src/net/rawconn_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-20T05:50:34Z",
+      "side": 1,
+      "message": "what\u0027s the subtest for? there\u0027s only one (TCP).",
+      "range": {
+        "startLine": 19,
+        "startChar": 1,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "fae64153754a67830fd7b13365b1a632df76b5f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80eb8efa_67cc3025",
+        "filename": "src/net/rawconn_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-20T05:50:34Z",
+      "side": 1,
+      "message": "I think %q is more common than %#v for []byte \u0026 string values.",
+      "range": {
+        "startLine": 93,
+        "startChar": 17,
+        "endLine": 93,
+        "endChar": 20
+      },
+      "revId": "fae64153754a67830fd7b13365b1a632df76b5f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "746899bc_8ff8def8",
+        "filename": "src/net/rawconn_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-20T05:50:34Z",
+      "side": 1,
+      "message": "also, why a subtest here?",
+      "range": {
+        "startLine": 104,
+        "startChar": 1,
+        "endLine": 104,
+        "endChar": 34
+      },
+      "revId": "fae64153754a67830fd7b13365b1a632df76b5f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "646b3735_ff1cd8b0",
+        "filename": "src/net/rawconn_unix_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-20T05:50:34Z",
+      "side": 1,
+      "message": "so what\u0027s the solution? Are we supposed to understand the next few lines? :)",
+      "range": {
+        "startLine": 57,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 48
+      },
+      "revId": "fae64153754a67830fd7b13365b1a632df76b5f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26d464e1_8bf15c00",
+        "filename": "src/net/rawconn_windows_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-20T05:50:34Z",
+      "side": 1,
+      "message": "likewise.",
+      "range": {
+        "startLine": 31,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "fae64153754a67830fd7b13365b1a632df76b5f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
