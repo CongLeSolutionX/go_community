@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32334d08_04feb02f",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-20T15:36:15Z",
+      "side": 1,
+      "message": "mbOp is easier to read.\n\"field\" isn\u0027t really needed.",
+      "range": {
+        "startLine": 337,
+        "startChar": 4,
+        "endLine": 337,
+        "endChar": 13
+      },
+      "revId": "3fed8d57e885fa5886d462d2571160cf66e4932e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4fc0632_90bf8770",
+        "filename": "src/cmd/internal/obj/arm/list5.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-20T15:36:15Z",
+      "side": 1,
+      "message": "Can we still use MAXREG but let MAXREG defined as the last special register?",
+      "range": {
+        "startLine": 39,
+        "startChar": 36,
+        "endLine": 39,
+        "endChar": 51
+      },
+      "revId": "3fed8d57e885fa5886d462d2571160cf66e4932e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e8928d4_b10890c8",
+        "filename": "src/runtime/internal/atomic/asm_arm.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-20T15:36:15Z",
+      "side": 1,
+      "message": "Taking another look, I think it is probably better not to use macros. As we now have the nice symbolic form of DMB instructions, it is clearer to just write it in the code. This way the reader can easily understand the code without the need of opening another file. WORD instructions were ugly and error prone, so it makes sense not to duplicate them. But this is not the case now.",
+      "revId": "3fed8d57e885fa5886d462d2571160cf66e4932e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
