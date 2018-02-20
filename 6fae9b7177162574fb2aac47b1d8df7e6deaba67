@@ -22,6 +22,30 @@
       "revId": "6fae9b7177162574fb2aac47b1d8df7e6deaba67",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a5ae410_2440a593",
+        "filename": "src/cmd/compile/internal/ssa/rewriteAMD64.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-02-20T01:48:09Z",
+      "side": 1,
+      "message": "Doh, I can\u0027t see how that happened. My best guess is git rebase screwing up the patch serie. I\u0027ll fix it up and rebase.",
+      "parentUuid": "fc86616c_6fe57aac",
+      "range": {
+        "startLine": 321,
+        "startChar": 2,
+        "endLine": 321,
+        "endChar": 133
+      },
+      "revId": "6fae9b7177162574fb2aac47b1d8df7e6deaba67",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
