@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c09ab20d_213284ba",
+        "filename": "src/cmd/internal/obj/arm/asm5.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-02-20T16:50:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32334d08_04feb02f",
+      "range": {
+        "startLine": 337,
+        "startChar": 4,
+        "endLine": 337,
+        "endChar": 13
+      },
+      "revId": "3fed8d57e885fa5886d462d2571160cf66e4932e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4fc0632_90bf8770",
         "filename": "src/cmd/internal/obj/arm/list5.go",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1af2ad9b_cd85eab2",
+        "filename": "src/cmd/internal/obj/arm/list5.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-02-20T16:50:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4fc0632_90bf8770",
+      "range": {
+        "startLine": 39,
+        "startChar": 36,
+        "endLine": 39,
+        "endChar": 51
+      },
+      "revId": "3fed8d57e885fa5886d462d2571160cf66e4932e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e8928d4_b10890c8",
         "filename": "src/runtime/internal/atomic/asm_arm.h",
         "patchSetId": 4
@@ -62,6 +110,24 @@
       "revId": "3fed8d57e885fa5886d462d2571160cf66e4932e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baf83b6b_ca904fb1",
+        "filename": "src/runtime/internal/atomic/asm_arm.h",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5781
+      },
+      "writtenOn": "2018-02-20T16:50:52Z",
+      "side": 1,
+      "message": "Yes, you are right. I\u0027ve rebased and removed the macros patchest.",
+      "parentUuid": "9e8928d4_b10890c8",
+      "revId": "3fed8d57e885fa5886d462d2571160cf66e4932e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
