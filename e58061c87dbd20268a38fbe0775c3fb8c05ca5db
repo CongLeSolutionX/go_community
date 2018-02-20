@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "af48d46b_be68b6c9",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-20T23:07:06Z",
+      "side": 1,
+      "message": "This was not intended to be GC specific. The intention was to return the time period when the durational event (represented as a slice in the trace view) overlaps with the task\u0027s activity. \n\nI used this for two different purposes and maybe that made this more confusing. \n\nNow I separated them. First one is overlappingGCTime - which simply returns the sum of GC time periods that overlaps with task\u0027s life time.\n\nThe second one is to determine whether a slice (emitted while processing the event) is overlapping with any of the task\u0027s span, so we can grey out the spans that are not relevant to the focus tasks.",
+      "parentUuid": "b031cf08_4df794b6",
+      "range": {
+        "startLine": 405,
+        "startChar": 22,
+        "endLine": 405,
+        "endChar": 41
+      },
+      "revId": "e58061c87dbd20268a38fbe0775c3fb8c05ca5db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "872db1f2_a5a54898",
         "filename": "src/cmd/trace/annotations.go",
         "patchSetId": 9
@@ -36,6 +60,24 @@
       "writtenOn": "2018-02-16T21:57:38Z",
       "side": 1,
       "message": "Now I\u0027m really confused. This makes sense for Mark/Sweep, but for GoStart, what are these goroutines that are part of a GC that have the same ID as something that ran a user span? Maybe I\u0027m completely misunderstanding what this function is for.",
+      "revId": "e58061c87dbd20268a38fbe0775c3fb8c05ca5db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f0e2f5b_6d186d8d",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-20T23:07:06Z",
+      "side": 1,
+      "message": "See the response to the previous comment. :-)",
+      "parentUuid": "872db1f2_a5a54898",
       "revId": "e58061c87dbd20268a38fbe0775c3fb8c05ca5db",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
