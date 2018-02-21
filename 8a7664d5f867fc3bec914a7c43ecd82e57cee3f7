@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "60e5be80_f6f775cb",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-02-21T18:17:31Z",
+      "side": 1,
+      "message": "P.S. the sense of the \u0027local\u0027 check is backwards here: it need to return if all the Named types are local, not if any one of them is local. But you get the idea.",
+      "parentUuid": "31d9e578_729a9ee1",
+      "revId": "8a7664d5f867fc3bec914a7c43ecd82e57cee3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "45d73eda_242c1061",
         "filename": "src/cmd/vet/composite.go",
         "patchSetId": 2
