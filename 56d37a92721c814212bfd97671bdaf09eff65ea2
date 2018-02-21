@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0abdd6d_990a1351",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 16006
+      },
+      "writtenOn": "2018-02-21T17:00:29Z",
+      "side": 1,
+      "message": "Sqrt",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "56d37a92721c814212bfd97671bdaf09eff65ea2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
