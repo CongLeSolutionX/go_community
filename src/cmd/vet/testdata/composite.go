@@ -67,6 +67,11 @@ var Okay7 = []*MyStruct{
 	{"aa", "bb", "cc"},
 }
 
+var OkayTestTypeFromNonTest = []MyTestStruct{
+	{"a", "b"},
+	{"0", "1"},
+}
+
 // Testing is awkward because we need to reference things from a separate package
 // to trigger the warnings.
 
