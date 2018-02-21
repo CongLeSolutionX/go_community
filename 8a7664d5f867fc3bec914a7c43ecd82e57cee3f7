@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "31d9e578_729a9ee1",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-02-21T18:15:55Z",
+      "side": 1,
+      "message": "The first loop removes all Named and Pointer type constructors looking for a Struct.  The other loop assumes that this has already happened, then checks whether the topmost Named belongs to the same package.  You could combine them into a single loop something like this:\n\n\tfor {\n\t\tswitch typ :\u003d typ.(type) {\n\t\tcase *types.Named:\n\t\t\tif strings.TrimSuffix(typ.Obj().Pkg().Path(), \"_test\") \u003d\u003d strings.TrimSuffix(f.pkg.path, \"_test\") {\n\t\t\t\treturn // skip local types\n\t\t\t}\n\t\t\ttyp \u003d typ.Underlying()\n\t\tcase *types.Pointer:\n\t\t\ttyp \u003d typ.Elem()\n\t\tcase *types.Struct:\n\t\t\tbreak\n\t\tdefault:\n\t\t\treturn // skip non-struct composite literals\n\t\t}\n\t}\n\nThis also has the benefit that it checks not just the topmost Named constructor, which is wrong in a case such as:\n\n  type A B\n  type B otherpkg.Struct\n\n  A{...}\n\nwhere isLocalPkg(A) reports true but the fields of A are defined by otherpkg.",
+      "parentUuid": "0e60d432_a20a6fc0",
+      "revId": "8a7664d5f867fc3bec914a7c43ecd82e57cee3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "45d73eda_242c1061",
         "filename": "src/cmd/vet/composite.go",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I wrote it that way initially, but it doesn\u0027t work.\n\nIf foo_test defines SomeType and uses it, you\u0027ll get both here as foo_test.\n\nI could, however, write this if you\u0027d prefer:\n\nreturn strings.TrimSuffix(x.Obj().Pkg().Path(), \"_test\") \u003d\u003d strings.TrimSuffix(f.pkg.path, \"_test\")\n\nIt\u0027s the same, as foo can never import and thus use a type from foo_test. But I thought that being explicit in explaining what\u0027s the logic here was better. And the single expression is a bit long.",
       "parentUuid": "45d73eda_242c1061",
+      "revId": "8a7664d5f867fc3bec914a7c43ecd82e57cee3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3669780c_018f2f0b",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-02-21T18:15:55Z",
+      "side": 1,
+      "message": "Ah, good point. I think your single return statement makes the intention clearer than the switch, and is simpler.",
+      "parentUuid": "94cec1e9_69e07fd6",
       "revId": "8a7664d5f867fc3bec914a7c43ecd82e57cee3f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
