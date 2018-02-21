@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2a6b736_70ac8a7e",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-02-21T17:37:44Z",
+      "side": 1,
+      "message": "This loop (the recursive call) seems redundant w.r.t. the loop on line 42.  Why not combine them?",
+      "revId": "8a7664d5f867fc3bec914a7c43ecd82e57cee3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45d73eda_242c1061",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5195
+      },
+      "writtenOn": "2018-02-21T17:37:44Z",
+      "side": 1,
+      "message": "This whole switch can be replaced with:\n\nreturn x.Obj().Pkg().Path() \u003d\u003d strings.TrimSuffix(f.pkg.path, \"_test\")",
+      "revId": "8a7664d5f867fc3bec914a7c43ecd82e57cee3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
