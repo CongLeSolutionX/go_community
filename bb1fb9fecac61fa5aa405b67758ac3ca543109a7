@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "382f3a76_dd31898d",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "The word \"dialing\" doesn\u0027t describe anything useful.\nHow about this?\n\n// Control specifies an optional callback function that is\n// called after a connection is created and before the\n// connection is bound to the operating system.",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 53
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31c22f08_812f67a6",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "No need to have a new type. I don\u0027t see any benefit to having methods on it.\nPlease replace \"ControlFunc\" with \"func(network, address string, c syscall.RawConn) error\".",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 20
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aaf7757_58f936e0",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 551,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "While we are here, let\u0027s rename dialParam with sysDialer and put dialParallel, dialSerial and dialSingle into it as its methods.\nThe non-mutable fields \"network\" and \"address\" are very important not only for returning error values but for giving precise hints to the user-defined callback function.\nFor example,\n\n// sysDialer contains a Dial\u0027s parameters and configuration.\ntype sysDialer struct {\n        Dialer\n        network, address string\n}\n\nfunc (sd *sysDialer) dialParallel(ctx context.Context, primaries, fallbacks addrList) (Conn, error)\nfunc (sd *sysDialer) dialSerial(ctx context.Context, ras addrList) (Conn, error)\nfunc (sd *sysDialer) dialSingle(ctx context.Context, ra Addr) (c Conn, err error)\nfunc (sd *sysDialer) dialTCP(ctx context.Context, laddr, raddr *TCPAddr) (*TCPConn, error)\nfunc (sd *sysDialer) dialUDP(ctx context.Context, laddr, raddr *UDPAddr) (*UDPConn, error) \nfunc (sd *sysDialer) dialIP(ctx context.Context, laddr, raddr *IPAddr) (*IPConn, error)\nfunc (sd *sysDialer) dialUnix(ctx context.Context, laddr, raddr *UnixAddr) (*UnixConn, error)\n\nalso for stateful and stateless listeners,\n\n// sysAnnouncer contains a Listen\u0027s parameters and configuration.\ntype sysAnnouncer struct {\n        Announcer\n        network, address string\n}\n\nfunc (sa *sysAnnouncer) listenTCP(ctx context.Context, laddr *TCPAddr) (*TCPListener, error)\nfunc (sa *sysAnnouncer) listenUDP(ctx context.Context, laddr *UDPAddr) (*UDPConn, error)\nfunc (sa *sysAnnouncer) listenMulticastUDP(ctx context.Context, ifi *Interface, gaddr *UDPAddr) (*UDPConn, error)\nfunc (sa *sysAnnouncer) listenIP(ctx context.Context, laddr *IPAddr) (*IPConn, error)\nfunc (sa *sysAnnouncer) listenUnix(ctx context.Context, laddr *UnixAddr) (*UnixListener, error)\nfunc (sa *sysAnnouncer) listenUnixgram(ctx context.Context, laddr *UnixAddr) (*UnixConn, error)",
+      "range": {
+        "startLine": 551,
+        "startChar": 44,
+        "endLine": 551,
+        "endChar": 54
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de44064_58bf4c37",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "Your CL doesn\u0027t support listening for stateless transport protocols.\nAlso, there\u0027s no space for future uses.\nI\u0027d like to propose to change the exposed API surface as follows:\n\n// An Announcer contains options for listening to an address.\ntype Announcer struct {\n        // Control specifies an optional callback function that is\n        // called after a connection is created and before the\n        // connection is bound to the operating system.\n        Control func(network, address string, c syscall.RawConn) error\n}\n\n// Listen announces on the local network address.\n//\n// See func Listen for a description of the network and address\n// parameters.\nfunc (an *Announcer) Listen(network, address string) (Listener, error)\n\n/ ListenPacket announces on the local network address.\n//\n// See func ListenPacket for a description of the network and address\n// parameters.\nfunc (an *Announcer) ListenPacket(network, address string) (PacketConn, error)",
+      "range": {
+        "startLine": 592,
+        "startChar": 0,
+        "endLine": 594,
+        "endChar": 72
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd58ee05_b0c7da2d",
+        "filename": "src/net/dial_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "I think both Test{Listen,Dial}Control functions don\u0027t test the functionality enough.\nPlease take a look at https://go-review.googlesource.com/c/go/+/95035/5/src/net/dial_test.go#918 and https://go-review.googlesource.com/c/go/+/95035/5/src/net/listen_test.go#733, feel free to pick anything for the CL.",
+      "range": {
+        "startLine": 916,
+        "startChar": 5,
+        "endLine": 916,
+        "endChar": 22
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "117b3e4d_ca258f89",
+        "filename": "src/net/hook.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "No need to modify this placeholder.\nPlease revert this.",
+      "range": {
+        "startLine": 11,
+        "startChar": 78,
+        "endLine": 11,
+        "endChar": 97
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd76453c_353f70de",
+        "filename": "src/net/ipsock_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "s/control/ctrlFn or controlFn or controlFunc/g",
+      "range": {
+        "startLine": 136,
+        "startChar": 108,
+        "endLine": 136,
+        "endChar": 115
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abbae744_799905f8",
+        "filename": "src/net/ipsock_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "Please do s/net/network/ while we are here.",
+      "range": {
+        "startLine": 136,
+        "startChar": 41,
+        "endLine": 136,
+        "endChar": 44
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89b57595_1c62f273",
+        "filename": "src/net/net.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "I don\u0027t think that you want to allow people to modify the destination identifier during the connection setup process.\nThe signature must be \"func(network, address string, c syscall.RawConn) error\".\nAlso, there\u0027s no benefit to making this type. Please drop it.",
+      "range": {
+        "startLine": 112,
+        "startChar": 46,
+        "endLine": 112,
+        "endChar": 50
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf9bc6dd_166fa54b",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "I don\u0027t think this is the right place to call back user-defined functions.\nPlease move this block to netFD.dial, netFD.listenStream and netFD.listenDatagram.\nPlease take a look at https://go-review.googlesource.com/c/go/+/95035/5/src/net/sock_posix.go",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 54,
+        "endChar": 20
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aabfd80c_32f11b50",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "You need to give a useful hint to users; e.g., \"tcp4\" or \"tcp6\" instead of ambiguous​ \"tcp\".",
+      "range": {
+        "startLine": 58,
+        "startChar": 27,
+        "endLine": 58,
+        "endChar": 30
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "188ccafc_4b0dd20c",
+        "filename": "src/net/sock_posix.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 5076
+      },
+      "writtenOn": "2018-02-21T04:31:37Z",
+      "side": 1,
+      "message": "Please be careful not to leak unexposed types that satisfy net.Addr or net.sockaddr interface.\nSo this must be a string, not a net.Addr.",
+      "range": {
+        "startLine": 58,
+        "startChar": 32,
+        "endLine": 58,
+        "endChar": 37
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
