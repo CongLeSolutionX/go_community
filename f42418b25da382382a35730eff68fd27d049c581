@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e9e3605_5246a832",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-21T20:27:09Z",
+      "side": 1,
+      "message": "In the future please remove these before submitting. This magic line is only recognized in Gerrit comments (not commit messages) anyway.",
+      "revId": "f42418b25da382382a35730eff68fd27d049c581",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
