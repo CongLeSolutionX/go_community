@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "753577d4_effdaaa9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-02-21T15:18:36Z",
+      "side": 1,
+      "message": "Is this paragraph out of date now?",
+      "revId": "cd06fd4b9cf3de0bfa03125227deea01054780fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f8b1462_5d7b8f47",
+        "filename": "src/cmd/vet/testdata/composite.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-02-21T15:18:36Z",
+      "side": 1,
+      "message": "You aren\u0027t using SpecialCase here.",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 110,
+        "endChar": 14
+      },
+      "revId": "cd06fd4b9cf3de0bfa03125227deea01054780fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
