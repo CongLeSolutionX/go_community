@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c25b7c03_5e4143fc",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-21T20:10:08Z",
+      "side": 1,
+      "message": "Changed to a simple function.",
+      "parentUuid": "ba51fc18_7412961b",
+      "range": {
+        "startLine": 838,
+        "startChar": 21,
+        "endLine": 838,
+        "endChar": 0
+      },
+      "revId": "5a5e64d941dd41ac97e31fc24f52f40293a37518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5005366d_14c8e7cb",
         "filename": "src/cmd/trace/trace.go",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "5a5e64d941dd41ac97e31fc24f52f40293a37518",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0ed8421_69bdd875",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-02-21T20:10:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5005366d_14c8e7cb",
+      "range": {
+        "startLine": 658,
+        "startChar": 3,
+        "endLine": 658,
+        "endChar": 5
+      },
+      "revId": "5a5e64d941dd41ac97e31fc24f52f40293a37518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
