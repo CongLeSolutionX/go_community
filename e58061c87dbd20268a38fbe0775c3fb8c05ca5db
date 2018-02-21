@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "477f8ba9_e0b17a69",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-02-21T17:18:39Z",
+      "side": 1,
+      "message": "I see. I think having a function to calculate the overlapping duration is fine, and using it in trace.go is fine. (I missed that call, which is why I was confused before.) But I\u0027m much happier with the type switch separate from the overlap calculation. So I\u0027d change hasOverlappingSpan to overlappingDuration, and then you can use it in overlappingGCTime, right?\n\nnit: shouldn\u0027t it be overlapping GCDuration?",
+      "parentUuid": "af48d46b_be68b6c9",
+      "range": {
+        "startLine": 405,
+        "startChar": 22,
+        "endLine": 405,
+        "endChar": 41
+      },
+      "revId": "e58061c87dbd20268a38fbe0775c3fb8c05ca5db",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "872db1f2_a5a54898",
         "filename": "src/cmd/trace/annotations.go",
         "patchSetId": 9
