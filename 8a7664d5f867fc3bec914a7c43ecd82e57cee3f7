@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e60d432_a20a6fc0",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-02-21T17:43:55Z",
+      "side": 1,
+      "message": "That code is to check if the underlying type is a struct. I could combine this here, and end up with something like isLocalAndStructType. Not sure that the result is cleaner.\n\nUnless I misunderstand your suggestion?",
+      "parentUuid": "a2a6b736_70ac8a7e",
+      "revId": "8a7664d5f867fc3bec914a7c43ecd82e57cee3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "45d73eda_242c1061",
         "filename": "src/cmd/vet/composite.go",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-21T17:37:44Z",
       "side": 1,
       "message": "This whole switch can be replaced with:\n\nreturn x.Obj().Pkg().Path() \u003d\u003d strings.TrimSuffix(f.pkg.path, \"_test\")",
+      "revId": "8a7664d5f867fc3bec914a7c43ecd82e57cee3f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94cec1e9_69e07fd6",
+        "filename": "src/cmd/vet/composite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-02-21T17:43:55Z",
+      "side": 1,
+      "message": "I wrote it that way initially, but it doesn\u0027t work.\n\nIf foo_test defines SomeType and uses it, you\u0027ll get both here as foo_test.\n\nI could, however, write this if you\u0027d prefer:\n\nreturn strings.TrimSuffix(x.Obj().Pkg().Path(), \"_test\") \u003d\u003d strings.TrimSuffix(f.pkg.path, \"_test\")\n\nIt\u0027s the same, as foo can never import and thus use a type from foo_test. But I thought that being explicit in explaining what\u0027s the logic here was better. And the single expression is a bit long.",
+      "parentUuid": "45d73eda_242c1061",
       "revId": "8a7664d5f867fc3bec914a7c43ecd82e57cee3f7",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
