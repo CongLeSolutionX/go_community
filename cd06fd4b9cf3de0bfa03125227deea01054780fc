@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "468dfc1c_3eac6b65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-02-21T15:23:17Z",
+      "side": 1,
+      "message": "It is - thanks for spotting.",
+      "parentUuid": "753577d4_effdaaa9",
+      "revId": "cd06fd4b9cf3de0bfa03125227deea01054780fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f8b1462_5d7b8f47",
         "filename": "src/cmd/vet/testdata/composite.go",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "cd06fd4b9cf3de0bfa03125227deea01054780fc",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d25bc32_1dde7e64",
+        "filename": "src/cmd/vet/testdata/composite.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-02-21T15:23:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4f8b1462_5d7b8f47",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 110,
+        "endChar": 14
+      },
+      "revId": "cd06fd4b9cf3de0bfa03125227deea01054780fc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
