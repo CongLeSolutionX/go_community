@@ -1439,6 +1439,24 @@
 	&& clobber(o4) && clobber(o5) && clobber(s0)
 	-> @mergePoint(b,x0,x1,x2,x3,x4,x5,x6,x7) (REV <t> (MOVDload <t> {s} (OffPtr <p.Type> [i0] p) mem))
 
+// Combine zero stores into larger (unaligned) stores.
+(MOVBstorezero [i] {s} p x:(MOVBstorezero [i-1] {s} p mem))
+	&& x.Uses == 1
+	&& clobber(x)
+	-> (MOVHstorezero [i-1] {s} p mem)
+(MOVHstorezero [i] {s} p x:(MOVHstorezero [i-2] {s} p mem))
+	&& x.Uses == 1
+	&& clobber(x)
+	-> (MOVWstorezero [i-2] {s} p mem)
+(MOVWstorezero [i] {s} p x:(MOVWstorezero [i-4] {s} p mem))
+	&& x.Uses == 1
+	&& clobber(x)
+	-> (MOVDstorezero [i-4] {s} p mem)
+(MOVDstorezero [i] {s} p x:(MOVDstorezero [i-8] {s} p mem))
+	&& x.Uses == 1
+	&& clobber(x)
+	-> (MOVQstorezero [i-8] {s} p mem)
+
 // FP simplification
 (FNEGS (FMULS x y)) -> (FNMULS x y)
 (FNEGD (FMULD x y)) -> (FNMULD x y)

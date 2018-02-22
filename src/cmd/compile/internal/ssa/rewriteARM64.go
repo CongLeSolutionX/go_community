@@ -5617,6 +5617,39 @@ func rewriteValueARM64_OpARM64MOVBstorezero_0(v *Value) bool {
 		v.AddArg(mem)
 		return true
 	}
+	// match: (MOVBstorezero [i] {s} p x:(MOVBstorezero [i-1] {s} p mem))
+	// cond: x.Uses == 1 && clobber(x)
+	// result: (MOVHstorezero [i-1] {s} p mem)
+	for {
+		i := v.AuxInt
+		s := v.Aux
+		_ = v.Args[1]
+		p := v.Args[0]
+		x := v.Args[1]
+		if x.Op != OpARM64MOVBstorezero {
+			break
+		}
+		if x.AuxInt != i-1 {
+			break
+		}
+		if x.Aux != s {
+			break
+		}
+		_ = x.Args[1]
+		if p != x.Args[0] {
+			break
+		}
+		mem := x.Args[1]
+		if !(x.Uses == 1 && clobber(x)) {
+			break
+		}
+		v.reset(OpARM64MOVHstorezero)
+		v.AuxInt = i - 1
+		v.Aux = s
+		v.AddArg(p)
+		v.AddArg(mem)
+		return true
+	}
 	return false
 }
 func rewriteValueARM64_OpARM64MOVDload_0(v *Value) bool {
@@ -5878,6 +5911,39 @@ func rewriteValueARM64_OpARM64MOVDstorezero_0(v *Value) bool {
 		v.AuxInt = off1 + off2
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVDstorezero [i] {s} p x:(MOVDstorezero [i-8] {s} p mem))
+	// cond: x.Uses == 1 && clobber(x)
+	// result: (MOVQstorezero [i-8] {s} p mem)
+	for {
+		i := v.AuxInt
+		s := v.Aux
+		_ = v.Args[1]
+		p := v.Args[0]
+		x := v.Args[1]
+		if x.Op != OpARM64MOVDstorezero {
+			break
+		}
+		if x.AuxInt != i-8 {
+			break
+		}
+		if x.Aux != s {
+			break
+		}
+		_ = x.Args[1]
+		if p != x.Args[0] {
+			break
+		}
+		mem := x.Args[1]
+		if !(x.Uses == 1 && clobber(x)) {
+			break
+		}
+		v.reset(OpARM64MOVQstorezero)
+		v.AuxInt = i - 8
+		v.Aux = s
+		v.AddArg(p)
 		v.AddArg(mem)
 		return true
 	}
@@ -6420,6 +6486,39 @@ func rewriteValueARM64_OpARM64MOVHstorezero_0(v *Value) bool {
 		v.AuxInt = off1 + off2
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVHstorezero [i] {s} p x:(MOVHstorezero [i-2] {s} p mem))
+	// cond: x.Uses == 1 && clobber(x)
+	// result: (MOVWstorezero [i-2] {s} p mem)
+	for {
+		i := v.AuxInt
+		s := v.Aux
+		_ = v.Args[1]
+		p := v.Args[0]
+		x := v.Args[1]
+		if x.Op != OpARM64MOVHstorezero {
+			break
+		}
+		if x.AuxInt != i-2 {
+			break
+		}
+		if x.Aux != s {
+			break
+		}
+		_ = x.Args[1]
+		if p != x.Args[0] {
+			break
+		}
+		mem := x.Args[1]
+		if !(x.Uses == 1 && clobber(x)) {
+			break
+		}
+		v.reset(OpARM64MOVWstorezero)
+		v.AuxInt = i - 2
+		v.Aux = s
+		v.AddArg(p)
 		v.AddArg(mem)
 		return true
 	}
@@ -7052,6 +7151,39 @@ func rewriteValueARM64_OpARM64MOVWstorezero_0(v *Value) bool {
 		v.AuxInt = off1 + off2
 		v.Aux = mergeSym(sym1, sym2)
 		v.AddArg(ptr)
+		v.AddArg(mem)
+		return true
+	}
+	// match: (MOVWstorezero [i] {s} p x:(MOVWstorezero [i-4] {s} p mem))
+	// cond: x.Uses == 1 && clobber(x)
+	// result: (MOVDstorezero [i-4] {s} p mem)
+	for {
+		i := v.AuxInt
+		s := v.Aux
+		_ = v.Args[1]
+		p := v.Args[0]
+		x := v.Args[1]
+		if x.Op != OpARM64MOVWstorezero {
+			break
+		}
+		if x.AuxInt != i-4 {
+			break
+		}
+		if x.Aux != s {
+			break
+		}
+		_ = x.Args[1]
+		if p != x.Args[0] {
+			break
+		}
+		mem := x.Args[1]
+		if !(x.Uses == 1 && clobber(x)) {
+			break
+		}
+		v.reset(OpARM64MOVDstorezero)
+		v.AuxInt = i - 4
+		v.Aux = s
+		v.AddArg(p)
 		v.AddArg(mem)
 		return true
 	}
