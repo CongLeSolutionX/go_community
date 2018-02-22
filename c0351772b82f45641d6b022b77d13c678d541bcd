@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b94774_47c0d492",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2290,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-02-22T14:55:18Z",
+      "side": 1,
+      "message": "These two lines could be merged into an \u0027else if\u0027 to reduce the indentation of the new code.",
+      "range": {
+        "startLine": 2289,
+        "startChar": 0,
+        "endLine": 2290,
+        "endChar": 28
+      },
+      "revId": "c0351772b82f45641d6b022b77d13c678d541bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fa04cfe_562e2d6b",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2299,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-02-22T14:55:18Z",
+      "side": 1,
+      "message": "s/C_ADDCON/o.a1/ maybe?",
+      "range": {
+        "startLine": 2299,
+        "startChar": 76,
+        "endLine": 2299,
+        "endChar": 84
+      },
+      "revId": "c0351772b82f45641d6b022b77d13c678d541bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d755cd_8512b95d",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 2685,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-02-22T14:55:18Z",
+      "side": 1,
+      "message": "This comment needs updating I think.",
+      "range": {
+        "startLine": 2685,
+        "startChar": 33,
+        "endLine": 2685,
+        "endChar": 36
+      },
+      "revId": "c0351772b82f45641d6b022b77d13c678d541bcd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
