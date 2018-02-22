@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a40a796_28a01ba9",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64enc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-22T15:41:43Z",
+      "side": 1,
+      "message": "Remove TODO. It should be supported now. Also other lines that test the instructions added in this CL.",
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48545f6f_bb301f53",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-22T15:41:43Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to treat RSP specially. Just say Rn.",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e30ca524_37007aca",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-22T15:41:43Z",
+      "side": 1,
+      "message": "This part is not needed.",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 54
+      },
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c2e54de_eba1b198",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-22T15:41:43Z",
+      "side": 1,
+      "message": "What is PE?",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 21
+      },
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8c7ddfe_ceb77ab0",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-22T15:41:43Z",
+      "side": 1,
+      "message": "This is not clear. It may sound like \"no store to Rs was performed\". I suggest moving \"to Rs\" earlier, \"returns in Rs a status value of 0 if ...\"",
+      "range": {
+        "startLine": 56,
+        "startChar": 82,
+        "endLine": 56,
+        "endChar": 87
+      },
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
