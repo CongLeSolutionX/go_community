@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62073399_4b639413",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-02-22T23:17:16Z",
+      "side": 1,
+      "message": "Remove this comment, since the CL uses 5 elements on any platform.",
+      "range": {
+        "startLine": 13,
+        "startChar": 36,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "4ca911bb57eb61a2c1dbf6ee09dffa49004ea050",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d87e2875_2d94b738",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-02-22T23:17:16Z",
+      "side": 1,
+      "message": "Leave the comment explaining the purpose of the padding with the given size, so future readers could understand it",
+      "revId": "4ca911bb57eb61a2c1dbf6ee09dffa49004ea050",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91995bf1_a127ebd6",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-02-22T23:17:16Z",
+      "side": 1,
+      "message": "Move this line below p.pin(), i.e. closer to the usage",
+      "revId": "4ca911bb57eb61a2c1dbf6ee09dffa49004ea050",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c9af6f9_ab0efee3",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-02-22T23:17:16Z",
+      "side": 1,
+      "message": "Assign nil to l.private[l.privateLen] as in the original code, so GC could remove x from the pool.",
+      "revId": "4ca911bb57eb61a2c1dbf6ee09dffa49004ea050",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
