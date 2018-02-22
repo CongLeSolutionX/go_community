@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae48b7f8_b70e5f18",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-22T17:23:56Z",
+      "side": 1,
+      "message": "gofmt this code.",
+      "revId": "a3f51211d2ea659450877828a457b93317fd6045",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
