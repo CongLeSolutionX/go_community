@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c09b513b_52b531c9",
+        "filename": "src/crypto/x509/x509_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-22T22:46:23Z",
+      "side": 1,
+      "message": "https://github.com/golang/go/wiki/CodeReviewComments#useful-test-failures\n\nThese tests will fail without saying which input was the problem.",
+      "range": {
+        "startLine": 978,
+        "startChar": 1,
+        "endLine": 979,
+        "endChar": 40
+      },
+      "revId": "e04e107981aded466a167b5a9fd8de7e4608294f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
