@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "34893d8a_99c36def",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1443,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-23T21:12:32Z",
+      "side": 1,
+      "message": "Actually I\u0027m not sure we really need it. x.Uses\u003d\u003d1 implies there is nothing could observe the memory between the two stores. So this may be ok?",
+      "parentUuid": "20bbd0d9_32b87991",
+      "revId": "5bff08cc3c51e3ab9b0889f8553084d34cf970da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bf7b176_d7c306ae",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
