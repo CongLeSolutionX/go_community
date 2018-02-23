@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d61b16c1_73f85886",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2925,
+      "author": {
+        "id": 25690
+      },
+      "writtenOn": "2018-02-23T20:47:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9632c803_5cb9cd82",
+      "range": {
+        "startLine": 2922,
+        "startChar": 0,
+        "endLine": 2925,
+        "endChar": 11
+      },
+      "revId": "5bff08cc3c51e3ab9b0889f8553084d34cf970da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7418956e_39983104",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "20bbd0d9_32b87991",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1443,
+      "author": {
+        "id": 25690
+      },
+      "writtenOn": "2018-02-23T20:47:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7418956e_39983104",
+      "revId": "5bff08cc3c51e3ab9b0889f8553084d34cf970da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bf7b176_d7c306ae",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
@@ -56,6 +98,24 @@
       "revId": "5bff08cc3c51e3ab9b0889f8553084d34cf970da",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34e1b665_b3f460e3",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 1447,
+      "author": {
+        "id": 25690
+      },
+      "writtenOn": "2018-02-23T20:47:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bf7b176_d7c306ae",
+      "revId": "5bff08cc3c51e3ab9b0889f8553084d34cf970da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
