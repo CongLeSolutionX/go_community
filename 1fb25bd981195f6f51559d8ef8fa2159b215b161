@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05998a1f_a0ee38f0",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2266,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-02-23T20:10:37Z",
+      "side": 1,
+      "message": "ori is now also a possibility?\nand oris was already possible, right?",
+      "range": {
+        "startLine": 2266,
+        "startChar": 42,
+        "endLine": 2266,
+        "endChar": 52
+      },
+      "revId": "1fb25bd981195f6f51559d8ef8fa2159b215b161",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f19d2f94_131bb7a4",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2290,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-02-23T20:10:37Z",
+      "side": 1,
+      "message": "This comment confuses me, since it seems to describe the opposite of the condition that is true here.\nE.g., suppose v \u003d\u003d d \u003d\u003d 3; then this code does not execute (3 !\u003d 3 is not true) yet 0 \u003c\u003d 3 \u003c\u003d 0xffff.\n\nIt also mentions \"v\" (int32 above) whereas \"d\" is used in the test and is an int64,\nso there are corner cases where v is in in the range -32768 \u003c\u003d v \u003c\u003d 32767\nbut int64(int16(d)) !\u003d d (e.g., d \u003d 1\u003c\u003c62+1).\n\nI think the comment is supposed to describe the next line, not the preceding one,\nbut if \"int64(int16(v)) !\u003d v\" (v, not d, to avoid crazy corner cases)\nthen \"o.a1 \u003d\u003d C_ANDCON\" shouldn\u0027t be true, should it?\n\nPerhaps I am confused, but if so, I\u0027d love to see some suitably deconfusing comments.",
+      "range": {
+        "startLine": 2290,
+        "startChar": 6,
+        "endLine": 2290,
+        "endChar": 37
+      },
+      "revId": "1fb25bd981195f6f51559d8ef8fa2159b215b161",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8ecd336_5570487b",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 2293,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-02-23T20:10:37Z",
+      "side": 1,
+      "message": "Are these operands in the proper order?\nAnd this is the only\n  AOP_IRR(uint32(OP_ORI)... \nthat I see in this file, all the rest are LOP_IRR.",
+      "range": {
+        "startLine": 2293,
+        "startChar": 34,
+        "endLine": 2293,
+        "endChar": 61
+      },
+      "revId": "1fb25bd981195f6f51559d8ef8fa2159b215b161",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
