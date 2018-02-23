@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9632c803_5cb9cd82",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 2925,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-02-23T03:44:45Z",
+      "side": 1,
+      "message": "better to add cases with different accessing order such as b[2] b[3] b[1] b[0].",
+      "range": {
+        "startLine": 2922,
+        "startChar": 0,
+        "endLine": 2925,
+        "endChar": 11
+      },
+      "revId": "5bff08cc3c51e3ab9b0889f8553084d34cf970da",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7418956e_39983104",
         "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
         "patchSetId": 3
