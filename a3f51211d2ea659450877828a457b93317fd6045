@@ -16,6 +16,24 @@
       "revId": "a3f51211d2ea659450877828a457b93317fd6045",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2973dd17_3d02666d",
+        "filename": "src/go/build/deps_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-02-23T07:02:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae48b7f8_b70e5f18",
+      "revId": "a3f51211d2ea659450877828a457b93317fd6045",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
