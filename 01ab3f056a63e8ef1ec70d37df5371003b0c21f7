@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afb317b3_a87c428b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2018-02-23T22:02:23Z",
+      "side": 1,
+      "message": "nit: Change \", be\" to \". By\".",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 45
+      },
+      "revId": "01ab3f056a63e8ef1ec70d37df5371003b0c21f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18a56532_f974c676",
+        "filename": "src/cmd/compile/internal/ssa/zeroextension_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 8715
+      },
+      "writtenOn": "2018-02-23T22:02:23Z",
+      "side": 1,
+      "message": "nit: I think the typical log message format would be:\n\n    %s: got %d, want %d",
+      "revId": "01ab3f056a63e8ef1ec70d37df5371003b0c21f7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
