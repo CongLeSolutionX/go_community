@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "18d5d5e5_85df4cd7",
+        "filename": "src/internal/syscall/windows/zsyscall_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-24T02:05:50Z",
+      "side": 1,
+      "message": "hmm, where would the DLL module and the function proc be loaded if not in `zsyscall_windows.go`?\ncould you please elaborate?",
+      "parentUuid": "addc904b_7bf4acec",
+      "revId": "7c1905500506cce3f4e7b16d29fd5f228f90c270",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94f13b33_96995f42",
         "filename": "src/os/user/lookup_windows.go",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2018-02-24T01:00:40Z",
       "side": 1,
       "message": "s/isyscall //\n\nwindows.GetProfilesDirectory will read better than isyscall.GetProfilesDirectory in your code.",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "7c1905500506cce3f4e7b16d29fd5f228f90c270",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7fa8eaa_a1c9b855",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 26534
+      },
+      "writtenOn": "2018-02-24T02:05:50Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "94f13b33_96995f42",
       "range": {
         "startLine": 10,
         "startChar": 1,
