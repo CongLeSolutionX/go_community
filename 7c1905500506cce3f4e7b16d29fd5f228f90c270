@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "addc904b_7bf4acec",
+        "filename": "src/internal/syscall/windows/zsyscall_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-24T01:00:40Z",
+      "side": 1,
+      "message": "You don\u0027t need to change this file now. Revert.",
+      "revId": "7c1905500506cce3f4e7b16d29fd5f228f90c270",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94f13b33_96995f42",
+        "filename": "src/os/user/lookup_windows.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-02-24T01:00:40Z",
+      "side": 1,
+      "message": "s/isyscall //\n\nwindows.GetProfilesDirectory will read better than isyscall.GetProfilesDirectory in your code.",
+      "range": {
+        "startLine": 10,
+        "startChar": 1,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "7c1905500506cce3f4e7b16d29fd5f228f90c270",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
