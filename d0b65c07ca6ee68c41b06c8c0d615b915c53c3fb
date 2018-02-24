@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70c72bc9_5768d4a1",
+        "filename": "src/cmd/vet/bool.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-02-24T05:01:35Z",
+      "side": 1,
+      "message": "turn if around?\n\nif _, ok :\u003d f.pkg.types[n.Fun].Type.(*types.Signature) {\n   // ...\n   safe \u003d false\n   return false\n}\n// we have a type conversion\n\nAlso: I think checking the type is not quite right because a conversion (T)(x) where T is a function would also have a Signature type. But the effect would be that those conversions would be also conservatively excluded, which at least wouldn\u0027t be wrong.",
+      "range": {
+        "startLine": 145,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 13
+      },
+      "revId": "d0b65c07ca6ee68c41b06c8c0d615b915c53c3fb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
