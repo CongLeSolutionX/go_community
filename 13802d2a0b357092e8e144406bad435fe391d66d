@@ -16,6 +16,24 @@
       "revId": "13802d2a0b357092e8e144406bad435fe391d66d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2635d15d_36322313",
+        "filename": "src/net/http/header.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 8955
+      },
+      "writtenOn": "2018-02-25T18:44:26Z",
+      "side": 1,
+      "message": "Thanks. New patch circumvents API change by calling new private counterparts to the public methods. This means that usage of Header.Write/WriteSubset will not result in the hook being called. This seems okay because the io.Writer can be any arbitrary writer and there is no way of knowing which request the header is associated with, if any. (I wonder how much these public methods are being used - https://github.com/golang/go/issues/16479.)\n\nwdyt?\n\n\"This will have to be done inside net/http/transport.go.\"\nI don\u0027t see a way to call the hook in a high-level place like transport.go without a very large refactor. request.go and transfer.go have implementation details that are hard to expose higher up.\n\n(For completeness, an obvious thing we cannot do is store the trace reference in the Header since that would break the Header API, which people use as a map.)",
+      "parentUuid": "9d983640_1e2afef6",
+      "revId": "13802d2a0b357092e8e144406bad435fe391d66d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
