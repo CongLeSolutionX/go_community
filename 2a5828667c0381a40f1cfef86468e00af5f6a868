@@ -22,6 +22,30 @@
       "revId": "2a5828667c0381a40f1cfef86468e00af5f6a868",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d8f9863_eae2debc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 24096
+      },
+      "writtenOn": "2018-02-25T18:36:31Z",
+      "side": 1,
+      "message": "Ah cool ! Didn\u0027t know about the \"CL xxx\" format. Done.",
+      "parentUuid": "d072d8a7_1cd4faa6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "2a5828667c0381a40f1cfef86468e00af5f6a868",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
