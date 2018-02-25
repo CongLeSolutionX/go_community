@@ -319,6 +319,7 @@ func (s *exprSwitch) walkCases(cc []caseClause) *Node {
 			} else if (s.kind != switchKindTrue && s.kind != switchKindFalse) || assignop(n.Left.Type, s.exprname.Type, nil) == OCONVIFACE || assignop(s.exprname.Type, n.Left.Type, nil) == OCONVIFACE {
 				a.Left = nod(OEQ, s.exprname, n.Left) // if name == val
 				a.Left = typecheck(a.Left, Erv)
+				a.Left = defaultlit(a.Left, nil)
 			} else if s.kind == switchKindTrue {
 				a.Left = n.Left // if val
 			} else {
@@ -568,7 +569,7 @@ Outer:
 		if !ok {
 			// First entry for this hash.
 			nn = append(nn, c.node)
-			seen[c.hash] = nn[len(nn)-1 : len(nn):len(nn)]
+			seen[c.hash] = nn[len(nn)-1 : len(nn) : len(nn)]
 			continue
 		}
 		for _, n := range prev {
