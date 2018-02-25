@@ -58,6 +58,21 @@ var writeTests = []WriteTest{
 	},
 }
 
+var writeToDirectory = []WriteTest{
+	{
+		Name: "foo/",
+		Data: []byte("Rabbits, guinea pigs, gophers, marsupial rats, and quolls."),
+	},
+	{
+		Name: "こんにちわ/",
+		Data: []byte("in the 世界"),
+	},
+	{
+		Name: "안녕하세요/",
+		Data: []byte("안녕"),
+	},
+}
+
 func TestWriter(t *testing.T) {
 	largeData := make([]byte, 1<<17)
 	if _, err := rand.Read(largeData); err != nil {
@@ -218,6 +233,18 @@ func TestWriterUTF8(t *testing.T) {
 		flags := r.File[i].Flags
 		if flags != test.flags {
 			t.Errorf("CreateHeader(name=%q comment=%q nonUTF8=%v): flags=%#x, want %#x", test.name, test.comment, test.nonUTF8, flags, test.flags)
+		}
+	}
+}
+
+func TestWriterToDirectory(t *testing.T) {
+	buf := new(bytes.Buffer)
+	zw := NewWriter(buf)
+	defer zw.Close()
+	for _, test := range writeToDirectory {
+		w, err := zw.Create(test.Name)
+		if w != nil || err == nil {
+			t.Errorf("Create and CreateHeader should just return an error.")
 		}
 	}
 }

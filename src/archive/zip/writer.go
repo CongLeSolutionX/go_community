@@ -261,6 +261,10 @@ func (w *Writer) CreateHeader(fh *FileHeader) (io.Writer, error) {
 		return nil, errors.New("archive/zip: invalid duplicate FileHeader")
 	}
 
+	if len(fh.Name) == 0 || fh.Name[len(fh.Name)-1] == '/' {
+		return nil, errors.New("archive/zip: can not create for directory")
+	}
+
 	fh.Flags |= 0x8 // we will write a data descriptor
 
 	// The ZIP format has a sad state of affairs regarding character encoding.
