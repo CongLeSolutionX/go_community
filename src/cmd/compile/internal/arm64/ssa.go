@@ -148,6 +148,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64OR,
 		ssa.OpARM64XOR,
 		ssa.OpARM64BIC,
+		ssa.OpARM64EON,
+		ssa.OpARM64ORN,
 		ssa.OpARM64MUL,
 		ssa.OpARM64MULW,
 		ssa.OpARM64MNEG,
@@ -211,6 +213,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64ORconst,
 		ssa.OpARM64XORconst,
 		ssa.OpARM64BICconst,
+		ssa.OpARM64EONconst,
+		ssa.OpARM64ORNconst,
 		ssa.OpARM64SLLconst,
 		ssa.OpARM64SRLconst,
 		ssa.OpARM64SRAconst,
@@ -227,6 +231,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64ANDshiftLL,
 		ssa.OpARM64ORshiftLL,
 		ssa.OpARM64XORshiftLL,
+		ssa.OpARM64EONshiftLL,
+		ssa.OpARM64ORNshiftLL,
 		ssa.OpARM64BICshiftLL:
 		genshift(s, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.SHIFT_LL, v.AuxInt)
 	case ssa.OpARM64ADDshiftRL,
@@ -234,6 +240,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64ANDshiftRL,
 		ssa.OpARM64ORshiftRL,
 		ssa.OpARM64XORshiftRL,
+		ssa.OpARM64EONshiftRL,
+		ssa.OpARM64ORNshiftRL,
 		ssa.OpARM64BICshiftRL:
 		genshift(s, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.SHIFT_LR, v.AuxInt)
 	case ssa.OpARM64ADDshiftRA,
@@ -241,6 +249,8 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		ssa.OpARM64ANDshiftRA,
 		ssa.OpARM64ORshiftRA,
 		ssa.OpARM64XORshiftRA,
+		ssa.OpARM64EONshiftRA,
+		ssa.OpARM64ORNshiftRA,
 		ssa.OpARM64BICshiftRA:
 		genshift(s, v.Op.Asm(), v.Args[0].Reg(), v.Args[1].Reg(), v.Reg(), arm64.SHIFT_AR, v.AuxInt)
 	case ssa.OpARM64MOVDconst:
