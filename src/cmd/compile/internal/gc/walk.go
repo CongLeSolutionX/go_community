@@ -3455,6 +3455,7 @@ func finishcompare(n, r *Node, init *Nodes) *Node {
 	// Use nn here to avoid passing r to typecheck.
 	nn := r
 	nn = typecheck(nn, Erv)
+	nn = defaultlit(nn, nil)
 	nn = walkexpr(nn, init)
 	r = nn
 	if r.Type != n.Type {
