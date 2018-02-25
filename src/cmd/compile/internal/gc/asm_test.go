@@ -2638,6 +2638,33 @@ var linuxARM64Tests = []*asmTest{
 	},
 	{
 		fn: `
+		func f6(x, y uint32) uint32 {
+			return x &^ y
+		}
+		`,
+		pos: []string{"\tBIC\t"},
+		neg: []string{"\tAND\t"},
+	},
+	{
+		fn: `
+		func f7(x, y uint32) uint32 {
+			return x ^ ^y
+		}
+		`,
+		pos: []string{"\tEON\t"},
+		neg: []string{"\tXOR\t"},
+	},
+	{
+		fn: `
+		func f8(x, y uint32) uint32 {
+			return x | ^y
+		}
+		`,
+		pos: []string{"\tORN\t"},
+		neg: []string{"\tORR\t"},
+	},
+	{
+		fn: `
 		func f22(a uint64) uint64 {
 			return bits.ReverseBytes64(a)
 		}
