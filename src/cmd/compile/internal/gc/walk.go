@@ -1701,6 +1701,7 @@ opswitch:
 			cmp = nod(OOROR, nod(ONE, lt, rt), nod(ONOT, call, nil))
 		}
 		cmp = typecheck(cmp, Erv)
+		cmp = defaultlit(cmp, nil)
 		cmp = walkexpr(cmp, init)
 		cmp.Type = n.Type
 		n = cmp
