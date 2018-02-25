@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27e90d2e_40be7bd9",
+        "filename": "src/archive/zip/writer.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 17352
+      },
+      "writtenOn": "2018-02-25T09:12:41Z",
+      "side": 1,
+      "message": "Empty FileHeader name should be allowed?",
+      "revId": "c4c4d0ed8d8803ba3305d77d53b53e94fd0f0bf5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
