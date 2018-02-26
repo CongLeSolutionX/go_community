@@ -3576,6 +3576,7 @@ func _ExternalCode()              { _ExternalCode() }
 func _LostExternalCode()          { _LostExternalCode() }
 func _GC()                        { _GC() }
 func _LostSIGPROFDuringAtomic64() { _LostSIGPROFDuringAtomic64() }
+func _VDSO()                      { _VDSO() }
 
 // Counts SIGPROFs received while in atomic64 critical section, on mips{,le}
 var lostAtomic64Count uint64
@@ -3715,8 +3716,10 @@ func sigprof(pc, sp, lr uintptr, gp *g, mp *m) {
 		if n == 0 {
 			// If all of the above has failed, account it against abstract "System" or "GC".
 			n = 2
-			// "ExternalCode" is better than "etext".
-			if pc > firstmoduledata.etext {
+			if inVDSOPage(pc) {
+				pc = funcPC(_VDSO) + sys.PCQuantum
+			} else if pc > firstmoduledata.etext {
+				// "ExternalCode" is better than "etext".
 				pc = funcPC(_ExternalCode) + sys.PCQuantum
 			}
 			stk[0] = pc
