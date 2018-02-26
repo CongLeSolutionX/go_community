@@ -241,16 +241,24 @@ func init() {
 		{name: "RORWconst", argLength: 1, reg: gp11, asm: "RORW", aux: "Int64"}, // uint32(arg0) right rotate by auxInt bits
 
 		// comparisons
-		{name: "CMP", argLength: 2, reg: gp2flags, asm: "CMP", typ: "Flags"},                      // arg0 compare to arg1
-		{name: "CMPconst", argLength: 1, reg: gp1flags, asm: "CMP", aux: "Int64", typ: "Flags"},   // arg0 compare to auxInt
-		{name: "CMPW", argLength: 2, reg: gp2flags, asm: "CMPW", typ: "Flags"},                    // arg0 compare to arg1, 32 bit
-		{name: "CMPWconst", argLength: 1, reg: gp1flags, asm: "CMPW", aux: "Int32", typ: "Flags"}, // arg0 compare to auxInt, 32 bit
-		{name: "CMN", argLength: 2, reg: gp2flags, asm: "CMN", typ: "Flags"},                      // arg0 compare to -arg1
-		{name: "CMNconst", argLength: 1, reg: gp1flags, asm: "CMN", aux: "Int64", typ: "Flags"},   // arg0 compare to -auxInt
-		{name: "CMNW", argLength: 2, reg: gp2flags, asm: "CMNW", typ: "Flags"},                    // arg0 compare to -arg1, 32 bit
-		{name: "CMNWconst", argLength: 1, reg: gp1flags, asm: "CMNW", aux: "Int32", typ: "Flags"}, // arg0 compare to -auxInt, 32 bit
-		{name: "FCMPS", argLength: 2, reg: fp2flags, asm: "FCMPS", typ: "Flags"},                  // arg0 compare to arg1, float32
-		{name: "FCMPD", argLength: 2, reg: fp2flags, asm: "FCMPD", typ: "Flags"},                  // arg0 compare to arg1, float64
+		{name: "ADDS", argLength: 2, reg: gp21, asm: "ADD", commutative: true, typ: "Flags"},         // arg0 + arg1
+		{name: "ADDSconst", argLength: 1, reg: gp11sp, asm: "ADD", aux: "Int64", typ: "Flags"},       // arg0 + auxInt
+		{name: "ANDS", argLength: 2, reg: gp2flags1, asm: "ANDS", commutative: true, typ: "Flags"},   // arg0 & arg1
+		{name: "ANDSconst", argLength: 1, reg: gp1flags1, asm: "ANDS", aux: "Int64", typ: "Flags"},   // arg0 & auxInt
+		{name: "ANDSWconst", argLength: 1, reg: gp1flags1, asm: "ANDSW", aux: "Int64", typ: "Flags"}, // arg0 & auxInt
+		{name: "TST", argLength: 2, reg: gp2flags1, asm: "ANDS", commutative: true, typ: "Flags"},    // arg0 & arg1
+		{name: "TSTconst", argLength: 1, reg: gp1flags1, asm: "ANDS", aux: "Int64", typ: "Flags"},    // arg0 & auxInt
+		{name: "TSTWconst", argLength: 1, reg: gp1flags1, asm: "ANDSW", aux: "Int64", typ: "Flags"},  // arg0 & auxInt
+		{name: "CMP", argLength: 2, reg: gp2flags, asm: "CMP", typ: "Flags"},                         // arg0 compare to arg1
+		{name: "CMPconst", argLength: 1, reg: gp1flags, asm: "CMP", aux: "Int64", typ: "Flags"},      // arg0 compare to auxInt
+		{name: "CMPW", argLength: 2, reg: gp2flags, asm: "CMPW", typ: "Flags"},                       // arg0 compare to arg1, 32 bit
+		{name: "CMPWconst", argLength: 1, reg: gp1flags, asm: "CMPW", aux: "Int32", typ: "Flags"},    // arg0 compare to auxInt, 32 bit
+		{name: "CMN", argLength: 2, reg: gp2flags, asm: "CMN", typ: "Flags"},                         // arg0 compare to -arg1
+		{name: "CMNconst", argLength: 1, reg: gp1flags, asm: "CMN", aux: "Int64", typ: "Flags"},      // arg0 compare to -auxInt
+		{name: "CMNW", argLength: 2, reg: gp2flags, asm: "CMNW", typ: "Flags"},                       // arg0 compare to -arg1, 32 bit
+		{name: "CMNWconst", argLength: 1, reg: gp1flags, asm: "CMNW", aux: "Int32", typ: "Flags"},    // arg0 compare to -auxInt, 32 bit
+		{name: "FCMPS", argLength: 2, reg: fp2flags, asm: "FCMPS", typ: "Flags"},                     // arg0 compare to arg1, float32
+		{name: "FCMPD", argLength: 2, reg: fp2flags, asm: "FCMPD", typ: "Flags"},                     // arg0 compare to arg1, float64
 
 		// shifted ops
 		{name: "ADDshiftLL", argLength: 2, reg: gp21, asm: "ADD", aux: "Int64"},                   // arg0 + arg1<<auxInt
