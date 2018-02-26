@@ -64,14 +64,14 @@ const (
 func _ELF_ST_BIND(val byte) byte { return val >> 4 }
 func _ELF_ST_TYPE(val byte) byte { return val & 0xf }
 
-type symbol_key struct {
+type vdsoSymbolKey struct {
 	name     string
 	sym_hash uint32
 	gnu_hash uint32
 	ptr      *uintptr
 }
 
-type version_key struct {
+type vdsoVersionKey struct {
 	version  string
 	ver_hash uint32
 }
@@ -96,9 +96,9 @@ type vdso_info struct {
 	verdef *elfVerdef
 }
 
-var linux26 = version_key{"LINUX_2.6", 0x3ae75f6}
+var linux26 = vdsoVersionKey{"LINUX_2.6", 0x3ae75f6}
 
-// see vdso_linux_*.go for sym_keys[] and __vdso_* vars
+// see vdso_linux_*.go for vdsoSymbols and __vdso_* vars
 
 func vdso_init_from_sysinfo_ehdr(info *vdso_info, hdr *elfEhdr) {
 	info.valid = false
@@ -182,7 +182,7 @@ func vdso_init_from_sysinfo_ehdr(info *vdso_info, hdr *elfEhdr) {
 	info.valid = true
 }
 
-func vdso_find_version(info *vdso_info, ver *version_key) int32 {
+func vdso_find_version(info *vdso_info, ver *vdsoVersionKey) int32 {
 	if !info.valid {
 		return 0
 	}
@@ -210,7 +210,7 @@ func vdso_parse_symbols(info *vdso_info, version int32) {
 		return
 	}
 
-	apply := func(symIndex uint32, k symbol_key) bool {
+	apply := func(symIndex uint32, k vdsoSymbolKey) bool {
 		sym := &info.symtab[symIndex]
 		typ := _ELF_ST_TYPE(sym.st_info)
 		bind := _ELF_ST_BIND(sym.st_info)
@@ -232,7 +232,7 @@ func vdso_parse_symbols(info *vdso_info, version int32) {
 
 	if !info.isGNUHash {
 		// Old-style DT_HASH table.
-		for _, k := range sym_keys {
+		for _, k := range vdsoSymbols {
 			for chain := info.bucket[k.sym_hash%uint32(len(info.bucket))]; chain != 0; chain = info.chain[chain] {
 				if apply(chain, k) {
 					break
@@ -243,7 +243,7 @@ func vdso_parse_symbols(info *vdso_info, version int32) {
 	}
 
 	// New-style DT_GNU_HASH table.
-	for _, k := range sym_keys {
+	for _, k := range vdsoSymbols {
 		symIndex := info.bucket[k.gnu_hash%uint32(len(info.bucket))]
 		if symIndex < info.symOff {
 			continue
@@ -278,4 +278,15 @@ func archauxv(tag, val uintptr) {
 		vdso_init_from_sysinfo_ehdr(info1, (*elfEhdr)(unsafe.Pointer(val)))
 		vdso_parse_symbols(info1, vdso_find_version(info1, &linux26))
 	}
+}
+
+// vdsoMarker returns whether PC is on the VDSO page.
+func inVDSOPage(pc uintptr) bool {
+	for _, k := range vdsoSymbols {
+		if *k.ptr != 0 {
+			page := *k.ptr &^ 0xfff
+			return pc >= page && pc < page+0x1000
+		}
+	}
+	return false
 }

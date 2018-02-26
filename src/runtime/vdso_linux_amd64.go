@@ -10,7 +10,7 @@ const (
 	vdsoArrayMax = 1<<50 - 1
 )
 
-var sym_keys = []symbol_key{
+var vdsoSymbols = []vdsoSymbolKey{
 	{"__vdso_time", 0xa33c485, 0x821e8e0d, &__vdso_time_sym},
 	{"__vdso_gettimeofday", 0x315ca59, 0xb01bca00, &__vdso_gettimeofday_sym},
 	{"__vdso_clock_gettime", 0xd35ec75, 0x6e43a318, &__vdso_clock_gettime_sym},

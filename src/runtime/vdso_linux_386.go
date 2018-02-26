@@ -11,7 +11,7 @@ const (
 	vdsoArrayMax = 1<<31 - 1
 )
 
-var sym_keys = []symbol_key{
+var vdsoSymbols = []vdsoSymbolKey{
 	{"__vdso_clock_gettime", 0xd35ec75, 0x6e43a318, &__vdso_clock_gettime_sym},
 }
 
