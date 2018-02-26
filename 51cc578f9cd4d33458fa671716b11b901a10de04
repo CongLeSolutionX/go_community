@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34c68b6b_c7adc8c4",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-26T15:35:46Z",
+      "side": 1,
+      "message": "We can rewrite this to (XORconst [^c] x), then we don\u0027t need EONconst op and a few related rules. Maybe I should have done this for BICconst. What do you think?",
+      "revId": "51cc578f9cd4d33458fa671716b11b901a10de04",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
