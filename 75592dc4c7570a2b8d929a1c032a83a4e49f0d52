@@ -16,6 +16,24 @@
       "revId": "75592dc4c7570a2b8d929a1c032a83a4e49f0d52",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5bca70a_f54ce31e",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3458,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-26T21:04:25Z",
+      "side": 1,
+      "message": "I\u0027m sorry. My search was not enough.\nBut, thank you so much for your kindness advice.",
+      "parentUuid": "74b4535f_72524d3b",
+      "revId": "75592dc4c7570a2b8d929a1c032a83a4e49f0d52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
