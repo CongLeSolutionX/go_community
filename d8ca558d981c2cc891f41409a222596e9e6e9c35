@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e04a3adc_ec676e4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-02-26T21:07:00Z",
+      "side": 1,
+      "message": "nit: This wording makes it sound like the SetTypecheck method has been removed, whereas this CL actually just replaces one call of SetTypecheck.\n\nI would say something like:\n\n    cmd/compile: fix typechecking in finishcompare\n\n    Previously, finishcompare just used SetTypecheck, but this didn\u0027t recursively update\n    any untyped bool typed subexpressions. This CL changes it to call typecheck, which\n    correctly handles this.",
+      "revId": "d8ca558d981c2cc891f41409a222596e9e6e9c35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
