@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc84749d_91318b71",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-02-26T20:14:07Z",
+      "side": 1,
+      "message": "I\u0027d rather not join these cases.  OpSelect fundamentally depends on what its argument is doing.  It may be the case that currently all possible select args are ok, but that may change in the future.  I think we\u0027d want a sub-switch on x.Args[0].Op, where we trigger only for known ops, in this case OpAMD64DIVL (and DIVLU?).",
+      "revId": "d29fe4da68451ce70850336bd0a78d3005131dc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c53f18_d102b3e7",
+        "filename": "src/cmd/compile/internal/ssa/zeroextension_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-02-26T20:14:07Z",
+      "side": 1,
+      "message": "This case would work even if sign-extension was done incorrectly.  Maybe use arg2\u003d0xeeeeeeeeffffffff?\n\nSame issue for SUB and AND below.  The test needs a 64-bit result that has at least one of bits 32-63 set.",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 161
+      },
+      "revId": "d29fe4da68451ce70850336bd0a78d3005131dc6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
