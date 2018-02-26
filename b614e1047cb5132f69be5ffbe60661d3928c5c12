@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae3cf703_a512e0f7",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-26T18:38:03Z",
+      "side": 1,
+      "message": "Parentheses are not needed.",
+      "range": {
+        "startLine": 773,
+        "startChar": 8,
+        "endLine": 773,
+        "endChar": 19
+      },
+      "revId": "b614e1047cb5132f69be5ffbe60661d3928c5c12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
