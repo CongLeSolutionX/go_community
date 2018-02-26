@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2db9710b_2514938c",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1707,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-02-26T20:42:50Z",
+      "side": 1,
+      "message": "This fix (adding defaultlit) is wrong: we don\u0027t know the context of cmp here, so forcing to \u0027bool\u0027 is mistaken. defaultlit is only safe when we know the context is an OIF, OFOR, or something similar.\n\nI think the right fix is replacing all of these lines with:\n\n    n \u003d finishcompare(cmp, n, init)\n\n(After making the fix in the other CL that I recommended to change SetTypecheck to an actual typecheck call.)",
+      "range": {
+        "startLine": 1703,
+        "startChar": 0,
+        "endLine": 1707,
+        "endChar": 9
+      },
+      "revId": "3e91347e8c7e084d3093215aa4f01a1aafb96130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
