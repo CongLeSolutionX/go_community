@@ -467,6 +467,9 @@ type m struct {
 	libcallg  guintptr
 	syscall   libcall // stores syscall parameters on windows
 
+	vdsoSP uintptr // SP while in VDSO call (0 if not in call)
+	vdsoPC uintptr // PC while in VDSO call
+
 	mOS
 }
 
