@@ -8,3 +8,7 @@ package runtime
 
 func vdsoauxv(tag, val uintptr) {
 }
+
+func inVDSOPage(pc uintptr) bool {
+	return false
+}
