@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "462f00fe_ee7a3d1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-02-26T22:10:44Z",
+      "side": 1,
+      "message": "nit: Git commit messages should be line wrapped at 72 columns, if possible, but this line is 84 columns long.\n\nSorry, when I gave these lines as an example, I thought you would re-wrap them anyway, so I didn\u0027t measure how long they were. I\u0027ll be clearer in the future about that.\n\nI\u0027ve gone ahead and fixed it here.",
+      "revId": "2834ccfd5a8ca92a040e382c961f54b3718d7691",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
