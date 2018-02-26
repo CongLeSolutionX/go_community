@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5e34bb15_92bea792",
+        "filename": "src/syscall/syscall_netbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-02-26T17:22:03Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "2437641e_d1edb967",
+      "revId": "e9c57bea11c75810225ee1abf24a0daeed2bfb64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1dfcf4e5_097bf208",
         "filename": "src/syscall/syscall_openbsd.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "e9c57bea11c75810225ee1abf24a0daeed2bfb64",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f55d615_a72765a2",
+        "filename": "src/syscall/syscall_openbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-02-26T17:22:03Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "1dfcf4e5_097bf208",
+      "revId": "e9c57bea11c75810225ee1abf24a0daeed2bfb64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
