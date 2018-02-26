@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74b4535f_72524d3b",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 3458,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-02-26T20:07:24Z",
+      "side": 1,
+      "message": "This seems wrong to me. We introduce an OCONVNOP just below, which should fix the types.\n\nI think just the \"r.SetTypecheck(1)\" might need to be replaced by \"r \u003d typecheck(r, Erv)\".\n\nBTW, the \"Use nn here to avoid passing r to typecheck\" logic here is outdated. If you want to clean this up to just use r everywhere, I think that would be great.",
+      "revId": "75592dc4c7570a2b8d929a1c032a83a4e49f0d52",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
