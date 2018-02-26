@@ -22,6 +22,30 @@
       "revId": "b614e1047cb5132f69be5ffbe60661d3928c5c12",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a2c84ca_8491bf3d",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 25690
+      },
+      "writtenOn": "2018-02-26T23:10:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae3cf703_a512e0f7",
+      "range": {
+        "startLine": 773,
+        "startChar": 8,
+        "endLine": 773,
+        "endChar": 19
+      },
+      "revId": "b614e1047cb5132f69be5ffbe60661d3928c5c12",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
