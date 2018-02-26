@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cd6d110f_487f925b",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64enc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2018-02-26T09:44:07Z",
+      "side": 1,
+      "message": "I deleted the comments of LDARB and LDARH, but I did not delete the comments of other instructions, because the disassembler does not support them yet. We\u0027ll update the disassembler and remove the comments soon.",
+      "parentUuid": "0a40a796_28a01ba9",
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48545f6f_bb301f53",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "e272111ed078796f27d9210dadf8c814005bf134",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45e213ed_b63f87c6",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2018-02-26T09:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48545f6f_bb301f53",
+      "range": {
+        "startLine": 15,
+        "startChar": 14,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "00693132_93a40691",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2018-02-26T09:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e30ca524_37007aca",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 54
+      },
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c2e54de_eba1b198",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2018-02-22T15:41:43Z",
       "side": 1,
       "message": "What is PE?",
+      "range": {
+        "startLine": 55,
+        "startChar": 19,
+        "endLine": 55,
+        "endChar": 21
+      },
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c75c5538_c6d5ac29",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2018-02-26T09:44:07Z",
+      "side": 1,
+      "message": "PE refers to processing element, for the sake of simplicity, I deleted this sentence.",
+      "parentUuid": "8c2e54de_eba1b198",
       "range": {
         "startLine": 55,
         "startChar": 19,
@@ -108,6 +198,30 @@
       "revId": "e272111ed078796f27d9210dadf8c814005bf134",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe97e955_a8d7e64a",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 24534
+      },
+      "writtenOn": "2018-02-26T09:44:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8c7ddfe_ceb77ab0",
+      "range": {
+        "startLine": 56,
+        "startChar": 82,
+        "endLine": 56,
+        "endChar": 87
+      },
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
