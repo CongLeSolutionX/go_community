@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5bf40811_8ae65b7f",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64enc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-02-26T15:42:59Z",
+      "side": 1,
+      "message": "This test does not use the disassembler. It only verifies the given instructions assemble to the correct bits. You should be able to enable the tests for all the instructions you added in this CL.",
+      "parentUuid": "cd6d110f_487f925b",
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48545f6f_bb301f53",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 1
