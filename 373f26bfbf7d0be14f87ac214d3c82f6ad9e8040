@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0504b14f_47ec57c4",
+        "filename": "src/cmd/compile/internal/gc/swt.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-02-26T20:21:38Z",
+      "side": 1,
+      "message": "The other two typechecks here probably need defaultlit too. Also, the one at line 357.",
+      "revId": "373f26bfbf7d0be14f87ac214d3c82f6ad9e8040",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
