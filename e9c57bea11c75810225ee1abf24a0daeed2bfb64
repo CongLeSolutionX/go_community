@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2437641e_d1edb967",
+        "filename": "src/syscall/syscall_netbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-26T17:12:41Z",
+      "side": 0,
+      "message": "this one I\u0027d keep, but I\u0027d update it to reference https://golang.org/issue/5847\n\nWe\u0027re allowed to flesh out the syscall package when the Go standard library wants it (e.g. for io.Copy+net package\u0027s magic of calling sendfile when appropriate)",
+      "revId": "e9c57bea11c75810225ee1abf24a0daeed2bfb64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dfcf4e5_097bf208",
+        "filename": "src/syscall/syscall_openbsd.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-26T17:12:41Z",
+      "side": 0,
+      "message": "likewise",
+      "revId": "e9c57bea11c75810225ee1abf24a0daeed2bfb64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
