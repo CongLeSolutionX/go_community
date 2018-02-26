@@ -143,8 +143,11 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Reg = v.Args[0].Reg()
 		gc.AddrAuto(&p.To, v)
 	case ssa.OpARM64ADD,
+		ssa.OpARM64ADDS,
 		ssa.OpARM64SUB,
 		ssa.OpARM64AND,
+		ssa.OpARM64ANDS,
+		ssa.OpARM64TST,
 		ssa.OpARM64OR,
 		ssa.OpARM64XOR,
 		ssa.OpARM64BIC,
@@ -206,8 +209,13 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.To.Type = obj.TYPE_REG
 		p.To.Reg = rt
 	case ssa.OpARM64ADDconst,
+		ssa.OpARM64ADDSconst,
 		ssa.OpARM64SUBconst,
 		ssa.OpARM64ANDconst,
+		ssa.OpARM64ANDSconst,
+		ssa.OpARM64ANDSWconst,
+		ssa.OpARM64TSTconst,
+		ssa.OpARM64TSTWconst,
 		ssa.OpARM64ORconst,
 		ssa.OpARM64XORconst,
 		ssa.OpARM64BICconst,
@@ -221,7 +229,11 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		p.From.Offset = v.AuxInt
 		p.Reg = v.Args[0].Reg()
 		p.To.Type = obj.TYPE_REG
-		p.To.Reg = v.Reg()
+		if v.Op == ssa.OpARM64TST || v.Op == ssa.OpARM64TSTWconst {
+			p.To.Reg = arm64.REGZERO
+		} else {
+			p.To.Reg = v.Reg()
+		}
 	case ssa.OpARM64ADDshiftLL,
 		ssa.OpARM64SUBshiftLL,
 		ssa.OpARM64ANDshiftLL,
