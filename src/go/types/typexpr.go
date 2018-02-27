@@ -483,7 +483,6 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 	// to end of type-checking when all types are complete.
 	interfaceContext := check.context // capture for use in closure below
 	check.later(func() {
-		check.context = interfaceContext
 		if trace {
 			check.trace(iface.Pos(), "-- delayed checking embedded interfaces of %s", iface)
 			check.indent++
@@ -491,6 +490,13 @@ func (check *Checker) interfaceType(ityp *Interface, iface *ast.InterfaceType, d
 				check.indent--
 			}()
 		}
+
+		// context must be restored (was issue #24140)
+		defer func(ctxt context) {
+			check.context = ctxt
+		}(check.context)
+		check.context = interfaceContext
+
 		for _, f := range iface.Methods.List {
 			if len(f.Names) == 0 {
 				typ := check.typ(f.Type)
