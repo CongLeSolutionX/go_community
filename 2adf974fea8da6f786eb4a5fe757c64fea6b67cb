@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2223b92_10b2c1b7",
+        "filename": "src/cmd/internal/obj/x86/obj6.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 24037
+      },
+      "writtenOn": "2018-02-27T10:49:14Z",
+      "side": 1,
+      "message": "This causes NaCl build to break (reproduced locally).\nThere is something interesting going on with INT instruction\non objabi.Hnacl (grep asm6.go for it).\n\nThe simplest fix is to:\n- remove INT3 and/or rewrite of INT $3 to 0xCC.\n- comment-out INT $3 test again.\n\nIf INT $3 as 0xCC is desired, it can be done in a separate CL,\nwhich will do it properly.\n\nThis CL is already on a changes size boundary and excessive\ncomplexity is undesired.",
+      "revId": "2adf974fea8da6f786eb4a5fe757c64fea6b67cb",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
