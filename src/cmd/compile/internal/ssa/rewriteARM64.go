@@ -115,6 +115,8 @@ func rewriteValueARM64(v *Value) bool {
 		return rewriteValueARM64_OpARM64LessThan_0(v)
 	case OpARM64LessThanU:
 		return rewriteValueARM64_OpARM64LessThanU_0(v)
+	case OpARM64LoweredNilCheck:
+		return rewriteValueARM64_OpARM64LoweredNilCheck_0(v)
 	case OpARM64MNEG:
 		return rewriteValueARM64_OpARM64MNEG_0(v) || rewriteValueARM64_OpARM64MNEG_10(v) || rewriteValueARM64_OpARM64MNEG_20(v)
 	case OpARM64MNEGW:
@@ -4384,6 +4386,47 @@ func rewriteValueARM64_OpARM64LessThanU_0(v *Value) bool {
 		x := v_0.Args[0]
 		v.reset(OpARM64GreaterThanU)
 		v.AddArg(x)
+		return true
+	}
+	return false
+}
+func rewriteValueARM64_OpARM64LoweredNilCheck_0(v *Value) bool {
+	// match: (LoweredNilCheck (MOVDaddr (SB)) mem)
+	// cond:
+	// result: mem
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARM64MOVDaddr {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpSB {
+			break
+		}
+		mem := v.Args[1]
+		v.reset(OpCopy)
+		v.Type = mem.Type
+		v.AddArg(mem)
+		return true
+	}
+	// match: (LoweredNilCheck (MOVDaddr (SP)) mem)
+	// cond:
+	// result: mem
+	for {
+		_ = v.Args[1]
+		v_0 := v.Args[0]
+		if v_0.Op != OpARM64MOVDaddr {
+			break
+		}
+		v_0_0 := v_0.Args[0]
+		if v_0_0.Op != OpSP {
+			break
+		}
+		mem := v.Args[1]
+		v.reset(OpCopy)
+		v.Type = mem.Type
+		v.AddArg(mem)
 		return true
 	}
 	return false

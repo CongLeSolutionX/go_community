@@ -46,6 +46,10 @@ func nilcheckelim(f *Func) {
 			if v.Op == OpAddr || v.Op == OpAddPtr {
 				nonNilValues[v.ID] = true
 			}
+			// offsets from non-nil pointers are also non-nil
+			if v.Op == OpOffPtr && nonNilValues[v.Args[0].ID] {
+				nonNilValues[v.ID] = true
+			}
 		}
 	}
 
