@@ -22,6 +22,30 @@
       "revId": "3e91347e8c7e084d3093215aa4f01a1aafb96130",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b08ef53d_ca575e2c",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1707,
+      "author": {
+        "id": 5889
+      },
+      "writtenOn": "2018-02-27T03:25:45Z",
+      "side": 1,
+      "message": "The above causes a stack overflow.\nDid you mean n \u003d finishcompare(n, cmp, init)?\n\nEither way, OIF is still allocating untyped bools.",
+      "parentUuid": "2db9710b_2514938c",
+      "range": {
+        "startLine": 1703,
+        "startChar": 0,
+        "endLine": 1707,
+        "endChar": 9
+      },
+      "revId": "3e91347e8c7e084d3093215aa4f01a1aafb96130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
