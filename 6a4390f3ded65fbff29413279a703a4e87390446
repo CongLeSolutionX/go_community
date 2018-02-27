@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fe83858_75cdd181",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 16227
+      },
+      "writtenOn": "2018-02-27T06:26:34Z",
+      "side": 1,
+      "message": "\u0026\u0026 clobber(z)",
+      "range": {
+        "startLine": 559,
+        "startChar": 53,
+        "endLine": 559,
+        "endChar": 54
+      },
+      "revId": "6a4390f3ded65fbff29413279a703a4e87390446",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
