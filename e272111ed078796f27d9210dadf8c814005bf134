@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "2a7c84b5_c846442d",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64enc.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 21345
+      },
+      "writtenOn": "2018-02-27T02:19:56Z",
+      "side": 1,
+      "message": "@Cherry Zhang Yes, you are right, this test does not use the disassembler. Originally, we want the cases are added in this file should be supported by both assembler and disassembler. If we add assembler support for a new instruction, we can add test cases in arm64.s file and verify the correctness of assembler. It is our fault that do not comment the difference between arm64.s and arm64enc.s.  And I will push a patch that complement disassembler go syntax of some instructions supported by assembler. I will uncomment those cases and add description for arm64enc.s file in that patch. Do you think that is ok?",
+      "parentUuid": "5bf40811_8ae65b7f",
+      "revId": "e272111ed078796f27d9210dadf8c814005bf134",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "48545f6f_bb301f53",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 1
