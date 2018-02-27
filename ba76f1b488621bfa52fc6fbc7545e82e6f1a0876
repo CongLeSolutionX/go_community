@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bb20b26_fed00cf2",
+        "filename": "src/cmd/vet/testdata/bool.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-02-27T17:34:51Z",
+      "side": 1,
+      "message": "add a func type conversion with a TODO",
+      "revId": "ba76f1b488621bfa52fc6fbc7545e82e6f1a0876",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
