@@ -205,6 +205,12 @@ func reexportdep(n *Node) {
 			}
 			exportlist = append(exportlist, asNode(t.Sym.Def))
 		}
+
+	case OCLOSURE:
+		nn := n.Func.Closure.Func.Nname
+		nn.Sym.SetExported(false)
+		exportlist = append(exportlist, nn)
+		return
 	}
 
 	reexportdep(n.Left)
