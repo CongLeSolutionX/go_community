@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "23f6ce92_03d0e454",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-02-27T22:41:09Z",
+      "side": 1,
+      "message": "I want to leave something behind here of the form \"I\u0027m not calling clobberPtr on the first word\".  Maybe I\u0027ll do some English text.",
+      "parentUuid": "ac7a094c_e569bbf3",
+      "range": {
+        "startLine": 886,
+        "startChar": 2,
+        "endLine": 886,
+        "endChar": 28
+      },
+      "revId": "65fc480d8f926f228464b2cd52b996cf5676f256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f206a764_d5908b0b",
         "filename": "src/cmd/compile/internal/gc/reflect.go",
         "patchSetId": 1
@@ -82,6 +106,30 @@
       "writtenOn": "2018-02-27T22:14:11Z",
       "side": 1,
       "message": "This was already in the desired form.",
+      "range": {
+        "startLine": 92,
+        "startChar": 5,
+        "endLine": 92,
+        "endChar": 37
+      },
+      "revId": "65fc480d8f926f228464b2cd52b996cf5676f256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c75228a1_1d53f948",
+        "filename": "src/cmd/compile/internal/ssa/gen/dec.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-02-27T22:41:09Z",
+      "side": 1,
+      "message": "Exactly, this is the change that prevented write barriers.\nMy change at line 84 prevents a spilled itab from being marked as a pointer in the stack frame.",
+      "parentUuid": "3debf3e6_26eb670a",
       "range": {
         "startLine": 92,
         "startChar": 5,
