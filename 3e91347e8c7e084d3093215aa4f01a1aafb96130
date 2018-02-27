@@ -46,6 +46,30 @@
       "revId": "3e91347e8c7e084d3093215aa4f01a1aafb96130",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55967523_9248acf0",
+        "filename": "src/cmd/compile/internal/gc/walk.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1707,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-27T04:47:12Z",
+      "side": 1,
+      "message": "I\u0027m going to dig into the problem in a few days, thanks!",
+      "parentUuid": "b08ef53d_ca575e2c",
+      "range": {
+        "startLine": 1703,
+        "startChar": 0,
+        "endLine": 1707,
+        "endChar": 9
+      },
+      "revId": "3e91347e8c7e084d3093215aa4f01a1aafb96130",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
