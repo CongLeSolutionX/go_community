@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c23ef84e_ecfc7fad",
+        "filename": "src/cmd/compile/internal/gc/plive.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-27T21:51:49Z",
+      "side": 1,
+      "message": "accidental comment here?",
+      "range": {
+        "startLine": 400,
+        "startChar": 2,
+        "endLine": 400,
+        "endChar": 67
+      },
+      "revId": "65fc480d8f926f228464b2cd52b996cf5676f256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f206a764_d5908b0b",
+        "filename": "src/cmd/compile/internal/gc/reflect.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1863,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-27T21:51:49Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 1863,
+        "startChar": 2,
+        "endLine": 1863,
+        "endChar": 37
+      },
+      "revId": "65fc480d8f926f228464b2cd52b996cf5676f256",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
