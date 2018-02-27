@@ -99,7 +99,7 @@ func Import(imp *types.Pkg, in *bufio.Reader) {
 	// case 6:
 	// 	...
 	//	fallthrough
-	case 5, 4, 3, 2, 1:
+	case 6, 5, 4, 3, 2, 1:
 		p.debugFormat = p.rawStringln(p.rawByte()) == "debug"
 		p.trackAllTypes = p.bool()
 		p.posInfoFormat = p.bool()
@@ -968,8 +968,37 @@ func (p *importer) node() *Node {
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
 	//      unreachable - should have been resolved by typechecking
 
-	// case OCLOSURE:
-	//	unimplemented
+	case OCLOSURE:
+		pos := p.pos()
+		dclpos := p.pos()
+		name := p.expr()
+		cvars := p.exprList()
+		ntype := typenod(name.Type)
+		// TODO: just store body directly and let typecheck rebuild it all?
+		// TODO: captured vars
+		n := &Node{
+			Op:   OCLOSURE,
+			Pos:  pos,
+			Type: name.Type,
+			Func: &Func{
+				Ntype: ntype,
+				Closure: &Node{
+					Op:   ODCLFUNC,
+					Pos:  dclpos,
+					Type: name.Type,
+					Func: &Func{
+						Ntype: ntype,
+						Dcl:   name.Func.Dcl,
+						Inl:   name.Func.Inl,
+						Nname: name,
+					},
+				},
+			},
+		}
+		n.Func.Cvars.Set(cvars)
+		n.SetTypecheck(1)
+		n.Func.Closure.SetTypecheck(1)
+		return n
 
 	case OPTRLIT:
 		pos := p.pos()

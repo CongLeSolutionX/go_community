@@ -135,13 +135,14 @@ import (
 const debugFormat = false // default: false
 
 // Current export format version. Increase with each format change.
+// 6: support closures inside inlined bodies
 // 5: improved position encoding efficiency (issue 20080, CL 41619)
 // 4: type name objects support type aliases, uses aliasTag
 // 3: Go1.8 encoding (same as version 2, aliasTag defined but never used)
 // 2: removed unused bool in ODCL export (compiler only)
 // 1: header format change (more regular), export package for _ struct fields
 // 0: Go1.7 encoding
-const exportVersion = 5
+const exportVersion = 6
 
 // exportInlined enables the export of inlined function bodies and related
 // dependencies. The compiler should work w/o any loss of functionality with
@@ -279,12 +280,6 @@ func export(out *bufio.Writer, trace bool) int {
 		}
 		sym.SetExported(true)
 
-		// TODO(gri) Closures have dots in their names;
-		// e.g., TestFloatZeroValue.func1 in math/big tests.
-		if strings.Contains(sym.Name, ".") {
-			Fatalf("exporter: unexpected symbol: %v", sym)
-		}
-
 		if sym.Def == nil {
 			Fatalf("exporter: unknown export symbol: %v", sym)
 		}
@@ -340,12 +335,6 @@ func export(out *bufio.Writer, trace bool) int {
 			continue
 		}
 		sym.SetExported(true)
-
-		// TODO(gri) Closures have dots in their names;
-		// e.g., TestFloatZeroValue.func1 in math/big tests.
-		if strings.Contains(sym.Name, ".") {
-			Fatalf("exporter: unexpected symbol: %v", sym)
-		}
 
 		if sym.Def == nil {
 			Fatalf("exporter: unknown export symbol: %v", sym)
@@ -1317,8 +1306,14 @@ func (p *exporter) expr(n *Node) {
 	// case OTARRAY, OTMAP, OTCHAN, OTSTRUCT, OTINTER, OTFUNC:
 	// 	should have been resolved by typechecking - handled by default case
 
-	// case OCLOSURE:
-	//	unimplemented - handled by default case
+	case OCLOSURE:
+		p.op(OCLOSURE)
+		p.pos(n)
+		p.pos(n.Func.Closure)
+		p.expr(n.Func.Closure.Func.Nname)
+		p.exprList(n.Func.Cvars)
+		// TODO: export whole body and let typecheck rebuild things upon import?
+		// TODO: captured vars
 
 	// case OCOMPLIT:
 	// 	should have been resolved by typechecking - handled by default case
@@ -1661,9 +1656,11 @@ func (p *exporter) sym(n *Node) {
 
 	name := s.Name
 
-	// remove leading "type." in method names ("(T).m" -> "m")
-	if i := strings.LastIndex(name, "."); i >= 0 {
-		name = name[i+1:]
+	if n.Class() != PFUNC || n.Name.Defn == nil || n.Name.Defn.Func.Closure == nil {
+		// remove leading "type." in method names ("(T).m" -> "m")
+		if i := strings.LastIndex(name, "."); i >= 0 {
+			name = name[i+1:]
+		}
 	}
 
 	if strings.Contains(name, "·") && n.Name.Vargen > 0 {
