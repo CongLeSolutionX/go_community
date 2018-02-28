@@ -273,3 +273,21 @@ func (x *operand) assignableTo(conf *Config, T Type, reason *string) bool {
 
 	return false
 }
+
+// invalid reports whether the operand or its type are invalid.
+func (x *operand) isInvalid() bool {
+	return x.mode == invalid || invalidType(x.typ)
+}
+
+// invalidType reports whether a type is invalid. This may include types
+// that aren't directly invalid, but which are composed by invalid
+// types, such as having an invalid element type.
+func invalidType(t Type) bool {
+	if t == Typ[Invalid] {
+		return true
+	}
+	if et, ok := t.(interface{ Elem() Type }); ok {
+		return invalidType(et.Elem())
+	}
+	return false
+}

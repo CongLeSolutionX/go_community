@@ -364,7 +364,7 @@ func (check *Checker) selector(x *operand, e *ast.SelectorExpr) {
 	}
 
 	check.exprOrType(x, e.X)
-	if x.mode == invalid {
+	if x.isInvalid() {
 		goto Error
 	}
 
