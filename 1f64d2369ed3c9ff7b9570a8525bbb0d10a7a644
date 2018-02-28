@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "64a09ec7_16271a64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-02-28T17:22:18Z",
+      "side": 1,
+      "message": "Absolutely, I\u0027d like that too :)",
+      "parentUuid": "558c27b3_51b0be0b",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 5
+      },
+      "revId": "1f64d2369ed3c9ff7b9570a8525bbb0d10a7a644",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3186a06a_18f915f2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "1f64d2369ed3c9ff7b9570a8525bbb0d10a7a644",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d759317_0c1b7e3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-02-28T17:22:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3186a06a_18f915f2",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "1f64d2369ed3c9ff7b9570a8525bbb0d10a7a644",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
