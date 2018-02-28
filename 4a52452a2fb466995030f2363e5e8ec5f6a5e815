@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e07f2fe5_93eded36",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-02-28T22:51:52Z",
+      "side": 1,
+      "message": "I\u0027d just write the interface in place (get rid of withElem name).",
+      "range": {
+        "startLine": 149,
+        "startChar": 17,
+        "endLine": 149,
+        "endChar": 25
+      },
+      "revId": "4a52452a2fb466995030f2363e5e8ec5f6a5e815",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
