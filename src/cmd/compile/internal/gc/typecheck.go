@@ -2901,11 +2901,12 @@ func typecheckcomplit(n *Node) *Node {
 	}
 	nerr := nerrors
 	n.Type = t
+	n.Right = nil
 
 	if t.IsPtr() {
 		// For better or worse, we don't allow pointers as the composite literal type,
 		// except when using the &T syntax, which sets implicit on the OIND.
-		if !n.Right.Implicit() {
+		if !l.Implicit() {
 			yyerror("invalid pointer type %v for composite literal (use &%v instead)", t, t.Elem())
 			n.Type = nil
 			return n
