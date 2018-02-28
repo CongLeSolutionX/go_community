@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "558c27b3_51b0be0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-28T17:15:25Z",
+      "side": 1,
+      "message": "if we could one day get rid of all files with a number in them like syscall2 or os3 that\u0027d be neat. :)  No rush, though.",
+      "range": {
+        "startLine": 11,
+        "startChar": 2,
+        "endLine": 11,
+        "endChar": 5
+      },
+      "revId": "1f64d2369ed3c9ff7b9570a8525bbb0d10a7a644",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3186a06a_18f915f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-28T17:15:25Z",
+      "side": 1,
+      "message": "single colon here?",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "1f64d2369ed3c9ff7b9570a8525bbb0d10a7a644",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
