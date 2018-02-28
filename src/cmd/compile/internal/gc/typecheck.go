@@ -2901,6 +2901,7 @@ func typecheckcomplit(n *Node) *Node {
 	}
 	nerr := nerrors
 	n.Type = t
+	n.Right = nil
 
 	if t.IsPtr() {
 		// For better or worse, we don't allow pointers as the composite literal type,
