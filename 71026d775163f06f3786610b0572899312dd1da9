@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c266854_2bdc8ee4",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-02-28T13:34:07Z",
+      "side": 1,
+      "message": "You could use regexp.QuoteMeta here.",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2686742_8eeeffa5",
+        "filename": "src/testing/testing.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-02-28T13:34:07Z",
+      "side": 1,
+      "message": "errors.New",
+      "range": {
+        "startLine": 721,
+        "startChar": 26,
+        "endLine": 721,
+        "endChar": 36
+      },
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
