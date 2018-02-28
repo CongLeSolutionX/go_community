@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "726f427a_15875f74",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-02-28T05:47:03Z",
+      "side": 1,
+      "message": "Does this need //go:noescape too?",
+      "range": {
+        "startLine": 402,
+        "startChar": 0,
+        "endLine": 402,
+        "endChar": 44
+      },
+      "revId": "3165f141d2dae33999a805ed0fefb334d3e1c81c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
