@@ -28,6 +28,15 @@ func Getwd() (dir string, err error) {
 		return syscall.Getwd()
 	}
 
+	// If the operating system provides a Getwd call, use it.
+	// Otherwise, we're trying to find our way back to ".".
+	if syscall.ImplementsGetwd {
+		s, e := syscall.Getwd()
+		if useSyscallwd(e) {
+			return s, NewSyscallError("getwd", e)
+		}
+	}
+
 	// Clumsy but widespread kludge:
 	// if $PWD is set and matches ".", use it.
 	dot, err := statNolog(".")
@@ -39,15 +48,6 @@ func Getwd() (dir string, err error) {
 		d, err := statNolog(dir)
 		if err == nil && SameFile(dot, d) {
 			return dir, nil
-		}
-	}
-
-	// If the operating system provides a Getwd call, use it.
-	// Otherwise, we're trying to find our way back to ".".
-	if syscall.ImplementsGetwd {
-		s, e := syscall.Getwd()
-		if useSyscallwd(e) {
-			return s, NewSyscallError("getwd", e)
 		}
 	}
 
