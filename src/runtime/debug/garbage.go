@@ -18,6 +18,7 @@ type GCStats struct {
 	Pause          []time.Duration // pause history, most recent first
 	PauseEnd       []time.Time     // pause end times history, most recent first
 	PauseQuantiles []time.Duration
+	MemStats       runtime.GCMemStats
 }
 
 // ReadGCStats reads statistics about garbage collection into stats.
@@ -45,7 +46,15 @@ func ReadGCStats(stats *GCStats) {
 	// depend on the fact that time.Duration's native unit is
 	// nanoseconds, so the pauses and the total pause time do not need
 	// any conversion.
-	readGCStats(&stats.Pause)
+	readGCStats(&stats.Pause, &stats.MemStats)
+
+	// sort all MemStats by NumGC
+	sortMemStats(&stats.MemStats.First)
+	sortMemStats(&stats.MemStats.Last)
+	sortMemStats(&stats.MemStats.Last100)
+	sortMemStats(&stats.MemStats.Last1000)
+	sortMemStats(&stats.MemStats.Last10000)
+
 	n := len(stats.Pause) - 3
 	stats.LastGC = time.Unix(0, int64(stats.Pause[n]))
 	stats.NumGC = int64(stats.Pause[n+1])
@@ -79,6 +88,13 @@ func ReadGCStats(stats *GCStats) {
 			stats.PauseQuantiles[nq] = sorted[len(sorted)-1]
 		}
 	}
+}
+
+// sorts MemStats by NumGC in decreasing order.
+func sortMemStats(m *[10]runtime.MemStats) {
+	sort.SliceStable((*m)[:], func(i, j int) bool {
+		return (*m)[i].NumGC > (*m)[j].NumGC
+	})
 }
 
 // SetGCPercent sets the garbage collection target percentage:

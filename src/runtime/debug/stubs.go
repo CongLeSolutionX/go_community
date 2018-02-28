@@ -5,11 +5,12 @@
 package debug
 
 import (
+	"runtime"
 	"time"
 )
 
 // Implemented in package runtime.
-func readGCStats(*[]time.Duration)
+func readGCStats(*[]time.Duration, *runtime.GCMemStats)
 func freeOSMemory()
 func setMaxStack(int) int
 func setGCPercent(int32) int32

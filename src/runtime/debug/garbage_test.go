@@ -8,6 +8,7 @@ import (
 	"internal/testenv"
 	"runtime"
 	. "runtime/debug"
+	"sort"
 	"testing"
 	"time"
 )
@@ -85,6 +86,19 @@ func TestReadGCStats(t *testing.T) {
 		}
 		off = (off + len(mstats.PauseEnd) - 1) % len(mstats.PauseEnd)
 	}
+
+	checkSorted := func(m []runtime.MemStats, s string) {
+		if !sort.SliceIsSorted(m, func(i, j int) bool { return m[i].NumGC > m[j].NumGC }) {
+			t.Errorf("unsorted %s : %v", s, m)
+		}
+	}
+
+	// MemStats should be sorted in decreasing order.
+	checkSorted(stats.MemStats.First[:], "stats.MemStats.First")
+	checkSorted(stats.MemStats.Last[:], "stats.MemStats.Last")
+	checkSorted(stats.MemStats.Last100[:], "stats.MemStats.Last100")
+	checkSorted(stats.MemStats.Last1000[:], "stats.MemStats.Last1000")
+	checkSorted(stats.MemStats.Last10000[:], "stats.MemStats.Last10000")
 }
 
 var big = make([]byte, 1<<20)

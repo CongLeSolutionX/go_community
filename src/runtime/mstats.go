@@ -426,6 +426,135 @@ type MemStats struct {
 		// in this size class.
 		Frees uint64
 	}
+
+	// WallTime reports various phase times in wall time (nanoseconds).
+	WallTime struct {
+		// SweepTerm is termination time of sweep phase.
+		SweepTerm int64
+
+		// MarkStart is start time of mark phase.
+		MarkStart int64
+
+		// MarkTerm is termination time of mark phase.
+		MarkTerm int64
+
+		// End is GC end time.
+		End int64
+	}
+
+	// CPUTime reports various phase times in CPU time (nanoseconds).
+	CPUTime struct {
+		// SweepTerm is termination time of sweep phase.
+		SweepTerm int64
+
+		// Assist is the nanoseconds spent in mutator assists.
+		Assist int64
+
+		// MarkDedicated is the nanoseconds spent in dedicated
+		// mark workers during this cycle.
+		MarkDedicated int64
+
+		// MarkFractional is the nanoseconds spent in the
+		// fractional mark worker during this cycle.
+		MarkFractional int64
+
+		// MarkIdle is the nanoseconds spent in idle marking
+		// during this cycle.
+		MarkIdle int64
+
+		// MarkTerm is termination time of mark phase.
+		MarkTerm int64
+	}
+
+	// HeapSize reports heap size in bytes at varioud points in GC cycle.
+	HeapSize struct {
+		// Start is heap size at start of GC cycle.
+		Start uint64
+
+		// End is heap size at start of GC cycle.
+		End uint64
+
+		// Live is heap size of live heap.
+		Live uint64
+
+		// Goal is the goal heap size in this GC.
+		Goal uint64
+	}
+
+	// Forced indicates if GC was forced.
+	Forced bool
+}
+
+// GCMemStats holds MemStats from previous GC cycles.
+type GCMemStats struct {
+	// First holds MemStats from the very first 10 GC cycles.
+	First [10]MemStats
+
+	// Last holds MemStats from most recent 10 GC cycles.
+	Last [10]MemStats
+
+	// Last100 holds MemStats from every 10th GC cycles for last 100 cycles.
+	Last100 [10]MemStats
+
+	// Last1000 holds MemStats from every 100th GC cycles for last 1000 cycles.
+	Last1000 [10]MemStats
+
+	// Last10000 holds MemStats from every 1000th GC cycles for last 10000 cycles.
+	Last10000 [10]MemStats
+}
+
+// stats for last GC cycles
+var gcstats struct {
+	g GCMemStats
+	l mutex // protects g
+}
+
+// addGCStats adds latest memstats to gcstats. returns the added MemStats.
+func addGCStats() MemStats {
+	var stats MemStats
+	getmemstats(&stats)
+
+	// wall time
+	stats.WallTime.SweepTerm = work.tSweepTerm
+	stats.WallTime.MarkStart = work.tMark
+	stats.WallTime.MarkTerm = work.tMarkTerm
+	stats.WallTime.End = work.tEnd
+
+	// CPU time
+	stats.CPUTime.SweepTerm, stats.CPUTime.MarkTerm = cpuTermTimes()
+	stats.CPUTime.Assist = gcController.assistTime
+	stats.CPUTime.MarkDedicated = gcController.dedicatedMarkTime
+	stats.CPUTime.MarkFractional = gcController.fractionalMarkTime
+	stats.CPUTime.MarkIdle = gcController.idleMarkTime
+
+	// heap sizes
+	stats.HeapSize.Start = work.heap0
+	stats.HeapSize.End = work.heap1
+	stats.HeapSize.Live = work.heap2
+	stats.HeapSize.Goal = work.heapGoal
+
+	stats.Forced = work.userForced
+
+	lock(&gcstats.l)
+	if memstats.numgc < 10 {
+		gcstats.g.First[memstats.numgc] = stats
+	}
+	gcstats.g.Last[memstats.numgc%uint32(len(gcstats.g.Last))] = stats
+
+	if memstats.numgc%10 == 0 {
+		gcstats.g.Last100[(memstats.numgc/10)%10] = stats
+	}
+
+	if memstats.numgc%100 == 0 {
+		gcstats.g.Last1000[(memstats.numgc/100)%10] = stats
+	}
+
+	if memstats.numgc%1000 == 0 {
+		gcstats.g.Last10000[(memstats.numgc/1000)%10] = stats
+	}
+	unlock(&gcstats.l)
+
+	return stats
 }
 
 // Size of the trailing by_size array differs between mstats and MemStats,
@@ -436,12 +565,6 @@ type MemStats struct {
 var sizeof_C_MStats = unsafe.Offsetof(memstats.by_size) + 61*unsafe.Sizeof(memstats.by_size[0])
 
 func init() {
-	var memStats MemStats
-	if sizeof_C_MStats != unsafe.Sizeof(memStats) {
-		println(sizeof_C_MStats, unsafe.Sizeof(memStats))
-		throw("MStats vs MemStatsType size mismatch")
-	}
-
 	if unsafe.Offsetof(memstats.heap_live)%8 != 0 {
 		println(unsafe.Offsetof(memstats.heap_live))
 		throw("memstats.heap_live not aligned to 8 bytes")
@@ -454,6 +577,8 @@ func init() {
 // call to ReadMemStats. This is in contrast with a heap profile,
 // which is a snapshot as of the most recently completed garbage
 // collection cycle.
+//
+// These fields are not populated: {WallTime, CPUTime, HeapSize, Forced}.
 func ReadMemStats(m *MemStats) {
 	stopTheWorld("read mem stats")
 
@@ -466,7 +591,11 @@ func ReadMemStats(m *MemStats) {
 
 func readmemstats_m(stats *MemStats) {
 	updatememstats()
+	getmemstats(stats)
+}
 
+// converts memstats to MemStats
+func getmemstats(stats *MemStats) {
 	// The size of the trailing by_size array differs between
 	// mstats and MemStats. NumSizeClasses was changed, but we
 	// cannot change MemStats because of backward compatibility.
@@ -478,13 +607,13 @@ func readmemstats_m(stats *MemStats) {
 }
 
 //go:linkname readGCStats runtime/debug.readGCStats
-func readGCStats(pauses *[]uint64) {
+func readGCStats(pauses *[]uint64, gc *GCMemStats) {
 	systemstack(func() {
-		readGCStats_m(pauses)
+		readGCStats_m(pauses, gc)
 	})
 }
 
-func readGCStats_m(pauses *[]uint64) {
+func readGCStats_m(pauses *[]uint64, gc *GCMemStats) {
 	p := *pauses
 	// Calling code in runtime/debug should make the slice large enough.
 	if cap(p) < len(memstats.pause_ns)+3 {
@@ -515,6 +644,11 @@ func readGCStats_m(pauses *[]uint64) {
 	p[n+n+2] = memstats.pause_total_ns
 	unlock(&mheap_.lock)
 	*pauses = p[:n+n+3]
+
+	// copy GCMemStats
+	lock(&gcstats.l)
+	*gc = gcstats.g
+	unlock(&gcstats.l)
 }
 
 //go:nowritebarrier

@@ -1612,11 +1612,10 @@ func gcMarkTermination(nextTriggerRatio float64) {
 	memstats.pause_total_ns += uint64(work.pauseNS)
 
 	// Update work.totaltime.
-	sweepTermCpu := int64(work.stwprocs) * (work.tMark - work.tSweepTerm)
+	sweepTermCpu, markTermCpu := cpuTermTimes()
 	// We report idle marking time below, but omit it from the
 	// overall utilization here since it's "free".
 	markCpu := gcController.assistTime + gcController.dedicatedMarkTime + gcController.fractionalMarkTime
-	markTermCpu := int64(work.stwprocs) * (work.tEnd - work.tMarkTerm)
 	cycleCpu := sweepTermCpu + markCpu + markTermCpu
 	work.totaltime += cycleCpu
 
@@ -1658,19 +1657,21 @@ func gcMarkTermination(nextTriggerRatio float64) {
 	// Free stack spans. This must be done between GC cycles.
 	systemstack(freeStackSpans)
 
-	// Print gctrace before dropping worldsema. As soon as we drop
+	// Remember and print gctrace before dropping worldsema. As soon as we drop
 	// worldsema another cycle could start and smash the stats
 	// we're trying to print.
+	mStat := addGCStats()
 	if debug.gctrace > 0 {
-		util := int(memstats.gc_cpu_fraction * 100)
+		util := int(mStat.GCCPUFraction * 100)
 
 		var sbuf [24]byte
 		printlock()
-		print("gc ", memstats.numgc,
-			" @", string(itoaDiv(sbuf[:], uint64(work.tSweepTerm-runtimeInitTime)/1e6, 3)), "s ",
+
+		print("gc ", mStat.NumGC,
+			" @", string(itoaDiv(sbuf[:], uint64(mStat.WallTime.SweepTerm-runtimeInitTime)/1e6, 3)), "s ",
 			util, "%: ")
-		prev := work.tSweepTerm
-		for i, ns := range []int64{work.tMark, work.tMarkTerm, work.tEnd} {
+		prev := mStat.WallTime.SweepTerm
+		for i, ns := range []int64{mStat.WallTime.MarkStart, mStat.WallTime.MarkTerm, mStat.WallTime.End} {
 			if i != 0 {
 				print("+")
 			}
@@ -1678,7 +1679,7 @@ func gcMarkTermination(nextTriggerRatio float64) {
 			prev = ns
 		}
 		print(" ms clock, ")
-		for i, ns := range []int64{sweepTermCpu, gcController.assistTime, gcController.dedicatedMarkTime + gcController.fractionalMarkTime, gcController.idleMarkTime, markTermCpu} {
+		for i, ns := range []int64{mStat.CPUTime.SweepTerm, mStat.CPUTime.Assist, mStat.CPUTime.MarkDedicated + mStat.CPUTime.MarkFractional, mStat.CPUTime.MarkIdle, mStat.CPUTime.MarkTerm} {
 			if i == 2 || i == 3 {
 				// Separate mark time components with /.
 				print("/")
@@ -1688,10 +1689,10 @@ func gcMarkTermination(nextTriggerRatio float64) {
 			print(string(fmtNSAsMS(sbuf[:], uint64(ns))))
 		}
 		print(" ms cpu, ",
-			work.heap0>>20, "->", work.heap1>>20, "->", work.heap2>>20, " MB, ",
-			work.heapGoal>>20, " MB goal, ",
+			mStat.HeapSize.Start>>20, "->", mStat.HeapSize.End>>20, "->", mStat.HeapSize.Live>>20, " MB, ",
+			mStat.HeapSize.Goal>>20, " MB goal, ",
 			work.maxprocs, " P")
-		if work.userForced {
+		if mStat.Forced {
 			print(" (forced)")
 		}
 		print("\n")
@@ -2234,4 +2235,11 @@ func fmtNSAsMS(buf []byte, ns uint64) []byte {
 		dec--
 	}
 	return itoaDiv(buf, x, dec)
+}
+
+// computes mark and sweep termination CPU times.
+func cpuTermTimes() (sweepTerm, markTerm int64) {
+	sweepTerm = int64(work.stwprocs) * (work.tMark - work.tSweepTerm)
+	markTerm = int64(work.stwprocs) * (work.tEnd - work.tMarkTerm)
+	return
 }

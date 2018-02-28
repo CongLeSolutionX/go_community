@@ -63,7 +63,11 @@ func TestMemStats(t *testing.T) {
 		"PauseTotalNs": {le(1e11)}, "PauseNs": nil, "PauseEnd": nil,
 		"NumGC": {nz, le(1e9)}, "NumForcedGC": {nz, le(1e9)},
 		"GCCPUFraction": {le(0.99)}, "EnableGC": {eq(true)}, "DebugGC": {eq(false)},
-		"BySize": nil,
+		"BySize":   nil,
+		"WallTime": nil,
+		"CPUTime":  nil,
+		"HeapSize": nil,
+		"Forced":   nil,
 	}
 
 	rst := reflect.ValueOf(st).Elem()
