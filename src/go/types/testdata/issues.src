@@ -240,3 +240,13 @@ func issue24140(x interface{}) int {
                 panic(0)
         }
 }
+
+// Test that invalid types hidden as element types are properly handled,
+// so that they don't result in these broken types showing up in errors
+// like "variable of type *invalid type".
+func issue24182() {
+	var x []missingType1 /* ERROR undeclared name */
+	var _ = x.field // no spurious error
+	var y **missingType2 /* ERROR undeclared name */
+	var _ = y.field // no spurious error
+}

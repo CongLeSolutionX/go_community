@@ -145,6 +145,10 @@ func (check *Checker) typExpr(e ast.Expr, def *Named, path []*TypeName) (T Type)
 	}
 
 	T = check.typExprInternal(e, def, path)
+	type withElem interface{ Elem() Type }
+	if et, ok := T.(withElem); ok && et.Elem() == Typ[Invalid] {
+		T = Typ[Invalid]
+	}
 	assert(isTyped(T))
 	check.recordTypeAndValue(e, typexpr, T, nil)
 
