@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "3fbb7bd5_da72836c",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-28T16:43:17Z",
+      "side": 1,
+      "message": "nits: Should we use different arg name instead of \"outer\"?\nThat would be something like: https://gist.github.com/namusyaka/194849f9c091e92f9c737b8ba83d999b",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3245e840_fdce4ad8",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-28T16:43:17Z",
+      "side": 1,
+      "message": "nits: Same as above.",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eb02998_b4ec8f45",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-28T16:43:17Z",
+      "side": 1,
+      "message": "nits: Same as above.",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0b273df_aad52957",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 23250
+      },
+      "writtenOn": "2018-02-28T16:43:17Z",
+      "side": 1,
+      "message": "nits: Same as above.",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c266854_2bdc8ee4",
         "filename": "src/testing/sub_test.go",
         "patchSetId": 1
