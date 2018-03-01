@@ -4,7 +4,10 @@
 
 package runtime
 
-import "unsafe"
+import (
+	"internal/bytealg"
+	"unsafe"
+)
 
 // The constant is known to the compiler.
 // There is no fundamental theory behind this number.
@@ -407,12 +410,32 @@ func findnull(s *byte) int {
 	if s == nil {
 		return 0
 	}
-	p := (*[maxAlloc/2 - 1]byte)(unsafe.Pointer(s))
-	l := 0
-	for p[l] != 0 {
-		l++
+
+	// May be higher, must not be lower
+	const pageSize = 4096
+
+	// IndexByteString uses wide reads, so we need to be careful
+	// with page boundaries. First call IndexByteString on
+	// [s, endOfPage] interval.
+	safeLen := int(pageSize - uintptr(unsafe.Pointer(s))%pageSize)
+	ptr := unsafe.Pointer(s)
+	t := *(*string)(unsafe.Pointer(&stringStruct{ptr, safeLen}))
+	ret := bytealg.IndexByteString(t, 0)
+	if ret != -1 {
+		return ret
 	}
-	return l
+	ret = safeLen
+	// Round ptr to page size.
+	ptr = unsafe.Pointer(uintptr(ptr) + uintptr(safeLen))
+	// Check one page at a time.
+	for {
+		t = *(*string)(unsafe.Pointer(&stringStruct{ptr, pageSize}))
+		if i := bytealg.IndexByteString(t, 0); i != -1 {
+			return ret + i
+		}
+		ptr = unsafe.Pointer(uintptr(ptr) + pageSize)
+		ret += pageSize
+	}
 }
 
 func findnullw(s *uint16) int {
