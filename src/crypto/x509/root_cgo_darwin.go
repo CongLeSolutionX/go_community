@@ -215,6 +215,7 @@ int FetchPEMRoots(CFDataRef *pemRoots, CFDataRef *untrustedPemRoots) {
 import "C"
 import (
 	"errors"
+	"fmt"
 	"unsafe"
 )
 
@@ -246,5 +247,16 @@ func loadSystemRoots() (*CertPool, error) {
 			trustedRoots.AddCert(c)
 		}
 	}
+
+	if debugDarwinRoots {
+		fmt.Printf("roots=%d, trustedRoots=%d, untrustedRoots=%d\n", len(roots.certs), len(trustedRoots.certs), len(untrustedRoots.certs))
+		for i := range trustedRoots.certs {
+			fmt.Printf("crypto/x509: trusted root %s\n", trustedRoots.certs[i].Subject)
+		}
+		for i := range untrustedRoots.certs {
+			fmt.Printf("crypto/x509: untrusted root %s\n", untrustedRoots.certs[i].Subject)
+		}
+	}
+
 	return trustedRoots, nil
 }
