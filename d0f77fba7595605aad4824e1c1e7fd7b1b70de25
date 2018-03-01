@@ -16,6 +16,24 @@
       "revId": "d0f77fba7595605aad4824e1c1e7fd7b1b70de25",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41d56198_c64f8184",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-03-01T20:18:15Z",
+      "side": 1,
+      "message": "\u003e Or you could just use stringsIndexByte and make a string header below, instead of slice{...}\n\nNice idea. Done.",
+      "parentUuid": "510191cd_db6e6cbc",
+      "revId": "d0f77fba7595605aad4824e1c1e7fd7b1b70de25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
