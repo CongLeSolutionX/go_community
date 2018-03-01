@@ -1,0 +1,399 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2eb07ca_f8d2f646",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Use spaces to align the comments. Apply to also lines below.",
+      "range": {
+        "startLine": 77,
+        "startChar": 26,
+        "endLine": 77,
+        "endChar": 28
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9760b6e2_9d382656",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "This has a space and a tab. Delete the space.",
+      "range": {
+        "startLine": 254,
+        "startChar": 5,
+        "endLine": 254,
+        "endChar": 6
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1a0c5ef_549fb1da",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64error.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Use tab here.",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4fd9dd0_5d9e6e7f",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Vector instructions should have V prefix.",
+      "range": {
+        "startLine": 771,
+        "startChar": 0,
+        "endLine": 772,
+        "endChar": 8
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b85bb1a_ca5127d9",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "This will change the value of ARNG_B to ARNG_D. Is it right?",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bd4a076_3b10fc01",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Can this be combined to VREV32, case 83?",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f8783cd_c7e2b8df",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Can we combine them to the same case? The encoding looks very similar.",
+      "range": {
+        "startLine": 620,
+        "startChar": 0,
+        "endLine": 621,
+        "endChar": 49
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57af9065_758d6eb3",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 2160,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Merge them with the next case.",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac96b4ff_4150ce6f",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 3535,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "gofmt the code.\nThere should be a space between :\u003d and int.",
+      "range": {
+        "startLine": 3535,
+        "startChar": 8,
+        "endLine": 3535,
+        "endChar": 13
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "253e1063_0a65486a",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 4180,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Please add new cases with new case numbers. Don\u0027t renumber existing case.",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "990b6587_95d3f2ca",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 4842,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "In hex. It\u0027s hard to read bit pattern from decimals.",
+      "range": {
+        "startLine": 4842,
+        "startChar": 9,
+        "endLine": 4842,
+        "endChar": 11
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c2f78fb_b28c5400",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 4851,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "These are irr instead of rrr, right?",
+      "range": {
+        "startLine": 4847,
+        "startChar": 0,
+        "endLine": 4851,
+        "endChar": 24
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2678ddd_9f7ed07c",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 5040,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "hex",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dec9f285_51ce9007",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "numbered (single r)",
+      "range": {
+        "startLine": 121,
+        "startChar": 29,
+        "endLine": 121,
+        "endChar": 38
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87469f4d_77fac7ac",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "structure (no s at the end).",
+      "range": {
+        "startLine": 130,
+        "startChar": 34,
+        "endLine": 130,
+        "endChar": 44
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c0f2752_3ad94c6b",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Undo. In fact they should all be lowercase. Then sentence starts with \u003cT\u003e, not \"is\".",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c097c60_81e1e8b1",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Start a new line here, without //.",
+      "range": {
+        "startLine": 233,
+        "startChar": 47,
+        "endLine": 233,
+        "endChar": 49
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5de49845_1f731671",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "Use spaces, as in other lines.",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 1
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24f84d18_f845de34",
+        "filename": "src/cmd/internal/obj/arm64/list7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-01T16:05:32Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right. arng has 3 bits. How can it be 8?",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
