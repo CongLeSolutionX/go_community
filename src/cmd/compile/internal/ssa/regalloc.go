@@ -357,10 +357,12 @@ func (s *regAllocState) assignReg(r register, v *Value, c *Value) {
 // If there is no unused register, a Value will be kicked out of
 // a register to make room.
 func (s *regAllocState) allocReg(mask regMask, v *Value) register {
+	savemask := mask
 	mask &= s.allocatable
 	mask &^= s.nospill
 	if mask == 0 {
-		s.f.Fatalf("no register available for %s", v)
+		fmt.Printf("### mask: %v allocatable: %v ###\n", savemask, s.allocatable)
+		s.f.Fatalf("no register available for %s", v.LongString())
 	}
 
 	// Pick an unused register if one is available.
