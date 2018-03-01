@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "510191cd_db6e6cbc",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-01T17:25:38Z",
+      "side": 1,
+      "message": "Is this line still needed after all?\n\nNote that runtime/error.go contains:\n\n// strings.IndexByte is implemented in runtime/asm_$goarch.s                                                                                       \n// but amusingly we need go:linkname to get access to it here in the runtime.                                                                      \n//go:linkname stringsIndexByte strings.IndexByte                                                                                                   \nfunc stringsIndexByte(s string, c byte) int\n\n... which doesn\u0027t have go:noescape. They should be consistent, no?\n\nMaybe these two declarations should be near each other too.\n\nOr you could just use stringsIndexByte and make a string header below, instead of slice{...}",
+      "revId": "d0f77fba7595605aad4824e1c1e7fd7b1b70de25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
