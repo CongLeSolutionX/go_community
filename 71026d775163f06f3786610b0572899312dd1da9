@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "079774da_4bcee06c",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2018-03-01T08:43:09Z",
+      "side": 1,
+      "message": "I saw that before, but liked the outer better. Either way. Tried to use this pattern, but it makes things a bit weird for the ancestor tests. So changed it back to using outer.",
+      "parentUuid": "3fbb7bd5_da72836c",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3245e840_fdce4ad8",
         "filename": "src/testing/sub_test.go",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "71026d775163f06f3786610b0572899312dd1da9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "412416d1_e808f27d",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2018-03-01T08:43:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3245e840_fdce4ad8",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5aad3724_6f0d9105",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2018-03-01T08:43:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5eb02998_b4ec8f45",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0b273df_aad52957",
         "filename": "src/testing/sub_test.go",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "71473717_7a0948c4",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2018-03-01T08:43:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e0b273df_aad52957",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c266854_2bdc8ee4",
         "filename": "src/testing/sub_test.go",
         "patchSetId": 1
@@ -84,6 +156,24 @@
       "revId": "71026d775163f06f3786610b0572899312dd1da9",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cee926e2_35f74b22",
+        "filename": "src/testing/sub_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 5182
+      },
+      "writtenOn": "2018-03-01T08:43:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c266854_2bdc8ee4",
+      "revId": "71026d775163f06f3786610b0572899312dd1da9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
