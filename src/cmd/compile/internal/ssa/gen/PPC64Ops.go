@@ -271,6 +271,13 @@ func init() {
 		{name: "MOVWZload", argLength: 2, reg: gpload, asm: "MOVWZ", aux: "SymOff", typ: "UInt32", faultOnNilArg0: true, symEffect: "Read"}, // zero extend uint32 to uint64
 		{name: "MOVDload", argLength: 2, reg: gpload, asm: "MOVD", aux: "SymOff", typ: "Int64", faultOnNilArg0: true, symEffect: "Read"},
 
+		{name: "MOVDBRload", argLength: 2, reg: gpload, asm: "MOVDBR", aux: "SymOff", typ: "Int64", faultOnNilArg0: true, symEffect: "Read"},  // load 8 bytes in reverse order
+		{name: "MOVWBRload", argLength: 2, reg: gpload, asm: "MOVWBR", aux: "SymOff", typ: "Int32", faultOnNilArg0: true, symEffect: "Read"},  // load 4 bytes in reverse order
+		{name: "MOVHBRload", argLength: 2, reg: gpload, asm: "MOVHBR", aux: "SymOff", typ: "Int16", faultOnNilArg0: true, symEffect: "Read"},  // load 2 bytes in reverse order
+		{name: "MOVDBRstore", argLength: 3, reg: gpstore, asm: "MOVDBR", aux: "SymOff", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"}, // store 8 bytes in reverse order
+		{name: "MOVWBRstore", argLength: 3, reg: gpstore, asm: "MOVWBR", aux: "SymOff", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"}, // store 4 bytes in reverse order
+		{name: "MOVHBRstore", argLength: 3, reg: gpstore, asm: "MOVHBR", aux: "SymOff", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"}, // store 2 bytes in reverse order
+
 		{name: "FMOVDload", argLength: 2, reg: fpload, asm: "FMOVD", aux: "SymOff", typ: "Float64", faultOnNilArg0: true, symEffect: "Read"},
 		{name: "FMOVSload", argLength: 2, reg: fpload, asm: "FMOVS", aux: "SymOff", typ: "Float32", faultOnNilArg0: true, symEffect: "Read"},
 		{name: "MOVBstore", argLength: 3, reg: gpstore, asm: "MOVB", aux: "SymOff", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"},
@@ -285,7 +292,7 @@ func init() {
 		{name: "MOVWstorezero", argLength: 2, reg: gpstorezero, asm: "MOVW", aux: "SymOff", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"}, // store zero 4 bytes to ...
 		{name: "MOVDstorezero", argLength: 2, reg: gpstorezero, asm: "MOVD", aux: "SymOff", typ: "Mem", faultOnNilArg0: true, symEffect: "Write"}, // store zero 8 bytes to ...
 
-		{name: "MOVDaddr", argLength: 1, reg: regInfo{inputs: []regMask{sp | sb}, outputs: []regMask{gp}}, aux: "SymOff", asm: "MOVD", rematerializeable: true, symEffect: "Addr"}, // arg0 + auxInt + aux.(*gc.Sym), arg0=SP/SB
+		{name: "MOVDaddr", argLength: 1, reg: regInfo{inputs: []regMask{sp | sb | gp}, outputs: []regMask{gp}}, aux: "SymOff", asm: "MOVD", rematerializeable: true, symEffect: "Addr"}, // arg0 + auxInt + aux.(*gc.Sym), arg0=SP/SB
 
 		{name: "MOVDconst", argLength: 0, reg: gp01, aux: "Int64", asm: "MOVD", typ: "Int64", rematerializeable: true}, //
 		{name: "FMOVDconst", argLength: 0, reg: fp01, aux: "Float64", asm: "FMOVD", rematerializeable: true},           //
