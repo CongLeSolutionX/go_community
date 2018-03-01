@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54860909_7d86f579",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-03-01T09:12:43Z",
+      "side": 1,
+      "message": "Lets make it right then:\n\ns/ReadSubKeysNames/ReadSubKeyNames/",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "f8bfe1374904cb33c9b24d6eee73aa64e6b91ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96c35882_d65b95fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-03-01T09:12:43Z",
+      "side": 1,
+      "message": "Same.",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "f8bfe1374904cb33c9b24d6eee73aa64e6b91ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "575c2394_e7b2c3ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 5070
+      },
+      "writtenOn": "2018-03-01T09:12:43Z",
+      "side": 1,
+      "message": "Do not forget full stop at the end\n\ns/mask/mask./",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 37
+      },
+      "revId": "f8bfe1374904cb33c9b24d6eee73aa64e6b91ff5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
