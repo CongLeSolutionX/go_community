@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d5894d3_4ca7421a",
+        "filename": "src/cmd/internal/obj/mips/obj0.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-03-01T04:24:25Z",
+      "side": 0,
+      "message": "Can you explain why we used to load the odd register first?  This comment implies there might be a reason.  Just want to make sure we\u0027re not breaking something else by fixing this issue.",
+      "range": {
+        "startLine": 563,
+        "startChar": 18,
+        "endLine": 563,
+        "endChar": 41
+      },
+      "revId": "c2cdfbd1a75b74bf7b960f6904fcfaaad9edb708",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
