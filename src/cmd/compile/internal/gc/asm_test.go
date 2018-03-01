@@ -3618,6 +3618,61 @@ var linuxPPC64LETests = []*asmTest{
 	},
 
 	{
+		fn: `
+		func f20(b []byte) uint16 {
+			return binary.BigEndian.Uint16(b)
+		}
+		`,
+		pos: []string{"\tMOVHBR\t"},
+	},
+	{
+		fn: `
+		func f21(b []byte) uint32 {
+			return binary.BigEndian.Uint32(b)
+		}
+		`,
+		pos: []string{"\tMOVWBR\t"},
+	},
+
+	{
+		fn: `
+		func f22(b []byte) uint64 {
+			return binary.BigEndian.Uint64(b)
+		}
+                `,
+		pos: []string{"\tMOVDBR\t"},
+		neg: []string{"MOVB", "MOVH", "MOVW"},
+	},
+
+	{
+		fn: `
+		func f23(b []byte, v uint16) {
+			binary.BigEndian.PutUint16(b, v)
+		}
+		`,
+		pos: []string{"\tMOVHBR\t"},
+	},
+
+	{
+		fn: `
+		func f24(b []byte, v uint32) {
+			binary.BigEndian.PutUint32(b, v)
+		}
+		`,
+		pos: []string{"\tMOVWBR\t"},
+	},
+
+	{
+		fn: `
+		func f25(b []byte, v uint64) {
+			binary.BigEndian.PutUint64(b, v)
+		}
+		`,
+		pos: []string{"\tMOVDBR\t"},
+		neg: []string{"MOVB", "MOVH", "MOVW"},
+	},
+
+	{
 		// check that stack store is optimized away
 		fn: `
 		func $() int {
