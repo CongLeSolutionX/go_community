@@ -22,6 +22,30 @@
       "revId": "4a52452a2fb466995030f2363e5e8ec5f6a5e815",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79fbe79d_54f5d9b5",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-01T10:22:15Z",
+      "side": 1,
+      "message": "I wrote it that way initially, but thought that it made for a slightly too complex line. You\u0027re probably right, though.",
+      "parentUuid": "e07f2fe5_93eded36",
+      "range": {
+        "startLine": 149,
+        "startChar": 17,
+        "endLine": 149,
+        "endChar": 25
+      },
+      "revId": "4a52452a2fb466995030f2363e5e8ec5f6a5e815",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
