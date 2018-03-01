@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14061f18_b275777b",
+        "filename": "test/run.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1311,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-03-01T17:58:16Z",
+      "side": 1,
+      "message": "Add that \"start of line\" is after we\u0027ve trimmed the offset and file/line info from the -S output.",
+      "revId": "3631c9a8f2eea49525784aab2c5d36635a13de25",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
