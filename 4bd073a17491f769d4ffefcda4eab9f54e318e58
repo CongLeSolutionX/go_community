@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0156b37b_4a7c3e91",
+        "filename": "src/internal/bytealg/indexbyte_mips64x.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-03-02T22:33:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71330d5f_a19d551d",
+      "revId": "4bd073a17491f769d4ffefcda4eab9f54e318e58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11c8e1cf_31520010",
         "filename": "src/internal/cpu/cpu_s390x.go",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "b7c06ef3_39cad5fd",
+        "filename": "src/internal/cpu/cpu_s390x.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-03-02T22:33:59Z",
+      "side": 1,
+      "message": "I\u0027ll move it to the field declaration.",
+      "parentUuid": "11c8e1cf_31520010",
+      "revId": "4bd073a17491f769d4ffefcda4eab9f54e318e58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a0f2888_8cd769ad",
         "filename": "src/runtime/error.go",
         "patchSetId": 5
@@ -47,6 +83,24 @@
       "writtenOn": "2018-03-02T21:45:50Z",
       "side": 1,
       "message": "I slightly prefer the name bytealg.BytesIndexByte and bytealg.StringsIndexByte (so they look like bytes.IndexByte and strings.IndexByte).\n\nBut don\u0027t care strongly, and they\u0027re internal, so I care even less.",
+      "revId": "4bd073a17491f769d4ffefcda4eab9f54e318e58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f762889a_d76fd36c",
+        "filename": "src/runtime/error.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-03-02T22:33:59Z",
+      "side": 1,
+      "message": "I wanted to start with IndexByte because that\u0027s the name prefix of the file they are in.\nThe *String suffix mirrors what, e.g. regexp does.",
+      "parentUuid": "5a0f2888_8cd769ad",
       "revId": "4bd073a17491f769d4ffefcda4eab9f54e318e58",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
