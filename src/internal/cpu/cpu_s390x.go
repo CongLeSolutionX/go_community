@@ -5,3 +5,5 @@
 package cpu
 
 const CacheLineSize = 256
+
+// Note: the runtime sets S390X.HasVX when it processes auxv records.
