@@ -75,3 +75,11 @@ type arm64 struct {
 	HasATOMICS bool
 	_          [CacheLineSize]byte
 }
+
+var S390X s390x
+
+type s390x struct {
+	_     [CacheLineSize]byte
+	HasVX bool // vector facility
+	_     [CacheLineSize]byte
+}
