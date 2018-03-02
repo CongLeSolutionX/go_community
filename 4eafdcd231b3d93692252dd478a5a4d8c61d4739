@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "18c8a77c_acbbd333",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2018-03-02T02:41:55Z",
+      "side": 1,
+      "message": "this is done in poolCleanup when GC starts, isn\u0027t it enough? if not, then shouldn\u0027t the same be done for l.shared?",
+      "parentUuid": "4ff94779_9b2b48cd",
+      "range": {
+        "startLine": 135,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 29
+      },
+      "revId": "4eafdcd231b3d93692252dd478a5a4d8c61d4739",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8076565b_51e26ef4",
         "filename": "src/sync/pool.go",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-01T10:52:22Z",
       "side": 1,
       "message": "The above comment says that this function \"probably should not call any runtime function\". The above for loop (but also the pre-existing one below) is compiled into runtime.memclrHasPointers. There are also calls to runtime.writeBarrier (does it make sense if the world is stopped, as the comment implies?). \n\nI can\u0027t understand the implication, so I\u0027ll leave it for Austin to comment whether this is a problem or not. Probably the comment should be clarified.",
+      "range": {
+        "startLine": 235,
+        "startChar": 3,
+        "endLine": 238,
+        "endChar": 19
+      },
+      "revId": "4eafdcd231b3d93692252dd478a5a4d8c61d4739",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9beda030_f6b576d2",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2018-03-02T02:41:55Z",
+      "side": 1,
+      "message": "Indeed I simply assumed that the existing code was correct. If Austin feels otherwise we can get rid of the loops by nil-ing in Put/Get/getSlow.",
+      "parentUuid": "8076565b_51e26ef4",
       "range": {
         "startLine": 235,
         "startChar": 3,
