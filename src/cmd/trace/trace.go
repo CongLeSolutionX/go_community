@@ -444,6 +444,10 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 		info.state = newState
 	}
 
+	tasks := make(map[uint64]bool)
+	for _, t := range ctx.tasks {
+		tasks[t.id] = true
+	}
 	for _, ev := range ctx.parsed.Events {
 		// Handle state transitions before we filter out events.
 		switch ev.Type {
@@ -610,10 +614,19 @@ func generateTrace(params *traceParams) (ViewerData, error) {
 		case trace.EvGoSysExit:
 			ctx.emitArrow(ev, "sysexit")
 		case trace.EvUserLog:
+			if ctx.mode == taskTraceview && !tasks[ev.Args[0]] {
+				continue
+			}
 			ctx.emitInstant(ev, formatUserLog(ev), "user event")
 		case trace.EvUserTaskCreate:
+			if ctx.mode == taskTraceview && !tasks[ev.Args[0]] {
+				continue
+			}
 			ctx.emitInstant(ev, "task start", "user event")
 		case trace.EvUserTaskEnd:
+			if ctx.mode == taskTraceview && !tasks[ev.Args[0]] {
+				continue
+			}
 			ctx.emitInstant(ev, "task end", "user event")
 		}
 		// Emit any counter updates.
@@ -845,6 +858,21 @@ func (ctx *traceContext) emitThreadCounters(ev *trace.Event) {
 }
 
 func (ctx *traceContext) emitInstant(ev *trace.Event, name, category string) {
+	cname := ""
+	if ctx.mode == taskTraceview && ev.G != 0 {
+		overlapping := false
+		// grey out if non-overlapping instances
+		for _, task := range ctx.tasks {
+			if task.overlappingInstance(ev) {
+				overlapping = true
+				break
+			}
+		}
+		if !overlapping {
+			cname = "grey"
+		}
+	}
+
 	var arg interface{}
 	if ev.Type == trace.EvProcStart {
 		type Arg struct {
@@ -860,6 +888,7 @@ func (ctx *traceContext) emitInstant(ev *trace.Event, name, category string) {
 		Time:     ctx.time(ev),
 		Tid:      ctx.proc(ev),
 		Stack:    ctx.stack(ev.Stk),
+		Cname:    cname,
 		Arg:      arg})
 }
 
@@ -877,6 +906,20 @@ func (ctx *traceContext) emitArrow(ev *trace.Event, name string) {
 		// Trace-viewer discards arrows if they don't start/end inside of a slice or instant.
 		// So emit a fake instant at the start of the arrow.
 		ctx.emitInstant(&trace.Event{P: ev.P, Ts: ev.Ts}, "unblock", "")
+	}
+
+	if ctx.mode == taskTraceview {
+		overlapping := false
+		// skip non-overlapping arrows.
+		for _, task := range ctx.tasks {
+			if _, overlapped := task.overlappingDuration(ev); overlapped {
+				overlapping = true
+				break
+			}
+		}
+		if !overlapping {
+			return
+		}
 	}
 
 	ctx.arrowSeq++
