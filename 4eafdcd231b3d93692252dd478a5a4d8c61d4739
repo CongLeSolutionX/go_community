@@ -93,6 +93,30 @@
       "revId": "4eafdcd231b3d93692252dd478a5a4d8c61d4739",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91416801_5395c72e",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 11500
+      },
+      "writtenOn": "2018-03-03T01:26:19Z",
+      "side": 1,
+      "message": "I\u0027m actually unsure about why the l.shared loop below can\u0027t be simply dropped since some non-nil elements may be between len(l.shared) and cap(l.shared), and the current loop doesn\u0027t care about them",
+      "parentUuid": "9beda030_f6b576d2",
+      "range": {
+        "startLine": 235,
+        "startChar": 3,
+        "endLine": 238,
+        "endChar": 19
+      },
+      "revId": "4eafdcd231b3d93692252dd478a5a4d8c61d4739",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
