@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17e0f200_70786d03",
+        "filename": "src/runtime/vdso_in_none.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-03-03T12:16:09Z",
+      "side": 1,
+      "message": "Add !arm here (re CL 98095)",
+      "revId": "fe487badaf924231fa2e22fd03ab8e190016be2b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
