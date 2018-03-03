@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ff95741_62a37165",
+        "filename": "src/runtime/mstats.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 15558
+      },
+      "writtenOn": "2018-03-03T00:08:43Z",
+      "side": 0,
+      "message": "For context, this was added in 2010 [1], when part of code was in C and part in Go. AIUI, this check was to make sure that sizeof matched up between C and Go. This is no longer the case, so should be safe to remove this.\n\nPlease let me know if I misunderstood this.\n\n\n[1]: https://github.com/golang/go/commit/dc9a3b2791feb3aade3b8cf00891eddcb5b5ed90#diff-17dbb5a92bd43f80a1909a1814e2d42eR82",
+      "range": {
+        "startLine": 439,
+        "startChar": 1,
+        "endLine": 443,
+        "endChar": 2
+      },
+      "revId": "4b1d704d144181c81317c1b3db587f6aac53224b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
