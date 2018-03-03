@@ -16,6 +16,8 @@ internal/bytealg/equal_ARCHSUFF.s: [GOARCH] cannot check cross-package assembly 
 internal/bytealg/equal_ARCHSUFF.s: [GOARCH] cannot check cross-package assembly function: memequal_varlen is in package runtime
 internal/bytealg/indexbyte_ARCHSUFF.s: [GOARCH] cannot check cross-package assembly function: IndexByte is in package bytes
 internal/bytealg/indexbyte_ARCHSUFF.s: [GOARCH] cannot check cross-package assembly function: IndexByte is in package strings
+internal/bytealg/compare_ARCHSUFF.s: [GOARCH] cannot check cross-package assembly function: Compare is in package bytes
+internal/bytealg/compare_ARCHSUFF.s: [GOARCH] cannot check cross-package assembly function: cmpstring is in package runtime
 
 // The write barrier is called directly by the compiler, so no Go def
 runtime/asm_ARCHSUFF.s: [GOARCH] gcWriteBarrier: function gcWriteBarrier missing Go declaration
