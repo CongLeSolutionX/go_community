@@ -426,6 +426,15 @@ func (s *state) newValue1A(op ssa.Op, t *types.Type, aux interface{}, arg *ssa.V
 	return s.curBlock.NewValue1A(s.peekPos(), op, t, aux, arg)
 }
 
+// newValue1Apos adds a new value with one argument and an aux value to the current block.
+// If isAutoTmp is true, then the node's position is tagged as not a statement.
+func (s *state) newValue1Apos(op ssa.Op, t *types.Type, aux interface{}, arg *ssa.Value, isAutoTmp bool) *ssa.Value {
+	if isAutoTmp {
+		return s.curBlock.NewValue1A(s.peekPos().WithNotStmt(), op, t, aux, arg)
+	}
+	return s.curBlock.NewValue1A(s.peekPos(), op, t, aux, arg)
+}
+
 // newValue1I adds a new value with one argument and an auxint value to the current block.
 func (s *state) newValue1I(op ssa.Op, t *types.Type, aux int64, arg *ssa.Value) *ssa.Value {
 	return s.curBlock.NewValue1I(s.peekPos(), op, t, aux, arg)
@@ -453,6 +462,15 @@ func (s *state) newValue3I(op ssa.Op, t *types.Type, aux int64, arg0, arg1, arg2
 
 // newValue3A adds a new value with three arguments and an aux value to the current block.
 func (s *state) newValue3A(op ssa.Op, t *types.Type, aux interface{}, arg0, arg1, arg2 *ssa.Value) *ssa.Value {
+	return s.curBlock.NewValue3A(s.peekPos(), op, t, aux, arg0, arg1, arg2)
+}
+
+// newValue3Apos adds a new value with three arguments and an aux value to the current block, optionally without src.XPos
+// If isAutoTmp is true, then the node's position is tagged as not a statement.
+func (s *state) newValue3Apos(op ssa.Op, t *types.Type, aux interface{}, arg0, arg1, arg2 *ssa.Value, isAutoTmp bool) *ssa.Value {
+	if isAutoTmp {
+		return s.curBlock.NewValue3A(s.peekPos().WithNotStmt(), op, t, aux, arg0, arg1, arg2)
+	}
 	return s.curBlock.NewValue3A(s.peekPos(), op, t, aux, arg0, arg1, arg2)
 }
 
@@ -984,7 +1002,7 @@ func (s *state) stmt(n *Node) {
 		// varkill in the store chain is enough to keep it correctly ordered
 		// with respect to call ops.
 		if !s.canSSA(n.Left) {
-			s.vars[&memVar] = s.newValue1A(ssa.OpVarKill, types.TypeMem, n.Left, s.mem())
+			s.vars[&memVar] = s.newValue1Apos(ssa.OpVarKill, types.TypeMem, n.Left, s.mem(), true)
 		}
 
 	case OVARLIVE:
@@ -2325,7 +2343,7 @@ func (s *state) append(n *Node, inplace bool) *ssa.Value {
 	for i, arg := range args {
 		addr := s.newValue2(ssa.OpPtrIndex, pt, p2, s.constInt(types.Types[TINT], int64(i)))
 		if arg.store {
-			s.storeType(et, addr, arg.v, 0)
+			s.storeType(et, addr, arg.v, 0, false)
 		} else {
 			store := s.newValue3I(ssa.OpMove, types.TypeMem, et.Size(), addr, arg.v, s.mem())
 			store.Aux = et
@@ -2477,7 +2495,7 @@ func (s *state) assign(left *Node, right *ssa.Value, deref bool, skip skipMask) 
 	// Left is not ssa-able. Compute its address.
 	addr := s.addr(left, false)
 	if left.Op == ONAME && left.Class() != PEXTERN && skip == 0 {
-		s.vars[&memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, left, s.mem())
+		s.vars[&memVar] = s.newValue1Apos(ssa.OpVarDef, types.TypeMem, left, s.mem(), left.IsAutoTmp())
 	}
 	if isReflectHeaderDataField(left) {
 		// Package unsafe's documentation says storing pointers into
@@ -2500,7 +2518,7 @@ func (s *state) assign(left *Node, right *ssa.Value, deref bool, skip skipMask) 
 		return
 	}
 	// Treat as a store.
-	s.storeType(t, addr, right, skip)
+	s.storeType(t, addr, right, skip, left.IsAutoTmp())
 }
 
 // zeroVal returns the zero value for type t.
@@ -3483,7 +3501,7 @@ func (s *state) addr(n *Node, bounded bool) *ssa.Value {
 			s.Fatalf("addr of undeclared ONAME %v. declared: %v", n, s.decladdrs)
 			return nil
 		case PAUTO:
-			return s.newValue1A(ssa.OpAddr, t, n, s.sp)
+			return s.newValue1Apos(ssa.OpAddr, t, n, s.sp, n.IsAutoTmp())
 		case PPARAMOUT: // Same as PAUTO -- cannot generate LEA early.
 			// ensure that we reuse symbols for out parameters so
 			// that cse works on their addresses
@@ -3768,11 +3786,11 @@ func (s *state) rtcall(fn *obj.LSym, returns bool, results []*types.Type, args .
 	return res
 }
 
-// do *left = right for type t.
-func (s *state) storeType(t *types.Type, left, right *ssa.Value, skip skipMask) {
+/// do *left = right for type t.
+func (s *state) storeType(t *types.Type, left, right *ssa.Value, skip skipMask, leftIsAutoTmp bool) {
 	if skip == 0 && (!types.Haspointers(t) || ssa.IsStackAddr(left)) {
 		// Known to not have write barrier. Store the whole type.
-		s.vars[&memVar] = s.newValue3A(ssa.OpStore, types.TypeMem, t, left, right, s.mem())
+		s.vars[&memVar] = s.newValue3Apos(ssa.OpStore, types.TypeMem, t, left, right, s.mem(), leftIsAutoTmp)
 		return
 	}
 
