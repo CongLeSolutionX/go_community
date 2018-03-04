@@ -1390,7 +1390,7 @@ func TestSeek(t *testing.T) {
 
 func TestSeekError(t *testing.T) {
 	switch runtime.GOOS {
-	case "plan9", "nacl":
+	case "plan9":
 		t.Skipf("skipping test on %v", runtime.GOOS)
 	}
 

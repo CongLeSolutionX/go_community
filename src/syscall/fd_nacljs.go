@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// File descriptor support for Native Client.
+// File descriptor support for Native Client and WebAssembly.
 // We want to provide access to a broader range of (simulated) files than
 // Native Client allows, so we maintain our own file descriptor table exposed
 // to higher-level packages.
 
-// +build nacl
+// +build js,wasm nacl
 
 package syscall
 
@@ -244,6 +244,10 @@ func (f *pipeFile) write(b []byte) (int, error) {
 		err = EPIPE
 	}
 	return n, err
+}
+
+func (f *pipeFile) seek(offset int64, whence int) (int64, error) {
+	return 0, ESPIPE
 }
 
 func Pipe(fd []int) error {
