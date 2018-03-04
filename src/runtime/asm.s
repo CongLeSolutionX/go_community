@@ -32,6 +32,13 @@ GLOBL runtime·memstats(SB), NOPTR, $0
 #define SKIP16 SKIP4; SKIP4; SKIP4; SKIP4
 #define SKIP64 SKIP16; SKIP16; SKIP16; SKIP16
 
+#ifdef GOARCH_wasm
+// This function can be empty in wasm since WebAssembly functions
+// are not in the address space of the linear memory.
+TEXT runtime·skipPleaseUseCallersFrames(SB),NOSPLIT,$0-0
+	UNDEF
+#else
 // This function must be sizeofSkipFunction bytes.
 TEXT runtime·skipPleaseUseCallersFrames(SB),NOSPLIT,$0-0
 	SKIP64; SKIP64; SKIP64; SKIP64
+#endif
