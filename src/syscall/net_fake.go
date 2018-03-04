@@ -8,6 +8,8 @@
 
 // All int64 times are UnixNanos.
 
+// +build js,wasm nacl
+
 package syscall
 
 import (

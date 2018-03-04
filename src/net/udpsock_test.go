@@ -161,7 +161,7 @@ func testWriteToConn(t *testing.T, raddr string) {
 	}
 	_, _, err = c.(*UDPConn).WriteMsgUDP(b, nil, nil)
 	switch runtime.GOOS {
-	case "nacl": // see golang.org/issue/9252
+	case "js", "nacl": // see golang.org/issue/9252
 		t.Skipf("not implemented yet on %s", runtime.GOOS)
 	default:
 		if err != nil {
@@ -204,7 +204,7 @@ func testWriteToPacketConn(t *testing.T, raddr string) {
 	}
 	_, _, err = c.(*UDPConn).WriteMsgUDP(b, nil, ra)
 	switch runtime.GOOS {
-	case "nacl": // see golang.org/issue/9252
+	case "js", "nacl": // see golang.org/issue/9252
 		t.Skipf("not implemented yet on %s", runtime.GOOS)
 	default:
 		if err != nil {
@@ -333,7 +333,7 @@ func TestIPv6LinkLocalUnicastUDP(t *testing.T) {
 
 func TestUDPZeroBytePayload(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl", "plan9":
+	case "js", "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 
@@ -370,7 +370,7 @@ func TestUDPZeroBytePayload(t *testing.T) {
 
 func TestUDPZeroByteBuffer(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl", "plan9":
+	case "js", "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 
@@ -407,7 +407,7 @@ func TestUDPZeroByteBuffer(t *testing.T) {
 
 func TestUDPReadSizeError(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl", "plan9":
+	case "js", "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 

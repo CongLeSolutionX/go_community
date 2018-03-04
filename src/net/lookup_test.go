@@ -818,8 +818,8 @@ func TestLookupProtocol_Minimal(t *testing.T) {
 }
 
 func TestLookupNonLDH(t *testing.T) {
-	if runtime.GOOS == "nacl" {
-		t.Skip("skip on nacl")
+	if runtime.GOOS == "nacl" || runtime.GOOS == "js" {
+		t.Skipf("skip on %s", runtime.GOOS)
 	}
 
 	defer dnsWaitGroup.Wait()
