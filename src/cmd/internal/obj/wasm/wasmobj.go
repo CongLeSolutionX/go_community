@@ -603,11 +603,11 @@ func assemble(ctxt *obj.Link, s *obj.LSym, newprog obj.ProgAlloc) {
 
 	w := new(bytes.Buffer)
 	switch s.Name {
-	case "runtime.memchr":
+	case "memchr":
 		writeUleb128(w, 1) // number of sets of locals
 		writeUleb128(w, 3) // number of locals
 		w.WriteByte(0x7F)  // i32
-	case "runtime.memcmp":
+	case "memcmp":
 		writeUleb128(w, 1) // number of sets of locals
 		writeUleb128(w, 2) // number of locals
 		w.WriteByte(0x7F)  // i32

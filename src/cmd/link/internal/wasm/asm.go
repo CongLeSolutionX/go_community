@@ -73,10 +73,10 @@ var wasmSignatures = map[string]*wasmSignature{
 	"runtime.wasmzero":       &wasmSignature{Params: []byte{I32, I32}},
 	"runtime.wasmdiv":        &wasmSignature{Params: []byte{I64, I64}, Results: []byte{I64}},
 	"runtime.wasmtrunc":      &wasmSignature{Params: []byte{F64}, Results: []byte{I64}},
-	"runtime.cmpbody":        &wasmSignature{Params: []byte{I64, I64, I64, I64}, Results: []byte{I64}},
-	"runtime.memeqbody":      &wasmSignature{Params: []byte{I64, I64, I64}, Results: []byte{I64}},
-	"runtime.memcmp":         &wasmSignature{Params: []byte{I32, I32, I32}, Results: []byte{I32}},
-	"runtime.memchr":         &wasmSignature{Params: []byte{I32, I32, I32}, Results: []byte{I32}},
+	"cmpbody":                &wasmSignature{Params: []byte{I64, I64, I64, I64}, Results: []byte{I64}},
+	"memeqbody":              &wasmSignature{Params: []byte{I64, I64, I64}, Results: []byte{I64}},
+	"memcmp":                 &wasmSignature{Params: []byte{I32, I32, I32}, Results: []byte{I32}},
+	"memchr":                 &wasmSignature{Params: []byte{I32, I32, I32}, Results: []byte{I32}},
 	"runtime.gcWriteBarrier": &wasmSignature{Params: []byte{I32, I64}, Results: []byte{I32}},
 }
 
