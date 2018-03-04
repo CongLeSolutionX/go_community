@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// +build !js
+
 package net
 
 import (
@@ -752,8 +754,8 @@ func TestDialCancel(t *testing.T) {
 	}
 	mustHaveExternalNetwork(t)
 
-	if runtime.GOOS == "nacl" {
-		// nacl doesn't have external network access.
+	if runtime.GOOS == "nacl" || runtime.GOOS == "js" {
+		// No external network access.
 		t.Skipf("skipping on %s", runtime.GOOS)
 	}
 

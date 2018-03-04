@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// +build !js
+
 package net
 
 import (
@@ -13,7 +15,7 @@ import (
 
 func TestRawConnReadWrite(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl", "plan9":
+	case "js", "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 
@@ -173,7 +175,7 @@ func TestRawConnReadWrite(t *testing.T) {
 
 func TestRawConnControl(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl", "plan9":
+	case "js", "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 

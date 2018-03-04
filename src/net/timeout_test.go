@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// +build !js
+
 package net
 
 import (
@@ -409,7 +411,7 @@ func TestReadTimeoutMustNotReturn(t *testing.T) {
 		if perr := parseReadError(err); perr != nil {
 			t.Error(perr)
 		}
-		if err == io.EOF && runtime.GOOS == "nacl" { // see golang.org/issue/8044
+		if err == io.EOF && (runtime.GOOS == "nacl" || runtime.GOOS == "js") { // see golang.org/issue/8044
 			return
 		}
 		if nerr, ok := err.(Error); !ok || nerr.Timeout() || nerr.Temporary() {
@@ -431,7 +433,7 @@ var readFromTimeoutTests = []struct {
 
 func TestReadFromTimeout(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl":
+	case "js", "nacl":
 		t.Skipf("not supported on %s", runtime.GOOS) // see golang.org/issue/8916
 	}
 
@@ -620,7 +622,7 @@ func TestWriteToTimeout(t *testing.T) {
 	t.Parallel()
 
 	switch runtime.GOOS {
-	case "nacl":
+	case "js", "nacl":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 
@@ -1006,7 +1008,7 @@ func TestReadWriteDeadlineRace(t *testing.T) {
 	t.Parallel()
 
 	switch runtime.GOOS {
-	case "nacl":
+	case "js", "nacl":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 
