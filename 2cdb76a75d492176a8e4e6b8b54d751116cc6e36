@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1b09dfc_e7f58853",
+        "filename": "src/cmd/compile/internal/gc/asm_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 3621,
+      "author": {
+        "id": 5340
+      },
+      "writtenOn": "2018-03-04T17:11:26Z",
+      "side": 1,
+      "message": "These tests have now been migrated to test/codegen/memcombine.go.",
+      "revId": "2cdb76a75d492176a8e4e6b8b54d751116cc6e36",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
