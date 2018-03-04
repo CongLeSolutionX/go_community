@@ -169,6 +169,11 @@
 						mem().setInt32(sp + 16, (msec % 1000) * 1000000, true);
 					},
 
+					// func getRandomData(r []byte)
+					"runtime.getRandomData": function (sp) {
+						crypto.getRandomValues(loadSlice(sp + 8));
+					},
+
 					// func boolVal(value bool) Value
 					"syscall/js.boolVal": function (sp) {
 						storeValue(sp + 16, mem().getUint8(sp + 8) !== 0);
