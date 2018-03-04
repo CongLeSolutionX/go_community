@@ -326,7 +326,7 @@ type Node struct {
 	mark    int
 }
 
-var tree = &Node{
+var testTree = &Node{
 	"testdata",
 	[]*Node{
 		{"a", nil, 0},
@@ -359,7 +359,7 @@ func walkTree(n *Node, path string, f func(path string, n *Node)) {
 	}
 }
 
-func makeTree(t *testing.T) {
+func makeTree(t *testing.T, tree *Node) {
 	walkTree(tree, tree.name, func(path string, n *Node) {
 		if n.entries == nil {
 			fd, err := os.Create(path)
@@ -376,7 +376,7 @@ func makeTree(t *testing.T) {
 
 func markTree(n *Node) { walkTree(n, "", func(path string, n *Node) { n.mark++ }) }
 
-func checkMarks(t *testing.T, report bool) {
+func checkMarks(t *testing.T, report bool, tree *Node) {
 	walkTree(tree, tree.name, func(path string, n *Node) {
 		if n.mark != 1 && report {
 			t.Errorf("node %s mark = %d; expected 1", path, n.mark)
@@ -388,7 +388,7 @@ func checkMarks(t *testing.T, report bool) {
 // Assumes that each node name is unique. Good enough for a test.
 // If clear is true, any incoming error is cleared before return. The errors
 // are always accumulated, though.
-func mark(info os.FileInfo, err error, errors *[]error, clear bool) error {
+func mark(info os.FileInfo, err error, errors *[]error, clear bool, tree *Node) error {
 	name := info.Name()
 	walkTree(tree, tree.name, func(path string, n *Node) {
 		if n.name == name {
@@ -433,21 +433,38 @@ func TestWalk(t *testing.T) {
 			defer restore()
 		}
 	}
-	makeTree(t)
+
+	tmpDir, err := ioutil.TempDir("", "TestWalk")
+	if err != nil {
+		t.Fatal("creating temp dir:", err)
+	}
+	defer os.RemoveAll(tmpDir)
+
+	tmpDirs := strings.FieldsFunc(tmpDir, func(s rune) bool {
+		return s == os.PathSeparator
+	})
+	var tree *Node
+	var prevNode *Node = testTree
+	for i := len(tmpDirs) - 1; i >= 0; i-- {
+		tree = &Node{tmpDirs[i], []*Node{prevNode}, 0}
+		prevNode = tree
+	}
+
+	makeTree(t, tree)
 	errors := make([]error, 0, 10)
 	clear := true
 	markFn := func(path string, info os.FileInfo, err error) error {
-		return mark(info, err, &errors, clear)
+		return mark(info, err, &errors, clear, tree)
 	}
 	// Expect no errors.
-	err := filepath.Walk(tree.name, markFn)
+	err = filepath.Walk(tree.name, markFn)
 	if err != nil {
 		t.Fatalf("no error expected, found: %s", err)
 	}
 	if len(errors) != 0 {
 		t.Fatalf("unexpected errors: %s", errors)
 	}
-	checkMarks(t, true)
+	checkMarks(t, true, tree)
 	errors = errors[0:0]
 
 	// Test permission errors. Only possible if we're not root
@@ -473,7 +490,7 @@ func TestWalk(t *testing.T) {
 			t.Errorf("expected 2 errors, got %d: %s", len(errors), errors)
 		}
 		// the inaccessible subtrees were marked manually
-		checkMarks(t, true)
+		checkMarks(t, true, tree)
 		errors = errors[0:0]
 
 		// 4) capture errors, stop after first error.
@@ -492,7 +509,7 @@ func TestWalk(t *testing.T) {
 			t.Errorf("expected 1 error, got %d: %s", len(errors), errors)
 		}
 		// the inaccessible subtrees were marked manually
-		checkMarks(t, false)
+		checkMarks(t, false, tree)
 		errors = errors[0:0]
 
 		// restore permissions
