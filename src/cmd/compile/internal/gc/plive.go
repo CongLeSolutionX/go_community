@@ -1082,15 +1082,15 @@ func (lv *Liveness) printbvec(printed bool, name string, live bvec) bool {
 		}
 		if !started {
 			if !printed {
-				fmt.Printf("\t")
+				fmt.Print("\t")
 			} else {
-				fmt.Printf(" ")
+				fmt.Print(" ")
 			}
 			started = true
 			printed = true
 			fmt.Printf("%s=", name)
 		} else {
-			fmt.Printf(",")
+			fmt.Print(",")
 		}
 
 		fmt.Printf("%s", n.Sym.Name)
@@ -1104,9 +1104,9 @@ func (lv *Liveness) printeffect(printed bool, name string, pos int32, x bool) bo
 		return printed
 	}
 	if !printed {
-		fmt.Printf("\t")
+		fmt.Print("\t")
 	} else {
-		fmt.Printf(" ")
+		fmt.Print(" ")
 	}
 	fmt.Printf("%s=%s", name, lv.vars[pos].Sym.Name)
 	return true
@@ -1121,25 +1121,25 @@ func (lv *Liveness) printDebug() {
 	pcdata := 0
 	for i, b := range lv.f.Blocks {
 		if i > 0 {
-			fmt.Printf("\n")
+			fmt.Print("\n")
 		}
 
 		// bb#0 pred=1,2 succ=3,4
 		fmt.Printf("bb#%d pred=", b.ID)
 		for j, pred := range b.Preds {
 			if j > 0 {
-				fmt.Printf(",")
+				fmt.Print(",")
 			}
 			fmt.Printf("%d", pred.Block().ID)
 		}
-		fmt.Printf(" succ=")
+		fmt.Print(" succ=")
 		for j, succ := range b.Succs {
 			if j > 0 {
-				fmt.Printf(",")
+				fmt.Print(",")
 			}
 			fmt.Printf("%d", succ.Block().ID)
 		}
-		fmt.Printf("\n")
+		fmt.Print("\n")
 
 		be := lv.blockEffects(b)
 
@@ -1148,7 +1148,7 @@ func (lv *Liveness) printDebug() {
 		printed = lv.printbvec(printed, "uevar", be.uevar)
 		printed = lv.printbvec(printed, "livein", be.livein)
 		if printed {
-			fmt.Printf("\n")
+			fmt.Print("\n")
 		}
 
 		// program listing, with individual effects listed
@@ -1156,19 +1156,19 @@ func (lv *Liveness) printDebug() {
 		if b == lv.f.Entry {
 			live := lv.livevars[pcdata]
 			fmt.Printf("(%s) function entry\n", linestr(lv.fn.Func.Nname.Pos))
-			fmt.Printf("\tlive=")
+			fmt.Print("\tlive=")
 			printed = false
 			for j, n := range lv.vars {
 				if !live.Get(int32(j)) {
 					continue
 				}
 				if printed {
-					fmt.Printf(",")
+					fmt.Print(",")
 				}
 				fmt.Printf("%v", n)
 				printed = true
 			}
-			fmt.Printf("\n")
+			fmt.Print("\n")
 		}
 
 		for _, v := range b.Values {
@@ -1184,7 +1184,7 @@ func (lv *Liveness) printDebug() {
 			printed = lv.printeffect(printed, "varkill", pos, effect&varkill != 0)
 			printed = lv.printeffect(printed, "avarinit", pos, effect&avarinit != 0)
 			if printed {
-				fmt.Printf("\n")
+				fmt.Print("\n")
 			}
 
 			if !issafepoint(v) {
@@ -1192,23 +1192,23 @@ func (lv *Liveness) printDebug() {
 			}
 
 			live := lv.livevars[pcdata]
-			fmt.Printf("\tlive=")
+			fmt.Print("\tlive=")
 			printed = false
 			for j, n := range lv.vars {
 				if !live.Get(int32(j)) {
 					continue
 				}
 				if printed {
-					fmt.Printf(",")
+					fmt.Print(",")
 				}
 				fmt.Printf("%v", n)
 				printed = true
 			}
-			fmt.Printf("\n")
+			fmt.Print("\n")
 		}
 
 		// bb bitsets
-		fmt.Printf("end\n")
+		fmt.Println("end")
 		printed = false
 		printed = lv.printbvec(printed, "varkill", be.varkill)
 		printed = lv.printbvec(printed, "liveout", be.liveout)
@@ -1216,11 +1216,11 @@ func (lv *Liveness) printDebug() {
 		printed = lv.printbvec(printed, "avarinitany", be.avarinitany)
 		printed = lv.printbvec(printed, "avarinitall", be.avarinitall)
 		if printed {
-			fmt.Printf("\n")
+			fmt.Print("\n")
 		}
 	}
 
-	fmt.Printf("\n")
+	fmt.Print("\n")
 }
 
 // Dumps a slice of bitmaps to a symbol as a sequence of uint32 values. The

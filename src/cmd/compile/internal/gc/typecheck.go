@@ -3606,12 +3606,12 @@ func typecheckdef(n *Node) {
 	typecheckdefstack = append(typecheckdefstack, n)
 	if n.Walkdef() == 2 {
 		flusherrors()
-		fmt.Printf("typecheckdef loop:")
+		fmt.Print("typecheckdef loop:")
 		for i := len(typecheckdefstack) - 1; i >= 0; i-- {
 			n := typecheckdefstack[i]
 			fmt.Printf(" %v", n.Sym)
 		}
-		fmt.Printf("\n")
+		fmt.Print("\n")
 		Fatalf("typecheckdef loop")
 	}
 

@@ -979,7 +979,7 @@ func (s *regAllocState) regalloc(f *Func) {
 			s.startRegs[b.ID] = regList
 
 			if s.f.pass.debug > regDebug {
-				fmt.Printf("after phis\n")
+				fmt.Println("after phis")
 				for _, x := range s.startRegs[b.ID] {
 					fmt.Printf("  %s: v%d\n", &s.registers[x.r], x.v.ID)
 				}
@@ -1146,7 +1146,7 @@ func (s *regAllocState) regalloc(f *Func) {
 
 			if s.f.pass.debug > regDebug {
 				fmt.Printf("value %s\n", v.LongString())
-				fmt.Printf("  out:")
+				fmt.Print("  out:")
 				for _, r := range dinfo[idx].out {
 					if r != noRegister {
 						fmt.Printf(" %s", &s.registers[r])
@@ -1944,7 +1944,7 @@ func (e *edgeState) processDest(loc Location, vid ID, splice **Value, pos src.XP
 		if src != nil {
 			fmt.Printf(" [use %s]\n", src)
 		} else {
-			fmt.Printf(" [no source]\n")
+			fmt.Println(" [no source]")
 		}
 	}
 	_, dstReg := loc.(*Register)
@@ -2349,19 +2349,19 @@ func (s *regAllocState) computeLive() {
 					if e.ID != x.ID {
 						continue
 					}
-					fmt.Printf("[")
+					fmt.Print("[")
 					first := true
 					for _, r := range e.regs {
 						if r == noRegister {
 							continue
 						}
 						if !first {
-							fmt.Printf(",")
+							fmt.Print(",")
 						}
 						fmt.Print(&s.registers[r])
 						first = false
 					}
-					fmt.Printf("]")
+					fmt.Print("]")
 				}
 			}
 			fmt.Printf(" avoid=%x", int64(s.desired[b.ID].avoid))

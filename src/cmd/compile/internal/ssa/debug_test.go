@@ -512,8 +512,8 @@ func (s *delveState) stepnext(ss string) bool {
 func (s *delveState) start() {
 	if *dryrun {
 		fmt.Printf("%s\n", asCommandLine("", s.cmd))
-		fmt.Printf("b main.test\n")
-		fmt.Printf("c\n")
+		fmt.Println("b main.test")
+		fmt.Println("c")
 		return
 	}
 	err := s.cmd.Start()
@@ -570,7 +570,7 @@ func (s *gdbState) start() {
 	}
 	if *dryrun {
 		fmt.Printf("%s\n", asCommandLine("", s.cmd))
-		fmt.Printf("tbreak main.test\n")
+		fmt.Println("tbreak main.test")
 		fmt.Printf("%s\n", run)
 		return
 	}
@@ -753,7 +753,7 @@ func newIoState(cmd *exec.Cmd) *ioState {
 				break
 			}
 			if err != nil {
-				fmt.Printf("Saw an error forwarding stdout")
+				fmt.Print("Saw an error forwarding stdout")
 				break
 			}
 		}
@@ -772,7 +772,7 @@ func newIoState(cmd *exec.Cmd) *ioState {
 				break
 			}
 			if err != nil {
-				fmt.Printf("Saw an error forwarding stderr")
+				fmt.Print("Saw an error forwarding stderr")
 				break
 			}
 		}

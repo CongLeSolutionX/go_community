@@ -73,7 +73,7 @@ func cse(f *Func) {
 			for _, v := range e {
 				fmt.Printf(" %s", v.String())
 			}
-			fmt.Printf("\n")
+			fmt.Print("\n")
 		}
 		pNum++
 	}

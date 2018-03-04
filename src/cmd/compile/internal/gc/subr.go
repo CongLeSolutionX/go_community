@@ -169,13 +169,13 @@ func Fatalf(fmt_ string, args ...interface{}) {
 	if Debug_panic != 0 || nsavederrors+nerrors == 0 {
 		fmt.Printf("%v: internal compiler error: ", linestr(lineno))
 		fmt.Printf(fmt_, args...)
-		fmt.Printf("\n")
+		fmt.Print("\n")
 
 		// If this is a released compiler version, ask for a bug report.
 		if strings.HasPrefix(objabi.Version, "go") {
-			fmt.Printf("\n")
-			fmt.Printf("Please file a bug report including a short program that triggers the error.\n")
-			fmt.Printf("https://golang.org/issue/new\n")
+			fmt.Print("\n")
+			fmt.Println("Please file a bug report including a short program that triggers the error.")
+			fmt.Println("https://golang.org/issue/new")
 		} else {
 			// Not a release; dump a stack trace, too.
 			fmt.Println()
@@ -1104,7 +1104,7 @@ func typehash(t *types.Type) uint32 {
 
 func frame(context int) {
 	if context != 0 {
-		fmt.Printf("--- external frame ---\n")
+		fmt.Println("--- external frame ---")
 		for _, n := range externdcl {
 			printframenode(n)
 		}
