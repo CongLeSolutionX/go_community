@@ -753,8 +753,8 @@ func TestDialCancel(t *testing.T) {
 		testenv.MustHaveExternalNetwork(t)
 	}
 
-	if runtime.GOOS == "nacl" {
-		// nacl doesn't have external network access.
+	if runtime.GOOS == "nacl" || runtime.GOOS == "js" {
+		// No external network access.
 		t.Skipf("skipping on %s", runtime.GOOS)
 	}
 

@@ -223,7 +223,7 @@ var dualStackTCPListenerTests = []struct {
 // to be greater than or equal to 4.4.
 func TestDualStackTCPListener(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl", "plan9":
+	case "js", "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 	if !supportsIPv4() || !supportsIPv6() {
@@ -313,7 +313,7 @@ var dualStackUDPListenerTests = []struct {
 // to be greater than or equal to 4.4.
 func TestDualStackUDPListener(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl", "plan9":
+	case "js", "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 	if !supportsIPv4() || !supportsIPv6() {
@@ -531,7 +531,7 @@ func TestIPv4MulticastListener(t *testing.T) {
 	testenv.MustHaveExternalNetwork(t)
 
 	switch runtime.GOOS {
-	case "android", "nacl", "plan9":
+	case "android", "js", "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	case "solaris":
 		t.Skipf("not supported on solaris, see golang.org/issue/7399")

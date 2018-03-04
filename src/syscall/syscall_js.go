@@ -235,6 +235,9 @@ type SysProcAttr struct {
 }
 
 func Syscall(trap, a1, a2, a3 uintptr) (r1, r2 uintptr, err Errno) {
+	if trap == SYS_FCNTL && a2 == F_DUPFD_CLOEXEC {
+		return 0, 0, EINVAL // needed by net.dupCloseOnExec
+	}
 	return 0, 0, ENOSYS
 }
 
