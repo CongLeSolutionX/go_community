@@ -69,7 +69,7 @@ func TestCloseRead(t *testing.T) {
 
 func TestCloseWrite(t *testing.T) {
 	switch runtime.GOOS {
-	case "nacl", "plan9":
+	case "js", "nacl", "plan9":
 		t.Skipf("not supported on %s", runtime.GOOS)
 	}
 
