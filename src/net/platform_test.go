@@ -19,12 +19,12 @@ func testableNetwork(network string) bool {
 	switch ss[0] {
 	case "ip+nopriv":
 		switch runtime.GOOS {
-		case "nacl":
+		case "js", "nacl":
 			return false
 		}
 	case "ip", "ip4", "ip6":
 		switch runtime.GOOS {
-		case "nacl", "plan9":
+		case "js", "nacl", "plan9":
 			return false
 		default:
 			if os.Getuid() != 0 {
@@ -33,7 +33,7 @@ func testableNetwork(network string) bool {
 		}
 	case "unix", "unixgram":
 		switch runtime.GOOS {
-		case "android", "nacl", "plan9", "windows":
+		case "android", "js", "nacl", "plan9", "windows":
 			return false
 		}
 		// iOS does not support unix, unixgram.
@@ -42,7 +42,7 @@ func testableNetwork(network string) bool {
 		}
 	case "unixpacket":
 		switch runtime.GOOS {
-		case "android", "darwin", "nacl", "plan9", "windows":
+		case "android", "darwin", "js", "nacl", "plan9", "windows":
 			return false
 		case "netbsd":
 			// It passes on amd64 at least. 386 fails (Issue 22927). arm is unknown.
