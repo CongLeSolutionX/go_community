@@ -1848,6 +1848,71 @@ var linuxARM64Tests = []*asmTest{
 		pos: []string{"STP"},
 		neg: []string{"MOVB", "MOVH", "MOVW"},
 	},
+	// Check that stores are combine into larger stores
+	{
+		fn: `
+		func $(b []byte, v uint16) {
+			binary.LittleEndian.PutUint16(b, v)
+		}
+		`,
+		pos: []string{"MOVH"},
+		neg: []string{"MOVB"},
+	},
+	{
+		fn: `
+		func $(b []byte, v uint32) {
+			binary.LittleEndian.PutUint32(b, v)
+		}
+		`,
+		pos: []string{"MOVW"},
+		neg: []string{"MOVB", "MOVH"},
+	},
+	{
+		fn: `
+		func $(b []byte, v uint64) {
+			binary.LittleEndian.PutUint64(b, v)
+		}
+		`,
+		pos: []string{"MOVD"},
+		neg: []string{"MOVB", "MOVH", "MOVW"},
+	},
+	{
+		fn: `
+		func $(b []byte, v uint16) {
+			binary.BigEndian.PutUint16(b, v)
+		}
+		`,
+		pos: []string{"MOVH"},
+		neg: []string{"MOVB"},
+	},
+	{
+		fn: `
+		func $(b []byte, v uint32) {
+			binary.BigEndian.PutUint32(b, v)
+		}
+		`,
+		pos: []string{"MOVW"},
+		neg: []string{"MOVB", "MOVH"},
+	},
+	{
+		fn: `
+		func $(b []byte, v uint64) {
+			binary.BigEndian.PutUint64(b, v)
+		}
+		`,
+		pos: []string{"MOVD"},
+		neg: []string{"MOVB", "MOVH", "MOVW"},
+	},
+	{
+		// Test that small memmove was replaced with direct movs
+		fn: `
+                func $() {
+                       x := [...]byte{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}
+                       copy(x[1:], x[:])
+                }
+		`,
+		neg: []string{"memmove"},
+	},
 }
 
 var linuxMIPSTests = []*asmTest{
