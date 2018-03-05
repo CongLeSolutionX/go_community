@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db173667_d1be5b2f",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-05T19:21:29Z",
+      "side": 1,
+      "message": "This could use a short comment, maybe\n\n// Clear HISTFILE so that we don\u0027t read or clobber the user\u0027s bash history.",
+      "revId": "19cd5e3f3208f2eae226bf844e13418296b8bc3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
