@@ -234,7 +234,7 @@ noswitch:
 
 	MOVW	$CLOCK_REALTIME, R0
 	MOVW	$8(R13), R1	// timespec
-	MOVW	runtime·__vdso_clock_gettime_sym(SB), R11
+	MOVW	runtime·vdsoClockgettimeSym(SB), R11
 	CMP	$0, R11
 	B.EQ	fallback
 
@@ -279,7 +279,7 @@ noswitch:
 
 	MOVW	$CLOCK_MONOTONIC, R0
 	MOVW	$8(R13), R1	// timespec
-	MOVW	runtime·__vdso_clock_gettime_sym(SB), R11
+	MOVW	runtime·vdsoClockgettimeSym(SB), R11
 	CMP	$0, R11
 	B.EQ	fallback
 
