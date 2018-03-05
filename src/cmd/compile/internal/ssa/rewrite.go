@@ -828,7 +828,7 @@ func zeroUpper32Bits(x *Value, depth int) bool {
 // This is used as a check for replacing memmove with OpMove.
 func isInlinableMemmoveSize(sz int64, c *Config) bool {
 	switch c.arch {
-	case "amd64", "amd64p32":
+	case "amd64", "amd64p32", "arm64":
 		return sz <= 16
 	case "386", "ppc64", "s390x", "ppc64le":
 		return sz <= 8
