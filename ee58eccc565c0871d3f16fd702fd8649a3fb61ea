@@ -46,6 +46,30 @@
       "revId": "ee58eccc565c0871d3f16fd702fd8649a3fb61ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfe3ab31_6557c469",
+        "filename": "src/internal/bytealg/index_arm64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-03-05T15:22:28Z",
+      "side": 1,
+      "message": "Are there any arm64 builders in the trybot set? The mobile builders are not, and farmer.golang.org doesn\u0027t seem to include any.",
+      "parentUuid": "186a6336_67f3b5cd",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "ee58eccc565c0871d3f16fd702fd8649a3fb61ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
