@@ -981,7 +981,22 @@ func assignconvfn(n *Node, t *types.Type, context func() string) *Node {
 	op := assignop(n.Type, t, &why)
 	if op == 0 {
 		if !old.Diag() {
-			yyerror("cannot use %L as type %v in %s%s", n, t, context(), why)
+			switch {
+			case t.Sym == nil || n.Type == nil || n.Type.Sym == nil || t.Sym.Name != n.Type.Sym.Name:
+				yyerror("cannot use %L as type %v in %s%s", n, t, context(), why)
+
+			default:
+				// Otherwise, if the names are the same, let's
+				// try to disambiguate by their package names.
+				// See Issue golang.org/issue/8983.
+				nPkgName, tPkgName := pkgNameInErr(n.Type.Sym.Pkg), pkgNameInErr(t.Sym.Pkg)
+				if nPkgName == tPkgName || nPkgName == "" || tPkgName == "" {
+					yyerror("cannot use %L as type %v in %s%s", n, t, context(), why)
+				} else {
+					yyerror("cannot use\n\t%L (package %s)\nas\n\ttype %v (package %s)\nin %s%s",
+						n, nPkgName, t, tPkgName, context(), why)
+				}
+			}
 		}
 		op = OCONV
 	}
@@ -992,6 +1007,19 @@ func assignconvfn(n *Node, t *types.Type, context func() string) *Node {
 	r.SetImplicit(true)
 	r.Orig = n.Orig
 	return r
+}
+
+func pkgNameInErr(pkg *types.Pkg) string {
+	if pkg == builtinpkg {
+		return "builtin"
+	}
+	if pkg.Path != "" {
+		return pkg.Path
+	}
+	if pkg.Name != "" {
+		return pkg.Name
+	}
+	return pkg.Prefix
 }
 
 // IsMethod reports whether n is a method.
