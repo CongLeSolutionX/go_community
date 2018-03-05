@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1144372a_b4964ea3",
+        "filename": "src/internal/bytealg/index_arm64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7435
+      },
+      "writtenOn": "2018-03-05T09:54:33Z",
+      "side": 1,
+      "message": "This seems redundant in the Index case and wrong in the IndexString case.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 22
+      },
+      "revId": "ee58eccc565c0871d3f16fd702fd8649a3fb61ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
