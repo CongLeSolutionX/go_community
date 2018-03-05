@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58d456cf_e41fb173",
+        "filename": "src/os/exec.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-05T23:10:27Z",
+      "side": 1,
+      "message": "This only kills the Process itself, not any other processes it may have started.",
+      "range": {
+        "startLine": 113,
+        "startChar": 36,
+        "endLine": 114,
+        "endChar": 31
+      },
+      "revId": "221a0a334e907b89bd655ed41d3b5f2fc6da930a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
