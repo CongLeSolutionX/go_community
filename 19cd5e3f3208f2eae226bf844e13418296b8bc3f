@@ -16,6 +16,24 @@
       "revId": "19cd5e3f3208f2eae226bf844e13418296b8bc3f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "959e338a_9765755b",
+        "filename": "src/os/signal/signal_cgo_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5850
+      },
+      "writtenOn": "2018-03-05T20:46:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "db173667_d1be5b2f",
+      "revId": "19cd5e3f3208f2eae226bf844e13418296b8bc3f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
