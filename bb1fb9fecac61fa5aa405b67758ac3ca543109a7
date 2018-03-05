@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "17353e27_08e7c2b3",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-05T17:56:20Z",
+      "side": 1,
+      "message": "Mikio, that proposed wording doesn\u0027t help the average person understand this.\n\nBut I\u0027m not even sure why the word \"control\" is used. Is that a term used elsewhere?\n\nWhat about just:\n\n   // PreDial permits modification of a socket before it\u0027s used to Dial.\n   PreDial func(network, addr string, c syscall.RawConn) error.",
+      "parentUuid": "382f3a76_dd31898d",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 53
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "31c22f08_812f67a6",
         "filename": "src/net/dial.go",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-02-21T04:31:37Z",
       "side": 1,
       "message": "No need to have a new type. I don\u0027t see any benefit to having methods on it.\nPlease replace \"ControlFunc\" with \"func(network, address string, c syscall.RawConn) error\".",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 20
+      },
+      "revId": "bb1fb9fecac61fa5aa405b67758ac3ca543109a7",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9cef0e9_c52d0772",
+        "filename": "src/net/dial.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-05T17:56:20Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "31c22f08_812f67a6",
       "range": {
         "startLine": 69,
         "startChar": 9,
