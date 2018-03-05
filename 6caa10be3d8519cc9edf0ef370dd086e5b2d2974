@@ -16,6 +16,24 @@
       "revId": "6caa10be3d8519cc9edf0ef370dd086e5b2d2974",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d183654b_fad3f687",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 25702
+      },
+      "writtenOn": "2018-03-05T21:59:47Z",
+      "side": 1,
+      "message": "Oh, you are right. I\u0027ve updated the patch to enable it for sz \u003c\u003d 8.",
+      "parentUuid": "acbc6ad7_0c36912f",
+      "revId": "6caa10be3d8519cc9edf0ef370dd086e5b2d2974",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
