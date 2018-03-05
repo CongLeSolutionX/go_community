@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acbc6ad7_0c36912f",
+        "filename": "src/cmd/compile/internal/ssa/rewrite.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-05T21:35:34Z",
+      "side": 1,
+      "message": "I don\u0027t think this is ok at the moment. The comment above says OpMove must handle case where src and dst overlap. With the current implementation, this seems only true up to sz \u003c\u003d 8.\n\nWith your CL, for this code\n\nfunc f(a *[16]byte) {\n\tcopy(a[1:], a[:15])\n}\n\nIt generates\n\t0x0014 00020 (m.go:4)\tMOVD\t(R0), R1\n\t0x0018 00024 (m.go:4)\tMOVD\tR1, 1(R0)\n\t0x001c 00028 (m.go:4)\tMOVBU\t14(R0), R1\n\t0x0020 00032 (m.go:4)\tMOVWU\t8(R0), R2\n\t0x0024 00036 (m.go:4)\tMOVHU\t12(R0), R3\n\t0x0028 00040 (m.go:4)\tMOVW\tR2, 9(R0)\n\t0x002c 00044 (m.go:4)\tMOVH\tR3, 13(R0)\n\t0x0030 00048 (m.go:4)\tMOVB\tR1, 15(R0)\n\nThe MOVD store at 00024 will corrupt the byte at 8(R0).",
+      "revId": "6caa10be3d8519cc9edf0ef370dd086e5b2d2974",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
