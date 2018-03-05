@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b59755db_df82ec22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-05T18:11:08Z",
+      "side": 1,
+      "message": "See https://github.com/golang/go/wiki/CommitMessage\n\nnet/http, lowercase \"add\".",
+      "revId": "ef7b50d608afe754c7177490e38b11567b617295",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "297b56a7_acd5de96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-05T18:11:08Z",
+      "side": 1,
+      "message": "wrap\n\ntypo: behavior.\n\nsingle space after period.",
+      "revId": "ef7b50d608afe754c7177490e38b11567b617295",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
