@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2b2b6097_8107de15",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2eb07ca_f8d2f646",
+      "range": {
+        "startLine": 77,
+        "startChar": 26,
+        "endLine": 77,
+        "endChar": 28
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9760b6e2_9d382656",
         "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f448887_4f015f7c",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9760b6e2_9d382656",
+      "range": {
+        "startLine": 254,
+        "startChar": 5,
+        "endLine": 254,
+        "endChar": 6
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4f7bfb74_b7f67ea6",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64error.s",
+        "patchSetId": 9
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1a0c5ef_549fb1da",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 7
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4fd9dd0_5d9e6e7f",
         "filename": "src/cmd/internal/obj/arm64/a.out.go",
         "patchSetId": 9
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8a94d1da_bd778b48",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4fd9dd0_5d9e6e7f",
+      "range": {
+        "startLine": 771,
+        "startChar": 0,
+        "endLine": 772,
+        "endChar": 8
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b85bb1a_ca5127d9",
         "filename": "src/cmd/internal/obj/arm64/a.out.go",
         "patchSetId": 9
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "0cea2a85_7c71da6d",
+        "filename": "src/cmd/internal/obj/arm64/a.out.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Yes,it\u0027s right. It doesn\u0027t matter of changing the value of ARNG_B to ARNG_D. All these values are referred by their own names(ARNG_x) instead of absolute values.",
+      "parentUuid": "1b85bb1a_ca5127d9",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bd4a076_3b10fc01",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 9
@@ -125,6 +239,24 @@
       "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "648fffee_fbd571a0",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bd4a076_3b10fc01",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "c3af37cf_a923d092",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f8783cd_c7e2b8df",
+      "range": {
+        "startLine": 620,
+        "startChar": 0,
+        "endLine": 621,
+        "endChar": 49
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57af9065_758d6eb3",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 9
@@ -165,6 +321,24 @@
       "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0269ba51_91aeb3ee",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 2160,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57af9065_758d6eb3",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -191,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "33141b05_f6b5e87a",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 3535,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac96b4ff_4150ce6f",
+      "range": {
+        "startLine": 3535,
+        "startChar": 8,
+        "endLine": 3535,
+        "endChar": 13
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "253e1063_0a65486a",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 9
@@ -205,6 +403,24 @@
       "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "403bada8_4df219d7",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 4180,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "253e1063_0a65486a",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -231,6 +447,30 @@
     },
     {
       "key": {
+        "uuid": "5abccb97_25c61100",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 4842,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "990b6587_95d3f2ca",
+      "range": {
+        "startLine": 4842,
+        "startChar": 9,
+        "endLine": 4842,
+        "endChar": 11
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c2f78fb_b28c5400",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 9
@@ -254,6 +494,30 @@
     },
     {
       "key": {
+        "uuid": "4afbacc9_51cd1d14",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 4851,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Yes, they should be put into irr function.",
+      "parentUuid": "1c2f78fb_b28c5400",
+      "range": {
+        "startLine": 4847,
+        "startChar": 0,
+        "endLine": 4851,
+        "endChar": 24
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2678ddd_9f7ed07c",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 9
@@ -268,6 +532,24 @@
       "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6529e7b6_7653e71f",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 5040,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2678ddd_9f7ed07c",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -294,6 +576,30 @@
     },
     {
       "key": {
+        "uuid": "fdb70fd1_7838772f",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dec9f285_51ce9007",
+      "range": {
+        "startLine": 121,
+        "startChar": 29,
+        "endLine": 121,
+        "endChar": 38
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87469f4d_77fac7ac",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 9
@@ -317,6 +623,30 @@
     },
     {
       "key": {
+        "uuid": "105eda7a_efcb214a",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87469f4d_77fac7ac",
+      "range": {
+        "startLine": 130,
+        "startChar": 34,
+        "endLine": 130,
+        "endChar": 44
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c0f2752_3ad94c6b",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 9
@@ -331,6 +661,24 @@
       "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "234b587a_327f7a82",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c0f2752_3ad94c6b",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -357,6 +705,30 @@
     },
     {
       "key": {
+        "uuid": "bfcf1764_04913999",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c097c60_81e1e8b1",
+      "range": {
+        "startLine": 233,
+        "startChar": 47,
+        "endLine": 233,
+        "endChar": 49
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5de49845_1f731671",
         "filename": "src/cmd/internal/obj/arm64/doc.go",
         "patchSetId": 9
@@ -380,6 +752,30 @@
     },
     {
       "key": {
+        "uuid": "7b5ee2fc_c0277910",
+        "filename": "src/cmd/internal/obj/arm64/doc.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5de49845_1f731671",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 1
+      },
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f84d18_f845de34",
         "filename": "src/cmd/internal/obj/arm64/list7.go",
         "patchSetId": 9
@@ -394,6 +790,24 @@
       "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8786bf99_4ac1df87",
+        "filename": "src/cmd/internal/obj/arm64/list7.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 19276
+      },
+      "writtenOn": "2018-03-06T07:13:23Z",
+      "side": 1,
+      "message": "It\u0027s my misunderstanding. Remove this case.",
+      "parentUuid": "24f84d18_f845de34",
+      "revId": "44262f9e3110fe9b9310df0ec80f0056bea6fee8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
