@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aebaef51_c87f0e3d",
+        "filename": "src/runtime/proc.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 3719,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-03-06T08:23:05Z",
+      "side": 1,
+      "message": "Maybe move this comment inside the \"else if\" to the code it belongs to? Or reorder such that inVDSOPage is checked in \"else if\"?",
+      "range": {
+        "startLine": 3719,
+        "startChar": 3,
+        "endLine": 3719,
+        "endChar": 44
+      },
+      "revId": "319091679ed1c6d5724b5166a096782e325e6816",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
