@@ -394,3 +394,29 @@ func atomicStopTestProgram() {
 
 	os.Exit(0)
 }
+
+func TestIgnored(t *testing.T) {
+	sig := syscall.SIGHUP
+	check := func(want bool, state string) {
+		got := Ignored(sig)
+		if got != want {
+			t.Fatalf("Ignored(%v)=%v; expected %v after %v", sig, got, want, state)
+		}
+	}
+	Ignore(sig)
+	check(true, "Ignore")
+
+	c := make(chan os.Signal, 1)
+	Notify(c, sig)
+	check(false, "1st Notify")
+
+	c2 := make(chan os.Signal, 1)
+	Notify(c2)
+	check(false, "2nd Notify")
+
+	Stop(c)
+	check(false, "1st Stop")
+
+	Stop(c2)
+	check(true, "2nd Stop")
+}
