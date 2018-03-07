@@ -1742,3 +1742,10 @@ func TestInvalidUserPassword(t *testing.T) {
 		t.Errorf("error = %q; want substring %q", got, wantsub)
 	}
 }
+
+func TestInvalidQuery(t *testing.T) {
+	_, err := Parse("http://localhost:8081/? HTTP/1.1\r\nAttacker-Controlled: \"this header\"\r\nIgnore:")
+	if got, wantsub := err.Error(), "net/url: invalid query"; !strings.Contains(got, wantsub) {
+		t.Errorf("error = %q; want substring %q", got, wantsub)
+	}
+}

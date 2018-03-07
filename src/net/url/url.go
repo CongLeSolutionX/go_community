@@ -505,6 +505,9 @@ func parse(rawurl string, viaRequest bool) (*URL, error) {
 		rest = rest[:len(rest)-1]
 	} else {
 		rest, url.RawQuery = split(rest, "?", true)
+		if !validQuery(url.RawQuery) {
+			return nil, errors.New("net/url: invalid query")
+		}
 	}
 
 	if !strings.HasPrefix(rest, "/") {
@@ -1100,5 +1103,39 @@ func validUserinfo(s string) bool {
 			return false
 		}
 	}
+	return true
+}
+
+// validQuery reports whether s is a valid query string per RFC 3986
+// Section 3.4:
+//     query       = *( pchar / "/" / "?" )
+//     pchar       = unreserved / pct-encoded / sub-delims / ":" / "@"
+//     unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
+//     sub-delims  = "!" / "$" / "&" / "'" / "(" / ")"
+//                   / "*" / "+" / "," / ";" / "="
+func validQuery(s string) bool {
+	for _, r := range s {
+		if 'A' <= r && r <= 'Z' {
+			continue
+		}
+		if 'a' <= r && r <= 'z' {
+			continue
+		}
+		if '0' <= r && r <= '9' {
+			continue
+		}
+		switch r {
+		case '-', '.', '_', '~', '!', '$', '&', '\'', '(', ')',
+			'*', '+', ',', ';', '=', ':', '@', '/', '?', '%':
+			continue
+		default:
+			return false
+		}
+	}
+
+	if _, err := QueryUnescape(s); err != nil {
+		return false
+	}
+
 	return true
 }
