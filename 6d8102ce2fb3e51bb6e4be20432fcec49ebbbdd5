@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c65692a_c2624500",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T13:14:43Z",
+      "side": 1,
+      "message": "because",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 8
+      },
+      "revId": "6d8102ce2fb3e51bb6e4be20432fcec49ebbbdd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "866babf5_0d89b890",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T13:14:43Z",
+      "side": 1,
+      "message": "I think this comment is wrong... :) Probably just delete if this is a hand written file.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 1
+      },
+      "revId": "6d8102ce2fb3e51bb6e4be20432fcec49ebbbdd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "651fa867_07629997",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T13:14:43Z",
+      "side": 1,
+      "message": "I suggest aligning the comments using spaces so they always line up regardless of the tab width.",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "6d8102ce2fb3e51bb6e4be20432fcec49ebbbdd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5b434d6_c4d3bf53",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T13:14:43Z",
+      "side": 1,
+      "message": "tab instead of spaces",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 8
+      },
+      "revId": "6d8102ce2fb3e51bb6e4be20432fcec49ebbbdd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d4cb3a8_9bc9c9a1",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T13:14:43Z",
+      "side": 1,
+      "message": "tab instead of spaces",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 8
+      },
+      "revId": "6d8102ce2fb3e51bb6e4be20432fcec49ebbbdd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9a1dc13_fa26aefc",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T13:14:43Z",
+      "side": 1,
+      "message": "tab instead of spaces",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 7
+      },
+      "revId": "6d8102ce2fb3e51bb6e4be20432fcec49ebbbdd5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
