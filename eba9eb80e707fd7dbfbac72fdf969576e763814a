@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24fb4f15_69d5c675",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-07T19:07:17Z",
+      "side": 1,
+      "message": "Also greys out unrelated slices, no?",
+      "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfdbb3eb_e8272967",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-07T19:07:17Z",
+      "side": 1,
+      "message": "spelling",
+      "range": {
+        "startLine": 449,
+        "startChar": 43,
+        "endLine": 449,
+        "endChar": 54
+      },
+      "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c05effad_1f78511e",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-07T19:07:17Z",
+      "side": 1,
+      "message": "I guess the reason we need this function is that an instantaneous event might still have a Link? Would it be too icky to combine the two implementations into a helper function? Seems like the only thing necessary is to ignore the Link.",
+      "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9ad21e8_988d149e",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-07T19:07:17Z",
+      "side": 1,
+      "message": "overlappingInstant?\n\nThese might be better worded as instantOverlaps and durationOverlaps.",
+      "range": {
+        "startLine": 452,
+        "startChar": 22,
+        "endLine": 452,
+        "endChar": 41
+      },
+      "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfa14fa7_ff33400a",
+        "filename": "src/cmd/trace/trace.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-07T19:07:17Z",
+      "side": 1,
+      "message": "Seems like ctxt.tasks should be a map if you need it to be.",
+      "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
