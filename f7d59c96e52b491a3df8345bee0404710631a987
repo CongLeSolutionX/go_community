@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a9c9014_6d7f790a",
+        "filename": "src/runtime/sys_linux_arm.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-03-07T08:45:42Z",
+      "side": 1,
+      "message": "Nit: Maybe use R4 instead of R1 here for consistency with nanotime?",
+      "range": {
+        "startLine": 257,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 22
+      },
+      "revId": "f7d59c96e52b491a3df8345bee0404710631a987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
