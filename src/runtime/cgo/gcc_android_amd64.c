@@ -41,7 +41,7 @@ inittls(void)
 	 */
 	ntofree = 0;
 	for(;;) {
-		if(pthread_key_create(&k, nil) != 0) {
+		if(pthread_key_create(&k, NULL) != 0) {
 			fprintf(stderr, "runtime/cgo: pthread_key_create failed\n");
 			abort();
 		}
@@ -88,7 +88,7 @@ threadentry(void *v)
 	}
 
 	crosscall_amd64(ts.fn);
-	return nil;
+	return NULL;
 }
 
 void (*x_cgo_inittls)(void) = inittls;

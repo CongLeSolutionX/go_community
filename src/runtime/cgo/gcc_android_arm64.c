@@ -20,7 +20,7 @@ inittls(void **tlsg, void **tlsbase)
 	pthread_key_t k;
 	int i, err;
 
-	err = pthread_key_create(&k, nil);
+	err = pthread_key_create(&k, NULL);
 	if(err != 0) {
 		fatalf("pthread_key_create failed: %d", err);
 	}

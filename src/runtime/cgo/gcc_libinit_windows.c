@@ -77,7 +77,7 @@ _cgo_wait_runtime_init_done() {
 			WaitForSingleObject(runtime_init_wait, INFINITE);
 	}
 	pfn = _cgo_get_context_function();
-	if (pfn != nil) {
+	if (pfn != NULL) {
 		struct context_arg arg;
 
 		arg.Context = 0;

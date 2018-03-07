@@ -28,7 +28,7 @@ inittls(void **tlsg, void **tlsbase)
 	pthread_key_t k;
 	int i, err;
 
-	err = pthread_key_create(&k, nil);
+	err = pthread_key_create(&k, NULL);
 	if(err != 0) {
 		fprintf(stderr, "runtime/cgo: pthread_key_create failed: %d\n", err);
 		abort();
@@ -70,7 +70,7 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	ts->g->stackhi = size;
 	err = _cgo_try_pthread_create(&p, &attr, threadentry, ts);
 
-	pthread_sigmask(SIG_SETMASK, &oset, nil);
+	pthread_sigmask(SIG_SETMASK, &oset, NULL);
 
 	if (err != 0) {
 		fprintf(stderr, "runtime/cgo: pthread_create failed: %s\n", strerror(err));
@@ -90,7 +90,7 @@ threadentry(void *v)
 	darwin_arm_init_thread_exception_port();
 
 	crosscall1(ts.fn, setg_gcc, (void*)ts.g);
-	return nil;
+	return NULL;
 }
 
 // init_working_dir sets the current working directory to the app root.

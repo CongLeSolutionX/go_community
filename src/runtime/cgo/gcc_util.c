@@ -14,7 +14,7 @@ x_cgo_thread_start(ThreadStart *arg)
 	_cgo_tsan_acquire();
 	ts = malloc(sizeof *ts);
 	_cgo_tsan_release();
-	if(ts == nil) {
+	if(ts == NULL) {
 		fprintf(stderr, "runtime/cgo: out of memory in thread_start\n");
 		abort();
 	}

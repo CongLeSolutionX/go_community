@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define nil ((void*)0)
 #define nelem(x) (sizeof(x)/sizeof((x)[0]))
 
 typedef uint32_t uint32;

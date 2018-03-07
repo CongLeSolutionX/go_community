@@ -205,7 +205,7 @@ darwin_arm_init_mach_exception_handler()
 	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 	ret = _cgo_try_pthread_create(&thr, &attr, mach_exception_handler, (void*)port_set);
 
-	pthread_sigmask(SIG_SETMASK, &oset, nil);
+	pthread_sigmask(SIG_SETMASK, &oset, NULL);
 
 	if (ret) {
 		fprintf(stderr, "runtime/cgo: pthread_create failed: %d\n", ret);

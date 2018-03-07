@@ -52,7 +52,7 @@ _cgo_wait_runtime_init_done() {
 	pfn = cgo_context_function;
 
 	pthread_mutex_unlock(&runtime_init_mu);
-	if (pfn != nil) {
+	if (pfn != NULL) {
 		struct context_arg arg;
 
 		arg.Context = 0;
@@ -107,7 +107,7 @@ _cgo_try_pthread_create(pthread_t* thread, const pthread_attr_t* attr, void* (*p
 		}
 		ts.tv_sec = 0;
 		ts.tv_nsec = (tries + 1) * 1000 * 1000; // Milliseconds.
-		nanosleep(&ts, nil);
+		nanosleep(&ts, NULL);
 	}
 	return EAGAIN;
 }

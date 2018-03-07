@@ -64,7 +64,7 @@ inittls(void)
 	 */
 	ntofree = 0;
 	for(;;) {
-		if(pthread_key_create(&k, nil) != 0) {
+		if(pthread_key_create(&k, NULL) != 0) {
 			fprintf(stderr, "runtime/cgo: pthread_key_create failed\n");
 			abort();
 		}
@@ -126,7 +126,7 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	ts->g->stackhi = size;
 	err = _cgo_try_pthread_create(&p, &attr, threadentry, ts);
 
-	pthread_sigmask(SIG_SETMASK, &oset, nil);
+	pthread_sigmask(SIG_SETMASK, &oset, NULL);
 
 	if (err != 0) {
 		fprintf(stderr, "runtime/cgo: pthread_create failed: %s\n", strerror(err));
@@ -148,5 +148,5 @@ threadentry(void *v)
 	}
 
 	crosscall_386(ts.fn);
-	return nil;
+	return NULL;
 }

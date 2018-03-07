@@ -61,7 +61,7 @@ _cgo_sys_thread_start(ThreadStart *ts)
 	ts->g->stackhi = size;
 	err = _cgo_try_pthread_create(&p, &attr, threadentry, ts);
 
-	pthread_sigmask(SIG_SETMASK, &oset, nil);
+	pthread_sigmask(SIG_SETMASK, &oset, NULL);
 
 	if (err != 0) {
 		fprintf(stderr, "runtime/cgo: pthread_create failed: %s\n", strerror(err));
@@ -79,5 +79,5 @@ threadentry(void *v)
 	free(v);
 
 	crosscall_arm1(ts.fn, setg_gcc, (void*)ts.g);
-	return nil;
+	return NULL;
 }
