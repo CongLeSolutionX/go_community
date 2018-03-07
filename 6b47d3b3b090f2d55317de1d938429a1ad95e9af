@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cdb50d6_ed06ea5d",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 924,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T12:08:14Z",
+      "side": 1,
+      "message": "Is this necessary? Both loads depend on mem, which should be enough I think.",
+      "range": {
+        "startLine": 924,
+        "startChar": 1,
+        "endLine": 924,
+        "endChar": 26
+      },
+      "revId": "6b47d3b3b090f2d55317de1d938429a1ad95e9af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "518dcc00_fc2d6833",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 952,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T12:08:14Z",
+      "side": 1,
+      "message": "Same, not sure why this is needed.",
+      "range": {
+        "startLine": 952,
+        "startChar": 4,
+        "endLine": 952,
+        "endChar": 28
+      },
+      "revId": "6b47d3b3b090f2d55317de1d938429a1ad95e9af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01cdd96b_8c35160f",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T12:08:14Z",
+      "side": 1,
+      "message": "Same, not sure why this is needed.",
+      "range": {
+        "startLine": 970,
+        "startChar": 4,
+        "endLine": 970,
+        "endChar": 28
+      },
+      "revId": "6b47d3b3b090f2d55317de1d938429a1ad95e9af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "801546ed_60fdf3db",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 6
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T12:08:14Z",
+      "side": 1,
+      "message": "Same, not sure why this is needed.",
+      "range": {
+        "startLine": 986,
+        "startChar": 4,
+        "endLine": 986,
+        "endChar": 28
+      },
+      "revId": "6b47d3b3b090f2d55317de1d938429a1ad95e9af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fac5bf84_d1358fc0",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T12:08:14Z",
+      "side": 1,
+      "message": "It\u0027s useful to have a brief description for each of these for people unfamiliar with the instruction names. Something like this would be fine I think:\n\n// load 8 bytes in reversed order",
+      "revId": "6b47d3b3b090f2d55317de1d938429a1ad95e9af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76cabac1_9730cd91",
+        "filename": "src/cmd/compile/internal/ssa/rewritePPC64.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-07T12:08:14Z",
+      "side": 1,
+      "message": "This file is very big (close to 1MB) and gets much bigger with this CL.... Not sure if this is a problem.",
+      "revId": "6b47d3b3b090f2d55317de1d938429a1ad95e9af",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
