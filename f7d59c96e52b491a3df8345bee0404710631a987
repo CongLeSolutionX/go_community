@@ -2,6 +2,97 @@
   "comments": [
     {
       "key": {
+        "uuid": "fd9f47b7_cb658ef1",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-03-07T17:35:42Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it\u0027s safe for this to be a parallel test, since that tends to make tests that use the profiler flaky.",
+      "revId": "f7d59c96e52b491a3df8345bee0404710631a987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d6c2e0c_37e0acf4",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-03-07T17:35:42Z",
+      "side": 1,
+      "message": "Is there a reason we can\u0027t use runTestProg here? I thought we didn\u0027t need to pass the binary to pprof any more.",
+      "revId": "f7d59c96e52b491a3df8345bee0404710631a987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edfa9b33_eea7be2b",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-03-07T17:35:42Z",
+      "side": 1,
+      "message": "\", want VDSO\"",
+      "revId": "f7d59c96e52b491a3df8345bee0404710631a987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fac59274_0a62e4a6",
+        "filename": "src/runtime/runtime2.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-03-07T17:35:42Z",
+      "side": 1,
+      "message": "Perhaps \"Traceback SP\" or \"Go SP\" or something? It\u0027s not the PC/SP you\u0027re at.",
+      "revId": "f7d59c96e52b491a3df8345bee0404710631a987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1999c63c_c4290c73",
+        "filename": "src/runtime/sys_linux_amd64.s",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-03-07T17:35:42Z",
+      "side": 1,
+      "message": "BP (obviously not this CL\u0027s fault, but might as well fix it here)",
+      "range": {
+        "startLine": 239,
+        "startChar": 29,
+        "endLine": 239,
+        "endChar": 31
+      },
+      "revId": "f7d59c96e52b491a3df8345bee0404710631a987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a9c9014_6d7f790a",
         "filename": "src/runtime/sys_linux_arm.s",
         "patchSetId": 8
@@ -70,6 +161,23 @@
       "revId": "f7d59c96e52b491a3df8345bee0404710631a987",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95bdf91e_80e22a8c",
+        "filename": "src/runtime/vdso_linux.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-03-07T17:35:42Z",
+      "side": 1,
+      "message": "The page isn\u0027t guaranteed to be 4K, especially on ARM. Maybe this should be physPageSize?",
+      "revId": "f7d59c96e52b491a3df8345bee0404710631a987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
