@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "e7dad865_193fbfb4",
+        "filename": "src/runtime/crash_test.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-07T19:44:08Z",
+      "side": 1,
+      "message": "We want time.now on GNU/Linux, but on other systems we\u0027ll likely see something else.  For example on FreeBSD I would expect to see runtime.walltime.  I\u0027ll drop the \"want time.now\" bit from the string.  I think that for the issue and for this test it\u0027s enough to not see ExternalCode; that\u0027s the misleading part.",
+      "parentUuid": "59d94cce_b4d8037a",
+      "revId": "f7d59c96e52b491a3df8345bee0404710631a987",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fac59274_0a62e4a6",
         "filename": "src/runtime/runtime2.go",
         "patchSetId": 8
