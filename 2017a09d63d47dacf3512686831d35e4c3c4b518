@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fb1c450_f48d6ae6",
+        "filename": "src/cmd/compile/internal/ssa/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-08T22:26:15Z",
+      "side": 1,
+      "message": "I\u0027d add an exmaple of memory-producing (store/call) and memory consuming(load) op",
+      "revId": "2017a09d63d47dacf3512686831d35e4c3c4b518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ec3c089_fc074484",
+        "filename": "src/cmd/compile/internal/ssa/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-08T22:26:15Z",
+      "side": 1,
+      "message": "This is probably a good place to mention produced ssa.html",
+      "revId": "2017a09d63d47dacf3512686831d35e4c3c4b518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
