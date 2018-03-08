@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6eca6843_f1a0a9d6",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-03-08T21:31:00Z",
+      "side": 1,
+      "message": "I think it might avoid a 2nd stack walk in the common case if you did:\nn :\u003d gentraceback(pc0, sp0, lr0, gp, skip, pcbuf, nMaxFramesPerPrint, callback, v, flags)\nif n \u003c nMaxFramesPerPrint {\n   if n \u003d\u003d 0 \u0026\u0026 flags\u0026_TraceRuntimeFrames \u003d\u003d 0 {\n       // Try again, and probably also don\u0027t worry about elision in this case.\n   }\n}\nc :\u003d frameCount(pc, sp, lr, gp, flags)\nif c \u003e skip+n+nMaxFramesPerPrint {\n   // print \"skipping some frames\"\n}\ngentraceback(pc0, sp0, lr0, gp, c-nMaxFramesPerPrint, pcbuf, nMaxFramesPerPrint, callback, v, flags)\n\nThat way you only need to call frameCount when you know you have a big stack.\nIn the common case, you only need 1 stack walk.  In the rare case, you need 3 (as in the current CL).  Ian\u0027s idea using a buffer would need 1 stack walk in all cases, but that\u0027s probably a bigger CL.",
+      "revId": "9b8d3fee1b967020df3611e294893f2fba9df709",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
