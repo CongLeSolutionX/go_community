@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5422ece_9e469fa4",
+        "filename": "src/math/big/int_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-08T16:48:03Z",
+      "side": 0,
+      "message": "why are you removing this two race skips?\n\nit\u0027s fast enough \u0026 uses less memory now? that\u0027s not addressed in the commit message.",
+      "range": {
+        "startLine": 1343,
+        "startChar": 1,
+        "endLine": 1345,
+        "endChar": 2
+      },
+      "revId": "0585d41c87674da36c9a926aad115815db1dd295",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
