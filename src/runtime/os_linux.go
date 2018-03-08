@@ -414,7 +414,9 @@ func (c *sigctxt) fixsigcode(sig uint32) {
 //go:nosplit
 func sysSigaction(sig uint32, new, old *sigactiont) {
 	if rt_sigaction(uintptr(sig), new, old, unsafe.Sizeof(sigactiont{}.sa_mask)) != 0 {
-		throw("sigaction failed")
+		systemstack(func() {
+			throw("sigaction failed")
+		})
 	}
 }
 
