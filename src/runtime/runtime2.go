@@ -712,7 +712,7 @@ type _defer struct {
 
 // panics
 type _panic struct {
-	argp      unsafe.Pointer // pointer to arguments of deferred call run during panic; cannot move - known to liblink
+	fp        unsafe.Pointer // frame pointer of deferred call run during panic; cannot move - known to liblink
 	arg       interface{}    // argument to panic
 	link      *_panic        // link to earlier panic
 	recovered bool           // whether this panic is over

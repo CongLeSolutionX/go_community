@@ -499,9 +499,9 @@ func gopanic(e interface{}) {
 		// will find d in the list and will mark d._panic (this panic) aborted.
 		d._panic = (*_panic)(noescape(unsafe.Pointer(&p)))
 
-		p.argp = unsafe.Pointer(getargp(0))
+		p.fp = unsafe.Pointer(getsp(0))
 		reflectcall(nil, unsafe.Pointer(d.fn), deferArgs(d), uint32(d.siz), uint32(d.siz))
-		p.argp = nil
+		p.fp = nil
 
 		// reflectcall did not panic. Remove d.
 		if gp._defer != d {
@@ -553,13 +553,11 @@ func gopanic(e interface{}) {
 	*(*int)(nil) = 0 // not reached
 }
 
-// getargp returns the location where the caller
-// writes outgoing function call arguments.
+// getsp returns the stack pointer (SP) of its caller.
 //go:nosplit
 //go:noinline
-func getargp(x int) uintptr {
-	// x is an argument mainly so that we can return its address.
-	return uintptr(noescape(unsafe.Pointer(&x)))
+func getsp(x int) uintptr {
+	return getcallersp(unsafe.Pointer(&x))
 }
 
 // The implementation of the predeclared function recover.
@@ -569,16 +567,16 @@ func getargp(x int) uintptr {
 // TODO(rsc): Once we commit to CopyStackAlways,
 // this doesn't need to be nosplit.
 //go:nosplit
-func gorecover(argp uintptr) interface{} {
+func gorecover(fp uintptr) interface{} {
 	// Must be in a function running as part of a deferred call during the panic.
 	// Must be called from the topmost function of the call
 	// (the function used in the defer statement).
-	// p.argp is the argument pointer of that topmost deferred function call.
-	// Compare against argp reported by caller.
+	// p.fp is the frame pointer of that topmost deferred function call.
+	// Compare against FP reported by caller.
 	// If they match, the caller is the one who can recover.
 	gp := getg()
 	p := gp._panic
-	if p != nil && !p.recovered && argp == uintptr(p.argp) {
+	if p != nil && !p.recovered && fp == uintptr(p.fp) {
 		p.recovered = true
 		return p.arg
 	}
