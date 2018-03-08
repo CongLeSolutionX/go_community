@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bf1c00ac_e2093837",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-08T20:34:56Z",
+      "side": 1,
+      "message": "Ok, I agree that this is confusing. In our assembler, FP is argp. The first arg is at 0(FP). Maybe the runtime uses a different convention. I guess this is fine then.",
+      "parentUuid": "e38d2287_7007ab24",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 6
+      },
+      "revId": "cb659b02defda039d1ca2b919de6048fbb0f9111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a86bdf3_152981a4",
         "filename": "src/runtime/panic.go",
         "patchSetId": 2
