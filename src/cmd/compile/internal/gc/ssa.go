@@ -75,6 +75,7 @@ func initssaconfig() {
 	typedmemmove = sysfunc("typedmemmove")
 	typedmemclr = sysfunc("typedmemclr")
 	Udiv = sysfunc("udiv")
+	getcallerpc = sysfunc("getcallerpc")
 
 	// GO386=387 runtime functions
 	ControlWord64trunc = sysfunc("controlWord64trunc")
@@ -1475,7 +1476,13 @@ func (s *state) expr(n *Node) *ssa.Value {
 		case callerSP:
 			return s.newValue0(ssa.OpGetCallerSP, n.Type)
 		case callerPC:
-			return s.newValue0(ssa.OpGetCallerPC, n.Type)
+			if thearch.LinkArch.InFamily(sys.I386, sys.AMD64) {
+				return s.newValue0(ssa.OpGetCallerPC, n.Type)
+			}
+			// GetCallerPC isn't implemented on non-x86
+			// architectures yet, so we need to fallback
+			// to calling into the runtime.
+			return s.rtcall(getcallerpc, true, []*types.Type{types.Types[TUINTPTR]})[0]
 		}
 		if s.canSSA(n) {
 			return s.variable(n, n.Type)

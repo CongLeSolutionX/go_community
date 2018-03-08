@@ -293,7 +293,8 @@ var (
 	gcWriteBarrier,
 	typedmemmove,
 	typedmemclr,
-	Udiv *obj.LSym
+	Udiv,
+	getcallerpc *obj.LSym
 
 	// GO386=387
 	ControlWord64trunc,
