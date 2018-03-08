@@ -114,6 +114,10 @@ func ssaGenBlock(s *gc.SSAGenState, b, next *ssa.Block) {
 	}
 
 	s.Prog(wasm.ARESUMEPOINT)
+
+	if s.WasmStackSize != 0 {
+		panic("wasm: bad stack")
+	}
 }
 
 func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
@@ -193,10 +197,16 @@ func ssaGenValue(s *gc.SSAGenState, v *ssa.Value) {
 		gc.AddrAuto(&p.To, v)
 
 	default:
-		if v.Type.IsMemory() {
+		if v.WasmStack {
+			s.WasmStackSize++
+		}
+		if v.Type.IsMemory() || v.WasmStack {
 			return
 		}
 		ssaGenValueOnStack(s, v)
+		if s.WasmStackSize != 0 {
+			panic("wasm: bad stack")
+		}
 		setReg(s, v.Reg())
 	}
 }
@@ -305,6 +315,13 @@ func ssaGenValueOnStack(s *gc.SSAGenState, v *ssa.Value) {
 }
 
 func getReg32(s *gc.SSAGenState, v *ssa.Value) {
+	if v.WasmStack {
+		s.WasmStackSize--
+		ssaGenValueOnStack(s, v)
+		s.Prog(wasm.AI32WrapI64)
+		return
+	}
+
 	reg := v.Reg()
 	getReg(s, reg)
 	if reg != wasm.REG_SP {
@@ -313,6 +330,12 @@ func getReg32(s *gc.SSAGenState, v *ssa.Value) {
 }
 
 func getReg64(s *gc.SSAGenState, v *ssa.Value) {
+	if v.WasmStack {
+		s.WasmStackSize--
+		ssaGenValueOnStack(s, v)
+		return
+	}
+
 	reg := v.Reg()
 	getReg(s, reg)
 	if reg == wasm.REG_SP {
