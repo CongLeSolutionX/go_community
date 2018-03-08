@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67f6b692_90e7c646",
+        "filename": "src/runtime/sys_solaris_amd64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-03-08T21:13:42Z",
+      "side": 1,
+      "message": "I think this will result in attributing time spent in nanotime to asmcgocall, since nanotime1 is called by asmcgocall. I also don\u0027t think we\u0027ll unwind through asmcgocall\u0027s g0 stack switch, so I\u0027m not sure there will be any evidence in the profile stack that time spent in nanotime is in nanotime.",
+      "revId": "9ce632f81a4a98ec78c7c66f2c9c9bfe9286416e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
