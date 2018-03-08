@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6163d490_0e4d133b",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-08T20:13:00Z",
+      "side": 1,
+      "message": "On LR machines, this is not the actual FP. Maybe we are ok with being off be a small constant. Or maybe change it to callersp?",
+      "range": {
+        "startLine": 502,
+        "startChar": 4,
+        "endLine": 502,
+        "endChar": 6
+      },
+      "revId": "cb659b02defda039d1ca2b919de6048fbb0f9111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a86bdf3_152981a4",
+        "filename": "src/runtime/panic.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-08T20:13:00Z",
+      "side": 1,
+      "message": "p.fp ?",
+      "range": {
+        "startLine": 574,
+        "startChar": 6,
+        "endLine": 574,
+        "endChar": 8
+      },
+      "revId": "cb659b02defda039d1ca2b919de6048fbb0f9111",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
