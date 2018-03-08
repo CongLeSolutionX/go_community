@@ -22,6 +22,30 @@
       "revId": "42203f46b76eb9957e03a13c0d5fcf26fee766a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45d5089f_e33f2551",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 2295,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-03-08T13:58:35Z",
+      "side": 1,
+      "message": "I will agree that ANDCON should be there and I added it.\nThere is a lot of clean up that is needed for this file (we were not the original authors). I don\u0027t think it is possible to generate SECON ever (I don\u0027t see it selected in the code below) and SACON doesn\u0027t make sense if it based off SP it is not a constant so shouldn\u0027t use addis/addi/oris and should match another entry in the table. I will open another issue to track the clean up for asm9.go.",
+      "parentUuid": "7a70fabe_00deee51",
+      "range": {
+        "startLine": 2295,
+        "startChar": 23,
+        "endLine": 2295,
+        "endChar": 34
+      },
+      "revId": "42203f46b76eb9957e03a13c0d5fcf26fee766a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
