@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "daf42118_01cf33d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2018-03-08T07:20:46Z",
+      "side": 1,
+      "message": "The ppc64-linux build seems to be affected as well: https://build.golang.org/log/82f28b2a9dd90b21ae050e80b1cbc131e1ae2cf7",
+      "range": {
+        "startLine": 9,
+        "startChar": 24,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "d375bae13f6cc8bf08e39479e1132d5aa5d30ebd",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
