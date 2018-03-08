@@ -1479,6 +1479,9 @@ func (s *state) expr(n *Node) *ssa.Value {
 			sym := funcsym(n.Sym).Linksym()
 			return s.entryNewValue1A(ssa.OpAddr, types.NewPtr(n.Type), sym, s.sb)
 		}
+		if n == nodpc {
+			return s.newValue0(ssa.OpGetCallerPC, n.Type)
+		}
 		if s.canSSA(n) {
 			return s.variable(n, n.Type)
 		}
@@ -3478,7 +3481,7 @@ func (s *state) addr(n *Node, bounded bool) *ssa.Value {
 			}
 			if n == nodfp {
 				// Special arg that points to the frame pointer (Used by ORECOVER).
-				return s.entryNewValue1A(ssa.OpAddr, t, n, s.sp)
+				return s.newValue0(ssa.OpGetCallerSP, n.Type)
 			}
 			s.Fatalf("addr of undeclared ONAME %v. declared: %v", n, s.decladdrs)
 			return nil

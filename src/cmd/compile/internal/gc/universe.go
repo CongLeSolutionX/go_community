@@ -470,4 +470,9 @@ func finishUniverse() {
 	nodfp.Type = types.Types[TINT32]
 	nodfp.SetClass(PPARAM)
 	nodfp.Name.SetUsed(true)
+
+	nodpc = newname(lookup(".pc"))
+	nodpc.Type = types.Types[TUINTPTR]
+	nodpc.SetClass(PPARAM)
+	nodpc.Name.SetUsed(true)
 }

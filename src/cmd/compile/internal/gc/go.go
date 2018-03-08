@@ -233,6 +233,7 @@ var writearchive bool
 var Nacl bool
 
 var nodfp *Node
+var nodpc *Node
 
 var disable_checknil int
 
