@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "064f74aa_a1c61a72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-03-08T22:29:09Z",
+      "side": 1,
+      "message": "Rephrased.\nGreying out unrelated slices is already done before this CL.",
+      "parentUuid": "24fb4f15_69d5c675",
+      "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bfdbb3eb_e8272967",
         "filename": "src/cmd/trace/annotations.go",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4a31998_dbfb426e",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-03-08T22:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfdbb3eb_e8272967",
+      "range": {
+        "startLine": 449,
+        "startChar": 43,
+        "endLine": 449,
+        "endChar": 54
+      },
+      "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +121,48 @@
       "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62ea8880_950945ca",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-03-08T22:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9ad21e8_988d149e",
+      "range": {
+        "startLine": 452,
+        "startChar": 22,
+        "endLine": 452,
+        "endChar": 41
+      },
+      "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5b61c97_747b5569",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-03-08T22:29:09Z",
+      "side": 1,
+      "message": "The other way - a durational event might not have a Link which makes it difficult to determine whether it should be analyzed as a durational event or an instantaneous event.",
+      "parentUuid": "c05effad_1f78511e",
+      "revId": "eba9eb80e707fd7dbfbac72fdf969576e763814a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
