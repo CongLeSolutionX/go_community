@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b0a0d221_33a2e6a2",
+        "filename": "src/cmd/compile/internal/ssa/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-08T23:08:34Z",
+      "side": 1,
+      "message": "I initially wrote a couple of examples, but didn\u0027t think they added too much. I\u0027ll give that another go.",
+      "parentUuid": "9fb1c450_f48d6ae6",
+      "revId": "2017a09d63d47dacf3512686831d35e4c3c4b518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ec3c089_fc074484",
         "filename": "src/cmd/compile/internal/ssa/README",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-03-08T22:26:15Z",
       "side": 1,
       "message": "This is probably a good place to mention produced ssa.html",
+      "revId": "2017a09d63d47dacf3512686831d35e4c3c4b518",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d688227b_7b6369a2",
+        "filename": "src/cmd/compile/internal/ssa/README",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-08T23:08:34Z",
+      "side": 1,
+      "message": "Ah, yes, forgot to be explicit about it.",
+      "parentUuid": "5ec3c089_fc074484",
       "revId": "2017a09d63d47dacf3512686831d35e4c3c4b518",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
