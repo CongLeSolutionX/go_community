@@ -34,6 +34,8 @@ type Config struct {
 	optimize        bool          // Do optimization
 	noDuffDevice    bool          // Don't use Duff's device
 	useSSE          bool          // Use SSE for non-float operations
+	noAvg           bool          // Do not use optimizations that need the Avg* operations
+	noHmul          bool          // Do not use optimizations that need the Hmul* operations
 	nacl            bool          // GOOS=nacl
 	use387          bool          // GO386=387
 	SoftFloat       bool          //
