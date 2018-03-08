@@ -37,6 +37,15 @@ TEXT runtime·miniterrno(SB),NOSPLIT,$0
 // Called using runtime·sysvicall6 from os_solaris.c:/nanotime.
 // NOT USING GO CALLING CONVENTION.
 TEXT runtime·nanotime1(SB),NOSPLIT,$0
+	// We are adjusting SP, so set vdso fields for SIGPROF.
+	get_tls(CX)
+	MOVQ	g(CX), AX
+	MOVQ	g_m(AX), BX // BX unchanged by C code.
+	MOVQ	0(SP), AX
+	MOVQ	AX, m_vdsoPC(BX)
+	LEAQ	8(SP), AX
+	MOVQ	AX, m_vdsoSP(BX)
+
 	// need space for the timespec argument.
 	SUBQ	$64, SP	// 16 bytes will do, but who knows in the future?
 	MOVQ	$3, DI	// CLOCK_REALTIME from <sys/time_impl.h>
@@ -47,6 +56,7 @@ TEXT runtime·nanotime1(SB),NOSPLIT,$0
 	IMULQ	$1000000000, AX	// multiply into nanoseconds
 	ADDQ	8(SP), AX	// tv_nsec, offset should be stable.
 	ADDQ	$64, SP
+	MOVQ	$0, m_vdsoSP(BX)
 	RET
 
 // pipe(3c) wrapper that returns fds in AX, DX.
