@@ -558,8 +558,7 @@ func gopanic(e interface{}) {
 //go:nosplit
 //go:noinline
 func getargp(x int) uintptr {
-	// x is an argument mainly so that we can return its address.
-	return uintptr(noescape(unsafe.Pointer(&x)))
+	return getcallersp(unsafe.Pointer(&x))
 }
 
 // The implementation of the predeclared function recover.
