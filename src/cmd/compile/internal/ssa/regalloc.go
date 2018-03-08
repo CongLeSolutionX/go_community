@@ -117,6 +117,7 @@ import (
 	"cmd/compile/internal/types"
 	"cmd/internal/objabi"
 	"cmd/internal/src"
+	"cmd/internal/sys"
 	"fmt"
 	"unsafe"
 )
@@ -357,6 +358,10 @@ func (s *regAllocState) assignReg(r register, v *Value, c *Value) {
 // If there is no unused register, a Value will be kicked out of
 // a register to make room.
 func (s *regAllocState) allocReg(mask regMask, v *Value) register {
+	if v.WasmStack {
+		return noRegister
+	}
+
 	mask &= s.allocatable
 	mask &^= s.nospill
 	if mask == 0 {
@@ -394,6 +399,11 @@ func (s *regAllocState) allocReg(mask regMask, v *Value) register {
 	}
 	if maxuse == -1 {
 		s.f.Fatalf("couldn't find register to spill")
+	}
+
+	if s.f.Config.ctxt.Arch.Arch == sys.ArchWasm {
+		s.freeReg(r)
+		return r
 	}
 
 	// Try to move it around before kicking out, if there is a free register.
@@ -443,6 +453,16 @@ func (s *regAllocState) makeSpill(v *Value, b *Block) *Value {
 // undone until the caller allows it by clearing nospill. Returns a
 // *Value which is either v or a copy of v allocated to the chosen register.
 func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, pos src.XPos) *Value {
+	if s.f.Config.ctxt.Arch.Arch == sys.ArchWasm && v.rematerializeable() {
+		c := v.copyIntoWithXPos(s.curBlock, pos)
+		c.WasmStack = true
+		s.setOrig(c, v)
+		return c
+	}
+	if v.WasmStack {
+		return v
+	}
+
 	vi := &s.values[v.ID]
 
 	// Check if v is already in a requested register.
@@ -457,8 +477,12 @@ func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, pos 
 		return s.regs[r].c
 	}
 
-	// Allocate a register.
-	r := s.allocReg(mask, v)
+	var r register
+	wasmStack := s.f.Config.ctxt.Arch.Arch == sys.ArchWasm && nospill
+	if !wasmStack {
+		// Allocate a register.
+		r = s.allocReg(mask, v)
+	}
 
 	// Allocate v to the new register.
 	var c *Value
@@ -480,6 +504,12 @@ func (s *regAllocState) allocValToReg(v *Value, mask regMask, nospill bool, pos 
 		}
 		c = s.curBlock.NewValue1(pos, OpLoadReg, v.Type, spill)
 	}
+
+	if wasmStack {
+		c.WasmStack = true
+		return c
+	}
+
 	s.setOrig(c, v)
 	s.assignReg(r, v, c)
 	if nospill {
@@ -641,6 +671,31 @@ func (s *regAllocState) init(f *Func) {
 	s.startRegs = make([][]startReg, f.NumBlocks())
 	s.spillLive = make([][]ID, f.NumBlocks())
 	s.sdom = f.sdom()
+
+	// wasm: Mark instructions that can be optimized to have their values only on the WebAssembly stack.
+	if f.Config.ctxt.Arch.Arch == sys.ArchWasm {
+		for _, b := range f.Blocks {
+			canLiveOnStack := make(map[*Value]struct{})
+			var isMemOp bool
+			for i := len(b.Values) - 1; i >= 0; i-- {
+				v := b.Values[i]
+				if v.Op >= OpPhi {
+					continue
+				}
+				if _, ok := canLiveOnStack[v]; ok && (!isMemOp || !v.Type.IsMemory()) {
+					v.WasmStack = true
+				} else {
+					canLiveOnStack = make(map[*Value]struct{})
+					isMemOp = v.Type.IsMemory()
+				}
+				for _, arg := range v.Args {
+					if arg.Uses == 1 && arg.Block == v.Block && arg.Op < OpPhi {
+						canLiveOnStack[arg] = struct{}{}
+					}
+				}
+			}
+		}
+	}
 }
 
 // Adds a use record for id at distance dist from the start of the block.
