@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8898682a_4e7ba787",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-08T22:02:29Z",
+      "side": 1,
+      "message": "typo: careful",
+      "revId": "b568578eacf4e649fa0aea8f3d19636b7445bb64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "992f023d_91338597",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-08T22:02:29Z",
+      "side": 1,
+      "message": "I\u0027d just delete this variable (and line 433 below) and just inline it into the next lines. It seems that\u0027s more common for these string/slice header creations/conversions.",
+      "range": {
+        "startLine": 422,
+        "startChar": 1,
+        "endLine": 422,
+        "endChar": 33
+      },
+      "revId": "b568578eacf4e649fa0aea8f3d19636b7445bb64",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
