@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96886596_37304c49",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-03-09T06:27:50Z",
+      "side": 1,
+      "message": "It seems to me that this can be collapsed into a single loop, rather than a preamble followed by a loop. We\u0027ll do a useless % for subsequent iterations, but that\u0027s cheap compared to the bytes.IndexByte call.",
+      "revId": "2a58141f397c51b5e67f87d92aaa21d3839abd3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}

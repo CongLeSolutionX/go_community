@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e2c5416_131ac5a6",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 5143
+      },
+      "writtenOn": "2018-03-09T06:27:50Z",
+      "side": 1,
+      "message": "[s, endOfPage)",
+      "revId": "52e610ba01aeba36118f971888767b28fc2a0612",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
