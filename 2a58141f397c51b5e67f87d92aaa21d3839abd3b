@@ -16,6 +16,24 @@
       "revId": "2a58141f397c51b5e67f87d92aaa21d3839abd3b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a1045de_170222c5",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-09T18:19:58Z",
+      "side": 1,
+      "message": "Good Idea! It is maybe ~1% slower, but code looks better.",
+      "parentUuid": "96886596_37304c49",
+      "revId": "2a58141f397c51b5e67f87d92aaa21d3839abd3b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
