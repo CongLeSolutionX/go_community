@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46c1d828_e96bd275",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-09T18:30:49Z",
+      "side": 1,
+      "message": "this comment can be read either direction, as if the 4096 number may be higher but not lower, which isn\u0027t true.\n\nSuper verbose but more clear is:\n\n// pageSize is the unit we scan at a time looking for NULL.\n// It must be the minimum page size for any architecture Go\n// runs on. It\u0027s okay (just a minor performance loss) if the\n// actual system page size is larger than this value.",
+      "range": {
+        "startLine": 414,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 36
+      },
+      "revId": "fa984efe49af03756b252e3876a232b2a76540c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9863d590_145f4a84",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-09T18:30:49Z",
+      "side": 1,
+      "message": "\"off\" (for offset) instead of ret? I don\u0027t care much, but this is never really the returned value, since it\u0027s always \"ret + i\" that\u0027s returned, and i will rarely be 0.",
+      "revId": "fa984efe49af03756b252e3876a232b2a76540c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c5ff9a0_5896fddc",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-09T18:30:49Z",
+      "side": 1,
+      "message": "or if you do care about the tiny performance difference, put this line before the \"for \" loop and put \"safeLen \u003d pageSize\" at the bottom of the loop after \"ret +\u003d safeLen\".",
+      "range": {
+        "startLine": 424,
+        "startChar": 2,
+        "endLine": 424,
+        "endChar": 50
+      },
+      "revId": "fa984efe49af03756b252e3876a232b2a76540c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
