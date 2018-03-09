@@ -83,7 +83,9 @@ func initssaconfig() {
 
 // buildssa builds an SSA function for fn.
 // worker indicates which of the backend workers is doing the processing.
-func buildssa(fn *Node, worker int) *ssa.Func {
+// the returned slice of nodes contains non-SSA-able nodes that are likely
+// to be interesting to a debugger.
+func buildssa(fn *Node, worker int) (*ssa.Func, []*Node) {
 	name := fn.funcname()
 	printssa := name == os.Getenv("GOSSAFUNC")
 	if printssa {
@@ -96,6 +98,8 @@ func buildssa(fn *Node, worker int) *ssa.Func {
 	var s state
 	s.pushLine(fn.Pos)
 	defer s.popLine()
+
+	s.nonSsaNodeSet = make(map[*Node]bool)
 
 	s.hasdefer = fn.Func.HasDefer()
 	if fn.Func.Pragma&CgoUnsafeArgs != 0 {
@@ -192,7 +196,7 @@ func buildssa(fn *Node, worker int) *ssa.Func {
 
 	// Main call to ssa package to compile function
 	ssa.Compile(s.f)
-	return s.f
+	return s.f, s.nonSsaNodes
 }
 
 // updateUnsetPredPos propagates the earliest-value position information for b
@@ -281,6 +285,10 @@ type state struct {
 
 	// list of PPARAMOUT (return) variables.
 	returns []*Node
+
+	// Nodes of interest to the debugger that are not SSA-able
+	nonSsaNodeSet map[*Node]bool
+	nonSsaNodes   []*Node
 
 	cgoUnsafeArgs bool
 	hasdefer      bool // whether the function contains a defer statement
@@ -2468,6 +2476,7 @@ func (s *state) assign(left *Node, right *ssa.Value, deref bool, skip skipMask) 
 	}
 	// Left is not ssa-able. Compute its address.
 	addr := s.addr(left, false)
+	s.addNamedNode(left) // Need to know the slot for debugging
 	if left.Op == ONAME && left.Class() != PEXTERN && skip == 0 {
 		s.vars[&memVar] = s.newValue1A(ssa.OpVarDef, types.TypeMem, left, s.mem())
 	}
@@ -4506,21 +4515,8 @@ func (s *state) mem() *ssa.Value {
 }
 
 func (s *state) addNamedValue(n *Node, v *ssa.Value) {
-	if n.Class() == Pxxx {
-		// Don't track our dummy nodes (&memVar etc.).
+	if s.isIgnorableNode(n) {
 		return
-	}
-	if n.IsAutoTmp() {
-		// Don't track temporary variables.
-		return
-	}
-	if n.Class() == PPARAMOUT {
-		// Don't track named output values.  This prevents return values
-		// from being assigned too early. See #14591 and #14762. TODO: allow this.
-		return
-	}
-	if n.Class() == PAUTO && n.Xoffset != 0 {
-		s.Fatalf("AUTO var with offset %v %d", n, n.Xoffset)
 	}
 	loc := ssa.LocalSlot{N: n, Type: n.Type, Off: 0}
 	values, ok := s.f.NamedValues[loc]
@@ -4528,6 +4524,40 @@ func (s *state) addNamedValue(n *Node, v *ssa.Value) {
 		s.f.Names = append(s.f.Names, loc)
 	}
 	s.f.NamedValues[loc] = append(values, v)
+}
+
+func (s *state) isIgnorableNode(n *Node) bool {
+	if n.Class() == Pxxx {
+		// Don't track our dummy nodes (&memVar etc.).
+		return true
+	}
+	if n.IsAutoTmp() {
+		// Don't track temporary variables.
+		return true
+	}
+	if n.Class() == PPARAMOUT {
+		// Don't track named output values.  This prevents return values
+		// from being assigned too early. See #14591 and #14762. TODO: allow this.
+		return true
+	}
+	if n.Class() == PAUTO && n.Xoffset != 0 {
+		s.Fatalf("AUTO var with offset %v %d", n, n.Xoffset)
+	}
+	return false
+}
+
+func (s *state) addNamedNode(n *Node) {
+	// TODO expand to allow PPARAM and PPARAMOUT once cgo bugs are figured out.
+	if n.Class() != PAUTO {
+		return
+	}
+	if s.isIgnorableNode(n) {
+		return
+	}
+	if !s.nonSsaNodeSet[n] {
+		s.nonSsaNodes = append(s.nonSsaNodes, n)
+	}
+	s.nonSsaNodeSet[n] = true
 }
 
 // Branch is an unresolved branch.
