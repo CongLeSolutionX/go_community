@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "47525e7c_f847cf5c",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-09T18:55:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46c1d828_e96bd275",
+      "range": {
+        "startLine": 414,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 36
+      },
+      "revId": "fa984efe49af03756b252e3876a232b2a76540c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9863d590_145f4a84",
         "filename": "src/runtime/string.go",
         "patchSetId": 7
@@ -39,6 +63,24 @@
       "revId": "fa984efe49af03756b252e3876a232b2a76540c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43aad47d_1ffb3171",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-09T18:55:27Z",
+      "side": 1,
+      "message": "I\u0027ve used offset",
+      "parentUuid": "9863d590_145f4a84",
+      "revId": "fa984efe49af03756b252e3876a232b2a76540c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "fa984efe49af03756b252e3876a232b2a76540c8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6196c09a_f8cace09",
+        "filename": "src/runtime/string.go",
+        "patchSetId": 7
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-09T18:55:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c5ff9a0_5896fddc",
+      "range": {
+        "startLine": 424,
+        "startChar": 2,
+        "endLine": 424,
+        "endChar": 50
+      },
+      "revId": "fa984efe49af03756b252e3876a232b2a76540c8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
