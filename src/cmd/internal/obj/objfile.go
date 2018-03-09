@@ -535,15 +535,15 @@ func (ctxt *Link) fileSymbol(fn *LSym) *LSym {
 // populateDWARF fills in the DWARF Debugging Information Entries for
 // TEXT symbol 's'. The various DWARF symbols must already have been
 // initialized in InitTextSym.
-func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string) {
+func (ctxt *Link) populateDWARF(curfn interface{}, s *LSym, myimportpath string, debugInfo DebugFunc) {
 	info, loc, ranges, absfunc := ctxt.dwarfSym(s)
 	if info.Size != 0 {
 		ctxt.Diag("makeFuncDebugEntry double process %v", s)
 	}
 	var scopes []dwarf.Scope
 	var inlcalls dwarf.InlCalls
-	if ctxt.DebugInfo != nil {
-		scopes, inlcalls = ctxt.DebugInfo(s, curfn)
+	if debugInfo != nil {
+		scopes, inlcalls = debugInfo(s, curfn)
 	}
 	var err error
 	dwctxt := dwCtxt{ctxt}

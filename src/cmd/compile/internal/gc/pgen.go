@@ -256,7 +256,7 @@ const maxStackSize = 1 << 30
 // and flushes that plist to machine code.
 // worker indicates which of the backend workers is doing the processing.
 func compileSSA(fn *Node, worker int) {
-	f := buildssa(fn, worker)
+	f, nonSsaNodes := buildssa(fn, worker)
 	if f.Frontend().(*ssafn).stksize >= maxStackSize {
 		largeStackFramesMu.Lock()
 		largeStackFrames = append(largeStackFrames, fn.Pos)
@@ -265,7 +265,9 @@ func compileSSA(fn *Node, worker int) {
 	}
 	pp := newProgs(fn, worker)
 	genssa(f, pp)
-	pp.Flush()
+
+	pp.Flush(debuginfo(nonSsaNodes))
+
 	// fieldtrack must be called after pp.Flush. See issue 20014.
 	fieldtrack(pp.Text.From.Sym, fn.Func.FieldTrack)
 	pp.Free()
@@ -322,77 +324,79 @@ func compileFunctions() {
 	}
 }
 
-func debuginfo(fnsym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls) {
-	fn := curfn.(*Node)
-	if fn.Func.Nname != nil {
-		if expect := fn.Func.Nname.Sym.Linksym(); fnsym != expect {
-			Fatalf("unexpected fnsym: %v != %v", fnsym, expect)
+func debuginfo(nonSsaNodes []*Node) obj.DebugFunc {
+	return func(fnsym *obj.LSym, curfn interface{}) ([]dwarf.Scope, dwarf.InlCalls) {
+		fn := curfn.(*Node)
+		if fn.Func.Nname != nil {
+			if expect := fn.Func.Nname.Sym.Linksym(); fnsym != expect {
+				Fatalf("unexpected fnsym: %v != %v", fnsym, expect)
+			}
 		}
-	}
 
-	var automDecls []*Node
-	// Populate Automs for fn.
-	for _, n := range fn.Func.Dcl {
-		if n.Op != ONAME { // might be OTYPE or OLITERAL
-			continue
-		}
-		var name obj.AddrName
-		switch n.Class() {
-		case PAUTO:
-			if !n.Name.Used() {
-				// Text == nil -> generating abstract function
-				if fnsym.Func.Text != nil {
-					Fatalf("debuginfo unused node (AllocFrame should truncate fn.Func.Dcl)")
-				}
+		var automDecls []*Node
+		// Populate Automs for fn.
+		for _, n := range fn.Func.Dcl {
+			if n.Op != ONAME { // might be OTYPE or OLITERAL
 				continue
 			}
-			name = obj.NAME_AUTO
-		case PPARAM, PPARAMOUT:
-			name = obj.NAME_PARAM
-		default:
-			continue
+			var name obj.AddrName
+			switch n.Class() {
+			case PAUTO:
+				if !n.Name.Used() {
+					// Text == nil -> generating abstract function
+					if fnsym.Func.Text != nil {
+						Fatalf("debuginfo unused node (AllocFrame should truncate fn.Func.Dcl)")
+					}
+					continue
+				}
+				name = obj.NAME_AUTO
+			case PPARAM, PPARAMOUT:
+				name = obj.NAME_PARAM
+			default:
+				continue
+			}
+			automDecls = append(automDecls, n)
+			gotype := ngotype(n).Linksym()
+			fnsym.Func.Autom = append(fnsym.Func.Autom, &obj.Auto{
+				Asym:    Ctxt.Lookup(n.Sym.Name),
+				Aoffset: int32(n.Xoffset),
+				Name:    name,
+				Gotype:  gotype,
+			})
 		}
-		automDecls = append(automDecls, n)
-		gotype := ngotype(n).Linksym()
-		fnsym.Func.Autom = append(fnsym.Func.Autom, &obj.Auto{
-			Asym:    Ctxt.Lookup(n.Sym.Name),
-			Aoffset: int32(n.Xoffset),
-			Name:    name,
-			Gotype:  gotype,
-		})
-	}
 
-	decls, dwarfVars := createDwarfVars(fnsym, fn.Func, automDecls)
+		decls, dwarfVars := createDwarfVars(fnsym, fn.Func, automDecls, nonSsaNodes)
 
-	var varScopes []ScopeID
-	for _, decl := range decls {
-		pos := decl.Pos
-		if decl.Name.Defn != nil && (decl.Name.Captured() || decl.Name.Byval()) {
-			// It's not clear which position is correct for captured variables here:
-			// * decl.Pos is the wrong position for captured variables, in the inner
-			//   function, but it is the right position in the outer function.
-			// * decl.Name.Defn is nil for captured variables that were arguments
-			//   on the outer function, however the decl.Pos for those seems to be
-			//   correct.
-			// * decl.Name.Defn is the "wrong" thing for variables declared in the
-			//   header of a type switch, it's their position in the header, rather
-			//   than the position of the case statement. In principle this is the
-			//   right thing, but here we prefer the latter because it makes each
-			//   instance of the header variable local to the lexical block of its
-			//   case statement.
-			// This code is probably wrong for type switch variables that are also
-			// captured.
-			pos = decl.Name.Defn.Pos
+		var varScopes []ScopeID
+		for _, decl := range decls {
+			pos := decl.Pos
+			if decl.Name.Defn != nil && (decl.Name.Captured() || decl.Name.Byval()) {
+				// It's not clear which position is correct for captured variables here:
+				// * decl.Pos is the wrong position for captured variables, in the inner
+				//   function, but it is the right position in the outer function.
+				// * decl.Name.Defn is nil for captured variables that were arguments
+				//   on the outer function, however the decl.Pos for those seems to be
+				//   correct.
+				// * decl.Name.Defn is the "wrong" thing for variables declared in the
+				//   header of a type switch, it's their position in the header, rather
+				//   than the position of the case statement. In principle this is the
+				//   right thing, but here we prefer the latter because it makes each
+				//   instance of the header variable local to the lexical block of its
+				//   case statement.
+				// This code is probably wrong for type switch variables that are also
+				// captured.
+				pos = decl.Name.Defn.Pos
+			}
+			varScopes = append(varScopes, findScope(fn.Func.Marks, pos))
 		}
-		varScopes = append(varScopes, findScope(fn.Func.Marks, pos))
-	}
 
-	scopes := assembleScopes(fnsym, fn, dwarfVars, varScopes)
-	var inlcalls dwarf.InlCalls
-	if genDwarfInline > 0 {
-		inlcalls = assembleInlines(fnsym, fn, dwarfVars)
+		scopes := assembleScopes(fnsym, fn, dwarfVars, varScopes)
+		var inlcalls dwarf.InlCalls
+		if genDwarfInline > 0 {
+			inlcalls = assembleInlines(fnsym, fn, dwarfVars)
+		}
+		return scopes, inlcalls
 	}
-	return scopes, inlcalls
 }
 
 // createSimpleVars creates a DWARF entry for every variable declared in the
@@ -401,8 +405,17 @@ func createSimpleVars(automDecls []*Node) ([]*Node, []*dwarf.Var, map[*Node]bool
 	var vars []*dwarf.Var
 	var decls []*Node
 	selected := make(map[*Node]bool)
-	for _, n := range automDecls {
+	return addSimpleVars(automDecls, decls, vars, selected)
+}
+
+// addSimpleVars adds a DWARF entry for declarations from inDecls, provided
+// that they are not temporaries and have not previously been emitted.
+func addSimpleVars(inDecls, decls []*Node, vars []*dwarf.Var, selected map[*Node]bool) ([]*Node, []*dwarf.Var, map[*Node]bool) {
+	for _, n := range inDecls {
 		if n.IsAutoTmp() {
+			continue
+		}
+		if selected[n] {
 			continue
 		}
 		var abbrev int
@@ -422,7 +435,8 @@ func createSimpleVars(automDecls []*Node) ([]*Node, []*dwarf.Var, map[*Node]bool
 			abbrev = dwarf.DW_ABRV_PARAM
 			offs += Ctxt.FixedFrameSize()
 		default:
-			Fatalf("createSimpleVars unexpected type %v for node %v", n.Class(), n)
+			Fatalf("addSimpleVars unexpected type %v for node %v", n.Class(), n)
+			continue
 		}
 
 		selected[n] = true
@@ -483,13 +497,14 @@ func createComplexVars(fnsym *obj.LSym, fn *Func, automDecls []*Node) ([]*Node, 
 
 // createDwarfVars process fn, returning a list of DWARF variables and the
 // Nodes they represent.
-func createDwarfVars(fnsym *obj.LSym, fn *Func, automDecls []*Node) ([]*Node, []*dwarf.Var) {
+func createDwarfVars(fnsym *obj.LSym, fn *Func, automDecls, nonSsaNodes []*Node) ([]*Node, []*dwarf.Var) {
 	// Collect a raw list of DWARF vars.
 	var vars []*dwarf.Var
 	var decls []*Node
 	var selected map[*Node]bool
 	if Ctxt.Flag_locationlists && Ctxt.Flag_optimize && fn.DebugInfo != nil {
 		decls, vars, selected = createComplexVars(fnsym, fn, automDecls)
+		decls, vars, selected = addSimpleVars(nonSsaNodes, decls, vars, selected)
 	} else {
 		decls, vars, selected = createSimpleVars(automDecls)
 	}

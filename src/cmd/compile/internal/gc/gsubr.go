@@ -82,9 +82,10 @@ func (pp *Progs) NewProg() *obj.Prog {
 }
 
 // Flush converts from pp to machine code.
-func (pp *Progs) Flush() {
+// debugInfo, if non-nil, generates debug information for optimized code when called.
+func (pp *Progs) Flush(debugInfo obj.DebugFunc) {
 	plist := &obj.Plist{Firstpc: pp.Text, Curfn: pp.curfn}
-	obj.Flushplist(Ctxt, plist, pp.NewProg, myimportpath)
+	obj.Flushplist(Ctxt, plist, pp.NewProg, myimportpath, debugInfo)
 }
 
 // Free clears pp and any associated resources.
