@@ -532,6 +532,11 @@ func (state *debugState) mergePredecessors(b *Block, blockLocs []*BlockDebug) ([
 		state.logf("Starting %v with state from %v:\n%v", b, preds[0], state.blockEndStateString(blockLocs[preds[0].ID]))
 	}
 
+	// We are ever-so-cleverly only clearing entries we'll examine in the future.
+	for slotID := range p0 {
+		state.liveCount[slotID] = 0
+	}
+
 	slotLocs := state.currentState.slots
 	for _, predSlot := range p0 {
 		slotLocs[predSlot.slot] = VarLoc{predSlot.Registers, predSlot.StackOffset}
