@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3205d7a5_3d011d4a",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-10T03:13:58Z",
+      "side": 1,
+      "message": "I agree there\u0027s a bug here, but I don\u0027t think this is it.\n\nThe code here is sitting between the densely-packed but inaccessable []liveSlot\u0027s in BlockDebug.endState and the much sparser but accessible []VarLoc in state.currentState.slots. In the former, there\u0027s no defined ordering, and so the slice index called slotID here is not a slot ID.\n\nMy intention in this chunk of code is to use p0 as the set of all possible live slots, then restrict it down by processing the other predecessors. Initializing anything else to 0 *should* be unnecessary -- we only ever need to look at the slots that were live in p0. The loop just below initializes all of those to 1. So if adding this loop changes any behavior, then at some point something looked at a slot that wasn\u0027t live in p0.\n\nSee comment below.",
+      "revId": "15dad7081c87f1089e3d6e01b3ee91ac271a2b39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7caae74_9f0de5ec",
+        "filename": "src/cmd/compile/internal/ssa/debug.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-10T03:13:58Z",
+      "side": 1,
+      "message": "90% sure this is the bug you\u0027re seeing. It\u0027s definitely *a* bug. Like I said above, this isn\u0027t a valid slotID. (It was in a previous version, before I introduced the []liveSlot idea.) This should be for _, predSlot :\u003d range p0, and slotID should be predSlot.slot.\n\nI guess the things I looked at when I was testing had most of their variables live and so all the numbers overlapped :(",
+      "revId": "15dad7081c87f1089e3d6e01b3ee91ac271a2b39",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
