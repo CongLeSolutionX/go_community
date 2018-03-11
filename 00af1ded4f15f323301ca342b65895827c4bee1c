@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c610a2a_bd97b22e",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-03-11T10:56:00Z",
+      "side": 1,
+      "message": "Missing copyright header.",
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ba1df55_5dadda14",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-03-11T10:56:00Z",
+      "side": 1,
+      "message": "The way information is organized here confused me because you start\nwith\n\n\u003e Like most other SSA forms, funcs consist of blocks and\n  values. Values ..\n\nThe fact that you immediately briefly explain what Values are made me\nexpect also a brief explanation of what Blocks are, but there\u0027s is\nnone. \n\nA better organization of this part would be:\n\n\u003e funcs consist of blocks and values. Blocks are [brief], Values are\n  [brief].\n\nand then expand in the later paragraphs about Blocks and Values.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adadbb5c_2b7f3b65",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-03-11T10:56:00Z",
+      "side": 1,
+      "message": "This paragraph will be confusing to anyone that doesn\u0027t already know\nhow the compiler works because it\u0027s not clear from the text why one\nwould want to \"generate the code\" in the ssa package (isn\u0027t the code\nalready there?) and why/when it would be needed to \"regenerate the\nfiles\" you just mentioned (the README in /gen doesn\u0027t explain why and\nwhen you need to run the generator).\n\nThe mixture of \"what SSA is\" and practical information about where\nfiles are and what to do when changing the compiler is what makes this\nconfusing.\n\nI suggest re-organizing this part (or ideally the whole file) to\neither:\n\n1) have a better separation between SSA high-level informations\nand operative information about the compiler, if you want to separate\nthem\n\n2) better explain how the compiler works and what the typical workflow\nis here (i.e. you define new rules in the rules special syntax and then\nauto-generate the actual compiler Go code), if you prefer to keep the\ntwo things together.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 42
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80e1605a_b009f2ca",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-03-11T10:56:00Z",
+      "side": 1,
+      "message": "Now I know that in the SSA world blocks \"can have multiple forms\".. but\nI still don\u0027t know what a block is.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e81c25e_21eea760",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-03-11T10:56:00Z",
+      "side": 1,
+      "message": "Flow:\n\n- Mention Blocks and Values\n- Brief explanation of what Values are\n- Expanded paragraph about Values\n- Paragraph about Blocks\n- Back to Values here.\n\nIt would be easier to follow along if you explained block first, and\nthen values. In general, thise whole part would greatly benefit from\nbetter/clearer segmentation.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa0e3736_581532a5",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-03-11T10:56:00Z",
+      "side": 1,
+      "message": "A full stop followed by an \"And\" reads weird here.",
+      "range": {
+        "startLine": 30,
+        "startChar": 5,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "324963c9_02322a48",
+        "filename": "src/cmd/compile/internal/ssa/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-03-11T10:56:00Z",
+      "side": 1,
+      "message": "Full stop followed by \"And\".",
+      "range": {
+        "startLine": 46,
+        "startChar": 59,
+        "endLine": 46,
+        "endChar": 64
+      },
+      "revId": "00af1ded4f15f323301ca342b65895827c4bee1c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
