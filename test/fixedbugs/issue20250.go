@@ -17,7 +17,7 @@ type T struct {
 func f(a T) { // ERROR "live at entry to f: a"
 	var e interface{}
 	func() { // ERROR "live at entry to f.func1: a &e"
-		e = a.s // ERROR "live at call to convT2Estring: a &e"
+		e = a.s // ERROR "live at call to convT2Estring: &e"
 	}() // ERROR "live at call to f.func1: e$"
 	// Before the fix, both a and e were live at the previous line.
 	_ = e

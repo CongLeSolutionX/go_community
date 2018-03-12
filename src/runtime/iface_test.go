@@ -44,14 +44,18 @@ func (Tstr) Method1()   {}
 func (Tslice) Method1() {}
 
 var (
-	e  interface{}
-	e_ interface{}
-	i1 I1
-	i2 I2
-	ts TS
-	tm TM
-	tl TL
-	ok bool
+	e    interface{}
+	e_   interface{}
+	i1   I1
+	i2   I2
+	ts   TS
+	tm   TM
+	tl   TL
+	t16  T16  = 16
+	t32  T32  = 32
+	t64  T64  = 64
+	tstr Tstr = "Hello world"
+	ok   bool
 )
 
 // Issue 9370
@@ -113,6 +117,37 @@ func BenchmarkConvT2ELarge(b *testing.B) {
 	}
 }
 
+func BenchmarkConvT2E16(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		e = t16
+	}
+}
+
+func BenchmarkConvT2E32(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		e = t32
+	}
+}
+
+func BenchmarkConvT2E64(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		e = t64
+	}
+}
+
+func BenchmarkConvT2EString(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		e = tstr
+	}
+}
+
+func BenchmarkConvT2ESlice(b *testing.B) {
+	s := []int{1, 2, 3, 4, 5}
+	for i := 0; i < b.N; i++ {
+		e = s
+	}
+}
+
 func BenchmarkConvT2ISmall(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		i1 = ts
@@ -128,6 +163,37 @@ func BenchmarkConvT2IUintptr(b *testing.B) {
 func BenchmarkConvT2ILarge(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		i1 = tl
+	}
+}
+
+func BenchmarkConvT2I16(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		i1 = t16
+	}
+}
+
+func BenchmarkConvT2I32(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		i1 = t32
+	}
+}
+
+func BenchmarkConvT2I64(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		i1 = t64
+	}
+}
+
+func BenchmarkConvT2IString(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		i1 = tstr
+	}
+}
+
+func BenchmarkConvT2ISlice(b *testing.B) {
+	s := Tslice{'A', 'B'}
+	for i := 0; i < b.N; i++ {
+		i1 = s
 	}
 }
 

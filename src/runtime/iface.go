@@ -294,95 +294,65 @@ func convT2E(t *_type, elem unsafe.Pointer) (e eface) {
 	return
 }
 
-func convT2E16(t *_type, elem unsafe.Pointer) (e eface) {
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2E16))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
+func convT2E16(t *_type, val uint16) (e eface) {
 	var x unsafe.Pointer
-	if *(*uint16)(elem) == 0 {
+	if val == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(2, t, false)
-		*(*uint16)(x) = *(*uint16)(elem)
+		*(*uint16)(x) = val
 	}
 	e._type = t
 	e.data = x
 	return
 }
 
-func convT2E32(t *_type, elem unsafe.Pointer) (e eface) {
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2E32))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
+func convT2E32(t *_type, val uint32) (e eface) {
 	var x unsafe.Pointer
-	if *(*uint32)(elem) == 0 {
+	if val == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(4, t, false)
-		*(*uint32)(x) = *(*uint32)(elem)
+		*(*uint32)(x) = val
 	}
 	e._type = t
 	e.data = x
 	return
 }
 
-func convT2E64(t *_type, elem unsafe.Pointer) (e eface) {
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2E64))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
+func convT2E64(t *_type, val uint64) (e eface) {
 	var x unsafe.Pointer
-	if *(*uint64)(elem) == 0 {
+	if val == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(8, t, false)
-		*(*uint64)(x) = *(*uint64)(elem)
+		*(*uint64)(x) = val
 	}
 	e._type = t
 	e.data = x
 	return
 }
 
-func convT2Estring(t *_type, elem unsafe.Pointer) (e eface) {
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2Estring))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
+func convT2Estring(t *_type, val string) (e eface) {
 	var x unsafe.Pointer
-	if *(*string)(elem) == "" {
+	if val == "" {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(t.size, t, true)
-		*(*string)(x) = *(*string)(elem)
+		*(*string)(x) = val
 	}
 	e._type = t
 	e.data = x
 	return
 }
 
-func convT2Eslice(t *_type, elem unsafe.Pointer) (e eface) {
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2Eslice))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
+func convT2Eslice(t *_type, val slice) (e eface) {
 	var x unsafe.Pointer
-	if v := *(*slice)(elem); uintptr(v.array) == 0 {
+	if uintptr(val.array) == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(t.size, t, true)
-		*(*slice)(x) = *(*slice)(elem)
+		*(*slice)(x) = val
 	}
 	e._type = t
 	e.data = x
@@ -418,100 +388,70 @@ func convT2I(tab *itab, elem unsafe.Pointer) (i iface) {
 	return
 }
 
-func convT2I16(tab *itab, elem unsafe.Pointer) (i iface) {
+func convT2I16(tab *itab, val uint16) (i iface) {
 	t := tab._type
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2I16))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
 	var x unsafe.Pointer
-	if *(*uint16)(elem) == 0 {
+	if val == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(2, t, false)
-		*(*uint16)(x) = *(*uint16)(elem)
+		*(*uint16)(x) = val
 	}
 	i.tab = tab
 	i.data = x
 	return
 }
 
-func convT2I32(tab *itab, elem unsafe.Pointer) (i iface) {
+func convT2I32(tab *itab, val uint32) (i iface) {
 	t := tab._type
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2I32))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
 	var x unsafe.Pointer
-	if *(*uint32)(elem) == 0 {
+	if val == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(4, t, false)
-		*(*uint32)(x) = *(*uint32)(elem)
+		*(*uint32)(x) = val
 	}
 	i.tab = tab
 	i.data = x
 	return
 }
 
-func convT2I64(tab *itab, elem unsafe.Pointer) (i iface) {
+func convT2I64(tab *itab, val uint64) (i iface) {
 	t := tab._type
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2I64))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
 	var x unsafe.Pointer
-	if *(*uint64)(elem) == 0 {
+	if val == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(8, t, false)
-		*(*uint64)(x) = *(*uint64)(elem)
+		*(*uint64)(x) = val
 	}
 	i.tab = tab
 	i.data = x
 	return
 }
 
-func convT2Istring(tab *itab, elem unsafe.Pointer) (i iface) {
+func convT2Istring(tab *itab, val string) (i iface) {
 	t := tab._type
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2Istring))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
 	var x unsafe.Pointer
-	if *(*string)(elem) == "" {
+	if val == "" {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(t.size, t, true)
-		*(*string)(x) = *(*string)(elem)
+		*(*string)(x) = val
 	}
 	i.tab = tab
 	i.data = x
 	return
 }
 
-func convT2Islice(tab *itab, elem unsafe.Pointer) (i iface) {
+func convT2Islice(tab *itab, val slice) (i iface) {
 	t := tab._type
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2Islice))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
 	var x unsafe.Pointer
-	if v := *(*slice)(elem); uintptr(v.array) == 0 {
+	if uintptr(val.array) == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(t.size, t, true)
-		*(*slice)(x) = *(*slice)(elem)
+		*(*slice)(x) = val
 	}
 	i.tab = tab
 	i.data = x
