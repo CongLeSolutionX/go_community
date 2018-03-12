@@ -294,57 +294,39 @@ func convT2E(t *_type, elem unsafe.Pointer) (e eface) {
 	return
 }
 
-func convT2E16(t *_type, elem unsafe.Pointer) (e eface) {
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2E16))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
+func convT2E16(t *_type, val uint16) (e eface) {
 	var x unsafe.Pointer
-	if *(*uint16)(elem) == 0 {
+	if val == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(2, t, false)
-		*(*uint16)(x) = *(*uint16)(elem)
+		*(*uint16)(x) = val
 	}
 	e._type = t
 	e.data = x
 	return
 }
 
-func convT2E32(t *_type, elem unsafe.Pointer) (e eface) {
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2E32))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
+func convT2E32(t *_type, val uint32) (e eface) {
 	var x unsafe.Pointer
-	if *(*uint32)(elem) == 0 {
+	if val == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(4, t, false)
-		*(*uint32)(x) = *(*uint32)(elem)
+		*(*uint32)(x) = val
 	}
 	e._type = t
 	e.data = x
 	return
 }
 
-func convT2E64(t *_type, elem unsafe.Pointer) (e eface) {
-	if raceenabled {
-		raceReadObjectPC(t, elem, getcallerpc(), funcPC(convT2E64))
-	}
-	if msanenabled {
-		msanread(elem, t.size)
-	}
+func convT2E64(t *_type, val uint64) (e eface) {
 	var x unsafe.Pointer
-	if *(*uint64)(elem) == 0 {
+	if val == 0 {
 		x = unsafe.Pointer(&zeroVal[0])
 	} else {
 		x = mallocgc(8, t, false)
-		*(*uint64)(x) = *(*uint64)(elem)
+		*(*uint64)(x) = val
 	}
 	e._type = t
 	e.data = x

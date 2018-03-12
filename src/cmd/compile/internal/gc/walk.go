@@ -959,6 +959,8 @@ opswitch:
 			}
 		}
 
+		var passByVal bool
+		convfn := convFuncName(n.Left.Type, n.Type)
 		if n.Left.Type.IsInterface() {
 			ll = append(ll, n.Left)
 		} else {
@@ -968,21 +970,46 @@ opswitch:
 			// with a non-interface, especially in a switch on interface value
 			// with non-interface cases, is not visible to orderstmt, so we
 			// have to fall back on allocating a temp here.
-			if islvalue(n.Left) {
-				ll = append(ll, nod(OADDR, n.Left, nil))
+
+			// Pass integer values to the convT2E functions by value.
+			// int16 and uint16 as uint16 and so on.
+			if convfn == "convT2E16" || convfn == "convT2E32" || convfn == "convT2E64" {
+				passByVal = true
+				tmp := nod(OCONVNOP, n.Left, nil)
+				switch convfn {
+				case "convT2E16":
+					tmp.Type = types.Types[types.TUINT16]
+				case "convT2E32":
+					tmp.Type = types.Types[types.TUINT32]
+				case "convT2E64":
+					tmp.Type = types.Types[types.TUINT64]
+				}
+				ll = append(ll, tmp)
 			} else {
-				ll = append(ll, nod(OADDR, copyexpr(n.Left, n.Left.Type, init), nil))
+				if islvalue(n.Left) {
+					ll = append(ll, nod(OADDR, n.Left, nil))
+				} else {
+					ll = append(ll, nod(OADDR, copyexpr(n.Left, n.Left.Type, init), nil))
+				}
 			}
+
 			dowidth(n.Left.Type)
 		}
 
-		fn := syslook(convFuncName(n.Left.Type, n.Type))
-		fn = substArgTypes(fn, n.Left.Type, n.Type)
+		fn := syslook(convfn)
+		if !passByVal {
+			fn = substArgTypes(fn, n.Left.Type, n.Type)
+		} else {
+			fmt.Printf("fn type %v\n", fn.Type)
+		}
 		dowidth(fn.Type)
 		n = nod(OCALL, fn, nil)
 		n.List.Set(ll)
 		n = typecheck(n, Erv)
 		n = walkexpr(n, init)
+		if passByVal {
+			fmt.Printf("exit node %v\n", n)
+		}
 
 	case OCONV, OCONVNOP:
 		if thearch.SoftFloat {
