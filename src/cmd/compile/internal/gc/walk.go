@@ -438,6 +438,28 @@ func convFuncName(from, to *types.Type) string {
 	panic("unreachable")
 }
 
+// Return true if the type is an integer and not a byte.
+func intShaped(t *types.Type) bool {
+	return (t.Size() == 2 && t.Align == 2) ||
+		(t.Size() == 4 && t.Align == 4 && !types.Haspointers(t)) ||
+		(t.Size() == 8 && t.Align == types.Types[TUINT64].Align && !types.Haspointers(t))
+}
+
+// Return the unsigned type of the same width.
+// Only meant for the int, int16, int32 and int64 types.
+func unsType(t *types.Type) *types.Type {
+	switch {
+	case t.Size() == 2 && t.Align == 2:
+		return types.Types[TUINT16]
+	case t.Size() == 4 && t.Align == 4 && !types.Haspointers(t):
+		return types.Types[TUINT32]
+	case t.Size() == 8 && t.Align == types.Types[TUINT64].Align && !types.Haspointers(t):
+		return types.Types[TUINT64]
+	}
+	Fatalf("unsType called with inappropriate type %v", t)
+	panic("unreachable")
+}
+
 // The result of walkexpr MUST be assigned back to n, e.g.
 // 	n.Left = walkexpr(n.Left, init)
 func walkexpr(n *Node, init *Nodes) *Node {
@@ -959,6 +981,8 @@ opswitch:
 			}
 		}
 
+		var leftOrig *Node
+		var isIntShaped bool
 		if n.Left.Type.IsInterface() {
 			ll = append(ll, n.Left)
 		} else {
@@ -968,21 +992,41 @@ opswitch:
 			// with a non-interface, especially in a switch on interface value
 			// with non-interface cases, is not visible to orderstmt, so we
 			// have to fall back on allocating a temp here.
-			if islvalue(n.Left) {
-				ll = append(ll, nod(OADDR, n.Left, nil))
+
+			// Pass integer values to the convT2E functions by value.
+			// int16 and uint16 as uint16 and so on.
+			if intShaped(n.Left.Type) {
+				isIntShaped = true
+				leftOrig = n.Left.Orig
+				saveorignode(n.Left)
+				n.Left.Orig.Type = unsType(n.Left.Type)
+				ll = append(ll, n.Left.Orig)
 			} else {
-				ll = append(ll, nod(OADDR, copyexpr(n.Left, n.Left.Type, init), nil))
+				if islvalue(n.Left) {
+					ll = append(ll, nod(OADDR, n.Left, nil))
+				} else {
+					ll = append(ll, nod(OADDR, copyexpr(n.Left, n.Left.Type, init), nil))
+				}
 			}
+
 			dowidth(n.Left.Type)
 		}
 
 		fn := syslook(convFuncName(n.Left.Type, n.Type))
-		fn = substArgTypes(fn, n.Left.Type, n.Type)
+
+		if isIntShaped {
+			fn = substArgTypes(fn, n.Left.Orig.Type, n.Type)
+		} else {
+			fn = substArgTypes(fn, n.Left.Type, n.Type)
+		}
 		dowidth(fn.Type)
 		n = nod(OCALL, fn, nil)
 		n.List.Set(ll)
 		n = typecheck(n, Erv)
 		n = walkexpr(n, init)
+		if isIntShaped {
+			n.Left.Orig = leftOrig
+		}
 
 	case OCONV, OCONVNOP:
 		if thearch.SoftFloat {
