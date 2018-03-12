@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be8ed98b_fc5b9480",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-03-12T15:55:32Z",
+      "side": 1,
+      "message": "The title is a little vague, could you change it to \"full operand support\"?",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e7b3000_6beebd5d",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-03-12T15:55:32Z",
+      "side": 1,
+      "message": "The other lines in this file don\u0027t have tabs, just spaces, could you change them so they are consistent?",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfad1b13_ef047511",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-03-12T15:55:32Z",
+      "side": 1,
+      "message": "I don\u0027t see how an SOREG could be used here. That is supposed to be reg + signed offset.",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42d8c901_46fec4cf",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-03-12T15:55:32Z",
+      "side": 1,
+      "message": "I don\u0027t see that a constant operand is allowed on a eciwx, so maybe the l*arx instructions need their own entry in Optab with their own list of allowable operands.",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc7fe3ce_17287a2b",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3013,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-03-12T15:55:32Z",
+      "side": 1,
+      "message": "Shouldn\u0027t there be a check here to verify the eh value is valid, i.e., not too large?",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
