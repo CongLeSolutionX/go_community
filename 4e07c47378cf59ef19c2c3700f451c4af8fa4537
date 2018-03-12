@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "91c04732_23e13c65",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 25690
+      },
+      "writtenOn": "2018-03-12T18:39:09Z",
+      "side": 1,
+      "message": "These rules capture cases exposed during the lowering processes that are not captured by the early nilcheckelim pass.  I\u0027d like to get the changes to nilcheck.go merged, so I\u0027ve remove the target-specific rules from this CL.  I\u0027ll submit a new CL with the target-specific changes shortly, if the benefit seems worthwhile.",
+      "parentUuid": "f80426fa_f38da634",
+      "revId": "4e07c47378cf59ef19c2c3700f451c4af8fa4537",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ade13ee_00939dbd",
         "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "4e07c47378cf59ef19c2c3700f451c4af8fa4537",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6e3ac9d_ecb89f56",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 25690
+      },
+      "writtenOn": "2018-03-12T18:39:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ade13ee_00939dbd",
+      "revId": "4e07c47378cf59ef19c2c3700f451c4af8fa4537",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
