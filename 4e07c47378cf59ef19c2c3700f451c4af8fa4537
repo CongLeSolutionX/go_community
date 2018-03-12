@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f80426fa_f38da634",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 5
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-12T17:55:30Z",
+      "side": 1,
+      "message": "1. Do we still need this? Is the rule you added in nilcheckelim.go sufficient?\n2. LoweredNilCheck, which is from NilCheck, has \"Void\" type instead of memory type. It should not be rewritten to mem.\n3. If this is necessary, we should add them to all architectures, not only AMD64 and ARM64.",
+      "revId": "4e07c47378cf59ef19c2c3700f451c4af8fa4537",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ade13ee_00939dbd",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-12T17:55:30Z",
+      "side": 1,
+      "message": "This depends on the iteration order of Values, which is not necessarily dependency order at this point. We should run the loop up to a fix point. So move this to the loop right below this.",
+      "revId": "4e07c47378cf59ef19c2c3700f451c4af8fa4537",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
