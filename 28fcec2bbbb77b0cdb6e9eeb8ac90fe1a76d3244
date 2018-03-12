@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dfcdd22_83c27a88",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-12T00:51:27Z",
+      "side": 1,
+      "message": "Rename `global` to `globalFull` for the sake of consistency.",
+      "revId": "28fcec2bbbb77b0cdb6e9eeb8ac90fe1a76d3244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08488fa7_6bab2fea",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-12T00:51:27Z",
+      "side": 1,
+      "message": "I\u0027d start with smaller shardSize that fits a single cache line (128 bytes) on 64-bit platforms. Currently it is 14. This means up to 28 per-P items in the pool, which should be more than enough comparing to the current single per-P item :)",
+      "revId": "28fcec2bbbb77b0cdb6e9eeb8ac90fe1a76d3244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283db60b_c99dd707",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-12T00:51:27Z",
+      "side": 1,
+      "message": "Move next to the bottom of the struct, since it is accessed after accessing elems on fast paths in the code below.",
+      "revId": "28fcec2bbbb77b0cdb6e9eeb8ac90fe1a76d3244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96550ef6_aaf28c6e",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-12T00:51:27Z",
+      "side": 1,
+      "message": "poolLocal may be defined as:\n\n\n  type poolLocal poolShard\n\n\nThis will remove all the `.private` substrings in the code below.",
+      "revId": "28fcec2bbbb77b0cdb6e9eeb8ac90fe1a76d3244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d7d6828_3d019f70",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-12T00:51:27Z",
+      "side": 1,
+      "message": "Linse 127-149 may be rewritten in the following way with a single p.globalUnlock():\n\n  // Move full private shard to the global pool.\n  full :\u003d l.next\n  if full !\u003d nil {\n    l.next \u003d nil\n    full.next \u003d p.globalFull\n    p.globalFull \u003d full\n  }\n\n  // Grab an empty shard from global pool and put x to it.\n  empty :\u003d p.globalEmpty\n  if empty !\u003d nil {\n    p.globalEmpty \u003d empty.next\n    empty.next \u003d nil\n  }\n  p.globalUnlock()\n\n  if empty \u003d\u003d nil {\n    empty \u003d \u0026poolShard{}\n  }\n  empty.elem[0] \u003d x\n  empty.elems \u003d 1\n  l.next \u003d empty",
+      "revId": "28fcec2bbbb77b0cdb6e9eeb8ac90fe1a76d3244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24bf11ef_9c2edc0d",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-12T00:51:27Z",
+      "side": 1,
+      "message": "Lines 184-202 may be rewritten as:\n\n  // Move an empty shard to global pool.\n  empty :\u003d l.next\n  if empty !\u003d nil {\n    l.next \u003d nil\n    empty.next \u003d p.globalEmpty\n    p.globalEmpty \u003d empty\n  }\n\n  // Grab full shard from global pool and obtain x from it.\n  full :\u003d p.globalFull\n  if full !\u003d nil {\n    p.globalFull \u003d full.next\n    full.next \u003d nil\n    l.next \u003d full\n    full.elems--\n    x \u003d full.elem[full.elems]\n  }",
+      "revId": "28fcec2bbbb77b0cdb6e9eeb8ac90fe1a76d3244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e54039cd_9ddcbc9c",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-12T00:51:27Z",
+      "side": 1,
+      "message": "Rename it to `globalTryLock`",
+      "revId": "28fcec2bbbb77b0cdb6e9eeb8ac90fe1a76d3244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
