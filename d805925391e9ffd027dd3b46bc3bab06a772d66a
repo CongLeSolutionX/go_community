@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c68d2d7b_5ce8d99a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2018-03-12T20:05:51Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "be8ed98b_fc5b9480",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e7b3000_6beebd5d",
         "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1ce0f6fb_1e29ad8f",
+        "filename": "src/cmd/asm/internal/asm/testdata/ppc64enc.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2018-03-12T20:05:51Z",
+      "side": 1,
+      "message": "OK.",
+      "parentUuid": "8e7b3000_6beebd5d",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfad1b13_ef047511",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2018-03-12T15:55:32Z",
       "side": 1,
       "message": "I don\u0027t see how an SOREG could be used here. That is supposed to be reg + signed offset.",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f48efb1_d330cd55",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2018-03-12T20:05:51Z",
+      "side": 1,
+      "message": "Do you want me to modify the original behavior of l*arx before this change? The original syntax was \"L*ARX (RA+RB),RT\" (the same as all indexed loads/stores), not \"L*ARX RA,RB,RT\".",
+      "parentUuid": "cfad1b13_ef047511",
       "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "9d3eef2b_4589e738",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2018-03-12T20:05:51Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "42d8c901_46fec4cf",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc7fe3ce_17287a2b",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 2
@@ -84,6 +156,24 @@
       "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1071e3e6_10b9bbe5",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 3013,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2018-03-12T20:05:51Z",
+      "side": 1,
+      "message": "It doesn\u0027t hurt to add it, even though a large value would be masked out later in AOP_RRRI. But I initially supposed who used asm directly was supposed to know what they\u0027re doing :)",
+      "parentUuid": "dc7fe3ce_17287a2b",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
