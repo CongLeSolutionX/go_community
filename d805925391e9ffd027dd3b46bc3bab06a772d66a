@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "9756a47d_41044e46",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-03-12T21:18:53Z",
+      "side": 1,
+      "message": "No, I don\u0027t think you want to change existing behavior in case there is existing asm that depends on the old. \n\nI don\u0027t think using C_SOREG is correct here. Show me a case where it is needed. It is not needed to indicate an index register, since that worked before.",
+      "parentUuid": "0f48efb1_d330cd55",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42d8c901_46fec4cf",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 2
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "Same as above.",
       "parentUuid": "42d8c901_46fec4cf",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c8cef19_8d5d347a",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 6320
+      },
+      "writtenOn": "2018-03-12T21:18:53Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you mean by \"Same as above\". You are adding an entry to the Optab for an opcode/operand combination that doesn\u0027t exist. ECIWX does not allow a constant operand.",
+      "parentUuid": "9d3eef2b_4589e738",
       "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
