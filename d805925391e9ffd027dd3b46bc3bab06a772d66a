@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "6c388964_0e3e93b8",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2018-03-12T22:12:35Z",
+      "side": 1,
+      "message": "Oh, I see now. There are two extra entries here. Removed.",
+      "parentUuid": "9756a47d_41044e46",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42d8c901_46fec4cf",
         "filename": "src/cmd/internal/obj/ppc64/asm9.go",
         "patchSetId": 2
@@ -172,6 +190,24 @@
       "side": 1,
       "message": "I don\u0027t understand what you mean by \"Same as above\". You are adding an entry to the Optab for an opcode/operand combination that doesn\u0027t exist. ECIWX does not allow a constant operand.",
       "parentUuid": "9d3eef2b_4589e738",
+      "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5881da9_519d5f32",
+        "filename": "src/cmd/internal/obj/ppc64/asm9.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 13015
+      },
+      "writtenOn": "2018-03-12T22:12:35Z",
+      "side": 1,
+      "message": "Scratch that... I thought this was also about changing instruction behavior.\n\nSee line 1797. The L*AR instructions were originally under \u0027AECIWX\u0027 in the case statement. Hence, the new form of L*AR, which takes the constant EH operand, will be under AECIWX at this point. This does not affect the behavior of ECIWX.\n\nIf a new ALWAR (or whatever we call the entry) is created in the optab, those original L*AR instructions will have to be moved into a new case statement in \u0027asmout\u0027. Is that what you had in mind? If so, I can change that. It won\u0027t have any side effects in the compiler.\n\nBTW, ECIWX/ECOWX were optional instructions and are not even present in ISA 3.0.",
+      "parentUuid": "5c8cef19_8d5d347a",
       "revId": "d805925391e9ffd027dd3b46bc3bab06a772d66a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
