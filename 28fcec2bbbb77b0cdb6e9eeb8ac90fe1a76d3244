@@ -54,6 +54,23 @@
     },
     {
       "key": {
+        "uuid": "0bf91152_1aa046cb",
+        "filename": "src/sync/pool.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-13T12:02:40Z",
+      "side": 1,
+      "message": "Yes. I was mistaken. But even 7x2\u003d14 per-P items looks good comparing to a single per-P item in the current implementation",
+      "revId": "28fcec2bbbb77b0cdb6e9eeb8ac90fe1a76d3244",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "283db60b_c99dd707",
         "filename": "src/sync/pool.go",
         "patchSetId": 4
