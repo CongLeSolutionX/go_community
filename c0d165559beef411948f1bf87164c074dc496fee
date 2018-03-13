@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebc0e77d_2298e2ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-13T17:11:54Z",
+      "side": 1,
+      "message": "typo: vendor\n\nalso, while you\u0027re here, change json to JSON",
+      "revId": "c0d165559beef411948f1bf87164c074dc496fee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
