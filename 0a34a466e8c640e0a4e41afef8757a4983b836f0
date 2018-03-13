@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4b073228_c0ad5660",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-03-13T15:03:30Z",
+      "side": 1,
+      "message": "There seems to be a single obj.Link object in gc/go.go, \n\nvar Ctxt *obj.Link\n\nand it seems to be shared among all the compilations,\nwhich appear to be potentially running in parallel within\ncompileSSA in gc/pgen.go (there is a \"worker\" parameter).\n\nIf I create the debuginfo closure in two concurrent workers\nand both assign to gc.Ctxt.debugInfo, something is likely\nto go wrong.",
+      "parentUuid": "335a3a28_5b8f43b2",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 55
+      },
+      "revId": "0a34a466e8c640e0a4e41afef8757a4983b836f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b3d1a49_97c0e9c2",
         "filename": "src/cmd/compile/internal/gc/pgen.go",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-13T14:50:25Z",
       "side": 1,
       "message": "Given that this is now a function that returns a function, it might be nice to name it something different (for example, \u0027genDebugInfoFunc\u0027). Especially the function params later on are also called \u0027debuginfo\u0027). Just a thought.",
+      "range": {
+        "startLine": 327,
+        "startChar": 5,
+        "endLine": 327,
+        "endChar": 14
+      },
+      "revId": "0a34a466e8c640e0a4e41afef8757a4983b836f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "572ba1cc_7aa9b9ee",
+        "filename": "src/cmd/compile/internal/gc/pgen.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-03-13T15:03:30Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "8b3d1a49_97c0e9c2",
       "range": {
         "startLine": 327,
         "startChar": 5,
