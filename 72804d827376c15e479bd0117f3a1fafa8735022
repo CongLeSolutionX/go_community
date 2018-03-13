@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4453e05f_2d9c4756",
+        "filename": "src/cmd/asm/internal/asm/testdata/arm64.s",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-13T12:10:30Z",
+      "side": 1,
+      "message": "GNU assembler does not support BIC/ORN/EON with constant operand, but we support them ( assembling BIC $n to AND $~n).",
+      "parentUuid": "51160af3_d70a84ff",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "72804d827376c15e479bd0117f3a1fafa8735022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "69341f6e_345c0e26",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "f9bbb9ca_3bdacfbe",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-13T12:10:30Z",
+      "side": 1,
+      "message": "Yes, C_RSP includes C_REG.\nhttps://go.googlesource.com/go/+/master/src/cmd/internal/obj/arm64/a.out.go#391",
+      "parentUuid": "69341f6e_345c0e26",
+      "revId": "72804d827376c15e479bd0117f3a1fafa8735022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "53a1b5ab_64645531",
         "filename": "src/cmd/internal/obj/arm64/asm7.go",
         "patchSetId": 1
@@ -53,6 +95,30 @@
       "writtenOn": "2018-03-13T08:48:53Z",
       "side": 1,
       "message": "According to ARM64 reference manual, BIC, BICS, EON and ORN instructions have only logical shifted register, but AND, ANDS, EOR and ORR instructions have logical immediate and logical shifted register. So I wonder why all those instructions have the same optab?",
+      "range": {
+        "startLine": 1746,
+        "startChar": 2,
+        "endLine": 1747,
+        "endChar": 24
+      },
+      "revId": "72804d827376c15e479bd0117f3a1fafa8735022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e91d8714_1eb112f4",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1747,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-13T12:10:30Z",
+      "side": 1,
+      "message": "Our assembler assembles BIC $n to AND $~n for convenience. (It is already doing that, not changed by this CL.) So AND and BIC have the same optab entries.",
+      "parentUuid": "53a1b5ab_64645531",
       "range": {
         "startLine": 1746,
         "startChar": 2,
