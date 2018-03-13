@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69341f6e_345c0e26",
+        "filename": "src/cmd/internal/obj/arm64/asm7.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2018-03-13T02:16:42Z",
+      "side": 1,
+      "message": "Does C_RSP include C_REG?  Because otherwise where did the old instructions that match this line go?",
+      "revId": "72804d827376c15e479bd0117f3a1fafa8735022",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
