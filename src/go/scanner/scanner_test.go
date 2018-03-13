@@ -504,8 +504,8 @@ func TestSemis(t *testing.T) {
 
 type segment struct {
 	srcline      string // a line of source text
-	filename     string // filename for current token
-	line, column int    // line number for current token
+	filename     string // filename for current token; error message for invalid line directives
+	line, column int    // line and column for current token; error position for invalid line directives
 }
 
 var segments = []segment{
@@ -518,9 +518,8 @@ var segments = []segment{
 	{"\n//line  \t :42\n  line1", "", 42, 0},
 	{"\n//line File2.go:200\n  line200", filepath.Join("dir", "File2.go"), 200, 0},
 	{"\n//line foo\t:42\n  line42", filepath.Join("dir", "foo"), 42, 0},
-	{"\n //line foo:42\n  line44", filepath.Join("dir", "foo"), 44, 0},           // bad line comment, ignored
-	{"\n//line foo 42\n  line46", filepath.Join("dir", "foo"), 46, 0},            // bad line comment, ignored
-	{"\n//line foo:42 extra text\n  line48", filepath.Join("dir", "foo"), 48, 0}, // bad line comment, ignored
+	{"\n //line foo:42\n  line44", filepath.Join("dir", "foo"), 44, 0}, // bad line comment, ignored
+	{"\n//line foo 42\n  line46", filepath.Join("dir", "foo"), 46, 0},  // bad line comment, ignored
 	{"\n//line ./foo:42\n  line42", filepath.Join("dir", "foo"), 42, 0},
 	{"\n//line a/b/c/File1.go:100\n  line100", filepath.Join("dir", "a", "b", "c", "File1.go"), 100, 0},
 
@@ -578,7 +577,46 @@ func TestLineDirectives(t *testing.T) {
 	}
 
 	if S.ErrorCount != 0 {
-		t.Errorf("found %d errors", S.ErrorCount)
+		t.Errorf("got %d errors", S.ErrorCount)
+	}
+}
+
+// The filename is used for the error message in these test cases.
+// The first line directive is valid and used to control the expected error line.
+var invalidSegments = []segment{
+	{"\n//line :1:1\n//line foo:42 extra text\ndummy", "invalid line number: 42 extra text", 1, 12},
+	{"\n//line :2:1\n//line foobar:\ndummy", "invalid line number: ", 2, 15},
+	{"\n//line :5:1\n//line :0\ndummy", "invalid line number: 0", 5, 9},
+	{"\n//line :10:1\n//line :1:0\ndummy", "invalid column number: 0", 10, 11},
+	{"\n//line :1:1\n//line :foo:0\ndummy", "invalid line number: 0", 1, 13}, // foo is considered part of the filename
+}
+
+// Verify that invalid line directives get the correct error message.
+func TestInvalidLineDirectives(t *testing.T) {
+	// make source
+	var src string
+	for _, e := range invalidSegments {
+		src += e.srcline
+	}
+
+	// verify scan
+	var S Scanner
+	var s segment // current segment
+	file := fset.AddFile(filepath.Join("dir", "TestInvalidLineDirectives"), fset.Base(), len(src))
+	S.Init(file, []byte(src), func(pos token.Position, msg string) {
+		if msg != s.filename {
+			t.Errorf("got error %q; want %q", msg, s.filename)
+		}
+		if pos.Line != s.line || pos.Column != s.column {
+			t.Errorf("got position %d:%d; want %d:%d", pos.Line, pos.Column, s.line, s.column)
+		}
+	}, dontInsertSemis)
+	for _, s = range invalidSegments {
+		S.Scan()
+	}
+
+	if S.ErrorCount != len(invalidSegments) {
+		t.Errorf("go %d errors; want %d", S.ErrorCount, len(invalidSegments))
 	}
 }
 

@@ -214,10 +214,6 @@ var prefix = []byte("line ")
 // as a line directive. If successful, it updates the line info table
 // for the position next per the line directive.
 func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
-	// the existing code used to ignore incorrect line/column values
-	// TODO(gri) adjust once we agree on the directive syntax (issue #24183)
-	reportErrors := false
-
 	// extract comment text
 	if text[1] == '*' {
 		text = text[:len(text)-2] // lop off trailing "*/"
@@ -233,9 +229,7 @@ func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
 
 	if !ok {
 		// text has a suffix :xxx but xxx is not a number
-		if reportErrors {
-			s.error(offs+i, "invalid line number: "+string(text[i:]))
-		}
+		s.error(offs+i, "invalid line number: "+string(text[i:]))
 		return
 	}
 
@@ -246,9 +240,7 @@ func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
 		i, i2 = i2, i
 		line, col = n2, n
 		if col == 0 {
-			if reportErrors {
-				s.error(offs+i2, "invalid column number: "+string(text[i2:]))
-			}
+			s.error(offs+i2, "invalid column number: "+string(text[i2:]))
 			return
 		}
 		text = text[:i2-1] // lop off ":col"
@@ -258,9 +250,7 @@ func (s *Scanner) updateLineInfo(next, offs int, text []byte) {
 	}
 
 	if line == 0 {
-		if reportErrors {
-			s.error(offs+i, "invalid line number: "+string(text[i:]))
-		}
+		s.error(offs+i, "invalid line number: "+string(text[i:]))
 		return
 	}
 
