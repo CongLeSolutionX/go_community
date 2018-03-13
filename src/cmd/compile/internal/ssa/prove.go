@@ -699,7 +699,11 @@ func tryPushBranch(ft *factsTable, b *Block, br branch) bool {
 	if tr, has := domainRelationTable[b.Control.Op]; has {
 		// When we branched from parent we learned a new set of
 		// restrictions. Update the factsTable accordingly.
-		updateRestrictions(b, ft, tr.d, c.Args[0], c.Args[1], tr.r, br)
+		d := tr.d
+		if d == signed && ft.isNonNegative(c.Args[0]) && ft.isNonNegative(c.Args[1]) {
+			d |= unsigned
+		}
+		updateRestrictions(b, ft, d, c.Args[0], c.Args[1], tr.r, br)
 	}
 	if ft.unsat {
 		// This branch's conditions contradict some known
