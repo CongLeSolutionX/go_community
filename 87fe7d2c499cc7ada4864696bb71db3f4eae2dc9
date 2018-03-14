@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4eeac4bc_0d8d7f05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-14T19:50:17Z",
+      "side": 1,
+      "message": "You can run https://github.com/tzneal/bincmp on e. g. go tool before/after to see real-world size impact.",
+      "revId": "87fe7d2c499cc7ada4864696bb71db3f4eae2dc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63ccd486_c7f99ff6",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 2
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 26817
+      },
+      "writtenOn": "2018-03-14T19:50:17Z",
+      "side": 1,
+      "message": "I think !config.useSSE implies no duffcopy, because duffcopy uses sse instructions",
+      "revId": "87fe7d2c499cc7ada4864696bb71db3f4eae2dc9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
