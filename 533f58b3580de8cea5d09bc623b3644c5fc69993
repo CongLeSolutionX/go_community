@@ -84,6 +84,24 @@
       "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47732e1f_a62ad838",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-03-14T18:06:19Z",
+      "side": 1,
+      "message": "I will change this (and the Move [48] which would be 12) to check `\u0026\u0026 config.SSE` and fix the conditional below for using duffcopy.",
+      "parentUuid": "de1e06d0_ae1cf8ba",
+      "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
