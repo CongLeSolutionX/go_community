@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c00cf5a1_fa539da6",
+        "filename": "src/go/scanner/scanner_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5440
+      },
+      "writtenOn": "2018-03-14T23:20:31Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \" \\t \" now too?",
+      "range": {
+        "startLine": 518,
+        "startChar": 31,
+        "endLine": 518,
+        "endChar": 33
+      },
+      "revId": "2b9658e31f4cb53abc014047f5502c4150e97038",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
