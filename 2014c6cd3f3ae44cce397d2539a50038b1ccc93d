@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0126e958_cb907bfd",
+        "filename": "src/go/internal/srcimporter/srcimporter_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-14T23:17:01Z",
+      "side": 1,
+      "message": "s/TestRelativeImport/TestIssue23092/\n\nPerhaps add a comment before.\n\n// TestIssue23092 tests relative imports.",
+      "range": {
+        "startLine": 166,
+        "startChar": 5,
+        "endLine": 166,
+        "endChar": 23
+      },
+      "revId": "2014c6cd3f3ae44cce397d2539a50038b1ccc93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3964ad0c_f0e9086a",
+        "filename": "src/go/internal/srcimporter/srcimporter_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-14T23:17:01Z",
+      "side": 1,
+      "message": "maybe\n\nconst pkgName \u003d \"issue23092\"\nconst pkgPath \u003d \"./testdata/\" + pkgName\n\nand then use pkgName and pkgPath below",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 1
+      },
+      "revId": "2014c6cd3f3ae44cce397d2539a50038b1ccc93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd6c8a76_9955ac0c",
+        "filename": "src/go/internal/srcimporter/srcimporter_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-14T23:17:01Z",
+      "side": 1,
+      "message": "nitpick:\n\ns/got %q,/got %q;/\n\nfor consistency",
+      "range": {
+        "startLine": 177,
+        "startChar": 18,
+        "endLine": 177,
+        "endChar": 19
+      },
+      "revId": "2014c6cd3f3ae44cce397d2539a50038b1ccc93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33ed0550_7e96c207",
+        "filename": "src/go/internal/srcimporter/srcimporter_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-14T23:17:01Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 181,
+        "startChar": 16,
+        "endLine": 181,
+        "endChar": 17
+      },
+      "revId": "2014c6cd3f3ae44cce397d2539a50038b1ccc93d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
