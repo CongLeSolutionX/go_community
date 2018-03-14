@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a246beca_5019edd8",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 8
+      },
+      "lineNbr": 1451,
+      "author": {
+        "id": 25690
+      },
+      "writtenOn": "2018-03-14T18:44:06Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these rules and the above be checking for a single use of the FMUL/FNEG?  If not you might replace a FADD with a FMA without removing the original FMUL as an example.",
+      "revId": "f4c3072cf53889b2f11c97ee0bca53925b791f5f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
