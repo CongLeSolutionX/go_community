@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "4e8f692d_a5a40d7c",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-03-14T19:38:22Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "f717e1f4_dd0ed8ac",
+      "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de1e06d0_ae1cf8ba",
         "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
         "patchSetId": 1
@@ -174,6 +192,24 @@
       "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07622fff_63230bc8",
+        "filename": "src/cmd/compile/internal/ssa/gen/AMD64.rules",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-03-14T19:38:22Z",
+      "side": 1,
+      "message": "I have changed 64 and 48 to also check config.useSSE",
+      "parentUuid": "47732e1f_a62ad838",
+      "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
