@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "86cc1e4b_6520e295",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-03-14T19:35:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c88966ec_b6a49efc",
+      "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96cccb4b_fe6b325c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "134b0c7f_dee1c6d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-03-14T19:35:53Z",
+      "side": 1,
+      "message": "I\u0027ve added a section about bytes as well.",
+      "parentUuid": "96cccb4b_fe6b325c",
+      "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -68,6 +104,24 @@
       "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7b708ee_e8fca1ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-03-14T19:35:53Z",
+      "side": 1,
+      "message": "I\u0027ve expanded the sentence to address this.",
+      "parentUuid": "474600b6_68af295a",
+      "revId": "533f58b3580de8cea5d09bc623b3644c5fc69993",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
