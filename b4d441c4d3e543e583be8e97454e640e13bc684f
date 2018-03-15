@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d47c6e4f_ab561e49",
+        "filename": "src/go/doc/docexamples_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 13220
+      },
+      "writtenOn": "2018-03-15T05:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a206415_9280e795",
+      "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab1a6f0_df117bc2",
         "filename": "src/go/doc/docexamples_test.go",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "376b2158_bad763d6",
+        "filename": "src/go/doc/docexamples_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 13220
+      },
+      "writtenOn": "2018-03-15T05:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab1a6f0_df117bc2",
+      "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "c3eabbf8_ee98521a",
+        "filename": "src/go/doc/docexamples_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 13220
+      },
+      "writtenOn": "2018-03-15T05:05:13Z",
+      "side": 1,
+      "message": "I had copied this from the other CL. If you like the new wording I\u0027ll copy it back.",
+      "parentUuid": "76a14a79_b56da488",
+      "range": {
+        "startLine": 83,
+        "startChar": 34,
+        "endLine": 83,
+        "endChar": 36
+      },
+      "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "baff41a8_975480b2",
         "filename": "src/go/doc/docexamples_test.go",
         "patchSetId": 2
@@ -73,6 +133,24 @@
       "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a2a245f_a2d43ede",
+        "filename": "src/go/doc/docexamples_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 13220
+      },
+      "writtenOn": "2018-03-15T05:05:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baff41a8_975480b2",
+      "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
