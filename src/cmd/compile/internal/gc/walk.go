@@ -134,6 +134,209 @@ func adjustargs(n *Node, adjust int) {
 	}
 }
 
+// rewriteStructAssign attempts to rewrite assignments whose RHS is a struct literal
+// in which some fields are preserved from the LHS
+// Instead of allocating a struct on stack, initializing it and then copying it into
+// the RHS, assign fields individually, omitting assignments to unchanged fields and
+// coalescing zero'ing as much as possible
+// See issue #24386 for rationale
+func rewriteStructAssign(n *Node) *Node {
+	if n == nil || n.Op != OAS || n.Right == nil || n.Right.Op != OSTRUCTLIT {
+		return nil
+	}
+	if n.Left.Op != ONAME && (n.Left.Op != OIND || n.Left.Left.Op != ONAME) {
+		return nil
+	}
+	if !eqtype(n.Left.Type, n.Right.Type) {
+		return nil
+	}
+	if n.Colas() {
+		return nil
+	}
+
+	var l, rl Nodes
+	ref := make(map[*types.Sym]struct{})
+	op := ODOT
+	name := n.Left
+	if n.Left.Op == OIND {
+		op = ODOTPTR
+		name = n.Left.Left
+	}
+
+	for _, f := range n.Right.List.Slice() {
+		// omit zero values (re-created later if needed, coalesced if possible)
+		if iszero(f.Left) {
+			continue
+		}
+		ref[f.Sym] = struct{}{}
+		// omit assignments to same
+		if f.Left.Op == op && f.Left.Left == name && f.Left.Sym == f.Sym {
+			continue
+		}
+		lhs := nodl(f.Pos, ODOT, name, nil)
+		lhs.Sym = f.Sym
+		l.Append(lhs)
+		rl.Append(f.Left)
+	}
+
+	// zero'ing handled in walkexpr
+	if len(ref) == 0 {
+		return nil
+	}
+
+	// no preserved field: don't rewrite
+	// NB: although it should be possible to take advantage of this optimization for all
+	// struct writes, it is disabled for now as it seems that Colas() is not at all a
+	// reliable indicator and things break when trying to apply this optimization across
+	// the board.
+	// Specifically, many assignments to implicit/temporary variables appear to be the
+	// first reference to that name but do not have Colas set accordingly, and rewriting
+	// them to OAS2 ends up breaking invariants in the SSA code
+	if len(ref) == l.Len() {
+		return nil
+	}
+
+	as2 := nodl(n.Pos, OAS2, nil, nil)
+	as2.List = l
+	as2.Rlist = rl
+	zl := zeroOmittedFields(as2, name, n.Right.Type, ref)
+
+	n = typecheck(as2, Etop)
+
+	if zl.Len() > 0 {
+		typecheckslice(zl.Slice(), Etop)
+		// NB: MUST evaluate RHS of OAS2 before any call to memclr on LHS
+		zl.Prepend(n)
+		n = nodl(n.Pos, OBLOCK, nil, nil)
+		n.List = zl
+	}
+
+	return n
+}
+
+// zeroOmittedFields creates a sequence of assignments and calls to memclr that most
+// succinctly zeroes the subset of fields of the given struct type not included in the
+// given set of symbols
+func zeroOmittedFields(n, name *Node, t *types.Type, ref map[*types.Sym]struct{}) Nodes {
+	bulkBarrier := syslook("bulkBarrierPreWrite")
+	memclrPtr := syslook("memclrHasPointers")
+	memclrNoPtr := syslook("memclrNoHeapPointers")
+
+	base := addrToUintPtr(n.Pos, name)
+	// write barrier expects aligned input
+	alignMask := int64(thearch.LinkArch.PtrSize - 1)
+
+	zeroRange := func(start, startPtr, size int64, hasPtr bool, zl *Nodes) {
+		fn := memclrNoPtr
+		smallSize := size <= 32
+		if hasPtr {
+			prefix := startPtr - start
+			if prefix > 0 || (size&alignMask) != 0 || smallSize {
+				// to clear the largest possible regions in the smallest possible
+				// number of calls, split memclrHasPointers into bulkBarrierPreWrite
+				// and memclrNoHeapPointers, passing only the properly aligned subset
+				// to the write barrier
+				dst := unsafeAdd(n.Pos, base, startPtr).Left
+				src := nodintconst(0)
+				src.Pos = n.Pos
+				sz := nodintconst((size - prefix) &^ alignMask)
+				sz.Pos = n.Pos
+				zl.Append(mkcall1(bulkBarrier, nil, nil, dst, src, sz))
+			} else {
+				fn = memclrPtr
+			}
+		}
+		// special treatment for small size
+		// TODO: intrisify memclr in backend instead, for more accurate decision
+		if smallSize {
+			wt := [...]types.EType{types.TUINT8, types.TUINT16, types.TUINT32, types.TUINT64}
+			for size > 0 {
+				var w uint
+				if (start&1) != 0 || size == 1 {
+					w = 0
+				} else if (start&2) != 0 && size >= 2 || size == 2 {
+					w = 1
+				} else if (start&4) != 0 && size >= 4 || size == 4 {
+					w = 2
+				} else {
+					w = 3
+				}
+				// for some reason, unsafe pointer writes result in worse codegen than
+				// simple field writes (leftover from nil checks, no coalescing)
+				// so try to match each write to a struct field
+				// intrisifying memclr for known small sizes would presumably avoid that
+				if f := t.FieldAt(start); f != nil && f.Type.Width == 1<<w {
+					r := nodl(n.Pos, ODOT, name, nil)
+					r.Sym = f.Sym
+					zl.Append(nodl(n.Pos, OAS, r, nodzero(f.Type)))
+				} else {
+					dst := nodl(n.Pos, OCONV, unsafeAdd(n.Pos, base, start), nil)
+					dst.Type = types.NewPtr(types.Types[wt[w]])
+					z := nodintconst(0)
+					z.Pos = n.Pos
+					zl.Append(nodl(n.Pos, OAS, nodl(n.Pos, OIND, dst, nil), z))
+				}
+				start += 1 << w
+				size -= 1 << w
+			}
+		} else {
+			sn := nodintconst(size)
+			sn.Pos = n.Pos
+			zl.Append(mkcall1(fn, nil, nil, unsafeAdd(n.Pos, base, start), sn))
+		}
+	}
+
+	var start, startPtr, size, prev int64
+	var hasPtr bool
+	var zl Nodes
+
+	for _, f := range t.FieldSlice() {
+		// ensure that fields are in ascending offset
+		if f.Offset < prev {
+			Fatalf("internal compiler error: improperly ordered fields %+v", t)
+		}
+		prev = f.Offset
+		if _, present := ref[f.Sym]; present {
+			// preserving/setting field, must close zero range
+			// NB: do this here instead of by checking contiguous offset to
+			// allow coalescing fields with alignment gaps
+			if size > 0 {
+				zeroRange(start, startPtr, size, hasPtr, &zl)
+				size = 0
+			}
+			continue
+		}
+
+		w := f.Type.Width
+		ptr := f.Type.HasHeapPointer()
+		if size > 0 {
+			if start+size != f.Offset {
+				size = f.Offset - start
+			}
+			if !hasPtr && ptr {
+				hasPtr = true
+				startPtr = f.Offset
+			}
+			size += w
+			continue
+		}
+		start = f.Offset
+		size = w
+		hasPtr = ptr
+		if ptr {
+			startPtr = f.Offset
+			if (f.Offset|w)&alignMask != 0 {
+				Fatalf("internal compiler error: improperly aligned field")
+			}
+		}
+	}
+
+	if size > 0 {
+		zeroRange(start, startPtr, size, hasPtr, &zl)
+	}
+	return zl
+}
+
 // The result of walkstmt MUST be assigned back to n, e.g.
 // 	n.Left = walkstmt(n.Left)
 func walkstmt(n *Node) *Node {
@@ -177,6 +380,9 @@ func walkstmt(n *Node) *Node {
 		OGETG:
 		if n.Typecheck() == 0 {
 			Fatalf("missing typecheck: %+v", n)
+		}
+		if rewritten := rewriteStructAssign(n); rewritten != nil {
+			return walkstmt(rewritten)
 		}
 		wascopy := n.Op == OCOPY
 		init := n.Ninit

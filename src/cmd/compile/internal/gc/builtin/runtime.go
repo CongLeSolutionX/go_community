@@ -158,6 +158,7 @@ func growslice(typ *byte, old []any, cap int) (ary []any)
 func memmove(to *any, frm *any, length uintptr)
 func memclrNoHeapPointers(ptr unsafe.Pointer, n uintptr)
 func memclrHasPointers(ptr unsafe.Pointer, n uintptr)
+func bulkBarrierPreWrite(dst, src, size uintptr)
 
 func memequal(x, y *any, size uintptr) bool
 func memequal8(x, y *any) bool
