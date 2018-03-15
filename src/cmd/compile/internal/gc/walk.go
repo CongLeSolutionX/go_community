@@ -134,6 +134,74 @@ func adjustargs(n *Node, adjust int) {
 	}
 }
 
+// Rewrite struct assignment to take advantage of unchanged fields
+// See #24386
+func rewriteStructAssign(n *Node) *Node {
+	if n == nil || n.Op != OAS || n.Right == nil || n.Right.Op != OSTRUCTLIT {
+		return nil
+	}
+	if n.Left.Op != ONAME && (n.Left.Op != OIND || n.Left.Left.Op != ONAME) {
+		return nil
+	}
+	if !eqtype(n.Left.Type, n.Right.Type) {
+		return nil
+	}
+
+	var l, rl Nodes
+	ref := make(map[*types.Sym]struct{})
+	op := ODOT
+	obj := n.Left
+	if n.Left.Op == OIND {
+		op = ODOTPTR
+		obj = n.Left.Left
+	}
+	for _, f := range n.Right.List.Slice() {
+		ref[f.Sym] = struct{}{}
+		// omit assignments to same
+		if f.Left.Op == op && f.Left.Left == obj && f.Left.Sym == f.Sym {
+			continue
+		}
+		// typecheck will turn this into ODOTPTR as needed
+		lhs := nodl(n.Pos, ODOT, obj, nil)
+		lhs.Sym = f.Sym
+		l.Append(lhs)
+		rl.Append(f.Left)
+	}
+
+	nkept := len(ref) - l.Len()
+	// only rewrite if we're keeping at least one field
+	if nkept <= 0 {
+		return nil
+	}
+
+	for _, f := range n.Right.Type.FieldSlice() {
+		if _, present := ref[f.Sym]; present {
+			continue
+		}
+		// TODO: handle blank fields?
+		if f.Sym.IsBlank() {
+			return nil
+		}
+		// TODO: coalesce adjacent fields into a single call to memclr(Has|NoHeap)Pointers
+
+		// typecheck will turn this into ODOTPTR as needed
+		lhs := nodl(n.Pos, ODOT, obj, nil)
+		lhs.Sym = f.Sym
+		l.Append(lhs)
+
+		z := nodzero(f.Type)
+		z.Pos = n.Pos
+		rl.Append(z)
+	}
+
+	n = nodl(n.Pos, OAS2, nil, nil)
+	// TODO: sort all fields into struct order?
+	n.List = l
+	n.Rlist = rl
+
+	return typecheck(n, Etop)
+}
+
 // The result of walkstmt MUST be assigned back to n, e.g.
 // 	n.Left = walkstmt(n.Left)
 func walkstmt(n *Node) *Node {
@@ -177,6 +245,9 @@ func walkstmt(n *Node) *Node {
 		OGETG:
 		if n.Typecheck() == 0 {
 			Fatalf("missing typecheck: %+v", n)
+		}
+		if rewritten := rewriteStructAssign(n); rewritten != nil {
+			return walkstmt(rewritten)
 		}
 		wascopy := n.Op == OCOPY
 		init := n.Ninit

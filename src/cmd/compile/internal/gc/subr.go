@@ -451,6 +451,33 @@ func nodstr(s string) *Node {
 	return nodlit(Val{s})
 }
 
+func nodzero(t *types.Type) *Node {
+	var z *Node
+	switch {
+	case t.IsBoolean():
+		z = nodbool(false)
+	case t.IsInteger():
+		z = nodintconst(0)
+	case t.IsFloat():
+		z = nodfltconst(newMpflt())
+	case t.IsComplex():
+		z = nodcplxlit(Val{U: newMpflt()}, Val{U: newMpflt()})
+	case t.IsString():
+		z = nodstr("")
+	case t.IsStruct():
+		z = nod(OSTRUCTLIT, nil, nil)
+		z.Type = t
+		z.SetTypecheck(1)
+	case t.IsArray():
+		z = nod(OARRAYLIT, nil, nil)
+		z.Type = t
+		z.SetTypecheck(1)
+	default:
+		z = nodnil()
+	}
+	return z
+}
+
 // treecopy recursively copies n, with the exception of
 // ONAME, OLITERAL, OTYPE, and non-iota ONONAME leaves.
 // Copies of iota ONONAME nodes are assigned the current
