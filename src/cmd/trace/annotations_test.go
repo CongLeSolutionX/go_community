@@ -327,7 +327,7 @@ func traceProgram(t *testing.T, f func(), name string) error {
 
 func spanNames(task *taskDesc) (ret []string) {
 	for _, s := range task.spans {
-		ret = append(ret, s.name)
+		ret = append(ret, s.Name)
 	}
 	return ret
 }
@@ -349,8 +349,13 @@ func childrenNames(task *taskDesc) (ret []string) {
 func swapLoaderData(res traceparser.ParseResult, err error) {
 	// swap loader's data.
 	parseTrace() // fool loader.once.
+
 	loader.res = res
 	loader.err = err
+
+	analyzeGoroutines(nil) // fool gsInit once.
+	gs = traceparser.GoroutineStats(res.Events)
+
 }
 
 func saveTrace(buf *bytes.Buffer, name string) {
