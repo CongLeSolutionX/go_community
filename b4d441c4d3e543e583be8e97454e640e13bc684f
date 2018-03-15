@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a206415_9280e795",
+        "filename": "src/go/doc/docexamples_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-15T04:26:14Z",
+      "side": 1,
+      "message": "usual copyright notice is missing",
+      "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ab1a6f0_df117bc2",
+        "filename": "src/go/doc/docexamples_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-15T04:26:14Z",
+      "side": 1,
+      "message": "I\u0027d remove line 33 - examples and the for loop belong together",
+      "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76a14a79_b56da488",
+        "filename": "src/go/doc/docexamples_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-15T04:26:14Z",
+      "side": 1,
+      "message": "maybe\n\n..., we need a mapping of filenames to corresponding *ast.Files.",
+      "range": {
+        "startLine": 83,
+        "startChar": 34,
+        "endLine": 83,
+        "endChar": 36
+      },
+      "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baff41a8_975480b2",
+        "filename": "src/go/doc/docexamples_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-15T04:26:14Z",
+      "side": 1,
+      "message": "I\u0027d remove line 86 - files and the for loop belong together",
+      "revId": "b4d441c4d3e543e583be8e97454e640e13bc684f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
