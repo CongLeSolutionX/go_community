@@ -451,6 +451,58 @@ func nodstr(s string) *Node {
 	return nodlit(Val{s})
 }
 
+func nodzero(t *types.Type) *Node {
+	var z *Node
+	switch {
+	case t.IsBoolean():
+		z = nodbool(false)
+	case t.IsInteger():
+		z = nodintconst(0)
+	case t.IsFloat():
+		z = nodfltconst(newMpflt())
+	case t.IsComplex():
+		z = nodcplxlit(Val{U: newMpflt()}, Val{U: newMpflt()})
+	case t.IsString():
+		z = nodstr("")
+	case t.IsStruct():
+		z = nod(OSTRUCTLIT, nil, nil)
+		z.Type = t
+		z.SetTypecheck(1)
+	case t.IsArray():
+		z = nod(OARRAYLIT, nil, nil)
+		z.Type = t
+		z.SetTypecheck(1)
+	default:
+		z = nodnil()
+	}
+	return z
+}
+
+func unsafeAdd(pos src.XPos, base *Node, off int64) *Node {
+	offn := nodintconst(off)
+	offn.Pos = pos
+	addr := nodl(pos, OCONV, nodl(pos, OADD, base, offn), nil)
+	addr.Type = types.Types[TUNSAFEPTR]
+	return addr
+}
+
+func addrToUintPtr(pos src.XPos, name *Node) *Node {
+	var addr *Node
+	switch {
+	case name.Type.IsPtr():
+		addr = name
+	case name.Type.IsStruct():
+		addr = nodl(pos, OADDR, name, nil)
+	default:
+		Fatalf("%s internal compiler error", name.Line())
+	}
+	addr = nodl(pos, OCONV, addr, nil)
+	addr.Type = types.Types[TUNSAFEPTR]
+	addr = nodl(pos, OCONV, addr, nil)
+	addr.Type = types.Types[TUINTPTR]
+	return addr
+}
+
 // treecopy recursively copies n, with the exception of
 // ONAME, OLITERAL, OTYPE, and non-iota ONONAME leaves.
 // Copies of iota ONONAME nodes are assigned the current

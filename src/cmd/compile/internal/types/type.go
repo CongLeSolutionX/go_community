@@ -835,6 +835,16 @@ func (t *Type) Field(i int) *Field {
 	return t.Fields().Slice()[i]
 }
 
+func (t *Type) FieldAt(off int64) *Field {
+	// TODO: binary search?
+	for _, f := range t.Fields().Slice() {
+		if f.Offset == off {
+			return f
+		}
+	}
+	return nil
+}
+
 // FieldSlice returns a slice of containing all fields/methods of
 // struct/interface type t.
 func (t *Type) FieldSlice() []*Field {
