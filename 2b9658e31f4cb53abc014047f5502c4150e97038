@@ -22,6 +22,30 @@
       "revId": "2b9658e31f4cb53abc014047f5502c4150e97038",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa4dbac_ecee5d68",
+        "filename": "src/go/scanner/scanner_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-15T17:27:12Z",
+      "side": 1,
+      "message": "Indeed! Thanks for catching this.\n\nI forgot to remove the additional filename cleanups (path.Clean, etc.) that were present before.\n\nUpdated CL coming shortly.",
+      "parentUuid": "c00cf5a1_fa539da6",
+      "range": {
+        "startLine": 518,
+        "startChar": 31,
+        "endLine": 518,
+        "endChar": 33
+      },
+      "revId": "2b9658e31f4cb53abc014047f5502c4150e97038",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
