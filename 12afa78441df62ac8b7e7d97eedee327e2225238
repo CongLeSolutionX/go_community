@@ -34,6 +34,24 @@
       "revId": "12afa78441df62ac8b7e7d97eedee327e2225238",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb0ed6cd_e9119144",
+        "filename": "src/go/types/typexpr.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-16T15:48:03Z",
+      "side": 1,
+      "message": "No that\u0027s not what I mean. This change removes information so I\u0027d rather not do that. I think in places where we care about the element, we may need to check that explicitly. Or perhaps just check in the error handling.",
+      "parentUuid": "fc26bc9f_a2473b2c",
+      "revId": "12afa78441df62ac8b7e7d97eedee327e2225238",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
