@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39c2010b_769b0b33",
+        "filename": "src/cmd/compile/internal/ssa/testdata/hist.dlv-dbg.nexts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-16T19:50:35Z",
+      "side": 1,
+      "message": "Huh, I swore I updated these. Maybe I reverted that CL.\n\nAnyway, with scope tracking on, you should be able to just rename err2 back to err and revert all this.",
+      "revId": "7ae5ee18ff5c8fb33a2540b8c5f4bfd481920574",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
