@@ -5,47 +5,64 @@
 package sql_test
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
-	"log"
+	"time"
 )
 
-var db *sql.DB
+var (
+	ctx context.Context
+	db  *sql.DB
+)
 
-func ExampleDB_Query() {
+func ExampleDB_Query() error {
 	age := 27
-	rows, err := db.Query("SELECT name FROM users WHERE age=?", age)
+	rows, err := db.Query("SELECT name FROM users WHERE age=?;", age)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-	defer rows.Close()
+
 	for rows.Next() {
 		var name string
 		if err := rows.Scan(&name); err != nil {
-			log.Fatal(err)
+			break
 		}
 		fmt.Printf("%s is %d\n", name, age)
 	}
-	if err := rows.Err(); err != nil {
-		log.Fatal(err)
+	// If the database is being written to ensure to check for Close
+	// errors that may be returned from the driver. The query may
+	// encounter an auto-commit error and be forced to rollback changes.
+	rerr := rows.Close()
+	if rerr != nil {
+		return err
 	}
+
+	// Rows.Err will report the last error encountered by Rows.Scan.
+	if err := rows.Err(); err != nil {
+		return err
+	}
+	return nil
 }
 
-func ExampleDB_QueryRow() {
+func ExampleDB_QueryRow() error {
 	id := 123
 	var username string
-	err := db.QueryRow("SELECT username FROM users WHERE id=?", id).Scan(&username)
+	err := db.QueryRow("SELECT username FROM users WHERE id=?;", id).Scan(&username)
 	switch {
 	case err == sql.ErrNoRows:
-		log.Printf("No user with that ID.")
+		fmt.Println("No user with that ID.")
+		return nil
 	case err != nil:
-		log.Fatal(err)
+		fmt.Println("Query error: ", err)
+		return err
 	default:
 		fmt.Printf("Username is %s\n", username)
+		return nil
 	}
 }
 
-func ExampleDB_Query_multipleResultSets() {
+func ExampleDB_Query_multipleResultSets() error {
 	age := 27
 	q := `
 create temp table uid (id bigint); -- Create temp table for queries.
@@ -70,7 +87,7 @@ from
 	`
 	rows, err := db.Query(q, age)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	defer rows.Close()
 
@@ -80,12 +97,12 @@ from
 			name string
 		)
 		if err := rows.Scan(&id, &name); err != nil {
-			log.Fatal(err)
+			return err
 		}
 		fmt.Printf("id %d name is %s\n", id, name)
 	}
 	if !rows.NextResultSet() {
-		log.Fatal("expected more result sets", rows.Err())
+		return fmt.Errorf("expected more result sets: %v", rows.Err())
 	}
 	var roleMap = map[int64]string{
 		1: "user",
@@ -98,11 +115,32 @@ from
 			role int64
 		)
 		if err := rows.Scan(&id, &role); err != nil {
-			log.Fatal(err)
+			return err
 		}
 		fmt.Printf("id %d has role %s\n", id, roleMap[role])
 	}
 	if err := rows.Err(); err != nil {
-		log.Fatal(err)
+		return err
 	}
+	return nil
+}
+
+func ExampleDB_PingContext() {
+	// Ping and PingContext may be used to determine if communication with
+	// the database server is still possible.
+	//
+	// When used in a command line application Ping may be used to establish
+	// that further queries are possible; that the provided DSN is valid.
+	//
+	// When used in long running service Ping may be part of the health
+	// checking system.
+
+	ctx, cancel := context.WithTimeout(ctx, 1*time.Second)
+	defer cancel()
+
+	status := "up"
+	if err := db.PingContext(ctx); err != nil {
+		status = "down"
+	}
+	fmt.Println(status)
 }
