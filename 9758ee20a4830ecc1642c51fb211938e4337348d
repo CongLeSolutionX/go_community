@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27f69368_a8c6d80a",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-03-16T18:11:37Z",
+      "side": 1,
+      "message": "This too?",
+      "revId": "9758ee20a4830ecc1642c51fb211938e4337348d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd7f5521_01dc31a4",
+        "filename": "src/crypto/x509/root_cgo_darwin.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-03-16T18:11:37Z",
+      "side": 1,
+      "message": "This too?",
+      "revId": "9758ee20a4830ecc1642c51fb211938e4337348d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
