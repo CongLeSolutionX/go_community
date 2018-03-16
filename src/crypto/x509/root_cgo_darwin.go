@@ -78,6 +78,8 @@ int useOldCode() {
 // Note: The CFDataRef returned in pemRoots and untrustedPemRoots must
 // be released (using CFRelease) after we've consumed its content.
 int FetchPEMRoots(CFDataRef *pemRoots, CFDataRef *untrustedPemRoots) {
+	int i;
+
 	if (useOldCode()) {
 		return FetchPEMRoots_MountainLion(pemRoots);
 	}
@@ -101,7 +103,8 @@ int FetchPEMRoots(CFDataRef *pemRoots, CFDataRef *untrustedPemRoots) {
 
 	CFMutableDataRef combinedData = CFDataCreateMutable(kCFAllocatorDefault, 0);
 	CFMutableDataRef combinedUntrustedData = CFDataCreateMutable(kCFAllocatorDefault, 0);
-	for (int i = 0; i < numDomains; i++) {
+	for (i = 0; i < numDomains; i++) {
+		int j;
 		CFArrayRef certs = NULL;
 		OSStatus err = SecTrustSettingsCopyCertificates(domains[i], &certs);
 		if (err != noErr) {
@@ -109,7 +112,7 @@ int FetchPEMRoots(CFDataRef *pemRoots, CFDataRef *untrustedPemRoots) {
 		}
 
 		CFIndex numCerts = CFArrayGetCount(certs);
-		for (int j = 0; j < numCerts; j++) {
+		for (j = 0; j < numCerts; j++) {
 			CFDataRef data = NULL;
 			CFErrorRef errRef = NULL;
 			CFArrayRef trustSettings = NULL;
