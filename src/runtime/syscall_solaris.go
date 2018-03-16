@@ -253,6 +253,18 @@ func syscall_syscall(trap, a1, a2, a3 uintptr) (r1, r2, err uintptr) {
 	return call.r1, call.r2, call.err
 }
 
+func syscall_syscall6(trap, a1, a2, a3, a4, a5, a6 uintptr) (r1, r2, err uintptr) {
+	call := libcall{
+		fn:   uintptr(unsafe.Pointer(&libc_syscall)),
+		n:    7,
+		args: uintptr(unsafe.Pointer(&trap)),
+	}
+	entersyscallblock(0)
+	asmcgocall(unsafe.Pointer(&asmsysvicall6), unsafe.Pointer(&call))
+	exitsyscall(0)
+	return call.r1, call.r2, call.err
+}
+
 func syscall_wait4(pid uintptr, wstatus *uint32, options uintptr, rusage unsafe.Pointer) (wpid int, err uintptr) {
 	call := libcall{
 		fn:   uintptr(unsafe.Pointer(&libc_wait4)),
