@@ -6,37 +6,44 @@
 
 package socktest
 
-import "syscall"
+import (
+	"sync/atomic"
+	"syscall"
+)
 
 // Accept4 wraps syscall.Accept4.
 func (sw *Switch) Accept4(s, flags int) (ns int, sa syscall.Sockaddr, err error) {
-	so := sw.sockso(s)
-	if so == nil {
+	if atomic.LoadUint32(&sw.state) == switchDisabled {
 		return syscall.Accept4(s, flags)
 	}
-	sw.fmu.RLock()
-	f := sw.fltab[FilterAccept]
-	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
+	b := sw.posteriorBinding(uintptr(s))
+	if b == nil {
+		return syscall.Accept4(s, flags)
+	}
+	st := b.newState()
+	f := b.filter(FilterAccept)
+
+	af, err := f.apply(st)
 	if err != nil {
 		return -1, nil, err
 	}
-	ns, sa, so.Err = syscall.Accept4(s, flags)
-	if err = af.apply(so); err != nil {
-		if so.Err == nil {
+	ns, sa, st.Err = syscall.Accept4(s, flags)
+	if err = af.apply(st); err != nil {
+		if st.Err == nil {
 			syscall.Close(ns)
 		}
 		return -1, nil, err
 	}
 
-	sw.smu.Lock()
-	defer sw.smu.Unlock()
-	if so.Err != nil {
-		sw.stats.getLocked(so.Cookie).AcceptFailed++
-		return -1, nil, so.Err
+	sw.statMu.Lock()
+	defer sw.statMu.Unlock()
+	if st.Err != nil {
+		sw.stats.getLocked(st.Cookie).AcceptFailed++
+		return -1, nil, st.Err
 	}
-	nso := sw.addLocked(ns, so.Cookie.Family(), so.Cookie.Type(), so.Cookie.Protocol())
-	sw.stats.getLocked(nso.Cookie).Accepted++
+	sw.addBinding(uintptr(ns), st.Cookie)
+	sw.notify(uintptr(ns), st.Cookie)
+	sw.stats.getLocked(st.Cookie).Accepted++
 	return ns, sa, nil
 }

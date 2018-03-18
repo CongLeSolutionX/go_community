@@ -11,14 +11,22 @@ import (
 	"syscall"
 )
 
-var (
-	errTimedout       = syscall.ETIMEDOUT
-	errOpNotSupported = syscall.EOPNOTSUPP
+type fakeErrno syscall.Errno
 
-	abortedConnRequestErrors = []error{syscall.ECONNABORTED} // see accept in fd_unix.go
+func (e fakeErrno) Error() string { return "fake " + syscall.Errno(e).Error() }
+func (e fakeErrno) Timeout() bool { return e == errFakeTimedout }
+
+const (
+	errFakeTimedout       = fakeErrno(syscall.ETIMEDOUT)
+	errFakeOpNotSupported = fakeErrno(syscall.EOPNOTSUPP)
 )
 
+var abortedConnRequestErrors = []error{syscall.ECONNABORTED} // see accept in fd_unix.go
+
 func isPlatformError(err error) bool {
+	if _, ok := err.(fakeErrno); ok {
+		return true
+	}
 	_, ok := err.(syscall.Errno)
 	return ok
 }

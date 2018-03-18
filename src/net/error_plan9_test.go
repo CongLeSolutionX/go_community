@@ -6,14 +6,22 @@ package net
 
 import "syscall"
 
-var (
-	errTimedout       = syscall.ETIMEDOUT
-	errOpNotSupported = syscall.EPLAN9
+type fakeError struct{ error }
 
-	abortedConnRequestErrors []error
+func (e fakeError) Error() string { return "fake " + e.error.Error() }
+func (e fakeError) Timeout() bool { return e == errFakeTimedout }
+
+var (
+	errFakeTimedout       = fakeError{error: syscall.ETIMEDOUT}
+	errFakeOpNotSupported = fakeError{error: syscall.EPLAN9}
 )
 
+var abortedConnRequestErrors []error
+
 func isPlatformError(err error) bool {
+	if _, ok := err.(fakeError); ok {
+		return true
+	}
 	_, ok := err.(syscall.ErrorString)
 	return ok
 }

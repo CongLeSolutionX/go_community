@@ -8,48 +8,25 @@ package net
 
 import "internal/poll"
 
-var (
-	// Placeholders for saving original socket system calls.
-	origSocket        = socketFunc
-	origClose         = poll.CloseFunc
-	origConnect       = connectFunc
-	origListen        = listenFunc
-	origAccept        = poll.AcceptFunc
-	origGetsockoptInt = getsockoptIntFunc
-
-	extraTestHookInstallers   []func()
-	extraTestHookUninstallers []func()
-)
+var extraTestHookInstallers []func()
 
 func installTestHooks() {
-	socketFunc = sw.Socket
-	poll.CloseFunc = sw.Close
-	connectFunc = sw.Connect
-	listenFunc = sw.Listen
-	poll.AcceptFunc = sw.Accept
-	getsockoptIntFunc = sw.GetsockoptInt
+	socketFunc = callpathSW.Socket
+	connectFunc = callpathSW.Connect
+	listenFunc = callpathSW.Listen
+	getsockoptIntFunc = callpathSW.GetsockoptInt
+
+	poll.CloseFunc = callpathSW.Close
+	poll.AcceptFunc = callpathSW.Accept
 
 	for _, fn := range extraTestHookInstallers {
 		fn()
 	}
 }
 
-func uninstallTestHooks() {
-	socketFunc = origSocket
-	poll.CloseFunc = origClose
-	connectFunc = origConnect
-	listenFunc = origListen
-	poll.AcceptFunc = origAccept
-	getsockoptIntFunc = origGetsockoptInt
-
-	for _, fn := range extraTestHookUninstallers {
-		fn()
-	}
-}
-
 // forceCloseSockets must be called only from TestMain.
 func forceCloseSockets() {
-	for s := range sw.Sockets() {
-		poll.CloseFunc(s)
+	for _, st := range callpathSW.Sockets() {
+		poll.CloseFunc(st.Sysfd)
 	}
 }

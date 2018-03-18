@@ -6,14 +6,22 @@ package net
 
 import "syscall"
 
-var (
-	errTimedout       = syscall.ETIMEDOUT
-	errOpNotSupported = syscall.EOPNOTSUPP
+type fakeErrno syscall.Errno
 
-	abortedConnRequestErrors = []error{syscall.ERROR_NETNAME_DELETED, syscall.WSAECONNRESET} // see accept in fd_windows.go
+func (e fakeErrno) Error() string { return "fake " + syscall.Errno(e).Error() }
+func (e fakeErrno) Timeout() bool { return e == errFakeTimedout }
+
+const (
+	errFakeTimedout       = fakeErrno(syscall.ETIMEDOUT)
+	errFakeOpNotSupported = fakeErrno(syscall.EOPNOTSUPP)
 )
 
+var abortedConnRequestErrors = []error{syscall.ERROR_NETNAME_DELETED, syscall.WSAECONNRESET} // see accept in fd_windows.go
+
 func isPlatformError(err error) bool {
+	if _, ok := err.(fakeErrno); ok {
+		return true
+	}
 	_, ok := err.(syscall.Errno)
 	return ok
 }

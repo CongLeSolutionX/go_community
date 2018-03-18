@@ -6,216 +6,213 @@ package socktest
 
 import (
 	"internal/syscall/windows"
+	"sync/atomic"
 	"syscall"
 )
 
 // Socket wraps syscall.Socket.
 func (sw *Switch) Socket(family, sotype, proto int) (s syscall.Handle, err error) {
 	sw.once.Do(sw.init)
-
-	so := &Status{Cookie: cookie(family, sotype, proto)}
-	sw.fmu.RLock()
-	f, _ := sw.fltab[FilterSocket]
-	sw.fmu.RUnlock()
-
-	af, err := f.apply(so)
-	if err != nil {
-		return syscall.InvalidHandle, err
-	}
-	s, so.Err = syscall.Socket(family, sotype, proto)
-	if err = af.apply(so); err != nil {
-		if so.Err == nil {
-			syscall.Closesocket(s)
-		}
-		return syscall.InvalidHandle, err
+	if atomic.LoadUint32(&sw.state) == switchDisabled {
+		return syscall.Socket(family, sotype, proto)
 	}
 
-	sw.smu.Lock()
-	defer sw.smu.Unlock()
-	if so.Err != nil {
-		sw.stats.getLocked(so.Cookie).OpenFailed++
-		return syscall.InvalidHandle, so.Err
+	st := &State{Cookie: cookie(family, sotype, proto)}
+	s, st.Err = syscall.Socket(family, sotype, proto)
+
+	sw.statMu.Lock()
+	defer sw.statMu.Unlock()
+	if st.Err != nil {
+		sw.stats.getLocked(st.Cookie).OpenFailed++
+		return syscall.InvalidHandle, st.Err
 	}
-	nso := sw.addLocked(s, family, sotype, proto)
-	sw.stats.getLocked(nso.Cookie).Opened++
+	sw.addBinding(uintptr(s), st.Cookie)
+	sw.notify(uintptr(s), st.Cookie)
+	sw.stats.getLocked(st.Cookie).Opened++
 	return s, nil
 }
 
 // WSASocket wraps syscall.WSASocket.
 func (sw *Switch) WSASocket(family, sotype, proto int32, protinfo *syscall.WSAProtocolInfo, group uint32, flags uint32) (s syscall.Handle, err error) {
 	sw.once.Do(sw.init)
-
-	so := &Status{Cookie: cookie(int(family), int(sotype), int(proto))}
-	sw.fmu.RLock()
-	f, _ := sw.fltab[FilterSocket]
-	sw.fmu.RUnlock()
-
-	af, err := f.apply(so)
-	if err != nil {
-		return syscall.InvalidHandle, err
-	}
-	s, so.Err = windows.WSASocket(family, sotype, proto, protinfo, group, flags)
-	if err = af.apply(so); err != nil {
-		if so.Err == nil {
-			syscall.Closesocket(s)
-		}
-		return syscall.InvalidHandle, err
+	if atomic.LoadUint32(&sw.state) == switchDisabled {
+		return windows.WSASocket(family, sotype, proto, protinfo, group, flags)
 	}
 
-	sw.smu.Lock()
-	defer sw.smu.Unlock()
-	if so.Err != nil {
-		sw.stats.getLocked(so.Cookie).OpenFailed++
-		return syscall.InvalidHandle, so.Err
+	st := &State{Cookie: cookie(int(family), int(sotype), int(proto))}
+	s, st.Err = windows.WSASocket(family, sotype, proto, protinfo, group, flags)
+
+	sw.statMu.Lock()
+	defer sw.statMu.Unlock()
+	if st.Err != nil {
+		sw.stats.getLocked(st.Cookie).OpenFailed++
+		return syscall.InvalidHandle, st.Err
 	}
-	nso := sw.addLocked(s, int(family), int(sotype), int(proto))
-	sw.stats.getLocked(nso.Cookie).Opened++
+	sw.addBinding(uintptr(s), st.Cookie)
+	sw.notify(uintptr(s), st.Cookie)
+	sw.stats.getLocked(st.Cookie).Opened++
 	return s, nil
 }
 
 // Closesocket wraps syscall.Closesocket.
 func (sw *Switch) Closesocket(s syscall.Handle) (err error) {
-	so := sw.sockso(s)
-	if so == nil {
+	if atomic.LoadUint32(&sw.state) == switchDisabled {
 		return syscall.Closesocket(s)
 	}
-	sw.fmu.RLock()
-	f, _ := sw.fltab[FilterClose]
-	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
+	b := sw.priorBinding(uintptr(s))
+	if b == nil {
+		return syscall.Closesocket(s)
+	}
+	st := b.newState()
+	f := b.filter(FilterClose)
+
+	af, err := f.apply(st)
 	if err != nil {
 		return err
 	}
-	so.Err = syscall.Closesocket(s)
-	if err = af.apply(so); err != nil {
+	st.Err = syscall.Closesocket(s)
+	if err = af.apply(st); err != nil {
 		return err
 	}
 
-	sw.smu.Lock()
-	defer sw.smu.Unlock()
-	if so.Err != nil {
-		sw.stats.getLocked(so.Cookie).CloseFailed++
-		return so.Err
+	sw.statMu.Lock()
+	defer sw.statMu.Unlock()
+	if st.Err != nil {
+		sw.stats.getLocked(st.Cookie).CloseFailed++
+		return st.Err
 	}
-	delete(sw.sotab, s)
-	sw.stats.getLocked(so.Cookie).Closed++
+	sw.delBinding(uintptr(s))
+	sw.stats.getLocked(st.Cookie).Closed++
 	return nil
 }
 
 // Connect wraps syscall.Connect.
 func (sw *Switch) Connect(s syscall.Handle, sa syscall.Sockaddr) (err error) {
-	so := sw.sockso(s)
-	if so == nil {
+	if atomic.LoadUint32(&sw.state) == switchDisabled {
 		return syscall.Connect(s, sa)
 	}
-	sw.fmu.RLock()
-	f, _ := sw.fltab[FilterConnect]
-	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
+	b := sw.posteriorBinding(uintptr(s))
+	if b == nil {
+		return syscall.Connect(s, sa)
+	}
+	st := b.newState()
+	f := b.filter(FilterConnect)
+
+	af, err := f.apply(st)
 	if err != nil {
 		return err
 	}
-	so.Err = syscall.Connect(s, sa)
-	if err = af.apply(so); err != nil {
+	st.Err = syscall.Connect(s, sa)
+	if err = af.apply(st); err != nil {
 		return err
 	}
 
-	sw.smu.Lock()
-	defer sw.smu.Unlock()
-	if so.Err != nil {
-		sw.stats.getLocked(so.Cookie).ConnectFailed++
-		return so.Err
+	sw.statMu.Lock()
+	defer sw.statMu.Unlock()
+	if st.Err != nil {
+		sw.stats.getLocked(st.Cookie).ConnectFailed++
+		return st.Err
 	}
-	sw.stats.getLocked(so.Cookie).Connected++
+	sw.stats.getLocked(st.Cookie).Connected++
 	return nil
 }
 
 // ConnectEx wraps syscall.ConnectEx.
-func (sw *Switch) ConnectEx(s syscall.Handle, sa syscall.Sockaddr, b *byte, n uint32, nwr *uint32, o *syscall.Overlapped) (err error) {
-	so := sw.sockso(s)
-	if so == nil {
-		return syscall.ConnectEx(s, sa, b, n, nwr, o)
+func (sw *Switch) ConnectEx(s syscall.Handle, sa syscall.Sockaddr, bb *byte, n uint32, nwr *uint32, o *syscall.Overlapped) (err error) {
+	if atomic.LoadUint32(&sw.state) == switchDisabled {
+		return syscall.ConnectEx(s, sa, bb, n, nwr, o)
 	}
-	sw.fmu.RLock()
-	f, _ := sw.fltab[FilterConnect]
-	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
+	b := sw.posteriorBinding(uintptr(s))
+	if b == nil {
+		return syscall.ConnectEx(s, sa, bb, n, nwr, o)
+	}
+	st := b.newState()
+	f := b.filter(FilterConnect)
+
+	af, err := f.apply(st)
 	if err != nil {
 		return err
 	}
-	so.Err = syscall.ConnectEx(s, sa, b, n, nwr, o)
-	if err = af.apply(so); err != nil {
+	st.Err = syscall.ConnectEx(s, sa, bb, n, nwr, o)
+	if err = af.apply(st); err != nil {
 		return err
 	}
 
-	sw.smu.Lock()
-	defer sw.smu.Unlock()
-	if so.Err != nil {
-		sw.stats.getLocked(so.Cookie).ConnectFailed++
-		return so.Err
+	sw.statMu.Lock()
+	defer sw.statMu.Unlock()
+	if st.Err != nil {
+		sw.stats.getLocked(st.Cookie).ConnectFailed++
+		return st.Err
 	}
-	sw.stats.getLocked(so.Cookie).Connected++
+	sw.stats.getLocked(st.Cookie).Connected++
 	return nil
 }
 
 // Listen wraps syscall.Listen.
 func (sw *Switch) Listen(s syscall.Handle, backlog int) (err error) {
-	so := sw.sockso(s)
-	if so == nil {
+	if atomic.LoadUint32(&sw.state) == switchDisabled {
 		return syscall.Listen(s, backlog)
 	}
-	sw.fmu.RLock()
-	f, _ := sw.fltab[FilterListen]
-	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
+	b := sw.posteriorBinding(uintptr(s))
+	if b == nil {
+		return syscall.Listen(s, backlog)
+	}
+	st := b.newState()
+	f := b.filter(FilterListen)
+
+	af, err := f.apply(st)
 	if err != nil {
 		return err
 	}
-	so.Err = syscall.Listen(s, backlog)
-	if err = af.apply(so); err != nil {
+	st.Err = syscall.Listen(s, backlog)
+	if err = af.apply(st); err != nil {
 		return err
 	}
 
-	sw.smu.Lock()
-	defer sw.smu.Unlock()
-	if so.Err != nil {
-		sw.stats.getLocked(so.Cookie).ListenFailed++
-		return so.Err
+	sw.statMu.Lock()
+	defer sw.statMu.Unlock()
+	if st.Err != nil {
+		sw.stats.getLocked(st.Cookie).ListenFailed++
+		return st.Err
 	}
-	sw.stats.getLocked(so.Cookie).Listened++
+	sw.stats.getLocked(st.Cookie).Listened++
 	return nil
 }
 
 // AcceptEx wraps syscall.AcceptEx.
-func (sw *Switch) AcceptEx(ls syscall.Handle, as syscall.Handle, b *byte, rxdatalen uint32, laddrlen uint32, raddrlen uint32, rcvd *uint32, overlapped *syscall.Overlapped) error {
-	so := sw.sockso(ls)
-	if so == nil {
-		return syscall.AcceptEx(ls, as, b, rxdatalen, laddrlen, raddrlen, rcvd, overlapped)
+func (sw *Switch) AcceptEx(ls syscall.Handle, as syscall.Handle, bb *byte, rxdatalen uint32, laddrlen uint32, raddrlen uint32, rcvd *uint32, overlapped *syscall.Overlapped) error {
+	if atomic.LoadUint32(&sw.state) == switchDisabled {
+		return syscall.AcceptEx(ls, as, bb, rxdatalen, laddrlen, raddrlen, rcvd, overlapped)
 	}
-	sw.fmu.RLock()
-	f, _ := sw.fltab[FilterAccept]
-	sw.fmu.RUnlock()
 
-	af, err := f.apply(so)
+	b := sw.posteriorBinding(uintptr(ls))
+	if b == nil {
+		return syscall.AcceptEx(ls, as, bb, rxdatalen, laddrlen, raddrlen, rcvd, overlapped)
+	}
+	st := b.newState()
+	f := b.filter(FilterAccept)
+
+	af, err := f.apply(st)
 	if err != nil {
 		return err
 	}
-	so.Err = syscall.AcceptEx(ls, as, b, rxdatalen, laddrlen, raddrlen, rcvd, overlapped)
-	if err = af.apply(so); err != nil {
+	st.Err = syscall.AcceptEx(ls, as, bb, rxdatalen, laddrlen, raddrlen, rcvd, overlapped)
+	if err = af.apply(st); err != nil {
 		return err
 	}
 
-	sw.smu.Lock()
-	defer sw.smu.Unlock()
-	if so.Err != nil {
-		sw.stats.getLocked(so.Cookie).AcceptFailed++
-		return so.Err
+	sw.statMu.Lock()
+	defer sw.statMu.Unlock()
+	if st.Err != nil {
+		sw.stats.getLocked(st.Cookie).AcceptFailed++
+		return st.Err
 	}
-	nso := sw.addLocked(as, so.Cookie.Family(), so.Cookie.Type(), so.Cookie.Protocol())
-	sw.stats.getLocked(nso.Cookie).Accepted++
+	sw.addBinding(uintptr(as), st.Cookie)
+	sw.notify(uintptr(as), st.Cookie)
+	sw.stats.getLocked(st.Cookie).Accepted++
 	return nil
 }

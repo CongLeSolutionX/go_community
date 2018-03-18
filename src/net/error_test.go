@@ -145,10 +145,12 @@ func TestDialError(t *testing.T) {
 	testHookLookupIP = func(ctx context.Context, fn func(context.Context, string) ([]IPAddr, error), host string) ([]IPAddr, error) {
 		return nil, &DNSError{Err: "dial error test", Name: "name", Server: "server", IsTimeout: true}
 	}
-	sw.Set(socktest.FilterConnect, func(so *socktest.Status) (socktest.AfterFilter, error) {
-		return nil, errOpNotSupported
+	callpathSW.Register("TestDialError", func(s uintptr, cookie socktest.Cookie) {
+		callpathSW.AddFilter(s, socktest.FilterConnect, func(st *socktest.State) (socktest.AfterFilter, error) {
+			return nil, errFakeOpNotSupported
+		})
 	})
-	defer sw.Set(socktest.FilterConnect, nil)
+	defer callpathSW.Deregister("TestDialError")
 
 	d := Dialer{Timeout: someTimeout}
 	for i, tt := range dialErrorTests {
@@ -166,7 +168,7 @@ func TestDialError(t *testing.T) {
 			if sys, ok := nerr.(*os.SyscallError); ok {
 				nerr = sys.Err
 			}
-			if nerr == errOpNotSupported {
+			if nerr == errFakeOpNotSupported {
 				t.Errorf("#%d: should fail without %v; %s:%s->", i, nerr, tt.network, tt.address)
 				continue
 			}
@@ -294,10 +296,12 @@ func TestListenError(t *testing.T) {
 	testHookLookupIP = func(_ context.Context, fn func(context.Context, string) ([]IPAddr, error), host string) ([]IPAddr, error) {
 		return nil, &DNSError{Err: "listen error test", Name: "name", Server: "server", IsTimeout: true}
 	}
-	sw.Set(socktest.FilterListen, func(so *socktest.Status) (socktest.AfterFilter, error) {
-		return nil, errOpNotSupported
+	callpathSW.Register("TestListenError", func(s uintptr, cookie socktest.Cookie) {
+		callpathSW.AddFilter(s, socktest.FilterListen, func(st *socktest.State) (socktest.AfterFilter, error) {
+			return nil, errFakeOpNotSupported
+		})
 	})
-	defer sw.Set(socktest.FilterListen, nil)
+	defer callpathSW.Deregister("TestListenError")
 
 	for i, tt := range listenErrorTests {
 		ln, err := Listen(tt.network, tt.address)
@@ -314,7 +318,7 @@ func TestListenError(t *testing.T) {
 			if sys, ok := nerr.(*os.SyscallError); ok {
 				nerr = sys.Err
 			}
-			if nerr == errOpNotSupported {
+			if nerr == errFakeOpNotSupported {
 				t.Errorf("#%d: should fail without %v; %s:%s->", i, nerr, tt.network, tt.address)
 				continue
 			}
