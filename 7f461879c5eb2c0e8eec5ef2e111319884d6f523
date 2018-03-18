@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07a82a6f_1a5aab8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "Ldexp?",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6161f6e5_d9e22e24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "Now that the compiler supports FMADD etc., can you re-measure the benchmarks?",
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91916ce6_66acef59",
+        "filename": "src/math/all_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1015,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "near zero",
+      "range": {
+        "startLine": 1015,
+        "startChar": 4,
+        "endLine": 1015,
+        "endChar": 12
+      },
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1c9e674_f10ccd9a",
+        "filename": "src/math/exp2_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "I think you can put the two functions in the same file, then you don\u0027t need to duplicate the #define\u0027s.",
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebe5d669_d4861707",
+        "filename": "src/math/exp_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem used.",
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2cc653a_3e212629",
+        "filename": "src/math/exp_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "This line uses tab whereas others use space. Be consistent.",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7348f106_b0e757a6",
+        "filename": "src/math/exp_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "Comment that this is k. Otherwise the comments below are hard to understand.",
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dff7514_aed01450",
+        "filename": "src/math/exp_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "FMSUBD?",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 69
+      },
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d02dd49e_15e5a71d",
+        "filename": "src/math/exp_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "fraction",
+      "range": {
+        "startLine": 81,
+        "startChar": 26,
+        "endLine": 81,
+        "endChar": 33
+      },
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30b0528e_8f706b61",
+        "filename": "src/math/exp_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "ORR R5\u003c\u003c52, R2, R0 ?",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 15
+      },
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0458dd4c_6fcebd53",
+        "filename": "src/math/exp_arm64.s",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T22:13:42Z",
+      "side": 1,
+      "message": "underflow, overflow. All lowercase.",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 9
+      },
+      "revId": "7f461879c5eb2c0e8eec5ef2e111319884d6f523",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
