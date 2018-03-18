@@ -298,7 +298,7 @@ func checkMulticastStats(ifStats *ifStats, uniStats, multiStats *routeStats) err
 }
 
 func BenchmarkInterfaces(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	for i := 0; i < b.N; i++ {
 		if _, err := Interfaces(); err != nil {
@@ -308,7 +308,7 @@ func BenchmarkInterfaces(b *testing.B) {
 }
 
 func BenchmarkInterfaceByIndex(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	ifi := loopbackInterface()
 	if ifi == nil {
@@ -322,7 +322,7 @@ func BenchmarkInterfaceByIndex(b *testing.B) {
 }
 
 func BenchmarkInterfaceByName(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	ifi := loopbackInterface()
 	if ifi == nil {
@@ -336,7 +336,7 @@ func BenchmarkInterfaceByName(b *testing.B) {
 }
 
 func BenchmarkInterfaceAddrs(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	for i := 0; i < b.N; i++ {
 		if _, err := InterfaceAddrs(); err != nil {
@@ -346,7 +346,7 @@ func BenchmarkInterfaceAddrs(b *testing.B) {
 }
 
 func BenchmarkInterfacesAndAddrs(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	ifi := loopbackInterface()
 	if ifi == nil {
@@ -360,7 +360,7 @@ func BenchmarkInterfacesAndAddrs(b *testing.B) {
 }
 
 func BenchmarkInterfacesAndMulticastAddrs(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	ifi := loopbackInterface()
 	if ifi == nil {

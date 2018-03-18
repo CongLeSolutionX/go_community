@@ -86,7 +86,7 @@ func TestDialerDualStackFDLeak(t *testing.T) {
 		t.Skip("both IPv4 and IPv6 are required")
 	}
 
-	before := sw.Sockets()
+	before := callpathSW.Sockets()
 	origTestHookLookupIP := testHookLookupIP
 	defer func() { testHookLookupIP = origTestHookLookupIP }()
 	testHookLookupIP = lookupLocalhost
@@ -125,7 +125,7 @@ func TestDialerDualStackFDLeak(t *testing.T) {
 	}
 	wg.Wait()
 	dss.teardown()
-	after := sw.Sockets()
+	after := callpathSW.Sockets()
 	if len(after) != len(before) {
 		t.Errorf("got %d; want %d", len(after), len(before))
 	}

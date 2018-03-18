@@ -40,7 +40,7 @@ func TestDialTimeout(t *testing.T) {
 	// Cannot use t.Parallel - modifies global hooks.
 	origTestHookDialChannel := testHookDialChannel
 	defer func() { testHookDialChannel = origTestHookDialChannel }()
-	defer sw.Set(socktest.FilterConnect, nil)
+	defer callpathSW.Deregister("TestDialTimeout")
 
 	for i, tt := range dialTimeoutTests {
 		switch runtime.GOOS {
@@ -51,9 +51,11 @@ func TestDialTimeout(t *testing.T) {
 			}
 			fallthrough
 		default:
-			sw.Set(socktest.FilterConnect, func(so *socktest.Status) (socktest.AfterFilter, error) {
-				time.Sleep(tt.guard)
-				return nil, errTimedout
+			callpathSW.Register("TestDialTimeout", func(s uintptr, cookie socktest.Cookie) {
+				callpathSW.AddFilter(s, socktest.FilterConnect, func(st *socktest.State) (socktest.AfterFilter, error) {
+					time.Sleep(tt.guard)
+					return nil, errFakeTimedout
+				})
 			})
 		}
 
@@ -152,7 +154,6 @@ var acceptTimeoutTests = []struct {
 }
 
 func TestAcceptTimeout(t *testing.T) {
-	testenv.SkipFlaky(t, 17948)
 	t.Parallel()
 
 	switch runtime.GOOS {

@@ -15,8 +15,3 @@ func installTestHooks() {
 	socketFunc = sw.Socket
 	closeFunc = sw.Closesocket
 }
-
-func uninstallTestHooks() {
-	socketFunc = syscall.Socket
-	closeFunc = syscall.Closesocket
-}

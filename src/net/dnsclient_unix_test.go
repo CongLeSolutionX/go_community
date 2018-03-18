@@ -744,7 +744,7 @@ func TestIgnoreLameReferrals(t *testing.T) {
 }
 
 func BenchmarkGoLookupIP(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 	ctx := context.Background()
 
 	for i := 0; i < b.N; i++ {
@@ -753,7 +753,7 @@ func BenchmarkGoLookupIP(b *testing.B) {
 }
 
 func BenchmarkGoLookupIPNoSuchHost(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 	ctx := context.Background()
 
 	for i := 0; i < b.N; i++ {
@@ -762,7 +762,7 @@ func BenchmarkGoLookupIPNoSuchHost(b *testing.B) {
 }
 
 func BenchmarkGoLookupIPWithBrokenNameServer(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	conf, err := newResolvConfTest()
 	if err != nil {

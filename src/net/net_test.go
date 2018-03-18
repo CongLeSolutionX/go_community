@@ -322,13 +322,15 @@ func TestAcceptIgnoreAbortedConnRequest(t *testing.T) {
 			syserr <- err
 		}
 	}()
-	sw.Set(socktest.FilterAccept, func(so *socktest.Status) (socktest.AfterFilter, error) {
-		if err, ok := <-syserr; ok {
-			return nil, err
-		}
-		return nil, nil
+	callpathSW.Register("TestAcceptIgnoreAbortedConnRequest", func(s uintptr, cookie socktest.Cookie) {
+		callpathSW.AddFilter(s, socktest.FilterAccept, func(st *socktest.State) (socktest.AfterFilter, error) {
+			if err, ok := <-syserr; ok {
+				return nil, err
+			}
+			return nil, nil
+		})
 	})
-	defer sw.Set(socktest.FilterAccept, nil)
+	defer callpathSW.Deregister("TestAcceptIgnoreAbortedConnRequest")
 
 	operr := make(chan error, 1)
 	handler := func(ls *localServer, ln Listener) {

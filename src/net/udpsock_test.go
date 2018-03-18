@@ -13,7 +13,7 @@ import (
 )
 
 func BenchmarkUDP6LinkLocalUnicast(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	if !supportsIPv6() {
 		b.Skip("IPv6 is not supported")

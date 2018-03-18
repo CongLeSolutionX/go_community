@@ -6,11 +6,7 @@ package net
 
 func installTestHooks() {}
 
-func uninstallTestHooks() {}
-
 // forceCloseSockets must be called only from TestMain.
 func forceCloseSockets() {}
 
-func enableSocketConnect() {}
-
-func disableSocketConnect(network string) {}
+func disableSocketConnect(tag, network string) {}

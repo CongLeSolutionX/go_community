@@ -6,8 +6,6 @@
 
 package socktest_test
 
-import "syscall"
-
 var (
 	socketFunc func(int, int, int) (int, error)
 	closeFunc  func(int) error
@@ -16,9 +14,4 @@ var (
 func installTestHooks() {
 	socketFunc = sw.Socket
 	closeFunc = sw.Close
-}
-
-func uninstallTestHooks() {
-	socketFunc = syscall.Socket
-	closeFunc = syscall.Close
 }

@@ -73,13 +73,13 @@ func TestDialGoogle(t *testing.T) {
 	}
 	for _, tt := range dialGoogleTests {
 		for _, network := range tt.networks {
-			disableSocketConnect(tt.unreachableNetwork)
+			disableSocketConnect("TestDialGoogle", tt.unreachableNetwork)
 			for _, addr := range tt.addrs {
 				if err := fetchGoogle(tt.dial, network, addr); err != nil {
 					t.Error(err)
 				}
 			}
-			enableSocketConnect()
+			callpathSW.Deregister("TestDialGoogle")
 		}
 	}
 }

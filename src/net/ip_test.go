@@ -102,7 +102,7 @@ func TestLookupWithIP(t *testing.T) {
 }
 
 func BenchmarkParseIP(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	for i := 0; i < b.N; i++ {
 		for _, tt := range parseIPTests {
@@ -250,7 +250,7 @@ func TestIPString(t *testing.T) {
 var sink string
 
 func BenchmarkIPString(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	b.Run("IPv4", func(b *testing.B) {
 		benchmarkIPString(b, IPv4len)
@@ -314,7 +314,7 @@ func TestIPMaskString(t *testing.T) {
 }
 
 func BenchmarkIPMaskString(b *testing.B) {
-	testHookUninstaller.Do(uninstallTestHooks)
+	callpathSW.Disable()
 
 	for i := 0; i < b.N; i++ {
 		for _, tt := range ipMaskStringTests {
@@ -710,6 +710,8 @@ func TestIPAddrScope(t *testing.T) {
 }
 
 func BenchmarkIPEqual(b *testing.B) {
+	callpathSW.Disable()
+
 	b.Run("IPv4", func(b *testing.B) {
 		benchmarkIPEqual(b, IPv4len)
 	})

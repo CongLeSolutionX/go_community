@@ -12,18 +12,12 @@ import (
 	"runtime"
 	"sort"
 	"strings"
-	"sync"
 	"testing"
 )
 
 var (
-	sw socktest.Switch
+	callpathSW socktest.Switch
 
-	// uninstallTestHooks runs just before a run of benchmarks.
-	testHookUninstaller sync.Once
-)
-
-var (
 	testTCPBig = flag.Bool("tcpbig", false, "whether to test massive size of data per read or write call on TCP connection")
 
 	testDNSFlood = flag.Bool("dnsflood", false, "whether to test DNS query flooding")
@@ -49,7 +43,6 @@ func TestMain(m *testing.M) {
 
 	st := m.Run()
 
-	testHookUninstaller.Do(uninstallTestHooks)
 	if testing.Verbose() {
 		printRunningGoroutines()
 		printInflightSockets()
@@ -186,19 +179,19 @@ func runningGoroutines() []string {
 }
 
 func printInflightSockets() {
-	sos := sw.Sockets()
-	if len(sos) == 0 {
+	sts := callpathSW.Sockets()
+	if len(sts) == 0 {
 		return
 	}
 	fmt.Fprintf(os.Stderr, "Inflight sockets:\n")
-	for s, so := range sos {
-		fmt.Fprintf(os.Stderr, "%v: %v\n", s, so)
+	for _, st := range sts {
+		fmt.Fprintf(os.Stderr, "%v\n", st)
 	}
 	fmt.Fprintf(os.Stderr, "\n")
 }
 
 func printSocketStats() {
-	sts := sw.Stats()
+	sts := callpathSW.Stats()
 	if len(sts) == 0 {
 		return
 	}
