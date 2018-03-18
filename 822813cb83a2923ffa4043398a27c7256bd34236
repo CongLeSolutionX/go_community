@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01204895_95af1317",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T08:52:51Z",
+      "side": 1,
+      "message": "Better to use Go assembly syntax.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 0
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45d88a2d_89c99108",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T08:52:51Z",
+      "side": 1,
+      "message": "Add a comment about this condition.",
+      "range": {
+        "startLine": 550,
+        "startChar": 50,
+        "endLine": 550,
+        "endChar": 60
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2003e62_d88b1fef",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64.rules",
+        "patchSetId": 3
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T08:52:51Z",
+      "side": 1,
+      "message": "Not needed, because no rule generates ANDS.",
+      "range": {
+        "startLine": 578,
+        "startChar": 0,
+        "endLine": 581,
+        "endChar": 101
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05293368_93a78fc1",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T08:52:51Z",
+      "side": 1,
+      "message": "These are not comparisons. Also, no rule in ARM64.rules generates these ops, only some consumes these. So I don\u0027t think these should be added.",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 248,
+        "endChar": 112
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c032007a_a597a911",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T08:52:51Z",
+      "side": 1,
+      "message": "// arg0 \u0026 arg1 compare to 0",
+      "range": {
+        "startLine": 249,
+        "startChar": 96,
+        "endLine": 249,
+        "endChar": 110
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69c83873_94be3be8",
+        "filename": "src/cmd/compile/internal/ssa/gen/ARM64Ops.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-18T08:52:51Z",
+      "side": 1,
+      "message": "TST doesn\u0027t have a destination register, so the register mask should be gp2flags and gp1flags.",
+      "range": {
+        "startLine": 249,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 112
+      },
+      "revId": "822813cb83a2923ffa4043398a27c7256bd34236",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
