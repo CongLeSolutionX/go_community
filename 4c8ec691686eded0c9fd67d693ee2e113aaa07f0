@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3cad1530_cfd4a6e0",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1116,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-19T13:58:15Z",
+      "side": 1,
+      "message": "My main concern is I don\u0027t want to break existing user code that uses net/url.\n\nI\u0027d prefer this CL just do the minimum necessary to break injection attacks. Every time we modify net/url we break people and it\u0027s painful, so rather than doing some in-an-ideal-world cleanup now, I\u0027d like to just reject things that are obviously bogus, rather than do anything that requires changing API or documentation.\n\nAs one extreme example: can we just block \\n and \\r? Or all ASCII bytes under 0x20?",
+      "parentUuid": "ccd6d5aa_1a0bba6a",
+      "revId": "4c8ec691686eded0c9fd67d693ee2e113aaa07f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d49cd9d2_e8245125",
         "filename": "src/net/url/url.go",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Just to verify that understand correctly: instead of calling unescape(), iterate over the string and ensure that each \u0027%\u0027 is followed by two hex digits. Do this to avoid the allocation in unescape(). Correct?",
       "parentUuid": "d49cd9d2_e8245125",
+      "revId": "4c8ec691686eded0c9fd67d693ee2e113aaa07f0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d26ef4a6_05080a5a",
+        "filename": "src/net/url/url.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1136,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-19T13:58:15Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "1b8b5bf3_c423c531",
       "revId": "4c8ec691686eded0c9fd67d693ee2e113aaa07f0",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
