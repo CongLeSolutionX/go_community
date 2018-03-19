@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24773a88_e2baa853",
+        "filename": "src/go/internal/srcimporter/srcimporter_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-19T23:25:49Z",
+      "side": 1,
+      "message": "Very good. Now it\u0027s become clear that this test and the one above are identical, except for the paths. Can you factor this out as well, please?\n\nThe easiest might be to have a helper function\n\nfunc testRelativeImports(t *testing.T, dir, name string) {\n   path :\u003d dir + name\n\n   pkg, err :\u003d importer.Import(path)\n   ...\n}\n\nwhich contains the identical code of these two functions, and then make these two functions one-liners:\n\nfunc TestIssue23092(t *testing.T) { testRelativeImport(t, \"./testdata/\", \"issue23092\") }\nfunc TestIssue24392 ...",
+      "range": {
+        "startLine": 230,
+        "startChar": 5,
+        "endLine": 230,
+        "endChar": 19
+      },
+      "revId": "cad6be44912d03a573b1639a48e72a19ff3d8776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
