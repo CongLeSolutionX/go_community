@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6c941018_afd9dbf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2018-03-19T23:15:53Z",
+      "side": 1,
+      "message": "Done. Thank you very much.",
+      "parentUuid": "e797b32e_09e5eb76",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "3cc2f1d97c7b55cee64230087dd68ac8c8c746c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d585ca56_b9190b7a",
         "filename": "src/go/internal/srcimporter/srcimporter_test.go",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "3cc2f1d97c7b55cee64230087dd68ac8c8c746c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5a451e3_4a77f31c",
+        "filename": "src/go/internal/srcimporter/srcimporter_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2018-03-19T23:15:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d585ca56_b9190b7a",
+      "range": {
+        "startLine": 231,
+        "startChar": 40,
+        "endLine": 231,
+        "endChar": 63
+      },
+      "revId": "3cc2f1d97c7b55cee64230087dd68ac8c8c746c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "26bdab02_8dc4f9e7",
+        "filename": "src/go/internal/srcimporter/srcimporter_test.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2018-03-19T23:15:53Z",
+      "side": 1,
+      "message": "Done. Now, this test become clear.",
+      "parentUuid": "723dd652_0490ec7d",
+      "range": {
+        "startLine": 244,
+        "startChar": 21,
+        "endLine": 244,
+        "endChar": 28
+      },
+      "revId": "3cc2f1d97c7b55cee64230087dd68ac8c8c746c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25529e84_8d6fd2a9",
         "filename": "src/go/internal/srcimporter/testdata/issue24392/main.go",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d949d3fe_d9fe46f0",
+        "filename": "src/go/internal/srcimporter/testdata/issue24392/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2018-03-19T23:15:53Z",
+      "side": 1,
+      "message": "As per the above suggestion, I\u0027ve removed this file.",
+      "parentUuid": "25529e84_8d6fd2a9",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "3cc2f1d97c7b55cee64230087dd68ac8c8c746c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b44c1f8_5ba71787",
         "filename": "src/go/internal/srcimporter/testdata/issue24392/main.go",
         "patchSetId": 4
@@ -114,6 +210,30 @@
       "revId": "3cc2f1d97c7b55cee64230087dd68ac8c8c746c4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b143bc1b_79fd502a",
+        "filename": "src/go/internal/srcimporter/testdata/issue24392/main.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 11631
+      },
+      "writtenOn": "2018-03-19T23:15:53Z",
+      "side": 1,
+      "message": "ditto.",
+      "parentUuid": "8b44c1f8_5ba71787",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 13
+      },
+      "revId": "3cc2f1d97c7b55cee64230087dd68ac8c8c746c4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
