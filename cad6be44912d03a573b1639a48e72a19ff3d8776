@@ -46,6 +46,30 @@
       "revId": "cad6be44912d03a573b1639a48e72a19ff3d8776",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea70916b_aa739a4e",
+        "filename": "src/go/internal/srcimporter/srcimporter_test.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-19T23:44:38Z",
+      "side": 1,
+      "message": "maybe testImportPath",
+      "parentUuid": "971e65d7_53712023",
+      "range": {
+        "startLine": 230,
+        "startChar": 5,
+        "endLine": 230,
+        "endChar": 19
+      },
+      "revId": "cad6be44912d03a573b1639a48e72a19ff3d8776",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
