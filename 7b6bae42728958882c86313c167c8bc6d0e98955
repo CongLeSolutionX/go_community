@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "892e19a5_795c4619",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-19T14:04:12Z",
+      "side": 1,
+      "message": "Are these autotmps?",
+      "range": {
+        "startLine": 661,
+        "startChar": 2,
+        "endLine": 661,
+        "endChar": 5
+      },
+      "revId": "7b6bae42728958882c86313c167c8bc6d0e98955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "159bd8ef_c10cc410",
+        "filename": "src/cmd/compile/internal/ppc64/ssa.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-19T14:04:12Z",
+      "side": 1,
+      "message": "Is this writing into the input argument? That seems wrong.",
+      "range": {
+        "startLine": 663,
+        "startChar": 3,
+        "endLine": 663,
+        "endChar": 29
+      },
+      "revId": "7b6bae42728958882c86313c167c8bc6d0e98955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86071d86_58cd1793",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 9
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-19T14:04:12Z",
+      "side": 1,
+      "message": "Using p twice looks strange to me. Is it necessary for MOVDaddridx to have a p operand?",
+      "range": {
+        "startLine": 946,
+        "startChar": 75,
+        "endLine": 946,
+        "endChar": 113
+      },
+      "revId": "7b6bae42728958882c86313c167c8bc6d0e98955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21442edf_54ec60ec",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 9
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-19T14:04:12Z",
+      "side": 1,
+      "message": "Does this need SLDconst need an explicit type? Could it just stay as \u003ct\u003e to simplify the rule?",
+      "range": {
+        "startLine": 946,
+        "startChar": 37,
+        "endLine": 946,
+        "endChar": 49
+      },
+      "revId": "7b6bae42728958882c86313c167c8bc6d0e98955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e39f6dc_8ead661b",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 9
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-19T14:04:12Z",
+      "side": 1,
+      "message": "The type of MOVDaddridx can probably be ignored (i.e. delete \u003ctyp.Uintptr\u003e) when matching the pattern. You could probably also get rid of the \u003ct\u003e match on the second OR and MOVHBRidxload. I don\u0027t think that hurts but I don\u0027t think it is strictly needed so long as the ops are correct. Same goes for other rules.",
+      "range": {
+        "startLine": 969,
+        "startChar": 42,
+        "endLine": 969,
+        "endChar": 55
+      },
+      "revId": "7b6bae42728958882c86313c167c8bc6d0e98955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df26eb50_ac01d8d5",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64.rules",
+        "patchSetId": 9
+      },
+      "lineNbr": 1037,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-19T14:04:12Z",
+      "side": 1,
+      "message": "extremely",
+      "range": {
+        "startLine": 1037,
+        "startChar": 63,
+        "endLine": 1037,
+        "endChar": 73
+      },
+      "revId": "7b6bae42728958882c86313c167c8bc6d0e98955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e914e35_1850bacd",
+        "filename": "src/cmd/compile/internal/ssa/gen/PPC64Ops.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 11990
+      },
+      "writtenOn": "2018-03-19T14:04:12Z",
+      "side": 1,
+      "message": "space after // (also below)",
+      "revId": "7b6bae42728958882c86313c167c8bc6d0e98955",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
