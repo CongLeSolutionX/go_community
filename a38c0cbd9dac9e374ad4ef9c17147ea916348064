@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "191b61bb_e8ffd533",
+        "filename": "src/go/internal/srcimporter/srcimporter.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-20T22:30:29Z",
+      "side": 1,
+      "message": "can you update the comment as well, please?\n\ns/\"\"/\".\"/",
+      "range": {
+        "startLine": 49,
+        "startChar": 52,
+        "endLine": 49,
+        "endChar": 53
+      },
+      "revId": "a38c0cbd9dac9e374ad4ef9c17147ea916348064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f21bfd9_1bf56971",
+        "filename": "src/go/internal/srcimporter/srcimporter.go",
+        "patchSetId": 8
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5210
+      },
+      "writtenOn": "2018-03-20T22:30:29Z",
+      "side": 1,
+      "message": "please add a line comment here on the same line; this is important to know\n\n// use \".\" rather then \"\" (see issue #24441)",
+      "range": {
+        "startLine": 51,
+        "startChar": 31,
+        "endLine": 51,
+        "endChar": 32
+      },
+      "revId": "a38c0cbd9dac9e374ad4ef9c17147ea916348064",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
