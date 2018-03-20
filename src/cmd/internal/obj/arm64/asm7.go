@@ -445,6 +445,10 @@ var optab = []Optab{
 	{AFMOVD, C_FREG, C_NONE, C_LOREG, 23, 4, 0, 0, C_XPRE},
 	{AVMOVS, C_VREG, C_NONE, C_LOREG, 23, 4, 0, 0, C_XPRE},
 
+	/* SWPD/SWPW/SWPH/SWPB */
+	{ASWPD, C_ZCON, C_REG, C_REG, 47, 4, REGSP, 0, 0},
+	{ASWPD, C_ZOREG, C_REG, C_REG, 47, 4, 0, 0, 0},
+
 	/* pre/post-indexed/signed-offset load/store register pair
 	   (unscaled, signed 10-bit quad-aligned and long offset) */
 	{ALDP, C_NPAUTO, C_NONE, C_PAIR, 66, 4, REGSP, 0, 0},
@@ -1857,6 +1861,11 @@ func buildop(ctxt *obj.Link) {
 			oprangeset(AMOVZ, t)
 			oprangeset(AMOVZW, t)
 
+		case ASWPD:
+			oprangeset(ASWPB, t)
+			oprangeset(ASWPH, t)
+			oprangeset(ASWPW, t)
+
 		case ABEQ:
 			oprangeset(ABNE, t)
 			oprangeset(ABCS, t)
@@ -3148,6 +3157,31 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 		o1 |= uint32(p.From.Reg&31) << 5
 		o1 |= uint32(p.To.Reg & 31)
+
+	case 47: /* SWPx Rs, (Rb), Rt: Rs -> (Rb) -> Rt */
+		v := int32(c.regoff(&p.From))
+		rb := int(p.From.Reg)
+		if v != 0 {
+			c.ctxt.Diag("invalid offset: %v\n", p)
+		}
+		if rb == obj.REG_NONE || p.To.Type != obj.TYPE_REG {
+			c.ctxt.Diag("illegal instruction: %v\n", p)
+		}
+		rs := p.Reg
+		rt := p.To.Reg
+		switch p.As {
+		case ASWPD:
+			o1 = 3 << 30
+		case ASWPW:
+			o1 = 2 << 30
+		case ASWPH:
+			o1 = 1 << 30
+		case ASWPB:
+			o1 = 0 << 30
+		default:
+			c.ctxt.Diag("illegal instruction: %v\n", p)
+		}
+		o1 |= 0x1c1<<21 | 0x20<<10 | uint32(rs&31)<<16 | uint32(rb&31)<<5 | uint32(rt&31)
 
 	case 50: /* sys/sysl */
 		o1 = c.opirr(p, p.As)
