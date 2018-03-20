@@ -83,8 +83,7 @@ type Regexp struct {
 	regexpRO
 
 	// cache of machines for running regexp
-	mu      sync.Mutex
-	machine []*machine
+	machines *sync.Pool
 }
 
 type regexpRO struct {
@@ -109,13 +108,11 @@ func (re *Regexp) String() string {
 
 // Copy returns a new Regexp object copied from re.
 //
-// When using a Regexp in multiple goroutines, giving each goroutine
-// its own copy helps to avoid lock contention.
+// Deprecated: This exists for historical reasons.
 func (re *Regexp) Copy() *Regexp {
-	// It is not safe to copy Regexp by value
-	// since it contains a sync.Mutex.
 	return &Regexp{
 		regexpRO: re.regexpRO,
+		machines: re.machines,
 	}
 }
 
@@ -179,15 +176,21 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 	if err != nil {
 		return nil, err
 	}
+	onepass := compileOnePass(prog)
 	regexp := &Regexp{
 		regexpRO: regexpRO{
 			expr:        expr,
 			prog:        prog,
-			onepass:     compileOnePass(prog),
+			onepass:     onepass,
 			numSubexp:   maxCap,
 			subexpNames: capNames,
 			cond:        prog.StartCond(),
 			longest:     longest,
+		},
+		machines: &sync.Pool{
+			New: func() interface{} {
+				return progMachine(prog, onepass)
+			},
 		},
 	}
 	if regexp.onepass == notOnePass {
@@ -208,15 +211,7 @@ func compile(expr string, mode syntax.Flags, longest bool) (*Regexp, error) {
 // It uses the re's machine cache if possible, to avoid
 // unnecessary allocation.
 func (re *Regexp) get() *machine {
-	re.mu.Lock()
-	if n := len(re.machine); n > 0 {
-		z := re.machine[n-1]
-		re.machine = re.machine[:n-1]
-		re.mu.Unlock()
-		return z
-	}
-	re.mu.Unlock()
-	z := progMachine(re.prog, re.onepass)
+	z := re.machines.Get().(*machine)
 	z.re = re
 	return z
 }
@@ -231,9 +226,7 @@ func (re *Regexp) put(z *machine) {
 	z.inputString.str = ""
 	z.inputReader.r = nil
 
-	re.mu.Lock()
-	re.machine = append(re.machine, z)
-	re.mu.Unlock()
+	re.machines.Put(z)
 }
 
 // MustCompile is like Compile but panics if the expression cannot be parsed.
