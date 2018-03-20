@@ -457,6 +457,16 @@ again:
 	JMP	foo(SB)
 	CALL	foo(SB)
 
+// SWPD/SWPW/SWPH/SWPB
+	SWPD	R5, (R6), R7    // SWPD (R6), R5, R7   // c78025f8
+	SWPD	R5, (RSP), R7	// SWPD (RSP), R5, R7  // e78325f8
+	SWPW	R5, (R6), R7    // SWPW (R6), R5, R7   // c78025b8
+	SWPW	R5, (RSP), R7	// SWPW (RSP), R5, R7  // e78325b8
+	SWPH	R5, (R6), R7    // SWPH (R6), R5, R7   // c7802578
+	SWPH	R5, (RSP), R7	// SWPH (RSP), R5, R7  // e7832578
+	SWPB	R5, (R6), R7    // SWPB (R6), R5, R7   // c7802538
+	SWPB	R5, (RSP), R7	// SWPB (RSP), R5, R7  // e7832538
+
 // LDP/STP
 	LDP	(R0), (R1, R2)
 	LDP	8(R0), (R1, R2)
