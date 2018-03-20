@@ -70,6 +70,30 @@
       "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdb63df8_57c8bd9f",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 26981
+      },
+      "writtenOn": "2018-03-20T20:40:45Z",
+      "side": 1,
+      "message": "I\u0027ll defer that decision to you. It is tempting, because that means that existing programs that rely on Copy become more memory efficient because they can share the cache. On the other hand, I don\u0027t know anything about the scalability limits of sync.Pool. Say it doesn\u0027t scale well above 256 cores, what happens if a user complains that Copy performs worse on a 512-core machine?",
+      "parentUuid": "5e02628d_dcc19534",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
