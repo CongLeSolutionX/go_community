@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "5258126b_10369ae1",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-03-20T12:58:37Z",
+      "side": 1,
+      "message": "Neither Sort() nor the original Stable() mentioned its space complexity.\nIt is just 256 bytes, so maybe drop it altogether.",
+      "parentUuid": "c5fb11b8_8681fd9b",
+      "range": {
+        "startLine": 1382,
+        "startChar": 32,
+        "endLine": 1382,
+        "endChar": 66
+      },
+      "revId": "aff08139717406e183752734908b29bf098cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9e3c2c3_c3315196",
         "filename": "src/sort/sort_test.go",
         "patchSetId": 2
@@ -201,6 +225,30 @@
       "side": 1,
       "message": "The formula I got empirically by putting large sizes in the sizes slice of testBentleyMcIlroy (1\u003c\u003c16). The constant 64 swaps is just to neglect the small sizes, which is alright since this test serves to check asymptotic complexity.",
       "parentUuid": "f9e3c2c3_c3315196",
+      "range": {
+        "startLine": 483,
+        "startChar": 64,
+        "endLine": 483,
+        "endChar": 77
+      },
+      "revId": "aff08139717406e183752734908b29bf098cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa2f30b_eccd80a7",
+        "filename": "src/sort/sort_test.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 5050
+      },
+      "writtenOn": "2018-03-20T12:58:37Z",
+      "side": 1,
+      "message": "testBentleyMcIlroy starts with n\u003d100 for which n lg n is 700.\nDoes the new algorithm have a constant offset?\nWill calling the new stable make 64 swaps in any case, even if\nn\u003d4? It simply looks suspicious. Sort and Heapsort (and the old\nStable) do not have a constant offset.\nThis does not check asymptotic complexity: What is checked is a\nhard upper bound for specific, n \u003c 1025.\n\nExperimenting a bit with the code indicates that the proper\nlimit would be n * lg(n) * 100 / 21 (BM with n from 100 to 100000).\n\nThis would make the new algorithm better for n \u003e 20\u0027000.\nPlaying around with CountStableOps I created the following graph\nhttps://drive.google.com/file/d/106pDFgCfhMEz_KiZ6_gqewNHT9U3Z5wz/view?usp\u003dsharing\nSo it seems as if the old and new algorithm do not differ on\nthe number of calls to Less (expected) and the new algorithm\nmakes less calls to Swap if n\u003e20\u0027000 (or n\u003c2\u0027000). For n\u003d1e8\nthe new algorithm makes only half as much calls to Swap then\nhe old one.\n\nUnfortunately I cannot confirm improvements on the running time\non darwin amd64.",
+      "parentUuid": "2269e6a6_db4f8eaf",
       "range": {
         "startLine": 483,
         "startChar": 64,
