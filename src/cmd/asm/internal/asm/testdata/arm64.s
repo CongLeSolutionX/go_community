@@ -539,6 +539,16 @@ again:
 	STPW	(R3, R4), x(SB)
 	STPW	(R3, R4), x+8(SB)
 
+// SWPD/SWPW/SWPH/SWPB
+	SWPD	(R6), R7, R5        // c78025f8
+	SWPD	(RSP), R7, R5       // e78325f8
+	SWPW	(R6), R7, R5        // c78025b8
+	SWPW	(RSP), R7, R5       // e78325b8
+	SWPH	(R6), R7, R5        // c7802578
+	SWPH	(RSP), R7, R5       // e7832578
+	SWPB	(R6), R7, R5        // c7802538
+	SWPB	(RSP), R7, R5       // e7832538
+
 // END
 //
 //	LTYPEE comma
