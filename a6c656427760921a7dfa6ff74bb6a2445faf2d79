@@ -94,6 +94,30 @@
       "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa62206_4e846127",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-03-20T21:03:51Z",
+      "side": 1,
+      "message": "If sync.Pool doesn\u0027t scale, we should fix it. :)\n(Pretty much the entire point of sync.Pool is to scale well with CPUs.)\n\nI suspect that the more likely mode of regression for this change would be an increase in memory usage for non-copied Regexps. (Running with the -benchmem flag would help to confirm or refute that.)\n\nIf a Regexp is used sequentially by goroutines running on N different cores, the sync.Mutex implementation will only allocate O(1) state machines. With sync.Pool, it may allocate O(N) machines. On the other hand, under contention sync.Mutex blows up to O(N) time per Lock/Unlock, while sync.Pool should remain O(1). This change is fundamentally a space/time tradeoff, but I think it moves that tradeoff in the right direction.",
+      "parentUuid": "fdb63df8_57c8bd9f",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
