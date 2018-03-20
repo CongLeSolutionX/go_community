@@ -118,6 +118,30 @@
       "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8db8c2a3_d1b3b346",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 26981
+      },
+      "writtenOn": "2018-03-20T21:24:34Z",
+      "side": 1,
+      "message": "Fair enough. Fixed.",
+      "parentUuid": "5fa62206_4e846127",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
