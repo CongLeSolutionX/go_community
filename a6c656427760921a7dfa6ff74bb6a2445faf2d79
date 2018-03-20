@@ -22,6 +22,30 @@
       "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b984768_481dac8a",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 26981
+      },
+      "writtenOn": "2018-03-20T20:28:06Z",
+      "side": 1,
+      "message": "That\u0027s a good point. However, if I made that change, I would want a test to ensure that we aren\u0027t hurting the performance for any user who currently relies on Copy to avoid lock contention, and I\u0027m not sure how to verify that.\n\nhttps://golang.org/pkg/regexp/#Regexp.Copy\n\"When using a Regexp in multiple goroutines, giving each goroutine its own copy helps to avoid lock contention.\"",
+      "parentUuid": "11eec58c_06e01615",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
