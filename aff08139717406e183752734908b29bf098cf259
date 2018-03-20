@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "895db28e_59f0f8ba",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 15048
+      },
+      "writtenOn": "2018-03-20T14:57:16Z",
+      "side": 1,
+      "message": "I put the correct (hopefully) asymptotic bound on space complexity in the latest patchsets.",
+      "parentUuid": "5258126b_10369ae1",
+      "range": {
+        "startLine": 1382,
+        "startChar": 32,
+        "endLine": 1382,
+        "endChar": 66
+      },
+      "revId": "aff08139717406e183752734908b29bf098cf259",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f9e3c2c3_c3315196",
         "filename": "src/sort/sort_test.go",
         "patchSetId": 2
