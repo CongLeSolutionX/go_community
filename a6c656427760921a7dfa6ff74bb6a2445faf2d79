@@ -46,6 +46,30 @@
       "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e02628d_dcc19534",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2018-03-20T20:32:01Z",
+      "side": 1,
+      "message": "I think BenchmarkMatchParallelCopied measures that directly?\n\n(It may be that we should remove that second sentence entirely in this change: if we resolve the contention issues for non-copied Regexps, it is possible that Copy no longer provides an advantage at all.)",
+      "parentUuid": "6b984768_481dac8a",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "a6c656427760921a7dfa6ff74bb6a2445faf2d79",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
