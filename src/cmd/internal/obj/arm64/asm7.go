@@ -499,6 +499,13 @@ var optab = []Optab{
 	{ASTP, C_PAIR, C_NONE, C_LOREG, 77, 12, 0, LTO, C_XPOST},
 	{ASTP, C_PAIR, C_NONE, C_ADDR, 87, 12, 0, 0, 0},
 
+	/* swp like instruction */
+	{ASWPD, C_UAUTO4K, C_REG, C_REG, 48, 8, REGSP, 0, 0},
+	{ASWPD, C_UOREG4K, C_REG, C_REG, 48, 8, 0, 0, 0},
+	{ASWPD, C_LAUTO, C_REG, C_REG, 49, 12, REGSP, LFROM, 0},
+	{ASWPD, C_LOREG, C_REG, C_REG, 49, 12, 0, LFROM, 0},
+	{ASWPD, C_ADDR, C_REG, C_REG, 55, 12, 0, 0, 0},
+
 	/* special */
 	{AMOVD, C_SPR, C_NONE, C_REG, 35, 4, 0, 0, 0},
 	{AMRS, C_SPR, C_NONE, C_REG, 35, 4, 0, 0, 0},
@@ -605,6 +612,8 @@ var optab = []Optab{
 	{AVCNT, C_ARNG, C_NONE, C_ARNG, 29, 4, 0, 0, 0},
 	{AVMOVI, C_ADDCON, C_NONE, C_ARNG, 86, 4, 0, 0, 0},
 	{AVFMLA, C_ARNG, C_ARNG, C_ARNG, 72, 4, 0, 0, 0},
+	{ASWPD, C_ZCON, C_REG, C_REG, 47, 4, REGSP, 0, 0},
+	{ASWPD, C_ZOREG, C_REG, C_REG, 47, 4, 0, 0, 0},
 
 	{obj.AUNDEF, C_NONE, C_NONE, C_NONE, 90, 4, 0, 0, 0},
 	{obj.APCDATA, C_VCON, C_NONE, C_VCON, 0, 0, 0, 0, 0},
@@ -1948,6 +1957,11 @@ func buildop(ctxt *obj.Link) {
 			ALDP:
 			break
 
+		case ASWPD:
+			oprangeset(ASWPB, t)
+			oprangeset(ASWPH, t)
+			oprangeset(ASWPW, t)
+
 		case AERET:
 			oprangeset(AWFE, t)
 			oprangeset(AWFI, t)
@@ -3074,6 +3088,31 @@ func (c *ctxt7) asmout(p *obj.Prog, o *Optab, out []uint32) {
 
 		o1 |= uint32(p.From.Reg&31) << 5
 		o1 |= uint32(p.To.Reg & 31)
+
+	case 47: /* SWPx Rs, (Rb), Rt: Rs -> (Rb) -> Rt */
+		v := int32(c.regoff(&p.From))
+		rb := int(p.From.Reg)
+		if v != 0 {
+			c.ctxt.Diag("invalid offset: %v\n", p)
+		}
+		if rb == obj.REG_NONE || p.To.Type != obj.TYPE_REG {
+			c.ctxt.Diag("illegal instruction: %v\n", p)
+		}
+		rs := p.Reg
+		rt := p.To.Reg
+		switch p.As {
+		case ASWPD:
+			o1 = 3 << 30
+		case ASWPW:
+			o1 = 2 << 30
+		case ASWPH:
+			o1 = 1 << 30
+		case ASWPB:
+			o1 = 0 << 30
+		default:
+			c.ctxt.Diag("illegal instruction: %v\n", p)
+		}
+		o1 |= 0x1c1<<21 | 0x20<<10 | uint32(rs&31)<<16 | uint32(rb&31)<<5 | uint32(rt&31)
 
 	case 50: /* sys/sysl */
 		o1 = c.opirr(p, p.As)
