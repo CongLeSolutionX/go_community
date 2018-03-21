@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ee62538_615a2258",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 11635
+      },
+      "writtenOn": "2018-03-21T18:54:25Z",
+      "side": 1,
+      "message": "This becomes invalid if the connection is renegotiated. I considered holding the handshake lock around it but that\u0027s also insufficient since a renegotiation can occur after the function is called but before the EKM is used. This is generally not an issue (renegotiation disabled by default in \"crypto/tls\", HTTP/2 treats renegotiation as a connection error) so it might be sufficient to solve this with documentation.",
+      "range": {
+        "startLine": 168,
+        "startChar": 1,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "4a7affa22d5faf1430236cdfe6fb42dd5d01ed1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
