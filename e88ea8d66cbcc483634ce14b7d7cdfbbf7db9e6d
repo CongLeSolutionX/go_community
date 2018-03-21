@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6da3dbc1_3b84e90f",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-21T22:41:18Z",
+      "side": 1,
+      "message": "This looks funny. There\u0027s a decent chance that rawEvents aliases task.events. Is it okay to mess with the underlying slice?",
+      "range": {
+        "startLine": 107,
+        "startChar": 51,
+        "endLine": 107,
+        "endChar": 0
+      },
+      "revId": "e88ea8d66cbcc483634ce14b7d7cdfbbf7db9e6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8aab962_8762c873",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-21T22:41:18Z",
+      "side": 1,
+      "message": "Why does skipping a fake span involve adding it to task.events?",
+      "revId": "e88ea8d66cbcc483634ce14b7d7cdfbbf7db9e6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0db46c78_8f1cf8b5",
+        "filename": "src/internal/trace/goroutines.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 17090
+      },
+      "writtenOn": "2018-03-21T22:41:18Z",
+      "side": 1,
+      "message": "finalizeActiveSpans?",
+      "range": {
+        "startLine": 115,
+        "startChar": 16,
+        "endLine": 115,
+        "endChar": 32
+      },
+      "revId": "e88ea8d66cbcc483634ce14b7d7cdfbbf7db9e6d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
