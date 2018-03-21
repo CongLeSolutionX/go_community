@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c69932ef_8ba36421",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-21T11:01:17Z",
+      "side": 1,
+      "message": "this is mixing spaces and tabs - perhaps use tabs only",
+      "revId": "b1d4ad8a6a6ca5a651aaf89f41aca7d2d777073e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
