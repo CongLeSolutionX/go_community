@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ac35a9e_c5a7135d",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5260
+      },
+      "writtenOn": "2018-03-21T16:27:37Z",
+      "side": 1,
+      "message": "this might be non-deterministic if two rawEvents have the same Ts. Is that ok?",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "175c57afd0b8b2e8ef1f80a9ca50f389df969fce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
