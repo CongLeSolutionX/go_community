@@ -904,6 +904,7 @@ func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
 		C_UAUTO16K_8,
 		C_UAUTO16K,
 		C_UAUTO32K,
+		C_NSAUTO_8,
 		C_NSAUTO,
 		C_NPAUTO,
 		C_LAUTO,
@@ -920,6 +921,7 @@ func (c *ctxt7) addpool(p *obj.Prog, a *obj.Addr) {
 		C_UOREG16K_8,
 		C_UOREG16K,
 		C_UOREG32K,
+		C_NSOREG_8,
 		C_NSOREG,
 		C_NPOREG,
 		C_LOREG,
@@ -1120,6 +1122,9 @@ func log2(x uint64) uint32 {
 
 func autoclass(l int64) int {
 	if l < 0 {
+		if l >= -256 && (l&7) == 0 {
+			return C_NSAUTO_8
+		}
 		if l >= -256 {
 			return C_NSAUTO
 		}
@@ -1580,11 +1585,14 @@ func cmp(a int, b int) bool {
 		}
 
 	case C_NPAUTO:
-		return cmp(C_NSAUTO, b)
+		return cmp(C_NSAUTO_8, b)
+
+	case C_NSAUTO:
+		return cmp(C_NSAUTO_8, b)
 
 	case C_LAUTO:
 		switch b {
-		case C_PSAUTO, C_PSAUTO_8, C_PPAUTO,
+		case C_NSAUTO, C_PSAUTO, C_PSAUTO_8, C_PPAUTO,
 			C_UAUTO4K, C_UAUTO4K_2, C_UAUTO4K_4, C_UAUTO4K_8,
 			C_UAUTO8K, C_UAUTO8K_4, C_UAUTO8K_8,
 			C_UAUTO16K, C_UAUTO16K_8,
@@ -1629,11 +1637,14 @@ func cmp(a int, b int) bool {
 		}
 
 	case C_NPOREG:
-		return cmp(C_NSOREG, b)
+		return cmp(C_NSOREG_8, b)
+
+	case C_NSOREG:
+		return cmp(C_NSOREG_8, b)
 
 	case C_LOREG:
 		switch b {
-		case C_ZOREG, C_PSOREG_8, C_PSOREG, C_PPOREG,
+		case C_NSOREG, C_ZOREG, C_PSOREG_8, C_PSOREG, C_PPOREG,
 			C_UOREG4K, C_UOREG4K_2, C_UOREG4K_4, C_UOREG4K_8,
 			C_UOREG8K, C_UOREG8K_4, C_UOREG8K_8,
 			C_UOREG16K, C_UOREG16K_8,
