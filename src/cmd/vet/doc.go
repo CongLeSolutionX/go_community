@@ -19,8 +19,9 @@ vets the package whose path is provided.
 
 Use "go help packages" to see other ways of specifying which packages to vet.
 
-Vet's exit code is 2 for erroneous invocation of the tool, 1 if a
-problem was reported, and 0 otherwise. Note that the tool does not
+Vet's exit code is zero if no problems were detected, or non-zero if a
+problem was reported or for erroneous invocations of the tool.
+Note that the tool does not
 check every possible problem and depends on unreliable heuristics
 so it should be used as guidance only, not as a firm indicator of
 program correctness.
