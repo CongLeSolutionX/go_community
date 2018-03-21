@@ -22,6 +22,30 @@
       "revId": "175c57afd0b8b2e8ef1f80a9ca50f389df969fce",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca15b573_5df634f4",
+        "filename": "src/cmd/trace/annotations.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 5190
+      },
+      "writtenOn": "2018-03-21T17:40:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ac35a9e_c5a7135d",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "175c57afd0b8b2e8ef1f80a9ca50f389df969fce",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
