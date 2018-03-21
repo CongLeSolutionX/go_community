@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2943b68_ce426a5e",
+        "filename": "src/cmd/vet/doc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 5015
+      },
+      "writtenOn": "2018-03-21T21:38:29Z",
+      "side": 1,
+      "message": "bad grammar, and be simple:\n\nVet\u0027s exit code is zero if the inputs were analyzed without any problems, non-zero otherwise.",
+      "revId": "a4e4858b9ac9a13affcf15241531ea2b81400d1b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
