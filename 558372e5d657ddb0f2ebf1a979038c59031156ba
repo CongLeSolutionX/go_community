@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b5a2b3e_f677f1a8",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-22T13:31:07Z",
+      "side": 1,
+      "message": "use `sync.Pool` instead of `*sync.Pool`. This should simplify the code for creating new Regexp and will remove unnecessary pointer chasing from the generated machine code.",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cf7f037_c5803b8c",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-22T13:31:07Z",
+      "side": 1,
+      "message": "Remove this line.\n\nCopy may be still required for certain cases, since blind Regexp copying doesn\u0027t work.",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3848ef4c_2c9ebd38",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-22T13:31:07Z",
+      "side": 1,
+      "message": "There is no need in copying the pool - let each Regexp have independent pool.",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "934f8730_a41c8263",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 9525
+      },
+      "writtenOn": "2018-03-22T13:31:07Z",
+      "side": 1,
+      "message": "move New initialization below the regexp initialization:\n\n    regexp.machines.New \u003d func() interface{} { return progMachine(prog, onepass) }\n\nThen the regexp initialization shouldn\u0027t touch machines at all.",
+      "revId": "558372e5d657ddb0f2ebf1a979038c59031156ba",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
