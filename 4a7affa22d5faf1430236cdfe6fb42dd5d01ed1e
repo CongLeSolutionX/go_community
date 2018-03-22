@@ -22,6 +22,30 @@
       "revId": "4a7affa22d5faf1430236cdfe6fb42dd5d01ed1e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8ac1529_04d1c826",
+        "filename": "src/crypto/tls/common.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 11635
+      },
+      "writtenOn": "2018-03-22T01:12:21Z",
+      "side": 1,
+      "message": "Disabled when the connection supports renegotiation and documented in comment.",
+      "parentUuid": "5ee62538_615a2258",
+      "range": {
+        "startLine": 168,
+        "startChar": 1,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "4a7affa22d5faf1430236cdfe6fb42dd5d01ed1e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
