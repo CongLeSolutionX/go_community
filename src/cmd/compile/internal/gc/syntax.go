@@ -700,7 +700,7 @@ const (
 	OEMPTY    // no-op (empty statement)
 	OFALL     // fallthrough
 	OFOR      // for Ninit; Left; Right { Nbody }
-	OFORUNTIL // for Ninit; Left; Right { Nbody } ; test applied after executing body, not before
+	OFORUNTIL // Ninit; top: { Nbody }; cont: Right; if Left { List; goto top }; brk: (created by walk)
 	OGOTO     // goto Left
 	OIF       // if Ninit; Left { Nbody } else { Rlist }
 	OLABEL    // Left:
