@@ -16,6 +16,24 @@
       "revId": "70faeec10d81cb79337807f81a6ca46bdc286d1a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce543442_ba94017e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 26898
+      },
+      "writtenOn": "2018-03-22T00:25:15Z",
+      "side": 1,
+      "message": "Just coincidence; the generated code is the same. Here\u0027s the same runs on an older laptop that doesn\u0027t have as many power saving features:\n\n```\nCopyFat8-4     0.31ns ± 6%  0.30ns ± 2%     ~     (p\u003d0.055 n\u003d9+9)\nCopyFat12-4    0.32ns ± 3%  0.33ns ± 5%   +3.74%  (p\u003d0.025 n\u003d10+10)\nCopyFat16-4    0.32ns ± 6%  0.32ns ± 6%     ~     (p\u003d0.787 n\u003d10+10)\nCopyFat24-4    0.36ns ± 3%  0.32ns ± 6%  -12.00%  (p\u003d0.000 n\u003d8+10)\nCopyFat32-4    1.90ns ± 3%  0.32ns ± 3%  -83.14%  (p\u003d0.000 n\u003d10+10)\nCopyFat64-4    2.60ns ± 6%  0.32ns ± 5%  -87.87%  (p\u003d0.000 n\u003d10+10)\nCopyFat128-4   4.42ns ± 4%  4.43ns ± 8%     ~     (p\u003d0.738 n\u003d10+10)\nCopyFat256-4   8.03ns ± 2%  7.96ns ± 2%     ~     (p\u003d0.097 n\u003d10+9)\nCopyFat512-4   15.4ns ± 1%  15.4ns ± 2%     ~     (p\u003d0.541 n\u003d9+10)\nCopyFat520-4   12.8ns ± 2%  12.6ns ± 5%     ~     (p\u003d0.107 n\u003d10+9)\nCopyFat1024-4  30.4ns ± 5%  30.2ns ± 2%     ~     (p\u003d0.921 n\u003d10+9)\n```",
+      "parentUuid": "27ab10de_d79d1e96",
+      "revId": "70faeec10d81cb79337807f81a6ca46bdc286d1a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
