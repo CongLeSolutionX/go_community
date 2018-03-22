@@ -662,6 +662,32 @@ func oforuntil(b []int) {
 	}
 }
 
+// The range tests below test the index variable of range loops.
+
+// range1 compiles to the "efficiently indexable" form of a range loop.
+func range1(b []int) {
+	for i, v := range b { // ERROR "Induction variable: limits \[0,\?\), increment 1$"
+		if i < len(b) { // ERROR "Proved Less64$"
+			b[i] = v + 1 // ERROR "Proved IsInBounds$"
+		}
+		if i >= 0 { // ERROR "Proved Geq64$"
+			println("x")
+		}
+	}
+}
+
+// range2 elements are larger, so they use the general form of a range loop.
+func range2(b [][32]int) {
+	for i, v := range b {
+		if i < len(b) { // ERROR "Induction variable: limits \[0,\?\), increment 1$" "Proved Less64$"
+			b[i][0] = v[0] + 1 // ERROR "Proved IsInBounds$"
+		}
+		if i >= 0 { // ERROR "Proved Geq64"
+			println("x")
+		}
+	}
+}
+
 //go:noinline
 func useInt(a int) {
 }
