@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcb305d4_c0b9a37a",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-22T14:52:00Z",
+      "side": 1,
+      "message": "Maybe also test OpNilCheck.",
+      "revId": "3677d5f157daf09f2650417a90dd9f12a238c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20aeaf66_1955cabd",
+        "filename": "src/cmd/compile/internal/ssa/nilcheck_test.go",
+        "patchSetId": 6
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2018-03-22T14:52:00Z",
+      "side": 1,
+      "message": "I don\u0027t think we ever directly add to SB. SP is probably more realistic.",
+      "revId": "3677d5f157daf09f2650417a90dd9f12a238c9b6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
