@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1bb6bce_fdefaefe",
+        "filename": "src/cmd/compile/internal/gc/obj.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-23T23:59:14Z",
+      "side": 1,
+      "message": "May as well move arhdr down to just before formathdr.",
+      "revId": "b9b06151e77b33e2593d3e1bebf384e85c898392",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
