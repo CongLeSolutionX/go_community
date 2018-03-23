@@ -575,6 +575,20 @@ func fence4(x, y int64) {
 	}
 }
 
+// induction tests induction variables handled by the prove pass.
+// Most are handled by loopbce, but this is the form produced by OFORUNTIL.
+func induction(b []int) {
+	i := 0
+	if len(b) > i {
+	top:
+		println(b[i]) // ERROR "Induction variable" "Proved IsInBounds$"
+		i++
+		if i < len(b) {
+			goto top
+		}
+	}
+}
+
 //go:noinline
 func useInt(a int) {
 }
