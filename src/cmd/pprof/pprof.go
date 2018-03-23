@@ -13,6 +13,7 @@ import (
 	"crypto/tls"
 	"debug/dwarf"
 	"fmt"
+	"html"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -91,10 +92,10 @@ func getProfile(source string, timeout time.Duration) (*profile.Profile, error) 
 }
 
 func statusCodeError(resp *http.Response) error {
-	if resp.Header.Get("X-Go-Pprof") != "" && strings.Contains(resp.Header.Get("Content-Type"), "text/plain") {
+	if resp.Header.Get("X-Go-Pprof") != "" && strings.Contains(resp.Header.Get("Content-Type"), "text/") {
 		// error is from pprof endpoint
 		if body, err := ioutil.ReadAll(resp.Body); err == nil {
-			return fmt.Errorf("server response: %s - %s", resp.Status, body)
+			return fmt.Errorf("server response: %s - %s", resp.Status, html.UnescapeString(string(body)))
 		}
 	}
 	return fmt.Errorf("server response: %s", resp.Status)
