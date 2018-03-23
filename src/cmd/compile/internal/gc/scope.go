@@ -88,8 +88,8 @@ func scopePCs(fnsym *obj.LSym, marks []Mark, dwarfScopes []dwarf.Scope) {
 	}
 
 	// Assign scopes to each chunk of instructions.
-	for i := range pcs {
-		pcs[i].scope = findScope(marks, pcs[i].pos)
+	for i, pc := range pcs {
+		pcs[i].scope = findScope(marks, pc.pos)
 	}
 
 	// Create sorted PC ranges for each DWARF scope.
@@ -111,14 +111,6 @@ func compactScopes(dwarfScopes []dwarf.Scope) []dwarf.Scope {
 	}
 
 	return dwarfScopes
-}
-
-type pcsByPC []scopedPCs
-
-func (s pcsByPC) Len() int      { return len(s) }
-func (s pcsByPC) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
-func (s pcsByPC) Less(i, j int) bool {
-	return s[i].start < s[j].start
 }
 
 type varsByScopeAndOffset struct {
