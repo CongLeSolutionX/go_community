@@ -189,7 +189,6 @@ var (
 const (
 	FileObj = 0 + iota
 	ArchiveObj
-	Pkgdef
 )
 
 const pkgdef = "__.PKGDEF"
@@ -779,6 +778,15 @@ func loadobjfile(ctxt *Link, lib *sym.Library) {
 	if err != nil {
 		Exitf("cannot open file %s: %v", lib.File, err)
 	}
+	defer f.Close()
+	defer func() {
+		if pkg == "main" && !lib.Main {
+			Exitf("%s: not package main", lib.File)
+		}
+		if *flagU && !lib.Safe {
+			Exitf("%s: load of unsafe package %s", lib.File, pkg)
+		}
+	}()
 
 	for i := 0; i < len(ARMAG); i++ {
 		if c, err := f.ReadByte(); err == nil && c == ARMAG[i] {
@@ -787,33 +795,10 @@ func loadobjfile(ctxt *Link, lib *sym.Library) {
 
 		/* load it as a regular file */
 		l := f.Seek(0, 2)
-
 		f.Seek(0, 0)
 		ldobj(ctxt, f, lib, l, lib.File, lib.File, FileObj)
-		f.Close()
-
 		return
 	}
-
-	/* process __.PKGDEF */
-	off := f.Offset()
-
-	var arhdr ArHdr
-	l := nextar(f, off, &arhdr)
-	var pname string
-	if l <= 0 {
-		Errorf(nil, "%s: short read on archive file symbol header", lib.File)
-		goto out
-	}
-
-	if !strings.HasPrefix(arhdr.name, pkgdef) {
-		Errorf(nil, "%s: cannot find package header", lib.File)
-		goto out
-	}
-
-	off += l
-
-	ldpkg(ctxt, f, pkg, atolwhex(arhdr.size), lib.File, Pkgdef)
 
 	/*
 	 * load all the object files from the archive now.
@@ -827,24 +812,26 @@ func loadobjfile(ctxt *Link, lib *sym.Library) {
 	 * loading every object will also make it possible to
 	 * load foreign objects not referenced by __.PKGDEF.
 	 */
+	var arhdr ArHdr
+	off := f.Offset()
 	for {
-		l = nextar(f, off, &arhdr)
+		l := nextar(f, off, &arhdr)
 		if l == 0 {
 			break
 		}
 		if l < 0 {
 			Exitf("%s: malformed archive", lib.File)
 		}
-
 		off += l
 
-		pname = fmt.Sprintf("%s(%s)", lib.File, arhdr.name)
+		if arhdr.name == pkgdef {
+			continue
+		}
+
+		pname := fmt.Sprintf("%s(%s)", lib.File, arhdr.name)
 		l = atolwhex(arhdr.size)
 		ldobj(ctxt, f, lib, l, pname, lib.File, ArchiveObj)
 	}
-
-out:
-	f.Close()
 }
 
 type Hostobj struct {
@@ -1513,7 +1500,7 @@ func ldobj(ctxt *Link, f *bio.Reader, lib *sym.Library, length int64, pn string,
 	import1 := f.Offset()
 
 	f.Seek(import0, 0)
-	ldpkg(ctxt, f, pkg, import1-import0-2, pn, whence) // -2 for !\n
+	ldpkg(ctxt, f, lib, import1-import0-2, pn, whence) // -2 for !\n
 	f.Seek(import1, 0)
 
 	objfile.Load(ctxt.Arch, ctxt.Syms, f, lib, eof-f.Offset(), pn)
