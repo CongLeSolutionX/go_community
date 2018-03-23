@@ -599,8 +599,9 @@ func prove(f *Func) {
 	)
 	// work maintains the DFS stack.
 	type bp struct {
-		block *Block    // current handled block
-		state walkState // what's to do
+		block        *Block    // current handled block
+		state        walkState // what's to do
+		checkpointed bool      // addInductiveFacts checkpointed the factsTable
 	}
 	work := make([]bp, 0, 256)
 	work = append(work, bp{
@@ -642,9 +643,13 @@ func prove(f *Func) {
 				// ft when we unwind.
 			}
 
+			// Add inductive facts for phis in this block.
+			checkpointed := addInductiveFacts(ft, node.block)
+
 			work = append(work, bp{
-				block: node.block,
-				state: simplify,
+				block:        node.block,
+				state:        simplify,
+				checkpointed: checkpointed,
 			})
 			for s := sdom.Child(node.block); s != nil; s = sdom.Sibling(s) {
 				work = append(work, bp{
@@ -656,6 +661,10 @@ func prove(f *Func) {
 		case simplify:
 			simplifyBlock(sdom, ft, node.block)
 
+			if node.checkpointed {
+				// addInductiveFacts pushed a checkpoint.
+				ft.restore()
+			}
 			if branch != unknown {
 				popBranch(ft)
 			}
@@ -759,6 +768,111 @@ func updateRestrictions(parent *Block, ft *factsTable, t domain, v, w *Value, r 
 			}
 		}
 	}
+}
+
+// addInductiveFacts adds simple inductive facts that occur when b is
+// a join point in a loop. It returns true if it checkpointed the
+// factsTable. In this case, the caller must call ft.restore().
+//
+// Note that this isn't (yet) as general as the loopbce pass, but this
+// catches the patterns produced by OFORUNTIL, while loopbce doesn't.
+func addInductiveFacts(ft *factsTable, b *Block) bool {
+	// This looks for a specific pattern of induction:
+	//
+	// 1. i1 = OpPhi(min, i2) in b
+	// 2. i2 = i1 + 1
+	// 3. i2 < max in the unique predecessors of b.Preds[1]
+	// 4. min < max
+	//
+	// If all of these conditions are true, then i1 < max and i1 >= min.
+
+	checkpointed := false
+	for _, i1 := range b.Values {
+		if i1.Op != OpPhi {
+			continue
+		}
+
+		// Check for conditions 1 and 2. This is easy to do
+		// and will throw out most phis.
+		min, i2 := i1.Args[0], i1.Args[1]
+		if i1q, delta := isConstDelta(i2); i1q != i1 || delta != 1 {
+			continue
+		}
+
+		// Search the unique predecessors for condition 3. We
+		// can't just query the fact table for this because we
+		// don't know what the facts of b.Preds[1] are. In
+		// general, b.Preds[1] is a loop-back edge, so we
+		// haven't even been there yet.
+		uniquePred := func(b *Block) *Block {
+			if len(b.Preds) == 1 {
+				return b.Preds[0].b
+			}
+			return nil
+		}
+		pred, child := b.Preds[1].b, b
+		for ; pred != nil; pred = uniquePred(pred) {
+			if pred.Kind != BlockIf {
+				continue
+			}
+
+			br := unknown
+			if pred.Succs[0].b == child {
+				br = positive
+			}
+			if pred.Succs[1].b == child {
+				if br != unknown {
+					continue
+				}
+				br = negative
+			}
+
+			tr, has := domainRelationTable[pred.Control.Op]
+			if !has {
+				continue
+			}
+			r := tr.r
+			if br == negative {
+				// Negative branch taken to reach b.
+				// Complement the relations.
+				r = (lt | eq | gt) ^ r
+			}
+
+			// Check for i2 < max or max > i2.
+			var max *Value
+			if r == lt && pred.Control.Args[0] == i2 {
+				max = pred.Control.Args[1]
+			} else if r == gt && pred.Control.Args[1] == i2 {
+				max = pred.Control.Args[0]
+			} else {
+				continue
+			}
+
+			// Check condition 4 now that we have a
+			// candidate max. For this we can query the
+			// fact table. We "prove" min < max by showing
+			// that min >= max is unsat. (This may simply
+			// compare two constants; that's fine.)
+			ft.checkpoint()
+			ft.update(b, min, max, tr.d, gt|eq)
+			proved := ft.unsat
+			ft.restore()
+
+			if proved {
+				// We know that min <= i1 < max.
+				if b.Func.pass.debug > 0 {
+					b.Func.Warnl(b.Pos, "Induction variable %s <= %s < %s", min, i1, max)
+				}
+				if !checkpointed {
+					ft.checkpoint()
+					checkpointed = true
+				}
+				ft.update(b, min, i1, tr.d, lt|eq)
+				ft.update(b, i1, max, tr.d, lt)
+			}
+		}
+	}
+	return checkpointed
 }
 
 // simplifyBlock simplifies some constant values in b and evaluates
