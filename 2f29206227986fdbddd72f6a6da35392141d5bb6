@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ef422f8_4f4d17f6",
+        "filename": "src/compress/flate/inflate.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 10961
+      },
+      "writtenOn": "2018-03-23T00:21:04Z",
+      "side": 1,
+      "message": "This is different behaviour to the original.\nBefore, if the f.nb\u003cn loop suffered a moreBits() error on the second iteration,\nf.b and f.nb would have been updated by moreBits() on the first iteration.\nNow, only b and nb are updated when the second iteration returns.",
+      "range": {
+        "startLine": 723,
+        "startChar": 0,
+        "endLine": 724,
+        "endChar": 10
+      },
+      "revId": "2f29206227986fdbddd72f6a6da35392141d5bb6",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
