@@ -166,8 +166,8 @@ levels:
 	s.placeholder = s.s.entryNewValue0(ssa.OpUnknown, types.TypeInvalid)
 
 	// Generate phi ops for each variable.
-	for n := range vartypes {
-		s.insertVarPhis(n, vars[n], defs[n], vartypes[n])
+	for n, vartype := range vartypes {
+		s.insertVarPhis(n, vars[n], defs[n], vartype)
 	}
 
 	// Resolve FwdRefs to the correct write or phi.
