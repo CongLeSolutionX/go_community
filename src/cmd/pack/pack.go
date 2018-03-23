@@ -268,7 +268,7 @@ func (ar *Archive) scan(action func(*Entry)) {
 }
 
 // listEntry prints to standard output a line describing the entry.
-func listEntry(ar *Archive, entry *Entry, verbose bool) {
+func listEntry(entry *Entry, verbose bool) {
 	if verbose {
 		fmt.Fprintf(stdout, "%s\n", entry)
 	} else {
@@ -476,7 +476,7 @@ var stdout io.Writer = os.Stdout
 func (ar *Archive) printContents(entry *Entry) {
 	if ar.match(entry) {
 		if verbose {
-			listEntry(ar, entry, false)
+			listEntry(entry, false)
 		}
 		ar.output(entry, stdout)
 	} else {
@@ -493,7 +493,7 @@ func (ar *Archive) skipContents(entry *Entry) {
 // tableOfContents implements the 't' command.
 func (ar *Archive) tableOfContents(entry *Entry) {
 	if ar.match(entry) {
-		listEntry(ar, entry, verbose)
+		listEntry(entry, verbose)
 	}
 	ar.skip(entry)
 }
@@ -502,7 +502,7 @@ func (ar *Archive) tableOfContents(entry *Entry) {
 func (ar *Archive) extractContents(entry *Entry) {
 	if ar.match(entry) {
 		if verbose {
-			listEntry(ar, entry, false)
+			listEntry(entry, false)
 		}
 		fd, err := os.OpenFile(entry.name, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, entry.mode)
 		if err != nil {
