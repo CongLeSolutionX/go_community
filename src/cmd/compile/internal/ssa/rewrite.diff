@@ -1,0 +1,90 @@
+diff --git a/src/cmd/compile/internal/ssa/rewrite.go b/src/cmd/compile/internal/ssa/rewrite.go
+index 4726a9d00a..eadac1b524 100644
+--- a/src/cmd/compile/internal/ssa/rewrite.go
++++ b/src/cmd/compile/internal/ssa/rewrite.go
+@@ -28,14 +28,19 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
+ 			if rb(b) {
+ 				change = true
+ 			}
+-			for j, v := range b.Values {
++			pendingLines := make(map[uint]bool)
++			for _, v := range b.Values {
+ 				change = phielimValue(v) || change
+ 
+ 				// First attempt to preserve a statement boundary
+-				if v.Op == OpCopy && v.Pos.IsStmt() == src.PosIsStmt {
+-					if moveStmtMarkerForward(j+1, b, v.Pos.Line(), false) {
++				if v.Op == OpCopy {
++					if v.Pos.IsStmt() == src.PosIsStmt {
+ 						v.Pos = v.Pos.WithNotStmt()
++						pendingLines[v.Pos.Line()] = true
+ 					}
++				} else if pendingLines[v.Pos.Line()] && v.Pos.IsStmt() != src.PosNotStmt {
++					v.Pos = v.Pos.WithIsStmt()
++					delete(pendingLines, v.Pos.Line())
+ 				}
+ 
+ 				// Eliminate copy inputs.
+@@ -51,17 +56,19 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
+ 					}
+ 					aa := copySource(a)
+ 					v.SetArg(i, aa)
+-					// Second attempt to preserve a line boundary indicator.
+-					if a.Pos.IsStmt() == src.PosIsStmt {
+-						if aa.Pos.Line() == a.Pos.Line() && aa.Block == a.Block {
+-							aa.Pos = aa.Pos.WithIsStmt()
+-						} else if v.Pos.Line() == a.Pos.Line() && v.Block == a.Block {
+-							v.Pos = v.Pos.WithIsStmt()
+-						} else {
+-							moveStmtMarkerForward(j+1, b, a.Pos.Line(), false)
+-						}
+-						a.Pos = a.Pos.WithNotStmt()
+-					}
++					// // Second attempt to preserve a line boundary indicator.
++					// if a.Pos.IsStmt() == src.PosIsStmt {
++					// 	if aa.Pos.Line() == a.Pos.Line() && aa.Block == a.Block {
++					// 		aa.Pos = aa.Pos.WithIsStmt()
++					// 	}
++
++					// 	// else if v.Pos.Line() == a.Pos.Line() && v.Block == a.Block {
++					// 	// 	v.Pos = v.Pos.WithIsStmt()
++					// 	// } else {
++					// 	// 		moveStmtMarkerForward(j+1, b, a.Pos.Line(), false)
++					// 	// }
++					// 	// a.Pos = a.Pos.WithNotStmt()
++					// }
+ 					change = true
+ 					for a.Uses == 0 {
+ 						b := a.Args[0]
+@@ -74,12 +81,15 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
+ 				if rv(v) {
+ 					change = true
+ 					// If value changed to a poor choice for a statement boundary, move the boundary
+-					if v.Pos.IsStmt() == src.PosIsStmt && isPoorStatementStart(v, j, b) {
+-						v.Pos = v.Pos.WithDefaultStmt() // TODO determine if this should be WithNotStmt, might ease other statement movement.
+-						b.Values[j+1].Pos = b.Values[j+1].Pos.WithIsStmt()
++					if v.Pos.IsStmt() == src.PosIsStmt && (v.Op == OpCopy || isPoorStatementOp(v.Op)) {
++						v.Pos = v.Pos.WithNotStmt()
++						pendingLines[v.Pos.Line()] = true
+ 					}
+ 				}
+ 			}
++			if pendingLines[b.Pos.Line()] {
++				b.Pos = b.Pos.WithIsStmt()
++			}
+ 		}
+ 		if !change {
+ 			break
+@@ -90,9 +100,9 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
+ 		j := 0
+ 		for i, v := range b.Values {
+ 			if v.Op == OpInvalid {
+-				if v.Pos.IsStmt() == src.PosIsStmt {
+-					moveStmtMarkerForward(i+1, b, v.Pos.Line(), false)
+-				}
++				// if v.Pos.IsStmt() == src.PosIsStmt {
++				// 	moveStmtMarkerForward(i+1, b, v.Pos.Line(), false)
++				// }
+ 				f.freeValue(v)
+ 				continue
+ 			}
