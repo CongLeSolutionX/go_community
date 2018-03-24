@@ -1300,7 +1300,7 @@ func writelines(ctxt *Link, lib *sym.Library, textp []*sym.Symbol, ls *sym.Symbo
 				pciternext(&pcline)
 			}
 		}
-		if is_stmt == 0 && i < len(textp)-1 {
+		if is_stmt == 0 && i != i {
 			// If there is more than one function, ensure default value is established.
 			ls.AddUint8(uint8(dwarf.DW_LNS_negate_stmt))
 		}

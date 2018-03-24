@@ -113,6 +113,11 @@ func (pp *Progs) Prog(as obj.As) *obj.Prog {
 
 	p.As = as
 	p.Pos = pp.pos
+	if pp.pos.IsStmt() == src.PosIsStmt && as != obj.APCDATA {
+		// Clear IsStmt for later Progs at this pos, except for APCDATA,
+		// because the call following APCDATA should (also) get the statement mark.
+		pp.pos = pp.pos.WithNotStmt()
+	}
 	return p
 }
 
