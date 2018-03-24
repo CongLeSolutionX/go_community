@@ -9,26 +9,14 @@
 x = 0
 y = 0
 22:		for i := x; i < 3; i++ {
-24:			y += id(x) //gdb-dbg=(x,y)//gdb-opt=(x,y)
-x = <optimized out>
-y = 0
-22:		for i := x; i < 3; i++ {
 23:			x := i * i
 24:			y += id(x) //gdb-dbg=(x,y)//gdb-opt=(x,y)
 x = 1
 y = 0
 22:		for i := x; i < 3; i++ {
-24:			y += id(x) //gdb-dbg=(x,y)//gdb-opt=(x,y)
-x = <optimized out>
-y = 0
-22:		for i := x; i < 3; i++ {
 23:			x := i * i
 24:			y += id(x) //gdb-dbg=(x,y)//gdb-opt=(x,y)
 x = 4
-y = 1
-22:		for i := x; i < 3; i++ {
-24:			y += id(x) //gdb-dbg=(x,y)//gdb-opt=(x,y)
-x = <optimized out>
 y = 1
 22:		for i := x; i < 3; i++ {
 26:		y = x + y //gdb-dbg=(x,y)//gdb-opt=(x,y)

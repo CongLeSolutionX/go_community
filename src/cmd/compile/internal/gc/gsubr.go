@@ -113,6 +113,10 @@ func (pp *Progs) Prog(as obj.As) *obj.Prog {
 
 	p.As = as
 	p.Pos = pp.pos
+	if pp.pos.IsStmt() == src.LicoIsStmt && as != obj.APCDATA {
+		// APCDATA precedes call, the call should get the statement mark.
+		pp.pos = pp.pos.WithNotStmt()
+	}
 	return p
 }
 
