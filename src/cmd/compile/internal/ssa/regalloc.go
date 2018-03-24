@@ -988,6 +988,9 @@ func (s *regAllocState) regalloc(f *Func) {
 
 		// Allocate space to record the desired registers for each value.
 		dinfo = dinfo[:0]
+		if cap(dinfo) < len(oldSched) {
+			dinfo = make([]dentry, 0, len(oldSched))
+		}
 		for i := 0; i < len(oldSched); i++ {
 			dinfo = append(dinfo, dentry{})
 		}
