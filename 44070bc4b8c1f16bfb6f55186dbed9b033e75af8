@@ -33,6 +33,40 @@
       "revId": "44070bc4b8c1f16bfb6f55186dbed9b033e75af8",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ed4752d_5876eccc",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2018-03-24T16:58:38Z",
+      "side": 1,
+      "message": "Could you verify that gofmt was properly executed over this file?",
+      "revId": "44070bc4b8c1f16bfb6f55186dbed9b033e75af8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d982c873_555f419a",
+        "filename": "src/encoding/xml/marshal_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2018-03-24T16:58:38Z",
+      "side": 1,
+      "message": "I think it\u0027s better to add empty lines between top-level type declarations.\n\nIf you really want to group them, this should work better:\n\n\n type (\n \tNestedOmitempty struct {\n \t\tAB string `xml:\"A\u003eB,omitempty\"`\n \t}\n \n \tNestedHyphen struct {\n \t\tAB string `xml:\"A\u003eB,-\"`\n \t}\n \n \tNestedCData struct {\n \t\tAB string `xml:\"A\u003eB,cdata\"`\n \t}\n )",
+      "revId": "44070bc4b8c1f16bfb6f55186dbed9b033e75af8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
