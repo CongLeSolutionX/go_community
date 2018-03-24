@@ -61,8 +61,7 @@ type Func struct {
 	cachedSdom      SparseTree // cached dominator tree
 	cachedLoopnest  *loopnest  // cached loop nest information
 
-	auxmap auxmap // map from aux values to opaque ids used by CSE
-
+	auxmap    auxmap             // map from aux values to opaque ids used by CSE
 	constants map[int64][]*Value // constants cache, keyed by constant value; users must check value's Op and Type
 }
 
@@ -149,6 +148,12 @@ func (f *Func) newValue(op Op, t *types.Type, b *Block, pos src.XPos) *Value {
 	v.Op = op
 	v.Type = t
 	v.Block = b
+	switch op {
+	// These get sprinkled all over and are not good statement boundaries.
+	// OpArg floats around to nearest common ancestor block, with line of entry, bad for debugging.
+	case OpCopy, OpPhi, OpVarDef, OpVarKill, OpFwdRef, OpArg:
+		pos = pos.WithNotStmt()
+	}
 	v.Pos = pos
 	b.Values = append(b.Values, v)
 	return v
@@ -176,6 +181,10 @@ func (f *Func) newValueNoBlock(op Op, t *types.Type, pos src.XPos) *Value {
 	v.Op = op
 	v.Type = t
 	v.Block = nil // caller must fix this.
+	switch op {   // These get sprinkled all over and are not good statement boundaries.
+	case OpCopy, OpPhi, OpVarDef, OpVarKill, OpFwdRef:
+		pos = pos.WithNotStmt()
+	}
 	v.Pos = pos
 	return v
 }

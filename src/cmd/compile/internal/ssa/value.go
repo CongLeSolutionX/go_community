@@ -244,6 +244,9 @@ func (v *Value) resetArgs() {
 
 func (v *Value) reset(op Op) {
 	v.Op = op
+	if notStmtBoundary(op) {
+		v.Pos = v.Pos.WithNotStmt()
+	}
 	v.resetArgs()
 	v.AuxInt = 0
 	v.Aux = nil
@@ -251,7 +254,7 @@ func (v *Value) reset(op Op) {
 
 // copyInto makes a new value identical to v and adds it to the end of b.
 func (v *Value) copyInto(b *Block) *Value {
-	c := b.NewValue0(v.Pos, v.Op, v.Type) // Lose the position, this causes line number churn otherwise.
+	c := b.NewValue0(v.Pos.WithNotStmt(), v.Op, v.Type) // Lose the position, this causes line number churn otherwise.
 	c.Aux = v.Aux
 	c.AuxInt = v.AuxInt
 	c.AddArgs(v.Args...)
@@ -261,13 +264,6 @@ func (v *Value) copyInto(b *Block) *Value {
 		}
 	}
 	return c
-}
-
-// copyIntoNoXPos makes a new value identical to v and adds it to the end of b.
-// The copied value receives no source code position to avoid confusing changes
-// in debugger information (the intended user is the register allocator).
-func (v *Value) copyIntoNoXPos(b *Block) *Value {
-	return v.copyIntoWithXPos(b, src.NoXPos)
 }
 
 // copyIntoWithXPos makes a new value identical to v and adds it to the end of b.

@@ -713,7 +713,7 @@ func (s *state) stmt(n *Node) {
 		}
 
 		b := s.endBlock()
-		b.Pos = s.lastPos // Do this even if b is an empty block.
+		b.Pos = s.lastPos.WithIsStmt() // Do this even if b is an empty block.
 		b.AddEdgeTo(lab.target)
 
 	case OAS:
@@ -892,7 +892,7 @@ func (s *state) stmt(n *Node) {
 		}
 
 		b := s.endBlock()
-		b.Pos = s.lastPos // Do this even if b is an empty block.
+		b.Pos = s.lastPos.WithIsStmt() // Do this even if b is an empty block.
 		b.AddEdgeTo(to)
 
 	case OFOR, OFORUNTIL:
@@ -4619,11 +4619,15 @@ func (s *SSAGenState) DebugFriendlySetPosFrom(v *ssa.Value) {
 	// The debug information appears to be the same in either case
 	switch v.Op {
 	case ssa.OpPhi, ssa.OpCopy, ssa.OpLoadReg, ssa.OpStoreReg:
-		// leave the position unchanged from beginning of block
-		// or previous line number.
+		// These are not statements
+		s.SetPos(v.Pos.WithNotStmt())
 	default:
-		if v.Pos != src.NoXPos {
-			s.SetPos(v.Pos)
+		p := v.Pos
+		if p != src.NoXPos {
+			if p.IsStmt() != src.PosIsStmt {
+				p = p.WithNotStmt()
+			}
+			s.SetPos(p)
 		}
 	}
 }
@@ -4670,8 +4674,9 @@ func genssa(f *ssa.Func, pp *Progs) {
 	// debuggers may attribute it to previous function in program.
 	firstPos := src.NoXPos
 	for _, v := range f.Entry.Values {
-		if v.Op != ssa.OpArg && v.Op != ssa.OpVarDef && v.Pos.IsStmt() != src.PosNotStmt { // TODO will be == src.PosIsStmt in pending CL, more accurate
-			firstPos = v.Pos.WithIsStmt()
+		if v.Pos.IsStmt() == src.PosIsStmt {
+			firstPos = v.Pos
+			v.Pos = firstPos.WithDefaultStmt()
 			break
 		}
 	}
@@ -4775,8 +4780,11 @@ func genssa(f *ssa.Func, pp *Progs) {
 		}
 	}
 
-	// Resolve branches
+	// Resolve branches, undo their statement-ness
 	for _, br := range s.Branches {
+		if br.P.Pos.IsStmt() != src.PosIsStmt {
+			br.P.Pos = br.P.Pos.WithNotStmt()
+		}
 		br.P.To.Val = s.bstart[br.B.ID]
 	}
 
