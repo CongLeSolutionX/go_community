@@ -7,6 +7,7 @@ package ssa
 import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
+	"cmd/internal/src"
 	"fmt"
 	"io"
 	"math"
@@ -27,7 +28,7 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 			if rb(b) {
 				change = true
 			}
-			for _, v := range b.Values {
+			for j, v := range b.Values {
 				change = phielimValue(v) || change
 
 				// Eliminate copy inputs.
@@ -42,6 +43,15 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 						continue
 					}
 					v.SetArg(i, copySource(a))
+					// Push a line boundary indicator forward if possible
+					if a.Pos.IsStmt() == src.PosIsStmt {
+						if v.Pos.Line() == a.Pos.Line() && v.Block == a.Block {
+							v.Pos = v.Pos.WithIsStmt()
+						} else {
+							moveStmtMarkerForward(j, b, a.Pos.Line(), nil)
+						}
+						a.Pos = a.Pos.WithNotStmt()
+					}
 					change = true
 					for a.Uses == 0 {
 						b := a.Args[0]
@@ -53,6 +63,11 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 				// apply rewrite function
 				if rv(v) {
 					change = true
+					// If value changed to a poor choice for a statement boundary, move the boundary
+					if v.Pos.IsStmt() == src.PosIsStmt && isPoorStatementStart(v, j, b) {
+						v.Pos = v.Pos.WithDefaultStmt() // TODO determine if this should be WithNotStmt, might ease other statement movement.
+						b.Values[j+1].Pos = b.Values[j+1].Pos.WithIsStmt()
+					}
 				}
 			}
 		}
@@ -65,6 +80,9 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 		j := 0
 		for i, v := range b.Values {
 			if v.Op == OpInvalid {
+				if v.Pos.IsStmt() == src.PosIsStmt {
+					moveStmtMarkerForward(i, b, v.Pos.Line(), nil)
+				}
 				f.freeValue(v)
 				continue
 			}
