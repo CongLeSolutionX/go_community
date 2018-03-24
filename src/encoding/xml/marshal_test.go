@@ -381,6 +381,18 @@ type NestedAndCData struct {
 	AB    []string `xml:"A>B"`
 	CDATA string   `xml:",cdata"`
 }
+// Tags on embedded structs
+type NestedOmitempty struct {
+	AB       string `xml:"A>B,omitempty"`
+}
+type NestedHyphen struct {
+	AB       string `xml:"A>B,-"`
+}
+type NestedCData struct {
+	AB       string `xml:"A>B,cdata"`
+}
+
+
 
 func ifaceptr(x interface{}) interface{} {
 	return &x
@@ -1731,6 +1743,16 @@ var marshalIndentTests = []struct {
 		Prefix:    "",
 		Indent:    "\t",
 		ExpectXML: fmt.Sprintf("<agent handle=\"007\">\n\t<Identity>James Bond</Identity><redacted/>\n</agent>"),
+	},
+	{
+		Value: &SecretAgent{
+			Handle:    "007",
+			Identity:  "James Bond",
+			Obfuscate: "<redacted/>",
+		},
+		Prefix:    "",
+		Indent:    "",
+		ExpectXML: fmt.Sprintf("<agent handle=\"007\">\n<Identity>James Bond</Identity><redacted/>\n</agent>"),
 	},
 }
 
