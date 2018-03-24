@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "814bf5f0_cc388206",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2018-03-24T18:06:56Z",
+      "side": 1,
+      "message": "This shouldn\u0027t go into the final commit message.\n\nYou can reply to specific review comments without changing the commit message.\n\nMy guess is that you are using web UI to edit commit message. You can edit it with \"git codereview change\" + \"git codereview mail\". This way, there is no need to sync with remote from your local repository.",
+      "revId": "7657d89fee56df0cdeaa4cbb95caa05ce7be8d2a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
