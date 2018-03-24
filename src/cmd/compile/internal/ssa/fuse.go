@@ -128,8 +128,26 @@ func fuseBlockPlain(b *Block) bool {
 	// Use whichever value slice is larger, in the hopes of avoiding growth.
 	// However, take care to avoid c.Values pointing to b.valstorage.
 	// See golang.org/issue/18602.
+	// It's important to keep the elements in the same order; maintenance of
+	// debugging information depends on the order of *Values in Blocks.
 	if cap(c.Values) >= cap(b.Values) || len(b.Values) <= len(b.valstorage) {
-		c.Values = append(c.Values, b.Values...)
+		bl := len(b.Values)
+		cl := len(c.Values)
+		if cap(c.Values) < bl+cl {
+			// reallocate
+			t := make([]*Value, 0, bl+cl)
+			t = append(t, b.Values...)
+			c.Values = append(t, c.Values...)
+		} else {
+			// in place.
+			c.Values = c.Values[0 : bl+cl]
+			for i := cl - 1; i >= 0; i-- {
+				c.Values[i+bl] = c.Values[i]
+			}
+			for i, x := range b.Values {
+				c.Values[i] = x
+			}
+		}
 	} else {
 		c.Values = append(b.Values, c.Values...)
 	}
