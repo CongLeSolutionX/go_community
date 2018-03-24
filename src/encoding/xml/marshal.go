@@ -146,6 +146,7 @@ func NewEncoder(w io.Writer) *Encoder {
 func (enc *Encoder) Indent(prefix, indent string) {
 	enc.p.prefix = prefix
 	enc.p.indent = indent
+	enc.p.minimalIndent = prefix == "" && indent == "" //Empty values are still indented
 }
 
 // Encode writes the XML encoding of v to the stream.
@@ -305,6 +306,7 @@ type printer struct {
 	depth      int
 	indentedIn bool
 	putNewline bool
+	minimalIndent bool //marshalIndent requires a minimal indent
 	attrNS     map[string]string // map prefix -> name space
 	attrPrefix map[string]string // map name space -> prefix
 	prefixes   []string
@@ -949,7 +951,10 @@ func (p *printer) cachedWriteError() error {
 }
 
 func (p *printer) writeIndent(depthDelta int) {
-	if len(p.prefix) == 0 && len(p.indent) == 0 {
+	if (len(p.prefix) == 0 && len(p.indent) == 0) && !p.minimalIndent {
+		//MarshalIndent is using the same code as Marshal
+		//The test is equivalent to never indent when no value is set except when
+		//marshalIndent was used
 		return
 	}
 	if depthDelta < 0 {
