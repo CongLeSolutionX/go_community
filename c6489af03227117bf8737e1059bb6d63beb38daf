@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9c1832f_e91bbb80",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-03-24T17:01:10Z",
+      "side": 1,
+      "message": "OpStructSelect and maybe others that will disappear in rewrites.",
+      "range": {
+        "startLine": 23,
+        "startChar": 27,
+        "endLine": 23,
+        "endChar": 40
+      },
+      "revId": "c6489af03227117bf8737e1059bb6d63beb38daf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3854e406_dc4a9848",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-03-24T17:01:10Z",
+      "side": 1,
+      "message": "Eh, whoops, will come out.",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 8
+      },
+      "revId": "c6489af03227117bf8737e1059bb6d63beb38daf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "685fbd6b_6068ea3c",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-03-24T17:01:10Z",
+      "side": 1,
+      "message": "ought to factor this out into an internal function, since it appears twice and is complicated.",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 93
+      },
+      "revId": "c6489af03227117bf8737e1059bb6d63beb38daf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f9f4c10_7b4ccd73",
+        "filename": "src/cmd/compile/internal/ssa/numberlines.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2018-03-24T17:01:10Z",
+      "side": 1,
+      "message": "Need to try this, too.",
+      "range": {
+        "startLine": 102,
+        "startChar": 3,
+        "endLine": 102,
+        "endChar": 35
+      },
+      "revId": "c6489af03227117bf8737e1059bb6d63beb38daf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
