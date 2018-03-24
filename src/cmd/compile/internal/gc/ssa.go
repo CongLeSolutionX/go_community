@@ -779,7 +779,7 @@ func (s *state) stmt(n *Node) {
 		}
 
 		b := s.endBlock()
-		b.Pos = s.lastPos // Do this even if b is an empty block.
+		b.Pos = s.lastPos.WithIsStmt() // Do this even if b is an empty block.
 		b.AddEdgeTo(lab.target)
 
 	case OAS:
@@ -958,7 +958,7 @@ func (s *state) stmt(n *Node) {
 		}
 
 		b := s.endBlock()
-		b.Pos = s.lastPos // Do this even if b is an empty block.
+		b.Pos = s.lastPos.WithIsStmt() // Do this even if b is an empty block.
 		b.AddEdgeTo(to)
 
 	case OFOR, OFORUNTIL:
@@ -4712,25 +4712,27 @@ func (s *SSAGenState) Br(op obj.As, target *ssa.Block) *obj.Prog {
 	return p
 }
 
-// DebugFriendlySetPos sets the position subject to heuristics
+// DebugFriendlySetPos adjusts Pos.IsStmt subject to heuristics
 // that reduce "jumpy" line number churn when debugging.
 // Spill/fill/copy instructions from the register allocator,
 // phi functions, and instructions with a no-pos position
 // are examples of instructions that can cause churn.
 func (s *SSAGenState) DebugFriendlySetPosFrom(v *ssa.Value) {
-	// The two choices here are either to leave lineno unchanged,
-	// or to explicitly set it to src.NoXPos.  Leaving it unchanged
-	// (reusing the preceding line number) produces slightly better-
-	// looking assembly language output from the compiler, and is
-	// expected by some already-existing tests.
-	// The debug information appears to be the same in either case
 	switch v.Op {
 	case ssa.OpPhi, ssa.OpCopy, ssa.OpLoadReg, ssa.OpStoreReg:
-		// leave the position unchanged from beginning of block
-		// or previous line number.
+		// These are not statements
+		s.SetPos(v.Pos.WithNotStmt())
 	default:
-		if v.Pos != src.NoXPos {
-			s.SetPos(v.Pos)
+		p := v.Pos
+		if p != src.NoXPos {
+			// If the position is defined, update the position.
+			// Also convert default IsStmt to NotStmt; only
+			// explicit statement boundaries should appear
+			// in the generated code.
+			if p.IsStmt() != src.PosIsStmt {
+				p = p.WithNotStmt()
+			}
+			s.SetPos(p)
 		}
 	}
 }
@@ -4777,8 +4779,9 @@ func genssa(f *ssa.Func, pp *Progs) {
 	// debuggers may attribute it to previous function in program.
 	firstPos := src.NoXPos
 	for _, v := range f.Entry.Values {
-		if v.Op != ssa.OpArg && v.Op != ssa.OpVarDef && v.Pos.IsStmt() != src.PosNotStmt { // TODO will be == src.PosIsStmt in pending CL, more accurate
-			firstPos = v.Pos.WithIsStmt()
+		if v.Pos.IsStmt() == src.PosIsStmt {
+			firstPos = v.Pos
+			v.Pos = firstPos.WithDefaultStmt()
 			break
 		}
 	}
@@ -4887,8 +4890,11 @@ func genssa(f *ssa.Func, pp *Progs) {
 		}
 	}
 
-	// Resolve branches
+	// Resolve branches, undo their statement-ness
 	for _, br := range s.Branches {
+		if br.P.Pos.IsStmt() != src.PosIsStmt {
+			br.P.Pos = br.P.Pos.WithNotStmt()
+		}
 		br.P.To.Val = s.bstart[br.B.ID]
 	}
 
