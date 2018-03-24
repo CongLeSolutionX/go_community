@@ -381,18 +381,17 @@ type NestedAndCData struct {
 	AB    []string `xml:"A>B"`
 	CDATA string   `xml:",cdata"`
 }
+
 // Tags on embedded structs
 type NestedOmitempty struct {
-	AB       string `xml:"A>B,omitempty"`
+	AB string `xml:"A>B,omitempty"`
 }
 type NestedHyphen struct {
-	AB       string `xml:"A>B,-"`
+	AB string `xml:"A>B,-"`
 }
 type NestedCData struct {
-	AB       string `xml:"A>B,cdata"`
+	AB string `xml:"A>B,cdata"`
 }
-
-
 
 func ifaceptr(x interface{}) interface{} {
 	return &x
