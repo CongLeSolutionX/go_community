@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7572192e_fac10d34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2018-03-24T16:49:41Z",
+      "side": 1,
+      "message": "This probably should have \"fix\" before \"unexpected\", like \"fix unexpected behavior ...\".\n\nhttps://golang.org/doc/contribute.html#commit_changes\n\nThe first line of the change description is conventionally a one-line summary of the change, prefixed by the primary affected package, and is used as the subject for code review email. It should complete the sentence \"This change modifies Go to _____.\"",
+      "revId": "44070bc4b8c1f16bfb6f55186dbed9b033e75af8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0df497b6_6d585236",
+        "filename": "src/encoding/xml/marshal.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2018-03-24T16:49:41Z",
+      "side": 1,
+      "message": "It\u0027s better to put a space between \"//\" and comment text. Usually, comments without leading space are directive-like comments or pragmas.\n\nThe other way to look at it is consistency.\nAll comments around have leading space.\n\nPlease fix this one and other comments in this change list.",
+      "revId": "44070bc4b8c1f16bfb6f55186dbed9b033e75af8",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
