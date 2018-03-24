@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32c93b1c_56a42ef1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 25422
+      },
+      "writtenOn": "2018-03-24T19:10:38Z",
+      "side": 1,
+      "message": "Sorry if my comment was unclear before.\n\nWhat I meant is that commit message does not need to include stuff that is not related to the final change itself.\n\n \u003e Comments have now a leading space.\n\nLine quoted above does not add context for further reader as there were no comments without leading space before your change. When you fix issues pointed out on code review, you generally don\u0027t want to describe everything you have done inside commit message.\n\nUsually, when comments are addressed, author uses \"reply\" or \"done\" buttons to mark them as resolved or considered.\n\n \u003e The type structure in the _test.go is kept in line with the  rest of the\n \u003e file as the structs are used for one test each time.\n\nThis also is redundant as all Go code should be gofmt\u0027ed before it\u0027s merged.\n\nThank you.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "08f7a1293aa0c3d387c08b1b8731257eebf45d84",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
