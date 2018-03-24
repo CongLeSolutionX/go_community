@@ -22,6 +22,30 @@
       "revId": "13620445b90934485426ba7f3e295cd4c58e286a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6d4376e_9a203e1a",
+        "filename": "src/cmd/compile/internal/gc/scope.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 13550
+      },
+      "writtenOn": "2018-03-24T18:29:22Z",
+      "side": 1,
+      "message": "Because pc is a copy of pcs[i], so you wouldn\u0027t be updating the element in the slice at all.\n\nYou\u0027re probably right about the inconsistency though, will undo this bit.",
+      "parentUuid": "b41d655e_89814be9",
+      "range": {
+        "startLine": 92,
+        "startChar": 2,
+        "endLine": 92,
+        "endChar": 41
+      },
+      "revId": "13620445b90934485426ba7f3e295cd4c58e286a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
