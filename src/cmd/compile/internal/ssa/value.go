@@ -221,6 +221,10 @@ func (v *Value) resetArgs() {
 
 func (v *Value) reset(op Op) {
 	v.Op = op
+	switch op {
+	case OpPhi, OpVarKill, OpVarDef: // not OpCopy; rewrite overwrites ops w/ OpCopy, but their Pos can be a statement boundary.
+		v.Pos = v.Pos.WithNotStmt()
+	}
 	v.resetArgs()
 	v.AuxInt = 0
 	v.Aux = nil
@@ -228,7 +232,7 @@ func (v *Value) reset(op Op) {
 
 // copyInto makes a new value identical to v and adds it to the end of b.
 func (v *Value) copyInto(b *Block) *Value {
-	c := b.NewValue0(v.Pos, v.Op, v.Type) // Lose the position, this causes line number churn otherwise.
+	c := b.NewValue0(v.Pos.WithNotStmt(), v.Op, v.Type) // Lose the position, this causes line number churn otherwise.
 	c.Aux = v.Aux
 	c.AuxInt = v.AuxInt
 	c.AddArgs(v.Args...)

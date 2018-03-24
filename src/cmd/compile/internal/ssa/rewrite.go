@@ -7,6 +7,7 @@ package ssa
 import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
+	"cmd/internal/src"
 	"fmt"
 	"io"
 	"math"
@@ -27,7 +28,7 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 			if rb(b) {
 				change = true
 			}
-			for _, v := range b.Values {
+			for j, v := range b.Values {
 				change = phielimValue(v) || change
 
 				// Eliminate copy inputs.
@@ -42,6 +43,14 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 						continue
 					}
 					v.SetArg(i, copySource(a))
+					// Push a line boundary indicator forward if possible
+					if a.Pos.IsStmt() == src.LicoIsStmt {
+						if v.Pos.Line() == a.Pos.Line() && v.Block == a.Block {
+							v.Pos = v.Pos.WithIsStmt()
+						} else {
+							moveStmtMarkerForward(j, b, a.Pos.Line(), nil)
+						}
+					}
 					change = true
 					for a.Uses == 0 {
 						b := a.Args[0]
