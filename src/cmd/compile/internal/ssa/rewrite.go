@@ -7,6 +7,7 @@ package ssa
 import (
 	"cmd/compile/internal/types"
 	"cmd/internal/obj"
+	"cmd/internal/src"
 	"fmt"
 	"io"
 	"math"
@@ -27,8 +28,20 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 			if rb(b) {
 				change = true
 			}
-			for _, v := range b.Values {
+			pendingLines := make(map[uint]bool)
+			for j, v := range b.Values {
 				change = phielimValue(v) || change
+
+				// First attempt to preserve a statement boundary
+				if v.Op == OpCopy {
+					if v.Pos.IsStmt() == src.PosIsStmt {
+						v.Pos = v.Pos.WithNotStmt()
+						pendingLines[v.Pos.Line()] = true
+					}
+				} else if pendingLines[v.Pos.Line()] && v.Pos.IsStmt() != src.PosNotStmt {
+					v.Pos = v.Pos.WithIsStmt()
+					delete(pendingLines, v.Pos.Line())
+				}
 
 				// Eliminate copy inputs.
 				// If any copy input becomes unused, mark it
@@ -41,7 +54,19 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 					if a.Op != OpCopy {
 						continue
 					}
-					v.SetArg(i, copySource(a))
+					aa := copySource(a)
+					v.SetArg(i, aa)
+					// Second attempt to preserve a line boundary indicator.
+					if a.Pos.IsStmt() == src.PosIsStmt {
+						if aa.Pos.Line() == a.Pos.Line() && aa.Block == a.Block {
+							aa.Pos = aa.Pos.WithIsStmt()
+						} else if v.Pos.Line() == a.Pos.Line() && v.Block == a.Block {
+							v.Pos = v.Pos.WithIsStmt()
+						} else {
+							pendingLines[a.Pos.Line()] = true
+						}
+						a.Pos = a.Pos.WithNotStmt()
+					}
 					change = true
 					for a.Uses == 0 {
 						b := a.Args[0]
@@ -53,6 +78,11 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 				// apply rewrite function
 				if rv(v) {
 					change = true
+					// If value changed to a poor choice for a statement boundary, move the boundary
+					if v.Pos.IsStmt() == src.PosIsStmt && isPoorStatementStart(v, j, b) {
+						v.Pos = v.Pos.WithNotStmt() // TODO determine if this should be WithNotStmt, might ease other statement movement.
+						b.Values[j+1].Pos = b.Values[j+1].Pos.WithIsStmt()
+					}
 				}
 			}
 		}
@@ -63,15 +93,27 @@ func applyRewrite(f *Func, rb blockRewriter, rv valueRewriter) {
 	// remove clobbered values
 	for _, b := range f.Blocks {
 		j := 0
+		pendingLines := make(map[uint]bool)
 		for i, v := range b.Values {
+			vl := v.Pos.Line()
 			if v.Op == OpInvalid {
+				if v.Pos.IsStmt() == src.PosIsStmt {
+					pendingLines[vl] = true
+					// moveStmtMarkerForward(i+1, b, v.Pos.Line(), false)
+				}
 				f.freeValue(v)
 				continue
+			} else if pendingLines[vl] {
+				delete(pendingLines, vl)
+				v.Pos = v.Pos.WithIsStmt()
 			}
 			if i != j {
 				b.Values[j] = v
 			}
 			j++
+		}
+		if pendingLines[b.Pos.Line()] {
+			b.Pos = b.Pos.WithIsStmt()
 		}
 		if j != len(b.Values) {
 			tail := b.Values[j:]

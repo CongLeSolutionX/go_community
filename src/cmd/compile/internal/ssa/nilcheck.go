@@ -4,6 +4,10 @@
 
 package ssa
 
+import (
+	"cmd/internal/src"
+)
+
 // nilcheckelim eliminates unnecessary nil checks.
 // runs on machine-independent code.
 func nilcheckelim(f *Func) {
@@ -103,6 +107,8 @@ func nilcheckelim(f *Func) {
 			// Next, order values in the current block w.r.t. stores.
 			b.Values = storeOrder(b.Values, sset, storeNumber)
 
+			pendingLines := make(map[uint]bool)
+
 			// Next, process values in the block.
 			i := 0
 			for _, v := range b.Values {
@@ -112,6 +118,10 @@ func nilcheckelim(f *Func) {
 				case OpIsNonNil:
 					ptr := v.Args[0]
 					if nonNilValues[ptr.ID] {
+						if v.Pos.IsStmt() == src.PosIsStmt { // Boolean true is a terrible statement boundary.
+							pendingLines[v.Pos.Line()] = true
+							v.Pos = v.Pos.WithNotStmt()
+						}
 						// This is a redundant explicit nil check.
 						v.reset(OpConstBool)
 						v.AuxInt = 1 // true
@@ -125,6 +135,9 @@ func nilcheckelim(f *Func) {
 						if f.fe.Debug_checknil() && v.Pos.Line() > 1 {
 							f.Warnl(v.Pos, "removed nil check")
 						}
+						if v.Pos.IsStmt() == src.PosIsStmt { // About to lose a statement boundary
+							pendingLines[v.Pos.Line()] = true
+						}
 						v.reset(OpUnknown)
 						f.freeValue(v)
 						i--
@@ -134,6 +147,15 @@ func nilcheckelim(f *Func) {
 					// undo that information when this dominator subtree is done.
 					nonNilValues[ptr.ID] = true
 					work = append(work, bp{op: ClearPtr, ptr: ptr})
+				default:
+					if pendingLines[v.Pos.Line()] && v.Pos.IsStmt() != src.PosNotStmt {
+						v.Pos = v.Pos.WithIsStmt()
+						delete(pendingLines, v.Pos.Line())
+					}
+				}
+				if pendingLines[b.Pos.Line()] {
+					b.Pos = b.Pos.WithIsStmt()
+					delete(pendingLines, b.Pos.Line())
 				}
 			}
 			for j := i; j < len(b.Values); j++ {
