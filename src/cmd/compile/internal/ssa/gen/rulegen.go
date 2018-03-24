@@ -52,8 +52,9 @@ var (
 )
 
 type Rule struct {
-	rule string
-	loc  string // file name & line number
+	rule     string
+	loc      string // file name & line number
+	dbgmatch bool
 }
 
 func (r Rule) String() string {
@@ -122,10 +123,16 @@ func genRules(arch arch) {
 			continue
 		}
 
+		debugMatch := false
+		if rule[0] == '$' {
+			debugMatch = true
+			rule = rule[1:]
+		}
+
 		loc := fmt.Sprintf("%s.rules:%d", arch.name, ruleLineno)
 		for _, rule2 := range expandOr(rule) {
 			for _, rule3 := range commute(rule2, arch) {
-				r := Rule{rule: rule3, loc: loc}
+				r := Rule{rule: rule3, loc: loc, dbgmatch: debugMatch}
 				if rawop := strings.Split(rule3, " ")[0][1:]; isBlock(rawop, arch) {
 					blockrules[rawop] = append(blockrules[rawop], r)
 				} else {
@@ -219,6 +226,9 @@ func genRules(arch arch) {
 					log.Fatalf("unconditional rule %s is followed by other rules", match)
 				}
 
+				if rule.dbgmatch {
+					fmt.Fprintf(buf, "println(\"$$$ rewrite-rule-match\", %q, \"-\", v.Block.Func.Name)\n", rule.loc)
+				}
 				genResult(buf, arch, result, rule.loc)
 				if *genLog {
 					fmt.Fprintf(buf, "logRule(\"%s\")\n", rule.loc)
