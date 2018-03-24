@@ -1235,7 +1235,7 @@ func writelines(ctxt *Link, lib *sym.Library, textp []*sym.Symbol, ls *sym.Symbo
 	var pcfile Pciter
 	var pcline Pciter
 	var pcstmt Pciter
-	for i, s := range textp {
+	for _, s := range textp {
 		dsym := ctxt.Syms.Lookup(dwarf.InfoPrefix+s.Name, int(s.Version))
 		funcs = append(funcs, dsym)
 		absfuncs = collectAbstractFunctions(ctxt, s, dsym, absfuncs)
@@ -1299,10 +1299,6 @@ func writelines(ctxt *Link, lib *sym.Library, textp []*sym.Symbol, ls *sym.Symbo
 			if pcline.nextpc == thispc {
 				pciternext(&pcline)
 			}
-		}
-		if is_stmt == 0 && i < len(textp)-1 {
-			// If there is more than one function, ensure default value is established.
-			ls.AddUint8(uint8(dwarf.DW_LNS_negate_stmt))
 		}
 	}
 
