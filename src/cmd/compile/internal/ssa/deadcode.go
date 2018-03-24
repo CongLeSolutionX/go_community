@@ -4,6 +4,10 @@
 
 package ssa
 
+import (
+	"cmd/internal/src"
+)
+
 // findlive returns the reachable blocks and live values in f.
 func findlive(f *Func) (reachable []bool, live []bool) {
 	reachable = ReachableBlocks(f)
@@ -192,11 +196,14 @@ func deadcode(f *Func) {
 	// values to the allocator.
 	for _, b := range f.Blocks {
 		i := 0
-		for _, v := range b.Values {
+		for j, v := range b.Values {
 			if live[v.ID] {
 				b.Values[i] = v
 				i++
 			} else {
+				if v.Pos.IsStmt() == src.PosIsStmt {
+					moveStmtMarkerForward(j, b, v.Pos.Line(), live)
+				}
 				f.freeValue(v)
 			}
 		}
@@ -227,6 +234,22 @@ func deadcode(f *Func) {
 		tail[j] = nil
 	}
 	f.Blocks = f.Blocks[:i]
+}
+
+func moveStmtMarkerForward(j int, b *Block, l uint, live []bool) {
+	for k := j + 1; k < len(b.Values); k++ {
+		u := b.Values[k]
+		if (len(live) == 0 || live[u.ID]) && u.Pos.IsStmt() != src.PosNotStmt {
+			if u.Pos.Line() == l {
+				u.Pos = u.Pos.WithIsStmt()
+			}
+			return // if line numbers don't match, then it is lost.
+		}
+	}
+	// If ran to the end of the block, try the control.
+	if b.Control != nil && b.Pos.IsStmt() != src.PosNotStmt && b.Pos.Line() == l {
+		b.Pos = b.Pos.WithIsStmt()
+	}
 }
 
 // removeEdge removes the i'th outgoing edge from b (and
