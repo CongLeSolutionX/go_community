@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d337141e_2b2bac2e",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 9850
+      },
+      "writtenOn": "2018-03-24T23:00:16Z",
+      "side": 1,
+      "message": "This can now be\nif l :\u003d len(oldSched); cap(dinfo) \u003c l {\n    dinfo \u003d make([]dentry, l)\n} else {\n    dinfo \u003d dinfo[:l]\n    for i :\u003d range dinfo {\n        dinfo[i] \u003d dentry{}\n    }\n}",
+      "range": {
+        "startLine": 990,
+        "startChar": 2,
+        "endLine": 996,
+        "endChar": 3
+      },
+      "revId": "c3fecfd3b5326728ef4ba5414a2cbf705a85b988",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
