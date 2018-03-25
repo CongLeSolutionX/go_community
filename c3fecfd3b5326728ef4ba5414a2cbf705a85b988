@@ -22,6 +22,30 @@
       "revId": "c3fecfd3b5326728ef4ba5414a2cbf705a85b988",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "768c070e_17254725",
+        "filename": "src/cmd/compile/internal/ssa/regalloc.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 5385
+      },
+      "writtenOn": "2018-03-25T16:03:13Z",
+      "side": 1,
+      "message": "This allocates the same number of times and I didn\u0027t expect the change\nto have a significant effect on cpu-time, but I measured it and it\nturns out that it actually *does* improve cpu time a little. Thanks\nfor the suggestion.",
+      "parentUuid": "d337141e_2b2bac2e",
+      "range": {
+        "startLine": 990,
+        "startChar": 2,
+        "endLine": 996,
+        "endChar": 3
+      },
+      "revId": "c3fecfd3b5326728ef4ba5414a2cbf705a85b988",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
