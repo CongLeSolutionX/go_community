@@ -34,6 +34,24 @@
       "revId": "9b8d3fee1b967020df3611e294893f2fba9df709",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1458120a_28f4d15e",
+        "filename": "src/runtime/traceback.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 721,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-03-26T06:46:22Z",
+      "side": 1,
+      "message": "Elegant solution Keith!\n\nI\u0027ve taken heed of your advice.\n\nYes, Ian and I examined his solution in https://go-review.googlesource.com/c/go/+/37222/9/src/runtime/traceback.go and the consensus was in deed as you\u0027ve come to, too, it\u0027s more work in a larger CL, so I left a TODO in there.",
+      "parentUuid": "95846dab_9ec2d1b7",
+      "revId": "9b8d3fee1b967020df3611e294893f2fba9df709",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
