@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21197cda_847336a3",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-26T18:18:55Z",
+      "side": 1,
+      "message": "This isn\u0027t very Go-like with 6 identical unnamed return parameters, without docs.\n\nI\u0027d name them with only one type at the end, e.g. \"foo, bar, baz int\". And document if necessary.",
+      "range": {
+        "startLine": 472,
+        "startChar": 1,
+        "endLine": 472,
+        "endChar": 29
+      },
+      "revId": "98d6d4c7d02e2fb762caddf348423e5146056907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2372f821_9d45ba58",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-26T18:18:55Z",
+      "side": 1,
+      "message": "no commented out code",
+      "range": {
+        "startLine": 761,
+        "startChar": 2,
+        "endLine": 763,
+        "endChar": 6
+      },
+      "revId": "98d6d4c7d02e2fb762caddf348423e5146056907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3e71bc6_8f99de37",
+        "filename": "src/sort/sort.go",
+        "patchSetId": 17
+      },
+      "lineNbr": 1247,
+      "author": {
+        "id": 5065
+      },
+      "writtenOn": "2018-03-26T18:18:55Z",
+      "side": 1,
+      "message": "I assume you just rolled your fingers over the second row of the QWERTY keyboard here? Or does this actually mean something?",
+      "range": {
+        "startLine": 1247,
+        "startChar": 7,
+        "endLine": 1247,
+        "endChar": 13
+      },
+      "revId": "98d6d4c7d02e2fb762caddf348423e5146056907",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
