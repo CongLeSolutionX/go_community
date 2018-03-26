@@ -33,6 +33,24 @@
       "revId": "3db84349922fd02ae17c0d4af83d545e76829aa5",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4e4bf7_6832d686",
+        "filename": "src/net/http/pprof/pprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 11715
+      },
+      "writtenOn": "2018-03-26T16:23:08Z",
+      "side": 1,
+      "message": "If we are not going to escape HTML, we should just remove the URL reflection from the \"Unknown profile\" error below. No reason to keep triggering (mostly) false positives in security scanners.",
+      "parentUuid": "056cf949_94b3ca59",
+      "revId": "3db84349922fd02ae17c0d4af83d545e76829aa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
