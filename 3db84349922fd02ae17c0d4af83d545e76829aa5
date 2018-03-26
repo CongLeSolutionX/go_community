@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1eb76c4d_8c6f29cc",
+        "filename": "src/cmd/pprof/pprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-03-26T15:54:14Z",
+      "side": 1,
+      "message": "Please revert changes in this file.",
+      "revId": "3db84349922fd02ae17c0d4af83d545e76829aa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "056cf949_94b3ca59",
+        "filename": "src/net/http/pprof/pprof.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 5056
+      },
+      "writtenOn": "2018-03-26T15:54:14Z",
+      "side": 1,
+      "message": "Wait, what? Why is this serving HTML now? \nPeople see these messages in the output of curl and the like.\nLet\u0027s put all the headers we need\nto make sure text doesn\u0027t get sniffed as something else,\nbut let\u0027s also keep serving text please.",
+      "revId": "3db84349922fd02ae17c0d4af83d545e76829aa5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
