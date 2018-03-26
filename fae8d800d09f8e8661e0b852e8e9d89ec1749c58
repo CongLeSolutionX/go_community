@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7fb38c97_ff9d491b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2018-03-26T17:42:35Z",
+      "side": 1,
+      "message": "So likely we can statically guarantee it will be taken 100% of the time. :)",
+      "revId": "fae8d800d09f8e8661e0b852e8e9d89ec1749c58",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
