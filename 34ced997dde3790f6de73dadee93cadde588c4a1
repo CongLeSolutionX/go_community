@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92100a68_ac7a5cea",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2018-03-26T22:29:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t read well to me, since the Otherwise applies to just one of the clauses in the preceding sentence.  Perhaps;\n\nThese routines take an extra integer argument, n.\nIf n \u003e\u003d 0, the functions return at most n matches/submatches; otherwise, it returns all of them.\n\nBut really I\u0027m not sure this is worth doing at all.  Even in the issue Emmanuel was not actually confused.  Was anybody actually confused?",
+      "revId": "34ced997dde3790f6de73dadee93cadde588c4a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
