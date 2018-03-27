@@ -16,6 +16,24 @@
       "revId": "34ced997dde3790f6de73dadee93cadde588c4a1",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31c7cfd5_5f2b4811",
+        "filename": "src/regexp/regexp.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 5137
+      },
+      "writtenOn": "2018-03-27T16:52:16Z",
+      "side": 1,
+      "message": "Ian, I wasn\u0027t confused by it but that\u0027s because I have always encountered that n \u003c 0 means\nalways return. I was putting myself in the shoes of my less experienced team mates who would\nneed a clarification of it.\nAlso thanks for your rephrasing suggestion for the comment, your suggestion LGTM.",
+      "parentUuid": "92100a68_ac7a5cea",
+      "revId": "34ced997dde3790f6de73dadee93cadde588c4a1",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
